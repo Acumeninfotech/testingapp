@@ -1,0 +1,523 @@
+{
+  "schema_version": "1.0.0",
+  "course_profile_id": "southampton-a100",
+  "confidence": "medium",
+  "evidence": {
+    "classification": "official_academic_gate_with_current_home_guidance_and_applysmart_modelled_home_ucat_bands",
+    "summary": "Southampton BM5 checks academic eligibility and current-cycle UCAT, then ranks eligible applicants by UCAT cognitive total only within separate Home and International pools. GCSEs, post-16 grades and SJT are not scored. Southampton does not publish a fixed UCAT eligibility cut-off. Current thresholds are dynamic; current-format Home guidance is non-guaranteed, and ApplySmart uses modelled Home UCAT bands calibrated against available current-format guidance and converted historical Home thresholds.",
+    "source_ids": [
+      "southampton_research_doc"
+    ]
+  },
+  "eligibility": {
+    "scope": "Automatic banding applies after the applicant passes an executable academic route, supplies a current-cycle UCAT total and resolves into a Home or International pool.",
+    "international_english_language_required": true,
+    "qualification_routes": {
+      "supported": [
+        "a_level",
+        "international_baccalaureate",
+        "graduate",
+        "scottish",
+        "international_qualification"
+      ],
+      "explicitly_blocked": [
+        "btec",
+        "t_level",
+        "access_to_he",
+        "foundation",
+        "unknown"
+      ]
+    },
+    "gcse": {
+      "minimum_count": 7,
+      "use_exact_subject_list": false,
+      "required_subjects": [
+        {
+          "subject_id": "english_language",
+          "minimum_grade": "6/B"
+        },
+        {
+          "subject_id": "mathematics",
+          "minimum_grade": "6/B"
+        },
+        {
+          "subject_id": "biology",
+          "minimum_grade": "6/B"
+        },
+        {
+          "subject_id": "chemistry",
+          "minimum_grade": "6/B"
+        }
+      ]
+    },
+    "a_level": {
+      "routes": [
+        {
+          "route_id": "southampton_standard_home_aaa",
+          "applies_to_group_ids": [
+            "home_fee"
+          ],
+          "excluded_group_ids": [
+            "international_fee",
+            "contextual",
+            "graduate_applicant"
+          ],
+          "grade_profile": [
+            "A",
+            "A",
+            "A"
+          ],
+          "required_subject_ids": [
+            "biology"
+          ],
+          "one_of_subject_groups": [
+            {
+              "group_id": "second_science",
+              "minimum_required": 1,
+              "subject_ids": [
+                "chemistry",
+                "physics",
+                "psychology",
+                "sociology",
+                "environmental_studies",
+                "geography"
+              ]
+            }
+          ],
+          "excluded_subject_ids": [
+            "general_studies",
+            "critical_thinking"
+          ]
+        },
+        {
+          "route_id": "southampton_international_aaa",
+          "applies_to_group_ids": [
+            "international_fee"
+          ],
+          "excluded_group_ids": [
+            "contextual",
+            "graduate_applicant"
+          ],
+          "grade_profile": [
+            "A",
+            "A",
+            "A"
+          ],
+          "required_subject_ids": [
+            "biology"
+          ],
+          "one_of_subject_groups": [
+            {
+              "group_id": "second_science",
+              "minimum_required": 1,
+              "subject_ids": [
+                "chemistry",
+                "physics",
+                "psychology",
+                "sociology",
+                "environmental_studies",
+                "geography"
+              ]
+            }
+          ],
+          "excluded_subject_ids": [
+            "general_studies",
+            "critical_thinking"
+          ]
+        },
+        {
+          "route_id": "southampton_contextual_home_aab",
+          "applies_to_group_ids": [
+            "home_fee",
+            "contextual"
+          ],
+          "excluded_group_ids": [
+            "international_fee",
+            "graduate_applicant"
+          ],
+          "grade_profile": [
+            "A",
+            "A",
+            "B"
+          ],
+          "required_subject_ids": [
+            "biology"
+          ],
+          "one_of_subject_groups": [
+            {
+              "group_id": "second_science",
+              "minimum_required": 1,
+              "subject_ids": [
+                "chemistry",
+                "physics",
+                "psychology",
+                "sociology",
+                "environmental_studies",
+                "geography"
+              ]
+            }
+          ],
+          "excluded_subject_ids": [
+            "general_studies",
+            "critical_thinking"
+          ]
+        }
+      ],
+      "science_practical_endorsement": {
+        "required": true,
+        "subject_ids": [
+          "biology",
+          "chemistry",
+          "physics"
+        ],
+        "accepted_values": [
+          "pass",
+          "passed"
+        ]
+      }
+    },
+    "international_baccalaureate": {
+      "routes": [
+        {
+          "route_id": "southampton_ib_36_18_hl_biology_second_science",
+          "excluded_group_ids": [
+            "contextual"
+          ],
+          "total_points": 36,
+          "minimum_hl_points": 18,
+          "hl_grade_profile": [
+            "6",
+            "6"
+          ],
+          "required_hl_subject_ids": [
+            "biology"
+          ],
+          "required_hl_subject_grade_options": [
+            {
+              "grade_requirements": [
+                {
+                  "subject_id": "biology",
+                  "minimum_grade": "6"
+                },
+                {
+                  "subject_id": "chemistry",
+                  "minimum_grade": "6"
+                }
+              ]
+            },
+            {
+              "grade_requirements": [
+                {
+                  "subject_id": "biology",
+                  "minimum_grade": "6"
+                },
+                {
+                  "subject_id": "physics",
+                  "minimum_grade": "6"
+                }
+              ]
+            },
+            {
+              "grade_requirements": [
+                {
+                  "subject_id": "biology",
+                  "minimum_grade": "6"
+                },
+                {
+                  "subject_id": "psychology",
+                  "minimum_grade": "6"
+                }
+              ]
+            },
+            {
+              "grade_requirements": [
+                {
+                  "subject_id": "biology",
+                  "minimum_grade": "6"
+                },
+                {
+                  "subject_id": "sociology",
+                  "minimum_grade": "6"
+                }
+              ]
+            },
+            {
+              "grade_requirements": [
+                {
+                  "subject_id": "biology",
+                  "minimum_grade": "6"
+                },
+                {
+                  "subject_id": "environmental_studies",
+                  "minimum_grade": "6"
+                }
+              ]
+            },
+            {
+              "grade_requirements": [
+                {
+                  "subject_id": "biology",
+                  "minimum_grade": "6"
+                },
+                {
+                  "subject_id": "geography",
+                  "minimum_grade": "6"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    "scottish": {
+      "national_5": {
+        "minimum_count": 0,
+        "required_subject_ids": [
+          "english_language",
+          "mathematics"
+        ]
+      },
+      "post_16_routes": [
+        {
+          "route_id": "southampton_scottish_higher_aaaab",
+          "grade_profile": [
+            "A",
+            "A",
+            "A",
+            "A",
+            "B"
+          ],
+          "required_subject_ids": [
+            "biology"
+          ],
+          "one_of_subject_groups": [
+            {
+              "group_id": "second_science",
+              "minimum_required": 1,
+              "subject_ids": [
+                "chemistry",
+                "physics",
+                "psychology",
+                "sociology",
+                "environmental_studies",
+                "geography"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    "international_qualification": {
+      "unverified_outcome": "manual_review",
+      "manual_review_reason": "country_specific_international_qualification_equivalence_requires_southampton_verification"
+    },
+    "graduate": {
+      "gcse_required": true,
+      "waive_a_level_requirements": true,
+      "minimum_classification": "2_1",
+      "postgraduate_compensation_allowed": false
+    },
+    "ucat": {
+      "required_test_year": 2026,
+      "minimum_total_score": null,
+      "score_scale": 2700,
+      "required_in_application_cycle": true
+    },
+    "sjt": {
+      "used_as_gate": false,
+      "accepted_bands": [
+        1,
+        2,
+        3,
+        4
+      ],
+      "rejected_bands": []
+    },
+    "resits": {
+      "resits_accepted": true,
+      "allowed_resit_attempts": 1,
+      "applicant_form_required": false,
+      "routes": [
+        {
+          "route_id": "southampton_resit_standard_aaa",
+          "excluded_group_ids": [
+            "contextual",
+            "graduate_applicant"
+          ],
+          "grade_profile": [
+            "A",
+            "A",
+            "A"
+          ]
+        },
+        {
+          "route_id": "southampton_resit_contextual_aab",
+          "applies_to_group_ids": [
+            "home_fee",
+            "contextual"
+          ],
+          "excluded_group_ids": [
+            "international_fee",
+            "graduate_applicant"
+          ],
+          "grade_profile": [
+            "A",
+            "A",
+            "B"
+          ]
+        }
+      ]
+    },
+    "manual_review_routes": [
+      "Country-specific international qualification equivalence without Southampton verification",
+      "Alternative English language evidence or exemption not already verified",
+      "Scottish Advanced Higher case-by-case profiles",
+      "Non-standard resit sequence evidence"
+    ],
+    "do_not_infer": [
+      "Do not score academics.",
+      "Do not use SJT for exclusion or scoring.",
+      "Do not apply BM6 widening-participation UCAT thresholds to BM5 A100 contextual applicants.",
+      "Do not present converted historical thresholds or ApplySmart modelling boundaries as official Southampton current cut-offs.",
+      "Do not predict offers."
+    ]
+  },
+  "score_model": {
+    "type": "ranking_metric",
+    "basis": "UCAT cognitive total after academic eligibility; Home and International applicants are ranked in separate pools.",
+    "metric": "ucat_total",
+    "pool_specific_output": true,
+    "scale": {
+      "min": 0,
+      "max": 2700
+    },
+    "fixed_current_cutoff": false,
+    "historical_guidance_only": false,
+    "current_scale_guidance": {
+      "home": {
+        "value": 2100,
+        "score_scale": 2700,
+        "use": "non_guaranteed_competitive_guidance",
+        "evidence_classification": "research_current_format_guidance",
+        "confidence": "low",
+        "notes": "The supplied research describes approximately 2100+ as expected competitive guidance for Home applicants under the current 2700-scale UCAT format. It is not a published fixed cut-off."
+      },
+      "international": {
+        "available": false,
+        "reason": "No official current 2700-scale International Southampton BM5 A100 UCAT guidance figure is represented in the supplied research."
+      }
+    },
+    "legacy_3600_values_display_only": true,
+    "applysmart_modelling_boundaries": {
+      "home_a100": {
+        "basis": "ApplySmart modelling boundary for academically eligible Home applicants. This is not an official Southampton cut-off or eligibility minimum.",
+        "high_risk_below": 1900,
+        "realistic_min": 1900,
+        "realistic_max": 2199,
+        "interview_likely_min": 2200,
+        "current_format_home_guidance": 2100,
+        "strong_boundary_margin_above_guidance": 100,
+        "converted_historical_home_thresholds_2700": [
+          {
+            "entry_year": 2024,
+            "value": 1957.5
+          },
+          {
+            "entry_year": 2023,
+            "value": 2107.5
+          },
+          {
+            "entry_year": 2022,
+            "value": 2062.5
+          },
+          {
+            "entry_year": 2021,
+            "value": 2010
+          }
+        ],
+        "highest_available_converted_historical_threshold": 2107.5,
+        "notes": "The 2200 Strong boundary is above the highest available converted historical Home threshold and 100 points above the approximate 2100 current-format Home competitive guidance."
+      }
+    },
+    "presentation": {
+      "pool_label": "Home and International applicants ranked separately",
+      "selection_summary": "Southampton checks academic eligibility, then ranks eligible BM5 applicants by UCAT cognitive total only within separate Home and International pools. GCSEs, post-16 grades and SJT are not scored.",
+      "timeline_selection_summary": "Academic eligibility was checked before UCAT-only ranking within the relevant Southampton Home or International pool.",
+      "ucat_band_headlines": {
+        "interview_likely": "Strong choice based on your UCAT",
+        "realistic": "Realistic choice based on your UCAT",
+        "high_risk": "High-risk choice based on your UCAT"
+      },
+      "ucat_band_recommendations": {
+        "interview_likely": "Strong choice",
+        "realistic": "Realistic choice",
+        "high_risk": "High-risk choice"
+      },
+      "ucat_band_explanations": {
+        "interview_likely": "Your UCAT is materially above Southampton's available Home competitive guidance and the available historical interview range. Southampton ranks applicants after applications close, so this is not a guaranteed interview.",
+        "realistic": "Your UCAT is within or above Southampton's available competitive range. Southampton ranks applicants after applications close, so the final interview threshold may change.",
+        "high_risk": "You meet the academic requirements, but your UCAT is below Southampton's available historical interview range. Southampton does not publish a fixed minimum cut-off, so this is a high-risk prediction rather than an eligibility rejection."
+      },
+      "evidence_used": [
+        "Official admissions policy",
+        "University selection methodology",
+        "UCAT policy",
+        "Historical interview data",
+        "International admissions policy",
+        "FOI evidence"
+      ]
+    }
+  },
+  "guidance_pools": [
+    {
+      "pool_id": "international_a100",
+      "priority": 30,
+      "applicant_match": {
+        "all_group_ids": [
+          "international_fee"
+        ]
+      },
+      "metric": "ucat_total",
+      "pool_specific_output": true,
+      "band_rules": []
+    },
+    {
+      "pool_id": "home_a100",
+      "priority": 20,
+      "applicant_match": {
+        "all_group_ids": [
+          "home_fee"
+        ],
+        "excluded_group_ids": [
+          "international_fee"
+        ]
+      },
+      "metric": "ucat_total",
+      "pool_specific_output": true,
+      "comparison_guidance": {
+        "comparison_type": "current_guidance",
+        "label": "current-format Home competitive guidance",
+        "caveat": "Southampton ranks the pool dynamically after applications close; this is not a fixed cut-off or guarantee.",
+        "evidence_confidence": "low"
+      },
+      "band_rules": [
+        {
+          "band": "interview_likely",
+          "operator": "greater_than_or_equal",
+          "value": 2200
+        },
+        {
+          "band": "realistic",
+          "operator": "between_inclusive",
+          "min": 1900,
+          "max": 2199
+        },
+        {
+          "band": "high_risk",
+          "operator": "less_than",
+          "value": 1900
+        }
+      ]
+    }
+  ]
+}

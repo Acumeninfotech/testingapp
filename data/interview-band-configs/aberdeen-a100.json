@@ -1,0 +1,144 @@
+{
+  "schema_version": "1.0.0",
+  "course_profile_id": "aberdeen-a100",
+  "confidence": "medium",
+  "evidence": {
+    "classification": "mixed_official_historical_foi_and_research_model",
+    "summary": "Official academic/UCAT weighting, FOI UCAT conversion and historical interviewed UCAT evidence; verified international guidance uses a separate ranking pool and the academic points model is research-derived.",
+    "source_ids": [
+      "abdn_entrance_requirements",
+      "abdn_admissions_data",
+      "abdn_foi_ucat_conversion",
+      "abdn_verified_international_admissions_evidence"
+    ]
+  },
+  "eligibility": {
+    "international_sjt_policy": {
+      "applies_to_group_ids": [
+        "international_fee"
+      ],
+      "accepted_bands": [
+        1,
+        2,
+        3
+      ],
+      "excluded_bands": [
+        4
+      ],
+      "band_4_outcome": "not_eligible_for_interview"
+    }
+  },
+  "score_model": {
+    "type": "component_sum",
+    "basis": "Research/FOI pre-interview score",
+    "scale": {
+      "min": 0,
+      "max": 50
+    },
+    "pool_specific_output": true,
+    "components": [
+      {
+        "component_id": "academic_score",
+        "type": "a_level_grade_points_scaled",
+        "subject_count": 3,
+        "points_by_grade": {
+          "A*": 27,
+          "A": 25,
+          "B": 20
+        },
+        "raw_max": 81,
+        "output_max": 30
+      },
+      {
+        "component_id": "ucat_score",
+        "type": "ucat_national_decile_lookup",
+        "points_by_decile": {
+          "1": 3,
+          "2": 9,
+          "3": 15,
+          "4": 21,
+          "5": 27,
+          "6": 33,
+          "7": 45,
+          "8": 48,
+          "9": 54,
+          "10": 60
+        },
+        "raw_max": 60,
+        "output_max": 20
+      }
+    ]
+  },
+  "guidance_pools": [
+    {
+      "pool_id": "international",
+      "priority": 100,
+      "applicant_match": {
+        "all_group_ids": [
+          "international_fee"
+        ]
+      },
+      "metric": "ucat_total",
+      "band_rules": [
+        {
+          "band": "interview_likely",
+          "operator": "greater_than_or_equal",
+          "value": 2100
+        },
+        {
+          "band": "realistic",
+          "operator": "between_inclusive",
+          "min": 1950,
+          "max": 2099
+        },
+        {
+          "band": "ambitious",
+          "operator": "between_inclusive",
+          "min": 1800,
+          "max": 1949
+        },
+        {
+          "band": "high_risk",
+          "operator": "less_than",
+          "value": 1800
+        }
+      ]
+    },
+    {
+      "pool_id": "home_rest_of_uk_school_leaver",
+      "priority": 10,
+      "applicant_match": {
+        "all_group_ids": [
+          "home_fee",
+          "rest_of_uk",
+          "school_leaver"
+        ]
+      },
+      "metric": "ucat_total",
+      "band_rules": [
+        {
+          "band": "interview_likely",
+          "operator": "greater_than_or_equal",
+          "value": 2090
+        },
+        {
+          "band": "realistic",
+          "operator": "between_inclusive",
+          "min": 1940,
+          "max": 2089
+        },
+        {
+          "band": "ambitious",
+          "operator": "between_inclusive",
+          "min": 1720,
+          "max": 1939
+        },
+        {
+          "band": "high_risk",
+          "operator": "less_than",
+          "value": 1720
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,451 @@
+{
+  "schema_version": "1.0.0",
+  "template_version": "0.1.0",
+  "result_id": "example-edinburgh-a100-international-historical-guidance",
+  "generated_at": null,
+  "result_mode": "verified_international_historical_interview_guidance",
+  "course_identity": {
+    "profile_id": "edinburgh-a100",
+    "university_name": "University of Edinburgh",
+    "display_name": "Edinburgh A100",
+    "course_name": "MBChB Medicine (6-year programme) MBChB",
+    "ucas_code": "A100",
+    "entry_route": "standard_entry",
+    "entry_route_label": "Standard Entry",
+    "qualification_awarded": "MBChB",
+    "duration_years": 6,
+    "location": "Edinburgh, Scotland",
+    "source_ids": [
+      "edinburgh_degree_finder_2027",
+      "edinburgh_verified_international_admissions_evidence"
+    ]
+  },
+  "applicant_context": {
+    "profile_type": "international_standard_applicant",
+    "applies_to_group_ids": [
+      "international_fee",
+      "school_leaver"
+    ],
+    "entry_route": "standard_entry",
+    "fee_cohort": "overseas_international_fee_rate",
+    "applicant_summary": "International A-level applicant meeting the represented academic requirements; UCAT cognitive total 2080/2700; SJT Band 2.",
+    "source_ids": [
+      "edinburgh_verified_international_admissions_evidence"
+    ]
+  },
+  "readiness": {
+    "eligibility": true,
+    "interview_prediction": true,
+    "historical_guidance": true,
+    "international_prediction": true,
+    "contextual_logic": false,
+    "result_card": true,
+    "regression": true,
+    "research_completeness": "complete_for_supported_scope_with_documented_gaps",
+    "manual_review_required": true,
+    "eligibility_ready": true,
+    "interview_prediction_ready": true,
+    "prediction_confidence": "high",
+    "result_card_ready": true,
+    "offer_prediction_scope": "out_of_scope",
+    "official_selection_formula_available": true,
+    "pre_interview_formula_ready": true,
+    "student_labels": [
+      "International applicant",
+      "Separate international ranking pool",
+      "Historical UCAT guidance",
+      "Good chance – recommend applying"
+    ],
+    "source_ids": [
+      "edinburgh_verified_international_admissions_evidence"
+    ]
+  },
+  "eligibility": {
+    "status": "eligible",
+    "summary": "The represented applicant is above the verified 2026 international UCAT eligibility threshold and has an acceptable SJT band. Meeting minimum requirements does not guarantee an interview.",
+    "stage_1_checks": [
+      {
+        "check_id": "academic_eligibility",
+        "label": "Academic eligibility",
+        "status": "eligible",
+        "requirement": "Applicant must meet Edinburgh's academic requirements for their qualification route.",
+        "applicant_value": "Represented as academically eligible.",
+        "decision_outcome": "eligible",
+        "details": [],
+        "source_ids": [
+          "edinburgh_verified_international_admissions_evidence"
+        ]
+      },
+      {
+        "check_id": "international_ucat_2026_minimum",
+        "label": "International UCAT eligibility threshold",
+        "status": "eligible",
+        "requirement": "Verified 2026 minimum UCAT threshold: 1650/2700; the threshold changes annually.",
+        "applicant_value": "UCAT 2080/2700",
+        "decision_outcome": "eligible",
+        "details": [
+          "This is an eligibility threshold, not a fixed interview cut-off."
+        ],
+        "source_ids": [
+          "edinburgh_verified_international_admissions_evidence"
+        ]
+      },
+      {
+        "check_id": "international_sjt_band_4_exclusion",
+        "label": "SJT Band 4 exclusion",
+        "status": "eligible",
+        "requirement": "SJT Band 4 causes automatic rejection; Bands 1–3 are acceptable.",
+        "applicant_value": "SJT Band 2",
+        "decision_outcome": "eligible",
+        "details": [],
+        "source_ids": [
+          "edinburgh_verified_international_admissions_evidence"
+        ]
+      }
+    ],
+    "blocking_reasons": [],
+    "warnings": [
+      "Meeting minimum requirements does not guarantee an interview.",
+      "Edinburgh publishes no fixed international interview cut-off."
+    ],
+    "source_ids": [
+      "edinburgh_verified_international_admissions_evidence"
+    ]
+  },
+  "stage_2_selection": {
+    "verification_status": "official_source_verified",
+    "primary_model": "points_system",
+    "selection_model_label": "INTERNATIONAL_ACADEMIC_UCAT_DECILE_SJT_ASSESSMENT_DAY_WEIGHTED",
+    "summary": "International applicants are ranked separately by total pre-interview score out of 40: academic 20 + international-cohort UCAT cognitive decile 14 + SJT 6. UCAT alone does not determine rank.",
+    "ranking_factors": [
+      {
+        "factor_id": "international_academic_score",
+        "label": "Academic score",
+        "calculation_status": "not_calculated_in_guidance_example",
+        "score": null,
+        "max_points": 20,
+        "final_weight_percent": 25,
+        "source_ids": [
+          "edinburgh_verified_international_admissions_evidence"
+        ]
+      },
+      {
+        "factor_id": "international_ucat_cognitive_score",
+        "label": "UCAT cognitive score",
+        "calculation_status": "international_cohort_decile_not_supplied",
+        "ucat_total": 2080,
+        "score": null,
+        "max_points": 14,
+        "final_weight_percent": 17.5,
+        "source_ids": [
+          "edinburgh_verified_international_admissions_evidence"
+        ]
+      },
+      {
+        "factor_id": "international_sjt_score",
+        "label": "SJT score",
+        "calculation_status": "acceptable_band_points_not_inferred",
+        "sjt_band": 2,
+        "score": null,
+        "max_points": 6,
+        "final_weight_percent": 7.5,
+        "source_ids": [
+          "edinburgh_verified_international_admissions_evidence"
+        ]
+      }
+    ],
+    "calculation": {
+      "pre_interview_score": {
+        "value": null,
+        "max": 40,
+        "status": "not_calculated_without_international_cohort_decile_and_complete_academic_score"
+      },
+      "assessment_day_score": {
+        "value": null,
+        "max": 40,
+        "status": "not_supplied_not_inferred"
+      },
+      "final_ranking_score": {
+        "value": null,
+        "max": 80,
+        "status": "blocked_until_component_scores_are_supplied",
+        "formula": "pre_interview_score_out_of_40 + assessment_day_score_out_of_40"
+      }
+    },
+    "selection_adjustments": [],
+    "unknown_calculation_areas": [
+      "current_international_cohort_decile",
+      "assessment_day_score"
+    ],
+    "source_ids": [
+      "edinburgh_verified_international_admissions_evidence"
+    ]
+  },
+  "historical_context": {
+    "international_ucat_guidance_2700": {
+      "applicant_value": 2080,
+      "matched_band": "2050–2099",
+      "recommendation": "Good chance – recommend applying",
+      "disclaimer": "Historical guidance only. This is not a fixed international interview cut-off, and UCAT alone does not determine Edinburgh's pre-interview rank.",
+      "source_ids": [
+        "edinburgh_verified_international_admissions_evidence"
+      ]
+    }
+  },
+  "prediction": {
+    "available": true,
+    "capability": "interview",
+    "prediction_type": "verified_international_historical_ucat_guidance",
+    "guidance_pool_id": "international",
+    "result_band": "realistic",
+    "recommendation": "Good chance – recommend applying",
+    "score": 2080,
+    "score_scale": {
+      "min": 0,
+      "max": 2700
+    },
+    "band_basis": "Historical international UCAT competitiveness guidance, not a fixed Edinburgh interview cut-off. Edinburgh ranks applicants by total pre-interview score out of 40, not UCAT alone.",
+    "final_ranking_score": null,
+    "missing_data_reasons": [
+      "Current international-cohort UCAT decile is not supplied and is not inferred.",
+      "Complete academic score out of 20 is not supplied.",
+      "Assessment Day score out of 40 is not supplied and must not be inferred.",
+      "Edinburgh publishes no fixed international interview cut-off."
+    ],
+    "cannot_predict_explanation": "This result positions UCAT 2080 within verified historical international guidance only. Interview ranking depends on the complete academic, international-cohort UCAT decile and SJT pre-interview total, not UCAT alone.",
+    "source_ids": [
+      "edinburgh_verified_international_admissions_evidence"
+    ]
+  },
+  "missing_data": {
+    "current_international_cohort_decile": "not_supplied",
+    "assessment_day_score": "not_supplied",
+    "fixed_interview_cutoff": "not_published",
+    "notes": [
+      "International pre-interview and final score structures are verified.",
+      "Historical UCAT guidance does not replace total-score ranking."
+    ]
+  },
+  "confidence": {
+    "level": "high",
+    "summary": "High confidence in the supplied international model and historical guidance; no complete pre-interview or final score is calculated without the missing applicant-specific inputs.",
+    "stage_confidence": {
+      "stage_1": "high",
+      "historical_interview_guidance": "high",
+      "pre_interview_score_without_decile": "low",
+      "final_ranking_without_assessment_day_score": "low"
+    },
+    "source_ids": [
+      "edinburgh_verified_international_admissions_evidence"
+    ]
+  },
+  "evidence_confidence": {
+    "level": "High",
+    "summary": "The recommendation is supported by strong admissions evidence for this applicant route.",
+    "reasons": [
+      "Official eligibility rules are available.",
+      "The university selection approach is implemented.",
+      "Historical interview data is available for this applicant pool.",
+      "The implemented checks have been tested across supported applicant profiles."
+    ]
+  },
+  "evidence": {
+    "source_ids": [
+      "edinburgh_verified_international_admissions_evidence"
+    ],
+    "sources": [
+      {
+        "source_id": "edinburgh_verified_international_admissions_evidence",
+        "title": "Verified Edinburgh A100 international admissions evidence",
+        "url": null,
+        "source_type": "verified_admissions_evidence",
+        "confidence": "High",
+        "accessed_date": "2026-07-02"
+      }
+    ]
+  },
+  "display": {
+    "headline": "Edinburgh A100 — International",
+    "subheadline": "Historical UCAT guidance within a total-score ranking model",
+    "primary_user_facing_recommendation": "Good chance based on historical data",
+    "recommendation_display_state": "standard",
+    "primary_explanation": "UCAT 2080 falls in the 2050–2099 historical international guidance band: Good chance – recommend applying.",
+    "historical_guidance_caveat": "Interview thresholds may change each admissions cycle depending on applicant competition and interview capacity. Historical figures are guidance only, not a current cut-off, and do not guarantee an interview.",
+    "badges": [
+      {
+        "label": "Eligible",
+        "tone": "positive"
+      },
+      {
+        "label": "UCAT 2080/2700",
+        "tone": "neutral"
+      },
+      {
+        "label": "Good chance",
+        "tone": "positive"
+      },
+      {
+        "label": "Historical guidance",
+        "tone": "neutral"
+      }
+    ],
+    "secondary_explanation": "This is not a fixed interview cut-off. Edinburgh ranks international applicants separately by their total pre-interview score out of 40, not by UCAT alone.",
+    "next_best_action": "Use the UCAT band as historical context and assess the full academic + UCAT decile + SJT pre-interview score."
+  },
+  "decision_timeline": [
+    {
+      "step": 1,
+      "title": "Applicant details checked",
+      "status": "Complete",
+      "summary": "Your applicant type, qualifications and UCAT details were checked."
+    },
+    {
+      "step": 2,
+      "title": "Eligibility assessed",
+      "status": "Eligible",
+      "summary": "You meet the published entry requirements covered by ApplySmart."
+    },
+    {
+      "step": 3,
+      "title": "Selection model applied",
+      "status": "Complete",
+      "summary": "Academic, UCAT cognitive and SJT components were considered in the pre-interview total."
+    },
+    {
+      "step": 4,
+      "title": "Historical guidance compared",
+      "status": "Complete",
+      "summary": "Your result was compared with interview information from previous admissions cycles. Interview thresholds may change each admissions cycle depending on applicant competition and interview capacity. Historical figures are guidance only, not a current cut-off, and do not guarantee an interview."
+    },
+    {
+      "step": 5,
+      "title": "Interview recommendation produced",
+      "status": "Good chance",
+      "summary": "Good chance based on historical data. Treat this as guidance for university choice, not a promised interview."
+    }
+  ],
+  "decision_transparency": {
+    "decision_path": [
+      {
+        "stage": "Eligibility",
+        "status": "Met",
+        "summary": "The represented applicant is above the verified 2026 international UCAT eligibility threshold and has an acceptable SJT band. Meeting minimum requirements does not guarantee an interview.",
+        "checks": [
+          {
+            "label": "Academic eligibility",
+            "status": "Met",
+            "summary": "Applicant must meet Edinburgh's academic requirements for their qualification route. Applicant information: Represented as academically eligible."
+          },
+          {
+            "label": "International UCAT eligibility threshold",
+            "status": "Met",
+            "summary": "Verified 2026 minimum UCAT threshold: 1650/2700; the threshold changes annually. Applicant information: UCAT 2080/2700"
+          },
+          {
+            "label": "SJT Band 4 exclusion",
+            "status": "Met",
+            "summary": "SJT Band 4 causes automatic rejection; Bands 1–3 are acceptable. Applicant information: SJT Band 2"
+          }
+        ]
+      },
+      {
+        "stage": "Selection model",
+        "status": "Assessed",
+        "summary": "Edinburgh ranks applicants by a pre-interview total out of 40, combining academic, UCAT cognitive and SJT scores.",
+        "checks": [
+          {
+            "label": "Applicant pool",
+            "status": "Used",
+            "summary": "International applicants ranked separately"
+          },
+          {
+            "label": "Academic score",
+            "status": "Awaiting complete score",
+            "summary": "Academic attainment contributes up to 20 points."
+          },
+          {
+            "label": "UCAT cognitive score",
+            "status": "Awaiting cohort position",
+            "summary": "UCAT cognitive performance contributes up to 14 points using the international applicant group."
+          },
+          {
+            "label": "SJT score",
+            "status": "Counted",
+            "summary": "SJT contributes up to 6 points; this applicant has Band 2."
+          },
+          {
+            "label": "Pre-interview total",
+            "status": "Not fully calculated",
+            "summary": "The total out of 40 cannot be completed without the academic score and international UCAT position."
+          }
+        ]
+      },
+      {
+        "stage": "Historical guidance",
+        "status": "Guidance available",
+        "summary": "The applicant's result is within the historical interview range used for this applicant group. Interview thresholds may change each admissions cycle depending on applicant competition and interview capacity. Historical figures are guidance only, not a current cut-off, and do not guarantee an interview.",
+        "checks": [
+          {
+            "label": "Applicant pool",
+            "status": "Used",
+            "summary": "International applicants ranked separately"
+          },
+          {
+            "label": "Important limitation",
+            "status": "Guidance only",
+            "summary": "Interview thresholds may change each admissions cycle depending on applicant competition and interview capacity. Historical figures are guidance only, not a current cut-off, and do not guarantee an interview."
+          }
+        ]
+      },
+      {
+        "stage": "Recommendation",
+        "status": "Guidance only",
+        "summary": "Good chance based on historical data. Treat this as guidance for university choice, not a promised interview.",
+        "checks": []
+      }
+    ],
+    "key_reasons": [
+      "The supported academic, UCAT and SJT eligibility checks are met.",
+      "Edinburgh uses a 20-point academic score, 14-point UCAT cognitive score and 6-point SJT score.",
+      "UCAT 2080 is within the available international historical interview range, but UCAT alone does not determine rank."
+    ],
+    "evidence_used": [
+      "Official admissions policy",
+      "University selection methodology",
+      "UCAT policy",
+      "Historical interview data",
+      "International admissions policy"
+    ],
+    "evidence_confidence": {
+      "level": "High",
+      "summary": "The recommendation is supported by strong admissions evidence for this applicant route.",
+      "reasons": [
+        "Official eligibility rules are available.",
+        "The university selection approach is implemented.",
+        "Historical interview data is available for this applicant pool.",
+        "The implemented checks have been tested across supported applicant profiles."
+      ]
+    },
+    "manual_review_reason": null,
+    "insufficient_evidence_reason": null,
+    "warnings": []
+  },
+  "engine_notes": {
+    "generated_from_profile_id": "edinburgh-a100",
+    "generated_from_research_profile_id": "edinburgh-a100-research",
+    "eligibility_ready": true,
+    "interview_prediction_ready": true,
+    "prediction_confidence": "high",
+    "official_selection_formula_available": true,
+    "pre_interview_formula_ready": true,
+    "requires_supplied_interview_score_for_final_ranking": true,
+    "assumptions": [],
+    "do_not_display": [
+      "fixed international interview cut-off",
+      "UCAT-only interview prediction",
+      "inferred international cohort decile",
+      "inferred Assessment Day score",
+      "offer probability"
+    ]
+  }
+}

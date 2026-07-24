@@ -1,0 +1,486 @@
+{
+  "schema_version": "1.0.0",
+  "template_version": "1.0.0",
+  "result_id": "leicester-a100-home-predicted-a-level-example",
+  "generated_at": "2026-07-07",
+  "result_mode": "example_eligibility_with_official_pre_interview_score_and_historical_guidance",
+  "production_state": {
+    "profile_active": true,
+    "metadata_activation_enabled": true,
+    "result_card_output_enabled": true,
+    "note": "This example reflects the activated Leicester A100 supported scope. Interview guidance uses Leicester's official 96-point GCSE-plus-UCAT pre-interview formula compared against 2026-entry historical guidance; it is not a guaranteed 2027 threshold."
+  },
+  "course_identity": {
+    "profile_id": "leicester-a100",
+    "university_name": "University of Leicester",
+    "course_name": "A100 Medicine MBChB",
+    "ucas_code": "A100",
+    "entry_route": "standard_entry",
+    "qualification_awarded": "MBChB",
+    "duration_years": 5,
+    "location": "Leicester, England",
+    "source_ids": [
+      "leicester_a100_2027_scoring_document",
+      "leicester_a100_entry_requirements"
+    ]
+  },
+  "applicant_context": {
+    "applies_to_group_ids": [
+      "england_domiciled",
+      "home_fee",
+      "school_leaver"
+    ],
+    "applicant_summary": "Home predicted A-level school-leaver with 8 scored GCSEs totalling 36/48, predicted A*AA in Chemistry, Biology and Mathematics, UCAT 2200/2700 and SJT Band 2.",
+    "fee_cohort": "home",
+    "entry_route": "standard_entry",
+    "qualification_route": "a_level",
+    "contextual": false,
+    "graduate": false,
+    "source_ids": []
+  },
+  "readiness": {
+    "eligibility": true,
+    "interview_prediction": true,
+    "historical_guidance": true,
+    "international_prediction": true,
+    "contextual_logic": false,
+    "result_card": true,
+    "regression": true,
+    "research_completeness": "complete_for_supported_scope_with_documented_gaps",
+    "manual_review_required": true,
+    "eligibility_ready": true,
+    "interview_prediction_ready": true,
+    "prediction_confidence": "medium",
+    "result_card_ready": true,
+    "offer_prediction_scope": "out_of_scope"
+  },
+  "eligibility": {
+    "status": "eligible",
+    "summary": "The represented Home predicted A-level school-leaver meets Leicester's supported GCSE, A-level, UCAT and SJT eligibility checks.",
+    "stage_1_checks": [
+      {
+        "check_id": "gcse_minimum",
+        "label": "GCSE minimum requirements",
+        "status": "pass",
+        "requirement": "Grade B/6 in English Language, Mathematics and two sciences (Biology and Chemistry, or Double Science).",
+        "applicant_value": "English Language 7, Mathematics 9, Chemistry 9, Biology 9 all meet or exceed grade 6/B.",
+        "decision_outcome": "eligible",
+        "source_ids": [
+          "leicester_a100_entry_requirements"
+        ]
+      },
+      {
+        "check_id": "a_level_predicted_floor",
+        "label": "A-level predicted-route scoring floor",
+        "status": "pass",
+        "requirement": "Predicted at least AAB including Chemistry or Biology plus one of Biology/Chemistry/Physics/Mathematics/Psychology.",
+        "applicant_value": "Predicted A*AA in Chemistry, Biology and Mathematics.",
+        "decision_outcome": "eligible",
+        "source_ids": [
+          "leicester_a100_2027_scoring_document"
+        ]
+      },
+      {
+        "check_id": "ucat_minimum_gate",
+        "label": "UCAT bottom-two-decile exclusion gate",
+        "status": "pass",
+        "requirement": "UCAT total must be above the approximated current-cycle bottom-two-decile exclusion boundary (1760/2700).",
+        "applicant_value": "UCAT 2200/2700 is above the 1760 gate.",
+        "decision_outcome": "eligible",
+        "source_ids": [
+          "leicester_a100_2027_scoring_document"
+        ]
+      },
+      {
+        "check_id": "sjt_gate",
+        "label": "SJT gate",
+        "status": "pass",
+        "requirement": "SJT Bands 1-3 are accepted; Band 4 is an automatic pre-interview rejection.",
+        "applicant_value": "SJT Band 2.",
+        "decision_outcome": "eligible",
+        "source_ids": [
+          "leicester_a100_2027_scoring_document"
+        ]
+      }
+    ],
+    "blocking_reasons": [],
+    "warnings": [
+      "The 1760 UCAT gate approximates Leicester's unpublished bottom-two-decile exclusion boundary and must be reviewed annually.",
+      "Eligibility does not imply an interview. Leicester's official GCSE-plus-UCAT score is compared against 2026-entry historical guidance, which is the only cycle of directly comparable data on the current 96-point scale."
+    ],
+    "source_ids": [
+      "leicester_a100_2027_scoring_document",
+      "leicester_a100_entry_requirements"
+    ]
+  },
+  "stage_1_requirements": {
+    "verification_status": "official_source_verified_for_represented_route",
+    "verified_requirements": [
+      {
+        "requirement_id": "gcse_gate",
+        "label": "GCSE eligibility and scoring gate",
+        "value": "8 GCSEs scored: English Language, Mathematics, Chemistry, Biology (mandatory) plus best 4 others, grade 9=6pts, 8=5pts, 7=4pts, 6=3pts, below 6=0pts, maximum 48.",
+        "applies_to_group_ids": [
+          "school_leaver"
+        ],
+        "source_ids": [
+          "leicester_a100_2027_scoring_document"
+        ]
+      },
+      {
+        "requirement_id": "a_level_gate",
+        "label": "A-level predicted-route gate",
+        "value": "Predicted at least AAB including Chemistry or Biology plus a second accepted subject.",
+        "applies_to_group_ids": [
+          "school_leaver"
+        ],
+        "source_ids": [
+          "leicester_a100_entry_requirements"
+        ]
+      },
+      {
+        "requirement_id": "ucat_sjt_gate",
+        "label": "UCAT and SJT gate",
+        "value": "UCAT above the bottom-two-decile exclusion boundary and SJT Band 1, 2 or 3.",
+        "applies_to_group_ids": [],
+        "source_ids": [
+          "leicester_a100_2027_scoring_document"
+        ]
+      }
+    ],
+    "unknown_requirements": [
+      "Exact bottom-two-decile UCAT cutoff for the current cycle",
+      "Exact GCSE mitigating-circumstances bonus-point value"
+    ],
+    "source_ids": [
+      "leicester_a100_2027_scoring_document",
+      "leicester_a100_entry_requirements"
+    ]
+  },
+  "stage_2_selection": {
+    "verification_status": "official_pre_interview_formula_verified",
+    "primary_model": "points_system",
+    "summary": "Leicester ranks eligible predicted A-level applicants within the Home pool using the official 48-point GCSE plus 48-point UCAT combined score (96 points total). This is Leicester's own published formula, not an ApplySmart estimate; 2026-entry combined-score guidance bands are used to show historical competitiveness because only one year of directly comparable data exists on the current 96-point scale.",
+    "represented_ranking_input": {
+      "score": 80,
+      "max": 96,
+      "metric": "selection_score"
+    },
+    "ranking_factors": [
+      {
+        "factor_id": "gcse_points",
+        "label": "GCSE points",
+        "weight_percent": 50,
+        "calculation_status": "calculated",
+        "notes": "8 GCSEs scored: English Language 7=4, Mathematics 9=6, Chemistry 9=6, Biology 9=6, Physics 9=6, Business Studies 8=5, Religious Studies 6=3, French 5=0. Total 36/48.",
+        "source_ids": [
+          "leicester_a100_2027_scoring_document"
+        ]
+      },
+      {
+        "factor_id": "ucat_points",
+        "label": "UCAT points",
+        "weight_percent": 50,
+        "calculation_status": "calculated",
+        "notes": "UCAT 2200 falls in the 2200-2259 official band, worth 44 of 48 points.",
+        "source_ids": [
+          "leicester_a100_2027_scoring_document"
+        ]
+      }
+    ],
+    "selection_adjustments": [],
+    "unknown_calculation_areas": [
+      "Exact tie-breakers at the interview-shortlisting boundary within the predicted A-level pool.",
+      "Exact number of interview places allocated to the predicted A-level Home pool for 2027 entry."
+    ],
+    "source_ids": [
+      "leicester_a100_2027_scoring_document",
+      "leicester_a100_admissions_statistics"
+    ]
+  },
+  "historical_context": {
+    "use": "official_current_cycle_guidance",
+    "fixed_current_cutoff": false,
+    "not_deterministic": true,
+    "warning": "Leicester's 2026-entry combined-score guarantee threshold (79/96 for Home predicted A-levels) is the most recent actual cycle. UCAT was rescaled in summer 2025 and Leicester's own scoring scale changed from 64 points to 96 points for 2026 entry, so this is the first cycle of directly comparable data; it is not extrapolated forward as a guaranteed 2027 threshold.",
+    "represented_pool": {
+      "pool_id": "leicester_home_predicted_a_level_or_equivalent",
+      "score_scale": 96,
+      "published_cutpoint": "79/96 minimum combined score to guarantee interview",
+      "entry_cycles": [
+        "2026"
+      ]
+    },
+    "legacy_scale_data": {
+      "conversion_used": false,
+      "reason": "Leicester's own pre-2026 combined-score scale (64 points) and pre-2025 UCAT scale (3600 points) are not converted or compared to the current 96-point/2700-UCAT scale, per Leicester's own published guidance that pre-2026 figures are not comparable."
+    }
+  },
+  "prediction": {
+    "available": true,
+    "capability": "interview_guidance",
+    "prediction_type": "official_pre_interview_score_with_current_cycle_historical_guidance",
+    "prediction_status": "official_score_calculated",
+    "result_band": "realistic",
+    "guidance_pool_id": "leicester_home_predicted_a_level_or_equivalent",
+    "score": 80,
+    "score_scale": {
+      "min": 0,
+      "max": 96
+    },
+    "band_basis": "Leicester's official combined GCSE-plus-UCAT score is 80/96, within the historical interview range indicated by the 2026-entry figure of 79/96 for this pool. This uses Leicester's own published formula; the 2026-entry figure is rough context from the most recent actual cycle, not an official current threshold or a guarantee of interview for 2027 entry.",
+    "historical_comparison": "current_cycle_official_guarantee_threshold",
+    "missing_data_reasons": [],
+    "cannot_predict_explanation": null,
+    "official_vs_applysmart_modelling": {
+      "official_university_evidence": [
+        "Published eligibility gates",
+        "Published 48-point GCSE and 48-point UCAT scoring formula",
+        "Published Home and International/Overseas applicant pools"
+      ],
+      "historical_admissions_evidence": [
+        "Official 2026-entry combined-score guarantee threshold (79/96) for the Home predicted A-level pool; most recent actual cycle, first year of comparable 96-point-scale data"
+      ],
+      "applysmart_predictive_modelling": [
+        "None: Leicester's own published formula and current-cycle guidance threshold are used directly, with no ApplySmart-modelled estimate layer."
+      ]
+    },
+    "source_ids": [
+      "leicester_a100_2027_scoring_document",
+      "leicester_a100_admissions_statistics"
+    ]
+  },
+  "missing_data": {
+    "exact_bottom_two_decile_ucat_cutoff": "not_published_approximated_from_shared_decile_dataset",
+    "exact_gcse_mitigation_bonus_value": "not_published",
+    "mmi_station_count": "not_published",
+    "graduate_and_access_numeric_ranking": "not_executable_manual_review_required",
+    "country_specific_international_equivalencies": "not_fully_encoded"
+  },
+  "confidence": {
+    "level": "medium",
+    "summary": "Eligibility and the official pre-interview scoring formula are strong evidence for the represented predicted A-level route. Historical-trend confidence is Limited because only one year of directly comparable 96-point-scale data exists following the 2025 UCAT rescale and Leicester's 2026 scoring-scale change.",
+    "stage_confidence": {
+      "stage_1": "high",
+      "stage_2": "high",
+      "historical_guidance": "limited"
+    },
+    "source_ids": [
+      "leicester_a100_2027_scoring_document",
+      "leicester_a100_entry_requirements",
+      "leicester_a100_admissions_statistics"
+    ]
+  },
+  "evidence_confidence": {
+    "level": "Medium",
+    "summary": "The recommendation is supported by core admissions evidence, with some historical or route-specific limits.",
+    "reasons": [
+      "Official eligibility rules are available.",
+      "The university selection approach is implemented.",
+      "Historical interview guidance is available, but some evidence is historical, FOI-derived or has documented gaps."
+    ]
+  },
+  "evidence": {
+    "source_ids": [
+      "leicester_a100_2027_scoring_document",
+      "leicester_a100_entry_requirements",
+      "leicester_a100_admissions_statistics"
+    ],
+    "sources": [
+      {
+        "source_id": "leicester_a100_2027_scoring_document",
+        "title": "University of Leicester A100 Medicine 2027 Entry Scoring Document",
+        "url": "https://le.ac.uk/study/undergraduate/medicine/a100/how-we-select",
+        "source_type": "official",
+        "confidence": "high",
+        "accessed_date": null
+      },
+      {
+        "source_id": "leicester_a100_entry_requirements",
+        "title": "University of Leicester A100 Medicine entry requirements",
+        "url": "https://le.ac.uk/courses/medicine-mbchb-a100/2027",
+        "source_type": "official",
+        "confidence": "high",
+        "accessed_date": null
+      },
+      {
+        "source_id": "leicester_a100_admissions_statistics",
+        "title": "University of Leicester Medicine admissions statistics",
+        "url": "https://le.ac.uk/study/undergraduate/medicine/a100/entry-requirements/statistics",
+        "source_type": "official",
+        "confidence": "high",
+        "accessed_date": null
+      }
+    ]
+  },
+  "display": {
+    "headline": "Good chance based on Leicester's official scoring formula",
+    "subheadline": "Eligible Home A100 predicted A-level applicant; within the 2026-entry historical guidance range",
+    "primary_user_facing_recommendation": "Good chance – recommend applying",
+    "recommendation_display_state": "standard",
+    "primary_explanation": "Leicester's official combined GCSE-plus-UCAT score is 80/96, within the historical interview range indicated by the 2026-entry figure of 79/96 for this pool. This uses Leicester's own published formula; the 2026-entry figure is rough context from the most recent actual cycle, not an official current threshold or a guarantee of interview for 2027 entry.",
+    "historical_guidance_caveat": "Interview thresholds may change each admissions cycle depending on applicant competition and interview capacity. Historical figures are guidance only, not a current cut-off, and do not guarantee an interview."
+  },
+  "decision_timeline": [
+    {
+      "step": 1,
+      "title": "Applicant details checked",
+      "status": "Complete",
+      "summary": "Your applicant type, qualifications and UCAT details were checked."
+    },
+    {
+      "step": 2,
+      "title": "Eligibility assessed",
+      "status": "Eligible",
+      "summary": "You meet the published entry requirements covered by ApplySmart."
+    },
+    {
+      "step": 3,
+      "title": "Selection model applied",
+      "status": "Complete",
+      "summary": "A 48-point GCSE score and a 48-point UCAT score were combined into a 96-point pre-interview total for predicted and achieved A-level/IB applicants."
+    },
+    {
+      "step": 4,
+      "title": "Historical guidance compared",
+      "status": "Complete",
+      "summary": "Your result was compared with interview information from previous admissions cycles. Interview thresholds may change each admissions cycle depending on applicant competition and interview capacity. Historical figures are guidance only, not a current cut-off, and do not guarantee an interview."
+    },
+    {
+      "step": 5,
+      "title": "Interview recommendation produced",
+      "status": "Good chance",
+      "summary": "Good chance – recommend applying. Treat this as guidance for university choice, not a promised interview."
+    }
+  ],
+  "decision_transparency": {
+    "decision_path": [
+      {
+        "stage": "Eligibility",
+        "status": "Met",
+        "summary": "The represented Home predicted A-level school-leaver meets Leicester's supported GCSE, A-level, UCAT and SJT eligibility checks.",
+        "checks": [
+          {
+            "label": "GCSE minimum requirements",
+            "status": "Met",
+            "summary": "Grade B/6 in English Language, Mathematics and two sciences (Biology and Chemistry, or Double Science). Applicant information: English Language 7, Mathematics 9, Chemistry 9, Biology 9 all meet or exceed grade 6/B."
+          },
+          {
+            "label": "A-level predicted-route scoring floor",
+            "status": "Met",
+            "summary": "Predicted at least AAB including Chemistry or Biology plus one of Biology/Chemistry/Physics/Mathematics/Psychology. Applicant information: Predicted A*AA in Chemistry, Biology and Mathematics."
+          },
+          {
+            "label": "UCAT bottom-two-decile exclusion gate",
+            "status": "Met",
+            "summary": "UCAT total must be above the approximated current-cycle bottom-two-decile exclusion boundary (1760/2700). Applicant information: UCAT 2200/2700 is above the 1760 gate."
+          },
+          {
+            "label": "SJT gate",
+            "status": "Met",
+            "summary": "SJT Bands 1-3 are accepted; Band 4 is an automatic pre-interview rejection. Applicant information: SJT Band 2."
+          }
+        ]
+      },
+      {
+        "stage": "Selection model",
+        "status": "Assessed",
+        "summary": "Leicester ranks eligible predicted A-level applicants within the Home pool using the official 48-point GCSE plus 48-point UCAT combined score (96 points total). This is Leicester's own published formula, not an ApplySmart estimate; 2026-entry combined-score guidance bands are used to show historical competitiveness because only one year of directly comparable data exists on the current 96-point scale.",
+        "checks": [
+          {
+            "label": "Applicant pool",
+            "status": "Used",
+            "summary": "The applicant group matching the supplied fee status and entry route"
+          },
+          {
+            "label": "Selection approach",
+            "status": "Assessed",
+            "summary": "Leicester ranks eligible predicted A-level applicants within the Home pool using the official 48-point GCSE plus 48-point UCAT combined score (96 points total). This is Leicester's own published formula, not an ApplySmart estimate; 2026-entry combined-score guidance bands are used to show historical competitiveness because only one year of directly comparable data exists on the current 96-point scale."
+          }
+        ]
+      },
+      {
+        "stage": "Historical guidance",
+        "status": "Guidance available",
+        "summary": "The applicant's result is within the historical interview range used for this applicant group. Interview thresholds may change each admissions cycle depending on applicant competition and interview capacity. Historical figures are guidance only, not a current cut-off, and do not guarantee an interview.",
+        "checks": [
+          {
+            "label": "Applicant pool",
+            "status": "Used",
+            "summary": "The applicant group matching the supplied fee status and entry route"
+          },
+          {
+            "label": "Important limitation",
+            "status": "Guidance only",
+            "summary": "Interview thresholds may change each admissions cycle depending on applicant competition and interview capacity. Historical figures are guidance only, not a current cut-off, and do not guarantee an interview."
+          }
+        ]
+      },
+      {
+        "stage": "Recommendation",
+        "status": "Guidance only",
+        "summary": "Good chance – recommend applying. Treat this as guidance for university choice, not a promised interview.",
+        "checks": []
+      }
+    ],
+    "key_reasons": [
+      "The represented Home predicted A-level school-leaver meets Leicester's supported GCSE, A-level, UCAT and SJT eligibility checks.",
+      "The result uses The applicant group matching the supplied fee status and entry route.",
+      "The recommendation is based on historical interview guidance."
+    ],
+    "evidence_used": [
+      "Official admissions policy",
+      "University selection methodology",
+      "UCAT policy",
+      "Historical interview data"
+    ],
+    "evidence_confidence": {
+      "level": "Medium",
+      "summary": "The recommendation is supported by core admissions evidence, with some historical or route-specific limits.",
+      "reasons": [
+        "Official eligibility rules are available.",
+        "The university selection approach is implemented.",
+        "Historical interview guidance is available, but some evidence is historical, FOI-derived or has documented gaps."
+      ]
+    },
+    "manual_review_reason": null,
+    "insufficient_evidence_reason": null,
+    "warnings": [],
+    "score_breakdown": {
+      "name": "Selection score",
+      "value": 80,
+      "max": 96,
+      "status": "calculated",
+      "explanation": null,
+      "checks": [
+        {
+          "label": "GCSE points",
+          "status": "Counted",
+          "summary": "8 GCSEs scored: English Language 7=4, Mathematics 9=6, Chemistry 9=6, Biology 9=6, Physics 9=6, Business Studies 8=5, Religious Studies 6=3, French 5=0. Total 36/48."
+        },
+        {
+          "label": "UCAT points",
+          "status": "Counted",
+          "summary": "UCAT 2200 falls in the 2200-2259 official band, worth 44 of 48 points."
+        }
+      ]
+    }
+  },
+  "engine_notes": {
+    "generated_from_profile_id": "leicester-a100",
+    "eligibility_ready": true,
+    "interview_prediction_ready": true,
+    "offer_prediction_scope": "out_of_scope",
+    "prediction_confidence": "medium",
+    "engine_version": "ApplySmart Engine v1.0",
+    "assumptions": [
+      "The 1760 UCAT gate approximates Leicester's unpublished bottom-two-decile exclusion boundary using the shared data/ucat-deciles.json dataset and must be reviewed annually.",
+      "2026-entry combined-score guidance thresholds are the most recent actual cycle and the first year of directly comparable 96-point-scale data; they are not extrapolated forward as guaranteed 2027 thresholds."
+    ],
+    "do_not_display": [
+      "2026-entry thresholds as guaranteed 2027 official thresholds",
+      "Graduate or Access numeric rankings as calculated scores (manual review required)",
+      "Offer-stage FOI or published cut-offs as prediction"
+    ]
+  }
+}

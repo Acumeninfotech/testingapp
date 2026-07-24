@@ -1,0 +1,582 @@
+{
+  "schema_version": "1.0.0",
+  "course_profile_id": "liverpool-a100",
+  "confidence": "medium",
+  "evidence": {
+    "classification": "official_selection_method_with_foi_verified_historical_cutoffs",
+    "summary": "Official route-specific academic and admissions-test gates, separate ranking pools, official candidate-decile guidance and FOI-verified E2025 cut-offs. Historical cut-offs are guidance only; live cut-offs remain dynamic.",
+    "source_ids": [
+      "liverpool_a100_departmental_supplement_2027",
+      "liverpool_research_team_verified_update_2026",
+      "liverpool_foi_2025_cutoffs_verified_update"
+    ]
+  },
+  "eligibility": {
+    "international_english_language_required": true,
+    "explicitly_blocked_applicant_groups": [
+      "mature_applicant"
+    ],
+    "qualification_routes": {
+      "supported": [
+        "a_level",
+        "international_baccalaureate",
+        "scottish",
+        "access_to_medicine",
+        "international_qualification",
+        "graduate"
+      ],
+      "explicitly_blocked": [
+        "btec",
+        "t_level",
+        "mixed_t_level_a_level",
+        "foundation",
+        "unknown"
+      ]
+    },
+    "gcse": {
+      "minimum_count": 9,
+      "use_exact_subject_list": false,
+      "required_subjects": [
+        {
+          "subject_id": "english_language",
+          "minimum_grade": "6"
+        },
+        {
+          "subject_id": "mathematics",
+          "minimum_grade": "6"
+        },
+        {
+          "subject_id": "biology",
+          "minimum_grade": "6"
+        },
+        {
+          "subject_id": "chemistry",
+          "minimum_grade": "6"
+        }
+      ],
+      "contextual_minimum_points": 12,
+      "points": {
+        "subject_count": 9,
+        "minimum_points": 15,
+        "bands": [
+          {
+            "minimum_grade": "7",
+            "points": 2
+          },
+          {
+            "minimum_grade": "6",
+            "points": 1
+          }
+        ]
+      }
+    },
+    "a_level": {
+      "routes": [
+        {
+          "route_id": "standard_aaa",
+          "grade_profile": [
+            "A",
+            "A",
+            "A"
+          ],
+          "required_subject_ids": [
+            "chemistry"
+          ],
+          "one_of_subject_groups": [
+            {
+              "minimum_required": 1,
+              "subject_ids": [
+                "biology",
+                "physics",
+                "mathematics"
+              ]
+            }
+          ],
+          "excluded_subject_ids": [
+            "general_studies",
+            "critical_thinking",
+            "btec_level_3"
+          ]
+        },
+        {
+          "route_id": "alternative_astar_ab",
+          "grade_profile": [
+            "A*",
+            "A",
+            "B"
+          ],
+          "required_subject_ids": [
+            "chemistry"
+          ],
+          "one_of_subject_groups": [
+            {
+              "minimum_required": 1,
+              "subject_ids": [
+                "biology",
+                "physics",
+                "mathematics"
+              ]
+            }
+          ],
+          "required_subject_grade_options": [
+            {
+              "grade_requirements": [
+                {
+                  "subject_id": "chemistry",
+                  "minimum_grade": "A*"
+                },
+                {
+                  "subject_id": "biology",
+                  "minimum_grade": "A"
+                }
+              ]
+            },
+            {
+              "grade_requirements": [
+                {
+                  "subject_id": "chemistry",
+                  "minimum_grade": "A"
+                },
+                {
+                  "subject_id": "biology",
+                  "minimum_grade": "A*"
+                }
+              ]
+            },
+            {
+              "grade_requirements": [
+                {
+                  "subject_id": "chemistry",
+                  "minimum_grade": "A*"
+                },
+                {
+                  "subject_id": "physics",
+                  "minimum_grade": "A"
+                }
+              ]
+            },
+            {
+              "grade_requirements": [
+                {
+                  "subject_id": "chemistry",
+                  "minimum_grade": "A"
+                },
+                {
+                  "subject_id": "physics",
+                  "minimum_grade": "A*"
+                }
+              ]
+            },
+            {
+              "grade_requirements": [
+                {
+                  "subject_id": "chemistry",
+                  "minimum_grade": "A*"
+                },
+                {
+                  "subject_id": "mathematics",
+                  "minimum_grade": "A"
+                }
+              ]
+            },
+            {
+              "grade_requirements": [
+                {
+                  "subject_id": "chemistry",
+                  "minimum_grade": "A"
+                },
+                {
+                  "subject_id": "mathematics",
+                  "minimum_grade": "A*"
+                }
+              ]
+            }
+          ],
+          "excluded_subject_ids": [
+            "general_studies",
+            "critical_thinking",
+            "btec_level_3"
+          ]
+        }
+      ]
+    },
+    "international_baccalaureate": {
+      "routes": [
+        {
+          "route_id": "ib_666",
+          "total_points": 36,
+          "hl_grade_profile": [
+            "6",
+            "6",
+            "6"
+          ],
+          "required_hl_subject_ids": [
+            "chemistry"
+          ],
+          "required_hl_subject_grade_options": [
+            {
+              "grade_requirements": [
+                {
+                  "subject_id": "chemistry",
+                  "minimum_grade": "6"
+                },
+                {
+                  "subject_id": "biology",
+                  "minimum_grade": "6"
+                }
+              ]
+            },
+            {
+              "grade_requirements": [
+                {
+                  "subject_id": "chemistry",
+                  "minimum_grade": "6"
+                },
+                {
+                  "subject_id": "physics",
+                  "minimum_grade": "6"
+                }
+              ]
+            },
+            {
+              "grade_requirements": [
+                {
+                  "subject_id": "chemistry",
+                  "minimum_grade": "6"
+                },
+                {
+                  "subject_id": "mathematics",
+                  "minimum_grade": "6"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "route_id": "ib_765",
+          "total_points": 36,
+          "hl_grade_profile": [
+            "7",
+            "6",
+            "5"
+          ],
+          "required_hl_subject_ids": [
+            "chemistry"
+          ],
+          "required_hl_subject_grade_options": [
+            {
+              "grade_requirements": [
+                {
+                  "subject_id": "chemistry",
+                  "minimum_grade": "7"
+                },
+                {
+                  "subject_id": "biology",
+                  "minimum_grade": "6"
+                }
+              ]
+            },
+            {
+              "grade_requirements": [
+                {
+                  "subject_id": "chemistry",
+                  "minimum_grade": "6"
+                },
+                {
+                  "subject_id": "biology",
+                  "minimum_grade": "7"
+                }
+              ]
+            },
+            {
+              "grade_requirements": [
+                {
+                  "subject_id": "chemistry",
+                  "minimum_grade": "7"
+                },
+                {
+                  "subject_id": "physics",
+                  "minimum_grade": "6"
+                }
+              ]
+            },
+            {
+              "grade_requirements": [
+                {
+                  "subject_id": "chemistry",
+                  "minimum_grade": "6"
+                },
+                {
+                  "subject_id": "physics",
+                  "minimum_grade": "7"
+                }
+              ]
+            },
+            {
+              "grade_requirements": [
+                {
+                  "subject_id": "chemistry",
+                  "minimum_grade": "7"
+                },
+                {
+                  "subject_id": "mathematics",
+                  "minimum_grade": "6"
+                }
+              ]
+            },
+            {
+              "grade_requirements": [
+                {
+                  "subject_id": "chemistry",
+                  "minimum_grade": "6"
+                },
+                {
+                  "subject_id": "mathematics",
+                  "minimum_grade": "7"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    "scottish": {
+      "national_5": {
+        "minimum_count": 7,
+        "required_subject_ids": [
+          "english_language",
+          "mathematics",
+          "biology",
+          "chemistry"
+        ],
+        "physics_required": false,
+        "minimum_grade": null
+      },
+      "post_16_routes": [
+        {
+          "route_id": "five_highers",
+          "grade_profile": [
+            "A",
+            "A",
+            "A",
+            "A",
+            "B"
+          ],
+          "required_subject_ids": [
+            "chemistry"
+          ],
+          "one_of_subject_groups": [
+            {
+              "minimum_required": 1,
+              "subject_ids": [
+                "biology",
+                "physics",
+                "mathematics"
+              ]
+            }
+          ]
+        },
+        {
+          "route_id": "two_advanced_highers",
+          "grade_profile": [
+            "A",
+            "A"
+          ],
+          "required_subject_ids": [
+            "chemistry"
+          ],
+          "one_of_subject_groups": [
+            {
+              "minimum_required": 1,
+              "subject_ids": [
+                "biology",
+                "physics",
+                "mathematics"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    "access_to_medicine": {
+      "routing": "Liverpool-approved Access to Medicine provider and verified completion requirements only",
+      "unverified_outcome": "not_eligible"
+    },
+    "international_qualification": {
+      "routing": "Liverpool-verified country qualification equivalence only",
+      "unverified_outcome": "not_eligible"
+    },
+    "graduate": {
+      "degree_options": [
+        "2:1 degree or integrated Masters in any subject",
+        "2:2 degree or integrated Masters plus achieved or predicted postgraduate Masters or PhD"
+      ],
+      "admissions_test": "gamsat",
+      "minimum_each_section": 50
+    },
+    "resits": {
+      "applicant_form_required": true,
+      "a_level_first_sitting_minimum": [
+        "A",
+        "B",
+        "B"
+      ],
+      "ib_first_sitting_minimum_points": 34,
+      "scottish_advanced_higher_first_sitting_minimum": [
+        "B",
+        "B"
+      ]
+    }
+  },
+  "score_model": {
+    "type": "ranking_metric",
+    "basis": "Official route-specific admissions-test ranking input",
+    "metric": "ucat_total",
+    "pool_specific_output": true,
+    "scale": {
+      "min": 0,
+      "max": 2700
+    }
+  },
+  "guidance_pools": [
+    {
+      "pool_id": "graduate_gamsat",
+      "priority": 40,
+      "applicant_match": {
+        "all_group_ids": [
+          "graduate_applicant"
+        ]
+      },
+      "metric": "gamsat_total",
+      "band_rules": []
+    },
+    {
+      "pool_id": "home_contextual_non_graduate",
+      "priority": 30,
+      "applicant_match": {
+        "all_group_ids": [
+          "home_fee"
+        ],
+        "any_group_ids": [
+          "contextual",
+          "widening_participation"
+        ],
+        "excluded_group_ids": [
+          "graduate_applicant"
+        ]
+      },
+      "metric": "ucat_total",
+      "historical_cutoff": {
+        "entry_cycle": "E2025",
+        "value": 1733,
+        "evidence_classification": "foi_verified_historical_guidance"
+      },
+      "band_rules": [
+        {
+          "band": "realistic",
+          "operator": "greater_than_or_equal",
+          "value": 1733,
+          "evidence_classification": "foi_verified_historical_guidance"
+        },
+        {
+          "band": "ambitious",
+          "operator": "less_than",
+          "value": 1733,
+          "evidence_classification": "foi_verified_historical_guidance"
+        }
+      ]
+    },
+    {
+      "pool_id": "international_non_graduate",
+      "priority": 20,
+      "applicant_match": {
+        "all_group_ids": [
+          "international_fee"
+        ],
+        "excluded_group_ids": [
+          "graduate_applicant"
+        ]
+      },
+      "metric": "ucat_total",
+      "official_candidate_decile_guidance": {
+        "min": 7,
+        "max": 9,
+        "executable": false,
+        "reason": "Candidate-pool deciles cannot be calculated without the live Liverpool pool distribution."
+      },
+      "historical_cutoff": {
+        "entry_cycle": "E2025",
+        "value": 2108,
+        "evidence_classification": "foi_verified_historical_guidance"
+      },
+      "band_rules": [
+        {
+          "band": "realistic",
+          "operator": "greater_than_or_equal",
+          "value": 2108,
+          "evidence_classification": "foi_verified_historical_guidance"
+        },
+        {
+          "band": "ambitious",
+          "operator": "less_than",
+          "value": 2108,
+          "evidence_classification": "foi_verified_historical_guidance"
+        }
+      ]
+    },
+    {
+      "pool_id": "home_standard_non_graduate",
+      "priority": 10,
+      "applicant_match": {
+        "all_group_ids": [
+          "home_fee"
+        ],
+        "excluded_group_ids": [
+          "contextual",
+          "widening_participation",
+          "graduate_applicant"
+        ]
+      },
+      "metric": "ucat_total",
+      "official_candidate_decile_guidance": {
+        "min": 4,
+        "max": 6,
+        "executable": false,
+        "reason": "Candidate-pool deciles cannot be calculated without the live Liverpool pool distribution."
+      },
+      "historical_cutoff": {
+        "entry_cycle": "E2025",
+        "value": 1935,
+        "evidence_classification": "foi_verified_historical_guidance"
+      },
+      "band_rules": [
+        {
+          "band": "very_strong_interview_potential",
+          "operator": "greater_than_or_equal",
+          "value": 2035,
+          "evidence_classification": "applysmart_interpretation_of_foi_verified_historical_guidance"
+        },
+        {
+          "band": "interview_likely",
+          "operator": "between_inclusive",
+          "min": 1965,
+          "max": 2034,
+          "evidence_classification": "applysmart_interpretation_of_foi_verified_historical_guidance"
+        },
+        {
+          "band": "realistic",
+          "operator": "between_inclusive",
+          "min": 1935,
+          "max": 1964,
+          "evidence_classification": "foi_verified_historical_guidance"
+        },
+        {
+          "band": "ambitious",
+          "operator": "less_than",
+          "value": 1935,
+          "evidence_classification": "foi_verified_historical_guidance"
+        }
+      ]
+    }
+  ]
+}

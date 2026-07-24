@@ -1,0 +1,1038 @@
+{
+  "schema_version": "1.0.0",
+  "profile_id": "sunderland-a100",
+  "profile_status": "production_ready_eligibility_and_interview_guidance",
+  "verification_status": "official_and_foi_verified_exact_scoring_undisclosed",
+  "last_updated": "2026-07-18",
+  "university": {
+    "name": "University of Sunderland",
+    "slug": "sunderland",
+    "country": "United Kingdom",
+    "nation": "England",
+    "institution_type": "University",
+    "website_url": "https://www.sunderland.ac.uk/"
+  },
+  "course": {
+    "name": "MBChB Medicine",
+    "ucas_code": "A100",
+    "entry_route": "standard_entry",
+    "qualification_awarded": "MBChB",
+    "duration_years": 5,
+    "campus": "Sunderland",
+    "location": "Sunderland, England",
+    "entry_year": 2027,
+    "fee_statuses": [
+      "home"
+    ],
+    "is_gateway_or_foundation": false,
+    "is_graduate_entry": false,
+    "notes": "A100 standard-entry MBChB only. International applicants are not accepted. Graduates apply through the same A100 code and use a documented A100 graduate route; there is no separate graduate-entry UCAS course in this profile."
+  },
+  "medical_school": {
+    "name": "School of Medicine, University of Sunderland",
+    "source_ids": [
+      "sunderland_research_doc",
+      "sunderland_admissions_policy_2026_27"
+    ]
+  },
+  "applicant_pools": [
+    {
+      "pool_id": "home_a100",
+      "applies_to_group_ids": [
+        "home_fee",
+        "england_domiciled",
+        "scotland_domiciled",
+        "wales_domiciled",
+        "northern_ireland_domiciled",
+        "rest_of_uk"
+      ],
+      "excluded_group_ids": [
+        "international_fee"
+      ],
+      "selection_relevance": "Home applicants who meet the academic, UCAT and SJT gates are shortlisted through Sunderland's assessed Interview Selection Tool."
+    },
+    {
+      "pool_id": "graduate_a100_same_course",
+      "applies_to_group_ids": [
+        "home_fee",
+        "graduate_applicant"
+      ],
+      "excluded_group_ids": [
+        "international_fee"
+      ],
+      "selection_relevance": "Graduates apply to A100. The standard route is degree plus BBB A-level and GCSE science evidence; GAMSAT is only a compensatory fallback for exactly one specified academic shortfall."
+    }
+  ],
+  "applies_to_group_ids": [
+    "england_domiciled",
+    "scotland_domiciled",
+    "wales_domiciled",
+    "northern_ireland_domiciled",
+    "home_fee",
+    "rest_of_uk",
+    "contextual",
+    "widening_participation",
+    "care_experienced",
+    "graduate_applicant",
+    "school_leaver",
+    "mature_applicant",
+    "resit_applicant"
+  ],
+  "stage_1_eligibility": {
+    "verification_status": "official_source_verified_with_documented_gaps",
+    "source_ids": [
+      "sunderland_course_page_2027",
+      "sunderland_applying_for_medicine",
+      "sunderland_admissions_policy_2026_27",
+      "sunderland_interview_selection_tool"
+    ],
+    "explicitly_blocked_applicant_group_ids": [
+      "international_fee"
+    ],
+    "overall_policy": {
+      "status": "official_rules_mapped_with_interview_selection_tool_limitation",
+      "description": "Sunderland applies an academic screen, a UCAT top-eight national deciles gate, SJT Band 1-3 gate and an assessed Interview Selection Tool before interview. Academic qualifications are eligibility gates only and are not numerically scored by ApplySmart.",
+      "not_eligible_if": [
+        "The applicant is International fee status.",
+        "The applicable GCSE, A-level, Scottish, IB or graduate A100 route is not met.",
+        "The applicant is below the UCAT top-eight-deciles gate represented by the current official UCAT national decile table.",
+        "The UCAT SJT result is Band 4.",
+        "An initial deferred-entry application is supplied."
+      ],
+      "source_ids": [
+        "sunderland_admissions_policy_2026_27",
+        "sunderland_course_page_2027"
+      ]
+    },
+    "gcse": {
+      "status": "official_source_verified",
+      "source_ids": [
+        "sunderland_course_page_2027",
+        "sunderland_applying_for_medicine"
+      ],
+      "qualification_scope": [
+        "GCSE",
+        "Accepted equivalent Level 2 qualifications"
+      ],
+      "minimum_count": 5,
+      "minimum_count_at_or_above_grade": {
+        "requirement_id": "five_gcse_grade_7_or_a",
+        "count": 5,
+        "minimum_grade": "7/A",
+        "decision_outcome_if_not_met": "not_eligible"
+      },
+      "mandatory_subject_ids": [
+        "english_language",
+        "mathematics",
+        "science"
+      ],
+      "grade_requirements": [
+        {
+          "requirement_id": "gcse_english_language_minimum",
+          "subject_id": "english_language",
+          "minimum_grade": "6/B",
+          "qualification_level": "gcse_or_equivalent",
+          "decision_outcome_if_not_met": "not_eligible"
+        },
+        {
+          "requirement_id": "gcse_mathematics_minimum",
+          "subject_id": "mathematics",
+          "minimum_grade": "6/B",
+          "qualification_level": "gcse_or_equivalent",
+          "decision_outcome_if_not_met": "not_eligible"
+        }
+      ],
+      "science_requirement": {
+        "requirement_id": "gcse_science_minimum",
+        "requirement_type": "any_of",
+        "minimum_options_required": 1,
+        "accepted_options": [
+          {
+            "option_id": "separate_biology_chemistry_physics",
+            "grade_requirements": [
+              {
+                "subject_id": "biology",
+                "minimum_grade": "6/B"
+              },
+              {
+                "subject_id": "chemistry",
+                "minimum_grade": "6/B"
+              },
+              {
+                "subject_id": "physics",
+                "minimum_grade": "6/B"
+              }
+            ]
+          },
+          {
+            "option_id": "combined_science_double_award",
+            "subject_id": "combined_science",
+            "minimum_grade_profile": [
+              "6",
+              "6"
+            ],
+            "accepted_equivalent_profile": [
+              "B",
+              "B"
+            ],
+            "counts_as_gcse_subjects": 2
+          }
+        ],
+        "decision_outcome_if_not_met": "not_eligible"
+      },
+      "accepted_equivalencies": [
+        "Accepted GCSE equivalents",
+        "Combined Science double award at 6-6/B-B"
+      ],
+      "sitting_policy": "GCSE resits are accepted before application with a maximum of two attempts per subject.",
+      "achieved_or_predicted": "achieved",
+      "selection_role": "eligibility_only",
+      "scored_after_eligibility": false,
+      "notes": "GCSEs are not numerically scored for interview selection."
+    },
+    "post_16": {
+      "status": "official_source_verified_with_documented_gaps",
+      "source_ids": [
+        "sunderland_course_page_2027",
+        "sunderland_applying_for_medicine"
+      ],
+      "accepted_qualification_types": [
+        "a_level",
+        "international_baccalaureate",
+        "scottish_highers",
+        "advanced_highers",
+        "degree"
+      ],
+      "a_level": {
+        "status": "official_source_verified",
+        "source_ids": [
+          "sunderland_course_page_2027"
+        ],
+        "standard_offer": {
+          "grade_profile": [
+            "A",
+            "A",
+            "A"
+          ],
+          "notes": "AAA including Biology or Chemistry plus one further designated science and a third academic subject."
+        },
+        "contextual_offer": {
+          "applies_to_group_ids": [
+            "home_fee",
+            "contextual"
+          ],
+          "grade_profile": [
+            "A",
+            "A",
+            "B"
+          ],
+          "notes": "Contextual academic adjustment only; no UCAT, IST or interview guarantee uplift is applied."
+        },
+        "grade_requirements": [
+          {
+            "requirement_id": "sunderland_standard_aaa",
+            "excluded_group_ids": [
+              "contextual",
+              "widening_participation",
+              "graduate_applicant"
+            ],
+            "grade_profile": [
+              "A",
+              "A",
+              "A"
+            ],
+            "one_of_subject_groups": [
+              {
+                "group_id": "biology_or_chemistry_primary",
+                "minimum_required": 1,
+                "subject_ids": [
+                  "biology",
+                  "chemistry"
+                ]
+              },
+              {
+                "group_id": "two_designated_sciences",
+                "minimum_required": 2,
+                "subject_ids": [
+                  "biology",
+                  "chemistry",
+                  "physics",
+                  "mathematics",
+                  "further_mathematics"
+                ],
+                "notes": "Statistics is also accepted by Sunderland but has no frozen subject-catalog ID."
+              }
+            ],
+            "excluded_subject_ids": [
+              "general_studies"
+            ],
+            "decision_outcome_if_not_met": "not_eligible"
+          },
+          {
+            "requirement_id": "sunderland_contextual_aab",
+            "applies_to_group_ids": [
+              "home_fee",
+              "contextual"
+            ],
+            "excluded_group_ids": [
+              "international_fee",
+              "graduate_applicant"
+            ],
+            "grade_profile": [
+              "A",
+              "A",
+              "B"
+            ],
+            "one_of_subject_groups": [
+              {
+                "group_id": "biology_or_chemistry_primary",
+                "minimum_required": 1,
+                "subject_ids": [
+                  "biology",
+                  "chemistry"
+                ]
+              },
+              {
+                "group_id": "two_designated_sciences",
+                "minimum_required": 2,
+                "subject_ids": [
+                  "biology",
+                  "chemistry",
+                  "physics",
+                  "mathematics",
+                  "further_mathematics"
+                ]
+              }
+            ],
+            "excluded_subject_ids": [
+              "general_studies"
+            ],
+            "decision_outcome_if_not_met": "not_eligible"
+          }
+        ],
+        "excluded_subject_ids": [
+          "general_studies"
+        ],
+        "science_practical_endorsement_required": true,
+        "predicted_grades_accepted": true,
+        "achieved_grades_accepted": true,
+        "selection_role": "eligibility_only",
+        "notes": "A-levels must be in one sitting, within two years and within the past five years. ApplySmart records the timing requirement and relies on resit/timing evidence where supplied."
+      },
+      "ib": {
+        "status": "official_source_verified",
+        "source_ids": [
+          "sunderland_course_page_2027"
+        ],
+        "total_points": 35,
+        "hl_points": null,
+        "grade_requirements": [
+          {
+            "requirement_id": "sunderland_ib_35_hl66",
+            "total_points": 35,
+            "hl_grade_profile": [
+              "6",
+              "6"
+            ],
+            "one_of_hl_subject_groups": [
+              {
+                "group_id": "biology_or_chemistry_primary",
+                "minimum_required": 1,
+                "subject_ids": [
+                  "biology",
+                  "chemistry"
+                ]
+              },
+              {
+                "group_id": "two_designated_sciences",
+                "minimum_required": 2,
+                "subject_ids": [
+                  "biology",
+                  "chemistry",
+                  "physics",
+                  "mathematics"
+                ]
+              }
+            ],
+            "decision_outcome_if_not_met": "not_eligible",
+            "notes": "SL 6,6,5 and HL English grade 6 substitution for GCSE English are recorded as official metadata; the generic classifier executes total points and HL science requirements."
+          }
+        ],
+        "notes": "IB requirements are eligibility gates only."
+      },
+      "scottish": {
+        "status": "official_source_verified",
+        "route_implemented": true,
+        "source_ids": [
+          "sunderland_course_page_2027"
+        ],
+        "higher_offer": {
+          "grade_profile": [
+            "A",
+            "A",
+            "A",
+            "A",
+            "B"
+          ],
+          "notes": "AAAAB by end of S5 including Chemistry/Biology plus a second science at A."
+        },
+        "advanced_higher_offer": {
+          "grade_profile": [
+            "A",
+            "B"
+          ],
+          "notes": "AB in two sciences in S6."
+        },
+        "grade_requirements": [
+          {
+            "requirement_id": "sunderland_advanced_higher_ab_two_sciences",
+            "qualification_level": "advanced_higher",
+            "grade_profile": [
+              "A",
+              "B"
+            ],
+            "one_of_subject_groups": [
+              {
+                "group_id": "two_sciences",
+                "minimum_required": 2,
+                "subject_ids": [
+                  "biology",
+                  "chemistry",
+                  "physics",
+                  "mathematics"
+                ]
+              }
+            ],
+            "decision_outcome_if_not_met": "not_eligible"
+          }
+        ],
+        "notes": "National 5 requirements are recorded under stage_1_eligibility.national_5."
+      },
+      "btec": {
+        "status": "not_accepted_as_level_3_entry_route",
+        "source_ids": [
+          "sunderland_course_page_2027"
+        ],
+        "accepted_subject_ids": [],
+        "accepted_combinations": [],
+        "notes": "No accepted BTEC-only route was found in the supplied research."
+      },
+      "access_to_he": {
+        "status": "not_accepted_as_level_3_entry_route",
+        "source_ids": [
+          "sunderland_course_page_2027"
+        ],
+        "total_credits": null,
+        "distinction_credits": null,
+        "merit_credits": null,
+        "subject_credit_requirements": [],
+        "notes": "No accepted Access to HE route was found in the supplied research."
+      },
+      "graduate": {
+        "status": "official_source_verified",
+        "source_ids": [
+          "sunderland_applying_for_medicine",
+          "sunderland_admissions_policy_2026_27"
+        ],
+        "applies_to_group_ids": [
+          "graduate_applicant",
+          "home_fee"
+        ],
+        "minimum_classification": "2_1",
+        "accepted_degree_subject_ids": [],
+        "degree_requirement": {
+          "minimum_classification": "2_1",
+          "recognised_institution_required": true,
+          "accepted_degree_statuses": [
+            "completed",
+            "achieved",
+            "predicted"
+          ],
+          "maximum_age_at_course_start_years": 5,
+          "notes": "Any degree subject accepted where the degree is completed within the documented permitted period."
+        },
+        "a_level_requirement": {
+          "grade_profile": [
+            "B",
+            "B",
+            "B"
+          ],
+          "one_of_subject_groups": [
+            {
+              "group_id": "biology_or_chemistry_primary",
+              "minimum_required": 1,
+              "subject_ids": [
+                "biology",
+                "chemistry"
+              ]
+            },
+            {
+              "group_id": "two_designated_sciences",
+              "minimum_required": 2,
+              "subject_ids": [
+                "biology",
+                "chemistry",
+                "physics",
+                "mathematics",
+                "further_mathematics"
+              ]
+            }
+          ]
+        },
+        "compensatory_admissions_test_policy": {
+          "enabled": true,
+          "policy_type": "graduate_standard_route_then_single_academic_deficiency_compensation",
+          "standard_route_evaluated_first": true,
+          "compensable_deficiencies": [
+            "a_level_requirements_not_met",
+            "gcse_science_alternative_not_met"
+          ],
+          "maximum_compensable_deficiencies": 1,
+          "ucat_remains_required": true,
+          "sjt_remains_required": true,
+          "standard_route": {
+            "degree_requirement": {
+              "minimum_classification": "2_1",
+              "recognised_institution_required": true,
+              "accepted_degree_statuses": [
+                "completed",
+                "achieved",
+                "predicted"
+              ],
+              "maximum_age_at_course_start_years": 5
+            },
+            "a_level_requirement": {
+              "grade_profile": [
+                "B",
+                "B",
+                "B"
+              ],
+              "one_of_subject_groups": [
+                {
+                  "group_id": "biology_or_chemistry_primary",
+                  "minimum_required": 1,
+                  "subject_ids": [
+                    "biology",
+                    "chemistry"
+                  ]
+                },
+                {
+                  "group_id": "two_designated_sciences",
+                  "minimum_required": 2,
+                  "subject_ids": [
+                    "biology",
+                    "chemistry",
+                    "physics",
+                    "mathematics",
+                    "further_mathematics"
+                  ]
+                }
+              ]
+            }
+          },
+          "compensatory_test": {
+            "test_id": "gamsat",
+            "minimum_section_score": 50,
+            "section_count": 3,
+            "accepted_thresholds": [
+              {
+                "threshold_id": "overall_55_section_3_58",
+                "overall_minimum": 55,
+                "section_minimums": [
+                  {
+                    "section": 3,
+                    "minimum": 58
+                  }
+                ]
+              },
+              {
+                "threshold_id": "overall_58_section_3_55",
+                "overall_minimum": 58,
+                "section_minimums": [
+                  {
+                    "section": 3,
+                    "minimum": 55
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "decision_outcome_if_not_met": "not_eligible",
+        "notes": "GAMSAT is not required when the standard graduate route passes. It can compensate only an A-level or GCSE science shortfall, not both and not degree, UCAT or SJT deficiencies."
+      },
+      "notes": "Academic routes are eligibility gates only. Sunderland does not publish an academic points score for interview shortlisting."
+    },
+    "national_5": {
+      "status": "official_source_verified",
+      "minimum_count": 5,
+      "confirmed_mandatory_subject_ids": [
+        "english_language",
+        "mathematics",
+        "biology",
+        "chemistry",
+        "physics"
+      ],
+      "grade_requirements": [
+        {
+          "subject_id": "english_language",
+          "minimum_grade": "B"
+        },
+        {
+          "subject_id": "mathematics",
+          "minimum_grade": "B"
+        },
+        {
+          "subject_id": "biology",
+          "minimum_grade": "B"
+        },
+        {
+          "subject_id": "chemistry",
+          "minimum_grade": "B"
+        },
+        {
+          "subject_id": "physics",
+          "minimum_grade": "B"
+        }
+      ],
+      "notes": "National 5 profile requires five subjects at grade A with mandatory science, English and Mathematics at least B. The current generic classifier executes mandatory subject presence; the full grade detail is retained here."
+    },
+    "admissions_tests": {
+      "source_ids": [
+        "sunderland_admissions_policy_2026_27",
+        "ucat_consortium_test_statistics"
+      ],
+      "ucat": {
+        "required": true,
+        "minimum_total_score": 1680,
+        "minimum_subsection_scores": [],
+        "maximum_total_score": 2700,
+        "score_used_for_ranking": false,
+        "validity_window": "current admissions cycle",
+        "exemptions": [],
+        "decision_outcome_if_not_met": "not_eligible",
+        "notes": "Executable threshold represents the top-eight-national-deciles rule using the current official UCAT 2700-scale national decile table available to ApplySmart. Sunderland's adjusted 2020-2024 UCAT values are historical guidance only, not current fixed cut-offs."
+      },
+      "sjt": {
+        "used": true,
+        "used_as_gate": true,
+        "accepted_bands": [
+          1,
+          2,
+          3
+        ],
+        "excluded_bands": [
+          4
+        ],
+        "scoring": {
+          "used_in_score": false,
+          "points_by_band": {}
+        },
+        "decision_outcome_if_excluded": "not_eligible",
+        "notes": "SJT Band 4 is not accepted. Bands 1-3 satisfy the SJT gate."
+      },
+      "other_tests": []
+    },
+    "resits": {
+      "policy": "allowed_with_route_specific_conditions",
+      "source_ids": [
+        "sunderland_course_page_2027"
+      ],
+      "allowed": true,
+      "conditions": [
+        "GCSE resits accepted before application, maximum two attempts per subject.",
+        "A-level resit limited to the worst-grade subject and one attempt where AAB was achieved first sitting, or BBC for graduate applicants."
+      ],
+      "maximum_resits": 1,
+      "applies_to_group_ids": [
+        "home_fee"
+      ],
+      "decision_outcome_if_not_allowed": "not_eligible",
+      "notes": "A-level one-sitting and timing requirements are recorded as evidence; ApplySmart executes the represented resit threshold when resit evidence is supplied."
+    },
+    "english_language": {
+      "source_ids": [],
+      "applies_to_group_ids": [],
+      "accepted_tests": [],
+      "exemptions": [],
+      "decision_outcome_if_not_met": "not_eligible",
+      "notes": "International applicants are not accepted, so international English-language test handling is not used for A100."
+    },
+    "age_or_professional_checks": {
+      "source_ids": [
+        "sunderland_course_page_2027"
+      ],
+      "minimum_age": null,
+      "fitness_to_practise_required": true,
+      "dbs_required": true,
+      "occupational_health_required": true,
+      "decision_outcome_if_not_met": "not_eligible",
+      "notes": "DBS, health declaration and good-conduct checks are required after academic/interview selection as professional checks."
+    },
+    "deferred_entry": {
+      "initial_deferred_application": {
+        "accepted": false,
+        "source_ids": [
+          "ucas_sunderland_a100"
+        ]
+      }
+    }
+  },
+  "stage_2_interview_selection": {
+    "verification_status": "official_and_foi_verified_exact_scoring_undisclosed",
+    "source_ids": [
+      "sunderland_admissions_policy_2026_27",
+      "sunderland_interview_selection_tool",
+      "sunderland_foi_2022_admission_statistics"
+    ],
+    "primary_model": "holistic_review",
+    "modifiers": [
+      "sjt_band_4_exclusion"
+    ],
+    "ranking_factors": [
+      {
+        "factor_id": "ucat_top_eight_deciles_gate",
+        "factor_type": "eligibility_gate",
+        "weight_percent": null,
+        "points_available": null,
+        "source_field": "admissions_tests.ucat.total_score",
+        "source_ids": [
+          "sunderland_admissions_policy_2026_27"
+        ],
+        "notes": "UCAT is a hard top-eight-national-deciles gate, not a published current-cycle fixed score used alone for interview ranking."
+      },
+      {
+        "factor_id": "interview_selection_tool",
+        "factor_type": "assessed_shortlisting_component",
+        "weight_percent": null,
+        "points_available": null,
+        "source_field": "not_collected_by_applysmart",
+        "source_ids": [
+          "sunderland_admissions_policy_2026_27",
+          "sunderland_interview_selection_tool"
+        ],
+        "notes": "Admissions Tutors assess care/support/service engagement, responsibility and open-ended SJT-style written responses. The numeric formula and threshold are unpublished."
+      }
+    ],
+    "calculation": {
+      "verification_status": "official_source_verified_with_documented_gaps",
+      "source_ids": [
+        "sunderland_admissions_policy_2026_27"
+      ],
+      "score_components": [],
+      "total_score": {
+        "calculation_method": "not_published",
+        "components": [
+          "interview_selection_tool"
+        ],
+        "scale": {
+          "min": null,
+          "max": null
+        },
+        "notes": "No numeric IST score, UCAT weighting or shortlisting cut-score is published. ApplySmart does not fabricate one.",
+        "source_ids": [
+          "sunderland_admissions_policy_2026_27"
+        ]
+      },
+      "notes": "ApplySmart can confirm eligibility gates and historical UCAT context only; it cannot score or rank the applicant's IST."
+    },
+    "thresholds": [
+      {
+        "threshold_id": "ucat_top_eight_national_deciles",
+        "factor_id": "ucat_total",
+        "threshold_type": "official_national_decile_gate",
+        "value": 1680,
+        "scale": {
+          "min": 900,
+          "max": 2700
+        },
+        "decision_outcome_if_not_met": "not_eligible",
+        "notes": "Data-driven representation of the top-eight-national-deciles gate using the current UCAT national decile table available to ApplySmart. Not a Sunderland fixed 2027 cut-off."
+      }
+    ],
+    "selection_adjustments": [],
+    "tie_breakers": [],
+    "output_band_policy": "eligibility_gates_then_ist_limited_insufficient_evidence",
+    "academic_scoring": {
+      "applies": false,
+      "notes": "GCSE and A-level data are gates only."
+    },
+    "notes": "Eligible applicants still need a satisfactory assessed Interview Selection Tool. Sunderland states shortlisting is based on that tool after the academic, UCAT and SJT gates."
+  },
+  "contextual_admissions": {
+    "verification_status": "official_source_verified",
+    "available": true,
+    "source_ids": [
+      "sunderland_course_page_2027"
+    ],
+    "applies_to_group_ids": [
+      "home_fee",
+      "contextual"
+    ],
+    "criteria": [
+      "Verified contextual or widening-participation status"
+    ],
+    "adjustments": [
+      {
+        "adjustment_id": "contextual_a_level_aab",
+        "applies_to_group_ids": [
+          "home_fee",
+          "contextual"
+        ],
+        "adjustment_type": "lower_academic_threshold",
+        "standard_requirement": "AAA",
+        "contextual_requirement": "AAB",
+        "notes": "No UCAT uplift, IST uplift, points bonus, separate interview pool or guaranteed interview is applied."
+      }
+    ],
+    "guaranteed_interview_rules": [],
+    "notes": "Contextual status adjusts academic threshold only."
+  },
+  "ranking_pools": [
+    {
+      "pool_id": "home_a100",
+      "name": "Home A100 applicants",
+      "applies_to_group_ids": [
+        "home_fee"
+      ],
+      "fee_statuses": [
+        "home"
+      ],
+      "ranking_model": "holistic_review",
+      "ranking_factors": [
+        "Interview Selection Tool after academic, UCAT and SJT gates"
+      ],
+      "places_available": 117,
+      "source_ids": [
+        "sunderland_course_page_2027",
+        "sunderland_admissions_policy_2026_27"
+      ],
+      "notes": "No separate International pool because International applicants are not accepted."
+    }
+  ],
+  "quotas": [
+    {
+      "quota_id": "sunderland_a100_places_2027_entry_verified",
+      "name": "Verified Home/International places (2027 entry)",
+      "home_places": 117,
+      "quota_type": "verified_current_places",
+      "source_ids": [
+        "applysmart_admissions_team_verified_2026"
+      ],
+      "notes": "Home/International place figures verified by the ApplySmart admissions research team for 2027 entry."
+    },
+    {
+      "quota_id": "home_places_2027",
+      "applies_to_group_ids": [
+        "home_fee"
+      ],
+      "places": 117,
+      "source_ids": [
+        "sunderland_course_page_2027"
+      ],
+      "notes": "Published home places for 2027 entry."
+    }
+  ],
+  "offer_selection": {
+    "verification_status": "official_source_verified_with_documented_gaps",
+    "source_ids": [
+      "sunderland_admissions_policy_2026_27",
+      "sunderland_foi_waiting_list"
+    ],
+    "interview_format": "MMI, in-person only",
+    "interview_scoring": "MMI performance drives final post-interview ranking; numeric weighting not published.",
+    "offer_model": "post_interview_mmi_ranking",
+    "ranking_factors": [
+      "MMI performance"
+    ],
+    "tie_breakers": [],
+    "waiting_list_policy": "Reserve list operated historically per 2022 FOI; latest current-cycle confirmation not found.",
+    "standard_offer": "AAA",
+    "contextual_offer": "AAB",
+    "offer_prediction_scope": "out_of_scope",
+    "notes": "ApplySmart does not predict offers, MMI outcomes or reserve-list outcomes."
+  },
+  "historical_admissions": {
+    "verification_status": "mixed_official_and_historical_guidance",
+    "source_ids": [
+      "sunderland_foi_2022_admission_statistics",
+      "sunderland_foi_waiting_list",
+      "sunderland_course_page_2027"
+    ],
+    "cycles": [
+      {
+        "entry_year": 2020,
+        "adjusted_minimum_ucat_2700": 1690,
+        "evidence_classification": "official_published_historical_guidance",
+        "usable_for_guidance_band_calibration": false,
+        "notes": "Sunderland-published adjusted historical value; not a current cut-off."
+      },
+      {
+        "entry_year": 2021,
+        "adjusted_minimum_ucat_2700": 1670,
+        "evidence_classification": "official_published_historical_guidance",
+        "usable_for_guidance_band_calibration": false,
+        "notes": "Sunderland-published adjusted historical value; not a current cut-off."
+      },
+      {
+        "entry_year": 2022,
+        "applications": 709,
+        "interviews": 518,
+        "offers": 155,
+        "adjusted_minimum_ucat_2700": 1650,
+        "evidence_classification": "foi_and_official_published_historical_guidance",
+        "usable_for_guidance_band_calibration": false,
+        "notes": "FOI confirms applications/interviews/offers; UCAT value is historical guidance only."
+      },
+      {
+        "entry_year": 2023,
+        "adjusted_minimum_ucat_2700": 1680,
+        "evidence_classification": "official_published_historical_guidance",
+        "usable_for_guidance_band_calibration": false,
+        "notes": "Sunderland-published adjusted historical value; not a current cut-off."
+      },
+      {
+        "entry_year": 2024,
+        "adjusted_minimum_ucat_2700": 1670,
+        "evidence_classification": "official_published_historical_guidance",
+        "usable_for_guidance_band_calibration": false,
+        "notes": "Sunderland-published adjusted historical value; not a current cut-off."
+      }
+    ],
+    "notes": "Historical UCAT values are displayed only as contextual guidance. They are not converted, recalibrated or used as guaranteed interview thresholds."
+  },
+  "sources": [
+    {
+      "source_id": "sunderland_course_page_2027",
+      "title": "MBChB Medicine 2027/28",
+      "url": "https://www.sunderland.ac.uk/undergraduate/mbchb-medicine/",
+      "source_type": "official_course_page",
+      "published_date": null,
+      "accessed_date": "2026-07-16",
+      "applies_to_sections": [
+        "course_identity",
+        "academic_requirements",
+        "contextual_admissions"
+      ],
+      "confidence": "official",
+      "notes": "Supplied Sunderland research file."
+    },
+    {
+      "source_id": "sunderland_applying_for_medicine",
+      "title": "Applying for Medicine",
+      "url": "https://www.sunderland.ac.uk/how-to-apply/applying-for-medicine/",
+      "source_type": "official_admissions_page",
+      "published_date": null,
+      "accessed_date": "2026-07-16",
+      "applies_to_sections": [
+        "academic_requirements",
+        "graduate_route",
+        "ucat_policy"
+      ],
+      "confidence": "official",
+      "notes": "Supplied Sunderland research file."
+    },
+    {
+      "source_id": "sunderland_admissions_policy_2026_27",
+      "title": "Admissions Policy 2026/27 Appendix G",
+      "url": "https://www.sunderland.ac.uk/how-to-apply/admissions-policy/",
+      "source_type": "official_admissions_policy",
+      "published_date": "2026",
+      "accessed_date": "2026-07-16",
+      "applies_to_sections": [
+        "selection_model",
+        "ucat_policy",
+        "sjt_policy",
+        "interview_selection_tool"
+      ],
+      "confidence": "official",
+      "notes": "Source identified by supplied research."
+    },
+    {
+      "source_id": "sunderland_interview_selection_tool",
+      "title": "What is the interview selection tool?",
+      "url": "https://www.sunderland.ac.uk/help/school-of-medicine/interviews/interview-selection-tool/",
+      "source_type": "official_admissions_page",
+      "published_date": null,
+      "accessed_date": "2026-07-16",
+      "applies_to_sections": [
+        "interview_selection_tool",
+        "stage_2_interview_selection"
+      ],
+      "confidence": "official",
+      "notes": "Source identified by supplied research."
+    },
+    {
+      "source_id": "sunderland_foi_2022_admission_statistics",
+      "title": "Medicine A100 Admission Statistics 2022",
+      "url": "https://www.whatdotheyknow.com/request/medicine_a100_admission_statisti_68",
+      "source_type": "foi_response",
+      "published_date": "2022",
+      "accessed_date": "2026-07-16",
+      "applies_to_sections": [
+        "historical_admissions"
+      ],
+      "confidence": "foi_verified",
+      "notes": "Applications/interviews/offers for 2022."
+    },
+    {
+      "source_id": "ucat_consortium_test_statistics",
+      "title": "UCAT Test Statistics 2025",
+      "url": "https://www.ucat.ac.uk/results/test-statistics/",
+      "source_type": "official_test_administrator",
+      "published_date": "2025",
+      "accessed_date": "2026-07-16",
+      "applies_to_sections": [
+        "ucat_policy",
+        "national_decile_gate"
+      ],
+      "confidence": "official",
+      "notes": "Current ApplySmart UCAT decile table source."
+    }
+  ],
+  "validation": {
+    "source_status": "official_and_foi_verified",
+    "last_verified": "2026-07-16",
+    "confidence_level": "Medium",
+    "completion_status": "complete_for_supported_scope_with_documented_gaps",
+    "known_unknowns": [
+      "Numeric Interview Selection Tool formula and threshold.",
+      "Recent 2023-2025 application/interview/offer statistics.",
+      "Current status of older personality-assessment wording."
+    ],
+    "review_notes": "Eligibility gates are implementable. Interview shortlisting guidance is intentionally limited because Sunderland's assessed Interview Selection Tool numeric formula and threshold are unpublished."
+  },
+  "engine_notes": {
+    "eligibility": true,
+    "interview_prediction": true,
+    "historical_guidance": true,
+    "international_prediction": false,
+    "contextual_logic": true,
+    "result_card": true,
+    "regression": true,
+    "research_completeness": "complete_for_supported_scope_with_documented_gaps",
+    "manual_review_required": true,
+    "eligibility_ready": true,
+    "interview_prediction_ready": true,
+    "prediction_confidence": "low",
+    "result_card_ready": true,
+    "offer_prediction_scope": "out_of_scope",
+    "interview_band_config_ready": true,
+    "metadata_activation_ready": true,
+    "activation_ready": true,
+    "production_ready": true,
+    "blocked_by_engine_limitation": false,
+    "production_activation_should_remain_blocked": false,
+    "blocking_missing_fields": [],
+    "engine_assumptions": [
+      "UCAT top-eight-national-deciles gate is executed using the current official UCAT national decile threshold table available to ApplySmart.",
+      "Eligible Sunderland applicants remain evidence-limited because ApplySmart cannot score the unpublished Interview Selection Tool."
+    ],
+    "do_not_infer": [
+      "Do not infer an IST score.",
+      "Do not infer a guaranteed interview from UCAT alone.",
+      "Do not predict offers or MMI outcomes.",
+      "Do not use the adjusted 2020-2024 UCAT values as current fixed cut-offs."
+    ]
+  }
+}

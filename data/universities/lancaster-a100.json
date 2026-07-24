@@ -1,0 +1,1631 @@
+{
+  "schema_version": "1.0.0",
+  "profile_id": "lancaster-a100",
+  "profile_status": "activated_for_scoped_eligibility_and_interview_guidance",
+  "verification_status": "official_source_verified_with_remaining_eligibility_exceptions",
+  "last_updated": "2026-07-05",
+  "university": {
+    "name": "Lancaster University",
+    "slug": "lancaster",
+    "country": "United Kingdom",
+    "nation": "England",
+    "institution_type": "University",
+    "website_url": "https://www.lancaster.ac.uk/"
+  },
+  "course": {
+    "name": "Medicine and Surgery MBChB",
+    "ucas_code": "A100",
+    "entry_route": "standard_entry",
+    "qualification_awarded": "MBChB",
+    "duration_years": 5,
+    "campus": "Lancaster",
+    "location": "Lancaster, England",
+    "entry_year": 2027,
+    "fee_statuses": [
+      "home",
+      "international"
+    ],
+    "is_gateway_or_foundation": false,
+    "is_graduate_entry": false,
+    "notes": "Five-year standard-entry A100. Graduates apply through A100 rather than a separate graduate-entry course. A104 and A900 are separate widening-participation routes and are not executable through this profile."
+  },
+  "medical_school": {
+    "name": "Lancaster Medical School",
+    "notes": "Production rules are mapped from the supplied Lancaster A100 research pack and its official first-party sources."
+  },
+  "applicant_pools": [
+    {
+      "pool_id": "home_standard",
+      "applies_to_group_ids": [
+        "home_fee"
+      ],
+      "excluded_group_ids": [
+        "contextual",
+        "widening_participation",
+        "international_fee"
+      ],
+      "selection_relevance": "Eligible applicants are ranked by UCAT cognitive total against the Home non-contextual boundary."
+    },
+    {
+      "pool_id": "home_contextual_wp",
+      "applies_to_group_ids": [
+        "home_fee",
+        "contextual",
+        "widening_participation"
+      ],
+      "excluded_group_ids": [
+        "graduate_applicant",
+        "international_fee"
+      ],
+      "selection_relevance": "University-verified contextual applicants use the lower contextual UCAT boundary."
+    },
+    {
+      "pool_id": "international",
+      "applies_to_group_ids": [
+        "international_fee"
+      ],
+      "selection_relevance": "International applicants are ranked separately and had four places for 2026 entry."
+    },
+    {
+      "pool_id": "graduate_a100",
+      "applies_to_group_ids": [
+        "graduate_applicant"
+      ],
+      "selection_relevance": "Graduates apply through A100 and use the applicable fee-status UCAT pool, but their full academic eligibility requires transcript and prior-qualification review."
+    }
+  ],
+  "applies_to_group_ids": [
+    "england_domiciled",
+    "scotland_domiciled",
+    "wales_domiciled",
+    "northern_ireland_domiciled",
+    "home_fee",
+    "international_fee",
+    "rest_of_uk",
+    "contextual",
+    "widening_participation",
+    "care_experienced",
+    "graduate_applicant",
+    "school_leaver",
+    "resit_applicant",
+    "deferred_entry"
+  ],
+  "stage_1_eligibility": {
+    "verification_status": "official_source_verified_with_remaining_eligibility_exceptions",
+    "source_ids": [
+      "lancaster_admissions_policy_2026",
+      "lancaster_entry_requirements",
+      "lancaster_course_2027"
+    ],
+    "overall_policy": {
+      "status": "official_rules_mapped_with_manual_review_boundaries",
+      "description": "Applicants pass an academic eligibility stage before UCAT ranking. The automated scope covers complete standard A-level school-leaver profiles; cross-qualification science conditions, exceptional-circumstances resits, graduate transcripts and unlisted international equivalences require review.",
+      "not_eligible_if": [
+        "The applicable academic minimum requirements are not met.",
+        "UCAT is not taken in the application cycle.",
+        "The applicant receives SJT Band 4.",
+        "A GCSE resit is presented without a university-approved exceptional-circumstances route.",
+        "The applicant seeks transfer from another degree or medical programme outside Lancaster's narrowly defined restart exception."
+      ],
+      "source_ids": [
+        "lancaster_admissions_policy_2026",
+        "lancaster_entry_requirements",
+        "lancaster_how_to_apply"
+      ]
+    },
+    "gcse": {
+      "status": "official_source_verified_execution_partial",
+      "source_ids": [
+        "lancaster_admissions_policy_2026",
+        "lancaster_entry_requirements"
+      ],
+      "qualification_scope": [
+        "GCSE",
+        "IGCSE"
+      ],
+      "minimum_count": 8,
+      "counted_subject_limit": 8,
+      "mandatory_subject_ids": [
+        "english_language",
+        "mathematics",
+        "science"
+      ],
+      "grade_requirements": [
+        {
+          "requirement_id": "gcse_english_language_minimum",
+          "applies_to_group_ids": [
+            "school_leaver"
+          ],
+          "subject_id": "english_language",
+          "minimum_grade": "6/B",
+          "qualification_level": "gcse_or_igcse_first_language",
+          "decision_outcome_if_not_met": "not_eligible",
+          "source_ids": [
+            "lancaster_admissions_policy_2026",
+            "lancaster_entry_requirements"
+          ],
+          "notes": "Only IGCSE English as a First Language is accepted for the IGCSE English requirement."
+        },
+        {
+          "requirement_id": "gcse_mathematics_minimum",
+          "applies_to_group_ids": [
+            "school_leaver"
+          ],
+          "subject_id": "mathematics",
+          "minimum_grade": "6/B",
+          "qualification_level": "gcse_or_igcse",
+          "decision_outcome_if_not_met": "not_eligible",
+          "source_ids": [
+            "lancaster_admissions_policy_2026",
+            "lancaster_entry_requirements"
+          ],
+          "notes": null
+        }
+      ],
+      "science_requirement": {
+        "requirement_id": "gcse_science_minimum",
+        "requirement_type": "any_of",
+        "minimum_options_required": 1,
+        "accepted_options": [
+          {
+            "option_id": "three_separate_sciences",
+            "minimum_subjects_required": 3,
+            "accepted_subject_ids": [
+              "biology",
+              "chemistry",
+              "physics"
+            ],
+            "minimum_grade": "6/B"
+          },
+          {
+            "option_id": "combined_science_trilogy",
+            "subject_id": "combined_science",
+            "minimum_grade_profile": [
+              "6",
+              "6"
+            ],
+            "accepted_equivalent_profile": [
+              "B",
+              "B"
+            ],
+            "counts_as_gcse_subjects": 2
+          }
+        ],
+        "decision_outcome_if_not_met": "not_eligible",
+        "source_ids": [
+          "lancaster_admissions_policy_2026",
+          "lancaster_entry_requirements"
+        ]
+      },
+      "points_scoring": {
+        "best_subject_count": 8,
+        "minimum_points": 13,
+        "points_by_grade": {
+          "9_to_7_or_a_star_to_a": 2,
+          "6_or_b": 1,
+          "below_6_or_b": 0
+        },
+        "selection_role": "eligibility_gate_only",
+        "source_ids": [
+          "lancaster_admissions_policy_2026"
+        ]
+      },
+      "conditional_grade_requirements": [
+        {
+          "requirement_id": "gcse_biology_7_if_not_studied_higher",
+          "subject_id": "biology",
+          "minimum_grade": "7/A",
+          "condition": "Required where Biology is not studied at A-level, IB Higher Level or Advanced Higher.",
+          "execution_status": "metadata_only_current_engine_cannot_apply_cross_qualification_condition",
+          "source_ids": [
+            "lancaster_entry_requirements"
+          ]
+        },
+        {
+          "requirement_id": "gcse_chemistry_7_if_not_studied_higher",
+          "subject_id": "chemistry",
+          "minimum_grade": "7/A",
+          "condition": "Required where Chemistry is not studied at A-level, IB Higher Level or Advanced Higher.",
+          "execution_status": "metadata_only_current_engine_cannot_apply_cross_qualification_condition",
+          "source_ids": [
+            "lancaster_entry_requirements"
+          ]
+        }
+      ],
+      "eligibility_gate": {
+        "operator": "all",
+        "requirements": [
+          "Eight GCSE subjects.",
+          "At least 13 points from the best eight GCSEs.",
+          "English Language and Mathematics at 6/B.",
+          "Biology, Chemistry and Physics separately or Combined Science: Trilogy at 6/B.",
+          "The conditional Biology and Chemistry grade-7 rule where the subject is absent at higher level."
+        ],
+        "execution_status": "automatic_except_cross_qualification_science_condition_and_non_standard_equivalencies"
+      },
+      "accepted_equivalencies": [
+        "IGCSE, with English as a First Language required for the English condition",
+        "Combined Science: Trilogy as two GCSEs"
+      ],
+      "sitting_policy": "gcse_resits_not_considered_without_evidenced_exceptional_circumstances",
+      "achieved_or_predicted": "achieved",
+      "selection_role": "eligibility_only",
+      "scored_after_eligibility": false,
+      "notes": "The 13-point GCSE score is a minimum academic gate and is not blended with UCAT ranking."
+    },
+    "post_16": {
+      "status": "official_source_verified_with_remaining_eligibility_exceptions",
+      "source_ids": [
+        "lancaster_admissions_policy_2026",
+        "lancaster_entry_requirements",
+        "lancaster_course_2027"
+      ],
+      "accepted_qualification_types": [
+        "a_level",
+        "international_baccalaureate",
+        "scottish_highers",
+        "advanced_highers",
+        "degree",
+        "verified_international_equivalent"
+      ],
+      "a_level": {
+        "status": "official_source_verified_execution_partial",
+        "source_ids": [
+          "lancaster_admissions_policy_2026",
+          "lancaster_entry_requirements",
+          "lancaster_course_2027"
+        ],
+        "stage_1_predicted_minimum": {
+          "grade_profile": [
+            "A",
+            "A",
+            "B"
+          ],
+          "source_ids": [
+            "lancaster_admissions_policy_2026"
+          ],
+          "notes": "Predicted at least AAB is required to progress through Stage 1. This is separate from the eventual standard offer."
+        },
+        "grade_requirements": [
+          {
+            "requirement_id": "a_level_stage_1_predicted_minimum",
+            "applies_to_group_ids": [
+              "school_leaver"
+            ],
+            "excluded_group_ids": [
+              "resit_applicant"
+            ],
+            "grade_profile": [
+              "A",
+              "A",
+              "B"
+            ],
+            "required_subject_ids": [],
+            "one_of_subject_groups": [
+              {
+                "group_id": "two_of_biology_chemistry_psychology",
+                "minimum_required": 2,
+                "subject_ids": [
+                  "biology",
+                  "chemistry",
+                  "psychology"
+                ]
+              }
+            ],
+            "decision_outcome_if_not_met": "not_eligible",
+            "source_ids": [
+              "lancaster_admissions_policy_2026"
+            ],
+            "notes": "Stage 1 predicted-grade gate for interview consideration."
+          },
+          {
+            "requirement_id": "a_level_resit_profile",
+            "applies_to_group_ids": [
+              "resit_applicant"
+            ],
+            "grade_profile": [
+              "A*",
+              "A",
+              "A"
+            ],
+            "required_subject_ids": [],
+            "one_of_subject_groups": [
+              {
+                "group_id": "two_of_biology_chemistry_psychology",
+                "minimum_required": 2,
+                "subject_ids": [
+                  "biology",
+                  "chemistry",
+                  "psychology"
+                ]
+              }
+            ],
+            "decision_outcome_if_not_met": "not_eligible",
+            "source_ids": [
+              "lancaster_admissions_policy_2026"
+            ],
+            "notes": "A-level resits normally require A*AA within three years and first-attempt grades of at least ABB. Exceptional-circumstances cases require review."
+          }
+        ],
+        "standard_offer": {
+          "grade_profile": [
+            "A",
+            "A",
+            "A"
+          ],
+          "source_ids": [
+            "lancaster_admissions_policy_2026",
+            "lancaster_course_2027"
+          ],
+          "notes": "The evidenced alternative is AAB where a fourth AS/A-level subject or EPQ is presented."
+        },
+        "alternative_offer": {
+          "grade_profile": [
+            "A",
+            "A",
+            "B"
+          ],
+          "requires_one_of": [
+            "fourth AS level",
+            "fourth A level",
+            "EPQ"
+          ],
+          "execution_status": "manual_review_required_for_fourth_qualification_evidence",
+          "source_ids": [
+            "lancaster_admissions_policy_2026"
+          ]
+        },
+        "contextual_offer": {
+          "applies_to_group_ids": [
+            "contextual",
+            "widening_participation"
+          ],
+          "grade_profile": [
+            "A",
+            "B",
+            "B"
+          ],
+          "source_ids": [
+            "lancaster_admissions_policy_2026"
+          ],
+          "notes": "Final contextual offer after successful interview; it does not replace the Stage 1 academic screen."
+        },
+        "required_subject_ids": [],
+        "one_of_subject_groups": [
+          {
+            "group_id": "two_of_biology_chemistry_psychology",
+            "minimum_required": 2,
+            "subject_ids": [
+              "biology",
+              "chemistry",
+              "psychology"
+            ],
+            "notes": "Any two of the three named subjects."
+          }
+        ],
+        "excluded_subject_ids": [],
+        "excluded_subject_names_for_core_three": [
+          "General Studies",
+          "Critical Thinking"
+        ],
+        "third_subject_rules": "Any third full A level is accepted subject to the published exclusions. General Studies and Critical Thinking may only be a fourth subject.",
+        "full_a_levels_counted_for_offer": 3,
+        "science_practical_endorsement_required": null,
+        "predicted_grades_accepted": true,
+        "execution_status": "stage_1_grade_and_subject_profile_executable_fourth_qualification_and_cross_qualification_conditions_manual",
+        "notes": "The official evidence supplied does not state a science practical-endorsement requirement, so none is enforced."
+      },
+      "ib": {
+        "status": "official_source_verified_execution_partial",
+        "source_ids": [
+          "lancaster_entry_requirements"
+        ],
+        "total_points": null,
+        "hl_points": 18,
+        "grade_requirements": [
+          {
+            "requirement_id": "ib_higher_level_minimum",
+            "applies_to_group_ids": [
+              "school_leaver"
+            ],
+            "total_points": null,
+            "higher_level_grade_profile": [
+              6,
+              6,
+              6
+            ],
+            "required_hl_subject_ids": [],
+            "one_of_hl_subject_groups": [
+              {
+                "group_id": "two_of_biology_chemistry_psychology",
+                "minimum_required": 2,
+                "subject_ids": [
+                  "biology",
+                  "chemistry",
+                  "psychology"
+                ]
+              }
+            ],
+            "standard_level_grade_profile": [
+              5,
+              5,
+              5
+            ],
+            "decision_outcome_if_not_met": "not_eligible",
+            "source_ids": [
+              "lancaster_entry_requirements"
+            ],
+            "notes": "No separate total-points threshold was supplied; all three HL subjects require 6 and all three SL subjects require 5."
+          }
+        ],
+        "required_hl_subject_ids": [],
+        "one_of_hl_subject_groups": [
+          {
+            "group_id": "two_of_biology_chemistry_psychology",
+            "minimum_required": 2,
+            "subject_ids": [
+              "biology",
+              "chemistry",
+              "psychology"
+            ]
+          }
+        ],
+        "execution_status": "metadata_complete_automatic_execution_limited_by_total_points_and_standard_level_contract",
+        "notes": "IB profiles require review until the engine can enforce the published no-total-points route and all Standard Level conditions without inventing a total."
+      },
+      "scottish": {
+        "status": "official_source_verified_execution_partial",
+        "source_ids": [
+          "lancaster_entry_requirements"
+        ],
+        "higher_offer": {
+          "grade_profile": [
+            "A",
+            "A",
+            "A",
+            "A",
+            "B"
+          ],
+          "source_ids": [
+            "lancaster_entry_requirements"
+          ],
+          "notes": "Five Highers at one sitting after one year, with Biology and Chemistry both at A."
+        },
+        "advanced_higher_offer": {
+          "grade_profile": [
+            "A",
+            "A"
+          ],
+          "source_ids": [
+            "lancaster_entry_requirements"
+          ],
+          "notes": "Biology and Chemistry, both at A, at one sitting after one year."
+        },
+        "grade_requirements": [
+          {
+            "requirement_id": "scottish_highers_route",
+            "applies_to_group_ids": [
+              "scotland_domiciled"
+            ],
+            "qualification_level": "scottish_highers",
+            "grade_profile": [
+              "A",
+              "A",
+              "A",
+              "A",
+              "B"
+            ],
+            "required_subject_ids": [
+              "biology",
+              "chemistry"
+            ],
+            "subject_grade_requirements": [
+              {
+                "subject_id": "biology",
+                "minimum_grade": "A"
+              },
+              {
+                "subject_id": "chemistry",
+                "minimum_grade": "A"
+              }
+            ],
+            "decision_outcome_if_not_met": "not_eligible",
+            "source_ids": [
+              "lancaster_entry_requirements"
+            ]
+          },
+          {
+            "requirement_id": "scottish_advanced_highers_route",
+            "applies_to_group_ids": [
+              "scotland_domiciled"
+            ],
+            "qualification_level": "advanced_highers",
+            "grade_profile": [
+              "A",
+              "A"
+            ],
+            "required_subject_ids": [
+              "biology",
+              "chemistry"
+            ],
+            "decision_outcome_if_not_met": "not_eligible",
+            "source_ids": [
+              "lancaster_entry_requirements"
+            ]
+          }
+        ],
+        "required_subject_ids": [
+          "biology",
+          "chemistry"
+        ],
+        "one_of_subject_groups": [],
+        "execution_status": "metadata_complete_current_engine_does_not_enforce_subject_specific_grades_and_sitting_timing",
+        "notes": "National 5 English and Mathematics require A or B. Full route eligibility requires review of timing and subject-specific grades."
+      },
+      "degree": {
+        "status": "official_source_verified_execution_partial",
+        "source_ids": [
+          "lancaster_admissions_policy_2026"
+        ],
+        "applies_to_group_ids": [
+          "graduate_applicant"
+        ],
+        "minimum_classification": "2:1",
+        "minimum_transcript_average_percent": 65,
+        "a_level_requirements": [
+          {
+            "degree_subject_group": "biological_biomedical_health_science",
+            "grade_profile": [
+              "B",
+              "B",
+              "B"
+            ],
+            "minimum_named_subjects": 2,
+            "named_subject_ids": [
+              "biology",
+              "chemistry",
+              "psychology"
+            ]
+          },
+          {
+            "degree_subject_group": "other",
+            "grade_profile": [
+              "A",
+              "A",
+              "B"
+            ],
+            "minimum_named_subjects": 2,
+            "named_subject_ids": [
+              "biology",
+              "chemistry",
+              "psychology"
+            ]
+          }
+        ],
+        "accepted_degree_subject_ids": [],
+        "decision_outcome_if_not_met": "not_eligible",
+        "execution_status": "manual_review_required_for_transcript_average_degree_subject_and_a_level_branch",
+        "notes": "Graduates are not currently eligible for the contextual/WP adjustment."
+      },
+      "international_qualifications": {
+        "status": "institution_verified_equivalence_required",
+        "source_ids": [
+          "lancaster_admissions_policy_2026"
+        ],
+        "execution_status": "manual_review_unless_lancaster_equivalence_is_already_verified",
+        "notes": "Country-specific requirements remain in Lancaster's annually updated International Qualifications fact sheet and are not inferred."
+      },
+      "notes": "Only qualification routes with complete represented evidence may receive automatic eligibility. Other evidenced routes remain visible but require review."
+    },
+    "admissions_tests": {
+      "source_ids": [
+        "lancaster_admissions_policy_2026",
+        "lancaster_how_to_apply",
+        "lancaster_admissions_data"
+      ],
+      "ucat": {
+        "required": true,
+        "source_ids": [
+          "lancaster_admissions_policy_2026",
+          "lancaster_how_to_apply"
+        ],
+        "minimum_total_score": null,
+        "maximum_total_score": 2700,
+        "minimum_subsection_scores": [],
+        "score_used_for_ranking": true,
+        "validity_window": "current application cycle",
+        "exemptions": [],
+        "decision_outcome_if_not_met": "not_eligible",
+        "notes": "No 2027 fixed threshold is encoded. The 2026-entry pool thresholds are historical guidance only."
+      },
+      "sjt": {
+        "used": true,
+        "source_ids": [
+          "lancaster_admissions_policy_2026",
+          "lancaster_how_to_apply"
+        ],
+        "used_as_gate": true,
+        "accepted_bands": [
+          1,
+          2,
+          3
+        ],
+        "excluded_bands": [
+          4
+        ],
+        "group_policies": [
+          {
+            "policy_id": "home_sjt_gate",
+            "applies_to_group_ids": [
+              "home_fee"
+            ],
+            "used_as_gate": true,
+            "excluded_bands": [
+              4
+            ]
+          },
+          {
+            "policy_id": "international_sjt_gate",
+            "applies_to_group_ids": [
+              "international_fee"
+            ],
+            "used_as_gate": true,
+            "excluded_bands": [
+              4
+            ]
+          }
+        ],
+        "scoring": {
+          "used_in_score": false,
+          "points_by_band": {}
+        },
+        "decision_outcome_if_excluded": "not_eligible",
+        "notes": "Band 4 is excluded. Bands 1 to 3 pass the SJT gate; SJT is not numerically blended into UCAT ranking."
+      },
+      "other_tests": []
+    },
+    "resits": {
+      "policy": "allowed_with_route_specific_conditions_and_manual_exception_review",
+      "source_ids": [
+        "lancaster_admissions_policy_2026"
+      ],
+      "allowed": true,
+      "conditions": [
+        "A-level resit applicants normally require A*AA within three years of study.",
+        "First-attempt A-level grades normally must be at least ABB.",
+        "First-attempt BBB to CCC may be reviewed only with evidenced exceptional circumstances.",
+        "GCSE resits are not considered without clearly evidenced exceptional circumstances."
+      ],
+      "maximum_resits": null,
+      "applies_to_group_ids": [
+        "resit_applicant"
+      ],
+      "decision_outcome_if_not_allowed": "not_eligible",
+      "execution_status": "manual_review_for_exceptional_circumstances_and_timing",
+      "notes": "No unsupported resit assumption is made."
+    },
+    "english_language": {
+      "source_ids": [
+        "lancaster_admissions_policy_2026"
+      ],
+      "applies_to_group_ids": [
+        "international_fee"
+      ],
+      "accepted_tests": [
+        {
+          "test": "IELTS Academic",
+          "overall_minimum": 7,
+          "minimum_each_component": 7
+        },
+        {
+          "test": "Pearson PTE Academic",
+          "overall_minimum": 70,
+          "minimum_each_component": 70
+        }
+      ],
+      "exemptions": [
+        "Five or more years of continuous UK residence",
+        "First language English plus citizenship or residence in a UKVI-recognised majority English-speaking country",
+        "Significant UK education while now resident abroad",
+        "UK degree graduate continuously resident in the UK since graduation"
+      ],
+      "decision_outcome_if_not_met": "not_eligible",
+      "notes": "Exemptions and PTE evidence require manual verification; the shared automated route supports complete IELTS Academic evidence."
+    },
+    "non_academic": {
+      "work_experience": {
+        "required": true,
+        "scored_pre_interview": false,
+        "verification_timing": "post_interview",
+        "notes": "Relevant experience is expected but need not be clinical shadowing."
+      },
+      "personal_statement": {
+        "scored": false,
+        "uses": [
+          "interview preparation",
+          "identifying resit or discontinuous-study circumstances"
+        ]
+      },
+      "reference": {
+        "required": true,
+        "uses": [
+          "confirming resits",
+          "confirming study gaps",
+          "supporting contextual evidence where applicable"
+        ]
+      }
+    },
+    "age_or_professional_checks": {
+      "source_ids": [
+        "lancaster_admissions_policy_2026"
+      ],
+      "minimum_age": null,
+      "fitness_to_practise_required": true,
+      "dbs_required": true,
+      "occupational_health_required": true,
+      "decision_outcome_if_not_met": "not_eligible",
+      "notes": "Enhanced DBS, occupational health and immunisation checks apply. No numeric minimum age was supplied."
+    }
+  },
+  "stage_2_interview_selection": {
+    "verification_status": "official_source_verified",
+    "source_ids": [
+      "lancaster_admissions_policy_2026",
+      "lancaster_how_to_apply",
+      "lancaster_admissions_data"
+    ],
+    "primary_model": "ucat_ranking",
+    "modifiers": [
+      "contextual_adjustment",
+      "widening_participation_scheme",
+      "guaranteed_interview",
+      "sjt_exclusion",
+      "separate_applicant_pool"
+    ],
+    "ranking_factors": [
+      {
+        "factor_id": "ucat_cognitive_total",
+        "factor_type": "ranking_metric",
+        "weight_percent": 100,
+        "points_available": null,
+        "source_field": "admissions_tests.ucat.total_score",
+        "source_ids": [
+          "lancaster_admissions_policy_2026",
+          "lancaster_how_to_apply"
+        ],
+        "notes": "Sole numeric ranking factor after academic and SJT gates."
+      }
+    ],
+    "calculation": {
+      "verification_status": "official_source_verified",
+      "source_ids": [
+        "lancaster_admissions_policy_2026",
+        "lancaster_how_to_apply"
+      ],
+      "score_components": [
+        {
+          "component_id": "ucat_cognitive_total",
+          "factor_id": "ucat_cognitive_total",
+          "input_field": "admissions_tests.ucat.total_score",
+          "calculation_method": "use_raw_current_scale_score",
+          "scale": {
+            "min": 0,
+            "max": 2700
+          },
+          "weight_percent": 100,
+          "rounding": "none",
+          "notes": "No GCSE or A-level score is blended after Stage 1.",
+          "source_ids": [
+            "lancaster_admissions_policy_2026"
+          ]
+        }
+      ],
+      "total_score": {
+        "calculation_method": "ucat_cognitive_total_only",
+        "components": [
+          "ucat_cognitive_total"
+        ],
+        "scale": {
+          "min": 0,
+          "max": 2700
+        },
+        "notes": "Applicants are ranked within the applicable pool.",
+        "source_ids": [
+          "lancaster_admissions_policy_2026",
+          "lancaster_how_to_apply"
+        ]
+      },
+      "notes": "The model is fully representable as a UCAT ranking after pass/fail academic and SJT gates."
+    },
+    "thresholds": [
+      {
+        "threshold_id": "home_standard_2027_live_boundary",
+        "applies_to_group_ids": [
+          "home_fee"
+        ],
+        "metric": "ucat_total",
+        "operator": "dynamic_rank_boundary",
+        "value": null,
+        "decision_outcome_if_not_met": "risk_flag",
+        "source_ids": [
+          "lancaster_admissions_data"
+        ],
+        "notes": "The 2027 live boundary is unknown. The 2026-entry threshold of 1920 is retained only as historical guidance."
+      },
+      {
+        "threshold_id": "home_contextual_2027_live_boundary",
+        "applies_to_group_ids": [
+          "home_fee",
+          "contextual",
+          "widening_participation"
+        ],
+        "metric": "ucat_total",
+        "operator": "dynamic_lower_contextual_boundary",
+        "value": null,
+        "decision_outcome_if_not_met": "risk_flag",
+        "source_ids": [
+          "lancaster_admissions_data"
+        ],
+        "notes": "The 2027 live contextual boundary is unknown. The 2026-entry threshold of 1870 is historical guidance."
+      },
+      {
+        "threshold_id": "international_2027_live_boundary",
+        "applies_to_group_ids": [
+          "international_fee"
+        ],
+        "metric": "ucat_total",
+        "operator": "dynamic_separate_pool_boundary",
+        "value": null,
+        "decision_outcome_if_not_met": "risk_flag",
+        "source_ids": [
+          "lancaster_admissions_data"
+        ],
+        "notes": "The 2027 live overseas boundary is unknown. The 2026-entry threshold of 1900 is historical guidance."
+      }
+    ],
+    "selection_adjustments": [
+      {
+        "adjustment_id": "home_contextual_lower_ucat_boundary",
+        "modifier_id": "contextual_adjustment",
+        "applies_to_group_ids": [
+          "home_fee",
+          "contextual",
+          "widening_participation"
+        ],
+        "condition": {
+          "field": "contextual_status",
+          "operator": "university_verified",
+          "value": true
+        },
+        "effect": {
+          "type": "separate_lower_threshold",
+          "target": "home_contextual_ucat_pool",
+          "value": "pool_specific_dynamic_boundary"
+        },
+        "decision_outcome": "warning",
+        "source_ids": [
+          "lancaster_admissions_policy_2026",
+          "lancaster_admissions_data"
+        ],
+        "notes": "No points uplift is inferred."
+      },
+      {
+        "adjustment_id": "access_to_medicine_guaranteed_interview",
+        "modifier_id": "guaranteed_interview",
+        "applies_to_group_ids": [
+          "contextual",
+          "widening_participation"
+        ],
+        "condition": {
+          "field": "access_to_medicine_completion",
+          "operator": "verified_and_all_minimums_met",
+          "value": true
+        },
+        "effect": {
+          "type": "guaranteed_interview",
+          "target": "interview_invitation",
+          "value": true
+        },
+        "decision_outcome": "eligible",
+        "source_ids": [
+          "lancaster_admissions_policy_2026"
+        ],
+        "notes": "Only verified programme completion plus all A100 academic and WP conditions activates this rule."
+      }
+    ],
+    "tie_breakers": [],
+    "output_band_policy": {
+      "bands": [
+        "realistic",
+        "ambitious",
+        "high_risk",
+        "not_eligible",
+        "insufficient_evidence"
+      ],
+      "notes": "Configured numeric bands use only published 2026-entry thresholds and the evidenced 10-point borderline interval as historical guidance. No unsupported strong-choice boundary is invented."
+    },
+    "interview": {
+      "format": "multiple_mini_interview",
+      "delivery": "online_microsoft_teams_for_2026_entry",
+      "station_count": null,
+      "station_duration": "mostly five minutes",
+      "domains": [
+        "career choice and motivation",
+        "work experience",
+        "communication skills",
+        "group work skills",
+        "responses to written or video prompts"
+      ],
+      "source_ids": [
+        "lancaster_how_to_apply"
+      ]
+    },
+    "notes": "Academic screening is pass/fail. UCAT cognitive total alone ranks eligible applicants for interview within separate Home standard, Home contextual and International pools."
+  },
+  "contextual_admissions": {
+    "verification_status": "official_source_verified",
+    "source_ids": [
+      "lancaster_admissions_policy_2026",
+      "lancaster_admissions_data"
+    ],
+    "available": true,
+    "applies_to_group_ids": [
+      "home_fee",
+      "contextual",
+      "widening_participation",
+      "care_experienced"
+    ],
+    "criteria": [
+      {
+        "criterion_id": "automatic_care_or_refugee",
+        "applies_to_group_ids": [
+          "home_fee"
+        ],
+        "description": "Care experience or care-leaver status of at least three months, or refugee status, qualifies automatically subject to Lancaster verification.",
+        "source_ids": [
+          "lancaster_admissions_policy_2026"
+        ],
+        "notes": null
+      },
+      {
+        "criterion_id": "two_or_more_wp_criteria",
+        "applies_to_group_ids": [
+          "home_fee"
+        ],
+        "description": "Otherwise at least two published widening-participation criteria are required, including supported neighbourhood, household-income, bursary and related evidence categories.",
+        "source_ids": [
+          "lancaster_admissions_policy_2026"
+        ],
+        "notes": "The full evidence list is university-verified; ApplySmart does not infer eligibility from a postcode alone."
+      }
+    ],
+    "adjustments": [
+      {
+        "adjustment_id": "lower_contextual_ucat_boundary",
+        "applies_to_group_ids": [
+          "home_fee",
+          "contextual",
+          "widening_participation"
+        ],
+        "stage": "interview_shortlisting",
+        "policy_description": "Use the separate lower contextual UCAT boundary after Lancaster verifies contextual status.",
+        "effect": {
+          "type": "separate_lower_threshold",
+          "target": "home_contextual_ucat_pool",
+          "value": "annual_dynamic_boundary"
+        },
+        "source_ids": [
+          "lancaster_admissions_policy_2026",
+          "lancaster_admissions_data"
+        ],
+        "notes": "The 1870 value is the 2026-entry historical boundary, not a guaranteed 2027 cutoff."
+      },
+      {
+        "adjustment_id": "contextual_offer_abb",
+        "applies_to_group_ids": [
+          "home_fee",
+          "contextual",
+          "widening_participation"
+        ],
+        "stage": "post_interview_offer_condition",
+        "policy_description": "Eligible applicants who succeed at interview may receive ABB rather than AAA.",
+        "effect": {
+          "type": "reduced_offer",
+          "target": "offer_selection.contextual_offer",
+          "value": [
+            "A",
+            "B",
+            "B"
+          ]
+        },
+        "source_ids": [
+          "lancaster_admissions_policy_2026"
+        ],
+        "notes": "Stored as policy context only; ApplySmart does not predict offers."
+      }
+    ],
+    "guaranteed_interview_rules": [
+      {
+        "rule_id": "access_to_medicine_completer",
+        "applies_to_group_ids": [
+          "home_fee",
+          "contextual",
+          "widening_participation"
+        ],
+        "minimum_requirements_must_be_met": true,
+        "conditions": [
+          "Lancaster Access Programme Access to Medicine completion is verified.",
+          "A100 academic entry requirements are met.",
+          "The applicable widening-participation criteria are met."
+        ],
+        "source_ids": [
+          "lancaster_admissions_policy_2026"
+        ],
+        "notes": "Ordinary contextual status alone does not guarantee an interview."
+      }
+    ],
+    "excluded_group_ids": [
+      "graduate_applicant",
+      "international_fee"
+    ],
+    "notes": "Graduates are not currently eligible for contextual/WP consideration. International contextual adjustments are not evidenced and are not applied."
+  },
+  "ranking_pools": [
+    {
+      "pool_id": "home_standard_ucat_pool",
+      "name": "Home non-contextual UCAT ranking pool",
+      "applies_to_group_ids": [
+        "home_fee"
+      ],
+      "excluded_group_ids": [
+        "contextual",
+        "widening_participation",
+        "international_fee"
+      ],
+      "fee_statuses": [
+        "home"
+      ],
+      "ranking_model": "ucat_ranking",
+      "ranking_factors": [
+        "UCAT cognitive total"
+      ],
+      "places_available": 130,
+      "source_ids": [
+        "lancaster_admissions_policy_2026",
+        "lancaster_admissions_data"
+      ],
+      "notes": "The stated 130 Home places are for 2026 entry, with at least 115 guaranteed after A104 progression is accounted for. This is not treated as a future fixed capacity."
+    },
+    {
+      "pool_id": "home_contextual_ucat_pool",
+      "name": "Home contextual UCAT ranking pool",
+      "applies_to_group_ids": [
+        "home_fee",
+        "contextual",
+        "widening_participation"
+      ],
+      "fee_statuses": [
+        "home"
+      ],
+      "ranking_model": "ucat_ranking",
+      "ranking_factors": [
+        "UCAT cognitive total"
+      ],
+      "places_available": null,
+      "source_ids": [
+        "lancaster_admissions_policy_2026",
+        "lancaster_admissions_data"
+      ],
+      "notes": "A lower annual boundary applies; no separate contextual places quota is inferred."
+    },
+    {
+      "pool_id": "international_ucat_pool",
+      "name": "International UCAT ranking pool",
+      "applies_to_group_ids": [
+        "international_fee"
+      ],
+      "fee_statuses": [
+        "international"
+      ],
+      "ranking_model": "ucat_ranking",
+      "ranking_factors": [
+        "UCAT cognitive total"
+      ],
+      "places_available": 4,
+      "source_ids": [
+        "lancaster_admissions_policy_2026",
+        "lancaster_admissions_data"
+      ],
+      "notes": "Four places were published for 2026 entry. No future fixed quota is inferred."
+    }
+  ],
+  "quotas": [
+    {
+      "quota_id": "lancaster_a100_places_2027_entry_verified",
+      "name": "Verified Home/International places (2027 entry)",
+      "home_places": 130,
+      "international_places": 4,
+      "quota_type": "verified_current_places",
+      "source_ids": [
+        "applysmart_admissions_team_verified_2026"
+      ],
+      "notes": "Home/International place figures verified by the ApplySmart admissions research team for 2027 entry."
+    },
+    {
+      "quota_id": "international_places_2026",
+      "name": "Published International places for 2026 entry",
+      "applies_to_group_ids": [
+        "international_fee"
+      ],
+      "stage": "enrolment",
+      "quota_type": "published_cycle_capacity",
+      "value": 4,
+      "source_ids": [
+        "lancaster_admissions_policy_2026"
+      ],
+      "notes": "Cycle-labelled historical capacity only."
+    }
+  ],
+  "offer_selection": {
+    "verification_status": "official_source_verified_with_remaining_unpublished_offer_fields",
+    "source_ids": [
+      "lancaster_admissions_policy_2026",
+      "lancaster_how_to_apply",
+      "lancaster_admissions_data"
+    ],
+    "interview_format": "Online Multiple Mini Interview via Microsoft Teams for 2026 entry; stations are mostly five minutes.",
+    "interview_scoring": {
+      "score_used": "combined_station_score",
+      "minimum_score": null,
+      "station_scores": [],
+      "sjt_used_post_interview": false,
+      "decision_outcome_if_not_met": "not_eligible",
+      "source_ids": [
+        "lancaster_admissions_policy_2026",
+        "lancaster_how_to_apply"
+      ],
+      "notes": "Each station is scored by a trained interviewer against defined criteria. The station count, scale and minimum standard are not published."
+    },
+    "offer_model": "Applicants with the highest overall MMI scores receive offers. UCAT and GCSE results are not carried into this ranking.",
+    "ranking_factors": [
+      {
+        "factor_id": "mmi_overall_score",
+        "weight_percent": 100,
+        "source_ids": [
+          "lancaster_admissions_policy_2026"
+        ]
+      }
+    ],
+    "tie_breakers": [],
+    "waiting_list_policy": "A reserve list may operate from the UCAS decision deadline until the start of term. Applicants accepting another offer or requesting deferred entry are excluded.",
+    "standard_offer": {
+      "grade_profile": [
+        "A",
+        "A",
+        "A"
+      ],
+      "source_ids": [
+        "lancaster_admissions_policy_2026",
+        "lancaster_course_2027"
+      ],
+      "notes": "AAB may apply with a fourth AS/A level or EPQ under the published rule."
+    },
+    "contextual_offer": {
+      "applies_to_group_ids": [
+        "contextual",
+        "widening_participation"
+      ],
+      "grade_profile": [
+        "A",
+        "B",
+        "B"
+      ],
+      "source_ids": [
+        "lancaster_admissions_policy_2026"
+      ],
+      "notes": "For university-verified eligible WP applicants who succeed at interview."
+    },
+    "notes": "Post-interview information is stored for transparency only. ApplySmart does not produce an offer prediction."
+  },
+  "historical_admissions": {
+    "verification_status": "official_source_verified",
+    "source_ids": [
+      "lancaster_admissions_data"
+    ],
+    "cycles": [
+      {
+        "cycle": "2025 entry",
+        "ucat_scale": 3600,
+        "applies_to_group_ids": [
+          "home_fee"
+        ],
+        "pool": "home_non_contextual",
+        "applications": 926,
+        "interviews": 581,
+        "offers": 325,
+        "places": 131,
+        "reserve_places": 20,
+        "ucat_cutoff": 2580,
+        "average_ucat_interviewed": 2781,
+        "average_ucat_offer_holders": 2777,
+        "interview_score_cutoff": null,
+        "verification_status": "official_source_verified",
+        "notes": "Application statistics combine all Home A100 applicants; contextual status is separated only in the UCAT table. Values remain on the historical /3600 scale.",
+        "source_ids": [
+          "lancaster_admissions_data"
+        ]
+      },
+      {
+        "cycle": "2025 entry",
+        "ucat_scale": 3600,
+        "applies_to_group_ids": [
+          "home_fee",
+          "contextual",
+          "widening_participation"
+        ],
+        "pool": "home_contextual",
+        "applications": null,
+        "interviews": null,
+        "offers": null,
+        "places": null,
+        "ucat_cutoff": 2470,
+        "average_ucat_interviewed": 2679,
+        "average_ucat_offer_holders": 2704,
+        "interview_score_cutoff": null,
+        "verification_status": "official_source_verified",
+        "notes": "Contextual application counts were not separately published.",
+        "source_ids": [
+          "lancaster_admissions_data"
+        ]
+      },
+      {
+        "cycle": "2025 entry",
+        "ucat_scale": 3600,
+        "applies_to_group_ids": [
+          "international_fee"
+        ],
+        "pool": "international",
+        "applications": 60,
+        "interviews": 18,
+        "offers": 9,
+        "places": 3,
+        "reserve_places": 0,
+        "ucat_cutoff": 2440,
+        "average_ucat_all_applicants": 2426,
+        "average_ucat_interviewed": 2623,
+        "average_ucat_offer_holders": 2434,
+        "interview_score_cutoff": null,
+        "verification_status": "official_source_verified",
+        "notes": "Lancaster cautions that application fee status is not confirmed until interview, so the International application count may overstate the final group.",
+        "source_ids": [
+          "lancaster_admissions_data"
+        ]
+      },
+      {
+        "cycle": "2026 entry",
+        "ucat_scale": 2700,
+        "applies_to_group_ids": [
+          "home_fee"
+        ],
+        "pool": "home_non_contextual",
+        "applications": null,
+        "interviews": null,
+        "offers": null,
+        "places": 130,
+        "ucat_cutoff": 1920,
+        "borderline_interval_min": 1910,
+        "borderline_interval_max": 1919,
+        "interview_score_cutoff": null,
+        "verification_status": "official_source_verified",
+        "notes": "Partial in-progress cycle data. A small pool up to 10 points below the threshold was also invited using prior academic performance.",
+        "source_ids": [
+          "lancaster_admissions_data"
+        ]
+      },
+      {
+        "cycle": "2026 entry",
+        "ucat_scale": 2700,
+        "applies_to_group_ids": [
+          "home_fee",
+          "contextual",
+          "widening_participation"
+        ],
+        "pool": "home_contextual",
+        "applications": null,
+        "interviews": null,
+        "offers": null,
+        "places": null,
+        "ucat_cutoff": 1870,
+        "borderline_interval_min": 1860,
+        "borderline_interval_max": 1869,
+        "interview_score_cutoff": null,
+        "verification_status": "official_source_verified",
+        "notes": "Partial in-progress cycle data. A small pool up to 10 points below the threshold was also invited using prior academic performance.",
+        "source_ids": [
+          "lancaster_admissions_data"
+        ]
+      },
+      {
+        "cycle": "2026 entry",
+        "ucat_scale": 2700,
+        "applies_to_group_ids": [
+          "international_fee"
+        ],
+        "pool": "international",
+        "applications": null,
+        "interviews": null,
+        "offers": null,
+        "places": 4,
+        "ucat_cutoff": 1900,
+        "average_ucat_all_applicants": 1872,
+        "interview_score_cutoff": null,
+        "verification_status": "official_source_verified",
+        "notes": "Partial in-progress cycle data; interviewed and offer-holder averages were not yet published.",
+        "source_ids": [
+          "lancaster_admissions_data"
+        ]
+      }
+    ],
+    "application_statistics": {
+      "home_a100": [
+        {
+          "entry_year": 2021,
+          "applications": 727,
+          "interviews": 513,
+          "offers": 268,
+          "reserve_places": 0,
+          "enrolled": 157
+        },
+        {
+          "entry_year": 2022,
+          "applications": 894,
+          "interviews": 418,
+          "offers": 174,
+          "reserve_places": 9,
+          "enrolled": 125
+        },
+        {
+          "entry_year": 2023,
+          "applications": 1009,
+          "interviews": 353,
+          "offers": 174,
+          "reserve_places": 36,
+          "enrolled": 125
+        },
+        {
+          "entry_year": 2024,
+          "applications": 1004,
+          "interviews": 587,
+          "offers": 261,
+          "reserve_places": 9,
+          "enrolled": 126
+        },
+        {
+          "entry_year": 2025,
+          "applications": 926,
+          "interviews": 581,
+          "offers": 325,
+          "reserve_places": 20,
+          "enrolled": 131
+        }
+      ],
+      "international_a100": [
+        {
+          "entry_year": 2021,
+          "applications": 243,
+          "interviews": 28,
+          "offers": 5,
+          "reserve_places": 0,
+          "enrolled": 1
+        },
+        {
+          "entry_year": 2022,
+          "applications": 331,
+          "interviews": 35,
+          "offers": 8,
+          "reserve_places": 0,
+          "enrolled": 3
+        },
+        {
+          "entry_year": 2023,
+          "applications": 261,
+          "interviews": 28,
+          "offers": 6,
+          "reserve_places": 0,
+          "enrolled": 3
+        },
+        {
+          "entry_year": 2024,
+          "applications": 264,
+          "interviews": 19,
+          "offers": 6,
+          "reserve_places": 0,
+          "enrolled": 3
+        },
+        {
+          "entry_year": 2025,
+          "applications": 60,
+          "interviews": 18,
+          "offers": 9,
+          "reserve_places": 0,
+          "enrolled": 3
+        }
+      ]
+    },
+    "scale_policy": "The 2025 figures remain on /3600 and the 2026 figures remain on /2700. No linear conversion is used for prediction because the research explicitly warns that the scales must not be compared directly.",
+    "notes": "Only 2026-entry /2700 pool thresholds and the published 10-point Home borderline interval feed the interview-band configuration, and only as historical guidance."
+  },
+  "sources": [
+    {
+      "source_id": "lancaster_admissions_policy_2026",
+      "title": "Lancaster Medical School Admissions Policy, 2026 Entry",
+      "url": "https://www.lancaster.ac.uk/media/lancaster-university/content-assets/documents/medical-school/mbchb/entry-reqs/LancasterMedicalSchoolAdmissionsPolicy2026.pdf",
+      "source_type": "official_admissions_policy",
+      "published_date": "2025-08",
+      "accessed_date": "2026-07-05",
+      "applies_to_sections": [
+        "course_identity",
+        "stage_1_eligibility",
+        "stage_2_interview_selection",
+        "contextual_admissions",
+        "offer_selection",
+        "quotas"
+      ],
+      "confidence": "high",
+      "evidence_classification": "official",
+      "notes": "Primary source identified and summarised in the supplied authoritative research pack."
+    },
+    {
+      "source_id": "lancaster_entry_requirements",
+      "title": "Lancaster Medical School A100 Entry Requirements",
+      "url": "https://www.lancaster.ac.uk/lms/medicine/mbchb-medicine-and-surgery/entry-requirements/",
+      "source_type": "official_course_page",
+      "published_date": null,
+      "accessed_date": "2026-07-05",
+      "applies_to_sections": [
+        "stage_1_eligibility"
+      ],
+      "confidence": "high",
+      "evidence_classification": "official",
+      "notes": "Used by the supplied research for GCSE, Scottish and IB detail."
+    },
+    {
+      "source_id": "lancaster_how_to_apply",
+      "title": "Lancaster Medical School Medicine and Surgery: How to Apply",
+      "url": "https://www.lancaster.ac.uk/lms/medicine-and-surgery/how-to-apply/medicine-and-surgery/",
+      "source_type": "official_selection_page",
+      "published_date": null,
+      "accessed_date": "2026-07-05",
+      "applies_to_sections": [
+        "stage_2_interview_selection",
+        "offer_selection"
+      ],
+      "confidence": "high",
+      "evidence_classification": "official",
+      "notes": "Used for UCAT ranking and interview-format evidence."
+    },
+    {
+      "source_id": "lancaster_admissions_data",
+      "title": "Lancaster Medical School Admissions Data",
+      "url": "https://www.lancaster.ac.uk/lms/medicine-and-surgery/admissions-data/",
+      "source_type": "official_admissions_statistics",
+      "published_date": "2026-03",
+      "accessed_date": "2026-07-05",
+      "applies_to_sections": [
+        "stage_2_interview_selection",
+        "ranking_pools",
+        "historical_admissions"
+      ],
+      "confidence": "high",
+      "evidence_classification": "official",
+      "notes": "Official pool thresholds and 2021-2025 application statistics."
+    },
+    {
+      "source_id": "lancaster_course_2027",
+      "title": "Medicine and Surgery MBChB A100, 2027 entry",
+      "url": "https://www.lancaster.ac.uk/study/undergraduate/courses/medicine-and-surgery-mbchb-a100/2027/",
+      "source_type": "official_course_page",
+      "published_date": null,
+      "accessed_date": "2026-07-05",
+      "applies_to_sections": [
+        "course_identity",
+        "stage_1_eligibility",
+        "offer_selection"
+      ],
+      "confidence": "high",
+      "evidence_classification": "official",
+      "notes": "Confirms the current 2027 course identity and standard AAA offer."
+    }
+  ],
+  "validation": {
+    "source_status": "official_source_verified",
+    "last_verified": "2026-07-05",
+    "confidence_level": "Medium",
+    "completion_status": "production_ready_for_supported_scope_with_documented_gaps",
+    "section_completion_status": {
+      "course_identity": "complete",
+      "stage_1_eligibility": "complete_for_declared_automatic_scope_with_manual_review_boundaries",
+      "stage_2_interview_selection": "complete",
+      "contextual_admissions": "complete_for_university_verified_status",
+      "ranking_pools": "complete",
+      "quotas": "complete_for_cycle_labelled_2026_values",
+      "offer_selection": "research_context_complete_scoring_scale_and_tie_breaks_unpublished",
+      "historical_admissions": "complete_for_supplied_2021_to_2026_evidence",
+      "sources": "reviewed"
+    },
+    "known_unknowns": [
+      "The 2027-entry UCAT thresholds for Home standard, Home contextual and International applicants.",
+      "Final 2026-entry interviewed and offer-holder UCAT averages.",
+      "A separate total-points minimum for IB, because none was published in the supplied evidence.",
+      "Country-specific international qualification details from the separate annual fact sheet.",
+      "A numeric minimum age.",
+      "A science practical-endorsement requirement.",
+      "The MMI station count, total duration, scoring scale and tie-break rules.",
+      "Contextual and graduate application statistics as separate groups."
+    ],
+    "review_notes": "Lancaster fits the existing UCAT-ranking model. Production guidance is restricted to published 2026-entry /2700 thresholds and does not convert legacy /3600 scores or treat a historical boundary as a live 2027 cutoff."
+  },
+  "engine_notes": {
+    "eligibility": true,
+    "interview_prediction": true,
+    "historical_guidance": true,
+    "international_prediction": true,
+    "contextual_logic": true,
+    "result_card": true,
+    "regression": true,
+    "research_completeness": "complete_for_supported_scope_with_documented_gaps",
+    "manual_review_required": true,
+    "eligibility_ready": true,
+    "interview_prediction_ready": true,
+    "prediction_confidence": "medium",
+    "result_card_ready": true,
+    "offer_prediction_scope": "out_of_scope",
+    "interview_band_config_ready": true,
+    "metadata_activation_ready": true,
+    "activation_ready": true,
+    "production_ready": true,
+    "blocking_missing_fields": [],
+    "non_blocking_warnings": [
+      "Documented evidence or automation gap retained as non-blocking for activation-ready production scope: cross_qualification_gcse_biology_chemistry_condition_execution",
+      "Documented evidence or automation gap retained as non-blocking for activation-ready production scope: aab_fourth_as_a_level_or_epq_execution",
+      "Documented evidence or automation gap retained as non-blocking for activation-ready production scope: ib_no_total_points_route_execution",
+      "Documented evidence or automation gap retained as non-blocking for activation-ready production scope: scottish_subject_grade_and_sitting_execution",
+      "Documented evidence or automation gap retained as non-blocking for activation-ready production scope: graduate_transcript_average_and_degree_subject_branch_execution",
+      "Documented evidence or automation gap retained as non-blocking for activation-ready production scope: resit_timing_and_exceptional_circumstances_review",
+      "Documented evidence or automation gap retained as non-blocking for activation-ready production scope: international_equivalence_fact_sheet_detail",
+      "Documented evidence or automation gap retained as non-blocking for activation-ready production scope: current_2027_ucat_thresholds",
+      "Documented evidence or automation gap retained as non-blocking for activation-ready production scope: final_2026_interviewed_and_offer_holder_averages",
+      "Documented evidence or automation gap retained as non-blocking for activation-ready production scope: mmi_station_count_scoring_scale_and_tie_breakers",
+      "Known unknown retained as non-blocking for activation-ready production scope: The 2027-entry UCAT thresholds for Home standard, Home contextual and International applicants.",
+      "Known unknown retained as non-blocking for activation-ready production scope: Final 2026-entry interviewed and offer-holder UCAT averages.",
+      "Known unknown retained as non-blocking for activation-ready production scope: A separate total-points minimum for IB, because none was published in the supplied evidence.",
+      "Known unknown retained as non-blocking for activation-ready production scope: Country-specific international qualification details from the separate annual fact sheet.",
+      "Known unknown retained as non-blocking for activation-ready production scope: A numeric minimum age.",
+      "Known unknown retained as non-blocking for activation-ready production scope: A science practical-endorsement requirement.",
+      "Known unknown retained as non-blocking for activation-ready production scope: The MMI station count, total duration, scoring scale and tie-break rules.",
+      "Known unknown retained as non-blocking for activation-ready production scope: Contextual and graduate application statistics as separate groups."
+    ],
+    "engine_assumptions": [],
+    "do_not_infer": [
+      "Do not treat the 2026-entry thresholds as fixed 2027 cutoffs.",
+      "Do not convert or compare the legacy /3600 values with the /2700 values for prediction.",
+      "Do not invent a strong-choice boundary above a published threshold.",
+      "Do not infer a practical-endorsement requirement.",
+      "Do not infer an IB total-points requirement.",
+      "Do not infer country-specific international equivalences.",
+      "Do not infer MMI station count, scoring scale or tie-breakers.",
+      "Do not apply contextual adjustments to graduates or International applicants."
+    ],
+    "approved_activation_scope": "Complete standard A-level school-leaver profiles in the Home standard, university-verified Home contextual/WP and International pools, using academic and SJT gates followed by historical UCAT guidance. Other published routes remain metadata-backed review paths.",
+    "prediction_scope": "Medium-confidence historical guidance using official 2026-entry /2700 thresholds for Home standard, Home contextual/WP and International school-leaver pools. The 10-point borderline interval is shown as ambitious guidance and not as an automatic invitation.",
+    "eligibility_rules_partly_implementable": true,
+    "historical_ucat_guidance_ready": true,
+    "course_specific_notes": [
+      "GCSE points are an eligibility gate only; UCAT cognitive total is the sole interview-ranking metric.",
+      "SJT Band 4 is excluded, while Bands 1 to 3 pass the filter.",
+      "Home standard, Home contextual and International applicants use separate historical guidance pools.",
+      "A small Home pool up to 10 UCAT points below the 2026 threshold was invited using prior academic performance; ApplySmart labels that interval as ambitious historical guidance.",
+      "Graduates apply through A100 but do not receive contextual/WP consideration."
+    ]
+  }
+}

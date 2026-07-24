@@ -1,0 +1,898 @@
+{
+  "schema_version": "1.0.0",
+  "template_version": "0.1.0",
+  "result_id": "example-dundee-a100-student-facing",
+  "generated_at": null,
+  "result_mode": "example_eligibility_and_historical_interview_guidance",
+  "course_identity": {
+    "profile_id": "dundee-a100",
+    "university_name": "University of Dundee",
+    "display_name": "Dundee A100",
+    "course_name": "MBChB Medicine",
+    "ucas_code": "A100",
+    "entry_route": "standard_entry",
+    "entry_route_label": "Standard Entry",
+    "qualification_awarded": "MBChB Medicine",
+    "duration_years": 5,
+    "location": "Dundee, Scotland",
+    "source_ids": [
+      "dundee_course_page",
+      "dundee_all_entry_requirements"
+    ]
+  },
+  "applicant_context": {
+    "profile_type": "complete_test_profile",
+    "applies_to_group_ids": [
+      "international_fee",
+      "school_leaver"
+    ],
+    "entry_route": "standard_entry",
+    "applicant_summary": "International fee, Standard Entry school-leaver with GCSE-equivalent subject-level data, A-level Chemistry/Biology/Mathematics AAA, UCAT cognitive total 2080 and SJT Band 2.",
+    "source_ids": []
+  },
+  "readiness": {
+    "eligibility": true,
+    "interview_prediction": true,
+    "historical_guidance": true,
+    "international_prediction": true,
+    "contextual_logic": false,
+    "result_card": true,
+    "regression": true,
+    "research_completeness": "complete_for_supported_scope_with_documented_gaps",
+    "manual_review_required": true,
+    "eligibility_ready": true,
+    "interview_prediction_ready": true,
+    "prediction_confidence": "medium",
+    "result_card_ready": true,
+    "offer_prediction_scope": "out_of_scope",
+    "eligibility_ready_status": "mostly_true",
+    "official_selection_formula_available": false,
+    "historical_prediction_ready": true,
+    "historical_prediction_status": "available_for_international_guidance",
+    "student_labels": [
+      "Eligibility guidance available",
+      "Research predictor context available",
+      "Historical admissions context available",
+      "Official formula prediction unavailable"
+    ],
+    "source_ids": [
+      "dundee_entry_requirements",
+      "dundee_all_entry_requirements",
+      "dundee_contextual_admissions_policy",
+      "dundee_admissions_statistics",
+      "dundee_verified_international_admissions_evidence"
+    ]
+  },
+  "student_summary": {
+    "headline": "Dundee A100",
+    "subheadline": "MBChB Medicine, Standard Entry, 5 years",
+    "status_message": "This international card uses verified historical interview guidance. It is not a fixed UCAT cut-off or an",
+    "key_points": [
+      "Stage 1 entry requirements are official-source backed for the reviewed routes.",
+      "International applicants are ranked separately before interview using 60% academics and 40% UCAT national decile rank.",
+      "Only the UCAT cognitive total is used, and Dundee has no fixed international UCAT cut-off.",
+      "The personal statement is not used for shortlisting, but may be referenced during interview.",
+      "UCAT 2080 falls in the verified historical 2050–2099 international guidance band: Good chance – recommend applying.",
+      "Official formula prediction is not available because Dundee has not published the full scoring formula."
+    ]
+  },
+  "eligibility": {
+    "status": "eligible",
+    "summary": "The complete test profile meets the represented Dundee Standard Entry Stage 1 eligibility requirements.",
+    "stage_1_checks": [
+      {
+        "check_id": "gcse_subject_requirements",
+        "label": "GCSE / National 5 subjects",
+        "status": "eligible",
+        "requirement": "English Language, Mathematics, Biology and Chemistry requirements represented as met at grade 8.",
+        "applicant_value": "English Language 8, Mathematics 8, Biology 8, Chemistry 8, Physics 8 plus three other grade 8 subjects",
+        "decision_outcome": "eligible",
+        "details": [],
+        "source_ids": [
+          "dundee_all_entry_requirements"
+        ]
+      },
+      {
+        "check_id": "a_level_requirements",
+        "label": "A-level requirements",
+        "status": "eligible",
+        "requirement": "AAA including Chemistry or Biology plus another science.",
+        "applicant_value": "Chemistry A, Biology A, Mathematics A",
+        "decision_outcome": "eligible",
+        "details": [],
+        "source_ids": [
+          "dundee_all_entry_requirements"
+        ]
+      },
+      {
+        "check_id": "ucat_required",
+        "label": "UCAT",
+        "status": "eligible",
+        "requirement": "UCAT required; no fixed cut-off stated.",
+        "applicant_value": "UCAT cognitive total 2080",
+        "decision_outcome": "eligible",
+        "details": [],
+        "source_ids": [
+          "dundee_entry_requirements"
+        ]
+      },
+      {
+        "check_id": "sjt_initial_selection",
+        "label": "SJT",
+        "status": "eligible",
+        "requirement": "SJT not used for initial interview selection.",
+        "applicant_value": "Band 2",
+        "decision_outcome": "eligible",
+        "details": [],
+        "source_ids": [
+          "dundee_admissions_statistics"
+        ]
+      }
+    ],
+    "blocking_reasons": [],
+    "warnings": [
+      "The academic point matrix is research-derived.",
+      "International UCAT bands are historical guidance, not a fixed Dundee cut-off."
+    ],
+    "source_ids": [
+      "dundee_all_entry_requirements",
+      "dundee_entry_requirements",
+      "dundee_admissions_statistics",
+      "dundee_verified_international_admissions_evidence"
+    ]
+  },
+  "stage_1": {
+    "title": "Stage 1: eligibility checks",
+    "status": "available",
+    "verification_status": "official_source_verified",
+    "requirements": [
+      {
+        "label": "GCSE / National 5",
+        "value": "A-level applicants need GCSE Biology and Chemistry at grade 7. SQA applicants need National 5 Biology and Chemistry at grade A. English and Mathematics are required at GCSE grade 6 or National 5 grade B if not studied at A-level or Higher.",
+        "source_ids": [
+          "dundee_all_entry_requirements"
+        ]
+      },
+      {
+        "label": "A-level",
+        "value": "AAA including Chemistry or Biology plus another science. Mathematics is accepted as a science. General Studies is not accepted.",
+        "source_ids": [
+          "dundee_all_entry_requirements"
+        ]
+      },
+      {
+        "label": "A-level contextual / widening access",
+        "value": "ABB for eligible widening access applicants, with the same Chemistry/Biology plus science subject structure.",
+        "source_ids": [
+          "dundee_all_entry_requirements",
+          "dundee_contextual_admissions_policy"
+        ]
+      },
+      {
+        "label": "Scottish Highers",
+        "value": "AAAAB including Chemistry or Biology plus another science. Mathematics is accepted as a science. Highers must be achieved in one sitting.",
+        "source_ids": [
+          "dundee_all_entry_requirements"
+        ]
+      },
+      {
+        "label": "Scottish widening access",
+        "value": "AAABB for eligible widening access applicants.",
+        "source_ids": [
+          "dundee_all_entry_requirements",
+          "dundee_contextual_admissions_policy"
+        ]
+      },
+      {
+        "label": "Advanced Higher / S6",
+        "value": "BB at Advanced Higher for S6 candidates.",
+        "source_ids": [
+          "dundee_all_entry_requirements"
+        ]
+      },
+      {
+        "label": "International Baccalaureate",
+        "value": "37 points overall with 6,6,6 at Higher Level, including Chemistry or Biology and another science at Higher Level.",
+        "source_ids": [
+          "dundee_all_entry_requirements"
+        ]
+      },
+      {
+        "label": "UCAT",
+        "value": "UCAT is required. Dundee states there is no minimum UCAT cut-off score.",
+        "source_ids": [
+          "dundee_entry_requirements"
+        ]
+      },
+      {
+        "label": "SJT",
+        "value": "SJT bands are not used as part of the initial selection for interview process.",
+        "source_ids": [
+          "dundee_admissions_statistics"
+        ]
+      },
+      {
+        "label": "Contextual criteria",
+        "value": "Contextual criteria include SIMD Quintile 1, free school meals, carer status, care-experienced status, estrangement/refugee/asylum/humanitarian protection circumstances, and recognised widening access programmes such as Reach, ACES or SWAP.",
+        "source_ids": [
+          "dundee_contextual_admissions_policy"
+        ]
+      }
+    ]
+  },
+  "stage_2": {
+    "title": "Stage 2: selection and interview",
+    "status": "research_context_available",
+    "selection_model": {
+      "label": "Separate international academic + UCAT weighted decile ranking",
+      "model_id": "ACADEMIC_UCAT_WEIGHTED_DECILE_RANKING",
+      "evidence": "verified international selection evidence; academic point matrix remains research-derived",
+      "official_university_published": false,
+      "warning": "The international 60/40 weighting and national-decile method are verified, but the exact academic point matrix is research-derived."
+    },
+    "international_selection": {
+      "applicant_pool": "separate_from_home",
+      "academic_weight_pct": 60,
+      "ucat_weight_pct": 40,
+      "ucat_score_input": "cognitive_total_only",
+      "ucat_conversion": "national_decile_rank",
+      "fixed_ucat_cutoff": null,
+      "personal_statement_used_for_shortlisting": false,
+      "personal_statement_may_be_referenced_during_interview": true,
+      "source_ids": [
+        "dundee_verified_international_admissions_evidence"
+      ]
+    },
+    "standard_entry_weighting": {
+      "label": "Standard Entry (A100)",
+      "academic_weight_pct": 60,
+      "ucat_weight_pct": 40,
+      "evidence_level": "foi_derived"
+    },
+    "graduate_a100_weighting": {
+      "label": "Graduate A100",
+      "academic_weight_pct": 40,
+      "ucat_weight_pct": 60,
+      "evidence_level": "predictor_estimate"
+    },
+    "ucat_decile_model": {
+      "scoring_basis": "national cohort decile rank",
+      "max_cognitive_score": 2700,
+      "subtest_count": 3,
+      "standard_entry_decile_points": {
+        "1": 4,
+        "2": 8,
+        "3": 12,
+        "4": 16,
+        "5": 20,
+        "6": 24,
+        "7": 28,
+        "8": 32,
+        "9": 36,
+        "10": 40
+      },
+      "graduate_a100_decile_points": {
+        "1": 6,
+        "2": 12,
+        "3": 18,
+        "4": 24,
+        "5": 30,
+        "6": 36,
+        "7": 42,
+        "8": 48,
+        "9": 54,
+        "10": 60
+      },
+      "evidence_level": "predictor_estimate_unless_foi_verified"
+    },
+    "pre_interview_formula": {
+      "standard_entry": "academic_score_out_of_60 + ucat_decile_score_out_of_40",
+      "graduate_a100": "academic_score_out_of_40 + ucat_decile_score_out_of_60",
+      "maximum_score": 100
+    },
+    "interview_process": {
+      "format": "Two-stage hybrid interview: Group Discussion followed by a one-to-one Structured Dialogue.",
+      "group_discussion": {
+        "applicants": 6,
+        "duration_minutes": 30,
+        "assessed_qualities": [
+          "Communication",
+          "Teamwork",
+          "Reasoning",
+          "Values"
+        ]
+      },
+      "structured_dialogue": {
+        "format": "One-to-one follow-up",
+        "assessed_qualities": [
+          "Reflection",
+          "Ethics",
+          "Motivation",
+          "Insight"
+        ]
+      },
+      "source_ids": [
+        "dundee_verified_international_admissions_evidence"
+      ]
+    },
+    "post_interview_offer_logic": {
+      "carryover_weight_pct": 0,
+      "interview_offer_weight_pct": 100,
+      "offer_basis": "ranked entirely by interview assessment score after interview",
+      "international_places": 31,
+      "evidence_level": "verified_international_evidence",
+      "warning": "This rule applies to the separate international pool."
+    }
+  },
+  "historical_context": {
+    "title": "Historical admissions context",
+    "official_admissions_statistics_available": true,
+    "source_ids": [
+      "dundee_admissions_statistics"
+    ],
+    "ucat_scale_conversion": {
+      "original_scale": 3600,
+      "current_scale": 2700,
+      "conversion_formula": "converted_ucat_2700_estimate = round(original_ucat_3600 * 0.75)",
+      "conversion_factor": 0.75,
+      "warning": "Dundee warns that UCAT values published before the 2025 UCAT change are not directly comparable with current UCAT scores. ApplySmart stores converted 2700-scale estimates for rough context only.",
+      "source_ids": [
+        "dundee_admissions_statistics"
+      ],
+      "use": "rough_historical_context_only"
+    },
+    "latest_cycle": "2023/24",
+    "rows": [
+      {
+        "row_label": "Total",
+        "applicant_group_ids": [],
+        "applications": 1951,
+        "interviews": 844,
+        "offers": 570,
+        "matriculations": 218,
+        "places": null,
+        "interview_rate": 0.4326,
+        "offer_rate": 0.2922,
+        "original_average_ucat_3600": 2675,
+        "original_lowest_ucat_3600": 1900,
+        "converted_average_ucat_2700_estimate": 2006,
+        "converted_lowest_ucat_2700_estimate": 1425,
+        "source_ids": [
+          "dundee_admissions_statistics"
+        ]
+      },
+      {
+        "row_label": "Home Scottish",
+        "applicant_group_ids": [
+          "scotland_domiciled",
+          "home_fee"
+        ],
+        "applications": 985,
+        "interviews": 625,
+        "offers": 450,
+        "matriculations": 155,
+        "places": null,
+        "interview_rate": 0.6345,
+        "offer_rate": 0.4569,
+        "original_average_ucat_3600": 2662,
+        "original_lowest_ucat_3600": 1900,
+        "converted_average_ucat_2700_estimate": 1997,
+        "converted_lowest_ucat_2700_estimate": 1425,
+        "source_ids": [
+          "dundee_admissions_statistics"
+        ]
+      },
+      {
+        "row_label": "Home Rest of UK (RUK) or ROI Irish Applicants",
+        "applicant_group_ids": [
+          "rest_of_uk",
+          "home_fee"
+        ],
+        "applications": 597,
+        "interviews": 138,
+        "offers": 65,
+        "matriculations": 32,
+        "places": null,
+        "interview_rate": 0.2312,
+        "offer_rate": 0.1089,
+        "original_average_ucat_3600": 2723,
+        "original_lowest_ucat_3600": 2150,
+        "converted_average_ucat_2700_estimate": 2042,
+        "converted_lowest_ucat_2700_estimate": 1613,
+        "source_ids": [
+          "dundee_admissions_statistics"
+        ]
+      },
+      {
+        "row_label": "Overseas",
+        "applicant_group_ids": [
+          "international_fee"
+        ],
+        "applications": 368,
+        "interviews": 81,
+        "offers": 55,
+        "matriculations": 31,
+        "places": null,
+        "interview_rate": 0.2201,
+        "offer_rate": 0.1495,
+        "original_average_ucat_3600": 2690,
+        "original_lowest_ucat_3600": 2270,
+        "converted_average_ucat_2700_estimate": 2018,
+        "converted_lowest_ucat_2700_estimate": 1703,
+        "source_ids": [
+          "dundee_admissions_statistics"
+        ]
+      }
+    ],
+    "predictor_benchmarks_2700": {
+      "evidence_label": "mixed_verified_international_and_estimated_home",
+      "disclaimer": "International benchmarks are verified historical guidance; Home benchmarks remain estimated. They are not fixed Dundee UCAT cut-offs.",
+      "benchmarks": [
+        {
+          "applicant_group_label": "Scottish",
+          "applicant_group_ids": [
+            "scotland_domiciled",
+            "home_fee"
+          ],
+          "minimum_competitive": 1850,
+          "strong": 2000,
+          "very_strong": 2150
+        },
+        {
+          "applicant_group_label": "RUK/ROI",
+          "applicant_group_ids": [
+            "rest_of_uk",
+            "home_fee"
+          ],
+          "minimum_competitive": 1950,
+          "strong": 2100,
+          "very_strong": 2250
+        },
+        {
+          "applicant_group_label": "International",
+          "applicant_group_ids": [
+            "international_fee"
+          ],
+          "minimum_competitive": 1950,
+          "good_average_competitive": 2050,
+          "strong": 2100,
+          "very_strong": 2200,
+          "historical_average": 2018,
+          "highest_recorded": 2310,
+          "guidance_only": true,
+          "fixed_cutoff": false
+        },
+        {
+          "applicant_group_label": "Contextual",
+          "applicant_group_ids": [
+            "contextual"
+          ],
+          "minimum_competitive": 1800,
+          "strong": 1950,
+          "very_strong": 2100
+        }
+      ]
+    },
+    "international_historical_guidance_2700": {
+      "cycles": [
+        {
+          "entry_year": "2023/24",
+          "lowest_invited": 1950,
+          "average_invited": 2020,
+          "average_offer_holders": 2050
+        },
+        {
+          "entry_year": "2024/25",
+          "lowest_invited": 1950,
+          "average_invited": 2025,
+          "average_offer_holders": 2055
+        },
+        {
+          "entry_year": "2025/26",
+          "lowest_invited": 2000,
+          "average_invited": 2050,
+          "average_offer_holders": 2080
+        }
+      ],
+      "bands": [
+        {
+          "ucat": "<1950",
+          "recommendation": "Consider stronger alternatives"
+        },
+        {
+          "ucat": "1950–2049",
+          "recommendation": "Possible but ambitious"
+        },
+        {
+          "ucat": "2050–2099",
+          "recommendation": "Good chance – recommend applying"
+        },
+        {
+          "ucat": "≥2100",
+          "recommendation": "Strong choice"
+        }
+      ],
+      "source_ids": [
+        "dundee_verified_international_admissions_evidence"
+      ],
+      "disclaimer": "Historical international interview guidance only. This is not a fixed international UCAT threshold; Dundee has no fixed international UCAT threshold."
+    },
+    "warning": "Historical guidance is not a fixed Dundee UCAT cut-off or an"
+  },
+  "prediction": {
+    "available": true,
+    "capability": "interview",
+    "prediction_type": "verified_international_historical_guidance_with_research_score_context",
+    "result_band": "realistic",
+    "guidance_pool_id": "international",
+    "recommendation": "Good chance – recommend applying",
+    "score": 92,
+    "score_scale": {
+      "min": 0,
+      "max": 100
+    },
+    "band_basis": "Verified international historical UCAT guidance in a separate pool; not a fixed Dundee cut-off or",
+    "eligibility_result": "eligible",
+    "academic_score": {
+      "value": 60,
+      "max": 60,
+      "evidence_level": "predictor_estimate"
+    },
+    "ucat_decile": 8,
+    "ucat_score": {
+      "value": 32,
+      "max": 40,
+      "evidence_level": "predictor_estimate"
+    },
+    "pre_interview_research_score": {
+      "value": 92,
+      "max": 100,
+      "formula": "academic_score_out_of_60 + ucat_decile_score_out_of_40"
+    },
+    "classification": "realistic",
+    "confidence_level": "medium",
+    "missing_data_reasons": [
+      "Official Dundee scoring formula is not published/verified in the course JSON.",
+      "Research-derived scoring is not official Dundee scoring.",
+      "Tie-breakers remain missing.",
+      "The exact interview scoring rubric remains unavailable."
+    ],
+    "cannot_predict_explanation": "ApplySmart can show verified international historical interview guidance and research score context, but it cannot claim a fixed UCAT cut-off or predict an offer.",
+    "source_ids": [
+      "dundee_all_entry_requirements",
+      "dundee_entry_requirements",
+      "dundee_admissions_statistics",
+      "dundee_verified_international_admissions_evidence"
+    ]
+  },
+  "missing_data": {
+    "official_academic_formula": "partially_available",
+    "official_ucat_formula": "partially_available",
+    "tie_breakers": "missing",
+    "interview_scoring_formula": "not_published",
+    "offer_holder_ucat_data": "available_for_international_average_only",
+    "notes": [
+      "Detailed academic point tables are marked missing_from_supplied_request and remain empty.",
+      "Tie-breakers are still missing.",
+      "Verified international average offer-holder UCAT values are available for 2023/24 through 2025/26; lowest and Home offer-holder values remain unavailable."
+    ]
+  },
+  "confidence": {
+    "level": "medium",
+    "summary": "International selection weighting and historical guidance are verified. The academic point matrix remains research-derived, and the guidance is not a fixed UCAT cut-off or",
+    "stage_confidence": {
+      "stage_1": "high",
+      "stage_2": "medium",
+      "offer_selection": "low"
+    },
+    "source_ids": [
+      "dundee_all_entry_requirements",
+      "dundee_entry_requirements",
+      "dundee_admissions_statistics",
+      "dundee_verified_international_admissions_evidence"
+    ]
+  },
+  "evidence_confidence": {
+    "level": "Medium",
+    "summary": "The recommendation is supported by core admissions evidence, with some historical or route-specific limits.",
+    "reasons": [
+      "Official eligibility rules are available.",
+      "The university selection approach is implemented.",
+      "Historical interview guidance is available, but some evidence is historical, FOI-derived or has documented gaps."
+    ]
+  },
+  "evidence": {
+    "source_ids": [
+      "dundee_course_page",
+      "dundee_entry_requirements",
+      "dundee_all_entry_requirements",
+      "dundee_contextual_admissions_policy",
+      "dundee_interview_page",
+      "dundee_admissions_statistics",
+      "dundee_verified_international_admissions_evidence"
+    ],
+    "sources": [
+      {
+        "source_id": "dundee_course_page",
+        "title": "University of Dundee - Medicine MBChB",
+        "url": "https://www.dundee.ac.uk/undergraduate/medicine",
+        "source_type": "official_course_page",
+        "confidence": "High",
+        "accessed_date": "2026-06-23"
+      },
+      {
+        "source_id": "dundee_entry_requirements",
+        "title": "University of Dundee Medicine Entry Requirements",
+        "url": "https://www.dundee.ac.uk/undergraduate/medicine/entry-requirements",
+        "source_type": "official_admissions_policy",
+        "confidence": "High",
+        "accessed_date": "2026-06-23"
+      },
+      {
+        "source_id": "dundee_all_entry_requirements",
+        "title": "University of Dundee Medicine All Entry Requirements",
+        "url": "https://www.dundee.ac.uk/undergraduate/medicine/entry-requirements/all",
+        "source_type": "official_admissions_policy",
+        "confidence": "High",
+        "accessed_date": "2026-06-23"
+      },
+      {
+        "source_id": "dundee_contextual_admissions_policy",
+        "title": "University of Dundee Contextual Admissions Policy",
+        "url": "https://www.dundee.ac.uk/corporate-information/contextual-admissions-policy",
+        "source_type": "official_admissions_policy",
+        "confidence": "High",
+        "accessed_date": "2026-06-23"
+      },
+      {
+        "source_id": "dundee_interview_page",
+        "title": "University of Dundee Medicine Interview",
+        "url": "https://www.dundee.ac.uk/undergraduate/medicine/interview",
+        "source_type": "official_admissions_policy",
+        "confidence": "High",
+        "accessed_date": "2026-06-23"
+      },
+      {
+        "source_id": "dundee_admissions_statistics",
+        "title": "University of Dundee MBChB Medicine (A100) admissions statistics by year of entry",
+        "url": "https://www.dundee.ac.uk/corporate-information/medicine-admissions-statistics",
+        "source_type": "official_admissions_statistics",
+        "confidence": "High",
+        "accessed_date": "2026-06-23"
+      },
+      {
+        "source_id": "dundee_verified_international_admissions_evidence",
+        "title": "Dundee A100 verified international admissions evidence",
+        "url": null,
+        "source_type": "verified_admissions_evidence",
+        "confidence": "High",
+        "accessed_date": "2026-07-02"
+      }
+    ]
+  },
+  "display": {
+    "headline": "Dundee A100",
+    "subheadline": "MBChB Medicine, Standard Entry, 5 years",
+    "primary_user_facing_recommendation": "Good chance based on historical data",
+    "recommendation_display_state": "standard",
+    "primary_explanation": "Your UCAT cognitive score of 2080 falls in Dundee's verified international 2050–2099 historical guidance band: Good chance – recommend applying.",
+    "historical_guidance_caveat": "Interview thresholds may change each admissions cycle depending on applicant competition and interview capacity. Historical figures are guidance only, not a current cut-off, and do not guarantee an interview.",
+    "badges": [
+      {
+        "label": "Eligible",
+        "tone": "positive"
+      },
+      {
+        "label": "Academic 60/60",
+        "tone": "positive"
+      },
+      {
+        "label": "UCAT 32/40",
+        "tone": "positive"
+      },
+      {
+        "label": "Good chance",
+        "tone": "positive"
+      },
+      {
+        "label": "Historical guidance",
+        "tone": "neutral"
+      }
+    ],
+    "secondary_explanation": "This is historical interview guidance for the separate international pool, not a fixed UCAT cut-off or",
+    "next_best_action": "Use this as one part of your choice strategy and prepare for the two-stage hybrid interview."
+  },
+  "decision_timeline": [
+    {
+      "step": 1,
+      "title": "Applicant details checked",
+      "status": "Complete",
+      "summary": "Your applicant type, qualifications and UCAT details were checked."
+    },
+    {
+      "step": 2,
+      "title": "Eligibility assessed",
+      "status": "Eligible",
+      "summary": "You meet the published entry requirements covered by ApplySmart."
+    },
+    {
+      "step": 3,
+      "title": "Selection model applied",
+      "status": "Complete",
+      "summary": "Academic attainment and UCAT national-decile performance were combined."
+    },
+    {
+      "step": 4,
+      "title": "Historical guidance compared",
+      "status": "Complete",
+      "summary": "Your result was compared with interview information from previous admissions cycles. Interview thresholds may change each admissions cycle depending on applicant competition and interview capacity. Historical figures are guidance only, not a current cut-off, and do not guarantee an interview."
+    },
+    {
+      "step": 5,
+      "title": "Interview recommendation produced",
+      "status": "Good chance",
+      "summary": "Good chance based on historical data. Treat this as guidance for university choice, not a promised interview."
+    }
+  ],
+  "decision_transparency": {
+    "decision_path": [
+      {
+        "stage": "Eligibility",
+        "status": "Met",
+        "summary": "The complete test profile meets the represented Dundee Standard Entry Stage 1 eligibility requirements.",
+        "checks": [
+          {
+            "label": "GCSE / National 5 subjects",
+            "status": "Met",
+            "summary": "English Language, Mathematics, Biology and Chemistry requirements represented as met at grade 8. Applicant information: English Language 8, Mathematics 8, Biology 8, Chemistry 8, Physics 8 plus three other grade 8 subjects"
+          },
+          {
+            "label": "A-level requirements",
+            "status": "Met",
+            "summary": "AAA including Chemistry or Biology plus another science. Applicant information: Chemistry A, Biology A, Mathematics A"
+          },
+          {
+            "label": "UCAT",
+            "status": "Met",
+            "summary": "UCAT required; no fixed cut-off stated. Applicant information: UCAT cognitive total 2080"
+          },
+          {
+            "label": "SJT",
+            "status": "Met",
+            "summary": "SJT not used for initial interview selection. Applicant information: Band 2"
+          }
+        ]
+      },
+      {
+        "stage": "Selection model",
+        "status": "Assessed",
+        "summary": "The implemented Dundee approach combines academic attainment and UCAT national-decile performance.",
+        "checks": [
+          {
+            "label": "Applicant pool",
+            "status": "Used",
+            "summary": "International standard-entry applicants"
+          },
+          {
+            "label": "Academic contribution",
+            "status": "Counted",
+            "summary": "Academic attainment contributes 60 points out of 60."
+          },
+          {
+            "label": "UCAT contribution",
+            "status": "Counted",
+            "summary": "UCAT national-decile performance contributes 32 points out of 40."
+          },
+          {
+            "label": "Combined score",
+            "status": "Calculated",
+            "summary": "The implemented pre-interview score is 92 out of 100."
+          },
+          {
+            "label": "Evidence limit",
+            "status": "Guidance only",
+            "summary": "The weighting is supported, while the exact academic points table is an ApplySmart research estimate."
+          }
+        ]
+      },
+      {
+        "stage": "Historical guidance",
+        "status": "Guidance available",
+        "summary": "The applicant's result is within the historical interview range used for this applicant group. Interview thresholds may change each admissions cycle depending on applicant competition and interview capacity. Historical figures are guidance only, not a current cut-off, and do not guarantee an interview.",
+        "checks": [
+          {
+            "label": "Applicant pool",
+            "status": "Used",
+            "summary": "International standard-entry applicants"
+          },
+          {
+            "label": "Important limitation",
+            "status": "Guidance only",
+            "summary": "Interview thresholds may change each admissions cycle depending on applicant competition and interview capacity. Historical figures are guidance only, not a current cut-off, and do not guarantee an interview."
+          }
+        ]
+      },
+      {
+        "stage": "Recommendation",
+        "status": "Guidance only",
+        "summary": "Good chance based on historical data. Treat this as guidance for university choice, not a promised interview.",
+        "checks": []
+      }
+    ],
+    "key_reasons": [
+      "The supported standard-entry requirements are met.",
+      "The implemented academic and UCAT score is 92 out of 100.",
+      "UCAT 2080 is within the available international historical interview range."
+    ],
+    "evidence_used": [
+      "Official admissions policy",
+      "University selection methodology",
+      "UCAT policy",
+      "Historical interview data",
+      "FOI evidence",
+      "International admissions policy"
+    ],
+    "evidence_confidence": {
+      "level": "Medium",
+      "summary": "The recommendation is supported by core admissions evidence, with some historical or route-specific limits.",
+      "reasons": [
+        "Official eligibility rules are available.",
+        "The university selection approach is implemented.",
+        "Historical interview guidance is available, but some evidence is historical, FOI-derived or has documented gaps."
+      ]
+    },
+    "manual_review_reason": null,
+    "insufficient_evidence_reason": null,
+    "warnings": [],
+    "score_breakdown": {
+      "name": "Selection score",
+      "value": 92,
+      "max": 100,
+      "status": "calculated",
+      "explanation": null,
+      "checks": [
+        {
+          "label": "Academic contribution",
+          "status": "Counted",
+          "summary": "Academic attainment contributes 60 points out of 60."
+        },
+        {
+          "label": "UCAT contribution",
+          "status": "Counted",
+          "summary": "UCAT national-decile performance contributes 32 points out of 40."
+        },
+        {
+          "label": "Combined score",
+          "status": "Calculated",
+          "summary": "The implemented pre-interview score is 92 out of 100."
+        }
+      ]
+    }
+  },
+  "engine_notes": {
+    "generated_from_profile_id": "dundee-a100",
+    "generated_from_research_profile_id": "dundee-a100-research",
+    "generated_from_checklist_id": "dundee-a100-missing-research-checklist",
+    "eligibility_ready": true,
+    "interview_prediction_ready": true,
+    "prediction_confidence": "medium",
+    "official_selection_formula_available": false,
+    "result_card_ready": true,
+    "assumptions": [],
+    "do_not_display": []
+  },
+  "prediction_summary": {
+    "label": "International historical interview guidance",
+    "official": false,
+    "eligibility_result": "eligible",
+    "academic_score": "60 / 60",
+    "ucat_decile": 8,
+    "ucat_score": "32 / 40",
+    "pre_interview_research_score": "92 / 100",
+    "classification": "realistic",
+    "confidence": "medium",
+    "recommendation": "Good chance – recommend applying",
+    "student_message": "Your UCAT cognitive score of 2080 is in Dundee's verified international 2050–2099 historical guidance band.",
+    "disclaimer": "Historical interview guidance only; this is not a fixed international UCAT threshold, and Dundee has no fixed international UCAT threshold."
+  }
+}

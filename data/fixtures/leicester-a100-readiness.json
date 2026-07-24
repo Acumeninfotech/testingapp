@@ -1,0 +1,114 @@
+{
+  "schema_version": "1.0.0",
+  "course_profile_id": "leicester-a100",
+  "readiness_scope": {
+    "fully_executable": [
+      "course identity",
+      "predicted and achieved A-level/IB Home and Overseas GCSE profile gate where GCSE evidence is supplied",
+      "predicted A-level AAB scoring floor and subject-combination gate",
+      "IB 34/766 and 36/666 HL routes",
+      "graduate eligibility gate (2:1 minimum, GCSE gate, Chemistry/Biology B at A-level)",
+      "Access to Medicine eligibility gate (approved diploma, minimum GCSEs, verified age/employment evidence)",
+      "UCAT required and current-cycle bottom-two-decile approximated minimum gate",
+      "SJT Band 4 rejection",
+      "English-language exemption route for GCSE/IGCSE English Language 6/B or a verified exemption flag",
+      "Official 48-point GCSE plus 48-point UCAT combined pre-interview score for predicted/achieved A-level and IB Home and Overseas school-leaver pools",
+      "2026-entry combined-score guidance bands for Home and Overseas predicted A-level pools"
+    ],
+    "guidance_only": [
+      "2026-entry combined-score guarantee thresholds (79/96 Home predicted, 88/96 Overseas predicted, 68/70 Home graduate, 79/82 Overseas graduate) as current-cycle, single-comparable-year guidance",
+      "interview format and domains (explanatory only)"
+    ],
+    "manual_review_required": [
+      "Graduate numeric ranking (best-3-A-level-or-HL-plus-degree-classification formula; documented and arithmetically verifiable via worked examples, but not executed by the shared generic scoring engine)",
+      "Access to Medicine numeric ranking (76-point formula; GCSE and UCAT components are calculable, but references/employment and personal-statement components require Admissions-Tutor human scoring)",
+      "Achieved-route auto-interview guaranteed-interview override (official criteria documented, but the shared generic classifier does not support a first-gap-year auto-interview override mechanism outside one other university's bespoke route function)",
+      "Access Leicester: Medicine, Realising Opportunities Programme, Sutton Trust Pathways to Medicine and restricted UKWPMED guaranteed-interview routes (official criteria documented, surfaced as a qualitative manual-review flag rather than an automatic classifier override)",
+      "Scottish Advanced Higher plus Higher joint evaluation",
+      "Irish Leaving Certificate route",
+      "Country-specific international qualification equivalence (ECCTIS)",
+      "Home-schooled applicant further-details review",
+      "GCSE mitigating-circumstances bonus points",
+      "A-level resit applicants",
+      "Year 12 / 4th-subject AS borderline-group cases"
+    ],
+    "route_limited_gap": [
+      "Exact bottom-two-decile UCAT cutoff for the current cycle",
+      "Exact MMI station count and duration",
+      "Raw UCAT averages or lowest scores of interviewed/offered candidates",
+      "Country-specific international qualification equivalence tables",
+      "Exact GCSE mitigation bonus-point value",
+      "Interaction between the two achieved-A-level bonus tracks"
+    ]
+  },
+  "expected_readiness": {
+    "eligibility_ready": true,
+    "interview_prediction_ready": true,
+    "international_ready": true,
+    "contextual_ready": false,
+    "graduate_ready": false,
+    "access_ready": false,
+    "regression_ready": true,
+    "production_ready": true,
+    "result_card_ready": true,
+    "historical_guidance_ready": true,
+    "manual_review_required": true
+  },
+  "expected_timeline_step_statuses": {
+    "standard_eligible": [
+      "Complete",
+      "Eligible",
+      "Complete",
+      "Complete",
+      "Good chance"
+    ],
+    "manual_review": [
+      "Complete",
+      "Manual review",
+      "Manual review",
+      "Not applied",
+      "Manual review"
+    ],
+    "not_eligible": [
+      "Complete",
+      "Not eligible",
+      "Not applied",
+      "Not applied",
+      "Not eligible"
+    ]
+  },
+  "official_worked_examples_arithmetic_check": {
+    "gcse_predicted_route": {
+      "grades": {
+        "english_language": 7,
+        "mathematics": 9,
+        "chemistry": 9,
+        "biology": 9,
+        "physics": 9,
+        "business_studies": 8,
+        "religious_studies": 6,
+        "french": 5
+      },
+      "points_table": { "9": 6, "8": 5, "7": 4, "6": 3, "5_or_below": 0 },
+      "expected_total": 36,
+      "expected_max": 48
+    },
+    "graduate_final_year_predicted": {
+      "a_levels": { "chemistry": "A", "biology": "B", "mathematics": "B" },
+      "a_level_points_table": { "A_star": 12, "A": 10, "B": 8, "C": 4 },
+      "a_level_points": 26,
+      "degree_status": "second_class_upper_predicted",
+      "degree_points": 4,
+      "expected_total": 30,
+      "expected_max": 48
+    },
+    "graduate_achieved": {
+      "a_levels": { "chemistry": "A*", "biology": "B", "mathematics": "B" },
+      "a_level_points": 28,
+      "degree_status": "first_class_obtained",
+      "degree_points": 12,
+      "expected_total": 40,
+      "expected_max": 48
+    }
+  }
+}

@@ -1,0 +1,458 @@
+{
+  "schema_version": "1.0.0",
+  "course_profile_id": "edge-hill-a100",
+  "confidence": "low",
+  "evidence": {
+    "classification": "official_ucat_ranking_with_foi_historical_threshold_guidance",
+    "summary": "Edge Hill A100 uses academic and SJT eligibility gates followed by Home-pool UCAT total ranking. ApplySmart uses verified 2021-2025 historical Home UCAT thresholds, including preserved legacy-scale source values and converted 2700-scale equivalents, to produce low-confidence historical guidance bands. These are not fixed 2027 cut-offs or guarantees.",
+    "source_ids": [
+      "edge_hill_research_doc",
+      "edge_hill_verified_clarifications",
+      "edge_hill_foi_historical_ucat"
+    ]
+  },
+  "eligibility": {
+    "scope": "Automatic handling is restricted to Home A100 applicants with supported A-level, IB or Scottish evidence, complete GCSE evidence, current-cycle UCAT and SJT Band 1-3. International applicants are explicitly ineligible. Graduate degree subject and recency checks require manual review.",
+    "international_english_language_required": false,
+    "explicitly_blocked_applicant_groups": [
+      "international_fee"
+    ],
+    "qualification_routes": {
+      "supported": [
+        "a_level",
+        "international_baccalaureate",
+        "scottish"
+      ],
+      "manual_review": [
+        "graduate"
+      ],
+      "explicitly_blocked": [
+        "btec",
+        "t_level",
+        "access_to_medicine",
+        "access_to_he",
+        "foundation",
+        "international_qualification",
+        "unknown"
+      ]
+    },
+    "gcse": {
+      "minimum_count": 5,
+      "use_exact_subject_list": false,
+      "required_subjects": [
+        {
+          "subject_id": "english_language",
+          "minimum_grade": "6"
+        },
+        {
+          "subject_id": "mathematics",
+          "minimum_grade": "6"
+        }
+      ]
+    },
+    "a_level": {
+      "routes": [
+        {
+          "route_id": "edge_hill_standard_aaa_biology_chemistry",
+          "grade_profile": [
+            "A",
+            "A",
+            "A"
+          ],
+          "required_subject_ids": [
+            "biology",
+            "chemistry"
+          ],
+          "excluded_subject_ids": [
+            "general_studies"
+          ]
+        },
+        {
+          "route_id": "edge_hill_a_star_biology_or_chemistry_third_subject_b",
+          "grade_profile": [
+            "A*",
+            "A",
+            "B"
+          ],
+          "required_subject_ids": [
+            "biology",
+            "chemistry"
+          ],
+          "required_subject_grade_options": [
+            {
+              "grade_requirements": [
+                {
+                  "subject_id": "biology",
+                  "minimum_grade": "A*"
+                },
+                {
+                  "subject_id": "chemistry",
+                  "minimum_grade": "A"
+                }
+              ]
+            },
+            {
+              "grade_requirements": [
+                {
+                  "subject_id": "biology",
+                  "minimum_grade": "A"
+                },
+                {
+                  "subject_id": "chemistry",
+                  "minimum_grade": "A*"
+                }
+              ]
+            }
+          ],
+          "excluded_subject_ids": [
+            "general_studies"
+          ]
+        }
+      ]
+    },
+    "international_baccalaureate": {
+      "routes": [
+        {
+          "route_id": "edge_hill_ib_36_hl6_biology_chemistry",
+          "total_points": 36,
+          "hl_grade_profile": [
+            "6",
+            "6",
+            "6"
+          ],
+          "required_hl_subject_ids": [
+            "biology",
+            "chemistry"
+          ],
+          "required_hl_subject_grade_options": [
+            {
+              "grade_requirements": [
+                {
+                  "subject_id": "biology",
+                  "minimum_grade": "6"
+                },
+                {
+                  "subject_id": "chemistry",
+                  "minimum_grade": "6"
+                }
+              ]
+            }
+          ],
+          "standard_level_requirement": "Three Standard Level subjects at 5+ are official metadata; current generic execution checks total and Higher Level requirements."
+        }
+      ]
+    },
+    "scottish": {
+      "national_5": {
+        "minimum_count": 0,
+        "required_subject_ids": [
+          "english_language",
+          "mathematics"
+        ]
+      },
+      "post_16_routes": [
+        {
+          "route_id": "edge_hill_highers_aaaab",
+          "grade_profile": [
+            "A",
+            "A",
+            "A",
+            "A",
+            "B"
+          ],
+          "required_subject_ids": [
+            "biology",
+            "chemistry"
+          ]
+        },
+        {
+          "route_id": "edge_hill_advanced_highers_aaa",
+          "grade_profile": [
+            "A",
+            "A",
+            "A"
+          ],
+          "required_subject_ids": [
+            "biology",
+            "chemistry"
+          ]
+        }
+      ]
+    },
+    "ucat": {
+      "required_test_year": 2026,
+      "minimum_total_score": null,
+      "score_scale": 2700,
+      "required_in_application_cycle": true
+    },
+    "sjt": {
+      "used_as_gate": true,
+      "accepted_bands": [
+        1,
+        2,
+        3
+      ],
+      "rejected_bands": [
+        4
+      ]
+    },
+    "resits": {
+      "resits_accepted": true,
+      "allowed_resit_attempts": null,
+      "applicant_form_required": false,
+      "routes": [
+        {
+          "route_id": "edge_hill_resit_standard_aaa",
+          "grade_profile": [
+            "A",
+            "A",
+            "A"
+          ],
+          "required_subject_ids": [
+            "biology",
+            "chemistry"
+          ],
+          "excluded_subject_ids": [
+            "general_studies"
+          ]
+        },
+        {
+          "route_id": "edge_hill_resit_a_star_biology_or_chemistry_third_subject_b",
+          "grade_profile": [
+            "A*",
+            "A",
+            "B"
+          ],
+          "required_subject_ids": [
+            "biology",
+            "chemistry"
+          ],
+          "required_subject_grade_options": [
+            {
+              "grade_requirements": [
+                {
+                  "subject_id": "biology",
+                  "minimum_grade": "A*"
+                },
+                {
+                  "subject_id": "chemistry",
+                  "minimum_grade": "A"
+                }
+              ]
+            },
+            {
+              "grade_requirements": [
+                {
+                  "subject_id": "biology",
+                  "minimum_grade": "A"
+                },
+                {
+                  "subject_id": "chemistry",
+                  "minimum_grade": "A*"
+                }
+              ]
+            }
+          ],
+          "excluded_subject_ids": [
+            "general_studies"
+          ]
+        }
+      ]
+    },
+    "manual_review_routes": [
+      "Graduate applicants, because degree subject, degree recency and ABB Biology/Chemistry evidence must be verified together.",
+      "Non-standard qualification equivalence.",
+      "Any route requiring A110 Foundation Year contextual eligibility."
+    ],
+    "do_not_infer": [
+      "Do not create an academic score.",
+      "Do not create an International guidance pool.",
+      "Do not apply A110 widening-participation criteria to A100.",
+      "Do not enforce a science practical-endorsement pass where no official A100 requirement is stated.",
+      "Do not treat historical UCAT thresholds as fixed 2027 cut-offs."
+    ]
+  },
+  "score_model": {
+    "type": "ranking_metric",
+    "basis": "Current-cycle UCAT total after Home applicant-group, academic and SJT eligibility gates. Historical guidance uses verified Edge Hill Home thresholds from 2021-2025, converted to the current 2700 scale where required.",
+    "metric": "ucat_total",
+    "pool_specific_output": true,
+    "scale": {
+      "min": 0,
+      "max": 2700
+    },
+    "fixed_current_cutoff": false,
+    "historical_guidance_only": true,
+    "legacy_3600_conversion_used": true,
+    "legacy_3600_values_display_only": true,
+    "converted_2700_values_display_only": false,
+    "normalised_2700_values_derived_for_prediction": true,
+    "executable": true,
+    "executable_band_rules_created": true,
+    "insufficient_evidence_output_for_eligible_applicants": false,
+    "applysmart_predictive_estimate": true,
+    "prediction_confidence": "low",
+    "conversion_policy": {
+      "from_scale": 3600,
+      "to_scale": 2700,
+      "formula": "official_score_3600 * 3 / 4",
+      "rounding_policy": "Exact arithmetic is preserved. The 2023 converted value 1957.5 is not rounded.",
+      "execution_rule": "Converted values calibrate guidance bands only. Raw legacy values are source evidence and are never compared directly with current applicant UCAT scores."
+    },
+    "calibration_policy": {
+      "method": "median_of_five_verified_home_historical_thresholds",
+      "methodology_label": "ApplySmart historical UCAT threshold guidance",
+      "evidence_status": "foi_verified_historical_guidance",
+      "official_status": "not_official_future_edge_hill_threshold",
+      "historical_cycles_used": [
+        2021,
+        2022,
+        2023,
+        2024,
+        2025
+      ],
+      "margin_points": 150,
+      "margin_model": {
+        "interview_likely": "score >= reference + 150",
+        "realistic": "score >= reference and < reference + 150",
+        "ambitious": "score >= reference - 150 and < reference",
+        "high_risk": "score < reference - 150"
+      },
+      "pool_references": {
+        "home_a100": {
+          "original_scores": [
+            null,
+            2600,
+            2610,
+            2600,
+            2440
+          ],
+          "original_scales": [
+            2700,
+            3600,
+            3600,
+            3600,
+            3600
+          ],
+          "converted_scores_2700": [
+            1920,
+            1950,
+            1957.5,
+            1950,
+            1830
+          ],
+          "sorted_converted_scores_2700": [
+            1830,
+            1920,
+            1950,
+            1950,
+            1957.5
+          ],
+          "median_reference_2700": 1950,
+          "exact_reference_preserved": true,
+          "runtime_boundaries": {
+            "likely": 2100,
+            "realisticMin": 1950,
+            "realisticMax": 2099,
+            "ambitiousMin": 1800,
+            "ambitiousMax": 1949,
+            "highRiskBelow": 1800
+          },
+          "confidence": "low"
+        }
+      }
+    },
+    "historical_series": [
+      {
+        "group_id": "home_a100",
+        "converted_scores_2700": [
+          1920,
+          1950,
+          1957.5,
+          1950,
+          1830
+        ],
+        "sorted_converted_scores_2700": [
+          1830,
+          1920,
+          1950,
+          1950,
+          1957.5
+        ],
+        "median_reference_2700": 1950,
+        "evidence_classification": "foi_verified_historical_guidance",
+        "display_only": false,
+        "applysmart_derived": true,
+        "official": false,
+        "usable_for_guidance_band_calibration": true,
+        "runtime_boundaries": {
+          "likely": 2100,
+          "realisticMin": 1950,
+          "realisticMax": 2099,
+          "ambitiousMin": 1800,
+          "ambitiousMax": 1949,
+          "highRiskBelow": 1800
+        },
+        "notes": "Home reference is the median of verified converted thresholds 1830, 1920, 1950, 1950 and 1957.5."
+      }
+    ],
+    "presentation": {
+      "pool_label": "Home A100 applicants",
+      "selection_summary": "Edge Hill checks academic eligibility and SJT first, then ranks eligible Home A100 applicants by total UCAT score. No academic score is created.",
+      "timeline_selection_summary": "Academic eligibility and the SJT Band 4 gate were checked before applying Home-pool UCAT ranking guidance.",
+      "evidence_used": [
+        "Official admissions policy",
+        "University selection methodology",
+        "UCAT policy",
+        "Historical interview data",
+        "FOI evidence"
+      ]
+    }
+  },
+  "guidance_pools": [
+    {
+      "pool_id": "home_a100",
+      "priority": 10,
+      "applicant_match": {
+        "all_group_ids": [
+          "home_fee"
+        ],
+        "excluded_group_ids": [
+          "international_fee"
+        ]
+      },
+      "metric": "ucat_total",
+      "pool_specific_output": true,
+      "comparison_guidance": {
+        "comparison_type": "historical_range",
+        "label": "Edge Hill Home historical UCAT guidance",
+        "caveat": "Edge Hill does not publish a fixed future UCAT threshold. Historical Home thresholds are guidance only and do not guarantee an interview.",
+        "evidence_confidence": "low"
+      },
+      "band_rules": [
+        {
+          "band": "interview_likely",
+          "operator": "greater_than_or_equal",
+          "value": 2100
+        },
+        {
+          "band": "realistic",
+          "operator": "between_inclusive",
+          "min": 1950,
+          "max": 2099
+        },
+        {
+          "band": "ambitious",
+          "operator": "between_inclusive",
+          "min": 1800,
+          "max": 1949
+        },
+        {
+          "band": "high_risk",
+          "operator": "less_than",
+          "value": 1800
+        }
+      ]
+    }
+  ]
+}

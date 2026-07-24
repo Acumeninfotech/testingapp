@@ -1,0 +1,390 @@
+{
+  "schema_version": "1.0.0",
+  "template_version": "1.0.0",
+  "result_id": "sunderland-a100-home-eligible-ist-limited-example",
+  "generated_at": "2026-07-18",
+  "result_mode": "example_eligibility_with_ist_limited_interview_guidance",
+  "course_identity": {
+    "profile_id": "sunderland-a100",
+    "university_name": "University of Sunderland",
+    "course_name": "MBChB Medicine",
+    "ucas_code": "A100",
+    "entry_route": "standard_entry",
+    "qualification_awarded": "MBChB",
+    "duration_years": 5,
+    "location": "Sunderland, England",
+    "source_ids": [
+      "sunderland_course_page_2027",
+      "sunderland_admissions_policy_2026_27"
+    ]
+  },
+  "applicant_context": {
+    "applies_to_group_ids": [
+      "england_domiciled",
+      "home_fee",
+      "school_leaver"
+    ],
+    "applicant_summary": "Home A-level school-leaver meeting Sunderland's represented GCSE, A-level, UCAT top-eight-deciles and SJT Band 1-3 gates.",
+    "fee_cohort": "home",
+    "entry_route": "standard_entry",
+    "qualification_route": "a_level",
+    "contextual": false,
+    "graduate": false,
+    "admissions_tests": {
+      "ucat": {
+        "total_score": 1800,
+        "score_scale": 2700,
+        "sjt_band": 2,
+        "test_year": 2026
+      }
+    },
+    "source_ids": []
+  },
+  "readiness": {
+    "eligibility": true,
+    "interview_prediction": true,
+    "historical_guidance": true,
+    "international_prediction": false,
+    "contextual_logic": true,
+    "result_card": true,
+    "regression": true,
+    "research_completeness": "complete_for_supported_scope_with_documented_gaps",
+    "manual_review_required": true,
+    "eligibility_ready": true,
+    "interview_prediction_ready": true,
+    "prediction_confidence": "low",
+    "result_card_ready": true,
+    "offer_prediction_scope": "out_of_scope",
+    "activation_ready": true,
+    "production_ready": true
+  },
+  "eligibility": {
+    "status": "eligible",
+    "summary": "The represented applicant meets Sunderland's supported Home A100 academic, UCAT and SJT eligibility gates.",
+    "stage_1_checks": [
+      {
+        "check_id": "applicant_pool",
+        "label": "Applicant pool",
+        "status": "pass",
+        "requirement": "A100 accepts Home applicants only.",
+        "applicant_value": "Home fee status.",
+        "decision_outcome": "eligible",
+        "source_ids": [
+          "sunderland_course_page_2027"
+        ]
+      },
+      {
+        "check_id": "academic_gate",
+        "label": "Academic gate",
+        "status": "pass",
+        "requirement": "GCSE and A-level requirements are checked as eligibility gates and are not numerically scored.",
+        "applicant_value": "Five grade 7 GCSEs including English Language, Mathematics and separate sciences; AAA in Biology, Chemistry and Mathematics.",
+        "decision_outcome": "eligible",
+        "source_ids": [
+          "sunderland_course_page_2027"
+        ]
+      },
+      {
+        "check_id": "ucat_gate",
+        "label": "UCAT gate",
+        "status": "pass",
+        "requirement": "Applicant must be within the top eight national UCAT deciles.",
+        "applicant_value": "UCAT 1800/2700 meets the represented current national-decile gate.",
+        "decision_outcome": "eligible",
+        "source_ids": [
+          "sunderland_admissions_policy_2026_27",
+          "ucat_consortium_test_statistics"
+        ]
+      },
+      {
+        "check_id": "sjt_gate",
+        "label": "SJT gate",
+        "status": "pass",
+        "requirement": "SJT Bands 1-3 are accepted; Band 4 is rejected.",
+        "applicant_value": "Band 2.",
+        "decision_outcome": "eligible",
+        "source_ids": [
+          "sunderland_admissions_policy_2026_27"
+        ]
+      }
+    ],
+    "blocking_reasons": [],
+    "warnings": [
+      "Sunderland interview shortlisting also depends on the assessed Interview Selection Tool.",
+      "The numeric IST scoring formula and cut-score are unpublished.",
+      "Historical UCAT values are guidance only and do not guarantee an interview."
+    ],
+    "source_ids": [
+      "sunderland_course_page_2027",
+      "sunderland_admissions_policy_2026_27",
+      "sunderland_interview_selection_tool"
+    ]
+  },
+  "stage_1_requirements": {
+    "verification_status": "official_source_verified_with_documented_gaps",
+    "verified_requirements": [
+      {
+        "requirement_id": "academic_gate",
+        "label": "Academic eligibility gate",
+        "value": "Academic requirements are gates only and are not scored for interview shortlisting.",
+        "source_ids": [
+          "sunderland_course_page_2027"
+        ]
+      },
+      {
+        "requirement_id": "ucat_sjt_gate",
+        "label": "UCAT and SJT gate",
+        "value": "UCAT top eight national deciles and SJT Bands 1-3 are required.",
+        "source_ids": [
+          "sunderland_admissions_policy_2026_27"
+        ]
+      }
+    ],
+    "unknown_requirements": [
+      "Numeric Interview Selection Tool formula and threshold."
+    ],
+    "source_ids": [
+      "sunderland_admissions_policy_2026_27"
+    ]
+  },
+  "stage_2_selection": {
+    "verification_status": "official_source_verified_with_unpublished_formula",
+    "primary_model": "hybrid_eligibility_gate_then_ist_shortlisting",
+    "summary": "Sunderland shortlisting is not determined by UCAT alone. Applicants who clear academic, UCAT and SJT gates are shortlisted using the assessed Interview Selection Tool.",
+    "represented_ranking_input": {
+      "score": null,
+      "max": null,
+      "metric": "interview_selection_tool_unpublished"
+    },
+    "ranking_factors": [
+      {
+        "factor_id": "interview_selection_tool",
+        "label": "Interview Selection Tool",
+        "weight_percent": null,
+        "calculation_status": "unpublished_formula_not_scored_by_applysmart",
+        "notes": "Admissions Tutors assess care/support/service engagement, responsibility and open-ended SJT-style written responses. ApplySmart does not generate an IST score.",
+        "source_ids": [
+          "sunderland_interview_selection_tool"
+        ]
+      }
+    ],
+    "selection_adjustments": [],
+    "unknown_calculation_areas": [
+      "Numeric IST scoring formula.",
+      "IST shortlisting cut-score.",
+      "Current-cycle interview capacity."
+    ],
+    "source_ids": [
+      "sunderland_admissions_policy_2026_27",
+      "sunderland_interview_selection_tool"
+    ]
+  },
+  "historical_context": {
+    "use": "historical_ucat_guidance_only",
+    "fixed_current_cutoff": false,
+    "not_deterministic": true,
+    "warning": "Sunderland's adjusted historical UCAT values are context only. They are not current or future cut-offs and do not guarantee an interview.",
+    "historical_ucat_rows": [
+      {
+        "entry_year": 2020,
+        "adjusted_minimum_ucat_2700": 1690,
+        "display_only_source_row": true
+      },
+      {
+        "entry_year": 2021,
+        "adjusted_minimum_ucat_2700": 1670,
+        "display_only_source_row": true
+      },
+      {
+        "entry_year": 2022,
+        "adjusted_minimum_ucat_2700": 1650,
+        "display_only_source_row": true
+      },
+      {
+        "entry_year": 2023,
+        "adjusted_minimum_ucat_2700": 1680,
+        "display_only_source_row": true
+      },
+      {
+        "entry_year": 2024,
+        "adjusted_minimum_ucat_2700": 1670,
+        "display_only_source_row": true
+      }
+    ]
+  },
+  "prediction": {
+    "available": true,
+    "capability": "interview_guidance",
+    "prediction_type": "application_suitability_guidance_after_eligibility_gates",
+    "prediction_status": "realistic_choice_with_unscored_ist_limitation",
+    "result_band": "realistic",
+    "guidance_pool_id": "home_a100_eligibility_gate",
+    "score": 1,
+    "score_scale": {
+      "min": 0,
+      "max": 1
+    },
+    "band_basis": "Sunderland uses an assessed Interview Selection Tool after academic, UCAT and SJT gates. The IST formula is unpublished and ApplySmart cannot score it.",
+    "historical_comparison": "historical_ucat_values_display_only",
+    "missing_data_reasons": [
+      "sunderland_ist_numeric_formula_unpublished",
+      "sunderland_ist_applicant_responses_not_collected_by_applysmart"
+    ],
+    "cannot_predict_explanation": "ApplySmart can check the academic, UCAT and SJT gates, but cannot determine Sunderland interview shortlisting because the assessed Interview Selection Tool scoring formula is unpublished.",
+    "source_ids": [
+      "sunderland_admissions_policy_2026_27",
+      "sunderland_interview_selection_tool"
+    ]
+  },
+  "confidence": {
+    "level": "low",
+    "summary": "Eligibility evidence is official. Interview guidance is low confidence because Sunderland's assessed IST formula is unpublished.",
+    "stage_confidence": {
+      "stage_1": "medium",
+      "stage_2": "low",
+      "historical_guidance": "low"
+    },
+    "source_ids": [
+      "sunderland_course_page_2027",
+      "sunderland_admissions_policy_2026_27",
+      "sunderland_interview_selection_tool"
+    ]
+  },
+  "evidence_confidence": {
+    "level": "Medium",
+    "summary": "The recommendation is supported by core admissions evidence, with some historical or route-specific limits.",
+    "reasons": [
+      "Official eligibility rules are available.",
+      "The university selection approach is implemented.",
+      "Historical interview guidance is available, but some evidence is historical, FOI-derived or has documented gaps."
+    ]
+  },
+  "display": {
+    "headline": "Realistic Choice",
+    "primary_user_facing_recommendation": "Realistic Choice",
+    "recommendation_display_state": "standard",
+    "primary_explanation": "Your academic profile and UCAT meet Sunderland's published interview eligibility requirements and are historically competitive. Based on the information ApplySmart can assess, Sunderland is a realistic university choice for your application. Sunderland also uses an assessed Interview Selection Tool (IST), based on work or caregiving experience and reflective responses, to shortlist applicants for interview. As the university does not publish the IST scoring methodology and ApplySmart cannot evaluate your IST submission, your final interview competitiveness will also depend on the quality of this assessment.",
+    "historical_guidance_caveat": "Interview thresholds may change each admissions cycle depending on applicant competition and interview capacity. Historical figures are guidance only, not a current cut-off, and do not guarantee an interview."
+  },
+  "decision_timeline": [
+    {
+      "step": 1,
+      "title": "Applicant details checked",
+      "status": "Complete",
+      "summary": "Your applicant type, qualifications and UCAT details were checked."
+    },
+    {
+      "step": 2,
+      "title": "Eligibility assessed",
+      "status": "Eligible",
+      "summary": "You meet the published entry requirements covered by ApplySmart."
+    },
+    {
+      "step": 3,
+      "title": "Selection model applied",
+      "status": "Complete",
+      "summary": "Sunderland shortlisting is not determined by UCAT alone. Applicants who clear academic, UCAT and SJT gates are shortlisted using the assessed Interview Selection Tool."
+    },
+    {
+      "step": 4,
+      "title": "Historical guidance compared",
+      "status": "Complete",
+      "summary": "Your result was compared with interview information from previous admissions cycles. Interview thresholds may change each admissions cycle depending on applicant competition and interview capacity. Historical figures are guidance only, not a current cut-off, and do not guarantee an interview."
+    },
+    {
+      "step": 5,
+      "title": "Interview recommendation produced",
+      "status": "Good chance",
+      "summary": "Realistic Choice. Treat this as guidance for university choice, not a promised interview."
+    }
+  ],
+  "decision_transparency": {
+    "decision_path": [
+      {
+        "stage": "Eligibility",
+        "status": "Met",
+        "summary": "The represented applicant meets the academic, UCAT and SJT gates ApplySmart can check.",
+        "checks": [
+          {
+            "label": "Academic gate",
+            "status": "Met",
+            "summary": "GCSE and A-level requirements are threshold-only."
+          },
+          {
+            "label": "UCAT and SJT gate",
+            "status": "Met",
+            "summary": "UCAT top-eight-deciles gate met and SJT Band 2 accepted."
+          }
+        ]
+      },
+      {
+        "stage": "Selection model",
+        "status": "Assessed",
+        "summary": "Sunderland shortlisting also depends on the assessed IST. The numeric scoring formula is unpublished.",
+        "checks": [
+          {
+            "label": "Applicant pool",
+            "status": "Used",
+            "summary": "Home A100 applicants"
+          },
+          {
+            "label": "IST score",
+            "status": "Not available",
+            "summary": "ApplySmart does not collect or calculate Sunderland's IST score."
+          }
+        ]
+      },
+      {
+        "stage": "Historical guidance",
+        "status": "Guidance available",
+        "summary": "Sunderland's adjusted historical UCAT values are guidance only, not current cut-offs, and do not guarantee an interview.",
+        "checks": [
+          {
+            "label": "Historical UCAT values",
+            "status": "Display only",
+            "summary": "2020-2024 adjusted values are not used as a guaranteed threshold."
+          }
+        ]
+      },
+      {
+        "stage": "Recommendation",
+        "status": "Guidance only",
+        "summary": "Realistic Choice is shown as application-suitability guidance; Sunderland's assessed IST remains a material unscored shortlisting factor.",
+        "checks": []
+      }
+    ],
+    "key_reasons": [
+      "Eligibility gates are met.",
+      "Sunderland's IST remains a material shortlisting component.",
+      "The IST formula and cut-score are unpublished.",
+      "Realistic Choice is application-suitability guidance only."
+    ],
+    "evidence_used": [
+      "Official admissions policy",
+      "UCAT policy",
+      "Historical interview data",
+      "FOI evidence",
+      "Contextual admissions policy"
+    ],
+    "evidence_confidence": {
+      "level": "Medium",
+      "summary": "The recommendation is supported by core admissions evidence, with some historical or route-specific limits.",
+      "reasons": [
+        "Official eligibility rules are available.",
+        "The university selection approach is implemented.",
+        "Historical interview guidance is available, but some evidence is historical, FOI-derived or has documented gaps."
+      ]
+    },
+    "warnings": [],
+    "manual_review_reason": null,
+    "insufficient_evidence_reason": null,
+    "insufficient_evidence_reason_code": null
+  },
+  "engine_notes": {
+    "generated_from_profile_id": "sunderland-a100",
+    "offer_prediction_scope": "out_of_scope",
+    "result_card_ready": true,
+    "activation_ready": true,
+    "production_ready": true
+  }
+}

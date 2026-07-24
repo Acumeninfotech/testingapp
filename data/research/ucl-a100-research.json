@@ -1,0 +1,241 @@
+{
+  "schema_version": "1.0.0",
+  "profile_id": "ucl-a100-research",
+  "course_profile_id": "ucl-a100",
+  "research_status": "complete_for_supported_scope_with_documented_gaps",
+  "file_purpose": "Research and evidence profile for University College London Medicine MBBS BSc A100. Executable rules live in data/universities/ucl-a100.json.",
+  "official_rules_source": "data/universities/ucl-a100.json",
+  "created_at": "2026-07-22",
+  "last_updated": "2026-07-22",
+  "research_scope": {
+    "target_entry_year": 2027,
+    "primary_policy_cycle": "2027 entry with 2026-entry current-scale UCAT threshold evidence",
+    "primary_course": "A100",
+    "primary_scope": [
+      "home_standard_a_level_school_leaver",
+      "confirmed_access_ucl_a_level_school_leaver",
+      "home_standard_ib_school_leaver",
+      "scottish_advanced_highers_route",
+      "verified_access_to_medicine_route",
+      "international_route_with_verified_qualification_and_english_evidence",
+      "interview_invitation_guidance_only"
+    ],
+    "excluded_related_courses": [
+      "Any UCL graduate-entry course because UCL has no 4-year Graduate Entry Programme",
+      "Any gateway or foundation medicine course"
+    ],
+    "production_json_updated": true,
+    "index_updated": true,
+    "examples_updated": true,
+    "regression_scripts_updated": true,
+    "third_party_admissions_websites_used": false,
+    "evidence_intake_basis": "/Users/faizan/Desktop/medical university research/University-data-list/UCL/UCL_A100_Admissions_Reference.md and /Users/faizan/Downloads/ucl-a100-interview-band-config.json supplied by the user on 2026-07-22"
+  },
+  "evidence_classification_policy": {
+    "official": "A rule or statistic attributed by the supplied research to UCL, MSC, OfS, UCAT Consortium or an official UCL FOI response.",
+    "official_published_threshold": "A UCAT threshold directly published by UCL for a named entry cycle and applicant pool.",
+    "official_foi": "A fact from an official UCL FOI response.",
+    "not_applicable": "Pre-2025 UCAT thresholds are not applicable because UCL used BMAT before the 2025-entry cycle.",
+    "unknown": "The supplied evidence does not establish the fact safely enough for execution.",
+    "modelled_guidance": "ApplySmart band boundaries around an official UCL threshold. These are not official UCL cutoffs."
+  },
+  "metadata": {
+    "authoritative_research_file": "/Users/faizan/Desktop/medical university research/University-data-list/UCL/UCL_A100_Admissions_Reference.md",
+    "authoritative_band_config_file": "/Users/faizan/Downloads/ucl-a100-interview-band-config.json",
+    "engine_version": "ApplySmart Engine v1.0",
+    "architecture_change_required": false,
+    "architecture_change_summary": "None. UCL is represented by existing academic-gate, UCAT-ranking, pool-specific guidance and manual-review boundary patterns.",
+    "selection_model_mapping": "academic_gate_then_pool_specific_ucat_ranking",
+    "standardisation_profile": "completed_production_university",
+    "repository_discrepancy_reported_before_edit": "Existing University College London A100 production JSON was an MSC seed with unknown detailed rules and was superseded by the requested ucl-a100 production ID."
+  },
+  "readiness": {
+    "eligibility": true,
+    "interview_prediction": true,
+    "historical_guidance": true,
+    "international_prediction": true,
+    "contextual_logic": true,
+    "result_card": true,
+    "regression": true,
+    "research_completeness": "complete_for_supported_scope_with_documented_gaps",
+    "manual_review_required": true,
+    "eligibility_ready": true,
+    "interview_prediction_ready": true,
+    "prediction_confidence": "low",
+    "result_card_ready": true,
+    "offer_prediction_scope": "out_of_scope",
+    "interview_band_config_ready": true,
+    "metadata_activation_ready": true,
+    "production_ready_candidate": true,
+    "production_activation_should_remain_blocked": false,
+    "activation_block_reason": null
+  },
+  "course_identity": {
+    "university": "University College London",
+    "medical_school": "UCL Medical School",
+    "course_name": "Medicine MBBS BSc",
+    "ucas_code": "A100",
+    "duration_years": 6,
+    "entry_route": "standard_entry",
+    "home_places_ofs_anticipated": 313,
+    "overseas_places": 24,
+    "evidence_classification": "official"
+  },
+  "selection_model": {
+    "type": "sequential_gate",
+    "steps": [
+      "Check applicant/course-route eligibility.",
+      "Check academic eligibility, GCSE English Language and Mathematics, A-level/IB/Scottish/verified-route requirements, same-sitting and resit rules.",
+      "Require UCAT in the application cycle.",
+      "Route eligible applicants to confirmed Access UCL, Home or Overseas pool.",
+      "Rank by UCAT cognitive total within the pool.",
+      "Use SJT only as a tiebreaker when UCAT cognitive totals are identical."
+    ],
+    "academic_scoring": false,
+    "ucat_ranking": true,
+    "ucat_weight_percent": 100,
+    "sjt_shortlisting_role": "tie_breaker_only",
+    "personal_statement_scored": false,
+    "offer_prediction": "out_of_scope",
+    "evidence_classification": "official"
+  },
+  "academic_requirements": {
+    "gcse": {
+      "minimum_profile": "GCSE English Language and Mathematics at grade 6/B or above.",
+      "scored_after_threshold": false,
+      "other_gcse_scoring_implemented": false
+    },
+    "a_level": {
+      "standard": "A*AA with A*A in Biology and Chemistry in either order.",
+      "access_ucl": "AAB with AA in Biology and Chemistry for confirmed Home Access UCL applicants.",
+      "excluded": [
+        "General Studies",
+        "Critical Thinking"
+      ],
+      "same_sitting_required": true,
+      "academic_strength_bonus": false
+    },
+    "international_baccalaureate": {
+      "standard": "39 points overall, 19 HL points, Biology and Chemistry at 6 and 7 in either order, no HL below 5.",
+      "access_ucl": "36 points overall, 17 HL points, Biology and Chemistry at minimum 6, no HL below 5."
+    },
+    "scottish": {
+      "standard": "Advanced Highers A1,A,A or A1,A at Advanced Higher plus A,A,A at Higher, including Chemistry and Biology at Advanced Higher with either at A1."
+    },
+    "graduate_a100": {
+      "accepted": true,
+      "runtime_status": "manual_review_required",
+      "notes": "UCL accepts UK graduates to A100 with iBSc waived, but degree status, UK 2.1 requirement and limited module waiver cases require official applicant-level review before automated prediction."
+    }
+  },
+  "ucat_and_sjt": {
+    "ucat_required": true,
+    "ranking_metric": "total_cognitive_score",
+    "score_scale": 2700,
+    "selection_weight_percent": 100,
+    "access_ucl_threshold": {
+      "entry_cycle": "2026 entry",
+      "value": 2080,
+      "scale": 2700,
+      "use": "historical_guidance_anchor",
+      "evidence_classification": "official_published_threshold"
+    },
+    "home_threshold": {
+      "entry_cycle": "2026 entry",
+      "value": 2190,
+      "scale": 2700,
+      "use": "historical_guidance_anchor",
+      "evidence_classification": "official_published_threshold"
+    },
+    "overseas_threshold": {
+      "entry_cycle": "2026 entry",
+      "value": 2300,
+      "scale": 2700,
+      "use": "historical_guidance_anchor",
+      "evidence_classification": "official_published_threshold"
+    },
+    "sjt_shortlisting_role": "Tiebreaker only for identical UCAT totals.",
+    "sjt_band_4_auto_reject": false,
+    "subsection_minima": "not_published",
+    "subsection_minima_runtime": "not_executed"
+  },
+  "historical_context": {
+    "use": "guidance_only",
+    "fixed_future_cutoff": false,
+    "not_deterministic": true,
+    "warning": "The 2026-entry UCAT thresholds are the only published current-scale UCL thresholds and must not be treated as guaranteed future cut-offs.",
+    "pre_2025_ucat_thresholds": "not_applicable_bmat_era",
+    "native_scale_thresholds": [
+      {
+        "cycle": "2025 entry",
+        "scale": 3600,
+        "access_ucl": 2600,
+        "home": 2800,
+        "overseas": 3060,
+        "conversion_used_for_execution": false
+      },
+      {
+        "cycle": "2026 entry",
+        "scale": 2700,
+        "access_ucl": 2080,
+        "home": 2190,
+        "overseas": 2300,
+        "conversion_used_for_execution": false
+      }
+    ]
+  },
+  "interview_information": {
+    "format": "MMI",
+    "stations": "up to 8",
+    "minutes_per_station": 5,
+    "mode": "Home in person; International online",
+    "timing": "December to end of March",
+    "personal_statement": "Not scored in shortlisting; may be discussed at interview.",
+    "offer_basis": "Only interview scores are used to make offers.",
+    "offer_prediction_runtime": "out_of_scope"
+  },
+  "evidence_gaps": [
+    {
+      "gap_id": "single_current_scale_threshold_cycle",
+      "status": "documented_low_prediction_calibration_confidence",
+      "impact": "Band boundaries around the 2026-entry thresholds are ApplySmart modelled guidance."
+    },
+    {
+      "gap_id": "access_ucl_2027_criteria_update",
+      "status": "future_official_update_expected",
+      "impact": "Access UCL 2026 criteria are implemented; future cycle criteria should be refreshed when UCL publishes them."
+    },
+    {
+      "gap_id": "country_specific_international_equivalencies",
+      "status": "manual_review_boundary",
+      "impact": "International qualification equivalence requires UCL verification."
+    },
+    {
+      "gap_id": "ucl_level_4_english_component_minima",
+      "status": "manual_review_boundary",
+      "impact": "International English-language evidence requires UCL Level 4 verification."
+    },
+    {
+      "gap_id": "graduate_degree_and_module_waiver_evidence",
+      "status": "manual_review_boundary",
+      "impact": "Graduate A100 applicants require degree and any module-waiver review before prediction."
+    },
+    {
+      "gap_id": "post_interview_offer_thresholds",
+      "status": "out_of_scope",
+      "impact": "Offer prediction is not implemented."
+    }
+  ],
+  "implementation_mapping": {
+    "architecture_change_required": false,
+    "shared_engine_files_changed": [],
+    "runtime_interview_band_config": "data/interview-band-configs/ucl-a100.json",
+    "supplied_thresholds_preserved": {
+      "access_ucl": 2080,
+      "home": 2190,
+      "overseas": 2300
+    },
+    "legacy_3600_conversion_used": false,
+    "offer_prediction_implemented": false
+  }
+}

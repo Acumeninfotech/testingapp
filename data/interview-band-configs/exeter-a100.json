@@ -1,0 +1,485 @@
+{
+  "schema_version": "1.0.0",
+  "course_profile_id": "exeter-a100",
+  "confidence": "medium",
+  "evidence": {
+    "classification": "official_exeter_score_with_guidance_thresholds",
+    "summary": "Exeter publishes an executable Exeter Score for direct school leavers: grade profile plus UCAT decile, with +10 achieved-grade and +5 WP/contextual uplifts. The supplied research gives Home and International score guidance thresholds. Contextual treatment is implemented as the official +5 score uplift only, without a second threshold reduction.",
+    "source_ids": [
+      "exeter_bmbs_admissions_policy_2026_v4",
+      "exeter_research_document_2026"
+    ]
+  },
+  "eligibility": {
+    "scope": "Automatic Exeter Score classification is restricted to direct school-leaver A-level applicants with complete academic and UCAT evidence. IB is checked for eligibility but does not receive an automated Exeter Score. GAMSAT/non-direct school-leaver, graduate and unsupported qualification-equivalence routes are manual review.",
+    "international_english_language_required": true,
+    "qualification_routes": {
+      "supported": [
+        "a_level",
+        "international_baccalaureate",
+        "graduate"
+      ],
+      "manual_review": [
+        "graduate",
+        "access_to_medicine",
+        "access_to_he",
+        "btec",
+        "scottish",
+        "international_qualification",
+        "unknown"
+      ],
+      "explicitly_blocked": []
+    },
+    "manual_review_applicant_groups": [
+      "graduate_applicant"
+    ],
+    "gcse": {
+      "minimum_count": 1,
+      "use_exact_subject_list": false,
+      "required_subjects": [
+        {
+          "subject_id": "english_language",
+          "minimum_grade": "6/B"
+        }
+      ]
+    },
+    "a_level": {
+      "routes": [
+        {
+          "route_id": "exeter_standard_a_star_aa",
+          "applies_to_group_ids": [
+            "school_leaver"
+          ],
+          "excluded_group_ids": [
+            "contextual",
+            "widening_participation",
+            "graduate_applicant"
+          ],
+          "grade_profile": [
+            "A*",
+            "A",
+            "A"
+          ],
+          "required_subject_ids": [
+            "biology",
+            "chemistry"
+          ],
+          "subject_grade_requirements": [
+            {
+              "subject_id": "biology",
+              "minimum_grade": "A"
+            },
+            {
+              "subject_id": "chemistry",
+              "minimum_grade": "A"
+            }
+          ],
+          "excluded_subject_ids": [
+            "general_studies"
+          ]
+        },
+        {
+          "route_id": "exeter_contextual_aab",
+          "applies_to_group_ids": [
+            "school_leaver",
+            "contextual"
+          ],
+          "excluded_group_ids": [
+            "international_fee",
+            "graduate_applicant"
+          ],
+          "grade_profile": [
+            "A",
+            "A",
+            "B"
+          ],
+          "required_subject_ids": [
+            "biology",
+            "chemistry"
+          ],
+          "subject_grade_requirements": [
+            {
+              "subject_id": "biology",
+              "minimum_grade": "A"
+            },
+            {
+              "subject_id": "chemistry",
+              "minimum_grade": "A"
+            }
+          ],
+          "excluded_subject_ids": [
+            "general_studies"
+          ]
+        },
+        {
+          "route_id": "exeter_international_standard_a_star_aa",
+          "applies_to_group_ids": [
+            "school_leaver",
+            "international_fee"
+          ],
+          "excluded_group_ids": [
+            "graduate_applicant"
+          ],
+          "grade_profile": [
+            "A*",
+            "A",
+            "A"
+          ],
+          "required_subject_ids": [
+            "biology",
+            "chemistry"
+          ],
+          "subject_grade_requirements": [
+            {
+              "subject_id": "biology",
+              "minimum_grade": "A"
+            },
+            {
+              "subject_id": "chemistry",
+              "minimum_grade": "A"
+            }
+          ],
+          "excluded_subject_ids": [
+            "general_studies"
+          ]
+        }
+      ]
+    },
+    "international_baccalaureate": {
+      "routes": [
+        {
+          "route_id": "exeter_standard_ib_38_766",
+          "total_points": 38,
+          "hl_grade_profile": [
+            "7",
+            "6",
+            "6"
+          ],
+          "required_hl_subject_ids": [
+            "biology",
+            "chemistry"
+          ],
+          "required_hl_subject_grade_options": [
+            {
+              "grade_requirements": [
+                {
+                  "subject_id": "biology",
+                  "minimum_grade": "6"
+                },
+                {
+                  "subject_id": "chemistry",
+                  "minimum_grade": "6"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "route_id": "exeter_contextual_ib_34_665",
+          "applies_to_group_ids": [
+            "contextual"
+          ],
+          "excluded_group_ids": [
+            "international_fee"
+          ],
+          "total_points": 34,
+          "hl_grade_profile": [
+            "6",
+            "6",
+            "5"
+          ],
+          "required_hl_subject_ids": [
+            "biology",
+            "chemistry"
+          ],
+          "required_hl_subject_grade_options": [
+            {
+              "grade_requirements": [
+                {
+                  "subject_id": "biology",
+                  "minimum_grade": "6"
+                },
+                {
+                  "subject_id": "chemistry",
+                  "minimum_grade": "6"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    "ucat": {
+      "score_scale": 2700,
+      "minimum_basis": "No standalone UCAT minimum is published; UCAT contributes through national decile points."
+    },
+    "sjt": {
+      "used_as_gate": false,
+      "accepted_bands": [
+        1,
+        2,
+        3,
+        4
+      ],
+      "rejected_bands": []
+    },
+    "manual_review_routes": [
+      "GAMSAT/non-direct school-leaver applicants, including graduates more than two full academic years after level 3 study",
+      "Access to HE route",
+      "country-specific international qualification equivalence",
+      "resit edge cases"
+    ],
+    "do_not_infer": [
+      "Do not add both the +5 contextual uplift and a lower contextual threshold.",
+      "Do not use FOI-derived raw UCAT equivalents as executable thresholds.",
+      "Do not automate the GAMSAT Exeter Score route in this implementation.",
+      "Do not use SJT for Exeter shortlisting."
+    ]
+  },
+  "score_model": {
+    "type": "component_sum",
+    "label": "Exeter Score",
+    "basis": "Official Exeter Score for direct school leavers: grade-profile base score plus UCAT national-decile points, achieved-grade uplift and WP/contextual uplift.",
+    "applicable_max_score": {
+      "strategy": "base_plus_applicable_conditional_components",
+      "basis": "Fixed grade-profile and UCAT maxima plus only the conditional achieved-grade and contextual/WP maxima that apply to this applicant."
+    },
+    "scale": {
+      "min": 0,
+      "max": 105
+    },
+    "components": [
+      {
+        "component_id": "exeter_grade_profile_score",
+        "type": "academic_profile_matrix",
+        "max": 58,
+        "hard_cap": 58,
+        "gcse": {
+          "subject_count": 0,
+          "bands": [
+            {
+              "band_id": "gcse_not_scored",
+              "all_minimum_grade": "U",
+              "points": 0
+            }
+          ]
+        },
+        "a_level": {
+          "bands": [
+            {
+              "band_id": "a_star_a_star_a_star",
+              "minimum_profile": [
+                "A*",
+                "A*",
+                "A*"
+              ],
+              "points": 58
+            },
+            {
+              "band_id": "a_star_a_star_a",
+              "minimum_profile": [
+                "A*",
+                "A*",
+                "A"
+              ],
+              "points": 48
+            },
+            {
+              "band_id": "a_star_a_a",
+              "minimum_profile": [
+                "A*",
+                "A",
+                "A"
+              ],
+              "points": 38
+            },
+            {
+              "band_id": "aaa",
+              "minimum_profile": [
+                "A",
+                "A",
+                "A"
+              ],
+              "points": 28
+            },
+            {
+              "band_id": "aab",
+              "minimum_profile": [
+                "A",
+                "A",
+                "B"
+              ],
+              "points": 18
+            },
+            {
+              "band_id": "abb",
+              "minimum_profile": [
+                "A",
+                "B",
+                "B"
+              ],
+              "points": 8
+            }
+          ]
+        },
+        "notes": "Base points plus UCAT decile points reproduce the official predicted non-WP table before achieved/contextual uplifts."
+      },
+      {
+        "component_id": "exeter_ucat_decile_score",
+        "type": "ucat_national_decile_lookup",
+        "points_by_decile": {
+          "1": 0,
+          "2": 4,
+          "3": 8,
+          "4": 12,
+          "5": 16,
+          "6": 20,
+          "7": 24,
+          "8": 28,
+          "9": 32,
+          "10": 32
+        },
+        "output_max": 32,
+        "notes": "Exeter's table decreases by 4 points per decile row. The shared decile service has an app decile 10 for above the 9th UCAT threshold; it receives the same maximum Exeter UCAT component as the top Exeter row."
+      },
+      {
+        "component_id": "achieved_grade_uplift",
+        "type": "conditional_points",
+        "max": 10,
+        "conditions": [
+          {
+            "condition_id": "achieved_qualifications",
+            "points": 10,
+            "match": {
+              "qualification_status": "achieved"
+            }
+          }
+        ]
+      },
+      {
+        "component_id": "wp_contextual_uplift",
+        "type": "conditional_points",
+        "max": 5,
+        "conditions": [
+          {
+            "condition_id": "wp_contextual",
+            "points": 5,
+            "match": {
+              "any_group_ids": [
+                "contextual",
+                "widening_participation"
+              ],
+              "excluded_group_ids": [
+                "international_fee"
+              ]
+            }
+          }
+        ],
+        "notes": "This implements the official WP/contextual +5 score uplift. Exeter contextual applicants are not also compared against a lower threshold in ApplySmart."
+      }
+    ]
+  },
+  "guidance_pools": [
+    {
+      "pool_id": "exeter_home_direct_school_leaver",
+      "priority": 50,
+      "applicant_match": {
+        "all_group_ids": [
+          "home_fee",
+          "school_leaver"
+        ],
+        "excluded_group_ids": [
+          "international_fee",
+          "graduate_applicant"
+        ]
+      },
+      "metric": "selection_score",
+      "band_rules": [
+        {
+          "band": "interview_likely",
+          "operator": "greater_than_or_equal",
+          "value": 74
+        },
+        {
+          "band": "realistic",
+          "operator": "between_inclusive",
+          "min": 70,
+          "max": 73.99
+        },
+        {
+          "band": "ambitious",
+          "operator": "between_inclusive",
+          "min": 64,
+          "max": 69.99
+        },
+        {
+          "band": "high_risk",
+          "operator": "less_than",
+          "value": 64
+        }
+      ],
+      "historical_cutoff": {
+        "entry_cycle": "2026_entry",
+        "value": 74,
+        "evidence_classification": "foi_verified_historical_guidance"
+      },
+      "official_candidate_decile_guidance": {
+        "min": 74,
+        "max": 105,
+        "cycle": "2026_entry",
+        "executable": false,
+        "reason": "The Home score guidance comes from the approved Exeter research document and is used as historical/current-cycle guidance only, not a guaranteed future threshold."
+      }
+    },
+    {
+      "pool_id": "exeter_international_direct_school_leaver",
+      "priority": 60,
+      "applicant_match": {
+        "all_group_ids": [
+          "international_fee",
+          "school_leaver"
+        ],
+        "excluded_group_ids": [
+          "graduate_applicant"
+        ]
+      },
+      "metric": "selection_score",
+      "band_rules": [
+        {
+          "band": "interview_likely",
+          "operator": "greater_than_or_equal",
+          "value": 80
+        },
+        {
+          "band": "realistic",
+          "operator": "between_inclusive",
+          "min": 76,
+          "max": 79.99
+        },
+        {
+          "band": "ambitious",
+          "operator": "between_inclusive",
+          "min": 70,
+          "max": 75.99
+        },
+        {
+          "band": "high_risk",
+          "operator": "less_than",
+          "value": 70
+        }
+      ],
+      "historical_cutoff": {
+        "entry_cycle": "2026_entry",
+        "value": 80,
+        "evidence_classification": "foi_verified_historical_guidance"
+      },
+      "official_candidate_decile_guidance": {
+        "min": 80,
+        "max": 100,
+        "cycle": "2026_entry",
+        "executable": false,
+        "reason": "The International score guidance comes from the approved Exeter research document and is used as guidance only because international cut-offs vary with application volume and quota."
+      }
+    }
+  ]
+}

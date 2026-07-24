@@ -1,0 +1,433 @@
+{
+  "schema_version": "1.0.0",
+  "course_profile_id": "anglia-ruskin-a100",
+  "base_applicant": {
+    "profile_id": "aru_base_home_a_level",
+    "label": "ARU base Home A-level applicant",
+    "application_year": 2027,
+    "qualification_route": "a_level",
+    "applicant_identity": {
+      "fee_status": "home",
+      "domicile": "england",
+      "applicant_type": "school_leaver",
+      "contextual_flags": {}
+    },
+    "course_target": {
+      "ucas_code": "A100",
+      "qualification_route": "a_level"
+    },
+    "gcse_profile": {
+      "total_gcse_count": 8,
+      "subjects": {
+        "english_language": "6",
+        "mathematics": "6",
+        "biology": "6",
+        "chemistry": "6"
+      },
+      "additional_subjects": [
+        {
+          "subject_id": "history",
+          "grade": "6"
+        },
+        {
+          "subject_id": "geography",
+          "grade": "6"
+        },
+        {
+          "subject_id": "physics",
+          "grade": "6"
+        },
+        {
+          "subject_id": "spanish",
+          "grade": "6"
+        }
+      ]
+    },
+    "a_level_profile": {
+      "subjects": [
+        {
+          "subject_id": "biology",
+          "predicted_grade": "A"
+        },
+        {
+          "subject_id": "chemistry",
+          "predicted_grade": "A"
+        },
+        {
+          "subject_id": "mathematics",
+          "predicted_grade": "A"
+        }
+      ]
+    },
+    "admissions_tests": {
+      "ucat": {
+        "test_year": 2026,
+        "score_scale": 2700,
+        "total_score": 2050,
+        "subtests": {
+          "verbal_reasoning": 690,
+          "decision_making": 680,
+          "quantitative_reasoning": 680
+        },
+        "sjt_band": 2
+      }
+    }
+  },
+  "scenarios": [
+    {
+      "scenario_id": "standard_realistic",
+      "description": "Home standard applicant with no uplift is eligible and realistic.",
+      "overrides": {},
+      "expected": {
+        "eligibility_status": "eligible",
+        "interview_band": "realistic",
+        "guidance_pool_id": "aru_home_standard_guidance",
+        "ranking_value": 2050,
+        "applied_uplift_percent": 0
+      }
+    },
+    {
+      "scenario_id": "east_of_england_only_2_5_percent",
+      "description": "East of England receives the 2.5% regional uplift.",
+      "overrides": {
+        "applicant_group_ids": [
+          "east_of_england"
+        ],
+        "applicant_identity": {
+          "contextual_flags": {
+            "east_of_england": true
+          }
+        },
+        "admissions_tests": {
+          "ucat": {
+            "total_score": 1900,
+            "subtests": {
+              "verbal_reasoning": 640,
+              "decision_making": 630,
+              "quantitative_reasoning": 630
+            }
+          }
+        }
+      },
+      "expected": {
+        "eligibility_status": "eligible",
+        "interview_band": "ambitious",
+        "guidance_pool_id": "aru_home_uplift_guidance",
+        "ranking_value": 1947.5,
+        "applied_uplift_percent": 2.5,
+        "applied_uplift_ids": [
+          "east_of_england_2_5_percent"
+        ],
+        "suppressed_uplift_ids": []
+      }
+    },
+    {
+      "scenario_id": "essex_only_5_percent_not_7_5",
+      "description": "Essex receives the 5% regional uplift and not East of England as well.",
+      "overrides": {
+        "applicant_group_ids": [
+          "east_of_england",
+          "essex"
+        ],
+        "applicant_identity": {
+          "contextual_flags": {
+            "east_of_england": true,
+            "essex": true
+          }
+        },
+        "admissions_tests": {
+          "ucat": {
+            "total_score": 1900,
+            "subtests": {
+              "verbal_reasoning": 640,
+              "decision_making": 630,
+              "quantitative_reasoning": 630
+            }
+          }
+        }
+      },
+      "expected": {
+        "eligibility_status": "eligible",
+        "interview_band": "ambitious",
+        "guidance_pool_id": "aru_home_uplift_guidance",
+        "ranking_value": 1995,
+        "applied_uplift_percent": 5,
+        "applied_uplift_ids": [
+          "essex_5_percent"
+        ],
+        "suppressed_uplift_ids": [
+          "east_of_england_2_5_percent"
+        ]
+      }
+    },
+    {
+      "scenario_id": "wams_only_5_percent",
+      "description": "WAMS receives the 5% uplift without a regional uplift.",
+      "overrides": {
+        "applicant_group_ids": [
+          "wams"
+        ],
+        "applicant_identity": {
+          "contextual_flags": {
+            "wams": true
+          }
+        },
+        "a_level_profile": {
+          "subjects": [
+            {
+              "subject_id": "biology",
+              "predicted_grade": "A"
+            },
+            {
+              "subject_id": "chemistry",
+              "predicted_grade": "B"
+            },
+            {
+              "subject_id": "mathematics",
+              "predicted_grade": "B"
+            }
+          ]
+        },
+        "admissions_tests": {
+          "ucat": {
+            "total_score": 1900,
+            "subtests": {
+              "verbal_reasoning": 640,
+              "decision_making": 630,
+              "quantitative_reasoning": 630
+            }
+          }
+        }
+      },
+      "expected": {
+        "eligibility_status": "eligible",
+        "interview_band": "ambitious",
+        "guidance_pool_id": "aru_home_uplift_guidance",
+        "ranking_value": 1995,
+        "applied_uplift_percent": 5,
+        "applied_uplift_ids": [
+          "wams_5_percent"
+        ],
+        "suppressed_uplift_ids": []
+      }
+    },
+    {
+      "scenario_id": "east_of_england_wams_7_5_percent",
+      "description": "East of England and WAMS stack to 7.5%.",
+      "overrides": {
+        "applicant_group_ids": [
+          "wams",
+          "east_of_england"
+        ],
+        "applicant_identity": {
+          "contextual_flags": {
+            "wams": true,
+            "east_of_england": true
+          }
+        },
+        "a_level_profile": {
+          "subjects": [
+            {
+              "subject_id": "biology",
+              "predicted_grade": "A"
+            },
+            {
+              "subject_id": "chemistry",
+              "predicted_grade": "B"
+            },
+            {
+              "subject_id": "mathematics",
+              "predicted_grade": "B"
+            }
+          ]
+        },
+        "admissions_tests": {
+          "ucat": {
+            "total_score": 1900,
+            "subtests": {
+              "verbal_reasoning": 640,
+              "decision_making": 630,
+              "quantitative_reasoning": 630
+            }
+          }
+        }
+      },
+      "expected": {
+        "eligibility_status": "eligible",
+        "interview_band": "realistic",
+        "guidance_pool_id": "aru_home_uplift_guidance",
+        "ranking_value": 2042.5,
+        "applied_uplift_percent": 7.5,
+        "applied_uplift_ids": [
+          "wams_5_percent",
+          "east_of_england_2_5_percent"
+        ],
+        "suppressed_uplift_ids": []
+      }
+    },
+    {
+      "scenario_id": "essex_wams_10_percent_not_12_5",
+      "description": "Essex and WAMS stack to 10%; East of England is suppressed when both regional flags are present.",
+      "overrides": {
+        "applicant_group_ids": [
+          "wams",
+          "east_of_england",
+          "essex"
+        ],
+        "applicant_identity": {
+          "contextual_flags": {
+            "wams": true,
+            "east_of_england": true,
+            "essex": true
+          }
+        },
+        "a_level_profile": {
+          "subjects": [
+            {
+              "subject_id": "biology",
+              "predicted_grade": "A"
+            },
+            {
+              "subject_id": "chemistry",
+              "predicted_grade": "B"
+            },
+            {
+              "subject_id": "mathematics",
+              "predicted_grade": "B"
+            }
+          ]
+        },
+        "admissions_tests": {
+          "ucat": {
+            "total_score": 1900,
+            "subtests": {
+              "verbal_reasoning": 640,
+              "decision_making": 630,
+              "quantitative_reasoning": 630
+            }
+          }
+        }
+      },
+      "expected": {
+        "eligibility_status": "eligible",
+        "interview_band": "interview_likely",
+        "guidance_pool_id": "aru_home_uplift_guidance",
+        "ranking_value": 2090,
+        "applied_uplift_percent": 10,
+        "applied_uplift_ids": [
+          "wams_5_percent",
+          "essex_5_percent"
+        ],
+        "suppressed_uplift_ids": [
+          "east_of_england_2_5_percent"
+        ]
+      }
+    },
+    {
+      "scenario_id": "care_experienced_guaranteed_interview",
+      "description": "Care-experienced applicant receives guaranteed interview only after academics and SJT pass.",
+      "overrides": {
+        "applicant_identity": {
+          "contextual_flags": {
+            "care_experienced": true
+          }
+        },
+        "admissions_tests": {
+          "ucat": {
+            "total_score": 1600,
+            "subtests": {
+              "verbal_reasoning": 540,
+              "decision_making": 530,
+              "quantitative_reasoning": 530
+            }
+          }
+        }
+      },
+      "expected": {
+        "eligibility_status": "eligible",
+        "interview_outcome": "guaranteed_interview",
+        "guidance_pool_id": null
+      }
+    },
+    {
+      "scenario_id": "free_school_meals_academic_fail_not_guaranteed",
+      "description": "Free School Meals flag does not override failed academic threshold.",
+      "overrides": {
+        "applicant_group_ids": [
+          "free_school_meals"
+        ],
+        "applicant_identity": {
+          "contextual_flags": {
+            "free_school_meals": true
+          }
+        },
+        "gcse_profile": {
+          "subjects": {
+            "english_language": "4"
+          }
+        }
+      },
+      "expected": {
+        "eligibility_status": "not_eligible",
+        "interview_band": "not_eligible",
+        "failure": "minimum_gcse_grade_not_met:english_language"
+      }
+    },
+    {
+      "scenario_id": "sjt_band_4_rejected_even_if_care_experienced",
+      "description": "SJT Band 4 blocks the guaranteed-interview route.",
+      "overrides": {
+        "applicant_identity": {
+          "contextual_flags": {
+            "care_experienced": true
+          }
+        },
+        "admissions_tests": {
+          "ucat": {
+            "sjt_band": 4
+          }
+        }
+      },
+      "expected": {
+        "eligibility_status": "not_eligible",
+        "interview_band": "not_eligible",
+        "failure": "disqualifying_sjt_rule"
+      }
+    },
+    {
+      "scenario_id": "international_blocked",
+      "description": "International applicants are not eligible.",
+      "overrides": {
+        "applicant_identity": {
+          "fee_status": "international"
+        }
+      },
+      "expected": {
+        "eligibility_status": "not_eligible",
+        "interview_band": "not_eligible",
+        "failure": "applicant_group_explicitly_blocked:international_fee"
+      }
+    },
+    {
+      "scenario_id": "graduate_same_a100_pool",
+      "description": "Graduate applicant remains in A100 process and is not treated as international or separate graduate-entry course.",
+      "overrides": {
+        "applicant_group_ids": [
+          "graduate_applicant"
+        ],
+        "applicant_identity": {
+          "graduate": true,
+          "applicant_type": "graduate"
+        },
+        "qualification_route": "a_level"
+      },
+      "expected": {
+        "eligibility_status": "eligible",
+        "interview_band": "interview_likely",
+        "guidance_pool_id": "aru_graduate_same_a100_pool_guidance",
+        "ranking_value": 2050,
+        "applied_uplift_percent": 0
+      }
+    }
+  ]
+}

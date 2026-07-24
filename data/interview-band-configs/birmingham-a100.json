@@ -1,0 +1,427 @@
+{
+  "schema_version": "1.0.0",
+  "course_profile_id": "birmingham-a100",
+  "confidence": "medium",
+  "evidence": {
+    "classification": "historical_guidance_only_medium_confidence_not_current_cutoff_non_deterministic_ranking",
+    "summary": "Official Birmingham selection methods are combined with official 2025-entry historical interview statistics. Numerical bands are conservative historical guidance only, are not current cut-offs and do not make interview outcomes deterministic. SJT is excluded from pre-interview selection.",
+    "source_ids": [
+      "birmingham_selection_for_interview",
+      "birmingham_admissions_statistics_september_2025",
+      "birmingham_ukwpmed"
+    ]
+  },
+  "eligibility": {
+    "scope": "Guidance is available only after every applicable production eligibility rule passes and exactly one supported Birmingham applicant pool is safely resolved.",
+    "interview_prediction_global_ready": false,
+    "operational_status": "safe_historical_guidance_with_explicit_route_limits",
+    "readiness_reason": "The configuration can provide explicitly warned historical guidance for supported Home and International applicants and a deterministic UKWPMED override when every required fact is verified. It cannot provide a current-cycle cut-off, a numerical Graduate band, an automated International non-academic decision or an offer prediction.",
+    "pre_banding_order": [
+      "Evaluate the applicable academic and fee-status eligibility rules in the Birmingham production profile.",
+      "Require UCAT to have been taken in the application cycle; do not apply a minimum UCAT eligibility cut-off where Birmingham publishes none.",
+      "Ignore SJT for eligibility, pool resolution and interview selection, including SJT Band 4.",
+      "Apply the UKWPMED guaranteed-interview override before any ordinary scored or UCAT guidance pool.",
+      "Resolve exactly one of Home standard, Home contextual scored, International or Graduate A100.",
+      "For a Home scored route, derive the UCAT decile from the applicant's raw score through the shared lookup, preferring a university-specific table and otherwise using the global UCAT decile dataset; return insufficient evidence only if neither is usable.",
+      "Apply only the matching historical guidance band and display every historical-guidance warning."
+    ],
+    "sjt_policy": {
+      "used_for_eligibility": false,
+      "used_for_interview_selection": false,
+      "band_4_automatic_rejection": false,
+      "accepted_pre_interview_bands": [
+        1,
+        2,
+        3,
+        4
+      ],
+      "instruction": "Do not read, score, rank, reject or change a guidance band using SJT."
+    },
+    "current_cycle_ucat_deciles": {
+      "status": "shared_lookup_available",
+      "lookup_order": [
+        "university_specific_table",
+        "global_ucat_decile_json"
+      ],
+      "required_for_home_application_score": true,
+      "missing_input_outcome": "insufficient_evidence",
+      "instruction": "Derive the decile internally from the applicant's UCAT total. Do not request a decile from the applicant and do not expose lookup details in the result card."
+    },
+    "ukwpmed_guaranteed_interview_override": {
+      "separate_from_contextual_scored_route": true,
+      "apply_before_guidance_bands": true,
+      "required_evidence_operator": "all",
+      "required_evidence": {
+        "recognised_ukwpmed_programme_successfully_completed": true,
+        "ukwpmed_declared_in_ucas_extra_activities": true,
+        "birmingham_appendix_1_thresholds_met": {
+          "minimum_gcse_count": 7,
+          "minimum_gcse_grade": "4",
+          "named_subjects": [
+            "English Language",
+            "Mathematics",
+            "Chemistry",
+            "Biology or Double Award Science"
+          ],
+          "named_subject_grade_profile_in_any_order": [
+            "7",
+            "7",
+            "5",
+            "5"
+          ],
+          "ucat_must_be_taken": true,
+          "ucat_threshold_required": false,
+          "predicted_a_level_profile": [
+            "B",
+            "B",
+            "B"
+          ],
+          "required_a_level_subjects": [
+            "Biology or Human Biology",
+            "Chemistry"
+          ]
+        }
+      },
+      "recognised_programmes": [
+        "Routes to the Professions: Medicine — Birmingham",
+        "BrightMed — Brighton & Sussex",
+        "Pathways to Medicine — Hull York",
+        "Steps2Medicine — Keele",
+        "Manchester Access Programme / Preston Widening Access Programme — Manchester",
+        "Peninsula Pathways — Plymouth"
+      ],
+      "outcome_when_all_requirements_verified_met": "guaranteed_interview",
+      "outcome_when_any_requirement_verified_not_met": "not_eligible_for_ukwpmed_guaranteed_interview",
+      "outcome_when_any_requirement_missing_or_unverified": "manual_review",
+      "apply_numerical_guidance_band": false,
+      "source_ids": [
+        "birmingham_ukwpmed"
+      ]
+    },
+    "home_standard": {
+      "required_pool_facts": [
+        "home fee status",
+        "not Home contextual scored",
+        "not UKWPMED",
+        "not Graduate A100",
+        "official current-cycle Home application score available"
+      ],
+      "missing_or_conflicting_fact_outcome": "manual_review"
+    },
+    "home_contextual_scored": {
+      "contextual_status_must_be_verified": true,
+      "gcse_minimum_reduced": false,
+      "required_pool_facts": [
+        "home fee status",
+        "verified Home contextual scored status",
+        "not UKWPMED",
+        "not Graduate A100",
+        "official current-cycle Home application score available"
+      ],
+      "missing_or_conflicting_fact_outcome": "manual_review"
+    },
+    "international": {
+      "academic_threshold_must_pass_first": true,
+      "personal_statement_non_academic_review": {
+        "required": true,
+        "executable": false,
+        "outcome": "manual_review"
+      },
+      "unlisted_or_mixed_qualification_outcome": "manual_review",
+      "guidance_metric": "ucat_total",
+      "historical_values_are_current_cutoffs": false
+    },
+    "graduate_a100": {
+      "academic_threshold_must_pass_first": true,
+      "ranking_metric_after_threshold": "ucat_total",
+      "academic_results_scored_after_threshold": false,
+      "gamsat_used": false,
+      "numerical_guidance_boundary_available": false,
+      "guidance_outcome": "UCAT-ranking guidance only; no numerical interview band can be returned.",
+      "degree_content_waiver_cases": "manual_review"
+    },
+    "pool_conflicts": {
+      "international_graduate": "manual_review",
+      "unverified_contextual_or_ukwpmed_status": "manual_review",
+      "multiple_matching_non_ukwpmed_pools": "manual_review"
+    },
+    "do_not_infer": [
+      "Do not invent or estimate current-cycle UCAT decile boundaries.",
+      "Do not treat any historical application score or UCAT value as a current hard cut-off.",
+      "Do not present a historical guidance band as an interview probability, guarantee or deterministic ranking outcome.",
+      "Do not use SJT for eligibility or interview selection and do not reject SJT Band 4.",
+      "Do not automate the International personal-statement or non-academic review.",
+      "Do not create a numerical Graduate boundary from another applicant pool.",
+      "Do not return a UKWPMED guaranteed interview unless programme completion, UCAS declaration and every Birmingham Appendix 1 threshold are verified.",
+      "Do not merge UKWPMED with the Home contextual scored route."
+    ]
+  },
+  "score_model": {
+    "type": "component_sum",
+    "basis": "Pool-specific Birmingham interview guidance: official Home application score using the shared UCAT decile lookup, raw UCAT ranking for International and Graduate routes, and a separate all-requirements UKWPMED guaranteed-interview override.",
+    "scale": {
+      "min": 0,
+      "max": 10
+    },
+    "pool_specific_output": true,
+    "fixed_current_cutoff": false,
+    "guidance_policy": {
+      "labels": [
+        "historical_guidance_only",
+        "medium_confidence",
+        "not_current_cutoff",
+        "non_deterministic_ranking"
+      ],
+      "display_labels_required": true,
+      "prediction_use": "guidance_only",
+      "probability_output_allowed": false,
+      "hard_cutoff_output_allowed": false,
+      "guarantee_allowed_only_for_verified_ukwpmed_override": true
+    },
+    "home_application_score": {
+      "applies_to_pool_ids": [
+        "home_standard",
+        "home_contextual_scored"
+      ],
+      "scale": {
+        "min": 0,
+        "max": 10
+      },
+      "formula": "gcse_component + ucat_component + contextual_component",
+      "current_cycle_decile_lookup_required": true,
+      "current_cycle_decile_boundaries_status": "shared_global_fallback_available",
+      "historical_raw_ucat_substitution_allowed": false
+    },
+    "components": [
+      {
+        "component_id": "gcse_component",
+        "type": "gcse_mandatory_then_best",
+        "max": 4.5,
+        "source_profile_path": "stage_2_selection.home_application_score.components.gcse_component"
+      },
+      {
+        "component_id": "ucat_component",
+        "type": "ucat_national_decile_lookup",
+        "max": 4,
+        "lookup_order": [
+          "university_specific_table",
+          "global_ucat_decile_json"
+        ],
+        "source_profile_path": "stage_2_selection.home_application_score.components.ucat_component"
+      },
+      {
+        "component_id": "contextual_component",
+        "type": "qualification_presence",
+        "max": 1.5,
+        "verified_contextual_status_required": true,
+        "source_profile_path": "stage_2_selection.home_application_score.components.contextual_component"
+      }
+    ],
+    "route_metrics": {
+      "home_standard": "selection_score",
+      "home_contextual_scored": "selection_score",
+      "ukwpmed_guaranteed_interview": "verified_all_conditions_override",
+      "international": "ucat_total",
+      "graduate_a100": "ucat_total"
+    },
+    "historical_guidance": {
+      "entry_cycle": "2024-25",
+      "entry_year": 2025,
+      "executable_as_current_cutoff": false,
+      "home_standard": {
+        "minimum_application_score": 7.236,
+        "ucat_2700": {
+          "minimum": 2010,
+          "median": 2205,
+          "mean": 2219,
+          "maximum": 2595
+        },
+        "mean_gcse_score": {
+          "value": 4.355,
+          "scale_maximum": 4.5
+        }
+      },
+      "home_contextual_scored": {
+        "minimum_application_score": 8.561,
+        "ucat_2700": {
+          "minimum": 1820,
+          "median": 2085,
+          "mean": 2103,
+          "maximum": 2550
+        },
+        "mean_gcse_score": {
+          "value": 4.179,
+          "scale_maximum": 4.5
+        }
+      },
+      "international_minimum_ucat_series_2700": [
+        {
+          "entry_year": 2025,
+          "value": 2190
+        },
+        {
+          "entry_year": 2024,
+          "value": 2145
+        },
+        {
+          "entry_year": 2023,
+          "value": 2220
+        },
+        {
+          "entry_year": 2022,
+          "value": 2152.5
+        }
+      ],
+      "international_observed_historical_minimum_range": {
+        "min": 2145,
+        "max": 2220
+      },
+      "source_ids": [
+        "birmingham_admissions_statistics_september_2025"
+      ]
+    },
+    "band_derivation": {
+      "home_standard": "Use the single supplied 2025-entry historical minimum application score only: at or above is Strong Interview Potential (interview_likely) guidance and below is high-risk guidance. No realistic or ambitious boundary is invented.",
+      "home_contextual_scored": "Use the single supplied 2025-entry historical minimum application score only: at or above is realistic guidance and below is high-risk guidance. No interview-likely or ambitious boundary is invented.",
+      "international": "Use only the observed minimum and maximum of the supplied 2022-2025 historical minimum UCAT series: above the observed maximum is interview-likely guidance, within the observed range is realistic guidance and below the observed minimum is high-risk guidance. No ambitious boundary is invented.",
+      "graduate_a100": "No numerical band rules because no official historical Graduate UCAT boundary was supplied.",
+      "ukwpmed_guaranteed_interview": "No numerical band rules; the separate verified all-conditions override determines guaranteed-interview status."
+    }
+  },
+  "guidance_pools": [
+    {
+      "pool_id": "ukwpmed_guaranteed_interview",
+      "priority": 50,
+      "applicant_match": {
+        "all_group_ids": [
+          "home_fee",
+          "widening_participation"
+        ],
+        "excluded_group_ids": [
+          "international_fee"
+        ]
+      },
+      "metric": "selection_score",
+      "band_rules": []
+    },
+    {
+      "pool_id": "international",
+      "priority": 40,
+      "applicant_match": {
+        "all_group_ids": [
+          "international_fee"
+        ],
+        "excluded_group_ids": [
+          "home_fee",
+          "graduate_applicant"
+        ]
+      },
+      "metric": "ucat_total",
+      "band_rules": [
+        {
+          "band": "interview_likely",
+          "operator": "greater_than",
+          "value": 2220
+        },
+        {
+          "band": "realistic",
+          "operator": "between_inclusive",
+          "min": 2145,
+          "max": 2220
+        },
+        {
+          "band": "high_risk",
+          "operator": "less_than",
+          "value": 2145
+        }
+      ]
+    },
+    {
+      "pool_id": "graduate_a100",
+      "priority": 30,
+      "applicant_match": {
+        "all_group_ids": [
+          "home_fee",
+          "graduate_applicant"
+        ],
+        "excluded_group_ids": [
+          "international_fee",
+          "widening_participation"
+        ]
+      },
+      "metric": "ucat_total",
+      "band_rules": []
+    },
+    {
+      "pool_id": "home_contextual_scored",
+      "priority": 20,
+      "applicant_match": {
+        "all_group_ids": [
+          "home_fee"
+        ],
+        "any_group_ids": [
+          "contextual",
+          "care_experienced"
+        ],
+        "excluded_group_ids": [
+          "international_fee",
+          "graduate_applicant",
+          "widening_participation"
+        ]
+      },
+      "metric": "selection_score",
+      "band_rules": [
+        {
+          "band": "realistic",
+          "operator": "greater_than_or_equal",
+          "value": 8.561
+        },
+        {
+          "band": "high_risk",
+          "operator": "less_than",
+          "value": 8.561
+        }
+      ]
+    },
+    {
+      "pool_id": "home_standard",
+      "priority": 10,
+      "applicant_match": {
+        "all_group_ids": [
+          "home_fee"
+        ],
+        "excluded_group_ids": [
+          "contextual",
+          "care_experienced",
+          "widening_participation",
+          "international_fee",
+          "graduate_applicant"
+        ]
+      },
+      "metric": "selection_score",
+      "band_rules": [
+        {
+          "band": "interview_likely",
+          "operator": "greater_than_or_equal",
+          "value": 7.236
+        },
+        {
+          "band": "high_risk",
+          "operator": "less_than",
+          "value": 7.236
+        }
+      ],
+      "presentation": {
+        "band_headlines": {
+          "interview_likely": "Strong Interview Potential"
+        },
+        "band_recommendations": {
+          "interview_likely": "Strong Interview Potential"
+        },
+        "band_explanations": {
+          "interview_likely": "Your selection score is above Birmingham's published 2025-entry historical minimum application score for standard Home applicants invited to interview. This is historical guidance only, not a guaranteed current cut-off."
+        }
+      }
+    }
+  ]
+}

@@ -1,0 +1,322 @@
+{
+  "schema_version": "1.0.0",
+  "course_profile_id": "sheffield-a100",
+  "confidence": "medium",
+  "evidence": {
+    "classification": "official_sequential_gates_with_native_scale_pool_cutpoint_guidance",
+    "summary": "Official academic and UCAT minimum gates followed by separate Home and International UCAT ranking. Native 2025-26 cutpoints are historical guidance only; verified Access to Sheffield Medicine/pathway applicants use threshold-only guidance because ordinary UCAT ranking is bypassed.",
+    "source_ids": [
+      "sheffield_admissions_page",
+      "sheffield_course_page_2027",
+      "sheffield_a100_policy_2027",
+      "sheffield_widening_access"
+    ]
+  },
+  "eligibility": {
+    "scope": "Automatic banding applies only after an executable academic route passes, a current-cycle UCAT total of at least 1800 is present, and the applicant pool is resolved.",
+    "international_english_language_required": true,
+    "qualification_routes": {
+      "supported": [
+        "a_level",
+        "international_baccalaureate",
+        "access_to_medicine",
+        "international_qualification"
+      ],
+      "explicitly_blocked": [
+        "btec",
+        "t_level",
+        "access_to_he",
+        "foundation",
+        "graduate",
+        "scottish",
+        "unknown"
+      ]
+    },
+    "gcse": {
+      "minimum_count": 5,
+      "use_exact_subject_list": true
+    },
+    "a_level": {
+      "science_practical_endorsement": {
+        "required": true,
+        "subject_ids": [
+          "biology",
+          "human_biology",
+          "chemistry",
+          "physics"
+        ],
+        "accepted_values": [
+          "pass",
+          "passed"
+        ]
+      }
+    },
+    "international_baccalaureate": {
+      "routes": [
+        {
+          "route_id": "ib_36_biology_primary",
+          "total_points": 36,
+          "hl_grade_profile": [
+            "6",
+            "6"
+          ],
+          "required_hl_subject_ids": [
+            "biology"
+          ],
+          "required_hl_subject_grade_options": [
+            {
+              "grade_requirements": [
+                {
+                  "subject_id": "biology",
+                  "minimum_grade": "6"
+                },
+                {
+                  "subject_id": "chemistry",
+                  "minimum_grade": "6"
+                }
+              ]
+            },
+            {
+              "grade_requirements": [
+                {
+                  "subject_id": "biology",
+                  "minimum_grade": "6"
+                },
+                {
+                  "subject_id": "mathematics",
+                  "minimum_grade": "6"
+                }
+              ]
+            },
+            {
+              "grade_requirements": [
+                {
+                  "subject_id": "biology",
+                  "minimum_grade": "6"
+                },
+                {
+                  "subject_id": "physics",
+                  "minimum_grade": "6"
+                }
+              ]
+            },
+            {
+              "grade_requirements": [
+                {
+                  "subject_id": "biology",
+                  "minimum_grade": "6"
+                },
+                {
+                  "subject_id": "psychology",
+                  "minimum_grade": "6"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "route_id": "ib_36_chemistry_primary",
+          "total_points": 36,
+          "hl_grade_profile": [
+            "6",
+            "6"
+          ],
+          "required_hl_subject_ids": [
+            "chemistry"
+          ],
+          "required_hl_subject_grade_options": [
+            {
+              "grade_requirements": [
+                {
+                  "subject_id": "chemistry",
+                  "minimum_grade": "6"
+                },
+                {
+                  "subject_id": "biology",
+                  "minimum_grade": "6"
+                }
+              ]
+            },
+            {
+              "grade_requirements": [
+                {
+                  "subject_id": "chemistry",
+                  "minimum_grade": "6"
+                },
+                {
+                  "subject_id": "mathematics",
+                  "minimum_grade": "6"
+                }
+              ]
+            },
+            {
+              "grade_requirements": [
+                {
+                  "subject_id": "chemistry",
+                  "minimum_grade": "6"
+                },
+                {
+                  "subject_id": "physics",
+                  "minimum_grade": "6"
+                }
+              ]
+            },
+            {
+              "grade_requirements": [
+                {
+                  "subject_id": "chemistry",
+                  "minimum_grade": "6"
+                },
+                {
+                  "subject_id": "psychology",
+                  "minimum_grade": "6"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    "access_to_medicine": {
+      "routing": "Verified Access to Sheffield Medicine or approved Sheffield pathway only",
+      "unverified_outcome": "not_eligible"
+    },
+    "international_qualification": {
+      "routing": "Sheffield-verified qualification equivalence only",
+      "unverified_outcome": "not_eligible"
+    },
+    "ucat": {
+      "minimum_total_score": 1800,
+      "score_scale": 2700,
+      "required_in_application_cycle": true
+    },
+    "sjt": {
+      "used_as_gate": false,
+      "accepted_bands": [
+        1,
+        2,
+        3,
+        4
+      ],
+      "rejected_bands": []
+    },
+    "manual_review_routes": [
+      "EPQ alternative",
+      "resit applicants",
+      "Scottish Highers plus Advanced Highers",
+      "graduate applying to A100",
+      "contextual IB",
+      "unlisted international qualifications",
+      "Environmental Science GCSE"
+    ],
+    "do_not_infer": [
+      "Do not score GCSEs or post-16 grades.",
+      "Do not reject SJT Band 3 or Band 4.",
+      "Do not convert legacy /3600 scores for executable comparison.",
+      "Do not use A101 rules.",
+      "Do not apply an invented contextual points uplift."
+    ]
+  },
+  "score_model": {
+    "type": "ranking_metric",
+    "basis": "UCAT cognitive total after academic eligibility and the 1800/2700 minimum; separate Home and International historical guidance, with threshold-only handling for verified pathway applicants.",
+    "metric": "ucat_total",
+    "pool_specific_output": true,
+    "scale": {
+      "min": 0,
+      "max": 2700
+    },
+    "fixed_current_cutoff": false,
+    "historical_guidance_only": true,
+    "native_guidance_cycle": "2025-26",
+    "legacy_3600_conversion_used": false
+  },
+  "guidance_pools": [
+    {
+      "pool_id": "access_to_sheffield_medicine_pathway",
+      "priority": 100,
+      "applicant_match": {
+        "all_group_ids": [
+          "home_fee",
+          "access_to_medicine"
+        ],
+        "excluded_group_ids": [
+          "international_fee",
+          "graduate_applicant"
+        ]
+      },
+      "metric": "ucat_total",
+      "band_rules": [
+        {
+          "band": "interview_likely",
+          "operator": "greater_than_or_equal",
+          "value": 1800
+        }
+      ]
+    },
+    {
+      "pool_id": "international_a100",
+      "priority": 30,
+      "applicant_match": {
+        "all_group_ids": [
+          "international_fee"
+        ],
+        "excluded_group_ids": [
+          "graduate_applicant"
+        ]
+      },
+      "metric": "ucat_total",
+      "band_rules": [
+        {
+          "band": "realistic",
+          "operator": "greater_than_or_equal",
+          "value": 2070
+        },
+        {
+          "band": "high_risk",
+          "operator": "less_than",
+          "value": 2070
+        }
+      ]
+    },
+    {
+      "pool_id": "home_a100",
+      "priority": 20,
+      "applicant_match": {
+        "all_group_ids": [
+          "home_fee"
+        ],
+        "excluded_group_ids": [
+          "international_fee",
+          "graduate_applicant",
+          "access_to_medicine"
+        ]
+      },
+      "metric": "ucat_total",
+      "band_rules": [
+        {
+          "band": "very_strong_interview_potential",
+          "operator": "greater_than_or_equal",
+          "value": 2220
+        },
+        {
+          "band": "interview_likely",
+          "operator": "between_inclusive",
+          "min": 2150,
+          "max": 2219
+        },
+        {
+          "band": "realistic",
+          "operator": "between_inclusive",
+          "min": 2120,
+          "max": 2149
+        },
+        {
+          "band": "high_risk",
+          "operator": "less_than",
+          "value": 2120
+        }
+      ]
+    }
+  ]
+}

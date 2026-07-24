@@ -1,0 +1,122 @@
+{
+  "id": "applysmart-standard-ucat-historical-conversion",
+  "version": "1.0.0",
+  "status": "active",
+  "description": "Shared ApplySmart proportional conversion from the historical four-subtest UCAT cognitive total scale to the current three-subtest UCAT cognitive total scale.",
+  "source_scale": {
+    "id": "historical_3600",
+    "label": "Historical UCAT cognitive total",
+    "maximum_score": 3600,
+    "minimum_score": 1200,
+    "subtests_included": [
+      "Verbal Reasoning",
+      "Decision Making",
+      "Quantitative Reasoning",
+      "Abstract Reasoning"
+    ],
+    "sjt_included_in_total": false
+  },
+  "target_scale": {
+    "id": "current_2700",
+    "label": "Current UCAT cognitive total",
+    "maximum_score": 2700,
+    "minimum_score": 900,
+    "subtests_included": [
+      "Verbal Reasoning",
+      "Decision Making",
+      "Quantitative Reasoning"
+    ],
+    "sjt_included_in_total": false
+  },
+  "conversion": {
+    "method": "proportional",
+    "method_id": "proportional_0_75",
+    "formula": "historical_score * 0.75",
+    "equivalent_formula": "historical_score / 3600 * 2700",
+    "factor": 0.75,
+    "rounding": "nearest_integer"
+  },
+  "valid_historical_input_range": {
+    "minimum_score": 1200,
+    "maximum_score": 3600
+  },
+  "output_range": {
+    "minimum_score": 900,
+    "maximum_score": 2700
+  },
+  "common_conversion_examples": [
+    {
+      "historical_score": 3600,
+      "converted_score": 2700
+    },
+    {
+      "historical_score": 3500,
+      "converted_score": 2625
+    },
+    {
+      "historical_score": 3400,
+      "converted_score": 2550
+    },
+    {
+      "historical_score": 3300,
+      "converted_score": 2475
+    },
+    {
+      "historical_score": 3200,
+      "converted_score": 2400
+    },
+    {
+      "historical_score": 3100,
+      "converted_score": 2325
+    },
+    {
+      "historical_score": 3000,
+      "converted_score": 2250
+    },
+    {
+      "historical_score": 2900,
+      "converted_score": 2175
+    },
+    {
+      "historical_score": 2840,
+      "converted_score": 2130
+    },
+    {
+      "historical_score": 2800,
+      "converted_score": 2100
+    },
+    {
+      "historical_score": 2700,
+      "converted_score": 2025
+    },
+    {
+      "historical_score": 2600,
+      "converted_score": 1950
+    },
+    {
+      "historical_score": 2500,
+      "converted_score": 1875
+    }
+  ],
+  "validation": {
+    "requires_explicit_opt_in": true,
+    "native_current_scale_bypasses_conversion": true,
+    "historical_boundaries_must_preserve_original_value": true,
+    "stored_derived_values_must_match_calculated_conversion": true,
+    "rounding_ambiguity_must_be_rejected": true
+  },
+  "usage": {
+    "used_for": [
+      "Future interview-band configurations that explicitly declare official historical UCAT evidence on the /3600 scale"
+    ],
+    "not_used_for": [
+      "Applicant UCAT score conversion",
+      "Native current-scale /2700 UCAT thresholds",
+      "UCAT decile lookup",
+      "SJT scoring",
+      "Eligibility gates",
+      "Offer prediction"
+    ]
+  },
+  "disclaimer": "ApplySmart proportional advisory conversion. This is not an official UCAT or university conversion, and it is not an official current university threshold."
+}

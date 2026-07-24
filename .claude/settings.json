@@ -1,0 +1,29 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(node scripts/test-aston-a100-end-to-end.js)",
+      "Bash(node scripts/test-completed-result-cards-regression.js)",
+      "Bash(node scripts/validate-json.js)",
+      "Bash(node scripts/test-generic-interview-band-classifier.js)",
+      "Bash(node -e ' *)",
+      "Bash(node scripts/test-leicester-a100-readiness.js)",
+      "Bash(node scripts/validate-applicant-groups.js)",
+      "Bash(node scripts/validate-subject-catalog.js)",
+      "Bash(node scripts/test-decision-timeline.js)",
+      "Bash(echo \"exit: $?\")",
+      "Read(//private/tmp/**)",
+      "Bash(node scripts/validate-completed-profile-standardisation.js)",
+      "Read(//tmp/**)",
+      "Bash(node scripts/test-applysmart-end-to-end-regression.js)",
+      "Bash(cd /Users/faizan/Desktop/projects/Tool-development/ApplySmart *)",
+      "Bash(node scripts/test-decision-transparency.js)",
+      "Bash(node scripts/test-evidence-confidence.js)",
+      "Bash(node scripts/run-regression-profiles.js)",
+      "Bash(grep -n \"addFailure\\(state, \\\\`\\\\|addFailure\\(state, [a-z_]*:\" assets/js/engine/eligibility-evaluator.js)",
+      "Bash(python3 -c ' *)"
+    ],
+    "additionalDirectories": [
+      "/private/tmp"
+    ]
+  }
+}

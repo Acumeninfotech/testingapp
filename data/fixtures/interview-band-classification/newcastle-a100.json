@@ -1,0 +1,429 @@
+{
+  "schema_version": "1.0.0",
+  "course_profile_id": "newcastle-a100",
+  "base_applicant": {
+    "profile_id": "newcastle_a100_base_applicant",
+    "label": "Newcastle A100 Home predicted A-level school-leaver",
+    "applicant_identity": {
+      "applicant_type": "standard_school_leaver",
+      "fee_status": "Home",
+      "domicile": "England",
+      "contextual": false,
+      "widening_participation": false,
+      "graduate": false
+    },
+    "course_target": {
+      "discipline": "medicine",
+      "ucas_code": "A100",
+      "course_route": "standard",
+      "entry_route": "standard_entry"
+    },
+    "qualification_route": "a_level",
+    "gcse_profile": {
+      "subjects": {
+        "english_language": "9",
+        "mathematics": "9",
+        "biology": "8",
+        "chemistry": "8",
+        "physics": "7",
+        "history": "7",
+        "geography": "6",
+        "french": "6"
+      },
+      "additional_subjects": [],
+      "total_gcse_count": 8
+    },
+    "a_level_profile": {
+      "subjects": [
+        { "subject_id": "history", "predicted_grade": "A", "sitting_status": "first_sitting" },
+        { "subject_id": "english_literature", "predicted_grade": "A", "sitting_status": "first_sitting" },
+        { "subject_id": "geography", "predicted_grade": "A", "sitting_status": "first_sitting" }
+      ],
+      "sitting_status": "first_sitting"
+    },
+    "admissions_tests": {
+      "ucat": {
+        "total_score": 2240,
+        "score_scale": 2700,
+        "sjt_band": 2,
+        "test_year": 2026
+      }
+    },
+    "application_year": 2026,
+    "graduate_profile": {
+      "is_graduate": false,
+      "degree_classification": null
+    }
+  },
+  "scenarios": [
+    {
+      "scenario_id": "standard_home_eight_gcse_combined_score",
+      "overrides": {},
+      "expected": {
+        "eligibility_status": "eligible",
+        "guidance_pool_id": "newcastle_standard_home",
+        "interview_band": "interview_likely",
+        "score": 70,
+        "gcse_score": 26,
+        "ucat_points": 44
+      }
+    },
+    {
+      "scenario_id": "standard_home_fewer_than_eight_gcse_normalised",
+      "overrides": {
+        "gcse_profile": {
+          "subjects": {
+            "english_language": "9",
+            "mathematics": "9",
+            "biology": "8",
+            "chemistry": "8",
+            "history": "7",
+            "geography": "6",
+            "physics": null,
+            "french": null
+          },
+          "total_gcse_count": 6
+        }
+      },
+      "expected": {
+        "eligibility_status": "eligible",
+        "guidance_pool_id": "newcastle_standard_home",
+        "interview_band": "interview_likely",
+        "gcse_score": 29.33,
+        "normalised_gcse_subjects": 6
+      }
+    },
+    {
+      "scenario_id": "biology_practical_passed",
+      "overrides": {
+        "a_level_profile": {
+          "subjects": [
+            { "subject_id": "biology", "predicted_grade": "A", "practical_endorsement": "pass" },
+            { "subject_id": "history", "predicted_grade": "A" },
+            { "subject_id": "geography", "predicted_grade": "A" }
+          ]
+        }
+      },
+      "expected": {
+        "eligibility_status": "eligible",
+        "interview_band": "interview_likely"
+      }
+    },
+    {
+      "scenario_id": "chemistry_practical_failed",
+      "overrides": {
+        "a_level_profile": {
+          "subjects": [
+            { "subject_id": "chemistry", "predicted_grade": "A", "practical_endorsement": "fail" },
+            { "subject_id": "history", "predicted_grade": "A" },
+            { "subject_id": "geography", "predicted_grade": "A" }
+          ]
+        }
+      },
+      "expected": {
+        "eligibility_status": "not_eligible",
+        "guidance_pool_id": null,
+        "interview_band": "not_eligible",
+        "failure_prefix": "science_practical_endorsement_not_confirmed"
+      }
+    },
+    {
+      "scenario_id": "standard_home_resit_meets_astar_aa",
+      "overrides": {
+        "applicant_identity": {
+          "resit": { "has_resits": true, "attempt_count": 1 }
+        },
+        "a_level_profile": {
+          "subjects": [
+            { "subject_id": "history", "predicted_grade": "A*" },
+            { "subject_id": "english_literature", "predicted_grade": "A" },
+            { "subject_id": "geography", "predicted_grade": "A" }
+          ]
+        }
+      },
+      "expected": {
+        "eligibility_status": "eligible",
+        "interview_band": "interview_likely"
+      }
+    },
+    {
+      "scenario_id": "standard_home_resit_remaining_aaa_rejected",
+      "overrides": {
+        "applicant_identity": {
+          "resit": { "has_resits": true, "attempt_count": 1 }
+        }
+      },
+      "expected": {
+        "eligibility_status": "not_eligible",
+        "guidance_pool_id": null,
+        "interview_band": "not_eligible",
+        "failure": "resit_policy_not_met"
+      }
+    },
+    {
+      "scenario_id": "contextual_resit_meets_aab",
+      "overrides": {
+        "applicant_identity": {
+          "contextual": true,
+          "resit": { "has_resits": true, "attempt_count": 1 }
+        },
+        "a_level_profile": {
+          "subjects": [
+            { "subject_id": "history", "predicted_grade": "A" },
+            { "subject_id": "english_literature", "predicted_grade": "A" },
+            { "subject_id": "geography", "predicted_grade": "B" }
+          ]
+        }
+      },
+      "expected": {
+        "eligibility_status": "eligible",
+        "guidance_pool_id": "newcastle_contextual_or_widening_home"
+      }
+    },
+    {
+      "scenario_id": "partners_resit_meets_abb",
+      "overrides": {
+        "applicant_group_ids": ["partners_supported"],
+        "applicant_identity": {
+          "resit": { "has_resits": true, "attempt_count": 1 }
+        },
+        "a_level_profile": {
+          "subjects": [
+            { "subject_id": "history", "predicted_grade": "A" },
+            { "subject_id": "english_literature", "predicted_grade": "B" },
+            { "subject_id": "geography", "predicted_grade": "B" }
+          ]
+        }
+      },
+      "expected": {
+        "eligibility_status": "eligible",
+        "guidance_pool_id": "newcastle_partners_supported_home"
+      }
+    },
+    {
+      "scenario_id": "international_ucat_only_no_home_score",
+      "overrides": {
+        "applicant_identity": {
+          "applicant_type": "international_standard_school_leaver",
+          "fee_status": "International",
+          "domicile": "International",
+          "english_language_exempt": true
+        },
+        "admissions_tests": {
+          "ucat": { "total_score": 2390 }
+        }
+      },
+      "expected": {
+        "eligibility_status": "eligible",
+        "guidance_pool_id": "newcastle_international_ucat_only",
+        "interview_band": "insufficient_evidence",
+        "ranking_value": 2390,
+        "ranking_max": 2700,
+        "home_score_suppressed": true
+      }
+    },
+    {
+      "scenario_id": "graduate_first",
+      "overrides": {
+        "qualification_route": "graduate",
+        "applicant_identity": {
+          "applicant_type": "graduate",
+          "graduate": true
+        },
+        "graduate_profile": {
+          "is_graduate": true,
+          "degree_classification": "first",
+          "years_since_degree_award": 3
+        }
+      },
+      "expected": {
+        "eligibility_status": "eligible",
+        "guidance_pool_id": "newcastle_graduate_a100_home",
+        "degree_score": 40
+      }
+    },
+    {
+      "scenario_id": "graduate_upper_second",
+      "overrides": {
+        "qualification_route": "graduate",
+        "applicant_identity": {
+          "applicant_type": "graduate",
+          "graduate": true
+        },
+        "graduate_profile": {
+          "is_graduate": true,
+          "degree_classification": "2_1",
+          "years_since_degree_award": 3
+        }
+      },
+      "expected": {
+        "eligibility_status": "eligible",
+        "degree_score": 35
+      }
+    },
+    {
+      "scenario_id": "graduate_old_degree_with_recent_he",
+      "overrides": {
+        "qualification_route": "graduate",
+        "applicant_identity": {
+          "applicant_type": "graduate",
+          "graduate": true
+        },
+        "graduate_profile": {
+          "is_graduate": true,
+          "degree_classification": "2_1",
+          "years_since_degree_award": 8,
+          "recent_higher_education": true
+        }
+      },
+      "expected": {
+        "eligibility_status": "eligible"
+      }
+    },
+    {
+      "scenario_id": "graduate_old_degree_without_recent_he",
+      "overrides": {
+        "qualification_route": "graduate",
+        "applicant_identity": {
+          "applicant_type": "graduate",
+          "graduate": true
+        },
+        "graduate_profile": {
+          "is_graduate": true,
+          "degree_classification": "2_1",
+          "years_since_degree_award": 8
+        }
+      },
+      "expected": {
+        "eligibility_status": "not_eligible",
+        "failure": "graduate_recent_higher_education_not_confirmed"
+      }
+    },
+    {
+      "scenario_id": "sjt_band_4_rejected",
+      "overrides": {
+        "admissions_tests": { "ucat": { "sjt_band": 4 } }
+      },
+      "expected": {
+        "eligibility_status": "not_eligible",
+        "failure": "disqualifying_sjt_rule"
+      }
+    },
+    {
+      "scenario_id": "sjt_bands_1_to_3_accepted",
+      "overrides": {
+        "admissions_tests": { "ucat": { "sjt_band": 1 } }
+      },
+      "expected": {
+        "eligibility_status": "eligible"
+      }
+    },
+    {
+      "scenario_id": "low_historical_observed_score_not_auto_rejected",
+      "overrides": {
+        "gcse_profile": {
+          "subjects": {
+            "english_language": "6",
+            "mathematics": "6",
+            "biology": "6",
+            "chemistry": "6",
+            "physics": "6",
+            "history": "6",
+            "geography": "6",
+            "french": "6"
+          },
+          "total_gcse_count": 8
+        },
+        "admissions_tests": {
+          "ucat": { "total_score": 1900 }
+        }
+      },
+      "expected": {
+        "eligibility_status": "eligible",
+        "interview_band": "high_risk",
+        "score": 18
+      }
+    },
+    {
+      "scenario_id": "missing_ucat_fails",
+      "overrides": {
+        "admissions_tests": { "ucat": { "total_score": null } }
+      },
+      "expected": {
+        "eligibility_status": "not_eligible",
+        "failure_prefix": "required_admissions_test_missing"
+      }
+    },
+    {
+      "scenario_id": "wrong_cycle_ucat_fails",
+      "overrides": {
+        "admissions_tests": { "ucat": { "test_year": 2025 } }
+      },
+      "expected": {
+        "eligibility_status": "not_eligible",
+        "failure_prefix": "ucat_test_year_not_valid"
+      }
+    },
+    {
+      "scenario_id": "non_exact_ucat_no_rounding",
+      "overrides": {
+        "admissions_tests": { "ucat": { "total_score": 2245 } }
+      },
+      "expected": {
+        "eligibility_status": "eligible",
+        "interview_band": "insufficient_evidence",
+        "component_reason_prefix": "ucat_score_not_on_exact_table_step"
+      }
+    },
+    {
+      "scenario_id": "excluded_a_level_subject_does_not_count",
+      "overrides": {
+        "a_level_profile": {
+          "subjects": [
+            { "subject_id": "history", "predicted_grade": "A" },
+            { "subject_id": "english_literature", "predicted_grade": "A" },
+            { "subject_id": "general_studies", "predicted_grade": "A*" }
+          ]
+        }
+      },
+      "expected": {
+        "eligibility_status": "not_eligible",
+        "failure": "a_level_requirements_not_met"
+      }
+    },
+    {
+      "scenario_id": "maths_and_further_maths_with_third_subject",
+      "overrides": {
+        "a_level_profile": {
+          "subjects": [
+            { "subject_id": "mathematics", "predicted_grade": "A" },
+            { "subject_id": "further_mathematics", "predicted_grade": "A" },
+            { "subject_id": "history", "predicted_grade": "A" }
+          ]
+        }
+      },
+      "expected": {
+        "eligibility_status": "eligible"
+      }
+    },
+    {
+      "scenario_id": "contextual_pool_uses_widening_comparator",
+      "overrides": {
+        "applicant_identity": {
+          "contextual": true
+        },
+        "a_level_profile": {
+          "subjects": [
+            { "subject_id": "history", "predicted_grade": "A" },
+            { "subject_id": "english_literature", "predicted_grade": "B" },
+            { "subject_id": "geography", "predicted_grade": "B" }
+          ]
+        }
+      },
+      "expected": {
+        "eligibility_status": "eligible",
+        "guidance_pool_id": "newcastle_contextual_or_widening_home"
+      }
+    }
+  ]
+}

@@ -1,0 +1,384 @@
+{
+  "schema_version": "1.0.0",
+  "course_profile_id": "east-anglia-a100",
+  "confidence": "low",
+  "evidence": {
+    "classification": "official_academic_gate_then_ucat_ranking_with_applysmart_historical_normalised_home_guidance",
+    "summary": "UEA A100 checks threshold academic eligibility, then ranks eligible applicants by UCAT cognitive total when interview capacity is oversubscribed. There is no fixed UCAT cut-off, no academic points score and no A100 contextual adjustment. ApplySmart uses non-anomalous Home legacy /3600 interview-average data only to create a clearly labelled historical-normalised Home guidance estimate; International prediction is withheld because International-only historical UCAT data is missing.",
+    "source_ids": [
+      "uea_research_doc",
+      "uea_foi_24_267",
+      "uea_foi_25_193",
+      "uea_foi_25_265"
+    ]
+  },
+  "eligibility": {
+    "scope": "Automatic banding applies only after the supported A-level or IB academic route passes, UCAT is present for the application cycle, English language evidence is resolved where required and the applicant is not a graduate-entry, Scottish, resit or country-specific international-qualification manual-review route.",
+    "international_english_language_required": true,
+    "qualification_routes": {
+      "supported": [
+        "a_level",
+        "international_baccalaureate",
+        "international_qualification"
+      ],
+      "manual_review": [
+        "scottish"
+      ],
+      "explicitly_blocked": [
+        "graduate",
+        "access_to_medicine",
+        "access_to_he",
+        "foundation",
+        "unknown"
+      ]
+    },
+    "explicitly_blocked_applicant_groups": [
+      "graduate_applicant"
+    ],
+    "manual_review_applicant_groups": [
+      "resit_applicant"
+    ],
+    "gcse": {
+      "minimum_count": 6,
+      "use_exact_subject_list": false,
+      "required_subjects": [
+        {
+          "subject_id": "english_language",
+          "minimum_grade": "5/B"
+        },
+        {
+          "subject_id": "mathematics",
+          "minimum_grade": "7/A"
+        }
+      ]
+    },
+    "a_level": {
+      "routes": [
+        {
+          "route_id": "uea_standard_a_level_aaa_biology_or_chemistry",
+          "grade_profile": [
+            "A",
+            "A",
+            "A"
+          ],
+          "required_subject_grade_options": [
+            {
+              "grade_requirements": [
+                {
+                  "subject_id": "biology",
+                  "minimum_grade": "A"
+                }
+              ]
+            },
+            {
+              "grade_requirements": [
+                {
+                  "subject_id": "chemistry",
+                  "minimum_grade": "A"
+                }
+              ]
+            }
+          ],
+          "excluded_subject_ids": [
+            "general_studies",
+            "critical_thinking"
+          ]
+        }
+      ],
+      "science_practical_endorsement": {
+        "required": true,
+        "subject_ids": [
+          "biology",
+          "chemistry",
+          "physics"
+        ],
+        "accepted_values": [
+          "pass",
+          "passed"
+        ]
+      }
+    },
+    "international_baccalaureate": {
+      "routes": [
+        {
+          "route_id": "uea_ib_34_666_hl_biology_or_chemistry",
+          "total_points": 34,
+          "minimum_hl_points": 18,
+          "hl_grade_profile": [
+            "6",
+            "6",
+            "6"
+          ],
+          "required_hl_subject_ids": [],
+          "required_hl_subject_grade_options": [
+            {
+              "grade_requirements": [
+                {
+                  "subject_id": "biology",
+                  "minimum_grade": "6"
+                }
+              ]
+            },
+            {
+              "grade_requirements": [
+                {
+                  "subject_id": "chemistry",
+                  "minimum_grade": "6"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    "scottish": {
+      "manual_review_reason": "UEA Advanced Higher BBB including Biology or Chemistry is recorded, but automatic Scottish eligibility is withheld because the current generic evaluator cannot safely enforce National 5 English B and Maths A thresholds."
+    },
+    "international_qualification": {
+      "unverified_outcome": "manual_review",
+      "manual_review_reason": "country_specific_international_qualification_equivalence_requires_uea_verification"
+    },
+    "ucat": {
+      "required_test_year": 2026,
+      "minimum_total_score": null,
+      "score_scale": 2700,
+      "required_in_application_cycle": true
+    },
+    "sjt": {
+      "used_as_gate": false,
+      "accepted_bands": [
+        1,
+        2,
+        3,
+        4
+      ],
+      "rejected_bands": []
+    },
+    "resits": {
+      "resits_accepted": true,
+      "applicant_form_required": false,
+      "manual_review_required": true
+    },
+    "manual_review_routes": [
+      "Scottish qualifications because National 5 grade thresholds need manual checking",
+      "A-level or GCSE resit applicants because UEA's resit rule depends on subject-level resit evidence",
+      "Country-specific international qualification equivalence without UEA verification",
+      "Alternative English-language evidence or IGCSE exception cases"
+    ],
+    "do_not_infer": [
+      "Do not create a fixed current-year UCAT threshold.",
+      "Do not score GCSEs, predicted A-level grades or achieved post-16 grades.",
+      "Do not reject SJT Band 3 or Band 4.",
+      "Do not apply contextual academic reductions, contextual UCAT uplift or contextual interview thresholds to A100.",
+      "Do not implement A104 Gateway Medicine or A101 Graduate Entry Medicine inside A100.",
+      "Do not use 2020 anomalous fields or unverified 2025 /2700 figures in runtime guidance.",
+      "Do not predict offers, interview performance or waiting-list outcomes."
+    ]
+  },
+  "score_model": {
+    "type": "ranking_metric",
+    "basis": "UCAT cognitive total after threshold eligibility. ApplySmart Home guidance uses a historical-normalised median of non-anomalous Home interview-average UCAT values from 2019, 2021, 2022, 2023 and 2024; 2020 and 2025 anomalous rows are excluded.",
+    "metric": "ucat_total",
+    "pool_specific_output": true,
+    "scale": {
+      "min": 0,
+      "max": 2700
+    },
+    "fixed_current_cutoff": false,
+    "historical_guidance_only": true,
+    "legacy_3600_conversion_used": true,
+    "legacy_3600_values_display_only": true,
+    "converted_2700_values_display_only": false,
+    "normalised_2700_values_derived_for_prediction": true,
+    "executable": true,
+    "executable_band_rules_created": true,
+    "applysmart_predictive_estimate": true,
+    "anomaly_exclusion_policy": {
+      "excluded_cycles": [
+        2020,
+        2025
+      ],
+      "excluded_reasons": [
+        "2020 FOI row contains an official-source low/high anomaly including 1390.",
+        "2025 research reports average and median UCAT values above the stated 2700-point scale."
+      ],
+      "source_values_preserved_in_research": true
+    },
+    "conversion_policy": {
+      "from_scale": 3600,
+      "to_scale": 2700,
+      "formula": "official_score_3600 * 3 / 4",
+      "psychometric_equivalence": false,
+      "execution_rule": "Normalised values calibrate ApplySmart Home historical guidance only. Raw /3600 values are source evidence and never runtime comparison values."
+    },
+    "calibration_policy": {
+      "method": "median_of_non_anomalous_home_interview_average_scores_normalised_to_2700",
+      "methodology_label": "ApplySmart historical-normalised Home UCAT guidance",
+      "evidence_status": "derived_for_prediction",
+      "official_status": "not_official_uea_threshold",
+      "historical_cycles_used": [
+        2019,
+        2021,
+        2022,
+        2023,
+        2024
+      ],
+      "margin_points": 150,
+      "margin_model": {
+        "interview_likely": "score >= reference + 150",
+        "realistic": "score >= reference and < reference + 150",
+        "ambitious": "score >= reference - 150 and < reference",
+        "high_risk": "score < reference - 150"
+      },
+      "pool_references": {
+        "home_a100": {
+          "official_scores_3600": [
+            2571,
+            2706,
+            2769,
+            2849,
+            2795
+          ],
+          "normalised_scores_2700": [
+            1928.25,
+            2029.5,
+            2076.75,
+            2136.75,
+            2096.25
+          ],
+          "sorted_normalised_scores_2700": [
+            1928.25,
+            2029.5,
+            2076.75,
+            2096.25,
+            2136.75
+          ],
+          "median_reference_2700": 2076.75,
+          "exact_reference_preserved": true,
+          "runtime_boundaries": {
+            "likely": 2227,
+            "realisticMin": 2077,
+            "realisticMax": 2226,
+            "ambitiousMin": 1927,
+            "ambitiousMax": 2076,
+            "highRiskBelow": 1927
+          },
+          "confidence": "low"
+        }
+      }
+    },
+    "historical_series": [
+      {
+        "group_id": "home_a100",
+        "official_scores_3600": [
+          2571,
+          2706,
+          2769,
+          2849,
+          2795
+        ],
+        "converted_scores_2700": [
+          1928.25,
+          2029.5,
+          2076.75,
+          2136.75,
+          2096.25
+        ],
+        "median_reference_2700": 2076.75,
+        "evidence_classification": "derived_for_prediction",
+        "display_only": false,
+        "applysmart_derived": true,
+        "official": false,
+        "usable_for_guidance_band_calibration": true,
+        "runtime_boundaries": {
+          "likely": 2227,
+          "realisticMin": 2077,
+          "realisticMax": 2226,
+          "ambitiousMin": 1927,
+          "ambitiousMax": 2076,
+          "highRiskBelow": 1927
+        },
+        "notes": "Home reference is the median of non-anomalous Home interview-average UCAT values normalised from /3600 to /2700."
+      }
+    ],
+    "presentation": {
+      "pool_label": "Home and International applicants follow the same published methodology, with separate place quotas.",
+      "selection_summary": "UEA checks threshold academic eligibility first, then ranks eligible A100 applicants by UCAT cognitive total when interviews are oversubscribed. GCSEs, predicted grades and contextual status are not scored.",
+      "timeline_selection_summary": "Academic thresholds were checked before UCAT-ranking guidance was applied. No contextual A100 adjustment or academic points score was used.",
+      "evidence_used": [
+        "Official admissions policy",
+        "University selection methodology",
+        "UCAT policy",
+        "Historical interview data",
+        "FOI evidence",
+        "Contextual admissions policy"
+      ]
+    }
+  },
+  "guidance_pools": [
+    {
+      "pool_id": "international_a100",
+      "priority": 30,
+      "applicant_match": {
+        "all_group_ids": [
+          "international_fee"
+        ]
+      },
+      "metric": "ucat_total",
+      "pool_specific_output": true,
+      "band_rules": []
+    },
+    {
+      "pool_id": "home_a100",
+      "priority": 20,
+      "applicant_match": {
+        "all_group_ids": [
+          "home_fee"
+        ],
+        "excluded_group_ids": [
+          "international_fee",
+          "graduate_applicant"
+        ]
+      },
+      "metric": "ucat_total",
+      "pool_specific_output": true,
+      "comparison_guidance": {
+        "comparison_type": "historical_range",
+        "label": "ApplySmart historical-normalised Home UCAT guidance",
+        "caveat": "UEA does not publish or use a fixed UCAT cut-off. This guidance uses non-anomalous Home historical interview-average UCAT values normalised from /3600 to /2700 and is not a current threshold or guarantee.",
+        "evidence_confidence": "low"
+      },
+      "band_rules": [
+        {
+          "band": "interview_likely",
+          "operator": "greater_than_or_equal",
+          "value": 2227
+        },
+        {
+          "band": "realistic",
+          "operator": "between_inclusive",
+          "min": 2077,
+          "max": 2226
+        },
+        {
+          "band": "ambitious",
+          "operator": "between_inclusive",
+          "min": 1927,
+          "max": 2076
+        },
+        {
+          "band": "high_risk",
+          "operator": "less_than",
+          "value": 1927
+        }
+      ],
+      "official_candidate_decile_guidance": {
+        "min": 2571,
+        "max": 2849,
+        "cycle": "2019 and 2021-2024 entry",
+        "executable": false,
+        "reason": "Official Home historical interview averages remain raw /3600 source evidence. Runtime uses fixed ApplySmart-derived /2700 guidance boundaries from median calibration."
+      }
+    }
+  ]
+}

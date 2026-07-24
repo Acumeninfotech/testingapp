@@ -1,0 +1,315 @@
+{
+  "schema_version": "1.0.0",
+  "template_version": "0.1.0",
+  "template_purpose": "Human-readable blueprint for frontend result cards produced by the Apply Smart prediction engine. This is not a real applicant result.",
+
+  "result_id": null,
+  "generated_at": null,
+  "result_mode": "template_only",
+
+  "readiness": {
+    "eligibility": false,
+    "interview_prediction": false,
+    "historical_guidance": false,
+    "international_prediction": false,
+    "contextual_logic": false,
+    "result_card": false,
+    "regression": false,
+    "research_completeness": "incomplete",
+    "manual_review_required": true,
+    "eligibility_ready": false,
+    "interview_prediction_ready": false,
+    "offer_prediction_scope": "out_of_scope",
+    "prediction_confidence": "low",
+    "result_card_ready": false
+  },
+
+  "course_identity": {
+    "profile_id": null,
+    "university_name": null,
+    "course_name": null,
+    "ucas_code": null,
+    "entry_route": null,
+    "qualification_awarded": null,
+    "duration_years": null,
+    "location": null,
+    "source_ids": []
+  },
+
+  "applicant_context": {
+    "applies_to_group_ids": [],
+    "applicant_summary": null,
+    "source_ids": []
+  },
+
+  "eligibility": {
+    "status": "unknown",
+    "status_values": [
+      "eligible",
+      "not_eligible",
+      "unknown",
+      "warning",
+      "not_assessed"
+    ],
+    "summary": null,
+    "stage_1_checks": [
+      {
+        "check_id": null,
+        "label": null,
+        "status": "unknown",
+        "requirement": null,
+        "applicant_value": null,
+        "decision_outcome": "unknown",
+        "details": [],
+        "source_ids": []
+      }
+    ],
+    "blocking_reasons": [],
+    "warnings": [],
+    "source_ids": []
+  },
+
+  "stage_1_requirements": {
+    "verification_status": "unverified",
+    "verified_requirements": [
+      {
+        "requirement_id": null,
+        "label": null,
+        "value": null,
+        "applies_to_group_ids": [],
+        "source_ids": []
+      }
+    ],
+    "unknown_requirements": [
+      {
+        "requirement_id": null,
+        "label": null,
+        "reason": null,
+        "source_ids": []
+      }
+    ],
+    "source_ids": []
+  },
+
+  "stage_2_selection": {
+    "verification_status": "unverified",
+    "primary_model": null,
+    "summary": null,
+    "ranking_factors": [
+      {
+        "factor_id": null,
+        "label": null,
+        "weight_percent": null,
+        "calculation_status": "unknown",
+        "calculation_status_values": [
+          "known",
+          "partially_known",
+          "unknown",
+          "not_used"
+        ],
+        "notes": null,
+        "source_ids": []
+      }
+    ],
+    "selection_adjustments": [
+      {
+        "adjustment_id": null,
+        "label": null,
+        "applies_to_group_ids": [],
+        "effect_summary": null,
+        "calculation_status": "unknown",
+        "source_ids": []
+      }
+    ],
+    "unknown_calculation_areas": [],
+    "source_ids": []
+  },
+
+  "prediction": {
+    "available": false,
+    "capability": "interview",
+    "prediction_type": null,
+    "result_band": "unknown",
+    "result_band_values": [
+      "interview_likely",
+      "realistic",
+      "ambitious",
+      "high_risk",
+      "not_eligible"
+    ],
+    "score": null,
+    "score_scale": {
+      "min": null,
+      "max": null
+    },
+    "missing_data_reasons": [],
+    "cannot_predict_explanation": null,
+    "source_ids": []
+  },
+
+  "confidence": {
+    "level": "unknown",
+    "level_values": [
+      "high",
+      "medium",
+      "low",
+      "unknown"
+    ],
+    "summary": null,
+    "stage_confidence": {
+      "stage_1": "unknown",
+      "stage_2": "unknown",
+      "offer_selection": "unknown"
+    },
+    "source_ids": []
+  },
+
+  "evidence_confidence": {
+    "level": "Limited",
+    "summary": "The template does not contain enough applicant evidence for interview guidance.",
+    "reasons": [
+      "Applicant information has not been supplied."
+    ]
+  },
+
+  "evidence": {
+    "source_ids": [],
+    "sources": [
+      {
+        "source_id": null,
+        "title": null,
+        "url": null,
+        "source_type": null,
+        "confidence": null,
+        "accessed_date": null
+      }
+    ]
+  },
+
+  "display": {
+    "headline": null,
+    "subheadline": null,
+    "primary_user_facing_recommendation": null,
+    "primary_recommendation_values": [
+      "Strong choice",
+      "Good chance – recommend applying",
+      "Possible but ambitious",
+      "Consider stronger alternatives",
+      "You do not currently meet the published entry requirements",
+      "Needs adviser review",
+      "Evidence not yet available"
+    ],
+    "recommendation_display_state": "standard",
+    "recommendation_display_state_values": [
+      "standard",
+      "not_eligible",
+      "manual_review",
+      "insufficient_evidence"
+    ],
+    "badges": [
+      {
+        "label": null,
+        "tone": null
+      }
+    ],
+    "primary_explanation": null,
+    "secondary_explanation": null,
+    "next_best_action": null
+  },
+
+  "decision_timeline": [
+    {
+      "step": 1,
+      "title": "Applicant details checked",
+      "status": "Complete",
+      "summary": "Your applicant type, qualifications and UCAT details were checked."
+    },
+    {
+      "step": 2,
+      "title": "Eligibility assessed",
+      "status": "Manual review",
+      "summary": "Applicant information must be supplied before eligibility can be confirmed."
+    },
+    {
+      "step": 3,
+      "title": "Selection model applied",
+      "status": "Manual review",
+      "summary": "The university selection approach cannot be completed until applicant information is supplied."
+    },
+    {
+      "step": 4,
+      "title": "Historical guidance compared",
+      "status": "Not applied",
+      "summary": "Information from previous admissions cycles has not been compared. Historical guidance is not a guarantee of an interview."
+    },
+    {
+      "step": 5,
+      "title": "Interview recommendation produced",
+      "status": "Manual review",
+      "summary": "An interview recommendation is not available until applicant information is supplied."
+    }
+  ],
+
+  "decision_transparency": {
+    "decision_path": [
+      {
+        "stage": "Eligibility",
+        "status": "Needs review",
+        "summary": "The supported entry requirements have not yet been assessed.",
+        "checks": []
+      },
+      {
+        "stage": "Selection model",
+        "status": "Not applied",
+        "summary": "The university selection approach has not yet been applied.",
+        "checks": []
+      },
+      {
+        "stage": "Historical guidance",
+        "status": "Not applied",
+        "summary": "Historical information is guidance only and never guarantees an interview.",
+        "checks": []
+      },
+      {
+        "stage": "Recommendation",
+        "status": "Needs review",
+        "summary": "A recommendation is not available for this template.",
+        "checks": []
+      }
+    ],
+    "key_reasons": [
+      "This template does not contain an applicant decision."
+    ],
+    "evidence_used": [
+      "Official admissions policy"
+    ],
+    "evidence_confidence": {
+      "level": "Limited",
+      "summary": "The template does not contain enough applicant evidence for interview guidance.",
+      "reasons": [
+        "Applicant information has not been supplied."
+      ]
+    },
+    "manual_review_reason": "Applicant information has not been supplied.",
+    "insufficient_evidence_reason": null
+  },
+
+  "internal_technical_status": {
+    "eligibility_status": null,
+    "interview_recommendation": null,
+    "interview_result_band": null,
+    "evidence_status": null,
+    "debug_only": true
+  },
+
+  "engine_notes": {
+    "generated_from_profile_id": null,
+    "eligibility_ready": false,
+    "interview_prediction_ready": false,
+    "offer_prediction_scope": "out_of_scope",
+    "prediction_confidence": "low",
+    "engine_version": null,
+    "assumptions": [],
+    "do_not_display": []
+  }
+}

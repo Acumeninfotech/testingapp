@@ -1,0 +1,290 @@
+{
+  "schema_version": "1.0.0",
+  "dataset_version": "2027.1.0",
+  "last_updated": "2026-06-23",
+
+  "subjects": [
+    {
+      "subject_id": "biology",
+      "name": "Biology",
+      "aliases": [
+        "Bio",
+        "Biological Sciences"
+      ],
+      "categories": [
+        "science",
+        "laboratory_science",
+        "a_level",
+        "gcse"
+      ]
+    },
+    {
+      "subject_id": "chemistry",
+      "name": "Chemistry",
+      "aliases": [
+        "Chem"
+      ],
+      "categories": [
+        "science",
+        "laboratory_science",
+        "a_level",
+        "gcse"
+      ]
+    },
+    {
+      "subject_id": "physics",
+      "name": "Physics",
+      "aliases": [
+        "Phys"
+      ],
+      "categories": [
+        "science",
+        "laboratory_science",
+        "a_level",
+        "gcse"
+      ]
+    },
+    {
+      "subject_id": "mathematics",
+      "name": "Mathematics",
+      "aliases": [
+        "Maths",
+        "Math"
+      ],
+      "categories": [
+        "mathematics",
+        "a_level",
+        "gcse"
+      ]
+    },
+    {
+      "subject_id": "further_mathematics",
+      "name": "Further Mathematics",
+      "aliases": [
+        "Further Maths",
+        "Further Math"
+      ],
+      "categories": [
+        "mathematics",
+        "a_level"
+      ]
+    },
+    {
+      "subject_id": "computer_science",
+      "name": "Computer Science",
+      "aliases": [
+        "Computer Science",
+        "Computing"
+      ],
+      "categories": [
+        "a_level",
+        "gcse"
+      ]
+    },
+    {
+      "subject_id": "english_language",
+      "name": "English Language",
+      "aliases": [
+        "English",
+        "Eng Lang",
+        "English Lang"
+      ],
+      "categories": [
+        "english",
+        "gcse"
+      ]
+    },
+    {
+      "subject_id": "english_literature",
+      "name": "English Literature",
+      "aliases": [
+        "Eng Lit",
+        "English Lit"
+      ],
+      "categories": [
+        "english",
+        "gcse",
+        "a_level"
+      ]
+    },
+    {
+      "subject_id": "combined_science",
+      "name": "Combined Science",
+      "aliases": [
+        "Double Science",
+        "Combined Sciences"
+      ],
+      "categories": [
+        "science",
+        "gcse"
+      ]
+    },
+    {
+      "subject_id": "science",
+      "name": "Science",
+      "aliases": [
+        "General Science"
+      ],
+      "categories": [
+        "science",
+        "gcse"
+      ]
+    },
+    {
+      "subject_id": "psychology",
+      "name": "Psychology",
+      "aliases": [
+        "Psych"
+      ],
+      "categories": [
+        "social_science",
+        "a_level",
+        "gcse"
+      ]
+    },
+    {
+      "subject_id": "sociology",
+      "name": "Sociology",
+      "aliases": [],
+      "categories": [
+        "social_science",
+        "a_level",
+        "gcse"
+      ]
+    },
+    {
+      "subject_id": "environmental_studies",
+      "name": "Environmental Studies",
+      "aliases": [
+        "Environmental Science"
+      ],
+      "categories": [
+        "science",
+        "a_level",
+        "gcse"
+      ]
+    },
+    {
+      "subject_id": "geography",
+      "name": "Geography",
+      "aliases": [],
+      "categories": [
+        "social_science",
+        "a_level",
+        "gcse"
+      ]
+    },
+    {
+      "subject_id": "human_biology",
+      "name": "Human Biology",
+      "aliases": [
+        "Human Bio"
+      ],
+      "categories": [
+        "science",
+        "laboratory_science",
+        "a_level",
+        "gcse"
+      ]
+    },
+    {
+      "subject_id": "general_studies",
+      "name": "General Studies",
+      "aliases": [],
+      "categories": [
+        "a_level"
+      ]
+    },
+    {
+      "subject_id": "critical_thinking",
+      "name": "Critical Thinking",
+      "aliases": [],
+      "categories": [
+        "a_level"
+      ]
+    },
+    {
+      "subject_id": "thinking_skills",
+      "name": "Thinking Skills",
+      "aliases": [
+        "International A-level Thinking Skills"
+      ],
+      "categories": [
+        "a_level"
+      ]
+    },
+    {
+      "subject_id": "epq",
+      "name": "Extended Project Qualification",
+      "aliases": [
+        "Extended Project",
+        "EPQ"
+      ],
+      "categories": [
+        "a_level"
+      ]
+    },
+    {
+      "subject_id": "global_perspectives_and_research",
+      "name": "Global Perspectives and Research",
+      "aliases": [
+        "Global Perspectives",
+        "GPR"
+      ],
+      "categories": [
+        "a_level"
+      ]
+    }
+  ],
+
+  "categories": [
+    {
+      "category_id": "science",
+      "description": "Science subjects or broad science qualification labels."
+    },
+    {
+      "category_id": "laboratory_science",
+      "description": "Science subjects normally treated as laboratory sciences."
+    },
+    {
+      "category_id": "mathematics",
+      "description": "Mathematics subjects."
+    },
+    {
+      "category_id": "english",
+      "description": "English language and literature subjects."
+    },
+    {
+      "category_id": "social_science",
+      "description": "Social science subjects."
+    },
+    {
+      "category_id": "gcse",
+      "description": "Subjects commonly used for GCSE or equivalent requirements."
+    },
+    {
+      "category_id": "a_level",
+      "description": "Subjects commonly used for A-level or equivalent requirements."
+    }
+  ],
+
+  "usage": {
+    "purpose": "Defines controlled subject identifiers used throughout Apply Smart.",
+    "rules": [
+      "This file defines permitted subject IDs, names, aliases and categories only.",
+      "Aliases are used only for input normalisation.",
+      "University-specific subject acceptance rules must remain inside university course JSON files.",
+      "Every subject ID referenced by a university JSON file must exist in this file."
+    ],
+    "example": {
+      "required_subject_ids": [
+        "chemistry"
+      ],
+      "one_of_subject_ids": [
+        "biology",
+        "physics",
+        "mathematics"
+      ]
+    }
+  }
+}

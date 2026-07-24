@@ -1,0 +1,110 @@
+{
+  "schema_version": "1.0.0",
+  "profile_id": "leeds-a100-research",
+  "course_profile_id": "leeds-a100",
+  "research_status": "complete_for_supported_scope_with_documented_gaps",
+  "file_purpose": "Research and evidence profile for University of Leeds Medicine and Surgery MBChB A100. This file preserves the official Leeds policy, historical UCAT evidence, approved ApplySmart internal methodology and unresolved calibration boundaries from the authoritative Leeds v1.0 specification.",
+  "official_rules_source": "data/universities/leeds-a100.json",
+  "created_at": "2026-07-20",
+  "last_updated": "2026-07-20",
+  "research_scope": {
+    "target_entry_year": 2027,
+    "primary_policy_cycle": "2027 entry",
+    "historical_guidance_cycles": [
+      "2024 entry",
+      "2025 entry"
+    ],
+    "primary_course": "A100",
+    "primary_scope": [
+      "home_standard_a_level_school_leaver"
+    ],
+    "separate_pools_with_prediction_withheld": [
+      "access_to_leeds_wp_a100",
+      "international_a100"
+    ],
+    "manual_review_scope": [
+      "graduate_applying_to_a100",
+      "international_baccalaureate",
+      "scottish_qualifications",
+      "alternative_qualification_routes",
+      "unverified_contextual_or_wp_status",
+      "international_qualification_equivalence"
+    ],
+    "production_json_updated": true,
+    "index_updated": true,
+    "examples_updated": true,
+    "regression_scripts_updated": true,
+    "activation_flags_updated": true,
+    "third_party_admissions_websites_used": false,
+    "evidence_intake_basis": "Leeds.docx supplied by the user on 2026-07-20"
+  },
+  "evidence_classification_policy": {
+    "official_leeds_policy": "Facts confirmed directly by University of Leeds published sources, as recorded in the authoritative specification.",
+    "historical_evidence": "Published historical data such as lowest shortlisted UCAT scores and admissions statistics. These are guidance only and not guaranteed future thresholds.",
+    "applysmart_internal_methodology": "ApplySmart scoring, banding and compensation logic approved to operationalise Leeds' published combined academic-plus-UCAT principle. This must never be presented as official Leeds policy.",
+    "unresolved_policy": "Areas where Leeds has not published sufficient detail; conservative implementation follows the explicit rules in the specification."
+  },
+  "metadata": {
+    "authoritative_research_file": "/Users/faizan/Desktop/medical university research/Leeds.docx",
+    "engine_version": "ApplySmart Engine v1.0",
+    "architecture_change_required": true,
+    "selection_model_mapping": "official_eligibility_gates_then_internal_academic_strength_then_home_historical_ucat_guidance_then_compensation_matrix",
+    "standardisation_profile": "completed_production_university",
+    "methodology_label": "Combined academic and UCAT ranking with historical-guidance prediction bands"
+  },
+  "readiness": {
+    "eligibility": true,
+    "interview_prediction": true,
+    "historical_guidance": true,
+    "international_prediction": false,
+    "contextual_logic": true,
+    "result_card": true,
+    "regression": true,
+    "research_completeness": "complete_for_supported_scope_with_documented_gaps",
+    "manual_review_required": true,
+    "eligibility_ready": true,
+    "interview_prediction_ready": true,
+    "prediction_confidence": "medium",
+    "result_card_ready": true,
+    "offer_prediction_scope": "out_of_scope",
+    "interview_band_config_ready": true,
+    "metadata_activation_ready": true,
+    "production_ready_candidate": true
+  },
+  "course_identity": {
+    "university": "University of Leeds",
+    "course_name": "Medicine and Surgery MBChB",
+    "ucas_code": "A100",
+    "duration_years": 5,
+    "home_places": 275,
+    "international_places": 19,
+    "evidence_classification": "official_leeds_policy"
+  },
+  "approved_four_stage_methodology": {
+    "stage_a": "Official eligibility gates: GCSE minimums, A-level offer and subjects, current-cycle UCAT, applicant pool, special-policy gates.",
+    "stage_b": "ApplySmart internal academic-strength score: GCSE /24 plus A-level /8 equals /32. Hidden from applicants.",
+    "stage_c": "Home historical UCAT guidance: below 1900, 1900-1929, 1930-1949, 1950-2049 and 2050+ on the proportional 2700 scale.",
+    "stage_d": "Combined compensation matrix preserving Leeds' official principle that academic strength and UCAT may compensate for each other."
+  },
+  "unresolved_policy_defaults": {
+    "achieved_vs_predicted": "Accept both for eligibility and treat identically; no points difference or uplift.",
+    "sjt": "Reject Band 4; allow Bands 1-3; no bonus or penalty points; no historical UCAT adjustment.",
+    "contextual": "Route Access to Leeds/WP separately; no assumed uplift, bonus score or Home threshold reuse.",
+    "international": "Maintain separate pool; prediction withheld until calibration is complete.",
+    "graduate_and_alternative_routes": "Do not create separate scoring or conversion formulas.",
+    "resits_and_practical_endorsement": "Use only as eligibility checks; no point penalty or bonus."
+  },
+  "public_result_card_wording": {
+    "strong_choice": "Your academic profile is strong and your UCAT is above the lowest scores seen among recently shortlisted Leeds Home applicants. Leeds considers academics and UCAT together and does not publish a fixed cut-off.",
+    "realistic_choice": "Your academic and UCAT profile appears competitive when considered together. Leeds ranks applicants each year, so historical scores are guidance rather than a guarantee.",
+    "higher_risk": "One part of your academic and UCAT profile is below the level commonly seen among recently shortlisted applicants. Leeds considers both components together, so this is not an automatic rejection.",
+    "minimum_requirements_not_met": "Your profile does not currently meet one or more of Leeds' published academic entry requirements."
+  },
+  "evidence_gaps": [
+    "Exact official Leeds academic scoring formula is unpublished.",
+    "UCAT normalisation formula and fixed future cut-off are unpublished.",
+    "WP and International public prediction calibration is outstanding.",
+    "SJT Bands 1-3 ranking weight is unpublished.",
+    "Graduate, IB, Scottish and alternative-route scoring is unpublished."
+  ]
+}

@@ -1,0 +1,1085 @@
+{
+  "schema_version": "1.0.0",
+  "profile_id": "ucl-a100",
+  "profile_status": "activated_for_scoped_eligibility_and_interview_guidance",
+  "verification_status": "official_and_foi_verified",
+  "last_updated": "2026-07-22",
+  "university": {
+    "name": "University College London",
+    "slug": "ucl",
+    "country": "United Kingdom",
+    "nation": "England",
+    "institution_type": "University",
+    "website_url": "https://www.ucl.ac.uk/"
+  },
+  "course": {
+    "name": "Medicine MBBS BSc",
+    "ucas_code": "A100",
+    "entry_route": "standard_entry",
+    "qualification_awarded": "MBBS BSc",
+    "duration_years": 6,
+    "campus": "Bloomsbury, Royal Free Hospital and Whittington Hospital",
+    "location": "London, England",
+    "entry_year": 2027,
+    "fee_statuses": [
+      "home",
+      "international"
+    ],
+    "is_gateway_or_foundation": false,
+    "is_graduate_entry": false,
+    "notes": "Standard-entry UCL A100 Medicine route. UK graduates complete the course in 5 years because the iBSc year is waived; this is not a separate graduate-entry course."
+  },
+  "medical_school": {
+    "name": "UCL Medical School",
+    "notes": "Production rules are mapped from the approved UCL A100 research document supplied by the user."
+  },
+  "applicant_pools": [
+    {
+      "pool_id": "access_ucl_a100",
+      "applies_to_group_ids": [
+        "home_fee",
+        "access_ucl_confirmed"
+      ],
+      "excluded_group_ids": [
+        "international_fee"
+      ],
+      "selection_relevance": "Confirmed Access UCL applicants are reviewed separately against the official 2026-entry Access UCL UCAT threshold of 2080/2700."
+    },
+    {
+      "pool_id": "home_a100",
+      "applies_to_group_ids": [
+        "home_fee"
+      ],
+      "excluded_group_ids": [
+        "international_fee",
+        "access_ucl_confirmed"
+      ],
+      "selection_relevance": "Eligible Home applicants who are not confirmed Access UCL are ranked by UCAT cognitive total against the official 2026-entry Home threshold of 2190/2700."
+    },
+    {
+      "pool_id": "overseas_a100",
+      "applies_to_group_ids": [
+        "international_fee"
+      ],
+      "selection_relevance": "Eligible overseas applicants are selected separately for 24 ring-fenced places against the official 2026-entry Overseas threshold of 2300/2700."
+    }
+  ],
+  "applies_to_group_ids": [
+    "england_domiciled",
+    "scotland_domiciled",
+    "wales_domiciled",
+    "northern_ireland_domiciled",
+    "home_fee",
+    "international_fee",
+    "rest_of_uk",
+    "contextual",
+    "widening_participation",
+    "care_experienced",
+    "graduate_applicant",
+    "school_leaver",
+    "resit_applicant",
+    "deferred_entry"
+  ],
+  "stage_1_eligibility": {
+    "verification_status": "official_source_verified_with_documented_gaps",
+    "source_ids": [
+      "ucl_research_doc",
+      "ucl_course_page_2027",
+      "ucl_entry_requirements_2027",
+      "ucl_selection_procedure",
+      "ucl_access_ucl_2026",
+      "msc_ucl_a100"
+    ],
+    "overall_policy": {
+      "status": "official_rules_mapped",
+      "description": "UCL uses academic requirements as eligibility thresholds only. Academic performance above the minimum is not scored or ranked for interview selection.",
+      "not_eligible_if": [
+        "Minimum academic requirements are not met.",
+        "GCSE English Language or Mathematics is below grade 6/B unless a verified equivalent applies.",
+        "A-level Chemistry and Biology requirements are not met.",
+        "Required Level 3 qualifications were not completed concurrently within two years unless an official exception applies.",
+        "A-level resits are present because UCL does not accept resits or restarting Year 12.",
+        "UCAT from the application cycle is missing.",
+        "International English-language evidence is required but not verified."
+      ],
+      "source_ids": [
+        "ucl_research_doc",
+        "ucl_selection_procedure"
+      ]
+    },
+    "academic_requirements": {
+      "same_sitting": {
+        "required": true,
+        "qualification_routes": [
+          "a_level"
+        ],
+        "notes": "UCL requires three A-levels taken concurrently within two years. Other route-specific timing requirements are represented in source notes and manual-review boundaries where the applicant model lacks route-level evidence."
+      }
+    },
+    "gcse": {
+      "status": "official_source_verified",
+      "source_ids": [
+        "ucl_research_doc",
+        "ucl_entry_requirements_2027"
+      ],
+      "minimum_count": null,
+      "counted_subject_limit": null,
+      "mandatory_subject_ids": [
+        "english_language",
+        "mathematics"
+      ],
+      "grade_requirements": [
+        {
+          "requirement_id": "ucl_gcse_english_language_minimum",
+          "subject_id": "english_language",
+          "minimum_grade": "6/B",
+          "qualification_level": "gcse_or_equivalent",
+          "decision_outcome_if_not_met": "not_eligible",
+          "source_ids": [
+            "ucl_entry_requirements_2027"
+          ]
+        },
+        {
+          "requirement_id": "ucl_gcse_mathematics_minimum",
+          "subject_id": "mathematics",
+          "minimum_grade": "6/B",
+          "qualification_level": "gcse_or_equivalent",
+          "decision_outcome_if_not_met": "not_eligible",
+          "source_ids": [
+            "ucl_entry_requirements_2027"
+          ]
+        }
+      ],
+      "accepted_equivalencies": [
+        "GCSE, IGCSE, O-level, IB or EB equivalent at grade B/6 for English Language and Mathematics"
+      ],
+      "sitting_policy": "GCSE resits are permitted for English Language and Mathematics only to meet the minimum requirement.",
+      "achieved_or_predicted": "achieved",
+      "selection_role": "eligibility_only",
+      "scored_after_eligibility": false,
+      "notes": "Other GCSEs are not scored."
+    },
+    "post_16": {
+      "status": "official_source_verified_with_documented_gaps",
+      "source_ids": [
+        "ucl_research_doc",
+        "ucl_entry_requirements_2027",
+        "msc_ucl_a100"
+      ],
+      "accepted_qualification_types": [
+        "a_level",
+        "international_baccalaureate",
+        "scottish",
+        "access_to_medicine",
+        "graduate",
+        "international_qualification"
+      ],
+      "a_level": {
+        "status": "official_source_verified",
+        "source_ids": [
+          "ucl_entry_requirements_2027",
+          "ucl_research_doc"
+        ],
+        "standard_offer": {
+          "grade_profile": [
+            "A*",
+            "A",
+            "A"
+          ],
+          "notes": "A*AA including A*A in Chemistry and Biology in either order."
+        },
+        "contextual_offer": {
+          "applies_to_group_ids": [
+            "home_fee"
+          ],
+          "requires_applicant_group_ids": [
+            "access_ucl_confirmed"
+          ],
+          "grade_profile": [
+            "A",
+            "A",
+            "B"
+          ],
+          "notes": "Access UCL only: AAB including AA in Biology and Chemistry."
+        },
+        "grade_requirements": [
+          {
+            "requirement_id": "ucl_standard_a_level_astar_aa_biology_chemistry",
+            "excluded_group_ids": [
+              "access_ucl_confirmed",
+              "graduate_applicant"
+            ],
+            "grade_profile": [
+              "A*",
+              "A",
+              "A"
+            ],
+            "required_subject_ids": [
+              "biology",
+              "chemistry"
+            ],
+            "required_subject_grade_options": [
+              {
+                "grade_requirements": [
+                  {
+                    "subject_id": "biology",
+                    "minimum_grade": "A*"
+                  },
+                  {
+                    "subject_id": "chemistry",
+                    "minimum_grade": "A"
+                  }
+                ]
+              },
+              {
+                "grade_requirements": [
+                  {
+                    "subject_id": "biology",
+                    "minimum_grade": "A"
+                  },
+                  {
+                    "subject_id": "chemistry",
+                    "minimum_grade": "A*"
+                  }
+                ]
+              }
+            ],
+            "excluded_subject_ids": [
+              "general_studies",
+              "thinking_skills"
+            ],
+            "decision_outcome_if_not_met": "not_eligible",
+            "source_ids": [
+              "ucl_entry_requirements_2027"
+            ]
+          },
+          {
+            "requirement_id": "ucl_access_ucl_a_level_aab_biology_chemistry_aa",
+            "all_group_ids": [
+              "home_fee",
+              "access_ucl_confirmed"
+            ],
+            "excluded_group_ids": [
+              "international_fee",
+              "graduate_applicant"
+            ],
+            "grade_profile": [
+              "A",
+              "A",
+              "B"
+            ],
+            "required_subject_ids": [
+              "biology",
+              "chemistry"
+            ],
+            "subject_grade_requirements": [
+              {
+                "subject_id": "biology",
+                "minimum_grade": "A"
+              },
+              {
+                "subject_id": "chemistry",
+                "minimum_grade": "A"
+              }
+            ],
+            "excluded_subject_ids": [
+              "general_studies",
+              "thinking_skills"
+            ],
+            "decision_outcome_if_not_met": "not_eligible",
+            "source_ids": [
+              "ucl_access_ucl_2026",
+              "ucl_entry_requirements_2027"
+            ]
+          },
+          {
+            "requirement_id": "ucl_graduate_a_level_abb_biology_chemistry",
+            "applies_to_group_ids": [
+              "graduate_applicant"
+            ],
+            "grade_profile": [
+              "A",
+              "B",
+              "B"
+            ],
+            "required_subject_ids": [
+              "biology",
+              "chemistry"
+            ],
+            "manual_review_on_pass": true,
+            "manual_review_reason": "graduate_degree_and_module_requirements_require_manual_review",
+            "decision_outcome_if_not_met": "not_eligible",
+            "source_ids": [
+              "ucl_entry_requirements_2027",
+              "ucl_research_doc"
+            ],
+            "notes": "UCL graduate eligibility also requires a UK 2.1 Honours degree and may require module-level Chemistry/Biology review; this is retained as a manual-review boundary."
+          }
+        ],
+        "achieved_grades_scored": false,
+        "predicted_grades_scored": false,
+        "notes": "General Studies and Critical Thinking are excluded. Academic strength above the threshold confers no advantage."
+      },
+      "ib": {
+        "status": "official_source_verified",
+        "source_ids": [
+          "ucl_entry_requirements_2027"
+        ],
+        "grade_requirements": [
+          {
+            "route_id": "ucl_standard_ib_39_19hl_biology_chemistry_6_7",
+            "excluded_group_ids": [
+              "access_ucl_confirmed",
+              "graduate_applicant"
+            ],
+            "total_points": 39,
+            "minimum_hl_points": 19,
+            "hl_grade_profile": [
+              "7",
+              "6",
+              "5"
+            ],
+            "required_hl_subject_ids": [
+              "biology",
+              "chemistry"
+            ],
+            "required_hl_subject_grade_options": [
+              {
+                "grade_requirements": [
+                  {
+                    "subject_id": "biology",
+                    "minimum_grade": "7"
+                  },
+                  {
+                    "subject_id": "chemistry",
+                    "minimum_grade": "6"
+                  }
+                ]
+              },
+              {
+                "grade_requirements": [
+                  {
+                    "subject_id": "biology",
+                    "minimum_grade": "6"
+                  },
+                  {
+                    "subject_id": "chemistry",
+                    "minimum_grade": "7"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "route_id": "ucl_access_ucl_ib_36_17hl_biology_chemistry_6",
+            "all_group_ids": [
+              "home_fee",
+              "access_ucl_confirmed"
+            ],
+            "total_points": 36,
+            "minimum_hl_points": 17,
+            "hl_grade_profile": [
+              "6",
+              "6",
+              "5"
+            ],
+            "required_hl_subject_ids": [
+              "biology",
+              "chemistry"
+            ],
+            "required_hl_subject_grade_options": [
+              {
+                "grade_requirements": [
+                  {
+                    "subject_id": "biology",
+                    "minimum_grade": "6"
+                  },
+                  {
+                    "subject_id": "chemistry",
+                    "minimum_grade": "6"
+                  }
+                ]
+              }
+            ]
+          }
+        ],
+        "notes": "Standard IB requires 39 total, 19 HL points, Biology and Chemistry at 6 and 7 in either order, and no score below 5. Access UCL requires 36 total and 17 HL points including Biology and Chemistry at minimum 6."
+      },
+      "scottish": {
+        "status": "official_source_verified",
+        "route_implemented": true,
+        "source_ids": [
+          "msc_ucl_a100",
+          "ucl_research_doc"
+        ],
+        "grade_requirements": [
+          {
+            "route_id": "ucl_scottish_advanced_highers_a1aa_biology_chemistry",
+            "qualification_level": "advanced_higher",
+            "grade_profile": [
+              "A*",
+              "A",
+              "A"
+            ],
+            "required_subject_ids": [
+              "biology",
+              "chemistry"
+            ],
+            "required_subject_grade_options": [
+              {
+                "grade_requirements": [
+                  {
+                    "subject_id": "biology",
+                    "minimum_grade": "A*"
+                  },
+                  {
+                    "subject_id": "chemistry",
+                    "minimum_grade": "A"
+                  }
+                ]
+              },
+              {
+                "grade_requirements": [
+                  {
+                    "subject_id": "biology",
+                    "minimum_grade": "A"
+                  },
+                  {
+                    "subject_id": "chemistry",
+                    "minimum_grade": "A*"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "route_id": "ucl_scottish_two_advanced_highers_plus_highers",
+            "qualification_level": "scottish_highers_and_advanced_highers",
+            "advanced_higher_grade_profile": [
+              "A*",
+              "A"
+            ],
+            "advanced_higher_required_subject_ids": [
+              "biology",
+              "chemistry"
+            ],
+            "higher_grade_profile": [
+              "A",
+              "A",
+              "A"
+            ]
+          }
+        ],
+        "notes": "A1 is represented as A* in the current grade-rank model. No Scotland-only quota applies."
+      },
+      "access_to_he": {
+        "status": "official_source_verified_with_provider_gate",
+        "source_ids": [
+          "ucl_entry_requirements_2027"
+        ],
+        "accepted_providers_or_descriptors": [
+          "College of West Anglia",
+          "QAA Access to HE Diploma Medicine descriptor"
+        ],
+        "distinction_credits": 36,
+        "merit_credits": 9,
+        "notes": "The engine requires provider and requirement verification before classifying this route."
+      },
+      "degree": {
+        "status": "official_source_verified_manual_review_boundary",
+        "minimum_classification": "2_1",
+        "accepted_degree_statuses": [
+          "completed",
+          "achieved",
+          "predicted"
+        ],
+        "a_level_requirement": {
+          "grade_profile": [
+            "A",
+            "B",
+            "B"
+          ],
+          "required_subject_ids": [
+            "biology",
+            "chemistry"
+          ]
+        },
+        "notes": "Graduate applicants need a UK 2.1 Honours degree plus ABB at A-level before the degree, including Chemistry and Biology unless a very limited module waiver is officially reviewed."
+      },
+      "blocked_routes": [
+        {
+          "route_id": "btec",
+          "status": "blocked",
+          "notes": "No BTEC acceptance is implemented from the supplied UCL evidence."
+        },
+        {
+          "route_id": "t_level",
+          "status": "blocked",
+          "notes": "No T-level acceptance is implemented from the supplied UCL evidence."
+        }
+      ],
+      "notes": "Country-specific international qualification equivalencies are not automated; verified institution equivalence is required."
+    },
+    "admissions_tests": {
+      "ucat": {
+        "test": "UCAT",
+        "required": true,
+        "minimum_total_score": null,
+        "score_scale": 2700,
+        "required_in_application_cycle": true,
+        "minimum_subsections": [],
+        "validity_window": "current admissions cycle",
+        "exemptions": [],
+        "selection_role": "ranking_after_academic_gate",
+        "notes": "UCAT is used for ranking and pool-specific interview guidance. Published historical interview thresholds are not implemented as eligibility gates."
+      },
+      "sjt": {
+        "used": true,
+        "used_as_gate": false,
+        "accepted_bands": [
+          1,
+          2,
+          3,
+          4
+        ],
+        "excluded_bands": [],
+        "scoring": {
+          "used_in_score": false
+        },
+        "notes": "UCL uses SJT only as a tiebreaker for identical UCAT cognitive totals. It is not a standalone gate or score component."
+      }
+    },
+    "resits": {
+      "policy": "not_accepted_unless_official_exception",
+      "allowed": false,
+      "conditions": "A-level resits and restarting Year 12 are not accepted. GCSE English Language and Mathematics resits are permitted.",
+      "maximum_resits": 0
+    },
+    "english_language": {
+      "required_for_group": true,
+      "accepted_tests": [
+        {
+          "test": "ucl_level_4_approved_english_qualification",
+          "notes": "Exact test/component minima sit on UCL's separate accepted-English-qualifications page and require applicant-level verification."
+        }
+      ],
+      "exemptions": [],
+      "notes": "International applicants whose first language is not English must meet UCL Level 4 English-language requirements."
+    },
+    "age_or_professional_checks": {
+      "minimum_age": null,
+      "fitness_to_practise_required": true,
+      "dbs_required": true,
+      "occupational_health_required": true,
+      "notes": "Professional checks are informational for admissions guidance."
+    },
+    "non_academic": {
+      "work_experience": "clinical work experience not required; selected applicants may be asked to evidence work experience",
+      "personal_statement": "not scored for shortlisting; may be discussed at interview",
+      "reference_policy": "standard UCAS reference",
+      "notes": "No personal-statement score is implemented."
+    },
+    "unsupported_international_qualifications": [],
+    "notes": "International qualifications require verified equivalence through UCL's country selector or direct UCL verification."
+  },
+  "stage_2_interview_selection": {
+    "verification_status": "official_and_foi_verified",
+    "source_ids": [
+      "ucl_selection_procedure",
+      "ucl_foi_chan_2025",
+      "ucl_research_doc"
+    ],
+    "primary_model": "ucat_ranking",
+    "modifiers": [
+      "separate_applicant_pool",
+      "home_international_separate_ranking",
+      "tie_breaker"
+    ],
+    "ranking_factors": [
+      {
+        "factor_id": "ucat_cognitive_total",
+        "label": "UCAT cognitive total",
+        "role": "ranked_after_academic_gate",
+        "weight_percent": 100,
+        "notes": "Eligible applicants are ranked by raw UCAT cognitive total in the relevant UCL pool."
+      },
+      {
+        "factor_id": "sjt_band",
+        "label": "SJT band",
+        "role": "tie_breaker_only",
+        "weight_percent": 0,
+        "notes": "Used only where applicants have the same UCAT cognitive total."
+      }
+    ],
+    "calculation": {
+      "verification_status": "official_source_verified",
+      "source_ids": [
+        "ucl_selection_procedure"
+      ],
+      "score_components": [],
+      "total_score": {
+        "calculation_method": "raw_ucat_cognitive_total_only",
+        "components": [
+          "ucat_cognitive_total"
+        ],
+        "scale": {
+          "minimum": 900,
+          "maximum": 2700
+        },
+        "notes": "No academic plus UCAT formula is used. Academic requirements are a gate only.",
+        "source_ids": [
+          "ucl_selection_procedure"
+        ]
+      },
+      "notes": "No hidden academic score, personal-statement score or converted UCAT score is created."
+    },
+    "thresholds": [
+      {
+        "threshold_id": "ucl_access_ucl_2026_interview_threshold",
+        "pool_id": "access_ucl_a100",
+        "entry_cycle": "2026 entry",
+        "threshold": 2080,
+        "scale": 2700,
+        "source_ids": [
+          "ucl_selection_procedure"
+        ],
+        "notes": "Latest published Access UCL threshold on the current UCAT scale."
+      },
+      {
+        "threshold_id": "ucl_home_2026_interview_threshold",
+        "pool_id": "home_a100",
+        "entry_cycle": "2026 entry",
+        "threshold": 2190,
+        "scale": 2700,
+        "source_ids": [
+          "ucl_selection_procedure"
+        ],
+        "notes": "Latest published Home threshold on the current UCAT scale."
+      },
+      {
+        "threshold_id": "ucl_overseas_2026_interview_threshold",
+        "pool_id": "overseas_a100",
+        "entry_cycle": "2026 entry",
+        "threshold": 2300,
+        "scale": 2700,
+        "source_ids": [
+          "ucl_selection_procedure"
+        ],
+        "notes": "Latest published Overseas threshold on the current UCAT scale."
+      }
+    ],
+    "selection_adjustments": [
+      {
+        "adjustment_id": "access_ucl_separate_threshold",
+        "modifier_id": "separate_applicant_pool",
+        "applies_to_group_ids": [
+          "home_fee",
+          "contextual",
+          "widening_participation"
+        ],
+        "notes": "The lower Access UCL threshold applies only when Access UCL eligibility is confirmed, not from a generic contextual flag."
+      }
+    ],
+    "tie_breakers": [
+      {
+        "factor_id": "sjt_band",
+        "role": "tie_breaker_only",
+        "notes": "SJT ranks candidates with identical UCAT cognitive totals."
+      }
+    ],
+    "output_band_policy": "pool_specific_latest_threshold_margin_guidance",
+    "notes": "Academic strength and personal statement are not scored for shortlisting. Final offers are based on interview performance alone and are out of ApplySmart prediction scope."
+  },
+  "contextual_admissions": {
+    "verification_status": "official_source_verified",
+    "source_ids": [
+      "ucl_access_ucl_2026",
+      "ucl_research_doc"
+    ],
+    "available": true,
+    "applies_to_group_ids": [
+      "home_fee",
+      "contextual",
+      "widening_participation",
+      "care_experienced"
+    ],
+    "criteria": [
+      "UK state school for Level 3 qualifications plus eligible postcode, Free School Meals, estrangement or care-experience route.",
+      "Care-experienced route may also allow UK independent-school attendance."
+    ],
+    "adjustments": [
+      "Access UCL A-level offer AAB including AA in Biology and Chemistry.",
+      "Access UCL IB offer 36 points with 17 HL points including Biology and Chemistry at minimum 6.",
+      "Separate lower UCAT interview threshold when Access UCL status is confirmed."
+    ],
+    "guaranteed_interview_rules": [],
+    "notes": "Access UCL is Home-only and not guaranteed-offer or guaranteed-interview. 2027-cycle criteria were expected to update in September 2026."
+  },
+  "ranking_pools": [
+    {
+      "pool_id": "access_ucl_a100",
+      "name": "Access UCL",
+      "applies_to_group_ids": [
+        "home_fee",
+        "contextual",
+        "widening_participation"
+      ],
+      "fee_statuses": [
+        "home"
+      ],
+      "ranking_model": "ucat_ranking",
+      "ranking_factors": [
+        "ucat_cognitive_total",
+        "sjt_tiebreaker_only"
+      ],
+      "places_available": null,
+      "source_ids": [
+        "ucl_selection_procedure"
+      ],
+      "notes": "Requires explicit Access UCL confirmation in runtime applicant evidence."
+    },
+    {
+      "pool_id": "home_a100",
+      "name": "Home",
+      "applies_to_group_ids": [
+        "home_fee"
+      ],
+      "fee_statuses": [
+        "home"
+      ],
+      "ranking_model": "ucat_ranking",
+      "ranking_factors": [
+        "ucat_cognitive_total",
+        "sjt_tiebreaker_only"
+      ],
+      "places_available": 313,
+      "source_ids": [
+        "ofs_mfl_2026",
+        "ucl_selection_procedure"
+      ],
+      "notes": "OfS anticipated home places are 313; UCL separately states 334 total places."
+    },
+    {
+      "pool_id": "overseas_a100",
+      "name": "International / Overseas",
+      "applies_to_group_ids": [
+        "international_fee"
+      ],
+      "fee_statuses": [
+        "international"
+      ],
+      "ranking_model": "ucat_ranking",
+      "ranking_factors": [
+        "ucat_cognitive_total",
+        "sjt_tiebreaker_only"
+      ],
+      "places_available": 24,
+      "source_ids": [
+        "ucl_selection_procedure",
+        "ofs_mfl_2026"
+      ],
+      "notes": "Overseas applicants are selected separately for 24 ring-fenced places and interviewed online."
+    }
+  ],
+  "quotas": [
+    {
+      "quota_id": "ucl_a100_places_2027_entry_verified",
+      "name": "Verified Home/International places (2027 entry)",
+      "home_places": 313,
+      "international_places": 24,
+      "quota_type": "verified_current_places",
+      "source_ids": [
+        "applysmart_admissions_team_verified_2026"
+      ],
+      "notes": "Home/International place figures verified by the ApplySmart admissions research team for 2027 entry."
+    },
+    {
+      "quota_id": "ucl_overseas_places_24",
+      "source_ids": [
+        "ucl_selection_procedure",
+        "ofs_mfl_2026"
+      ],
+      "notes": "UCL publishes 24 overseas places, corroborated by OfS anticipated overseas places."
+    },
+    {
+      "quota_id": "ucl_home_places_ofs_313",
+      "source_ids": [
+        "ofs_mfl_2026"
+      ],
+      "notes": "OfS MFL states 337 total medical places, 313 anticipated home and 24 anticipated overseas. UCL's own total-place figure is 334."
+    }
+  ],
+  "offer_selection": {
+    "verification_status": "official_and_foi_verified",
+    "source_ids": [
+      "ucl_interviews_page_2027",
+      "ucl_foi_chan_2025"
+    ],
+    "interview_format": {
+      "type": "MMI",
+      "stations": "up to 8",
+      "minutes_per_station": 5,
+      "mode": "in-person for Home applicants and online for International applicants",
+      "timing": "December to end of March"
+    },
+    "interview_scoring": {
+      "criteria": [
+        "academic curiosity and interest in healthcare",
+        "motivation for and understanding of medicine",
+        "problem-solving and reasoning",
+        "professional attitudes and values",
+        "teamwork, leadership and resilience",
+        "communication skills"
+      ],
+      "notes": "MMI performance is assessed at interview."
+    },
+    "offer_model": "interview_score_only",
+    "ranking_factors": [
+      "interview_score"
+    ],
+    "tie_breakers": [],
+    "waiting_list_policy": null,
+    "standard_offer": "A*AA including A*A in Biology and Chemistry, either order.",
+    "contextual_offer": "Access UCL: AAB including AA in Biology and Chemistry.",
+    "notes": "Only interview scores are used to make offers. ApplySmart does not predict offers."
+  },
+  "historical_admissions": {
+    "verification_status": "official_and_foi_verified",
+    "source_ids": [
+      "ucl_selection_procedure",
+      "ucl_foi_jasti_2025",
+      "ucl_foi_chan_2025",
+      "msc_ucl_a100"
+    ],
+    "cycles": [
+      {
+        "cycle": "2025 entry",
+        "scale": 3600,
+        "thresholds": {
+          "access_ucl": 2600,
+          "home": 2800,
+          "overseas": 3060
+        },
+        "runtime_use": "research_reference_only",
+        "notes": "Former UCAT scale with Abstract Reasoning; not converted for runtime use."
+      },
+      {
+        "cycle": "2026 entry",
+        "scale": 2700,
+        "thresholds": {
+          "access_ucl": 2080,
+          "home": 2190,
+          "overseas": 2300
+        },
+        "runtime_use": "operative_anchor"
+      }
+    ],
+    "application_statistics": {
+      "five_year_combined_applications": [
+        3034,
+        3540,
+        3936,
+        3562,
+        2947
+      ],
+      "entry_2025_by_domicile": {
+        "home": {
+          "applicants": 1496,
+          "interviews": 862,
+          "offers": 594
+        },
+        "international": {
+          "applicants": 671,
+          "interviews": 144,
+          "offers": 61
+        }
+      }
+    },
+    "notes": "Application-count sources use different counting bases and are not merged. UCAT thresholds remain on native scales; no 3600-to-2700 conversion is used."
+  },
+  "sources": [
+    {
+      "source_id": "ucl_research_doc",
+      "title": "Approved UCL A100 Medicine Admissions Requirements Reference",
+      "url": "local:/Users/faizan/Desktop/medical university research/University-data-list/UCL/UCL_A100_Admissions_Reference.md",
+      "source_type": "approved_research_document",
+      "published_date": "2026-07-22",
+      "accessed_date": "2026-07-22",
+      "applies_to_sections": [
+        "all"
+      ],
+      "confidence": "high",
+      "notes": "Canonical source supplied by the user."
+    },
+    {
+      "source_id": "ucl_course_page_2027",
+      "title": "UCL Medicine MBBS BSc prospectus/course page",
+      "url": "https://www.ucl.ac.uk/study/prospective-students/undergraduate/courses/medicine-mbbs-bsc",
+      "source_type": "university_official",
+      "published_date": "2027 entry",
+      "accessed_date": "2026-07-22",
+      "applies_to_sections": [
+        "course",
+        "academic_requirements"
+      ],
+      "confidence": "high",
+      "notes": "Cited in the approved research document."
+    },
+    {
+      "source_id": "ucl_entry_requirements_2027",
+      "title": "UCL MBBS 2027 Entry requirements",
+      "url": "https://www.ucl.ac.uk/medical-sciences/divisions/medical-school/study/undergraduate/mbbs-admissions/entry-requirements/2027-entry",
+      "source_type": "university_official",
+      "published_date": "2027 entry",
+      "accessed_date": "2026-07-22",
+      "applies_to_sections": [
+        "stage_1_eligibility"
+      ],
+      "confidence": "high",
+      "notes": "Cited in the approved research document."
+    },
+    {
+      "source_id": "ucl_selection_procedure",
+      "title": "UCL Selection Procedure",
+      "url": "https://www.ucl.ac.uk/medical-sciences/divisions/medical-school/study/undergraduate/mbbs-admissions/selection-interviews/selection-procedure",
+      "source_type": "university_official",
+      "published_date": "current",
+      "accessed_date": "2026-07-22",
+      "applies_to_sections": [
+        "stage_2_interview_selection",
+        "historical_admissions"
+      ],
+      "confidence": "high",
+      "notes": "Cited in the approved research document."
+    },
+    {
+      "source_id": "ucl_interviews_page_2027",
+      "title": "UCL Interviews",
+      "url": "https://www.ucl.ac.uk/medical-sciences/divisions/medical-school/study/undergraduate/mbbs-admissions/selection-interviews/interviews",
+      "source_type": "university_official",
+      "published_date": "2027 entry",
+      "accessed_date": "2026-07-22",
+      "applies_to_sections": [
+        "offer_selection"
+      ],
+      "confidence": "high",
+      "notes": "Cited in the approved research document."
+    },
+    {
+      "source_id": "ucl_access_ucl_2026",
+      "title": "UCL Access UCL Scheme",
+      "url": "https://www.ucl.ac.uk/study/prospective-students/undergraduate/access-ucl-scheme",
+      "source_type": "university_official",
+      "published_date": "2026 cycle",
+      "accessed_date": "2026-07-22",
+      "applies_to_sections": [
+        "contextual_admissions"
+      ],
+      "confidence": "high",
+      "notes": "Cited in the approved research document."
+    },
+    {
+      "source_id": "msc_ucl_a100",
+      "title": "Medical Schools Council UCL Medicine A100",
+      "url": "https://www.medschools.ac.uk/courses/ucl-medicine-a100/",
+      "source_type": "medical_schools_council",
+      "published_date": "2027 entry",
+      "accessed_date": "2026-07-22",
+      "applies_to_sections": [
+        "course",
+        "scottish",
+        "competition_ratios"
+      ],
+      "confidence": "high",
+      "notes": "Cited in the approved research document."
+    },
+    {
+      "source_id": "ofs_mfl_2026",
+      "title": "Office for Students Medical and Dental Maximum Fundable Limits",
+      "url": "https://www.officeforstudents.org.uk/for-providers/finance-and-funding/medicine-and-dentistry-funding/medical-and-dental-maximum-fundable-limits/",
+      "source_type": "official_regulator",
+      "published_date": "2026-06-03",
+      "accessed_date": "2026-07-22",
+      "applies_to_sections": [
+        "quotas",
+        "places"
+      ],
+      "confidence": "high",
+      "notes": "Cited in the approved research document."
+    },
+    {
+      "source_id": "ucl_foi_jasti_2025",
+      "title": "UCL FOI response to M. Jasti: A100 Medicine statistics",
+      "url": "https://www.whatdotheyknow.com/request/a100_medicine_statistics_2019267",
+      "source_type": "official_foi",
+      "published_date": "2025-01-10",
+      "accessed_date": "2026-07-22",
+      "applies_to_sections": [
+        "historical_admissions"
+      ],
+      "confidence": "high",
+      "notes": "Cited in the approved research document."
+    },
+    {
+      "source_id": "ucl_foi_chan_2025",
+      "title": "UCL FOI response to C. Chan: A100 Medicine admissions statistics",
+      "url": "https://www.whatdotheyknow.com/request/a100_medicine_admission_statisti_120",
+      "source_type": "official_foi",
+      "published_date": "2025-10-15",
+      "accessed_date": "2026-07-22",
+      "applies_to_sections": [
+        "historical_admissions",
+        "offer_selection"
+      ],
+      "confidence": "high",
+      "notes": "Cited in the approved research document."
+    }
+  ],
+  "validation": {
+    "source_status": "official_and_foi_verified",
+    "last_verified": "2026-07-22",
+    "confidence_level": "High evidence confidence; Low prediction calibration confidence",
+    "completion_status": "complete_for_supported_scope_with_documented_gaps",
+    "known_unknowns": [
+      "2027 Access UCL criteria were expected to update after the approved research access date.",
+      "Country-specific international qualification equivalencies require UCL verification.",
+      "Exact UCL Level 4 English test component minima require applicant-specific verification.",
+      "Only one reliable threshold year exists on the current 2700 UCAT scale.",
+      "Post-interview offer thresholds are out of scope."
+    ],
+    "review_notes": "UCL is activation-ready for supported A-level, IB, Scottish, Access UCL and verified-equivalence routes. Graduate route is retained as a manual-review boundary because degree/module waiver details require official review."
+  },
+  "engine_notes": {
+    "eligibility": true,
+    "interview_prediction": true,
+    "historical_guidance": true,
+    "international_prediction": true,
+    "contextual_logic": true,
+    "result_card": true,
+    "regression": true,
+    "research_completeness": "complete_for_supported_scope_with_documented_gaps",
+    "manual_review_required": true,
+    "eligibility_ready": true,
+    "interview_prediction_ready": true,
+    "interview_band_config_ready": true,
+    "metadata_activation_ready": true,
+    "activation_ready": true,
+    "production_ready": true,
+    "offer_prediction_scope": "out_of_scope",
+    "prediction_confidence": "low",
+    "result_card_ready": true,
+    "blocking_missing_fields": [],
+    "engine_assumptions": [
+      "Access UCL runtime routing requires explicit applicant_group_ids entry access_ucl_confirmed; generic contextual flags alone use the Home pool.",
+      "A1 Scottish Advanced Higher is represented as A* in the current grade-rank model.",
+      "Published UCAT interview thresholds are used for interview-band guidance, not as academic eligibility failures."
+    ],
+    "do_not_infer": [
+      "Do not score or rank academic performance above the minimum threshold.",
+      "Do not score the personal statement for shortlisting.",
+      "Do not reject SJT Band 4 unless UCL publishes a standalone rule.",
+      "Do not convert 2025 3600-scale UCAT thresholds to the current 2700 scale.",
+      "Do not predict offers or post-interview outcomes."
+    ]
+  }
+}

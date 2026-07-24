@@ -1,0 +1,504 @@
+{
+  "schema_version": "1.0.0",
+  "course_profile_id": "leeds-a100",
+  "confidence": "medium",
+  "evidence": {
+    "classification": "official_combined_academic_ucat_ranking_with_applysmart_internal_home_guidance",
+    "summary": "Leeds officially ranks applicants using academic performance and UCAT together, with no predetermined UCAT cut-off. ApplySmart implements the approved Home A100 four-stage methodology: official eligibility gates, hidden internal academic strength, Home historical UCAT guidance and a compensation matrix. WP and International prediction is withheld until calibration is complete.",
+    "source_ids": [
+      "leeds_course_page_2027",
+      "leeds_understanding_ucat",
+      "leeds_master_spec_2026_07_20"
+    ]
+  },
+  "eligibility": {
+    "scope": "Automatic public prediction applies only to Home, non-contextual A-level school-leavers after the official eligibility gates pass and a current-cycle UCAT with SJT Band 1-3 is supplied.",
+    "international_english_language_required": false,
+    "qualification_routes": {
+      "supported": [
+        "a_level"
+      ],
+      "manual_review": [
+        "graduate",
+        "international_baccalaureate",
+        "ib",
+        "scottish",
+        "international_qualification",
+        "access_to_medicine"
+      ],
+      "explicitly_blocked": [
+        "btec",
+        "t_level",
+        "access_to_he",
+        "foundation",
+        "unknown"
+      ]
+    },
+    "gcse": {
+      "minimum_count": 6,
+      "use_exact_subject_list": false,
+      "required_subjects": [
+        {
+          "subject_id": "english_language",
+          "minimum_grade": "4"
+        },
+        {
+          "subject_id": "mathematics",
+          "minimum_grade": "4"
+        }
+      ]
+    },
+    "a_level": {
+      "routes": [
+        {
+          "route_id": "leeds_standard_home_aaa",
+          "applies_to_group_ids": [
+            "home_fee"
+          ],
+          "excluded_group_ids": [
+            "contextual",
+            "widening_participation",
+            "international_fee",
+            "graduate_applicant"
+          ],
+          "grade_profile": [
+            "A",
+            "A",
+            "A"
+          ],
+          "required_subject_ids": [
+            "chemistry",
+            "biology"
+          ]
+        },
+        {
+          "route_id": "leeds_international_aaa",
+          "applies_to_group_ids": [
+            "international_fee"
+          ],
+          "excluded_group_ids": [
+            "graduate_applicant"
+          ],
+          "grade_profile": [
+            "A",
+            "A",
+            "A"
+          ],
+          "required_subject_ids": [
+            "chemistry",
+            "biology"
+          ]
+        },
+        {
+          "route_id": "leeds_access_to_leeds_abb",
+          "applies_to_group_ids": [
+            "home_fee",
+            "contextual"
+          ],
+          "excluded_group_ids": [
+            "international_fee",
+            "graduate_applicant"
+          ],
+          "grade_profile": [
+            "A",
+            "B",
+            "B"
+          ],
+          "required_subject_ids": [
+            "chemistry",
+            "biology"
+          ],
+          "required_subject_grade_options": [
+            {
+              "grade_requirements": [
+                {
+                  "subject_id": "chemistry",
+                  "minimum_grade": "A"
+                }
+              ]
+            },
+            {
+              "grade_requirements": [
+                {
+                  "subject_id": "biology",
+                  "minimum_grade": "A"
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "science_practical_endorsement": {
+        "required": true,
+        "subject_ids": [
+          "biology",
+          "chemistry"
+        ],
+        "accepted_values": [
+          "pass",
+          "passed"
+        ]
+      }
+    },
+    "ucat": {
+      "required_test_year": 2026,
+      "minimum_total_score": null,
+      "score_scale": 2700,
+      "required_in_application_cycle": true
+    },
+    "sjt": {
+      "used_as_gate": true,
+      "accepted_bands": [
+        1,
+        2,
+        3
+      ],
+      "rejected_bands": [
+        4
+      ]
+    },
+    "resits": {
+      "resits_accepted": true,
+      "allowed_resit_attempts": 1,
+      "applicant_form_required": false,
+      "routes": [
+        {
+          "route_id": "leeds_resit_standard_aaa",
+          "excluded_group_ids": [
+            "contextual",
+            "widening_participation",
+            "graduate_applicant"
+          ],
+          "grade_profile": [
+            "A",
+            "A",
+            "A"
+          ]
+        },
+        {
+          "route_id": "leeds_resit_access_to_leeds_abb",
+          "applies_to_group_ids": [
+            "home_fee",
+            "contextual"
+          ],
+          "excluded_group_ids": [
+            "international_fee",
+            "graduate_applicant"
+          ],
+          "grade_profile": [
+            "A",
+            "B",
+            "B"
+          ]
+        }
+      ]
+    },
+    "manual_review_routes": [
+      "Graduate A100 applicants",
+      "IB, Scottish and alternative qualification routes",
+      "International qualification equivalence",
+      "Unverified contextual/WP status"
+    ],
+    "do_not_infer": [
+      "Do not expose or label the ApplySmart academic score as official Leeds policy.",
+      "Do not apply an achieved-grade uplift.",
+      "Do not award SJT points for Bands 1-3.",
+      "Do not reuse Home UCAT guidance for WP or International applicants.",
+      "Do not create graduate, IB, Scottish or alternative-route conversion formulas.",
+      "Do not predict offers."
+    ]
+  },
+  "score_model": {
+    "type": "component_sum",
+    "basis": "Hidden ApplySmart internal academic-UCAT compensation matrix for Home A100 guidance. The internal score is not an official Leeds formula and is not shown publicly.",
+    "label": "Leeds internal compensation band",
+    "pool_specific_output": false,
+    "fixed_current_cutoff": false,
+    "historical_guidance_only": true,
+    "scale": {
+      "min": 1,
+      "max": 3
+    },
+    "components": [
+      {
+        "component_id": "leeds_hidden_compensation_matrix",
+        "type": "academic_ucat_compensation_matrix",
+        "max": 3,
+        "gcse": {
+          "component_id": "leeds_internal_gcse_score",
+          "type": "gcse_mandatory_then_best",
+          "subject_count": 8,
+          "mandatory_subject_ids": [],
+          "mandatory_subject_alternatives": [],
+          "bands": [
+            {
+              "minimum_grade": "9",
+              "points": 3
+            },
+            {
+              "minimum_grade": "8",
+              "points": 3
+            },
+            {
+              "minimum_grade": "7",
+              "points": 2
+            },
+            {
+              "minimum_grade": "6",
+              "points": 1
+            }
+          ],
+          "max": 24
+        },
+        "a_level": {
+          "minimum_profile": [
+            "A",
+            "A",
+            "A"
+          ],
+          "points": 8,
+          "max": 8
+        },
+        "academic_bands": [
+          {
+            "band_id": "very_strong",
+            "min": 29,
+            "max": 32
+          },
+          {
+            "band_id": "strong",
+            "min": 26,
+            "max": 28
+          },
+          {
+            "band_id": "moderate",
+            "min": 23,
+            "max": 25
+          },
+          {
+            "band_id": "weak",
+            "min": 0,
+            "max": 22
+          }
+        ],
+        "ucat_positions": [
+          {
+            "position_id": "strong",
+            "operator": "greater_than_or_equal",
+            "value": 2050
+          },
+          {
+            "position_id": "competitive",
+            "operator": "between_inclusive",
+            "min": 1950,
+            "max": 2049
+          },
+          {
+            "position_id": "historically_competitive",
+            "operator": "between_inclusive",
+            "min": 1930,
+            "max": 1949
+          },
+          {
+            "position_id": "borderline",
+            "operator": "between_inclusive",
+            "min": 1900,
+            "max": 1929
+          },
+          {
+            "position_id": "below_recent_range",
+            "operator": "less_than",
+            "value": 1900
+          }
+        ],
+        "matrix": {
+          "very_strong:strong": {
+            "band": "interview_likely",
+            "points": 3
+          },
+          "very_strong:competitive": {
+            "band": "interview_likely",
+            "points": 3
+          },
+          "very_strong:historically_competitive": {
+            "band": "interview_likely",
+            "points": 3
+          },
+          "very_strong:borderline": {
+            "band": "realistic",
+            "points": 2
+          },
+          "very_strong:below_recent_range": {
+            "band": "high_risk",
+            "points": 1
+          },
+          "strong:strong": {
+            "band": "interview_likely",
+            "points": 3
+          },
+          "strong:competitive": {
+            "band": "interview_likely",
+            "points": 3
+          },
+          "strong:historically_competitive": {
+            "band": "interview_likely",
+            "points": 3
+          },
+          "strong:borderline": {
+            "band": "realistic",
+            "points": 2
+          },
+          "strong:below_recent_range": {
+            "band": "high_risk",
+            "points": 1
+          },
+          "moderate:strong": {
+            "band": "realistic",
+            "points": 2
+          },
+          "moderate:competitive": {
+            "band": "high_risk",
+            "points": 1
+          },
+          "moderate:historically_competitive": {
+            "band": "high_risk",
+            "points": 1
+          },
+          "moderate:borderline": {
+            "band": "high_risk",
+            "points": 1
+          },
+          "moderate:below_recent_range": {
+            "band": "high_risk",
+            "points": 1
+          },
+          "weak:strong": {
+            "band": "high_risk",
+            "points": 1
+          },
+          "weak:competitive": {
+            "band": "high_risk",
+            "points": 1
+          },
+          "weak:historically_competitive": {
+            "band": "high_risk",
+            "points": 1
+          },
+          "weak:borderline": {
+            "band": "high_risk",
+            "points": 1
+          },
+          "weak:below_recent_range": {
+            "band": "high_risk",
+            "points": 1
+          }
+        },
+        "default_result": {
+          "band": "high_risk",
+          "points": 1
+        }
+      }
+    ],
+    "presentation": {
+      "hide_score_breakdown": true,
+      "hide_selection_score_details": true,
+      "pool_label": "Home A100 applicants",
+      "selection_summary": "Leeds considers academics and UCAT together when ranking applicants for interview. ApplySmart uses historical Home UCAT guidance and a conservative compensation model, while keeping internal calculations hidden.",
+      "timeline_selection_summary": "Published entry requirements were checked before academics and UCAT were considered together using Leeds-specific historical Home guidance.",
+      "band_headlines": {
+        "interview_likely": "Strong Choice",
+        "realistic": "Realistic Choice",
+        "high_risk": "Higher Risk"
+      },
+      "band_recommendations": {
+        "interview_likely": "Strong Choice",
+        "realistic": "Realistic Choice",
+        "high_risk": "Higher Risk"
+      },
+      "band_explanations": {
+        "interview_likely": "Your academic profile is strong and your UCAT is above the lowest scores seen among recently shortlisted Leeds Home applicants. Leeds considers academics and UCAT together and does not publish a fixed cut-off.",
+        "realistic": "Your academic and UCAT profile appears competitive when considered together. Leeds ranks applicants each year, so historical scores are guidance rather than a guarantee.",
+        "high_risk": "One part of your academic and UCAT profile is below the level commonly seen among recently shortlisted applicants. Leeds considers both components together, so this is not an automatic rejection."
+      },
+      "not_eligible_recommendation": "Minimum Requirements Not Met",
+      "not_eligible_explanation": "Your profile does not currently meet one or more of Leeds' published academic entry requirements.",
+      "insufficient_evidence_recommendation": "Evidence not yet available",
+      "insufficient_evidence_explanation": "Leeds publishes separate historical observations for this applicant pool, but ApplySmart has not yet approved public prediction calibration for it.",
+      "evidence_used": [
+        "Official admissions policy",
+        "University selection methodology",
+        "UCAT policy",
+        "Historical interview data",
+        "Contextual admissions policy",
+        "International admissions policy"
+      ]
+    }
+  },
+  "guidance_pools": [
+    {
+      "pool_id": "international_a100",
+      "priority": 40,
+      "applicant_match": {
+        "all_group_ids": [
+          "international_fee"
+        ]
+      },
+      "metric": "selection_score",
+      "pool_specific_output": false,
+      "band_rules": []
+    },
+    {
+      "pool_id": "access_to_leeds_wp_a100",
+      "priority": 30,
+      "applicant_match": {
+        "all_group_ids": [
+          "home_fee"
+        ],
+        "any_group_ids": [
+          "contextual",
+          "widening_participation"
+        ],
+        "excluded_group_ids": [
+          "international_fee"
+        ]
+      },
+      "metric": "selection_score",
+      "pool_specific_output": false,
+      "band_rules": []
+    },
+    {
+      "pool_id": "home_a100",
+      "priority": 20,
+      "applicant_match": {
+        "all_group_ids": [
+          "home_fee"
+        ],
+        "excluded_group_ids": [
+          "international_fee",
+          "contextual",
+          "widening_participation"
+        ]
+      },
+      "metric": "selection_score",
+      "pool_specific_output": false,
+      "band_rules": [
+        {
+          "band": "interview_likely",
+          "operator": "greater_than_or_equal",
+          "value": 3
+        },
+        {
+          "band": "realistic",
+          "operator": "between_inclusive",
+          "min": 2,
+          "max": 2
+        },
+        {
+          "band": "high_risk",
+          "operator": "less_than",
+          "value": 2
+        }
+      ]
+    }
+  ]
+}

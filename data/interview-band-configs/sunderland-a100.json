@@ -1,0 +1,350 @@
+{
+  "schema_version": "1.0.0",
+  "course_profile_id": "sunderland-a100",
+  "confidence": "low",
+  "evidence": {
+    "classification": "official_hybrid_gate_with_unpublished_interview_selection_tool_formula",
+    "summary": "Sunderland A100 uses academic eligibility, UCAT top-eight-national-deciles and SJT Band 1-3 as gates. Eligible applicants are shortlisted using an assessed Interview Selection Tool whose numeric scoring formula and cut-score are unpublished. ApplySmart therefore checks eligibility and displays historical UCAT context only; it does not rank applicants by UCAT alone or generate an IST score.",
+    "source_ids": [
+      "sunderland_course_page_2027",
+      "sunderland_admissions_policy_2026_27",
+      "sunderland_interview_selection_tool",
+      "ucat_consortium_test_statistics"
+    ]
+  },
+  "eligibility": {
+    "scope": "Automatic handling is restricted to Home A100 applicants using represented A-level, contextual A-level, IB, Scottish or graduate A100 routes. International applicants are explicitly ineligible. Applicants who satisfy the academic, UCAT and SJT gates remain subject to Sunderland's assessed Interview Selection Tool, which ApplySmart cannot score.",
+    "international_english_language_required": false,
+    "explicitly_blocked_applicant_groups": [
+      "international_fee"
+    ],
+    "qualification_routes": {
+      "supported": [
+        "a_level",
+        "international_baccalaureate",
+        "scottish",
+        "graduate"
+      ],
+      "explicitly_blocked": [
+        "btec",
+        "t_level",
+        "access_to_medicine",
+        "access_to_he",
+        "foundation",
+        "international_qualification",
+        "unknown"
+      ]
+    },
+    "gcse": {
+      "minimum_count": 5,
+      "use_exact_subject_list": false,
+      "required_subjects": [
+        {
+          "subject_id": "english_language",
+          "minimum_grade": "6/B"
+        },
+        {
+          "subject_id": "mathematics",
+          "minimum_grade": "6/B"
+        }
+      ]
+    },
+    "a_level": {
+      "science_practical_endorsement": {
+        "required": true,
+        "subject_ids": [
+          "biology",
+          "chemistry",
+          "physics"
+        ],
+        "accepted_values": [
+          "pass",
+          "passed"
+        ]
+      },
+      "routes": [
+        {
+          "route_id": "sunderland_standard_aaa",
+          "excluded_group_ids": [
+            "contextual",
+            "widening_participation",
+            "graduate_applicant"
+          ],
+          "grade_profile": [
+            "A",
+            "A",
+            "A"
+          ],
+          "one_of_subject_groups": [
+            {
+              "group_id": "biology_or_chemistry_primary",
+              "minimum_required": 1,
+              "subject_ids": [
+                "biology",
+                "chemistry"
+              ]
+            },
+            {
+              "group_id": "two_designated_sciences",
+              "minimum_required": 2,
+              "subject_ids": [
+                "biology",
+                "chemistry",
+                "physics",
+                "mathematics",
+                "further_mathematics"
+              ]
+            }
+          ],
+          "excluded_subject_ids": [
+            "general_studies"
+          ]
+        },
+        {
+          "route_id": "sunderland_contextual_aab",
+          "applies_to_group_ids": [
+            "home_fee",
+            "contextual"
+          ],
+          "excluded_group_ids": [
+            "international_fee",
+            "graduate_applicant"
+          ],
+          "grade_profile": [
+            "A",
+            "A",
+            "B"
+          ],
+          "one_of_subject_groups": [
+            {
+              "group_id": "biology_or_chemistry_primary",
+              "minimum_required": 1,
+              "subject_ids": [
+                "biology",
+                "chemistry"
+              ]
+            },
+            {
+              "group_id": "two_designated_sciences",
+              "minimum_required": 2,
+              "subject_ids": [
+                "biology",
+                "chemistry",
+                "physics",
+                "mathematics",
+                "further_mathematics"
+              ]
+            }
+          ],
+          "excluded_subject_ids": [
+            "general_studies"
+          ]
+        }
+      ]
+    },
+    "international_baccalaureate": {
+      "routes": [
+        {
+          "route_id": "sunderland_ib_35_hl66_two_sciences",
+          "total_points": 35,
+          "hl_grade_profile": [
+            "6",
+            "6"
+          ],
+          "one_of_hl_subject_groups": [
+            {
+              "group_id": "biology_or_chemistry_primary",
+              "minimum_required": 1,
+              "subject_ids": [
+                "biology",
+                "chemistry"
+              ]
+            },
+            {
+              "group_id": "two_designated_sciences",
+              "minimum_required": 2,
+              "subject_ids": [
+                "biology",
+                "chemistry",
+                "physics",
+                "mathematics"
+              ]
+            }
+          ],
+          "standard_level_requirement": "SL 6,6,5 is official metadata; generic execution checks total and HL science profile."
+        }
+      ]
+    },
+    "scottish": {
+      "national_5": {
+        "minimum_count": 5,
+        "required_subject_ids": [
+          "english_language",
+          "mathematics",
+          "biology",
+          "chemistry",
+          "physics"
+        ]
+      },
+      "post_16_routes": [
+        {
+          "route_id": "sunderland_advanced_higher_ab_two_sciences",
+          "grade_profile": [
+            "A",
+            "B"
+          ],
+          "one_of_subject_groups": [
+            {
+              "group_id": "two_sciences",
+              "minimum_required": 2,
+              "subject_ids": [
+                "biology",
+                "chemistry",
+                "physics",
+                "mathematics"
+              ]
+            }
+          ]
+        }
+      ],
+      "execution_note": "The production course JSON records the full Higher AAAAB plus Advanced Higher AB policy. The generic classifier executes the National 5 and Advanced Higher AB science route."
+    },
+    "graduate": {
+      "gcse_required": false,
+      "minimum_classification": "2_1",
+      "postgraduate_compensation_allowed": false
+    },
+    "ucat": {
+      "required_test_year": 2026,
+      "minimum_total_score": 1680,
+      "score_scale": 2700,
+      "required_in_application_cycle": true,
+      "gate_basis": "top_eight_national_deciles_using_current_applysmart_ucat_decile_table"
+    },
+    "sjt": {
+      "used_as_gate": true,
+      "accepted_bands": [
+        1,
+        2,
+        3
+      ],
+      "rejected_bands": [
+        4
+      ]
+    },
+    "resits": {
+      "resits_accepted": true,
+      "allowed_resit_attempts": 1,
+      "applicant_form_required": false,
+      "routes": [
+        {
+          "route_id": "sunderland_resit_standard_aab",
+          "grade_profile": [
+            "A",
+            "A",
+            "B"
+          ]
+        },
+        {
+          "route_id": "sunderland_resit_graduate_bbc",
+          "applies_to_group_ids": [
+            "graduate_applicant"
+          ],
+          "grade_profile": [
+            "B",
+            "B",
+            "C"
+          ]
+        }
+      ]
+    }
+  },
+  "score_model": {
+    "type": "component_sum",
+    "basis": "UCAT and SJT are eligibility gates only; Sunderland interview shortlisting also depends on the assessed Interview Selection Tool.",
+    "scale": {
+      "min": 0,
+      "max": 0
+    },
+    "components": [],
+    "historical_guidance_only": true,
+    "fixed_current_cutoff": false,
+    "prediction_confidence": "low",
+    "current_gate": {
+      "type": "national_decile_gate",
+      "minimum_total_score": 1680,
+      "source": "UCAT Consortium 2025 national decile threshold table",
+      "not_university_fixed_cutoff": true
+    },
+    "historical_ucat_guidance": [
+      {
+        "entry_year": 2020,
+        "adjusted_minimum_ucat_2700": 1690,
+        "display_only": true
+      },
+      {
+        "entry_year": 2021,
+        "adjusted_minimum_ucat_2700": 1670,
+        "display_only": true
+      },
+      {
+        "entry_year": 2022,
+        "adjusted_minimum_ucat_2700": 1650,
+        "display_only": true
+      },
+      {
+        "entry_year": 2023,
+        "adjusted_minimum_ucat_2700": 1680,
+        "display_only": true
+      },
+      {
+        "entry_year": 2024,
+        "adjusted_minimum_ucat_2700": 1670,
+        "display_only": true
+      }
+    ],
+    "presentation": {
+      "pool_label": "Home A100 applicants",
+      "evidence_used": [
+        "Official admissions policy",
+        "University selection methodology",
+        "UCAT policy",
+        "Historical interview data",
+        "FOI evidence",
+        "Contextual admissions policy"
+      ],
+      "band_headlines": {
+        "realistic": "Realistic Choice"
+      },
+      "band_recommendations": {
+        "realistic": "Realistic choice"
+      },
+      "band_explanations": {
+        "realistic": "Your academic profile and UCAT meet Sunderland's published interview eligibility requirements and are historically competitive. Based on the information ApplySmart can assess, Sunderland is a realistic university choice for your application. Sunderland also uses an assessed Interview Selection Tool (IST), based on work or caregiving experience and reflective responses, to shortlist applicants for interview. As the university does not publish the IST scoring methodology and ApplySmart cannot evaluate your IST submission, your final interview competitiveness will also depend on the quality of this assessment."
+      },
+      "selection_summary": "Sunderland applies academic, UCAT and SJT gates before assessed Interview Selection Tool shortlisting. Historical adjusted UCAT values are guidance only."
+    }
+  },
+  "guidance_pools": [
+    {
+      "pool_id": "home_a100_eligibility_gate",
+      "priority": 20,
+      "applicant_match": {
+        "all_group_ids": [
+          "home_fee"
+        ],
+        "excluded_group_ids": [
+          "international_fee"
+        ]
+      },
+      "metric": "eligibility_gate",
+      "band_rules": [
+        {
+          "band": "realistic",
+          "operator": "greater_than_or_equal",
+          "value": 1
+        }
+      ]
+    }
+  ]
+}

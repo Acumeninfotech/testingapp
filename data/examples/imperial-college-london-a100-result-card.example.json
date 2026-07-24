@@ -1,0 +1,388 @@
+{
+  "schema_version": "1.0.0",
+  "template_version": "1.0.0",
+  "result_id": "imperial-college-london-a100-home-standard-example",
+  "generated_at": "2026-07-22",
+  "result_mode": "example_eligibility_and_historical_interview_guidance",
+  "production_state": {
+    "profile_active": true,
+    "metadata_activation_enabled": true,
+    "result_card_output_enabled": true,
+    "note": "This example reflects Imperial A100 interview guidance for a supported Home A-level route."
+  },
+  "course_identity": {
+    "profile_id": "imperial-college-london-a100",
+    "university_name": "Imperial College London",
+    "course_name": "Medicine MBBS/BSc",
+    "ucas_code": "A100",
+    "entry_route": "standard_entry",
+    "qualification_awarded": "MBBS/BSc",
+    "duration_years": 6,
+    "location": "London, England",
+    "source_ids": [
+      "imperial_research_doc",
+      "imperial_course_page_2027"
+    ]
+  },
+  "applicant_context": {
+    "applies_to_group_ids": [
+      "england_domiciled",
+      "rest_of_uk",
+      "home_fee",
+      "school_leaver"
+    ],
+    "applicant_summary": "Home standard A-level school-leaver with GCSE English Language 6, A*AA across Biology, Chemistry and Mathematics, passed science practical endorsements, first-sitting A-level evidence, UCAT 2400/2700 and SJT Band 2.",
+    "fee_cohort": "home",
+    "entry_route": "standard_entry",
+    "contextual": false,
+    "graduate": false
+  },
+  "readiness": {
+    "eligibility": true,
+    "interview_prediction": true,
+    "historical_guidance": true,
+    "international_prediction": true,
+    "contextual_logic": true,
+    "result_card": true,
+    "regression": true,
+    "research_completeness": "complete_for_supported_scope_with_documented_gaps",
+    "manual_review_required": true,
+    "eligibility_ready": true,
+    "interview_prediction_ready": true,
+    "prediction_confidence": "low",
+    "result_card_ready": true,
+    "offer_prediction_scope": "out_of_scope"
+  },
+  "eligibility": {
+    "status": "eligible",
+    "summary": "The represented applicant meets Imperial's supported A-level, GCSE English, science practical, same-sitting, UCAT and SJT gates.",
+    "stage_1_checks": [
+      {
+        "check_id": "gcse_english_language",
+        "label": "GCSE English Language",
+        "status": "pass",
+        "requirement": "Grade 6/B minimum.",
+        "applicant_value": "Grade 6.",
+        "decision_outcome": "eligible",
+        "source_ids": [
+          "imperial_research_doc"
+        ]
+      },
+      {
+        "check_id": "a_level_threshold",
+        "label": "A-level threshold and subjects",
+        "status": "pass",
+        "requirement": "A*AA with Biology and Chemistry, with A* and A across those two subjects.",
+        "applicant_value": "A* Biology, A Chemistry, A Mathematics.",
+        "decision_outcome": "eligible",
+        "source_ids": [
+          "imperial_research_doc"
+        ]
+      },
+      {
+        "check_id": "same_sitting",
+        "label": "Same-sitting rule",
+        "status": "pass",
+        "requirement": "Qualifications must be taken in the same sitting.",
+        "applicant_value": "A-level same-sitting evidence confirmed.",
+        "decision_outcome": "eligible",
+        "source_ids": [
+          "imperial_research_doc"
+        ]
+      },
+      {
+        "check_id": "ucat_and_sjt",
+        "label": "UCAT and SJT",
+        "status": "pass",
+        "requirement": "Home UCAT threshold 2320 and SJT Bands 1-3.",
+        "applicant_value": "UCAT 2400 and SJT Band 2.",
+        "decision_outcome": "eligible",
+        "source_ids": [
+          "imperial_a100_foi_faq_2026_v2"
+        ]
+      }
+    ],
+    "blocking_reasons": [],
+    "warnings": [
+      "Imperial has limited current-scale UCAT threshold depth.",
+      "The 2026-entry threshold is historical evidence, not a guaranteed future interview cut-off.",
+      "2025 UCAT averages were on the former 3600 scale and are not converted."
+    ],
+    "source_ids": [
+      "imperial_research_doc",
+      "imperial_a100_foi_faq_2026_v2"
+    ]
+  },
+  "stage_1_requirements": {
+    "verification_status": "official_source_verified_for_represented_route",
+    "verified_requirements": [
+      {
+        "requirement_id": "academic_gate",
+        "label": "Academic eligibility gate",
+        "value": "A*AA with Biology and Chemistry requirements; GCSE English Language 6/B; practical endorsements passed.",
+        "applies_to_group_ids": [
+          "school_leaver"
+        ],
+        "source_ids": [
+          "imperial_research_doc"
+        ]
+      },
+      {
+        "requirement_id": "ucat_sjt_gate",
+        "label": "UCAT/SJT gate",
+        "value": "Home 2320, contextual/WP 2170, Overseas 2310; SJT Band 4 rejected.",
+        "applies_to_group_ids": [],
+        "source_ids": [
+          "imperial_a100_foi_faq_2026_v2"
+        ]
+      }
+    ],
+    "unknown_requirements": [
+      "UCAT subsection minimum values are unpublished and not executed."
+    ],
+    "source_ids": [
+      "imperial_research_doc"
+    ]
+  },
+  "stage_2_selection": {
+    "verification_status": "official_ucat_ranking_with_historical_guidance",
+    "primary_model": "academic_gate_then_applicant_group_ucat_threshold_then_ucat_ranking",
+    "summary": "Imperial first checks academic eligibility, then uses UCAT cognitive total thresholds and ranking for interview invitation guidance. Academics above the minimum are not scored.",
+    "represented_ranking_input": {
+      "score": 2400,
+      "max": 2700,
+      "metric": "ucat_total"
+    },
+    "ranking_factors": [
+      {
+        "factor_id": "ucat_cognitive_total",
+        "label": "UCAT cognitive total",
+        "weight_percent": 100,
+        "calculation_status": "known",
+        "notes": "Sole ranking metric after mandatory gates.",
+        "source_ids": [
+          "imperial_research_doc"
+        ]
+      }
+    ],
+    "selection_adjustments": [],
+    "unknown_calculation_areas": [
+      "Future-cycle UCAT thresholds.",
+      "UCAT subsection minimum values.",
+      "Tie-breakers.",
+      "Post-interview offer thresholds."
+    ],
+    "source_ids": [
+      "imperial_research_doc"
+    ]
+  },
+  "historical_context": {
+    "use": "guidance_only",
+    "fixed_current_cutoff": false,
+    "not_deterministic": true,
+    "warning": "The 2026-entry Home threshold is historical guidance, not a current or future threshold or guarantee.",
+    "represented_pool": {
+      "pool_id": "home_a100",
+      "cycle": "2026 entry",
+      "score_scale": 2700,
+      "published_cutpoint": 2320,
+      "evidence_classification": "official_published_threshold"
+    },
+    "legacy_3600_data": {
+      "conversion_used_for_execution": false,
+      "reason": "2025 UCAT averages used the former 3600 scale including Abstract Reasoning and are stored as context only."
+    }
+  },
+  "prediction": {
+    "available": true,
+    "capability": "interview_guidance",
+    "prediction_type": "historical_pool_specific_ucat_guidance",
+    "prediction_status": "historical_guidance_available",
+    "result_band": "realistic",
+    "guidance_pool_id": "home_a100",
+    "score": 2400,
+    "score_scale": {
+      "min": 0,
+      "max": 2700
+    },
+    "band_basis": "UCAT 2400 is above Imperial's published 2026-entry Home threshold of 2320. The 2400 boundary is ApplySmart modelled guidance only and is not an official Imperial threshold.",
+    "historical_comparison": "above_2026_entry_home_threshold",
+    "missing_data_reasons": [],
+    "cannot_predict_explanation": null,
+    "source_ids": [
+      "imperial_research_doc",
+      "imperial_a100_foi_faq_2026_v2"
+    ]
+  },
+  "missing_data": {
+    "future_cycle_pool_cutpoints": "not_published_before_dynamic_ranking",
+    "ucat_subsection_minimum_values": "not_disclosed_and_not_executed",
+    "pre_2025_ucat_thresholds": "not_applicable_bmat_era",
+    "post_interview_offer_cutoffs": "not_published_out_of_scope"
+  },
+  "confidence": {
+    "level": "low",
+    "summary": "Official eligibility and 2026 threshold evidence support interview guidance, but current-scale UCAT threshold history is shallow.",
+    "stage_confidence": {
+      "stage_1": "medium",
+      "stage_2": "low",
+      "historical_guidance": "low"
+    },
+    "source_ids": [
+      "imperial_research_doc",
+      "imperial_a100_foi_faq_2026_v2"
+    ]
+  },
+  "evidence_confidence": {
+    "level": "Medium",
+    "summary": "The recommendation is supported by core admissions evidence, with some historical or route-specific limits.",
+    "reasons": [
+      "Official eligibility rules are available.",
+      "The university selection approach is implemented.",
+      "Historical interview guidance is available, but some evidence is historical, FOI-derived or has documented gaps."
+    ]
+  },
+  "evidence": {
+    "source_ids": [
+      "imperial_research_doc",
+      "imperial_course_page_2027",
+      "imperial_a100_foi_faq_2026_v2"
+    ]
+  },
+  "display": {
+    "primary_user_facing_recommendation": "Good chance - recommend applying",
+    "recommendation_display_state": "standard",
+    "primary_explanation": "You meet Imperial's represented eligibility gates and your UCAT is above the last published Home threshold. This is interview guidance only and does not guarantee an interview.",
+    "historical_guidance_caveat": "Imperial thresholds vary annually. ApplySmart does not predict offers."
+  },
+  "decision_timeline": [
+    {
+      "step": 1,
+      "title": "Applicant details checked",
+      "status": "Complete",
+      "summary": "Your applicant type, qualifications and UCAT details were checked."
+    },
+    {
+      "step": 2,
+      "title": "Eligibility assessed",
+      "status": "Eligible",
+      "summary": "You meet the published entry requirements covered by ApplySmart."
+    },
+    {
+      "step": 3,
+      "title": "Selection model applied",
+      "status": "Complete",
+      "summary": "Imperial first checks academic eligibility, then uses UCAT cognitive total thresholds and ranking for interview invitation guidance. Academics above the minimum are not scored."
+    },
+    {
+      "step": 4,
+      "title": "Historical guidance compared",
+      "status": "Complete",
+      "summary": "Your result was compared with interview information from previous admissions cycles. Interview thresholds may change each admissions cycle depending on applicant competition and interview capacity. Historical figures are guidance only, not a current cut-off, and do not guarantee an interview."
+    },
+    {
+      "step": 5,
+      "title": "Interview recommendation produced",
+      "status": "Good chance",
+      "summary": "Good chance - recommend applying. Treat this as guidance for university choice, not a promised interview."
+    }
+  ],
+  "decision_transparency": {
+    "decision_path": [
+      {
+        "stage": "Eligibility",
+        "status": "Eligible",
+        "summary": "The applicant meets represented Imperial A100 eligibility gates.",
+        "checks": [
+          {
+            "label": "Academic gate",
+            "status": "Pass",
+            "summary": "A*AA with Biology and Chemistry requirements met."
+          },
+          {
+            "label": "Same-sitting gate",
+            "status": "Pass",
+            "summary": "A-level same-sitting evidence is confirmed."
+          }
+        ]
+      },
+      {
+        "stage": "Selection model",
+        "status": "Complete",
+        "summary": "UCAT cognitive total is the ranking metric after eligibility.",
+        "checks": [
+          {
+            "label": "UCAT total",
+            "status": "On file",
+            "summary": "2400/2700."
+          },
+          {
+            "label": "SJT",
+            "status": "Pass",
+            "summary": "Band 2 is accepted."
+          },
+          {
+            "label": "Applicant pool",
+            "status": "Home A100",
+            "summary": "The applicant is compared with the Home A100 threshold/ranking evidence."
+          }
+        ]
+      },
+      {
+        "stage": "Historical guidance",
+        "status": "Complete",
+        "summary": "Compared with official 2026-entry Home threshold evidence as guidance only; this is not a guarantee of an interview.",
+        "checks": [
+          {
+            "label": "Official threshold",
+            "status": "Met",
+            "summary": "Home 2026 threshold was 2320."
+          }
+        ]
+      },
+      {
+        "stage": "Recommendation",
+        "status": "Good chance",
+        "summary": "Guidance is positive but not guaranteed.",
+        "checks": [
+          {
+            "label": "Post-interview stage",
+            "status": "Not used",
+            "summary": "Post-interview outcomes are out of scope."
+          }
+        ]
+      }
+    ],
+    "key_reasons": [
+      "Academic requirements are pass/fail only at Imperial.",
+      "UCAT 2400 is above the official 2026 Home threshold of 2320.",
+      "The recommendation does not claim a guaranteed interview or offer."
+    ],
+    "evidence_used": [
+      "Official admissions policy",
+      "University selection methodology",
+      "UCAT policy",
+      "Historical interview data",
+      "FOI evidence",
+      "Documented prediction limitation"
+    ],
+    "evidence_confidence": {
+      "level": "Medium",
+      "summary": "The recommendation is supported by core admissions evidence, with some historical or route-specific limits.",
+      "reasons": [
+        "Official eligibility rules are available.",
+        "The university selection approach is implemented.",
+        "Historical interview guidance is available, but some evidence is historical, FOI-derived or has documented gaps."
+      ]
+    },
+    "warnings": [],
+    "manual_review_reason": null,
+    "insufficient_evidence_reason": null
+  },
+  "engine_notes": {
+    "offer_prediction_scope": "out_of_scope",
+    "academic_strength_bonus": false,
+    "subsection_minimum_values_executed": false,
+    "legacy_3600_conversion_used": false
+  }
+}

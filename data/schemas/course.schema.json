@@ -1,0 +1,973 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://applysmart.local/schemas/course.schema.json",
+  "title": "ApplySmart Course Profile",
+  "description": "Canonical schema for one university course profile. Built from data/templates/course-template.json.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "profile_id",
+    "profile_status",
+    "verification_status",
+    "last_updated",
+    "university",
+    "course",
+    "applies_to_group_ids",
+    "stage_1_eligibility",
+    "stage_2_interview_selection",
+    "contextual_admissions",
+    "ranking_pools",
+    "quotas",
+    "offer_selection",
+    "historical_admissions",
+    "sources",
+    "validation",
+    "engine_notes"
+  ],
+  "properties": {
+    "schema_version": {
+      "type": "string"
+    },
+    "template_version": {
+      "type": "string"
+    },
+    "template_purpose": {
+      "type": "string"
+    },
+    "verification_status_values": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/verification_status"
+      }
+    },
+    "decision_outcome_values": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/decision_outcome"
+      }
+    },
+    "profile_id": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "profile_status": {
+      "type": "string"
+    },
+    "verification_status": {
+      "$ref": "#/$defs/verification_status"
+    },
+    "last_updated": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "university": {
+      "$ref": "#/$defs/university"
+    },
+    "course": {
+      "$ref": "#/$defs/course"
+    },
+    "medical_school": {
+      "type": "object",
+      "additionalProperties": true
+    },
+    "applicant_pools": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": true
+      }
+    },
+    "applies_to_group_ids": {
+      "$ref": "#/$defs/applicant_group_id_array"
+    },
+    "stage_1_eligibility": {
+      "$ref": "#/$defs/stage_1_eligibility"
+    },
+    "stage_2_interview_selection": {
+      "$ref": "#/$defs/stage_2_interview_selection"
+    },
+    "contextual_admissions": {
+      "$ref": "#/$defs/contextual_admissions"
+    },
+    "ranking_pools": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/ranking_pool"
+      }
+    },
+    "quotas": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/quota"
+      }
+    },
+    "offer_selection": {
+      "$ref": "#/$defs/offer_selection"
+    },
+    "historical_admissions": {
+      "$ref": "#/$defs/historical_admissions"
+    },
+    "fee_information": {
+      "$ref": "#/$defs/fee_information"
+    },
+    "sources": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/source"
+      }
+    },
+    "validation": {
+      "$ref": "#/$defs/validation"
+    },
+    "engine_notes": {
+      "$ref": "#/$defs/engine_notes"
+    }
+  },
+  "$defs": {
+    "verification_status": {
+      "enum": [
+        "template_only",
+        "unverified",
+        "partially_verified",
+        "verified",
+        "official_source_verified",
+        "official_and_foi_verified",
+        "official_source_verified_with_documented_gaps",
+        "official_source_verified_with_remaining_eligibility_exceptions",
+        "official_source_verified_with_remaining_unpublished_offer_fields",
+        "official_source_verified_with_restricted_route",
+        "official_source_verified_out_of_scope_for_applysmart",
+        "official_pre_interview_formula_verified",
+        "official_verified_guidance_thresholds_only",
+        "routine_model_verified_thresholds_unpublished",
+        "official_and_foi_verified_exact_scoring_undisclosed",
+        "official_and_foi_partially_verified",
+        "foi_verified_formula_interview_rubric_missing",
+        "foi_verified",
+        "historical_guidance",
+        "mixed_official_and_historical_guidance"
+      ]
+    },
+    "decision_outcome": {
+      "enum": [
+        "eligible",
+        "not_eligible",
+        "unknown",
+        "warning",
+        "risk_flag"
+      ]
+    },
+    "entry_route": {
+      "enum": [
+        "standard_entry",
+        "graduate_entry",
+        "gateway",
+        "foundation",
+        "gateway_foundation"
+      ]
+    },
+    "applicant_group_id": {
+      "enum": [
+        "england_domiciled",
+        "scotland_domiciled",
+        "wales_domiciled",
+        "northern_ireland_domiciled",
+        "home_fee",
+        "international_fee",
+        "rest_of_uk",
+        "contextual",
+        "widening_participation",
+        "care_experienced",
+        "graduate_applicant",
+        "school_leaver",
+        "mature_applicant",
+        "resit_applicant",
+        "deferred_entry"
+      ]
+    },
+    "applicant_group_id_array": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/applicant_group_id"
+      },
+      "uniqueItems": true
+    },
+    "subject_id": {
+      "enum": [
+        "biology",
+        "chemistry",
+        "physics",
+        "mathematics",
+        "further_mathematics",
+        "english_language",
+        "english_literature",
+        "combined_science",
+        "science",
+        "psychology",
+        "human_biology",
+        "general_studies",
+        "thinking_skills",
+        "global_perspectives_and_research"
+      ]
+    },
+    "nullable_subject_id": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/subject_id"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "subject_id_array": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/subject_id"
+      },
+      "uniqueItems": true
+    },
+    "selection_model": {
+      "enum": [
+        "ucat_cutoff",
+        "ucat_ranking",
+        "academic_ranking",
+        "academic_plus_ucat_weighting",
+        "points_system",
+        "holistic_review",
+        "direct_interview_if_minimum_met"
+      ]
+    },
+    "nullable_selection_model": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/selection_model"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "selection_modifier": {
+      "enum": [
+        "contextual_adjustment",
+        "widening_participation_scheme",
+        "guaranteed_interview",
+        "sjt_exclusion",
+        "sjt_band_4_exclusion",
+        "ucat_bottom_two_decile_exclusion",
+        "sjt_scoring",
+        "tie_breaker",
+        "separate_applicant_pool",
+        "home_international_separate_ranking",
+        "achieved_route_auto_interview_override",
+        "contextual_guaranteed_interview_override",
+        "resit_policy_adjustment"
+      ]
+    },
+    "nullable_selection_modifier": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/selection_modifier"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "source_ids": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "uniqueItems": true
+    },
+    "nullable_string": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "nullable_number": {
+      "type": [
+        "number",
+        "null"
+      ]
+    },
+    "nullable_integer": {
+      "type": [
+        "integer",
+        "null"
+      ]
+    },
+    "nullable_boolean": {
+      "type": [
+        "boolean",
+        "null"
+      ]
+    },
+    "unknownable_status": {
+      "type": "string"
+    },
+    "common_rule_object": {
+      "type": "object",
+      "additionalProperties": true,
+      "properties": {
+        "verification_status": {
+          "$ref": "#/$defs/verification_status"
+        },
+        "source_ids": {
+          "$ref": "#/$defs/source_ids"
+        },
+        "applies_to_group_ids": {
+          "$ref": "#/$defs/applicant_group_id_array"
+        },
+        "subject_id": {
+          "$ref": "#/$defs/nullable_subject_id"
+        },
+        "subject_ids": {
+          "$ref": "#/$defs/subject_id_array"
+        },
+        "required_subject_ids": {
+          "$ref": "#/$defs/subject_id_array"
+        },
+        "mandatory_subject_ids": {
+          "$ref": "#/$defs/subject_id_array"
+        },
+        "excluded_subject_ids": {
+          "$ref": "#/$defs/subject_id_array"
+        },
+        "accepted_subject_ids": {
+          "$ref": "#/$defs/subject_id_array"
+        },
+        "accepted_degree_subject_ids": {
+          "$ref": "#/$defs/subject_id_array"
+        },
+        "required_hl_subject_ids": {
+          "$ref": "#/$defs/subject_id_array"
+        },
+        "decision_outcome": {
+          "$ref": "#/$defs/decision_outcome"
+        },
+        "decision_outcome_if_not_met": {
+          "$ref": "#/$defs/decision_outcome"
+        },
+        "decision_outcome_if_excluded": {
+          "$ref": "#/$defs/decision_outcome"
+        },
+        "decision_outcome_if_not_allowed": {
+          "$ref": "#/$defs/decision_outcome"
+        }
+      },
+      "patternProperties": {
+        "^.*source_ids$": {
+          "$ref": "#/$defs/source_ids"
+        },
+        "^.*applies_to_group_ids$": {
+          "$ref": "#/$defs/applicant_group_id_array"
+        },
+        "^.*subject_ids$": {
+          "$ref": "#/$defs/subject_id_array"
+        },
+        "^.*subject_id$": {
+          "$ref": "#/$defs/nullable_subject_id"
+        },
+        "^decision_outcome.*$": {
+          "$ref": "#/$defs/decision_outcome"
+        }
+      }
+    },
+    "university": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "name",
+        "slug",
+        "country",
+        "nation",
+        "institution_type",
+        "website_url"
+      ],
+      "properties": {
+        "name": {
+          "$ref": "#/$defs/nullable_string"
+        },
+        "slug": {
+          "$ref": "#/$defs/nullable_string"
+        },
+        "country": {
+          "$ref": "#/$defs/nullable_string"
+        },
+        "nation": {
+          "$ref": "#/$defs/nullable_string"
+        },
+        "institution_type": {
+          "$ref": "#/$defs/nullable_string"
+        },
+        "institution_funding_type": {
+          "$ref": "#/$defs/nullable_string"
+        },
+        "website_url": {
+          "$ref": "#/$defs/nullable_string"
+        }
+      }
+    },
+    "course": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "name",
+        "ucas_code",
+        "entry_route",
+        "qualification_awarded",
+        "duration_years",
+        "campus",
+        "location",
+        "entry_year",
+        "fee_statuses",
+        "is_gateway_or_foundation",
+        "is_graduate_entry",
+        "notes"
+      ],
+      "properties": {
+        "name": {
+          "$ref": "#/$defs/nullable_string"
+        },
+        "ucas_code": {
+          "$ref": "#/$defs/nullable_string"
+        },
+        "entry_route": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/entry_route"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "entry_route_values": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/entry_route"
+          },
+          "uniqueItems": true
+        },
+        "qualification_awarded": {
+          "$ref": "#/$defs/nullable_string"
+        },
+        "duration_years": {
+          "$ref": "#/$defs/nullable_number"
+        },
+        "campus": {
+          "$ref": "#/$defs/nullable_string"
+        },
+        "location": {
+          "$ref": "#/$defs/nullable_string"
+        },
+        "entry_year": {
+          "$ref": "#/$defs/nullable_integer"
+        },
+        "intake_month": {
+          "$ref": "#/$defs/nullable_string"
+        },
+        "application_channels": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "uniqueItems": true
+        },
+        "fee_statuses": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "is_gateway_or_foundation": {
+          "$ref": "#/$defs/nullable_boolean"
+        },
+        "is_graduate_entry": {
+          "$ref": "#/$defs/nullable_boolean"
+        },
+        "notes": {
+          "$ref": "#/$defs/nullable_string"
+        }
+      }
+    },
+    "stage_1_eligibility": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/common_rule_object"
+        },
+        {
+          "type": "object",
+          "required": [
+            "verification_status",
+            "source_ids",
+            "overall_policy",
+            "gcse",
+            "post_16",
+            "admissions_tests",
+            "resits",
+            "english_language",
+            "age_or_professional_checks"
+          ]
+        }
+      ]
+    },
+    "stage_2_interview_selection": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/common_rule_object"
+        },
+        {
+          "type": "object",
+          "required": [
+            "verification_status",
+            "source_ids",
+            "primary_model",
+            "modifiers",
+            "ranking_factors",
+            "calculation",
+            "thresholds",
+            "selection_adjustments",
+            "tie_breakers",
+            "output_band_policy",
+            "notes"
+          ],
+          "properties": {
+            "primary_model": {
+              "$ref": "#/$defs/nullable_selection_model"
+            },
+            "modifiers": {
+              "type": "array",
+              "items": {
+                "$ref": "#/$defs/selection_modifier"
+              },
+              "uniqueItems": true
+            },
+            "selection_adjustments": {
+              "type": "array",
+              "items": {
+                "allOf": [
+                  {
+                    "$ref": "#/$defs/common_rule_object"
+                  },
+                  {
+                    "type": "object",
+                    "properties": {
+                      "modifier_id": {
+                        "$ref": "#/$defs/nullable_selection_modifier"
+                      }
+                    }
+                  }
+                ]
+              }
+            },
+            "calculation": {
+              "allOf": [
+                {
+                  "$ref": "#/$defs/common_rule_object"
+                },
+                {
+                  "type": "object",
+                  "required": [
+                    "verification_status",
+                    "source_ids",
+                    "score_components",
+                    "total_score",
+                    "notes"
+                  ],
+                  "properties": {
+                    "score_components": {
+                      "type": "array",
+                      "items": {
+                        "allOf": [
+                          {
+                            "$ref": "#/$defs/common_rule_object"
+                          },
+                          {
+                            "type": "object",
+                            "required": [
+                              "component_id",
+                              "factor_id",
+                              "input_field",
+                              "calculation_method",
+                              "scale",
+                              "weight_percent",
+                              "rounding",
+                              "notes",
+                              "source_ids"
+                            ]
+                          }
+                        ]
+                      }
+                    },
+                    "total_score": {
+                      "allOf": [
+                        {
+                          "$ref": "#/$defs/common_rule_object"
+                        },
+                        {
+                          "type": "object",
+                          "required": [
+                            "calculation_method",
+                            "components",
+                            "scale",
+                            "notes",
+                            "source_ids"
+                          ]
+                        }
+                      ]
+                    }
+                  }
+                }
+              ]
+            }
+          }
+        }
+      ]
+    },
+    "contextual_admissions": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/common_rule_object"
+        },
+        {
+          "type": "object",
+          "required": [
+            "verification_status",
+            "source_ids",
+            "available",
+            "applies_to_group_ids",
+            "criteria",
+            "adjustments",
+            "guaranteed_interview_rules",
+            "notes"
+          ]
+        }
+      ]
+    },
+    "ranking_pool": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/common_rule_object"
+        },
+        {
+          "type": "object",
+          "required": [
+            "pool_id",
+            "name",
+            "applies_to_group_ids",
+            "fee_statuses",
+            "ranking_model",
+            "ranking_factors",
+            "places_available",
+            "source_ids",
+            "notes"
+          ],
+          "properties": {
+            "ranking_model": {
+              "$ref": "#/$defs/nullable_selection_model"
+            }
+          }
+        }
+      ]
+    },
+    "quota": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/common_rule_object"
+        },
+        {
+          "type": "object",
+          "required": [
+            "quota_id",
+            "source_ids",
+            "notes"
+          ]
+        }
+      ]
+    },
+    "offer_selection": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/common_rule_object"
+        },
+        {
+          "type": "object",
+          "required": [
+            "verification_status",
+            "source_ids",
+            "interview_format",
+            "interview_scoring",
+            "offer_model",
+            "ranking_factors",
+            "tie_breakers",
+            "waiting_list_policy",
+            "standard_offer",
+            "contextual_offer",
+            "notes"
+          ]
+        }
+      ]
+    },
+    "historical_admissions": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/common_rule_object"
+        },
+        {
+          "type": "object",
+          "required": [
+            "verification_status",
+            "source_ids",
+            "cycles",
+            "notes"
+          ]
+        }
+      ]
+    },
+    "fee_information": {
+      "type": "object",
+      "additionalProperties": true,
+      "required": [
+        "currency",
+        "entry_cycle",
+        "home",
+        "international",
+        "fees_subject_to_change",
+        "eligibility_effect"
+      ],
+      "properties": {
+        "currency": {
+          "$ref": "#/$defs/nullable_string"
+        },
+        "entry_cycle": {
+          "$ref": "#/$defs/nullable_string"
+        },
+        "home": {
+          "type": "object",
+          "additionalProperties": true
+        },
+        "international": {
+          "type": "object",
+          "additionalProperties": true
+        },
+        "deposit": {
+          "$ref": "#/$defs/nullable_number"
+        },
+        "deposit_refundable_if_conditions_not_met": {
+          "$ref": "#/$defs/nullable_boolean"
+        },
+        "fees_subject_to_change": {
+          "type": "boolean"
+        },
+        "fee_increase_wording": {
+          "$ref": "#/$defs/nullable_string"
+        },
+        "additional_costs": {
+          "$ref": "#/$defs/nullable_string"
+        },
+        "eligibility_effect": {
+          "const": "informational_only"
+        },
+        "source_ids": {
+          "$ref": "#/$defs/source_ids"
+        }
+      }
+    },
+    "source": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "source_id",
+        "title",
+        "url",
+        "source_type",
+        "published_date",
+        "accessed_date",
+        "applies_to_sections",
+        "confidence",
+        "notes"
+      ],
+      "properties": {
+        "source_id": {
+          "$ref": "#/$defs/nullable_string"
+        },
+        "title": {
+          "$ref": "#/$defs/nullable_string"
+        },
+        "url": {
+          "$ref": "#/$defs/nullable_string"
+        },
+        "source_type": {
+          "$ref": "#/$defs/nullable_string"
+        },
+        "published_date": {
+          "$ref": "#/$defs/nullable_string"
+        },
+        "accessed_date": {
+          "$ref": "#/$defs/nullable_string"
+        },
+        "applies_to_sections": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "confidence": {
+          "$ref": "#/$defs/nullable_string"
+        },
+        "evidence_classification": {
+          "$ref": "#/$defs/nullable_string"
+        },
+        "notes": {
+          "$ref": "#/$defs/nullable_string"
+        }
+      }
+    },
+    "validation": {
+      "type": "object",
+      "additionalProperties": true,
+      "required": [
+        "source_status",
+        "last_verified",
+        "confidence_level",
+        "completion_status",
+        "known_unknowns",
+        "review_notes"
+      ],
+      "properties": {
+        "source_status": {
+          "$ref": "#/$defs/verification_status"
+        },
+        "last_verified": {
+          "$ref": "#/$defs/nullable_string"
+        },
+        "confidence_level": {
+          "$ref": "#/$defs/nullable_string"
+        },
+        "known_unknowns": {
+          "type": "array"
+        },
+        "review_notes": {
+          "$ref": "#/$defs/nullable_string"
+        }
+      }
+    },
+    "engine_notes": {
+      "type": "object",
+      "additionalProperties": true,
+      "not": {
+        "anyOf": [
+          {
+            "required": [
+              "offer_prediction"
+            ]
+          },
+          {
+            "required": [
+              "offer_prediction_ready"
+            ]
+          },
+          {
+            "required": [
+              "offer_prediction_enabled"
+            ]
+          }
+        ]
+      },
+      "required": [
+        "eligibility",
+        "interview_prediction",
+        "historical_guidance",
+        "international_prediction",
+        "contextual_logic",
+        "result_card",
+        "regression",
+        "research_completeness",
+        "manual_review_required",
+        "eligibility_ready",
+        "interview_prediction_ready",
+        "offer_prediction_scope",
+        "prediction_confidence",
+        "result_card_ready",
+        "blocking_missing_fields",
+        "engine_assumptions",
+        "do_not_infer"
+      ],
+      "properties": {
+        "eligibility_ready": {
+          "type": "boolean"
+        },
+        "interview_prediction_ready": {
+          "type": "boolean"
+        },
+        "offer_prediction_scope": {
+          "const": "out_of_scope"
+        },
+        "prediction_confidence": {
+          "type": "string",
+          "enum": [
+            "high",
+            "medium",
+            "low"
+          ]
+        },
+        "result_card_ready": {
+          "type": "boolean"
+        },
+        "eligibility": {
+          "type": "boolean"
+        },
+        "interview_prediction": {
+          "type": "boolean"
+        },
+        "historical_guidance": {
+          "type": "boolean"
+        },
+        "international_prediction": {
+          "type": "boolean"
+        },
+        "contextual_logic": {
+          "type": "boolean"
+        },
+        "result_card": {
+          "type": "boolean"
+        },
+        "regression": {
+          "type": "boolean"
+        },
+        "research_completeness": {
+          "type": "string",
+          "enum": [
+            "complete_for_supported_scope",
+            "complete_for_supported_scope_with_documented_gaps"
+          ]
+        },
+        "manual_review_required": {
+          "type": "boolean"
+        },
+        "blocking_missing_fields": {
+          "type": "array"
+        },
+        "engine_assumptions": {
+          "type": "array"
+        },
+        "do_not_infer": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    }
+  }
+}

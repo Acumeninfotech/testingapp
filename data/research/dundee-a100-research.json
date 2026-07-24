@@ -1,0 +1,1205 @@
+{
+  "schema_version": "1.0.0",
+  "profile_id": "dundee-a100-research",
+  "course_profile_id": "dundee-a100",
+  "research_status": "verified_international_evidence_added_home_model_needs_foi_verification",
+  "file_purpose": "Research and evidence profile for University of Dundee A100. This file does not replace the production admissions rules.",
+  "official_rules_source": "data/universities/dundee-a100.json",
+  "created_at": null,
+  "last_updated": "2026-07-02",
+  "research_scope": null,
+  "evidence_classification_policy": null,
+  "metadata": null,
+  "readiness": {
+    "eligibility": true,
+    "interview_prediction": true,
+    "historical_guidance": true,
+    "international_prediction": true,
+    "contextual_logic": false,
+    "result_card": true,
+    "regression": true,
+    "research_completeness": "complete_for_supported_scope_with_documented_gaps",
+    "manual_review_required": true,
+    "eligibility_ready": true,
+    "interview_prediction_ready": true,
+    "prediction_confidence": "medium",
+    "result_card_ready": true,
+    "offer_prediction_scope": "out_of_scope",
+    "eligibility_ready_status": "mostly_true",
+    "official_selection_formula_available": false,
+    "historical_guidance_available": true,
+    "historical_prediction_status": "available_for_international_guidance",
+    "summary": "Dundee can support eligibility guidance, verified international interview guidance, official historical admissions context, and a research-derived predictor model. International guidance uses a separate 60% academic and 40% national-decile UCAT pool with no fixed cut-off. Home logic is unchanged.",
+    "labels": [
+      "Eligibility guidance available",
+      "Historical admissions context available",
+      "Verified international interview guidance available",
+      "Research-derived predictor model available",
+      "Official formula prediction unavailable"
+    ],
+    "source_ids": [
+      "dundee_entry_requirements",
+      "dundee_all_entry_requirements",
+      "dundee_contextual_admissions_policy",
+      "dundee_admissions_statistics",
+      "dundee_verified_international_admissions_evidence"
+    ]
+  },
+  "official_formula_status": {
+    "status": "partially_known",
+    "status_values": [
+      "available",
+      "unavailable",
+      "partially_known"
+    ],
+    "academic_calculation_known": false,
+    "ucat_calculation_known": false,
+    "sjt_calculation_known": true,
+    "interview_calculation_known": false,
+    "official_formula_prediction_available": false,
+    "known_components": [
+      {
+        "component_id": "sjt_initial_selection_non_use",
+        "description": "Dundee states UCAT SJT bands are not used as part of the initial selection for interview process."
+      },
+      {
+        "component_id": "standard_entry_weighting_research",
+        "description": "Research data records standard entry pre-interview weighting as academic 60% and UCAT 40%. Evidence label: foi_derived."
+      },
+      {
+        "component_id": "international_selection_verified",
+        "description": "Verified international evidence records a separate ranking pool using 60% academics and 40% UCAT cognitive total converted by national decile rank, with no fixed UCAT cut-off and no personal-statement shortlisting."
+      },
+      {
+        "component_id": "international_offer_ranking_verified",
+        "description": "Verified international evidence records that pre-interview academic and UCAT scores reset after interview and offers are ranked 100% by interview score."
+      }
+    ],
+    "unknown_components": [
+      "Official/FOI source attachment for the complete academic scoring formula",
+      "Official/FOI verification for UCAT decile point tables",
+      "Official/FOI verification for graduate A100 weighting",
+      "Detailed RUK GCSE scoring table missing from supplied request",
+      "Detailed RUK A-level scoring table missing from supplied request",
+      "Detailed Scottish National 5 scoring table missing from supplied request",
+      "Detailed Scottish Higher scoring table missing from supplied request",
+      "Interview scoring formula",
+      "Home offer ranking formula verification",
+      "Tie-breaker rules"
+    ],
+    "explanation": "Dundee A100 remains unavailable for a complete official formula prediction. Verified international selection and offer-ranking evidence is stored, but the exact academic point conversion and interview scoring rubric are not supplied. Home selection logic remains unchanged and incomplete.",
+    "source_ids": [
+      "dundee_admissions_statistics",
+      "dundee_verified_international_admissions_evidence"
+    ],
+    "notes": "Historical international guidance must not be treated as a fixed Dundee UCAT cut-off."
+  },
+  "international_selection_evidence": {
+    "applicant_group_ids": [
+      "international_fee"
+    ],
+    "ranking_pool": "separate_from_home",
+    "pre_interview_score": {
+      "academic_weight_percent": 60,
+      "ucat_weight_percent": 40,
+      "maximum_score": 100
+    },
+    "ucat": {
+      "score_input": "cognitive_total_only",
+      "conversion_method": "national_decile_rank",
+      "has_fixed_cutoff": false,
+      "fixed_cutoff": null
+    },
+    "personal_statement": {
+      "used_for_shortlisting": false,
+      "may_be_referenced_during_interview": true
+    },
+    "historical_ucat_2700": [
+      {
+        "entry_year": "2023/24",
+        "lowest_invited": 1950,
+        "average_invited": 2020,
+        "average_offer_holders": 2050
+      },
+      {
+        "entry_year": "2024/25",
+        "lowest_invited": 1950,
+        "average_invited": 2025,
+        "average_offer_holders": 2055
+      },
+      {
+        "entry_year": "2025/26",
+        "lowest_invited": 2000,
+        "average_invited": 2050,
+        "average_offer_holders": 2080
+      }
+    ],
+    "target_guidance_2026_27": {
+      "minimum_competitive": 1950,
+      "good_average_competitive_minimum": 2050,
+      "strong_offer_holder_level_minimum": 2100,
+      "very_strong_minimum": 2200,
+      "guidance_only": true,
+      "fixed_cutoff": false
+    },
+    "competitiveness_benchmarks": {
+      "minimum_competitive": 1950,
+      "strong": 2100,
+      "very_strong": 2200,
+      "historical_average": 2018,
+      "highest_recorded": 2310
+    },
+    "interview_format": {
+      "type": "two_stage_hybrid",
+      "group_discussion": {
+        "applicants": 6,
+        "duration_minutes": 30,
+        "assessed_qualities": [
+          "communication",
+          "teamwork",
+          "reasoning",
+          "values"
+        ]
+      },
+      "structured_dialogue": {
+        "format": "one_to_one_follow_up",
+        "assessed_qualities": [
+          "reflection",
+          "ethics",
+          "motivation",
+          "insight"
+        ]
+      }
+    },
+    "post_interview_offer_rule": {
+      "pre_interview_scores_reset": true,
+      "academic_and_ucat_carryover_percent": 0,
+      "interview_score_weight_percent": 100,
+      "ranking_basis": "interview_score_only",
+      "international_places": 31
+    },
+    "source_ids": [
+      "dundee_verified_international_admissions_evidence"
+    ],
+    "notes": "Verified international evidence. UCAT values are historical guidance on the /2700 cognitive scale and are not fixed cut-offs."
+  },
+  "historical_ucat_data": [
+    {
+      "entry_year": "2019/20",
+      "applicant_group_id": null,
+      "applicant_group_ids": [],
+      "row_label": "Total",
+      "lowest_interviewed_ucat": 1980,
+      "average_interviewed_ucat": 2674,
+      "highest_interviewed_ucat": 3320,
+      "lowest_offer_holder_ucat": null,
+      "average_offer_holder_ucat": null,
+      "sample_size": 668,
+      "source_ids": [
+        "dundee_admissions_statistics"
+      ],
+      "notes": "Official Dundee admissions statistics. UCAT data represents total scores for applicants invited to interview. Dundee warns that UCAT values published before the 2025 UCAT change are not directly comparable with current UCAT scores. ApplySmart stores converted 2700-scale estimates for rough context only.",
+      "original_ucat_3600": {
+        "lowest_interviewed": 1980,
+        "average_interviewed": 2674,
+        "highest_interviewed": 3320,
+        "lowest_offer_holder": null,
+        "average_offer_holder": null
+      },
+      "converted_ucat_2700_estimate": {
+        "lowest_interviewed": 1485,
+        "average_interviewed": 2006,
+        "highest_interviewed": 2490,
+        "lowest_offer_holder": null,
+        "average_offer_holder": null,
+        "conversion_formula": "round(original_ucat_3600 * 0.75)"
+      }
+    },
+    {
+      "entry_year": "2020/21",
+      "applicant_group_id": null,
+      "applicant_group_ids": [],
+      "row_label": "Total",
+      "lowest_interviewed_ucat": 1480,
+      "average_interviewed_ucat": 2628,
+      "highest_interviewed_ucat": 3510,
+      "lowest_offer_holder_ucat": null,
+      "average_offer_holder_ucat": null,
+      "sample_size": 861,
+      "source_ids": [
+        "dundee_admissions_statistics"
+      ],
+      "notes": "Official Dundee admissions statistics. UCAT data represents total scores for applicants invited to interview. Dundee warns that UCAT values published before the 2025 UCAT change are not directly comparable with current UCAT scores. ApplySmart stores converted 2700-scale estimates for rough context only.",
+      "original_ucat_3600": {
+        "lowest_interviewed": 1480,
+        "average_interviewed": 2628,
+        "highest_interviewed": 3510,
+        "lowest_offer_holder": null,
+        "average_offer_holder": null
+      },
+      "converted_ucat_2700_estimate": {
+        "lowest_interviewed": 1110,
+        "average_interviewed": 1971,
+        "highest_interviewed": 2633,
+        "lowest_offer_holder": null,
+        "average_offer_holder": null,
+        "conversion_formula": "round(original_ucat_3600 * 0.75)"
+      }
+    },
+    {
+      "entry_year": "2021/22",
+      "applicant_group_id": null,
+      "applicant_group_ids": [],
+      "row_label": "Total",
+      "lowest_interviewed_ucat": 2090,
+      "average_interviewed_ucat": 2715,
+      "highest_interviewed_ucat": 3440,
+      "lowest_offer_holder_ucat": null,
+      "average_offer_holder_ucat": null,
+      "sample_size": 891,
+      "source_ids": [
+        "dundee_admissions_statistics"
+      ],
+      "notes": "Official Dundee admissions statistics. UCAT data represents total scores for applicants invited to interview. Dundee warns that UCAT values published before the 2025 UCAT change are not directly comparable with current UCAT scores. ApplySmart stores converted 2700-scale estimates for rough context only.",
+      "original_ucat_3600": {
+        "lowest_interviewed": 2090,
+        "average_interviewed": 2715,
+        "highest_interviewed": 3440,
+        "lowest_offer_holder": null,
+        "average_offer_holder": null
+      },
+      "converted_ucat_2700_estimate": {
+        "lowest_interviewed": 1568,
+        "average_interviewed": 2036,
+        "highest_interviewed": 2580,
+        "lowest_offer_holder": null,
+        "average_offer_holder": null,
+        "conversion_formula": "round(original_ucat_3600 * 0.75)"
+      }
+    },
+    {
+      "entry_year": "2022/23",
+      "applicant_group_id": null,
+      "applicant_group_ids": [],
+      "row_label": "Total",
+      "lowest_interviewed_ucat": 1940,
+      "average_interviewed_ucat": 2691,
+      "highest_interviewed_ucat": 3290,
+      "lowest_offer_holder_ucat": null,
+      "average_offer_holder_ucat": null,
+      "sample_size": 862,
+      "source_ids": [
+        "dundee_admissions_statistics"
+      ],
+      "notes": "Official Dundee admissions statistics. UCAT data represents total scores for applicants invited to interview. Dundee warns that UCAT values published before the 2025 UCAT change are not directly comparable with current UCAT scores. ApplySmart stores converted 2700-scale estimates for rough context only.",
+      "original_ucat_3600": {
+        "lowest_interviewed": 1940,
+        "average_interviewed": 2691,
+        "highest_interviewed": 3290,
+        "lowest_offer_holder": null,
+        "average_offer_holder": null
+      },
+      "converted_ucat_2700_estimate": {
+        "lowest_interviewed": 1455,
+        "average_interviewed": 2018,
+        "highest_interviewed": 2468,
+        "lowest_offer_holder": null,
+        "average_offer_holder": null,
+        "conversion_formula": "round(original_ucat_3600 * 0.75)"
+      }
+    },
+    {
+      "entry_year": "2023/24",
+      "applicant_group_id": null,
+      "applicant_group_ids": [],
+      "row_label": "Total",
+      "lowest_interviewed_ucat": 1900,
+      "average_interviewed_ucat": 2675,
+      "highest_interviewed_ucat": 3400,
+      "lowest_offer_holder_ucat": null,
+      "average_offer_holder_ucat": null,
+      "sample_size": 844,
+      "source_ids": [
+        "dundee_admissions_statistics"
+      ],
+      "notes": "Official Dundee admissions statistics. UCAT data represents total scores for applicants invited to interview. Dundee warns that UCAT values published before the 2025 UCAT change are not directly comparable with current UCAT scores. ApplySmart stores converted 2700-scale estimates for rough context only.",
+      "original_ucat_3600": {
+        "lowest_interviewed": 1900,
+        "average_interviewed": 2675,
+        "highest_interviewed": 3400,
+        "lowest_offer_holder": null,
+        "average_offer_holder": null
+      },
+      "converted_ucat_2700_estimate": {
+        "lowest_interviewed": 1425,
+        "average_interviewed": 2006,
+        "highest_interviewed": 2550,
+        "lowest_offer_holder": null,
+        "average_offer_holder": null,
+        "conversion_formula": "round(original_ucat_3600 * 0.75)"
+      }
+    },
+    {
+      "entry_year": "2023/24",
+      "applicant_group_id": "scotland_domiciled",
+      "applicant_group_ids": [
+        "scotland_domiciled",
+        "home_fee"
+      ],
+      "row_label": "Home Scottish",
+      "lowest_interviewed_ucat": 1900,
+      "average_interviewed_ucat": 2662,
+      "highest_interviewed_ucat": 3400,
+      "lowest_offer_holder_ucat": null,
+      "average_offer_holder_ucat": null,
+      "sample_size": 625,
+      "source_ids": [
+        "dundee_admissions_statistics"
+      ],
+      "notes": "Latest detailed fee-status row stored from official Dundee admissions statistics. Dundee warns that UCAT values published before the 2025 UCAT change are not directly comparable with current UCAT scores. ApplySmart stores converted 2700-scale estimates for rough context only.",
+      "original_ucat_3600": {
+        "lowest_interviewed": 1900,
+        "average_interviewed": 2662,
+        "highest_interviewed": 3400,
+        "lowest_offer_holder": null,
+        "average_offer_holder": null
+      },
+      "converted_ucat_2700_estimate": {
+        "lowest_interviewed": 1425,
+        "average_interviewed": 1997,
+        "highest_interviewed": 2550,
+        "lowest_offer_holder": null,
+        "average_offer_holder": null,
+        "conversion_formula": "round(original_ucat_3600 * 0.75)"
+      }
+    },
+    {
+      "entry_year": "2023/24",
+      "applicant_group_id": "rest_of_uk",
+      "applicant_group_ids": [
+        "rest_of_uk",
+        "home_fee"
+      ],
+      "row_label": "Home Rest of UK (RUK) or ROI Irish Applicants",
+      "lowest_interviewed_ucat": 2150,
+      "average_interviewed_ucat": 2723,
+      "highest_interviewed_ucat": 3290,
+      "lowest_offer_holder_ucat": null,
+      "average_offer_holder_ucat": null,
+      "sample_size": 138,
+      "source_ids": [
+        "dundee_admissions_statistics"
+      ],
+      "notes": "Latest detailed fee-status row stored from official Dundee admissions statistics. Dundee warns that UCAT values published before the 2025 UCAT change are not directly comparable with current UCAT scores. ApplySmart stores converted 2700-scale estimates for rough context only.",
+      "original_ucat_3600": {
+        "lowest_interviewed": 2150,
+        "average_interviewed": 2723,
+        "highest_interviewed": 3290,
+        "lowest_offer_holder": null,
+        "average_offer_holder": null
+      },
+      "converted_ucat_2700_estimate": {
+        "lowest_interviewed": 1613,
+        "average_interviewed": 2042,
+        "highest_interviewed": 2468,
+        "lowest_offer_holder": null,
+        "average_offer_holder": null,
+        "conversion_formula": "round(original_ucat_3600 * 0.75)"
+      }
+    },
+    {
+      "entry_year": "2023/24",
+      "applicant_group_id": "international_fee",
+      "applicant_group_ids": [
+        "international_fee"
+      ],
+      "row_label": "Overseas",
+      "lowest_interviewed_ucat": 2270,
+      "average_interviewed_ucat": 2690,
+      "highest_interviewed_ucat": 3080,
+      "lowest_offer_holder_ucat": null,
+      "average_offer_holder_ucat": null,
+      "sample_size": 81,
+      "source_ids": [
+        "dundee_admissions_statistics"
+      ],
+      "notes": "Latest detailed fee-status row stored from official Dundee admissions statistics. Dundee warns that UCAT values published before the 2025 UCAT change are not directly comparable with current UCAT scores. ApplySmart stores converted 2700-scale estimates for rough context only.",
+      "original_ucat_3600": {
+        "lowest_interviewed": 2270,
+        "average_interviewed": 2690,
+        "highest_interviewed": 3080,
+        "lowest_offer_holder": null,
+        "average_offer_holder": null
+      },
+      "converted_ucat_2700_estimate": {
+        "lowest_interviewed": 1703,
+        "average_interviewed": 2018,
+        "highest_interviewed": 2310,
+        "lowest_offer_holder": null,
+        "average_offer_holder": null,
+        "conversion_formula": "round(original_ucat_3600 * 0.75)"
+      }
+    }
+  ],
+  "historical_admissions_stats": [
+    {
+      "entry_year": "2019/20",
+      "applicant_group_id": null,
+      "applicant_group_ids": [],
+      "row_label": "Total",
+      "applications": 1641,
+      "interviews": 668,
+      "offers": 387,
+      "places": null,
+      "matriculations": 156,
+      "offer_rate": 0.2358,
+      "interview_rate": 0.4071,
+      "source_ids": [
+        "dundee_admissions_statistics"
+      ],
+      "notes": "Dundee publishes matriculations, not places. Rates are derived from official applications/interviews/offers for context only. Dundee warns that UCAT values published before the 2025 UCAT change are not directly comparable with current UCAT scores. ApplySmart stores converted 2700-scale estimates for rough context only.",
+      "original_average_ucat_3600": 2674,
+      "original_highest_ucat_3600": 3320,
+      "original_lowest_ucat_3600": 1980,
+      "converted_average_ucat_2700_estimate": 2006,
+      "converted_highest_ucat_2700_estimate": 2490,
+      "converted_lowest_ucat_2700_estimate": 1485
+    },
+    {
+      "entry_year": "2020/21",
+      "applicant_group_id": null,
+      "applicant_group_ids": [],
+      "row_label": "Total",
+      "applications": 1750,
+      "interviews": 861,
+      "offers": 385,
+      "places": null,
+      "matriculations": 175,
+      "offer_rate": 0.22,
+      "interview_rate": 0.492,
+      "source_ids": [
+        "dundee_admissions_statistics"
+      ],
+      "notes": "Dundee publishes matriculations, not places. Rates are derived from official applications/interviews/offers for context only. Dundee warns that UCAT values published before the 2025 UCAT change are not directly comparable with current UCAT scores. ApplySmart stores converted 2700-scale estimates for rough context only.",
+      "original_average_ucat_3600": 2628,
+      "original_highest_ucat_3600": 3510,
+      "original_lowest_ucat_3600": 1480,
+      "converted_average_ucat_2700_estimate": 1971,
+      "converted_highest_ucat_2700_estimate": 2633,
+      "converted_lowest_ucat_2700_estimate": 1110
+    },
+    {
+      "entry_year": "2021/22",
+      "applicant_group_id": null,
+      "applicant_group_ids": [],
+      "row_label": "Total",
+      "applications": 2226,
+      "interviews": 891,
+      "offers": 380,
+      "places": null,
+      "matriculations": 169,
+      "offer_rate": 0.1707,
+      "interview_rate": 0.4003,
+      "source_ids": [
+        "dundee_admissions_statistics"
+      ],
+      "notes": "Dundee publishes matriculations, not places. Rates are derived from official applications/interviews/offers for context only. Dundee warns that UCAT values published before the 2025 UCAT change are not directly comparable with current UCAT scores. ApplySmart stores converted 2700-scale estimates for rough context only.",
+      "original_average_ucat_3600": 2715,
+      "original_highest_ucat_3600": 3440,
+      "original_lowest_ucat_3600": 2090,
+      "converted_average_ucat_2700_estimate": 2036,
+      "converted_highest_ucat_2700_estimate": 2580,
+      "converted_lowest_ucat_2700_estimate": 1568
+    },
+    {
+      "entry_year": "2022/23",
+      "applicant_group_id": null,
+      "applicant_group_ids": [],
+      "row_label": "Total",
+      "applications": 2306,
+      "interviews": 862,
+      "offers": 375,
+      "places": null,
+      "matriculations": 176,
+      "offer_rate": 0.1626,
+      "interview_rate": 0.3738,
+      "source_ids": [
+        "dundee_admissions_statistics"
+      ],
+      "notes": "Dundee publishes matriculations, not places. Rates are derived from official applications/interviews/offers for context only. Dundee warns that UCAT values published before the 2025 UCAT change are not directly comparable with current UCAT scores. ApplySmart stores converted 2700-scale estimates for rough context only.",
+      "original_average_ucat_3600": 2691,
+      "original_highest_ucat_3600": 3290,
+      "original_lowest_ucat_3600": 1940,
+      "converted_average_ucat_2700_estimate": 2018,
+      "converted_highest_ucat_2700_estimate": 2468,
+      "converted_lowest_ucat_2700_estimate": 1455
+    },
+    {
+      "entry_year": "2023/24",
+      "applicant_group_id": null,
+      "applicant_group_ids": [],
+      "row_label": "Total",
+      "applications": 1951,
+      "interviews": 844,
+      "offers": 570,
+      "places": null,
+      "matriculations": 218,
+      "offer_rate": 0.2922,
+      "interview_rate": 0.4326,
+      "source_ids": [
+        "dundee_admissions_statistics"
+      ],
+      "notes": "Dundee publishes matriculations, not places. Rates are derived from official applications/interviews/offers for context only. Dundee warns that UCAT values published before the 2025 UCAT change are not directly comparable with current UCAT scores. ApplySmart stores converted 2700-scale estimates for rough context only.",
+      "original_average_ucat_3600": 2675,
+      "original_highest_ucat_3600": 3400,
+      "original_lowest_ucat_3600": 1900,
+      "converted_average_ucat_2700_estimate": 2006,
+      "converted_highest_ucat_2700_estimate": 2550,
+      "converted_lowest_ucat_2700_estimate": 1425
+    },
+    {
+      "entry_year": "2023/24",
+      "applicant_group_id": "scotland_domiciled",
+      "applicant_group_ids": [
+        "scotland_domiciled",
+        "home_fee"
+      ],
+      "row_label": "Home Scottish",
+      "applications": 985,
+      "interviews": 625,
+      "offers": 450,
+      "places": null,
+      "matriculations": 155,
+      "offer_rate": 0.4569,
+      "interview_rate": 0.6345,
+      "source_ids": [
+        "dundee_admissions_statistics"
+      ],
+      "notes": "Latest detailed fee-status row stored from official Dundee admissions statistics. Dundee publishes matriculations, not places. Dundee warns that UCAT values published before the 2025 UCAT change are not directly comparable with current UCAT scores. ApplySmart stores converted 2700-scale estimates for rough context only.",
+      "original_average_ucat_3600": 2662,
+      "original_highest_ucat_3600": 3400,
+      "original_lowest_ucat_3600": 1900,
+      "converted_average_ucat_2700_estimate": 1997,
+      "converted_highest_ucat_2700_estimate": 2550,
+      "converted_lowest_ucat_2700_estimate": 1425
+    },
+    {
+      "entry_year": "2023/24",
+      "applicant_group_id": "rest_of_uk",
+      "applicant_group_ids": [
+        "rest_of_uk",
+        "home_fee"
+      ],
+      "row_label": "Home Rest of UK (RUK) or ROI Irish Applicants",
+      "applications": 597,
+      "interviews": 138,
+      "offers": 65,
+      "places": null,
+      "matriculations": 32,
+      "offer_rate": 0.1089,
+      "interview_rate": 0.2312,
+      "source_ids": [
+        "dundee_admissions_statistics"
+      ],
+      "notes": "Latest detailed fee-status row stored from official Dundee admissions statistics. Dundee publishes matriculations, not places. Dundee warns that UCAT values published before the 2025 UCAT change are not directly comparable with current UCAT scores. ApplySmart stores converted 2700-scale estimates for rough context only.",
+      "original_average_ucat_3600": 2723,
+      "original_highest_ucat_3600": 3290,
+      "original_lowest_ucat_3600": 2150,
+      "converted_average_ucat_2700_estimate": 2042,
+      "converted_highest_ucat_2700_estimate": 2468,
+      "converted_lowest_ucat_2700_estimate": 1613
+    },
+    {
+      "entry_year": "2023/24",
+      "applicant_group_id": "international_fee",
+      "applicant_group_ids": [
+        "international_fee"
+      ],
+      "row_label": "Overseas",
+      "applications": 368,
+      "interviews": 81,
+      "offers": 55,
+      "places": null,
+      "matriculations": 31,
+      "offer_rate": 0.1495,
+      "interview_rate": 0.2201,
+      "source_ids": [
+        "dundee_admissions_statistics"
+      ],
+      "notes": "Latest detailed fee-status row stored from official Dundee admissions statistics. Dundee publishes matriculations, not places. Dundee warns that UCAT values published before the 2025 UCAT change are not directly comparable with current UCAT scores. ApplySmart stores converted 2700-scale estimates for rough context only.",
+      "original_average_ucat_3600": 2690,
+      "original_highest_ucat_3600": 3080,
+      "original_lowest_ucat_3600": 2270,
+      "converted_average_ucat_2700_estimate": 2018,
+      "converted_highest_ucat_2700_estimate": 2310,
+      "converted_lowest_ucat_2700_estimate": 1703
+    }
+  ],
+  "foi_sources": [
+    {
+      "source_id": "dundee_admissions_statistics",
+      "title": "University of Dundee MBChB Medicine (A100) admissions statistics by year of entry",
+      "url": "https://www.dundee.ac.uk/corporate-information/medicine-admissions-statistics",
+      "file_reference": null,
+      "date_received": null,
+      "confidence": "High",
+      "source_type": "official_admissions_statistics",
+      "notes": "Official Dundee admissions statistics page. Use for historical UCAT/admissions context and estimated historical prediction context only; it is not the official academic, UCAT, interview or offer scoring formula."
+    },
+    {
+      "source_id": "dundee_verified_international_admissions_evidence",
+      "title": "Dundee A100 verified international admissions evidence",
+      "url": null,
+      "file_reference": null,
+      "date_received": null,
+      "confidence": "High",
+      "source_type": "verified_admissions_evidence",
+      "notes": "Verified international selection, historical /2700 UCAT guidance, two-stage hybrid interview, interview-only offer ranking and 31-place evidence supplied without a source URL."
+    }
+  ],
+  "estimated_historical_prediction": {
+    "available": true,
+    "method": "International applicants use verified /2700 historical guidance in a separate international pool. Existing Home applicant guidance is unchanged. The bands are historical interview guidance, not fixed UCAT cut-offs or offer predictions.",
+    "method_status": "validated",
+    "method_status_values": [
+      "not_modelled",
+      "draft",
+      "validated",
+      "retired"
+    ],
+    "bands": [
+      {
+        "band_id": "scottish_minimum_competitive",
+        "label": "Scottish minimum competitive",
+        "criteria": [
+          "UCAT around 1850 on 2700-style predictor benchmark"
+        ],
+        "interpretation": "Estimated not official; context only.",
+        "confidence": "low",
+        "source_ids": [
+          "dundee_admissions_statistics"
+        ]
+      },
+      {
+        "band_id": "ruk_roi_minimum_competitive",
+        "label": "RUK/ROI minimum competitive",
+        "criteria": [
+          "UCAT around 1950 on 2700-style predictor benchmark"
+        ],
+        "interpretation": "Estimated not official; context only.",
+        "confidence": "low",
+        "source_ids": [
+          "dundee_admissions_statistics"
+        ]
+      },
+      {
+        "band_id": "international_consider_stronger_alternatives",
+        "label": "Consider stronger alternatives",
+        "applicant_group_ids": [
+          "international_fee"
+        ],
+        "criteria": [
+          "UCAT below 1950 on the /2700 cognitive scale"
+        ],
+        "interpretation": "Historical international guidance only; not a fixed cut-off.",
+        "confidence": "high",
+        "source_ids": [
+          "dundee_verified_international_admissions_evidence"
+        ]
+      },
+      {
+        "band_id": "international_possible_but_ambitious",
+        "label": "Possible but ambitious",
+        "applicant_group_ids": [
+          "international_fee"
+        ],
+        "criteria": [
+          "UCAT 1950 to 2049 on the /2700 cognitive scale"
+        ],
+        "interpretation": "Historical international guidance only; not a fixed cut-off.",
+        "confidence": "high",
+        "source_ids": [
+          "dundee_verified_international_admissions_evidence"
+        ]
+      },
+      {
+        "band_id": "international_good_chance",
+        "label": "Good chance – recommend applying",
+        "applicant_group_ids": [
+          "international_fee"
+        ],
+        "criteria": [
+          "UCAT 2050 to 2099 on the /2700 cognitive scale"
+        ],
+        "interpretation": "Historical international guidance only; not a fixed cut-off.",
+        "confidence": "high",
+        "source_ids": [
+          "dundee_verified_international_admissions_evidence"
+        ]
+      },
+      {
+        "band_id": "international_strong_choice",
+        "label": "Strong choice",
+        "applicant_group_ids": [
+          "international_fee"
+        ],
+        "criteria": [
+          "UCAT 2100 or above on the /2700 cognitive scale",
+          "UCAT 2200 or above remains Strong choice because the production label set has no separate Very strong label"
+        ],
+        "interpretation": "Historical international guidance only; not a fixed cut-off.",
+        "confidence": "high",
+        "source_ids": [
+          "dundee_verified_international_admissions_evidence"
+        ]
+      },
+      {
+        "band_id": "contextual_minimum_competitive",
+        "label": "Contextual minimum competitive",
+        "criteria": [
+          "UCAT around 1800 on 2700-style predictor benchmark"
+        ],
+        "interpretation": "Estimated not official; context only.",
+        "confidence": "low",
+        "source_ids": [
+          "dundee_admissions_statistics"
+        ]
+      }
+    ],
+    "input_requirements": [
+      "Exact academic point conversion for full formula prediction",
+      "Exact interview scoring rubric for offer prediction",
+      "Applicant group handling for contextual categories"
+    ],
+    "limitations": [
+      "Dundee warns that historic tables should not be used to assess likelihood of success in future cycles.",
+      "The selection process may change year-on-year.",
+      "UCAT scoring changes from 2025 mean older UCAT totals are not directly comparable to future 2700-scale test results.",
+      "Historical data supports context only and must not be treated as the official scoring formula.",
+      "Validated historical guidance is available only for the international pool; Home guidance remains unchanged.",
+      "Dundee warns that UCAT values published before the 2025 UCAT change are not directly comparable with current UCAT scores. ApplySmart stores converted 2700-scale estimates for rough context only.",
+      "Converted 2700-scale UCAT estimates are not official current cutoffs and must not be used as Dundee scoring formula.",
+      "Research-derived predictor model is not an official university-published scoring formula.",
+      "Detailed academic point tables referenced by the research request were not included in the pasted source.",
+      "Graduate and contextual historical UCAT values were requested but exact row values were not included in the pasted source."
+    ],
+    "disclaimer": "Estimated historical prediction is based on historical or FOI data and is not the official university scoring formula. It should be shown separately from official formula prediction.",
+    "source_ids": [
+      "dundee_admissions_statistics",
+      "dundee_verified_international_admissions_evidence"
+    ],
+    "notes": "Verified international historical guidance is available for interview positioning. It is not a fixed UCAT cut-off, official probability or offer prediction."
+  },
+  "engine_notes": {
+    "official_rules_source": "data/universities/dundee-a100.json",
+    "research_source": "data/research/dundee-a100-research.json",
+    "do_not_infer": [
+      "Do not treat historical UCAT data as an official UCAT cutoff.",
+      "Do not treat verified international historical guidance as a fixed UCAT cutoff.",
+      "Do not apply international selection evidence or guidance to Home applicants.",
+      "Do not treat Dundee admissions statistics as the official scoring formula.",
+      "Do not infer academic or UCAT weighting from historical UCAT data.",
+      "Do not infer offer-holder UCAT values from interview UCAT values.",
+      "Do not enable official_formula_prediction unless exact academic, UCAT, SJT and interview calculations needed by the course model are known.",
+      "Do not merge estimated_historical_prediction with official_formula_prediction in frontend messaging.",
+      "Do not treat converted 2700-scale UCAT estimates as official current cutoffs.",
+      "Do not use historical UCAT values as Dundee's official scoring formula.",
+      "Do not treat research-derived Dundee predictor model as official university policy.",
+      "Do not mark official_formula_prediction_ready true from predictor estimates.",
+      "Do not invent missing academic point tables or missing graduate/contextual UCAT rows.",
+      "Do not generate academic point tables from assumptions.",
+      "Estimated scoring can support historical_prediction_engine only.",
+      "Do not mark official_formula_prediction_ready true from estimated scoring."
+    ],
+    "course_specific_notes": [
+      "Dundee full formula prediction remains unavailable because the exact academic point conversion and interview scoring rubric are not supplied.",
+      "Verified international historical guidance is available in a separate pool; Home applicant logic and guidance remain unchanged."
+    ],
+    "offer_prediction_scope": "out_of_scope"
+  },
+  "ucat_scale_conversion": {
+    "original_scale": 3600,
+    "current_scale": 2700,
+    "conversion_formula": "converted_ucat_2700_estimate = round(original_ucat_3600 * 0.75)",
+    "conversion_factor": 0.75,
+    "warning": "Dundee warns that UCAT values published before the 2025 UCAT change are not directly comparable with current UCAT scores. ApplySmart stores converted 2700-scale estimates for rough context only.",
+    "source_ids": [
+      "dundee_admissions_statistics"
+    ],
+    "use": "rough_historical_context_only"
+  },
+  "predictor_model": {
+    "model_id": "dundee_a100_academic_ucat_weighted_decile_ranking_v0",
+    "selection_model": "ACADEMIC_UCAT_WEIGHTED_DECILE_RANKING",
+    "source_status": "mixed_verified_international_foi_derived_and_predictor_estimate",
+    "official_university_published": false,
+    "official_selection_formula_available": false,
+    "evidence_summary": [
+      {
+        "item": "standard_entry_weighting",
+        "evidence_label": "foi_derived"
+      },
+      {
+        "item": "international_separate_pool_academic_60_ucat_40",
+        "evidence_label": "verified_international_evidence"
+      },
+      {
+        "item": "international_ucat_national_decile_cognitive_total_only",
+        "evidence_label": "verified_international_evidence"
+      },
+      {
+        "item": "international_personal_statement_not_used_for_shortlisting",
+        "evidence_label": "verified_international_evidence"
+      },
+      {
+        "item": "graduate_a100_weighting",
+        "evidence_label": "predictor_estimate"
+      },
+      {
+        "item": "ucat_decile_points_standard_entry",
+        "evidence_label": "predictor_estimate"
+      },
+      {
+        "item": "ucat_decile_points_graduate_a100",
+        "evidence_label": "predictor_estimate"
+      },
+      {
+        "item": "academic_scoring_model_standard_entry",
+        "evidence_label": "predictor_estimate"
+      },
+      {
+        "item": "post_interview_logic",
+        "evidence_label": "predictor_estimate"
+      }
+    ],
+    "weighting": {
+      "international_standard_entry": {
+        "academic_weight_pct": 60,
+        "ucat_weight_pct": 40,
+        "ranking_pool": "separate_from_home",
+        "evidence_label": "verified_international_evidence",
+        "evidence_level": "verified"
+      },
+      "standard_entry": {
+        "academic_weight_pct": 60,
+        "ucat_weight_pct": 40,
+        "evidence_label": "foi_derived",
+        "evidence_level": "foi_derived"
+      },
+      "graduate_a100": {
+        "academic_weight_pct": 40,
+        "ucat_weight_pct": 60,
+        "evidence_label": "predictor_estimate",
+        "evidence_level": "predictor_estimate"
+      }
+    },
+    "ucat_scoring": {
+      "ucat_required": true,
+      "no_fixed_cutoff": true,
+      "scoring_basis": "national cohort decile rank",
+      "international_score_input": "cognitive_total_only",
+      "international_national_decile_ranking_verified": true,
+      "international_fixed_cutoff": null,
+      "sjt_used_pre_interview": false,
+      "sjt_used_post_interview": false,
+      "sjt_banned_band": null,
+      "max_cognitive_score": 2700,
+      "subtest_count": 3,
+      "standard_entry_decile_points": {
+        "1": 4,
+        "2": 8,
+        "3": 12,
+        "4": 16,
+        "5": 20,
+        "6": 24,
+        "7": 28,
+        "8": 32,
+        "9": 36,
+        "10": 40
+      },
+      "graduate_a100_decile_points": {
+        "1": 6,
+        "2": 12,
+        "3": 18,
+        "4": 24,
+        "5": 30,
+        "6": 36,
+        "7": 42,
+        "8": 48,
+        "9": 54,
+        "10": 60
+      },
+      "evidence_labels": {
+        "ucat_decile_points_standard_entry": "predictor_estimate",
+        "ucat_decile_points_graduate_a100": "predictor_estimate"
+      },
+      "notes": "Supplied UCAT decile point mappings are stored. They are predictor_estimate unless FOI verified and must not be treated as official Dundee-published scoring.",
+      "evidence_levels": {
+        "ucat_decile_points_standard_entry": "predictor_estimate",
+        "ucat_decile_points_graduate_a100": "predictor_estimate"
+      }
+    },
+    "academic_scoring_model_standard_entry": {
+      "status": "predictor_estimate",
+      "evidence_level": "predictor_estimate",
+      "max_points": 60,
+      "gcse_or_national_5_points_max": 30,
+      "a_level_or_higher_points_max": 30,
+      "ruk_gcse_scoring": [
+        {
+          "points": 30,
+          "description": "8 or more GCSEs at grades 8/9, with very strong Biology and Chemistry profile"
+        },
+        {
+          "points": 24,
+          "description": "6 to 7 GCSEs at grades 8/9, with at least grade 7 across science requirements"
+        },
+        {
+          "points": 18,
+          "description": "Around 5 GCSEs at grade 7 or above"
+        },
+        {
+          "points": 12,
+          "description": "Meets minimum GCSE prerequisites but lacks top-tier profile"
+        },
+        {
+          "points": 0,
+          "description": "Fails minimum GCSE prerequisites"
+        }
+      ],
+      "ruk_a_level_scoring": [
+        {
+          "points": 30,
+          "description": "AAA or above, correct subjects, single sitting"
+        },
+        {
+          "points": 0,
+          "description": "Below AAA standard offer unless contextual eligible"
+        }
+      ],
+      "scottish_national_5_scoring": [
+        {
+          "points": 30,
+          "description": "Grade A across presented National 5 subjects including Biology and Chemistry"
+        },
+        {
+          "points": 20,
+          "description": "Majority Grade A profile with minor Grade B inclusions in non-science subjects"
+        },
+        {
+          "points": 0,
+          "description": "Fails National 5 minimum prerequisites"
+        }
+      ],
+      "scottish_higher_scoring": [
+        {
+          "points": 30,
+          "description": "AAAAA or AAAAB by end of S5 in one sitting"
+        },
+        {
+          "points": 30,
+          "description": "AAABB if contextual eligible"
+        },
+        {
+          "points": 0,
+          "description": "Below AAAAB standard or AAABB contextual threshold"
+        }
+      ],
+      "notes": [
+        "predictor_estimate",
+        "not_official_dundee_scoring",
+        "usable_for_historical_prediction_engine_only"
+      ],
+      "missing_detail_notes": [],
+      "usable_for": [
+        "historical_prediction_engine",
+        "research_predictor_model"
+      ]
+    },
+    "pre_interview_formula": {
+      "international_standard_entry": {
+        "formula": "academic_score_out_of_60 + ucat_national_decile_score_out_of_40",
+        "maximum_score": 100,
+        "ranking_pool": "separate_from_home",
+        "evidence_label": "verified_international_evidence",
+        "notes": "The 60/40 weighting and national-decile UCAT method are verified. The underlying academic point matrix remains research-derived."
+      },
+      "standard_entry": {
+        "formula": "academic_score_out_of_60 + ucat_decile_score_out_of_40",
+        "maximum_score": 100,
+        "evidence_label": "mixed_foi_derived_and_predictor_estimate"
+      },
+      "graduate_a100": {
+        "formula": "academic_score_out_of_40 + ucat_decile_score_out_of_60",
+        "maximum_score": 100,
+        "evidence_label": "predictor_estimate"
+      }
+    },
+    "post_interview_logic": {
+      "carryover_weight_pct": 0,
+      "interview_offer_weight_pct": 100,
+      "offer_basis": "ranked entirely by interview assessment score after interview",
+      "evidence_label": "predictor_estimate",
+      "notes": "Do not treat as official university-published offer method unless FOI verified."
+    },
+    "international_offer_selection": {
+      "pre_interview_scores_reset": true,
+      "carryover_weight_pct": 0,
+      "interview_offer_weight_pct": 100,
+      "offer_basis": "international applicants ranked by interview score only",
+      "international_places": 31,
+      "evidence_label": "verified_international_evidence"
+    },
+    "automatic_rejection_rules": [
+      {
+        "rule_id": "no_ucat_for_a100",
+        "description": "No UCAT for A100"
+      },
+      {
+        "rule_id": "fails_essential_subject_requirements",
+        "description": "Fails essential subject requirements"
+      },
+      {
+        "rule_id": "fails_minimum_academic_requirements",
+        "description": "Fails minimum academic requirements"
+      },
+      {
+        "rule_id": "a_levels_not_required_sitting_pattern",
+        "description": "A-levels not taken in required sitting pattern"
+      },
+      {
+        "rule_id": "highers_not_one_sitting",
+        "description": "Highers not taken in one sitting"
+      },
+      {
+        "rule_id": "graduate_lacks_2_1_relevant_life_science_degree_a100",
+        "description": "Graduate applicant lacks 2:1 relevant life science degree for A100"
+      },
+      {
+        "rule_id": "graduate_lacks_recent_academic_study_3_years",
+        "description": "Graduate applicant lacks recent academic study within 3 years"
+      }
+    ],
+    "not_automatic_rejection_rules": [
+      {
+        "rule_id": "low_ucat_with_very_strong_academic_score",
+        "description": "Low UCAT score if academic score is very strong"
+      },
+      {
+        "rule_id": "sjt_band_4_pre_interview",
+        "description": "SJT Band 4 at pre-interview stage"
+      }
+    ],
+    "disclaimer": "Estimated scoring can support historical_prediction_engine / research_predictor_model only. It must not make official_formula_prediction_ready true.",
+    "prediction_engine_scope": "historical_prediction_engine_only"
+  },
+  "historical_ucat_2023_24_predictor_benchmarks": [
+    {
+      "row_id": "all_applicants",
+      "label": "All applicants",
+      "source": "research_team_supplied",
+      "scale": "2700_style",
+      "notes": "Additional research data requested, but exact values for this row were not included in the pasted request."
+    },
+    {
+      "row_id": "home_scottish",
+      "label": "Home Scottish",
+      "source": "research_team_supplied",
+      "scale": "2700_style",
+      "notes": "Use stored converted Dundee 2023/24 Home Scottish UCAT context where applicable."
+    },
+    {
+      "row_id": "home_ruk_roi",
+      "label": "Home RUK/ROI",
+      "source": "research_team_supplied",
+      "scale": "2700_style",
+      "notes": "Use stored converted Dundee 2023/24 Home RUK/ROI UCAT context where applicable."
+    },
+    {
+      "row_id": "overseas",
+      "label": "Overseas",
+      "source": "verified_international_admissions_evidence",
+      "scale": 2700,
+      "lowest_invited": 1950,
+      "average_invited": 2020,
+      "average_offer_holders": 2050,
+      "source_ids": [
+        "dundee_verified_international_admissions_evidence"
+      ],
+      "notes": "Verified 2023/24 international UCAT evidence. Historical guidance only; not a fixed cut-off."
+    },
+    {
+      "row_id": "graduate",
+      "label": "Graduate",
+      "source": "research_team_supplied",
+      "scale": "2700_style",
+      "notes": "Exact graduate benchmark values were not included in the pasted request."
+    },
+    {
+      "row_id": "contextual_category_1",
+      "label": "Contextual category 1",
+      "source": "research_team_supplied",
+      "scale": "2700_style",
+      "notes": "Exact contextual category 1 benchmark values were not included in the pasted request."
+    },
+    {
+      "row_id": "contextual_category_2",
+      "label": "Contextual category 2",
+      "source": "research_team_supplied",
+      "scale": "2700_style",
+      "notes": "Exact contextual category 2 benchmark values were not included in the pasted request."
+    }
+  ],
+  "predictor_benchmarks_2700": {
+    "evidence_label": "mixed_verified_international_and_estimated_home",
+    "disclaimer": "International benchmarks are verified historical guidance; Home benchmarks remain estimated. None are fixed Dundee UCAT cut-offs.",
+    "benchmarks": [
+      {
+        "applicant_group_label": "Scottish",
+        "applicant_group_ids": [
+          "scotland_domiciled",
+          "home_fee"
+        ],
+        "minimum_competitive": 1850,
+        "strong": 2000,
+        "very_strong": 2150
+      },
+      {
+        "applicant_group_label": "RUK/ROI",
+        "applicant_group_ids": [
+          "rest_of_uk",
+          "home_fee"
+        ],
+        "minimum_competitive": 1950,
+        "strong": 2100,
+        "very_strong": 2250
+      },
+      {
+        "applicant_group_label": "International",
+        "applicant_group_ids": [
+          "international_fee"
+        ],
+        "minimum_competitive": 1950,
+        "good_average_competitive": 2050,
+        "strong": 2100,
+        "very_strong": 2200,
+        "historical_average": 2018,
+        "highest_recorded": 2310,
+        "guidance_only": true,
+        "fixed_cutoff": false,
+        "source_ids": [
+          "dundee_verified_international_admissions_evidence"
+        ]
+      },
+      {
+        "applicant_group_label": "Contextual",
+        "applicant_group_ids": [
+          "contextual"
+        ],
+        "minimum_competitive": 1800,
+        "strong": 1950,
+        "very_strong": 2100
+      }
+    ]
+  }
+}

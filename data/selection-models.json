@@ -1,0 +1,105 @@
+{
+  "schema_version": "1.0.0",
+  "dataset_version": "2027.2.0",
+  "last_updated": "2026-06-27",
+
+  "primary_selection_models": [
+    {
+      "model_id": "ucat_cutoff",
+      "name": "UCAT Cut-off",
+      "description": "Applicants must pass minimum academic screening and meet a fixed or dynamic UCAT threshold.",
+      "ranking_required": false
+    },
+    {
+      "model_id": "ucat_ranking",
+      "name": "UCAT Ranking",
+      "description": "Applicants who pass academic screening are ranked by UCAT cognitive total score.",
+      "ranking_required": true
+    },
+    {
+      "model_id": "academic_ranking",
+      "name": "Academic Ranking",
+      "description": "Applicants who pass minimum screening are ranked mainly by academic score.",
+      "ranking_required": true
+    },
+    {
+      "model_id": "academic_plus_ucat_weighting",
+      "name": "Academic + UCAT Weighting",
+      "description": "Academic score and UCAT score are combined using percentages or points.",
+      "ranking_required": true
+    },
+    {
+      "model_id": "points_system",
+      "name": "Points System",
+      "description": "Applicants receive points for components such as GCSEs, UCAT, SJT, A-levels or contextual factors.",
+      "ranking_required": true
+    },
+    {
+      "model_id": "holistic_review",
+      "name": "Holistic Review",
+      "description": "Applications are reviewed using multiple factors where no fully published fixed formula is available.",
+      "ranking_required": false
+    },
+    {
+      "model_id": "direct_interview_if_minimum_met",
+      "name": "Direct Interview If Minimum Met",
+      "description": "Applicants are invited if all minimum requirements are met, usually subject to route, places or eligibility.",
+      "ranking_required": false
+    }
+  ],
+
+  "selection_modifiers": [
+    {
+      "modifier_id": "contextual_adjustment",
+      "name": "Contextual Adjustment",
+      "description": "Contextual status changes academic requirements, UCAT threshold, score, ranking pool or offer requirement."
+    },
+    {
+      "modifier_id": "widening_participation_scheme",
+      "name": "Widening Participation Scheme",
+      "description": "Applicant is assessed under a specific widening participation scheme."
+    },
+    {
+      "modifier_id": "guaranteed_interview",
+      "name": "Guaranteed Interview",
+      "description": "Eligible applicants receive an interview if minimum requirements are met."
+    },
+    {
+      "modifier_id": "sjt_exclusion",
+      "name": "SJT Exclusion",
+      "description": "Certain SJT bands cause rejection, usually Band 4."
+    },
+    {
+      "modifier_id": "sjt_scoring",
+      "name": "SJT Scoring",
+      "description": "SJT band contributes points or affects ranking."
+    },
+    {
+      "modifier_id": "tie_breaker",
+      "name": "Tie Breaker",
+      "description": "Rules used when applicants have equal selection scores."
+    },
+    {
+      "modifier_id": "separate_applicant_pool",
+      "name": "Separate Applicant Pool",
+      "description": "Applicants are ranked separately by fee status, domicile, route or applicant group."
+    },
+    {
+      "modifier_id": "resit_policy_adjustment",
+      "name": "Resit Policy Adjustment",
+      "description": "Resit applicants have different requirements or restrictions."
+    }
+  ],
+
+  "usage": {
+    "purpose": "Defines the controlled list of valid interview selection models and modifiers supported by Apply Smart.",
+    "rule": "Each university course JSON must use one primary_model and may use multiple modifiers.",
+    "important_design_rule": "Modifiers in this file are labels only. If a modifier affects prediction, the detailed structured rules must be stored inside the university course JSON under interview_selection.selection_adjustments.",
+    "validation_rules": [
+      "primary_model must match one primary_selection_models.model_id",
+      "each modifier must match one selection_modifiers.modifier_id",
+      "modifier values must not be duplicated",
+      "unknown primary_model or modifier values must cause validation error"
+    ]
+  }
+}

@@ -1,0 +1,201 @@
+{
+  "schema_version": "1.0.0",
+  "profile_id": "brunel-university-of-london-a100-research",
+  "course_profile_id": "brunel-university-of-london-a100",
+  "research_status": "complete_for_supported_scope_with_documented_gaps",
+  "file_purpose": "Research and evidence profile for Brunel University of London Medicine MBBS A100. Executable rules live in data/universities/brunel-university-of-london-a100.json and data/interview-band-configs/brunel-university-of-london-a100.json.",
+  "official_rules_source": "data/universities/brunel-university-of-london-a100.json",
+  "created_at": "2026-07-20",
+  "last_updated": "2026-07-20",
+  "research_scope": {
+    "target_entry_year": 2027,
+    "primary_policy_cycle": "2026/27 entry evidence as supplied",
+    "primary_course": "A100",
+    "primary_scope": [
+      "home_a_level_school_leaver",
+      "home_ib_school_leaver",
+      "international_a_level_or_ib_eligibility_without_prediction",
+      "contextual_metadata_without_interview_adjustment"
+    ],
+    "manual_review_scope": [
+      "graduate_a100_due_to_ucat_gamsat_discrepancy",
+      "international_non_ucat_review",
+      "country_specific_international_qualification",
+      "science_practical_endorsement_confirmation"
+    ],
+    "blocked_routes": [
+      "scottish",
+      "access_to_he",
+      "btec",
+      "t_level",
+      "foundation",
+      "unknown"
+    ],
+    "production_json_updated": true,
+    "index_updated": true,
+    "examples_updated": true,
+    "regression_scripts_updated": true,
+    "activation_flags_updated": true,
+    "third_party_admissions_websites_used": false,
+    "evidence_intake_basis": "/Users/faizan/Desktop/medical university research/University-data-list/Brunel/brunel.docx and pasted approved implementation interpretation supplied on 2026-07-20",
+    "notes": "The previous repository file was an MSC seed. This implementation follows the approved interpretation that Home selection is ucat_ranking after academic and SJT gates, not a blended academic/UCAT score."
+  },
+  "evidence_classification_policy": {
+    "official_policy": "A rule attributed in the supplied research to Brunel official admissions material.",
+    "foi_historical_guidance": "Cycle-labelled historical UCAT observations in the embedded FOI image table, used only for interview-stage guidance.",
+    "applysmart_derived_guidance": "Derived public guidance bands calibrated from historical observations and clearly not official future thresholds.",
+    "reference_only": "Data preserved for transparency but not used by ApplySmart interview prediction.",
+    "manual_review": "Evidence exists but cannot be executed safely without route-specific confirmation.",
+    "unsupported": "The supplied evidence does not establish a deterministic rule."
+  },
+  "metadata": {
+    "authoritative_research_file": "/Users/faizan/Desktop/medical university research/University-data-list/Brunel/brunel.docx",
+    "approved_methodology": "ucat_ranking",
+    "academic_model": "eligibility_gate",
+    "academic_ranking": false,
+    "contextual_ucat_uplift": false,
+    "international_uses_home_ucat_guidance": false,
+    "science_practical_endorsement": {
+      "enforced": false,
+      "reason": "Requirement not verified in supplied evidence."
+    },
+    "gcse_mathematics_discrepancy": "Source text shows grade 5/B. Runtime enforces numeric Grade 5 and records the B wording as an unresolved discrepancy.",
+    "engine_version": "ApplySmart Engine v1.0",
+    "architecture_change_required": false,
+    "shared_engine_extensions": [],
+    "repository_discrepancy_reported_before_edit": "Existing Brunel A100 production JSON was a low-confidence MSC seed with unknown eligibility and selection rules."
+  },
+  "readiness": {
+    "eligibility": true,
+    "interview_prediction": true,
+    "historical_guidance": true,
+    "international_prediction": false,
+    "contextual_logic": true,
+    "result_card": true,
+    "regression": true,
+    "research_completeness": "complete_for_supported_scope_with_documented_gaps",
+    "manual_review_required": true,
+    "eligibility_ready": true,
+    "interview_prediction_ready": true,
+    "prediction_confidence": "low",
+    "result_card_ready": true,
+    "offer_prediction_scope": "out_of_scope",
+    "interview_band_config_ready": true,
+    "metadata_activation_ready": true,
+    "production_ready_candidate": true,
+    "production_activation_should_remain_blocked": false,
+    "activation_block_reason": null,
+    "critical_research_blockers": [],
+    "route_limited_blockers": [
+      "International applicants follow a separate non-UCAT route with no executable numerical formula.",
+      "Graduate A100 route has contradictory UCAT/GAMSAT evidence.",
+      "Scottish, Access to HE and BTEC routes were not verified.",
+      "Science practical endorsement requirement was not verified.",
+      "GCSE Mathematics source wording mixes numeric Grade 5 and legacy B."
+    ]
+  },
+  "selection_model": {
+    "type": "ucat_ranking",
+    "steps": [
+      "Check academic eligibility.",
+      "Reject Home applicants with SJT Band 4.",
+      "Rank eligible Home applicants by total UCAT score.",
+      "Use historical Home interview-stage UCAT observations for non-guaranteed competitiveness guidance.",
+      "Return insufficient evidence for International applicants rather than applying Home UCAT guidance."
+    ],
+    "academic_scoring": false,
+    "ucat_ranking": true,
+    "home_and_international_ranked_separately": true,
+    "source_ids": [
+      "brunel_research_doc",
+      "brunel_foi_historical_ucat"
+    ]
+  },
+  "historical_ucat_thresholds": [
+    {
+      "entry_year": 2023,
+      "metric": "lowest_interviewed",
+      "official_old_scale_score": 2340,
+      "old_scale": 3600,
+      "converted_current_2700_score": 1755,
+      "used_for_prediction": true
+    },
+    {
+      "entry_year": 2023,
+      "metric": "average_interviewed",
+      "official_old_scale_score": 2610,
+      "old_scale": 3600,
+      "converted_current_2700_score": 1957.5,
+      "display_score_2700": 1958,
+      "used_for_prediction": true
+    },
+    {
+      "entry_year": 2024,
+      "metric": "lowest_interviewed",
+      "official_old_scale_score": 2290,
+      "old_scale": 3600,
+      "converted_current_2700_score": 1717.5,
+      "display_score_2700": 1718,
+      "used_for_prediction": true
+    },
+    {
+      "entry_year": 2024,
+      "metric": "average_interviewed",
+      "official_old_scale_score": 2640,
+      "old_scale": 3600,
+      "converted_current_2700_score": 1980,
+      "used_for_prediction": true
+    },
+    {
+      "entry_year": 2025,
+      "metric": "lowest_interviewed",
+      "official_old_scale_score": 2240,
+      "old_scale": 3600,
+      "converted_current_2700_score": 1680,
+      "used_for_prediction": true
+    },
+    {
+      "entry_year": 2025,
+      "metric": "average_interviewed",
+      "official_old_scale_score": 2660,
+      "old_scale": 3600,
+      "converted_current_2700_score": 1995,
+      "used_for_prediction": true
+    }
+  ],
+  "offer_stage_reference_only": {
+    "used_for_interview_prediction": false,
+    "reason": "ApplySmart predicts interview competitiveness only. Offer-stage UCAT figures are retained as reference evidence and are not used as interview thresholds."
+  },
+  "applicant_groups": {
+    "home": {
+      "accepted": true,
+      "interview_prediction": true,
+      "ranking": "ucat_total_after_academic_and_sjt_gates"
+    },
+    "international": {
+      "accepted": true,
+      "interview_prediction": false,
+      "ranking": "non_ucat_review_not_executable"
+    },
+    "contextual": {
+      "accepted": true,
+      "interview_prediction_adjustment": false,
+      "notes": "Contextual information is downstream offer metadata only."
+    },
+    "graduate": {
+      "accepted": "manual_review",
+      "interview_prediction": false,
+      "reason": "Contradictory UCAT/GAMSAT evidence."
+    }
+  },
+  "implementation_mapping": {
+    "architecture_change_required": false,
+    "profile_id": "brunel-university-of-london-a100",
+    "production_json": "data/universities/brunel-university-of-london-a100.json",
+    "interview_band_config": "data/interview-band-configs/brunel-university-of-london-a100.json",
+    "result_card_example": "data/examples/brunel-university-of-london-a100-result-card.example.json",
+    "fixture": "data/fixtures/interview-band-classification/brunel-university-of-london-a100.json",
+    "readiness_test": "scripts/test-brunel-university-of-london-a100-readiness.js"
+  }
+}

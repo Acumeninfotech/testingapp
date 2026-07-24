@@ -1,0 +1,365 @@
+{
+  "schema_version": "1.0.0",
+  "template_version": "1.0.0",
+  "result_id": "kent-and-medway-a100-group-a-prediction-unavailable-advisory-example",
+  "generated_at": "2026-07-23",
+  "result_mode": "official_prediction_unavailable_with_separate_applysmart_advisory_guidance",
+  "production_state": {
+    "profile_active": true,
+    "metadata_activation_enabled": true,
+    "result_card_output_enabled": true,
+    "note": "Official KMMS runtime outcome remains prediction unavailable while the 2026 2700-scale UCAT threshold is unpublished."
+  },
+  "course_identity": {
+    "profile_id": "kent-and-medway-a100",
+    "university_name": "Kent & Medway Medical School",
+    "course_name": "BM BS Medicine",
+    "ucas_code": "A100",
+    "entry_route": "standard_entry",
+    "qualification_awarded": "BM BS",
+    "duration_years": 5,
+    "location": "Canterbury, England",
+    "source_ids": [
+      "kmms_research_doc"
+    ]
+  },
+  "applicant_context": {
+    "applies_to_group_ids": [
+      "home_fee",
+      "school_leaver"
+    ],
+    "applicant_summary": "Group A Home school-leaver with achieved GCSEs meeting the KMMS GCSE threshold, current predicted A-levels supplied, UCAT 1855/2700 and SJT Band 2.",
+    "fee_cohort": "home",
+    "kmms_applicant_group": "A",
+    "entry_route": "standard_entry",
+    "contextual": "KMMS contextualises Group A academic attainment relative to school GCSE performance data.",
+    "graduate": false,
+    "source_ids": []
+  },
+  "readiness": {
+    "eligibility": true,
+    "interview_prediction": true,
+    "historical_guidance": true,
+    "international_prediction": true,
+    "contextual_logic": true,
+    "result_card": true,
+    "regression": true,
+    "research_completeness": "complete_for_supported_scope_with_documented_gaps",
+    "manual_review_required": false,
+    "eligibility_ready": true,
+    "interview_prediction_ready": true,
+    "prediction_confidence": "low",
+    "result_card_ready": true,
+    "offer_prediction_scope": "out_of_scope"
+  },
+  "eligibility": {
+    "status": "eligible",
+    "summary": "The represented Group A applicant meets the KMMS academic and SJT gates ApplySmart can check. Official interview prediction is unavailable because KMMS has not published the operative 2026 UCAT threshold on the 2700 scale and ApplySmart does not hold the required school-performance contextual ranking data.",
+    "official_kmms_assessment": {
+      "academic_requirement_status": "met_for_supported_group_a_gcse_gate",
+      "applicant_group": "A",
+      "academic_qualification_used": "achieved GCSEs",
+      "predicted_grades_used": false,
+      "sjt_status": "met",
+      "official_ucat_threshold_available": false,
+      "official_2026_threshold_2700": null,
+      "contextual_ranking_available_to_applysmart": false,
+      "official_outcome": "prediction_unavailable",
+      "prediction_limitation_reason": "Official KMMS UCAT threshold and Group A contextual ranking data are unavailable to ApplySmart."
+    },
+    "stage_1_checks": [
+      {
+        "check_id": "group_resolution",
+        "label": "KMMS applicant group",
+        "status": "pass",
+        "requirement": "Resolve Group A-E before assessing academic evidence.",
+        "applicant_value": "Group A.",
+        "decision_outcome": "eligible",
+        "source_ids": [
+          "kmms_research_doc"
+        ]
+      },
+      {
+        "check_id": "academic_input",
+        "label": "Academic input",
+        "status": "pass",
+        "requirement": "Group A uses achieved GCSEs and does not require achieved A-levels.",
+        "applicant_value": "Achieved GCSEs meet required subjects/grades; achieved A-levels are not yet available.",
+        "decision_outcome": "eligible",
+        "source_ids": [
+          "kmms_research_doc"
+        ]
+      },
+      {
+        "check_id": "predicted_grades_excluded",
+        "label": "Predicted grades",
+        "status": "not_used",
+        "requirement": "Predicted grades must not be used in KMMS selection.",
+        "applicant_value": "Predicted grades were supplied but ignored because KMMS does not use predicted grades in its selection process.",
+        "decision_outcome": "eligible",
+        "source_ids": [
+          "kmms_research_doc"
+        ]
+      },
+      {
+        "check_id": "sjt_gate",
+        "label": "SJT gate",
+        "status": "pass",
+        "requirement": "School-leaver routes require SJT Band 3 or better; Band 4 is an automatic rejection.",
+        "applicant_value": "SJT Band 2.",
+        "decision_outcome": "eligible",
+        "source_ids": [
+          "kmms_research_doc"
+        ]
+      },
+      {
+        "check_id": "official_ucat_threshold",
+        "label": "Official UCAT threshold",
+        "status": "prediction_unavailable",
+        "requirement": "KMMS must publish the operative 2026 threshold on the 2700 scale before ApplySmart can evaluate the official cognitive gate.",
+        "applicant_value": "UCAT 1855/2700; official threshold is null.",
+        "decision_outcome": "unknown",
+        "source_ids": [
+          "kmms_applysmart_config"
+        ]
+      }
+    ],
+    "blocking_reasons": [],
+    "warnings": [
+      "Official KMMS interview selection cannot be predicted until the current 2700-scale threshold and contextual ranking inputs are available.",
+      "Predicted grades are not displayed as contributing to the KMMS result."
+    ],
+    "source_ids": [
+      "kmms_research_doc",
+      "kmms_applysmart_config"
+    ]
+  },
+  "prediction": {
+    "available": false,
+    "capability": "official_kmms_interview_assessment",
+    "prediction_type": "official_threshold_gate_unavailable",
+    "prediction_status": "prediction_unavailable",
+    "result_band": "realistic",
+    "guidance_pool_id": null,
+    "score": null,
+    "score_scale": {
+      "min": 900,
+      "max": 2700
+    },
+    "ranking_metric": "ucat_total",
+    "official_prediction": {
+      "available": false,
+      "prediction_status": "prediction_unavailable",
+      "reason_code": "official_2026_ucat_threshold_2700_not_published",
+      "explanation": "KMMS has not published the operative 2026 UCAT threshold on the 2700 scale, and official shortlisting depends on contextual ranking data ApplySmart does not hold."
+    },
+    "applysmart_advisory_guidance": {
+      "available": true,
+      "result_band": "realistic",
+      "guidance_only": true,
+      "trust_statement": "ApplySmart does not alter university requirements or present unofficial information as an official rule. Predictions are generated only after applying the published university criteria and analysing the available admissions evidence."
+    },
+    "band_basis": "No official 2026 KMMS UCAT threshold is available on the 2700 scale, and KMMS does not rank applicants by UCAT above threshold.",
+    "historical_comparison": "separate_applysmart_advisory_only",
+    "missing_data_reasons": [
+      "official_2026_ucat_threshold_2700_not_published",
+      "school_performance_contextual_rank_data_not_held_by_applysmart"
+    ],
+    "cannot_predict_explanation": "An applicant can meet the academic and SJT gates while ApplySmart cannot reproduce KMMS's official interview prediction because the official UCAT gate and contextual ranking stage cannot be executed with the current public evidence.",
+    "source_ids": [
+      "kmms_research_doc"
+    ]
+  },
+  "applysmart_advisory_guidance": {
+    "available": true,
+    "advisory_band": "Realistic",
+    "canonical_band": "realistic",
+    "historical_equivalent_zone_2700": {
+      "low": 1845,
+      "central": 1855,
+      "high": 1865
+    },
+    "applicant_score": 1855,
+    "calibration_confidence": "low",
+    "disclaimer": "ApplySmart Advisory Prediction - This guidance is based on historical percentile equivalence and historical KMMS admissions evidence. It is not an official KMMS interview threshold, ranking or admissions decision.",
+    "trust_statement": "ApplySmart does not alter university requirements or present unofficial information as an official rule. Predictions are generated only after applying the published university criteria and analysing the available admissions evidence.",
+    "guardrails": [
+      "Does not alter eligibility.",
+      "Does not override an official UCAT threshold.",
+      "Does not pass or reject the applicant.",
+      "Does not alter Group A-E routing.",
+      "Does not replace contextual academic ranking.",
+      "Does not imply KMMS ranks applicants by UCAT."
+    ]
+  },
+  "confidence": {
+    "level": "low",
+    "summary": "Evidence confidence for KMMS structural rules is high, but prediction confidence is low because the official 2026 UCAT threshold and contextual rank inputs are unavailable.",
+    "stage_confidence": {
+      "academic_gate": "high",
+      "sjt_gate": "high",
+      "official_ucat_threshold_gate": "unavailable",
+      "contextual_ranking": "unavailable",
+      "applysmart_advisory": "low"
+    },
+    "source_ids": [
+      "kmms_research_doc",
+      "kmms_applysmart_config"
+    ]
+  },
+  "evidence_confidence": {
+    "level": "Medium",
+    "summary": "Official eligibility evidence is available, but the official interview prediction is unavailable from public current-cycle data.",
+    "reasons": [
+      "Official eligibility rules are available.",
+      "KMMS has not published the operative 2026 UCAT threshold on the 2700 scale, and official shortlisting depends on contextual ranking data ApplySmart does not hold."
+    ]
+  },
+  "display": {
+    "primary_user_facing_recommendation": "Competitive Interview Potential",
+    "recommendation_display_state": "standard",
+    "internal_recommendation": "Competitive Interview Potential",
+    "primary_explanation": "Based on the official KMMS entry requirements and the applicant information provided, you meet the supported entry requirements. ApplySmart has analysed your profile against the available KMMS selection information and historical interview evidence. Your UCAT score of 1855 is within the available historical reference range of 1855-1864, indicating a competitive profile when considered alongside the full published criteria. KMMS has not published an exact 2026 interview cut-off on the current UCAT scale. This prediction is based on official university information and available historical evidence. Final interview decisions remain with KMMS and may vary according to applicant competition, contextual information and other selection factors.",
+    "trust_statement": "ApplySmart does not alter university requirements or present unofficial information as an official rule. Predictions are generated only after applying the published university criteria and analysing the available admissions evidence.",
+    "historical_guidance_caveat": "The separate ApplySmart advisory band is non-official guidance only and cannot change the official KMMS assessment."
+  },
+  "decision_timeline": [
+    {
+      "step": 1,
+      "title": "Applicant details checked",
+      "status": "Complete",
+      "summary": "Your applicant type, qualifications and UCAT details were checked."
+    },
+    {
+      "step": 2,
+      "title": "Eligibility assessed",
+      "status": "Eligible",
+      "summary": "You meet the published entry requirements covered by ApplySmart."
+    },
+    {
+      "step": 3,
+      "title": "Selection model applied",
+      "status": "Complete",
+      "summary": "ApplySmart analysis uses the official KMMS eligibility criteria and available historical evidence. KMMS has not published an exact 2026 interview cut-off on the current UCAT scale, so this is not an official university decision or interview guarantee."
+    },
+    {
+      "step": 4,
+      "title": "Historical guidance compared",
+      "status": "Complete",
+      "summary": "Your UCAT was compared with interview information from previous admissions cycles. Interview thresholds may change each admissions cycle depending on applicant competition and interview capacity. Historical figures are guidance only, not a current cut-off, and do not guarantee an interview."
+    },
+    {
+      "step": 5,
+      "title": "Interview recommendation produced",
+      "status": "Good chance",
+      "summary": "Competitive Interview Potential. Treat this as guidance for university choice, not a promised interview."
+    }
+  ],
+  "decision_transparency": {
+    "decision_path": [
+      {
+        "stage": "Eligibility",
+        "status": "Met",
+        "summary": "Group A academic eligibility uses achieved GCSEs and does not require achieved A-level results.",
+        "checks": [
+          {
+            "label": "Academic input",
+            "status": "Met",
+            "summary": "Achieved GCSEs were used."
+          },
+          {
+            "label": "Predicted grades",
+            "status": "Not used",
+            "summary": "Predicted grades were ignored because KMMS does not use them in selection."
+          }
+        ]
+      },
+      {
+        "stage": "Selection model",
+        "status": "Assessed",
+        "summary": "The SJT gate is checkable, but the official 2026 UCAT threshold is not published.",
+        "checks": [
+          {
+            "label": "Applicant pool",
+            "status": "Group A",
+            "summary": "Home pre-A-level applicant pool using achieved GCSEs and school-performance contextual ranking."
+          },
+          {
+            "label": "SJT",
+            "status": "Met",
+            "summary": "SJT Band 2 meets the school-leaver requirement."
+          },
+          {
+            "label": "Official UCAT threshold",
+          "status": "Unavailable",
+            "summary": "official_2026_threshold_2700 is null."
+          }
+        ]
+      },
+      {
+        "stage": "Historical guidance",
+        "status": "Guidance available",
+        "summary": "The ApplySmart advisory band is separate, historical-percentile-equivalent guidance only and is not a guarantee.",
+        "checks": [
+          {
+            "label": "Advisory band",
+            "status": "Realistic",
+            "summary": "UCAT 1855 falls at the central historical-equivalent point."
+          }
+        ]
+      },
+      {
+        "stage": "Recommendation",
+        "status": "Guidance only",
+        "summary": "Official KMMS interview prediction cannot be produced from the public evidence currently available.",
+        "checks": [
+          {
+            "label": "Official outcome",
+          "status": "Prediction unavailable",
+            "summary": "Contextual ranking and official threshold data are unavailable to ApplySmart."
+          }
+        ]
+      }
+    ],
+    "key_reasons": [
+      "The applicant was routed as KMMS Group A.",
+      "Achieved GCSEs were used for the academic gate.",
+      "Predicted grades were not used.",
+      "The official UCAT threshold is unpublished on the 2700 scale.",
+      "Contextual ranking data is not held by ApplySmart."
+    ],
+    "evidence_used": [
+      "Official admissions policy",
+      "UCAT policy",
+      "FOI evidence",
+      "Contextual admissions policy",
+      "International admissions policy",
+      "University selection process",
+      "Documented prediction limitation"
+    ],
+    "evidence_confidence": {
+      "level": "Medium",
+      "summary": "Official eligibility evidence is available, but the official interview prediction is unavailable from public current-cycle data.",
+      "reasons": [
+        "Official eligibility rules are available.",
+        "KMMS has not published the operative 2026 UCAT threshold on the 2700 scale, and official shortlisting depends on contextual ranking data ApplySmart does not hold."
+      ]
+    },
+    "warnings": [],
+    "manual_review_reason": null,
+    "official_prediction": {
+      "available": false,
+      "prediction_status": "prediction_unavailable",
+      "reason_code": "official_2026_ucat_threshold_2700_not_published",
+      "explanation": "KMMS has not published the operative 2026 UCAT threshold on the 2700 scale, and official shortlisting depends on contextual ranking data ApplySmart does not hold."
+    },
+    "insufficient_evidence_reason": "KMMS has not published the operative 2026 UCAT threshold on the 2700 scale and ApplySmart does not hold Group A school-performance ranking data.",
+    "insufficient_evidence_reason_code": "university_methodology_gap"
+  },
+  "engine_notes": {
+    "offer_prediction_scope": "out_of_scope",
+    "official_outcome_and_advisory_guidance_separated": true,
+    "predicted_grades_have_no_effect": true,
+    "shared_engine_change": "Opt-in predicted-grade exclusion for universities such as KMMS that assess pre-completion applicants without predicted A-level scoring."
+  }
+}

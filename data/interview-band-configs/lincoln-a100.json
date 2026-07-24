@@ -1,0 +1,3727 @@
+{
+  "schema_version": "1.0.0",
+  "course_profile_id": "lincoln-a100",
+  "confidence": "low",
+  "evidence": {
+    "classification": "official_dual_model_score_with_no_published_thresholds",
+    "summary": "Lincoln publishes an official /60 pre-interview scoring formula with two qualification-stage routes. ApplySmart calculates the official score and applies low-confidence provisional strategic bands because Lincoln has not yet published a first independent-cycle interview threshold.",
+    "source_ids": [
+      "lincoln_research_doc",
+      "lincoln_admissions_guidance_2026",
+      "lincoln_nottingham_foi_2948639"
+    ]
+  },
+  "eligibility": {
+    "official_rules_separate_from_estimate_mode": true,
+    "qualification_routes": {
+      "supported": [
+        "a_level",
+        "graduate",
+        "undergraduate"
+      ],
+      "manual_review": [
+        "scottish",
+        "international_baccalaureate",
+        "international_qualification",
+        "access_to_medicine"
+      ],
+      "explicitly_blocked": [
+        "deferred_entry"
+      ]
+    },
+    "explicitly_blocked_applicant_groups": [
+      "international_fee"
+    ],
+    "gcse": {
+      "use_exact_subject_list": true,
+      "required_subjects": [
+        {
+          "subject_id": "english_language",
+          "minimum_grade": "6"
+        },
+        {
+          "subject_id": "mathematics",
+          "minimum_grade": "6"
+        }
+      ]
+    },
+    "a_level": {
+      "routes": [
+        {
+          "route_id": "standard_aaa_biology",
+          "grade_profile": [
+            "A",
+            "A",
+            "A"
+          ],
+          "required_subject_ids": [
+            "biology"
+          ],
+          "subject_grade_requirements": [
+            {
+              "subject_id": "biology",
+              "minimum_grade": "A"
+            }
+          ]
+        }
+      ]
+    },
+    "graduate": {
+      "minimum_classification": "2_1",
+      "gcse_required": false,
+      "waive_a_level_requirements": true,
+      "postgraduate_compensation_allowed": false,
+      "notes": "Runtime checks the official 2:1 minimum before post-qualification scoring. Degree subject relevance, transcript science coverage and the alternate any-degree plus school-qualification route are recorded as manual-review boundaries because they cannot be safely inferred from free text."
+    },
+    "ucat": {
+      "same_admission_cycle_required": true
+    },
+    "do_not_infer": [
+      "Do not use estimated interview thresholds as band rules.",
+      "Do not apply contextual points to post-qualification or graduate applicants.",
+      "Do not use GCSE scoring for achieved A Level, undergraduate or graduate applicants.",
+      "Do not treat provisional prediction bands as official current cut-offs."
+    ]
+  },
+  "score_model": {
+    "type": "component_sum",
+    "basis": "Lincoln calculates an official pre-interview selection score out of 60 using the components that apply to this applicant's qualification route.",
+    "label": "Total selection score",
+    "scale": {
+      "min": 0,
+      "max": 60
+    },
+    "selection_score_cap": 60,
+    "score_metadata": {
+      "gcse_max": 30,
+      "ucat_cognitive_max": 15,
+      "ucat_sjt_max": 15,
+      "ucat_max": 30,
+      "contextual_max": 12,
+      "selection_score_max": 60,
+      "interview_score_max": 70,
+      "academic_carry_to_offer": 30,
+      "offer_score_max": 100,
+      "ucat_raw_scale_max": 2700,
+      "source": "OFFICIAL",
+      "prediction_ready": true
+    },
+    "model_routing": {
+      "model_a": {
+        "applies_when": "qualification_route=a_level and qualification_status=predicted",
+        "formula": "gcse_score + ucat_cognitive + sjt + contextual_capped",
+        "official": true
+      },
+      "model_b": {
+        "applies_when": "qualification_status=achieved or qualification_route in graduate/undergraduate",
+        "formula": "ucat_cognitive*2 + sjt*2",
+        "official": true
+      }
+    },
+    "components": [
+      {
+        "component_id": "model_a_gcse_score",
+        "type": "gcse_mandatory_then_best",
+        "subject_count": 6,
+        "mandatory_subject_ids": [
+          "english_language",
+          "mathematics"
+        ],
+        "mandatory_subject_alternatives": [
+          {
+            "alternative_id": "biology_and_chemistry_or_double_science",
+            "options": [
+              {
+                "option_id": "separate_biology_chemistry",
+                "subject_ids": [
+                  "biology",
+                  "chemistry"
+                ]
+              },
+              {
+                "option_id": "combined_science_double_award",
+                "subject_ids": [
+                  "combined_science"
+                ],
+                "subject_credits": {
+                  "combined_science": 2
+                }
+              }
+            ]
+          }
+        ],
+        "bands": [
+          {
+            "minimum_grade": "9",
+            "points": 5
+          },
+          {
+            "minimum_grade": "8",
+            "points": 4
+          },
+          {
+            "minimum_grade": "7",
+            "points": 3
+          },
+          {
+            "minimum_grade": "6",
+            "points": 2
+          },
+          {
+            "minimum_grade": "5",
+            "points": 1
+          },
+          {
+            "minimum_grade": "4",
+            "points": 0
+          }
+        ],
+        "max": 30,
+        "official": true,
+        "match": {
+          "excluded_group_ids": [
+            "graduate_applicant",
+            "international_fee"
+          ],
+          "qualification_routes": [
+            "a_level"
+          ],
+          "qualification_status": [
+            "predicted"
+          ]
+        }
+      },
+      {
+        "component_id": "model_a_ucat_cognitive",
+        "type": "ucat_range_lookup",
+        "max": 15,
+        "ranges": [
+          {
+            "band": "b15_gt2300_2700",
+            "min": 2301,
+            "max": 2700
+          },
+          {
+            "band": "b14_2170_2290",
+            "min": 2170,
+            "max": 2290
+          },
+          {
+            "band": "b12_2050_2160",
+            "min": 2050,
+            "max": 2160
+          },
+          {
+            "band": "b11_1970_2040",
+            "min": 1970,
+            "max": 2040
+          },
+          {
+            "band": "b10_1910_1960",
+            "min": 1910,
+            "max": 1960
+          },
+          {
+            "band": "b9_1860_1900",
+            "min": 1860,
+            "max": 1900
+          },
+          {
+            "band": "b7_1810_1850",
+            "min": 1810,
+            "max": 1850
+          },
+          {
+            "band": "b6_1750_1800",
+            "min": 1750,
+            "max": 1800
+          },
+          {
+            "band": "b4_1680_1740",
+            "min": 1680,
+            "max": 1740
+          },
+          {
+            "band": "b2_1580_1670",
+            "min": 1580,
+            "max": 1670
+          },
+          {
+            "band": "b0_0_1579",
+            "min": 0,
+            "max": 1579
+          }
+        ],
+        "points_by_band": {
+          "b15_gt2300_2700": 15,
+          "b14_2170_2290": 14,
+          "b12_2050_2160": 12,
+          "b11_1970_2040": 11,
+          "b10_1910_1960": 10,
+          "b9_1860_1900": 9,
+          "b7_1810_1850": 7,
+          "b6_1750_1800": 6,
+          "b4_1680_1740": 4,
+          "b2_1580_1670": 2,
+          "b0_0_1579": 0
+        },
+        "official": true,
+        "notes": "Official Lincoln UCAT cognitive band table. UCAT totals are expected on a 10-point grid; unpublished in-between gap scores are not converted into invented higher bands.",
+        "match": {
+          "excluded_group_ids": [
+            "graduate_applicant",
+            "international_fee"
+          ],
+          "qualification_routes": [
+            "a_level"
+          ],
+          "qualification_status": [
+            "predicted"
+          ]
+        }
+      },
+      {
+        "component_id": "model_a_sjt",
+        "type": "sjt_band_lookup",
+        "max": 15,
+        "points_by_band": {
+          "1": 15,
+          "2": 10,
+          "3": 5
+        },
+        "band_4_outcome": "not_eligible",
+        "official": true,
+        "match": {
+          "excluded_group_ids": [
+            "graduate_applicant",
+            "international_fee"
+          ],
+          "qualification_routes": [
+            "a_level"
+          ],
+          "qualification_status": [
+            "predicted"
+          ]
+        }
+      },
+      {
+        "component_id": "model_a_contextual_capped",
+        "type": "conditional_points",
+        "max": 12,
+        "official": true,
+        "cap": 12,
+        "source_matrix": {
+          "lincoln_care_leaver": 12,
+          "lincoln_refugee": 12,
+          "lincoln_mem2_q1": 10,
+          "lincoln_mem2_q2": 8,
+          "lincoln_ucat_bursary": 6,
+          "lincoln_lms_wp_summer_school": 6,
+          "lincolnshire_residence": 2
+        },
+        "notes": "The generic component has no runtime cap primitive, so the official capped matrix is represented by mutually exclusive exact-combination conditions. Exactly one condition matches any supplied set of Lincoln contextual flags.",
+        "conditions": [
+          {
+            "condition_id": "contextual_care_leaver",
+            "points": 12,
+            "match": {
+              "all_group_ids": [
+                "lincoln_care_leaver"
+              ],
+              "excluded_group_ids": [
+                "lincoln_refugee",
+                "lincoln_mem2_q1",
+                "lincoln_mem2_q2",
+                "lincoln_ucat_bursary",
+                "lincoln_lms_wp_summer_school",
+                "lincolnshire_residence"
+              ],
+              "qualification_routes": [
+                "a_level"
+              ],
+              "qualification_status": [
+                "predicted"
+              ]
+            }
+          },
+          {
+            "condition_id": "contextual_refugee",
+            "points": 12,
+            "match": {
+              "all_group_ids": [
+                "lincoln_refugee"
+              ],
+              "excluded_group_ids": [
+                "lincoln_care_leaver",
+                "lincoln_mem2_q1",
+                "lincoln_mem2_q2",
+                "lincoln_ucat_bursary",
+                "lincoln_lms_wp_summer_school",
+                "lincolnshire_residence"
+              ],
+              "qualification_routes": [
+                "a_level"
+              ],
+              "qualification_status": [
+                "predicted"
+              ]
+            }
+          },
+          {
+            "condition_id": "contextual_care_leaver__refugee",
+            "points": 12,
+            "match": {
+              "all_group_ids": [
+                "lincoln_care_leaver",
+                "lincoln_refugee"
+              ],
+              "excluded_group_ids": [
+                "lincoln_mem2_q1",
+                "lincoln_mem2_q2",
+                "lincoln_ucat_bursary",
+                "lincoln_lms_wp_summer_school",
+                "lincolnshire_residence"
+              ],
+              "qualification_routes": [
+                "a_level"
+              ],
+              "qualification_status": [
+                "predicted"
+              ]
+            }
+          },
+          {
+            "condition_id": "contextual_mem2_q1",
+            "points": 10,
+            "match": {
+              "all_group_ids": [
+                "lincoln_mem2_q1"
+              ],
+              "excluded_group_ids": [
+                "lincoln_care_leaver",
+                "lincoln_refugee",
+                "lincoln_mem2_q2",
+                "lincoln_ucat_bursary",
+                "lincoln_lms_wp_summer_school",
+                "lincolnshire_residence"
+              ],
+              "qualification_routes": [
+                "a_level"
+              ],
+              "qualification_status": [
+                "predicted"
+              ]
+            }
+          },
+          {
+            "condition_id": "contextual_care_leaver__mem2_q1",
+            "points": 12,
+            "match": {
+              "all_group_ids": [
+                "lincoln_care_leaver",
+                "lincoln_mem2_q1"
+              ],
+              "excluded_group_ids": [
+                "lincoln_refugee",
+                "lincoln_mem2_q2",
+                "lincoln_ucat_bursary",
+                "lincoln_lms_wp_summer_school",
+                "lincolnshire_residence"
+              ],
+              "qualification_routes": [
+                "a_level"
+              ],
+              "qualification_status": [
+                "predicted"
+              ]
+            }
+          },
+          {
+            "condition_id": "contextual_refugee__mem2_q1",
+            "points": 12,
+            "match": {
+              "all_group_ids": [
+                "lincoln_refugee",
+                "lincoln_mem2_q1"
+              ],
+              "excluded_group_ids": [
+                "lincoln_care_leaver",
+                "lincoln_mem2_q2",
+                "lincoln_ucat_bursary",
+                "lincoln_lms_wp_summer_school",
+                "lincolnshire_residence"
+              ],
+              "qualification_routes": [
+                "a_level"
+              ],
+              "qualification_status": [
+                "predicted"
+              ]
+            }
+          },
+          {
+            "condition_id": "contextual_care_leaver__refugee__mem2_q1",
+            "points": 12,
+            "match": {
+              "all_group_ids": [
+                "lincoln_care_leaver",
+                "lincoln_refugee",
+                "lincoln_mem2_q1"
+              ],
+              "excluded_group_ids": [
+                "lincoln_mem2_q2",
+                "lincoln_ucat_bursary",
+                "lincoln_lms_wp_summer_school",
+                "lincolnshire_residence"
+              ],
+              "qualification_routes": [
+                "a_level"
+              ],
+              "qualification_status": [
+                "predicted"
+              ]
+            }
+          },
+          {
+            "condition_id": "contextual_mem2_q2",
+            "points": 8,
+            "match": {
+              "all_group_ids": [
+                "lincoln_mem2_q2"
+              ],
+              "excluded_group_ids": [
+                "lincoln_care_leaver",
+                "lincoln_refugee",
+                "lincoln_mem2_q1",
+                "lincoln_ucat_bursary",
+                "lincoln_lms_wp_summer_school",
+                "lincolnshire_residence"
+              ],
+              "qualification_routes": [
+                "a_level"
+              ],
+              "qualification_status": [
+                "predicted"
+              ]
+            }
+          },
+          {
+            "condition_id": "contextual_care_leaver__mem2_q2",
+            "points": 12,
+            "match": {
+              "all_group_ids": [
+                "lincoln_care_leaver",
+                "lincoln_mem2_q2"
+              ],
+              "excluded_group_ids": [
+                "lincoln_refugee",
+                "lincoln_mem2_q1",
+                "lincoln_ucat_bursary",
+                "lincoln_lms_wp_summer_school",
+                "lincolnshire_residence"
+              ],
+              "qualification_routes": [
+                "a_level"
+              ],
+              "qualification_status": [
+                "predicted"
+              ]
+            }
+          },
+          {
+            "condition_id": "contextual_refugee__mem2_q2",
+            "points": 12,
+            "match": {
+              "all_group_ids": [
+                "lincoln_refugee",
+                "lincoln_mem2_q2"
+              ],
+              "excluded_group_ids": [
+                "lincoln_care_leaver",
+                "lincoln_mem2_q1",
+                "lincoln_ucat_bursary",
+                "lincoln_lms_wp_summer_school",
+                "lincolnshire_residence"
+              ],
+              "qualification_routes": [
+                "a_level"
+              ],
+              "qualification_status": [
+                "predicted"
+              ]
+            }
+          },
+          {
+            "condition_id": "contextual_care_leaver__refugee__mem2_q2",
+            "points": 12,
+            "match": {
+              "all_group_ids": [
+                "lincoln_care_leaver",
+                "lincoln_refugee",
+                "lincoln_mem2_q2"
+              ],
+              "excluded_group_ids": [
+                "lincoln_mem2_q1",
+                "lincoln_ucat_bursary",
+                "lincoln_lms_wp_summer_school",
+                "lincolnshire_residence"
+              ],
+              "qualification_routes": [
+                "a_level"
+              ],
+              "qualification_status": [
+                "predicted"
+              ]
+            }
+          },
+          {
+            "condition_id": "contextual_mem2_q1__mem2_q2",
+            "points": 12,
+            "match": {
+              "all_group_ids": [
+                "lincoln_mem2_q1",
+                "lincoln_mem2_q2"
+              ],
+              "excluded_group_ids": [
+                "lincoln_care_leaver",
+                "lincoln_refugee",
+                "lincoln_ucat_bursary",
+                "lincoln_lms_wp_summer_school",
+                "lincolnshire_residence"
+              ],
+              "qualification_routes": [
+                "a_level"
+              ],
+              "qualification_status": [
+                "predicted"
+              ]
+            }
+          },
+          {
+            "condition_id": "contextual_care_leaver__mem2_q1__mem2_q2",
+            "points": 12,
+            "match": {
+              "all_group_ids": [
+                "lincoln_care_leaver",
+                "lincoln_mem2_q1",
+                "lincoln_mem2_q2"
+              ],
+              "excluded_group_ids": [
+                "lincoln_refugee",
+                "lincoln_ucat_bursary",
+                "lincoln_lms_wp_summer_school",
+                "lincolnshire_residence"
+              ],
+              "qualification_routes": [
+                "a_level"
+              ],
+              "qualification_status": [
+                "predicted"
+              ]
+            }
+          },
+          {
+            "condition_id": "contextual_refugee__mem2_q1__mem2_q2",
+            "points": 12,
+            "match": {
+              "all_group_ids": [
+                "lincoln_refugee",
+                "lincoln_mem2_q1",
+                "lincoln_mem2_q2"
+              ],
+              "excluded_group_ids": [
+                "lincoln_care_leaver",
+                "lincoln_ucat_bursary",
+                "lincoln_lms_wp_summer_school",
+                "lincolnshire_residence"
+              ],
+              "qualification_routes": [
+                "a_level"
+              ],
+              "qualification_status": [
+                "predicted"
+              ]
+            }
+          },
+          {
+            "condition_id": "contextual_care_leaver__refugee__mem2_q1__mem2_q2",
+            "points": 12,
+            "match": {
+              "all_group_ids": [
+                "lincoln_care_leaver",
+                "lincoln_refugee",
+                "lincoln_mem2_q1",
+                "lincoln_mem2_q2"
+              ],
+              "excluded_group_ids": [
+                "lincoln_ucat_bursary",
+                "lincoln_lms_wp_summer_school",
+                "lincolnshire_residence"
+              ],
+              "qualification_routes": [
+                "a_level"
+              ],
+              "qualification_status": [
+                "predicted"
+              ]
+            }
+          },
+          {
+            "condition_id": "contextual_ucat_bursary",
+            "points": 6,
+            "match": {
+              "all_group_ids": [
+                "lincoln_ucat_bursary"
+              ],
+              "excluded_group_ids": [
+                "lincoln_care_leaver",
+                "lincoln_refugee",
+                "lincoln_mem2_q1",
+                "lincoln_mem2_q2",
+                "lincoln_lms_wp_summer_school",
+                "lincolnshire_residence"
+              ],
+              "qualification_routes": [
+                "a_level"
+              ],
+              "qualification_status": [
+                "predicted"
+              ]
+            }
+          },
+          {
+            "condition_id": "contextual_care_leaver__ucat_bursary",
+            "points": 12,
+            "match": {
+              "all_group_ids": [
+                "lincoln_care_leaver",
+                "lincoln_ucat_bursary"
+              ],
+              "excluded_group_ids": [
+                "lincoln_refugee",
+                "lincoln_mem2_q1",
+                "lincoln_mem2_q2",
+                "lincoln_lms_wp_summer_school",
+                "lincolnshire_residence"
+              ],
+              "qualification_routes": [
+                "a_level"
+              ],
+              "qualification_status": [
+                "predicted"
+              ]
+            }
+          },
+          {
+            "condition_id": "contextual_refugee__ucat_bursary",
+            "points": 12,
+            "match": {
+              "all_group_ids": [
+                "lincoln_refugee",
+                "lincoln_ucat_bursary"
+              ],
+              "excluded_group_ids": [
+                "lincoln_care_leaver",
+                "lincoln_mem2_q1",
+                "lincoln_mem2_q2",
+                "lincoln_lms_wp_summer_school",
+                "lincolnshire_residence"
+              ],
+              "qualification_routes": [
+                "a_level"
+              ],
+              "qualification_status": [
+                "predicted"
+              ]
+            }
+          },
+          {
+            "condition_id": "contextual_care_leaver__refugee__ucat_bursary",
+            "points": 12,
+            "match": {
+              "all_group_ids": [
+                "lincoln_care_leaver",
+                "lincoln_refugee",
+                "lincoln_ucat_bursary"
+              ],
+              "excluded_group_ids": [
+                "lincoln_mem2_q1",
+                "lincoln_mem2_q2",
+                "lincoln_lms_wp_summer_school",
+                "lincolnshire_residence"
+              ],
+              "qualification_routes": [
+                "a_level"
+              ],
+              "qualification_status": [
+                "predicted"
+              ]
+            }
+          },
+          {
+            "condition_id": "contextual_mem2_q1__ucat_bursary",
+            "points": 12,
+            "match": {
+              "all_group_ids": [
+                "lincoln_mem2_q1",
+                "lincoln_ucat_bursary"
+              ],
+              "excluded_group_ids": [
+                "lincoln_care_leaver",
+                "lincoln_refugee",
+                "lincoln_mem2_q2",
+                "lincoln_lms_wp_summer_school",
+                "lincolnshire_residence"
+              ],
+              "qualification_routes": [
+                "a_level"
+              ],
+              "qualification_status": [
+                "predicted"
+              ]
+            }
+          },
+          {
+            "condition_id": "contextual_care_leaver__mem2_q1__ucat_bursary",
+            "points": 12,
+            "match": {
+              "all_group_ids": [
+                "lincoln_care_leaver",
+                "lincoln_mem2_q1",
+                "lincoln_ucat_bursary"
+              ],
+              "excluded_group_ids": [
+                "lincoln_refugee",
+                "lincoln_mem2_q2",
+                "lincoln_lms_wp_summer_school",
+                "lincolnshire_residence"
+              ],
+              "qualification_routes": [
+                "a_level"
+              ],
+              "qualification_status": [
+                "predicted"
+              ]
+            }
+          },
+          {
+            "condition_id": "contextual_refugee__mem2_q1__ucat_bursary",
+            "points": 12,
+            "match": {
+              "all_group_ids": [
+                "lincoln_refugee",
+                "lincoln_mem2_q1",
+                "lincoln_ucat_bursary"
+              ],
+              "excluded_group_ids": [
+                "lincoln_care_leaver",
+                "lincoln_mem2_q2",
+                "lincoln_lms_wp_summer_school",
+                "lincolnshire_residence"
+              ],
+              "qualification_routes": [
+                "a_level"
+              ],
+              "qualification_status": [
+                "predicted"
+              ]
+            }
+          },
+          {
+            "condition_id": "contextual_care_leaver__refugee__mem2_q1__ucat_bursary",
+            "points": 12,
+            "match": {
+              "all_group_ids": [
+                "lincoln_care_leaver",
+                "lincoln_refugee",
+                "lincoln_mem2_q1",
+                "lincoln_ucat_bursary"
+              ],
+              "excluded_group_ids": [
+                "lincoln_mem2_q2",
+                "lincoln_lms_wp_summer_school",
+                "lincolnshire_residence"
+              ],
+              "qualification_routes": [
+                "a_level"
+              ],
+              "qualification_status": [
+                "predicted"
+              ]
+            }
+          },
+          {
+            "condition_id": "contextual_mem2_q2__ucat_bursary",
+            "points": 12,
+            "match": {
+              "all_group_ids": [
+                "lincoln_mem2_q2",
+                "lincoln_ucat_bursary"
+              ],
+              "excluded_group_ids": [
+                "lincoln_care_leaver",
+                "lincoln_refugee",
+                "lincoln_mem2_q1",
+                "lincoln_lms_wp_summer_school",
+                "lincolnshire_residence"
+              ],
+              "qualification_routes": [
+                "a_level"
+              ],
+              "qualification_status": [
+                "predicted"
+              ]
+            }
+          },
+          {
+            "condition_id": "contextual_care_leaver__mem2_q2__ucat_bursary",
+            "points": 12,
+            "match": {
+              "all_group_ids": [
+                "lincoln_care_leaver",
+                "lincoln_mem2_q2",
+                "lincoln_ucat_bursary"
+              ],
+              "excluded_group_ids": [
+                "lincoln_refugee",
+                "lincoln_mem2_q1",
+                "lincoln_lms_wp_summer_school",
+                "lincolnshire_residence"
+              ],
+              "qualification_routes": [
+                "a_level"
+              ],
+              "qualification_status": [
+                "predicted"
+              ]
+            }
+          },
+          {
+            "condition_id": "contextual_refugee__mem2_q2__ucat_bursary",
+            "points": 12,
+            "match": {
+              "all_group_ids": [
+                "lincoln_refugee",
+                "lincoln_mem2_q2",
+                "lincoln_ucat_bursary"
+              ],
+              "excluded_group_ids": [
+                "lincoln_care_leaver",
+                "lincoln_mem2_q1",
+                "lincoln_lms_wp_summer_school",
+                "lincolnshire_residence"
+              ],
+              "qualification_routes": [
+                "a_level"
+              ],
+              "qualification_status": [
+                "predicted"
+              ]
+            }
+          },
+          {
+            "condition_id": "contextual_care_leaver__refugee__mem2_q2__ucat_bursary",
+            "points": 12,
+            "match": {
+              "all_group_ids": [
+                "lincoln_care_leaver",
+                "lincoln_refugee",
+                "lincoln_mem2_q2",
+                "lincoln_ucat_bursary"
+              ],
+              "excluded_group_ids": [
+                "lincoln_mem2_q1",
+                "lincoln_lms_wp_summer_school",
+                "lincolnshire_residence"
+              ],
+              "qualification_routes": [
+                "a_level"
+              ],
+              "qualification_status": [
+                "predicted"
+              ]
+            }
+          },
+          {
+            "condition_id": "contextual_mem2_q1__mem2_q2__ucat_bursary",
+            "points": 12,
+            "match": {
+              "all_group_ids": [
+                "lincoln_mem2_q1",
+                "lincoln_mem2_q2",
+                "lincoln_ucat_bursary"
+              ],
+              "excluded_group_ids": [
+                "lincoln_care_leaver",
+                "lincoln_refugee",
+                "lincoln_lms_wp_summer_school",
+                "lincolnshire_residence"
+              ],
+              "qualification_routes": [
+                "a_level"
+              ],
+              "qualification_status": [
+                "predicted"
+              ]
+            }
+          },
+          {
+            "condition_id": "contextual_care_leaver__mem2_q1__mem2_q2__ucat_bursary",
+            "points": 12,
+            "match": {
+              "all_group_ids": [
+                "lincoln_care_leaver",
+                "lincoln_mem2_q1",
+                "lincoln_mem2_q2",
+                "lincoln_ucat_bursary"
+              ],
+              "excluded_group_ids": [
+                "lincoln_refugee",
+                "lincoln_lms_wp_summer_school",
+                "lincolnshire_residence"
+              ],
+              "qualification_routes": [
+                "a_level"
+              ],
+              "qualification_status": [
+                "predicted"
+              ]
+            }
+          },
+          {
+            "condition_id": "contextual_refugee__mem2_q1__mem2_q2__ucat_bursary",
+            "points": 12,
+            "match": {
+              "all_group_ids": [
+                "lincoln_refugee",
+                "lincoln_mem2_q1",
+                "lincoln_mem2_q2",
+                "lincoln_ucat_bursary"
+              ],
+              "excluded_group_ids": [
+                "lincoln_care_leaver",
+                "lincoln_lms_wp_summer_school",
+                "lincolnshire_residence"
+              ],
+              "qualification_routes": [
+                "a_level"
+              ],
+              "qualification_status": [
+                "predicted"
+              ]
+            }
+          },
+          {
+            "condition_id": "contextual_care_leaver__refugee__mem2_q1__mem2_q2__ucat_bursary",
+            "points": 12,
+            "match": {
+              "all_group_ids": [
+                "lincoln_care_leaver",
+                "lincoln_refugee",
+                "lincoln_mem2_q1",
+                "lincoln_mem2_q2",
+                "lincoln_ucat_bursary"
+              ],
+              "excluded_group_ids": [
+                "lincoln_lms_wp_summer_school",
+                "lincolnshire_residence"
+              ],
+              "qualification_routes": [
+                "a_level"
+              ],
+              "qualification_status": [
+                "predicted"
+              ]
+            }
+          },
+          {
+            "condition_id": "contextual_lms_wp_summer_school",
+            "points": 6,
+            "match": {
+              "all_group_ids": [
+                "lincoln_lms_wp_summer_school"
+              ],
+              "excluded_group_ids": [
+                "lincoln_care_leaver",
+                "lincoln_refugee",
+                "lincoln_mem2_q1",
+                "lincoln_mem2_q2",
+                "lincoln_ucat_bursary",
+                "lincolnshire_residence"
+              ],
+              "qualification_routes": [
+                "a_level"
+              ],
+              "qualification_status": [
+                "predicted"
+              ]
+            }
+          },
+          {
+            "condition_id": "contextual_care_leaver__lms_wp_summer_school",
+            "points": 12,
+            "match": {
+              "all_group_ids": [
+                "lincoln_care_leaver",
+                "lincoln_lms_wp_summer_school"
+              ],
+              "excluded_group_ids": [
+                "lincoln_refugee",
+                "lincoln_mem2_q1",
+                "lincoln_mem2_q2",
+                "lincoln_ucat_bursary",
+                "lincolnshire_residence"
+              ],
+              "qualification_routes": [
+                "a_level"
+              ],
+              "qualification_status": [
+                "predicted"
+              ]
+            }
+          },
+          {
+            "condition_id": "contextual_refugee__lms_wp_summer_school",
+            "points": 12,
+            "match": {
+              "all_group_ids": [
+                "lincoln_refugee",
+                "lincoln_lms_wp_summer_school"
+              ],
+              "excluded_group_ids": [
+                "lincoln_care_leaver",
+                "lincoln_mem2_q1",
+                "lincoln_mem2_q2",
+                "lincoln_ucat_bursary",
+                "lincolnshire_residence"
+              ],
+              "qualification_routes": [
+                "a_level"
+              ],
+              "qualification_status": [
+                "predicted"
+              ]
+            }
+          },
+          {
+            "condition_id": "contextual_care_leaver__refugee__lms_wp_summer_school",
+            "points": 12,
+            "match": {
+              "all_group_ids": [
+                "lincoln_care_leaver",
+                "lincoln_refugee",
+                "lincoln_lms_wp_summer_school"
+              ],
+              "excluded_group_ids": [
+                "lincoln_mem2_q1",
+                "lincoln_mem2_q2",
+                "lincoln_ucat_bursary",
+                "lincolnshire_residence"
+              ],
+              "qualification_routes": [
+                "a_level"
+              ],
+              "qualification_status": [
+                "predicted"
+              ]
+            }
+          },
+          {
+            "condition_id": "contextual_mem2_q1__lms_wp_summer_school",
+            "points": 12,
+            "match": {
+              "all_group_ids": [
+                "lincoln_mem2_q1",
+                "lincoln_lms_wp_summer_school"
+              ],
+              "excluded_group_ids": [
+                "lincoln_care_leaver",
+                "lincoln_refugee",
+                "lincoln_mem2_q2",
+                "lincoln_ucat_bursary",
+                "lincolnshire_residence"
+              ],
+              "qualification_routes": [
+                "a_level"
+              ],
+              "qualification_status": [
+                "predicted"
+              ]
+            }
+          },
+          {
+            "condition_id": "contextual_care_leaver__mem2_q1__lms_wp_summer_school",
+            "points": 12,
+            "match": {
+              "all_group_ids": [
+                "lincoln_care_leaver",
+                "lincoln_mem2_q1",
+                "lincoln_lms_wp_summer_school"
+              ],
+              "excluded_group_ids": [
+                "lincoln_refugee",
+                "lincoln_mem2_q2",
+                "lincoln_ucat_bursary",
+                "lincolnshire_residence"
+              ],
+              "qualification_routes": [
+                "a_level"
+              ],
+              "qualification_status": [
+                "predicted"
+              ]
+            }
+          },
+          {
+            "condition_id": "contextual_refugee__mem2_q1__lms_wp_summer_school",
+            "points": 12,
+            "match": {
+              "all_group_ids": [
+                "lincoln_refugee",
+                "lincoln_mem2_q1",
+                "lincoln_lms_wp_summer_school"
+              ],
+              "excluded_group_ids": [
+                "lincoln_care_leaver",
+                "lincoln_mem2_q2",
+                "lincoln_ucat_bursary",
+                "lincolnshire_residence"
+              ],
+              "qualification_routes": [
+                "a_level"
+              ],
+              "qualification_status": [
+                "predicted"
+              ]
+            }
+          },
+          {
+            "condition_id": "contextual_care_leaver__refugee__mem2_q1__lms_wp_summer_school",
+            "points": 12,
+            "match": {
+              "all_group_ids": [
+                "lincoln_care_leaver",
+                "lincoln_refugee",
+                "lincoln_mem2_q1",
+                "lincoln_lms_wp_summer_school"
+              ],
+              "excluded_group_ids": [
+                "lincoln_mem2_q2",
+                "lincoln_ucat_bursary",
+                "lincolnshire_residence"
+              ],
+              "qualification_routes": [
+                "a_level"
+              ],
+              "qualification_status": [
+                "predicted"
+              ]
+            }
+          },
+          {
+            "condition_id": "contextual_mem2_q2__lms_wp_summer_school",
+            "points": 12,
+            "match": {
+              "all_group_ids": [
+                "lincoln_mem2_q2",
+                "lincoln_lms_wp_summer_school"
+              ],
+              "excluded_group_ids": [
+                "lincoln_care_leaver",
+                "lincoln_refugee",
+                "lincoln_mem2_q1",
+                "lincoln_ucat_bursary",
+                "lincolnshire_residence"
+              ],
+              "qualification_routes": [
+                "a_level"
+              ],
+              "qualification_status": [
+                "predicted"
+              ]
+            }
+          },
+          {
+            "condition_id": "contextual_care_leaver__mem2_q2__lms_wp_summer_school",
+            "points": 12,
+            "match": {
+              "all_group_ids": [
+                "lincoln_care_leaver",
+                "lincoln_mem2_q2",
+                "lincoln_lms_wp_summer_school"
+              ],
+              "excluded_group_ids": [
+                "lincoln_refugee",
+                "lincoln_mem2_q1",
+                "lincoln_ucat_bursary",
+                "lincolnshire_residence"
+              ],
+              "qualification_routes": [
+                "a_level"
+              ],
+              "qualification_status": [
+                "predicted"
+              ]
+            }
+          },
+          {
+            "condition_id": "contextual_refugee__mem2_q2__lms_wp_summer_school",
+            "points": 12,
+            "match": {
+              "all_group_ids": [
+                "lincoln_refugee",
+                "lincoln_mem2_q2",
+                "lincoln_lms_wp_summer_school"
+              ],
+              "excluded_group_ids": [
+                "lincoln_care_leaver",
+                "lincoln_mem2_q1",
+                "lincoln_ucat_bursary",
+                "lincolnshire_residence"
+              ],
+              "qualification_routes": [
+                "a_level"
+              ],
+              "qualification_status": [
+                "predicted"
+              ]
+            }
+          },
+          {
+            "condition_id": "contextual_care_leaver__refugee__mem2_q2__lms_wp_summer_school",
+            "points": 12,
+            "match": {
+              "all_group_ids": [
+                "lincoln_care_leaver",
+                "lincoln_refugee",
+                "lincoln_mem2_q2",
+                "lincoln_lms_wp_summer_school"
+              ],
+              "excluded_group_ids": [
+                "lincoln_mem2_q1",
+                "lincoln_ucat_bursary",
+                "lincolnshire_residence"
+              ],
+              "qualification_routes": [
+                "a_level"
+              ],
+              "qualification_status": [
+                "predicted"
+              ]
+            }
+          },
+          {
+            "condition_id": "contextual_mem2_q1__mem2_q2__lms_wp_summer_school",
+            "points": 12,
+            "match": {
+              "all_group_ids": [
+                "lincoln_mem2_q1",
+                "lincoln_mem2_q2",
+                "lincoln_lms_wp_summer_school"
+              ],
+              "excluded_group_ids": [
+                "lincoln_care_leaver",
+                "lincoln_refugee",
+                "lincoln_ucat_bursary",
+                "lincolnshire_residence"
+              ],
+              "qualification_routes": [
+                "a_level"
+              ],
+              "qualification_status": [
+                "predicted"
+              ]
+            }
+          },
+          {
+            "condition_id": "contextual_care_leaver__mem2_q1__mem2_q2__lms_wp_summer_school",
+            "points": 12,
+            "match": {
+              "all_group_ids": [
+                "lincoln_care_leaver",
+                "lincoln_mem2_q1",
+                "lincoln_mem2_q2",
+                "lincoln_lms_wp_summer_school"
+              ],
+              "excluded_group_ids": [
+                "lincoln_refugee",
+                "lincoln_ucat_bursary",
+                "lincolnshire_residence"
+              ],
+              "qualification_routes": [
+                "a_level"
+              ],
+              "qualification_status": [
+                "predicted"
+              ]
+            }
+          },
+          {
+            "condition_id": "contextual_refugee__mem2_q1__mem2_q2__lms_wp_summer_school",
+            "points": 12,
+            "match": {
+              "all_group_ids": [
+                "lincoln_refugee",
+                "lincoln_mem2_q1",
+                "lincoln_mem2_q2",
+                "lincoln_lms_wp_summer_school"
+              ],
+              "excluded_group_ids": [
+                "lincoln_care_leaver",
+                "lincoln_ucat_bursary",
+                "lincolnshire_residence"
+              ],
+              "qualification_routes": [
+                "a_level"
+              ],
+              "qualification_status": [
+                "predicted"
+              ]
+            }
+          },
+          {
+            "condition_id": "contextual_care_leaver__refugee__mem2_q1__mem2_q2__lms_wp_summer_school",
+            "points": 12,
+            "match": {
+              "all_group_ids": [
+                "lincoln_care_leaver",
+                "lincoln_refugee",
+                "lincoln_mem2_q1",
+                "lincoln_mem2_q2",
+                "lincoln_lms_wp_summer_school"
+              ],
+              "excluded_group_ids": [
+                "lincoln_ucat_bursary",
+                "lincolnshire_residence"
+              ],
+              "qualification_routes": [
+                "a_level"
+              ],
+              "qualification_status": [
+                "predicted"
+              ]
+            }
+          },
+          {
+            "condition_id": "contextual_ucat_bursary__lms_wp_summer_school",
+            "points": 12,
+            "match": {
+              "all_group_ids": [
+                "lincoln_ucat_bursary",
+                "lincoln_lms_wp_summer_school"
+              ],
+              "excluded_group_ids": [
+                "lincoln_care_leaver",
+                "lincoln_refugee",
+                "lincoln_mem2_q1",
+                "lincoln_mem2_q2",
+                "lincolnshire_residence"
+              ],
+              "qualification_routes": [
+                "a_level"
+              ],
+              "qualification_status": [
+                "predicted"
+              ]
+            }
+          },
+          {
+            "condition_id": "contextual_care_leaver__ucat_bursary__lms_wp_summer_school",
+            "points": 12,
+            "match": {
+              "all_group_ids": [
+                "lincoln_care_leaver",
+                "lincoln_ucat_bursary",
+                "lincoln_lms_wp_summer_school"
+              ],
+              "excluded_group_ids": [
+                "lincoln_refugee",
+                "lincoln_mem2_q1",
+                "lincoln_mem2_q2",
+                "lincolnshire_residence"
+              ],
+              "qualification_routes": [
+                "a_level"
+              ],
+              "qualification_status": [
+                "predicted"
+              ]
+            }
+          },
+          {
+            "condition_id": "contextual_refugee__ucat_bursary__lms_wp_summer_school",
+            "points": 12,
+            "match": {
+              "all_group_ids": [
+                "lincoln_refugee",
+                "lincoln_ucat_bursary",
+                "lincoln_lms_wp_summer_school"
+              ],
+              "excluded_group_ids": [
+                "lincoln_care_leaver",
+                "lincoln_mem2_q1",
+                "lincoln_mem2_q2",
+                "lincolnshire_residence"
+              ],
+              "qualification_routes": [
+                "a_level"
+              ],
+              "qualification_status": [
+                "predicted"
+              ]
+            }
+          },
+          {
+            "condition_id": "contextual_care_leaver__refugee__ucat_bursary__lms_wp_summer_school",
+            "points": 12,
+            "match": {
+              "all_group_ids": [
+                "lincoln_care_leaver",
+                "lincoln_refugee",
+                "lincoln_ucat_bursary",
+                "lincoln_lms_wp_summer_school"
+              ],
+              "excluded_group_ids": [
+                "lincoln_mem2_q1",
+                "lincoln_mem2_q2",
+                "lincolnshire_residence"
+              ],
+              "qualification_routes": [
+                "a_level"
+              ],
+              "qualification_status": [
+                "predicted"
+              ]
+            }
+          },
+          {
+            "condition_id": "contextual_mem2_q1__ucat_bursary__lms_wp_summer_school",
+            "points": 12,
+            "match": {
+              "all_group_ids": [
+                "lincoln_mem2_q1",
+                "lincoln_ucat_bursary",
+                "lincoln_lms_wp_summer_school"
+              ],
+              "excluded_group_ids": [
+                "lincoln_care_leaver",
+                "lincoln_refugee",
+                "lincoln_mem2_q2",
+                "lincolnshire_residence"
+              ],
+              "qualification_routes": [
+                "a_level"
+              ],
+              "qualification_status": [
+                "predicted"
+              ]
+            }
+          },
+          {
+            "condition_id": "contextual_care_leaver__mem2_q1__ucat_bursary__lms_wp_summer_school",
+            "points": 12,
+            "match": {
+              "all_group_ids": [
+                "lincoln_care_leaver",
+                "lincoln_mem2_q1",
+                "lincoln_ucat_bursary",
+                "lincoln_lms_wp_summer_school"
+              ],
+              "excluded_group_ids": [
+                "lincoln_refugee",
+                "lincoln_mem2_q2",
+                "lincolnshire_residence"
+              ],
+              "qualification_routes": [
+                "a_level"
+              ],
+              "qualification_status": [
+                "predicted"
+              ]
+            }
+          },
+          {
+            "condition_id": "contextual_refugee__mem2_q1__ucat_bursary__lms_wp_summer_school",
+            "points": 12,
+            "match": {
+              "all_group_ids": [
+                "lincoln_refugee",
+                "lincoln_mem2_q1",
+                "lincoln_ucat_bursary",
+                "lincoln_lms_wp_summer_school"
+              ],
+              "excluded_group_ids": [
+                "lincoln_care_leaver",
+                "lincoln_mem2_q2",
+                "lincolnshire_residence"
+              ],
+              "qualification_routes": [
+                "a_level"
+              ],
+              "qualification_status": [
+                "predicted"
+              ]
+            }
+          },
+          {
+            "condition_id": "contextual_care_leaver__refugee__mem2_q1__ucat_bursary__lms_wp_summer_school",
+            "points": 12,
+            "match": {
+              "all_group_ids": [
+                "lincoln_care_leaver",
+                "lincoln_refugee",
+                "lincoln_mem2_q1",
+                "lincoln_ucat_bursary",
+                "lincoln_lms_wp_summer_school"
+              ],
+              "excluded_group_ids": [
+                "lincoln_mem2_q2",
+                "lincolnshire_residence"
+              ],
+              "qualification_routes": [
+                "a_level"
+              ],
+              "qualification_status": [
+                "predicted"
+              ]
+            }
+          },
+          {
+            "condition_id": "contextual_mem2_q2__ucat_bursary__lms_wp_summer_school",
+            "points": 12,
+            "match": {
+              "all_group_ids": [
+                "lincoln_mem2_q2",
+                "lincoln_ucat_bursary",
+                "lincoln_lms_wp_summer_school"
+              ],
+              "excluded_group_ids": [
+                "lincoln_care_leaver",
+                "lincoln_refugee",
+                "lincoln_mem2_q1",
+                "lincolnshire_residence"
+              ],
+              "qualification_routes": [
+                "a_level"
+              ],
+              "qualification_status": [
+                "predicted"
+              ]
+            }
+          },
+          {
+            "condition_id": "contextual_care_leaver__mem2_q2__ucat_bursary__lms_wp_summer_school",
+            "points": 12,
+            "match": {
+              "all_group_ids": [
+                "lincoln_care_leaver",
+                "lincoln_mem2_q2",
+                "lincoln_ucat_bursary",
+                "lincoln_lms_wp_summer_school"
+              ],
+              "excluded_group_ids": [
+                "lincoln_refugee",
+                "lincoln_mem2_q1",
+                "lincolnshire_residence"
+              ],
+              "qualification_routes": [
+                "a_level"
+              ],
+              "qualification_status": [
+                "predicted"
+              ]
+            }
+          },
+          {
+            "condition_id": "contextual_refugee__mem2_q2__ucat_bursary__lms_wp_summer_school",
+            "points": 12,
+            "match": {
+              "all_group_ids": [
+                "lincoln_refugee",
+                "lincoln_mem2_q2",
+                "lincoln_ucat_bursary",
+                "lincoln_lms_wp_summer_school"
+              ],
+              "excluded_group_ids": [
+                "lincoln_care_leaver",
+                "lincoln_mem2_q1",
+                "lincolnshire_residence"
+              ],
+              "qualification_routes": [
+                "a_level"
+              ],
+              "qualification_status": [
+                "predicted"
+              ]
+            }
+          },
+          {
+            "condition_id": "contextual_care_leaver__refugee__mem2_q2__ucat_bursary__lms_wp_summer_school",
+            "points": 12,
+            "match": {
+              "all_group_ids": [
+                "lincoln_care_leaver",
+                "lincoln_refugee",
+                "lincoln_mem2_q2",
+                "lincoln_ucat_bursary",
+                "lincoln_lms_wp_summer_school"
+              ],
+              "excluded_group_ids": [
+                "lincoln_mem2_q1",
+                "lincolnshire_residence"
+              ],
+              "qualification_routes": [
+                "a_level"
+              ],
+              "qualification_status": [
+                "predicted"
+              ]
+            }
+          },
+          {
+            "condition_id": "contextual_mem2_q1__mem2_q2__ucat_bursary__lms_wp_summer_school",
+            "points": 12,
+            "match": {
+              "all_group_ids": [
+                "lincoln_mem2_q1",
+                "lincoln_mem2_q2",
+                "lincoln_ucat_bursary",
+                "lincoln_lms_wp_summer_school"
+              ],
+              "excluded_group_ids": [
+                "lincoln_care_leaver",
+                "lincoln_refugee",
+                "lincolnshire_residence"
+              ],
+              "qualification_routes": [
+                "a_level"
+              ],
+              "qualification_status": [
+                "predicted"
+              ]
+            }
+          },
+          {
+            "condition_id": "contextual_care_leaver__mem2_q1__mem2_q2__ucat_bursary__lms_wp_summer_school",
+            "points": 12,
+            "match": {
+              "all_group_ids": [
+                "lincoln_care_leaver",
+                "lincoln_mem2_q1",
+                "lincoln_mem2_q2",
+                "lincoln_ucat_bursary",
+                "lincoln_lms_wp_summer_school"
+              ],
+              "excluded_group_ids": [
+                "lincoln_refugee",
+                "lincolnshire_residence"
+              ],
+              "qualification_routes": [
+                "a_level"
+              ],
+              "qualification_status": [
+                "predicted"
+              ]
+            }
+          },
+          {
+            "condition_id": "contextual_refugee__mem2_q1__mem2_q2__ucat_bursary__lms_wp_summer_school",
+            "points": 12,
+            "match": {
+              "all_group_ids": [
+                "lincoln_refugee",
+                "lincoln_mem2_q1",
+                "lincoln_mem2_q2",
+                "lincoln_ucat_bursary",
+                "lincoln_lms_wp_summer_school"
+              ],
+              "excluded_group_ids": [
+                "lincoln_care_leaver",
+                "lincolnshire_residence"
+              ],
+              "qualification_routes": [
+                "a_level"
+              ],
+              "qualification_status": [
+                "predicted"
+              ]
+            }
+          },
+          {
+            "condition_id": "contextual_care_leaver__refugee__mem2_q1__mem2_q2__ucat_bursary__lms_wp_summer_school",
+            "points": 12,
+            "match": {
+              "all_group_ids": [
+                "lincoln_care_leaver",
+                "lincoln_refugee",
+                "lincoln_mem2_q1",
+                "lincoln_mem2_q2",
+                "lincoln_ucat_bursary",
+                "lincoln_lms_wp_summer_school"
+              ],
+              "excluded_group_ids": [
+                "lincolnshire_residence"
+              ],
+              "qualification_routes": [
+                "a_level"
+              ],
+              "qualification_status": [
+                "predicted"
+              ]
+            }
+          },
+          {
+            "condition_id": "contextual_lincolnshire_residence",
+            "points": 2,
+            "match": {
+              "all_group_ids": [
+                "lincolnshire_residence"
+              ],
+              "excluded_group_ids": [
+                "lincoln_care_leaver",
+                "lincoln_refugee",
+                "lincoln_mem2_q1",
+                "lincoln_mem2_q2",
+                "lincoln_ucat_bursary",
+                "lincoln_lms_wp_summer_school"
+              ],
+              "qualification_routes": [
+                "a_level"
+              ],
+              "qualification_status": [
+                "predicted"
+              ]
+            }
+          },
+          {
+            "condition_id": "contextual_care_leaver__lincolnshire_residence",
+            "points": 12,
+            "match": {
+              "all_group_ids": [
+                "lincoln_care_leaver",
+                "lincolnshire_residence"
+              ],
+              "excluded_group_ids": [
+                "lincoln_refugee",
+                "lincoln_mem2_q1",
+                "lincoln_mem2_q2",
+                "lincoln_ucat_bursary",
+                "lincoln_lms_wp_summer_school"
+              ],
+              "qualification_routes": [
+                "a_level"
+              ],
+              "qualification_status": [
+                "predicted"
+              ]
+            }
+          },
+          {
+            "condition_id": "contextual_refugee__lincolnshire_residence",
+            "points": 12,
+            "match": {
+              "all_group_ids": [
+                "lincoln_refugee",
+                "lincolnshire_residence"
+              ],
+              "excluded_group_ids": [
+                "lincoln_care_leaver",
+                "lincoln_mem2_q1",
+                "lincoln_mem2_q2",
+                "lincoln_ucat_bursary",
+                "lincoln_lms_wp_summer_school"
+              ],
+              "qualification_routes": [
+                "a_level"
+              ],
+              "qualification_status": [
+                "predicted"
+              ]
+            }
+          },
+          {
+            "condition_id": "contextual_care_leaver__refugee__lincolnshire_residence",
+            "points": 12,
+            "match": {
+              "all_group_ids": [
+                "lincoln_care_leaver",
+                "lincoln_refugee",
+                "lincolnshire_residence"
+              ],
+              "excluded_group_ids": [
+                "lincoln_mem2_q1",
+                "lincoln_mem2_q2",
+                "lincoln_ucat_bursary",
+                "lincoln_lms_wp_summer_school"
+              ],
+              "qualification_routes": [
+                "a_level"
+              ],
+              "qualification_status": [
+                "predicted"
+              ]
+            }
+          },
+          {
+            "condition_id": "contextual_mem2_q1__lincolnshire_residence",
+            "points": 12,
+            "match": {
+              "all_group_ids": [
+                "lincoln_mem2_q1",
+                "lincolnshire_residence"
+              ],
+              "excluded_group_ids": [
+                "lincoln_care_leaver",
+                "lincoln_refugee",
+                "lincoln_mem2_q2",
+                "lincoln_ucat_bursary",
+                "lincoln_lms_wp_summer_school"
+              ],
+              "qualification_routes": [
+                "a_level"
+              ],
+              "qualification_status": [
+                "predicted"
+              ]
+            }
+          },
+          {
+            "condition_id": "contextual_care_leaver__mem2_q1__lincolnshire_residence",
+            "points": 12,
+            "match": {
+              "all_group_ids": [
+                "lincoln_care_leaver",
+                "lincoln_mem2_q1",
+                "lincolnshire_residence"
+              ],
+              "excluded_group_ids": [
+                "lincoln_refugee",
+                "lincoln_mem2_q2",
+                "lincoln_ucat_bursary",
+                "lincoln_lms_wp_summer_school"
+              ],
+              "qualification_routes": [
+                "a_level"
+              ],
+              "qualification_status": [
+                "predicted"
+              ]
+            }
+          },
+          {
+            "condition_id": "contextual_refugee__mem2_q1__lincolnshire_residence",
+            "points": 12,
+            "match": {
+              "all_group_ids": [
+                "lincoln_refugee",
+                "lincoln_mem2_q1",
+                "lincolnshire_residence"
+              ],
+              "excluded_group_ids": [
+                "lincoln_care_leaver",
+                "lincoln_mem2_q2",
+                "lincoln_ucat_bursary",
+                "lincoln_lms_wp_summer_school"
+              ],
+              "qualification_routes": [
+                "a_level"
+              ],
+              "qualification_status": [
+                "predicted"
+              ]
+            }
+          },
+          {
+            "condition_id": "contextual_care_leaver__refugee__mem2_q1__lincolnshire_residence",
+            "points": 12,
+            "match": {
+              "all_group_ids": [
+                "lincoln_care_leaver",
+                "lincoln_refugee",
+                "lincoln_mem2_q1",
+                "lincolnshire_residence"
+              ],
+              "excluded_group_ids": [
+                "lincoln_mem2_q2",
+                "lincoln_ucat_bursary",
+                "lincoln_lms_wp_summer_school"
+              ],
+              "qualification_routes": [
+                "a_level"
+              ],
+              "qualification_status": [
+                "predicted"
+              ]
+            }
+          },
+          {
+            "condition_id": "contextual_mem2_q2__lincolnshire_residence",
+            "points": 10,
+            "match": {
+              "all_group_ids": [
+                "lincoln_mem2_q2",
+                "lincolnshire_residence"
+              ],
+              "excluded_group_ids": [
+                "lincoln_care_leaver",
+                "lincoln_refugee",
+                "lincoln_mem2_q1",
+                "lincoln_ucat_bursary",
+                "lincoln_lms_wp_summer_school"
+              ],
+              "qualification_routes": [
+                "a_level"
+              ],
+              "qualification_status": [
+                "predicted"
+              ]
+            }
+          },
+          {
+            "condition_id": "contextual_care_leaver__mem2_q2__lincolnshire_residence",
+            "points": 12,
+            "match": {
+              "all_group_ids": [
+                "lincoln_care_leaver",
+                "lincoln_mem2_q2",
+                "lincolnshire_residence"
+              ],
+              "excluded_group_ids": [
+                "lincoln_refugee",
+                "lincoln_mem2_q1",
+                "lincoln_ucat_bursary",
+                "lincoln_lms_wp_summer_school"
+              ],
+              "qualification_routes": [
+                "a_level"
+              ],
+              "qualification_status": [
+                "predicted"
+              ]
+            }
+          },
+          {
+            "condition_id": "contextual_refugee__mem2_q2__lincolnshire_residence",
+            "points": 12,
+            "match": {
+              "all_group_ids": [
+                "lincoln_refugee",
+                "lincoln_mem2_q2",
+                "lincolnshire_residence"
+              ],
+              "excluded_group_ids": [
+                "lincoln_care_leaver",
+                "lincoln_mem2_q1",
+                "lincoln_ucat_bursary",
+                "lincoln_lms_wp_summer_school"
+              ],
+              "qualification_routes": [
+                "a_level"
+              ],
+              "qualification_status": [
+                "predicted"
+              ]
+            }
+          },
+          {
+            "condition_id": "contextual_care_leaver__refugee__mem2_q2__lincolnshire_residence",
+            "points": 12,
+            "match": {
+              "all_group_ids": [
+                "lincoln_care_leaver",
+                "lincoln_refugee",
+                "lincoln_mem2_q2",
+                "lincolnshire_residence"
+              ],
+              "excluded_group_ids": [
+                "lincoln_mem2_q1",
+                "lincoln_ucat_bursary",
+                "lincoln_lms_wp_summer_school"
+              ],
+              "qualification_routes": [
+                "a_level"
+              ],
+              "qualification_status": [
+                "predicted"
+              ]
+            }
+          },
+          {
+            "condition_id": "contextual_mem2_q1__mem2_q2__lincolnshire_residence",
+            "points": 12,
+            "match": {
+              "all_group_ids": [
+                "lincoln_mem2_q1",
+                "lincoln_mem2_q2",
+                "lincolnshire_residence"
+              ],
+              "excluded_group_ids": [
+                "lincoln_care_leaver",
+                "lincoln_refugee",
+                "lincoln_ucat_bursary",
+                "lincoln_lms_wp_summer_school"
+              ],
+              "qualification_routes": [
+                "a_level"
+              ],
+              "qualification_status": [
+                "predicted"
+              ]
+            }
+          },
+          {
+            "condition_id": "contextual_care_leaver__mem2_q1__mem2_q2__lincolnshire_residence",
+            "points": 12,
+            "match": {
+              "all_group_ids": [
+                "lincoln_care_leaver",
+                "lincoln_mem2_q1",
+                "lincoln_mem2_q2",
+                "lincolnshire_residence"
+              ],
+              "excluded_group_ids": [
+                "lincoln_refugee",
+                "lincoln_ucat_bursary",
+                "lincoln_lms_wp_summer_school"
+              ],
+              "qualification_routes": [
+                "a_level"
+              ],
+              "qualification_status": [
+                "predicted"
+              ]
+            }
+          },
+          {
+            "condition_id": "contextual_refugee__mem2_q1__mem2_q2__lincolnshire_residence",
+            "points": 12,
+            "match": {
+              "all_group_ids": [
+                "lincoln_refugee",
+                "lincoln_mem2_q1",
+                "lincoln_mem2_q2",
+                "lincolnshire_residence"
+              ],
+              "excluded_group_ids": [
+                "lincoln_care_leaver",
+                "lincoln_ucat_bursary",
+                "lincoln_lms_wp_summer_school"
+              ],
+              "qualification_routes": [
+                "a_level"
+              ],
+              "qualification_status": [
+                "predicted"
+              ]
+            }
+          },
+          {
+            "condition_id": "contextual_care_leaver__refugee__mem2_q1__mem2_q2__lincolnshire_residence",
+            "points": 12,
+            "match": {
+              "all_group_ids": [
+                "lincoln_care_leaver",
+                "lincoln_refugee",
+                "lincoln_mem2_q1",
+                "lincoln_mem2_q2",
+                "lincolnshire_residence"
+              ],
+              "excluded_group_ids": [
+                "lincoln_ucat_bursary",
+                "lincoln_lms_wp_summer_school"
+              ],
+              "qualification_routes": [
+                "a_level"
+              ],
+              "qualification_status": [
+                "predicted"
+              ]
+            }
+          },
+          {
+            "condition_id": "contextual_ucat_bursary__lincolnshire_residence",
+            "points": 8,
+            "match": {
+              "all_group_ids": [
+                "lincoln_ucat_bursary",
+                "lincolnshire_residence"
+              ],
+              "excluded_group_ids": [
+                "lincoln_care_leaver",
+                "lincoln_refugee",
+                "lincoln_mem2_q1",
+                "lincoln_mem2_q2",
+                "lincoln_lms_wp_summer_school"
+              ],
+              "qualification_routes": [
+                "a_level"
+              ],
+              "qualification_status": [
+                "predicted"
+              ]
+            }
+          },
+          {
+            "condition_id": "contextual_care_leaver__ucat_bursary__lincolnshire_residence",
+            "points": 12,
+            "match": {
+              "all_group_ids": [
+                "lincoln_care_leaver",
+                "lincoln_ucat_bursary",
+                "lincolnshire_residence"
+              ],
+              "excluded_group_ids": [
+                "lincoln_refugee",
+                "lincoln_mem2_q1",
+                "lincoln_mem2_q2",
+                "lincoln_lms_wp_summer_school"
+              ],
+              "qualification_routes": [
+                "a_level"
+              ],
+              "qualification_status": [
+                "predicted"
+              ]
+            }
+          },
+          {
+            "condition_id": "contextual_refugee__ucat_bursary__lincolnshire_residence",
+            "points": 12,
+            "match": {
+              "all_group_ids": [
+                "lincoln_refugee",
+                "lincoln_ucat_bursary",
+                "lincolnshire_residence"
+              ],
+              "excluded_group_ids": [
+                "lincoln_care_leaver",
+                "lincoln_mem2_q1",
+                "lincoln_mem2_q2",
+                "lincoln_lms_wp_summer_school"
+              ],
+              "qualification_routes": [
+                "a_level"
+              ],
+              "qualification_status": [
+                "predicted"
+              ]
+            }
+          },
+          {
+            "condition_id": "contextual_care_leaver__refugee__ucat_bursary__lincolnshire_residence",
+            "points": 12,
+            "match": {
+              "all_group_ids": [
+                "lincoln_care_leaver",
+                "lincoln_refugee",
+                "lincoln_ucat_bursary",
+                "lincolnshire_residence"
+              ],
+              "excluded_group_ids": [
+                "lincoln_mem2_q1",
+                "lincoln_mem2_q2",
+                "lincoln_lms_wp_summer_school"
+              ],
+              "qualification_routes": [
+                "a_level"
+              ],
+              "qualification_status": [
+                "predicted"
+              ]
+            }
+          },
+          {
+            "condition_id": "contextual_mem2_q1__ucat_bursary__lincolnshire_residence",
+            "points": 12,
+            "match": {
+              "all_group_ids": [
+                "lincoln_mem2_q1",
+                "lincoln_ucat_bursary",
+                "lincolnshire_residence"
+              ],
+              "excluded_group_ids": [
+                "lincoln_care_leaver",
+                "lincoln_refugee",
+                "lincoln_mem2_q2",
+                "lincoln_lms_wp_summer_school"
+              ],
+              "qualification_routes": [
+                "a_level"
+              ],
+              "qualification_status": [
+                "predicted"
+              ]
+            }
+          },
+          {
+            "condition_id": "contextual_care_leaver__mem2_q1__ucat_bursary__lincolnshire_residence",
+            "points": 12,
+            "match": {
+              "all_group_ids": [
+                "lincoln_care_leaver",
+                "lincoln_mem2_q1",
+                "lincoln_ucat_bursary",
+                "lincolnshire_residence"
+              ],
+              "excluded_group_ids": [
+                "lincoln_refugee",
+                "lincoln_mem2_q2",
+                "lincoln_lms_wp_summer_school"
+              ],
+              "qualification_routes": [
+                "a_level"
+              ],
+              "qualification_status": [
+                "predicted"
+              ]
+            }
+          },
+          {
+            "condition_id": "contextual_refugee__mem2_q1__ucat_bursary__lincolnshire_residence",
+            "points": 12,
+            "match": {
+              "all_group_ids": [
+                "lincoln_refugee",
+                "lincoln_mem2_q1",
+                "lincoln_ucat_bursary",
+                "lincolnshire_residence"
+              ],
+              "excluded_group_ids": [
+                "lincoln_care_leaver",
+                "lincoln_mem2_q2",
+                "lincoln_lms_wp_summer_school"
+              ],
+              "qualification_routes": [
+                "a_level"
+              ],
+              "qualification_status": [
+                "predicted"
+              ]
+            }
+          },
+          {
+            "condition_id": "contextual_care_leaver__refugee__mem2_q1__ucat_bursary__lincolnshire_residence",
+            "points": 12,
+            "match": {
+              "all_group_ids": [
+                "lincoln_care_leaver",
+                "lincoln_refugee",
+                "lincoln_mem2_q1",
+                "lincoln_ucat_bursary",
+                "lincolnshire_residence"
+              ],
+              "excluded_group_ids": [
+                "lincoln_mem2_q2",
+                "lincoln_lms_wp_summer_school"
+              ],
+              "qualification_routes": [
+                "a_level"
+              ],
+              "qualification_status": [
+                "predicted"
+              ]
+            }
+          },
+          {
+            "condition_id": "contextual_mem2_q2__ucat_bursary__lincolnshire_residence",
+            "points": 12,
+            "match": {
+              "all_group_ids": [
+                "lincoln_mem2_q2",
+                "lincoln_ucat_bursary",
+                "lincolnshire_residence"
+              ],
+              "excluded_group_ids": [
+                "lincoln_care_leaver",
+                "lincoln_refugee",
+                "lincoln_mem2_q1",
+                "lincoln_lms_wp_summer_school"
+              ],
+              "qualification_routes": [
+                "a_level"
+              ],
+              "qualification_status": [
+                "predicted"
+              ]
+            }
+          },
+          {
+            "condition_id": "contextual_care_leaver__mem2_q2__ucat_bursary__lincolnshire_residence",
+            "points": 12,
+            "match": {
+              "all_group_ids": [
+                "lincoln_care_leaver",
+                "lincoln_mem2_q2",
+                "lincoln_ucat_bursary",
+                "lincolnshire_residence"
+              ],
+              "excluded_group_ids": [
+                "lincoln_refugee",
+                "lincoln_mem2_q1",
+                "lincoln_lms_wp_summer_school"
+              ],
+              "qualification_routes": [
+                "a_level"
+              ],
+              "qualification_status": [
+                "predicted"
+              ]
+            }
+          },
+          {
+            "condition_id": "contextual_refugee__mem2_q2__ucat_bursary__lincolnshire_residence",
+            "points": 12,
+            "match": {
+              "all_group_ids": [
+                "lincoln_refugee",
+                "lincoln_mem2_q2",
+                "lincoln_ucat_bursary",
+                "lincolnshire_residence"
+              ],
+              "excluded_group_ids": [
+                "lincoln_care_leaver",
+                "lincoln_mem2_q1",
+                "lincoln_lms_wp_summer_school"
+              ],
+              "qualification_routes": [
+                "a_level"
+              ],
+              "qualification_status": [
+                "predicted"
+              ]
+            }
+          },
+          {
+            "condition_id": "contextual_care_leaver__refugee__mem2_q2__ucat_bursary__lincolnshire_residence",
+            "points": 12,
+            "match": {
+              "all_group_ids": [
+                "lincoln_care_leaver",
+                "lincoln_refugee",
+                "lincoln_mem2_q2",
+                "lincoln_ucat_bursary",
+                "lincolnshire_residence"
+              ],
+              "excluded_group_ids": [
+                "lincoln_mem2_q1",
+                "lincoln_lms_wp_summer_school"
+              ],
+              "qualification_routes": [
+                "a_level"
+              ],
+              "qualification_status": [
+                "predicted"
+              ]
+            }
+          },
+          {
+            "condition_id": "contextual_mem2_q1__mem2_q2__ucat_bursary__lincolnshire_residence",
+            "points": 12,
+            "match": {
+              "all_group_ids": [
+                "lincoln_mem2_q1",
+                "lincoln_mem2_q2",
+                "lincoln_ucat_bursary",
+                "lincolnshire_residence"
+              ],
+              "excluded_group_ids": [
+                "lincoln_care_leaver",
+                "lincoln_refugee",
+                "lincoln_lms_wp_summer_school"
+              ],
+              "qualification_routes": [
+                "a_level"
+              ],
+              "qualification_status": [
+                "predicted"
+              ]
+            }
+          },
+          {
+            "condition_id": "contextual_care_leaver__mem2_q1__mem2_q2__ucat_bursary__lincolnshire_residence",
+            "points": 12,
+            "match": {
+              "all_group_ids": [
+                "lincoln_care_leaver",
+                "lincoln_mem2_q1",
+                "lincoln_mem2_q2",
+                "lincoln_ucat_bursary",
+                "lincolnshire_residence"
+              ],
+              "excluded_group_ids": [
+                "lincoln_refugee",
+                "lincoln_lms_wp_summer_school"
+              ],
+              "qualification_routes": [
+                "a_level"
+              ],
+              "qualification_status": [
+                "predicted"
+              ]
+            }
+          },
+          {
+            "condition_id": "contextual_refugee__mem2_q1__mem2_q2__ucat_bursary__lincolnshire_residence",
+            "points": 12,
+            "match": {
+              "all_group_ids": [
+                "lincoln_refugee",
+                "lincoln_mem2_q1",
+                "lincoln_mem2_q2",
+                "lincoln_ucat_bursary",
+                "lincolnshire_residence"
+              ],
+              "excluded_group_ids": [
+                "lincoln_care_leaver",
+                "lincoln_lms_wp_summer_school"
+              ],
+              "qualification_routes": [
+                "a_level"
+              ],
+              "qualification_status": [
+                "predicted"
+              ]
+            }
+          },
+          {
+            "condition_id": "contextual_care_leaver__refugee__mem2_q1__mem2_q2__ucat_bursary__lincolnshire_residence",
+            "points": 12,
+            "match": {
+              "all_group_ids": [
+                "lincoln_care_leaver",
+                "lincoln_refugee",
+                "lincoln_mem2_q1",
+                "lincoln_mem2_q2",
+                "lincoln_ucat_bursary",
+                "lincolnshire_residence"
+              ],
+              "excluded_group_ids": [
+                "lincoln_lms_wp_summer_school"
+              ],
+              "qualification_routes": [
+                "a_level"
+              ],
+              "qualification_status": [
+                "predicted"
+              ]
+            }
+          },
+          {
+            "condition_id": "contextual_lms_wp_summer_school__lincolnshire_residence",
+            "points": 8,
+            "match": {
+              "all_group_ids": [
+                "lincoln_lms_wp_summer_school",
+                "lincolnshire_residence"
+              ],
+              "excluded_group_ids": [
+                "lincoln_care_leaver",
+                "lincoln_refugee",
+                "lincoln_mem2_q1",
+                "lincoln_mem2_q2",
+                "lincoln_ucat_bursary"
+              ],
+              "qualification_routes": [
+                "a_level"
+              ],
+              "qualification_status": [
+                "predicted"
+              ]
+            }
+          },
+          {
+            "condition_id": "contextual_care_leaver__lms_wp_summer_school__lincolnshire_residence",
+            "points": 12,
+            "match": {
+              "all_group_ids": [
+                "lincoln_care_leaver",
+                "lincoln_lms_wp_summer_school",
+                "lincolnshire_residence"
+              ],
+              "excluded_group_ids": [
+                "lincoln_refugee",
+                "lincoln_mem2_q1",
+                "lincoln_mem2_q2",
+                "lincoln_ucat_bursary"
+              ],
+              "qualification_routes": [
+                "a_level"
+              ],
+              "qualification_status": [
+                "predicted"
+              ]
+            }
+          },
+          {
+            "condition_id": "contextual_refugee__lms_wp_summer_school__lincolnshire_residence",
+            "points": 12,
+            "match": {
+              "all_group_ids": [
+                "lincoln_refugee",
+                "lincoln_lms_wp_summer_school",
+                "lincolnshire_residence"
+              ],
+              "excluded_group_ids": [
+                "lincoln_care_leaver",
+                "lincoln_mem2_q1",
+                "lincoln_mem2_q2",
+                "lincoln_ucat_bursary"
+              ],
+              "qualification_routes": [
+                "a_level"
+              ],
+              "qualification_status": [
+                "predicted"
+              ]
+            }
+          },
+          {
+            "condition_id": "contextual_care_leaver__refugee__lms_wp_summer_school__lincolnshire_residence",
+            "points": 12,
+            "match": {
+              "all_group_ids": [
+                "lincoln_care_leaver",
+                "lincoln_refugee",
+                "lincoln_lms_wp_summer_school",
+                "lincolnshire_residence"
+              ],
+              "excluded_group_ids": [
+                "lincoln_mem2_q1",
+                "lincoln_mem2_q2",
+                "lincoln_ucat_bursary"
+              ],
+              "qualification_routes": [
+                "a_level"
+              ],
+              "qualification_status": [
+                "predicted"
+              ]
+            }
+          },
+          {
+            "condition_id": "contextual_mem2_q1__lms_wp_summer_school__lincolnshire_residence",
+            "points": 12,
+            "match": {
+              "all_group_ids": [
+                "lincoln_mem2_q1",
+                "lincoln_lms_wp_summer_school",
+                "lincolnshire_residence"
+              ],
+              "excluded_group_ids": [
+                "lincoln_care_leaver",
+                "lincoln_refugee",
+                "lincoln_mem2_q2",
+                "lincoln_ucat_bursary"
+              ],
+              "qualification_routes": [
+                "a_level"
+              ],
+              "qualification_status": [
+                "predicted"
+              ]
+            }
+          },
+          {
+            "condition_id": "contextual_care_leaver__mem2_q1__lms_wp_summer_school__lincolnshire_residence",
+            "points": 12,
+            "match": {
+              "all_group_ids": [
+                "lincoln_care_leaver",
+                "lincoln_mem2_q1",
+                "lincoln_lms_wp_summer_school",
+                "lincolnshire_residence"
+              ],
+              "excluded_group_ids": [
+                "lincoln_refugee",
+                "lincoln_mem2_q2",
+                "lincoln_ucat_bursary"
+              ],
+              "qualification_routes": [
+                "a_level"
+              ],
+              "qualification_status": [
+                "predicted"
+              ]
+            }
+          },
+          {
+            "condition_id": "contextual_refugee__mem2_q1__lms_wp_summer_school__lincolnshire_residence",
+            "points": 12,
+            "match": {
+              "all_group_ids": [
+                "lincoln_refugee",
+                "lincoln_mem2_q1",
+                "lincoln_lms_wp_summer_school",
+                "lincolnshire_residence"
+              ],
+              "excluded_group_ids": [
+                "lincoln_care_leaver",
+                "lincoln_mem2_q2",
+                "lincoln_ucat_bursary"
+              ],
+              "qualification_routes": [
+                "a_level"
+              ],
+              "qualification_status": [
+                "predicted"
+              ]
+            }
+          },
+          {
+            "condition_id": "contextual_care_leaver__refugee__mem2_q1__lms_wp_summer_school__lincolnshire_residence",
+            "points": 12,
+            "match": {
+              "all_group_ids": [
+                "lincoln_care_leaver",
+                "lincoln_refugee",
+                "lincoln_mem2_q1",
+                "lincoln_lms_wp_summer_school",
+                "lincolnshire_residence"
+              ],
+              "excluded_group_ids": [
+                "lincoln_mem2_q2",
+                "lincoln_ucat_bursary"
+              ],
+              "qualification_routes": [
+                "a_level"
+              ],
+              "qualification_status": [
+                "predicted"
+              ]
+            }
+          },
+          {
+            "condition_id": "contextual_mem2_q2__lms_wp_summer_school__lincolnshire_residence",
+            "points": 12,
+            "match": {
+              "all_group_ids": [
+                "lincoln_mem2_q2",
+                "lincoln_lms_wp_summer_school",
+                "lincolnshire_residence"
+              ],
+              "excluded_group_ids": [
+                "lincoln_care_leaver",
+                "lincoln_refugee",
+                "lincoln_mem2_q1",
+                "lincoln_ucat_bursary"
+              ],
+              "qualification_routes": [
+                "a_level"
+              ],
+              "qualification_status": [
+                "predicted"
+              ]
+            }
+          },
+          {
+            "condition_id": "contextual_care_leaver__mem2_q2__lms_wp_summer_school__lincolnshire_residence",
+            "points": 12,
+            "match": {
+              "all_group_ids": [
+                "lincoln_care_leaver",
+                "lincoln_mem2_q2",
+                "lincoln_lms_wp_summer_school",
+                "lincolnshire_residence"
+              ],
+              "excluded_group_ids": [
+                "lincoln_refugee",
+                "lincoln_mem2_q1",
+                "lincoln_ucat_bursary"
+              ],
+              "qualification_routes": [
+                "a_level"
+              ],
+              "qualification_status": [
+                "predicted"
+              ]
+            }
+          },
+          {
+            "condition_id": "contextual_refugee__mem2_q2__lms_wp_summer_school__lincolnshire_residence",
+            "points": 12,
+            "match": {
+              "all_group_ids": [
+                "lincoln_refugee",
+                "lincoln_mem2_q2",
+                "lincoln_lms_wp_summer_school",
+                "lincolnshire_residence"
+              ],
+              "excluded_group_ids": [
+                "lincoln_care_leaver",
+                "lincoln_mem2_q1",
+                "lincoln_ucat_bursary"
+              ],
+              "qualification_routes": [
+                "a_level"
+              ],
+              "qualification_status": [
+                "predicted"
+              ]
+            }
+          },
+          {
+            "condition_id": "contextual_care_leaver__refugee__mem2_q2__lms_wp_summer_school__lincolnshire_residence",
+            "points": 12,
+            "match": {
+              "all_group_ids": [
+                "lincoln_care_leaver",
+                "lincoln_refugee",
+                "lincoln_mem2_q2",
+                "lincoln_lms_wp_summer_school",
+                "lincolnshire_residence"
+              ],
+              "excluded_group_ids": [
+                "lincoln_mem2_q1",
+                "lincoln_ucat_bursary"
+              ],
+              "qualification_routes": [
+                "a_level"
+              ],
+              "qualification_status": [
+                "predicted"
+              ]
+            }
+          },
+          {
+            "condition_id": "contextual_mem2_q1__mem2_q2__lms_wp_summer_school__lincolnshire_residence",
+            "points": 12,
+            "match": {
+              "all_group_ids": [
+                "lincoln_mem2_q1",
+                "lincoln_mem2_q2",
+                "lincoln_lms_wp_summer_school",
+                "lincolnshire_residence"
+              ],
+              "excluded_group_ids": [
+                "lincoln_care_leaver",
+                "lincoln_refugee",
+                "lincoln_ucat_bursary"
+              ],
+              "qualification_routes": [
+                "a_level"
+              ],
+              "qualification_status": [
+                "predicted"
+              ]
+            }
+          },
+          {
+            "condition_id": "contextual_care_leaver__mem2_q1__mem2_q2__lms_wp_summer_school__lincolnshire_residence",
+            "points": 12,
+            "match": {
+              "all_group_ids": [
+                "lincoln_care_leaver",
+                "lincoln_mem2_q1",
+                "lincoln_mem2_q2",
+                "lincoln_lms_wp_summer_school",
+                "lincolnshire_residence"
+              ],
+              "excluded_group_ids": [
+                "lincoln_refugee",
+                "lincoln_ucat_bursary"
+              ],
+              "qualification_routes": [
+                "a_level"
+              ],
+              "qualification_status": [
+                "predicted"
+              ]
+            }
+          },
+          {
+            "condition_id": "contextual_refugee__mem2_q1__mem2_q2__lms_wp_summer_school__lincolnshire_residence",
+            "points": 12,
+            "match": {
+              "all_group_ids": [
+                "lincoln_refugee",
+                "lincoln_mem2_q1",
+                "lincoln_mem2_q2",
+                "lincoln_lms_wp_summer_school",
+                "lincolnshire_residence"
+              ],
+              "excluded_group_ids": [
+                "lincoln_care_leaver",
+                "lincoln_ucat_bursary"
+              ],
+              "qualification_routes": [
+                "a_level"
+              ],
+              "qualification_status": [
+                "predicted"
+              ]
+            }
+          },
+          {
+            "condition_id": "contextual_care_leaver__refugee__mem2_q1__mem2_q2__lms_wp_summer_school__lincolnshire_residence",
+            "points": 12,
+            "match": {
+              "all_group_ids": [
+                "lincoln_care_leaver",
+                "lincoln_refugee",
+                "lincoln_mem2_q1",
+                "lincoln_mem2_q2",
+                "lincoln_lms_wp_summer_school",
+                "lincolnshire_residence"
+              ],
+              "excluded_group_ids": [
+                "lincoln_ucat_bursary"
+              ],
+              "qualification_routes": [
+                "a_level"
+              ],
+              "qualification_status": [
+                "predicted"
+              ]
+            }
+          },
+          {
+            "condition_id": "contextual_ucat_bursary__lms_wp_summer_school__lincolnshire_residence",
+            "points": 12,
+            "match": {
+              "all_group_ids": [
+                "lincoln_ucat_bursary",
+                "lincoln_lms_wp_summer_school",
+                "lincolnshire_residence"
+              ],
+              "excluded_group_ids": [
+                "lincoln_care_leaver",
+                "lincoln_refugee",
+                "lincoln_mem2_q1",
+                "lincoln_mem2_q2"
+              ],
+              "qualification_routes": [
+                "a_level"
+              ],
+              "qualification_status": [
+                "predicted"
+              ]
+            }
+          },
+          {
+            "condition_id": "contextual_care_leaver__ucat_bursary__lms_wp_summer_school__lincolnshire_residence",
+            "points": 12,
+            "match": {
+              "all_group_ids": [
+                "lincoln_care_leaver",
+                "lincoln_ucat_bursary",
+                "lincoln_lms_wp_summer_school",
+                "lincolnshire_residence"
+              ],
+              "excluded_group_ids": [
+                "lincoln_refugee",
+                "lincoln_mem2_q1",
+                "lincoln_mem2_q2"
+              ],
+              "qualification_routes": [
+                "a_level"
+              ],
+              "qualification_status": [
+                "predicted"
+              ]
+            }
+          },
+          {
+            "condition_id": "contextual_refugee__ucat_bursary__lms_wp_summer_school__lincolnshire_residence",
+            "points": 12,
+            "match": {
+              "all_group_ids": [
+                "lincoln_refugee",
+                "lincoln_ucat_bursary",
+                "lincoln_lms_wp_summer_school",
+                "lincolnshire_residence"
+              ],
+              "excluded_group_ids": [
+                "lincoln_care_leaver",
+                "lincoln_mem2_q1",
+                "lincoln_mem2_q2"
+              ],
+              "qualification_routes": [
+                "a_level"
+              ],
+              "qualification_status": [
+                "predicted"
+              ]
+            }
+          },
+          {
+            "condition_id": "contextual_care_leaver__refugee__ucat_bursary__lms_wp_summer_school__lincolnshire_residence",
+            "points": 12,
+            "match": {
+              "all_group_ids": [
+                "lincoln_care_leaver",
+                "lincoln_refugee",
+                "lincoln_ucat_bursary",
+                "lincoln_lms_wp_summer_school",
+                "lincolnshire_residence"
+              ],
+              "excluded_group_ids": [
+                "lincoln_mem2_q1",
+                "lincoln_mem2_q2"
+              ],
+              "qualification_routes": [
+                "a_level"
+              ],
+              "qualification_status": [
+                "predicted"
+              ]
+            }
+          },
+          {
+            "condition_id": "contextual_mem2_q1__ucat_bursary__lms_wp_summer_school__lincolnshire_residence",
+            "points": 12,
+            "match": {
+              "all_group_ids": [
+                "lincoln_mem2_q1",
+                "lincoln_ucat_bursary",
+                "lincoln_lms_wp_summer_school",
+                "lincolnshire_residence"
+              ],
+              "excluded_group_ids": [
+                "lincoln_care_leaver",
+                "lincoln_refugee",
+                "lincoln_mem2_q2"
+              ],
+              "qualification_routes": [
+                "a_level"
+              ],
+              "qualification_status": [
+                "predicted"
+              ]
+            }
+          },
+          {
+            "condition_id": "contextual_care_leaver__mem2_q1__ucat_bursary__lms_wp_summer_school__lincolnshire_residence",
+            "points": 12,
+            "match": {
+              "all_group_ids": [
+                "lincoln_care_leaver",
+                "lincoln_mem2_q1",
+                "lincoln_ucat_bursary",
+                "lincoln_lms_wp_summer_school",
+                "lincolnshire_residence"
+              ],
+              "excluded_group_ids": [
+                "lincoln_refugee",
+                "lincoln_mem2_q2"
+              ],
+              "qualification_routes": [
+                "a_level"
+              ],
+              "qualification_status": [
+                "predicted"
+              ]
+            }
+          },
+          {
+            "condition_id": "contextual_refugee__mem2_q1__ucat_bursary__lms_wp_summer_school__lincolnshire_residence",
+            "points": 12,
+            "match": {
+              "all_group_ids": [
+                "lincoln_refugee",
+                "lincoln_mem2_q1",
+                "lincoln_ucat_bursary",
+                "lincoln_lms_wp_summer_school",
+                "lincolnshire_residence"
+              ],
+              "excluded_group_ids": [
+                "lincoln_care_leaver",
+                "lincoln_mem2_q2"
+              ],
+              "qualification_routes": [
+                "a_level"
+              ],
+              "qualification_status": [
+                "predicted"
+              ]
+            }
+          },
+          {
+            "condition_id": "contextual_care_leaver__refugee__mem2_q1__ucat_bursary__lms_wp_summer_school__lincolnshire_residence",
+            "points": 12,
+            "match": {
+              "all_group_ids": [
+                "lincoln_care_leaver",
+                "lincoln_refugee",
+                "lincoln_mem2_q1",
+                "lincoln_ucat_bursary",
+                "lincoln_lms_wp_summer_school",
+                "lincolnshire_residence"
+              ],
+              "excluded_group_ids": [
+                "lincoln_mem2_q2"
+              ],
+              "qualification_routes": [
+                "a_level"
+              ],
+              "qualification_status": [
+                "predicted"
+              ]
+            }
+          },
+          {
+            "condition_id": "contextual_mem2_q2__ucat_bursary__lms_wp_summer_school__lincolnshire_residence",
+            "points": 12,
+            "match": {
+              "all_group_ids": [
+                "lincoln_mem2_q2",
+                "lincoln_ucat_bursary",
+                "lincoln_lms_wp_summer_school",
+                "lincolnshire_residence"
+              ],
+              "excluded_group_ids": [
+                "lincoln_care_leaver",
+                "lincoln_refugee",
+                "lincoln_mem2_q1"
+              ],
+              "qualification_routes": [
+                "a_level"
+              ],
+              "qualification_status": [
+                "predicted"
+              ]
+            }
+          },
+          {
+            "condition_id": "contextual_care_leaver__mem2_q2__ucat_bursary__lms_wp_summer_school__lincolnshire_residence",
+            "points": 12,
+            "match": {
+              "all_group_ids": [
+                "lincoln_care_leaver",
+                "lincoln_mem2_q2",
+                "lincoln_ucat_bursary",
+                "lincoln_lms_wp_summer_school",
+                "lincolnshire_residence"
+              ],
+              "excluded_group_ids": [
+                "lincoln_refugee",
+                "lincoln_mem2_q1"
+              ],
+              "qualification_routes": [
+                "a_level"
+              ],
+              "qualification_status": [
+                "predicted"
+              ]
+            }
+          },
+          {
+            "condition_id": "contextual_refugee__mem2_q2__ucat_bursary__lms_wp_summer_school__lincolnshire_residence",
+            "points": 12,
+            "match": {
+              "all_group_ids": [
+                "lincoln_refugee",
+                "lincoln_mem2_q2",
+                "lincoln_ucat_bursary",
+                "lincoln_lms_wp_summer_school",
+                "lincolnshire_residence"
+              ],
+              "excluded_group_ids": [
+                "lincoln_care_leaver",
+                "lincoln_mem2_q1"
+              ],
+              "qualification_routes": [
+                "a_level"
+              ],
+              "qualification_status": [
+                "predicted"
+              ]
+            }
+          },
+          {
+            "condition_id": "contextual_care_leaver__refugee__mem2_q2__ucat_bursary__lms_wp_summer_school__lincolnshire_residence",
+            "points": 12,
+            "match": {
+              "all_group_ids": [
+                "lincoln_care_leaver",
+                "lincoln_refugee",
+                "lincoln_mem2_q2",
+                "lincoln_ucat_bursary",
+                "lincoln_lms_wp_summer_school",
+                "lincolnshire_residence"
+              ],
+              "excluded_group_ids": [
+                "lincoln_mem2_q1"
+              ],
+              "qualification_routes": [
+                "a_level"
+              ],
+              "qualification_status": [
+                "predicted"
+              ]
+            }
+          },
+          {
+            "condition_id": "contextual_mem2_q1__mem2_q2__ucat_bursary__lms_wp_summer_school__lincolnshire_residence",
+            "points": 12,
+            "match": {
+              "all_group_ids": [
+                "lincoln_mem2_q1",
+                "lincoln_mem2_q2",
+                "lincoln_ucat_bursary",
+                "lincoln_lms_wp_summer_school",
+                "lincolnshire_residence"
+              ],
+              "excluded_group_ids": [
+                "lincoln_care_leaver",
+                "lincoln_refugee"
+              ],
+              "qualification_routes": [
+                "a_level"
+              ],
+              "qualification_status": [
+                "predicted"
+              ]
+            }
+          },
+          {
+            "condition_id": "contextual_care_leaver__mem2_q1__mem2_q2__ucat_bursary__lms_wp_summer_school__lincolnshire_residence",
+            "points": 12,
+            "match": {
+              "all_group_ids": [
+                "lincoln_care_leaver",
+                "lincoln_mem2_q1",
+                "lincoln_mem2_q2",
+                "lincoln_ucat_bursary",
+                "lincoln_lms_wp_summer_school",
+                "lincolnshire_residence"
+              ],
+              "excluded_group_ids": [
+                "lincoln_refugee"
+              ],
+              "qualification_routes": [
+                "a_level"
+              ],
+              "qualification_status": [
+                "predicted"
+              ]
+            }
+          },
+          {
+            "condition_id": "contextual_refugee__mem2_q1__mem2_q2__ucat_bursary__lms_wp_summer_school__lincolnshire_residence",
+            "points": 12,
+            "match": {
+              "all_group_ids": [
+                "lincoln_refugee",
+                "lincoln_mem2_q1",
+                "lincoln_mem2_q2",
+                "lincoln_ucat_bursary",
+                "lincoln_lms_wp_summer_school",
+                "lincolnshire_residence"
+              ],
+              "excluded_group_ids": [
+                "lincoln_care_leaver"
+              ],
+              "qualification_routes": [
+                "a_level"
+              ],
+              "qualification_status": [
+                "predicted"
+              ]
+            }
+          },
+          {
+            "condition_id": "contextual_care_leaver__refugee__mem2_q1__mem2_q2__ucat_bursary__lms_wp_summer_school__lincolnshire_residence",
+            "points": 12,
+            "match": {
+              "all_group_ids": [
+                "lincoln_care_leaver",
+                "lincoln_refugee",
+                "lincoln_mem2_q1",
+                "lincoln_mem2_q2",
+                "lincoln_ucat_bursary",
+                "lincoln_lms_wp_summer_school",
+                "lincolnshire_residence"
+              ],
+              "excluded_group_ids": [],
+              "qualification_routes": [
+                "a_level"
+              ],
+              "qualification_status": [
+                "predicted"
+              ]
+            }
+          }
+        ],
+        "match": {
+          "excluded_group_ids": [
+            "graduate_applicant",
+            "international_fee"
+          ],
+          "qualification_routes": [
+            "a_level"
+          ],
+          "qualification_status": [
+            "predicted"
+          ]
+        }
+      },
+      {
+        "component_id": "model_b_ucat_cognitive_doubled_achieved_a_level",
+        "type": "ucat_range_lookup",
+        "max": 30,
+        "ranges": [
+          {
+            "band": "b15_gt2300_2700",
+            "min": 2301,
+            "max": 2700
+          },
+          {
+            "band": "b14_2170_2290",
+            "min": 2170,
+            "max": 2290
+          },
+          {
+            "band": "b12_2050_2160",
+            "min": 2050,
+            "max": 2160
+          },
+          {
+            "band": "b11_1970_2040",
+            "min": 1970,
+            "max": 2040
+          },
+          {
+            "band": "b10_1910_1960",
+            "min": 1910,
+            "max": 1960
+          },
+          {
+            "band": "b9_1860_1900",
+            "min": 1860,
+            "max": 1900
+          },
+          {
+            "band": "b7_1810_1850",
+            "min": 1810,
+            "max": 1850
+          },
+          {
+            "band": "b6_1750_1800",
+            "min": 1750,
+            "max": 1800
+          },
+          {
+            "band": "b4_1680_1740",
+            "min": 1680,
+            "max": 1740
+          },
+          {
+            "band": "b2_1580_1670",
+            "min": 1580,
+            "max": 1670
+          },
+          {
+            "band": "b0_0_1579",
+            "min": 0,
+            "max": 1579
+          }
+        ],
+        "points_by_band": {
+          "b15_gt2300_2700": 30,
+          "b14_2170_2290": 28,
+          "b12_2050_2160": 24,
+          "b11_1970_2040": 22,
+          "b10_1910_1960": 20,
+          "b9_1860_1900": 18,
+          "b7_1810_1850": 14,
+          "b6_1750_1800": 12,
+          "b4_1680_1740": 8,
+          "b2_1580_1670": 4,
+          "b0_0_1579": 0
+        },
+        "official": true,
+        "notes": "Official Lincoln UCAT cognitive band table. UCAT totals are expected on a 10-point grid; unpublished in-between gap scores are not converted into invented higher bands.",
+        "match": {
+          "excluded_group_ids": [
+            "graduate_applicant",
+            "international_fee"
+          ],
+          "qualification_routes": [
+            "a_level"
+          ],
+          "qualification_status": [
+            "achieved"
+          ]
+        }
+      },
+      {
+        "component_id": "model_b_sjt_doubled_achieved_a_level",
+        "type": "sjt_band_lookup",
+        "max": 30,
+        "points_by_band": {
+          "1": 30,
+          "2": 20,
+          "3": 10
+        },
+        "band_4_outcome": "not_eligible",
+        "official": true,
+        "match": {
+          "excluded_group_ids": [
+            "graduate_applicant",
+            "international_fee"
+          ],
+          "qualification_routes": [
+            "a_level"
+          ],
+          "qualification_status": [
+            "achieved"
+          ]
+        }
+      },
+      {
+        "component_id": "model_b_ucat_cognitive_doubled_graduate",
+        "type": "ucat_range_lookup",
+        "max": 30,
+        "ranges": [
+          {
+            "band": "b15_gt2300_2700",
+            "min": 2301,
+            "max": 2700
+          },
+          {
+            "band": "b14_2170_2290",
+            "min": 2170,
+            "max": 2290
+          },
+          {
+            "band": "b12_2050_2160",
+            "min": 2050,
+            "max": 2160
+          },
+          {
+            "band": "b11_1970_2040",
+            "min": 1970,
+            "max": 2040
+          },
+          {
+            "band": "b10_1910_1960",
+            "min": 1910,
+            "max": 1960
+          },
+          {
+            "band": "b9_1860_1900",
+            "min": 1860,
+            "max": 1900
+          },
+          {
+            "band": "b7_1810_1850",
+            "min": 1810,
+            "max": 1850
+          },
+          {
+            "band": "b6_1750_1800",
+            "min": 1750,
+            "max": 1800
+          },
+          {
+            "band": "b4_1680_1740",
+            "min": 1680,
+            "max": 1740
+          },
+          {
+            "band": "b2_1580_1670",
+            "min": 1580,
+            "max": 1670
+          },
+          {
+            "band": "b0_0_1579",
+            "min": 0,
+            "max": 1579
+          }
+        ],
+        "points_by_band": {
+          "b15_gt2300_2700": 30,
+          "b14_2170_2290": 28,
+          "b12_2050_2160": 24,
+          "b11_1970_2040": 22,
+          "b10_1910_1960": 20,
+          "b9_1860_1900": 18,
+          "b7_1810_1850": 14,
+          "b6_1750_1800": 12,
+          "b4_1680_1740": 8,
+          "b2_1580_1670": 4,
+          "b0_0_1579": 0
+        },
+        "official": true,
+        "notes": "Official Lincoln UCAT cognitive band table. UCAT totals are expected on a 10-point grid; unpublished in-between gap scores are not converted into invented higher bands.",
+        "match": {
+          "all_group_ids": [
+            "graduate_applicant"
+          ],
+          "excluded_group_ids": [
+            "international_fee"
+          ],
+          "qualification_routes": [
+            "graduate"
+          ]
+        }
+      },
+      {
+        "component_id": "model_b_sjt_doubled_graduate",
+        "type": "sjt_band_lookup",
+        "max": 30,
+        "points_by_band": {
+          "1": 30,
+          "2": 20,
+          "3": 10
+        },
+        "band_4_outcome": "not_eligible",
+        "official": true,
+        "match": {
+          "all_group_ids": [
+            "graduate_applicant"
+          ],
+          "excluded_group_ids": [
+            "international_fee"
+          ],
+          "qualification_routes": [
+            "graduate"
+          ]
+        }
+      },
+      {
+        "component_id": "model_b_ucat_cognitive_doubled_undergraduate",
+        "type": "ucat_range_lookup",
+        "max": 30,
+        "ranges": [
+          {
+            "band": "b15_gt2300_2700",
+            "min": 2301,
+            "max": 2700
+          },
+          {
+            "band": "b14_2170_2290",
+            "min": 2170,
+            "max": 2290
+          },
+          {
+            "band": "b12_2050_2160",
+            "min": 2050,
+            "max": 2160
+          },
+          {
+            "band": "b11_1970_2040",
+            "min": 1970,
+            "max": 2040
+          },
+          {
+            "band": "b10_1910_1960",
+            "min": 1910,
+            "max": 1960
+          },
+          {
+            "band": "b9_1860_1900",
+            "min": 1860,
+            "max": 1900
+          },
+          {
+            "band": "b7_1810_1850",
+            "min": 1810,
+            "max": 1850
+          },
+          {
+            "band": "b6_1750_1800",
+            "min": 1750,
+            "max": 1800
+          },
+          {
+            "band": "b4_1680_1740",
+            "min": 1680,
+            "max": 1740
+          },
+          {
+            "band": "b2_1580_1670",
+            "min": 1580,
+            "max": 1670
+          },
+          {
+            "band": "b0_0_1579",
+            "min": 0,
+            "max": 1579
+          }
+        ],
+        "points_by_band": {
+          "b15_gt2300_2700": 30,
+          "b14_2170_2290": 28,
+          "b12_2050_2160": 24,
+          "b11_1970_2040": 22,
+          "b10_1910_1960": 20,
+          "b9_1860_1900": 18,
+          "b7_1810_1850": 14,
+          "b6_1750_1800": 12,
+          "b4_1680_1740": 8,
+          "b2_1580_1670": 4,
+          "b0_0_1579": 0
+        },
+        "official": true,
+        "notes": "Official Lincoln UCAT cognitive band table. UCAT totals are expected on a 10-point grid; unpublished in-between gap scores are not converted into invented higher bands.",
+        "match": {
+          "excluded_group_ids": [
+            "international_fee",
+            "graduate_applicant"
+          ],
+          "qualification_routes": [
+            "undergraduate"
+          ]
+        }
+      },
+      {
+        "component_id": "model_b_sjt_doubled_undergraduate",
+        "type": "sjt_band_lookup",
+        "max": 30,
+        "points_by_band": {
+          "1": 30,
+          "2": 20,
+          "3": 10
+        },
+        "band_4_outcome": "not_eligible",
+        "official": true,
+        "match": {
+          "excluded_group_ids": [
+            "international_fee",
+            "graduate_applicant"
+          ],
+          "qualification_routes": [
+            "undergraduate"
+          ]
+        }
+      }
+    ],
+    "official_vs_estimated_policy": {
+      "runtime_allowed": [
+        "GCSE scoring table",
+        "UCAT cognitive band table",
+        "SJT mapping and Band 4 filter",
+        "contextual matrix capped at 12",
+        "score maxima and qualification-route scoring",
+        "provisional prediction bands when clearly labelled as strategic guidance"
+      ],
+      "display_only": [
+        "250-400 modelled interview count",
+        "competitive profile descriptions",
+        "historical Nottingham partnership UCAT data"
+      ]
+    },
+    "presentation": {
+      "band_headlines": {
+        "interview_likely": "Very Strong Choice",
+        "realistic": "Strong Choice",
+        "ambitious": "Realistic Choice",
+        "high_risk": "High Risk"
+      },
+      "band_recommendations": {
+        "interview_likely": "Very strong provisional Lincoln choice",
+        "realistic": "Strong provisional Lincoln choice",
+        "ambitious": "Realistic provisional Lincoln choice",
+        "high_risk": "High risk provisional Lincoln choice"
+      },
+      "band_explanations": {
+        "interview_likely": "Your Lincoln selection score is in ApplySmart's provisional very strong zone. Lincoln has not published an official interview cutoff for its first independent admissions cycle, so use this as guidance rather than a guaranteed interview.",
+        "realistic": "Your Lincoln selection score is in ApplySmart's provisional strong zone. Lincoln has not published an official interview cutoff for its first independent admissions cycle, so use this as guidance rather than a guaranteed interview.",
+        "ambitious": "Your Lincoln selection score is in ApplySmart's provisional realistic zone. Lincoln has not published an official interview cutoff for its first independent admissions cycle, so use this as guidance rather than a guaranteed interview.",
+        "high_risk": "Your Lincoln selection score is below ApplySmart's provisional competitive zone. Lincoln has not published an official interview cutoff for its first independent admissions cycle, so this does not rule out an interview, but stronger alternatives should be considered."
+      },
+      "selection_summary": "Lincoln's official pre-interview score is calculated out of 60, then compared with a provisional competitive benchmark for strategic guidance only."
+    }
+  },
+  "guidance_pools": [
+    {
+      "pool_id": "model_a_provisional_official_score_guidance",
+      "priority": 30,
+      "applicant_match": {
+        "all_group_ids": [
+          "home_fee"
+        ],
+        "excluded_group_ids": [
+          "graduate_applicant",
+          "international_fee"
+        ],
+        "qualification_routes": [
+          "a_level"
+        ],
+        "qualification_status": [
+          "predicted"
+        ]
+      },
+      "metric": "selection_score",
+      "comparison_guidance": {
+        "comparison_type": "historical_range",
+        "label": "Official Lincoln score with provisional strategic benchmark",
+        "caveat": "Lincoln publishes no first-cycle interview threshold. ApplySmart uses Lincoln's published scoring formula plus a provisional 45-50/60 competitive benchmark for strategic guidance only.",
+        "evidence_confidence": "low"
+      },
+      "band_rules": [
+        {
+          "band": "interview_likely",
+          "operator": "greater_than_or_equal",
+          "value": 50
+        },
+        {
+          "band": "realistic",
+          "operator": "between_inclusive",
+          "min": 47,
+          "max": 49
+        },
+        {
+          "band": "ambitious",
+          "operator": "between_inclusive",
+          "min": 45,
+          "max": 46
+        },
+        {
+          "band": "high_risk",
+          "operator": "less_than",
+          "value": 45
+        }
+      ]
+    },
+    {
+      "pool_id": "model_b_provisional_official_score_guidance",
+      "priority": 20,
+      "applicant_match": {
+        "all_group_ids": [
+          "home_fee"
+        ],
+        "excluded_group_ids": [
+          "international_fee"
+        ],
+        "qualification_routes": [
+          "a_level",
+          "graduate",
+          "undergraduate"
+        ]
+      },
+      "metric": "selection_score",
+      "comparison_guidance": {
+        "comparison_type": "historical_range",
+        "label": "Official Lincoln score with provisional strategic benchmark",
+        "caveat": "No official threshold is published for this applicant route; ApplySmart uses the provisional 45-50/60 competitive benchmark for strategic guidance only.",
+        "evidence_confidence": "low"
+      },
+      "band_rules": [
+        {
+          "band": "interview_likely",
+          "operator": "greater_than_or_equal",
+          "value": 50
+        },
+        {
+          "band": "realistic",
+          "operator": "between_inclusive",
+          "min": 47,
+          "max": 49
+        },
+        {
+          "band": "ambitious",
+          "operator": "between_inclusive",
+          "min": 45,
+          "max": 46
+        },
+        {
+          "band": "high_risk",
+          "operator": "less_than",
+          "value": 45
+        }
+      ]
+    }
+  ]
+}

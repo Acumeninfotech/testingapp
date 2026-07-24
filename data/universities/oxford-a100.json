@@ -1,0 +1,993 @@
+{
+  "schema_version": "1.0.0",
+  "profile_id": "oxford-a100",
+  "profile_status": "production_ready_eligibility_and_interview_guidance",
+  "verification_status": "mixed_official_and_historical_guidance",
+  "last_updated": "2026-07-21",
+  "university": {
+    "name": "University of Oxford",
+    "slug": "oxford",
+    "country": "United Kingdom",
+    "nation": "England",
+    "institution_type": "University",
+    "website_url": "https://www.ox.ac.uk/"
+  },
+  "course": {
+    "name": "Medicine",
+    "ucas_code": "A100",
+    "entry_route": "standard_entry",
+    "qualification_awarded": "BA / BM BCh",
+    "duration_years": 6,
+    "campus": "Oxford",
+    "location": "Oxford, England",
+    "entry_year": 2027,
+    "fee_statuses": [
+      "home",
+      "international"
+    ],
+    "is_gateway_or_foundation": false,
+    "is_graduate_entry": false,
+    "notes": "This profile is for Oxford standard-entry Medicine A100 only. Oxford A101 Graduate Entry Medicine remains separate and out of scope."
+  },
+  "medical_school": {
+    "name": "University of Oxford Medical Sciences Division",
+    "source_ids": [
+      "oxford_course_page_2026",
+      "oxford_medsci_academic_requirements_2026",
+      "oxford_medsci_shortlisting_statistics_2025"
+    ]
+  },
+  "applicant_pools": [
+    {
+      "pool_id": "oxford_home_a100",
+      "applies_to_group_ids": [
+        "home_fee"
+      ],
+      "excluded_group_ids": [
+        "international_fee"
+      ],
+      "selection_relevance": "Home applicants are shortlisted using UCAT and contextualised GCSE achievement where GCSE data are systematically usable."
+    },
+    {
+      "pool_id": "oxford_international_a100",
+      "applies_to_group_ids": [
+        "international_fee"
+      ],
+      "selection_relevance": "International applicants are considered under the separate, capped international medicine competition."
+    }
+  ],
+  "applies_to_group_ids": [
+    "england_domiciled",
+    "scotland_domiciled",
+    "wales_domiciled",
+    "northern_ireland_domiciled",
+    "home_fee",
+    "international_fee",
+    "rest_of_uk",
+    "contextual",
+    "widening_participation",
+    "care_experienced",
+    "graduate_applicant",
+    "school_leaver",
+    "mature_applicant",
+    "resit_applicant",
+    "deferred_entry"
+  ],
+  "stage_1_eligibility": {
+    "verification_status": "official_source_verified_with_documented_gaps",
+    "source_ids": [
+      "oxford_course_page_2026",
+      "oxford_medsci_academic_requirements_2026",
+      "oxford_medsci_mitigating_circumstances_2026"
+    ],
+    "overall_policy": {
+      "status": "official_entry_gate_plus_modelled_interview_guidance",
+      "description": "Oxford A100 requires the published academic subject combination, current-cycle UCAT and any applicable science practical endorsement before shortlisting guidance is calculated.",
+      "not_eligible_if": [
+        "A*AA in three A-levels taken in the same academic year, or supported equivalent, is not met.",
+        "Chemistry is absent.",
+        "No Biology, Physics, Mathematics or Further Mathematics subject is present alongside Chemistry.",
+        "A science practical endorsement required for an offered science A-level is not passed.",
+        "Critical Thinking, General Studies or International A-level Thinking Skills is needed to satisfy the offer.",
+        "A-level resits are present without accepted mitigating circumstances.",
+        "Current-cycle UCAT is missing."
+      ],
+      "source_ids": [
+        "oxford_medsci_academic_requirements_2026"
+      ]
+    },
+    "gcse": {
+      "status": "official_no_formal_minimum_but_scored_for_shortlisting",
+      "source_ids": [
+        "oxford_course_page_2026",
+        "oxford_medsci_shortlisting_statistics_2025"
+      ],
+      "minimum_count": null,
+      "counted_subject_limit": null,
+      "mandatory_subject_ids": [],
+      "grade_requirements": [],
+      "selection_role": "contextualised_shortlisting_score_when_systematically_usable",
+      "scored_after_eligibility": true,
+      "sitting_policy": "GCSEs completed in summer 2020-summer 2021 are not used systematically; individual GCSEs in those years are discounted for other applicants.",
+      "achieved_or_predicted": "achieved",
+      "notes": "Oxford publishes no formal GCSE minimum for Medicine, but its 2025 shortlisting used number and proportion of A*/9/8 grades where the applicant had more than five usable GCSEs outside the 2020-2021 teacher-assessed cohort."
+    },
+    "post_16": {
+      "status": "official_source_verified_with_documented_gaps",
+      "source_ids": [
+        "oxford_course_page_2026",
+        "oxford_medsci_academic_requirements_2026"
+      ],
+      "accepted_qualification_types": [
+        "a_level",
+        "international_baccalaureate",
+        "scottish",
+        "btec",
+        "international_qualification"
+      ],
+      "a_level": {
+        "status": "official_source_verified",
+        "source_ids": [
+          "oxford_medsci_academic_requirements_2026"
+        ],
+        "grade_requirements": [
+          {
+            "requirement_id": "oxford_a_level_a_star_a_a_chemistry_plus_science_or_maths",
+            "applies_to_group_ids": [],
+            "grade_profile": [
+              "A*",
+              "A",
+              "A"
+            ],
+            "required_subject_ids": [
+              "chemistry"
+            ],
+            "one_of_subject_groups": [
+              {
+                "group_id": "second_science_or_maths",
+                "minimum_required": 1,
+                "subject_ids": [
+                  "biology",
+                  "physics",
+                  "mathematics",
+                  "further_mathematics"
+                ],
+                "notes": "The second subject must be distinct from Chemistry."
+              }
+            ],
+            "excluded_subject_ids": [
+              "critical_thinking",
+              "general_studies",
+              "thinking_skills"
+            ],
+            "excluded_subject_policy": "do_not_count",
+            "decision_outcome_if_not_met": "not_eligible",
+            "source_ids": [
+              "oxford_medsci_academic_requirements_2026"
+            ],
+            "notes": "A* subject is not specified by Oxford."
+          }
+        ],
+        "standard_offer": {
+          "grade_profile": [
+            "A*",
+            "A",
+            "A"
+          ],
+          "source_ids": [
+            "oxford_medsci_academic_requirements_2026"
+          ],
+          "notes": "Three A-levels must be taken in the same academic year."
+        },
+        "contextual_offer": null,
+        "required_subject_ids": [
+          "chemistry"
+        ],
+        "one_of_subject_groups": [
+          {
+            "group_id": "second_science_or_maths",
+            "minimum_required": 1,
+            "subject_ids": [
+              "biology",
+              "physics",
+              "mathematics",
+              "further_mathematics"
+            ],
+            "notes": "Required at grade A or above."
+          }
+        ],
+        "excluded_subject_ids": [
+          "critical_thinking",
+          "general_studies",
+          "thinking_skills"
+        ],
+        "subject_combination_rule": {
+          "primary_subject_group": {
+            "subject_ids": [
+              "chemistry"
+            ],
+            "minimum_required": 1
+          },
+          "second_subject_group": {
+            "subject_ids": [
+              "biology",
+              "physics",
+              "mathematics",
+              "further_mathematics"
+            ],
+            "minimum_required": 1
+          },
+          "subjects_must_be_distinct": true,
+          "minimum_subjects": 2
+        },
+        "science_practical_endorsement_required": true,
+        "predicted_grades_accepted": true,
+        "notes": "Practical endorsement pass is expected where a practical component forms part of a science A-level used to meet the offer."
+      },
+      "ib": {
+        "status": "official_source_verified",
+        "source_ids": [
+          "oxford_medsci_academic_requirements_2026"
+        ],
+        "total_points": 39,
+        "hl_points": null,
+        "grade_requirements": [
+          {
+            "requirement_id": "oxford_ib_39_766_hl_chemistry_plus_science_or_maths",
+            "applies_to_group_ids": [],
+            "total_points": 39,
+            "hl_points": null,
+            "required_hl_subject_ids": [
+              "chemistry"
+            ],
+            "one_of_hl_subject_groups": [
+              {
+                "group_id": "second_science_or_maths_hl",
+                "minimum_required": 1,
+                "subject_ids": [
+                  "biology",
+                  "physics",
+                  "mathematics"
+                ]
+              }
+            ],
+            "decision_outcome_if_not_met": "not_eligible",
+            "source_ids": [
+              "oxford_medsci_academic_requirements_2026"
+            ],
+            "notes": "HL grade profile is 7,6,6."
+          }
+        ],
+        "required_hl_subject_ids": [
+          "chemistry"
+        ],
+        "one_of_hl_subject_groups": [
+          {
+            "group_id": "second_science_or_maths_hl",
+            "minimum_required": 1,
+            "subject_ids": [
+              "biology",
+              "physics",
+              "mathematics"
+            ]
+          }
+        ],
+        "notes": "Both Mathematics AA and AI are acceptable at HL."
+      },
+      "scottish": {
+        "status": "official_source_verified",
+        "source_ids": [
+          "oxford_medsci_academic_requirements_2026"
+        ],
+        "higher_offer": {
+          "grade_profile": [
+            "A",
+            "A",
+            "A",
+            "A",
+            "A"
+          ],
+          "source_ids": [
+            "oxford_medsci_academic_requirements_2026"
+          ],
+          "notes": "Highers must be taken in the same academic year."
+        },
+        "advanced_higher_offer": {
+          "grade_profile": [
+            "A",
+            "A"
+          ],
+          "source_ids": [
+            "oxford_medsci_academic_requirements_2026"
+          ],
+          "notes": "Advanced Highers must include Chemistry and one of Biology, Physics or Mathematics."
+        },
+        "grade_requirements": [],
+        "required_subject_ids": [
+          "chemistry"
+        ],
+        "one_of_subject_groups": [
+          {
+            "group_id": "second_science_or_maths_advanced_higher",
+            "minimum_required": 1,
+            "subject_ids": [
+              "biology",
+              "physics",
+              "mathematics"
+            ]
+          }
+        ],
+        "notes": "ApplySmart can verify the AA Advanced Higher subject pair and AAAAA Higher profile when entered structurally."
+      },
+      "btec": {
+        "status": "official_supported_but_manual_review_in_applysmart",
+        "source_ids": [
+          "oxford_medsci_academic_requirements_2026"
+        ],
+        "accepted_subject_ids": [
+          "science"
+        ],
+        "accepted_combinations": [
+          "Published Oxford BTEC Applied Science combinations require unit-level evidence not currently captured by ApplySmart."
+        ],
+        "notes": "BTEC is not automatically scored in this Oxford A100 implementation."
+      },
+      "access_to_he": {
+        "status": "not_supported_for_automatic_a100_guidance",
+        "source_ids": [],
+        "total_credits": null,
+        "distinction_credits": null,
+        "merit_credits": null,
+        "subject_credit_requirements": [],
+        "notes": "Unsupported qualification route in the Oxford A100 regression fixture."
+      },
+      "degree": {
+        "status": "official_same_a100_requirements_apply",
+        "source_ids": [
+          "oxford_course_page_2026"
+        ],
+        "applies_to_group_ids": [
+          "graduate_applicant"
+        ],
+        "minimum_classification": null,
+        "accepted_degree_subject_ids": [],
+        "decision_outcome_if_not_met": "not_eligible",
+        "notes": "Graduates apply through the same A100 process, with no reserved places or separate standard-entry graduate process."
+      },
+      "notes": "International and other qualifications must be verified against Oxford equivalency guidance before automatic use."
+    },
+    "admissions_tests": {
+      "source_ids": [
+        "oxford_course_page_2026",
+        "oxford_medsci_ucat_2026"
+      ],
+      "ucat": {
+        "required": true,
+        "source_ids": [
+          "oxford_course_page_2026",
+          "oxford_medsci_ucat_2026"
+        ],
+        "minimum_total_score": null,
+        "minimum_subsection_scores": [],
+        "score_used_for_ranking": "total_cognitive_score_only_pre_interview",
+        "score_scale": 2700,
+        "validity_window": "current admissions cycle",
+        "exemptions": [],
+        "decision_outcome_if_not_met": "not_eligible",
+        "notes": "Oxford publishes no single UCAT cut-off; UCAT was combined with GCSE performance in 2025 shortlisting."
+      },
+      "sjt": {
+        "used": false,
+        "source_ids": [
+          "oxford_medsci_shortlisting_statistics_2025"
+        ],
+        "used_as_gate": false,
+        "accepted_bands": [
+          1,
+          2,
+          3,
+          4
+        ],
+        "excluded_bands": [],
+        "scoring": {
+          "used_in_score": false,
+          "points_by_band": {}
+        },
+        "decision_outcome_if_excluded": "not_eligible",
+        "notes": "SJT is disclosed after interview ranking; ApplySmart does not use SJT for pre-interview Oxford A100 guidance."
+      },
+      "other_tests": []
+    },
+    "resits": {
+      "policy": "not_normally_accepted_without_mitigating_circumstances",
+      "source_ids": [
+        "oxford_medsci_mitigating_circumstances_2026"
+      ],
+      "allowed": true,
+      "conditions": [
+        "Accepted mitigating circumstances evidence must explain the original Level 3 performance.",
+        "A*AA in three A-levels must still be achieved in the same academic year."
+      ],
+      "maximum_resits": null,
+      "applies_to_group_ids": [
+        "resit_applicant"
+      ],
+      "decision_outcome_if_not_allowed": "not_eligible",
+      "notes": "Unexplained one- or two-subject A-level resits do not meet Oxford A100 entry requirements."
+    },
+    "english_language": {
+      "source_ids": [
+        "oxford_course_page_2026"
+      ],
+      "applies_to_group_ids": [
+        "international_fee"
+      ],
+      "accepted_tests": [],
+      "exemptions": [
+        "Oxford-recognised English-language qualification or exemption"
+      ],
+      "decision_outcome_if_not_met": "not_eligible",
+      "notes": "International English-language detail is handled as an exemption/manual evidence gate in this profile."
+    },
+    "age_or_professional_checks": {
+      "source_ids": [],
+      "minimum_age": null,
+      "fitness_to_practise_required": true,
+      "dbs_required": true,
+      "occupational_health_required": true,
+      "decision_outcome_if_not_met": "not_eligible",
+      "notes": "Fitness to practise, DBS and occupational health are professional checks, not interview prediction factors."
+    }
+  },
+  "stage_2_interview_selection": {
+    "verification_status": "mixed_official_and_historical_guidance",
+    "source_ids": [
+      "oxford_medsci_shortlisting_statistics_2025",
+      "oxford_a100_technical_spec_v3"
+    ],
+    "primary_model": "academic_plus_ucat_weighting",
+    "modifiers": [
+      "contextual_adjustment"
+    ],
+    "ranking_factors": [
+      {
+        "factor_id": "ucat_cognitive_total",
+        "factor_type": "admissions_test",
+        "weight_percent": 50,
+        "points_available": 50,
+        "source_field": "admissions_tests.ucat.total_score",
+        "source_ids": [
+          "oxford_medsci_shortlisting_statistics_2025"
+        ],
+        "notes": "Officially used in combination with GCSE performance; exact internal normalisation is not published."
+      },
+      {
+        "factor_id": "contextualised_gcse_performance",
+        "factor_type": "academic_record",
+        "weight_percent": 50,
+        "points_available": 50,
+        "source_field": "gcse_profile",
+        "source_ids": [
+          "oxford_medsci_shortlisting_statistics_2025"
+        ],
+        "notes": "ApplySmart model combines count and proportion of 8/9/A* grades; Oxford's internal contextual algorithm is unpublished."
+      }
+    ],
+    "calculation": {
+      "verification_status": "mixed_official_and_historical_guidance",
+      "source_ids": [
+        "oxford_medsci_shortlisting_statistics_2025",
+        "oxford_a100_technical_spec_v3"
+      ],
+      "score_components": [
+        {
+          "component_id": "ucat_component",
+          "factor_id": "ucat_cognitive_total",
+          "input_field": "admissions_tests.ucat.total_score",
+          "calculation_method": "(UCAT / 2700) * 50",
+          "scale": {
+            "min": 0,
+            "max": 50
+          },
+          "weight_percent": 50,
+          "rounding": "round_to_2_decimal_places_after_total",
+          "notes": "ApplySmart linear normalisation; not an official Oxford published formula.",
+          "source_ids": [
+            "oxford_a100_technical_spec_v3"
+          ]
+        },
+        {
+          "component_id": "gcse_component",
+          "factor_id": "contextualised_gcse_performance",
+          "input_field": "gcse_profile",
+          "calculation_method": "((top_grade_count_score * 0.5) + (top_grade_proportion_score * 0.5) + bounded_contextual_adjustment - fallback_penalty) scaled to 50",
+          "scale": {
+            "min": 0,
+            "max": 50
+          },
+          "weight_percent": 50,
+          "rounding": "round_to_2_decimal_places_after_total",
+          "notes": "ApplySmart proxy because Oxford does not publish its internal GCSE contextualisation algorithm.",
+          "source_ids": [
+            "oxford_medsci_shortlisting_statistics_2025",
+            "oxford_a100_technical_spec_v3"
+          ]
+        }
+      ],
+      "total_score": {
+        "calculation_method": "ucat_component + gcse_component; GCSE component omitted and UCAT double-weighted for official GCSE exception routes.",
+        "components": [
+          "ucat_component",
+          "gcse_component"
+        ],
+        "scale": {
+          "min": 0,
+          "max": 100
+        },
+        "notes": "Thresholds are ApplySmart modelled bands and must not be presented as Oxford cut-offs or official probabilities.",
+        "source_ids": [
+          "oxford_a100_technical_spec_v3"
+        ]
+      },
+      "notes": "Public guidance must state that Oxford combines UCAT and contextualised GCSE achievement and does not publish a single UCAT cut-off."
+    },
+    "thresholds": [
+      {
+        "threshold_id": "home_very_likely_modelled",
+        "applies_to_group_ids": [
+          "home_fee"
+        ],
+        "metric": "selection_score",
+        "operator": "greater_than_or_equal",
+        "value": 84,
+        "decision_outcome_if_not_met": "unknown",
+        "source_ids": [
+          "oxford_a100_technical_spec_v3"
+        ],
+        "notes": "ApplySmart modelled guidance boundary, not official Oxford cut-off."
+      }
+    ],
+    "selection_adjustments": [
+      {
+        "adjustment_id": "school_context_proxy",
+        "modifier_id": "contextual_adjustment",
+        "applies_to_group_ids": [
+          "home_fee"
+        ],
+        "condition": {
+          "field": "school_context.attainment_8_score",
+          "operator": "available",
+          "value": true
+        },
+        "effect": {
+          "type": "bounded_modelled_adjustment",
+          "target": "gcse_component",
+          "value": "+/-5 points maximum on GCSE 0-100 subscale"
+        },
+        "decision_outcome": "unknown",
+        "source_ids": [
+          "oxford_a100_technical_spec_v3"
+        ],
+        "notes": "Proxy only; Oxford's exact school-context method is unpublished."
+      }
+    ],
+    "tie_breakers": [],
+    "output_band_policy": {
+      "bands": [
+        "interview_likely",
+        "realistic",
+        "ambitious",
+        "high_risk",
+        "not_eligible",
+        "insufficient_evidence"
+      ],
+      "notes": "Research labels Very Likely, Strong, Competitive, Borderline and High Risk are mapped onto existing ApplySmart canonical bands for runtime compatibility."
+    },
+    "notes": "Committee/tutor review is represented as uncertainty/manual-review guidance, not a guaranteed interview route."
+  },
+  "contextual_admissions": {
+    "verification_status": "official_source_verified_with_documented_gaps",
+    "source_ids": [
+      "oxford_course_page_2026",
+      "oxford_medsci_shortlisting_statistics_2025"
+    ],
+    "available": true,
+    "applies_to_group_ids": [
+      "home_fee",
+      "contextual",
+      "widening_participation"
+    ],
+    "criteria": [
+      {
+        "criterion_id": "grades_considered_in_context",
+        "applies_to_group_ids": [
+          "home_fee"
+        ],
+        "description": "Oxford states grades are considered in the context in which they were achieved wherever possible.",
+        "source_ids": [
+          "oxford_course_page_2026"
+        ],
+        "notes": "No automatic reduced Medicine A100 offer is implemented."
+      },
+      {
+        "criterion_id": "school_gcse_performance_context",
+        "applies_to_group_ids": [
+          "home_fee"
+        ],
+        "description": "Oxford used school GCSE performance data where available to contextualise GCSE results in the 2025 shortlisting round.",
+        "source_ids": [
+          "oxford_medsci_shortlisting_statistics_2025"
+        ],
+        "notes": "ApplySmart uses an Attainment 8 proxy only when supplied; missing data lowers confidence."
+      }
+    ],
+    "adjustments": [
+      {
+        "adjustment_id": "modelled_contextual_gcse_adjustment",
+        "applies_to_group_ids": [
+          "home_fee"
+        ],
+        "stage": "interview_shortlisting_guidance",
+        "policy_description": "Bounded ApplySmart proxy for school-context GCSE adjustment.",
+        "effect": {
+          "type": "bounded_modelled_adjustment",
+          "target": "gcse_score",
+          "value": "+/-5 points on GCSE 0-100 subscale"
+        },
+        "source_ids": [
+          "oxford_a100_technical_spec_v3"
+        ],
+        "notes": "This is not Oxford's internal algorithm."
+      }
+    ],
+    "guaranteed_interview_rules": [],
+    "notes": "Contextual indicators can increase uncertainty or support review; they do not guarantee an Oxford interview in ApplySmart."
+  },
+  "ranking_pools": [
+    {
+      "pool_id": "oxford_home_a100",
+      "name": "Oxford A100 Home pool",
+      "applies_to_group_ids": [
+        "home_fee"
+      ],
+      "fee_statuses": [
+        "home"
+      ],
+      "ranking_model": "academic_plus_ucat_weighting",
+      "ranking_factors": [
+        "ucat_cognitive_total",
+        "contextualised_gcse_performance"
+      ],
+      "places_available": null,
+      "source_ids": [
+        "oxford_medsci_shortlisting_statistics_2025"
+      ],
+      "notes": "Modelled ApplySmart guidance pool."
+    },
+    {
+      "pool_id": "oxford_international_a100",
+      "name": "Oxford A100 International pool",
+      "applies_to_group_ids": [
+        "international_fee"
+      ],
+      "fee_statuses": [
+        "international"
+      ],
+      "ranking_model": "academic_plus_ucat_weighting",
+      "ranking_factors": [
+        "ucat_cognitive_total",
+        "contextualised_gcse_performance"
+      ],
+      "places_available": null,
+      "source_ids": [
+        "oxford_medsci_shortlisting_statistics_2025"
+      ],
+      "notes": "International competition is capped; 32 international fee-status applicants were shortlisted in the 2025 admissions round."
+    }
+  ],
+  "quotas": [
+    {
+      "quota_id": "oxford_a100_places_2027_entry_verified",
+      "name": "Verified Home/International places (2027 entry)",
+      "home_places": 186,
+      "international_places": 14,
+      "quota_type": "verified_current_places",
+      "source_ids": [
+        "applysmart_admissions_team_verified_2026"
+      ],
+      "notes": "Home/International place figures verified by the ApplySmart admissions research team for 2027 entry."
+    },
+    {
+      "quota_id": "international_medicine_limit",
+      "name": "International medicine intake limit",
+      "applies_to_group_ids": [
+        "international_fee"
+      ],
+      "stage": "admissions",
+      "quota_type": "statutory_limit",
+      "value": "maximum 7.5% across A100 and A101 medicine",
+      "source_ids": [
+        "oxford_medsci_shortlisting_statistics_2025"
+      ],
+      "notes": "Used for guidance only; not an offer prediction."
+    }
+  ],
+  "offer_selection": {
+    "verification_status": "official_source_verified_out_of_scope_for_applysmart",
+    "source_ids": [
+      "oxford_course_page_2026",
+      "oxford_medsci_shortlisting_statistics_2025"
+    ],
+    "interview_format": "Online interviews in December; shortlisted applicants are interviewed by two colleges.",
+    "interview_scoring": {
+      "score_used": true,
+      "minimum_score": null,
+      "station_scores": [],
+      "sjt_used_post_interview": true,
+      "decision_outcome_if_not_met": "unknown",
+      "source_ids": [
+        "oxford_medsci_shortlisting_statistics_2025"
+      ],
+      "notes": "SJT may be available after interview ranking; ApplySmart does not predict offers."
+    },
+    "offer_model": "out_of_scope",
+    "ranking_factors": [],
+    "tie_breakers": [],
+    "waiting_list_policy": null,
+    "standard_offer": {
+      "grade_profile": [
+        "A*",
+        "A",
+        "A"
+      ],
+      "source_ids": [
+        "oxford_medsci_academic_requirements_2026"
+      ],
+      "notes": "No A* subject is specified."
+    },
+    "contextual_offer": null,
+    "notes": "Offer prediction is deliberately not implemented."
+  },
+  "historical_admissions": {
+    "verification_status": "official_source_verified",
+    "source_ids": [
+      "oxford_course_page_2026",
+      "oxford_medsci_shortlisting_statistics_2025",
+      "oxford_medsci_ucat_distribution_text_2025",
+      "oxford_medsci_gcse_distribution_text_2025"
+    ],
+    "cycles": [
+      {
+        "cycle": "2025 admissions round for 2026 entry",
+        "applies_to_group_ids": [],
+        "applications": 1156,
+        "interviews": 425,
+        "offers": 175,
+        "places": 155,
+        "ucat_cutoff": null,
+        "interview_score_cutoff": null,
+        "verification_status": "official_source_verified",
+        "notes": "Oxford reports 1,026 eligible, UCAT-sitting, non-withdrawn applicants; approximately 41.4% of complete applications were shortlisted. These data are historical evidence only.",
+        "source_ids": [
+          "oxford_medsci_shortlisting_statistics_2025"
+        ]
+      }
+    ],
+    "ucat_distribution_2025": {
+      "score_scale": 2700,
+      "bands": [
+        {
+          "range": "1200-1499",
+          "not_interviewed": 5,
+          "interviewed_no_place": 0,
+          "place": 0
+        },
+        {
+          "range": "1500-1599",
+          "not_interviewed": 9,
+          "interviewed_no_place": 0,
+          "place": 0
+        },
+        {
+          "range": "1600-1699",
+          "not_interviewed": 18,
+          "interviewed_no_place": 0,
+          "place": 0
+        },
+        {
+          "range": "1700-1799",
+          "not_interviewed": 30,
+          "interviewed_no_place": 0,
+          "place": 0
+        },
+        {
+          "range": "1800-1899",
+          "not_interviewed": 45,
+          "interviewed_no_place": 0,
+          "place": 0
+        },
+        {
+          "range": "1900-1999",
+          "not_interviewed": 60,
+          "interviewed_no_place": 4,
+          "place": 0
+        },
+        {
+          "range": "2000-2099",
+          "not_interviewed": 103,
+          "interviewed_no_place": 10,
+          "place": 2
+        },
+        {
+          "range": "2100-2199",
+          "not_interviewed": 90,
+          "interviewed_no_place": 16,
+          "place": 7
+        },
+        {
+          "range": "2200-2299",
+          "not_interviewed": 121,
+          "interviewed_no_place": 38,
+          "place": 22
+        },
+        {
+          "range": "2300-2399",
+          "not_interviewed": 80,
+          "interviewed_no_place": 82,
+          "place": 49
+        },
+        {
+          "range": "2400-2499",
+          "not_interviewed": 37,
+          "interviewed_no_place": 62,
+          "place": 52
+        },
+        {
+          "range": "2500-2599",
+          "not_interviewed": 3,
+          "interviewed_no_place": 28,
+          "place": 32
+        },
+        {
+          "range": "2600-2699",
+          "not_interviewed": 0,
+          "interviewed_no_place": 10,
+          "place": 11
+        }
+      ],
+      "totals_verified": {
+        "not_interviewed": 601,
+        "interviewed_no_place": 250,
+        "place": 175,
+        "total": 1026
+      },
+      "notes": "Offer-holder/place counts are not used as pre-interview prediction formulae."
+    },
+    "notes": "Historical distributions are used for calibration and transparency only; no offer prediction is implemented."
+  },
+  "sources": [
+    {
+      "source_id": "oxford_course_page_2026",
+      "title": "University of Oxford Medicine course page",
+      "url": "https://www.ox.ac.uk/admissions/undergraduate/courses/course-listing/medicine",
+      "source_type": "official_course_page",
+      "published_date": null,
+      "accessed_date": "2026-07-21",
+      "applies_to_sections": [
+        "course",
+        "stage_1_eligibility",
+        "interviews"
+      ],
+      "confidence": "high",
+      "notes": "Official A100 course page."
+    },
+    {
+      "source_id": "oxford_medsci_academic_requirements_2026",
+      "title": "Medicine: Academic Entry & Age Requirements",
+      "url": "https://www.medsci.ox.ac.uk/study/medicine/pre-clinical/requirements/academic",
+      "source_type": "official_admissions_policy",
+      "published_date": null,
+      "accessed_date": "2026-07-21",
+      "applies_to_sections": [
+        "stage_1_eligibility"
+      ],
+      "confidence": "high",
+      "notes": "Official Oxford Medical Sciences academic requirements."
+    },
+    {
+      "source_id": "oxford_medsci_shortlisting_statistics_2025",
+      "title": "Medicine: Shortlisting Process and Admissions Statistics",
+      "url": "https://www.medsci.ox.ac.uk/study/medicine/pre-clinical/faqs/statistics",
+      "source_type": "official_historical_statistics",
+      "published_date": null,
+      "accessed_date": "2026-07-21",
+      "applies_to_sections": [
+        "stage_2_interview_selection",
+        "historical_admissions"
+      ],
+      "confidence": "high",
+      "notes": "Official 2025 admissions round statistics for 2026 entry."
+    },
+    {
+      "source_id": "oxford_medsci_mitigating_circumstances_2026",
+      "title": "Medicine: Mitigating circumstances",
+      "url": "https://www.medsci.ox.ac.uk/study/medicine/pre-clinical/applying/mit-circs",
+      "source_type": "official_admissions_policy",
+      "published_date": null,
+      "accessed_date": "2026-07-21",
+      "applies_to_sections": [
+        "resits"
+      ],
+      "confidence": "high",
+      "notes": "Official resit/mitigating circumstances policy."
+    },
+    {
+      "source_id": "oxford_a100_technical_spec_v3",
+      "title": "ApplySmart Master Technical & Research Specification - University of Oxford A100 v3.0",
+      "url": "local:/Users/faizan/Downloads/ApplySmart_Master_Technical_Oxford_A100_v3.docx",
+      "source_type": "applysmart_modelling_specification",
+      "published_date": null,
+      "accessed_date": "2026-07-21",
+      "applies_to_sections": [
+        "modelled_thresholds",
+        "regression_cases"
+      ],
+      "confidence": "medium",
+      "notes": "Used as proposed implementation specification, not as official Oxford truth."
+    }
+  ],
+  "validation": {
+    "source_status": "mixed_official_and_historical_guidance",
+    "last_verified": "2026-07-21",
+    "confidence_level": "Medium",
+    "completion_status": {
+      "stage_1_eligibility": "complete_for_supported_scope",
+      "stage_2_interview_selection": "complete_modelled_guidance_with_official_methodology",
+      "contextual_admissions": "complete_with_proxy_limitations",
+      "ranking_pools": "complete",
+      "quotas": "complete_for_guidance_only",
+      "offer_selection": "out_of_scope",
+      "historical_admissions": "complete",
+      "sources": "complete"
+    },
+    "known_unknowns": [
+      "Oxford's exact internal GCSE contextualisation algorithm is unpublished.",
+      "ApplySmart cannot reliably fetch school Attainment 8 automatically; supplied school context is treated as applicant/context evidence.",
+      "BTEC unit-level automatic verification is not implemented for Oxford A100."
+    ],
+    "review_notes": "No Oxford A101 behaviour is implemented in this A100 profile."
+  },
+  "engine_notes": {
+    "eligibility": true,
+    "interview_prediction": true,
+    "historical_guidance": true,
+    "international_prediction": true,
+    "contextual_logic": true,
+    "result_card": true,
+    "regression": true,
+    "research_completeness": "complete_for_supported_scope_with_documented_gaps",
+    "manual_review_required": true,
+    "eligibility_ready": true,
+    "interview_prediction_ready": true,
+    "offer_prediction_scope": "out_of_scope",
+    "prediction_confidence": "medium",
+    "result_card_ready": true,
+    "production_ready": true,
+    "interview_band_config_ready": true,
+    "blocking_missing_fields": [],
+    "engine_assumptions": [
+      "Modelled composite thresholds are ApplySmart calibration, not official Oxford cut-offs.",
+      "Attainment 8 contextual adjustment is a transparent bounded proxy where supplied.",
+      "Missing school context applies a conservative fallback and lowers confidence.",
+      "Strong and Competitive research labels map to the existing ApplySmart realistic canonical band."
+    ],
+    "do_not_infer": [
+      "Do not implement Oxford A101 in this profile.",
+      "Do not use SJT for pre-interview ranking.",
+      "Do not expose modelled thresholds or percentages as official Oxford rules.",
+      "Do not make offer predictions.",
+      "Do not treat committee review or contextual flags as guaranteed interview routes.",
+      "Do not fabricate school-level context where unavailable."
+    ]
+  }
+}

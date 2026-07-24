@@ -1,0 +1,1253 @@
+{
+  "schema_version": "1.0.0",
+  "profile_id": "cardiff-a100-research",
+  "course_profile_id": "cardiff-a100",
+  "research_status": "official_formula_and_verified_international_evidence_active",
+  "file_purpose": "Evidence and audit profile for Cardiff A100. This file records official source evidence, official/FOI scoring clarification, unresolved conflicts, not-published fields, and historical/research-estimate context. It is not the production admissions rules file.",
+  "official_rules_source": "data/universities/cardiff-a100.json",
+  "created_at": null,
+  "last_updated": "2026-07-02",
+  "research_scope": null,
+  "evidence_classification_policy": null,
+  "metadata": null,
+  "readiness": {
+    "eligibility": true,
+    "interview_prediction": true,
+    "historical_guidance": true,
+    "international_prediction": true,
+    "contextual_logic": false,
+    "result_card": true,
+    "regression": true,
+    "research_completeness": "complete_for_supported_scope_with_documented_gaps",
+    "manual_review_required": true,
+    "eligibility_ready": true,
+    "interview_prediction_ready": true,
+    "prediction_confidence": "high",
+    "result_card_ready": true,
+    "offer_prediction_scope": "out_of_scope",
+    "stage_1_evidence_ready": true,
+    "stage_1_evidence_status": "complete",
+    "stage_2_selection_evidence_ready": true,
+    "stage_2_selection_evidence_status": "official_pre_interview_formula_verified",
+    "official_selection_formula_available": true,
+    "prediction_model_ready": true,
+    "research_estimate_ready": true,
+    "summary": "Cardiff A100 has official/FOI-verified pre-interview scoring evidence: eight GCSEs scored, GCSE max 24, UCAT decile max 3, Further Education Point max 1, total max 28, and formula Total Score = GCSE Score + UCAT Decile Score + Further Education Point. Verified international evidence confirms that international applicants use this same score in a separate ranking pool, with cognitive UCAT only, SJT ignored and raw UCAT as the tie-breaker. International historical guidance remains non-cut-off context.",
+    "labels": [
+      "Official Cardiff sources reviewed",
+      "GCSE count resolved as 8",
+      "GCSE science threshold resolved",
+      "Official 28-point pre-interview formula available",
+      "SJT officially ignored",
+      "Raw UCAT tie-breaker available",
+      "International applicants ranked separately on the same 28-point score",
+      "International historical guidance active without a fixed cut-off",
+      "Historical score guidance stored as research_estimate",
+      "Interview and offer scoring not published"
+    ],
+    "source_ids": [
+      "cardiff_course_2026",
+      "cardiff_medicine_admissions_info",
+      "cardiff_medicine_policy_2026",
+      "cardiff_contextual_admissions",
+      "cardiff_official_foi_update_2026",
+      "cardiff_verified_international_admissions_evidence"
+    ],
+    "prediction_scope": "official_pre_interview_score_only"
+  },
+  "sources": [
+    {
+      "source_id": "cardiff_course_2026",
+      "title": "Cardiff University - Medicine (MBBCh) 2026",
+      "url": "https://www.cardiff.ac.uk/study/undergraduate/courses/2026/medicine-mbbch",
+      "source_type": "official_course_page",
+      "accessed_date": "2026-06-25",
+      "confidence": "High",
+      "used_for": [
+        "course_identity",
+        "stage_1_entry_requirements",
+        "gcse_requirements",
+        "a_level_requirements",
+        "ib_requirements",
+        "welsh_baccalaureate",
+        "ucat_requirement",
+        "gcse_points",
+        "a_level_points",
+        "interview_format",
+        "english_language"
+      ],
+      "notes": "Primary official course page for 2026 entry."
+    },
+    {
+      "source_id": "cardiff_medicine_admissions_info",
+      "title": "Admissions information for studying Medicine at Cardiff",
+      "url": "https://www.cardiff.ac.uk/documents/2734195-admissions-information-for-studying-medicine-at-cardiff",
+      "source_type": "official_admissions_information",
+      "accessed_date": "2026-06-25",
+      "confidence": "High",
+      "used_for": [
+        "application_scoring",
+        "eight_gcse_conflict_value",
+        "a_level_subject_conflict_value",
+        "ucat_decile_points",
+        "contextual_groups",
+        "wp_guaranteed_interview",
+        "ucat_cutoff_policy"
+      ],
+      "notes": "Official Cardiff Medicine admissions information page. Earlier GCSE count conflict is resolved by official/FOI update stored as cardiff_official_foi_update_2026."
+    },
+    {
+      "source_id": "cardiff_medicine_policy_2026",
+      "title": "School of Medicine variation to admissions policy for 2026 entry",
+      "url": "https://www.cardiff.ac.uk/__data/assets/pdf_file/0008/2962691/School-level-UG-policy-MEDIC-2026-entry-ENG.pdf",
+      "source_type": "official_school_admissions_policy",
+      "accessed_date": "2026-06-25",
+      "confidence": "High",
+      "used_for": [
+        "school_level_policy",
+        "resit_policy",
+        "ucat_requirement",
+        "selection_process",
+        "nine_level_2_conflict_value",
+        "a_level_as_exception",
+        "contextual_and_wp_rules",
+        "transfer_policy",
+        "current_undergraduate_policy"
+      ],
+      "notes": "Official school-level admissions policy PDF for 2026 entry."
+    },
+    {
+      "source_id": "cardiff_contextual_admissions",
+      "title": "Cardiff University contextual admissions",
+      "url": "https://www.cardiff.ac.uk/study/undergraduate/applying/contextual-data",
+      "source_type": "official_admissions_policy",
+      "accessed_date": "2026-06-25",
+      "confidence": "Medium",
+      "used_for": [
+        "general_contextual_admissions"
+      ],
+      "notes": "General Cardiff contextual admissions page. Medicine-specific contextual and WP handling is primarily taken from the School of Medicine 2026 policy."
+    },
+    {
+      "source_id": "cardiff_official_foi_update_2026",
+      "title": "Cardiff A100 official/FOI scoring clarification for 2026 entry",
+      "url": null,
+      "source_type": "official_foi_verified_update",
+      "accessed_date": "2026-06-25",
+      "confidence": "High",
+      "used_for": [
+        "gcse_scoring_count_resolution",
+        "gcse_score_max",
+        "ucat_decile_score_max",
+        "further_education_point_max",
+        "total_pre_interview_score_max",
+        "official_pre_interview_formula",
+        "sjt_ignored_policy",
+        "raw_ucat_tie_breaker",
+        "historical_competitiveness_context",
+        "historical_admissions_context"
+      ],
+      "notes": "Official/FOI-verified Cardiff A100 update. Historical competitiveness and admissions figures from this update are stored as research_estimate only and must not be treated as official cut-offs."
+    },
+    {
+      "source_id": "cardiff_verified_international_admissions_evidence",
+      "title": "Cardiff A100 verified international admissions evidence",
+      "url": null,
+      "source_type": "verified_international_admissions_evidence",
+      "accessed_date": "2026-07-02",
+      "confidence": "High",
+      "used_for": [
+        "international_selection_model",
+        "international_separate_ranking_pool",
+        "international_ucat_policy",
+        "international_sjt_policy",
+        "international_raw_ucat_tie_breaker",
+        "international_shortlisting_inputs",
+        "international_historical_interview_guidance",
+        "international_offer_rates",
+        "international_intake"
+      ],
+      "notes": "Verified evidence supplied for Cardiff A100 international admissions. Historical UCAT values are guidance only and must not be implemented as a fixed threshold."
+    }
+  ],
+  "verified_rules": {
+    "course_identity": [
+      {
+        "rule_id": "course_name",
+        "exact_value": "Medicine (MBBCh)",
+        "evidence_classification": "official",
+        "source_ids": [
+          "cardiff_course_2026"
+        ],
+        "suggested_json_path": "course.name"
+      },
+      {
+        "rule_id": "ucas_code",
+        "exact_value": "A100",
+        "evidence_classification": "official",
+        "source_ids": [
+          "cardiff_course_2026"
+        ],
+        "suggested_json_path": "course.ucas_code"
+      },
+      {
+        "rule_id": "entry_year",
+        "exact_value": 2026,
+        "evidence_classification": "official",
+        "source_ids": [
+          "cardiff_course_2026"
+        ],
+        "suggested_json_path": "course.entry_year"
+      },
+      {
+        "rule_id": "duration",
+        "exact_value": 5,
+        "evidence_classification": "official",
+        "source_ids": [
+          "cardiff_course_2026"
+        ],
+        "suggested_json_path": "course.duration_years"
+      }
+    ],
+    "stage_1": [
+      {
+        "rule_id": "a_level_grade_profile",
+        "exact_value": [
+          "A",
+          "A",
+          "A"
+        ],
+        "evidence_classification": "official",
+        "source_ids": [
+          "cardiff_course_2026"
+        ],
+        "suggested_json_path": "stage_1_eligibility.post_16.a_level.standard_offer"
+      },
+      {
+        "rule_id": "science_practical",
+        "exact_value": "Pass science practical if part of the programme of study.",
+        "evidence_classification": "official",
+        "source_ids": [
+          "cardiff_course_2026"
+        ],
+        "suggested_json_path": "stage_1_eligibility.post_16.a_level.science_practical_required"
+      },
+      {
+        "rule_id": "excluded_a_level_subjects",
+        "exact_value": [
+          "Critical Thinking",
+          "General Studies",
+          "Citizenship Studies",
+          "similar equivalent subjects"
+        ],
+        "evidence_classification": "official",
+        "source_ids": [
+          "cardiff_course_2026"
+        ],
+        "suggested_json_path": "stage_1_eligibility.post_16.a_level.excluded_subjects"
+      },
+      {
+        "rule_id": "ib_requirement",
+        "exact_value": "36 overall excluding Theory of Knowledge and Extended Essay, including 18 at Higher Level, with grade 6 in Biology and Chemistry. Grade 7 SL Biology or Chemistry can substitute for HL Biology or Chemistry if also grade 6 in HL Maths, Physics or Statistics. IB repeats are not accepted.",
+        "evidence_classification": "official",
+        "source_ids": [
+          "cardiff_course_2026"
+        ],
+        "suggested_json_path": "stage_1_eligibility.post_16.ib"
+      },
+      {
+        "rule_id": "welsh_baccalaureate",
+        "exact_value": "Advanced Skills Baccalaureate Wales accepted in lieu of one A-level at the listed grades, excluding specified subjects.",
+        "evidence_classification": "official",
+        "source_ids": [
+          "cardiff_course_2026"
+        ],
+        "suggested_json_path": "stage_1_eligibility.post_16.baccalaureate_wales"
+      },
+      {
+        "rule_id": "btec_not_accepted",
+        "exact_value": false,
+        "evidence_classification": "official",
+        "source_ids": [
+          "cardiff_course_2026"
+        ],
+        "suggested_json_path": "stage_1_eligibility.post_16.btec.accepted"
+      },
+      {
+        "rule_id": "t_level_not_accepted",
+        "exact_value": false,
+        "evidence_classification": "official",
+        "source_ids": [
+          "cardiff_course_2026"
+        ],
+        "suggested_json_path": "stage_1_eligibility.post_16.t_level.accepted"
+      },
+      {
+        "rule_id": "ucat_required",
+        "exact_value": "UCAT required in the year of application. Previous-year results are not accepted. No minimum UCAT threshold is published.",
+        "evidence_classification": "official",
+        "source_ids": [
+          "cardiff_course_2026",
+          "cardiff_medicine_policy_2026"
+        ],
+        "suggested_json_path": "stage_1_eligibility.admissions_test.ucat"
+      },
+      {
+        "rule_id": "gcse_resit_policy",
+        "exact_value": "GCSE/Level 2 resits accepted only if completed within 12 months of original sitting, except English Language, which has no time limit but must be achieved on the application.",
+        "evidence_classification": "official",
+        "source_ids": [
+          "cardiff_course_2026",
+          "cardiff_medicine_policy_2026"
+        ],
+        "suggested_json_path": "stage_1_eligibility.gcse.resit_policy"
+      },
+      {
+        "rule_id": "gcse_science_minimum",
+        "exact_value": "GCSE Double Science AA/77, or GCSE Biology A/7 and GCSE Chemistry A/7.",
+        "evidence_classification": "official",
+        "source_ids": [
+          "cardiff_course_2026"
+        ],
+        "suggested_json_path": "stage_1_eligibility.gcse.grade_requirements[science_minimum]"
+      },
+      {
+        "rule_id": "a_level_resit_policy",
+        "exact_value": "Level 3 resits are not normally accepted. They may only be considered for previous conditional offer holders with evidenced extenuating circumstances, reviewed before reapplication.",
+        "evidence_classification": "official",
+        "source_ids": [
+          "cardiff_medicine_policy_2026",
+          "cardiff_medicine_admissions_info"
+        ],
+        "suggested_json_path": "stage_1_eligibility.post_16.a_level.resit_policy"
+      },
+      {
+        "rule_id": "english_language",
+        "exact_value": "GCSE English Language B/6; IELTS Academic 7.0 overall with speaking 7.0 and all other subskills 6.5; TOEFL iBT 100 with speaking 24 and all other subskills 22; PTE Academic 76 overall with speaking 76 and all other communicative skills 69; Trinity ISE III Merit in all components.",
+        "evidence_classification": "official",
+        "source_ids": [
+          "cardiff_course_2026"
+        ],
+        "suggested_json_path": "stage_1_eligibility.english_language"
+      }
+    ],
+    "stage_2_selection": [
+      {
+        "rule_id": "selection_preconditions",
+        "exact_value": [
+          "Minimum Level 2 requirements met",
+          "Minimum Level 3 requirements met",
+          "Acceptable personal statement submitted",
+          "Academic reference submitted",
+          "UCAT completed within required timeframe"
+        ],
+        "evidence_classification": "official",
+        "source_ids": [
+          "cardiff_medicine_policy_2026"
+        ],
+        "suggested_json_path": "stage_2_interview_selection.preconditions"
+      },
+      {
+        "rule_id": "selection_method",
+        "exact_value": "Applications meeting preconditions receive an academic score based on achieved Level 2 and Level 3 qualifications. Highest scoring applicants are invited to interview.",
+        "evidence_classification": "official",
+        "source_ids": [
+          "cardiff_medicine_policy_2026"
+        ],
+        "suggested_json_path": "stage_2_interview_selection.primary_method"
+      },
+      {
+        "rule_id": "scoring_order",
+        "exact_value": "Mandatory subjects are scored first, then remaining highest graded subjects.",
+        "evidence_classification": "official",
+        "source_ids": [
+          "cardiff_medicine_policy_2026"
+        ],
+        "suggested_json_path": "stage_2_interview_selection.calculation.scoring_order"
+      },
+      {
+        "rule_id": "gcse_point_bands",
+        "exact_value": [
+          {
+            "grades": [
+              "9",
+              "8",
+              "A*"
+            ],
+            "points": 3
+          },
+          {
+            "grades": [
+              "7",
+              "A"
+            ],
+            "points": 2
+          },
+          {
+            "grades": [
+              "6",
+              "B"
+            ],
+            "points": 1
+          }
+        ],
+        "evidence_classification": "official",
+        "source_ids": [
+          "cardiff_course_2026",
+          "cardiff_medicine_admissions_info"
+        ],
+        "suggested_json_path": "stage_2_interview_selection.calculation.gcse_points"
+      },
+      {
+        "rule_id": "a_level_point_bands",
+        "exact_value": [
+          {
+            "grade": "A*",
+            "points": 3
+          },
+          {
+            "grade": "A",
+            "points": 2
+          }
+        ],
+        "evidence_classification": "official",
+        "source_ids": [
+          "cardiff_course_2026"
+        ],
+        "suggested_json_path": "stage_2_interview_selection.calculation.a_level_points"
+      },
+      {
+        "rule_id": "double_science_missing_score_policy",
+        "exact_value": "If two scores for Double Science are not submitted by the deadline, Cardiff assumes one grade lower than the stated grade.",
+        "evidence_classification": "official",
+        "source_ids": [
+          "cardiff_medicine_policy_2026"
+        ],
+        "suggested_json_path": "stage_2_interview_selection.calculation.double_science_missing_score_policy"
+      },
+      {
+        "rule_id": "ucat_cutoff_if_needed",
+        "exact_value": "A UCAT cut-off may be applied if too many applicants have excellent academic scores. The cut-off is not predetermined and may differ between groups.",
+        "evidence_classification": "official_value_not_predetermined",
+        "source_ids": [
+          "cardiff_medicine_admissions_info",
+          "cardiff_medicine_policy_2026"
+        ],
+        "suggested_json_path": "stage_2_interview_selection.thresholds"
+      },
+      {
+        "rule_id": "interview_format",
+        "exact_value": "Multiple Mini Interview (MMI).",
+        "evidence_classification": "official",
+        "source_ids": [
+          "cardiff_course_2026",
+          "cardiff_medicine_admissions_info"
+        ],
+        "suggested_json_path": "stage_2_interview_selection.interview_format"
+      },
+      {
+        "rule_id": "gcse_scoring_count",
+        "exact_value": 8,
+        "evidence_classification": "official",
+        "evidence_label": "official_foi_verified",
+        "source_ids": [
+          "cardiff_official_foi_update_2026"
+        ],
+        "suggested_json_path": "stage_2_interview_selection.calculation.gcse_points.subject_count"
+      },
+      {
+        "rule_id": "gcse_score_max",
+        "exact_value": 24,
+        "evidence_classification": "official",
+        "evidence_label": "official_foi_verified",
+        "source_ids": [
+          "cardiff_official_foi_update_2026"
+        ],
+        "suggested_json_path": "stage_2_interview_selection.calculation.gcse_points.score_max"
+      },
+      {
+        "rule_id": "ucat_decile_score_max",
+        "exact_value": 3,
+        "evidence_classification": "official",
+        "evidence_label": "official_foi_verified",
+        "source_ids": [
+          "cardiff_official_foi_update_2026"
+        ],
+        "suggested_json_path": "stage_2_interview_selection.calculation.ucat_decile_points.max_points"
+      },
+      {
+        "rule_id": "further_education_point_max",
+        "exact_value": 1,
+        "evidence_classification": "official",
+        "evidence_label": "official_foi_verified",
+        "source_ids": [
+          "cardiff_official_foi_update_2026"
+        ],
+        "suggested_json_path": "stage_2_interview_selection.calculation.additional_points.max_points"
+      },
+      {
+        "rule_id": "total_pre_interview_score_max",
+        "exact_value": 28,
+        "evidence_classification": "official",
+        "evidence_label": "official_foi_verified",
+        "source_ids": [
+          "cardiff_official_foi_update_2026"
+        ],
+        "suggested_json_path": "stage_2_interview_selection.calculation.total_score.scale.max"
+      },
+      {
+        "rule_id": "official_pre_interview_formula",
+        "exact_value": "Total Score = GCSE Score + UCAT Decile Score + Further Education Point.",
+        "evidence_classification": "official",
+        "evidence_label": "official_foi_verified",
+        "source_ids": [
+          "cardiff_official_foi_update_2026"
+        ],
+        "suggested_json_path": "stage_2_interview_selection.calculation.total_score"
+      },
+      {
+        "rule_id": "sjt_ignored",
+        "exact_value": "SJT is not used in scoring, not used as a gate/filter and not used as a tie-breaker.",
+        "evidence_classification": "official",
+        "evidence_label": "official_foi_verified",
+        "source_ids": [
+          "cardiff_official_foi_update_2026"
+        ],
+        "suggested_json_path": "stage_1_eligibility.admissions_tests.sjt"
+      },
+      {
+        "rule_id": "raw_ucat_tie_breaker",
+        "exact_value": "Raw UCAT score is used as tie-breaker for applicants with the same total pre-interview score.",
+        "evidence_classification": "official",
+        "evidence_label": "official_foi_verified",
+        "source_ids": [
+          "cardiff_official_foi_update_2026"
+        ],
+        "suggested_json_path": "stage_2_interview_selection.tie_breakers"
+      }
+    ]
+  },
+  "unresolved_official_conflicts": [
+    {
+      "conflict_id": "a_level_subject_requirement",
+      "status": "unresolved_with_published_exception",
+      "evidence_classification": "conflicting",
+      "field": "A-level subject requirement",
+      "conflicting_values": [
+        {
+          "value": "AAA must include Biology and Chemistry.",
+          "source_ids": [
+            "cardiff_course_2026"
+          ]
+        },
+        {
+          "value": "Core subject Biology or Chemistry, plus another science from Chemistry, Biology, Mathematics, Physics or Psychology, plus a third academic subject.",
+          "source_ids": [
+            "cardiff_medicine_admissions_info"
+          ]
+        }
+      ],
+      "published_exception": {
+        "value": "Applicants offering Biology or Chemistry and a second science such as Physics or Maths may still be considered if they achieve grade A at AS Level in the Biology or Chemistry subject not offered at A2.",
+        "source_ids": [
+          "cardiff_medicine_policy_2026"
+        ],
+        "evidence_classification": "official"
+      },
+      "safe_handling": "Store as conflict plus official AS-level exception. Do not flatten into one simple eligibility rule.",
+      "resolution_needed": "Official Cardiff clarification on whether course page or admissions information controls standard A-level eligibility for 2026 entry."
+    }
+  ],
+  "not_published_fields": [
+    {
+      "field_id": "interview_scoring_scale",
+      "exact_value": null,
+      "evidence_classification": "not_published",
+      "source_ids_checked": [
+        "cardiff_course_2026",
+        "cardiff_medicine_admissions_info",
+        "cardiff_medicine_policy_2026"
+      ],
+      "suggested_json_path": "stage_2_interview_selection.interview_scoring.score_scale",
+      "notes": "MMI format is published, but station scoring scale and calculation are not."
+    },
+    {
+      "field_id": "interview_threshold",
+      "exact_value": null,
+      "evidence_classification": "not_published",
+      "source_ids_checked": [
+        "cardiff_course_2026",
+        "cardiff_medicine_admissions_info",
+        "cardiff_medicine_policy_2026"
+      ],
+      "suggested_json_path": "stage_2_interview_selection.interview_scoring.minimum_score",
+      "notes": "No interview pass threshold found in checked official sources."
+    },
+    {
+      "field_id": "normal_offer_ranking_formula",
+      "exact_value": null,
+      "evidence_classification": "not_published",
+      "source_ids_checked": [
+        "cardiff_course_2026",
+        "cardiff_medicine_admissions_info",
+        "cardiff_medicine_policy_2026"
+      ],
+      "suggested_json_path": "offer_selection.offer_model",
+      "notes": "No normal offer-ranking formula found in checked official sources."
+    },
+    {
+      "field_id": "offer_threshold",
+      "exact_value": null,
+      "evidence_classification": "not_published",
+      "source_ids_checked": [
+        "cardiff_course_2026",
+        "cardiff_medicine_admissions_info",
+        "cardiff_medicine_policy_2026"
+      ],
+      "suggested_json_path": "offer_selection.offer_threshold",
+      "notes": "No offer threshold found in checked official sources."
+    },
+    {
+      "field_id": "waiting_list_policy",
+      "exact_value": null,
+      "evidence_classification": "not_published",
+      "source_ids_checked": [
+        "cardiff_course_2026",
+        "cardiff_medicine_admissions_info",
+        "cardiff_medicine_policy_2026"
+      ],
+      "suggested_json_path": "offer_selection.waiting_list_policy",
+      "notes": "No waiting list policy found in checked official sources."
+    }
+  ],
+  "stage_1_evidence": {
+    "status": "complete",
+    "verified": [
+      "Course identity",
+      "A-level grade profile AAA",
+      "IB requirement",
+      "Welsh Baccalaureate handling",
+      "UCAT requirement",
+      "BTEC not accepted",
+      "T Level not accepted",
+      "GCSE and A-level resit policies",
+      "English language requirements",
+      "Graduate A100 headline requirements",
+      "GCSE scoring count officially resolved as eight GCSEs",
+      "GCSE science minimum officially resolved as Double Science AA/77 or Biology A/7 and Chemistry A/7",
+      "SJT officially ignored"
+    ],
+    "conflicting": [
+      "A-level subject wording"
+    ],
+    "not_published": [
+      "Specific Scottish Higher / Advanced Higher rules in checked A100 sources"
+    ],
+    "notes": "Stage 1 evidence can now use official eight-GCSE scoring count, official GCSE science minimums and official SJT ignored policy. A-level subject wording remains represented with the published AS-level exception."
+  },
+  "stage_2_selection_evidence": {
+    "status": "official_pre_interview_formula_verified",
+    "verified": [
+      "Applications meeting minimum requirements, acceptable personal statement/reference and UCAT completion receive academic scoring.",
+      "Highest scoring applicants are invited to interview.",
+      "Mandatory subjects are scored first.",
+      "GCSE point bands are published.",
+      "A-level point bands are published.",
+      "UCAT decile points are published.",
+      "UCAT cut-off may be used if needed and is not predetermined.",
+      "Named WP programmes can guarantee interview if minimum requirements are met.",
+      "MMI interview format is published.",
+      "Eight GCSEs are scored.",
+      "GCSE score maximum is 24.",
+      "UCAT decile score maximum is 3.",
+      "Further Education Point maximum is 1.",
+      "Total pre-interview score maximum is 28.",
+      "Official formula: Total Score = GCSE Score + UCAT Decile Score + Further Education Point.",
+      "Raw UCAT is used as tie-breaker for applicants with the same total score.",
+      "SJT is ignored and is not scored, gated/filtered or used as tie-breaker."
+    ],
+    "conflicting": [],
+    "not_published": [
+      "Interview scoring scale",
+      "Interview threshold",
+      "Normal offer ranking formula"
+    ],
+    "notes": "Stage 2 has official pre-interview formula evidence. Interview scoring and offer-selection formula remain unpublished."
+  },
+  "ucat_decile_evidence": {
+    "status": "available",
+    "evidence_classification": "official",
+    "source_ids": [
+      "cardiff_medicine_admissions_info",
+      "cardiff_official_foi_update_2026"
+    ],
+    "points": [
+      {
+        "deciles": [
+          9,
+          8,
+          7
+        ],
+        "points": 3
+      },
+      {
+        "deciles": [
+          6,
+          5,
+          4
+        ],
+        "points": 2
+      },
+      {
+        "deciles": [
+          3,
+          2,
+          1
+        ],
+        "points": 1
+      }
+    ],
+    "limitations": [
+      "UCAT decile points are official for the pre-interview total score.",
+      "Engine-derived national decile conversion from raw score remains separate from Cardiff official rules unless Cardiff publishes raw-score decile conversion.",
+      "Historical competitiveness bands are research_estimate only, not official cut-offs."
+    ],
+    "max_points": 3,
+    "evidence_label": "official_foi_verified"
+  },
+  "contextual_wp_evidence": {
+    "status": "available",
+    "evidence_classification": "official",
+    "source_ids": [
+      "cardiff_medicine_admissions_info",
+      "cardiff_medicine_policy_2026",
+      "cardiff_contextual_admissions"
+    ],
+    "guaranteed_interview_rules": [
+      {
+        "rule_id": "step_up_to_university",
+        "programme": "Cardiff University Step-Up to University programme",
+        "minimum_entry_requirements_must_be_met": true,
+        "effect": "guaranteed_interview"
+      },
+      {
+        "rule_id": "sutton_trust_cardiff_summer_school",
+        "programme": "Sutton Trust attendees to Cardiff University Summer School",
+        "minimum_entry_requirements_must_be_met": true,
+        "effect": "guaranteed_interview"
+      },
+      {
+        "rule_id": "doctoriaid_yfory",
+        "programme": "Coleg Cymraeg Cenedlaethol Doctoriaid Yfory scheme",
+        "minimum_entry_requirements_must_be_met": true,
+        "effect": "guaranteed_interview"
+      },
+      {
+        "rule_id": "agored_cymru_access_to_he_medicine",
+        "programme": "Agored Cymru Access to Higher Education (Medicine) diploma",
+        "minimum_entry_requirements_must_be_met": true,
+        "effect": "guaranteed_interview"
+      }
+    ],
+    "additional_consideration_rules": [
+      {
+        "criterion_id": "contextual_applicant",
+        "effect": "additional_consideration"
+      },
+      {
+        "criterion_id": "welsh_domiciled",
+        "effect": "additional_consideration"
+      },
+      {
+        "criterion_id": "high_performance_sports",
+        "effect": "additional_consideration"
+      }
+    ],
+    "multiple_category_policy": "If eligible in more than one listed additional-consideration category, applicant receives additional consideration in one category only."
+  },
+  "interview_offer_evidence_gaps": {
+    "interview_format": {
+      "status": "available",
+      "evidence_classification": "official",
+      "value": "Multiple Mini Interview",
+      "source_ids": [
+        "cardiff_course_2026",
+        "cardiff_medicine_admissions_info"
+      ]
+    },
+    "interview_required_before_offer": {
+      "status": "available",
+      "evidence_classification": "official",
+      "value": true,
+      "source_ids": [
+        "cardiff_course_2026"
+      ]
+    },
+    "interview_scoring": {
+      "status": "not_published",
+      "score_scale": null,
+      "calculation_method": null,
+      "threshold": null
+    },
+    "offer_selection": {
+      "status": "not_published",
+      "offer_model": null,
+      "offer_threshold": null,
+      "tie_breakers": [
+        {
+          "tie_breaker_id": "raw_ucat_when_same_total_pre_interview_score",
+          "stage": "pre_interview_shortlisting",
+          "evidence_classification": "official",
+          "evidence_label": "official_foi_verified",
+          "source_ids": [
+            "cardiff_official_foi_update_2026"
+          ]
+        }
+      ],
+      "waiting_list_policy": null
+    }
+  },
+  "official_formula_status": {
+    "status": "available_pre_interview",
+    "status_values": [
+      "available_pre_interview",
+      "unavailable",
+      "partially_known"
+    ],
+    "academic_calculation_known": true,
+    "ucat_calculation_known": true,
+    "sjt_calculation_known": true,
+    "interview_calculation_known": false,
+    "official_formula_prediction_available": true,
+    "prediction_scope": "official_pre_interview_score_only",
+    "offer_prediction_available": false,
+    "known_components": [
+      {
+        "component_id": "gcse_score",
+        "description": "Eight GCSEs scored, maximum 24."
+      },
+      {
+        "component_id": "gcse_science_minimum",
+        "description": "GCSE Double Science AA/77, or GCSE Biology A/7 and GCSE Chemistry A/7."
+      },
+      {
+        "component_id": "ucat_decile_score",
+        "description": "UCAT decile score maximum 3."
+      },
+      {
+        "component_id": "further_education_point",
+        "description": "Further Education Point maximum 1."
+      },
+      {
+        "component_id": "total_pre_interview_score",
+        "description": "Total Score = GCSE Score + UCAT Decile Score + Further Education Point; max 28."
+      },
+      {
+        "component_id": "sjt_policy",
+        "description": "SJT ignored: not scored, gated/filtered or used as tie-breaker."
+      },
+      {
+        "component_id": "tie_breaker",
+        "description": "Raw UCAT used for applicants with same total pre-interview score."
+      }
+    ],
+    "unknown_components": [
+      "Resolved official A-level subject rule",
+      "Interview scoring formula",
+      "Offer ranking formula",
+      "Offer threshold",
+      "Waiting list policy"
+    ],
+    "explanation": "Official formula prediction is now available for Cardiff A100 pre-interview score calculation only. Historical score bands are research_estimate context and must not be treated as official cut-offs. Interview and offer outcome prediction remains unavailable because those scoring rules are not published.",
+    "source_ids": [
+      "cardiff_official_foi_update_2026"
+    ],
+    "notes": "Enable official pre-interview score calculation; do not enable final offer prediction from the historical estimates."
+  },
+  "prediction_formula_blockers": [
+    {
+      "blocker_id": "unresolved_a_level_subject_rule",
+      "reason": "Official Cardiff sources conflict between Biology and Chemistry versus Biology or Chemistry plus another science, with a published AS exception. This affects clean eligibility automation for edge-case applicants, but does not block the verified pre-interview scoring formula once eligibility is satisfied.",
+      "blocking_scope": [
+        "eligibility_automation"
+      ]
+    },
+    {
+      "blocker_id": "interview_offer_scoring_not_published",
+      "reason": "Interview scoring scale, interview threshold, offer ranking formula and offer threshold are not published in checked official sources.",
+      "blocking_scope": [
+        "offer_prediction",
+        "post_interview_prediction"
+      ]
+    }
+  ],
+  "international_selection_evidence": {
+    "status": "verified",
+    "evidence_classification": "verified",
+    "source_ids": [
+      "cardiff_verified_international_admissions_evidence"
+    ],
+    "ranking_pool": "separate_from_home",
+    "ranking_basis": "total_28_point_score_only",
+    "maximum_shortlist_score": 28,
+    "score_components": [
+      {
+        "component_id": "gcse_score",
+        "maximum_points": 24
+      },
+      {
+        "component_id": "ucat_decile_score",
+        "maximum_points": 3,
+        "score_input": "cognitive_total_only",
+        "score_scale": 2700,
+        "decile_mapping": [
+          {
+            "national_deciles": [
+              7,
+              8,
+              9
+            ],
+            "points": 3
+          },
+          {
+            "national_deciles": [
+              4,
+              5,
+              6
+            ],
+            "points": 2
+          },
+          {
+            "national_deciles": [
+              1,
+              2,
+              3
+            ],
+            "points": 1
+          }
+        ]
+      },
+      {
+        "component_id": "further_education_point",
+        "maximum_points": 1
+      }
+    ],
+    "sjt": {
+      "considered": false,
+      "used_in_scoring": false,
+      "used_as_gate_or_filter": false,
+      "used_as_tie_breaker": false
+    },
+    "tie_breaker": {
+      "field": "ucat.raw_total_score",
+      "score_scale": 2700,
+      "applies_when": "international_applicants_have_identical_28_point_scores"
+    },
+    "interview_ranking": {
+      "ranking_basis": "total_28_point_score_only",
+      "invitation_order": "highest_ranked_until_international_interview_capacity_is_reached",
+      "personal_statement_used": false,
+      "reference_used": false,
+      "work_experience_used": false
+    },
+    "notes": "International applicants use the existing Cardiff 28-point model without any change to GCSE scoring, UCAT decile scoring or eligibility rules."
+  },
+  "historical_ucat_data": [
+    {
+      "dataset_id": "home_interviewed_ucat_historical_context",
+      "applicant_group": "home",
+      "evidence_classification": "research_estimate",
+      "source_ids": [
+        "cardiff_official_foi_update_2026"
+      ],
+      "score_scale": 2700,
+      "lowest_interviewed_score": 1600,
+      "average_interviewed_score": 2100,
+      "notes": "Historical interviewed UCAT context only. Not an official UCAT cut-off or hard decision rule."
+    },
+    {
+      "dataset_id": "international_interviewed_ucat_historical_context",
+      "applicant_group": "international",
+      "evidence_classification": "verified_historical_guidance",
+      "source_ids": [
+        "cardiff_verified_international_admissions_evidence"
+      ],
+      "score_scale": 2700,
+      "cycles": [
+        {
+          "cycle": "2022",
+          "interview_cutoff_approx": 2100
+        },
+        {
+          "cycle": "2023",
+          "interview_cutoff_approx": 2050
+        },
+        {
+          "cycle": "2024",
+          "interview_cutoff_approx": 2080
+        },
+        {
+          "cycle": "2025/26",
+          "average_interview_cutoff_approx": 2100
+        }
+      ],
+      "observed_historical_range": {
+        "min": 2050,
+        "max": 2100
+      },
+      "notes": "Verified international historical guidance only. Cardiff does not publish a fixed interview threshold; these values must not become an eligibility rule or fixed UCAT cut-off."
+    }
+  ],
+  "historical_admissions_stats": [
+    {
+      "dataset_id": "cardiff_a100_historical_admissions_context",
+      "cycle": "historical_unspecified",
+      "evidence_classification": "research_estimate",
+      "source_ids": [
+        "cardiff_official_foi_update_2026"
+      ],
+      "applications_approx": 3000,
+      "interviews_approx": 1000,
+      "offers_approx": 600,
+      "places_approx": 300,
+      "notes": "Approximate historical admissions volumes only. Not official selection thresholds or prediction rules."
+    },
+    {
+      "dataset_id": "cardiff_a100_international_historical_admissions",
+      "applicant_group": "international",
+      "evidence_classification": "verified_historical_guidance",
+      "source_ids": [
+        "cardiff_verified_international_admissions_evidence"
+      ],
+      "cycles": [
+        {
+          "cycle": "2022",
+          "offer_rate_percent_approx": 45
+        },
+        {
+          "cycle": "2023",
+          "offer_rate_percent_approx": 42
+        },
+        {
+          "cycle": "2024",
+          "interviews": 146,
+          "offers": 60,
+          "offer_rate_percent_approx": 41
+        },
+        {
+          "cycle": "2025/26",
+          "offer_rate_percent_approx_range": {
+            "min": 40,
+            "max": 45
+          }
+        }
+      ],
+      "intake": {
+        "total_students_approx": 300,
+        "official_overseas_cap_percent": 7.5,
+        "international_places_approx": 25,
+        "frequency": "per_year"
+      },
+      "notes": "Historical international admissions and intake context only; not an offer prediction rule."
+    }
+  ],
+  "estimated_historical_prediction": {
+    "available": true,
+    "method": "historical_pre_interview_score_context",
+    "method_status": "research_estimate",
+    "method_status_values": [
+      "not_modelled",
+      "research_estimate",
+      "draft",
+      "validated",
+      "retired"
+    ],
+    "bands": [
+      {
+        "band_id": "non_contextual_ruk_historically_competitive",
+        "applies_to_group_ids": [
+          "rest_of_uk",
+          "home_fee"
+        ],
+        "contextual_status": false,
+        "pre_interview_score_range": {
+          "min": 24,
+          "max": 25,
+          "scale_max": 28
+        },
+        "evidence_classification": "research_estimate",
+        "source_ids": [
+          "cardiff_official_foi_update_2026"
+        ],
+        "notes": "Historical observation only. Do not treat as an official cut-off or hard decision rule."
+      },
+      {
+        "band_id": "contextual_historically_competitive",
+        "applies_to_group_ids": [
+          "contextual"
+        ],
+        "contextual_status": true,
+        "pre_interview_score_range": {
+          "min": 23,
+          "max": 23,
+          "scale_max": 28
+        },
+        "evidence_classification": "research_estimate",
+        "source_ids": [
+          "cardiff_official_foi_update_2026"
+        ],
+        "notes": "Historical observation only. Do not treat as an official cut-off or hard decision rule."
+      },
+      {
+        "band_id": "international_below_historical_range",
+        "applies_to_group_ids": [
+          "international_fee"
+        ],
+        "ucat_total_2700": {
+          "operator": "less_than",
+          "value": 2050
+        },
+        "guidance": "Consider stronger alternatives",
+        "evidence_classification": "verified_historical_guidance",
+        "source_ids": [
+          "cardiff_verified_international_admissions_evidence"
+        ],
+        "notes": "Below the supplied 2050–2100 historical range. Guidance only; not a fixed UCAT cut-off."
+      },
+      {
+        "band_id": "international_around_historical_cutoff",
+        "applies_to_group_ids": [
+          "international_fee"
+        ],
+        "ucat_total_2700": {
+          "min": 2050,
+          "max": 2079
+        },
+        "guidance": "Possible but ambitious",
+        "evidence_classification": "verified_historical_guidance",
+        "source_ids": [
+          "cardiff_verified_international_admissions_evidence"
+        ],
+        "notes": "Uses the supplied 2050 historical cut-off up to the next supplied historical value of 2080. Guidance only; not a fixed UCAT cut-off."
+      },
+      {
+        "band_id": "international_within_historical_competitive_range",
+        "applies_to_group_ids": [
+          "international_fee"
+        ],
+        "ucat_total_2700": {
+          "min": 2080,
+          "max": 2100
+        },
+        "guidance": "Good chance – recommend applying",
+        "evidence_classification": "verified_historical_guidance",
+        "source_ids": [
+          "cardiff_verified_international_admissions_evidence"
+        ],
+        "notes": "Uses the supplied 2080 and 2100 historical values. Guidance only; not a fixed UCAT cut-off."
+      },
+      {
+        "band_id": "international_above_historical_range",
+        "applies_to_group_ids": [
+          "international_fee"
+        ],
+        "ucat_total_2700": {
+          "operator": "greater_than",
+          "value": 2100
+        },
+        "guidance": "Strong choice",
+        "evidence_classification": "verified_historical_guidance",
+        "source_ids": [
+          "cardiff_verified_international_admissions_evidence"
+        ],
+        "notes": "Above the highest supplied historical value. Guidance only; not a fixed UCAT cut-off."
+      }
+    ],
+    "input_requirements": [
+      "Official Cardiff pre-interview score out of 28",
+      "Applicant group/contextual status",
+      "UCAT cognitive total on the /2700 scale for international historical guidance",
+      "Clear separation from official rules in applicant-facing output"
+    ],
+    "limitations": [
+      "Estimated cut-offs are historical observations only.",
+      "Not official Cardiff rules.",
+      "Not hard cut-offs.",
+      "Not post-interview or offer predictions."
+    ],
+    "disclaimer": "Historical competitiveness estimates and verified international historical bands are guidance only. Cardiff has no fixed interview threshold; these are not eligibility cut-offs or decision rules.",
+    "source_ids": [
+      "cardiff_official_foi_update_2026",
+      "cardiff_verified_international_admissions_evidence"
+    ],
+    "notes": "Use only as context alongside official pre-interview score, not as executable official prediction logic."
+  },
+  "engine_notes": {
+    "official_rules_source": "data/universities/cardiff-a100.json",
+    "research_source": "data/research/cardiff-a100-research.json",
+    "do_not_infer": [
+      "Do not flatten the A-level subject conflict into one simple rule.",
+      "Do not treat historical Cardiff competitiveness observations as official cut-offs.",
+      "Do not treat historical UCAT/admissions figures as official thresholds.",
+      "Do not merge international and Home ranking pools.",
+      "Do not use SJT, personal statements, references or work experience for international interview ranking.",
+      "Do not infer unpublished interview or offer scoring.",
+      "Do not merge estimated_historical_prediction with official_formula_prediction in frontend messaging."
+    ],
+    "course_specific_notes": [
+      "Cardiff A100 official pre-interview formula is available and should be stored in the production file.",
+      "Historical competitiveness around 24-25/28 for non-contextual RUK and around 23/28 for contextual applicants is research_estimate only.",
+      "International applicants use the same 28-point score in a separate pool, with raw cognitive UCAT as the tie-breaker and SJT ignored.",
+      "Interview and offer selection scoring remain not published; final offer prediction remains unavailable."
+    ],
+    "offer_prediction_scope": "out_of_scope"
+  },
+  "resolved_official_conflicts": [
+    {
+      "conflict_id": "gcse_count_8_vs_9",
+      "status": "resolved",
+      "evidence_classification": "official",
+      "evidence_label": "official_foi_verified",
+      "field": "GCSE count / GCSE subjects scored",
+      "official_value": 8,
+      "previous_values": [
+        8,
+        9
+      ],
+      "source_ids": [
+        "cardiff_official_foi_update_2026"
+      ],
+      "production_json_path": "stage_2_interview_selection.calculation.gcse_points.subject_count",
+      "notes": "Use eight GCSEs for Cardiff A100 scoring. Previous conflict must not continue to block Stage 2 score calculation."
+    },
+    {
+      "conflict_id": "gcse_science_grade_threshold",
+      "status": "resolved",
+      "evidence_classification": "official",
+      "field": "GCSE Biology/Chemistry or Double Science minimum grade",
+      "official_value": "GCSE Double Science AA/77, or GCSE Biology A/7 and GCSE Chemistry A/7.",
+      "previous_values": [
+        "Double Science BB/66 or Biology and Chemistry separately at B/6",
+        "Biology and Chemistry 7/A 7/A or Double Science 7/A 7/A"
+      ],
+      "source_ids": [
+        "cardiff_course_2026"
+      ],
+      "production_json_path": "stage_1_eligibility.gcse.grade_requirements[science_minimum]",
+      "notes": "Use the official Cardiff 2026 course requirement for Stage 1 GCSE science eligibility."
+    }
+  ],
+  "officially_ignored_fields": [
+    {
+      "field_id": "sjt_policy",
+      "exact_value": "ignored",
+      "evidence_classification": "official",
+      "evidence_label": "official_foi_verified",
+      "source_ids": [
+        "cardiff_official_foi_update_2026"
+      ],
+      "suggested_json_path": "stage_1_eligibility.admissions_tests.sjt",
+      "notes": "SJT is not used in scoring, not used as a gate/filter and not used as a tie-breaker."
+    }
+  ]
+}

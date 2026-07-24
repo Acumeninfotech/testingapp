@@ -1,0 +1,230 @@
+{
+  "schema_version": "1.0.0",
+  "course_profile_id": "edge-hill-a100",
+  "base_applicant": {
+    "profile_id": "edge_hill_a100_base_home_applicant",
+    "label": "Edge Hill A100 Home A-level school-leaver",
+    "applicant_identity": {
+      "applicant_type": "standard_school_leaver",
+      "fee_status": "Home",
+      "domicile": "England",
+      "contextual": false,
+      "widening_participation": false,
+      "graduate": false,
+      "resit": {
+        "has_resits": false
+      }
+    },
+    "course_target": {
+      "discipline": "medicine",
+      "ucas_code": "A100",
+      "course_route": "standard",
+      "entry_route": "standard_entry"
+    },
+    "qualification_route": "a_level",
+    "gcse_profile": {
+      "subjects": {
+        "english_language": "6",
+        "mathematics": "6",
+        "biology": "6",
+        "chemistry": "6",
+        "history": "6"
+      },
+      "additional_subjects": [],
+      "total_gcse_count": 5
+    },
+    "a_level_profile": {
+      "subjects": [
+        {
+          "subject_id": "biology",
+          "predicted_grade": "A"
+        },
+        {
+          "subject_id": "chemistry",
+          "predicted_grade": "A"
+        },
+        {
+          "subject_id": "mathematics",
+          "predicted_grade": "A"
+        }
+      ],
+      "sitting_status": "first_sitting"
+    },
+    "admissions_tests": {
+      "ucat": {
+        "total_score": 2000,
+        "score_scale": 2700,
+        "sjt_band": 2,
+        "test_year": 2026,
+        "subtests": {
+          "verbal_reasoning": 667,
+          "decision_making": 666,
+          "quantitative_reasoning": 667
+        }
+      }
+    },
+    "application_year": 2026,
+    "graduate_profile": {
+      "is_graduate": false,
+      "degree_classification": null
+    }
+  },
+  "historical_guidance_boundaries": [
+    {
+      "pool": "home",
+      "ucat_total": 2100,
+      "expected_band": "interview_likely"
+    },
+    {
+      "pool": "home",
+      "ucat_total": 2099,
+      "expected_band": "realistic"
+    },
+    {
+      "pool": "home",
+      "ucat_total": 1950,
+      "expected_band": "realistic"
+    },
+    {
+      "pool": "home",
+      "ucat_total": 1949,
+      "expected_band": "ambitious"
+    },
+    {
+      "pool": "home",
+      "ucat_total": 1800,
+      "expected_band": "ambitious"
+    },
+    {
+      "pool": "home",
+      "ucat_total": 1799,
+      "expected_band": "high_risk"
+    }
+  ],
+  "scenarios": [
+    {
+      "scenario_id": "eligible_home_applicant_returns_realistic_guidance",
+      "overrides": {},
+      "expected": {
+        "eligibility_status": "eligible",
+        "guidance_pool_id": "home_a100",
+        "interview_band": "realistic",
+        "ranking_value": 2000,
+        "failure": null
+      }
+    },
+    {
+      "scenario_id": "high_home_ucat_returns_interview_likely",
+      "overrides": {
+        "admissions_tests": {
+          "ucat": {
+            "total_score": 2200,
+            "subtests": {
+              "verbal_reasoning": 734,
+              "decision_making": 733,
+              "quantitative_reasoning": 733
+            }
+          }
+        }
+      },
+      "expected": {
+        "eligibility_status": "eligible",
+        "guidance_pool_id": "home_a100",
+        "interview_band": "interview_likely",
+        "ranking_value": 2200,
+        "failure": null
+      }
+    },
+    {
+      "scenario_id": "sjt_band_4_is_not_eligible",
+      "overrides": {
+        "admissions_tests": {
+          "ucat": {
+            "sjt_band": 4
+          }
+        }
+      },
+      "expected": {
+        "eligibility_status": "not_eligible",
+        "guidance_pool_id": null,
+        "interview_band": "not_eligible",
+        "ranking_value": null,
+        "failure": "disqualifying_sjt_rule"
+      }
+    },
+    {
+      "scenario_id": "international_applicant_is_not_eligible",
+      "overrides": {
+        "applicant_identity": {
+          "applicant_type": "international_standard_school_leaver",
+          "fee_status": "International",
+          "domicile": "International",
+          "english_language_exempt": true
+        }
+      },
+      "expected": {
+        "eligibility_status": "not_eligible",
+        "guidance_pool_id": null,
+        "interview_band": "not_eligible",
+        "ranking_value": null,
+        "failure": "applicant_group_explicitly_blocked:international_fee"
+      }
+    },
+    {
+      "scenario_id": "a_star_biology_allows_third_subject_b",
+      "overrides": {
+        "a_level_profile": {
+          "subjects": [
+            {
+              "subject_id": "biology",
+              "predicted_grade": "A*"
+            },
+            {
+              "subject_id": "chemistry",
+              "predicted_grade": "A"
+            },
+            {
+              "subject_id": "mathematics",
+              "predicted_grade": "B"
+            }
+          ]
+        }
+      },
+      "expected": {
+        "eligibility_status": "eligible",
+        "guidance_pool_id": "home_a100",
+        "interview_band": "realistic",
+        "ranking_value": 2000,
+        "failure": null
+      }
+    },
+    {
+      "scenario_id": "missing_practical_endorsement_is_not_a_failure",
+      "overrides": {
+        "a_level_profile": {
+          "subjects": [
+            {
+              "subject_id": "biology",
+              "predicted_grade": "A"
+            },
+            {
+              "subject_id": "chemistry",
+              "predicted_grade": "A"
+            },
+            {
+              "subject_id": "mathematics",
+              "predicted_grade": "A"
+            }
+          ]
+        }
+      },
+      "expected": {
+        "eligibility_status": "eligible",
+        "guidance_pool_id": "home_a100",
+        "interview_band": "realistic",
+        "ranking_value": 2000,
+        "failure": null
+      }
+    }
+  ]
+}

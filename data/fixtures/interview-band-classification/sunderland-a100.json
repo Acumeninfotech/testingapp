@@ -1,0 +1,859 @@
+{
+  "schema_version": "1.0.0",
+  "course_profile_id": "sunderland-a100",
+  "base_applicant": {
+    "profile_id": "sunderland_a100_base_home_applicant",
+    "label": "Sunderland A100 Home A-level school-leaver",
+    "applicant_identity": {
+      "applicant_type": "standard_school_leaver",
+      "fee_status": "Home",
+      "domicile": "England",
+      "contextual": false,
+      "widening_participation": false,
+      "graduate": false,
+      "resit": {
+        "has_resits": false
+      }
+    },
+    "course_target": {
+      "discipline": "medicine",
+      "ucas_code": "A100",
+      "course_route": "standard",
+      "entry_route": "standard_entry"
+    },
+    "qualification_route": "a_level",
+    "gcse_profile": {
+      "subjects": {
+        "english_language": "7",
+        "mathematics": "7",
+        "biology": "7",
+        "chemistry": "7",
+        "physics": "7"
+      },
+      "additional_subjects": [],
+      "total_gcse_count": 5
+    },
+    "a_level_profile": {
+      "subjects": [
+        {
+          "subject_id": "biology",
+          "predicted_grade": "A",
+          "practical_endorsement": "pass"
+        },
+        {
+          "subject_id": "chemistry",
+          "predicted_grade": "A",
+          "practical_endorsement": "pass"
+        },
+        {
+          "subject_id": "mathematics",
+          "predicted_grade": "A",
+          "practical_endorsement": "not_applicable"
+        }
+      ],
+      "sitting_status": "first_sitting"
+    },
+    "admissions_tests": {
+      "ucat": {
+        "total_score": 1800,
+        "score_scale": 2700,
+        "subtests": {
+          "verbal_reasoning": 600,
+          "decision_making": 600,
+          "quantitative_reasoning": 600
+        },
+        "sjt_band": 2,
+        "test_year": 2026
+      },
+      "gamsat": {
+        "taken": false,
+        "overall_score": null,
+        "section_scores": []
+      }
+    },
+    "application_year": 2026,
+    "graduate_profile": {
+      "is_graduate": false,
+      "degree_classification": null
+    }
+  },
+  "historical_guidance_values": [
+    {
+      "entry_year": 2020,
+      "score": 1690
+    },
+    {
+      "entry_year": 2021,
+      "score": 1670
+    },
+    {
+      "entry_year": 2022,
+      "score": 1650
+    },
+    {
+      "entry_year": 2023,
+      "score": 1680
+    },
+    {
+      "entry_year": 2024,
+      "score": 1670
+    }
+  ],
+  "scenarios": [
+    {
+      "scenario_id": "standard_home_a_level_gates_met_ist_limited",
+      "overrides": {},
+      "expected": {
+        "eligibility_status": "eligible",
+        "guidance_pool_id": "home_a100_eligibility_gate",
+        "interview_band": "realistic",
+        "manual_review_required": false,
+        "failure": null
+      }
+    },
+    {
+      "scenario_id": "below_ucat_decile_gate_rejected",
+      "overrides": {
+        "admissions_tests": {
+          "ucat": {
+            "total_score": 1670,
+            "subtests": {
+              "verbal_reasoning": 560,
+              "decision_making": 560,
+              "quantitative_reasoning": 550
+            }
+          }
+        }
+      },
+      "expected": {
+        "eligibility_status": "not_eligible",
+        "guidance_pool_id": null,
+        "interview_band": "not_eligible",
+        "manual_review_required": false,
+        "failure": "minimum_ucat_total_not_met"
+      }
+    },
+    {
+      "scenario_id": "sjt_band_4_rejected",
+      "overrides": {
+        "admissions_tests": {
+          "ucat": {
+            "sjt_band": 4
+          }
+        }
+      },
+      "expected": {
+        "eligibility_status": "not_eligible",
+        "guidance_pool_id": null,
+        "interview_band": "not_eligible",
+        "manual_review_required": false,
+        "failure": "disqualifying_sjt_rule"
+      }
+    },
+    {
+      "scenario_id": "international_applicant_rejected",
+      "overrides": {
+        "applicant_identity": {
+          "applicant_type": "international_standard_school_leaver",
+          "fee_status": "International",
+          "domicile": "International",
+          "english_language_exempt": true
+        }
+      },
+      "expected": {
+        "eligibility_status": "not_eligible",
+        "guidance_pool_id": null,
+        "interview_band": "not_eligible",
+        "manual_review_required": false,
+        "failure": "applicant_group_explicitly_blocked:international_fee"
+      }
+    },
+    {
+      "scenario_id": "contextual_aab_academic_gate_met",
+      "overrides": {
+        "applicant_identity": {
+          "contextual": true,
+          "contextual_status_confirmed": true
+        },
+        "a_level_profile": {
+          "subjects": [
+            {
+              "subject_id": "biology",
+              "predicted_grade": "A",
+              "practical_endorsement": "pass"
+            },
+            {
+              "subject_id": "chemistry",
+              "predicted_grade": "A",
+              "practical_endorsement": "pass"
+            },
+            {
+              "subject_id": "mathematics",
+              "predicted_grade": "B",
+              "practical_endorsement": "not_applicable"
+            }
+          ]
+        }
+      },
+      "expected": {
+        "eligibility_status": "eligible",
+        "guidance_pool_id": "home_a100_eligibility_gate",
+        "interview_band": "realistic",
+        "manual_review_required": false,
+        "failure": null
+      }
+    },
+    {
+      "scenario_id": "non_contextual_aab_rejected",
+      "overrides": {
+        "a_level_profile": {
+          "subjects": [
+            {
+              "subject_id": "biology",
+              "predicted_grade": "A",
+              "practical_endorsement": "pass"
+            },
+            {
+              "subject_id": "chemistry",
+              "predicted_grade": "A",
+              "practical_endorsement": "pass"
+            },
+            {
+              "subject_id": "mathematics",
+              "predicted_grade": "B",
+              "practical_endorsement": "not_applicable"
+            }
+          ]
+        }
+      },
+      "expected": {
+        "eligibility_status": "not_eligible",
+        "guidance_pool_id": null,
+        "interview_band": "not_eligible",
+        "manual_review_required": false,
+        "failure": "a_level_requirements_not_met"
+      }
+    },
+    {
+      "scenario_id": "practical_endorsement_failure_rejected",
+      "overrides": {
+        "a_level_profile": {
+          "subjects": [
+            {
+              "subject_id": "biology",
+              "predicted_grade": "A",
+              "practical_endorsement": "fail"
+            },
+            {
+              "subject_id": "chemistry",
+              "predicted_grade": "A",
+              "practical_endorsement": "pass"
+            },
+            {
+              "subject_id": "mathematics",
+              "predicted_grade": "A",
+              "practical_endorsement": "not_applicable"
+            }
+          ]
+        }
+      },
+      "expected": {
+        "eligibility_status": "not_eligible",
+        "guidance_pool_id": null,
+        "interview_band": "not_eligible",
+        "manual_review_required": false,
+        "failure": "science_practical_endorsement_not_confirmed:biology"
+      }
+    },
+    {
+      "scenario_id": "gcse_subject_grade_failure_rejected",
+      "overrides": {
+        "gcse_profile": {
+          "subjects": {
+            "english_language": "5",
+            "mathematics": "7",
+            "biology": "7",
+            "chemistry": "7",
+            "physics": "7",
+            "history": "7"
+          },
+          "total_gcse_count": 6
+        }
+      },
+      "expected": {
+        "eligibility_status": "not_eligible",
+        "guidance_pool_id": null,
+        "interview_band": "not_eligible",
+        "manual_review_required": false,
+        "failure": "minimum_gcse_grade_not_met:english_language"
+      }
+    },
+    {
+      "scenario_id": "scottish_route_gates_met",
+      "overrides": {
+        "qualification_route": "scottish",
+        "a_level_profile": null,
+        "scottish_profile": {
+          "national_5_subjects": [
+            {
+              "subject_id": "english_language",
+              "grade": "A"
+            },
+            {
+              "subject_id": "mathematics",
+              "grade": "A"
+            },
+            {
+              "subject_id": "biology",
+              "grade": "A"
+            },
+            {
+              "subject_id": "chemistry",
+              "grade": "A"
+            },
+            {
+              "subject_id": "physics",
+              "grade": "A"
+            }
+          ],
+          "advanced_higher_subjects": [
+            {
+              "subject_id": "biology",
+              "grade": "A"
+            },
+            {
+              "subject_id": "chemistry",
+              "grade": "B"
+            }
+          ]
+        }
+      },
+      "expected": {
+        "eligibility_status": "eligible",
+        "guidance_pool_id": "home_a100_eligibility_gate",
+        "interview_band": "realistic",
+        "manual_review_required": false,
+        "failure": null
+      }
+    },
+    {
+      "scenario_id": "ib_route_gates_met",
+      "overrides": {
+        "qualification_route": "international_baccalaureate",
+        "a_level_profile": null,
+        "ib_profile": {
+          "total_points": 35,
+          "higher_level_subjects": [
+            {
+              "subject_id": "biology",
+              "grade": "6"
+            },
+            {
+              "subject_id": "chemistry",
+              "grade": "6"
+            },
+            {
+              "subject_id": "history",
+              "grade": "6"
+            }
+          ],
+          "standard_level_subjects": [
+            {
+              "subject_id": "english_language",
+              "grade": "6"
+            }
+          ]
+        }
+      },
+      "expected": {
+        "eligibility_status": "eligible",
+        "guidance_pool_id": "home_a100_eligibility_gate",
+        "interview_band": "realistic",
+        "manual_review_required": false,
+        "failure": null
+      }
+    },
+    {
+      "scenario_id": "graduate_standard_route_passes_without_gamsat",
+      "overrides": {
+        "qualification_route": "graduate",
+        "applicant_identity": {
+          "applicant_type": "graduate",
+          "graduate": true
+        },
+        "a_level_profile": {
+          "subjects": [
+            {
+              "subject_id": "biology",
+              "predicted_grade": "B"
+            },
+            {
+              "subject_id": "chemistry",
+              "predicted_grade": "B"
+            },
+            {
+              "subject_id": "mathematics",
+              "predicted_grade": "B"
+            }
+          ]
+        },
+        "graduate_profile": {
+          "is_graduate": true,
+          "degree_classification": "2_1",
+          "degree_status": "completed",
+          "recognised_institution": true,
+          "degree_age_at_course_start_years": 3
+        }
+      },
+      "expected": {
+        "eligibility_status": "eligible",
+        "guidance_pool_id": "home_a100_eligibility_gate",
+        "interview_band": "realistic",
+        "manual_review_required": false,
+        "failure": null,
+        "absent_failure": "graduate_compensatory_test_required"
+      }
+    },
+    {
+      "scenario_id": "graduate_a_level_deficiency_rescued_by_valid_gamsat",
+      "overrides": {
+        "qualification_route": "graduate",
+        "applicant_identity": {
+          "applicant_type": "graduate",
+          "graduate": true
+        },
+        "a_level_profile": {
+          "subjects": [
+            {
+              "subject_id": "biology",
+              "predicted_grade": "B"
+            },
+            {
+              "subject_id": "chemistry",
+              "predicted_grade": "C"
+            },
+            {
+              "subject_id": "mathematics",
+              "predicted_grade": "B"
+            }
+          ]
+        },
+        "graduate_profile": {
+          "is_graduate": true,
+          "degree_classification": "2_1",
+          "degree_status": "completed",
+          "recognised_institution": true,
+          "degree_age_at_course_start_years": 3
+        },
+        "admissions_tests": {
+          "gamsat": {
+            "taken": true,
+            "overall_score": 55,
+            "section_scores": [
+              50,
+              50,
+              58
+            ]
+          }
+        }
+      },
+      "expected": {
+        "eligibility_status": "eligible",
+        "guidance_pool_id": "home_a100_eligibility_gate",
+        "interview_band": "realistic",
+        "manual_review_required": false,
+        "failure": null
+      }
+    },
+    {
+      "scenario_id": "graduate_gcse_science_deficiency_rescued_by_valid_gamsat",
+      "overrides": {
+        "qualification_route": "graduate",
+        "applicant_identity": {
+          "applicant_type": "graduate",
+          "graduate": true
+        },
+        "gcse_profile": {
+          "subjects": {
+            "english_language": "7",
+            "mathematics": "7",
+            "biology": "7",
+            "chemistry": "7",
+            "physics": "5",
+            "history": "7"
+          },
+          "total_gcse_count": 6
+        },
+        "a_level_profile": {
+          "subjects": [
+            {
+              "subject_id": "biology",
+              "predicted_grade": "B"
+            },
+            {
+              "subject_id": "chemistry",
+              "predicted_grade": "B"
+            },
+            {
+              "subject_id": "mathematics",
+              "predicted_grade": "B"
+            }
+          ]
+        },
+        "graduate_profile": {
+          "is_graduate": true,
+          "degree_classification": "2_1",
+          "degree_status": "completed",
+          "recognised_institution": true,
+          "degree_age_at_course_start_years": 3
+        },
+        "admissions_tests": {
+          "gamsat": {
+            "taken": true,
+            "overall_score": 58,
+            "section_scores": [
+              50,
+              50,
+              55
+            ]
+          }
+        }
+      },
+      "expected": {
+        "eligibility_status": "eligible",
+        "guidance_pool_id": "home_a100_eligibility_gate",
+        "interview_band": "realistic",
+        "manual_review_required": false,
+        "failure": null
+      }
+    },
+    {
+      "scenario_id": "graduate_both_academic_deficiencies_rejected_despite_gamsat",
+      "overrides": {
+        "qualification_route": "graduate",
+        "applicant_identity": {
+          "applicant_type": "graduate",
+          "graduate": true
+        },
+        "gcse_profile": {
+          "subjects": {
+            "english_language": "7",
+            "mathematics": "7",
+            "biology": "7",
+            "chemistry": "7",
+            "physics": "5",
+            "history": "7"
+          },
+          "total_gcse_count": 6
+        },
+        "a_level_profile": {
+          "subjects": [
+            {
+              "subject_id": "biology",
+              "predicted_grade": "B"
+            },
+            {
+              "subject_id": "chemistry",
+              "predicted_grade": "C"
+            },
+            {
+              "subject_id": "mathematics",
+              "predicted_grade": "B"
+            }
+          ]
+        },
+        "graduate_profile": {
+          "is_graduate": true,
+          "degree_classification": "2_1",
+          "degree_status": "completed",
+          "recognised_institution": true,
+          "degree_age_at_course_start_years": 3
+        },
+        "admissions_tests": {
+          "gamsat": {
+            "taken": true,
+            "overall_score": 60,
+            "section_scores": [
+              60,
+              60,
+              60
+            ]
+          }
+        }
+      },
+      "expected": {
+        "eligibility_status": "not_eligible",
+        "guidance_pool_id": null,
+        "interview_band": "not_eligible",
+        "manual_review_required": false,
+        "failure": "graduate_compensatory_test_multiple_deficiencies"
+      }
+    },
+    {
+      "scenario_id": "graduate_gamsat_below_overall_requirement_rejected",
+      "overrides": {
+        "qualification_route": "graduate",
+        "applicant_identity": {
+          "applicant_type": "graduate",
+          "graduate": true
+        },
+        "a_level_profile": {
+          "subjects": [
+            {
+              "subject_id": "biology",
+              "predicted_grade": "B"
+            },
+            {
+              "subject_id": "chemistry",
+              "predicted_grade": "C"
+            },
+            {
+              "subject_id": "mathematics",
+              "predicted_grade": "B"
+            }
+          ]
+        },
+        "graduate_profile": {
+          "is_graduate": true,
+          "degree_classification": "2_1",
+          "degree_status": "completed",
+          "recognised_institution": true,
+          "degree_age_at_course_start_years": 3
+        },
+        "admissions_tests": {
+          "gamsat": {
+            "taken": true,
+            "overall_score": 54,
+            "section_scores": [
+              50,
+              50,
+              60
+            ]
+          }
+        }
+      },
+      "expected": {
+        "eligibility_status": "not_eligible",
+        "guidance_pool_id": null,
+        "interview_band": "not_eligible",
+        "manual_review_required": false,
+        "failure": "graduate_compensatory_test_threshold_not_met"
+      }
+    },
+    {
+      "scenario_id": "graduate_gamsat_section_below_50_rejected",
+      "overrides": {
+        "qualification_route": "graduate",
+        "applicant_identity": {
+          "applicant_type": "graduate",
+          "graduate": true
+        },
+        "a_level_profile": {
+          "subjects": [
+            {
+              "subject_id": "biology",
+              "predicted_grade": "B"
+            },
+            {
+              "subject_id": "chemistry",
+              "predicted_grade": "C"
+            },
+            {
+              "subject_id": "mathematics",
+              "predicted_grade": "B"
+            }
+          ]
+        },
+        "graduate_profile": {
+          "is_graduate": true,
+          "degree_classification": "2_1",
+          "degree_status": "completed",
+          "recognised_institution": true,
+          "degree_age_at_course_start_years": 3
+        },
+        "admissions_tests": {
+          "gamsat": {
+            "taken": true,
+            "overall_score": 60,
+            "section_scores": [
+              49,
+              60,
+              58
+            ]
+          }
+        }
+      },
+      "expected": {
+        "eligibility_status": "not_eligible",
+        "guidance_pool_id": null,
+        "interview_band": "not_eligible",
+        "manual_review_required": false,
+        "failure": "graduate_compensatory_test_threshold_not_met"
+      }
+    },
+    {
+      "scenario_id": "graduate_degree_deficiency_not_rescued",
+      "overrides": {
+        "qualification_route": "graduate",
+        "applicant_identity": {
+          "applicant_type": "graduate",
+          "graduate": true
+        },
+        "a_level_profile": {
+          "subjects": [
+            {
+              "subject_id": "biology",
+              "predicted_grade": "B"
+            },
+            {
+              "subject_id": "chemistry",
+              "predicted_grade": "B"
+            },
+            {
+              "subject_id": "mathematics",
+              "predicted_grade": "B"
+            }
+          ]
+        },
+        "graduate_profile": {
+          "is_graduate": true,
+          "degree_classification": "2_2",
+          "degree_status": "completed",
+          "recognised_institution": true,
+          "degree_age_at_course_start_years": 3
+        },
+        "admissions_tests": {
+          "gamsat": {
+            "taken": true,
+            "overall_score": 60,
+            "section_scores": [
+              60,
+              60,
+              60
+            ]
+          }
+        }
+      },
+      "expected": {
+        "eligibility_status": "not_eligible",
+        "guidance_pool_id": null,
+        "interview_band": "not_eligible",
+        "manual_review_required": false,
+        "failure": "graduate_degree_requirements_not_met"
+      }
+    },
+    {
+      "scenario_id": "graduate_ucat_deficiency_not_rescued",
+      "overrides": {
+        "qualification_route": "graduate",
+        "applicant_identity": {
+          "applicant_type": "graduate",
+          "graduate": true
+        },
+        "a_level_profile": {
+          "subjects": [
+            {
+              "subject_id": "biology",
+              "predicted_grade": "B"
+            },
+            {
+              "subject_id": "chemistry",
+              "predicted_grade": "C"
+            },
+            {
+              "subject_id": "mathematics",
+              "predicted_grade": "B"
+            }
+          ]
+        },
+        "graduate_profile": {
+          "is_graduate": true,
+          "degree_classification": "2_1",
+          "degree_status": "completed",
+          "recognised_institution": true,
+          "degree_age_at_course_start_years": 3
+        },
+        "admissions_tests": {
+          "ucat": {
+            "total_score": 1670,
+            "subtests": {
+              "verbal_reasoning": 560,
+              "decision_making": 560,
+              "quantitative_reasoning": 550
+            }
+          },
+          "gamsat": {
+            "taken": true,
+            "overall_score": 60,
+            "section_scores": [
+              60,
+              60,
+              60
+            ]
+          }
+        }
+      },
+      "expected": {
+        "eligibility_status": "not_eligible",
+        "guidance_pool_id": null,
+        "interview_band": "not_eligible",
+        "manual_review_required": false,
+        "failure": "minimum_ucat_total_not_met"
+      }
+    },
+    {
+      "scenario_id": "graduate_sjt_band_4_not_rescued",
+      "overrides": {
+        "qualification_route": "graduate",
+        "applicant_identity": {
+          "applicant_type": "graduate",
+          "graduate": true
+        },
+        "a_level_profile": {
+          "subjects": [
+            {
+              "subject_id": "biology",
+              "predicted_grade": "B"
+            },
+            {
+              "subject_id": "chemistry",
+              "predicted_grade": "C"
+            },
+            {
+              "subject_id": "mathematics",
+              "predicted_grade": "B"
+            }
+          ]
+        },
+        "graduate_profile": {
+          "is_graduate": true,
+          "degree_classification": "2_1",
+          "degree_status": "completed",
+          "recognised_institution": true,
+          "degree_age_at_course_start_years": 3
+        },
+        "admissions_tests": {
+          "ucat": {
+            "sjt_band": 4
+          },
+          "gamsat": {
+            "taken": true,
+            "overall_score": 60,
+            "section_scores": [
+              60,
+              60,
+              60
+            ]
+          }
+        }
+      },
+      "expected": {
+        "eligibility_status": "not_eligible",
+        "guidance_pool_id": null,
+        "interview_band": "not_eligible",
+        "manual_review_required": false,
+        "failure": "disqualifying_sjt_rule"
+      }
+    }
+  ]
+}

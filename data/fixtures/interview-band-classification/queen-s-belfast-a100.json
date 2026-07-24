@@ -1,0 +1,675 @@
+{
+  "schema_version": "1.0.0",
+  "course_profile_id": "queen-s-belfast-a100",
+  "base_applicant": {
+    "profile_id": "qub_a100_base_applicant",
+    "label": "QUB A100 Home standard A-level school-leaver",
+    "applicant_identity": {
+      "applicant_type": "standard_school_leaver",
+      "fee_status": "Home",
+      "domicile": "Northern_Ireland",
+      "contextual": false,
+      "widening_participation": false,
+      "contextual_flags": {
+        "school_contextual_indicator": false,
+        "care_experienced": false
+      },
+      "graduate": false,
+      "resit": {
+        "has_resits": false
+      }
+    },
+    "course_target": {
+      "discipline": "medicine",
+      "ucas_code": "A100",
+      "course_route": "standard",
+      "entry_route": "standard_entry"
+    },
+    "qualification_route": "a_level",
+    "gcse_profile": {
+      "subjects": {
+        "english_language": "9",
+        "mathematics": "9",
+        "physics": "9",
+        "biology": "9",
+        "chemistry": "9"
+      },
+      "additional_subjects": [
+        {
+          "subject_id": "history",
+          "grade": "9"
+        },
+        {
+          "subject_id": "geography",
+          "grade": "8"
+        },
+        {
+          "subject_id": "computer_science",
+          "grade": "8"
+        },
+        {
+          "subject_id": "french",
+          "grade": "6"
+        }
+      ],
+      "total_gcse_count": 9,
+      "top_9_gcse_grades": [
+        "9",
+        "9",
+        "9",
+        "9",
+        "9",
+        "9",
+        "8",
+        "8",
+        "6"
+      ]
+    },
+    "a_level_profile": {
+      "subjects": [
+        {
+          "subject_id": "chemistry",
+          "predicted_grade": "A*",
+          "sitting_status": "first_sitting"
+        },
+        {
+          "subject_id": "biology",
+          "predicted_grade": "A",
+          "sitting_status": "first_sitting"
+        },
+        {
+          "subject_id": "mathematics",
+          "predicted_grade": "A",
+          "sitting_status": "first_sitting"
+        }
+      ],
+      "sitting_status": "first_sitting"
+    },
+    "admissions_tests": {
+      "ucat": {
+        "total_score": 2100,
+        "score_scale": 2700,
+        "sjt_band": 2
+      }
+    },
+    "graduate_profile": {
+      "is_graduate": false,
+      "degree_classification": null
+    }
+  },
+  "public_band_boundaries_45_scale": [
+    {
+      "score": 0,
+      "expected_public_band": "Unlikely",
+      "expected_canonical_band": "high_risk"
+    },
+    {
+      "score": 31,
+      "expected_public_band": "Unlikely",
+      "expected_canonical_band": "high_risk"
+    },
+    {
+      "score": 32,
+      "expected_public_band": "Borderline",
+      "expected_canonical_band": "high_risk"
+    },
+    {
+      "score": 33,
+      "expected_public_band": "Borderline",
+      "expected_canonical_band": "high_risk"
+    },
+    {
+      "score": 34,
+      "expected_public_band": "Competitive",
+      "expected_canonical_band": "ambitious"
+    },
+    {
+      "score": 37,
+      "expected_public_band": "Competitive",
+      "expected_canonical_band": "ambitious"
+    },
+    {
+      "score": 38,
+      "expected_public_band": "Strong",
+      "expected_canonical_band": "realistic"
+    },
+    {
+      "score": 40,
+      "expected_public_band": "Strong",
+      "expected_canonical_band": "realistic"
+    },
+    {
+      "score": 41,
+      "expected_public_band": "Interview Likely",
+      "expected_canonical_band": "interview_likely"
+    },
+    {
+      "score": 45,
+      "expected_public_band": "Interview Likely",
+      "expected_canonical_band": "interview_likely"
+    }
+  ],
+  "ucat_decile_boundaries": [
+    {
+      "score": 1570,
+      "expected_decile": 1,
+      "expected_points": 0
+    },
+    {
+      "score": 1580,
+      "expected_decile": 2,
+      "expected_points": 1
+    },
+    {
+      "score": 1680,
+      "expected_decile": 3,
+      "expected_points": 2
+    },
+    {
+      "score": 1760,
+      "expected_decile": 4,
+      "expected_points": 3
+    },
+    {
+      "score": 1820,
+      "expected_decile": 5,
+      "expected_points": 4
+    },
+    {
+      "score": 1880,
+      "expected_decile": 6,
+      "expected_points": 5
+    },
+    {
+      "score": 1950,
+      "expected_decile": 7,
+      "expected_points": 6
+    },
+    {
+      "score": 2010,
+      "expected_decile": 8,
+      "expected_points": 7
+    },
+    {
+      "score": 2100,
+      "expected_decile": 9,
+      "expected_points": 8
+    },
+    {
+      "score": 2220,
+      "expected_decile": 10,
+      "expected_points": 9
+    }
+  ],
+  "scenarios": [
+    {
+      "scenario_id": "qub_home_standard_32_gcse_8_ucat_strong",
+      "overrides": {},
+      "expected": {
+        "eligibility_status": "eligible",
+        "guidance_pool_id": "qub_home_standard_gcse_ucat_45_scale",
+        "score": 40,
+        "gcse_points": 32,
+        "ucat_points": 8,
+        "canonical_band": "realistic",
+        "public_band": "Strong"
+      }
+    },
+    {
+      "scenario_id": "formula_gcse_36_ucat_0_competitive",
+      "overrides": {
+        "gcse_profile": {
+          "subjects": {
+            "english_language": "9",
+            "mathematics": "9",
+            "physics": "9",
+            "biology": "9",
+            "chemistry": "9"
+          },
+          "additional_subjects": [
+            {
+              "subject_id": "history",
+              "grade": "9"
+            },
+            {
+              "subject_id": "geography",
+              "grade": "9"
+            },
+            {
+              "subject_id": "computer_science",
+              "grade": "9"
+            },
+            {
+              "subject_id": "french",
+              "grade": "9"
+            }
+          ],
+          "total_gcse_count": 9
+        },
+        "admissions_tests": {
+          "ucat": {
+            "total_score": 1570,
+            "sjt_band": 1
+          }
+        }
+      },
+      "expected": {
+        "eligibility_status": "eligible",
+        "guidance_pool_id": "qub_home_standard_gcse_ucat_45_scale",
+        "score": 36,
+        "gcse_points": 36,
+        "ucat_points": 0,
+        "canonical_band": "ambitious",
+        "public_band": "Competitive"
+      }
+    },
+    {
+      "scenario_id": "formula_gcse_30_ucat_9_strong",
+      "overrides": {
+        "gcse_profile": {
+          "subjects": {
+            "english_language": "9",
+            "mathematics": "9",
+            "physics": "9",
+            "biology": "8",
+            "chemistry": "8"
+          },
+          "additional_subjects": [
+            {
+              "subject_id": "history",
+              "grade": "8"
+            },
+            {
+              "subject_id": "geography",
+              "grade": "8"
+            },
+            {
+              "subject_id": "computer_science",
+              "grade": "7"
+            },
+            {
+              "subject_id": "french",
+              "grade": "8"
+            }
+          ],
+          "total_gcse_count": 9
+        },
+        "admissions_tests": {
+          "ucat": {
+            "total_score": 2220,
+            "sjt_band": 3
+          }
+        }
+      },
+      "expected": {
+        "eligibility_status": "eligible",
+        "guidance_pool_id": "qub_home_standard_gcse_ucat_45_scale",
+        "score": 39,
+        "gcse_points": 30,
+        "ucat_points": 9,
+        "canonical_band": "realistic",
+        "public_band": "Strong"
+      }
+    },
+    {
+      "scenario_id": "formula_gcse_36_ucat_9_interview_likely",
+      "overrides": {
+        "gcse_profile": {
+          "subjects": {
+            "english_language": "9",
+            "mathematics": "9",
+            "physics": "9",
+            "biology": "9",
+            "chemistry": "9"
+          },
+          "additional_subjects": [
+            {
+              "subject_id": "history",
+              "grade": "9"
+            },
+            {
+              "subject_id": "geography",
+              "grade": "9"
+            },
+            {
+              "subject_id": "computer_science",
+              "grade": "9"
+            },
+            {
+              "subject_id": "french",
+              "grade": "9"
+            }
+          ],
+          "total_gcse_count": 9
+        },
+        "admissions_tests": {
+          "ucat": {
+            "total_score": 2220,
+            "sjt_band": 4
+          }
+        }
+      },
+      "expected": {
+        "eligibility_status": "eligible",
+        "guidance_pool_id": "qub_home_standard_gcse_ucat_45_scale",
+        "score": 45,
+        "gcse_points": 36,
+        "ucat_points": 9,
+        "canonical_band": "interview_likely",
+        "public_band": "Interview Likely"
+      }
+    },
+    {
+      "scenario_id": "minimum_gcse_subject_failure_suppresses_prediction",
+      "overrides": {
+        "gcse_profile": {
+          "subjects": {
+            "english_language": "3",
+            "mathematics": "8",
+            "physics": "8",
+            "biology": "9",
+            "chemistry": "9"
+          }
+        }
+      },
+      "expected": {
+        "eligibility_status": "not_eligible",
+        "guidance_pool_id": null,
+        "score": null,
+        "canonical_band": "not_eligible",
+        "public_band": null,
+        "failure": "minimum_gcse_grade_not_met:english_language"
+      }
+    },
+    {
+      "scenario_id": "a_level_subject_failure_suppresses_prediction",
+      "overrides": {
+        "a_level_profile": {
+          "subjects": [
+            {
+              "subject_id": "chemistry",
+              "predicted_grade": "A*"
+            },
+            {
+              "subject_id": "history",
+              "predicted_grade": "A"
+            },
+            {
+              "subject_id": "english_literature",
+              "predicted_grade": "A"
+            }
+          ]
+        }
+      },
+      "expected": {
+        "eligibility_status": "not_eligible",
+        "guidance_pool_id": null,
+        "score": null,
+        "canonical_band": "not_eligible",
+        "public_band": null,
+        "failure": "a_level_requirements_not_met"
+      }
+    },
+    {
+      "scenario_id": "double_award_science_gcse_gate",
+      "overrides": {
+        "gcse_profile": {
+          "subjects": {
+            "english_language": "8",
+            "mathematics": "8",
+            "combined_science": "4/4",
+            "biology": "9",
+            "chemistry": "9"
+          }
+        }
+      },
+      "expected": {
+        "eligibility_status": "eligible",
+        "guidance_pool_id": "qub_home_standard_gcse_ucat_45_scale",
+        "score": 38,
+        "gcse_points": 30,
+        "ucat_points": 8,
+        "canonical_band": "realistic",
+        "public_band": "Strong"
+      }
+    },
+    {
+      "scenario_id": "ib_standard_route_with_gcse_scoring",
+      "overrides": {
+        "qualification_route": "international_baccalaureate",
+        "ib_profile": {
+          "total_points": 36,
+          "higher_level_subjects": [
+            {
+              "subject_id": "chemistry",
+              "higher_level_grade": "6"
+            },
+            {
+              "subject_id": "biology",
+              "higher_level_grade": "6"
+            },
+            {
+              "subject_id": "history",
+              "higher_level_grade": "6"
+            }
+          ]
+        }
+      },
+      "expected": {
+        "eligibility_status": "eligible",
+        "guidance_pool_id": "qub_home_standard_gcse_ucat_45_scale",
+        "score": 40,
+        "gcse_points": 32,
+        "ucat_points": 8,
+        "canonical_band": "realistic",
+        "public_band": "Strong"
+      }
+    },
+    {
+      "scenario_id": "scottish_route_prediction_suppressed",
+      "overrides": {
+        "qualification_route": "scottish",
+        "applicant_identity": {
+          "domicile": "Scotland"
+        },
+        "gcse_profile": {
+          "subjects": {},
+          "additional_subjects": [],
+          "total_gcse_count": 0
+        },
+        "scottish_profile": {
+          "higher_subjects": [
+            {
+              "subject_id": "chemistry",
+              "grade": "A"
+            },
+            {
+              "subject_id": "biology",
+              "grade": "A"
+            },
+            {
+              "subject_id": "mathematics",
+              "grade": "A"
+            },
+            {
+              "subject_id": "physics",
+              "grade": "A"
+            },
+            {
+              "subject_id": "english_language",
+              "grade": "A"
+            }
+          ],
+          "advanced_higher_subjects": [
+            {
+              "subject_id": "chemistry",
+              "grade": "A"
+            },
+            {
+              "subject_id": "biology",
+              "grade": "A"
+            }
+          ]
+        }
+      },
+      "expected": {
+        "eligibility_status": "eligible",
+        "guidance_pool_id": null,
+        "score": null,
+        "canonical_band": "insufficient_evidence",
+        "public_band": null
+      }
+    },
+    {
+      "scenario_id": "irish_verified_route_prediction_suppressed",
+      "overrides": {
+        "qualification_route": "international_qualification",
+        "international_qualification": {
+          "route": "irish_leaving_certificate",
+          "equivalence_status": "verified",
+          "verified_by_institution": true,
+          "requirements_met": true
+        },
+        "gcse_profile": {
+          "subjects": {},
+          "additional_subjects": [],
+          "total_gcse_count": 0
+        }
+      },
+      "expected": {
+        "eligibility_status": "eligible",
+        "guidance_pool_id": null,
+        "score": null,
+        "canonical_band": "insufficient_evidence",
+        "public_band": null
+      }
+    },
+    {
+      "scenario_id": "ni_bt_postcode_contextual_route_suppresses_standard_prediction",
+      "overrides": {
+        "applicant_identity": {
+          "contextual": true,
+          "widening_participation": true,
+          "contextual_flags": {
+            "school_contextual_indicator": true
+          }
+        },
+        "contextual_profile": {
+          "qub_ni_bt_postcode_school_to_year_12": true
+        }
+      },
+      "expected": {
+        "eligibility_status": "eligible",
+        "guidance_pool_id": null,
+        "score": 40,
+        "canonical_band": "insufficient_evidence",
+        "public_band": null
+      }
+    },
+    {
+      "scenario_id": "verified_mdbs_pop_guaranteed_interview",
+      "overrides": {
+        "applicant_identity": {
+          "contextual": true,
+          "widening_participation": true,
+          "contextual_flags": {
+            "school_contextual_indicator": true
+          }
+        },
+        "widening_participation": {
+          "qub_pathway_opportunity_programme": {
+            "programme": "mdbs_pop",
+            "programme_completed": true,
+            "programme_completion_verified": true,
+            "academic_eligibility_confirmed": true
+          }
+        }
+      },
+      "expected": {
+        "eligibility_status": "eligible",
+        "guidance_pool_id": null,
+        "score": null,
+        "canonical_band": null,
+        "public_band": "Guaranteed Interview",
+        "interview_outcome": "guaranteed_interview"
+      }
+    },
+    {
+      "scenario_id": "generic_contextual_flag_does_not_trigger_pop_override",
+      "overrides": {
+        "applicant_identity": {
+          "contextual": true,
+          "widening_participation": true,
+          "contextual_flags": {
+            "school_contextual_indicator": true
+          }
+        }
+      },
+      "expected": {
+        "eligibility_status": "eligible",
+        "guidance_pool_id": null,
+        "score": 40,
+        "canonical_band": "insufficient_evidence",
+        "public_band": null
+      }
+    },
+    {
+      "scenario_id": "international_route_prediction_suppressed",
+      "overrides": {
+        "applicant_identity": {
+          "applicant_type": "international_standard_school_leaver",
+          "fee_status": "International",
+          "domicile": "International",
+          "english_language_exempt": true
+        }
+      },
+      "expected": {
+        "eligibility_status": "eligible",
+        "guidance_pool_id": null,
+        "score": 40,
+        "canonical_band": "insufficient_evidence",
+        "public_band": "Not Applicable (International Pathway)"
+      }
+    },
+    {
+      "scenario_id": "graduate_route_explicitly_blocked",
+      "overrides": {
+        "qualification_route": "graduate",
+        "applicant_identity": {
+          "applicant_type": "graduate",
+          "graduate": true
+        },
+        "graduate_profile": {
+          "is_graduate": true,
+          "degree_classification": "2_1"
+        }
+      },
+      "expected": {
+        "eligibility_status": "not_eligible",
+        "guidance_pool_id": null,
+        "score": null,
+        "canonical_band": "not_eligible",
+        "public_band": null,
+        "failure": "qualification_route_explicitly_blocked:graduate"
+      }
+    },
+    {
+      "scenario_id": "missing_ucat_suppresses_prediction",
+      "overrides": {
+        "admissions_tests": {
+          "ucat": {
+            "total_score": null
+          }
+        }
+      },
+      "expected": {
+        "eligibility_status": "not_eligible",
+        "guidance_pool_id": null,
+        "score": null,
+        "canonical_band": "not_eligible",
+        "public_band": null,
+        "failure": "required_admissions_test_missing:ucat"
+      }
+    }
+  ]
+}

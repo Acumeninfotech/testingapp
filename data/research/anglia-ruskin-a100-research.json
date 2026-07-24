@@ -1,0 +1,134 @@
+{
+  "schema_version": "1.0.0",
+  "profile_id": "anglia-ruskin-a100-research",
+  "course_profile_id": "anglia-ruskin-a100",
+  "research_status": "complete_for_supported_scope_with_documented_gaps",
+  "file_purpose": "Research and evidence profile for Anglia Ruskin University MBChB Medicine A100. ARU.docx is the authoritative implementation specification and replaces the Markdown research file referenced in the master prompt.",
+  "official_rules_source": "data/universities/anglia-ruskin-a100.json",
+  "created_at": "2026-07-13",
+  "last_updated": "2026-07-13",
+  "research_scope": {
+    "target_entry_year": 2027,
+    "primary_course": "A100",
+    "primary_scope": [
+      "home_standard_a_level_school_leaver",
+      "home_wams_a_level_school_leaver",
+      "home_east_of_england_or_essex_a_level_school_leaver",
+      "home_graduate_applying_to_a100_same_pool"
+    ],
+    "manual_review_scope": [
+      "international_baccalaureate",
+      "scottish_qualifications",
+      "non_a_level_equivalencies",
+      "resit applicants where first-sitting evidence is incomplete",
+      "country-specific international qualifications, because international applicants are not eligible"
+    ],
+    "excluded_related_courses": [],
+    "production_json_updated": true,
+    "index_updated": true,
+    "examples_updated": true,
+    "regression_scripts_updated": true,
+    "activation_flags_updated": true,
+    "authoritative_inputs": [
+      "ARU.docx"
+    ],
+    "third_party_admissions_websites_used": false,
+    "notes": "ARU is implemented as an academic threshold plus SJT gate plus UCAT-ranking model. WAMS may stack with one regional percentage UCAT uplift. Essex takes precedence over East of England; no flat regional points are used."
+  },
+  "evidence_classification_policy": {
+    "OFFICIAL": "Stated directly by ARU, MSC, UCAS or official ARU admissions-policy/course material referenced in ARU.docx.",
+    "FOI": "Freedom of Information or historical admissions statistics referenced in ARU.docx. Used only for guidance and historical context.",
+    "AUTHORITATIVE_SPEC": "The user-supplied ARU.docx implementation specification for this task.",
+    "ESTIMATE": "ApplySmart labelled guidance or derived interpretation. Not an official ARU threshold or interview guarantee unless explicitly documented.",
+    "UNAVAILABLE": "A source or value identified as missing or unsuitable for deterministic execution."
+  },
+  "metadata": {
+    "engine_version": "ApplySmart Engine v1.0",
+    "architecture_change_required": false,
+    "implementation_mapping_source": "ARU.docx",
+    "production_research_source": "ARU.docx",
+    "selection_model_mapping": "academic_gate_then_sjt_gate_then_adjusted_ucat_ranking",
+    "standardisation_profile": "production_ready_supported_scope_with_percentage_ucat_uplifts"
+  },
+  "readiness": {
+    "eligibility": true,
+    "interview_prediction": true,
+    "historical_guidance": true,
+    "international_prediction": false,
+    "contextual_logic": true,
+    "result_card": true,
+    "regression": true,
+    "research_completeness": "complete_for_supported_scope_with_documented_gaps",
+    "manual_review_required": true,
+    "eligibility_ready": true,
+    "interview_prediction_ready": true,
+    "prediction_confidence": "medium",
+    "result_card_ready": true,
+    "offer_prediction_scope": "out_of_scope",
+    "interview_band_config_ready": true,
+    "metadata_activation_ready": true,
+    "activation_ready": true,
+    "production_ready": true,
+    "production_ready_candidate": true,
+    "production_activation_should_remain_blocked": false,
+    "activation_block_reason": null,
+    "critical_research_blockers": [],
+    "route_limited_blockers": [
+      "IB and Scottish qualification execution is kept as manual-review because the supplied implementation scope is strongest for A-level threshold automation.",
+      "Applicant-specific resit first-sitting evidence may need manual review.",
+      "Offer prediction, MMI prediction and waiting-list prediction are permanently out of ApplySmart scope."
+    ],
+    "engine_execution_boundaries": [
+      "Home A-level applicants can be checked for GCSE, A-level, UCAT presence and SJT Band 1-3.",
+      "International applicants are deterministically not eligible.",
+      "WAMS UCAT uplift is 5%.",
+      "East of England UCAT uplift is 2.5%.",
+      "Essex UCAT uplift is 5%.",
+      "WAMS may stack with the single applicable regional uplift.",
+      "Essex receives the Essex regional uplift instead of also receiving the East of England uplift.",
+      "No flat regional point values are used.",
+      "Graduates apply through the same A100 process and remain in the same applicant pool.",
+      "Care-experienced/Care Leaver and Free School Meals guaranteed interviews apply only when academic and SJT conditions are met.",
+      "Final offers are based solely on MMI ranking, but offer prediction remains out of ApplySmart scope."
+    ],
+    "summary": "Official/source-supplied evidence supports production activation for ARU A100 interview guidance within the supported Home A-level scope."
+  },
+  "course_identity": {
+    "university": "Anglia Ruskin University",
+    "medical_school": "Anglia Ruskin School of Medicine",
+    "course_name": "MBChB Medicine",
+    "ucas_code": "A100",
+    "campus": "Chelmsford",
+    "duration_years": 5,
+    "entry_route": "standard_entry",
+    "expected_home_places": 128,
+    "international_places": 0,
+    "evidence_classification": "AUTHORITATIVE_SPEC"
+  },
+  "selection_model": {
+    "type": "academic_gate_then_adjusted_ucat_ranking",
+    "steps": [
+      "Check Home fee status and academic minimums.",
+      "Reject SJT Band 4.",
+      "Apply WAMS plus the single applicable regional UCAT percentage uplift where documented.",
+      "Rank for interview by adjusted UCAT cognitive score.",
+      "Apply documented guaranteed-interview override for Care-experienced/Care Leaver or Free School Meals applicants only after academic and SJT conditions pass."
+    ],
+    "stage_1_eligibility_confidence": "high",
+    "stage_2_positive_banding_confidence": "medium",
+    "home_and_overseas_ranked_separately": false,
+    "offer_prediction": "out_of_scope"
+  },
+  "remaining_evidence_gaps": [
+    {
+      "gap_id": "aru_non_a_level_execution_detail",
+      "description": "IB, Scottish and other equivalency routes are documented but not fully encoded for automatic execution in this activation.",
+      "blocking_for_positive_interview_banding": false
+    },
+    {
+      "gap_id": "aru_exact_current_cycle_final_shortlist_cutoff",
+      "description": "Working UCAT thresholds and historical values are used as guidance; they are not fixed eligibility cut-offs.",
+      "blocking_for_positive_interview_banding": false
+    }
+  ]
+}

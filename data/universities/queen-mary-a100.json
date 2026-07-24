@@ -1,0 +1,1079 @@
+{
+  "schema_version": "1.0.0",
+  "profile_id": "queen-mary-a100",
+  "profile_status": "production_ready_eligibility_and_interview_guidance",
+  "verification_status": "official_and_foi_partially_verified",
+  "last_updated": "2026-07-07",
+  "university": {
+    "name": "Queen Mary University of London",
+    "slug": "queen-mary",
+    "country": "United Kingdom",
+    "nation": "England",
+    "institution_type": "University",
+    "website_url": "https://www.qmul.ac.uk/"
+  },
+  "course": {
+    "name": "MBBS Medicine",
+    "ucas_code": "A100",
+    "entry_route": "standard_entry",
+    "qualification_awarded": "MBBS",
+    "duration_years": 5,
+    "campus": "Whitechapel",
+    "location": "London, England",
+    "entry_year": 2027,
+    "fee_statuses": [
+      "home",
+      "international"
+    ],
+    "is_gateway_or_foundation": false,
+    "is_graduate_entry": false,
+    "notes": "Standard-entry MBBS Medicine A100. Graduate Entry Medicine A101 is separate and must not be merged into this profile."
+  },
+  "medical_school": {
+    "name": "Barts and The London School of Medicine and Dentistry",
+    "faculty": "Faculty of Medicine and Dentistry",
+    "notes": "Rules are mapped only from QMUL-A100-Production-Research.md and QMUL-A100-Implementation-Mapping.md."
+  },
+  "applicant_pools": [
+    {
+      "pool_id": "qmul_home_standard_school_leaver_guidance",
+      "applies_to_group_ids": [
+        "home_fee",
+        "school_leaver"
+      ],
+      "excluded_group_ids": [
+        "international_fee",
+        "contextual",
+        "widening_participation",
+        "care_experienced",
+        "graduate_applicant"
+      ],
+      "selection_relevance": "Eligible standard Home school-leavers are considered in the Home pool. ApplySmart may show Limited/Medium-confidence predictive interview guidance derived from official historical admissions statistics; this is not an official QMUL threshold."
+    },
+    {
+      "pool_id": "qmul_overseas_school_leaver_guidance",
+      "applies_to_group_ids": [
+        "international_fee",
+        "school_leaver"
+      ],
+      "excluded_group_ids": [
+        "home_fee",
+        "contextual",
+        "graduate_applicant"
+      ],
+      "selection_relevance": "Eligible Overseas school-leavers are considered in the Overseas pool. ApplySmart may show Limited/Medium-confidence predictive interview guidance derived from official historical admissions statistics; this is not an official QMUL threshold."
+    },
+    {
+      "pool_id": "qmul_contextual_qualitative_manual_review",
+      "applies_to_group_ids": [
+        "contextual",
+        "widening_participation",
+        "care_experienced"
+      ],
+      "selection_relevance": "Contextual, care-experienced and widening-participation flags are qualitative manual-review overlays only."
+    },
+    {
+      "pool_id": "qmul_graduate_a100_manual_review",
+      "applies_to_group_ids": [
+        "graduate_applicant"
+      ],
+      "selection_relevance": "A100 graduate applicants require manual review because the degree score and graduate-specific cut-offs are unpublished."
+    }
+  ],
+  "applies_to_group_ids": [
+    "england_domiciled",
+    "scotland_domiciled",
+    "wales_domiciled",
+    "northern_ireland_domiciled",
+    "home_fee",
+    "international_fee",
+    "contextual",
+    "widening_participation",
+    "care_experienced",
+    "graduate_applicant",
+    "school_leaver",
+    "resit_applicant",
+    "deferred_entry"
+  ],
+  "stage_1_eligibility": {
+    "verification_status": "official_source_verified_with_remaining_eligibility_exceptions",
+    "source_ids": [
+      "qmul_a100_selection_criteria",
+      "qmul_a100_entry_requirements",
+      "qmul_mbbs_admissions_policy_2026_27"
+    ],
+    "overall_policy": {
+      "status": "official_rules_mapped_with_manual_review_boundaries",
+      "description": "QMUL first checks academic minimums, UCAT at or above the 4th decile and SJT Bands 1-3. SJT Band 4 is an automatic rejection.",
+      "not_eligible_if": [
+        "The applicable academic minimum requirements are not met.",
+        "UCAT is below the official 4th decile boundary for the relevant test year.",
+        "SJT Band 4 is supplied.",
+        "Required English-language evidence is missing or below the published requirement where it applies."
+      ],
+      "source_ids": [
+        "qmul_a100_selection_criteria",
+        "qmul_a100_entry_requirements"
+      ]
+    },
+    "gcse": {
+      "status": "official_source_verified_execution_partial",
+      "source_ids": [
+        "qmul_a100_entry_requirements"
+      ],
+      "qualification_scope": [
+        "GCSE",
+        "IGCSE"
+      ],
+      "minimum_count": 6,
+      "mandatory_subject_ids": [
+        "biology",
+        "chemistry",
+        "english_language",
+        "mathematics"
+      ],
+      "minimum_count_at_or_above_grade": [
+        {
+          "requirement_id": "three_gcse_grade_7_minimum",
+          "count": 3,
+          "minimum_grade": "7/A",
+          "decision_outcome_if_not_met": "not_eligible",
+          "source_ids": [
+            "qmul_a100_entry_requirements"
+          ]
+        },
+        {
+          "requirement_id": "six_gcse_grade_6_minimum",
+          "count": 6,
+          "minimum_grade": "6/B",
+          "decision_outcome_if_not_met": "not_eligible",
+          "source_ids": [
+            "qmul_a100_entry_requirements"
+          ]
+        }
+      ],
+      "grade_requirements": [
+        {
+          "requirement_id": "gcse_english_language_english_language_route",
+          "subject_id": "english_language",
+          "minimum_grade": "6/B",
+          "qualification_level": "gcse_or_igcse",
+          "decision_outcome_if_not_met": "not_eligible",
+          "source_ids": [
+            "qmul_a100_entry_requirements"
+          ],
+          "notes": "English Literature can satisfy the required-subject presence in the dossier, but English Language 6/B is the executable English-language exemption route."
+        },
+        {
+          "requirement_id": "gcse_mathematics_presence",
+          "subject_id": "mathematics",
+          "minimum_grade": "6/B",
+          "qualification_level": "gcse_or_igcse",
+          "decision_outcome_if_not_met": "not_eligible",
+          "source_ids": [
+            "qmul_a100_entry_requirements"
+          ]
+        },
+        {
+          "requirement_id": "gcse_biology_presence",
+          "subject_id": "biology",
+          "minimum_grade": "6/B",
+          "qualification_level": "gcse_or_igcse",
+          "decision_outcome_if_not_met": "not_eligible",
+          "source_ids": [
+            "qmul_a100_entry_requirements"
+          ]
+        },
+        {
+          "requirement_id": "gcse_chemistry_presence",
+          "subject_id": "chemistry",
+          "minimum_grade": "6/B",
+          "qualification_level": "gcse_or_igcse",
+          "decision_outcome_if_not_met": "not_eligible",
+          "source_ids": [
+            "qmul_a100_entry_requirements"
+          ]
+        }
+      ],
+      "accepted_equivalencies": [
+        "IGCSE",
+        "Science Double Award may substitute all sciences at GCSE, subject to manual review of applicant evidence."
+      ],
+      "manual_review_overlays": [
+        "English Literature used for required-subject presence without GCSE or IGCSE English Language 6/B evidence.",
+        "Combined Science or Double Award substitution.",
+        "International applicants who did not study GCSE or IGCSE qualifications."
+      ],
+      "sitting_policy": "No separate GCSE resit restriction was found in the supplied dossier.",
+      "achieved_or_predicted": "achieved",
+      "selection_role": "eligibility_only",
+      "scored_after_eligibility": false,
+      "notes": "GCSEs are an eligibility gate only; QMUL does not publish a GCSE points system for A100 interview ranking."
+    },
+    "post_16": {
+      "status": "official_source_verified_with_manual_review_boundaries",
+      "source_ids": [
+        "qmul_a100_entry_requirements"
+      ],
+      "accepted_qualification_types": [
+        "a_level",
+        "international_baccalaureate",
+        "scottish_highers",
+        "advanced_highers",
+        "verified_international_equivalent",
+        "degree"
+      ],
+      "a_level": {
+        "status": "official_source_verified_execution_partial",
+        "source_ids": [
+          "qmul_a100_entry_requirements"
+        ],
+        "standard_offer": {
+          "grade_profile": [
+            "A*",
+            "A",
+            "A"
+          ],
+          "ucas_tariff": 152,
+          "source_ids": [
+            "qmul_a100_entry_requirements"
+          ],
+          "notes": "Top three A-levels only for standard tariff calculation; EPQ is not automatically counted."
+        },
+        "contextual_offer": {
+          "applies_to_group_ids": [
+            "contextual"
+          ],
+          "grade_profile": [],
+          "source_ids": [
+            "qmul_contextual_admissions"
+          ],
+          "notes": "No stable lower Medicine A100 contextual offer is published in the supplied dossier."
+        },
+        "grade_requirements": [
+          {
+            "requirement_id": "standard_a_star_aa_science_route",
+            "applies_to_group_ids": [
+              "school_leaver"
+            ],
+            "excluded_group_ids": [
+              "graduate_applicant"
+            ],
+            "grade_profile": [
+              "A*",
+              "A",
+              "A"
+            ],
+            "one_of_subject_groups": [
+              {
+                "group_id": "chemistry_or_biology",
+                "minimum_required": 1,
+                "subject_ids": [
+                  "chemistry",
+                  "biology"
+                ]
+              },
+              {
+                "group_id": "two_accepted_sciences",
+                "minimum_required": 2,
+                "subject_ids": [
+                  "chemistry",
+                  "biology",
+                  "physics",
+                  "mathematics"
+                ]
+              }
+            ],
+            "decision_outcome_if_not_met": "not_eligible",
+            "source_ids": [
+              "qmul_a100_entry_requirements"
+            ],
+            "notes": "Requires Chemistry or Biology plus one further distinct science from Chemistry, Biology, Physics or Mathematics."
+          }
+        ],
+        "required_subject_ids": [],
+        "one_of_subject_groups": [
+          {
+            "group_id": "chemistry_or_biology",
+            "minimum_required": 1,
+            "subject_ids": [
+              "chemistry",
+              "biology"
+            ],
+            "notes": "At least one of Chemistry or Biology must be present."
+          },
+          {
+            "group_id": "two_accepted_sciences",
+            "minimum_required": 2,
+            "subject_ids": [
+              "chemistry",
+              "biology",
+              "physics",
+              "mathematics"
+            ],
+            "notes": "The second science must be distinct from the first required subject."
+          }
+        ],
+        "excluded_subject_ids": [],
+        "subject_combination_rule": {
+          "offer_subject_count": 3,
+          "primary_subject_condition": {
+            "options": [
+              {
+                "subject_ids": [
+                  "chemistry",
+                  "biology"
+                ],
+                "minimum_required": 1
+              }
+            ]
+          },
+          "second_subject_group": {
+            "minimum_required": 1,
+            "subject_ids": [
+              "chemistry",
+              "biology",
+              "physics",
+              "mathematics"
+            ]
+          },
+          "subjects_must_be_distinct": true,
+          "minimum_subjects": 2,
+          "disallowed_overlaps": [
+            [
+              "mathematics",
+              "further_mathematics"
+            ]
+          ],
+          "notes": "Further Mathematics does not count toward the A*AA minimum when taken with Mathematics, and is not accepted as the second science if Mathematics is the second subject."
+        },
+        "third_subject_rules": "Any A-level is allowed in the supplied dossier; no excluded third subject is identified.",
+        "predicted_grades_accepted": true,
+        "practical_endorsement_required": false,
+        "manual_review_overlays": [
+          "Practical endorsement evidence, because the dossier does not publish a QMUL A100 rule.",
+          "Resit or missing one-sitting metadata.",
+          "EPQ-inclusive alternative offers."
+        ],
+        "notes": "A*AA must be achieved in one sitting over a study period no longer than two years."
+      },
+      "ib": {
+        "status": "official_source_verified_execution_partial",
+        "source_ids": [
+          "qmul_a100_entry_requirements"
+        ],
+        "total_points": 37,
+        "hl_points": "666",
+        "grade_requirements": [
+          {
+            "requirement_id": "ib_37_666_hl_science_route",
+            "total_points": 37,
+            "hl_grade_profile": [
+              "6",
+              "6",
+              "6"
+            ],
+            "required_hl_subject_grade_options": [
+              {
+                "grade_requirements": [
+                  {
+                    "subject_id": "chemistry",
+                    "minimum_grade": "6"
+                  },
+                  {
+                    "subject_id": "biology",
+                    "minimum_grade": "6"
+                  }
+                ]
+              },
+              {
+                "grade_requirements": [
+                  {
+                    "subject_id": "chemistry",
+                    "minimum_grade": "6"
+                  },
+                  {
+                    "subject_id": "physics",
+                    "minimum_grade": "6"
+                  }
+                ]
+              },
+              {
+                "grade_requirements": [
+                  {
+                    "subject_id": "chemistry",
+                    "minimum_grade": "6"
+                  },
+                  {
+                    "subject_id": "mathematics",
+                    "minimum_grade": "6"
+                  }
+                ]
+              },
+              {
+                "grade_requirements": [
+                  {
+                    "subject_id": "biology",
+                    "minimum_grade": "6"
+                  },
+                  {
+                    "subject_id": "physics",
+                    "minimum_grade": "6"
+                  }
+                ]
+              },
+              {
+                "grade_requirements": [
+                  {
+                    "subject_id": "biology",
+                    "minimum_grade": "6"
+                  },
+                  {
+                    "subject_id": "mathematics",
+                    "minimum_grade": "6"
+                  }
+                ]
+              }
+            ],
+            "decision_outcome_if_not_met": "not_eligible",
+            "source_ids": [
+              "qmul_a100_entry_requirements"
+            ]
+          }
+        ],
+        "required_hl_subject_ids": [],
+        "one_of_hl_subject_groups": [],
+        "notes": "37 overall with 666 at Higher Level, including Chemistry or Biology plus one further science."
+      },
+      "scottish": {
+        "status": "official_source_verified_manual_review_in_engine_v1",
+        "source_ids": [
+          "qmul_a100_entry_requirements"
+        ],
+        "higher_offer": {
+          "grade_profile": [
+            "A",
+            "A",
+            "A"
+          ],
+          "required_subject_ids": [
+            "chemistry",
+            "biology"
+          ],
+          "source_ids": [
+            "qmul_a100_entry_requirements"
+          ],
+          "notes": "Three Highers at AAA including Chemistry and Biology."
+        },
+        "advanced_higher_offer": {
+          "grade_profile": [
+            "A",
+            "A"
+          ],
+          "source_ids": [
+            "qmul_a100_entry_requirements"
+          ],
+          "notes": "Two Advanced Highers at AA including Chemistry or Biology plus one further science."
+        },
+        "grade_requirements": [],
+        "required_subject_ids": [],
+        "one_of_subject_groups": [],
+        "execution_status": "manual_review_required_engine_v1_cannot_jointly_assess_higher_and_advanced_higher_profiles",
+        "notes": "Scottish qualifications are official but remain a manual-review route in the generic classifier."
+      },
+      "btec": {
+        "status": "not_supported_by_supplied_dossier",
+        "source_ids": [],
+        "accepted_subject_ids": [],
+        "accepted_combinations": [],
+        "notes": "No BTEC route is implemented from the supplied QMUL dossier."
+      },
+      "access_to_he": {
+        "status": "not_supported_by_supplied_dossier",
+        "source_ids": [],
+        "total_credits": null,
+        "distinction_credits": null,
+        "merit_credits": null,
+        "subject_credit_requirements": [],
+        "notes": "No Access to HE route is implemented from the supplied QMUL dossier."
+      },
+      "degree": {
+        "status": "official_source_verified_manual_review",
+        "source_ids": [
+          "qmul_a100_entry_requirements",
+          "qmul_a100_selection_criteria",
+          "qmul_graduate_a100_weighting"
+        ],
+        "applies_to_group_ids": [
+          "graduate_applicant"
+        ],
+        "minimum_classification": "2:1",
+        "accepted_degree_subject_ids": [],
+        "decision_outcome_if_not_met": "unknown",
+        "execution_status": "manual_review_required_degree_weighting_and_cutoffs_unpublished",
+        "notes": "Graduates may apply to A100, but degree scoring and graduate-specific A100 cut-offs are unpublished."
+      },
+      "international": {
+        "status": "official_equivalency_table_exists_manual_review_unless_route_encoded",
+        "source_ids": [
+          "qmul_a100_entry_requirements"
+        ],
+        "execution_status": "manual_review_required_unless_country_route_encoded",
+        "notes": "Country-specific international equivalencies are not encoded in this implementation."
+      },
+      "notes": "Standard A-level and IB school-leaver routes are executable. Scottish, graduate, resit and country-specific international equivalency routes require manual review boundaries."
+    },
+    "admissions_tests": {
+      "source_ids": [
+        "qmul_a100_selection_criteria",
+        "qmul_mbbs_admissions_policy_2026_27"
+      ],
+      "ucat": {
+        "required": true,
+        "source_ids": [
+          "qmul_a100_selection_criteria"
+        ],
+        "minimum_total_score": 1820,
+        "minimum_total_score_basis": "2025 official UCAT 4th-decile boundary from shared data/ucat-deciles.json; review annually and do not present as a permanent QMUL cut-off.",
+        "minimum_subsection_scores": [],
+        "score_used_for_ranking": true,
+        "validity_window": "year_of_application",
+        "exemptions": [],
+        "decision_outcome_if_not_met": "not_eligible",
+        "notes": "QMUL requires UCAT at or above the 4th decile and grants no UCAT exemptions. Stage 2 ranking uses UCAT but the exact UCAT/Tariff weighting is unpublished."
+      },
+      "sjt": {
+        "used": true,
+        "source_ids": [
+          "qmul_a100_selection_criteria"
+        ],
+        "used_as_gate": true,
+        "accepted_bands": [
+          1,
+          2,
+          3
+        ],
+        "excluded_bands": [
+          4
+        ],
+        "scoring": {
+          "used_in_score": false,
+          "foi_context_only": {
+            "band_1": 2,
+            "band_2": 1,
+            "band_3": 0,
+            "source_ids": [
+              "whatdotheyknow_qmul_foi_2019_2024"
+            ],
+            "use_for_current_scoring": false
+          }
+        },
+        "band_4_policy": "automatic_rejection",
+        "decision_outcome_if_excluded": "not_eligible",
+        "notes": "SJT Bands 1-3 pass the gate. Band 4 is an automatic rejection."
+      }
+    },
+    "resits": {
+      "allowed": null,
+      "policy": "manual_review_required",
+      "conditions": [
+        "A*AA must be achieved in one sitting over a study period of no longer than two years.",
+        "No separate GCSE resit restriction was found in the supplied dossier.",
+        "Resit applicants or applicants with incomplete sitting metadata require manual review."
+      ],
+      "maximum_resits": null,
+      "source_ids": [
+        "qmul_a100_entry_requirements"
+      ]
+    },
+    "english_language": {
+      "required_for_group": true,
+      "source_ids": [
+        "qmul_a100_entry_requirements"
+      ],
+      "accepted_tests": [
+        {
+          "test": "IELTS Academic",
+          "overall": 7,
+          "minimum_component": 6,
+          "valid_within_years_of_course_start": 2
+        }
+      ],
+      "exemptions": [
+        "GCSE or IGCSE English Language grade 6/B",
+        "US High School Diploma Grade 12 English module delivered in the USA, where verified against QMUL equivalency table"
+      ],
+      "manual_review_if": [
+        "English Literature is used for required-subject presence but English Language evidence is missing.",
+        "International applicant relies on an unlisted English-language exemption."
+      ],
+      "notes": "The shared classifier only checks the represented standard English evidence path; unlisted exemptions require manual review."
+    },
+    "age_or_professional_checks": {
+      "source_ids": [
+        "qmul_a100_selection_criteria",
+        "qmul_a100_entry_requirements"
+      ],
+      "minimum_age_by_course_start": 18,
+      "course_start_reference": "mid-September of entry year",
+      "under_18_policy": "deferred_entry_may_be_required_manual_review",
+      "dbs_required": true,
+      "dbs_update_service_required": true,
+      "occupational_health_required": true,
+      "fitness_to_practise_required": true,
+      "work_or_service_experience": "People-focused care or service experience is required and may be explored at interview.",
+      "personal_statement": "Collected and may inform interview discussion, but not scored before, during or after interview.",
+      "reference_policy": "Academic reference is required where applicable; missing references may lead to rejection."
+    }
+  },
+  "stage_2_interview_selection": {
+    "verification_status": "official_source_verified_with_remaining_unpublished_offer_fields",
+    "source_ids": [
+      "qmul_a100_selection_criteria",
+      "qmul_medicine_dentistry_admissions_statistics",
+      "qmul_current_2700_cutoff"
+    ],
+    "primary_model": "academic_plus_ucat_weighting",
+    "modifiers": [
+      "separate_applicant_pool"
+    ],
+    "ranking_factors": [
+      {
+        "factor_id": "ucat_total",
+        "role": "weighted_ranking_factor",
+        "weight_percent": null,
+        "notes": "UCAT contributes to Stage 2 ranking, but QMUL does not publish the exact weighting."
+      },
+      {
+        "factor_id": "ucas_tariff_or_academic_strength",
+        "role": "weighted_ranking_factor",
+        "weight_percent": null,
+        "notes": "UCAS Tariff, or weighted degree score for graduates, may contribute to Stage 2 ranking; exact weighting is unpublished."
+      }
+    ],
+    "calculation": {
+      "verification_status": "partially_verified",
+      "source_ids": [
+        "qmul_a100_selection_criteria",
+        "qmul_current_2700_cutoff"
+      ],
+      "score_components": [],
+      "total_score": {
+        "calculation_method": "not_executable_as_official_score_applysmart_historical_normalised_estimate_only",
+        "components": [],
+        "scale": null,
+        "notes": "Do not calculate or display a QMUL official interview-ranking score. ApplySmart may display clearly labelled historical-normalised interview competitiveness estimates from the band configuration.",
+        "source_ids": [
+          "qmul_current_2700_cutoff"
+        ]
+      },
+      "notes": "The official weighted ranking exists, but the exact UCAT/Tariff formula and current 2700-scale cut-offs are unavailable. Under Engineering Standard 11, this supports labelled ApplySmart predictive estimates where official eligibility, official methodology and historical admissions data are present."
+    },
+    "thresholds": [],
+    "selection_adjustments": [
+      {
+        "modifier_id": "separate_applicant_pool",
+        "source_ids": [
+          "qmul_a100_selection_criteria"
+        ],
+        "notes": "Home and Overseas applicants are ranked separately."
+      }
+    ],
+    "tie_breakers": [],
+    "output_band_policy": "eligible_supported_school_leavers_receive_labelled_applysmart_historical_normalised_estimates",
+    "notes": "Old 3600-scale historical cut-offs support ApplySmart-normalised 2700-scale guidance bands only. These estimates must not be presented as official QMUL thresholds, current-cycle cut-offs, guarantees of interview or offer predictions."
+  },
+  "contextual_admissions": {
+    "verification_status": "partially_verified",
+    "source_ids": [
+      "qmul_contextual_admissions",
+      "qmul_a100_selection_criteria",
+      "qmul_contextual_numeric_adjustment"
+    ],
+    "available": true,
+    "applies_to_group_ids": [
+      "contextual",
+      "widening_participation",
+      "care_experienced"
+    ],
+    "criteria": [
+      "Care experience",
+      "Bridge the Gap",
+      "Realising Opportunities",
+      "Other verified contextual or widening-participation flags"
+    ],
+    "adjustments": [],
+    "guaranteed_interview_rules": [],
+    "manual_review_required": true,
+    "qualitative_flag_only": true,
+    "no_numeric_adjustment": true,
+    "notes": "Contextual status may be shown qualitatively, but no A100 numeric UCAT reduction, lower offer or guaranteed interview is encoded."
+  },
+  "ranking_pools": [
+    {
+      "pool_id": "qmul_home_standard_school_leaver_guidance",
+      "name": "QMUL Home standard school-leaver guidance",
+      "applies_to_group_ids": [
+        "home_fee",
+        "school_leaver"
+      ],
+      "excluded_group_ids": [
+        "international_fee",
+        "contextual",
+        "widening_participation",
+        "care_experienced",
+        "graduate_applicant"
+      ],
+      "fee_statuses": [
+        "home"
+      ],
+      "ranking_model": "academic_plus_ucat_weighting",
+      "ranking_factors": [
+        "ucat_total",
+        "ucas_tariff"
+      ],
+      "places_available": 311,
+      "source_ids": [
+        "qmul_a100_selection_criteria",
+        "qmul_medicine_dentistry_admissions_statistics"
+      ],
+      "notes": "Historical Home interview cut-offs were 2720, 2620 and 2670 on the old 3600 scale for 2023-2025. ApplySmart normalises these for predictive guidance only; no official current 2700-scale QMUL threshold is claimed."
+    },
+    {
+      "pool_id": "qmul_overseas_school_leaver_guidance",
+      "name": "QMUL Overseas school-leaver guidance",
+      "applies_to_group_ids": [
+        "international_fee",
+        "school_leaver"
+      ],
+      "excluded_group_ids": [
+        "home_fee",
+        "contextual",
+        "graduate_applicant"
+      ],
+      "fee_statuses": [
+        "international"
+      ],
+      "ranking_model": "academic_plus_ucat_weighting",
+      "ranking_factors": [
+        "ucat_total",
+        "academic_equivalent_strength"
+      ],
+      "places_available": 24,
+      "source_ids": [
+        "qmul_a100_selection_criteria",
+        "qmul_medicine_dentistry_admissions_statistics"
+      ],
+      "notes": "Historical Overseas interview cut-offs were 2870, 2950 and 2810 on the old 3600 scale for 2023-2025. ApplySmart normalises these for predictive guidance only; no official current 2700-scale QMUL threshold is claimed."
+    }
+  ],
+  "quotas": [
+    {
+      "quota_id": "queen_mary_a100_places_2027_entry_verified",
+      "name": "Verified Home/International places (2027 entry)",
+      "home_places": 311,
+      "international_places": 24,
+      "quota_type": "verified_current_places",
+      "source_ids": [
+        "applysmart_admissions_team_verified_2026"
+      ],
+      "notes": "Home/International place figures verified by the ApplySmart admissions research team for 2027 entry."
+    },
+    {
+      "quota_id": "home_places_expected_2026_entry",
+      "value": 311,
+      "fee_status": "home",
+      "source_ids": [
+        "qmul_a100_production_research"
+      ],
+      "notes": "Expected Home places from the supplied production research dossier."
+    },
+    {
+      "quota_id": "overseas_places_expected_2026_entry",
+      "value": 24,
+      "fee_status": "international",
+      "source_ids": [
+        "qmul_a100_production_research"
+      ],
+      "notes": "Expected Overseas places from the supplied production research dossier."
+    }
+  ],
+  "offer_selection": {
+    "verification_status": "official_and_foi_partially_verified",
+    "source_ids": [
+      "qmul_a100_selection_criteria",
+      "qmul_mbbs_admissions_policy_2026_27",
+      "whatdotheyknow_qmul_foi_2019_2024"
+    ],
+    "interview_format": {
+      "format": "panel_interview_expected_online_or_in_person_to_be_confirmed_by_qmul_each_cycle",
+      "timing": "January to March",
+      "duration": null,
+      "domains": [
+        "motivation and realism about medicine",
+        "initiative",
+        "resilience",
+        "maturity",
+        "teamwork",
+        "organisation",
+        "problem-solving",
+        "contribution to university life",
+        "communication skills"
+      ],
+      "notes": "Selection criteria describe panel interviews, while the admissions policy allows MMI or panel interviews."
+    },
+    "interview_scoring": {
+      "published_rubric": false,
+      "notes": "No interview scoring rubric or domain weights are published in the supplied dossier."
+    },
+    "offer_model": {
+      "status": "out_of_scope_for_applysmart",
+      "current_algorithm_published": false,
+      "foi_historical_context_only": true
+    },
+    "ranking_factors": [
+      "interview_score",
+      "SJT",
+      "UCAS Tariff",
+      "UCAT",
+      "weighted degree score for graduates where applicable"
+    ],
+    "tie_breakers": [],
+    "waiting_list_policy": "Unplaced candidates may be reconsidered after summer results if places remain.",
+    "standard_offer": "A*AA",
+    "contextual_offer": null,
+    "notes": "Offer prediction is not implemented. FOI offer-stage cut-offs are preserved only as research context."
+  },
+  "historical_admissions": {
+    "verification_status": "official_source_verified",
+    "source_ids": [
+      "qmul_medicine_dentistry_admissions_statistics"
+    ],
+    "cycles": [
+      {
+        "entry_year": 2023,
+        "fee_status": "home",
+        "applications": 2017,
+        "interviews": 1070,
+        "offers": 613,
+        "places": 308,
+        "interview_ucat_cutoff": 2720,
+        "score_scale": 3600
+      },
+      {
+        "entry_year": 2024,
+        "fee_status": "home",
+        "applications": 1539,
+        "interviews": 1057,
+        "offers": 637,
+        "places": 308,
+        "interview_ucat_cutoff": 2620,
+        "score_scale": 3600
+      },
+      {
+        "entry_year": 2025,
+        "fee_status": "home",
+        "applications": 1613,
+        "interviews": 1294,
+        "offers": 948,
+        "places": 311,
+        "interview_ucat_cutoff": 2670,
+        "score_scale": 3600
+      },
+      {
+        "entry_year": 2023,
+        "fee_status": "overseas",
+        "applications": 603,
+        "interviews": 137,
+        "offers": 33,
+        "places": 24,
+        "interview_ucat_cutoff": 2870,
+        "score_scale": 3600
+      },
+      {
+        "entry_year": 2024,
+        "fee_status": "overseas",
+        "applications": 504,
+        "interviews": 136,
+        "offers": 57,
+        "places": 24,
+        "interview_ucat_cutoff": 2950,
+        "score_scale": 3600
+      },
+      {
+        "entry_year": 2025,
+        "fee_status": "overseas",
+        "applications": 377,
+        "interviews": 159,
+        "offers": 61,
+        "places": 24,
+        "interview_ucat_cutoff": 2810,
+        "score_scale": 3600
+      }
+    ],
+    "notes": "Official 2023-2025 historical interview cut-offs are old 3600-scale values and are not executable current 2700-scale thresholds."
+  },
+  "sources": [
+    {
+      "source_id": "qmul_a100_selection_criteria",
+      "title": "QMUL A100 selection criteria",
+      "url": "https://www.qmul.ac.uk/fmd/study/undergraduate/courses/a100/selection-criteria/",
+      "source_type": "official",
+      "published_date": null,
+      "accessed_date": null,
+      "applies_to_sections": [
+        "stage_1_eligibility",
+        "stage_2_interview_selection",
+        "offer_selection"
+      ],
+      "confidence": "high",
+      "evidence_classification": "OFFICIAL",
+      "notes": "Accessed date unavailable in the supplied dossier."
+    },
+    {
+      "source_id": "qmul_a100_entry_requirements",
+      "title": "QMUL A100 entry requirements",
+      "url": "https://www.qmul.ac.uk/fmd/study/undergraduate/courses/a100/entry-requirements/",
+      "source_type": "official",
+      "published_date": null,
+      "accessed_date": null,
+      "applies_to_sections": [
+        "stage_1_eligibility",
+        "contextual_admissions"
+      ],
+      "confidence": "high",
+      "evidence_classification": "OFFICIAL",
+      "notes": "Accessed date unavailable in the supplied dossier."
+    },
+    {
+      "source_id": "qmul_medicine_dentistry_admissions_statistics",
+      "title": "QMUL admissions statistics for Medicine and Dentistry",
+      "url": "https://www.qmul.ac.uk/fmd/study/undergraduate/courses/admissions-statistics-for-medicine--dentistry/",
+      "source_type": "official",
+      "published_date": null,
+      "accessed_date": null,
+      "applies_to_sections": [
+        "historical_admissions",
+        "stage_2_interview_selection"
+      ],
+      "confidence": "high",
+      "evidence_classification": "OFFICIAL",
+      "notes": "Accessed date unavailable in the supplied dossier."
+    },
+    {
+      "source_id": "qmul_mbbs_admissions_policy_2026_27",
+      "title": "QMUL Admissions Policy for UG MBBS 2026/27",
+      "url": null,
+      "source_type": "official",
+      "published_date": null,
+      "accessed_date": null,
+      "applies_to_sections": [
+        "stage_1_eligibility",
+        "offer_selection"
+      ],
+      "confidence": "high",
+      "evidence_classification": "OFFICIAL",
+      "notes": "Exact URL unavailable in the supplied dossier."
+    },
+    {
+      "source_id": "qmul_contextual_admissions",
+      "title": "QMUL contextual admissions page",
+      "url": null,
+      "source_type": "official",
+      "published_date": null,
+      "accessed_date": null,
+      "applies_to_sections": [
+        "contextual_admissions"
+      ],
+      "confidence": "medium",
+      "evidence_classification": "OFFICIAL",
+      "notes": "Exact A100 numeric contextual adjustments are not published in the supplied dossier."
+    },
+    {
+      "source_id": "whatdotheyknow_qmul_foi_2019_2024",
+      "title": "WhatDoTheyKnow QMUL FOI responses, 2019-2024 request years",
+      "url": null,
+      "source_type": "foi",
+      "published_date": null,
+      "accessed_date": null,
+      "applies_to_sections": [
+        "offer_selection",
+        "stage_1_eligibility"
+      ],
+      "confidence": "medium",
+      "evidence_classification": "FOI",
+      "notes": "Historical/explanatory context only unless current-cycle policy is verified."
+    },
+    {
+      "source_id": "qmul_current_2700_cutoff",
+      "title": "QMUL current 2700-scale interview cut-off",
+      "url": null,
+      "source_type": "unavailable",
+      "published_date": null,
+      "accessed_date": null,
+      "applies_to_sections": [
+        "stage_2_interview_selection"
+      ],
+      "confidence": "low",
+      "evidence_classification": "UNAVAILABLE",
+      "notes": "Current-cycle official 2700-scale cut-offs remain unavailable. This is a disclosure and confidence limit for ApplySmart estimates, not a blocker where Standard 11 evidence conditions are met."
+    }
+  ],
+  "validation": {
+    "source_status": "official_and_foi_partially_verified",
+    "last_verified": "2026-07-07",
+    "confidence_level": "Medium for standard eligibility and supported ApplySmart historical-normalised interview estimates",
+    "completion_status": "production_ready_for_supported_scope",
+    "known_unknowns": [
+      "Exact UCAT/Tariff weighting",
+      "Validated current 2700-scale interview cut-offs",
+      "A100 contextual numeric rules",
+      "A100 graduate degree weighting and graduate-specific cut-offs",
+      "Fully encoded international country equivalencies"
+    ],
+    "review_notes": "Implemented as deterministic eligibility plus labelled ApplySmart predictive interview estimates for supported standard Home and Overseas school-leaver pools. Estimates are not official QMUL thresholds or interview guarantees."
+  },
+  "engine_notes": {
+    "eligibility": true,
+    "interview_prediction": true,
+    "historical_guidance": true,
+    "international_prediction": false,
+    "contextual_logic": false,
+    "result_card": true,
+    "regression": true,
+    "research_completeness": "complete_for_supported_scope_with_documented_gaps",
+    "manual_review_required": true,
+    "eligibility_ready": true,
+    "interview_prediction_ready": true,
+    "prediction_confidence": "medium",
+    "result_card_ready": true,
+    "offer_prediction_scope": "out_of_scope",
+    "interview_band_config_ready": true,
+    "metadata_activation_ready": true,
+    "activation_ready": true,
+    "production_ready": true,
+    "blocking_missing_fields": [],
+    "non_blocking_warnings": [
+      "Documented evidence or automation gap retained as non-blocking for activation-ready production scope: a100_contextual_numeric_rules",
+      "Documented evidence or automation gap retained as non-blocking for activation-ready production scope: a100_graduate_degree_weighting_and_cutoffs",
+      "Documented evidence or automation gap retained as non-blocking for activation-ready production scope: fully_encoded_international_country_equivalencies",
+      "Known unknown retained as non-blocking for activation-ready production scope: Exact UCAT/Tariff weighting",
+      "Known unknown retained as non-blocking for activation-ready production scope: Validated current 2700-scale interview cut-offs",
+      "Known unknown retained as non-blocking for activation-ready production scope: A100 contextual numeric rules",
+      "Known unknown retained as non-blocking for activation-ready production scope: A100 graduate degree weighting and graduate-specific cut-offs",
+      "Known unknown retained as non-blocking for activation-ready production scope: Fully encoded international country equivalencies"
+    ],
+    "engine_assumptions": [
+      "The 2025 official 4th-decile boundary in data/ucat-deciles.json is used only as the current shared decile lookup boundary and must be reviewed annually.",
+      "Old 3600-scale historical cut-offs are normalised to 2700-scale ApplySmart guidance bands only and are not official QMUL current-cycle thresholds."
+    ],
+    "do_not_infer": [
+      "Do not present safe, competitive, aspirational or likely 2700-scale QMUL scores as official university thresholds.",
+      "Do not present old 3600-scale cut-offs or ApplySmart-normalised 2700-scale bands as deterministic current thresholds.",
+      "Do not apply a contextual numeric UCAT reduction.",
+      "Do not score graduate A100 applicants.",
+      "Do not infer the hidden UCAT/Tariff weighting as fact.",
+      "Do not implement offer prediction."
+    ]
+  }
+}

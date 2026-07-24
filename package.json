@@ -1,0 +1,28 @@
+{
+  "name": "applysmart",
+  "version": "1.0.0",
+  "description": "ApplySmart medical school admissions prediction platform.",
+  "directories": {
+    "doc": "docs"
+  },
+  "scripts": {
+    "api:install": "npm install --prefix server",
+    "api:dev": "npm run dev --prefix server",
+    "api:start": "npm run start --prefix server",
+    "api:test": "npm test --prefix server",
+    "web:install": "npm install --prefix frontend",
+    "web:dev": "npm run dev --prefix frontend",
+    "web:build": "npm run build --prefix frontend",
+    "web:test": "npm test --prefix frontend",
+    "app:install": "npm run api:install && npm run web:install",
+    "app:dev": "concurrently -n API,WEB -c blue,green \"npm run api:dev\" \"npm run web:dev\"",
+    "app:test": "npm run api:test && npm run web:test"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "devDependencies": {
+    "concurrently": "^10.0.3"
+  }
+}

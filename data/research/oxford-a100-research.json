@@ -1,0 +1,95 @@
+{
+  "schema_version": "1.0.0",
+  "profile_id": "oxford-a100-research",
+  "course_profile_id": "oxford-a100",
+  "research_status": "complete_for_supported_scope_with_modelled_interview_guidance",
+  "file_purpose": "Evidence classification, audit notes and readiness record for University of Oxford Medicine A100.",
+  "official_rules_source": "data/universities/oxford-a100.json",
+  "created_at": "2026-07-21",
+  "last_updated": "2026-07-21",
+  "research_scope": {
+    "included": [
+      "Oxford A100 standard-entry Medicine eligibility",
+      "UCAT and GCSE pre-interview shortlisting guidance",
+      "Home and International pool guidance",
+      "A-level, IB and Scottish qualification gates",
+      "Graduate applicants applying to A100 through the standard route"
+    ],
+    "excluded": [
+      "Oxford A101 Graduate Entry Medicine",
+      "Offer prediction",
+      "BTEC unit-level automatic verification",
+      "Oxford's unpublished internal GCSE contextualisation algorithm"
+    ]
+  },
+  "evidence_classification_policy": {
+    "official_published_rules": [
+      "A*AA A-level requirement in the same academic year excluding Critical Thinking, General Studies and International A-level Thinking Skills.",
+      "Chemistry plus at least one of Biology, Physics, Mathematics or Further Mathematics.",
+      "IB 39 including core points with 7,6,6 at HL including Chemistry and one of Biology, Physics or Mathematics.",
+      "Scottish AA Advanced Highers plus AAAAA Highers in the stated subject pattern.",
+      "UCAT is required and Oxford publishes no single UCAT cut-off.",
+      "Shortlisting used combined UCAT and GCSE score in 2025, with GCSE exceptions for five-or-fewer GCSEs and summer 2020-summer 2021 cohorts.",
+      "International medicine numbers are capped separately."
+    ],
+    "directly_derived_from_official_data": [
+      "2025 UCAT distribution totals: 601 not interviewed, 250 interviewed but no place, 175 place, 1026 total.",
+      "Mean shortlisted UCAT 2377.5 and international shortlisted mean 2537.2.",
+      "GCSE nA*/9/8 and pA*/9/8 historical distributions."
+    ],
+    "applysmart_modelled_decisions": [
+      "0-100 composite with 50 points UCAT and 50 points GCSE.",
+      "GCSE proxy combining top-grade count and top-grade proportion equally.",
+      "Attainment 8 contextual adjustment bounded to +/-5 GCSE-subscale points.",
+      "5-point fallback penalty where school context is missing.",
+      "Home and International modelled band thresholds.",
+      "Research labels mapped onto ApplySmart canonical bands."
+    ],
+    "unsupported_or_requires_clarification": [
+      "Any claim that Oxford publishes the ApplySmart thresholds or shortlist probabilities.",
+      "Exact Oxford internal school contextualisation calculation.",
+      "Automatic BTEC unit-level equivalency.",
+      "Any guaranteed interview outcome from committee review or contextual status."
+    ]
+  },
+  "metadata": {
+    "standardisation_profile": "production_ready_supported_scope_with_transparent_oxford_proxy_model",
+    "official_sources_accessed": [
+      "https://www.ox.ac.uk/admissions/undergraduate/courses/course-listing/medicine",
+      "https://www.medsci.ox.ac.uk/study/medicine/pre-clinical/requirements/academic",
+      "https://www.medsci.ox.ac.uk/study/medicine/pre-clinical/faqs/statistics",
+      "https://www.medsci.ox.ac.uk/study/medicine/pre-clinical/statistics/text-version-of-ucat-score-distribution",
+      "https://www.medsci.ox.ac.uk/study/medicine/pre-clinical/statistics/text-version-of-na-9-8-and-pa-at-gcse-2020",
+      "https://www.medsci.ox.ac.uk/study/medicine/pre-clinical/applying/mit-circs"
+    ],
+    "audit_findings": [
+      "The supplied technical document's thresholds and percentages are treated as ApplySmart modelling/calibration, not official Oxford rules.",
+      "The supplied UCAT cohort table reconciles exactly to Oxford's text equivalent distribution when the sub-1900 bands are expanded.",
+      "SJT is not used for pre-interview shortlisting guidance.",
+      "Offer-holder counts are stored as historical evidence and are not used in pre-interview prediction."
+    ],
+    "contradictions_or_tensions": [
+      "The master prompt says the attached research is authoritative; the user request correctly narrows this by requiring official/modelled classification before implementation.",
+      "The standard prompt says update the production university index if a new university is added; Oxford already existed as an MSC seed, so the existing index entry was upgraded rather than duplicated.",
+      "The current ApplySmart canonical runtime bands do not include separate public labels for Strong and Competitive; Oxford config preserves research labels while mapping them to canonical bands."
+    ]
+  },
+  "readiness": {
+    "eligibility": true,
+    "interview_prediction": true,
+    "historical_guidance": true,
+    "international_prediction": true,
+    "contextual_logic": true,
+    "result_card": true,
+    "regression": true,
+    "research_completeness": "complete_for_supported_scope_with_documented_gaps",
+    "manual_review_required": true,
+    "eligibility_ready": true,
+    "interview_prediction_ready": true,
+    "offer_prediction_scope": "out_of_scope",
+    "prediction_confidence": "medium",
+    "result_card_ready": true,
+    "production_ready": true,
+    "production_ready_candidate": true
+  }
+}

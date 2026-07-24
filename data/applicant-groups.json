@@ -1,0 +1,156 @@
+{
+  "schema_version": "1.0.0",
+  "dataset_version": "2027.1.0",
+  "last_updated": "2026-06-23",
+
+  "applicant_groups": [
+
+    {
+      "group_id": "england_domiciled",
+      "category": "domicile",
+      "name": "England Domiciled",
+      "description": "Applicant is domiciled in England."
+    },
+    {
+      "group_id": "scotland_domiciled",
+      "category": "domicile",
+      "name": "Scotland Domiciled",
+      "description": "Applicant is domiciled in Scotland."
+    },
+    {
+      "group_id": "wales_domiciled",
+      "category": "domicile",
+      "name": "Wales Domiciled",
+      "description": "Applicant is domiciled in Wales."
+    },
+    {
+      "group_id": "northern_ireland_domiciled",
+      "category": "domicile",
+      "name": "Northern Ireland Domiciled",
+      "description": "Applicant is domiciled in Northern Ireland."
+    },
+
+    {
+      "group_id": "home_fee",
+      "category": "fee_status",
+      "name": "Home Fee Status",
+      "description": "Applicant qualifies for Home tuition fee status."
+    },
+    {
+      "group_id": "international_fee",
+      "category": "fee_status",
+      "name": "International Fee Status",
+      "description": "Applicant is assessed as an international fee payer."
+    },
+
+    {
+      "group_id": "rest_of_uk",
+      "category": "regional_selection",
+      "name": "Rest of UK",
+      "description": "Applicant is from another UK nation for universities operating separate regional selection."
+    },
+
+    {
+      "group_id": "contextual",
+      "category": "eligibility",
+      "name": "Contextual Applicant",
+      "description": "Applicant meets the university's contextual admissions criteria."
+    },
+    {
+      "group_id": "widening_participation",
+      "category": "eligibility",
+      "name": "Widening Participation",
+      "description": "Applicant qualifies for a widening participation programme."
+    },
+    {
+      "group_id": "care_experienced",
+      "category": "eligibility",
+      "name": "Care Experienced",
+      "description": "Applicant has care-experienced status where recognised by the university."
+    },
+
+    {
+      "group_id": "graduate_applicant",
+      "category": "applicant_background",
+      "name": "Graduate Applicant",
+      "description": "Applicant already holds a recognised undergraduate degree."
+    },
+    {
+      "group_id": "school_leaver",
+      "category": "applicant_background",
+      "name": "School Leaver",
+      "description": "Applicant is applying directly from school or college."
+    },
+    {
+      "group_id": "mature_applicant",
+      "category": "applicant_background",
+      "name": "Mature Applicant",
+      "description": "Applicant is considered a mature applicant according to the university's admissions policy."
+    },
+
+    {
+      "group_id": "resit_applicant",
+      "category": "academic_history",
+      "name": "Resit Applicant",
+      "description": "Applicant has resat one or more qualifications."
+    },
+
+    {
+      "group_id": "deferred_entry",
+      "category": "application_status",
+      "name": "Deferred Entry",
+      "description": "Applicant is applying for deferred entry."
+    }
+  ],
+
+  "categories": [
+    {
+      "category_id": "domicile",
+      "description": "Applicant's UK domicile."
+    },
+    {
+      "category_id": "fee_status",
+      "description": "Tuition fee classification."
+    },
+    {
+      "category_id": "regional_selection",
+      "description": "Regional applicant pools used by some universities."
+    },
+    {
+      "category_id": "eligibility",
+      "description": "Eligibility for contextual or widening participation schemes."
+    },
+    {
+      "category_id": "applicant_background",
+      "description": "Applicant educational background."
+    },
+    {
+      "category_id": "academic_history",
+      "description": "Previous academic attempt history."
+    },
+    {
+      "category_id": "application_status",
+      "description": "Application status information."
+    }
+  ],
+
+  "usage": {
+    "purpose": "Defines the controlled dictionary of applicant group identifiers used throughout Apply Smart.",
+
+    "rules": [
+      "Applicant groups are not mutually exclusive.",
+      "An applicant may belong to multiple groups simultaneously.",
+      "Every applicant group referenced by a university JSON must exist in this file.",
+      "This file defines identifiers only; university JSON files define the admissions rules associated with each applicant group."
+    ],
+
+    "example": {
+      "applicant_groups": [
+        "england_domiciled",
+        "home_fee",
+        "contextual",
+        "graduate_applicant"
+      ]
+    }
+  }
+}

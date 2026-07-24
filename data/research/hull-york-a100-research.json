@@ -1,0 +1,361 @@
+{
+  "schema_version": "1.0.0",
+  "profile_id": "hull-york-a100-research",
+  "course_profile_id": "hull-york-a100",
+  "research_status": "complete_for_supported_scope_with_documented_unpublished_tariffs",
+  "file_purpose": "Evidence record for HYMS A100 official eligibility, official selection-framework structure, explicitly unofficial estimate mode, applicant-pool handling, result-card disclosure and production readiness.",
+  "official_rules_source": "data/universities/hull-york-a100.json",
+  "created_at": "2026-07-06",
+  "last_updated": "2026-07-06",
+  "research_scope": {
+    "target_entry_year": 2027,
+    "primary_course": "Hull York Medical School MB BS Medicine A100",
+    "primary_scope": "Official eligibility and selection-framework rules, plus a separately identified third-party estimate mode.",
+    "manual_review_scope": [
+      "Unverified country-specific international qualification equivalence",
+      "Missing age evidence",
+      "Unsupported qualification routes",
+      "Incomplete resit histories"
+    ],
+    "excluded_related_courses": [
+      "A108 Medicine with a Gateway Year"
+    ],
+    "third_party_admissions_websites_used": false,
+    "third_party_estimate_input_used": true,
+    "notes": "The estimate input was supplied in the authoritative research handoff and is not treated as official HYMS evidence."
+  },
+  "evidence_classification_policy": {
+    "official": "HYMS, UCAS and UCAT material supports eligibility rules, component maxima, numerical ranking and contextual scope.",
+    "historical_guidance": "Official HYMS 2025 application, interview and offer totals are context only. Pool-specific cut-offs are not officially published.",
+    "research_derived": "National UCAT decile lookup is derived from the shared official UCAT dataset.",
+    "unofficial_estimate": "Exact component tariffs and recommendation bands come from an unverified third-party model and must carry the mandatory disclosure.",
+    "unknown": "Missing official tariffs, tie-breakers and pool-specific cut-offs are recorded as evidence gaps.",
+    "intake_caveat": "The third-party contextual automatic-maximum rule conflicts with HYMS's official minimum-two-criteria rule. Official contextual eligibility is therefore reported separately."
+  },
+  "metadata": {
+    "authoritative_research_file": "/Users/faizan/Desktop/medical university research/hull-york/HYMS_A100_ApplySmart_Research-4.md",
+    "engine_version": "dedicated_hull_york_a100_consumer_v1",
+    "architecture_change_required": false,
+    "shared_classifier_changed": false,
+    "shared_schema_changed": false,
+    "selection_model_mapping": "Dedicated consumer using the Nottingham adapter precedent",
+    "standardisation_profile": "completed_a100_profile"
+  },
+  "readiness": {
+    "eligibility": true,
+    "interview_prediction": true,
+    "historical_guidance": true,
+    "international_prediction": true,
+    "contextual_logic": true,
+    "result_card": true,
+    "regression": true,
+    "research_completeness": "complete_for_supported_scope_with_documented_gaps",
+    "manual_review_required": true,
+    "eligibility_ready": true,
+    "interview_prediction_ready": true,
+    "prediction_confidence": "low",
+    "result_card_ready": true,
+    "offer_prediction_scope": "out_of_scope",
+    "interview_band_config_ready": true,
+    "metadata_activation_ready": true,
+    "production_ready_candidate": true,
+    "production_activation_should_remain_blocked": false,
+    "activation_block_reason": null,
+    "critical_research_blockers": [],
+    "route_limited_blockers": [
+      "Unverified international qualification equivalences require manual review.",
+      "Graduate and prior-university applicants receive a score breakdown but no numerical recommendation band because route-specific historical guidance is unavailable."
+    ],
+    "summary": "Ready for scoped production use: official eligibility is executable for supported routes and HYMS-specific numerical guidance is visibly labelled as an unofficial, low-confidence estimate."
+  },
+  "course_identity": {
+    "university": "University of Hull and University of York",
+    "medical_school": "Hull York Medical School",
+    "course_name": "MB BS Medicine",
+    "ucas_code": "A100",
+    "institution_code": "H75",
+    "campus_code": "Z",
+    "duration_years": 5,
+    "entry_route": "standard_entry",
+    "graduates_use_same_route": true,
+    "separate_graduate_entry_course": false,
+    "related_routes": [
+      "A108 Medicine with a Gateway Year"
+    ],
+    "source_ids": [
+      "hyms_entry_requirements_2027",
+      "hyms_selection_procedure_2027"
+    ],
+    "evidence_classification": "official"
+  },
+  "official_eligibility": {
+    "gcse": {
+      "minimum": "Six GCSEs at grade 4/C or above, including English Language and Mathematics at grade 6/B or above.",
+      "resits": "Accepted.",
+      "selection_role": "Best six grades contribute up to 35 official framework points."
+    },
+    "a_level": {
+      "minimum": "AAA including Biology and Chemistry, studied and awarded concurrently in one sitting.",
+      "excluded_subjects": [
+        "Applied Science",
+        "Citizenship",
+        "Critical Thinking",
+        "General Studies"
+      ],
+      "practical_endorsement": "Not stated as a separate requirement in the supplied official research; not inferred."
+    },
+    "international_baccalaureate": {
+      "minimum": "36 overall with Higher Level 6,6,5 and grade 6 in Biology and Chemistry.",
+      "standard_level_without_gcse_equivalent": "English and Mathematics at grade 5."
+    },
+    "scottish": {
+      "standard_routes": [
+        "AAAAB at Higher plus BBB at Advanced Higher including Biology and Chemistry.",
+        "AAAAA at Higher plus AA at Advanced Higher in Biology and Chemistry."
+      ]
+    },
+    "graduate": {
+      "minimum": "Degree at 2:1 plus three distinct A levels at BBB in the first sitting.",
+      "separate_pool_published": false
+    },
+    "international": {
+      "ielts": "7.5 overall with at least 7.0 in every component, within two years.",
+      "equivalence": "Country-specific rules are extensive; only applicant evidence verified by HYMS is automatically accepted outside A-level and IB routes."
+    },
+    "ucat_and_sjt": {
+      "ucat_required": true,
+      "fixed_ucat_cutoff": false,
+      "sjt_accepted_bands": [
+        1,
+        2,
+        3
+      ],
+      "sjt_band_4": "not_eligible"
+    },
+    "special_policies": {
+      "minimum_age": "18 on 1 October in the enrolment year.",
+      "medical_student_transfers": "Not accepted.",
+      "work_experience": "Not compulsory, but strongly advised.",
+      "deferred_entry": "Available."
+    }
+  },
+  "official_selection_framework": {
+    "ranking_method": "Eligible applicants are ranked in numerical order.",
+    "components": [
+      {
+        "component": "Best six GCSE grades",
+        "maximum": 35,
+        "exact_tariff_published": false
+      },
+      {
+        "component": "UCAT decile",
+        "maximum": 35,
+        "exact_tariff_published": false
+      },
+      {
+        "component": "SJT band",
+        "maximum": 15,
+        "exact_tariff_published": false
+      },
+      {
+        "component": "Contextual criteria",
+        "maximum": 15,
+        "exact_tariff_published": false
+      }
+    ],
+    "total_maximum": 100,
+    "fixed_interview_cutoff_published": false,
+    "tie_breakers_published": false,
+    "source_ids": [
+      "hyms_selection_procedure_2027",
+      "hyms_ucat_2027",
+      "hyms_contextual_admissions_2027"
+    ],
+    "evidence_classification": "official_framework_exact_tariffs_unpublished"
+  },
+  "contextual_policy": {
+    "official_minimum_criteria_count": 2,
+    "official_criteria": [
+      "UCAT bursary recipient",
+      "POLAR4 Quintile 1 or 2",
+      "First in family at university",
+      "School below national-average Progress 8 or devolved-nation equivalent",
+      "Care experienced",
+      "Refugee status",
+      "Military background",
+      "Gypsy, Roma or Traveller background",
+      "Recognised widening-participation programme"
+    ],
+    "applies_only_to": "Home UK-resident school-leavers",
+    "excluded_groups": [
+      "International applicants",
+      "Graduates",
+      "Applicants who previously started or completed a university course"
+    ],
+    "effects": [
+      "Up to 15 interview-selection points",
+      "Fast-track consideration at the applicable UCAT decile",
+      "Potential reduced or alternative offer conditions"
+    ],
+    "guaranteed_interview": false,
+    "university_verification_required": true,
+    "source_ids": [
+      "hyms_contextual_admissions_2027"
+    ],
+    "evidence_classification": "official"
+  },
+  "estimate_mode": {
+    "status": "active_unofficial_directional_guidance",
+    "official": false,
+    "confidence": "low",
+    "gcse_points": {
+      "4": 0.83,
+      "5": 1.83,
+      "6": 2.83,
+      "7": 3.83,
+      "8": 4.83,
+      "9": 5.83
+    },
+    "ucat_points_by_national_decile": {
+      "1": 1.5,
+      "2": 7,
+      "3": 10.5,
+      "4": 14,
+      "5": 17.5,
+      "6": 21,
+      "7": 24.5,
+      "8": 28.5,
+      "9": 31.5,
+      "10": 35
+    },
+    "sjt_points": {
+      "1": 15,
+      "2": 10,
+      "3": 5
+    },
+    "contextual_points": {
+      "care_experienced": 15,
+      "refugee": 15,
+      "military_family": 15,
+      "gypsy_roma_traveller": 15,
+      "ucat_bursary": 8,
+      "recognised_wp_programme": 7,
+      "school_below_progress_8": 3,
+      "polar4_quintile_1": 3,
+      "polar4_quintile_2": 2,
+      "first_generation_higher_education": 1,
+      "cap": 15
+    },
+    "home_recommendation_bands": {
+      "interview_likely": "80 or above",
+      "realistic": "72 to 79.99",
+      "ambitious": "64 to 71.99",
+      "high_risk": "Below 64"
+    },
+    "international": {
+      "contextual_points": 0,
+      "maximum_score": 85,
+      "guidance": "Only a rough UCAT directional divide is available; the approximately 11-place cohort makes fixed score bands unreliable."
+    },
+    "mandatory_disclosure": "This is an estimate based on unofficial, third-party scoring assumptions — Hull York Medical School has not published its exact points formula and has formally declined to release it under a Freedom of Information request. Treat this score as directional, not exact.",
+    "source_ids": [
+      "hyms_third_party_estimate_model"
+    ],
+    "evidence_classification": "unofficial_third_party_estimate"
+  },
+  "interview": {
+    "home": {
+      "format": "In-person MMI",
+      "station_count": 5,
+      "score_maximum": 80
+    },
+    "international": {
+      "format": "Online MMI",
+      "station_count": 6,
+      "score_maximum": 90
+    },
+    "source_ids": [
+      "hyms_interviews_2027"
+    ],
+    "evidence_classification": "official"
+  },
+  "historical_admissions": {
+    "entry_2025": {
+      "applications": 1625,
+      "interviews": 904,
+      "offers": 796,
+      "places": null,
+      "population": "Combined A100 cohort"
+    },
+    "pool_specific_breakdowns_published": false,
+    "official_historical_ucat_ranges_published": false,
+    "official_historical_selection_cutoffs_published": false,
+    "source_ids": [
+      "hyms_selection_procedure_2027"
+    ],
+    "evidence_classification": "official_partial_statistics"
+  },
+  "evidence_gaps": [
+    "Exact official GCSE grade-to-points tariff.",
+    "Exact official UCAT-decile-to-points tariff.",
+    "Exact official SJT-band-to-points tariff.",
+    "Exact official contextual per-criterion tariff.",
+    "Current and historical selection-score cut-offs by applicant group.",
+    "Home, International, Contextual and Graduate application-funnel breakdowns.",
+    "Published selection tie-breakers.",
+    "Fully automated country-specific international equivalence rules.",
+    "Detailed fitness-to-practise, DBS and occupational-health rules."
+  ],
+  "implementation_mapping": {
+    "primary_selection_model": "Dedicated HYMS consumer",
+    "official_eligibility": "assets/js/engine/hull-york-a100-consumer.js",
+    "estimate_configuration": "data/interview-band-configs/hull-york-a100.json score_model.estimate_mode",
+    "result_card": "data/examples/hull-york-a100-result-card.example.json",
+    "guidance_scale": {
+      "home_school_leaver": 100,
+      "international_graduate_or_prior_university": 85
+    },
+    "offer_prediction_scope": "out_of_scope",
+    "architecture_change_required": false
+  },
+  "source_register": [
+    {
+      "source_id": "hyms_entry_requirements_2027",
+      "classification": "official",
+      "use": "Academic, resit, age and transfer eligibility"
+    },
+    {
+      "source_id": "hyms_ucat_2027",
+      "classification": "official",
+      "use": "UCAT and SJT"
+    },
+    {
+      "source_id": "hyms_selection_procedure_2027",
+      "classification": "official",
+      "use": "Selection framework and 2025 application statistics"
+    },
+    {
+      "source_id": "hyms_contextual_admissions_2027",
+      "classification": "official",
+      "use": "Contextual eligibility and maximum adjustment"
+    },
+    {
+      "source_id": "hyms_international_students_2027",
+      "classification": "official",
+      "use": "English language and international quota"
+    },
+    {
+      "source_id": "hyms_third_party_estimate_model",
+      "classification": "unofficial_third_party_estimate",
+      "use": "Estimate-mode tariffs and recommendation bands only"
+    }
+  ],
+  "do_not_infer": [
+    "Do not call the estimate an official or confirmed HYMS score.",
+    "Do not merge official eligibility with unofficial point tariffs.",
+    "Do not apply contextual estimate points to international, graduate or prior-university applicants.",
+    "Do not present estimate bands as current cut-offs, probabilities or guarantees.",
+    "Do not infer unverified international equivalence.",
+    "Do not implement offer prediction."
+  ]
+}

@@ -1,0 +1,416 @@
+{
+  "schema_version": "1.0.0",
+  "profile_id": "southampton-a100-research",
+  "course_profile_id": "southampton-a100",
+  "research_status": "complete_for_supported_scope_with_documented_gaps",
+  "file_purpose": "Research and evidence profile for University of Southampton BM5 BMBS A100. This file preserves the user-supplied Southampton research document, evidence classifications, implementation mapping and known review boundaries; executable rules live in data/universities/southampton-a100.json.",
+  "official_rules_source": "data/universities/southampton-a100.json",
+  "created_at": "2026-07-14",
+  "last_updated": "2026-07-14",
+  "research_scope": {
+    "target_entry_year": 2027,
+    "primary_policy_cycle": "2025/26 and forward where stated in the research",
+    "historical_guidance_cycle": "2024 entry FOI UCAT thresholds on legacy 3600 scale, displayed only in their original scale",
+    "primary_course": "A100",
+    "primary_scope": [
+      "home_standard_a_level_school_leaver",
+      "home_contextual_a_level_school_leaver",
+      "home_standard_international_baccalaureate",
+      "home_scottish_higher_applicant",
+      "home_graduate_a100_applicant",
+      "international_a_level_or_ib_with_confirmed_english_language_evidence"
+    ],
+    "manual_review_scope": [
+      "country_specific_international_qualification",
+      "alternative_english_language_evidence_or_exemptions",
+      "advanced_higher_case_by_case_profiles",
+      "non_standard_resit_sequences",
+      "post_interview_offer_scoring"
+    ],
+    "excluded_related_courses": [
+      "BM4 A101 Graduate Entry Medicine",
+      "BM6 A102 Widening Participation"
+    ],
+    "production_json_updated": true,
+    "index_updated": true,
+    "examples_updated": true,
+    "regression_scripts_updated": true,
+    "activation_flags_updated": true,
+    "third_party_admissions_websites_used": false,
+    "evidence_intake_basis": "/Users/faizan/Desktop/medical university research/Southampton/Southampton.docx supplied by the user on 2026-07-14",
+    "notes": "The existing repository profile was an MSC seed with unknown rules. It has been replaced with the approved research-backed production profile."
+  },
+  "evidence_classification_policy": {
+    "official": "A rule or statistic attributed by the supplied research to a first-party University of Southampton, UCAS, MSC or Office for Students source.",
+    "foi_verified_historical_guidance": "A cycle-labelled admissions statistic or threshold attributed to Freedom of Information evidence in the supplied research.",
+    "legacy_3600_historical_figure": "A legacy 3600-scale UCAT score from a pre-2025 admissions cycle; displayed only in its original scale and not compared directly with current 2700-scale applicant scores.",
+    "historical_guidance": "A past-cycle observation used to position interview competitiveness, never as a current guarantee.",
+    "unknown": "The supplied evidence does not establish the fact safely enough for execution.",
+    "intake_caveat": "The user designated the completed Southampton research document as authoritative. Source classifications preserve its evidence log and caveats."
+  },
+  "metadata": {
+    "authoritative_research_file": "/Users/faizan/Desktop/medical university research/Southampton/Southampton.docx",
+    "engine_version": "ApplySmart Engine v1.0",
+    "architecture_change_required": true,
+    "architecture_change_summary": "A generic opt-in graduate GCSE gate was added so courses can require GCSE eligibility for graduate A100 applicants while waiving A-levels.",
+    "selection_model_mapping": "academic_gate_then_pool_specific_ucat_ranking",
+    "standardisation_profile": "completed_production_university",
+    "repository_discrepancy_reported_before_edit": "Existing Southampton A100 production JSON was a low-confidence MSC seed with unknown GCSE, A-level, UCAT and shortlisting rules; the production implementation replaces it with the approved research-backed UCAT-only model."
+  },
+  "readiness": {
+    "eligibility": true,
+    "interview_prediction": true,
+    "historical_guidance": true,
+    "international_prediction": true,
+    "contextual_logic": true,
+    "result_card": true,
+    "regression": true,
+    "research_completeness": "complete_for_supported_scope_with_documented_gaps",
+    "manual_review_required": true,
+    "eligibility_ready": true,
+    "interview_prediction_ready": true,
+    "prediction_confidence": "medium",
+    "result_card_ready": true,
+    "offer_prediction_scope": "out_of_scope",
+    "interview_band_config_ready": true,
+    "metadata_activation_ready": true,
+    "production_ready_candidate": true,
+    "production_activation_should_remain_blocked": false,
+    "activation_block_reason": null,
+    "critical_research_blockers": [],
+    "route_limited_blockers": [
+      "Southampton sets UCAT interview thresholds dynamically after the UCAS deadline, so future thresholds cannot be predicted deterministically.",
+      "Historical Home UCAT threshold evidence from 2021-2024 is on the previous 3600-point UCAT scale; ApplySmart uses documented 2700-scale conversions only for modelling guidance, not as official Southampton cut-offs.",
+      "Country-specific international qualification equivalences are not tabulated in the supplied research.",
+      "The Selection Day numerical rubric and offer score cut-off are not published.",
+      "Graduate BM5 A100 UCAT threshold data is not published separately in the supplied research."
+    ],
+    "engine_execution_boundaries": [
+      "Country-specific international qualifications require Southampton-verified equivalence evidence.",
+      "Advanced Higher case-by-case Scottish profiles require manual review outside the executable Higher AAAAB route.",
+      "Alternative English language evidence and exemptions require verification unless represented by declared exemption evidence.",
+      "Non-standard resit sequences beyond the configured one-attempt rule require manual review."
+    ],
+    "summary": "Official and FOI-labelled evidence supports scoped BM5 A100 eligibility and pool-specific UCAT interview guidance for Home and International applicants."
+  },
+  "course_identity": {
+    "university": "University of Southampton",
+    "medical_school": "University of Southampton School of Medicine",
+    "course_name": "BM5 Bachelor of Medicine, Bachelor of Surgery (BMBS)",
+    "ucas_code": "A100",
+    "duration_years": 5,
+    "entry_route": "standard_entry",
+    "home_places": 260,
+    "international_places": 18,
+    "graduate_places": "No separate A100 graduate sub-allocation; BM4 A101 has its own quota.",
+    "source_ids": [
+      "southampton_research_doc"
+    ],
+    "evidence_classification": "official"
+  },
+  "selection_model": {
+    "type": "sequential_gate",
+    "steps": [
+      "Check minimum academic eligibility.",
+      "Require UCAT in the year of application.",
+      "Rank eligible applicants by UCAT cognitive total only within separate Home and International pools.",
+      "Do not use GCSE scoring, academic ranking, SJT scoring, personal statement scoring or guaranteed interview routes.",
+      "Do not predict final offers."
+    ],
+    "academic_scoring": false,
+    "gcse_scoring": false,
+    "academic_ranking": false,
+    "ucat_ranking": true,
+    "ucat_weight_percent": 100,
+    "sjt_shortlisting_role": "none",
+    "home_and_international_ranked_separately": true,
+    "scottish_or_ruk_separate_pool": false,
+    "guaranteed_interview_routes": false,
+    "source_ids": [
+      "southampton_research_doc"
+    ],
+    "evidence_classification": "official"
+  },
+  "academic_requirements": {
+    "gcse": {
+      "minimum_profile": "7 GCSEs at Grade B / 6 or above, including English Language, Mathematics and Sciences.",
+      "english_language": "Grade B / 6",
+      "mathematics": "Grade B / 6",
+      "science": "Biology and Chemistry at Grade B / 6 if taking triple science, or Combined Science / Double Award at 6-6 / BB.",
+      "scored_after_threshold": false,
+      "resits": "No restrictions on GCSE re-sits.",
+      "igcse_accepted": true,
+      "source_ids": [
+        "southampton_research_doc"
+      ]
+    },
+    "a_level": {
+      "standard": "AAA",
+      "contextual": "AAB for verified Home fee-paying school-leavers meeting at least two contextual flags",
+      "subject_rule": "Biology plus one of Chemistry, Physics, Psychology, Sociology, Environmental Studies or Geography.",
+      "practical_endorsement_required": true,
+      "excluded": [
+        "General Studies",
+        "Critical Thinking"
+      ],
+      "one_sitting_required": true,
+      "resits": "One retake attempt per A-level, maximum three subjects, all A-level resits in the same sitting.",
+      "source_ids": [
+        "southampton_research_doc"
+      ]
+    },
+    "international_baccalaureate": {
+      "standard": "36 points overall with 18 points at Higher Level, including Grade 6 in HL Biology and Grade 6 in one additional accepted HL science.",
+      "contextual": "No contextual IB reduction is published for BM5 A100.",
+      "standard_level_english": "Grade 5 if needed for baseline English.",
+      "standard_level_maths": "Grade 5 if needed for baseline Maths.",
+      "source_ids": [
+        "southampton_research_doc"
+      ]
+    },
+    "scottish": {
+      "standard": "AAAAB Highers by the end of S5, including Biology and one additional accepted science; National 5 English and Maths at B / 6 or above.",
+      "advanced_higher": "Considered case-by-case as part of the S6 curriculum.",
+      "separate_applicant_pool": false,
+      "source_ids": [
+        "southampton_research_doc"
+      ]
+    },
+    "graduate_a100": {
+      "requirement": "Upper Second-Class Honours (2:1) in the first degree.",
+      "a_level_requirement": "Waived for graduate applicants to BM5 A100.",
+      "gcse_requirements_still_apply": true,
+      "a101_separate": true,
+      "source_ids": [
+        "southampton_research_doc"
+      ]
+    },
+    "english_language": {
+      "ielts": "IELTS Academic 7.0 overall with 7.0 in Listening, Reading, Writing and Speaking.",
+      "documented_exemptions": [
+        "GCSE or IGCSE English Language grade B / 6 or above",
+        "IB Standard Level English grade 5",
+        "GCE O-Level English Language or Cambridge International O-Level English grade C or above",
+        "Majority English-speaking country exemption where accepted",
+        "Degree taught and assessed entirely in English for at least 2 academic years with official university letter"
+      ],
+      "source_ids": [
+        "southampton_research_doc"
+      ]
+    }
+  },
+  "ucat_and_sjt": {
+    "ucat_required": true,
+    "ranking_metric": "total_cognitive_score",
+    "score_scale": 2700,
+    "selection_weight_percent": 100,
+    "fixed_cutoff": false,
+    "home_threshold": {
+      "use": "non_guaranteed_current_format_guidance",
+      "value": 2100,
+      "scale": 2700,
+      "evidence_classification": "research_current_format_guidance",
+      "confidence": "low",
+      "notes": "The supplied research describes approximately 2100+ as expected competitive guidance for Home applicants under the current 2700-scale UCAT format. It is not a published fixed cut-off."
+    },
+    "applysmart_home_band_model": {
+      "use": "applysmart_modelled_interview_guidance",
+      "score_scale": 2700,
+      "official_southampton_cutoff": false,
+      "eligibility_cutoff": false,
+      "rules": [
+        {
+          "band": "high_risk",
+          "condition": "academically eligible Home applicant with UCAT below 1900"
+        },
+        {
+          "band": "realistic",
+          "condition": "academically eligible Home applicant with UCAT 1900 to 2199 inclusive"
+        },
+        {
+          "band": "interview_likely",
+          "condition": "academically eligible Home applicant with UCAT 2200 or above"
+        }
+      ],
+      "rationale": "The 2200 Strong boundary is above the highest available converted historical Home threshold and 100 points above the approximate 2100 current-format Home competitive guidance. It is an ApplySmart modelling boundary, not an official Southampton cut-off."
+    },
+    "international_threshold": {
+      "use": "evidence_gap",
+      "scale": 2700,
+      "available": false,
+      "evidence_classification": "current_cycle_data_missing",
+      "notes": "No verified current 2700-scale International BM5 A100 UCAT guidance figure is represented in the supplied research."
+    },
+    "contextual_threshold": "same_as_home_for_bm5_a100",
+    "sjt_shortlisting_role": "not_used",
+    "sjt_bands_3_and_4_automatic_shortlisting_rejection": false,
+    "source_ids": [
+      "southampton_research_doc"
+    ]
+  },
+  "historical_context": {
+    "use": "guidance_only",
+    "fixed_future_cutoff": false,
+    "not_deterministic": true,
+    "warning": "Historical UCAT thresholds are guidance only and must never be presented as guaranteed future cut-offs.",
+    "foi_thresholds_3600": [
+      {
+        "entry_cycle": "2024 entry",
+        "home_non_contextual": 2610,
+        "widening_participation_bm6": 2370,
+        "international": 2850
+      },
+      {
+        "entry_cycle": "2023 entry",
+        "home_non_contextual": 2810,
+        "widening_participation_bm6": 2540,
+        "international": 2770
+      },
+      {
+        "entry_cycle": "2022 entry",
+        "home_non_contextual": 2750,
+        "widening_participation_bm6": 2570,
+        "international": 2750
+      },
+      {
+        "entry_cycle": "2021 entry",
+        "home_non_contextual": 2680,
+        "widening_participation_bm6": 2620,
+        "international": 2710
+      }
+    ],
+    "converted_home_thresholds_2700_for_applysmart_modelling": [
+      {
+        "entry_cycle": "2024 entry",
+        "home_non_contextual": 1957.5
+      },
+      {
+        "entry_cycle": "2023 entry",
+        "home_non_contextual": 2107.5
+      },
+      {
+        "entry_cycle": "2022 entry",
+        "home_non_contextual": 2062.5
+      },
+      {
+        "entry_cycle": "2021 entry",
+        "home_non_contextual": 2010
+      }
+    ],
+    "foi_derived_volumes": [
+      {
+        "entry_cycle": "2024 entry",
+        "home_interviews": 807,
+        "home_offers": 394,
+        "international_interviews": 56,
+        "international_offers": 18
+      },
+      {
+        "entry_cycle": "2019 entry",
+        "home_applications": 1421,
+        "home_interviews": 749,
+        "home_offers": 587,
+        "international_applications": 194,
+        "international_interviews": 64,
+        "international_offers": 20
+      }
+    ]
+  },
+  "interview_format": {
+    "format": "Selection Day with panel interview and observed group task",
+    "mmi": false,
+    "online": false,
+    "location": "Highfield campus",
+    "duration": "Approximately 40-60 minutes total: 20-30 minute panel interview plus 20-30 minute group task.",
+    "domains": [
+      "Self-motivation and resilience",
+      "Reflection on relevant life experiences",
+      "Effective communication",
+      "Successful interaction with others",
+      "Understanding the values of the NHS Constitution"
+    ],
+    "sjt_used_at_interview": false,
+    "source_ids": [
+      "southampton_research_doc"
+    ]
+  },
+  "international_policy": {
+    "separate_ranking_pool": true,
+    "places": 18,
+    "current_2700_scale_threshold_available": false,
+    "contextual_or_wp_reductions_apply": false,
+    "english_language_profile": "IELTS Academic 7.0 overall and 7.0 in each component, or verified exemption",
+    "format_affects_prediction": false,
+    "source_ids": [
+      "southampton_research_doc"
+    ]
+  },
+  "contextual_and_widening_participation": {
+    "contextual_offer_only": true,
+    "minimum_flags_for_bm5_contextual": 2,
+    "lower_ucat_threshold_for_bm5": false,
+    "extra_points_or_uplift": false,
+    "home_only": true,
+    "guaranteed_interview_available": false,
+    "bm6_a102_separate_route": true,
+    "notes": "BM6 A102 has separate widening-participation rules and is excluded from BM5 A100 execution."
+  },
+  "offer_selection_research": {
+    "applysmart_scope": "out_of_scope",
+    "initial_offer_ranking": "Selection Day score only",
+    "tie_break_sequence": [
+      "Total UCAT score for identical interview scores"
+    ],
+    "personal_statement_used": "Not for shortlisting; read by interviewers as a Selection Day discussion prompt.",
+    "sjt_used": false,
+    "published_offer_score_cutoffs": false,
+    "offers_2024_entry": {
+      "home": 394,
+      "international": 18,
+      "total": 412
+    }
+  },
+  "evidence_gaps": [
+    {
+      "gap_id": "future_ucat_thresholds",
+      "description": "Future UCAT thresholds are not known before each admissions cycle's applicant pool is ranked.",
+      "impact": "Prediction can only use labelled historical guidance."
+    },
+    {
+      "gap_id": "legacy_ucat_scale",
+      "description": "The 2021-2024 FOI Home thresholds are on the old 3600 scale.",
+      "impact": "Converted 2700-scale equivalents may calibrate ApplySmart modelling boundaries, but they are not official Southampton current cut-offs or eligibility minima."
+    },
+    {
+      "gap_id": "country_specific_international_equivalences",
+      "description": "Country-specific equivalence tables are referenced but not tabulated in the approved research.",
+      "impact": "Unlisted international qualifications require verified equivalence evidence."
+    },
+    {
+      "gap_id": "post_interview_score_distribution",
+      "description": "Southampton does not publish the numerical Selection Day rubric or offer score cut-off.",
+      "impact": "Offer prediction remains out of scope."
+    }
+  ],
+  "implementation_mapping": {
+    "architecture_change_required": true,
+    "shared_engine_changes_required": true,
+    "generic_mechanisms_reused": [
+      "Course JSON eligibility gates",
+      "Interview-band config with ranking_metric score model",
+      "Fee-status guidance pools",
+      "Result-card readiness contract",
+      "Decision transparency and timeline presenter",
+      "Standard JSON and schema validation"
+    ],
+    "generic_engine_extension": "Graduate A100 applicants can now opt into the same GCSE gate as school-leavers while using a degree-only post-16 route.",
+    "unsupported_behaviour_not_implemented": [
+      "Offer probability",
+      "Selection Day score prediction",
+      "Reserve-list prediction",
+      "Speculative future UCAT thresholds",
+      "BM6 A102 widening-participation selection",
+      "BM4 A101 graduate-entry selection"
+    ]
+  }
+}

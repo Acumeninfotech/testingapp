@@ -1,0 +1,375 @@
+{
+  "schema_version": "1.0.0",
+  "course_profile_id": "aston-a100",
+  "confidence": "low",
+  "evidence": {
+    "classification": "official_formula_with_foi_historical_guidance",
+    "summary": "Official Aston pool rules and verified Home/WP scoring are combined with FOI historical guidance. Bands are conservative guidance only; no historical value is a fixed live cutoff.",
+    "source_ids": [
+      "aston_medical_school_faq_current",
+      "aston_official_research_team_2026_2027",
+      "aston_foi_pre_interview_2026_2027"
+    ]
+  },
+  "eligibility": {
+    "scope": "Banding applies only after the production eligibility rules pass and an applicant pool is resolved.",
+    "manual_review_and_insufficient_evidence": [
+      "Home or WP applicants with UCAT below 1650 because no verified UCAT points are published for that range",
+      "Applicants whose selected six GCSEs include legacy letter grade A because the exact Aston points value is unresolved",
+      "Applicants whose Home non-WP, Home WP or International pool cannot be resolved"
+    ],
+    "do_not_infer": [
+      "Do not extrapolate UCAT points below 1650.",
+      "Do not infer a points value for legacy GCSE letter grade A.",
+      "Do not treat historical or 2026+ guidance as a fixed current cutoff.",
+      "Do not use the Home/WP 36-point model for International applicants.",
+      "Do not derive bands automatically from inconsistent early-cycle converted extrema."
+    ]
+  },
+  "score_model": {
+    "type": "component_sum",
+    "basis": "Verified Aston Home and WP pre-interview score: GCSE academic score out of 24 plus UCAT score out of 12",
+    "pool_specific_output": true,
+    "fixed_current_cutoff": false,
+    "confidence_notes": [
+      "The Home/WP formula and published score tables are verified.",
+      "Band boundaries are conservative historical guidance, not guaranteed current interview cutoffs.",
+      "International uses raw UCAT out of 2700 and never the Home/WP combined score.",
+      "Some supplied early-cycle converted UCAT extrema are internally inconsistent and are excluded from automatic band derivation."
+    ],
+    "scale": {
+      "min": 0,
+      "max": 36
+    },
+    "components": [
+      {
+        "component_id": "gcse_academic_score",
+        "type": "gcse_mandatory_then_best",
+        "subject_count": 6,
+        "mandatory_subject_ids": [
+          "english_language",
+          "mathematics"
+        ],
+        "mandatory_subject_alternatives": [
+          {
+            "alternative_id": "aston_science_route",
+            "options": [
+              {
+                "subject_ids": [
+                  "biology",
+                  "chemistry"
+                ]
+              },
+              {
+                "subject_ids": [
+                  "combined_science"
+                ],
+                "subject_credits": {
+                  "combined_science": 2
+                }
+              }
+            ]
+          }
+        ],
+        "ambiguous_grade_values": [
+          "A"
+        ],
+        "bands": [
+          {
+            "minimum_grade": "9",
+            "points": 4
+          },
+          {
+            "minimum_grade": "8",
+            "points": 4
+          },
+          {
+            "minimum_grade": "7",
+            "points": 3
+          },
+          {
+            "minimum_grade": "6",
+            "points": 2
+          },
+          {
+            "minimum_grade": "5",
+            "points": 1
+          }
+        ],
+        "max": 24
+      },
+      {
+        "component_id": "ucat_score",
+        "type": "ucat_range_lookup",
+        "ranges": [
+          {
+            "band": "12_points",
+            "min": 2550,
+            "max": 2700
+          },
+          {
+            "band": "11_points",
+            "min": 2350,
+            "max": 2549
+          },
+          {
+            "band": "10_points",
+            "min": 2150,
+            "max": 2349
+          },
+          {
+            "band": "9_points",
+            "min": 1950,
+            "max": 2149
+          },
+          {
+            "band": "8_points",
+            "min": 1800,
+            "max": 1949
+          },
+          {
+            "band": "7_points",
+            "min": 1650,
+            "max": 1799
+          }
+        ],
+        "points_by_band": {
+          "12_points": 12,
+          "11_points": 11,
+          "10_points": 10,
+          "9_points": 9,
+          "8_points": 8,
+          "7_points": 7
+        },
+        "below_published_range_policy": "insufficient_evidence",
+        "max": 12
+      }
+    ],
+    "historical_guidance": {
+      "prediction_use": "historical_guidance_only",
+      "fixed_current_cutoff": false,
+      "home_non_wp": {
+        "metric": "selection_score",
+        "scale": {
+          "min": 0,
+          "max": 36
+        },
+        "thresholds": [
+          {
+            "entry_cycle": "2026_onwards",
+            "value": 32.5,
+            "status": "guidance_not_observed_outcome"
+          },
+          {
+            "entry_cycle": "2025",
+            "value": 32.5,
+            "status": "historical"
+          },
+          {
+            "entry_cycle": "2024",
+            "value": 32,
+            "status": "historical"
+          },
+          {
+            "entry_cycle": "2023",
+            "value": 31.5,
+            "status": "historical"
+          },
+          {
+            "entry_cycle": "2022",
+            "value": 31,
+            "status": "historical"
+          }
+        ]
+      },
+      "home_wp": {
+        "metric": "selection_score",
+        "scale": {
+          "min": 0,
+          "max": 36
+        },
+        "thresholds": [
+          {
+            "entry_cycle": "2026_onwards",
+            "value": 29,
+            "status": "guidance_not_observed_outcome"
+          },
+          {
+            "entry_cycle": "2025",
+            "value": 29,
+            "status": "historical"
+          },
+          {
+            "entry_cycle": "2024",
+            "value": 28.5,
+            "status": "historical"
+          },
+          {
+            "entry_cycle": "2023",
+            "value": 28,
+            "status": "historical"
+          },
+          {
+            "entry_cycle": "2022",
+            "value": 27.5,
+            "status": "historical"
+          }
+        ]
+      },
+      "international": {
+        "metric": "ucat_total",
+        "scale": {
+          "min": 0,
+          "max": 2700
+        },
+        "lowest_invited_ucat": [
+          {
+            "entry_cycle": "2026_onwards",
+            "value": 2050,
+            "status": "guidance_not_observed_outcome"
+          },
+          {
+            "entry_cycle": "2025",
+            "value": 1912,
+            "status": "historical"
+          },
+          {
+            "entry_cycle": "2024",
+            "value": 1897,
+            "status": "historical"
+          },
+          {
+            "entry_cycle": "2023",
+            "value": 1837,
+            "status": "historical"
+          },
+          {
+            "entry_cycle": "2022",
+            "value": 1537,
+            "status": "historical"
+          }
+        ],
+        "metric_conflict_safeguard": "Historical International values labelled on the 36-point scale remain context only because the current official ranking rule is UCAT-only."
+      }
+    }
+  },
+  "guidance_pools": [
+    {
+      "pool_id": "home_wp",
+      "priority": 20,
+      "applicant_match": {
+        "all_group_ids": [
+          "home_fee"
+        ],
+        "any_group_ids": [
+          "contextual",
+          "widening_participation"
+        ],
+        "excluded_group_ids": [
+          "international_fee"
+        ]
+      },
+      "metric": "selection_score",
+      "band_rules": [
+        {
+          "band": "interview_likely",
+          "operator": "greater_than_or_equal",
+          "value": 30
+        },
+        {
+          "band": "realistic",
+          "operator": "between_inclusive",
+          "min": 29,
+          "max": 29.99
+        },
+        {
+          "band": "ambitious",
+          "operator": "between_inclusive",
+          "min": 28,
+          "max": 28.99
+        },
+        {
+          "band": "high_risk",
+          "operator": "less_than",
+          "value": 28
+        }
+      ]
+    },
+    {
+      "pool_id": "home_non_wp",
+      "priority": 10,
+      "applicant_match": {
+        "all_group_ids": [
+          "home_fee"
+        ],
+        "excluded_group_ids": [
+          "contextual",
+          "widening_participation",
+          "international_fee"
+        ]
+      },
+      "metric": "selection_score",
+      "band_rules": [
+        {
+          "band": "interview_likely",
+          "operator": "greater_than_or_equal",
+          "value": 33.5
+        },
+        {
+          "band": "realistic",
+          "operator": "between_inclusive",
+          "min": 32.5,
+          "max": 33.49
+        },
+        {
+          "band": "ambitious",
+          "operator": "between_inclusive",
+          "min": 31.5,
+          "max": 32.49
+        },
+        {
+          "band": "high_risk",
+          "operator": "less_than",
+          "value": 31.5
+        }
+      ]
+    },
+    {
+      "pool_id": "international",
+      "priority": 30,
+      "applicant_match": {
+        "all_group_ids": [
+          "international_fee"
+        ],
+        "excluded_group_ids": [
+          "home_fee"
+        ]
+      },
+      "metric": "ucat_total",
+      "band_rules": [
+        {
+          "band": "interview_likely",
+          "operator": "greater_than_or_equal",
+          "value": 2200
+        },
+        {
+          "band": "realistic",
+          "operator": "between_inclusive",
+          "min": 2050,
+          "max": 2199
+        },
+        {
+          "band": "ambitious",
+          "operator": "between_inclusive",
+          "min": 1900,
+          "max": 2049
+        },
+        {
+          "band": "high_risk",
+          "operator": "less_than",
+          "value": 1900
+        }
+      ]
+    }
+  ]
+}

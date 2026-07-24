@@ -1,0 +1,134 @@
+{
+  "schema_version": "1.0.0",
+  "profile_id": "newcastle-a100-research",
+  "course_profile_id": "newcastle-a100",
+  "research_status": "complete_for_supported_scope_with_documented_gaps",
+  "file_purpose": "Research and evidence profile for Newcastle University Medicine MBBS A100. This file preserves the approved Newcastle implementation specification, evidence model, implementation mapping and known review boundaries; executable rules live in data/universities/newcastle-a100.json and data/interview-band-configs/newcastle-a100.json.",
+  "official_rules_source": "data/universities/newcastle-a100.json",
+  "created_at": "2026-07-14",
+  "last_updated": "2026-07-14",
+  "research_scope": {
+    "target_entry_year": 2026,
+    "primary_policy_cycle": "2026 entry",
+    "primary_course": "A100",
+    "primary_scope": [
+      "standard_home_a_level_school_leaver",
+      "contextual_home_a_level_school_leaver",
+      "partners_supported_home_a_level_school_leaver",
+      "international_a_level_or_ib_after_academic_screen",
+      "graduate_a100_home",
+      "ib_diploma",
+      "scottish_qualifications",
+      "verified_access_to_he"
+    ],
+    "manual_review_scope": [
+      "country_specific_international_qualification",
+      "access_to_he_provider_preapproval_and_qaa_descriptor",
+      "irish_leaving_certificate_subject_confirmation",
+      "scottish_mixed_sitting_edge_cases",
+      "degree_recency_without_clear_recent_higher_education_evidence",
+      "non-exact UCAT totals outside the published table"
+    ],
+    "production_json_updated": true,
+    "index_updated": true,
+    "examples_updated": true,
+    "regression_scripts_updated": true,
+    "activation_flags_updated": true,
+    "third_party_admissions_websites_used": false,
+    "evidence_intake_basis": "/Users/faizan/Downloads/Newcastle-A100-Production-Implementation-Specification-v2.md supplied by the user on 2026-07-14",
+    "notes": "The existing repository profile was an MSC seed with unknown rules. It has been replaced with the approved research-backed production profile."
+  },
+  "evidence_classification_policy": {
+    "official_policy": "A rule or statistic attributed by the approved Newcastle specification to Newcastle University or an official public body.",
+    "official_threshold_document": "A scoring or historical threshold attributed by the approved Newcastle specification to the Newcastle UCAT/academic threshold document.",
+    "historical_guidance": "Cycle-labelled historical data used only to position competitiveness, never as a formal current minimum.",
+    "display_only_legacy_scale": "A legacy 3600-scale UCAT figure shown on its original scale and never compared with a 2700-scale applicant score.",
+    "manual_review": "Evidence exists but the generic engine should not automate the rule without route-specific confirmation.",
+    "unknown": "The supplied evidence does not establish the fact safely enough for execution."
+  },
+  "metadata": {
+    "authoritative_research_file": "/Users/faizan/Downloads/Newcastle-A100-Production-Implementation-Specification-v2.md",
+    "engine_version": "ApplySmart Engine v1.0",
+    "architecture_change_required": false,
+    "shared_engine_extensions": [
+      "Exact UCAT table lookup component",
+      "GCSE fewer-than-target normalisation option",
+      "Degree-classification scoring component",
+      "Qualification-route-aware component matching",
+      "Route-specific resit profile rules",
+      "Display-only original-scale historical UCAT rendering"
+    ],
+    "repository_discrepancy_reported_before_edit": "Existing Newcastle A100 production JSON was a low-confidence MSC seed with unknown GCSE, A-level, UCAT and selection rules."
+  },
+  "readiness": {
+    "eligibility": true,
+    "interview_prediction": true,
+    "historical_guidance": true,
+    "international_prediction": true,
+    "contextual_logic": true,
+    "result_card": true,
+    "regression": true,
+    "research_completeness": "complete_for_supported_scope_with_documented_gaps",
+    "manual_review_required": true,
+    "eligibility_ready": true,
+    "interview_prediction_ready": true,
+    "prediction_confidence": "medium",
+    "result_card_ready": true,
+    "offer_prediction_scope": "out_of_scope",
+    "interview_band_config_ready": true,
+    "metadata_activation_ready": true,
+    "production_ready_candidate": true,
+    "production_activation_should_remain_blocked": false,
+    "activation_block_reason": null,
+    "critical_research_blockers": [],
+    "route_limited_blockers": [
+      "No rounding rule is supplied for UCAT totals that do not appear in the exact official table.",
+      "Historical International UCAT thresholds are on the legacy 3600 scale and are display-only.",
+      "Country-specific qualification mappings require Newcastle A100-specific official confirmation before automated hard rules.",
+      "Post-interview offer selection is reference-only and is not used by ApplySmart."
+    ]
+  },
+  "course_identity": {
+    "university": "Newcastle University",
+    "medical_school": "School of Medicine",
+    "course_name": "Medicine MBBS",
+    "ucas_code": "A100",
+    "duration_years": 5,
+    "entry_route": "standard_entry",
+    "total_places": 369,
+    "home_places": 343,
+    "international_places": 26,
+    "intake_figures_reference_only": true,
+    "source_ids": [
+      "newcastle_a100_research_spec",
+      "ofs_medical_and_dental_maximum_fundable_limits"
+    ],
+    "evidence_classification": "official_policy"
+  },
+  "selection_model": {
+    "type": "academic_plus_ucat_with_international_ucat_only_pool",
+    "steps": [
+      "Check academic eligibility for the applicant route.",
+      "Require current-cycle UCAT and reject SJT Band 4.",
+      "For Home, Contextual, PARTNERS and Graduate A100 applicants, calculate academic score out of 40 plus UCAT table score out of 60.",
+      "For International applicants, perform academic pass/fail screening and rank by UCAT cognitive total only.",
+      "Show historical data by applicant pool and scale without treating historical observations as formal minima."
+    ],
+    "academic_scoring": true,
+    "ucat_ranking": true,
+    "home_and_international_ranked_separately": true,
+    "legacy_3600_conversion_allowed": false,
+    "source_ids": [
+      "newcastle_a100_research_spec",
+      "newcastle_ucat_academic_threshold_document"
+    ],
+    "evidence_classification": "official_policy"
+  },
+  "manual_review_boundaries": [
+    "International country-level qualification rules are official-country-lookup or manual-review only.",
+    "Access to HE requires course preapproval, Medicine QAA descriptor and years-out-of-formal-education checks.",
+    "Irish Leaving Certificate automation is not fully implemented by the generic classifier.",
+    "No cross-scale UCAT conversion is allowed.",
+    "Non-exact UCAT scores are not rounded or interpolated."
+  ]
+}

@@ -1,0 +1,153 @@
+{
+  "schema_version": "1.0.0",
+  "course_profile_id": "st-andrews-a100",
+  "confidence": "low",
+  "evidence": {
+    "classification": "official_ucat_ranking_with_verified_international_historical_guidance",
+    "summary": "Official St Andrews hurdle-then-rank selection uses UCAT Global Score after mandatory hurdles. International guidance uses verified historical lowest-invited scores on the 2700 scale; these bands are historical competitiveness guidance, not official UCAT cut-offs, live thresholds or probabilities.",
+    "source_ids": [
+      "standrews_ucat_policy",
+      "standrews_selection_process",
+      "standrews_admissions_data",
+      "standrews_verified_research_update_2026_06_29",
+      "standrews_verified_international_contextual_update_2026_07_02",
+      "applysmart_historical_normalised_prediction_methodology_v1_0"
+    ]
+  },
+  "eligibility": {},
+  "score_model": {
+    "type": "ranking_metric",
+    "basis": "Official UCAT Global Score ranking input; guidance boundaries are ApplySmart-derived historical prediction methodology",
+    "metric": "ucat_total",
+    "scale": {
+      "min": 0,
+      "max": 2700
+    }
+  },
+  "guidance_pools": [
+    {
+      "pool_id": "scottish_home_non_contextual_a_level_school_leaver",
+      "priority": 20,
+      "applicant_match": {
+        "all_group_ids": [
+          "home_fee",
+          "scotland_domiciled",
+          "school_leaver"
+        ],
+        "excluded_group_ids": [
+          "contextual",
+          "widening_participation",
+          "graduate_applicant",
+          "international_fee"
+        ]
+      },
+      "metric": "ucat_total",
+      "band_rules": [
+        {
+          "band": "interview_likely",
+          "operator": "greater_than_or_equal",
+          "value": 2040
+        },
+        {
+          "band": "realistic",
+          "operator": "between_inclusive",
+          "min": 1793,
+          "max": 2039
+        },
+        {
+          "band": "ambitious",
+          "operator": "between_inclusive",
+          "min": 1673,
+          "max": 1792
+        },
+        {
+          "band": "high_risk",
+          "operator": "less_than",
+          "value": 1673
+        }
+      ]
+    },
+    {
+      "pool_id": "rest_of_uk_non_contextual_a_level_school_leaver",
+      "priority": 20,
+      "applicant_match": {
+        "all_group_ids": [
+          "home_fee",
+          "rest_of_uk",
+          "school_leaver"
+        ],
+        "excluded_group_ids": [
+          "contextual",
+          "widening_participation",
+          "graduate_applicant",
+          "international_fee"
+        ]
+      },
+      "metric": "ucat_total",
+      "band_rules": [
+        {
+          "band": "interview_likely",
+          "operator": "greater_than_or_equal",
+          "value": 2180
+        },
+        {
+          "band": "realistic",
+          "operator": "between_inclusive",
+          "min": 2078,
+          "max": 2179
+        },
+        {
+          "band": "ambitious",
+          "operator": "between_inclusive",
+          "min": 1800,
+          "max": 2077
+        },
+        {
+          "band": "high_risk",
+          "operator": "less_than",
+          "value": 1800
+        }
+      ]
+    },
+    {
+      "pool_id": "international_historical_guidance",
+      "priority": 30,
+      "applicant_match": {
+        "all_group_ids": [
+          "international_fee",
+          "school_leaver"
+        ],
+        "excluded_group_ids": [
+          "contextual",
+          "widening_participation",
+          "graduate_applicant"
+        ]
+      },
+      "metric": "ucat_total",
+      "band_rules": [
+        {
+          "band": "interview_likely",
+          "operator": "greater_than_or_equal",
+          "value": 1995
+        },
+        {
+          "band": "realistic",
+          "operator": "between_inclusive",
+          "min": 1950,
+          "max": 1994
+        },
+        {
+          "band": "ambitious",
+          "operator": "between_inclusive",
+          "min": 1910,
+          "max": 1949
+        },
+        {
+          "band": "high_risk",
+          "operator": "less_than",
+          "value": 1910
+        }
+      ]
+    }
+  ]
+}

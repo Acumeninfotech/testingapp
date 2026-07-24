@@ -1,0 +1,221 @@
+{
+  "schema_version": "1.0.0",
+  "profile_id": "sunderland-a100-research",
+  "course_profile_id": "sunderland-a100",
+  "research_status": "complete_for_supported_scope_with_documented_gaps",
+  "file_purpose": "Research and evidence profile for University of Sunderland MBChB Medicine A100 2027 entry. Executable rules live in data/universities/sunderland-a100.json; this file preserves source interpretation, implementation boundaries and evidence gaps.",
+  "official_rules_source": "data/universities/sunderland-a100.json",
+  "created_at": "2026-07-18",
+  "last_updated": "2026-07-18",
+  "research_scope": {
+    "target_entry_year": 2027,
+    "primary_policy_cycle": "2027 entry / 2026-27 admissions policy",
+    "primary_course": "A100",
+    "excluded_related_courses": [
+      "A101",
+      "A102",
+      "A104",
+      "A106"
+    ],
+    "authoritative_research_file": "/Users/faizan/Downloads/ApplySmart_Sunderland_A100_2027.md",
+    "production_json_updated": true,
+    "index_updated": true,
+    "examples_updated": true,
+    "regression_scripts_updated": true,
+    "activation_flags_updated": true,
+    "third_party_admissions_websites_used": false,
+    "notes": "The supplied research Markdown is treated as authoritative. Sunderland's official adjusted 2020-2024 UCAT values are retained without reconversion and displayed only as historical context."
+  },
+  "evidence_classification_policy": {
+    "official": "A rule or statistic attributed by the supplied research to a first-party Sunderland, UCAS, MSC or UCAT Consortium source.",
+    "foi_verified": "Statistics confirmed by a Freedom of Information response cited in the supplied research.",
+    "historical_guidance": "Cycle-labelled Sunderland UCAT values used only for context, never as current guaranteed thresholds.",
+    "engine_boundary": "Evidence exists, but ApplySmart cannot execute it without unpublished applicant-level data or an approved extension."
+  },
+  "metadata": {
+    "engine_version": "ApplySmart Engine v1.0",
+    "architecture_change_required_for_activation": true,
+    "minimum_architecture_extension_required": [
+      "Generic opt-in graduate compensatory admissions-test policy where a test may compensate exactly one configured academic deficiency while UCAT/SJT remain mandatory."
+    ],
+    "resolved_architecture_extensions": [
+      "Data-driven graduate compensatory admissions-test policy implemented in assets/js/engine/graduate-compensatory-policy.js and wired into the eligibility evaluator and interview-band classifier."
+    ],
+    "selection_model_mapping": "academic_gate_then_ucat_sjt_gate_then_assessed_ist_shortlisting",
+    "academic_model": "eligibility_gate",
+    "academic_ranking": false,
+    "international_applicants_accepted": false,
+    "graduate_route": "same_a100_code_with_conditional_gamsat_compensation",
+    "offer_prediction_implemented": false,
+    "standardisation_profile": "production_ready_supported_scope_with_transparent_ist_limitation"
+  },
+  "readiness": {
+    "eligibility": true,
+    "interview_prediction": true,
+    "historical_guidance": true,
+    "international_prediction": false,
+    "contextual_logic": true,
+    "result_card": true,
+    "regression": true,
+    "research_completeness": "complete_for_supported_scope_with_documented_gaps",
+    "manual_review_required": true,
+    "eligibility_ready": true,
+    "interview_prediction_ready": true,
+    "offer_prediction_scope": "out_of_scope",
+    "prediction_confidence": "low",
+    "result_card_ready": true,
+    "interview_band_config_ready": true,
+    "metadata_activation_ready": true,
+    "activation_ready": true,
+    "production_ready": true,
+    "production_activation_should_remain_blocked": false,
+    "blocked_by_engine_limitation": false,
+    "activation_block_reason": null,
+    "critical_research_blockers": [],
+    "engine_execution_boundaries": [
+      "Sunderland's Interview Selection Tool is assessed and used for shortlisting, but the numeric formula and cut-score are unpublished.",
+      "ApplySmart does not collect the full IST written-response dataset and does not create an IST score.",
+      "The generic Scottish classifier executes National 5 and Advanced Higher science requirements; the production JSON retains the full Higher AAAAB policy.",
+      "IB SL 6,6,5 and HL English-for-GCSE-English substitution are retained as metadata while the generic classifier executes total and HL science requirements."
+    ],
+    "summary": "Sunderland A100 is production-ready for eligibility checking and evidence-limited interview guidance. Eligible applicants are not marked manual review solely because the IST formula is unpublished; guidance is withheld as an evidence-safe methodology limitation."
+  },
+  "course_identity": {
+    "university": "University of Sunderland",
+    "medical_school": "School of Medicine, University of Sunderland",
+    "course_name": "MBChB Medicine",
+    "ucas_code": "A100",
+    "duration_years": 5,
+    "entry_route": "standard_entry",
+    "home_places": 117,
+    "international_places": 0,
+    "source_ids": [
+      "sunderland_course_page_2027",
+      "sunderland_admissions_policy_2026_27"
+    ],
+    "evidence_classification": "official"
+  },
+  "selection_model": {
+    "type": "hybrid_eligibility_gate_then_ist_shortlisting",
+    "steps": [
+      "Academic eligibility screen.",
+      "UCAT top-eight-national-deciles gate and SJT Band 1-3 gate.",
+      "Admissions Tutors assess the Interview Selection Tool.",
+      "MMI follows interview invitation.",
+      "Final post-interview decisions are outside ApplySmart scope."
+    ],
+    "gcse_scored": false,
+    "a_level_scored": false,
+    "ucat_used_as_sliding_ranking_score": false,
+    "ist_score_published": false,
+    "offer_prediction_scope": "out_of_scope",
+    "source_ids": [
+      "sunderland_admissions_policy_2026_27",
+      "sunderland_interview_selection_tool"
+    ]
+  },
+  "graduate_gamsat_policy": {
+    "standard_route_first": true,
+    "standard_route_requires": [
+      "Minimum 2:1 degree.",
+      "Degree within the documented permitted period.",
+      "BBB A-level route in required subjects.",
+      "Standard GCSE science profile.",
+      "UCAT top-eight-national-deciles gate.",
+      "SJT Bands 1-3."
+    ],
+    "gamsat_required_if_standard_route_passes": false,
+    "compensable_deficiencies": [
+      "A-level subject or grade requirement only.",
+      "GCSE science requirement only."
+    ],
+    "not_compensable": [
+      "Both A-level and GCSE science deficiencies together.",
+      "Degree deficiency.",
+      "UCAT deficiency.",
+      "SJT Band 4."
+    ],
+    "thresholds": [
+      "55 overall with Section III at least 58 and no section below 50.",
+      "58 overall with Section III at least 55 and no section below 50."
+    ]
+  },
+  "historical_ucat_guidance": {
+    "use": "display_only_historical_context",
+    "not_current_cutoff": true,
+    "not_guaranteed_interview_threshold": true,
+    "values_2700_scale": [
+      {
+        "entry_year": 2020,
+        "score": 1690
+      },
+      {
+        "entry_year": 2021,
+        "score": 1670
+      },
+      {
+        "entry_year": 2022,
+        "score": 1650
+      },
+      {
+        "entry_year": 2023,
+        "score": 1680
+      },
+      {
+        "entry_year": 2024,
+        "score": 1670
+      }
+    ],
+    "notes": "These figures are Sunderland-published adjusted values on the post-2025 2700 scale and must not be reconverted."
+  },
+  "interview_selection_tool": {
+    "issued_after_academic_screen": true,
+    "assessed_in_same_phase_as_ucat_sjt": true,
+    "assessed_by_admissions_tutors": true,
+    "numeric_formula_published": false,
+    "applysmart_scores_ist": false,
+    "criteria": [
+      "Evidence of extensive engagement in activities involving care, support and/or service.",
+      "Nature of experience and level of responsibility.",
+      "Open-ended written responses within an SJT-style assessment."
+    ],
+    "experience_rules": [
+      "Experience must be from the previous two years unless ongoing experience began earlier.",
+      "Hands-on public-facing paid or voluntary work or significant family caregiving can count.",
+      "School-organised programmes and clinical shadowing do not qualify.",
+      "Up to four experiences can be listed; total commitment matters more than number of experiences."
+    ]
+  },
+  "evidence_gaps": [
+    {
+      "gap_id": "ist_numeric_scoring_formula",
+      "status": "officially_unpublished_blocking_for_ucat_only_prediction",
+      "notes": "Sunderland confirms assessed IST shortlisting but does not publish the numeric scoring formula or cut-score."
+    },
+    {
+      "gap_id": "ist_personality_assessment_current_status",
+      "status": "historical_version_discrepancy_recorded_only",
+      "notes": "A 2023/24 policy version reportedly referred to Big Five traits; this is not present in the current 2026/27 official text and is not implemented."
+    },
+    {
+      "gap_id": "recent_2023_2025_admissions_statistics",
+      "status": "foi_required_non_blocking",
+      "notes": "Recent applications/interviews/offers for 2023-2025 were not found."
+    },
+    {
+      "gap_id": "interview_station_count_duration",
+      "status": "not_found_non_blocking",
+      "notes": "MMI station count and duration are not needed for interview invitation guidance."
+    }
+  ],
+  "implementation_mapping": {
+    "architecture_change_required": true,
+    "shared_engine_modified": true,
+    "shared_engine_extension": "generic_graduate_compensatory_admissions_test_policy",
+    "sunderland_specific_engine_branch": false,
+    "offer_prediction_implemented": false,
+    "ist_score_implemented": false,
+    "historical_ucat_used_as_current_cutoff": false,
+    "implemented_without_inventing_missing_data": true
+  }
+}

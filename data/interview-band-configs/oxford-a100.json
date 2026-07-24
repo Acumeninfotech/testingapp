@@ -1,0 +1,383 @@
+{
+  "schema_version": "1.0.0",
+  "course_profile_id": "oxford-a100",
+  "confidence": "medium",
+  "evidence": {
+    "classification": "official_shortlisting_methodology_with_applysmart_modelled_calibration",
+    "summary": "Oxford publishes official A100 eligibility rules and confirms shortlisting combines UCAT with GCSE performance where usable, but does not publish the exact contextualised GCSE algorithm or a single UCAT cut-off. ApplySmart therefore uses a transparent modelled composite calibrated to official 2025 historical data.",
+    "source_ids": [
+      "oxford_course_page_2026",
+      "oxford_medsci_academic_requirements_2026",
+      "oxford_medsci_shortlisting_statistics_2025",
+      "oxford_a100_technical_spec_v3"
+    ]
+  },
+  "eligibility": {
+    "scope": "Automatic guidance supports A-level, IB and Scottish applicants, graduates applying to A100 through the standard A-level/equivalent route, Home and International pools, current-cycle UCAT, practical endorsement checks and resit checks with accepted mitigating circumstances.",
+    "international_english_language_required": false,
+    "qualification_routes": {
+      "supported": [
+        "a_level",
+        "international_baccalaureate",
+        "scottish"
+      ],
+      "explicitly_blocked": [
+        "btec",
+        "access_to_medicine",
+        "t_level",
+        "unknown"
+      ]
+    },
+    "a_level": {
+      "science_practical_endorsement": {
+        "required": true,
+        "subject_ids": [
+          "biology",
+          "chemistry",
+          "physics"
+        ]
+      },
+      "routes": [
+        {
+          "route_id": "oxford_a_level_a_star_a_a_chemistry_plus_science_or_maths",
+          "grade_profile": [
+            "A*",
+            "A",
+            "A"
+          ],
+          "required_subject_ids": [
+            "chemistry"
+          ],
+          "one_of_subject_groups": [
+            {
+              "group_id": "second_science_or_maths",
+              "subject_ids": [
+                "biology",
+                "physics",
+                "mathematics",
+                "further_mathematics"
+              ],
+              "minimum_required": 1
+            }
+          ],
+          "excluded_subject_policy": "do_not_count",
+          "excluded_subject_ids": [
+            "critical_thinking",
+            "general_studies",
+            "thinking_skills"
+          ]
+        }
+      ]
+    },
+    "international_baccalaureate": {
+      "routes": [
+        {
+          "route_id": "oxford_ib_39_766_hl_chemistry_plus_science_or_maths",
+          "total_points": 39,
+          "hl_grade_profile": [
+            "7",
+            "6",
+            "6"
+          ],
+          "required_hl_subject_ids": [
+            "chemistry"
+          ],
+          "required_hl_subject_grade_options": [
+            {
+              "option_id": "biology_hl",
+              "grade_requirements": [
+                {
+                  "subject_id": "biology",
+                  "minimum_grade": "6"
+                }
+              ]
+            },
+            {
+              "option_id": "physics_hl",
+              "grade_requirements": [
+                {
+                  "subject_id": "physics",
+                  "minimum_grade": "6"
+                }
+              ]
+            },
+            {
+              "option_id": "mathematics_hl",
+              "grade_requirements": [
+                {
+                  "subject_id": "mathematics",
+                  "minimum_grade": "6"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    "scottish": {
+      "national_5": {
+        "minimum_count": 0,
+        "required_subject_ids": []
+      },
+      "post_16_routes": [
+        {
+          "route_id": "oxford_scottish_aa_advanced_higher_aaaaa_higher",
+          "grade_profile": [
+            "A",
+            "A"
+          ],
+          "higher_grade_profile": [
+            "A",
+            "A",
+            "A",
+            "A",
+            "A"
+          ],
+          "required_subject_ids": [
+            "chemistry"
+          ],
+          "one_of_subject_groups": [
+            {
+              "group_id": "advanced_higher_second_science_or_maths",
+              "subject_ids": [
+                "biology",
+                "physics",
+                "mathematics"
+              ],
+              "minimum_required": 1
+            }
+          ]
+        }
+      ]
+    },
+    "ucat": {
+      "required_test_year": 2026
+    },
+    "sjt": {
+      "used_as_gate": false,
+      "accepted_bands": [
+        1,
+        2,
+        3,
+        4
+      ],
+      "rejected_bands": []
+    },
+    "resits": {
+      "resits_accepted": true,
+      "extenuating_circumstances_required": true,
+      "applicant_form_required": false,
+      "routes": [
+        {
+          "route_id": "oxford_resit_with_accepted_mitigating_circumstances",
+          "grade_profile": [
+            "A*",
+            "A",
+            "A"
+          ]
+        }
+      ]
+    },
+    "conditional_manual_review": [
+      {
+        "condition_id": "oxford_borderline_or_international_requires_careful_review",
+        "band_ids": [
+          "ambitious"
+        ]
+      },
+      {
+        "condition_id": "oxford_international_pool_review",
+        "match": {
+          "all_group_ids": [
+            "international_fee"
+          ]
+        }
+      }
+    ],
+    "do_not_infer": [
+      "Do not treat ApplySmart thresholds as Oxford cut-offs.",
+      "Do not use SJT for pre-interview ranking.",
+      "Do not guarantee interview from contextual status or committee review.",
+      "Do not implement Oxford A101 in this A100 config.",
+      "Do not fabricate school-context data."
+    ]
+  },
+  "score_model": {
+    "type": "component_sum",
+    "basis": "ApplySmart Oxford A100 modelled 50/50 UCAT plus GCSE shortlisting guidance. Oxford's exact internal GCSE contextualisation algorithm is unpublished.",
+    "scale": {
+      "min": 0,
+      "max": 100
+    },
+    "presentation": {
+      "hide_selection_score_details": false,
+      "selection_summary": "Oxford does not publish a single UCAT cut-off because shortlisting combines UCAT performance with contextualised GCSE achievement. ApplySmart therefore provides modelled guidance based on published methodology and historical cohort data.",
+      "band_headlines": {
+        "interview_likely": "Interview Very Likely",
+        "realistic": "Strong or Competitive",
+        "ambitious": "Borderline",
+        "high_risk": "High Risk"
+      },
+      "band_explanations": {
+        "interview_likely": "Interview Prediction: Interview Very Likely. This is ApplySmart modelled guidance from Oxford's published methodology and historical data, not an official Oxford cut-off or guarantee.",
+        "realistic": "Interview Prediction: Strong or Competitive. Oxford combines UCAT with contextualised GCSE performance, so this profile remains credible in modelled guidance, but no single score guarantees shortlisting.",
+        "ambitious": "Interview Prediction: Borderline. Oxford's process includes review around the automatic shortlisting boundary, so this should be treated as uncertain rather than a guaranteed interview route.",
+        "high_risk": "Interview Prediction: High Risk. Based on ApplySmart's modelled composite, this profile sits below the historically competitive range for Oxford A100."
+      },
+      "evidence_used": [
+        "Official admissions policy",
+        "Official shortlisting methodology",
+        "Official historical UCAT distribution",
+        "Official historical GCSE distribution",
+        "ApplySmart modelled calibration"
+      ]
+    },
+    "components": [
+      {
+        "component_id": "oxford_composite",
+        "type": "gcse_ucat_weighted_composite",
+        "max": 100,
+        "rounding_places": 2,
+        "evidence_classification": "applysmart_modelled_from_official_methodology",
+        "ucat": {
+          "input_max": 2700,
+          "output_max": 50,
+          "source": "official_2025_ucat_scale"
+        },
+        "gcse": {
+          "output_max": 50,
+          "top_grade_minimum": "8",
+          "count_reference": 10,
+          "count_weight_percent": 50,
+          "proportion_weight_percent": 50,
+          "exclude_exam_years": [
+            2020,
+            2021
+          ],
+          "missing_school_context_penalty_points": 5,
+          "provenance": "ApplySmart proxy: Oxford uses number and mean proportion of A*/9/8 and contextual school performance but does not publish the exact algorithm."
+        },
+        "contextual_adjustment": {
+          "national_attainment_8_baseline": 48,
+          "points_per_attainment8_point_below_baseline": 0.5,
+          "max_adjustment_points": 5,
+          "provenance": "ApplySmart modelled proxy; not official Oxford algorithm."
+        },
+        "gcse_exception_policy": {
+          "minimum_gcse_count_for_systematic_gcse_use": 5,
+          "covid_exam_years": [
+            2020,
+            2021
+          ],
+          "confidence": "medium",
+          "source": "official_2025_shortlisting_exception_logic"
+        }
+      }
+    ],
+    "guidance_policy": {
+      "labels": [
+        "applysmart_modelled_thresholds_not_official_oxford_cutoffs",
+        "no_offer_prediction",
+        "sjt_not_used_pre_interview",
+        "school_context_proxy_lowers_confidence_when_missing"
+      ]
+    }
+  },
+  "guidance_pools": [
+    {
+      "pool_id": "oxford_home_modelled_composite",
+      "priority": 10,
+      "applicant_match": {
+        "all_group_ids": [
+          "home_fee"
+        ],
+        "excluded_group_ids": [
+          "international_fee"
+        ]
+      },
+      "metric": "selection_score",
+      "comparison_guidance": {
+        "comparison_type": "historical_range",
+        "label": "ApplySmart modelled guidance",
+        "caveat": "Home-pool thresholds are ApplySmart modelled guidance calibrated against official 2025 shortlisting statistics.",
+        "evidence_confidence": "medium"
+      },
+      "band_rules": [
+        {
+          "operator": "greater_than_or_equal",
+          "value": 84,
+          "band": "interview_likely"
+        },
+        {
+          "operator": "between_inclusive",
+          "min": 78,
+          "max": 83.99,
+          "band": "realistic"
+        },
+        {
+          "operator": "between_inclusive",
+          "min": 72,
+          "max": 77.99,
+          "band": "realistic"
+        },
+        {
+          "operator": "between_inclusive",
+          "min": 66,
+          "max": 71.99,
+          "band": "ambitious"
+        },
+        {
+          "operator": "less_than",
+          "value": 66,
+          "band": "high_risk"
+        }
+      ]
+    },
+    {
+      "pool_id": "oxford_international_modelled_composite",
+      "priority": 20,
+      "applicant_match": {
+        "all_group_ids": [
+          "international_fee"
+        ]
+      },
+      "metric": "selection_score",
+      "comparison_guidance": {
+        "comparison_type": "historical_range",
+        "label": "ApplySmart modelled guidance",
+        "caveat": "International-pool thresholds are stricter ApplySmart modelled guidance because Oxford reported a capped international competition and a higher shortlisted mean UCAT.",
+        "evidence_confidence": "medium"
+      },
+      "band_rules": [
+        {
+          "operator": "greater_than_or_equal",
+          "value": 90,
+          "band": "interview_likely"
+        },
+        {
+          "operator": "between_inclusive",
+          "min": 84,
+          "max": 89.99,
+          "band": "realistic"
+        },
+        {
+          "operator": "between_inclusive",
+          "min": 78,
+          "max": 83.99,
+          "band": "realistic"
+        },
+        {
+          "operator": "between_inclusive",
+          "min": 72,
+          "max": 77.99,
+          "band": "ambitious"
+        },
+        {
+          "operator": "less_than",
+          "value": 72,
+          "band": "high_risk"
+        }
+      ]
+    }
+  ]
+}

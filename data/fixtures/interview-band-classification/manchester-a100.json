@@ -1,0 +1,665 @@
+{
+  "schema_version": "1.0.0",
+  "fixture_id": "manchester_a100_result_card_consumer_regression",
+  "course_profile_id": "manchester-a100",
+  "base_applicant": {
+    "profile_id": "manchester_a100_standard_fixture",
+    "applicant_identity": {
+      "applicant_type": "standard_school_leaver",
+      "fee_status": "Home",
+      "domicile": "England",
+      "contextual": false,
+      "widening_participation": false,
+      "contextual_flags": {
+        "care_experienced": false,
+        "free_school_meals": false,
+        "first_generation_higher_education": false
+      },
+      "graduate": false,
+      "resit": {
+        "has_resits": false
+      }
+    },
+    "course_target": {
+      "discipline": "medicine",
+      "ucas_code": "A100",
+      "course_route": "standard",
+      "entry_route": "standard_entry"
+    },
+    "gcse_profile": {
+      "subjects": {
+        "english_language": "6",
+        "mathematics": "6",
+        "biology": "7",
+        "chemistry": "7",
+        "history": "7",
+        "geography": "7",
+        "computer_science": "7",
+        "french": "7",
+        "religious_studies": "7"
+      },
+      "total_gcse_count": 9,
+      "top_8_gcse_grades": [
+        "7",
+        "7",
+        "7",
+        "7",
+        "7",
+        "7",
+        "7",
+        "6"
+      ]
+    },
+    "a_level_profile": {
+      "subjects": [
+        {
+          "subject_id": "chemistry",
+          "predicted_grade": "A",
+          "practical_endorsement": "pass"
+        },
+        {
+          "subject_id": "biology",
+          "predicted_grade": "A",
+          "practical_endorsement": "pass"
+        },
+        {
+          "subject_id": "history",
+          "predicted_grade": "A"
+        }
+      ]
+    },
+    "admissions_tests": {
+      "ucat": {
+        "total_score": 2100,
+        "score_scale": 2700,
+        "sjt_band": 2,
+        "test_year": 2026
+      }
+    },
+    "contextual_evidence": {
+      "manchester_access_programme": {
+        "completed": false,
+        "verified": false
+      }
+    },
+    "graduate_profile": {
+      "is_graduate": false,
+      "degree_classification": null,
+      "degree_subject": null
+    }
+  },
+  "scenarios": [
+    {
+      "scenario_id": "eligible_home_standard",
+      "overrides": {},
+      "expected": {
+        "eligibility_status": "eligible",
+        "guidance_pool_id": "a106_home_standard_school_leaver",
+        "interview_band": "interview_likely",
+        "ranking_value": 2100
+      }
+    },
+    {
+      "scenario_id": "eligible_home_contextual_wp",
+      "overrides": {
+        "applicant_identity": {
+          "contextual": true,
+          "widening_participation": true,
+          "contextual_flags": {
+            "free_school_meals": true
+          }
+        },
+        "gcse_profile": {
+          "subjects": {
+            "religious_studies": "6"
+          }
+        },
+        "a_level_profile": {
+          "subjects": [
+            {
+              "subject_id": "chemistry",
+              "predicted_grade": "A",
+              "practical_endorsement": "pass"
+            },
+            {
+              "subject_id": "biology",
+              "predicted_grade": "A",
+              "practical_endorsement": "pass"
+            },
+            {
+              "subject_id": "history",
+              "predicted_grade": "B"
+            }
+          ]
+        },
+        "admissions_tests": {
+          "ucat": {
+            "total_score": 1900
+          }
+        }
+      },
+      "expected": {
+        "eligibility_status": "eligible",
+        "guidance_pool_id": "a106_home_contextual_wp_school_leaver",
+        "interview_band": "realistic",
+        "ranking_value": 1900
+      }
+    },
+    {
+      "scenario_id": "map_guaranteed_interview_override",
+      "overrides": {
+        "applicant_identity": {
+          "contextual": true,
+          "widening_participation": true,
+          "contextual_flags": {
+            "free_school_meals": true
+          }
+        },
+        "gcse_profile": {
+          "subjects": {
+            "religious_studies": "6"
+          }
+        },
+        "a_level_profile": {
+          "subjects": [
+            {
+              "subject_id": "chemistry",
+              "predicted_grade": "A",
+              "practical_endorsement": "pass"
+            },
+            {
+              "subject_id": "biology",
+              "predicted_grade": "A",
+              "practical_endorsement": "pass"
+            },
+            {
+              "subject_id": "history",
+              "predicted_grade": "B"
+            }
+          ]
+        },
+        "admissions_tests": {
+          "ucat": {
+            "total_score": 1700
+          }
+        },
+        "contextual_evidence": {
+          "manchester_access_programme": {
+            "completed": true,
+            "verified": true
+          }
+        }
+      },
+      "expected": {
+        "eligibility_status": "eligible",
+        "guidance_pool_id": null,
+        "interview_band": null,
+        "interview_outcome": "guaranteed_interview",
+        "ranking_value": null
+      }
+    },
+    {
+      "scenario_id": "sjt_band_3_rejected_before_banding",
+      "overrides": {
+        "admissions_tests": {
+          "ucat": {
+            "sjt_band": 3
+          }
+        }
+      },
+      "expected": {
+        "eligibility_status": "not_eligible",
+        "interview_band": "not_eligible",
+        "failure": "disqualifying_sjt_rule",
+        "ranking_value": null
+      }
+    },
+    {
+      "scenario_id": "sjt_band_4_rejected_before_banding",
+      "overrides": {
+        "admissions_tests": {
+          "ucat": {
+            "sjt_band": 4
+          }
+        }
+      },
+      "expected": {
+        "eligibility_status": "not_eligible",
+        "interview_band": "not_eligible",
+        "failure": "disqualifying_sjt_rule",
+        "ranking_value": null
+      }
+    },
+    {
+      "scenario_id": "eligible_international_guidance",
+      "overrides": {
+        "applicant_identity": {
+          "fee_status": "International"
+        },
+        "admissions_tests": {
+          "ucat": {
+            "total_score": 2200
+          }
+        }
+      },
+      "expected": {
+        "eligibility_status": "eligible",
+        "guidance_pool_id": "a106_international",
+        "interview_band": "interview_likely",
+        "ranking_value": 2200
+      }
+    },
+    {
+      "scenario_id": "unsupported_a106_prior_degree_applicant_guidance",
+      "overrides": {
+        "applicant_identity": {
+          "graduate": true
+        },
+        "graduate_profile": {
+          "is_graduate": true,
+          "degree_classification": "2:1",
+          "degree_subject": "confirmed_relevant_life_science"
+        },
+        "admissions_tests": {
+          "ucat": {
+            "total_score": 2200
+          }
+        }
+      },
+      "expected": {
+        "eligibility_status": "eligible",
+        "guidance_pool_id": null,
+        "interview_band": "insufficient_evidence",
+        "ranking_value": 2200
+      }
+    },
+    {
+      "scenario_id": "a101_target_isolated_from_a106",
+      "overrides": {
+        "course_target": {
+          "ucas_code": "A101",
+          "course_route": "graduate_entry",
+          "entry_route": "graduate_entry"
+        },
+        "admissions_tests": {
+          "ucat": {
+            "total_score": 2080
+          }
+        }
+      },
+      "expected": {
+        "eligibility_status": "not_eligible",
+        "interview_band": "not_eligible",
+        "failure": "course_target_mismatch:A101:A100",
+        "ranking_value": null
+      }
+    },
+    {
+      "scenario_id": "standard_requires_seven_gcse_grades_at_7",
+      "overrides": {
+        "gcse_profile": {
+          "subjects": {
+            "religious_studies": "6"
+          }
+        }
+      },
+      "expected": {
+        "eligibility_status": "not_eligible",
+        "interview_band": "not_eligible",
+        "failure": "minimum_gcse_count_at_grade_not_met:gcse_standard_seven_at_7_or_a",
+        "ranking_value": null
+      }
+    },
+    {
+      "scenario_id": "two_science_gcse_gate",
+      "overrides": {
+        "gcse_profile": {
+          "subjects": {
+            "chemistry": null
+          }
+        }
+      },
+      "expected": {
+        "eligibility_status": "not_eligible",
+        "interview_band": "not_eligible",
+        "failure": "gcse_science_alternative_not_met",
+        "ranking_value": null
+      }
+    },
+    {
+      "scenario_id": "a_level_overlap_does_not_satisfy_two_subject_rule",
+      "overrides": {
+        "a_level_profile": {
+          "subjects": [
+            {
+              "subject_id": "biology",
+              "predicted_grade": "A",
+              "practical_endorsement": "pass"
+            },
+            {
+              "subject_id": "human_biology",
+              "predicted_grade": "A",
+              "practical_endorsement": "pass"
+            },
+            {
+              "subject_id": "history",
+              "predicted_grade": "A"
+            }
+          ]
+        }
+      },
+      "expected": {
+        "eligibility_status": "not_eligible",
+        "interview_band": "not_eligible",
+        "failure": "a_level_subject_combination_not_met",
+        "ranking_value": null
+      }
+    },
+    {
+      "scenario_id": "a_level_first_required_science_condition_missing",
+      "overrides": {
+        "a_level_profile": {
+          "subjects": [
+            {
+              "subject_id": "physics",
+              "predicted_grade": "A",
+              "practical_endorsement": "pass"
+            },
+            {
+              "subject_id": "psychology",
+              "predicted_grade": "A"
+            },
+            {
+              "subject_id": "mathematics",
+              "predicted_grade": "A"
+            }
+          ]
+        }
+      },
+      "expected": {
+        "eligibility_status": "not_eligible",
+        "interview_band": "not_eligible",
+        "failure": "a_level_subject_combination_not_met",
+        "ranking_value": null
+      }
+    },
+    {
+      "scenario_id": "human_biology_is_valid_approved_second_subject",
+      "overrides": {
+        "a_level_profile": {
+          "subjects": [
+            {
+              "subject_id": "chemistry",
+              "predicted_grade": "A",
+              "practical_endorsement": "pass"
+            },
+            {
+              "subject_id": "human_biology",
+              "predicted_grade": "A",
+              "practical_endorsement": "pass"
+            },
+            {
+              "subject_id": "history",
+              "predicted_grade": "A"
+            }
+          ]
+        }
+      },
+      "expected": {
+        "eligibility_status": "eligible",
+        "interview_band": "interview_likely",
+        "guidance_pool_id": "a106_home_standard_school_leaver",
+        "ranking_value": 2100
+      }
+    },
+    {
+      "scenario_id": "mathematics_and_further_mathematics_combination_blocked",
+      "overrides": {
+        "a_level_profile": {
+          "subjects": [
+            {
+              "subject_id": "chemistry",
+              "predicted_grade": "A",
+              "practical_endorsement": "pass"
+            },
+            {
+              "subject_id": "mathematics",
+              "predicted_grade": "A"
+            },
+            {
+              "subject_id": "further_mathematics",
+              "predicted_grade": "A"
+            }
+          ]
+        }
+      },
+      "expected": {
+        "eligibility_status": "not_eligible",
+        "interview_band": "not_eligible",
+        "failure": "a_level_subject_combination_not_met",
+        "ranking_value": null
+      }
+    },
+    {
+      "scenario_id": "three_sciences_are_acceptable",
+      "overrides": {
+        "a_level_profile": {
+          "subjects": [
+            {
+              "subject_id": "chemistry",
+              "predicted_grade": "A",
+              "practical_endorsement": "pass"
+            },
+            {
+              "subject_id": "biology",
+              "predicted_grade": "A",
+              "practical_endorsement": "pass"
+            },
+            {
+              "subject_id": "physics",
+              "predicted_grade": "A",
+              "practical_endorsement": "pass"
+            }
+          ]
+        }
+      },
+      "expected": {
+        "eligibility_status": "eligible",
+        "interview_band": "interview_likely",
+        "guidance_pool_id": "a106_home_standard_school_leaver",
+        "ranking_value": 2100
+      }
+    },
+    {
+      "scenario_id": "extra_a_level_cannot_supply_offer_subject_below_aaa",
+      "overrides": {
+        "a_level_profile": {
+          "subjects": [
+            {
+              "subject_id": "chemistry",
+              "predicted_grade": "B",
+              "practical_endorsement": "pass"
+            },
+            {
+              "subject_id": "biology",
+              "predicted_grade": "A",
+              "practical_endorsement": "pass"
+            },
+            {
+              "subject_id": "history",
+              "predicted_grade": "A"
+            },
+            {
+              "subject_id": "geography",
+              "predicted_grade": "A"
+            }
+          ]
+        }
+      },
+      "expected": {
+        "eligibility_status": "not_eligible",
+        "interview_band": "not_eligible",
+        "failure": "a_level_subject_combination_not_met",
+        "ranking_value": null
+      }
+    },
+    {
+      "scenario_id": "science_practical_required_even_for_extra_a_level",
+      "overrides": {
+        "a_level_profile": {
+          "subjects": [
+            {
+              "subject_id": "chemistry",
+              "predicted_grade": "A",
+              "practical_endorsement": "pass"
+            },
+            {
+              "subject_id": "biology",
+              "predicted_grade": "A",
+              "practical_endorsement": "pass"
+            },
+            {
+              "subject_id": "history",
+              "predicted_grade": "A"
+            },
+            {
+              "subject_id": "physics",
+              "predicted_grade": "B",
+              "practical_endorsement": null
+            }
+          ]
+        }
+      },
+      "expected": {
+        "eligibility_status": "manual_review",
+        "interview_band": "insufficient_evidence",
+        "failure": "science_practical_endorsement_evidence_missing:physics",
+        "ranking_value": null
+      }
+    },
+    {
+      "scenario_id": "science_practical_endorsement_required",
+      "overrides": {
+        "a_level_profile": {
+          "subjects": [
+            {
+              "subject_id": "chemistry",
+              "predicted_grade": "A",
+              "practical_endorsement": null
+            },
+            {
+              "subject_id": "biology",
+              "predicted_grade": "A",
+              "practical_endorsement": "pass"
+            },
+            {
+              "subject_id": "history",
+              "predicted_grade": "A"
+            }
+          ]
+        }
+      },
+      "expected": {
+        "eligibility_status": "manual_review",
+        "interview_band": "insufficient_evidence",
+        "failure": "science_practical_endorsement_evidence_missing:chemistry",
+        "ranking_value": null
+      }
+    },
+    {
+      "scenario_id": "science_practical_endorsement_failed",
+      "overrides": {
+        "a_level_profile": {
+          "subjects": [
+            {
+              "subject_id": "chemistry",
+              "predicted_grade": "A",
+              "practical_endorsement": "fail"
+            },
+            {
+              "subject_id": "biology",
+              "predicted_grade": "A",
+              "practical_endorsement": "pass"
+            },
+            {
+              "subject_id": "history",
+              "predicted_grade": "A"
+            }
+          ]
+        }
+      },
+      "expected": {
+        "eligibility_status": "not_eligible",
+        "interview_band": "not_eligible",
+        "failure": "science_practical_endorsement_not_confirmed:chemistry",
+        "ranking_value": null
+      }
+    },
+    {
+      "scenario_id": "ucat_must_be_from_application_cycle",
+      "overrides": {
+        "admissions_tests": {
+          "ucat": {
+            "test_year": 2025
+          }
+        }
+      },
+      "expected": {
+        "eligibility_status": "not_eligible",
+        "interview_band": "not_eligible",
+        "failure": "ucat_test_year_not_valid:2025:2026",
+        "ranking_value": null
+      }
+    }
+  ],
+  "historical_guidance_boundaries": [
+    {
+      "scenario_id": "home_standard_above_observed_range",
+      "pool": "standard",
+      "ucat": 2061,
+      "expected_band": "interview_likely"
+    },
+    {
+      "scenario_id": "home_standard_top_boundary",
+      "pool": "standard",
+      "ucat": 2060,
+      "expected_band": "realistic"
+    },
+    {
+      "scenario_id": "home_standard_bottom_boundary",
+      "pool": "standard",
+      "ucat": 2015,
+      "expected_band": "realistic"
+    },
+    {
+      "scenario_id": "home_standard_below_observed_range",
+      "pool": "standard",
+      "ucat": 2014,
+      "expected_band": "high_risk"
+    },
+    {
+      "scenario_id": "home_contextual_above_observed_range",
+      "pool": "contextual_wp",
+      "ucat": 1966,
+      "expected_band": "interview_likely"
+    },
+    {
+      "scenario_id": "home_contextual_top_boundary",
+      "pool": "contextual_wp",
+      "ucat": 1965,
+      "expected_band": "realistic"
+    },
+    {
+      "scenario_id": "home_contextual_bottom_boundary",
+      "pool": "contextual_wp",
+      "ucat": 1860,
+      "expected_band": "realistic"
+    },
+    {
+      "scenario_id": "home_contextual_below_observed_range",
+      "pool": "contextual_wp",
+      "ucat": 1859,
+      "expected_band": "high_risk"
+    }
+  ]
+}

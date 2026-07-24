@@ -1,0 +1,59 @@
+{
+  "schema_version": "1.0.0",
+  "course_profile_id": "st-andrews-a100",
+  "base_applicant_file": "data/fixtures/interview-band-classification/shared-standard-school-leaver.json",
+  "base_applicant_property": "applicant",
+  "international_guidance_cases": [
+    {
+      "ucat_total": 1909,
+      "expected_band": "high_risk",
+      "expected_recommendation": "Consider stronger alternatives"
+    },
+    {
+      "ucat_total": 1910,
+      "expected_band": "ambitious",
+      "expected_recommendation": "Possible but ambitious"
+    },
+    {
+      "ucat_total": 1949,
+      "expected_band": "ambitious",
+      "expected_recommendation": "Possible but ambitious"
+    },
+    {
+      "ucat_total": 1950,
+      "expected_band": "realistic",
+      "expected_recommendation": "Good chance – recommend applying"
+    },
+    {
+      "ucat_total": 1994,
+      "expected_band": "realistic",
+      "expected_recommendation": "Good chance – recommend applying"
+    },
+    {
+      "ucat_total": 1995,
+      "expected_band": "interview_likely",
+      "expected_recommendation": "Strong choice"
+    }
+  ],
+  "post_interview_tie_break_case": {
+    "mmi_score": 30,
+    "candidates": [
+      {
+        "candidate_id": "lower_ucat",
+        "ucat_total": 2050
+      },
+      {
+        "candidate_id": "higher_ucat",
+        "ucat_total": 2120
+      }
+    ],
+    "expected_first": "higher_ucat"
+  },
+  "contextual_ranking_case": {
+    "raw_ucat_total": 1900,
+    "expected_adjusted_ranking_score": 2090,
+    "expected_multiplier": 1.1,
+    "expected_guidance_pool_id": null,
+    "expected_band": "insufficient_evidence"
+  }
+}

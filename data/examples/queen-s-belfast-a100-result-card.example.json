@@ -1,0 +1,453 @@
+{
+  "schema_version": "1.0.0",
+  "template_version": "1.0.0",
+  "result_id": "queen-s-belfast-a100-home-standard-strong-example",
+  "generated_at": "2026-07-22",
+  "result_mode": "example_eligibility_with_applysmart_derived_interview_prediction",
+  "production_state": {
+    "profile_active": true,
+    "metadata_activation_enabled": true,
+    "result_card_output_enabled": true,
+    "note": "This example reflects the activated QUB A100 supported scope. The 45-point score is official; the prediction band label is ApplySmart-derived."
+  },
+  "course_identity": {
+    "profile_id": "queen-s-belfast-a100",
+    "university_name": "Queen's University Belfast",
+    "course_name": "Medicine MB BCh BAO",
+    "ucas_code": "A100",
+    "entry_route": "standard_entry",
+    "qualification_awarded": "MB BCh BAO",
+    "duration_years": 5,
+    "location": "Belfast, Northern Ireland",
+    "source_ids": [
+      "qub_policy_2026",
+      "qub_course_page_2026"
+    ]
+  },
+  "applicant_context": {
+    "applies_to_group_ids": [
+      "northern_ireland_domiciled",
+      "rest_of_uk",
+      "home_fee",
+      "school_leaver"
+    ],
+    "applicant_summary": "Home standard A-level school-leaver with 32/36 GCSE points, UCAT in the >80th to <=90th centile group for 8/9 UCAT points, and SJT Band 2.",
+    "fee_cohort": "home",
+    "entry_route": "standard_entry",
+    "qualification_route": "a_level",
+    "contextual": false,
+    "graduate": false,
+    "source_ids": []
+  },
+  "readiness": {
+    "eligibility": true,
+    "interview_prediction": true,
+    "historical_guidance": true,
+    "international_prediction": false,
+    "contextual_logic": true,
+    "result_card": true,
+    "regression": true,
+    "research_completeness": "complete_for_supported_scope_with_documented_gaps",
+    "manual_review_required": true,
+    "eligibility_ready": true,
+    "interview_prediction_ready": true,
+    "prediction_confidence": "medium",
+    "result_card_ready": true,
+    "offer_prediction_scope": "out_of_scope",
+    "interview_band_config_ready": true,
+    "metadata_activation_ready": true,
+    "activation_ready": true,
+    "production_ready": true
+  },
+  "eligibility": {
+    "status": "eligible",
+    "summary": "The represented Home standard school-leaver meets the QUB academic and UCAT requirements covered by ApplySmart.",
+    "stage_1_checks": [
+      {
+        "check_id": "gcse_minimum_subjects",
+        "label": "GCSE minimum subjects",
+        "status": "pass",
+        "requirement": "English Language, Mathematics and Physics or Double Award Science at grade C/4 where required.",
+        "applicant_value": "English Language, Mathematics and Physics are represented above grade C/4.",
+        "decision_outcome": "eligible",
+        "source_ids": [
+          "qub_policy_2026",
+          "msc_qub_a100_2027"
+        ]
+      },
+      {
+        "check_id": "a_level_route",
+        "label": "A-level route",
+        "status": "pass",
+        "requirement": "A*AA including Chemistry and Biology/Human Biology for this executable route.",
+        "applicant_value": "A*AA with Chemistry and Biology.",
+        "decision_outcome": "eligible",
+        "source_ids": [
+          "qub_policy_2026"
+        ]
+      },
+      {
+        "check_id": "ucat_required",
+        "label": "UCAT",
+        "status": "pass",
+        "requirement": "UCAT is required and contributes official decile points.",
+        "applicant_value": "UCAT centile group maps to 8 / 9 points.",
+        "decision_outcome": "eligible",
+        "source_ids": [
+          "qub_policy_2026"
+        ]
+      },
+      {
+        "check_id": "sjt_tie_break",
+        "label": "SJT",
+        "status": "pass",
+        "requirement": "SJT is tie-break only and is not scored into the main total.",
+        "applicant_value": "SJT Band 2; no points added or subtracted.",
+        "decision_outcome": "eligible",
+        "source_ids": [
+          "qub_policy_2026"
+        ]
+      }
+    ],
+    "blocking_reasons": [],
+    "warnings": [
+      "Eligibility does not imply an interview.",
+      "The QUB 2026 interview threshold is not yet published, so the prediction band is ApplySmart-derived."
+    ],
+    "source_ids": [
+      "qub_policy_2026",
+      "msc_qub_a100_2027"
+    ]
+  },
+  "stage_2_selection": {
+    "verification_status": "official_pre_interview_formula_verified",
+    "primary_model": "points_system",
+    "summary": "QUB ranks standard Home applicants for interview using GCSE points plus UCAT decile points. This is an interview-invitation prediction only.",
+    "represented_ranking_input": {
+      "gcse_points": 32,
+      "gcse_points_max": 36,
+      "ucat_decile_points": 8,
+      "ucat_decile_points_max": 9,
+      "pre_interview_score": 40,
+      "pre_interview_score_max": 45,
+      "official_scale": true
+    },
+    "ranking_factors": [
+      {
+        "factor_id": "gcse_points",
+        "label": "GCSE component",
+        "points": 32,
+        "points_available": 36,
+        "calculation_status": "official",
+        "source_ids": [
+          "qub_policy_2026"
+        ]
+      },
+      {
+        "factor_id": "ucat_decile_points",
+        "label": "UCAT decile-points component",
+        "points": 8,
+        "points_available": 9,
+        "calculation_status": "official",
+        "source_ids": [
+          "qub_policy_2026"
+        ]
+      },
+      {
+        "factor_id": "sjt",
+        "label": "SJT",
+        "points": 0,
+        "calculation_status": "tie_break_only",
+        "source_ids": [
+          "qub_policy_2026"
+        ]
+      }
+    ],
+    "selection_adjustments": [],
+    "source_ids": [
+      "qub_policy_2026"
+    ]
+  },
+  "historical_context": {
+    "use": "applysmart_derived_prediction_band",
+    "fixed_current_cutoff": false,
+    "not_deterministic": true,
+    "warning": "QUB has not published an official 2026 interview threshold. Historical point thresholds are context only, not official current cut-offs; ApplySmart derives band labels and labels them as derived.",
+    "official_45_point_scale": true,
+    "derived_prediction_bands": true,
+    "source_ids": [
+      "qub_policy_2026"
+    ]
+  },
+  "prediction": {
+    "available": true,
+    "capability": "interview_guidance",
+    "prediction_type": "official_formula_applysmart_derived_band",
+    "prediction_status": "applysmart_derived_prediction_available",
+    "result_band": "realistic",
+    "qub_public_band": "Strong",
+    "guidance_pool_id": "qub_home_standard_gcse_ucat_45_scale",
+    "score": 40,
+    "score_scale": {
+      "min": 0,
+      "max": 45
+    },
+    "component_breakdown": {
+      "gcse_points": {
+        "value": 32,
+        "max": 36,
+        "official": true
+      },
+      "ucat_decile_points": {
+        "value": 8,
+        "max": 9,
+        "official": true
+      },
+      "pre_interview_score": {
+        "value": 40,
+        "max": 45,
+        "official": true
+      }
+    },
+    "band_basis": "Interview Prediction Band (ApplySmart derived): Strong. The score scale and formula are official QUB methodology; the band label is not an official QUB cut-off.",
+    "missing_data_reasons": [],
+    "cannot_predict_explanation": null,
+    "official_vs_applysmart_modelling": {
+      "official_university_evidence": [
+        "GCSE scoring",
+        "UCAT decile-points scoring",
+        "Combined GCSE + UCAT formula",
+        "45-point pre-interview maximum"
+      ],
+      "applysmart_predictive_modelling": [
+        "Prediction band labels only",
+        "Historical guidance calibration is context only and not an official 2026 threshold"
+      ]
+    },
+    "source_ids": [
+      "qub_policy_2026",
+      "qub_foi_21_282",
+      "qub_foi_23_302"
+    ]
+  },
+  "missing_data": {
+    "official_2026_interview_threshold": "not_published",
+    "standard_international_scoring_formula": "not_published",
+    "raw_ucat_cutoff": "not_published",
+    "contextual_numeric_score": "not_published_for_ni_bt_postcode_route"
+  },
+  "confidence": {
+    "level": "medium",
+    "summary": "Methodology confidence is High because QUB publishes the GCSE scoring, UCAT scoring, combined formula and 45-point maximum. Prediction calibration confidence is Medium because the 2026 interview threshold is unpublished and the band label is derived.",
+    "stage_confidence": {
+      "methodology": "high",
+      "prediction_calibration": "medium",
+      "historical_guidance": "medium"
+    },
+    "source_ids": [
+      "qub_policy_2026",
+      "qub_foi_21_282",
+      "qub_foi_23_302"
+    ]
+  },
+  "evidence_confidence": {
+    "level": "Medium",
+    "summary": "The recommendation is supported by core admissions evidence, with some historical or route-specific limits.",
+    "reasons": [
+      "Official eligibility rules are available.",
+      "The university selection approach is implemented.",
+      "Historical interview guidance is available, but some evidence is historical, FOI-derived or has documented gaps."
+    ]
+  },
+  "evidence": {
+    "source_ids": [
+      "qub_policy_2026",
+      "qub_course_page_2026",
+      "msc_qub_a100_2027",
+      "qub_foi_21_282",
+      "qub_foi_23_302",
+      "ucat_consortium_2025"
+    ],
+    "sources": [
+      {
+        "source_id": "qub_policy_2026",
+        "title": "QUB Admission Policy Statement for Medicine, 2026 Entry",
+        "url": "https://www.qub.ac.uk/directorates/MRCI/admissions/FileStore/QUB-Admissions-Policy-Statement-for-Medicine-2026.pdf",
+        "source_type": "official",
+        "confidence": "high",
+        "accessed_date": "2026-07-22"
+      },
+      {
+        "source_id": "qub_course_page_2026",
+        "title": "Queen's University Belfast Medicine MB A100 course page",
+        "url": "https://www.qub.ac.uk/courses/undergraduate/medicine-mb-a100/",
+        "source_type": "official",
+        "confidence": "high",
+        "accessed_date": "2026-07-22"
+      },
+      {
+        "source_id": "qub_foi_21_282",
+        "title": "FOI-21-282 Medicine admissions information",
+        "url": "https://www.whatdotheyknow.com/request/medicine_admissions_information_38",
+        "source_type": "official_foi",
+        "confidence": "high",
+        "accessed_date": "2026-07-22"
+      }
+    ]
+  },
+  "display": {
+    "headline": "Strong interview-invitation profile",
+    "subheadline": "Official QUB score 40 / 45; ApplySmart-derived prediction band",
+    "primary_user_facing_recommendation": "Strong",
+    "recommendation_display_state": "standard",
+    "primary_explanation": "GCSE score: 32 / 36. UCAT decile points: 8 / 9. Pre-interview score: 40 / 45. Interview Prediction Band (ApplySmart derived): Strong. This is an interview-invitation prediction, not an offer prediction.",
+    "historical_guidance_caveat": "The 45-point scoring system is official, but the prediction band is derived from historical thresholds. QUB has not published an official 2026 interview threshold, so the band is a derived estimate, not an official cut-off."
+  },
+  "decision_timeline": [
+    {
+      "step": 1,
+      "title": "Applicant details checked",
+      "status": "Complete",
+      "summary": "Your applicant type, qualifications and UCAT details were checked."
+    },
+    {
+      "step": 2,
+      "title": "Eligibility assessed",
+      "status": "Eligible",
+      "summary": "You meet the published entry requirements covered by ApplySmart."
+    },
+    {
+      "step": 3,
+      "title": "Selection model applied",
+      "status": "Complete",
+      "summary": "QUB ranks standard Home applicants for interview using GCSE points plus UCAT decile points. This is an interview-invitation prediction only."
+    },
+    {
+      "step": 4,
+      "title": "Historical guidance compared",
+      "status": "Complete",
+      "summary": "Your result was compared with interview information from previous admissions cycles. Interview thresholds may change each admissions cycle depending on applicant competition and interview capacity. Historical figures are guidance only, not a current cut-off, and do not guarantee an interview."
+    },
+    {
+      "step": 5,
+      "title": "Interview recommendation produced",
+      "status": "Good chance",
+      "summary": "Strong. Treat this as guidance for university choice, not a promised interview."
+    }
+  ],
+  "decision_transparency": {
+    "decision_path": [
+      {
+        "stage": "Eligibility",
+        "status": "Met",
+        "summary": "The represented Home standard school-leaver meets the QUB academic and UCAT requirements covered by ApplySmart.",
+        "checks": [
+          {
+            "label": "GCSE minimum subjects",
+            "status": "Met",
+            "summary": "English Language, Mathematics and Physics or Double Award Science at grade C/4 where required."
+          },
+          {
+            "label": "A-level route",
+            "status": "Met",
+            "summary": "A*AA including Chemistry and Biology/Human Biology for this executable route."
+          },
+          {
+            "label": "UCAT",
+            "status": "Met",
+            "summary": "UCAT is present and mapped to official QUB decile points."
+          }
+        ]
+      },
+      {
+        "stage": "Selection model",
+        "status": "Calculated",
+        "summary": "GCSE score: 32 / 36; UCAT decile points: 8 / 9; pre-interview score: 40 / 45.",
+        "checks": [
+          {
+            "label": "Applicant pool",
+            "status": "Used",
+            "summary": "QUB Home standard school-leaver pool"
+          },
+          {
+            "label": "GCSE component",
+            "status": "Calculated",
+            "summary": "32 / 36"
+          },
+          {
+            "label": "UCAT component",
+            "status": "Calculated",
+            "summary": "8 / 9"
+          },
+          {
+            "label": "SJT",
+            "status": "Tie-break only",
+            "summary": "SJT does not add points, subtract points or automatically reject Band 4."
+          }
+        ]
+      },
+      {
+        "stage": "Historical guidance",
+        "status": "ApplySmart derived",
+        "summary": "Interview Prediction Band (ApplySmart derived): Strong. This is guidance only, not an official QUB cut-off or an interview guarantee.",
+        "checks": [
+          {
+            "label": "Official versus derived",
+            "status": "Separated",
+            "summary": "The 45-point score is official. The band label is ApplySmart-derived because QUB has not published a 2026 threshold."
+          }
+        ]
+      },
+      {
+        "stage": "Recommendation",
+        "status": "Out of scope",
+        "summary": "At QUB, final offers are determined by MMI performance. This result does not predict an offer.",
+        "checks": []
+      }
+    ],
+    "key_reasons": [
+      "The represented route is eligible under the implemented QUB A100 checks.",
+      "The official pre-interview score is 40 / 45.",
+      "The QUB public prediction label for 40 / 45 is Strong in ApplySmart's derived banding."
+    ],
+    "evidence_used": [
+      "Official admissions policy",
+      "University selection methodology",
+      "UCAT policy",
+      "Historical interview data"
+    ],
+    "evidence_confidence": {
+      "level": "Medium",
+      "summary": "The recommendation is supported by core admissions evidence, with some historical or route-specific limits.",
+      "reasons": [
+        "Official eligibility rules are available.",
+        "The university selection approach is implemented.",
+        "Historical interview guidance is available, but some evidence is historical, FOI-derived or has documented gaps."
+      ]
+    },
+    "manual_review_reason": null,
+    "insufficient_evidence_reason": null,
+    "warnings": []
+  },
+  "engine_notes": {
+    "generated_from_profile_id": "queen-s-belfast-a100",
+    "eligibility_ready": true,
+    "interview_prediction_ready": true,
+    "offer_prediction_scope": "out_of_scope",
+    "prediction_confidence": "medium",
+    "engine_version": "ApplySmart Engine v1.0",
+    "methodology_confidence": "high",
+    "prediction_calibration_confidence": "medium",
+    "active_band_source": "derived_prediction_bands_45_scale",
+    "assumptions": [
+      "The public QUB band label is preserved separately from ApplySmart's internal canonical recommendation ID.",
+      "The 2026 threshold is not published, so the band is derived and calibrated with Medium confidence."
+    ],
+    "do_not_display": [
+      "ApplySmart bands as official QUB cut-offs",
+      "Raw UCAT cut-offs",
+      "Offer likelihood",
+      "SJT as additive scoring"
+    ]
+  }
+}

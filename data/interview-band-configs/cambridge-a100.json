@@ -1,0 +1,471 @@
+{
+  "schema_version": "1.0.0",
+  "course_profile_id": "cambridge-a100",
+  "confidence": "medium",
+  "evidence": {
+    "classification": "modelled_holistic_guidance_with_official_eligibility_gate",
+    "summary": "Cambridge publishes official eligibility requirements and confirms holistic, non-formulaic shortlisting with no SJT use and no UCAT cut-off. ApplySmart uses hidden modelled Home and International UCAT bands, GCSE profile modifiers and contextual uplift for interview guidance only.",
+    "source_ids": [
+      "cambridge_a100_research_doc",
+      "cambridge_a100_engine_reference"
+    ]
+  },
+  "eligibility": {
+    "scope": "Automatic classifier supports A-level and IB school-leaver profiles with current-cycle UCAT, science-practical and English-language evidence. Scottish, graduate and non-standard overseas qualifications require manual review.",
+    "international_english_language_required": true,
+    "qualification_routes": {
+      "supported": [
+        "a_level",
+        "international_baccalaureate",
+        "international_qualification"
+      ],
+      "manual_review": [
+        "scottish",
+        "graduate"
+      ],
+      "explicitly_blocked": [
+        "btec",
+        "access_to_medicine",
+        "t_level",
+        "unknown"
+      ]
+    },
+    "allow_guidance_with_manual_review_reasons": [
+      "contextual_a_level_gate_exception_requires_manual_review"
+    ],
+    "manual_review_band_caps": [
+      {
+        "manual_review_reasons": [
+          "contextual_a_level_gate_exception_requires_manual_review"
+        ],
+        "cap_to_band": "ambitious",
+        "research_label": "Borderline"
+      }
+    ],
+    "conditional_manual_review": [
+      {
+        "condition_id": "cambridge_borderline_or_high_risk",
+        "band_ids": [
+          "ambitious",
+          "high_risk"
+        ]
+      },
+      {
+        "condition_id": "cambridge_international_realistic_or_above",
+        "match": {
+          "all_group_ids": [
+            "international_fee"
+          ]
+        },
+        "minimum_band": "realistic"
+      },
+      {
+        "condition_id": "cambridge_resit_review",
+        "match": {
+          "all_group_ids": [
+            "resit_applicant"
+          ]
+        }
+      }
+    ],
+    "gcse": {
+      "minimum_count": null,
+      "use_exact_subject_list": false
+    },
+    "a_level": {
+      "science_practical_endorsement": {
+        "required": true,
+        "subject_ids": [
+          "biology",
+          "chemistry",
+          "physics"
+        ]
+      },
+      "routes": [
+        {
+          "route_id": "cambridge_a_level_a_star_a_star_a",
+          "grade_profile": [
+            "A*",
+            "A*",
+            "A"
+          ],
+          "required_subject_ids": [
+            "chemistry"
+          ],
+          "one_of_subject_groups": [
+            {
+              "group_id": "second_science_or_maths",
+              "subject_ids": [
+                "biology",
+                "physics",
+                "mathematics"
+              ],
+              "minimum_required": 1
+            }
+          ]
+        }
+      ],
+      "contextual_gate_exception": {
+        "applies_to_group_ids": [
+          "home_fee",
+          "contextual"
+        ],
+        "excluded_group_ids": [
+          "international_fee"
+        ],
+        "route": {
+          "route_id": "cambridge_contextual_a_star_a_a_manual_review",
+          "grade_profile": [
+            "A*",
+            "A",
+            "A"
+          ],
+          "required_subject_ids": [
+            "chemistry"
+          ],
+          "one_of_subject_groups": [
+            {
+              "group_id": "second_science_or_maths",
+              "subject_ids": [
+                "biology",
+                "physics",
+                "mathematics"
+              ],
+              "minimum_required": 1
+            }
+          ]
+        },
+        "manual_review_reason": "contextual_a_level_gate_exception_requires_manual_review"
+      }
+    },
+    "international_baccalaureate": {
+      "routes": [
+        {
+          "route_id": "cambridge_ib_41_776_hl_chemistry_plus_science_or_maths",
+          "total_points": 41,
+          "hl_grade_profile": [
+            "7",
+            "7",
+            "6"
+          ],
+          "required_hl_subject_ids": [
+            "chemistry"
+          ],
+          "required_hl_subject_grade_options": [
+            {
+              "option_id": "biology_hl",
+              "grade_requirements": [
+                {
+                  "subject_id": "biology",
+                  "minimum_grade": "6"
+                }
+              ]
+            },
+            {
+              "option_id": "physics_hl",
+              "grade_requirements": [
+                {
+                  "subject_id": "physics",
+                  "minimum_grade": "6"
+                }
+              ]
+            },
+            {
+              "option_id": "mathematics_hl",
+              "grade_requirements": [
+                {
+                  "subject_id": "mathematics",
+                  "minimum_grade": "6"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    "international_qualification": {
+      "unverified_outcome": "manual_review",
+      "manual_review_reason": "international_qualification_requires_manual_review"
+    },
+    "ucat": {
+      "required_test_year": 2026
+    },
+    "sjt": {
+      "used_as_gate": false,
+      "accepted_bands": [
+        1,
+        2,
+        3,
+        4
+      ],
+      "rejected_bands": []
+    },
+    "resits": {
+      "resits_accepted": true,
+      "applicant_form_required": false
+    },
+    "do_not_infer": [
+      "Do not expose UCAT band boundaries or internal modifier values.",
+      "Do not present the modelled score as a Cambridge score.",
+      "Do not use SJT as a gate, score or negative modifier.",
+      "Do not auto-evaluate Scottish A1/A2 Advanced Higher precision or non-standard overseas equivalencies.",
+      "Do not implement offer prediction."
+    ]
+  },
+  "score_model": {
+    "type": "component_sum",
+    "basis": "Hidden ApplySmart Cambridge holistic guidance index: modelled UCAT competitiveness plus GCSE profile modifier plus contextual uplift. Cambridge itself publishes no score or cut-off.",
+    "label": "Cambridge hidden holistic guidance index",
+    "scale": {
+      "min": -2,
+      "max": 5
+    },
+    "presentation": {
+      "hide_score_breakdown": true,
+      "hide_selection_score_details": true,
+      "pool_label": "Cambridge A100 applicants",
+      "selection_summary": "Cambridge reviews applicants holistically by college. ApplySmart checks the published academic and UCAT requirements, then uses hidden modelled guidance from historical UCAT competitiveness, GCSE profile context and recognised contextual information.",
+      "timeline_selection_summary": "Published academic and UCAT requirements were checked before Cambridge-specific holistic interview guidance was applied with internal thresholds hidden.",
+      "band_headlines": {
+        "interview_likely": "Strong choice",
+        "realistic": "Good chance – recommend applying",
+        "ambitious": "Possible but ambitious",
+        "high_risk": "Consider stronger alternatives"
+      },
+      "band_recommendations": {
+        "interview_likely": "Strong choice",
+        "realistic": "Good chance – recommend applying",
+        "ambitious": "Possible but ambitious",
+        "high_risk": "Consider stronger alternatives"
+      },
+      "band_explanations": {
+        "interview_likely": "Interview Prediction: Interview Likely. Cambridge does not publish a numerical interview scoring system. Your prediction is based on historical UCAT competitiveness together with Cambridge's published holistic admissions process. It is an estimate, not a guarantee, and every Cambridge application is reviewed individually by a college.",
+        "realistic": "Interview Prediction: Realistic. Cambridge does not publish a numerical interview scoring system. Your profile remains credible in the modelled holistic guidance, but no UCAT score or grade profile guarantees an interview.",
+        "ambitious": "Interview Prediction: Borderline. Cambridge does not publish a numerical interview scoring system. This profile needs careful review because one or more academic, GCSE, contextual or fee-status factors sit close to the modelled boundary.",
+        "high_risk": "Interview Prediction: High Risk. Cambridge does not publish a numerical interview scoring system. Based on the information entered, this profile is below the level commonly seen in historically competitive Cambridge A100 applications."
+      },
+      "not_eligible_recommendation": "Minimum Requirements Not Met",
+      "not_eligible_explanation": "Based on the information entered, one or more Cambridge A100 entry requirements covered by ApplySmart are not met.",
+      "insufficient_evidence_recommendation": "Evidence not yet available",
+      "insufficient_evidence_explanation": "ApplySmart needs more verified applicant information before Cambridge interview guidance can be shown.",
+      "evidence_used": [
+        "Official admissions policy",
+        "University selection methodology",
+        "UCAT policy",
+        "Historical interview data",
+        "Contextual admissions policy",
+        "International admissions policy"
+      ]
+    },
+    "components": [
+      {
+        "component_id": "home_modelled_ucat_band",
+        "type": "ucat_range_lookup",
+        "max": 4,
+        "match": {
+          "all_group_ids": [
+            "home_fee"
+          ],
+          "excluded_group_ids": [
+            "international_fee"
+          ]
+        },
+        "ranges": [
+          {
+            "band": "interview_likely",
+            "min": 2350,
+            "max": 2700
+          },
+          {
+            "band": "strong",
+            "min": 2250,
+            "max": 2349
+          },
+          {
+            "band": "realistic",
+            "min": 2150,
+            "max": 2249
+          },
+          {
+            "band": "borderline",
+            "min": 2050,
+            "max": 2149
+          },
+          {
+            "band": "high_risk",
+            "min": 0,
+            "max": 2049
+          }
+        ],
+        "points_by_band": {
+          "interview_likely": 4,
+          "strong": 3,
+          "realistic": 2,
+          "borderline": 1,
+          "high_risk": 0
+        },
+        "evidence": "modelled_hidden"
+      },
+      {
+        "component_id": "international_modelled_ucat_band",
+        "type": "ucat_range_lookup",
+        "max": 4,
+        "match": {
+          "all_group_ids": [
+            "international_fee"
+          ]
+        },
+        "ranges": [
+          {
+            "band": "interview_likely",
+            "min": 2400,
+            "max": 2700
+          },
+          {
+            "band": "strong",
+            "min": 2350,
+            "max": 2399
+          },
+          {
+            "band": "realistic",
+            "min": 2300,
+            "max": 2349
+          },
+          {
+            "band": "borderline",
+            "min": 2200,
+            "max": 2299
+          },
+          {
+            "band": "high_risk",
+            "min": 0,
+            "max": 2199
+          }
+        ],
+        "points_by_band": {
+          "interview_likely": 4,
+          "strong": 3,
+          "realistic": 2,
+          "borderline": 1,
+          "high_risk": 0
+        },
+        "evidence": "modelled_hidden"
+      },
+      {
+        "component_id": "gcse_profile_modifier",
+        "type": "gcse_profile_modifier",
+        "max": 0,
+        "top_grade_minimum": "8",
+        "strong": {
+          "minimum_top_grade_count": 8,
+          "no_grade_below": "7",
+          "adjustment": 0
+        },
+        "moderate": {
+          "minimum_top_grade_count": 5,
+          "maximum_top_grade_count": 7,
+          "single_low_grade": "6",
+          "no_grade_below": "6",
+          "adjustment": -1
+        },
+        "weak": {
+          "low_grade_at_or_below": "6",
+          "low_grade_count": 2,
+          "any_grade_at_or_below": "5",
+          "adjustment": -2
+        },
+        "evidence": "modelled_hidden"
+      },
+      {
+        "component_id": "contextual_qualitative_uplift",
+        "type": "conditional_points",
+        "max": 1,
+        "conditions": [
+          {
+            "condition_id": "contextual_uplift",
+            "any_group_ids": [
+              "contextual",
+              "widening_participation",
+              "care_experienced"
+            ],
+            "points": 1,
+            "evidence": "modelled_hidden"
+          }
+        ]
+      }
+    ]
+  },
+  "guidance_pools": [
+    {
+      "pool_id": "cambridge_home_hidden_holistic_guidance",
+      "priority": 50,
+      "applicant_match": {
+        "all_group_ids": [
+          "home_fee"
+        ],
+        "excluded_group_ids": [
+          "international_fee"
+        ]
+      },
+      "metric": "selection_score",
+      "band_rules": [
+        {
+          "band": "interview_likely",
+          "operator": "greater_than_or_equal",
+          "value": 4
+        },
+        {
+          "band": "realistic",
+          "operator": "between_inclusive",
+          "min": 2,
+          "max": 3
+        },
+        {
+          "band": "ambitious",
+          "operator": "between_inclusive",
+          "min": 1,
+          "max": 1
+        },
+        {
+          "band": "high_risk",
+          "operator": "less_than_or_equal",
+          "value": 0
+        }
+      ]
+    },
+    {
+      "pool_id": "cambridge_international_hidden_holistic_guidance",
+      "priority": 60,
+      "applicant_match": {
+        "all_group_ids": [
+          "international_fee"
+        ]
+      },
+      "metric": "selection_score",
+      "band_rules": [
+        {
+          "band": "interview_likely",
+          "operator": "greater_than_or_equal",
+          "value": 4
+        },
+        {
+          "band": "realistic",
+          "operator": "between_inclusive",
+          "min": 2,
+          "max": 3
+        },
+        {
+          "band": "ambitious",
+          "operator": "between_inclusive",
+          "min": 1,
+          "max": 1
+        },
+        {
+          "band": "high_risk",
+          "operator": "less_than_or_equal",
+          "value": 0
+        }
+      ]
+    }
+  ]
+}

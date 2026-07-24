@@ -1,0 +1,141 @@
+{
+  "schema_version": "1.0.0",
+  "profile_id": "keele-a100-research",
+  "course_profile_id": "keele-a100",
+  "research_status": "complete_for_supported_scope_with_documented_gaps",
+  "file_purpose": "Research and evidence profile for Keele University MBChB Medicine A100. This file preserves the supplied official-source research, implementation mapping, evidence gaps and supported-scope execution limits; executable rules live in data/universities/keele-a100.json.",
+  "official_rules_source": "data/universities/keele-a100.json",
+  "created_at": "2026-07-08",
+  "last_updated": "2026-07-08",
+  "research_scope": {
+    "target_entry_year": 2027,
+    "primary_policy_cycle": "2027 entry",
+    "historical_guidance_cycle": "2025 entry",
+    "primary_course": "A100",
+    "excluded_related_courses": [
+      "A104 Medicine Health Foundation Year"
+    ],
+    "evidence_intake_basis": "/Users/faizan/Desktop/medical university research/Keele_University_A100_ApplySmart_Research.md supplied by the user on 2026-07-08",
+    "production_json_updated": true,
+    "index_updated": true,
+    "examples_updated": true,
+    "regression_scripts_updated": true,
+    "activation_flags_updated": true,
+    "third_party_admissions_websites_used": false,
+    "notes": "The user-designated research file is treated as authoritative. Keele evidence gaps listed by the user are retained as non-blocking evidence gaps. Applicant-group-specific UCAT hard minima are executable through the generic group-aware UCAT minimum mechanism."
+  },
+  "evidence_classification_policy": {
+    "official": "A rule or statistic attributed by the supplied research to a first-party Keele University source.",
+    "foi_required": "A statistic not published by Keele and requiring a future official FOI response.",
+    "historical_guidance": "Cycle-labelled shortlisting guidance used only for interview competitiveness context, never as a current guarantee.",
+    "engine_boundary": "Evidence is sufficient, but the generic classifier cannot execute the rule without an approved architecture extension or supported applicant input."
+  },
+  "metadata": {
+    "authoritative_research_file": "/Users/faizan/Desktop/medical university research/Keele_University_A100_ApplySmart_Research.md",
+    "engine_version": "ApplySmart Engine v1.0",
+    "architecture_change_required_for_activation": false,
+    "minimum_architecture_extension_required": [],
+    "resolved_architecture_extensions": [
+      "Applicant-group-specific UCAT hard minimum gates in the generic classifier."
+    ],
+    "selection_model_mapping": "eligibility_gates_then_home_score_out_of_25_or_international_ucat_ranking",
+    "standardisation_profile": "production_ready_supported_scope_with_transparent_limitations"
+  },
+  "readiness": {
+    "eligibility": true,
+    "interview_prediction": true,
+    "historical_guidance": true,
+    "international_prediction": true,
+    "contextual_logic": true,
+    "result_card": true,
+    "regression": true,
+    "research_completeness": "complete_for_supported_scope_with_documented_gaps",
+    "manual_review_required": true,
+    "eligibility_ready": true,
+    "interview_prediction_ready": true,
+    "prediction_confidence": "low",
+    "result_card_ready": true,
+    "offer_prediction_scope": "out_of_scope",
+    "interview_band_config_ready": true,
+    "metadata_activation_ready": true,
+    "activation_ready": true,
+    "production_ready": true,
+    "production_ready_candidate": true,
+    "production_activation_should_remain_blocked": false,
+    "blocked_by_engine_limitation": false,
+    "activation_block_reason": null,
+    "critical_research_blockers": [],
+    "engine_execution_boundaries": [
+      "Home applicants are shortlisted by UCAT-grade/bonus points plus a Keele personal-statement score out of 15; ApplySmart cannot calculate that score automatically from applicant inputs.",
+      "Economics is an accepted second A-level subject but has no canonical Engine v1.0 subject identifier.",
+      "Scottish and graduate A100 routes are official but require joint-route checks not safely executable by the generic classifier."
+    ],
+    "summary": "Official evidence supports Keele A100 production activation for supported interview prediction with transparent limitations. Home /25 score-dependent guidance remains withheld where Keele's personal-statement score is unavailable."
+  },
+  "course_identity": {
+    "university": "Keele University",
+    "medical_school": "Keele University School of Medicine",
+    "course_name": "MBChB Medicine",
+    "ucas_code": "A100",
+    "duration_years": 5,
+    "entry_route": "standard_entry",
+    "home_places": 161,
+    "international_places": 10,
+    "source_ids": [
+      "keele_medicine_entry_requirements",
+      "keele_medicine_how_to_apply"
+    ],
+    "evidence_classification": "official"
+  },
+  "selection_model": {
+    "type": "sequential_gate_then_pool_specific_ranking",
+    "steps": [
+      "Check GCSE and post-16 academic eligibility.",
+      "Apply UCAT and SJT gates: Home UCAT >=1700, International UCAT >=1950, SJT Band 1-3 only.",
+      "Home applicants are ranked by Keele shortlisting score out of 25.",
+      "International applicants are ranked by UCAT total only.",
+      "Verified Steps2Medicine/UKWPMED applicants receive guaranteed interview handling only after minimum GCSE and UCAT/SJT requirements are met."
+    ],
+    "home_and_international_ranked_separately": true,
+    "gcse_scored": false,
+    "offer_prediction_scope": "out_of_scope",
+    "source_ids": [
+      "keele_medicine_how_to_apply"
+    ]
+  },
+  "evidence_gaps": [
+    {
+      "gap_id": "multi_year_ucat_interview_data",
+      "status": "foi_required_non_blocking",
+      "notes": "Keele does not publish multi-year interviewed UCAT distributions."
+    },
+    {
+      "gap_id": "offer_holder_ucat_statistics",
+      "status": "foi_required_non_blocking",
+      "notes": "Offer-holder UCAT statistics are not published. Offer prediction remains out of scope."
+    },
+    {
+      "gap_id": "interview_to_offer_conversion_data",
+      "status": "foi_required_non_blocking",
+      "notes": "Interview-to-offer conversion data is not published and is not used for interview prediction."
+    },
+    {
+      "gap_id": "multi_year_application_statistics",
+      "status": "foi_required_non_blocking",
+      "notes": "Keele publishes a current-cycle snapshot but not a multi-year trend."
+    },
+    {
+      "gap_id": "international_interviewed_offered_ucat_ranges",
+      "status": "foi_required_non_blocking",
+      "notes": "International interviewed/offered UCAT ranges are not published."
+    }
+  ],
+  "implementation_mapping": {
+    "architecture_change_required": false,
+    "shared_engine_modified": true,
+    "shared_engine_extension": "generic_applicant_group_specific_ucat_hard_minima",
+    "a104_separation_preserved": true,
+    "offer_prediction_implemented": false,
+    "implemented_without_inventing_missing_data": true
+  }
+}

@@ -1,0 +1,979 @@
+{
+  "schema_version": "1.0.0",
+  "template_version": "0.1.0",
+  "result_id": "example-glasgow-a100-interview-guidance",
+  "generated_at": null,
+  "result_mode": "eligibility_and_medium_confidence_interview_guidance",
+  "course_identity": {
+    "profile_id": "glasgow-a100",
+    "university_name": "University of Glasgow",
+    "display_name": "Glasgow A100",
+    "course_name": "Medicine MBChB",
+    "ucas_code": "A100",
+    "entry_route": "standard_entry",
+    "entry_route_label": "Standard Entry",
+    "qualification_awarded": "MBChB",
+    "duration_years": 5,
+    "location": "Glasgow, Scotland",
+    "campus": "Glasgow: Gilmorehill campus",
+    "source_ids": [
+      "glasgow_degree_page_2027",
+      "glasgow_mbchb_admissions"
+    ]
+  },
+  "applicant_context": {
+    "profile_type": "complete_test_profile",
+    "applies_to_group_ids": [
+      "international_fee",
+      "school_leaver"
+    ],
+    "entry_route": "standard_entry",
+    "applicant_summary": "International fee, Standard Entry school-leaver with A-level Chemistry, Biology and Mathematics at AAA, UCAT cognitive total 2075 and SJT Band 4.",
+    "source_ids": []
+  },
+  "readiness": {
+    "eligibility": true,
+    "interview_prediction": true,
+    "historical_guidance": true,
+    "international_prediction": true,
+    "contextual_logic": false,
+    "result_card": true,
+    "regression": true,
+    "research_completeness": "complete_for_supported_scope_with_documented_gaps",
+    "manual_review_required": true,
+    "eligibility_ready": true,
+    "interview_prediction_ready": true,
+    "prediction_confidence": "medium",
+    "result_card_ready": true,
+    "offer_prediction_scope": "out_of_scope",
+    "eligibility_ready_status": "official_evidence_diagnostic",
+    "official_selection_formula_available": true,
+    "pre_interview_formula_ready": false,
+    "historical_ucat_guidance_ready": true,
+    "historical_interview_score_guidance_ready": true,
+    "prediction_scope": "official_ucat_ranking_with_historical_applicant_group_guidance",
+    "student_labels": [
+      "Minimum eligibility gates can be shown",
+      "UCAT required/present gate can be shown",
+      "SJT is not considered",
+      "Interview allocation uses UCAT ranking after screening",
+      "International applicants are ranked separately",
+      "Historical UCAT and interview-score guidance can be shown",
+      "Medium-confidence interview guidance is available"
+    ],
+    "source_ids": [
+      "glasgow_degree_page_2027",
+      "glasgow_ucat_2027",
+      "glasgow_admissions_procedures_2026_pdf",
+      "glasgow_interviews_2027",
+      "glasgow_mbchb_faq_2027",
+      "glasgow_final_foi_policy_verified_research",
+      "glasgow_verified_international_admissions_evidence"
+    ]
+  },
+  "student_summary": {
+    "headline": "Glasgow A100",
+    "subheadline": "Medicine MBChB, Standard Entry, 5 years",
+    "status_message": "This international card uses Glasgow's separate international UCAT ranking pool and historical invited-score guidance. It does not claim a fixed or live UCAT cut-off or an offer outcome.",
+    "key_points": [
+      "UCAT is required for all Medicine applicants.",
+      "SJT is officially not considered, so Band 4 is not an exclusion in this Glasgow card.",
+      "Applicants meeting academic eligibility are ranked for interview by UCAT cognitive score only.",
+      "International applicants compete only against other international applicants and receive no contextual uplift.",
+      "No fixed 2027 UCAT cutoff is stored.",
+      "UCAT 2075 falls in the historical 2050–2099 international guidance band: Good chance – recommend applying.",
+      "Final offer ranking is interview-only; UCAT and academic scores do not carry forward.",
+      "Historical UCAT and interview-score data are context only, not deterministic cutoffs."
+    ]
+  },
+  "eligibility": {
+    "status": "eligible",
+    "summary": "The primary display scenario is an eligible international A-level applicant with UCAT 2075. Medium-confidence historical interview guidance is available.",
+    "stage_1_checks": [
+      {
+        "check_id": "academic_requirements",
+        "label": "Academic requirements",
+        "status": "pass",
+        "requirement": "AAA at A-level including Chemistry plus one of Biology, Physics or Mathematics; GCSE English Language or Literature B/6; GCSE Biology B/6 if Biology is not studied at A-level.",
+        "applicant_value": "AAA including Chemistry and Biology; GCSE English Language 7; GCSE Biology present.",
+        "decision_outcome": "eligible",
+        "source_ids": [
+          "glasgow_degree_page_2027"
+        ]
+      },
+      {
+        "check_id": "ucat_required_present",
+        "label": "UCAT",
+        "status": "pass",
+        "requirement": "UCAT required in the same year as application.",
+        "applicant_value": "UCAT cognitive total 2075 / 2700",
+        "decision_outcome": "eligible",
+        "source_ids": [
+          "glasgow_ucat_2027"
+        ]
+      },
+      {
+        "check_id": "sjt_policy",
+        "label": "SJT",
+        "status": "not_considered",
+        "requirement": "Glasgow does not consider the SJT portion of UCAT.",
+        "applicant_value": "SJT Band 4",
+        "decision_outcome": "not_used",
+        "source_ids": [
+          "glasgow_ucat_2027"
+        ]
+      }
+    ],
+    "blocking_reasons": [],
+    "warnings": [
+      "Eligibility pass is evaluated separately from interview guidance.",
+      "No fixed 2027 UCAT cutoff is stored.",
+      "International applicants are ranked separately.",
+      "Historical international UCAT values must not be used as current cutoffs."
+    ],
+    "source_ids": [
+      "glasgow_degree_page_2027",
+      "glasgow_ucat_2027",
+      "glasgow_verified_international_admissions_evidence"
+    ]
+  },
+  "stage_1_requirements": {
+    "verification_status": "official_source_verified",
+    "verified_requirements": [
+      {
+        "requirement_id": "gcse_english_language_or_literature_minimum",
+        "label": "GCSE English",
+        "value": "GCSE English Literature or English Language at Grade B/6.",
+        "source_ids": [
+          "glasgow_degree_page_2027"
+        ]
+      },
+      {
+        "requirement_id": "gcse_biology_if_not_a_level_biology",
+        "label": "GCSE Biology conditional rule",
+        "value": "GCSE Biology at Grade B/6 is required if Biology is not studied at A-level.",
+        "source_ids": [
+          "glasgow_degree_page_2027"
+        ]
+      },
+      {
+        "requirement_id": "national_5_english_minimum",
+        "label": "National 5 English",
+        "value": "National 5 English at grade B.",
+        "source_ids": [
+          "glasgow_degree_page_2027"
+        ]
+      },
+      {
+        "requirement_id": "a_level_uk_standard_offer",
+        "label": "A-level standard offer",
+        "value": "AAA including Chemistry and one of Biology, Physics or Mathematics.",
+        "source_ids": [
+          "glasgow_degree_page_2027"
+        ]
+      },
+      {
+        "requirement_id": "a_level_international_standard_offer",
+        "label": "International A-level offer",
+        "value": "AAA including Chemistry, Biology and one of Physics or Mathematics.",
+        "source_ids": [
+          "glasgow_international_entry_requirements"
+        ]
+      },
+      {
+        "requirement_id": "sqa_standard_offer",
+        "label": "Scottish standard offer",
+        "value": "AAAAB Higher in S5 plus BB Advanced Higher in S6; Higher Chemistry, Biology and Physics or Mathematics.",
+        "source_ids": [
+          "glasgow_degree_page_2027"
+        ]
+      },
+      {
+        "requirement_id": "sqa_adjusted_contextual_offer",
+        "label": "Scottish contextual adjusted offer",
+        "value": "AAABB or AAAAC Higher in S5 plus BC Advanced Higher in S6; C cannot be in Chemistry; successful completion of Reach required.",
+        "source_ids": [
+          "glasgow_degree_page_2027",
+          "glasgow_adjusted_offers",
+          "glasgow_reach_programme"
+        ]
+      },
+      {
+        "requirement_id": "ib_standard_offer",
+        "label": "International Baccalaureate",
+        "value": "38 points with 6,6,6 at Higher Level; HL Chemistry and Biology; SL Physics or Mathematics at 6; SL English at 6.",
+        "source_ids": [
+          "glasgow_degree_page_2027",
+          "glasgow_international_entry_requirements"
+        ]
+      },
+      {
+        "requirement_id": "ucat_required",
+        "label": "UCAT",
+        "value": "UCAT required for all Medicine applicants; applicants without UCAT are not considered.",
+        "source_ids": [
+          "glasgow_ucat_2027"
+        ]
+      },
+      {
+        "requirement_id": "sjt_not_considered",
+        "label": "SJT",
+        "value": "SJT is not considered.",
+        "source_ids": [
+          "glasgow_ucat_2027"
+        ]
+      }
+    ],
+    "unknown_requirements": [
+      {
+        "requirement_id": "current_cycle_ucat_thresholds",
+        "label": "Current-cycle UCAT thresholds",
+        "reason": "Glasgow states thresholds are not known until the cycle progresses and are not published until the cycle is complete.",
+        "source_ids": [
+          "glasgow_ucat_2027"
+        ]
+      },
+      {
+        "requirement_id": "non_standard_qualifications",
+        "label": "Non-standard qualifications",
+        "reason": "BTEC, Access to HE, T-level and other non-standard route rules are not stored in the current production profile.",
+        "source_ids": []
+      }
+    ],
+    "source_ids": [
+      "glasgow_degree_page_2027",
+      "glasgow_ucat_2027",
+      "glasgow_international_entry_requirements",
+      "glasgow_adjusted_offers",
+      "glasgow_reach_programme"
+    ]
+  },
+  "stage_2_selection": {
+    "verification_status": "official_source_verified",
+    "primary_model": "ucat_ranking",
+    "selection_model_label": "UCAT_COGNITIVE_RANKING_AFTER_ACADEMIC_ELIGIBILITY",
+    "summary": "Eligible international applicants are ranked separately from highest to lowest by UCAT cognitive total only. Historical invited scores provide guidance, not a fixed Glasgow UCAT cut-off.",
+    "ranking_factors": [
+      {
+        "factor_id": "ucat_total_score",
+        "label": "UCAT total score",
+        "calculation_status": "official_ranking_input",
+        "score": 2075,
+        "max_points": 2700,
+        "evidence_classification": "official",
+        "notes": "UCAT cognitive total is used for ranking within the separate international pool. Historical international invited scores are guidance only, not a current-cycle cutoff.",
+        "source_ids": [
+          "glasgow_ucat_2027"
+        ]
+      },
+      {
+        "factor_id": "sjt",
+        "label": "SJT",
+        "calculation_status": "not_considered",
+        "score": null,
+        "max_points": null,
+        "evidence_classification": "official",
+        "notes": "SJT is not considered and should not reject Band 4 applicants.",
+        "source_ids": [
+          "glasgow_ucat_2027"
+        ]
+      }
+    ],
+    "calculation": {
+      "selection_score": {
+        "value": 2075,
+        "max": 2700,
+        "status": "official_ranking_input",
+        "reason": "Glasgow ranks the raw cognitive UCAT total rather than calculating a separate points score."
+      },
+      "interview_likelihood": {
+        "value": "realistic",
+        "reason": "UCAT 2075 falls in the historical 2050–2099 international guidance band. Glasgow ranks international applicants separately, and this is not a fixed or live-cutoff result."
+      }
+    },
+    "unknown_calculation_areas": [
+      "current_cycle_ucat_thresholds_by_applicant_group",
+      "exact_interview_scoring_rubric",
+      "exact_annual_interview_scaling_calculation",
+      "fixed_interview_pass_mark",
+      "complete_tie_break_sequence",
+      "fixed_future_quotas_or_capacity"
+    ],
+    "source_ids": [
+      "glasgow_ucat_2027",
+      "glasgow_admissions_procedures_2026_pdf",
+      "glasgow_final_foi_policy_verified_research",
+      "glasgow_verified_international_admissions_evidence"
+    ]
+  },
+  "historical_context": {
+    "official_admissions_statistics_available": true,
+    "historical_offer_holder_ucat_guidance_available": true,
+    "historical_interview_score_guidance_available": true,
+    "use": "context_only",
+    "not_deterministic": true,
+    "warning": "Historical admissions, offer-holder UCAT values and interview-score ranges are not current-cycle cutoffs and must not be used to calculate deterministic outcomes.",
+    "latest_stored_entry_year": 2025,
+    "offer_holder_ucat_2024_2025_converted_2700": [
+      {
+        "applicant_group": "Scottish/Home",
+        "lowest": 1830,
+        "average": 1950
+      },
+      {
+        "applicant_group": "RUK",
+        "lowest": 1900,
+        "average": 2020
+      },
+      {
+        "applicant_group": "International",
+        "lowest": 2050,
+        "average": 2130
+      },
+      {
+        "applicant_group": "Widening Access",
+        "lowest": 1750,
+        "average": 1840
+      }
+    ],
+    "interview_score_context": {
+      "evidence_classification": "foi_estimate_historical_context",
+      "approximate_total_range": "10-30",
+      "competitive_score_around": "22/30+",
+      "lowest_successful_score_around": "19-20/30",
+      "average_score_around": "23-25/30",
+      "annual_cohort_scaling_applies": true,
+      "not_a_current_threshold": true
+    },
+    "source_ids": [
+      "glasgow_admissions_data_2022_2025_pdf",
+      "glasgow_final_foi_policy_verified_research",
+      "glasgow_verified_international_admissions_evidence"
+    ],
+    "international_historical_guidance_2700": {
+      "lowest_invited_by_cycle": [
+        {
+          "cycle": "2021/22",
+          "lowest_invited": 2025
+        },
+        {
+          "cycle": "2022/23",
+          "lowest_invited": 2175
+        },
+        {
+          "cycle": "2023/24",
+          "lowest_invited": 2025
+        },
+        {
+          "cycle": "2024/25",
+          "lowest_invited": 2100
+        }
+      ],
+      "full_historical_invited_scores": [
+        {
+          "year": 2021,
+          "lowest_invited": 2025,
+          "average_invited_approximate": 2120
+        },
+        {
+          "year": 2022,
+          "lowest_invited": 2175,
+          "average_invited_approximate": 2220
+        },
+        {
+          "year": 2023,
+          "lowest_invited": 2025,
+          "average_invited_approximate": 2150
+        },
+        {
+          "year": 2024,
+          "lowest_invited": 2100,
+          "average_invited_approximate": 2180
+        },
+        {
+          "year": 2025,
+          "lowest_invited": 2050,
+          "average_invited_approximate": 2160
+        }
+      ],
+      "bands": [
+        {
+          "ucat": "<2025",
+          "recommendation": "Consider stronger alternatives"
+        },
+        {
+          "ucat": "2025–2049",
+          "recommendation": "Possible but ambitious"
+        },
+        {
+          "ucat": "2050–2099",
+          "recommendation": "Good chance – recommend applying"
+        },
+        {
+          "ucat": "≥2100",
+          "recommendation": "Strong choice"
+        },
+        {
+          "ucat": "≥2175",
+          "recommendation": "Strong choice",
+          "profile_context": "very_strong_top_competitive_profile"
+        }
+      ],
+      "source_ids": [
+        "glasgow_verified_international_admissions_evidence"
+      ],
+      "disclaimer": "Historical international interview guidance only. Glasgow ranks international applicants separately; this is not a fixed UCAT cut-off."
+    }
+  },
+  "prediction": {
+    "available": true,
+    "capability": "interview",
+    "prediction_status": "interview_guidance_available",
+    "prediction_type": "verified_international_historical_guidance",
+    "result_band": "realistic",
+    "guidance_pool_id": "international",
+    "recommendation": "Good chance – recommend applying",
+    "score": 2075,
+    "score_type": "official_ucat_ranking_input",
+    "score_scale": {
+      "min": 0,
+      "max": 2700
+    },
+    "band_basis": "Glasgow ranks international applicants separately by UCAT cognitive total. UCAT 2075 is assessed against historical international invited scores only; this is not a fixed Glasgow UCAT cut-off.",
+    "interview_probability": null,
+    "interview_likelihood": "realistic_guidance_only",
+    "confidence_level": "medium",
+    "deterministic": false,
+    "offer_probability": null,
+    "missing_data_reasons": [
+      "Current-cycle UCAT thresholds by applicant group are unknown.",
+      "No fixed 2027 UCAT cutoff is published.",
+      "The exact numerical interview rubric, maximum score and fixed pass mark are undisclosed.",
+      "The annual cohort-scaling calculation is undisclosed.",
+      "The complete tie-break sequence beyond attribute-consistency review is undisclosed.",
+      "Fixed future quotas/capacity by applicant pool are unknown."
+    ],
+    "cannot_predict_explanation": "UCAT 2075 is classified as realistic guidance for this international example using Glasgow's separate international UCAT ranking method and historical international invited-score data. This is not a live-cutoff pass, probability percentage or",
+    "source_ids": [
+      "glasgow_ucat_2027",
+      "glasgow_admissions_procedures_2026_pdf",
+      "glasgow_verified_international_admissions_evidence"
+    ]
+  },
+  "missing_data": {
+    "current_cycle_ucat_thresholds_by_applicant_group": "missing_external_university_data",
+    "exact_interview_scoring_rubric": "not_publicly_released",
+    "exact_annual_interview_scaling_calculation": "not_publicly_released",
+    "fixed_interview_pass_mark": "not_publicly_released",
+    "complete_tie_break_sequence": "partially_verified_attribute_consistency_review_only",
+    "fixed_future_quotas_or_capacity": "missing",
+    "non_standard_qualification_rules": "not_extracted",
+    "contextual_ucat_adjustment": "verified_separate_raw_score_ranking_pool_lower_dynamic_threshold",
+    "notes": [
+      "These gaps block deterministic live-cutoff and offer modelling.",
+      "They do not block medium-confidence interview guidance under the capability model."
+    ]
+  },
+  "confidence": {
+    "level": "medium",
+    "summary": "Confidence is medium overall: eligibility and UCAT/SJT policy are official, while verified historical international invited-score guidance is context only and not a fixed or live cutoff.",
+    "stage_confidence": {
+      "stage_1": "medium",
+      "ucat_required": "high",
+      "sjt_policy": "high",
+      "interview_likelihood": "medium",
+      "historical_guidance": "available"
+    },
+    "source_ids": [
+      "glasgow_degree_page_2027",
+      "glasgow_ucat_2027",
+      "glasgow_admissions_procedures_2026_pdf",
+      "glasgow_interviews_2027",
+      "glasgow_final_foi_policy_verified_research",
+      "glasgow_verified_international_admissions_evidence"
+    ]
+  },
+  "evidence_confidence": {
+    "level": "Medium",
+    "summary": "The recommendation is supported by core admissions evidence, with some historical or route-specific limits.",
+    "reasons": [
+      "Official eligibility rules are available.",
+      "The university selection approach is implemented.",
+      "Historical interview guidance is available, but some evidence is historical, FOI-derived or has documented gaps."
+    ]
+  },
+  "display": {
+    "headline": "Glasgow A100",
+    "subheadline": "Medicine MBChB, Standard Entry, 5 years",
+    "primary_user_facing_recommendation": "Good chance based on historical data",
+    "recommendation_display_state": "standard",
+    "primary_explanation": "Your score is within the historical interview range available to ApplySmart.",
+    "historical_guidance_caveat": "Interview thresholds may change each admissions cycle depending on applicant competition and interview capacity. Historical figures are guidance only, not a current cut-off, and do not guarantee an interview."
+  },
+  "decision_timeline": [
+    {
+      "step": 1,
+      "title": "Applicant details checked",
+      "status": "Complete",
+      "summary": "Your applicant type, qualifications and UCAT details were checked."
+    },
+    {
+      "step": 2,
+      "title": "Eligibility assessed",
+      "status": "Eligible",
+      "summary": "You meet the published entry requirements covered by ApplySmart."
+    },
+    {
+      "step": 3,
+      "title": "Selection model applied",
+      "status": "Complete",
+      "summary": "UCAT-based ranking was applied within the relevant fee-status applicant group."
+    },
+    {
+      "step": 4,
+      "title": "Historical guidance compared",
+      "status": "Complete",
+      "summary": "Your result was compared with interview information from previous admissions cycles. Interview thresholds may change each admissions cycle depending on applicant competition and interview capacity. Historical figures are guidance only, not a current cut-off, and do not guarantee an interview."
+    },
+    {
+      "step": 5,
+      "title": "Interview recommendation produced",
+      "status": "Good chance",
+      "summary": "Good chance based on historical data. Treat this as guidance for university choice, not a promised interview."
+    }
+  ],
+  "decision_transparency": {
+    "decision_path": [
+      {
+        "stage": "Eligibility",
+        "status": "Met",
+        "summary": "The primary display scenario is an eligible international A-level applicant with UCAT 2075. Medium-confidence historical interview guidance is available.",
+        "checks": [
+          {
+            "label": "Academic requirements",
+            "status": "Met",
+            "summary": "AAA at A-level including Chemistry plus one of Biology, Physics or Mathematics; GCSE English Language or Literature B/6; GCSE Biology B/6 if Biology is not studied at A-level. Applicant information: AAA including Chemistry and Biology; GCSE English Language 7; GCSE Biology present."
+          },
+          {
+            "label": "UCAT",
+            "status": "Met",
+            "summary": "UCAT required in the same year as application. Applicant information: UCAT cognitive total 2075 / 2700"
+          },
+          {
+            "label": "SJT",
+            "status": "Not used",
+            "summary": "Glasgow does not consider the SJT portion of UCAT. Applicant information: SJT Band 4"
+          }
+        ]
+      },
+      {
+        "stage": "Selection model",
+        "status": "Assessed",
+        "summary": "Glasgow ranks eligible applicants by UCAT cognitive total only within the applicable fee-status group.",
+        "checks": [
+          {
+            "label": "Applicant pool",
+            "status": "Used",
+            "summary": "International fee-status applicants ranked separately"
+          },
+          {
+            "label": "UCAT ranking",
+            "status": "Counted",
+            "summary": "UCAT 2075 out of 2700 is the sole ranking score after eligibility checks."
+          },
+          {
+            "label": "SJT",
+            "status": "Ignored",
+            "summary": "SJT Band 4 is not considered for pre-interview ranking."
+          },
+          {
+            "label": "Fee-status handling",
+            "status": "Applied",
+            "summary": "International applicants are handled separately from Home applicants."
+          }
+        ]
+      },
+      {
+        "stage": "Historical guidance",
+        "status": "Guidance available",
+        "summary": "The applicant's result is within the historical interview range used for this applicant group. Interview thresholds may change each admissions cycle depending on applicant competition and interview capacity. Historical figures are guidance only, not a current cut-off, and do not guarantee an interview.",
+        "checks": [
+          {
+            "label": "Applicant pool",
+            "status": "Used",
+            "summary": "International fee-status applicants ranked separately"
+          },
+          {
+            "label": "Important limitation",
+            "status": "Guidance only",
+            "summary": "Interview thresholds may change each admissions cycle depending on applicant competition and interview capacity. Historical figures are guidance only, not a current cut-off, and do not guarantee an interview."
+          }
+        ]
+      },
+      {
+        "stage": "Recommendation",
+        "status": "Guidance only",
+        "summary": "Good chance based on historical data. Treat this as guidance for university choice, not a promised interview.",
+        "checks": []
+      }
+    ],
+    "key_reasons": [
+      "The supported academic and UCAT requirements are met.",
+      "UCAT 2075 is used for ranking and SJT is ignored.",
+      "The score is within the available international historical interview range."
+    ],
+    "evidence_used": [
+      "Official admissions policy",
+      "University selection methodology",
+      "UCAT policy",
+      "Historical interview data",
+      "International admissions policy"
+    ],
+    "evidence_confidence": {
+      "level": "Medium",
+      "summary": "The recommendation is supported by core admissions evidence, with some historical or route-specific limits.",
+      "reasons": [
+        "Official eligibility rules are available.",
+        "The university selection approach is implemented.",
+        "Historical interview guidance is available, but some evidence is historical, FOI-derived or has documented gaps."
+      ]
+    },
+    "manual_review_reason": null,
+    "insufficient_evidence_reason": null,
+    "warnings": []
+  },
+  "engine_notes": {
+    "generated_from_profile_id": "glasgow-a100",
+    "source_profile": "data/universities/glasgow-a100.json",
+    "result_card_ready": true,
+    "eligibility_ready": true,
+    "interview_prediction_ready": true,
+    "prediction_confidence": "medium",
+    "eligibility_only": false,
+    "historical_guidance_only": true,
+    "do_not_infer": [
+      "Do not invent a Glasgow UCAT cutoff.",
+      "Do not present the interview band as deterministic or as a live-cutoff result.",
+      "Do not reject SJT Band 4 for Glasgow A100.",
+      "Do not use historical UCAT values as current-cycle deterministic cutoffs.",
+      "Do not apply contextual uplift to international applicants.",
+      "Do not treat FOI interview-score ranges as a fixed rubric or pass mark."
+    ]
+  },
+  "interview": {
+    "format": "online",
+    "duration_minutes": 30,
+    "interviewers": 2,
+    "assessed_domains": [
+      "motivation",
+      "understanding_of_medicine",
+      "communication",
+      "ethical_reasoning",
+      "teamwork",
+      "insight",
+      "values"
+    ],
+    "panels": [
+      {
+        "panel": "Panel A",
+        "focus": "Motivation to become a doctor, teamwork and related topics."
+      },
+      {
+        "panel": "Panel B",
+        "focus": "Communication and discussion of one ethical scenario chosen from two brief scenarios."
+      }
+    ],
+    "interview_likelihood": "realistic_guidance_only",
+    "ucat_carried_forward": false,
+    "academic_score_carried_forward": false,
+    "source_ids": [
+      "glasgow_interviews_2027"
+    ]
+  },
+  "example_scenarios": [
+    {
+      "scenario_id": "eligible_standard_international_applicant",
+      "title": "Eligible standard international applicant",
+      "applicant_profile_summary": {
+        "fee_status": "International",
+        "route": "standard_entry",
+        "a_levels": {
+          "biology": "A",
+          "chemistry": "A",
+          "mathematics": "A"
+        },
+        "gcse": {
+          "english_language": "7",
+          "biology": "7"
+        },
+        "ucat": 2075,
+        "sjt_band": 4,
+        "contextual": false,
+        "graduate": false
+      },
+      "minimum_eligibility_status": "passed",
+      "academic_requirement_checks": [
+        {
+          "check_id": "a_level_grades",
+          "status": "pass",
+          "requirement": "AAA",
+          "applicant_value": "AAA"
+        },
+        {
+          "check_id": "a_level_subjects",
+          "status": "pass",
+          "requirement": "International A-level Chemistry, Biology and one of Physics or Mathematics",
+          "applicant_value": "Chemistry, Biology, Mathematics"
+        },
+        {
+          "check_id": "gcse_english",
+          "status": "pass",
+          "requirement": "English Language or Literature B/6",
+          "applicant_value": "English Language 7"
+        }
+      ],
+      "ucat_check": {
+        "status": "pass",
+        "requirement": "UCAT present",
+        "applicant_value": "UCAT cognitive total 2075 / 2700"
+      },
+      "sjt_policy": {
+        "status": "not_considered",
+        "applicant_value": "Band 4",
+        "decision": "not_used"
+      },
+      "interview_selection_model": "ucat_ranking",
+      "interview_likelihood": "realistic_guidance_only",
+      "final_status": "realistic",
+      "reasons": [
+        "Minimum academic requirements represented as met.",
+        "UCAT cognitive total 2075 is present.",
+        "SJT Band 4 does not fail because Glasgow does not consider SJT.",
+        "International applicants are ranked separately and receive no contextual uplift.",
+        "Historical international invited-score guidance supports a medium-confidence Realistic band; this is not a fixed or current-cycle cutoff result."
+      ],
+      "source_ids": [
+        "glasgow_degree_page_2027",
+        "glasgow_ucat_2027",
+        "glasgow_international_entry_requirements",
+        "glasgow_verified_international_admissions_evidence"
+      ]
+    },
+    {
+      "scenario_id": "not_eligible_academic_missing_chemistry",
+      "title": "Not eligible academic applicant",
+      "applicant_profile_summary": {
+        "fee_status": "RUK/Home",
+        "route": "standard_entry",
+        "a_levels": {
+          "biology": "A",
+          "mathematics": "A",
+          "physics": "A"
+        },
+        "gcse": {
+          "english_language": "7",
+          "biology": "7"
+        },
+        "ucat": "present",
+        "sjt_band": 2,
+        "contextual": false,
+        "graduate": false
+      },
+      "minimum_eligibility_status": "failed",
+      "academic_requirement_checks": [
+        {
+          "check_id": "a_level_required_chemistry",
+          "status": "fail",
+          "requirement": "A-level Chemistry required",
+          "applicant_value": "Chemistry missing"
+        },
+        {
+          "check_id": "a_level_grades",
+          "status": "pass",
+          "requirement": "AAA",
+          "applicant_value": "AAA"
+        }
+      ],
+      "ucat_check": {
+        "status": "pass",
+        "requirement": "UCAT present",
+        "applicant_value": "UCAT present"
+      },
+      "sjt_policy": {
+        "status": "not_considered",
+        "applicant_value": "Band 2",
+        "decision": "not_used"
+      },
+      "interview_selection_model": "ucat_ranking",
+      "interview_likelihood": "not_eligible",
+      "final_status": "not_eligible_minimum_requirements",
+      "reasons": [
+        "A-level Chemistry is required and is missing.",
+        "Do not proceed to interview prediction after a minimum academic failure."
+      ],
+      "source_ids": [
+        "glasgow_degree_page_2027"
+      ]
+    },
+    {
+      "scenario_id": "not_eligible_no_ucat",
+      "title": "Not eligible UCAT applicant",
+      "applicant_profile_summary": {
+        "fee_status": "RUK/Home",
+        "route": "standard_entry",
+        "a_levels": {
+          "biology": "A",
+          "chemistry": "A",
+          "mathematics": "A"
+        },
+        "gcse": {
+          "english_language": "7",
+          "biology": "7"
+        },
+        "ucat": "not_supplied",
+        "sjt_band": null,
+        "contextual": false,
+        "graduate": false
+      },
+      "minimum_eligibility_status": "failed",
+      "academic_requirement_checks": [
+        {
+          "check_id": "a_level_requirements",
+          "status": "pass",
+          "requirement": "AAA including Chemistry plus Biology/Physics/Maths",
+          "applicant_value": "AAA including Chemistry and Biology"
+        }
+      ],
+      "ucat_check": {
+        "status": "fail",
+        "requirement": "UCAT required for all Medicine applicants",
+        "applicant_value": "No UCAT score supplied"
+      },
+      "sjt_policy": {
+        "status": "not_applicable",
+        "applicant_value": null,
+        "decision": "not_assessed_without_ucat"
+      },
+      "interview_selection_model": "ucat_ranking",
+      "interview_likelihood": "not_eligible",
+      "final_status": "not_eligible_minimum_requirements",
+      "reasons": [
+        "Applicants who have not sat UCAT will not be considered.",
+        "Do not proceed to interview prediction after a UCAT requirement failure."
+      ],
+      "source_ids": [
+        "glasgow_ucat_2027"
+      ]
+    },
+    {
+      "scenario_id": "scottish_contextual_adjusted_offer_applicant",
+      "title": "Scottish contextual adjusted-offer applicant",
+      "applicant_profile_summary": {
+        "fee_status": "Scotland/Home",
+        "route": "standard_entry",
+        "scottish_highers": "AAABB Higher S5",
+        "advanced_highers": "BC Advanced Higher S6",
+        "required_subjects": "Chemistry, Biology and Physics or Mathematics; C not in Chemistry",
+        "contextual": true,
+        "reach_completed": true,
+        "ucat": "present",
+        "sjt_band": 3,
+        "graduate": false
+      },
+      "minimum_eligibility_status": "passed",
+      "academic_requirement_checks": [
+        {
+          "check_id": "sqa_adjusted_grades",
+          "status": "pass",
+          "requirement": "AAABB or AAAAC Higher S5 plus BC Advanced Higher S6",
+          "applicant_value": "AAABB Higher S5 plus BC Advanced Higher S6"
+        },
+        {
+          "check_id": "reach_completion",
+          "status": "pass",
+          "requirement": "Successful completion of Reach required",
+          "applicant_value": "Reach completed"
+        }
+      ],
+      "ucat_check": {
+        "status": "pass",
+        "requirement": "UCAT present",
+        "applicant_value": "UCAT present"
+      },
+      "sjt_policy": {
+        "status": "not_considered",
+        "applicant_value": "Band 3",
+        "decision": "not_used"
+      },
+      "contextual_policy": {
+        "status": "applied",
+        "rule": "medicine_adjusted_sqa_entry_requirement",
+        "source_ids": [
+          "glasgow_degree_page_2027",
+          "glasgow_adjusted_offers",
+          "glasgow_reach_programme"
+        ]
+      },
+      "interview_selection_model": "ucat_ranking",
+      "interview_likelihood": "prediction_blocked",
+      "final_status": "eligible_prediction_blocked",
+      "reasons": [
+        "Adjusted Scottish academic requirement represented as met.",
+        "Reach rule represented as met.",
+        "UCAT is present.",
+        "Deterministic prediction is blocked because the current-cycle contextual UCAT threshold and exact annual interview scoring are unavailable."
+      ],
+      "source_ids": [
+        "glasgow_degree_page_2027",
+        "glasgow_adjusted_offers",
+        "glasgow_reach_programme",
+        "glasgow_ucat_2027"
+      ]
+    },
+    {
+      "scenario_id": "graduate_applicant_diagnostic",
+      "title": "Graduate applicant diagnostic",
+      "applicant_profile_summary": {
+        "fee_status": "Home/RUK",
+        "route": "standard_entry",
+        "graduate": true,
+        "degree_classification": "2:1",
+        "degree_subject": "relevant science",
+        "degree_recency": "within seven years of entry",
+        "ucat": "present",
+        "sjt_band": 2
+      },
+      "minimum_eligibility_status": "passed",
+      "academic_requirement_checks": [
+        {
+          "check_id": "graduate_degree_policy",
+          "status": "pass",
+          "requirement": "Minimum 2.1 Honours degree in a relevant science degree obtained within seven years of entry",
+          "applicant_value": "2:1 relevant science degree within seven years"
+        }
+      ],
+      "ucat_check": {
+        "status": "pass",
+        "requirement": "Graduate applicants must complete UCAT",
+        "applicant_value": "UCAT present"
+      },
+      "sjt_policy": {
+        "status": "not_considered",
+        "applicant_value": "Band 2",
+        "decision": "not_used"
+      },
+      "interview_selection_model": "ucat_ranking",
+      "interview_likelihood": "prediction_blocked",
+      "final_status": "eligible_prediction_blocked",
+      "reasons": [
+        "Graduate policy represented as met for a relevant science degree within seven years.",
+        "UCAT is present.",
+        "Deterministic prediction is blocked because the current-cycle UCAT threshold and exact annual interview scoring are unavailable."
+      ],
+      "source_ids": [
+        "glasgow_degree_page_2027",
+        "glasgow_ucat_2027"
+      ]
+    }
+  ]
+}

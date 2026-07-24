@@ -1,0 +1,169 @@
+{
+  "schema_version": "1.0.0",
+  "course_profile_id": "dundee-a100",
+  "confidence": "medium",
+  "evidence": {
+    "classification": "mixed_verified_international_foi_derived_and_predictor_estimate",
+    "summary": "Verified international 60% academic and 40% national-decile UCAT selection evidence with historical international UCAT guidance, not a fixed cut-off; Home guidance and the academic point matrix remain unchanged and research-derived.",
+    "source_ids": [
+      "dundee_all_entry_requirements",
+      "dundee_entry_requirements",
+      "dundee_admissions_statistics",
+      "dundee_verified_international_admissions_evidence"
+    ]
+  },
+  "eligibility": {},
+  "score_model": {
+    "type": "component_sum",
+    "basis": "Academic plus national UCAT decile score; international 60/40 weighting is verified and the academic point matrix remains research-derived",
+    "scale": {
+      "min": 0,
+      "max": 100
+    },
+    "pool_specific_output": true,
+    "components": [
+      {
+        "component_id": "academic_score",
+        "type": "academic_profile_matrix",
+        "max": 60,
+        "gcse": {
+          "subject_count": 8,
+          "bands": [
+            {
+              "band_id": "eight_grades_8_or_9",
+              "all_minimum_grade": "8",
+              "points": 30
+            },
+            {
+              "band_id": "six_grades_8_or_9",
+              "all_minimum_grade": "7",
+              "minimum_count_at_or_above": {
+                "grade": "8",
+                "count": 6
+              },
+              "points": 24
+            },
+            {
+              "band_id": "five_grades_7_or_above",
+              "all_minimum_grade": "6",
+              "minimum_count_at_or_above": {
+                "grade": "7",
+                "count": 5
+              },
+              "points": 18
+            },
+            {
+              "band_id": "minimum_prerequisites",
+              "all_minimum_grade": "6",
+              "points": 12
+            }
+          ]
+        },
+        "a_level": {
+          "bands": [
+            {
+              "band_id": "aaa",
+              "minimum_profile": [
+                "A",
+                "A",
+                "A"
+              ],
+              "points": 30
+            }
+          ]
+        }
+      },
+      {
+        "component_id": "ucat_score",
+        "type": "ucat_national_decile_lookup",
+        "points_by_decile": {
+          "1": 4,
+          "2": 8,
+          "3": 12,
+          "4": 16,
+          "5": 20,
+          "6": 24,
+          "7": 28,
+          "8": 32,
+          "9": 36,
+          "10": 40
+        },
+        "output_max": 40
+      }
+    ]
+  },
+  "guidance_pools": [
+    {
+      "pool_id": "international",
+      "pool_specific_output": false,
+      "priority": 100,
+      "applicant_match": {
+        "all_group_ids": [
+          "international_fee"
+        ]
+      },
+      "metric": "ucat_total",
+      "band_rules": [
+        {
+          "band": "interview_likely",
+          "operator": "greater_than_or_equal",
+          "value": 2100
+        },
+        {
+          "band": "realistic",
+          "operator": "between_inclusive",
+          "min": 2050,
+          "max": 2099
+        },
+        {
+          "band": "ambitious",
+          "operator": "between_inclusive",
+          "min": 1950,
+          "max": 2049
+        },
+        {
+          "band": "high_risk",
+          "operator": "less_than",
+          "value": 1950
+        }
+      ]
+    },
+    {
+      "pool_id": "home_rest_of_uk_school_leaver",
+      "pool_specific_output": false,
+      "priority": 10,
+      "applicant_match": {
+        "all_group_ids": [
+          "home_fee",
+          "rest_of_uk",
+          "school_leaver"
+        ]
+      },
+      "metric": "ucat_total",
+      "band_rules": [
+        {
+          "band": "interview_likely",
+          "operator": "greater_than_or_equal",
+          "value": 2100
+        },
+        {
+          "band": "realistic",
+          "operator": "between_inclusive",
+          "min": 1950,
+          "max": 2099
+        },
+        {
+          "band": "ambitious",
+          "operator": "between_inclusive",
+          "min": 1800,
+          "max": 1949
+        },
+        {
+          "band": "high_risk",
+          "operator": "less_than",
+          "value": 1800
+        }
+      ]
+    }
+  ]
+}

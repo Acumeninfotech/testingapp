@@ -1,0 +1,319 @@
+{
+  "schema_version": "1.0.0",
+  "course_profile_id": "queen-mary-a100",
+  "confidence": "medium",
+  "evidence": {
+    "classification": "official_eligibility_and_method_with_applysmart_historical_normalised_estimate",
+    "summary": "QMUL publishes eligibility gates, the interview-selection methodology and 2023-2025 historical interview UCAT cut-offs by fee status. ApplySmart normalises those old 3600-scale cut-offs to the current 2700-scale UCAT to produce clearly labelled predictive estimates; these are not official QMUL thresholds.",
+    "source_ids": [
+      "qmul_a100_selection_criteria",
+      "qmul_medicine_dentistry_admissions_statistics",
+      "qmul_current_2700_cutoff"
+    ]
+  },
+  "eligibility": {
+    "scope": "Automatic classifier handling is restricted to supported standard school-leaver A-level and IB routes with complete GCSE, UCAT and SJT evidence.",
+    "international_english_language_required": true,
+    "qualification_routes": {
+      "supported": [
+        "a_level",
+        "international_baccalaureate"
+      ],
+      "explicitly_blocked": [
+        "graduate",
+        "scottish",
+        "international_qualification",
+        "access_to_medicine",
+        "access_to_he",
+        "unknown"
+      ]
+    },
+    "gcse": {
+      "minimum_count": 6,
+      "use_exact_subject_list": false,
+      "required_subjects": [
+        {
+          "subject_id": "english_language",
+          "minimum_grade": "6/B"
+        },
+        {
+          "subject_id": "mathematics",
+          "minimum_grade": "6/B"
+        },
+        {
+          "subject_id": "biology",
+          "minimum_grade": "6/B"
+        },
+        {
+          "subject_id": "chemistry",
+          "minimum_grade": "6/B"
+        }
+      ]
+    },
+    "a_level": {
+      "routes": [
+        {
+          "route_id": "qmul_a_level_a_star_aa_science_route",
+          "applies_to_group_ids": [
+            "school_leaver"
+          ],
+          "excluded_group_ids": [
+            "graduate_applicant"
+          ],
+          "grade_profile": [
+            "A*",
+            "A",
+            "A"
+          ],
+          "one_of_subject_groups": [
+            {
+              "group_id": "chemistry_or_biology",
+              "minimum_required": 1,
+              "subject_ids": [
+                "chemistry",
+                "biology"
+              ]
+            },
+            {
+              "group_id": "two_accepted_sciences",
+              "minimum_required": 2,
+              "subject_ids": [
+                "chemistry",
+                "biology",
+                "physics",
+                "mathematics"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    "international_baccalaureate": {
+      "routes": [
+        {
+          "route_id": "qmul_ib_37_666_hl_science_route",
+          "total_points": 37,
+          "hl_grade_profile": [
+            "6",
+            "6",
+            "6"
+          ],
+          "required_hl_subject_grade_options": [
+            {
+              "grade_requirements": [
+                {
+                  "subject_id": "chemistry",
+                  "minimum_grade": "6"
+                },
+                {
+                  "subject_id": "biology",
+                  "minimum_grade": "6"
+                }
+              ]
+            },
+            {
+              "grade_requirements": [
+                {
+                  "subject_id": "chemistry",
+                  "minimum_grade": "6"
+                },
+                {
+                  "subject_id": "physics",
+                  "minimum_grade": "6"
+                }
+              ]
+            },
+            {
+              "grade_requirements": [
+                {
+                  "subject_id": "chemistry",
+                  "minimum_grade": "6"
+                },
+                {
+                  "subject_id": "mathematics",
+                  "minimum_grade": "6"
+                }
+              ]
+            },
+            {
+              "grade_requirements": [
+                {
+                  "subject_id": "biology",
+                  "minimum_grade": "6"
+                },
+                {
+                  "subject_id": "physics",
+                  "minimum_grade": "6"
+                }
+              ]
+            },
+            {
+              "grade_requirements": [
+                {
+                  "subject_id": "biology",
+                  "minimum_grade": "6"
+                },
+                {
+                  "subject_id": "mathematics",
+                  "minimum_grade": "6"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    "ucat": {
+      "minimum_total_score": 1820,
+      "score_scale": 2700,
+      "minimum_basis": "2025 official UCAT 4th-decile boundary from shared data/ucat-deciles.json; review annually."
+    },
+    "sjt": {
+      "used_as_gate": true,
+      "accepted_bands": [
+        1,
+        2,
+        3
+      ],
+      "rejected_bands": [
+        4
+      ]
+    },
+    "manual_review_routes": [
+      "contextual numeric adjustments",
+      "care-experienced adjustment",
+      "Bridge the Gap",
+      "Realising Opportunities",
+      "graduate applying to A100",
+      "Scottish Highers plus Advanced Highers",
+      "country-specific international qualifications",
+      "resit applicants",
+      "combined science substitution",
+      "English Literature used without English Language 6/B evidence"
+    ],
+    "do_not_infer": [
+      "Do not present ApplySmart-normalised QMUL interview bands as official university thresholds.",
+      "Do not treat old 3600-scale cut-offs or normalised 2700-scale estimates as deterministic current cut-offs.",
+      "Do not apply tariff discounts or contextual reductions.",
+      "Do not score SJT Bands 1-3 for current interview prediction.",
+      "Do not infer the hidden UCAT/Tariff weighting as fact."
+    ]
+  },
+  "score_model": {
+    "type": "ranking_metric",
+    "basis": "ApplySmart historical-normalised UCAT estimate using official QMUL selection methodology and published 2023-2025 old-scale interview UCAT cut-offs; exact UCAT/Tariff weighting and current-cycle thresholds remain unpublished.",
+    "metric": "ucat_total",
+    "scale": {
+      "min": 900,
+      "max": 2700
+    },
+    "executable": true,
+    "historical_guidance_only": true,
+    "legacy_3600_conversion_used": true,
+    "fixed_current_cutoff": false,
+    "applysmart_predictive_estimate": true,
+    "conversion_policy": {
+      "from_scale": 3600,
+      "to_scale": 2700,
+      "formula": "old_scale_cutoff * 3 / 4",
+      "psychometric_equivalence": false,
+      "execution_rule": "Normalised values define ApplySmart guidance bands only and must never be displayed as official QMUL thresholds."
+    }
+  },
+  "guidance_pools": [
+    {
+      "pool_id": "qmul_home_standard_school_leaver_guidance",
+      "priority": 20,
+      "applicant_match": {
+        "all_group_ids": [
+          "home_fee",
+          "school_leaver"
+        ],
+        "excluded_group_ids": [
+          "international_fee",
+          "contextual",
+          "widening_participation",
+          "care_experienced",
+          "graduate_applicant"
+        ]
+      },
+      "metric": "ucat_total",
+      "band_rules": [
+        {
+          "band": "interview_likely",
+          "operator": "greater_than_or_equal",
+          "value": 2100
+        },
+        {
+          "band": "realistic",
+          "operator": "between_inclusive",
+          "min": 1965,
+          "max": 2099
+        },
+        {
+          "band": "ambitious",
+          "operator": "between_inclusive",
+          "min": 1900,
+          "max": 1964
+        },
+        {
+          "band": "high_risk",
+          "operator": "less_than",
+          "value": 1900
+        }
+      ],
+      "official_candidate_decile_guidance": {
+        "min": 2620,
+        "max": 2720,
+        "executable": false,
+        "reason": "Home historical interview cut-offs are official 2023-2025 old 3600-scale values. ApplySmart uses normalised 2700-scale guidance bands as predictive estimates only, not official QMUL thresholds."
+      }
+    },
+    {
+      "pool_id": "qmul_overseas_school_leaver_guidance",
+      "priority": 20,
+      "applicant_match": {
+        "all_group_ids": [
+          "international_fee",
+          "school_leaver"
+        ],
+        "excluded_group_ids": [
+          "home_fee",
+          "contextual",
+          "graduate_applicant"
+        ]
+      },
+      "metric": "ucat_total",
+      "band_rules": [
+        {
+          "band": "interview_likely",
+          "operator": "greater_than_or_equal",
+          "value": 2213
+        },
+        {
+          "band": "realistic",
+          "operator": "between_inclusive",
+          "min": 2108,
+          "max": 2212
+        },
+        {
+          "band": "ambitious",
+          "operator": "between_inclusive",
+          "min": 2050,
+          "max": 2107
+        },
+        {
+          "band": "high_risk",
+          "operator": "less_than",
+          "value": 2050
+        }
+      ],
+      "official_candidate_decile_guidance": {
+        "min": 2810,
+        "max": 2950,
+        "executable": false,
+        "reason": "Overseas historical interview cut-offs are official 2023-2025 old 3600-scale values. ApplySmart uses normalised 2700-scale guidance bands as predictive estimates only, not official QMUL thresholds."
+      }
+    }
+  ]
+}

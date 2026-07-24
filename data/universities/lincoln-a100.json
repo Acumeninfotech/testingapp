@@ -1,0 +1,895 @@
+{
+  "schema_version": "1.0.0",
+  "profile_id": "lincoln-a100",
+  "profile_status": "activated_for_scoped_eligibility_and_dual_interview_guidance",
+  "verification_status": "official_source_verified_with_documented_gaps",
+  "last_updated": "2026-07-21",
+  "university": {
+    "name": "University of Lincoln",
+    "slug": "lincoln",
+    "country": "United Kingdom",
+    "nation": "England",
+    "institution_type": "University",
+    "website_url": "https://www.lincoln.ac.uk/"
+  },
+  "course": {
+    "name": "MBChB Medicine",
+    "ucas_code": "A100",
+    "entry_route": "standard_entry",
+    "qualification_awarded": "MBChB",
+    "duration_years": 5,
+    "campus": "Brayford Pool",
+    "location": "Lincoln, England",
+    "entry_year": 2026,
+    "fee_statuses": [
+      "home"
+    ],
+    "is_gateway_or_foundation": false,
+    "is_graduate_entry": false,
+    "notes": "UK-only standard-entry A100. Graduates apply through A100; there is no separate A101 graduate-entry programme. Lincoln A106 Gateway is a separate route and pool."
+  },
+  "medical_school": {
+    "name": "Lincoln Medical School",
+    "source_ids": [
+      "lincoln_research_doc",
+      "lincoln_admissions_guidance_2026",
+      "lincoln_nottingham_foi_2948639"
+    ]
+  },
+  "applicant_pools": [
+    {
+      "pool_id": "home_a100_model_a_gcse_recent",
+      "applies_to_group_ids": [
+        "home_fee",
+        "school_leaver"
+      ],
+      "excluded_group_ids": [
+        "international_fee",
+        "graduate_applicant"
+      ],
+      "selection_relevance": "Year 13 / GCSE-recent applicants are ranked by GCSE points, UCAT cognitive band points, SJT points and capped contextual uplift."
+    },
+    {
+      "pool_id": "home_a100_model_b_post_qualification",
+      "applies_to_group_ids": [
+        "home_fee"
+      ],
+      "excluded_group_ids": [
+        "international_fee"
+      ],
+      "selection_relevance": "Post-A Level, undergraduate and graduate applicants are ranked on doubled UCAT cognitive plus SJT points only."
+    }
+  ],
+  "applies_to_group_ids": [
+    "england_domiciled",
+    "scotland_domiciled",
+    "wales_domiciled",
+    "northern_ireland_domiciled",
+    "home_fee",
+    "rest_of_uk",
+    "contextual",
+    "widening_participation",
+    "care_experienced",
+    "graduate_applicant",
+    "school_leaver",
+    "mature_applicant",
+    "resit_applicant"
+  ],
+  "stage_1_eligibility": {
+    "verification_status": "official_source_verified_with_documented_gaps",
+    "source_ids": [
+      "lincoln_research_doc",
+      "lincoln_admissions_guidance_2026",
+      "lincoln_nottingham_foi_2948639"
+    ],
+    "overall_policy": {
+      "status": "official_dual_route_rules_mapped",
+      "description": "Lincoln A100 checks academic eligibility, requires current-cycle UCAT, rejects SJT Band 4, then routes applicants to Model A or Model B for pre-interview ranking.",
+      "not_eligible_if": [
+        "International/overseas-fee applicants apply to an unsupported route: Lincoln A100 is UK-only in the supplied evidence.",
+        "SJT Band 4 is recorded.",
+        "The supported academic route minimums are not met.",
+        "UCAT was not sat in the current admissions cycle."
+      ]
+    },
+    "gcse": {
+      "status": "official_source_verified",
+      "source_ids": [
+        "lincoln_research_doc",
+        "lincoln_admissions_guidance_2026",
+        "lincoln_nottingham_foi_2948639"
+      ],
+      "minimum_count": 6,
+      "minimum_count_at_or_above_grade": {
+        "requirement_id": "six_gcse_at_grade_7_or_above",
+        "count": 6,
+        "minimum_grade": "7"
+      },
+      "mandatory_subject_ids": [
+        "english_language",
+        "mathematics"
+      ],
+      "grade_requirements": [
+        {
+          "requirement_id": "gcse_english_language_minimum",
+          "subject_id": "english_language",
+          "minimum_grade": "6",
+          "qualification_level": "gcse",
+          "decision_outcome_if_not_met": "not_eligible"
+        },
+        {
+          "requirement_id": "gcse_mathematics_minimum",
+          "subject_id": "mathematics",
+          "minimum_grade": "6",
+          "qualification_level": "gcse",
+          "decision_outcome_if_not_met": "not_eligible"
+        }
+      ],
+      "science_requirement": {
+        "requirement_id": "biology_and_chemistry_or_double_science_grade_7",
+        "requirement_type": "any_of",
+        "minimum_options_required": 1,
+        "accepted_options": [
+          {
+            "option_id": "separate_biology_and_chemistry",
+            "grade_requirements": [
+              {
+                "subject_id": "biology",
+                "minimum_grade": "7"
+              },
+              {
+                "subject_id": "chemistry",
+                "minimum_grade": "7"
+              }
+            ]
+          },
+          {
+            "option_id": "combined_science_double_award",
+            "subject_id": "combined_science",
+            "minimum_grade_profile": [
+              "7",
+              "7"
+            ],
+            "counts_as_gcse_subjects": 2
+          }
+        ],
+        "decision_outcome_if_not_met": "not_eligible"
+      },
+      "selection_role": "model_a_scored_for_gcse_recent_only",
+      "scored_after_eligibility": true,
+      "scoring_summary": "Best six GCSEs must include Biology, Chemistry or Double Science, Mathematics and English Language, plus two highest others. Grades 9,8,7,6,5,4 score 5,4,3,2,1,0 respectively; maximum 30.",
+      "resits": "Permitted if awarded by the time of application."
+    },
+    "post_16": {
+      "status": "official_source_verified_with_documented_gaps",
+      "source_ids": [
+        "lincoln_research_doc",
+        "lincoln_admissions_guidance_2026",
+        "lincoln_nottingham_foi_2948639"
+      ],
+      "accepted_qualifications": [
+        "a_level",
+        "international_baccalaureate",
+        "scottish",
+        "degree"
+      ],
+      "a_level": {
+        "status": "official_source_verified_with_practical_endorsement_gap",
+        "standard_offer": {
+          "grade_profile": [
+            "A",
+            "A",
+            "A"
+          ]
+        },
+        "contextual_offer": {
+          "grade_profile": [
+            "A",
+            "A",
+            "B"
+          ],
+          "required_subject_grade": {
+            "subject_id": "biology",
+            "minimum_grade": "A"
+          },
+          "applies_to_group_ids": [
+            "home_fee",
+            "contextual"
+          ],
+          "notes": "Contextual offer reduction is offer-stage metadata and does not alter pre-interview threshold bands."
+        },
+        "grade_requirements": [
+          {
+            "requirement_id": "lincoln_a_level_aaa_biology",
+            "grade_profile": [
+              "A",
+              "A",
+              "A"
+            ],
+            "required_subject_ids": [
+              "biology"
+            ],
+            "subject_grade_requirements": [
+              {
+                "subject_id": "biology",
+                "minimum_grade": "A"
+              }
+            ]
+          }
+        ],
+        "excluded_subject_ids": [
+          "general_studies",
+          "global_perspectives_and_research"
+        ],
+        "excluded_subjects_text": "General Studies, Critical Thinking, EPQ, Global Perspectives and Citizenship Studies are not accepted for the offer requirement.",
+        "predicted_grades_used_in_selection_scoring": false,
+        "achieved_a_levels_trigger_model_b": true,
+        "science_practical_endorsement_required": null
+      },
+      "international_baccalaureate": {
+        "status": "official_source_verified",
+        "total_points": 36,
+        "required_hl_subjects": [
+          {
+            "subject_id": "biology",
+            "minimum_grade": "6"
+          }
+        ],
+        "notes": "IB applicants also need supporting GCSE/IB Middle Years science, English and Maths evidence. Route-specific scoring is not separately calibrated beyond the GCSE-recent versus post-qualification rule."
+      },
+      "scottish": {
+        "status": "official_source_verified_with_route_execution_gap",
+        "national_5": "At least 6 Grade As or GCSE equivalent including Biology and Chemistry; Maths and English Language at Grade B minimum.",
+        "highers": "AAABB including Biology, Chemistry, Maths and English Language, with A in Biology.",
+        "advanced_highers": "Grade A in Biology.",
+        "notes": "The generic evaluator can record Scottish requirements but Lincoln-specific National 5 scoring equivalence requires manual review if GCSE-equivalent grades are not supplied in gcse_profile."
+      },
+      "graduate": {
+        "status": "official_source_verified_with_subject_relevance_manual_review_boundary",
+        "minimum_classification": "2_1",
+        "accepted_route": "A100 only; no separate A101 graduate entry programme.",
+        "relevant_degree_route": "2:1 in a relevant UK Honours degree plus GCSE Maths and English Language Grade 5; Chemistry/Double Science unless covered at A Level or in transcript.",
+        "any_degree_route": "2:1 in any Honours degree plus standard A Level and GCSE requirements.",
+        "scoring_route": "model_b_doubled_ucat_only",
+        "contextual_uplift_applies": false,
+        "degree_conferred_deadline": "Early August of entry year; final-year students may hold conditional offers."
+      },
+      "notes": "A Levels are not scored. Completed A Levels, current/completed undergraduate study and graduate status switch applicants to Model B."
+    },
+    "admissions_tests": {
+      "ucat": {
+        "required": true,
+        "minimum_total_score": null,
+        "score_scale": 2700,
+        "validity_window": "same_admission_cycle",
+        "selection_role": "official_score_component",
+        "notes": "Lincoln publishes no fixed UCAT cut-off. Cognitive total is converted to official band points."
+      },
+      "sjt": {
+        "used_as_gate": true,
+        "accepted_bands": [
+          1,
+          2,
+          3
+        ],
+        "excluded_bands": [
+          4
+        ],
+        "band_4_policy": "automatic_rejection_at_application",
+        "scoring": {
+          "used_in_score": true,
+          "band_1": 15,
+          "band_2": 10,
+          "band_3": 5,
+          "band_4": "reject"
+        }
+      }
+    },
+    "resits": {
+      "policy": "permitted_with_conditions",
+      "conditions": "GCSE resits must be awarded by application. A Level resits must normally achieve AAA, or AAB contextual with A in Biology, usually within two years of first sitting.",
+      "maximum_resits": null
+    },
+    "contextual": {
+      "available": true,
+      "criteria": [
+        "care_leaver",
+        "refugee",
+        "MEM2_Q1",
+        "MEM2_Q2",
+        "UCAT_bursary",
+        "LMS_WP_summer_school",
+        "Lincolnshire_residence"
+      ],
+      "adjustments": [
+        {
+          "adjustment": "pre_interview_score_uplift",
+          "maximum_points": 12,
+          "model": "model_a_only"
+        }
+      ]
+    },
+    "english_language": {
+      "required_for_group": false,
+      "accepted_tests": [],
+      "notes": "International route is not applicable to Lincoln A100 in the supplied evidence."
+    },
+    "age_or_professional_checks": {
+      "minimum_age": null,
+      "fitness_to_practise_required": true,
+      "dbs_required": true,
+      "occupational_health_required": true,
+      "notes": "Professional checks are offer-holder requirements and are not used for interview prediction."
+    },
+    "non_academic": {
+      "work_experience": "No specific clinical work-experience requirement; expected insight into NHS/caring work for interview reflection.",
+      "personal_statement": "Checked after interview, not scored pre-interview.",
+      "fitness_to_practise_required": true,
+      "dbs_required": true,
+      "occupational_health_required": true
+    }
+  },
+  "stage_2_interview_selection": {
+    "verification_status": "official_pre_interview_formula_verified",
+    "source_ids": [
+      "lincoln_research_doc",
+      "lincoln_admissions_guidance_2026",
+      "lincoln_nottingham_foi_2948639"
+    ],
+    "primary_method": "score_based_ranking",
+    "primary_model": "points_system",
+    "selection_model_label": "OFFICIAL_DUAL_MODEL_60_POINT_PRE_INTERVIEW_SCORE",
+    "model_routing": {
+      "model_a": "GCSE-recent / Year 13 applicants: GCSE 30 + UCAT cognitive 15 + SJT 15 + contextual up to 12, capped at 60.",
+      "model_b": "Post-A Level, undergraduate and graduate applicants: (UCAT cognitive 15 + SJT 15) doubled, capped at 60.",
+      "routing_key": "most_recent_completed_relevant_qualification_or_explicit_qualification_route"
+    },
+    "ranking_factors": [
+      {
+        "factor": "gcse_score",
+        "role": "model_a_score_component",
+        "weight_percent": 50,
+        "points_available": 30
+      },
+      {
+        "factor": "ucat_cognitive_band",
+        "role": "score_component",
+        "weight_percent": null,
+        "points_available": 15
+      },
+      {
+        "factor": "sjt_band",
+        "role": "score_component_and_gate",
+        "weight_percent": null,
+        "points_available": 15
+      },
+      {
+        "factor": "contextual_uplift",
+        "role": "model_a_uplift",
+        "weight_percent": null,
+        "points_available": 12
+      }
+    ],
+    "thresholds": [],
+    "modifiers": [
+      "contextual_adjustment",
+      "sjt_exclusion",
+      "sjt_scoring",
+      "tie_breaker",
+      "separate_applicant_pool"
+    ],
+    "selection_adjustments": [
+      {
+        "modifier_id": "contextual_adjustment",
+        "applies_to_group_ids": [
+          "contextual"
+        ],
+        "points_available": 12,
+        "evidence_classification": "official",
+        "source_ids": [
+          "lincoln_research_doc",
+          "lincoln_admissions_guidance_2026",
+          "lincoln_nottingham_foi_2948639"
+        ],
+        "notes": "Model A contextual measures are summed and capped at 12 points. Contextual points are not applied to Model B degree-holder applicants."
+      },
+      {
+        "modifier_id": "sjt_exclusion",
+        "evidence_classification": "official",
+        "source_ids": [
+          "lincoln_research_doc",
+          "lincoln_admissions_guidance_2026",
+          "lincoln_nottingham_foi_2948639"
+        ],
+        "notes": "SJT Band 4 is an automatic rejection at application."
+      }
+    ],
+    "calculation": {
+      "verification_status": "official_pre_interview_formula_verified",
+      "source_ids": [
+        "lincoln_research_doc",
+        "lincoln_admissions_guidance_2026",
+        "lincoln_nottingham_foi_2948639"
+      ],
+      "evidence_classification": "official",
+      "score_components": [
+        {
+          "component_id": "model_a_gcse_score",
+          "factor_id": "gcse_scored_subjects",
+          "input_field": "gcse_profile",
+          "calculation_method": "best_six_mandatory_then_best_gcse_points",
+          "scale": {
+            "min": 0,
+            "max": 30
+          },
+          "weight_percent": null,
+          "rounding": null,
+          "evidence_classification": "official",
+          "notes": "Model A only. Highest six GCSEs must include Biology, Chemistry or Double Science, Maths and English Language; 9=5, 8=4, 7=3, 6=2, 5=1, 4=0.",
+          "source_ids": [
+            "lincoln_research_doc",
+            "lincoln_admissions_guidance_2026",
+            "lincoln_nottingham_foi_2948639"
+          ]
+        },
+        {
+          "component_id": "ucat_cognitive_band_score",
+          "factor_id": "ucat_cognitive_total",
+          "input_field": "admissions_tests.ucat.total_score",
+          "calculation_method": "official_ucat_range_lookup",
+          "scale": {
+            "min": 0,
+            "max": 15
+          },
+          "weight_percent": null,
+          "rounding": null,
+          "evidence_classification": "official",
+          "notes": "UCAT cognitive contributes up to 15 points in Model A and is doubled to 30 in Model B.",
+          "source_ids": [
+            "lincoln_research_doc",
+            "lincoln_admissions_guidance_2026",
+            "lincoln_nottingham_foi_2948639"
+          ]
+        },
+        {
+          "component_id": "sjt_band_score",
+          "factor_id": "ucat_sjt_band",
+          "input_field": "admissions_tests.ucat.sjt_band",
+          "calculation_method": "official_sjt_band_lookup",
+          "scale": {
+            "min": 0,
+            "max": 15
+          },
+          "weight_percent": null,
+          "rounding": null,
+          "evidence_classification": "official",
+          "notes": "Band 1=15, Band 2=10, Band 3=5; Band 4 rejects. SJT points are doubled in Model B.",
+          "source_ids": [
+            "lincoln_research_doc",
+            "lincoln_admissions_guidance_2026",
+            "lincoln_nottingham_foi_2948639"
+          ]
+        },
+        {
+          "component_id": "model_a_contextual_capped",
+          "factor_id": "contextual_criteria",
+          "input_field": "applicant_group_ids",
+          "calculation_method": "official_additive_contextual_matrix_capped_at_12",
+          "scale": {
+            "min": 0,
+            "max": 12
+          },
+          "weight_percent": null,
+          "rounding": null,
+          "evidence_classification": "official",
+          "notes": "Model A only; care leaver/refugee 12, MEM2 Q1 10, MEM2 Q2 8, UCAT bursary 6, LMS WP summer school 6, Lincolnshire residence 2; total capped at 12.",
+          "source_ids": [
+            "lincoln_research_doc",
+            "lincoln_admissions_guidance_2026",
+            "lincoln_nottingham_foi_2948639"
+          ]
+        }
+      ],
+      "total_score": {
+        "calculation_method": "model_a_or_model_b_by_qualification_stage",
+        "components": [
+          "model_a: gcse_score + ucat_cognitive + sjt + contextual_capped",
+          "model_b: (ucat_cognitive + sjt) * 2"
+        ],
+        "scale": {
+          "min": 0,
+          "max": 60
+        },
+        "evidence_classification": "official",
+        "notes": "Both official pathways are capped at 60. The applicant qualification stage is the routing key.",
+        "source_ids": [
+          "lincoln_research_doc",
+          "lincoln_admissions_guidance_2026",
+          "lincoln_nottingham_foi_2948639"
+        ]
+      },
+      "notes": "A Levels are not scored. The official score calculation is separate from ApplySmart's low-confidence provisional strategic bands."
+    },
+    "tie_breakers": [
+      {
+        "order": 1,
+        "stage": "interview_shortlisting",
+        "rule": "higher_raw_ucat_total_wins"
+      }
+    ],
+    "quotas_or_pools": [
+      {
+        "pool_id": "a100_home",
+        "places": 84,
+        "notes": "A100 and A106 ranked as separate pools. No international A100 places in the supplied evidence."
+      }
+    ],
+    "output_band_policy": "provisional_guidance_only_until_first_cycle_data",
+    "academic_scoring": {
+      "applies": true,
+      "official": true,
+      "max_points": 60
+    },
+    "notes": "The 45-50/60 competitive zone is used only as a low-confidence provisional strategic benchmark. It is not an official Lincoln cutoff, and modelled interview numbers remain display-only context."
+  },
+  "contextual_admissions": {
+    "available": true,
+    "verification_status": "official_source_verified",
+    "source_ids": [
+      "lincoln_research_doc",
+      "lincoln_admissions_guidance_2026",
+      "lincoln_nottingham_foi_2948639"
+    ],
+    "applies_to_group_ids": [
+      "contextual",
+      "widening_participation"
+    ],
+    "criteria": [
+      "care_leaver",
+      "refugee",
+      "MEM2_Q1",
+      "MEM2_Q2",
+      "UCAT_bursary",
+      "LMS_WP_summer_school",
+      "Lincolnshire_residence"
+    ],
+    "adjustments": [
+      {
+        "adjustment_id": "model_a_contextual_uplift_cap_12",
+        "adjustment_type": "pre_interview_score_uplift",
+        "maximum_points": 12,
+        "applies_to": "Model A only",
+        "notes": "Multiple criteria are summed and capped at 12. Degree holders / Model B applicants do not receive the contextual score uplift."
+      },
+      {
+        "adjustment_id": "contextual_offer_reduction",
+        "adjustment_type": "offer_condition",
+        "standard_offer": "AAA including Biology",
+        "contextual_offer": "AAB with A in Biology",
+        "notes": "Offer-condition metadata only; not used for ApplySmart offer prediction."
+      }
+    ],
+    "guaranteed_interview_rules": [],
+    "notes": "Lincoln contextual criteria alter Model A pre-interview scoring through an official capped matrix and may reduce offer conditions. They are not a separate pool and do not apply to degree holders.",
+    "interview_selection_adjustment": {
+      "applies": true,
+      "model": "additive_contextual_points_capped_at_12_for_model_a_only",
+      "maximum_points": 12,
+      "excluded_group_ids": [
+        "graduate_applicant"
+      ],
+      "criteria_points": {
+        "care_leaver": 12,
+        "refugee": 12,
+        "MEM2_Q1": 10,
+        "MEM2_Q2": 8,
+        "UCAT_bursary": 6,
+        "LMS_WP_summer_school": 6,
+        "Lincolnshire_residence": 2
+      }
+    },
+    "offer_adjustment": {
+      "applies": true,
+      "standard_offer": "AAA including Biology",
+      "contextual_offer": "AAB with A in Biology"
+    }
+  },
+  "ranking_pools": [
+    {
+      "pool_id": "a100_home",
+      "name": "A100 Home / UK pool",
+      "applies_to_group_ids": [
+        "home_fee"
+      ],
+      "fee_statuses": [
+        "home"
+      ],
+      "ranking_model": "points_system",
+      "ranking_factors": [
+        "Model A official /60 score",
+        "Model B official /60 score",
+        "raw UCAT tie-break"
+      ],
+      "places_available": 84,
+      "source_ids": [
+        "lincoln_research_doc",
+        "lincoln_admissions_guidance_2026",
+        "lincoln_nottingham_foi_2948639"
+      ],
+      "notes": "Single UK/Home pool; no international A100 pool."
+    },
+    {
+      "pool_id": "a106_gateway",
+      "name": "A106 Gateway pool",
+      "applies_to_group_ids": [
+        "widening_participation"
+      ],
+      "fee_statuses": [
+        "home"
+      ],
+      "ranking_model": "points_system",
+      "ranking_factors": [
+        "Separate Gateway selection route"
+      ],
+      "places_available": 20,
+      "source_ids": [
+        "lincoln_research_doc",
+        "lincoln_admissions_guidance_2026",
+        "lincoln_nottingham_foi_2948639"
+      ],
+      "notes": "Separate A106 route, not part of this A100 profile."
+    }
+  ],
+  "quotas": [
+    {
+      "quota_id": "lincoln_a100_places_2027_entry_verified",
+      "name": "Verified Home/International places (2027 entry)",
+      "home_places": 84,
+      "international_places": 0,
+      "quota_type": "verified_current_places",
+      "source_ids": [
+        "applysmart_admissions_team_verified_2026"
+      ],
+      "notes": "Home/International place figures verified by the ApplySmart admissions research team for 2027 entry."
+    },
+    {
+      "quota_id": "a100_home_places_2026",
+      "applicant_group_ids": [
+        "home_fee"
+      ],
+      "places": 84,
+      "notes": "Official A100 home places for the 2026 entry cycle in the supplied research.",
+      "source_ids": [
+        "lincoln_research_doc",
+        "lincoln_admissions_guidance_2026",
+        "lincoln_nottingham_foi_2948639"
+      ]
+    },
+    {
+      "quota_id": "international_places",
+      "applicant_group_ids": [
+        "international_fee"
+      ],
+      "places": 0,
+      "notes": "Lincoln A100 is UK-only in the supplied evidence; international applicants cannot apply.",
+      "source_ids": [
+        "lincoln_research_doc",
+        "lincoln_admissions_guidance_2026",
+        "lincoln_nottingham_foi_2948639"
+      ]
+    }
+  ],
+  "offer_selection": {
+    "verification_status": "official_source_verified_out_of_scope_for_applysmart",
+    "source_ids": [
+      "lincoln_research_doc",
+      "lincoln_admissions_guidance_2026",
+      "lincoln_nottingham_foi_2948639"
+    ],
+    "interview_format": "in_person_mmi",
+    "interview_scoring": "seven_station_mmi_score_out_of_70",
+    "offer_model": "rank_by_mmi_score_plus_halved_combined_academic_score",
+    "ranking_factors": [
+      "mmi_score_out_of_70",
+      "halved_combined_academic_score_out_of_30"
+    ],
+    "waiting_list_policy": "informal_hold_system_reference_only_no_formal_policy_published",
+    "standard_offer": {
+      "a_level": [
+        "A",
+        "A",
+        "A"
+      ],
+      "required_subject": "Biology"
+    },
+    "contextual_offer": {
+      "a_level": [
+        "A",
+        "A",
+        "B"
+      ],
+      "required_subject": "Biology at A",
+      "applysmart_effect": "informational_only"
+    },
+    "offer_prediction_enabled": false,
+    "formula_recorded_for_transparency_only": "MMI /70 + halved Combined Academic Score /30 = final /100.",
+    "interview_weight_percent": 70,
+    "academic_carry_forward_percent": 30,
+    "tie_breakers": [
+      {
+        "order": 1,
+        "rule": "higher_interview_score_wins"
+      }
+    ],
+    "notes": "ApplySmart does not predict offers; offer-stage academic carry-forward is stored for decision transparency only."
+  },
+  "historical_admissions": {
+    "verification_status": "mixed_official_and_historical_guidance",
+    "source_ids": [
+      "lincoln_research_doc",
+      "lincoln_admissions_guidance_2026",
+      "lincoln_nottingham_foi_2948639"
+    ],
+    "cycles": [
+      {
+        "entry_year": 2026,
+        "metric": "official_interview_threshold",
+        "value": null,
+        "runtime_use": false,
+        "notes": "No official threshold is published for Lincoln's first independent A100 cycle."
+      },
+      {
+        "entry_year": 2026,
+        "metric": "official_interview_numbers",
+        "value": null,
+        "runtime_use": false,
+        "notes": "No official independent-cycle interview number is published."
+      }
+    ],
+    "interview_threshold": {
+      "official_value": null,
+      "evidence_gap": "Lincoln publishes no current fixed interview threshold; threshold varies yearly."
+    },
+    "interview_numbers": {
+      "official_value": null,
+      "evidence_gap": "First independent-cycle interview numbers are not yet published."
+    },
+    "historical_reference_only": [
+      {
+        "entry_year": 2022,
+        "note": "Partnership-era UCAT data on old 3600 scale; not comparable to current scoring.",
+        "runtime_use": false
+      },
+      {
+        "entry_year": 2023,
+        "note": "Partnership-era effective cut-off under old system; not used in runtime logic.",
+        "runtime_use": false
+      }
+    ],
+    "provisional_prediction_bands": {
+      "prediction_ready": true,
+      "runtime_use": "provisional_guidance_only",
+      "reason": "No official calibration exists before first-cycle data; ApplySmart labels these bands as provisional strategic guidance."
+    },
+    "notes": "Historical Nottingham partnership-era data and modelled interview numbers are retained only as reference/display metadata. The estimated Lincoln competitive zone may support provisional strategic guidance, but never an official threshold claim."
+  },
+  "fee_information": {
+    "currency": "GBP",
+    "entry_cycle": "2026",
+    "home": {
+      "status": "eligible_fee_pool",
+      "amount": null,
+      "notes": "Home-fee applicants are the only supported A100 fee pool in the supplied evidence."
+    },
+    "international": {
+      "status": "not_applicable",
+      "amount": null,
+      "notes": "Lincoln A100 has 0 international places in the supplied evidence."
+    },
+    "fees_subject_to_change": true,
+    "eligibility_effect": "informational_only",
+    "home_fee_only": true,
+    "international_applicants_supported": false
+  },
+  "sources": [
+    {
+      "source_id": "lincoln_research_doc",
+      "title": "University of Lincoln A100 Research Document",
+      "source_type": "authoritative_research_document",
+      "published_date": "2026-07",
+      "accessed_date": "2026-07-21",
+      "url": null,
+      "applies_to_sections": [
+        "stage_1_eligibility",
+        "stage_2_interview_selection",
+        "contextual_admissions",
+        "offer_selection",
+        "historical_admissions"
+      ],
+      "confidence": "high",
+      "notes": "Authoritative implementation research document supplied by the user, including Appendix A prediction engine specification."
+    },
+    {
+      "source_id": "lincoln_admissions_guidance_2026",
+      "title": "Lincoln Medical School Admissions Guidance",
+      "source_type": "official_admissions_guidance",
+      "published_date": null,
+      "accessed_date": "2026-07-21",
+      "url": null,
+      "applies_to_sections": [
+        "stage_1_eligibility",
+        "stage_2_interview_selection",
+        "contextual_admissions",
+        "offer_selection"
+      ],
+      "confidence": "high",
+      "notes": "Official guidance as represented in the supplied Lincoln research document."
+    },
+    {
+      "source_id": "lincoln_nottingham_foi_2948639",
+      "title": "University of Nottingham FOI ref. 2948639",
+      "source_type": "foi_historical_reference",
+      "published_date": null,
+      "accessed_date": "2026-07-21",
+      "url": null,
+      "applies_to_sections": [
+        "historical_admissions"
+      ],
+      "confidence": "low",
+      "notes": "Historical reference only. Partnership-era or estimate-derived data is not used as runtime admissions logic."
+    }
+  ],
+  "validation": {
+    "source_status": "official_source_verified_with_documented_gaps",
+    "last_verified": "2026-07-21",
+    "confidence_level": "High for official scoring rules; low for interview prediction calibration",
+    "completion_status": "complete_for_supported_scope_with_documented_gaps",
+    "known_unknowns": [
+      "No official Lincoln A100 interview threshold is published for the first independent cycle.",
+      "No official independent-cycle interview numbers are published.",
+      "Graduate relevant-degree subject/transcript coverage cannot be inferred from free text.",
+      "Scottish National 5 scoring equivalence requires manual review unless supplied as GCSE-equivalent structured grades.",
+      "Science practical endorsement requirement is not explicitly published."
+    ],
+    "review_notes": "Runtime scoring uses only official rules. Estimated thresholds, modelled interview numbers and provisional bands are preserved as non-runtime metadata."
+  },
+  "engine_notes": {
+    "eligibility": true,
+    "interview_prediction": true,
+    "historical_guidance": false,
+    "international_prediction": false,
+    "contextual_logic": true,
+    "result_card": true,
+    "regression": true,
+    "research_completeness": "complete_for_supported_scope_with_documented_gaps",
+    "manual_review_required": true,
+    "eligibility_ready": true,
+    "interview_prediction_ready": true,
+    "prediction_confidence": "low",
+    "result_card_ready": true,
+    "interview_band_config_ready": true,
+    "metadata_activation_ready": true,
+    "production_ready": true,
+    "offer_prediction_scope": "out_of_scope",
+    "architecture_change_required": false,
+    "blocking_missing_fields": [],
+    "engine_assumptions": [
+      "Predicted A Level applicants are treated as GCSE-recent / Model A where qualification_status is predicted.",
+      "Achieved A Level, undergraduate and graduate applicants are routed to Model B by structured qualification route/status fields.",
+      "Lincoln contextual criteria are supplied as structured applicant_group_ids so the official capped matrix can be evaluated without inferring from free text."
+    ],
+    "evidence_gaps": [
+      "No official interview threshold is published for the first independent Lincoln cycle.",
+      "No official A100 interview-number data is published for the independent cycle.",
+      "Scottish National 5 scoring equivalence requires manual review unless GCSE-equivalent grades are supplied in the standard GCSE profile.",
+      "Graduate relevant-degree subject/transcript coverage cannot be inferred from free text and may require manual review.",
+      "Science practical endorsement requirement is not explicitly published."
+    ],
+    "do_not_infer": [
+      "Do not use the estimated 45-50/60 competitive zone as an official runtime threshold; it may only support clearly labelled provisional strategic guidance.",
+      "Do not use historical Nottingham partnership UCAT figures as current Lincoln cut-offs.",
+      "Do not implement offer prediction.",
+      "Do not apply contextual points to Model B degree-holder applicants."
+    ]
+  }
+}

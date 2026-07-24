@@ -1,0 +1,364 @@
+{
+  "schema_version": "1.0.0",
+  "profile_id": "sheffield-a100-research",
+  "course_profile_id": "sheffield-a100",
+  "research_status": "complete_for_supported_scope_with_documented_gaps",
+  "file_purpose": "Research and evidence profile for University of Sheffield MBChB Medicine A100. This file preserves the supplied official-source research, native-scale historical guidance, implementation mapping and known review boundaries; executable rules live in data/universities/sheffield-a100.json.",
+  "official_rules_source": "data/universities/sheffield-a100.json",
+  "created_at": "2026-07-06",
+  "last_updated": "2026-07-06",
+  "research_scope": {
+    "target_entry_year": 2027,
+    "primary_policy_cycle": "2027 entry",
+    "historical_guidance_cycle": "2025-26",
+    "primary_course": "A100",
+    "primary_scope": [
+      "home_standard_a_level_school_leaver",
+      "home_verified_contextual_a_level_school_leaver",
+      "international_supported_school_leaver_with_confirmed_english_exemption",
+      "standard_international_baccalaureate",
+      "verified_access_to_sheffield_medicine_or_pathway"
+    ],
+    "manual_review_scope": [
+      "graduate_applying_to_a100",
+      "scottish_highers_plus_advanced_highers",
+      "resit_applicant",
+      "epq_alternative",
+      "contextual_international_baccalaureate",
+      "environmental_science_gcse",
+      "unlisted_international_qualification",
+      "international_applicant_relying_on_ielts_or_an_unlisted_english_test"
+    ],
+    "excluded_related_courses": [
+      "A101 Graduate Entry Medicine"
+    ],
+    "production_json_updated": true,
+    "index_updated": true,
+    "readme_updated": true,
+    "examples_updated": true,
+    "regression_scripts_updated": true,
+    "activation_flags_updated": true,
+    "third_party_admissions_websites_used": false,
+    "evidence_intake_basis": "ApplySmart_Sheffield_A100_Research2.md supplied by the user on 2026-07-06",
+    "notes": "Only native 2700-scale 2025-26 cutpoints are executable. Legacy 3600-scale figures are retained only as labelled context."
+  },
+  "evidence_classification_policy": {
+    "official": "A rule or statistic attributed by the supplied research to a first-party University of Sheffield source.",
+    "foi_verified": "A statistic contained in an attributable University of Sheffield FOI response archived publicly.",
+    "historical_guidance": "A cycle-labelled observation used to position interview competitiveness, never as a current guarantee.",
+    "unverified_researcher_supplied": "A value present in the research without an independently logged source reference; not used for production behaviour.",
+    "unknown": "The supplied evidence does not establish the fact safely enough for execution.",
+    "intake_caveat": "The user designated the completed Markdown research as authoritative. Source classifications preserve its evidence log and caveats."
+  },
+  "metadata": {
+    "authoritative_research_file": "/Users/faizan/Desktop/medical university research/sheffield/ApplySmart_Sheffield_A100_Research2.md",
+    "engine_version": "ApplySmart Engine v1.0",
+    "architecture_change_required": false,
+    "selection_model_mapping": "academic_gate_then_ucat_minimum_then_pool_specific_ucat_ranking",
+    "standardisation_profile": "completed_production_university"
+  },
+  "readiness": {
+    "eligibility": true,
+    "interview_prediction": true,
+    "historical_guidance": true,
+    "international_prediction": true,
+    "contextual_logic": true,
+    "result_card": true,
+    "regression": true,
+    "research_completeness": "complete_for_supported_scope_with_documented_gaps",
+    "manual_review_required": true,
+    "eligibility_ready": true,
+    "interview_prediction_ready": true,
+    "prediction_confidence": "medium",
+    "result_card_ready": true,
+    "offer_prediction_scope": "out_of_scope",
+    "interview_band_config_ready": true,
+    "metadata_activation_ready": true,
+    "production_ready_candidate": true,
+    "production_activation_should_remain_blocked": false,
+    "activation_block_reason": null,
+    "critical_research_blockers": [],
+    "route_limited_blockers": [
+      "International A100 historical lowest, average and highest UCAT distributions beyond the partially evidenced cycles are incomplete, and the supplied 2021/2022 International rows still lack logged source references.",
+      "A101 historical UCAT and application/interview/offer distributions are not published in the supplied evidence; A101 is a separate course outside this A100 implementation.",
+      "Country-specific international qualification equivalences are not tabulated.",
+      "Post-interview tie-breakers and MMI plus SJT score distributions are not published; this evidence is outside the implemented A100 interview-prediction scope."
+    ],
+    "engine_execution_boundaries": [
+      "Scottish Higher plus Advanced Higher eligibility is fully evidenced and mapped, but remains manual review because the generic interview classifier cannot faithfully evaluate the joint profile.",
+      "Graduate A100 eligibility is fully evidenced and mapped as a 2:1 degree plus BBB school-qualification branch, but remains manual review because the generic interview classifier does not combine both conditions.",
+      "GCSE and A-level resit rules are fully evidenced and mapped, but Sheffield's one-resit and same-sitting conditions remain manual review.",
+      "The EPQ route is fully evidenced and mapped, but the generic qualification evaluator does not read the EPQ alternative.",
+      "The contextual IB offer is fully evidenced and mapped, but remains manual review because the generic classifier cannot safely group-filter that route.",
+      "Environmental Science GCSE acceptance is fully evidenced and mapped, but remains manual review because Engine v1.0 has no canonical Environmental Science subject identifier.",
+      "The ordinary A-level two-year and same-first-sitting condition is fully evidenced but not automatically verified.",
+      "The IELTS 7.5 overall and 7.0 component rule is fully evidenced, but the shared classifier cannot represent the 7.5 overall threshold exactly."
+    ],
+    "summary": "Official evidence supports scoped A100 eligibility and pool-specific UCAT interview guidance for Home, International and verified Access to Sheffield Medicine/pathway applicants."
+  },
+  "course_identity": {
+    "university": "University of Sheffield",
+    "medical_school": "School of Medicine and Population Health",
+    "course_name": "MBChB Medicine",
+    "ucas_code": "A100",
+    "duration_years": 5,
+    "entry_route": "standard_entry",
+    "home_places": 273,
+    "international_places": 18,
+    "source_ids": [
+      "sheffield_admissions_page",
+      "sheffield_course_page_2027"
+    ],
+    "evidence_classification": "official"
+  },
+  "selection_model": {
+    "type": "sequential_gate",
+    "steps": [
+      "Check the applicable academic minimum.",
+      "Require a current-cycle UCAT cognitive total of at least 1800/2700.",
+      "For ordinary applicants, rank by UCAT within the separate Home or International pool.",
+      "For verified Access to Sheffield Medicine/pathway applicants, bypass ordinary UCAT ranking after the academic and UCAT minimum gates."
+    ],
+    "academic_scoring": false,
+    "ucat_ranking": true,
+    "sjt_shortlisting_role": "none",
+    "home_and_international_ranked_separately": true,
+    "scottish_or_ruk_separate_pool": false,
+    "source_ids": [
+      "sheffield_admissions_page",
+      "sheffield_a100_policy_2027",
+      "sheffield_widening_access"
+    ],
+    "evidence_classification": "official"
+  },
+  "academic_requirements": {
+    "gcse": {
+      "minimum_profile": "At least five GCSEs at grade 7/A, with English Language, Mathematics and at least one accepted science at grade 6/B.",
+      "scored_after_threshold": false,
+      "double_science_accepted": true,
+      "resits": "Accepted under one-resit and single-resit-sitting conditions.",
+      "source_ids": [
+        "sheffield_course_page_2027",
+        "sheffield_a100_policy_2027"
+      ]
+    },
+    "a_level": {
+      "standard": "AAA",
+      "contextual": "AAB with A in Chemistry or Biology",
+      "subject_rule": "Chemistry or Biology plus a second science from Biology/Human Biology, Chemistry, Mathematics, Physics or Psychology.",
+      "practical_endorsement_required": true,
+      "excluded": [
+        "General Studies",
+        "Critical Thinking"
+      ],
+      "epq_alternative": "AAB with A in Chemistry or Biology plus A in EPQ",
+      "source_ids": [
+        "sheffield_course_page_2027",
+        "sheffield_a100_policy_2027",
+        "sheffield_widening_access"
+      ]
+    },
+    "international_baccalaureate": {
+      "standard": "36 points with 6,6 in HL Chemistry or Biology plus a second science",
+      "contextual": "34 points with the published HL and SL conditions",
+      "source_ids": [
+        "sheffield_course_page_2027",
+        "sheffield_a100_policy_2027"
+      ]
+    },
+    "scottish": {
+      "standard": "AAABB Highers plus AA Advanced Highers in Chemistry or Biology and a second science",
+      "contextual": "AABBB Highers plus AB Advanced Highers",
+      "separate_applicant_pool": false,
+      "source_ids": [
+        "sheffield_course_page_2027",
+        "sheffield_a100_policy_2027"
+      ]
+    },
+    "graduate_a100": {
+      "requirement": "2:1 degree plus BBB at A-level including Chemistry or Biology and a second science",
+      "a101_separate": true,
+      "source_ids": [
+        "sheffield_a100_policy_2027"
+      ]
+    },
+    "english_language": {
+      "ielts": "7.5 overall with at least 7.0 in each component",
+      "documented_exemptions": [
+        "GCSE English Language 6/B",
+        "SQA Higher or Advanced Higher English B",
+        "A-level English Language B",
+        "approved equivalent"
+      ],
+      "source_ids": [
+        "sheffield_course_page_2027"
+      ]
+    }
+  },
+  "ucat_and_sjt": {
+    "ucat_required": true,
+    "minimum_threshold": {
+      "entry_cycle": "2026 entry",
+      "value": 1800,
+      "scale": 2700,
+      "evidence_classification": "official"
+    },
+    "home_cutpoint": {
+      "cycle": "2025-26",
+      "value": 2120,
+      "scale": 2700,
+      "use": "historical_guidance",
+      "evidence_classification": "official"
+    },
+    "international_cutpoint": {
+      "cycle": "2025-26",
+      "value": 2070,
+      "scale": 2700,
+      "use": "historical_guidance",
+      "evidence_classification": "official"
+    },
+    "sjt_shortlisting_role": "not_used",
+    "sjt_bands_3_and_4_automatic_shortlisting_rejection": false,
+    "scale_policy": {
+      "native_2700_values_used_for_prediction": true,
+      "legacy_3600_values_retained_for_context": true,
+      "flat_0_75_conversion_used_for_prediction": false,
+      "reason": "Removal of Abstract Reasoning was not a proportional rescale; approximate conversions cannot support pass/fail boundaries."
+    },
+    "source_ids": [
+      "sheffield_admissions_page",
+      "sheffield_a100_policy_2027"
+    ]
+  },
+  "historical_context": {
+    "use": "guidance_only",
+    "fixed_future_cutoff": false,
+    "not_deterministic": true,
+    "warning": "The 2025-26 values are historical guidance, not current or future cut-offs, probabilities or guarantees.",
+    "foi_verified_home_2023_24": {
+      "score_scale": 3600,
+      "standard_lowest": 2850,
+      "standard_average": 2800,
+      "standard_highest": 3440,
+      "contextual_lowest": 2430,
+      "contextual_average": 2640,
+      "contextual_highest": 3310,
+      "source_ids": [
+        "sheffield_foi_grace_a"
+      ],
+      "executable": false
+    },
+    "unverified_rows_excluded_from_production": [
+      "2022 and 2023 Home application, interview and offer counts without logged FOI references",
+      "2021 and 2022 International UCAT and volume rows without logged FOI references"
+    ]
+  },
+  "international_policy": {
+    "separate_ranking_pool": true,
+    "places": 18,
+    "interview_format": "online panel",
+    "format_affects_prediction": false,
+    "country_specific_equivalences": "not_tabulated_manual_verification_required",
+    "source_ids": [
+      "sheffield_admissions_page",
+      "sheffield_course_page_2027"
+    ]
+  },
+  "contextual_policy": {
+    "general_access_sheffield": {
+      "academic_adjustment": "AAB with A in Chemistry or Biology",
+      "ucat_minimum": 1800,
+      "ucat_ranking": true
+    },
+    "access_to_sheffield_medicine_or_pathway": {
+      "academic_requirements_must_be_verified": true,
+      "ucat_minimum": 1800,
+      "ucat_ranking": false,
+      "interview_guidance": "interview_likely_after_verified_gates"
+    },
+    "numeric_points_or_uplift": false,
+    "source_ids": [
+      "sheffield_widening_access",
+      "sheffield_a100_policy_2027"
+    ]
+  },
+  "interview_information": {
+    "home": "In-person MMI with eight sections.",
+    "international": "Online panel interview.",
+    "post_interview_scoring": "Informational research only; no executable MMI or SJT scoring and no post-interview prediction.",
+    "source_ids": [
+      "sheffield_admissions_page",
+      "sheffield_a100_policy_2027"
+    ]
+  },
+  "evidence_gaps": [
+    {
+      "gap_id": "international_historical_distributions",
+      "status": "partial",
+      "production_effect": "The official native International cutpoint supports guidance, but older lowest, average and highest distributions are not used."
+    },
+    {
+      "gap_id": "a101_historical_distributions",
+      "status": "missing",
+      "production_effect": "None. A101 is a separate excluded course."
+    },
+    {
+      "gap_id": "international_qualification_table",
+      "status": "missing",
+      "production_effect": "Unlisted qualifications require Sheffield verification."
+    },
+    {
+      "gap_id": "post_interview_distributions_and_tie_breakers",
+      "status": "missing_out_of_scope",
+      "production_effect": "None. Offer prediction and post-interview ranking are outside ApplySmart."
+    }
+  ],
+  "implementation_mapping": {
+    "architecture_change_required": false,
+    "production_profile": "data/universities/sheffield-a100.json",
+    "interview_band_config": "data/interview-band-configs/sheffield-a100.json",
+    "result_card_example": "data/examples/sheffield-a100-result-card.example.json",
+    "fixture": "data/fixtures/interview-band-classification/sheffield-a100.json",
+    "dedicated_regression": "scripts/test-sheffield-a100-readiness.js",
+    "selection_model": "ucat_ranking",
+    "confidence": "medium",
+    "activation_scope": "Supported executable routes only; all documented manual-review paths remain explicit."
+  },
+  "source_evidence": [
+    {
+      "source_id": "sheffield_admissions_page",
+      "title": "Medicine admissions",
+      "url": "https://sheffield.ac.uk/smph/undergraduate/medicine-admissions",
+      "publisher": "University of Sheffield",
+      "evidence_classification": "official"
+    },
+    {
+      "source_id": "sheffield_course_page_2027",
+      "title": "Medicine MBChB, 2027 entry",
+      "url": "https://sheffield.ac.uk/undergraduate/courses/2027/medicine-mbchb",
+      "publisher": "University of Sheffield",
+      "evidence_classification": "official"
+    },
+    {
+      "source_id": "sheffield_a100_policy_2027",
+      "title": "A100 Admissions Policy, 2027 entry",
+      "url": "https://sheffield.ac.uk/media/69386/download",
+      "publisher": "University of Sheffield",
+      "evidence_classification": "official"
+    },
+    {
+      "source_id": "sheffield_widening_access",
+      "title": "Widening access to medicine",
+      "url": "https://sheffield.ac.uk/smph/undergraduate/widening-access",
+      "publisher": "University of Sheffield",
+      "evidence_classification": "official"
+    },
+    {
+      "source_id": "sheffield_foi_grace_a",
+      "title": "University of Sheffield A100 Medicine course FOI response",
+      "url": "https://www.whatdotheyknow.com/request/university_of_sheffield_a100_med",
+      "publisher": "University of Sheffield",
+      "evidence_classification": "foi_verified"
+    }
+  ]
+}

@@ -1,0 +1,415 @@
+{
+  "schema_version": "1.0.0",
+  "course_profile_id": "imperial-college-london-a100",
+  "confidence": "low",
+  "evidence": {
+    "classification": "official_ucat_ranking_with_single_current_scale_threshold_cycle",
+    "summary": "Imperial checks academic eligibility, GCSE English Language, same-sitting/resit rules, UCAT and SJT gates, then uses applicant-group-specific UCAT threshold evidence and UCAT ranking for interview guidance. Official 2026-entry thresholds are Home 2320, contextual/WP 2170 and Overseas/EU/Query 2310 on the 2700 scale. Higher band boundaries are ApplySmart modelled guidance only, not official Imperial cutoffs.",
+    "source_ids": [
+      "imperial_research_doc",
+      "imperial_course_page_2027",
+      "imperial_a100_foi_faq_2026_v2"
+    ]
+  },
+  "eligibility": {
+    "scope": "Automatic guidance applies only after implemented academic, GCSE English, A-level same-sitting, resit, UCAT and SJT gates pass. IB and Scottish routes are academically mapped but route to manual review for same-sitting evidence because the generic applicant model lacks a reliable route-level same-sitting field.",
+    "international_english_language_required": true,
+    "explicitly_blocked_applicant_groups": [
+      "graduate_applicant"
+    ],
+    "qualification_routes": {
+      "supported": [
+        "a_level",
+        "international_baccalaureate",
+        "scottish",
+        "international_qualification"
+      ],
+      "explicitly_blocked": [
+        "graduate",
+        "btec",
+        "t_level",
+        "access_to_he",
+        "access_to_medicine",
+        "foundation",
+        "unknown"
+      ]
+    },
+    "gcse": {
+      "minimum_count": null,
+      "use_exact_subject_list": false,
+      "required_subjects": [
+        {
+          "subject_id": "english_language",
+          "minimum_grade": "6/B"
+        }
+      ]
+    },
+    "a_level": {
+      "routes": [
+        {
+          "route_id": "imperial_standard_a_level_astar_aa_biology_chemistry",
+          "excluded_group_ids": [
+            "contextual",
+            "widening_participation",
+            "graduate_applicant"
+          ],
+          "grade_profile": [
+            "A*",
+            "A",
+            "A"
+          ],
+          "required_subject_ids": [
+            "biology",
+            "chemistry"
+          ],
+          "required_subject_grade_options": [
+            {
+              "grade_requirements": [
+                {
+                  "subject_id": "biology",
+                  "minimum_grade": "A*"
+                },
+                {
+                  "subject_id": "chemistry",
+                  "minimum_grade": "A"
+                }
+              ]
+            },
+            {
+              "grade_requirements": [
+                {
+                  "subject_id": "biology",
+                  "minimum_grade": "A"
+                },
+                {
+                  "subject_id": "chemistry",
+                  "minimum_grade": "A*"
+                }
+              ]
+            }
+          ],
+          "excluded_subject_ids": [
+            "general_studies",
+            "thinking_skills"
+          ]
+        },
+        {
+          "route_id": "imperial_contextual_a_level_astar_any_subject_biology_chemistry_a",
+          "applies_to_group_ids": [
+            "home_fee"
+          ],
+          "any_group_ids": [
+            "contextual",
+            "widening_participation"
+          ],
+          "excluded_group_ids": [
+            "international_fee",
+            "graduate_applicant"
+          ],
+          "grade_profile": [
+            "A*",
+            "A",
+            "A"
+          ],
+          "required_subject_ids": [
+            "biology",
+            "chemistry"
+          ],
+          "subject_grade_requirements": [
+            {
+              "subject_id": "biology",
+              "minimum_grade": "A"
+            },
+            {
+              "subject_id": "chemistry",
+              "minimum_grade": "A"
+            }
+          ],
+          "excluded_subject_ids": [
+            "general_studies",
+            "thinking_skills"
+          ]
+        }
+      ],
+      "science_practical_endorsement": {
+        "required": true,
+        "subject_ids": [
+          "biology",
+          "chemistry",
+          "physics"
+        ],
+        "accepted_values": [
+          "pass",
+          "passed"
+        ]
+      }
+    },
+    "international_baccalaureate": {
+      "routes": [
+        {
+          "route_id": "imperial_ib_38_hl6_biology_chemistry",
+          "total_points": 38,
+          "hl_grade_profile": [
+            "6",
+            "6"
+          ],
+          "required_hl_subject_ids": [
+            "biology",
+            "chemistry"
+          ],
+          "required_hl_subject_grade_options": [
+            {
+              "grade_requirements": [
+                {
+                  "subject_id": "biology",
+                  "minimum_grade": "6"
+                },
+                {
+                  "subject_id": "chemistry",
+                  "minimum_grade": "6"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    "scottish": {
+      "national_5": {
+        "minimum_count": 0,
+        "required_subject_ids": []
+      },
+      "post_16_routes": [
+        {
+          "route_id": "imperial_scottish_advanced_highers_aaa_biology_chemistry",
+          "qualification_level": "advanced_higher",
+          "grade_profile": [
+            "A",
+            "A",
+            "A"
+          ],
+          "required_subject_ids": [
+            "biology",
+            "chemistry"
+          ]
+        }
+      ]
+    },
+    "international_qualification": {
+      "unverified_outcome": "manual_review",
+      "manual_review_reason": "country_specific_international_qualification_equivalence_requires_imperial_verification"
+    },
+    "ucat": {
+      "required_test_year": 2026,
+      "minimum_total_score": null,
+      "score_scale": 2700,
+      "required_in_application_cycle": true
+    },
+    "sjt": {
+      "used_as_gate": true,
+      "accepted_bands": [
+        1,
+        2,
+        3
+      ],
+      "rejected_bands": [
+        4
+      ]
+    },
+    "resits": {
+      "resits_accepted": false,
+      "extenuating_circumstances_required": true,
+      "allowed_resit_attempts": 0
+    },
+    "manual_review_routes": [
+      "IB same-sitting evidence",
+      "Scottish same-sitting evidence",
+      "Country-specific international qualifications without Imperial-verified equivalence",
+      "Alternative English-language evidence or exemption not already verified"
+    ],
+    "do_not_infer": [
+      "Do not create academic ranking points.",
+      "Do not invent VR, DM or QR subsection cutoffs.",
+      "Do not convert 2025 /3600 averages to current /2700 thresholds.",
+      "Do not apply an extra International penalty beyond the official 2310 threshold.",
+      "Do not present modelled 2400 or 2500 boundaries as official thresholds.",
+      "Do not predict offers."
+    ]
+  },
+  "score_model": {
+    "type": "ranking_metric",
+    "basis": "UCAT cognitive total after academic, same-sitting/resit, UCAT and SJT gates. Official group thresholds are executable minimums; band boundaries above them are cautious ApplySmart guidance because current-scale UCAT history is limited to one published threshold cycle.",
+    "metric": "ucat_total",
+    "pool_specific_output": true,
+    "scale": {
+      "min": 0,
+      "max": 2700
+    },
+    "fixed_current_cutoff": false,
+    "historical_guidance_only": true,
+    "native_guidance_cycle": "2026 entry",
+    "legacy_3600_conversion_used": false,
+    "single_current_scale_threshold_cycle": true,
+    "presentation": {
+      "selection_summary": "Imperial uses academic eligibility as a pass/fail gate and then UCAT threshold/ranking evidence for interview invitation guidance. Academic strength above the minimum does not add ranking points.",
+      "band_explanations": {
+        "interview_likely": "UCAT is comfortably above Imperial's last published group threshold. This is modelled interview guidance, not a guarantee.",
+        "realistic": "UCAT is above Imperial's last published group threshold with some margin. Annual variation still matters.",
+        "ambitious": "UCAT is at or just above Imperial's last published group threshold. This is borderline because the threshold can move each year.",
+        "high_risk": "UCAT is below or too close to the available historical evidence for stronger guidance."
+      }
+    }
+  },
+  "guidance_pools": [
+    {
+      "pool_id": "contextual_home_a100",
+      "priority": 40,
+      "applicant_match": {
+        "all_group_ids": [
+          "home_fee"
+        ],
+        "any_group_ids": [
+          "contextual",
+          "widening_participation"
+        ],
+        "excluded_group_ids": [
+          "international_fee"
+        ]
+      },
+      "metric": "ucat_total",
+      "pool_specific_output": true,
+      "comparison_guidance": {
+        "comparison_type": "historical_threshold",
+        "label": "Imperial 2026 contextual/WP UCAT threshold",
+        "caveat": "Official threshold evidence is limited to one current-scale cycle and is not a guaranteed future interview cut-off.",
+        "evidence_confidence": "low"
+      },
+      "historical_cutoff": {
+        "entry_cycle": "2026 entry",
+        "value": 2170,
+        "evidence_classification": "official_published_threshold"
+      },
+      "band_rules": [
+        {
+          "band": "interview_likely",
+          "operator": "greater_than_or_equal",
+          "value": 2320
+        },
+        {
+          "band": "realistic",
+          "operator": "between_inclusive",
+          "min": 2250,
+          "max": 2319
+        },
+        {
+          "band": "ambitious",
+          "operator": "between_inclusive",
+          "min": 2170,
+          "max": 2249
+        },
+        {
+          "band": "high_risk",
+          "operator": "less_than",
+          "value": 2170
+        }
+      ]
+    },
+    {
+      "pool_id": "overseas_a100",
+      "priority": 30,
+      "applicant_match": {
+        "all_group_ids": [
+          "international_fee"
+        ]
+      },
+      "metric": "ucat_total",
+      "pool_specific_output": true,
+      "comparison_guidance": {
+        "comparison_type": "historical_threshold",
+        "label": "Imperial 2026 Overseas/EU/Query UCAT threshold",
+        "caveat": "The official Overseas threshold is 2310. No extra international penalty is applied; higher boundaries are modelled guidance only.",
+        "evidence_confidence": "low"
+      },
+      "historical_cutoff": {
+        "entry_cycle": "2026 entry",
+        "value": 2310,
+        "evidence_classification": "official_published_threshold"
+      },
+      "band_rules": [
+        {
+          "band": "interview_likely",
+          "operator": "greater_than_or_equal",
+          "value": 2500
+        },
+        {
+          "band": "realistic",
+          "operator": "between_inclusive",
+          "min": 2400,
+          "max": 2499
+        },
+        {
+          "band": "ambitious",
+          "operator": "between_inclusive",
+          "min": 2310,
+          "max": 2399
+        },
+        {
+          "band": "high_risk",
+          "operator": "less_than",
+          "value": 2310
+        }
+      ]
+    },
+    {
+      "pool_id": "home_a100",
+      "priority": 20,
+      "applicant_match": {
+        "all_group_ids": [
+          "home_fee"
+        ],
+        "excluded_group_ids": [
+          "international_fee",
+          "contextual",
+          "widening_participation"
+        ]
+      },
+      "metric": "ucat_total",
+      "pool_specific_output": true,
+      "comparison_guidance": {
+        "comparison_type": "historical_threshold",
+        "label": "Imperial 2026 Home UCAT threshold",
+        "caveat": "Official threshold evidence is limited to one current-scale cycle and is not a guaranteed future interview cut-off.",
+        "evidence_confidence": "low"
+      },
+      "historical_cutoff": {
+        "entry_cycle": "2026 entry",
+        "value": 2320,
+        "evidence_classification": "official_published_threshold"
+      },
+      "band_rules": [
+        {
+          "band": "interview_likely",
+          "operator": "greater_than_or_equal",
+          "value": 2500
+        },
+        {
+          "band": "realistic",
+          "operator": "between_inclusive",
+          "min": 2400,
+          "max": 2499
+        },
+        {
+          "band": "ambitious",
+          "operator": "between_inclusive",
+          "min": 2320,
+          "max": 2399
+        },
+        {
+          "band": "high_risk",
+          "operator": "less_than",
+          "value": 2320
+        }
+      ]
+    }
+  ]
+}

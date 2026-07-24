@@ -1,0 +1,124 @@
+{
+  "schema_version": "1.0.0",
+  "fixture_id": "liverpool_a100_production_readiness",
+  "official_historical_cutoffs": {
+    "home_standard": 1935,
+    "home_contextual": 1733,
+    "international": 2108
+  },
+  "official_candidate_decile_guidance": {
+    "home_standard": {
+      "min": 4,
+      "max": 6,
+      "executable": false
+    },
+    "international": {
+      "min": 7,
+      "max": 9,
+      "executable": false
+    }
+  },
+  "cases": [
+    {
+      "case_id": "home_at_E2025_cutoff",
+      "expected_eligibility": "eligible",
+      "expected_pool": "home_standard_non_graduate",
+      "expected_band": "realistic"
+    },
+    {
+      "case_id": "home_below_E2025_cutoff",
+      "expected_eligibility": "eligible",
+      "expected_pool": "home_standard_non_graduate",
+      "expected_band": "ambitious"
+    },
+    {
+      "case_id": "ruk_fee_alias_routes_home",
+      "expected_eligibility": "eligible",
+      "expected_pool": "home_standard_non_graduate",
+      "expected_band": "very_strong_interview_potential"
+    },
+    {
+      "case_id": "contextual_12_points",
+      "expected_eligibility": "eligible",
+      "expected_pool": "home_contextual_non_graduate",
+      "expected_band": "realistic"
+    },
+    {
+      "case_id": "contextual_11_points",
+      "expected_eligibility": "not_eligible",
+      "expected_band": "not_eligible"
+    },
+    {
+      "case_id": "combined_science",
+      "expected_eligibility": "eligible"
+    },
+    {
+      "case_id": "astar_wrong_subject",
+      "expected_eligibility": "not_eligible"
+    },
+    {
+      "case_id": "astar_correct_subject",
+      "expected_eligibility": "eligible"
+    },
+    {
+      "case_id": "general_studies_excluded",
+      "expected_eligibility": "not_eligible"
+    },
+    {
+      "case_id": "international_band4_at_E2025_cutoff",
+      "expected_eligibility": "eligible",
+      "expected_pool": "international_non_graduate",
+      "expected_band": "realistic"
+    },
+    {
+      "case_id": "international_unverified_blocked",
+      "expected_eligibility": "not_eligible",
+      "expected_band": "not_eligible"
+    },
+    {
+      "case_id": "approved_access_route",
+      "expected_eligibility": "eligible"
+    },
+    {
+      "case_id": "unverified_access_blocked",
+      "expected_eligibility": "not_eligible"
+    },
+    {
+      "case_id": "graduate_gamsat_route",
+      "expected_eligibility": "eligible",
+      "expected_pool": "graduate_gamsat",
+      "expected_band": "insufficient_evidence"
+    },
+    {
+      "case_id": "graduate_gamsat_section_fail",
+      "expected_eligibility": "not_eligible",
+      "expected_band": "not_eligible"
+    },
+    {
+      "case_id": "scottish_without_physics",
+      "expected_eligibility": "eligible"
+    },
+    {
+      "case_id": "ib_666",
+      "expected_eligibility": "eligible"
+    },
+    {
+      "case_id": "a_level_resit_ABB_first_sitting",
+      "expected_eligibility": "eligible"
+    },
+    {
+      "case_id": "a_level_resit_below_ABB",
+      "expected_eligibility": "not_eligible"
+    },
+    {
+      "case_id": "unsupported_btec_explicitly_blocked",
+      "expected_eligibility": "not_eligible",
+      "expected_band": "not_eligible"
+    },
+    {
+      "case_id": "mature_exception_explicitly_blocked",
+      "expected_eligibility": "not_eligible",
+      "expected_band": "not_eligible"
+    }
+  ]
+}

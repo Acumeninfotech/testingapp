@@ -1,0 +1,255 @@
+{
+  "schema_version": "1.0.0",
+  "course_profile_id": "lancaster-a100",
+  "confidence": "medium",
+  "evidence": {
+    "classification": "official_ucat_only_ranking_with_cycle_labelled_pool_thresholds",
+    "summary": "Official academic and SJT gates followed by UCAT cognitive-total ranking in separate Home standard, Home contextual and International pools. The configured boundaries are published 2026-entry historical guidance, not fixed 2027 cut-offs.",
+    "source_ids": [
+      "lancaster_admissions_policy_2026",
+      "lancaster_how_to_apply",
+      "lancaster_admissions_data"
+    ]
+  },
+  "eligibility": {
+    "international_english_language_required": true,
+    "qualification_routes": {
+      "supported": [
+        "a_level",
+        "international_qualification",
+        "graduate"
+      ],
+      "explicitly_blocked": [
+        "btec",
+        "t_level",
+        "mixed_t_level_a_level",
+        "foundation",
+        "access_to_medicine",
+        "unknown"
+      ]
+    },
+    "gcse": {
+      "minimum_count": 8,
+      "use_exact_subject_list": false,
+      "required_subjects": [
+        {
+          "subject_id": "english_language",
+          "minimum_grade": "6"
+        },
+        {
+          "subject_id": "mathematics",
+          "minimum_grade": "6"
+        }
+      ],
+      "points": {
+        "subject_count": 8,
+        "minimum_points": 13,
+        "bands": [
+          {
+            "minimum_grade": "7",
+            "points": 2
+          },
+          {
+            "minimum_grade": "6",
+            "points": 1
+          }
+        ]
+      }
+    },
+    "a_level": {
+      "routes": [
+        {
+          "route_id": "standard_stage_1_aab",
+          "applies_to_group_ids": [
+            "school_leaver"
+          ],
+          "excluded_group_ids": [
+            "resit_applicant"
+          ],
+          "grade_profile": [
+            "A",
+            "A",
+            "B"
+          ],
+          "required_subject_ids": [],
+          "one_of_subject_groups": [
+            {
+              "minimum_required": 2,
+              "subject_ids": [
+                "biology",
+                "chemistry",
+                "psychology"
+              ]
+            }
+          ],
+          "excluded_subject_ids": []
+        },
+        {
+          "route_id": "resit_astar_aa",
+          "applies_to_group_ids": [
+            "resit_applicant"
+          ],
+          "grade_profile": [
+            "A*",
+            "A",
+            "A"
+          ],
+          "required_subject_ids": [],
+          "one_of_subject_groups": [
+            {
+              "minimum_required": 2,
+              "subject_ids": [
+                "biology",
+                "chemistry",
+                "psychology"
+              ]
+            }
+          ],
+          "excluded_subject_ids": []
+        }
+      ]
+    },
+    "international_qualification": {
+      "verification_required": true
+    },
+    "graduate": {
+      "automatic_degree_classification_check_only": true,
+      "full_academic_review_required": true
+    }
+  },
+  "score_model": {
+    "type": "ranking_metric",
+    "basis": "Official UCAT cognitive-total ranking input after academic eligibility and the SJT Band 1-3 gate; boundaries are 2026-entry historical guidance only",
+    "metric": "ucat_total",
+    "scale": {
+      "min": 0,
+      "max": 2700
+    },
+    "fixed_current_cutoff": false,
+    "historical_guidance_only": true,
+    "legacy_3600_conversion_used": false,
+    "band_policy": {
+      "realistic": "From the applicable published 2026-entry threshold up to 29 points above it (Home standard pool). This is an ApplySmart confidence interpretation of historical evidence, not an official university category or cut-off.",
+      "ambitious": "Within the published 10-point Home borderline interval where prior academic performance was also considered.",
+      "high_risk": "Below the published threshold and, for Home pools, below the borderline interval.",
+      "interview_likely": "ApplySmart interpretation only: 30 to 99 points above the published 2026-entry threshold for the Home standard pool. Not an official university interview category, cut-off or guarantee of interview.",
+      "very_strong_interview_potential": "ApplySmart interpretation only: at least 100 points above the published 2026-entry threshold for the Home standard pool. Not an official university interview category, cut-off or guarantee of interview."
+    }
+  },
+  "guidance_pools": [
+    {
+      "pool_id": "international_school_leaver",
+      "priority": 100,
+      "applicant_match": {
+        "all_group_ids": [
+          "international_fee",
+          "school_leaver"
+        ],
+        "excluded_group_ids": [
+          "contextual",
+          "widening_participation",
+          "graduate_applicant"
+        ]
+      },
+      "metric": "ucat_total",
+      "band_rules": [
+        {
+          "band": "realistic",
+          "operator": "greater_than_or_equal",
+          "value": 1900
+        },
+        {
+          "band": "high_risk",
+          "operator": "less_than",
+          "value": 1900
+        }
+      ]
+    },
+    {
+      "pool_id": "home_contextual_wp_school_leaver",
+      "priority": 50,
+      "applicant_match": {
+        "all_group_ids": [
+          "home_fee",
+          "school_leaver"
+        ],
+        "any_group_ids": [
+          "contextual",
+          "widening_participation",
+          "care_experienced"
+        ],
+        "excluded_group_ids": [
+          "international_fee",
+          "graduate_applicant"
+        ]
+      },
+      "metric": "ucat_total",
+      "band_rules": [
+        {
+          "band": "realistic",
+          "operator": "greater_than_or_equal",
+          "value": 1870
+        },
+        {
+          "band": "ambitious",
+          "operator": "between_inclusive",
+          "min": 1860,
+          "max": 1869
+        },
+        {
+          "band": "high_risk",
+          "operator": "less_than",
+          "value": 1860
+        }
+      ]
+    },
+    {
+      "pool_id": "home_standard_school_leaver",
+      "priority": 10,
+      "applicant_match": {
+        "all_group_ids": [
+          "home_fee",
+          "school_leaver"
+        ],
+        "excluded_group_ids": [
+          "contextual",
+          "widening_participation",
+          "care_experienced",
+          "international_fee",
+          "graduate_applicant"
+        ]
+      },
+      "metric": "ucat_total",
+      "band_rules": [
+        {
+          "band": "very_strong_interview_potential",
+          "operator": "greater_than_or_equal",
+          "value": 2020
+        },
+        {
+          "band": "interview_likely",
+          "operator": "between_inclusive",
+          "min": 1950,
+          "max": 2019
+        },
+        {
+          "band": "realistic",
+          "operator": "between_inclusive",
+          "min": 1920,
+          "max": 1949
+        },
+        {
+          "band": "ambitious",
+          "operator": "between_inclusive",
+          "min": 1910,
+          "max": 1919
+        },
+        {
+          "band": "high_risk",
+          "operator": "less_than",
+          "value": 1910
+        }
+      ]
+    }
+  ]
+}

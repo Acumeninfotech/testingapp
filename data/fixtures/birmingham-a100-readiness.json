@@ -1,0 +1,926 @@
+{
+  "schema_version": "1.0.0",
+  "fixture_id": "birmingham_a100_phase_6_readiness",
+  "course_profile_id": "birmingham-a100",
+  "description": "Birmingham-specific Phase 6 regression cases for evidenced eligibility, scoring, route handling and pre-interview safeguards.",
+  "base_applicants": {
+    "home_standard": {
+      "qualification_route": "a_level",
+      "applicant_identity": {
+        "applicant_type": "standard_school_leaver",
+        "fee_status": "Home",
+        "domicile": "England",
+        "contextual": false,
+        "contextual_status_confirmed": true,
+        "graduate": false,
+        "resit": {
+          "has_resits": false
+        }
+      },
+      "gcse_profile": {
+        "subjects": {
+          "english_language": "8",
+          "english_literature": "8",
+          "mathematics": "9",
+          "biology": "8",
+          "chemistry": "9",
+          "history": "9",
+          "geography": "8"
+        }
+      },
+      "a_level_profile": {
+        "subjects": [
+          {
+            "subject_id": "chemistry",
+            "predicted_grade": "A"
+          },
+          {
+            "subject_id": "biology",
+            "predicted_grade": "A"
+          },
+          {
+            "subject_id": "history",
+            "predicted_grade": "A"
+          }
+        ]
+      },
+      "admissions_tests": {
+        "ucat": {
+          "taken": true,
+          "test_year": 2026,
+          "total_score": 2300,
+          "sjt_band": 2
+        }
+      }
+    },
+    "ukwpmed": {
+      "qualification_route": "ukwpmed",
+      "applicant_identity": {
+        "applicant_type": "standard_school_leaver",
+        "fee_status": "Home",
+        "domicile": "England",
+        "contextual": false,
+        "widening_participation": true,
+        "graduate": false,
+        "resit": {
+          "has_resits": false
+        }
+      },
+      "gcse_profile": {
+        "subjects": {
+          "english_language": "7",
+          "mathematics": "7",
+          "biology": "5",
+          "chemistry": "5",
+          "english_literature": "4",
+          "history": "4",
+          "geography": "4"
+        }
+      },
+      "a_level_profile": {
+        "subjects": [
+          {
+            "subject_id": "chemistry",
+            "predicted_grade": "B"
+          },
+          {
+            "subject_id": "biology",
+            "predicted_grade": "B"
+          },
+          {
+            "subject_id": "history",
+            "predicted_grade": "B"
+          }
+        ]
+      },
+      "admissions_tests": {
+        "ucat": {
+          "taken": true,
+          "test_year": 2026,
+          "total_score": 1900,
+          "sjt_band": 4
+        }
+      },
+      "ukwpmed": {
+        "programme": "Routes to the Professions: Medicine — Birmingham",
+        "successfully_completed": true,
+        "declared_in_ucas_extra_activities": true
+      }
+    },
+    "ib": {
+      "qualification_route": "international_baccalaureate",
+      "applicant_identity": {
+        "applicant_type": "standard_school_leaver",
+        "fee_status": "Home",
+        "domicile": "England",
+        "contextual": false,
+        "resit": {
+          "has_resits": false
+        }
+      },
+      "ib_profile": {
+        "total_points": 32,
+        "higher_level_subjects": [
+          {
+            "subject_id": "chemistry",
+            "grade": 7
+          },
+          {
+            "subject_id": "biology",
+            "grade": 6
+          },
+          {
+            "subject_id": "history",
+            "grade": 6
+          }
+        ],
+        "standard_level_subjects": [
+          {
+            "subject_id": "english_language",
+            "grade": 6
+          },
+          {
+            "subject_id": "mathematics",
+            "grade": 6
+          }
+        ]
+      },
+      "admissions_tests": {
+        "ucat": {
+          "taken": true,
+          "test_year": 2026,
+          "total_score": 2300,
+          "sjt_band": 2
+        }
+      }
+    },
+    "scottish": {
+      "qualification_route": "scottish",
+      "applicant_identity": {
+        "applicant_type": "standard_school_leaver",
+        "fee_status": "Home",
+        "domicile": "Scotland",
+        "contextual": false,
+        "resit": {
+          "has_resits": false
+        }
+      },
+      "scottish_profile": {
+        "higher_subjects": [
+          {
+            "subject_id": "chemistry",
+            "grade": "A"
+          },
+          {
+            "subject_id": "biology",
+            "grade": "A"
+          },
+          {
+            "subject_id": "mathematics",
+            "grade": "A"
+          },
+          {
+            "subject_id": "english_language",
+            "grade": "A"
+          },
+          {
+            "subject_id": "history",
+            "grade": "A"
+          }
+        ],
+        "advanced_higher_subjects": [
+          {
+            "subject_id": "chemistry",
+            "grade": "A"
+          },
+          {
+            "subject_id": "biology",
+            "grade": "A"
+          }
+        ]
+      },
+      "admissions_tests": {
+        "ucat": {
+          "taken": true,
+          "test_year": 2026,
+          "total_score": 2300,
+          "sjt_band": 2
+        }
+      }
+    },
+    "irish": {
+      "qualification_route": "irish_leaving_certificate",
+      "applicant_identity": {
+        "applicant_type": "standard_school_leaver",
+        "fee_status": "Home",
+        "domicile": "Northern Ireland",
+        "contextual": false,
+        "resit": {
+          "has_resits": false
+        }
+      },
+      "irish_profile": {
+        "leaving_certificate_subjects": [
+          {
+            "subject_id": "chemistry",
+            "grade": "H1"
+          },
+          {
+            "subject_id": "biology",
+            "grade": "H1"
+          },
+          {
+            "subject_id": "mathematics",
+            "grade": "H1"
+          },
+          {
+            "subject_id": "english_language",
+            "grade": "H1"
+          }
+        ],
+        "junior_cycle_subjects": [
+          {
+            "subject_id": "biology",
+            "grade": "Distinction"
+          },
+          {
+            "subject_id": "chemistry",
+            "grade": "Distinction"
+          },
+          {
+            "subject_id": "english_language",
+            "grade": "Distinction"
+          },
+          {
+            "subject_id": "mathematics",
+            "grade": "Distinction"
+          },
+          {
+            "subject_id": "history",
+            "grade": "Distinction"
+          },
+          {
+            "subject_id": "geography",
+            "grade": "Distinction"
+          }
+        ]
+      },
+      "admissions_tests": {
+        "ucat": {
+          "taken": true,
+          "test_year": 2026,
+          "total_score": 2300,
+          "sjt_band": 2
+        }
+      }
+    },
+    "graduate": {
+      "qualification_route": "graduate",
+      "applicant_identity": {
+        "applicant_type": "graduate",
+        "fee_status": "Home",
+        "domicile": "England",
+        "contextual": false,
+        "graduate": true,
+        "resit": {
+          "has_resits": false
+        }
+      },
+      "graduate_profile": {
+        "is_graduate": true,
+        "degree_classification": "2:1",
+        "recognised_institution": true,
+        "degree_status": "completed",
+        "degree_age_at_course_start_years": 3,
+        "waiver_claimed": false
+      },
+      "gcse_profile": {
+        "subjects": {
+          "english_language": "7",
+          "mathematics": "7",
+          "biology": "7",
+          "chemistry": "7"
+        }
+      },
+      "a_level_profile": {
+        "subjects": [
+          {
+            "subject_id": "chemistry",
+            "achieved_grade": "A"
+          },
+          {
+            "subject_id": "biology",
+            "achieved_grade": "B"
+          },
+          {
+            "subject_id": "history",
+            "achieved_grade": "B"
+          }
+        ]
+      },
+      "admissions_tests": {
+        "ucat": {
+          "taken": true,
+          "test_year": 2026,
+          "total_score": 2250,
+          "sjt_band": 2
+        }
+      }
+    },
+    "international_a_level": {
+      "qualification_route": "a_level",
+      "applicant_identity": {
+        "applicant_type": "standard_school_leaver",
+        "fee_status": "International",
+        "domicile": "International",
+        "contextual": false,
+        "graduate": false,
+        "resit": {
+          "has_resits": false
+        }
+      },
+      "a_level_profile": {
+        "subjects": [
+          {
+            "subject_id": "chemistry",
+            "predicted_grade": "A*"
+          },
+          {
+            "subject_id": "biology",
+            "predicted_grade": "A"
+          },
+          {
+            "subject_id": "history",
+            "predicted_grade": "A"
+          }
+        ]
+      },
+      "english_language_profile": {
+        "test": "IELTS",
+        "overall": 7,
+        "components": {
+          "reading": 7,
+          "writing": 7,
+          "listening": 7,
+          "speaking": 7
+        }
+      },
+      "admissions_tests": {
+        "ucat": {
+          "taken": true,
+          "test_year": 2026,
+          "total_score": 2300,
+          "sjt_band": 2
+        }
+      }
+    }
+  },
+  "cases": [
+    {
+      "case_id": "standard_a_level_eligible",
+      "requirement_number": 1,
+      "base": "home_standard",
+      "expected": {
+        "status": "eligible",
+        "pool_id": "home_standard"
+      }
+    },
+    {
+      "case_id": "missing_chemistry_rejected",
+      "requirement_number": 2,
+      "base": "home_standard",
+      "overrides": {
+        "a_level_profile": {
+          "subjects": [
+            {
+              "subject_id": "biology",
+              "predicted_grade": "A"
+            },
+            {
+              "subject_id": "mathematics",
+              "predicted_grade": "A"
+            },
+            {
+              "subject_id": "history",
+              "predicted_grade": "A"
+            }
+          ]
+        }
+      },
+      "expected": {
+        "status": "not_eligible",
+        "reason": "a_level_chemistry_required"
+      }
+    },
+    {
+      "case_id": "missing_second_science_rejected",
+      "requirement_number": 3,
+      "base": "home_standard",
+      "overrides": {
+        "a_level_profile": {
+          "subjects": [
+            {
+              "subject_id": "chemistry",
+              "predicted_grade": "A"
+            },
+            {
+              "subject_id": "history",
+              "predicted_grade": "A"
+            },
+            {
+              "subject_id": "geography",
+              "predicted_grade": "A"
+            }
+          ]
+        }
+      },
+      "expected": {
+        "status": "not_eligible",
+        "reason": "a_level_second_science_required"
+      }
+    },
+    {
+      "case_id": "excluded_third_subject_rejected",
+      "requirement_number": 4,
+      "base": "home_standard",
+      "overrides": {
+        "a_level_profile": {
+          "subjects": [
+            {
+              "subject_id": "chemistry",
+              "predicted_grade": "A"
+            },
+            {
+              "subject_id": "biology",
+              "predicted_grade": "A"
+            },
+            {
+              "subject_id": "general_studies",
+              "predicted_grade": "A"
+            }
+          ]
+        }
+      },
+      "expected": {
+        "status": "not_eligible",
+        "reason": "excluded_a_level_subject"
+      }
+    },
+    {
+      "case_id": "further_mathematics_not_double_counted",
+      "requirement_number": 5,
+      "base": "home_standard",
+      "overrides": {
+        "a_level_profile": {
+          "subjects": [
+            {
+              "subject_id": "chemistry",
+              "predicted_grade": "A"
+            },
+            {
+              "subject_id": "mathematics",
+              "predicted_grade": "A"
+            },
+            {
+              "subject_id": "further_mathematics",
+              "predicted_grade": "A"
+            }
+          ]
+        }
+      },
+      "expected": {
+        "status": "not_eligible",
+        "reason": "mathematics_and_further_mathematics_not_separate"
+      }
+    },
+    {
+      "case_id": "gcse_english_language_below_6_rejected",
+      "requirement_number": 6,
+      "base": "home_standard",
+      "overrides": {
+        "gcse_profile": {
+          "subjects": {
+            "english_language": "5"
+          }
+        }
+      },
+      "expected": {
+        "status": "not_eligible",
+        "reason": "gcse_english_language_below_minimum"
+      }
+    },
+    {
+      "case_id": "gcse_mathematics_below_6_rejected",
+      "requirement_number": 7,
+      "base": "home_standard",
+      "overrides": {
+        "gcse_profile": {
+          "subjects": {
+            "mathematics": "5"
+          }
+        }
+      },
+      "expected": {
+        "status": "not_eligible",
+        "reason": "gcse_mathematics_below_minimum"
+      }
+    },
+    {
+      "case_id": "gcse_biology_or_chemistry_below_6_rejected",
+      "requirement_number": 8,
+      "base": "home_standard",
+      "variants": [
+        {
+          "variant_id": "biology_below_6",
+          "overrides": {
+            "gcse_profile": {
+              "subjects": {
+                "biology": "5"
+              }
+            }
+          },
+          "expected": {
+            "status": "not_eligible",
+            "reason": "gcse_science_requirement_not_met"
+          }
+        },
+        {
+          "variant_id": "chemistry_below_6",
+          "overrides": {
+            "gcse_profile": {
+              "subjects": {
+                "chemistry": "5"
+              }
+            }
+          },
+          "expected": {
+            "status": "not_eligible",
+            "reason": "gcse_science_requirement_not_met"
+          }
+        }
+      ]
+    },
+    {
+      "case_id": "dual_award_science_accepted",
+      "requirement_number": 9,
+      "base": "home_standard",
+      "overrides": {
+        "gcse_profile": {
+          "subjects": {
+            "english_language": "8",
+            "english_literature": "8",
+            "mathematics": "9",
+            "biology": null,
+            "chemistry": null,
+            "combined_science": "8/8",
+            "history": "9",
+            "geography": "8"
+          }
+        }
+      },
+      "expected": {
+        "status": "eligible",
+        "science_route": "dual_award_science"
+      }
+    },
+    {
+      "case_id": "gcse_raw_and_scaled_score_calculation",
+      "requirement_number": 10,
+      "base": "home_standard",
+      "expected": {
+        "status": "eligible",
+        "gcse_raw_points": 24,
+        "gcse_scaled_score": 4.5,
+        "application_score": 8.5
+      }
+    },
+    {
+      "case_id": "contextual_score_calculation",
+      "requirement_number": 11,
+      "base": "home_standard",
+      "overrides": {
+        "applicant_identity": {
+          "contextual": true,
+          "contextual_status_confirmed": true,
+          "polar4_quintile": "Q1"
+        },
+        "a_level_profile": {
+          "subjects": [
+            {
+              "subject_id": "chemistry",
+              "predicted_grade": "A"
+            },
+            {
+              "subject_id": "biology",
+              "predicted_grade": "A"
+            },
+            {
+              "subject_id": "history",
+              "predicted_grade": "B"
+            }
+          ]
+        }
+      },
+      "expected": {
+        "status": "eligible",
+        "pool_id": "home_contextual_scored",
+        "gcse_scaled_score": 4.5,
+        "ucat_points": 4,
+        "contextual_points": 1.5,
+        "application_score": 10
+      }
+    },
+    {
+      "case_id": "contextual_below_gcse_minimum_rejected",
+      "requirement_number": 12,
+      "base": "home_standard",
+      "overrides": {
+        "applicant_identity": {
+          "contextual": true,
+          "contextual_status_confirmed": true,
+          "polar4_quintile": "Q1"
+        },
+        "gcse_profile": {
+          "subjects": {
+            "english_language": "5"
+          }
+        },
+        "a_level_profile": {
+          "subjects": [
+            {
+              "subject_id": "chemistry",
+              "predicted_grade": "A"
+            },
+            {
+              "subject_id": "biology",
+              "predicted_grade": "A"
+            },
+            {
+              "subject_id": "history",
+              "predicted_grade": "B"
+            }
+          ]
+        }
+      },
+      "expected": {
+        "status": "not_eligible",
+        "reason": "gcse_english_language_below_minimum",
+        "contextual_gcse_minimum_reduced": false
+      }
+    },
+    {
+      "case_id": "ukwpmed_completed_declared_thresholds_met_guaranteed",
+      "requirement_number": 13,
+      "base": "ukwpmed",
+      "expected": {
+        "status": "eligible",
+        "pool_id": "ukwpmed_guaranteed_interview",
+        "guaranteed_interview": true
+      }
+    },
+    {
+      "case_id": "ukwpmed_completed_not_declared_not_guaranteed",
+      "requirement_number": 14,
+      "base": "ukwpmed",
+      "overrides": {
+        "ukwpmed": {
+          "declared_in_ucas_extra_activities": false
+        }
+      },
+      "expected": {
+        "status": "not_eligible",
+        "reason": "ukwpmed_declaration_missing",
+        "guaranteed_interview": false
+      }
+    },
+    {
+      "case_id": "ukwpmed_thresholds_not_met_rejected",
+      "requirement_number": 15,
+      "base": "ukwpmed",
+      "overrides": {
+        "gcse_profile": {
+          "subjects": {
+            "chemistry": "4"
+          }
+        }
+      },
+      "expected": {
+        "status": "not_eligible",
+        "reason": "ukwpmed_appendix_1_thresholds_not_met",
+        "guaranteed_interview": false
+      }
+    },
+    {
+      "case_id": "sjt_band_4_does_not_reject_pre_interview",
+      "requirement_number": 16,
+      "base": "home_standard",
+      "overrides": {
+        "admissions_tests": {
+          "ucat": {
+            "sjt_band": 4
+          }
+        }
+      },
+      "expected": {
+        "status": "eligible",
+        "sjt_used_pre_interview": false,
+        "sjt_band_4_rejected": false
+      }
+    },
+    {
+      "case_id": "ib_valid_route_accepted",
+      "requirement_number": 17,
+      "base": "ib",
+      "expected": {
+        "status": "eligible",
+        "qualification_route": "international_baccalaureate"
+      }
+    },
+    {
+      "case_id": "scottish_valid_route_accepted",
+      "requirement_number": 18,
+      "base": "scottish",
+      "expected": {
+        "status": "eligible",
+        "qualification_route": "scottish"
+      }
+    },
+    {
+      "case_id": "irish_valid_route_accepted",
+      "requirement_number": 19,
+      "base": "irish",
+      "expected": {
+        "status": "eligible",
+        "qualification_route": "irish_leaving_certificate"
+      }
+    },
+    {
+      "case_id": "access_btec_foundation_blocked",
+      "requirement_number": 20,
+      "base": "home_standard",
+      "variants": [
+        {
+          "variant_id": "access_to_he",
+          "overrides": {
+            "qualification_route": "access_to_he"
+          },
+          "expected": {
+            "status": "not_eligible",
+            "reason": "blocked_qualification_route"
+          }
+        },
+        {
+          "variant_id": "btec",
+          "overrides": {
+            "qualification_route": "btec"
+          },
+          "expected": {
+            "status": "not_eligible",
+            "reason": "blocked_qualification_route"
+          }
+        },
+        {
+          "variant_id": "foundation_programmes",
+          "overrides": {
+            "qualification_route": "foundation_programmes"
+          },
+          "expected": {
+            "status": "not_eligible",
+            "reason": "blocked_qualification_route"
+          }
+        }
+      ]
+    },
+    {
+      "case_id": "graduate_2_1_with_ucat_accepted_and_ranked",
+      "requirement_number": 21,
+      "base": "graduate",
+      "expected": {
+        "status": "eligible",
+        "pool_id": "graduate_a100",
+        "ranking_metric": "ucat_total",
+        "ranking_value": 2250
+      }
+    },
+    {
+      "case_id": "graduate_gamsat_only_blocked",
+      "requirement_number": 22,
+      "base": "graduate",
+      "overrides": {
+        "admissions_tests": {
+          "ucat": {
+            "taken": false,
+            "total_score": null
+          },
+          "gamsat": {
+            "taken": true,
+            "total_score": 65
+          }
+        }
+      },
+      "expected": {
+        "status": "not_eligible",
+        "reason": "ucat_required_gamsat_not_used"
+      }
+    },
+    {
+      "case_id": "international_valid_route_accepted_and_ranked",
+      "requirement_number": 23,
+      "base": "international_a_level",
+      "expected": {
+        "status": "eligible",
+        "pool_id": "international",
+        "ranking_metric": "ucat_total",
+        "ranking_value": 2300,
+        "non_academic_review": "manual_review"
+      }
+    },
+    {
+      "case_id": "unsupported_international_qualification_manual_or_blocked",
+      "requirement_number": 24,
+      "base": "international_a_level",
+      "variants": [
+        {
+          "variant_id": "explicitly_unsupported",
+          "overrides": {
+            "qualification_route": "international_qualification",
+            "international_qualification": {
+              "name": "Pakistan Higher Secondary Certificate"
+            }
+          },
+          "expected": {
+            "status": "not_eligible",
+            "reason": "explicitly_unsupported_international_qualification"
+          }
+        },
+        {
+          "variant_id": "unlisted",
+          "overrides": {
+            "qualification_route": "international_qualification",
+            "international_qualification": {
+              "name": "Unlisted Overseas School Certificate"
+            }
+          },
+          "expected": {
+            "status": "manual_review",
+            "reason": "unlisted_international_qualification"
+          }
+        }
+      ]
+    },
+    {
+      "case_id": "resit_rejected_unless_extenuating_exception_applies",
+      "requirement_number": 25,
+      "base": "home_standard",
+      "variants": [
+        {
+          "variant_id": "no_exception",
+          "overrides": {
+            "applicant_identity": {
+              "resit": {
+                "has_resits": true,
+                "extenuating_circumstances_exception_claimed": false,
+                "official_exception_approved": false
+              }
+            }
+          },
+          "expected": {
+            "status": "not_eligible",
+            "reason": "resits_not_accepted"
+          }
+        },
+        {
+          "variant_id": "exception_claimed_unverified",
+          "overrides": {
+            "applicant_identity": {
+              "resit": {
+                "has_resits": true,
+                "extenuating_circumstances_exception_claimed": true,
+                "official_exception_approved": null
+              }
+            }
+          },
+          "expected": {
+            "status": "manual_review",
+            "reason": "extenuating_circumstances_exception_unverified"
+          }
+        },
+        {
+          "variant_id": "official_exception_approved",
+          "overrides": {
+            "applicant_identity": {
+              "resit": {
+                "has_resits": true,
+                "extenuating_circumstances_exception_claimed": true,
+                "official_exception_approved": true
+              }
+            }
+          },
+          "expected": {
+            "status": "eligible"
+          }
+        }
+      ]
+    }
+  ]
+}

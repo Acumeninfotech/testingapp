@@ -1,0 +1,552 @@
+{
+  "schema_version": "1.0.0",
+  "course_profile_id": "ucl-a100",
+  "confidence": "low",
+  "evidence": {
+    "classification": "official_ucat_ranking_with_single_current_scale_threshold_cycle",
+    "summary": "UCL checks academic eligibility first, then ranks eligible applicants by UCAT cognitive total in separate Access UCL, Home and Overseas pools. SJT is used only as a tiebreaker for identical UCAT totals, personal statement is not scored for shortlisting, and final offers use interview performance alone. Official 2026-entry thresholds are Access UCL 2080, Home 2190 and Overseas 2300 on the 2700 scale. ApplySmart band margins are modelled from the supplied approved configuration and are not official UCL cutoffs.",
+    "source_ids": [
+      "ucl_research_doc",
+      "ucl_selection_procedure",
+      "ucl_foi_chan_2025"
+    ]
+  },
+  "eligibility": {
+    "scope": "Automatic guidance applies after the implemented academic gate passes and UCAT from the application cycle is supplied. UCAT thresholds are used for interview guidance, not as eligibility gates.",
+    "international_english_language_required": true,
+    "qualification_routes": {
+      "supported": [
+        "a_level",
+        "international_baccalaureate",
+        "scottish",
+        "access_to_medicine",
+        "international_qualification"
+      ],
+      "manual_review": [
+        "graduate"
+      ],
+      "explicitly_blocked": [
+        "btec",
+        "t_level",
+        "foundation",
+        "unknown"
+      ]
+    },
+    "manual_review_applicant_groups": [
+      "graduate_applicant"
+    ],
+    "gcse": {
+      "minimum_count": null,
+      "use_exact_subject_list": false,
+      "required_subjects": [
+        {
+          "subject_id": "english_language",
+          "minimum_grade": "6/B"
+        },
+        {
+          "subject_id": "mathematics",
+          "minimum_grade": "6/B"
+        }
+      ]
+    },
+    "a_level": {
+      "routes": [
+        {
+          "route_id": "ucl_standard_a_level_astar_aa_biology_chemistry",
+          "excluded_group_ids": [
+            "access_ucl_confirmed",
+            "graduate_applicant"
+          ],
+          "grade_profile": [
+            "A*",
+            "A",
+            "A"
+          ],
+          "required_subject_ids": [
+            "biology",
+            "chemistry"
+          ],
+          "required_subject_grade_options": [
+            {
+              "grade_requirements": [
+                {
+                  "subject_id": "biology",
+                  "minimum_grade": "A*"
+                },
+                {
+                  "subject_id": "chemistry",
+                  "minimum_grade": "A"
+                }
+              ]
+            },
+            {
+              "grade_requirements": [
+                {
+                  "subject_id": "biology",
+                  "minimum_grade": "A"
+                },
+                {
+                  "subject_id": "chemistry",
+                  "minimum_grade": "A*"
+                }
+              ]
+            }
+          ],
+          "excluded_subject_ids": [
+            "general_studies",
+            "thinking_skills"
+          ]
+        },
+        {
+          "route_id": "ucl_access_ucl_a_level_aab_biology_chemistry_aa",
+          "all_group_ids": [
+            "home_fee",
+            "access_ucl_confirmed"
+          ],
+          "excluded_group_ids": [
+            "international_fee",
+            "graduate_applicant"
+          ],
+          "grade_profile": [
+            "A",
+            "A",
+            "B"
+          ],
+          "required_subject_ids": [
+            "biology",
+            "chemistry"
+          ],
+          "subject_grade_requirements": [
+            {
+              "subject_id": "biology",
+              "minimum_grade": "A"
+            },
+            {
+              "subject_id": "chemistry",
+              "minimum_grade": "A"
+            }
+          ],
+          "excluded_subject_ids": [
+            "general_studies",
+            "thinking_skills"
+          ]
+        }
+      ]
+    },
+    "international_baccalaureate": {
+      "routes": [
+        {
+          "route_id": "ucl_standard_ib_39_19hl_biology_chemistry_6_7",
+          "excluded_group_ids": [
+            "access_ucl_confirmed",
+            "graduate_applicant"
+          ],
+          "total_points": 39,
+          "minimum_hl_points": 19,
+          "hl_grade_profile": [
+            "7",
+            "6",
+            "5"
+          ],
+          "required_hl_subject_ids": [
+            "biology",
+            "chemistry"
+          ],
+          "required_hl_subject_grade_options": [
+            {
+              "grade_requirements": [
+                {
+                  "subject_id": "biology",
+                  "minimum_grade": "7"
+                },
+                {
+                  "subject_id": "chemistry",
+                  "minimum_grade": "6"
+                }
+              ]
+            },
+            {
+              "grade_requirements": [
+                {
+                  "subject_id": "biology",
+                  "minimum_grade": "6"
+                },
+                {
+                  "subject_id": "chemistry",
+                  "minimum_grade": "7"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "route_id": "ucl_access_ucl_ib_36_17hl_biology_chemistry_6",
+          "all_group_ids": [
+            "home_fee",
+            "access_ucl_confirmed"
+          ],
+          "total_points": 36,
+          "minimum_hl_points": 17,
+          "hl_grade_profile": [
+            "6",
+            "6",
+            "5"
+          ],
+          "required_hl_subject_ids": [
+            "biology",
+            "chemistry"
+          ],
+          "required_hl_subject_grade_options": [
+            {
+              "grade_requirements": [
+                {
+                  "subject_id": "biology",
+                  "minimum_grade": "6"
+                },
+                {
+                  "subject_id": "chemistry",
+                  "minimum_grade": "6"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    "scottish": {
+      "national_5": {
+        "minimum_count": 0,
+        "required_subject_ids": []
+      },
+      "post_16_routes": [
+        {
+          "route_id": "ucl_scottish_advanced_highers_a1aa_biology_chemistry",
+          "qualification_level": "advanced_higher",
+          "grade_profile": [
+            "A*",
+            "A",
+            "A"
+          ],
+          "required_subject_ids": [
+            "biology",
+            "chemistry"
+          ],
+          "required_subject_grade_options": [
+            {
+              "grade_requirements": [
+                {
+                  "subject_id": "biology",
+                  "minimum_grade": "A*"
+                },
+                {
+                  "subject_id": "chemistry",
+                  "minimum_grade": "A"
+                }
+              ]
+            },
+            {
+              "grade_requirements": [
+                {
+                  "subject_id": "biology",
+                  "minimum_grade": "A"
+                },
+                {
+                  "subject_id": "chemistry",
+                  "minimum_grade": "A*"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "route_id": "ucl_scottish_two_advanced_highers_plus_highers",
+          "qualification_level": "scottish_highers_and_advanced_highers",
+          "grade_profile": [
+            "A*",
+            "A"
+          ],
+          "required_subject_ids": [
+            "biology",
+            "chemistry"
+          ],
+          "higher_grade_profile": [
+            "A",
+            "A",
+            "A"
+          ]
+        }
+      ]
+    },
+    "international_qualification": {
+      "unverified_outcome": "manual_review",
+      "manual_review_reason": "country_specific_international_qualification_requires_ucl_verification"
+    },
+    "ucat": {
+      "required_test_year": 2026,
+      "minimum_total_score": null,
+      "score_scale": 2700,
+      "required_in_application_cycle": true
+    },
+    "sjt": {
+      "used_as_gate": false,
+      "accepted_bands": [
+        1,
+        2,
+        3,
+        4
+      ],
+      "rejected_bands": []
+    },
+    "resits": {
+      "resits_accepted": false,
+      "allowed_resit_attempts": 0
+    },
+    "manual_review_routes": [
+      "Graduate A100 degree and module waiver checks",
+      "Country-specific international qualification equivalence",
+      "UCL Level 4 English-language evidence where exemption is not confirmed",
+      "Access UCL eligibility where not explicitly confirmed"
+    ],
+    "do_not_infer": [
+      "Do not create academic ranking points.",
+      "Do not score the personal statement for shortlisting.",
+      "Do not convert 2025 /3600 UCAT thresholds to /2700.",
+      "Do not reject SJT Band 4 as a standalone UCL rule.",
+      "Do not apply the Access UCL threshold from generic contextual evidence.",
+      "Do not predict offers."
+    ]
+  },
+  "score_model": {
+    "type": "ranking_metric",
+    "basis": "UCAT cognitive total after UCL academic eligibility gate. Academic requirements are not scored; SJT is used only as a tiebreaker for identical UCAT totals.",
+    "metric": "ucat_total",
+    "pool_specific_output": true,
+    "scale": {
+      "min": 900,
+      "max": 2700
+    },
+    "fixed_current_cutoff": false,
+    "historical_guidance_only": true,
+    "native_guidance_cycle": "2026 entry",
+    "legacy_3600_conversion_used": false,
+    "single_current_scale_threshold_cycle": true,
+    "current_scale_guidance": {
+      "home": {
+        "value": 2190,
+        "cycle": "2026 entry",
+        "scale": 2700
+      },
+      "access_ucl": {
+        "value": 2080,
+        "cycle": "2026 entry",
+        "scale": 2700
+      },
+      "international": {
+        "value": 2300,
+        "cycle": "2026 entry",
+        "scale": 2700
+      }
+    },
+    "supplied_band_mapping": {
+      "source_config_id": "applysmart.interview_bands.ucl-a100",
+      "version": "1.2",
+      "margin_step_points": 100,
+      "canonical_mapping": {
+        "interview_likely": "interview_likely",
+        "strong": "realistic",
+        "competitive": "ambitious",
+        "high_risk": "high_risk",
+        "unlikely": "high_risk"
+      },
+      "thresholds_preserved": {
+        "access_ucl": 2080,
+        "home": 2190,
+        "overseas": 2300
+      }
+    },
+    "presentation": {
+      "selection_summary": "UCL checks academic eligibility first, then ranks eligible applicants by UCAT cognitive total in separate Access UCL, Home and Overseas pools. SJT is used only as a tiebreaker and academics above the minimum are not scored.",
+      "hide_score_breakdown": true,
+      "band_headlines": {
+        "interview_likely": "Strong choice based on your UCAT",
+        "realistic": "Realistic choice based on your UCAT",
+        "ambitious": "Ambitious choice based on your UCAT",
+        "high_risk": "High-risk choice based on your UCAT"
+      },
+      "band_recommendations": {
+        "interview_likely": "Strong choice based on your UCAT",
+        "realistic": "Realistic choice based on your UCAT",
+        "ambitious": "Ambitious choice based on your UCAT",
+        "high_risk": "Consider stronger alternatives"
+      },
+      "band_explanations": {
+        "interview_likely": "Your UCAT is comfortably above UCL's latest published threshold for this pool. This is interview guidance only and does not guarantee an interview.",
+        "realistic": "Your UCAT is above UCL's latest published threshold for this pool. UCL ranks applicants within each cycle, so thresholds can move.",
+        "ambitious": "Your UCAT is at or just above UCL's latest published threshold for this pool. This is a borderline historical position, not a guaranteed interview.",
+        "high_risk": "Your UCAT is below UCL's latest published threshold for this pool. UCL ranks applicants each cycle, so this is high-risk interview guidance."
+      },
+      "ucat_band_explanations": {
+        "interview_likely": "UCAT is comfortably above UCL's latest published pool threshold.",
+        "realistic": "UCAT is above UCL's latest published pool threshold.",
+        "ambitious": "UCAT is at or close to UCL's latest published pool threshold.",
+        "high_risk": "UCAT is below UCL's latest published pool threshold."
+      },
+      "annual_variation_warning": "UCL ranks applicants within each cycle. Past thresholds do not guarantee the threshold for a future cycle.",
+      "offer_stage_text": "If invited, UCL makes final offers using interview performance alone."
+    }
+  },
+  "guidance_pools": [
+    {
+      "pool_id": "access_ucl_a100",
+      "priority": 300,
+      "applicant_match": {
+        "all_group_ids": [
+          "home_fee",
+          "access_ucl_confirmed"
+        ],
+        "excluded_group_ids": [
+          "international_fee"
+        ]
+      },
+      "metric": "ucat_total",
+      "pool_specific_output": true,
+      "comparison_guidance": {
+        "comparison_type": "current_guidance",
+        "label": "latest published Access UCL interview threshold",
+        "caveat": "UCL ranks applicants within each cycle. The 2026-entry Access UCL threshold is guidance only, context only, not a current threshold, and does not guarantee an interview.",
+        "evidence_confidence": "high"
+      },
+      "historical_cutoff": {
+        "entry_cycle": "2026 entry",
+        "value": 2080,
+        "evidence_classification": "official_published_threshold"
+      },
+      "band_rules": [
+        {
+          "band": "interview_likely",
+          "operator": "between_inclusive",
+          "min": 2280,
+          "max": 2700
+        },
+        {
+          "band": "realistic",
+          "operator": "between_inclusive",
+          "min": 2180,
+          "max": 2279
+        },
+        {
+          "band": "ambitious",
+          "operator": "between_inclusive",
+          "min": 2080,
+          "max": 2179
+        },
+        {
+          "band": "high_risk",
+          "operator": "between_inclusive",
+          "min": 900,
+          "max": 2079
+        }
+      ]
+    },
+    {
+      "pool_id": "home_a100",
+      "priority": 200,
+      "applicant_match": {
+        "all_group_ids": [
+          "home_fee"
+        ],
+        "excluded_group_ids": [
+          "international_fee",
+          "access_ucl_confirmed"
+        ]
+      },
+      "metric": "ucat_total",
+      "pool_specific_output": true,
+      "comparison_guidance": {
+        "comparison_type": "current_guidance",
+        "label": "latest published Home interview threshold",
+        "caveat": "UCL ranks applicants within each cycle. The 2026-entry Home threshold is guidance only, context only, not a current threshold, and does not guarantee an interview.",
+        "evidence_confidence": "high"
+      },
+      "historical_cutoff": {
+        "entry_cycle": "2026 entry",
+        "value": 2190,
+        "evidence_classification": "official_published_threshold"
+      },
+      "band_rules": [
+        {
+          "band": "interview_likely",
+          "operator": "between_inclusive",
+          "min": 2390,
+          "max": 2700
+        },
+        {
+          "band": "realistic",
+          "operator": "between_inclusive",
+          "min": 2290,
+          "max": 2389
+        },
+        {
+          "band": "ambitious",
+          "operator": "between_inclusive",
+          "min": 2190,
+          "max": 2289
+        },
+        {
+          "band": "high_risk",
+          "operator": "between_inclusive",
+          "min": 900,
+          "max": 2189
+        }
+      ]
+    },
+    {
+      "pool_id": "overseas_a100",
+      "priority": 100,
+      "applicant_match": {
+        "all_group_ids": [
+          "international_fee"
+        ]
+      },
+      "metric": "ucat_total",
+      "pool_specific_output": true,
+      "comparison_guidance": {
+        "comparison_type": "current_guidance",
+        "label": "latest published Overseas interview threshold",
+        "caveat": "UCL publishes 24 overseas places, so future overseas thresholds may be volatile. The 2026-entry Overseas threshold is guidance only, context only, not a current threshold, and does not guarantee an interview.",
+        "evidence_confidence": "high"
+      },
+      "historical_cutoff": {
+        "entry_cycle": "2026 entry",
+        "value": 2300,
+        "evidence_classification": "official_published_threshold"
+      },
+      "band_rules": [
+        {
+          "band": "interview_likely",
+          "operator": "between_inclusive",
+          "min": 2500,
+          "max": 2700
+        },
+        {
+          "band": "realistic",
+          "operator": "between_inclusive",
+          "min": 2400,
+          "max": 2499
+        },
+        {
+          "band": "ambitious",
+          "operator": "between_inclusive",
+          "min": 2300,
+          "max": 2399
+        },
+        {
+          "band": "high_risk",
+          "operator": "between_inclusive",
+          "min": 900,
+          "max": 2299
+        }
+      ]
+    }
+  ]
+}

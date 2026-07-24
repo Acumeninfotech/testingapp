@@ -1,0 +1,358 @@
+{
+  "schema_version": "1.0.0",
+  "course_profile_id": "kent-and-medway-a100",
+  "confidence": "low",
+  "evidence": {
+    "classification": "official_threshold_gate_unavailable_with_separate_applysmart_advisory_guidance",
+    "summary": "KMMS uses academic eligibility, SJT and a UCAT cognitive threshold as gates, then contextualises/scored applicants separately by group. The official 2026-entry UCAT threshold on the 900-2700 scale is unpublished, so official runtime prediction is unavailable. ApplySmart advisory bands use the approved historical-percentile-equivalent zone and are not official KMMS thresholds, rankings or decisions.",
+    "source_ids": [
+      "kmms_research_doc",
+      "kmms_applysmart_config"
+    ]
+  },
+  "eligibility": {
+    "scope": "Automatic gates cover GCSE, achieved A-level, achieved IB, verified Access to HE Medicine, supported Scottish profile, achieved graduate degree, verified international equivalence, UCAT presence and SJT rules. Official UCAT cognitive threshold remains non-executable while null.",
+    "predicted_grades_policy": "ignore",
+    "international_english_language_required": true,
+    "allow_guidance_with_manual_review_reasons": [],
+    "qualification_routes": {
+      "supported": [
+        "a_level",
+        "international_baccalaureate",
+        "scottish",
+        "access_to_medicine",
+        "graduate",
+        "international_qualification"
+      ],
+      "explicitly_blocked": [
+        "btec",
+        "t_level",
+        "foundation",
+        "unknown"
+      ]
+    },
+    "gcse": {
+      "minimum_count": 5,
+      "use_exact_subject_list": false,
+      "required_subjects": [
+        {
+          "subject_id": "english_language",
+          "minimum_grade": "6/B"
+        },
+        {
+          "subject_id": "mathematics",
+          "minimum_grade": "6/B"
+        }
+      ]
+    },
+    "sjt": {
+      "graduate_sjt_remains_required": true
+    },
+    "a_level": {
+      "predicted_grades_policy": "ignore",
+      "allow_unachieved_with_gcse_gate": true,
+      "validate_subject_combination_when_unachieved": true,
+      "routes": [
+        {
+          "route_id": "kmms_group_b_achieved_aab_science",
+          "grade_profile": [
+            "A",
+            "A",
+            "B"
+          ],
+          "excluded_subject_ids": [
+            "general_studies",
+            "critical_thinking"
+          ]
+        }
+      ],
+      "science_practical_endorsement": {
+        "required": true,
+        "subject_ids": [
+          "biology",
+          "chemistry",
+          "physics"
+        ],
+        "accepted_values": [
+          "pass",
+          "passed"
+        ]
+      }
+    },
+    "international_baccalaureate": {
+      "routes": [
+        {
+          "route_id": "kmms_ib_34_hl_science_66",
+          "total_points": 34,
+          "hl_grade_profile": [
+            "6",
+            "6"
+          ],
+          "required_hl_subject_grade_options": [
+            {
+              "grade_requirements": [
+                {
+                  "subject_id": "biology",
+                  "minimum_grade": "6"
+                },
+                {
+                  "subject_id": "chemistry",
+                  "minimum_grade": "6"
+                }
+              ]
+            },
+            {
+              "grade_requirements": [
+                {
+                  "subject_id": "biology",
+                  "minimum_grade": "6"
+                },
+                {
+                  "subject_id": "physics",
+                  "minimum_grade": "6"
+                }
+              ]
+            },
+            {
+              "grade_requirements": [
+                {
+                  "subject_id": "biology",
+                  "minimum_grade": "6"
+                },
+                {
+                  "subject_id": "mathematics",
+                  "minimum_grade": "6"
+                }
+              ]
+            },
+            {
+              "grade_requirements": [
+                {
+                  "subject_id": "chemistry",
+                  "minimum_grade": "6"
+                },
+                {
+                  "subject_id": "physics",
+                  "minimum_grade": "6"
+                }
+              ]
+            },
+            {
+              "grade_requirements": [
+                {
+                  "subject_id": "chemistry",
+                  "minimum_grade": "6"
+                },
+                {
+                  "subject_id": "mathematics",
+                  "minimum_grade": "6"
+                }
+              ]
+            },
+            {
+              "grade_requirements": [
+                {
+                  "subject_id": "chemistry",
+                  "minimum_grade": "6"
+                },
+                {
+                  "subject_id": "psychology",
+                  "minimum_grade": "6"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    "scottish": {
+      "national_5": {
+        "minimum_count": 0,
+        "required_subject_ids": []
+      },
+      "post_16_routes": [
+        {
+          "route_id": "kmms_scottish_aaaab_aab",
+          "higher_grade_profile": [
+            "A",
+            "A",
+            "A",
+            "A",
+            "B"
+          ],
+          "grade_profile": [
+            "A",
+            "A",
+            "B"
+          ],
+          "qualification_level": "advanced_highers"
+        }
+      ]
+    },
+    "graduate": {
+      "gcse_required": false,
+      "waive_a_level_requirements": true,
+      "minimum_classification": "2_1",
+      "postgraduate_compensation_allowed": false
+    },
+    "international_qualification": {
+      "unverified_outcome": "manual_review",
+      "manual_review_reason": "international_qualification_equivalence_requires_verification"
+    }
+  },
+  "score_model": {
+    "type": "component_sum",
+    "basis": "ApplySmart advisory historical-percentile-equivalent UCAT zone only; official KMMS runtime gate remains unavailable while official_2026_threshold_2700 is null.",
+    "scale": {
+      "min": 900,
+      "max": 2700
+    },
+    "official_formula": false,
+    "official_scale": false,
+    "prediction_band_labels_official": false,
+    "methodology_confidence": "low",
+    "prediction_calibration_confidence": "low",
+    "official_runtime_threshold": {
+      "school_leaver": {
+        "total_2700": null,
+        "sjt_min_band": 3,
+        "status": "awaiting_official"
+      },
+      "graduate": {
+        "total_2700": null,
+        "sjt_min_band": 2,
+        "status": "awaiting_official"
+      }
+    },
+    "historical_equivalent_zone_2700": {
+      "low": 1845,
+      "central": 1855,
+      "high": 1865
+    },
+    "advisory_public_bands": [
+      {
+        "public_label": "High Risk",
+        "canonical_band": "high_risk",
+        "min": 900,
+        "max": 1844
+      },
+      {
+        "public_label": "Borderline",
+        "canonical_band": "ambitious",
+        "min": 1845,
+        "max": 1854
+      },
+      {
+        "public_label": "Realistic",
+        "canonical_band": "realistic",
+        "min": 1855,
+        "max": 1864
+      },
+      {
+        "public_label": "Strong",
+        "canonical_band": "interview_likely",
+        "min": 1865,
+        "max": 2700
+      }
+    ],
+    "disabled_public_bands": [
+      {
+        "public_label": "Very Strong",
+        "reason": "No separate approved upper boundary was supplied; scores at or above the approved high historical-equivalent point are labelled Strong, not Guaranteed."
+      },
+      {
+        "public_label": "Guaranteed",
+        "reason": "KMMS publishes no guaranteed-interview UCAT rule."
+      }
+    ],
+    "disclaimer": "ApplySmart Advisory Prediction - This guidance is based on historical percentile equivalence and historical KMMS admissions evidence. It is not an official KMMS interview threshold, ranking or admissions decision.",
+    "guardrails": [
+      "Advisory bands cannot alter academic eligibility.",
+      "Advisory bands cannot override the official UCAT threshold.",
+      "Advisory bands cannot pass or reject an applicant.",
+      "Advisory bands cannot alter Group A-E routing.",
+      "Advisory bands cannot replace contextual academic ranking.",
+      "Advisory bands must not imply that KMMS ranks applicants by UCAT."
+    ],
+    "official_prediction": {
+      "available": false,
+      "status": "prediction_unavailable",
+      "reason_code": "official_2026_ucat_threshold_2700_not_published",
+      "explanation": "KMMS has not published an exact 2026 interview cut-off on the current UCAT scale. Shortlisting may also depend on contextual ranking or other information that ApplySmart cannot fully reproduce.",
+      "source_ids": [
+        "kmms_research_doc",
+        "kmms_applysmart_config"
+      ]
+    },
+    "presentation": {
+      "hide_selection_score_details": true,
+      "selection_summary": "ApplySmart analysis uses the official KMMS eligibility criteria and available historical evidence. KMMS has not published an exact 2026 interview cut-off on the current UCAT scale, so this is not an official university decision or interview guarantee.",
+      "band_headlines": {
+        "high_risk": "Limited Interview Potential",
+        "ambitious": "Developing Interview Potential",
+        "realistic": "Competitive Interview Potential",
+        "interview_likely": "Strong Interview Potential",
+        "insufficient_evidence": "Evidence Limited"
+      },
+      "band_recommendations": {
+        "high_risk": "Limited Interview Potential",
+        "ambitious": "Developing Interview Potential",
+        "realistic": "Competitive Interview Potential",
+        "interview_likely": "Strong Interview Potential",
+        "insufficient_evidence": "Evidence Limited"
+      },
+      "band_explanations": {
+        "high_risk": "ApplySmart has applied the official KMMS eligibility criteria and compared the applicant profile with available historical evidence. KMMS has not published an exact 2026 interview cut-off on the current UCAT scale, so this is not an official university decision or interview guarantee.",
+        "ambitious": "ApplySmart has applied the official KMMS eligibility criteria and compared the applicant profile with available historical evidence. KMMS has not published an exact 2026 interview cut-off on the current UCAT scale, so this is not an official university decision or interview guarantee.",
+        "realistic": "ApplySmart has applied the official KMMS eligibility criteria and compared the applicant profile with available historical evidence. KMMS has not published an exact 2026 interview cut-off on the current UCAT scale, so this is not an official university decision or interview guarantee.",
+        "interview_likely": "ApplySmart has applied the official KMMS eligibility criteria and compared the applicant profile with available historical evidence. KMMS has not published an exact 2026 interview cut-off on the current UCAT scale, so this is not an official university decision or interview guarantee.",
+        "insufficient_evidence": "ApplySmart has applied the official KMMS eligibility criteria and compared the applicant profile with available historical evidence. KMMS has not published an exact 2026 interview cut-off on the current UCAT scale, so this is not an official university decision or interview guarantee."
+      }
+    }
+  },
+  "guidance_pools": [
+    {
+      "pool_id": "kmms_applysmart_advisory_all_routes",
+      "priority": 1,
+      "applicant_match": {},
+      "metric": "ucat_total",
+      "pool_specific_output": true,
+      "comparison_guidance": {
+        "comparison_type": "historical_range",
+        "label": "ApplySmart advisory historical-equivalent UCAT zone",
+        "caveat": "Advisory-only: KMMS does not rank by UCAT above threshold and the official 2026 2700-scale threshold is unpublished.",
+        "evidence_confidence": "low"
+      },
+      "band_rules": [
+        {
+          "band": "high_risk",
+          "operator": "between_inclusive",
+          "min": 900,
+          "max": 1844,
+          "evidence_classification": "foi_verified_historical_guidance"
+        },
+        {
+          "band": "ambitious",
+          "operator": "between_inclusive",
+          "min": 1845,
+          "max": 1854,
+          "evidence_classification": "foi_verified_historical_guidance"
+        },
+        {
+          "band": "realistic",
+          "operator": "between_inclusive",
+          "min": 1855,
+          "max": 1864,
+          "evidence_classification": "foi_verified_historical_guidance"
+        },
+        {
+          "band": "interview_likely",
+          "operator": "between_inclusive",
+          "min": 1865,
+          "max": 2700,
+          "evidence_classification": "foi_verified_historical_guidance"
+        }
+      ]
+    }
+  ]
+}

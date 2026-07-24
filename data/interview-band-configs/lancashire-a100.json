@@ -1,0 +1,224 @@
+{
+  "schema_version": "1.0.0",
+  "course_profile_id": "lancashire-a100",
+  "confidence": "low",
+  "evidence": {
+    "classification": "eligibility_only_with_home_ucat_working_guidance",
+    "summary": "Lancashire publishes measurable academic requirements and confirms UCAT is used for UK applicants, but it also uses academic scoring, personal reflective statement, reference and selection panel review without publishing an executable weighting model. ApplySmart therefore checks eligibility and Home UCAT guidance only.",
+    "source_ids": [
+      "lancashire_course_page_2026",
+      "lancashire_how_to_apply_mbbs",
+      "ucas_lancashire_a100_2026"
+    ]
+  },
+  "eligibility": {
+    "scope": "Automatic handling covers Home and International applicants using A-level, IB, institution-verified international qualification, or the representable graduate classification route. Regional UK residency and UCLan Foundation Entry status are intentionally outside scope.",
+    "international_english_language_required": false,
+    "qualification_routes": {
+      "supported": [
+        "a_level",
+        "international_baccalaureate",
+        "graduate",
+        "international_qualification"
+      ],
+      "manual_review": [
+        "scottish"
+      ],
+      "explicitly_blocked": [
+        "btec",
+        "t_level",
+        "access_to_he",
+        "access_to_medicine",
+        "foundation",
+        "unknown"
+      ]
+    },
+    "gcse": {
+      "minimum_count": null,
+      "use_exact_subject_list": false,
+      "required_subjects": [
+        {
+          "subject_id": "english_language",
+          "minimum_grade": "5/B"
+        },
+        {
+          "subject_id": "mathematics",
+          "minimum_grade": "5/B"
+        }
+      ]
+    },
+    "a_level": {
+      "routes": [
+        {
+          "route_id": "lancashire_aaa_chemistry_plus_second_science",
+          "grade_profile": [
+            "A",
+            "A",
+            "A"
+          ],
+          "required_subject_ids": [
+            "chemistry"
+          ],
+          "one_of_subject_groups": [
+            {
+              "group_id": "second_science",
+              "minimum_required": 1,
+              "subject_ids": [
+                "biology",
+                "human_biology",
+                "physics",
+                "mathematics"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    "international_baccalaureate": {
+      "routes": [
+        {
+          "route_id": "lancashire_ib_36_hl6_chemistry_second_science",
+          "total_points": 36,
+          "hl_grade_profile": [
+            "6",
+            "6"
+          ],
+          "required_hl_subject_ids": [
+            "chemistry"
+          ],
+          "required_hl_subject_grade_options": [
+            {
+              "grade_requirements": [
+                {
+                  "subject_id": "chemistry",
+                  "minimum_grade": "6"
+                },
+                {
+                  "subject_id": "biology",
+                  "minimum_grade": "6"
+                }
+              ]
+            },
+            {
+              "grade_requirements": [
+                {
+                  "subject_id": "chemistry",
+                  "minimum_grade": "6"
+                },
+                {
+                  "subject_id": "physics",
+                  "minimum_grade": "6"
+                }
+              ]
+            },
+            {
+              "grade_requirements": [
+                {
+                  "subject_id": "chemistry",
+                  "minimum_grade": "6"
+                },
+                {
+                  "subject_id": "mathematics",
+                  "minimum_grade": "6"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    "international_qualification": {
+      "unverified_outcome": "manual_review",
+      "manual_review_reason": "international_qualification_requires_university_verified_equivalence"
+    },
+    "graduate": {
+      "gcse_required": true,
+      "minimum_classification": "2_1",
+      "postgraduate_compensation_allowed": false
+    },
+    "resits": {
+      "resits_accepted": false,
+      "applicant_form_required": false
+    },
+    "ucat": {
+      "required_for_home": true,
+      "not_required_for_international": true,
+      "working_historical_guidance_threshold": 1750,
+      "score_scale": 2700,
+      "official_cutoff_published": false
+    },
+    "do_not_infer": [
+      "Do not model North West residency or UCLan Foundation Entry status.",
+      "Do not treat 1750 as an official university cut-off.",
+      "Do not create interview-likelihood bands.",
+      "Do not apply the Home UCAT guidance threshold to International applicants.",
+      "Do not enforce a definitive IELTS rule while official sources conflict."
+    ]
+  },
+  "score_model": {
+    "type": "component_sum",
+    "assessment_mode": "eligibility_only",
+    "basis": "Eligibility-only assessment with a Home UCAT working guidance gate. Qualitative selection components and unpublished weighting prevent interview prediction.",
+    "scale": {
+      "min": 0,
+      "max": 1
+    },
+    "components": [],
+    "prediction_confidence": "low",
+    "historical_guidance_only": true,
+    "presentation": {
+      "selection_summary": "Lancashire checks measurable academic requirements and UCAT for UK applicants, then also reviews an academic score, personal reflective statement, academic reference and selection panel review. ApplySmart does not estimate interview likelihood.",
+      "timeline_selection_summary": "Measurable academic requirements and applicable UCAT guidance were checked. Lancashire's qualitative and unpublished selection components were not converted into an interview prediction.",
+      "recommendation_summary": "You meet the supported measurable application requirements. ApplySmart does not estimate Lancashire interview selection.",
+      "eligible_to_apply_recommendation": "Eligible to Apply",
+      "eligible_to_apply_explanation": "The University of Lancashire also assesses your academic score, personal reflective statement, academic reference and selection panel review when selecting applicants for interview. These elements cannot be fully and objectively assessed by ApplySmart. We can therefore confirm whether you meet the measurable application requirements, but we do not estimate your likelihood of receiving an interview.",
+      "insufficient_evidence_recommendation": "UCAT guidance threshold not met",
+      "insufficient_evidence_explanation": "Your UCAT score is below ApplySmart's working historical guidance threshold for the University of Lancashire. The university does not publish an official UCAT cut-off, and interview selection also considers your academic score, personal reflective statement, reference and selection panel review."
+    }
+  },
+  "guidance_pools": [
+    {
+      "pool_id": "home_a100_ucat_guidance_gate",
+      "priority": 30,
+      "applicant_match": {
+        "all_group_ids": [
+          "home_fee"
+        ],
+        "excluded_group_ids": [
+          "international_fee"
+        ]
+      },
+      "metric": "ucat_total",
+      "comparison_guidance": {
+        "comparison_type": "current_guidance",
+        "label": "ApplySmart working historical guidance threshold",
+        "caveat": "This is not an official University of Lancashire cut-off and does not estimate interview likelihood.",
+        "evidence_confidence": "low"
+      },
+      "band_rules": [
+        {
+          "band": "eligible_to_apply",
+          "operator": "greater_than_or_equal",
+          "value": 1750
+        }
+      ]
+    },
+    {
+      "pool_id": "international_a100_eligibility_gate",
+      "priority": 20,
+      "applicant_match": {
+        "all_group_ids": [
+          "international_fee"
+        ]
+      },
+      "metric": "eligibility_gate",
+      "band_rules": [
+        {
+          "band": "eligible_to_apply",
+          "operator": "greater_than_or_equal",
+          "value": 1
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,325 @@
+{
+  "schema_version": "1.0.0",
+  "template_version": "1.0.0",
+  "result_id": "keele-a100-international-ucat-ranked-guidance-example",
+  "generated_at": "2026-07-08",
+  "result_mode": "example_eligibility_with_supported_interview_guidance",
+  "production_state": {
+    "profile_active": true,
+    "metadata_activation_enabled": true,
+    "result_card_output_enabled": true,
+    "note": "Keele A100 is production-ready for supported interview prediction. Applicant-group-specific UCAT hard minima are enforced; Home /25 guidance is withheld where Keele's personal-statement score is unavailable."
+  },
+  "course_identity": {
+    "profile_id": "keele-a100",
+    "university_name": "Keele University",
+    "course_name": "MBChB Medicine",
+    "ucas_code": "A100",
+    "entry_route": "standard_entry",
+    "qualification_awarded": "MBChB",
+    "duration_years": 5,
+    "location": "Keele, England",
+    "source_ids": [
+      "keele_medicine_entry_requirements",
+      "keele_medicine_how_to_apply"
+    ]
+  },
+  "applicant_context": {
+    "applies_to_group_ids": [
+      "international_fee",
+      "school_leaver"
+    ],
+    "applicant_summary": "International A-level school-leaver meeting represented GCSE and A-level gates, with UCAT 2200/2700 and SJT Band 2. Keele ranks International applicants by UCAT total after the International 1950 minimum is met.",
+    "fee_cohort": "international",
+    "entry_route": "standard_entry",
+    "qualification_route": "a_level",
+    "contextual": false,
+    "graduate": false,
+    "source_ids": []
+  },
+  "readiness": {
+    "eligibility": true,
+    "interview_prediction": true,
+    "historical_guidance": true,
+    "international_prediction": true,
+    "contextual_logic": true,
+    "result_card": true,
+    "regression": true,
+    "research_completeness": "complete_for_supported_scope_with_documented_gaps",
+    "manual_review_required": true,
+    "eligibility_ready": true,
+    "interview_prediction_ready": true,
+    "prediction_confidence": "low",
+    "result_card_ready": true,
+    "offer_prediction_scope": "out_of_scope",
+    "metadata_activation_ready": true,
+    "activation_ready": true,
+    "production_ready": true,
+    "blocked_by_engine_limitation": false
+  },
+  "eligibility": {
+    "status": "eligible",
+    "summary": "The represented International school-leaver meets the supported Keele GCSE, A-level, UCAT and SJT gates that ApplySmart can check.",
+    "stage_1_checks": [
+      {
+        "check_id": "gcse_gate",
+        "label": "GCSE gate",
+        "status": "pass",
+        "requirement": "Five GCSEs at grade 7/A, including English Language, Mathematics, Biology, Chemistry and Physics at least grade 6/B, or accepted combined science.",
+        "applicant_value": "Five represented GCSEs are grade 7, including English Language, Mathematics, Biology, Chemistry and Physics.",
+        "decision_outcome": "eligible",
+        "source_ids": [
+          "keele_medicine_entry_requirements"
+        ]
+      },
+      {
+        "check_id": "a_level_gate",
+        "label": "A-level gate",
+        "status": "pass",
+        "requirement": "A*AA including Biology or Chemistry plus a second accepted subject, excluding General Studies and Critical Thinking.",
+        "applicant_value": "A*AA in Chemistry, Biology and Mathematics.",
+        "decision_outcome": "eligible",
+        "source_ids": [
+          "keele_medicine_entry_requirements"
+        ]
+      },
+      {
+        "check_id": "ucat_sjt_gate",
+        "label": "UCAT and SJT gate",
+        "status": "pass",
+        "requirement": "International UCAT at least 1950 and SJT Band 1-3.",
+        "applicant_value": "UCAT 2200/2700 and SJT Band 2.",
+        "decision_outcome": "eligible",
+        "source_ids": [
+          "keele_medicine_how_to_apply"
+        ]
+      }
+    ],
+    "blocking_reasons": [],
+    "warnings": [
+      "Home interview guidance cannot be safely shown without Keele's personal-statement score and UCAT-grade/bonus component.",
+      "International guidance is based on Keele's UCAT-ranked selection model and does not use unpublished International interviewed/offered UCAT ranges."
+    ],
+    "source_ids": [
+      "keele_medicine_entry_requirements",
+      "keele_medicine_how_to_apply"
+    ]
+  },
+  "prediction": {
+    "available": true,
+    "capability": "interview_guidance",
+    "prediction_type": "evidence_based_interview_guidance_with_transparent_limitations",
+    "prediction_status": "guidance_available",
+    "result_band": "realistic",
+    "guidance_pool_id": "international_ucat_ranked_guidance",
+    "score": 2200,
+    "score_scale": {
+      "min": 0,
+      "max": 25
+    },
+    "band_basis": "Keele ranks International applicants by UCAT total after the International UCAT minimum and SJT gate. ApplySmart uses the published 1950 International floor and transparent evidence-based guidance; this is not a guarantee of interview.",
+    "historical_comparison": "published_minimum_and_ucat_ranked_selection_model",
+    "missing_data_reasons": [
+      "keele_personal_statement_score_not_available_to_engine",
+      "keele_ucat_grade_quintile_component_not_supported_in_engine_v1"
+    ],
+    "cannot_predict_explanation": null,
+    "source_ids": [
+      "keele_medicine_how_to_apply"
+    ]
+  },
+  "missing_data": {
+    "multi_year_ucat_interview_data": "foi_required_non_blocking",
+    "offer_holder_ucat_statistics": "foi_required_non_blocking",
+    "interview_to_offer_conversion_data": "foi_required_non_blocking",
+    "multi_year_application_statistics": "foi_required_non_blocking",
+    "international_interviewed_offered_ucat_ranges": "foi_required_non_blocking",
+    "home_selection_score_component": "route_limited_manual_review",
+    "home_personal_statement_score": "not_available_to_applysmart"
+  },
+  "confidence": {
+    "level": "low",
+    "summary": "Keele's published policy evidence is strong for eligibility and International UCAT-ranked guidance. Home guidance remains limited where Keele's personal-statement score is unavailable.",
+    "stage_confidence": {
+      "stage_1": "medium",
+      "stage_2": "low",
+      "historical_guidance": "low"
+    },
+    "source_ids": [
+      "keele_medicine_entry_requirements",
+      "keele_medicine_how_to_apply",
+      "keele_alternative_offers"
+    ]
+  },
+  "evidence_confidence": {
+    "level": "Medium",
+    "summary": "The recommendation is supported by core admissions evidence, with some historical or route-specific limits.",
+    "reasons": [
+      "Official eligibility rules are available.",
+      "The university selection approach is implemented.",
+      "Historical interview guidance is available, but some evidence is historical, FOI-derived or has documented gaps."
+    ]
+  },
+  "display": {
+    "headline": "Good chance based on historical data",
+    "primary_user_facing_recommendation": "Good chance – recommend applying",
+    "recommendation_display_state": "standard",
+    "primary_explanation": "Keele ranks International applicants by UCAT total after eligibility gates. This guidance uses the published International UCAT minimum and Keele's UCAT-ranked selection model; it is not a guarantee of interview.",
+    "historical_guidance_caveat": "Interview thresholds may change each admissions cycle depending on applicant competition and interview capacity. Historical figures are guidance only, not a current cut-off, and do not guarantee an interview."
+  },
+  "decision_timeline": [
+    {
+      "step": 1,
+      "title": "Applicant details checked",
+      "status": "Complete",
+      "summary": "Your applicant type, qualifications and UCAT details were checked."
+    },
+    {
+      "step": 2,
+      "title": "Eligibility assessed",
+      "status": "Eligible",
+      "summary": "You meet the published entry requirements covered by ApplySmart."
+    },
+    {
+      "step": 3,
+      "title": "Selection model applied",
+      "status": "Complete",
+      "summary": "Academic, UCAT and SJT gates were checked before UCAT-ranked International guidance was applied; Home /25 guidance is withheld without Keele's personal-statement score."
+    },
+    {
+      "step": 4,
+      "title": "Historical guidance compared",
+      "status": "Complete",
+      "summary": "Your result was compared with interview information from previous admissions cycles. Interview thresholds may change each admissions cycle depending on applicant competition and interview capacity. Historical figures are guidance only, not a current cut-off, and do not guarantee an interview."
+    },
+    {
+      "step": 5,
+      "title": "Interview recommendation produced",
+      "status": "Good chance",
+      "summary": "Good chance – recommend applying. Treat this as guidance for university choice, not a promised interview."
+    }
+  ],
+  "decision_transparency": {
+    "decision_path": [
+      {
+        "stage": "Eligibility",
+        "status": "Met",
+        "summary": "The represented International school-leaver meets the supported Keele GCSE, A-level, UCAT and SJT gates that ApplySmart can check.",
+        "checks": [
+          {
+            "label": "GCSE gate",
+            "status": "Met",
+            "summary": "Five GCSEs at grade 7/A, including English Language, Mathematics, Biology, Chemistry and Physics at least grade 6/B, or accepted combined science. Applicant information: Five represented GCSEs are grade 7, including English Language, Mathematics, Biology, Chemistry and Physics."
+          },
+          {
+            "label": "A-level gate",
+            "status": "Met",
+            "summary": "A*AA including Biology or Chemistry plus a second accepted subject, excluding General Studies and Critical Thinking. Applicant information: A*AA in Chemistry, Biology and Mathematics."
+          },
+          {
+            "label": "UCAT and SJT gate",
+            "status": "Met",
+            "summary": "International UCAT at least 1950 and SJT Band 1-3. Applicant information: UCAT 2200/2700 and SJT Band 2."
+          }
+        ]
+      },
+      {
+        "stage": "Selection model",
+        "status": "Assessed",
+        "summary": "Keele checks GCSE, academic, UCAT and SJT gates before using UCAT total for International interview guidance; Home applicants need Keele's own /25 shortlisting score.",
+        "checks": [
+          {
+            "label": "Applicant pool",
+            "status": "Used",
+            "summary": "International applicants ranked separately"
+          },
+          {
+            "label": "Academic screen",
+            "status": "Met",
+            "summary": "The represented GCSE and post-16 academic gates are met for the supported route."
+          },
+          {
+            "label": "UCAT minimum",
+            "status": "Met",
+            "summary": "The applicable applicant-group UCAT hard minimum is met."
+          },
+          {
+            "label": "SJT gate",
+            "status": "Met",
+            "summary": "SJT Band 2 passes the Band 1-3 requirement; Band 4 would prevent interview consideration."
+          },
+          {
+            "label": "Home score limit",
+            "status": "Disclosed",
+            "summary": "Home /25 guidance is withheld unless Keele's personal-statement score is available."
+          }
+        ]
+      },
+      {
+        "stage": "Historical guidance",
+        "status": "Guidance available",
+        "summary": "The applicant's result is within the historical interview range used for this applicant group. Interview thresholds may change each admissions cycle depending on applicant competition and interview capacity. Historical figures are guidance only, not a current cut-off, and do not guarantee an interview.",
+        "checks": [
+          {
+            "label": "Applicant pool",
+            "status": "Used",
+            "summary": "International applicants ranked separately"
+          },
+          {
+            "label": "Important limitation",
+            "status": "Guidance only",
+            "summary": "Interview thresholds may change each admissions cycle depending on applicant competition and interview capacity. Historical figures are guidance only, not a current cut-off, and do not guarantee an interview."
+          }
+        ]
+      },
+      {
+        "stage": "Recommendation",
+        "status": "Guidance only",
+        "summary": "Good chance – recommend applying. Treat this as guidance for university choice, not a promised interview.",
+        "checks": []
+      }
+    ],
+    "key_reasons": [
+      "The supported Keele eligibility requirements are met.",
+      "The applicable applicant-group UCAT hard minimum is enforced.",
+      "International guidance uses UCAT-ranked selection; Home /25 guidance is withheld where Keele scoring inputs are unavailable."
+    ],
+    "evidence_used": [
+      "Official admissions policy",
+      "University selection methodology",
+      "UCAT policy",
+      "Historical interview data",
+      "International admissions policy"
+    ],
+    "evidence_confidence": {
+      "level": "Medium",
+      "summary": "The recommendation is supported by core admissions evidence, with some historical or route-specific limits.",
+      "reasons": [
+        "Official eligibility rules are available.",
+        "The university selection approach is implemented.",
+        "Historical interview guidance is available, but some evidence is historical, FOI-derived or has documented gaps."
+      ]
+    },
+    "manual_review_reason": null,
+    "insufficient_evidence_reason": null,
+    "warnings": []
+  },
+  "engine_notes": {
+    "generated_from_profile_id": "keele-a100",
+    "offer_prediction_scope": "out_of_scope",
+    "activation_blocked": false,
+    "blocked_by_engine_limitation": false,
+    "do_not_infer": [
+      "Do not rank Home applicants by UCAT total alone.",
+      "Do not implement offer prediction.",
+      "Do not mix A104 into this A100 profile."
+    ]
+  },
+  "prediction_summary": {
+    "ranking_metric": "ucat_total",
+    "score": 2200,
+    "max_score": 2700,
+    "applicant_pool": "International applicants ranked separately",
+    "summary": "International guidance uses UCAT total after the International 1950 minimum and SJT gate."
+  }
+}

@@ -1,0 +1,22 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(npx tsc *)",
+      "Bash(npx vitest *)",
+      "Read(//tmp/**)",
+      "Bash(lsof -ti:5175)",
+      "Bash(xargs kill)",
+      "Bash(lsof -ti:3000)",
+      "Bash(ps -p 1451 -o pid,stat,command=)",
+      "Bash(ps -p 2043 -o pid,stat,command=)",
+      "Bash(python3 -c ' *)",
+      "Bash(npm run *)",
+      "Bash(lsof -ti:5173,5174)",
+      "Bash(xargs kill -9)",
+      "Bash(disown)",
+      "Bash(node screenshot-neither.js)",
+      "Bash(python3 /private/tmp/claude-501/-Users-faizan-Desktop-projects-Tool-development-UI-ApplySmart/a564d63a-4cdc-458f-b786-3ae7db13cde8/scratchpad/apply_places.py)",
+      "Bash(curl -s http://localhost:3000/api/universities)"
+    ]
+  }
+}

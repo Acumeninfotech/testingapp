@@ -1,0 +1,886 @@
+{
+  "schema_version": "1.0.0",
+  "profile_id": "edge-hill-a100",
+  "profile_status": "production_ready_eligibility_and_interview_guidance",
+  "verification_status": "official_and_foi_verified_exact_scoring_undisclosed",
+  "last_updated": "2026-07-16",
+  "university": {
+    "name": "Edge Hill University",
+    "slug": "edge-hill",
+    "country": "United Kingdom",
+    "nation": "England",
+    "institution_type": "University",
+    "website_url": "https://www.edgehill.ac.uk/"
+  },
+  "course": {
+    "name": "MBChB Medicine",
+    "ucas_code": "A100",
+    "entry_route": "standard_entry",
+    "qualification_awarded": "MBChB",
+    "duration_years": 5,
+    "campus": "Ormskirk",
+    "location": "Ormskirk, England",
+    "entry_year": 2027,
+    "fee_statuses": [
+      "home"
+    ],
+    "is_gateway_or_foundation": false,
+    "is_graduate_entry": false,
+    "notes": "Standard-entry A100 only. Edge Hill's A110 Medicine with Foundation Year is a separate widening-participation course and is not imported into this profile. International applicants are not accepted for A100."
+  },
+  "medical_school": {
+    "name": "Edge Hill University Medical School",
+    "source_ids": [
+      "edge_hill_research_doc",
+      "edge_hill_verified_clarifications"
+    ]
+  },
+  "applicant_pools": [
+    {
+      "pool_id": "home_a100",
+      "applies_to_group_ids": [
+        "home_fee",
+        "england_domiciled",
+        "scotland_domiciled",
+        "wales_domiciled",
+        "northern_ireland_domiciled",
+        "rest_of_uk"
+      ],
+      "excluded_group_ids": [
+        "international_fee"
+      ],
+      "selection_relevance": "Eligible Home applicants are ranked by total UCAT score after academic and SJT eligibility checks."
+    }
+  ],
+  "applies_to_group_ids": [
+    "england_domiciled",
+    "scotland_domiciled",
+    "wales_domiciled",
+    "northern_ireland_domiciled",
+    "home_fee",
+    "rest_of_uk",
+    "school_leaver",
+    "graduate_applicant",
+    "resit_applicant",
+    "deferred_entry"
+  ],
+  "stage_1_eligibility": {
+    "verification_status": "official_source_verified_with_documented_gaps",
+    "source_ids": [
+      "edge_hill_research_doc",
+      "edge_hill_verified_clarifications"
+    ],
+    "overall_policy": {
+      "status": "official_rules_mapped_with_manual_review_boundaries",
+      "description": "Edge Hill checks applicant group, academic requirements, UCAT and SJT as eligibility gates. GCSEs, A-levels and other accepted qualifications are not points-scored for interview selection.",
+      "not_eligible_if": [
+        "The applicant is International fee status.",
+        "The applicable GCSE, A-level, IB or Scottish academic minimum is not met.",
+        "A current-cycle UCAT score is not supplied.",
+        "The UCAT SJT result is Band 4."
+      ],
+      "source_ids": [
+        "edge_hill_research_doc",
+        "edge_hill_verified_clarifications"
+      ]
+    },
+    "gcse": {
+      "status": "official_source_verified",
+      "source_ids": [
+        "edge_hill_research_doc",
+        "edge_hill_verified_clarifications"
+      ],
+      "qualification_scope": [
+        "GCSE",
+        "Accepted equivalent Level 2 qualifications"
+      ],
+      "minimum_count": 5,
+      "mandatory_subject_ids": [
+        "english_language",
+        "mathematics",
+        "science"
+      ],
+      "grade_requirements": [
+        {
+          "requirement_id": "gcse_english_language_minimum",
+          "subject_id": "english_language",
+          "minimum_grade": "6/B",
+          "qualification_level": "gcse_or_equivalent",
+          "decision_outcome_if_not_met": "not_eligible"
+        },
+        {
+          "requirement_id": "gcse_mathematics_minimum",
+          "subject_id": "mathematics",
+          "minimum_grade": "6/B",
+          "qualification_level": "gcse_or_equivalent",
+          "decision_outcome_if_not_met": "not_eligible"
+        }
+      ],
+      "science_requirement": {
+        "requirement_id": "gcse_science_minimum",
+        "requirement_type": "any_of",
+        "minimum_options_required": 1,
+        "accepted_options": [
+          {
+            "option_id": "separate_biology_and_chemistry",
+            "grade_requirements": [
+              {
+                "subject_id": "biology",
+                "minimum_grade": "6/B"
+              },
+              {
+                "subject_id": "chemistry",
+                "minimum_grade": "6/B"
+              }
+            ]
+          },
+          {
+            "option_id": "double_award_science",
+            "subject_id": "combined_science",
+            "minimum_grade_profile": [
+              "6",
+              "6"
+            ],
+            "accepted_equivalent_profile": [
+              "B",
+              "B"
+            ],
+            "counts_as_gcse_subjects": 2
+          }
+        ],
+        "decision_outcome_if_not_met": "not_eligible"
+      },
+      "accepted_equivalencies": [
+        "Double Award Science at 6-6/B-B"
+      ],
+      "sitting_policy": "GCSE resits are accepted. No cap on the number of resits is stated in the verified policy.",
+      "achieved_or_predicted": "achieved",
+      "selection_role": "eligibility_only",
+      "scored_after_eligibility": false,
+      "notes": "GCSEs are eligibility gates only and are not used to rank eligible applicants."
+    },
+    "post_16": {
+      "status": "official_source_verified_with_documented_gaps",
+      "source_ids": [
+        "edge_hill_research_doc",
+        "edge_hill_verified_clarifications"
+      ],
+      "accepted_qualification_types": [
+        "a_level",
+        "international_baccalaureate",
+        "scottish_highers",
+        "advanced_highers",
+        "degree"
+      ],
+      "a_level": {
+        "status": "official_source_verified",
+        "standard_offer": {
+          "grade_profile": [
+            "A",
+            "A",
+            "A"
+          ],
+          "notes": "AAA including Biology and Chemistry, with the verified A* in Biology or Chemistry plus third-subject B alternative represented separately."
+        },
+        "grade_requirements": [
+          {
+            "requirement_id": "edge_hill_standard_aaa_biology_chemistry",
+            "grade_profile": [
+              "A",
+              "A",
+              "A"
+            ],
+            "required_subject_ids": [
+              "biology",
+              "chemistry"
+            ],
+            "excluded_subject_ids": [
+              "general_studies"
+            ],
+            "decision_outcome_if_not_met": "not_eligible",
+            "notes": "Critical Reasoning, Citizenship and Key Skills are also excluded but are retained as names because they are not canonical subject IDs in the frozen schema."
+          },
+          {
+            "requirement_id": "edge_hill_a_star_biology_or_chemistry_third_subject_b",
+            "grade_profile": [
+              "A*",
+              "A",
+              "B"
+            ],
+            "required_subject_ids": [
+              "biology",
+              "chemistry"
+            ],
+            "required_subject_grade_options": [
+              {
+                "grade_requirements": [
+                  {
+                    "subject_id": "biology",
+                    "minimum_grade": "A*"
+                  },
+                  {
+                    "subject_id": "chemistry",
+                    "minimum_grade": "A"
+                  }
+                ]
+              },
+              {
+                "grade_requirements": [
+                  {
+                    "subject_id": "biology",
+                    "minimum_grade": "A"
+                  },
+                  {
+                    "subject_id": "chemistry",
+                    "minimum_grade": "A*"
+                  }
+                ]
+              }
+            ],
+            "excluded_subject_ids": [
+              "general_studies"
+            ],
+            "decision_outcome_if_not_met": "not_eligible"
+          }
+        ],
+        "excluded_subject_ids": [
+          "general_studies"
+        ],
+        "excluded_subject_names": [
+          "General Studies",
+          "Critical Reasoning",
+          "Citizenship",
+          "Key Skills"
+        ],
+        "science_practical_endorsement_required": null,
+        "predicted_grades_accepted": true,
+        "achieved_grades_accepted": true,
+        "selection_role": "eligibility_only",
+        "notes": "No official Edge Hill A100 practical-endorsement pass requirement is stated, so ApplySmart does not enforce one."
+      },
+      "ib": {
+        "status": "official_source_verified_execution_partial",
+        "total_points": 36,
+        "required_hl_subject_ids": [
+          "biology",
+          "chemistry"
+        ],
+        "notes": "36 points with HL 6 in Biology, HL 6 in Chemistry and one other HL subject, plus three SL subjects with 5+ points each. SL subject checks are retained as metadata."
+      },
+      "scottish": {
+        "status": "official_source_verified_execution_partial",
+        "higher_offer": {
+          "grade_profile": [
+            "A",
+            "A",
+            "A",
+            "A",
+            "B"
+          ],
+          "notes": "Including Biology and Chemistry."
+        },
+        "advanced_higher_offer": {
+          "grade_profile": [
+            "A",
+            "A",
+            "A"
+          ],
+          "notes": "Including Biology and Chemistry."
+        },
+        "required_subject_ids": [
+          "biology",
+          "chemistry"
+        ]
+      },
+      "degree": {
+        "status": "official_source_verified_manual_review",
+        "minimum_classification": "2:1",
+        "accepted_degree_subjects": [
+          "science-related degree including Psychology"
+        ],
+        "degree_recency": "Awarded within two years of application.",
+        "a_level_requirement": "ABB including Biology and Chemistry.",
+        "execution_status": "manual_review_required_for_degree_subject_recency_and_a_level_branch"
+      },
+      "notes": "Academic qualifications are eligibility gates only. Predicted and achieved grades are both accepted where the applicable requirement is met."
+    },
+    "admissions_tests": {
+      "source_ids": [
+        "edge_hill_research_doc",
+        "edge_hill_verified_clarifications"
+      ],
+      "ucat": {
+        "required": true,
+        "minimum_total_score": null,
+        "maximum_total_score": 2700,
+        "minimum_subsection_scores": [],
+        "score_used_for_ranking": true,
+        "validity_window": "current application cycle",
+        "exemptions": [],
+        "decision_outcome_if_not_met": "not_eligible",
+        "notes": "No fixed future UCAT cut-off is published. Eligible Home applicants are ranked by total UCAT score."
+      },
+      "sjt": {
+        "used": true,
+        "used_as_gate": true,
+        "accepted_bands": [
+          1,
+          2,
+          3
+        ],
+        "excluded_bands": [
+          4
+        ],
+        "scoring": {
+          "used_in_score": false,
+          "points_by_band": {}
+        },
+        "decision_outcome_if_excluded": "not_eligible",
+        "notes": "SJT Band 4 is rejected. Bands 1 to 3 remain eligible subject to all other requirements."
+      },
+      "other_tests": []
+    },
+    "resits": {
+      "policy": "accepted_without_mitigating_circumstances_cap_not_stated",
+      "allowed": true,
+      "conditions": [
+        "GCSE resits are accepted.",
+        "A-level resits are accepted.",
+        "Resits are accepted with or without mitigating circumstances.",
+        "Applicants must still meet the full minimum entry requirements.",
+        "Mitigating circumstances cannot replace or reduce the required grades.",
+        "A fresh UCAT is required for a later admissions cycle."
+      ],
+      "maximum_resits": null,
+      "decision_outcome_if_not_allowed": "not_eligible",
+      "notes": "No unsupported resit cap or first-sitting restriction is inferred."
+    },
+    "english_language": {
+      "source_ids": [
+        "edge_hill_research_doc"
+      ],
+      "applies_to_group_ids": [],
+      "accepted_tests": [
+        {
+          "test": "IELTS Academic",
+          "overall_minimum": 7.5,
+          "minimum_each_component": 7
+        }
+      ],
+      "exemptions": [],
+      "decision_outcome_if_not_met": "not_eligible",
+      "notes": "International applicants are not accepted for A100. IELTS evidence is retained for non-native-speaker context only and is not used to create an International prediction pool."
+    },
+    "age_or_professional_checks": {
+      "minimum_age": null,
+      "fitness_to_practise_required": true,
+      "dbs_required": true,
+      "occupational_health_required": true,
+      "decision_outcome_if_not_met": "not_eligible",
+      "notes": "Professional checks are retained as normal medical-course metadata."
+    }
+  },
+  "stage_2_interview_selection": {
+    "verification_status": "official_and_foi_verified_exact_scoring_undisclosed",
+    "source_ids": [
+      "edge_hill_research_doc",
+      "edge_hill_verified_clarifications",
+      "edge_hill_foi_historical_ucat"
+    ],
+    "primary_model": "ucat_ranking",
+    "selection_model_label": "UCAT_RANKING_AFTER_ACADEMIC_AND_SJT_ELIGIBILITY",
+    "modifiers": [
+      "sjt_band_4_exclusion"
+    ],
+    "academic_scoring": {
+      "applies": false,
+      "role": "eligibility_gate_only",
+      "notes": "GCSEs, A-levels and other accepted qualifications are not points-scored or used to rank eligible applicants."
+    },
+    "ranking_factors": [
+      {
+        "factor_id": "ucat_total_score",
+        "factor_type": "ranking_metric",
+        "weight_percent": 100,
+        "points_available": null,
+        "source_field": "stage_1_eligibility.admissions_tests.ucat.total_score",
+        "notes": "Total UCAT score is the interview-ranking factor after academic and SJT eligibility checks."
+      }
+    ],
+    "calculation": {
+      "verification_status": "official_and_foi_verified_exact_scoring_undisclosed",
+      "source_ids": [
+        "edge_hill_verified_clarifications",
+        "edge_hill_foi_historical_ucat"
+      ],
+      "score_components": [
+        {
+          "component_id": "ucat_total_score",
+          "factor_id": "ucat_total_score",
+          "input_field": "admissions_tests.ucat.total_score",
+          "calculation_method": "rank_by_total_ucat_after_eligibility_screening",
+          "scale": {
+            "min": 0,
+            "max": 2700
+          },
+          "weight_percent": 100,
+          "rounding": "none",
+          "notes": "No academic points score is created.",
+          "source_ids": [
+            "edge_hill_verified_clarifications"
+          ]
+        }
+      ],
+      "total_score": {
+        "calculation_method": "ucat_total_ranking_only",
+        "components": [
+          "ucat_total_score"
+        ],
+        "scale": {
+          "min": 0,
+          "max": 2700
+        },
+        "notes": "Eligible applicants are ranked by UCAT total. The effective threshold varies by cohort and interview capacity.",
+        "source_ids": [
+          "edge_hill_verified_clarifications"
+        ]
+      },
+      "notes": "ApplySmart compares the applicant UCAT total with verified historical interview thresholds as guidance only. It does not encode a fixed future cut-off."
+    },
+    "thresholds": [
+      {
+        "threshold_id": "current_2027_live_ucat_boundary",
+        "applies_to_group_ids": [
+          "home_fee"
+        ],
+        "metric": "ucat_total",
+        "operator": "dynamic_rank_boundary",
+        "value": null,
+        "decision_outcome_if_not_met": "risk_flag",
+        "source_ids": [
+          "edge_hill_verified_clarifications"
+        ],
+        "notes": "Edge Hill does not publish a permanent fixed UCAT cut-off. Historical thresholds are guidance only."
+      }
+    ],
+    "selection_adjustments": [],
+    "tie_breakers": [],
+    "quotas_or_pools": [
+      "Home applicants only.",
+      "No International A100 applicant pool is available.",
+      "A110 widening-participation rules are separate and not applied to A100."
+    ],
+    "output_band_policy": {
+      "bands": [
+        "interview_likely",
+        "realistic",
+        "ambitious",
+        "high_risk",
+        "not_eligible",
+        "insufficient_evidence"
+      ],
+      "basis": "Low-confidence historical UCAT threshold guidance after eligibility screening.",
+      "notes": "Bands are guidance, not probabilities, fixed cut-offs or guarantees."
+    },
+    "interview": {
+      "format": "multiple_mini_interview",
+      "domains": [
+        "communication",
+        "integrity",
+        "teamwork",
+        "empathy",
+        "ethical awareness",
+        "data interpretation"
+      ],
+      "notes": "MMI information is retained for context only. ApplySmart does not predict interview performance or offers."
+    },
+    "notes": "Eligible applicants are ranked by total UCAT score and invited according to interview capacity."
+  },
+  "contextual_admissions": {
+    "verification_status": "official_source_verified",
+    "source_ids": [
+      "edge_hill_research_doc",
+      "edge_hill_verified_clarifications"
+    ],
+    "available": false,
+    "applies_to_group_ids": [],
+    "criteria": [],
+    "adjustments": [],
+    "guaranteed_interview_rules": [],
+    "notes": "No contextual adjustment is applied to standard A100. Edge Hill's A110 Foundation Year is a separate widening-participation course."
+  },
+  "ranking_pools": [
+    {
+      "pool_id": "home_a100",
+      "name": "Home A100 UCAT ranking pool",
+      "applies_to_group_ids": [
+        "home_fee"
+      ],
+      "excluded_group_ids": [
+        "international_fee"
+      ],
+      "fee_statuses": [
+        "home"
+      ],
+      "ranking_model": "ucat_ranking",
+      "ranking_factors": [
+        {
+          "factor_id": "ucat_total_score",
+          "weight_percent": 100
+        }
+      ],
+      "places_available": null,
+      "source_ids": [
+        "edge_hill_verified_clarifications"
+      ],
+      "notes": "Home-only pool. Interview capacity and annual applicant competition determine the live threshold."
+    }
+  ],
+  "quotas": [
+    {
+      "quota_id": "edge_hill_a100_places_2027_entry_verified",
+      "name": "Verified Home/International places (2027 entry)",
+      "home_places": 63,
+      "international_places": 0,
+      "quota_type": "verified_current_places",
+      "source_ids": [
+        "applysmart_admissions_team_verified_2026"
+      ],
+      "notes": "Home/International place figures verified by the ApplySmart admissions research team for 2027 entry."
+    },
+    {
+      "quota_id": "international_places_not_available",
+      "applicant_pool": "international",
+      "places": 0,
+      "source_ids": [
+        "edge_hill_verified_clarifications"
+      ],
+      "notes": "Edge Hill A100 does not accept International applicants and has no International places."
+    }
+  ],
+  "offer_selection": {
+    "verification_status": "official_source_verified_out_of_scope_for_applysmart",
+    "source_ids": [
+      "edge_hill_research_doc",
+      "edge_hill_verified_clarifications"
+    ],
+    "interview_format": {
+      "format": "Multiple Mini Interview",
+      "notes": "Retained for context only."
+    },
+    "interview_scoring": {
+      "published": false,
+      "notes": "Post-interview ranking and MMI performance prediction are outside ApplySmart scope."
+    },
+    "offer_model": "out_of_scope",
+    "ranking_factors": [],
+    "tie_breakers": [],
+    "waiting_list_policy": "Not implemented in ApplySmart.",
+    "standard_offer": "Academic offer context only; offer prediction is out of scope.",
+    "contextual_offer": "No A100 contextual offer is implemented.",
+    "applysmart_scope": "out_of_scope",
+    "notes": "Offer prediction, probability of receiving an offer, MMI performance prediction and post-interview ranking are not implemented."
+  },
+  "historical_admissions": {
+    "verification_status": "foi_verified",
+    "source_ids": [
+      "edge_hill_foi_historical_ucat",
+      "edge_hill_verified_clarifications"
+    ],
+    "use": "historical_ucat_threshold_guidance",
+    "notes": "Historical UCAT figures are verified guidance only. They are not fixed future cut-offs and do not guarantee or rule out an interview.",
+    "warning": "The effective Edge Hill interview threshold can vary each year because it depends on the applicant cohort and available interview capacity.",
+    "historical_ucat_conversion_policy": {
+      "original_scale": 3600,
+      "converted_scale": 2700,
+      "formula": "official_score_3600 * 3 / 4",
+      "official_values_preserved": true,
+      "converted_values_use": "historical_guidance_and_result_card_display",
+      "not_official_future_threshold": true,
+      "not_eligibility_cutoff": true,
+      "not_guaranteed_interview_cutoff": true
+    },
+    "cycles": [
+      {
+        "entry_year": 2025,
+        "application_pool": "Home",
+        "fee_status": "home",
+        "any_group_ids": [
+          "home_fee"
+        ],
+        "official_historical_score": null,
+        "original_score": null,
+        "original_scale": 2700,
+        "converted_score_2700": 1920,
+        "converted_scale": 2700,
+        "conversion_method": "Already on current 2700 scale.",
+        "official_source": "FOI-2025",
+        "display_only": true,
+        "display_original_scale": false,
+        "display_converted_scale": true,
+        "evidence_classification": "foi_verified_historical_guidance",
+        "not_eligibility_cutoff": true,
+        "not_guaranteed_interview_cutoff": true
+      },
+      {
+        "entry_year": 2024,
+        "application_pool": "Home",
+        "fee_status": "home",
+        "any_group_ids": [
+          "home_fee"
+        ],
+        "official_historical_score": 2600,
+        "original_score": 2600,
+        "original_scale": 3600,
+        "converted_score_2700": 1950,
+        "converted_scale": 2700,
+        "conversion_method": "official_score_3600 * 3 / 4; research-supplied equivalent retained",
+        "official_source": "FOI-2024",
+        "display_only": true,
+        "display_original_scale": true,
+        "display_converted_scale": true,
+        "evidence_classification": "foi_verified_historical_guidance",
+        "converted_value_evidence_classification": "derived_for_prediction",
+        "not_eligibility_cutoff": true,
+        "not_guaranteed_interview_cutoff": true
+      },
+      {
+        "entry_year": 2023,
+        "application_pool": "Home",
+        "fee_status": "home",
+        "any_group_ids": [
+          "home_fee"
+        ],
+        "official_historical_score": 2610,
+        "original_score": 2610,
+        "original_scale": 3600,
+        "converted_score_2700": 1957.5,
+        "converted_scale": 2700,
+        "conversion_method": "official_score_3600 * 3 / 4; exact decimal value retained",
+        "official_source": "FOI-2023",
+        "display_only": true,
+        "display_original_scale": true,
+        "display_converted_scale": true,
+        "evidence_classification": "foi_verified_historical_guidance",
+        "converted_value_evidence_classification": "derived_for_prediction",
+        "not_eligibility_cutoff": true,
+        "not_guaranteed_interview_cutoff": true
+      },
+      {
+        "entry_year": 2022,
+        "application_pool": "Home",
+        "fee_status": "home",
+        "any_group_ids": [
+          "home_fee"
+        ],
+        "official_historical_score": 2600,
+        "original_score": 2600,
+        "original_scale": 3600,
+        "converted_score_2700": 1950,
+        "converted_scale": 2700,
+        "conversion_method": "official_score_3600 * 3 / 4; research-supplied equivalent retained",
+        "official_source": "FOI-2022",
+        "display_only": true,
+        "display_original_scale": true,
+        "display_converted_scale": true,
+        "evidence_classification": "foi_verified_historical_guidance",
+        "converted_value_evidence_classification": "derived_for_prediction",
+        "not_eligibility_cutoff": true,
+        "not_guaranteed_interview_cutoff": true
+      },
+      {
+        "entry_year": 2021,
+        "application_pool": "Home",
+        "fee_status": "home",
+        "any_group_ids": [
+          "home_fee"
+        ],
+        "official_historical_score": 2440,
+        "original_score": 2440,
+        "original_scale": 3600,
+        "converted_score_2700": 1830,
+        "converted_scale": 2700,
+        "conversion_method": "official_score_3600 * 3 / 4; research-supplied equivalent retained",
+        "official_source": "FOI-2021",
+        "display_only": true,
+        "display_original_scale": true,
+        "display_converted_scale": true,
+        "evidence_classification": "foi_verified_historical_guidance",
+        "converted_value_evidence_classification": "derived_for_prediction",
+        "not_eligibility_cutoff": true,
+        "not_guaranteed_interview_cutoff": true
+      }
+    ],
+    "application_statistics": [
+      {
+        "entry_year": 2023,
+        "applications": 339,
+        "interviews": 115,
+        "offers": 32,
+        "display_only": true,
+        "notes": "Offer statistics are retained as historical context only and are not used for offer prediction."
+      }
+    ],
+    "normalised_calibration": {
+      "method": "median_of_five_verified_home_historical_thresholds",
+      "historical_cycles_used": [
+        2021,
+        2022,
+        2023,
+        2024,
+        2025
+      ],
+      "converted_scores_2700": [
+        1920,
+        1950,
+        1957.5,
+        1950,
+        1830
+      ],
+      "sorted_converted_scores_2700": [
+        1830,
+        1920,
+        1950,
+        1950,
+        1957.5
+      ],
+      "median_reference_2700": 1950,
+      "margin_points": 150,
+      "runtime_boundaries": {
+        "likely": 2100,
+        "realisticMin": 1950,
+        "realisticMax": 2099,
+        "ambitiousMin": 1800,
+        "ambitiousMax": 1949,
+        "highRiskBelow": 1800
+      },
+      "confidence": "low"
+    }
+  },
+  "sources": [
+    {
+      "source_id": "edge_hill_research_doc",
+      "title": "Edge Hill University MBChB Medicine (A100) 2027 Entry Research Report",
+      "url": null,
+      "source_type": "research_specification",
+      "published_date": "2026-07-16",
+      "accessed_date": "2026-07-16",
+      "applies_to_sections": [
+        "course",
+        "stage_1_eligibility",
+        "stage_2_interview_selection",
+        "historical_admissions"
+      ],
+      "confidence": "verified",
+      "evidence_classification": "official_and_research_team_verified",
+      "notes": "Authoritative Word research specification supplied for implementation."
+    },
+    {
+      "source_id": "edge_hill_verified_clarifications",
+      "title": "Edge Hill A100 verified implementation clarifications",
+      "url": null,
+      "source_type": "verified_research_clarification",
+      "published_date": "2026-07-16",
+      "accessed_date": "2026-07-16",
+      "applies_to_sections": [
+        "applicant_pools",
+        "contextual_admissions",
+        "stage_2_interview_selection",
+        "engine_notes"
+      ],
+      "confidence": "verified",
+      "evidence_classification": "research_team_verified",
+      "notes": "Clarifies Home-only A100 scope, no A100 contextual adjustment, SJT Band 4 rejection and UCAT-only ranking after eligibility."
+    },
+    {
+      "source_id": "edge_hill_foi_historical_ucat",
+      "title": "Edge Hill historical UCAT interview thresholds",
+      "url": null,
+      "source_type": "foi_historical_data",
+      "published_date": "2026-07-16",
+      "accessed_date": "2026-07-16",
+      "applies_to_sections": [
+        "historical_admissions",
+        "stage_2_interview_selection"
+      ],
+      "confidence": "verified",
+      "evidence_classification": "foi_verified_historical_guidance",
+      "notes": "Verified historical threshold values for 2021 to 2025. Values are guidance only."
+    }
+  ],
+  "validation": {
+    "source_status": "official_and_foi_verified_exact_scoring_undisclosed",
+    "last_verified": "2026-07-16",
+    "confidence_level": "Low",
+    "completion_status": "production_ready_for_supported_scope_with_documented_gaps",
+    "section_completion_status": {
+      "course_identity": "complete",
+      "stage_1_eligibility": "complete_for_supported_a_level_ib_scottish_scope_with_manual_review_boundaries",
+      "stage_2_interview_selection": "complete_policy_live_threshold_unknown",
+      "contextual_admissions": "complete_not_applicable_for_a100",
+      "ranking_pools": "complete_home_only",
+      "offer_selection": "out_of_scope",
+      "historical_admissions": "complete_for_supplied_2021_to_2025_thresholds",
+      "sources": "reviewed"
+    },
+    "known_unknowns": [
+      "The live 2027 UCAT interview threshold is not published and will depend on applicant competition and interview capacity.",
+      "Exact 2027 interview capacity is not published in the supplied evidence.",
+      "MMI station count, scoring scale and post-interview tie-break details are out of ApplySmart scope.",
+      "Graduate degree subject and recency evidence require manual review.",
+      "Country-specific non-UK qualification equivalence is not implemented because International A100 applicants are not accepted."
+    ],
+    "review_notes": "Edge Hill A100 is implemented as Home-only academic and SJT eligibility gates followed by low-confidence historical UCAT threshold guidance. No academic score, International pool, A100 contextual adjustment or offer prediction is created."
+  },
+  "engine_notes": {
+    "eligibility": true,
+    "interview_prediction": true,
+    "historical_guidance": true,
+    "international_prediction": false,
+    "contextual_logic": false,
+    "result_card": true,
+    "regression": true,
+    "research_completeness": "complete_for_supported_scope_with_documented_gaps",
+    "manual_review_required": true,
+    "eligibility_ready": true,
+    "interview_prediction_ready": true,
+    "prediction_confidence": "low",
+    "result_card_ready": true,
+    "offer_prediction_scope": "out_of_scope",
+    "interview_band_config_ready": true,
+    "metadata_activation_ready": true,
+    "activation_ready": true,
+    "production_ready": true,
+    "blocking_missing_fields": [],
+    "non_blocking_warnings": [
+      "Current-cycle UCAT threshold is unknown and must remain historical guidance only.",
+      "Graduate degree subject and recency checks require manual review.",
+      "A-level Science Practical Endorsement is not enforced because no official requirement is stated."
+    ],
+    "engine_assumptions": [
+      "Home fee applicants from UK domiciles use the same Home A100 ranking pool.",
+      "The verified historical UCAT table is suitable for low-confidence guidance, not a fixed cut-off."
+    ],
+    "do_not_infer": [
+      "Do not implement A110 Foundation Year contextual eligibility in this A100 profile.",
+      "Do not create an International A100 prediction pool.",
+      "Do not create an academic points score.",
+      "Do not enforce a science practical-endorsement pass requirement without official Edge Hill A100 evidence.",
+      "Do not round 1957.5 or other converted historical values unless a schema requires it.",
+      "Do not treat historical thresholds as guaranteed future cut-offs.",
+      "Do not predict offers, MMI performance or post-interview ranking."
+    ],
+    "prediction_scope": "Low-confidence interview guidance from official UCAT-ranking methodology and verified historical Home thresholds.",
+    "academic_model": "eligibility_gate",
+    "academic_ranking": false,
+    "ranking_pool": "home",
+    "eligibility_rules_partly_implementable": true,
+    "historical_ucat_guidance_ready": true,
+    "course_specific_notes": [
+      "SJT Band 4 is rejected before interview guidance is calculated.",
+      "Bands 1 to 3 are eligible subject to all other requirements.",
+      "A100 contextual logic is false; A110 is separate.",
+      "Historical guidance does not imply an interview guarantee."
+    ]
+  }
+}

@@ -1,0 +1,84 @@
+{
+  "schema_version": "1.0.0",
+  "example_purpose": "UX-only examples showing how technical regression outcomes map to the primary recommendation on an end-user result card. These examples do not alter eligibility, interview scoring or university production rules.",
+  "mapping_precedence": [
+    "not_eligible",
+    "manual_review",
+    "insufficient_evidence",
+    "standard_recommendation"
+  ],
+  "examples": [
+    {
+      "example_id": "entry_requirement_not_met",
+      "source_regression_outcome": {
+        "profile_id": "aab_grade_failure_applicant",
+        "university": "Any completed university"
+      },
+      "display": {
+        "primary_user_facing_recommendation": "You do not currently meet the published entry requirements",
+        "recommendation_display_state": "not_eligible",
+        "explanation": "Based on the information entered, one or more supported entry requirements are not met."
+      },
+      "internal_technical_status": {
+        "eligibility_status": "Not Eligible",
+        "interview_recommendation": null,
+        "evidence_status": "not_eligible",
+        "debug_only": true
+      }
+    },
+    {
+      "example_id": "birmingham_contextual_manual_review",
+      "source_regression_outcome": {
+        "profile_id": "contextual_standard_applicant",
+        "university": "University of Birmingham"
+      },
+      "display": {
+        "primary_user_facing_recommendation": "Needs adviser review",
+        "recommendation_display_state": "manual_review",
+        "explanation": "We cannot confirm this result until the applicant's contextual or widening-participation route is verified."
+      },
+      "internal_technical_status": {
+        "eligibility_status": "Manual review",
+        "interview_recommendation": null,
+        "evidence_status": "insufficient_evidence",
+        "debug_only": true
+      }
+    },
+    {
+      "example_id": "nottingham_graduate_manual_review",
+      "source_regression_outcome": {
+        "profile_id": "graduate_applicant",
+        "university": "University of Nottingham"
+      },
+      "display": {
+        "primary_user_facing_recommendation": "Needs adviser review",
+        "recommendation_display_state": "manual_review",
+        "explanation": "We need more information to confirm eligibility for this application route."
+      },
+      "internal_technical_status": {
+        "eligibility_status": "Manual review",
+        "interview_recommendation": null,
+        "evidence_status": "insufficient_evidence",
+        "debug_only": true
+      }
+    },
+    {
+      "example_id": "manchester_international_insufficient_evidence",
+      "source_regression_outcome": {
+        "profile_id": "international_standard_applicant",
+        "university": "University of Manchester"
+      },
+      "display": {
+        "primary_user_facing_recommendation": "Evidence not yet available",
+        "recommendation_display_state": "insufficient_evidence",
+        "explanation": "ApplySmart does not yet have enough verified historical data for this applicant group to estimate interview chances."
+      },
+      "internal_technical_status": {
+        "eligibility_status": "Eligible",
+        "interview_recommendation": null,
+        "evidence_status": "insufficient_evidence",
+        "debug_only": true
+      }
+    }
+  ]
+}

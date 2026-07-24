@@ -1,0 +1,1325 @@
+{
+  "schema_version": "1.0.0",
+  "profile_id": "dundee-a100",
+  "profile_status": "stage_1_verified_structural_pilot",
+  "verification_status": "partially_verified",
+  "last_updated": "2026-07-02",
+  "university": {
+    "name": "University of Dundee",
+    "slug": "dundee",
+    "country": "United Kingdom",
+    "nation": "Scotland",
+    "institution_type": "Unknown",
+    "website_url": null
+  },
+  "course": {
+    "name": "MBChB Medicine (A100)",
+    "ucas_code": "A100",
+    "entry_route": "standard_entry",
+    "qualification_awarded": "MBChB Medicine",
+    "duration_years": 5,
+    "campus": "Dundee",
+    "location": "Dundee, Scotland",
+    "entry_year": null,
+    "fee_statuses": [
+      "home",
+      "international"
+    ],
+    "is_gateway_or_foundation": false,
+    "is_graduate_entry": false,
+    "notes": null
+  },
+  "medical_school": {
+    "name": null,
+    "research_profile": "data/research/dundee-a100-research.json",
+    "notes": "Medical-school display name is not separately represented in the current production evidence; admissions logic remains in the canonical course sections."
+  },
+  "applicant_pools": [
+    {
+      "pool_id": "international",
+      "name": "International interview ranking pool",
+      "status": "supported",
+      "applies_to_group_ids": [
+        "international_fee"
+      ],
+      "selection_relevance": "ranking_model: academic_plus_ucat_weighting | ranking_factors: Academic score weighted at 60%; UCAT cognitive total converted using national decile rank and weighted at 40%",
+      "source_ids": [
+        "dundee_verified_international_admissions_evidence"
+      ],
+      "places_available": 31,
+      "notes": "International applicants compete in a separate pool. Historical UCAT guidance is not a fixed threshold."
+    },
+    {
+      "pool_id": "home_fee_applicants",
+      "name": "Home-fee applicants",
+      "status": "supported_for_eligibility_and_guidance",
+      "applies_to_group_ids": [
+        "home_fee"
+      ],
+      "selection_relevance": "Applicant cohort descriptor only; no additional ranking pool, scoring rule or admissions decision is inferred.",
+      "notes": "Added to expose the production applicant-pool contract where the current profile already supports Home-fee eligibility or guidance but does not publish a separate Home ranking pool."
+    }
+  ],
+  "applies_to_group_ids": [
+    "home_fee",
+    "scotland_domiciled",
+    "international_fee",
+    "school_leaver"
+  ],
+  "stage_1_eligibility": {
+    "verification_status": "official_source_verified",
+    "source_ids": [
+      "dundee_entry_requirements",
+      "dundee_all_entry_requirements",
+      "dundee_contextual_admissions_policy"
+    ],
+    "overall_policy": {
+      "status": "partially_verified",
+      "description": "Dundee publishes UK school-leaver academic requirements, UCAT requirement, English language requirements, and contextual admissions policy. International Stage 2 guidance is modelled separately; Home Stage 2 logic remains unchanged.",
+      "not_eligible_if": [
+        "Current undergraduate students are not considered, except final-year students applying through the graduate route.",
+        "Applicants must have evidence of academic study within the three years before starting medicine."
+      ],
+      "source_ids": [
+        "dundee_all_entry_requirements"
+      ]
+    },
+    "gcse": {
+      "status": "verified",
+      "source_ids": [
+        "dundee_all_entry_requirements"
+      ],
+      "minimum_count": null,
+      "counted_subject_limit": null,
+      "mandatory_subject_ids": [
+        "biology",
+        "chemistry",
+        "mathematics",
+        "english_language"
+      ],
+      "grade_requirements": [
+        {
+          "requirement_id": "gcse_biology_minimum_for_a_level_applicants",
+          "applies_to_group_ids": [],
+          "subject_id": "biology",
+          "minimum_grade": "7",
+          "qualification_level": "gcse",
+          "decision_outcome_if_not_met": "not_eligible",
+          "source_ids": [
+            "dundee_all_entry_requirements"
+          ],
+          "notes": "For A-level applicants, Biology is required at GCSE grade 7."
+        },
+        {
+          "requirement_id": "gcse_chemistry_minimum_for_a_level_applicants",
+          "applies_to_group_ids": [],
+          "subject_id": "chemistry",
+          "minimum_grade": "7",
+          "qualification_level": "gcse",
+          "decision_outcome_if_not_met": "not_eligible",
+          "source_ids": [
+            "dundee_all_entry_requirements"
+          ],
+          "notes": "For A-level applicants, Chemistry is required at GCSE grade 7."
+        },
+        {
+          "requirement_id": "national_5_biology_minimum_for_sqa_applicants",
+          "applies_to_group_ids": [],
+          "subject_id": "biology",
+          "minimum_grade": "A",
+          "qualification_level": "national_5",
+          "decision_outcome_if_not_met": "not_eligible",
+          "source_ids": [
+            "dundee_all_entry_requirements"
+          ],
+          "notes": "For SQA applicants, Biology is required at National 5 grade A."
+        },
+        {
+          "requirement_id": "national_5_chemistry_minimum_for_sqa_applicants",
+          "applies_to_group_ids": [],
+          "subject_id": "chemistry",
+          "minimum_grade": "A",
+          "qualification_level": "national_5",
+          "decision_outcome_if_not_met": "not_eligible",
+          "source_ids": [
+            "dundee_all_entry_requirements"
+          ],
+          "notes": "For SQA applicants, Chemistry is required at National 5 grade A."
+        },
+        {
+          "requirement_id": "gcse_or_national_5_english_minimum",
+          "applies_to_group_ids": [],
+          "subject_id": "english_language",
+          "minimum_grade": "6/B",
+          "qualification_level": "gcse_or_national_5",
+          "decision_outcome_if_not_met": "not_eligible",
+          "source_ids": [
+            "dundee_all_entry_requirements"
+          ],
+          "notes": "English is required at GCSE grade 6 or National 5 grade B if not studied at A-level or Higher."
+        },
+        {
+          "requirement_id": "gcse_or_national_5_mathematics_minimum",
+          "applies_to_group_ids": [],
+          "subject_id": "mathematics",
+          "minimum_grade": "6/B",
+          "qualification_level": "gcse_or_national_5",
+          "decision_outcome_if_not_met": "not_eligible",
+          "source_ids": [
+            "dundee_all_entry_requirements"
+          ],
+          "notes": "Mathematics is required at GCSE grade 6 or National 5 grade B if not studied at A-level or Higher."
+        }
+      ],
+      "accepted_equivalencies": [],
+      "sitting_policy": "route_dependent",
+      "achieved_or_predicted": "unknown",
+      "notes": "Dundee's GCSE/National 5 requirements are route-dependent and should be evaluated alongside the applicant's post-16 qualification route."
+    },
+    "post_16": {
+      "status": "verified",
+      "source_ids": [
+        "dundee_all_entry_requirements",
+        "dundee_contextual_admissions_policy"
+      ],
+      "accepted_qualification_types": [
+        "a_level",
+        "ib",
+        "scottish_highers",
+        "advanced_highers",
+        "access_to_he",
+        "degree",
+        "other"
+      ],
+      "a_level": {
+        "status": "verified",
+        "source_ids": [
+          "dundee_all_entry_requirements",
+          "dundee_contextual_admissions_policy"
+        ],
+        "grade_requirements": [
+          {
+            "requirement_id": "a_level_standard_offer",
+            "applies_to_group_ids": [],
+            "grade_profile": [
+              "A",
+              "A",
+              "A"
+            ],
+            "required_subject_ids": [],
+            "one_of_subject_groups": [
+              {
+                "group_id": "a_level_chemistry_or_biology",
+                "minimum_required": 1,
+                "subject_ids": [
+                  "chemistry",
+                  "biology"
+                ],
+                "notes": "Either Chemistry or Biology is required."
+              },
+              {
+                "group_id": "a_level_second_science",
+                "minimum_required": 1,
+                "subject_ids": [
+                  "chemistry",
+                  "biology",
+                  "mathematics",
+                  "physics"
+                ],
+                "notes": "Another science is required; Mathematics is accepted as a science."
+              }
+            ],
+            "decision_outcome_if_not_met": "not_eligible",
+            "source_ids": [
+              "dundee_all_entry_requirements"
+            ],
+            "notes": "A-levels must be achieved in the same year, two years after GCSE."
+          },
+          {
+            "requirement_id": "a_level_widening_access_offer",
+            "applies_to_group_ids": [
+              "widening_participation"
+            ],
+            "grade_profile": [
+              "A",
+              "B",
+              "B"
+            ],
+            "required_subject_ids": [],
+            "one_of_subject_groups": [
+              {
+                "group_id": "a_level_contextual_chemistry_or_biology",
+                "minimum_required": 1,
+                "subject_ids": [
+                  "chemistry",
+                  "biology"
+                ],
+                "notes": "Either Chemistry or Biology is required."
+              },
+              {
+                "group_id": "a_level_contextual_second_science",
+                "minimum_required": 1,
+                "subject_ids": [
+                  "chemistry",
+                  "biology",
+                  "mathematics",
+                  "physics"
+                ],
+                "notes": "Another science is required; Mathematics is accepted as a science."
+              }
+            ],
+            "decision_outcome_if_not_met": "not_eligible",
+            "source_ids": [
+              "dundee_all_entry_requirements",
+              "dundee_contextual_admissions_policy"
+            ],
+            "notes": "Widening access A-level offer."
+          }
+        ],
+        "standard_offer": {
+          "grade_profile": [
+            "A",
+            "A",
+            "A"
+          ],
+          "source_ids": [
+            "dundee_all_entry_requirements"
+          ],
+          "notes": "Either Chemistry or Biology, plus another science. Mathematics is accepted as a science."
+        },
+        "contextual_offer": {
+          "applies_to_group_ids": [
+            "widening_participation"
+          ],
+          "grade_profile": [
+            "A",
+            "B",
+            "B"
+          ],
+          "source_ids": [
+            "dundee_all_entry_requirements",
+            "dundee_contextual_admissions_policy"
+          ],
+          "notes": "Widening access offer."
+        },
+        "required_subject_ids": [],
+        "one_of_subject_groups": [
+          {
+            "group_id": "a_level_chemistry_or_biology",
+            "minimum_required": 1,
+            "subject_ids": [
+              "chemistry",
+              "biology"
+            ],
+            "notes": "Either Chemistry or Biology is required."
+          },
+          {
+            "group_id": "a_level_second_science",
+            "minimum_required": 1,
+            "subject_ids": [
+              "chemistry",
+              "biology",
+              "mathematics",
+              "physics"
+            ],
+            "notes": "Another science is required; Mathematics is accepted as a science."
+          }
+        ],
+        "excluded_subject_ids": [
+          "general_studies"
+        ],
+        "third_subject_rules": "General Studies is not accepted.",
+        "predicted_grades_accepted": true,
+        "notes": "A-levels must be achieved in the same year, two years after GCSE."
+      },
+      "ib": {
+        "status": "verified",
+        "source_ids": [
+          "dundee_all_entry_requirements"
+        ],
+        "total_points": 37,
+        "hl_points": null,
+        "grade_requirements": [
+          {
+            "requirement_id": "ib_standard_offer",
+            "applies_to_group_ids": [],
+            "total_points": 37,
+            "hl_points": null,
+            "required_hl_subject_ids": [],
+            "one_of_hl_subject_groups": [
+              {
+                "group_id": "ib_hl_chemistry_or_biology",
+                "minimum_required": 1,
+                "subject_ids": [
+                  "chemistry",
+                  "biology"
+                ],
+                "notes": "Either Chemistry or Biology is required at Higher Level."
+              },
+              {
+                "group_id": "ib_hl_second_science",
+                "minimum_required": 1,
+                "subject_ids": [
+                  "chemistry",
+                  "biology",
+                  "mathematics",
+                  "physics"
+                ],
+                "notes": "Another science is required at Higher Level; Mathematics is accepted as a science."
+              }
+            ],
+            "decision_outcome_if_not_met": "not_eligible",
+            "source_ids": [
+              "dundee_all_entry_requirements"
+            ],
+            "notes": "37 points overall with 6,6,6 at Higher Level."
+          }
+        ],
+        "required_hl_subject_ids": [],
+        "one_of_hl_subject_groups": [
+          {
+            "group_id": "ib_hl_chemistry_or_biology",
+            "minimum_required": 1,
+            "subject_ids": [
+              "chemistry",
+              "biology"
+            ],
+            "notes": "Either Chemistry or Biology is required at Higher Level."
+          },
+          {
+            "group_id": "ib_hl_second_science",
+            "minimum_required": 1,
+            "subject_ids": [
+              "chemistry",
+              "biology",
+              "mathematics",
+              "physics"
+            ],
+            "notes": "Another science is required at Higher Level; Mathematics is accepted as a science."
+          }
+        ],
+        "notes": "37 points overall with 6,6,6 at Higher Level."
+      },
+      "scottish": {
+        "status": "verified",
+        "source_ids": [
+          "dundee_all_entry_requirements",
+          "dundee_contextual_admissions_policy"
+        ],
+        "higher_offer": {
+          "grade_profile": [
+            "A",
+            "A",
+            "A",
+            "A",
+            "B"
+          ],
+          "source_ids": [
+            "dundee_all_entry_requirements"
+          ],
+          "notes": "Standard SQA Higher offer."
+        },
+        "advanced_higher_offer": {
+          "grade_profile": [
+            "B",
+            "B"
+          ],
+          "source_ids": [
+            "dundee_all_entry_requirements"
+          ],
+          "notes": "Advanced Higher / S6 requirement for S6 candidates."
+        },
+        "grade_requirements": [
+          {
+            "requirement_id": "scottish_higher_standard_offer",
+            "applies_to_group_ids": [],
+            "qualification_level": "scottish_highers",
+            "grade_profile": [
+              "A",
+              "A",
+              "A",
+              "A",
+              "B"
+            ],
+            "required_subject_ids": [],
+            "one_of_subject_groups": [
+              {
+                "group_id": "sqa_higher_chemistry_or_biology",
+                "minimum_required": 1,
+                "subject_ids": [
+                  "chemistry",
+                  "biology"
+                ],
+                "notes": "Either Chemistry or Biology is required."
+              },
+              {
+                "group_id": "sqa_higher_second_science",
+                "minimum_required": 1,
+                "subject_ids": [
+                  "chemistry",
+                  "biology",
+                  "mathematics",
+                  "physics"
+                ],
+                "notes": "Another science is required; Mathematics is accepted as a science."
+              }
+            ],
+            "decision_outcome_if_not_met": "not_eligible",
+            "source_ids": [
+              "dundee_all_entry_requirements"
+            ],
+            "notes": "Highers must be achieved in one sitting."
+          },
+          {
+            "requirement_id": "scottish_higher_widening_access_offer",
+            "applies_to_group_ids": [
+              "widening_participation"
+            ],
+            "qualification_level": "scottish_highers",
+            "grade_profile": [
+              "A",
+              "A",
+              "A",
+              "B",
+              "B"
+            ],
+            "required_subject_ids": [],
+            "one_of_subject_groups": [
+              {
+                "group_id": "sqa_contextual_higher_chemistry_or_biology",
+                "minimum_required": 1,
+                "subject_ids": [
+                  "chemistry",
+                  "biology"
+                ],
+                "notes": "Either Chemistry or Biology is required."
+              },
+              {
+                "group_id": "sqa_contextual_higher_second_science",
+                "minimum_required": 1,
+                "subject_ids": [
+                  "chemistry",
+                  "biology",
+                  "mathematics",
+                  "physics"
+                ],
+                "notes": "Another science is required; Mathematics is accepted as a science."
+              }
+            ],
+            "decision_outcome_if_not_met": "not_eligible",
+            "source_ids": [
+              "dundee_all_entry_requirements",
+              "dundee_contextual_admissions_policy"
+            ],
+            "notes": "Widening access SQA Higher offer."
+          },
+          {
+            "requirement_id": "advanced_higher_s6_requirement",
+            "applies_to_group_ids": [],
+            "qualification_level": "advanced_highers",
+            "grade_profile": [
+              "B",
+              "B"
+            ],
+            "required_subject_ids": [],
+            "one_of_subject_groups": [],
+            "decision_outcome_if_not_met": "risk_flag",
+            "source_ids": [
+              "dundee_all_entry_requirements"
+            ],
+            "notes": "BB at Advanced Higher for all S6 candidates. Candidates completing S6 without meeting this are unlikely to be considered."
+          }
+        ],
+        "required_subject_ids": [],
+        "one_of_subject_groups": [
+          {
+            "group_id": "sqa_higher_chemistry_or_biology",
+            "minimum_required": 1,
+            "subject_ids": [
+              "chemistry",
+              "biology"
+            ],
+            "notes": "Either Chemistry or Biology is required."
+          },
+          {
+            "group_id": "sqa_higher_second_science",
+            "minimum_required": 1,
+            "subject_ids": [
+              "chemistry",
+              "biology",
+              "mathematics",
+              "physics"
+            ],
+            "notes": "Another science is required; Mathematics is accepted as a science."
+          }
+        ],
+        "notes": "Biology and Chemistry are also required at National 5 grade A for SQA applicants."
+      },
+      "btec": {
+        "status": "unknown",
+        "source_ids": [
+          "dundee_all_entry_requirements"
+        ],
+        "accepted_subject_ids": [],
+        "accepted_combinations": [],
+        "notes": "No clear UK BTEC acceptance rule found in the reviewed official Dundee A100 entry requirements. Do not infer acceptance."
+      },
+      "access_to_he": {
+        "status": "partially_verified",
+        "source_ids": [
+          "dundee_all_entry_requirements"
+        ],
+        "total_credits": null,
+        "distinction_credits": null,
+        "merit_credits": null,
+        "subject_credit_requirements": [],
+        "notes": "SWAP Access to Medical Studies accepted from Edinburgh College and Dundee & Angus College. Required SWAP units are recorded in notes until dedicated subject IDs are agreed: Biology Level 6, Chemistry Level 6, Mathematics Level 6, Communications and Literature Level 6, Cell Biology Level 7, DNA and Genetics Level 7, Biochemistry Level 7, Organic Chemistry Level 7, Human Body Structure and Function Level 8, Preparation for HE. Grades must include 80% in key subjects."
+      },
+      "degree": {
+        "status": "partially_verified",
+        "source_ids": [
+          "dundee_all_entry_requirements"
+        ],
+        "applies_to_group_ids": [],
+        "minimum_classification": null,
+        "accepted_degree_subject_ids": [],
+        "decision_outcome_if_not_met": "not_eligible",
+        "notes": "Current undergraduate students are not considered, except final-year students applying through the graduate route."
+      },
+      "notes": "UK school-leaver academic requirements, contextual academic adjustments, UCAT and IELTS are represented. BTEC and other non-standard routes remain unknown unless separately verified."
+    },
+    "admissions_tests": {
+      "source_ids": [
+        "dundee_entry_requirements"
+      ],
+      "ucat": {
+        "required": true,
+        "source_ids": [
+          "dundee_entry_requirements"
+        ],
+        "minimum_total_score": null,
+        "minimum_subsection_scores": [],
+        "score_used_for_ranking": null,
+        "validity_window": "year of application",
+        "exemptions": [],
+        "decision_outcome_if_not_met": "not_eligible",
+        "notes": "All applicants must sit UCAT in the year of application. Dundee states there is no minimum UCAT cut-off score."
+      },
+      "sjt": {
+        "used": false,
+        "source_ids": [
+          "dundee_entry_requirements",
+          "dundee_admissions_statistics"
+        ],
+        "used_as_gate": false,
+        "accepted_bands": [],
+        "excluded_bands": [],
+        "scoring": {
+          "used_in_score": false,
+          "points_by_band": {}
+        },
+        "decision_outcome_if_excluded": "not_eligible",
+        "notes": "Dundee's official admissions statistics state UCAT SJT bands are not used as part of the initial selection for interview process."
+      },
+      "other_tests": []
+    },
+    "resits": {
+      "policy": "same_sitting_rules_and_recent_academic_study_required",
+      "source_ids": [
+        "dundee_all_entry_requirements"
+      ],
+      "allowed": null,
+      "conditions": [
+        "A-levels must be achieved in the same year, two years after GCSE.",
+        "Scottish Highers must be achieved in one sitting.",
+        "Applicants need academic study in the three years before starting medicine."
+      ],
+      "maximum_resits": null,
+      "applies_to_group_ids": [],
+      "decision_outcome_if_not_allowed": "risk_flag",
+      "notes": "Stored cautiously as sitting/recent-study rules. No blanket resit rejection is represented."
+    },
+    "english_language": {
+      "source_ids": [
+        "dundee_entry_requirements"
+      ],
+      "applies_to_group_ids": [
+        "international_fee"
+      ],
+      "accepted_tests": [
+        {
+          "test": "IELTS Academic",
+          "overall": "7.0",
+          "components": {
+            "listening": "7.0",
+            "reading": "7.0",
+            "speaking": "7.0",
+            "writing": "7.0"
+          }
+        }
+      ],
+      "exemptions": [],
+      "decision_outcome_if_not_met": "not_eligible",
+      "notes": "Other English language qualifications may be accepted via Dundee's selector but are not fully extracted here."
+    },
+    "age_or_professional_checks": {
+      "source_ids": [
+        "msc_index",
+        "msc_dundee_course_page"
+      ],
+      "minimum_age": null,
+      "fitness_to_practise_required": true,
+      "dbs_required": true,
+      "occupational_health_required": true,
+      "decision_outcome_if_not_met": "not_eligible",
+      "notes": "Professional checks usually apply; exact timing/wording needs verification."
+    }
+  },
+  "stage_2_interview_selection": {
+    "verification_status": "partially_verified",
+    "source_ids": [
+      "dundee_interview_page",
+      "dundee_admissions_statistics",
+      "dundee_contextual_admissions_policy",
+      "dundee_verified_international_admissions_evidence"
+    ],
+    "primary_model": null,
+    "international_selection": {
+      "applies_to_group_ids": [
+        "international_fee"
+      ],
+      "separate_ranking_pool_from_home": true,
+      "pre_interview_score": {
+        "academic_weight_percent": 60,
+        "ucat_weight_percent": 40,
+        "maximum_score": 100
+      },
+      "ucat": {
+        "ranking_basis": "national_decile_rank",
+        "score_input": "cognitive_total_only",
+        "fixed_cutoff": null,
+        "has_fixed_cutoff": false
+      },
+      "personal_statement": {
+        "used_for_shortlisting": false,
+        "may_be_referenced_during_interview": true
+      },
+      "historical_guidance_2700": {
+        "guidance_only": true,
+        "fixed_cutoff": false,
+        "minimum_competitive": 1950,
+        "good_average_competitive_minimum": 2050,
+        "strong_offer_holder_level_minimum": 2100,
+        "very_strong_minimum": 2200
+      },
+      "source_ids": [
+        "dundee_verified_international_admissions_evidence"
+      ],
+      "notes": "International applicants are ranked separately using 60% academics and 40% UCAT national decile rank. UCAT uses the cognitive total only. Historical guidance is not a fixed UCAT cut-off."
+    },
+    "modifiers": [],
+    "ranking_factors": [
+      {
+        "factor_id": "other",
+        "factor_type": "review_factor",
+        "weight_percent": null,
+        "points_available": null,
+        "source_field": null,
+        "source_ids": [
+          "dundee_interview_page",
+          "dundee_admissions_statistics"
+        ],
+        "notes": "Academic and UCAT weighting are not published in reviewed official sources. Historical admissions statistics include invited-to-interview UCAT data for display/context only, not as a prediction formula."
+      }
+    ],
+    "calculation": {
+      "verification_status": "unverified",
+      "source_ids": [],
+      "score_components": [],
+      "total_score": {
+        "calculation_method": null,
+        "components": [],
+        "scale": {
+          "min": null,
+          "max": null
+        },
+        "notes": null,
+        "source_ids": []
+      },
+      "notes": "Stage 2 calculation not yet modelled."
+    },
+    "thresholds": [],
+    "selection_adjustments": [],
+    "tie_breakers": [],
+    "output_band_policy": {
+      "bands": [
+        "interview_likely",
+        "realistic",
+        "ambitious",
+        "high_risk",
+        "not_eligible"
+      ],
+      "notes": "Bands are medium-confidence ApplySmart guidance from historical data and the clearly labelled research model. International bands use verified historical international evidence. They are not fixed Dundee UCAT cut-offs."
+    },
+    "notes": "Home primary model, academic weighting, UCAT weighting and ranking formula remain unchanged and unknown. For international applicants, verified evidence records a separate pool, 60% academic and 40% UCAT weighting, national-decile ranking using cognitive total only, no fixed UCAT cut-off, and no personal-statement shortlisting."
+  },
+  "contextual_admissions": {
+    "verification_status": "official_source_verified",
+    "source_ids": [
+      "dundee_contextual_admissions_policy",
+      "dundee_all_entry_requirements"
+    ],
+    "available": true,
+    "applies_to_group_ids": [
+      "widening_participation",
+      "care_experienced"
+    ],
+    "criteria": [
+      {
+        "criterion_id": "simd_quintile_1",
+        "applies_to_group_ids": [
+          "widening_participation"
+        ],
+        "description": "Scottish Index of Multiple Deprivation Quintile 1.",
+        "source_ids": [
+          "dundee_contextual_admissions_policy"
+        ],
+        "notes": null
+      },
+      {
+        "criterion_id": "free_school_meals",
+        "applies_to_group_ids": [
+          "widening_participation"
+        ],
+        "description": "Applicant is or was eligible for free school meals.",
+        "source_ids": [
+          "dundee_contextual_admissions_policy"
+        ],
+        "notes": null
+      },
+      {
+        "criterion_id": "carer_status",
+        "applies_to_group_ids": [
+          "widening_participation"
+        ],
+        "description": "Applicant has carer status.",
+        "source_ids": [
+          "dundee_contextual_admissions_policy"
+        ],
+        "notes": null
+      },
+      {
+        "criterion_id": "care_experienced",
+        "applies_to_group_ids": [
+          "care_experienced"
+        ],
+        "description": "Applicant has care-experienced status.",
+        "source_ids": [
+          "dundee_contextual_admissions_policy"
+        ],
+        "notes": null
+      },
+      {
+        "criterion_id": "estranged_or_refugee_or_humanitarian_protection",
+        "applies_to_group_ids": [
+          "widening_participation"
+        ],
+        "description": "Applicant has estrangement, refugee, asylum or humanitarian protection circumstances, or other evidenced contextual circumstances.",
+        "source_ids": [
+          "dundee_contextual_admissions_policy"
+        ],
+        "notes": null
+      },
+      {
+        "criterion_id": "reach_aces_or_swap_participation",
+        "applies_to_group_ids": [
+          "widening_participation"
+        ],
+        "description": "Participation in recognised widening access programmes such as Reach, ACES or SWAP.",
+        "source_ids": [
+          "dundee_contextual_admissions_policy"
+        ],
+        "notes": null
+      }
+    ],
+    "adjustments": [
+      {
+        "adjustment_id": "a_level_widening_access_offer",
+        "applies_to_group_ids": [
+          "widening_participation"
+        ],
+        "stage": "stage_1_eligibility",
+        "policy_description": "Adjusted A-level offer ABB for eligible widening access applicants.",
+        "effect": {
+          "type": "lower_academic_threshold",
+          "target": "stage_1_eligibility.post_16.a_level",
+          "value": "ABB"
+        },
+        "source_ids": [
+          "dundee_all_entry_requirements",
+          "dundee_contextual_admissions_policy"
+        ],
+        "notes": null
+      },
+      {
+        "adjustment_id": "scottish_widening_access_offer",
+        "applies_to_group_ids": [
+          "widening_participation"
+        ],
+        "stage": "stage_1_eligibility",
+        "policy_description": "Adjusted SQA Higher offer AAABB for eligible widening access applicants.",
+        "effect": {
+          "type": "lower_academic_threshold",
+          "target": "stage_1_eligibility.post_16.scottish",
+          "value": "AAABB"
+        },
+        "source_ids": [
+          "dundee_all_entry_requirements",
+          "dundee_contextual_admissions_policy"
+        ],
+        "notes": null
+      }
+    ],
+    "guaranteed_interview_rules": [
+      {
+        "rule_id": "contextual_interview_policy",
+        "applies_to_group_ids": [
+          "home_fee",
+          "widening_participation"
+        ],
+        "minimum_requirements_must_be_met": true,
+        "conditions": [
+          "For interviewing subjects, eligible Home Scottish or Rest of UK applicants are normally interviewed if on course to meet widening access requirements and essential subjects."
+        ],
+        "source_ids": [
+          "dundee_contextual_admissions_policy"
+        ],
+        "notes": "Stored as policy-only. Full Stage 2 execution is not modelled yet."
+      }
+    ],
+    "notes": null
+  },
+  "ranking_pools": [
+    {
+      "pool_id": "international",
+      "name": "International interview ranking pool",
+      "applies_to_group_ids": [
+        "international_fee"
+      ],
+      "fee_statuses": [
+        "international"
+      ],
+      "separate_from_home_ranking": true,
+      "ranking_model": "academic_plus_ucat_weighting",
+      "ranking_factors": [
+        "Academic score weighted at 60%",
+        "UCAT cognitive total converted using national decile rank and weighted at 40%"
+      ],
+      "places_available": 31,
+      "maximum_shortlist_score": 100,
+      "fixed_ucat_cutoff": null,
+      "personal_statement_used_for_shortlisting": false,
+      "source_ids": [
+        "dundee_verified_international_admissions_evidence"
+      ],
+      "notes": "International applicants compete in a separate pool. Historical UCAT guidance is not a fixed threshold."
+    }
+  ],
+  "quotas": [
+    {
+      "quota_id": "dundee_a100_places_2027_entry_verified",
+      "name": "Verified Home/International places (2027 entry)",
+      "home_places": 180,
+      "international_places": 16,
+      "quota_type": "verified_current_places",
+      "source_ids": [
+        "applysmart_admissions_team_verified_2026"
+      ],
+      "notes": "Home/International place figures verified by the ApplySmart admissions research team for 2027 entry."
+    }
+  ],
+  "offer_selection": {
+    "verification_status": "partially_verified",
+    "source_ids": [
+      "dundee_interview_page",
+      "dundee_verified_international_admissions_evidence"
+    ],
+    "interview_format": {
+      "format_type": "group_discussion_plus_structured_assessor_interaction",
+      "delivery": {
+        "uk_applicants": "normally_in_person",
+        "international_applicants": "remote_option_available"
+      },
+      "duration": "1 hour 40 minutes including registration and welcome",
+      "stages": [
+        {
+          "stage_id": "preparatory_group_discussion",
+          "description": "Observed preparatory group discussion with approximately five other applicants."
+        },
+        {
+          "stage_id": "structured_assessor_interaction",
+          "description": "Structured interaction with an assessor after the group discussion."
+        }
+      ],
+      "source_ids": [
+        "dundee_interview_page"
+      ],
+      "notes": "UK applicants are normally asked to attend in person. International applicants may be offered a remote interview option."
+    },
+    "international_interview_format": {
+      "format_type": "two_stage_hybrid",
+      "stages": [
+        {
+          "stage_id": "group_discussion",
+          "applicant_count": 6,
+          "duration_minutes": 30,
+          "assessed_qualities": [
+            "communication",
+            "teamwork",
+            "reasoning",
+            "values"
+          ]
+        },
+        {
+          "stage_id": "structured_dialogue",
+          "format": "one_to_one_follow_up",
+          "assessed_qualities": [
+            "reflection",
+            "ethics",
+            "motivation",
+            "insight"
+          ]
+        }
+      ],
+      "source_ids": [
+        "dundee_verified_international_admissions_evidence"
+      ],
+      "notes": "Verified two-stage hybrid interview evidence for international applicants."
+    },
+    "interview_scoring": {
+      "score_used": null,
+      "minimum_score": null,
+      "station_scores": [
+        {
+          "station_id": "communication",
+          "label": "Communication",
+          "score": null,
+          "notes": "Assessed quality; exact scoring not published."
+        },
+        {
+          "station_id": "group_working",
+          "label": "Group working",
+          "score": null,
+          "notes": "Assessed quality; exact scoring not published."
+        },
+        {
+          "station_id": "personal_values",
+          "label": "Personal values",
+          "score": null,
+          "notes": "Assessed quality; exact scoring not published."
+        },
+        {
+          "station_id": "professionalism",
+          "label": "Professionalism",
+          "score": null,
+          "notes": "Assessed quality; exact scoring not published."
+        }
+      ],
+      "sjt_used_post_interview": null,
+      "decision_outcome_if_not_met": "not_eligible",
+      "source_ids": [
+        "dundee_interview_page"
+      ],
+      "notes": "Dundee publishes assessed qualities but not a post-interview scoring formula or weighting."
+    },
+    "offer_model": null,
+    "international_offer_selection": {
+      "applies_to_group_ids": [
+        "international_fee"
+      ],
+      "pre_interview_score_carryover_percent": 0,
+      "interview_score_weight_percent": 100,
+      "ranking_basis": "interview_score_only",
+      "international_places": 31,
+      "source_ids": [
+        "dundee_verified_international_admissions_evidence"
+      ],
+      "notes": "Academic and UCAT scores are reset after interview. International offers are ranked entirely by interview score."
+    },
+    "ranking_factors": [],
+    "tie_breakers": [],
+    "waiting_list_policy": null,
+    "standard_offer": {
+      "grade_profile": [],
+      "source_ids": [
+        "dundee_all_entry_requirements"
+      ],
+      "notes": null
+    },
+    "contextual_offer": {
+      "applies_to_group_ids": [
+        "widening_participation"
+      ],
+      "grade_profile": [],
+      "source_ids": [
+        "dundee_all_entry_requirements",
+        "dundee_contextual_admissions_policy"
+      ],
+      "notes": null
+    },
+    "notes": "Home offer selection logic remains unchanged. Verified international evidence records a two-stage hybrid interview and interview-only offer ranking after pre-interview academic and UCAT scores are reset."
+  },
+  "historical_admissions": {
+    "verification_status": "official_source_verified",
+    "source_ids": [
+      "dundee_admissions_statistics",
+      "dundee_verified_international_admissions_evidence"
+    ],
+    "cycles": [
+      {
+        "entry_year": "2023/24",
+        "applicant_group_id": "international_fee",
+        "lowest_interviewed_ucat": 1950,
+        "average_interviewed_ucat": 2020,
+        "average_offer_holder_ucat": 2050,
+        "ucat_scale": 2700,
+        "source_ids": [
+          "dundee_verified_international_admissions_evidence"
+        ],
+        "notes": "Verified historical international evidence; guidance only and not a fixed UCAT cut-off."
+      },
+      {
+        "entry_year": "2024/25",
+        "applicant_group_id": "international_fee",
+        "lowest_interviewed_ucat": 1950,
+        "average_interviewed_ucat": 2025,
+        "average_offer_holder_ucat": 2055,
+        "ucat_scale": 2700,
+        "source_ids": [
+          "dundee_verified_international_admissions_evidence"
+        ],
+        "notes": "Verified historical international evidence; guidance only and not a fixed UCAT cut-off."
+      },
+      {
+        "entry_year": "2025/26",
+        "applicant_group_id": "international_fee",
+        "lowest_interviewed_ucat": 2000,
+        "average_interviewed_ucat": 2050,
+        "average_offer_holder_ucat": 2080,
+        "ucat_scale": 2700,
+        "source_ids": [
+          "dundee_verified_international_admissions_evidence"
+        ],
+        "notes": "Verified historical international evidence; guidance only and not a fixed UCAT cut-off."
+      }
+    ],
+    "notes": "Dundee publishes historical admissions statistics for context. Verified international /2700 interview and offer-holder UCAT evidence is stored as historical guidance only, not as a fixed cut-off or current-cycle prediction formula."
+  },
+  "sources": [
+    {
+      "source_id": "msc_index",
+      "title": "Medical Schools Council UK medical school entry requirements index",
+      "url": "https://www.medschools.ac.uk/for-students/applying-to-medical-school/entry-requirements/?pg=4",
+      "source_type": "official_course_page",
+      "published_date": null,
+      "accessed_date": "2026-06-19",
+      "applies_to_sections": [
+        "university",
+        "course"
+      ],
+      "confidence": "Low",
+      "notes": "Course card from MSC index for courses starting Autumn 2026."
+    },
+    {
+      "source_id": "msc_dundee_course_page",
+      "title": "University of Dundee - MBChB Medicine (A100)",
+      "url": "https://www.medschools.ac.uk/courses/dundee-medicine-a100/",
+      "source_type": "official_course_page",
+      "published_date": null,
+      "accessed_date": "2026-06-19",
+      "applies_to_sections": [
+        "university",
+        "course"
+      ],
+      "confidence": "Low",
+      "notes": "Detailed rules originally not extracted from this source."
+    },
+    {
+      "source_id": "dundee_course_page",
+      "title": "University of Dundee - Medicine MBChB",
+      "url": "https://www.dundee.ac.uk/undergraduate/medicine",
+      "source_type": "official_course_page",
+      "published_date": null,
+      "accessed_date": "2026-06-23",
+      "applies_to_sections": [
+        "university",
+        "course",
+        "stage_1_eligibility"
+      ],
+      "confidence": "High",
+      "notes": "Official Dundee course page."
+    },
+    {
+      "source_id": "dundee_entry_requirements",
+      "title": "University of Dundee Medicine Entry Requirements",
+      "url": "https://www.dundee.ac.uk/undergraduate/medicine/entry-requirements",
+      "source_type": "official_admissions_policy",
+      "published_date": null,
+      "accessed_date": "2026-06-23",
+      "applies_to_sections": [
+        "stage_1_eligibility"
+      ],
+      "confidence": "High",
+      "notes": "Official Dundee entry requirements page."
+    },
+    {
+      "source_id": "dundee_all_entry_requirements",
+      "title": "University of Dundee Medicine All Entry Requirements",
+      "url": "https://www.dundee.ac.uk/undergraduate/medicine/entry-requirements/all",
+      "source_type": "official_admissions_policy",
+      "published_date": null,
+      "accessed_date": "2026-06-23",
+      "applies_to_sections": [
+        "stage_1_eligibility",
+        "contextual_admissions"
+      ],
+      "confidence": "High",
+      "notes": "Official detailed entry requirements page."
+    },
+    {
+      "source_id": "dundee_contextual_admissions_policy",
+      "title": "University of Dundee Contextual Admissions Policy",
+      "url": "https://www.dundee.ac.uk/corporate-information/contextual-admissions-policy",
+      "source_type": "official_admissions_policy",
+      "published_date": null,
+      "accessed_date": "2026-06-23",
+      "applies_to_sections": [
+        "contextual_admissions",
+        "stage_1_eligibility"
+      ],
+      "confidence": "High",
+      "notes": "Official Dundee contextual admissions policy."
+    },
+    {
+      "source_id": "dundee_interview_page",
+      "title": "University of Dundee Medicine Interview",
+      "url": "https://www.dundee.ac.uk/undergraduate/medicine/interview",
+      "source_type": "official_admissions_policy",
+      "published_date": null,
+      "accessed_date": "2026-06-23",
+      "applies_to_sections": [
+        "stage_2_interview_selection",
+        "offer_selection"
+      ],
+      "confidence": "High",
+      "notes": "Official Dundee interview page. Verified supplied evidence separately models international Stage 2 guidance; Home Stage 2 logic remains unchanged."
+    },
+    {
+      "source_id": "dundee_admissions_statistics",
+      "title": "University of Dundee MBChB Medicine (A100) admissions statistics by year of entry",
+      "url": "https://www.dundee.ac.uk/corporate-information/medicine-admissions-statistics",
+      "source_type": "official_admissions_statistics",
+      "published_date": null,
+      "accessed_date": "2026-06-23",
+      "applies_to_sections": [
+        "stage_2_interview_selection",
+        "historical_admissions"
+      ],
+      "confidence": "High",
+      "notes": "Official historical statistics. Use for display/context only, not as current-year prediction formula."
+    },
+    {
+      "source_id": "dundee_verified_international_admissions_evidence",
+      "title": "Dundee A100 verified international admissions evidence",
+      "url": null,
+      "source_type": "verified_admissions_evidence",
+      "published_date": null,
+      "accessed_date": "2026-07-02",
+      "applies_to_sections": [
+        "course",
+        "stage_2_interview_selection",
+        "ranking_pools",
+        "offer_selection",
+        "historical_admissions"
+      ],
+      "confidence": "High",
+      "notes": "Verified evidence supplied for international selection, historical /2700 UCAT guidance, interview format, interview-only offer ranking and 31 international places. No source URL was supplied."
+    }
+  ],
+  "validation": {
+    "source_status": "official_source_verified",
+    "last_verified": "2026-07-02",
+    "confidence_level": "Medium",
+    "completion_status": "production_ready_for_supported_scope_with_documented_gaps",
+    "section_completion_status": {
+      "stage_1_eligibility": "partial",
+      "stage_2_interview_selection": "partial",
+      "contextual_admissions": "partial",
+      "ranking_pools": "partial",
+      "quotas": "documented_gap_non_blocking",
+      "offer_selection": "documented_gap_non_blocking",
+      "historical_admissions": "partial",
+      "sources": "partial"
+    },
+    "known_unknowns": [
+      "SJT bands are not used as part of initial interview selection, but post-interview SJT use is not stated.",
+      "BTEC acceptance is unknown; no clear official acceptance rule was found.",
+      "SWAP subject/unit details are stored as notes until dedicated subject IDs are agreed.",
+      "The Home Stage 2 interview selection model, academic weighting and UCAT weighting are not published in reviewed official sources.",
+      "The exact interview scoring rubric and Home offer selection weighting remain unavailable."
+    ],
+    "review_notes": "Home eligibility and selection logic remain unchanged. Verified international evidence now supports a separate 60% academic and 40% national-decile UCAT pool, historical interview guidance, a two-stage hybrid interview and interview-only offer ranking. Guidance is historical, not a fixed UCAT cut-off."
+  },
+  "engine_notes": {
+    "eligibility": true,
+    "interview_prediction": true,
+    "historical_guidance": true,
+    "international_prediction": true,
+    "contextual_logic": false,
+    "result_card": true,
+    "regression": true,
+    "research_completeness": "complete_for_supported_scope_with_documented_gaps",
+    "manual_review_required": true,
+    "eligibility_ready": true,
+    "interview_prediction_ready": true,
+    "prediction_confidence": "medium",
+    "result_card_ready": true,
+    "offer_prediction_scope": "out_of_scope",
+    "interview_band_config_ready": true,
+    "metadata_activation_ready": true,
+    "activation_ready": true,
+    "production_ready": true,
+    "blocking_missing_fields": [],
+    "non_blocking_warnings": [
+      "Documented evidence or automation gap retained as non-blocking for activation-ready production scope: home_stage_2_interview_selection.primary_model",
+      "Documented evidence or automation gap retained as non-blocking for activation-ready production scope: home_stage_2_interview_selection.calculation",
+      "Documented evidence or automation gap retained as non-blocking for activation-ready production scope: home_stage_2_interview_selection.ranking_factors",
+      "Documented evidence or automation gap retained as non-blocking for activation-ready production scope: quotas",
+      "Documented evidence or automation gap retained as non-blocking for activation-ready production scope: home_offer_selection.offer_model",
+      "Documented evidence or automation gap retained as non-blocking for activation-ready production scope: exact_interview_scoring_rubric",
+      "Known unknown retained as non-blocking for activation-ready production scope: SJT bands are not used as part of initial interview selection, but post-interview SJT use is not stated.",
+      "Known unknown retained as non-blocking for activation-ready production scope: BTEC acceptance is unknown; no clear official acceptance rule was found.",
+      "Known unknown retained as non-blocking for activation-ready production scope: SWAP subject/unit details are stored as notes until dedicated subject IDs are agreed.",
+      "Known unknown retained as non-blocking for activation-ready production scope: The Home Stage 2 interview selection model, academic weighting and UCAT weighting are not published in reviewed official sources.",
+      "Known unknown retained as non-blocking for activation-ready production scope: The exact interview scoring rubric and Home offer selection weighting remain unavailable."
+    ],
+    "engine_assumptions": [],
+    "do_not_infer": [
+      "Do not infer BTEC acceptance.",
+      "Do not infer post-interview SJT policy.",
+      "Do not infer Home Stage 2 ranking or interview selection.",
+      "Do not apply the verified international 60/40 weighting or historical guidance to Home applicants.",
+      "Do not treat international historical UCAT guidance as a fixed cut-off.",
+      "Do not treat aliases as canonical subject IDs.",
+      "Do not apply contextual adjustments unless represented as structured rules."
+    ],
+    "prediction_scope": "historical_interview_guidance_with_research_model_clearly_labelled_non_official",
+    "interview_prediction_basis": [
+      "official_eligibility_and_ucat_policy",
+      "official_historical_interview_ucat_data",
+      "foi_derived_weighting_and_research_model_stored_outside_official_rules",
+      "verified_separate_international_pool_and_historical_guidance"
+    ],
+    "research_source": "data/research/dundee-a100-research.json"
+  }
+}

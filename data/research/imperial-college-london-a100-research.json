@@ -1,0 +1,221 @@
+{
+  "schema_version": "1.0.0",
+  "profile_id": "imperial-college-london-a100-research",
+  "course_profile_id": "imperial-college-london-a100",
+  "research_status": "complete_for_supported_scope_with_documented_gaps",
+  "file_purpose": "Research and evidence profile for Imperial College London Medicine MBBS/BSc A100. Executable rules live in data/universities/imperial-college-london-a100.json.",
+  "official_rules_source": "data/universities/imperial-college-london-a100.json",
+  "created_at": "2026-07-22",
+  "last_updated": "2026-07-22",
+  "research_scope": {
+    "target_entry_year": 2027,
+    "primary_policy_cycle": "2027 entry with 2026-entry published threshold evidence",
+    "primary_course": "A100",
+    "primary_scope": [
+      "home_standard_a_level_school_leaver",
+      "home_contextual_a_level_school_leaver",
+      "overseas_a_level_school_leaver",
+      "ib_and_scottish_routes_with_manual_same_sitting_review",
+      "interview_invitation_guidance_only"
+    ],
+    "excluded_related_courses": [
+      "Pears Cumbria Graduate Entry Medicine",
+      "Any Imperial graduate-entry or gateway/foundation course"
+    ],
+    "production_json_updated": true,
+    "index_updated": true,
+    "examples_updated": true,
+    "regression_scripts_updated": true,
+    "third_party_admissions_websites_used": false,
+    "evidence_intake_basis": "/Users/faizan/Desktop/medical university research/University-data-list/imperial/Imperial_A100_ApplySmart_FINAL_Merged-2.md supplied by the user on 2026-07-22"
+  },
+  "evidence_classification_policy": {
+    "official": "A rule or statistic attributed by the supplied research to Imperial or another official source.",
+    "official_published_threshold": "A UCAT threshold directly published by Imperial for a named entry cycle.",
+    "official_foi": "A fact from Imperial A100 Admissions FOI FAQs 2026 v2.",
+    "not_applicable": "Pre-2025 UCAT thresholds are structurally not applicable because Imperial used BMAT.",
+    "unknown": "The supplied evidence does not establish the fact safely enough for execution.",
+    "modelled_guidance": "ApplySmart band boundaries above an official threshold. These are not official Imperial cutoffs."
+  },
+  "metadata": {
+    "authoritative_research_file": "/Users/faizan/Desktop/medical university research/University-data-list/imperial/Imperial_A100_ApplySmart_FINAL_Merged-2.md",
+    "engine_version": "ApplySmart Engine v1.0",
+    "architecture_change_required": true,
+    "architecture_change_summary": "A generic opt-in same-sitting eligibility check was added to the shared eligibility layer before Imperial activation. It is not Imperial-specific and is inactive unless a course profile opts in.",
+    "selection_model_mapping": "academic_gate_then_applicant_group_ucat_threshold_then_ucat_ranking",
+    "standardisation_profile": "completed_production_university",
+    "repository_discrepancy_reported_before_edit": "Existing Imperial A100 production JSON was an MSC seed with unknown detailed rules."
+  },
+  "readiness": {
+    "eligibility": true,
+    "interview_prediction": true,
+    "historical_guidance": true,
+    "international_prediction": true,
+    "contextual_logic": true,
+    "result_card": true,
+    "regression": true,
+    "research_completeness": "complete_for_supported_scope_with_documented_gaps",
+    "manual_review_required": true,
+    "eligibility_ready": true,
+    "interview_prediction_ready": true,
+    "prediction_confidence": "low",
+    "result_card_ready": true,
+    "offer_prediction_scope": "out_of_scope",
+    "interview_band_config_ready": true,
+    "metadata_activation_ready": true,
+    "production_ready_candidate": true,
+    "production_activation_should_remain_blocked": false,
+    "activation_block_reason": null
+  },
+  "course_identity": {
+    "university": "Imperial College London",
+    "medical_school": "School of Medicine, Faculty of Medicine",
+    "course_name": "Medicine MBBS/BSc",
+    "ucas_code": "A100",
+    "duration_years": 6,
+    "entry_route": "standard_entry",
+    "home_places_2026": 271,
+    "international_places_2026": 74,
+    "evidence_classification": "official"
+  },
+  "selection_model": {
+    "type": "sequential_gate",
+    "steps": [
+      "Check applicant/course-route eligibility.",
+      "Check academic eligibility, GCSE English Language, science practical endorsements, same-sitting and resit rules.",
+      "Require UCAT in the application cycle.",
+      "Reject SJT Band 4.",
+      "Apply Home, contextual/WP or Overseas official UCAT threshold.",
+      "Use UCAT cognitive total ranking guidance for interview invitation only."
+    ],
+    "academic_scoring": false,
+    "ucat_ranking": true,
+    "ucat_weight_percent": 100,
+    "sjt_shortlisting_role": "pass_fail_gate",
+    "offer_prediction": "out_of_scope",
+    "evidence_classification": "official"
+  },
+  "academic_requirements": {
+    "gcse": {
+      "minimum_profile": "GCSE English Language grade 6/B.",
+      "scored_after_threshold": false,
+      "maths_or_science_minima_implemented": false
+    },
+    "a_level": {
+      "standard": "A*AA with Biology and Chemistry required; A* and A must be across Biology and Chemistry.",
+      "contextual": "A*AA with Biology and Chemistry at A or above; the A* may be in any subject.",
+      "excluded": [
+        "General Studies",
+        "Critical Thinking"
+      ],
+      "same_sitting_required": true,
+      "practical_endorsement_required": true,
+      "academic_strength_bonus": false
+    },
+    "international_baccalaureate": {
+      "standard": "38 points with HL Biology 6 and HL Chemistry 6.",
+      "same_sitting_runtime_status": "manual_review_required_current_applicant_model_lacks_route_level_field"
+    },
+    "scottish": {
+      "standard": "Advanced Highers AAA including Biology, Chemistry and a third subject; Highers alone are insufficient.",
+      "same_sitting_runtime_status": "manual_review_required_current_applicant_model_lacks_route_level_field"
+    },
+    "graduate_a100": {
+      "accepted": false,
+      "notes": "A100 does not accept graduate applicants."
+    }
+  },
+  "ucat_and_sjt": {
+    "ucat_required": true,
+    "ranking_metric": "total_cognitive_score",
+    "score_scale": 2700,
+    "selection_weight_percent": 100,
+    "home_threshold": {
+      "entry_cycle": "2026 entry",
+      "value": 2320,
+      "scale": 2700,
+      "use": "executable_gate_and_historical_guidance",
+      "evidence_classification": "official_published_threshold"
+    },
+    "contextual_threshold": {
+      "entry_cycle": "2026 entry",
+      "value": 2170,
+      "scale": 2700,
+      "use": "executable_gate_and_historical_guidance",
+      "evidence_classification": "official_published_threshold"
+    },
+    "overseas_threshold": {
+      "entry_cycle": "2026 entry",
+      "value": 2310,
+      "scale": 2700,
+      "use": "executable_gate_and_historical_guidance",
+      "evidence_classification": "official_published_threshold"
+    },
+    "sjt_shortlisting_role": "Bands 1-3 pass; Band 4 rejected",
+    "subsection_minima": "not_disclosed_2025_not_stated_in_official_2026_disclosure",
+    "subsection_minima_runtime": "not_executed"
+  },
+  "historical_context": {
+    "use": "guidance_only",
+    "fixed_future_cutoff": false,
+    "not_deterministic": true,
+    "warning": "The 2026-entry UCAT thresholds are the only published current-scale Imperial thresholds and must not be treated as guaranteed future cut-offs.",
+    "pre_2025_ucat_thresholds": "not_applicable_bmat_era",
+    "ucas_2025_averages": {
+      "scale": 3600,
+      "abstract_reasoning_included": true,
+      "conversion_used_for_execution": false
+    }
+  },
+  "interview_information": {
+    "format": "MMI",
+    "stations_2026": 6,
+    "minutes_per_station": 5,
+    "points_per_station": 10,
+    "content_points": 6,
+    "communication_points": 4,
+    "station_1": "Commitment to Medicine",
+    "personal_statement": "Not scored in shortlisting; available to Station 1 interviewers",
+    "timing": "Invitations normally roll from December; interviews normally January-February",
+    "offer_prediction_runtime": "out_of_scope"
+  },
+  "evidence_gaps": [
+    {
+      "gap_id": "ucat_subsection_minimum_values",
+      "status": "documented_unpublished_not_runtime",
+      "impact": "No numeric subsection cutoffs are implemented or inferred."
+    },
+    {
+      "gap_id": "single_current_scale_threshold_cycle",
+      "status": "documented_low_confidence",
+      "impact": "Evidence Confidence is Low and band boundaries above official thresholds are modelled."
+    },
+    {
+      "gap_id": "ib_scottish_same_sitting_applicant_evidence",
+      "status": "manual_review_boundary",
+      "impact": "The generic applicant model lacks route-level same-sitting evidence for IB and Scottish routes."
+    },
+    {
+      "gap_id": "tie_breakers_and_reserve_list",
+      "status": "unknown",
+      "impact": "Not used for interview guidance."
+    },
+    {
+      "gap_id": "post_interview_offer_thresholds",
+      "status": "out_of_scope",
+      "impact": "Offer prediction is not implemented."
+    }
+  ],
+  "implementation_mapping": {
+    "architecture_change_required": true,
+    "shared_engine_files_changed": [
+      "assets/js/engine/interview-band-classifier.js",
+      "assets/js/engine/eligibility-evaluator.js"
+    ],
+    "new_generic_configuration_field": "stage_1_eligibility.academic_requirements.same_sitting.required",
+    "universities_opting_in": [
+      "imperial-college-london-a100"
+    ],
+    "offer_prediction_implemented": false
+  }
+}

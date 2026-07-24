@@ -1,0 +1,247 @@
+{
+  "schema_version": "1.0.0",
+  "course_profile_id": "keele-a100",
+  "base_applicant": {
+    "profile_id": "keele_a100_base_applicant",
+    "label": "Keele A100 Home A-level school-leaver",
+    "applicant_identity": {
+      "applicant_type": "standard_school_leaver",
+      "fee_status": "Home",
+      "domicile": "England",
+      "contextual": false,
+      "widening_participation": false,
+      "graduate": false,
+      "resit": {
+        "has_resits": false
+      }
+    },
+    "course_target": {
+      "discipline": "medicine",
+      "ucas_code": "A100",
+      "course_route": "standard",
+      "entry_route": "standard_entry"
+    },
+    "qualification_route": "a_level",
+    "gcse_profile": {
+      "subjects": {
+        "english_language": "7",
+        "mathematics": "7",
+        "biology": "7",
+        "chemistry": "7",
+        "physics": "7"
+      },
+      "additional_subjects": [],
+      "total_gcse_count": 5
+    },
+    "a_level_profile": {
+      "subjects": [
+        {
+          "subject_id": "chemistry",
+          "predicted_grade": "A*",
+          "sitting_status": "first_sitting",
+          "practical_endorsement": "pass"
+        },
+        {
+          "subject_id": "biology",
+          "predicted_grade": "A",
+          "sitting_status": "first_sitting",
+          "practical_endorsement": "pass"
+        },
+        {
+          "subject_id": "mathematics",
+          "predicted_grade": "A",
+          "sitting_status": "first_sitting"
+        }
+      ],
+      "sitting_status": "first_sitting"
+    },
+    "admissions_tests": {
+      "ucat": {
+        "total_score": 2200,
+        "score_scale": 2700,
+        "subtests": {
+          "verbal_reasoning": 720,
+          "decision_making": 740,
+          "quantitative_reasoning": 740
+        },
+        "sjt_band": 2,
+        "test_year": 2026
+      }
+    },
+    "application_year": 2026,
+    "graduate_profile": {
+      "is_graduate": false,
+      "degree_classification": null
+    }
+  },
+  "scenarios": [
+    {
+      "scenario_id": "home_eligible_but_home_score_not_executable",
+      "overrides": {},
+      "expected": {
+        "eligibility_status": "eligible",
+        "guidance_pool_id": null,
+        "interview_band": "insufficient_evidence",
+        "failure": null
+      }
+    },
+    {
+      "scenario_id": "home_below_1700_rejected",
+      "overrides": {
+        "admissions_tests": {
+          "ucat": {
+            "total_score": 1699
+          }
+        }
+      },
+      "expected": {
+        "eligibility_status": "not_eligible",
+        "guidance_pool_id": null,
+        "interview_band": "not_eligible",
+        "failure": "minimum_ucat_total_not_met"
+      }
+    },
+    {
+      "scenario_id": "sjt_band_4_rejected",
+      "overrides": {
+        "admissions_tests": {
+          "ucat": {
+            "sjt_band": 4
+          }
+        }
+      },
+      "expected": {
+        "eligibility_status": "not_eligible",
+        "guidance_pool_id": null,
+        "interview_band": "not_eligible",
+        "failure": "disqualifying_sjt_rule"
+      }
+    },
+    {
+      "scenario_id": "missing_physics_gcse_rejected",
+      "overrides": {
+        "gcse_profile": {
+          "subjects": {
+            "english_language": "7",
+            "mathematics": "7",
+            "biology": "7",
+            "chemistry": "7",
+            "physics": null,
+            "history": "7"
+          }
+        }
+      },
+      "expected": {
+        "eligibility_status": "not_eligible",
+        "guidance_pool_id": null,
+        "interview_band": "not_eligible",
+        "failure": "gcse_science_alternative_not_met"
+      }
+    },
+    {
+      "scenario_id": "combined_science_route_eligible",
+      "overrides": {
+        "gcse_profile": {
+          "subjects": {
+            "english_language": "7",
+            "mathematics": "7",
+            "biology": null,
+            "chemistry": null,
+            "physics": null,
+            "combined_science": "7/7",
+            "history": "7",
+            "geography": "7"
+          }
+        }
+      },
+      "expected": {
+        "eligibility_status": "eligible",
+        "guidance_pool_id": null,
+        "interview_band": "insufficient_evidence",
+        "failure": null
+      }
+    },
+    {
+      "scenario_id": "international_1950_guidance_boundary",
+      "overrides": {
+        "applicant_identity": {
+          "applicant_type": "international_standard_school_leaver",
+          "fee_status": "International",
+          "domicile": "International",
+          "english_language_exempt": true
+        },
+        "admissions_tests": {
+          "ucat": {
+            "total_score": 1950
+          }
+        }
+      },
+      "expected": {
+        "eligibility_status": "eligible",
+        "guidance_pool_id": "international_ucat_ranked_guidance",
+        "interview_band": "realistic",
+        "failure": null
+      }
+    },
+    {
+      "scenario_id": "international_below_1950_rejected",
+      "overrides": {
+        "applicant_identity": {
+          "applicant_type": "international_standard_school_leaver",
+          "fee_status": "International",
+          "domicile": "International",
+          "english_language_exempt": true
+        },
+        "admissions_tests": {
+          "ucat": {
+            "total_score": 1949
+          }
+        }
+      },
+      "expected": {
+        "eligibility_status": "not_eligible",
+        "guidance_pool_id": null,
+        "interview_band": "not_eligible",
+        "failure": "minimum_ucat_total_not_met"
+      }
+    },
+    {
+      "scenario_id": "verified_steps2medicine_guaranteed_interview",
+      "overrides": {
+        "applicant_identity": {
+          "contextual": true,
+          "widening_participation": true,
+          "contextual_flags": {
+            "free_school_meals": true
+          }
+        },
+        "widening_participation_programme": {
+          "programme": "steps2medicine_or_ukwpmed",
+          "verified": true,
+          "home_fee_status": true
+        }
+      },
+      "expected": {
+        "eligibility_status": "eligible",
+        "guidance_pool_id": null,
+        "interview_band": null,
+        "interview_outcome": "guaranteed_interview",
+        "failure": null
+      }
+    },
+    {
+      "scenario_id": "a104_target_rejected_by_course_mismatch",
+      "overrides": {
+        "course_target": {
+          "ucas_code": "A104"
+        }
+      },
+      "expected": {
+        "eligibility_status": "not_eligible",
+        "guidance_pool_id": null,
+        "interview_band": "not_eligible",
+        "failure": "course_target_mismatch:A104:A100"
+      }
+    }
+  ]
+}

@@ -1,0 +1,141 @@
+{
+  "schema_version": "1.0.0",
+  "profile_id": "exeter-a100-research",
+  "course_profile_id": "exeter-a100",
+  "research_status": "complete_for_supported_scope_with_documented_gaps",
+  "file_purpose": "Research and evidence profile for University of Exeter BMBS Medicine A100. The user-supplied Exeter Research Team .docx is the authoritative implementation specification; executable rules live in data/universities/exeter-a100.json and data/interview-band-configs/exeter-a100.json.",
+  "official_rules_source": "data/universities/exeter-a100.json",
+  "created_at": "2026-07-13",
+  "last_updated": "2026-07-13",
+  "research_scope": {
+    "target_entry_year": 2027,
+    "primary_policy_cycle": "2026 entry policy used for 2026 and deferred 2027 application evidence",
+    "primary_course": "A100",
+    "authoritative_research_file": "/Users/faizan/Desktop/medical university research/Exter-Research-team.docx",
+    "official_policy_verified": true,
+    "production_json_updated": true,
+    "index_updated": true,
+    "examples_updated": true,
+    "regression_scripts_updated": true,
+    "third_party_admissions_websites_used": false,
+    "notes": "The official admissions policy scoring tables were checked before implementation. They show the WP/contextual treatment as a +5 Exeter Score uplift. ApplySmart therefore does not also apply a reduced contextual score threshold."
+  },
+  "evidence_classification_policy": {
+    "official": "A rule or statistic stated in Exeter's official BMBS Admissions Policy or course/contextual pages.",
+    "approved_research": "A rule or implementation mapping stated in the user-approved Exeter Research Team .docx.",
+    "guidance_only": "Historical or current-cycle score guidance used only for interview competitiveness context, never offer prediction or a guaranteed current threshold.",
+    "engine_boundary": "Evidence is sufficient to document the route, but the shared engine cannot safely automate it without a further approved extension."
+  },
+  "metadata": {
+    "engine_version": "ApplySmart Engine v1.0 with approved generic conditional score component extension",
+    "architecture_change_required": true,
+    "minimum_architecture_extension_required": [
+      "Generic conditional_points score component for achieved-grade and contextual/WP score uplifts.",
+      "Generic qualification-status derivation for achieved versus predicted qualification evidence.",
+      "Generic opt-in manual-review qualification routes for evidenced but non-executable routes."
+    ],
+    "exeter_specific_shared_engine_branch_added": false,
+    "selection_model_mapping": "official_exeter_score_direct_school_leaver",
+    "contextual_double_counting_prevention": "Contextual applicants receive the official +5 score uplift in the component sum. The Home guidance threshold remains 74 for contextual and non-contextual Home applicants; no separate 69 contextual threshold is encoded.",
+    "historical_foi_derived_ucat_equivalents_executable": false
+  },
+  "readiness": {
+    "eligibility": true,
+    "interview_prediction": true,
+    "historical_guidance": true,
+    "international_prediction": true,
+    "contextual_logic": true,
+    "result_card": true,
+    "regression": true,
+    "research_completeness": "complete_for_supported_scope_with_documented_gaps",
+    "manual_review_required": true,
+    "eligibility_ready": true,
+    "interview_prediction_ready": true,
+    "prediction_confidence": "medium",
+    "result_card_ready": true,
+    "offer_prediction_scope": "out_of_scope",
+    "interview_band_config_ready": true,
+    "metadata_activation_ready": true,
+    "activation_ready": true,
+    "production_ready": true,
+    "blocked_by_engine_limitation": false
+  },
+  "course_identity": {
+    "university": "University of Exeter",
+    "medical_school": "University of Exeter Medical School",
+    "course_name": "BMBS Medicine",
+    "ucas_code": "A100",
+    "duration_years": 5,
+    "entry_route": "standard_entry",
+    "home_places": 208,
+    "international_places": 10,
+    "source_ids": [
+      "exeter_bmbs_admissions_policy_2026_v4",
+      "ofs_place_limits"
+    ],
+    "evidence_classification": "official"
+  },
+  "selection_model": {
+    "type": "official_exeter_score",
+    "steps": [
+      "Check published academic entry requirements.",
+      "For direct school leavers, require UCAT in the application cycle.",
+      "Calculate Exeter Score from grade profile and UCAT decile.",
+      "Add +10 where qualifications are achieved.",
+      "Add +5 where Home WP/contextual eligibility is evidenced.",
+      "Rank Home and International applicants separately.",
+      "Route GAMSAT/non-direct school-leaver applicants to manual review."
+    ],
+    "home_and_international_ranked_separately": true,
+    "sjt_used": false,
+    "offer_prediction_scope": "out_of_scope",
+    "source_ids": [
+      "exeter_bmbs_admissions_policy_2026_v4"
+    ]
+  },
+  "evidence_gaps": [
+    {
+      "gap_id": "gamsat_route_not_automated",
+      "status": "engine_boundary_manual_review",
+      "notes": "Exeter publishes GAMSAT score tables for non-direct school leavers, but this implementation keeps the graduate/GAMSAT route manual review as requested."
+    },
+    {
+      "gap_id": "future_live_cutoffs",
+      "status": "non_blocking_guidance_only",
+      "notes": "Annual interview cut-offs vary by cohort and quota; ApplySmart stores score guidance only."
+    },
+    {
+      "gap_id": "country_specific_international_equivalence",
+      "status": "manual_review",
+      "notes": "Country-specific international academic equivalence is not encoded."
+    },
+    {
+      "gap_id": "access_route_exeter_score",
+      "status": "manual_review",
+      "notes": "Access to HE requirements are documented but not automatically scored."
+    }
+  ],
+  "implementation_mapping": {
+    "shared_engine_modified": true,
+    "shared_engine_extension": "generic conditional_points component and generic qualification-status/manual-review route support",
+    "exeter_specific_shared_branch": false,
+    "offer_prediction_implemented": false,
+    "contextual_scoring_representation": "single +5 score component; no separate lower contextual threshold",
+    "historical_ucat_equivalents_used_for_prediction": false,
+    "implemented_without_inventing_missing_data": true
+  },
+  "sources": [
+    {
+      "source_id": "exeter_bmbs_admissions_policy_2026_v4",
+      "title": "University of Exeter Medical School BMBS Medicine Admissions Policy 2026 entry V4",
+      "url": "https://www.exeter.ac.uk/v8media/recruitmentsites/documents/BMBS_Admissions_Policy_2026_(V4).pdf",
+      "source_type": "official_admissions_policy"
+    },
+    {
+      "source_id": "exeter_research_document_2026",
+      "title": "Exeter Research Team approved research document",
+      "url": "/Users/faizan/Desktop/medical university research/Exter-Research-team.docx",
+      "source_type": "approved_research_document"
+    }
+  ]
+}

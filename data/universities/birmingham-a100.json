@@ -1,0 +1,1625 @@
+{
+  "schema_version": "1.0.0",
+  "profile_id": "birmingham-a100",
+  "profile_status": "production_ready_eligibility_and_interview_guidance",
+  "verification_status": "official_source_verified_with_remaining_unpublished_offer_fields",
+  "last_updated": "2026-07-01",
+  "university": {
+    "name": "University of Birmingham",
+    "slug": "birmingham",
+    "country": "United Kingdom",
+    "nation": "England",
+    "institution_type": "University",
+    "website_url": "https://www.birmingham.ac.uk/"
+  },
+  "course": {
+    "name": "Medicine and Surgery MBChB",
+    "ucas_code": "A100",
+    "entry_route": "standard_entry",
+    "qualification_awarded": "MBChB",
+    "duration_years": 5,
+    "campus": "Birmingham Medical School",
+    "location": "Birmingham, England",
+    "entry_year": 2027,
+    "fee_statuses": [
+      "home",
+      "international"
+    ],
+    "is_gateway_or_foundation": false,
+    "is_graduate_entry": false,
+    "notes": "Five-year A100 course. Graduates apply to A100 because A101 has been discontinued. The profile uses 2026 rules and 2027 rules where officially available; the interview page is explicitly labelled for 2026 entry and UKWPMED covers 2026 entry or deferred entry in 2027."
+  },
+  "medical_school": {
+    "name": "Birmingham Medical School",
+    "research_profile": "data/research/birmingham-a100-research.json",
+    "notes": "Only officially evidenced, executable rules from the Phase 2 Birmingham research profile are represented as automatic production rules."
+  },
+  "applicant_pools": [
+    {
+      "pool_id": "home_standard",
+      "name": "Home standard A100",
+      "status": "supported",
+      "selection": "Official application score out of 10."
+    },
+    {
+      "pool_id": "home_contextual_scored",
+      "name": "Home contextual scored A100",
+      "status": "supported",
+      "selection": "Official application score out of 10 including the contextual component."
+    },
+    {
+      "pool_id": "ukwpmed_guaranteed_interview",
+      "name": "UKWPMED guaranteed-interview route",
+      "status": "supported_separate_route",
+      "selection": "Guaranteed interview only when programme completion, declaration and Birmingham Appendix 1 thresholds are all verified."
+    },
+    {
+      "pool_id": "graduate_a100",
+      "name": "Graduate A100",
+      "status": "supported_with_waiver_cases_manual_review",
+      "selection": "UCAT ranking after the graduate academic threshold."
+    },
+    {
+      "pool_id": "international",
+      "name": "International A100",
+      "status": "supported_with_country_equivalence_and_non_academic_review_limits",
+      "selection": "Academic threshold, UCAT ranking and manual non-academic review."
+    }
+  ],
+  "applies_to_group_ids": [
+    "home_fee",
+    "international_fee",
+    "contextual",
+    "widening_participation",
+    "care_experienced",
+    "graduate_applicant",
+    "school_leaver",
+    "resit_applicant"
+  ],
+  "stage_1_eligibility": {
+    "verification_status": "official_source_verified_with_remaining_eligibility_exceptions",
+    "source_ids": [
+      "birmingham_entry_requirements_medicine_five_year",
+      "birmingham_selection_for_interview",
+      "birmingham_ukwpmed"
+    ],
+    "overall_policy": {
+      "status": "official_routes_implemented",
+      "description": "Eligibility is executable for the published A-level, International Baccalaureate, Scottish, Irish, standard graduate, listed English-language and UKWPMED routes represented below. Access, BTEC and Foundation routes are not accepted for standard A100 entry. Unlisted qualifications and any case requiring an unpublished waiver or exception are blocked or sent to manual review.",
+      "not_eligible_if": [
+        "The applicant does not meet the applicable published academic minimum.",
+        "The applicant does not take UCAT in the application year, except where Birmingham has formally approved an access-arrangement exception.",
+        "The applicant offers an explicitly unsupported qualification or route.",
+        "A UKWPMED applicant does not meet Birmingham Appendix 1 thresholds."
+      ],
+      "manual_review_if": [
+        "A graduate relies on a GCSE or A-level waiver based on degree content.",
+        "An applicant relies on an extenuating-circumstances resit exception.",
+        "An international qualification or combination is not explicitly represented.",
+        "A UCAT access-arrangement exception is claimed.",
+        "The evidence needed to verify contextual or UKWPMED status is incomplete."
+      ],
+      "source_ids": [
+        "birmingham_entry_requirements_medicine_five_year",
+        "birmingham_ukwpmed"
+      ]
+    },
+    "gcse": {
+      "status": "official_source_verified",
+      "applies_to_qualification_routes": [
+        "a_level",
+        "graduate"
+      ],
+      "excluded_group_ids": [
+        "international_fee"
+      ],
+      "minimum_count": null,
+      "counted_subject_limit": 7,
+      "mandatory_subject_ids": [
+        "english_language",
+        "mathematics",
+        "biology",
+        "chemistry"
+      ],
+      "grade_requirements": [
+        {
+          "requirement_id": "gcse_english_language_minimum",
+          "subject_id": "english_language",
+          "minimum_grade": "6/B",
+          "qualification_level": "gcse_or_equivalent",
+          "decision_outcome_if_not_met": "not_eligible",
+          "source_ids": [
+            "birmingham_entry_requirements_medicine_five_year"
+          ]
+        },
+        {
+          "requirement_id": "gcse_mathematics_minimum",
+          "subject_id": "mathematics",
+          "minimum_grade": "6/B",
+          "qualification_level": "gcse_or_equivalent",
+          "decision_outcome_if_not_met": "not_eligible",
+          "source_ids": [
+            "birmingham_entry_requirements_medicine_five_year"
+          ]
+        }
+      ],
+      "science_requirement": {
+        "requirement_id": "gcse_biology_and_chemistry_or_dual_award",
+        "requirement_type": "any_of",
+        "minimum_options_required": 1,
+        "accepted_options": [
+          {
+            "option_id": "separate_biology_and_chemistry",
+            "grade_requirements": [
+              {
+                "subject_id": "biology",
+                "minimum_grade": "6/B"
+              },
+              {
+                "subject_id": "chemistry",
+                "minimum_grade": "6/B"
+              }
+            ]
+          },
+          {
+            "option_id": "dual_award_science",
+            "grade_requirements": [
+              {
+                "subject_id": "combined_science",
+                "minimum_grade_profile": [
+                  "6",
+                  "6"
+                ],
+                "accepted_equivalent_profile": [
+                  "B",
+                  "B"
+                ]
+              }
+            ]
+          }
+        ],
+        "decision_outcome_if_not_met": "not_eligible",
+        "source_ids": [
+          "birmingham_entry_requirements_medicine_five_year",
+          "birmingham_selection_for_interview"
+        ]
+      },
+      "contextual_minimum_reduction": false,
+      "sitting_policy": "GCSE, A-level and equivalent resits are not considered unless Birmingham approves an official extenuating-circumstances exception. A Covid calculated grade at the first sitting does not count as a resit.",
+      "achieved_or_predicted": "achieved",
+      "scoring_model": {
+        "model_id": "birmingham_home_gcse_score",
+        "applies_to_group_ids": [
+          "home_fee",
+          "contextual"
+        ],
+        "count_exactly": 7,
+        "named_subjects": [
+          "English Language",
+          "English Literature",
+          "Mathematics",
+          "Biology",
+          "Chemistry"
+        ],
+        "dual_award_science_may_replace": [
+          "Biology",
+          "Chemistry"
+        ],
+        "free_choice_subject_count": 2,
+        "named_subject_points": {
+          "6": 1,
+          "7": 2,
+          "8_or_9": 4
+        },
+        "free_choice_subject_points": {
+          "8_or_9": 2,
+          "below_8": 0
+        },
+        "raw_maximum": 24,
+        "scaled_maximum": 4.5,
+        "calculation_method": "gcse_scaled_score = raw_points_earned \u00d7 (4.5 / 24)",
+        "scale_multiplier": 0.1875,
+        "execution_status": "automatic_when_all_seven_results_are_supplied",
+        "decision_outcome_if_required_subject_below_6": "not_eligible",
+        "source_ids": [
+          "birmingham_selection_for_interview"
+        ],
+        "notes": "The explanatory examples in research are not production fixtures or rules."
+      },
+      "source_ids": [
+        "birmingham_entry_requirements_medicine_five_year",
+        "birmingham_selection_for_interview"
+      ],
+      "notes": "The same GCSE eligibility minimums apply to contextual applicants."
+    },
+    "post_16": {
+      "status": "official_source_verified_with_remaining_eligibility_exceptions",
+      "accepted_qualification_types": [
+        "a_level",
+        "international_baccalaureate",
+        "scottish_highers_and_advanced_highers",
+        "irish_leaving_certificate",
+        "degree_with_published_school_qualification_requirements"
+      ],
+      "a_level": {
+        "status": "official_source_verified",
+        "grade_requirements": [
+          {
+            "requirement_id": "home_standard_a_level",
+            "applies_to_group_ids": [
+              "home_fee",
+              "school_leaver"
+            ],
+            "excluded_group_ids": [
+              "contextual",
+              "widening_participation",
+              "graduate_applicant"
+            ],
+            "offer_grade_profile": [
+              "A*",
+              "A",
+              "A"
+            ],
+            "predicted_minimum_profile": [
+              "A",
+              "A",
+              "A"
+            ],
+            "grade_profile": [
+              "A",
+              "A",
+              "A"
+            ],
+            "required_subject_ids": [
+              "chemistry"
+            ],
+            "second_science_any_of_subject_ids": [
+              "biology",
+              "physics",
+              "mathematics"
+            ],
+            "one_of_subject_groups": [
+              {
+                "group_id": "home_standard_second_science",
+                "minimum_required": 1,
+                "subject_ids": [
+                  "biology",
+                  "physics",
+                  "mathematics"
+                ]
+              }
+            ],
+            "excluded_subject_ids": [
+              "general_studies",
+              "critical_thinking",
+              "epq"
+            ],
+            "decision_outcome_if_not_met": "not_eligible"
+          },
+          {
+            "requirement_id": "home_contextual_a_level",
+            "applies_to_group_ids": [
+              "contextual"
+            ],
+            "offer_grade_profile": [
+              "A",
+              "A",
+              "A"
+            ],
+            "predicted_minimum_profile": [
+              "A",
+              "A",
+              "B"
+            ],
+            "grade_profile": [
+              "A",
+              "A",
+              "B"
+            ],
+            "required_subject_ids": [
+              "chemistry"
+            ],
+            "second_science_any_of_subject_ids": [
+              "biology",
+              "physics",
+              "mathematics"
+            ],
+            "one_of_subject_groups": [
+              {
+                "group_id": "home_contextual_second_science",
+                "minimum_required": 1,
+                "subject_ids": [
+                  "biology",
+                  "physics",
+                  "mathematics"
+                ]
+              }
+            ],
+            "excluded_subject_ids": [
+              "general_studies",
+              "critical_thinking",
+              "epq"
+            ],
+            "decision_outcome_if_not_met": "not_eligible"
+          },
+          {
+            "requirement_id": "international_a_level",
+            "applies_to_group_ids": [
+              "international_fee",
+              "school_leaver"
+            ],
+            "excluded_group_ids": [
+              "graduate_applicant"
+            ],
+            "offer_grade_profile": [
+              "A*",
+              "A",
+              "A"
+            ],
+            "predicted_minimum_profile": [
+              "A*",
+              "A",
+              "A"
+            ],
+            "grade_profile": [
+              "A*",
+              "A",
+              "A"
+            ],
+            "required_subject_ids": [
+              "chemistry"
+            ],
+            "second_science_any_of_subject_ids": [
+              "biology",
+              "physics",
+              "mathematics"
+            ],
+            "one_of_subject_groups": [
+              {
+                "group_id": "international_second_science",
+                "minimum_required": 1,
+                "subject_ids": [
+                  "biology",
+                  "physics",
+                  "mathematics"
+                ]
+              }
+            ],
+            "excluded_subject_ids": [
+              "general_studies",
+              "critical_thinking",
+              "epq"
+            ],
+            "decision_outcome_if_not_met": "not_eligible"
+          }
+        ],
+        "excluded_subject_ids": [
+          "general_studies"
+        ],
+        "additional_excluded_subjects": [
+          "Critical Thinking",
+          "EPQ as the third A-level"
+        ],
+        "subject_combination_rules": [
+          "Further Mathematics is not counted in addition to Mathematics."
+        ],
+        "non_double_count_subject_groups": [
+          [
+            "mathematics",
+            "further_mathematics"
+          ]
+        ],
+        "first_sitting_required": true,
+        "source_ids": [
+          "birmingham_entry_requirements_medicine_five_year"
+        ]
+      },
+      "ib": {
+        "status": "official_source_verified",
+        "minimum_total_points": 32,
+        "higher_level_grade_profile": [
+          7,
+          6,
+          6
+        ],
+        "required_hl_subject_ids": [
+          "chemistry"
+        ],
+        "second_hl_science_any_of_subject_ids": [
+          "biology",
+          "physics",
+          "mathematics"
+        ],
+        "conditional_standard_level_requirements": [
+          {
+            "subject_id": "english_language",
+            "required_if_not_taken_at_hl": true
+          },
+          {
+            "subject_id": "biology",
+            "required_if_not_taken_at_hl": true
+          },
+          {
+            "subject_id": "mathematics",
+            "required_if_not_taken_at_hl": true
+          }
+        ],
+        "first_sitting_required": true,
+        "decision_outcome_if_not_met": "not_eligible",
+        "execution_status": "automatic_with_complete_hl_and_sl_subject_data",
+        "contextual_route_implemented": true,
+        "grade_requirements": [
+          {
+            "requirement_id": "birmingham_ib",
+            "total_points": 32,
+            "hl_grade_profile": [
+              "7",
+              "6",
+              "6"
+            ],
+            "required_hl_subject_ids": [
+              "chemistry"
+            ],
+            "one_of_hl_subject_groups": [
+              {
+                "group_id": "birmingham_ib_second_hl_science",
+                "minimum_required": 1,
+                "subject_ids": [
+                  "biology",
+                  "physics",
+                  "mathematics"
+                ]
+              }
+            ],
+            "decision_outcome_if_not_met": "not_eligible"
+          }
+        ],
+        "source_ids": [
+          "birmingham_entry_requirements_medicine_five_year"
+        ]
+      },
+      "scottish": {
+        "status": "official_source_verified",
+        "route_implemented": true,
+        "higher_requirements": {
+          "subject_count": 5,
+          "grade_profile": [
+            "A",
+            "A",
+            "A",
+            "A",
+            "A"
+          ],
+          "required_subject_ids": [
+            "chemistry",
+            "mathematics",
+            "english_language"
+          ],
+          "additional_science_any_of_subject_ids": [
+            "biology",
+            "physics"
+          ]
+        },
+        "advanced_higher_requirements": {
+          "subject_count": 2,
+          "grade_profile": [
+            "A",
+            "A"
+          ],
+          "required_subject_ids": [
+            "chemistry"
+          ]
+        },
+        "decision_outcome_if_not_met": "not_eligible",
+        "execution_status": "automatic_with_complete_higher_and_advanced_higher_data",
+        "grade_requirements": [
+          {
+            "requirement_id": "birmingham_scottish_highers_and_advanced_highers",
+            "qualification_level": "scottish_highers_and_advanced_highers",
+            "higher_grade_profile": [
+              "A",
+              "A",
+              "A",
+              "A",
+              "A"
+            ],
+            "advanced_higher_grade_profile": [
+              "A",
+              "A"
+            ],
+            "higher_required_subject_ids": [
+              "chemistry",
+              "mathematics",
+              "english_language"
+            ],
+            "higher_one_of_subject_groups": [
+              {
+                "group_id": "birmingham_higher_additional_science",
+                "minimum_required": 1,
+                "subject_ids": [
+                  "biology",
+                  "physics"
+                ]
+              }
+            ],
+            "advanced_higher_required_subject_ids": [
+              "chemistry"
+            ],
+            "decision_outcome_if_not_met": "not_eligible"
+          }
+        ],
+        "source_ids": [
+          "birmingham_entry_requirements_medicine_five_year"
+        ]
+      },
+      "irish": {
+        "status": "official_source_verified",
+        "leaving_certificate": {
+          "minimum_subject_count": 4,
+          "minimum_grade": "H1",
+          "required_subject_ids": [
+            "chemistry"
+          ],
+          "second_science_any_of_subject_ids": [
+            "biology",
+            "physics",
+            "mathematics"
+          ]
+        },
+        "junior_cycle_or_gcse_equivalent": {
+          "minimum_subject_count": 6,
+          "minimum_grade": "Distinction",
+          "required_subject_ids": [
+            "biology",
+            "chemistry",
+            "english_language",
+            "mathematics"
+          ]
+        },
+        "decision_outcome_if_not_met": "not_eligible",
+        "execution_status": "automatic_with_complete_leaving_certificate_and_junior_cycle_data",
+        "source_ids": [
+          "birmingham_entry_requirements_medicine_five_year"
+        ]
+      },
+      "graduate": {
+        "status": "official_source_verified_with_waivers_manual_review",
+        "applies_to_group_ids": [
+          "graduate_applicant"
+        ],
+        "route": "A100",
+        "degree_requirement": {
+          "achieved_or_predicted": true,
+          "accepted_classifications": [
+            "First",
+            "2:1"
+          ],
+          "subject_scope": "Any subject from a recognised institution",
+          "maximum_age_at_course_start_years": 5
+        },
+        "gcse_requirement": "Normally A/B in Science, English and Mathematics.",
+        "a_level_requirement": {
+          "normal_grade_profile": [
+            "A",
+            "B",
+            "B"
+          ],
+          "required_subject_ids": [
+            "chemistry"
+          ],
+          "second_science_any_of_subject_ids": [
+            "biology",
+            "physics",
+            "mathematics"
+          ]
+        },
+        "waiver_rules": [
+          {
+            "waiver_id": "graduate_gcse_degree_content_waiver",
+            "condition": "GCSE requirements may be waived where degree content supports it.",
+            "execution_status": "manual_review",
+            "decision_outcome": "unknown"
+          },
+          {
+            "waiver_id": "graduate_a_level_biomedical_content_waiver",
+            "condition": "A-level requirements may be waived where biomedical science content is more than 50% of the degree.",
+            "execution_status": "manual_review",
+            "decision_outcome": "unknown"
+          }
+        ],
+        "academic_scoring_after_threshold": false,
+        "decision_outcome_if_not_met_without_approved_waiver": "not_eligible",
+        "source_ids": [
+          "birmingham_entry_requirements_medicine_five_year",
+          "birmingham_selection_for_interview"
+        ]
+      },
+      "international": {
+        "status": "official_source_verified_for_listed_rules",
+        "applies_to_group_ids": [
+          "international_fee"
+        ],
+        "academic_standard": "Equivalent to A*AA including Chemistry and a second science from Biology, Physics or Mathematics.",
+        "academic_assessment": "pass_fail_threshold",
+        "listed_accepted_routes": [
+          "A-level route represented in this profile",
+          "International Baccalaureate route represented in this profile",
+          "Scottish route represented in this profile",
+          "Irish route represented in this profile"
+        ],
+        "country_specific_or_mixed_qualification_policy": "manual_review_unless_explicitly_represented",
+        "source_ids": [
+          "birmingham_entry_requirements_medicine_five_year",
+          "birmingham_selection_for_interview"
+        ]
+      },
+      "blocked_routes": [
+        {
+          "route_id": "access_to_he",
+          "status": "blocked",
+          "decision_outcome": "not_eligible",
+          "reason": "Birmingham does not consider Access courses for standard A100 entry."
+        },
+        {
+          "route_id": "btec",
+          "status": "blocked",
+          "decision_outcome": "not_eligible",
+          "reason": "Birmingham does not consider BTEC for standard A100 entry."
+        },
+        {
+          "route_id": "foundation_programmes",
+          "status": "blocked",
+          "decision_outcome": "not_eligible",
+          "reason": "Birmingham does not consider Foundation programmes for standard A100 entry."
+        }
+      ],
+      "source_ids": [
+        "birmingham_entry_requirements_medicine_five_year"
+      ],
+      "notes": "No unlisted qualification route may be inferred from similarity to a supported route."
+    },
+    "admissions_tests": {
+      "status": "official_source_verified",
+      "test": "UCAT",
+      "required": true,
+      "required_for_group_ids": [
+        "home_fee",
+        "international_fee",
+        "contextual",
+        "widening_participation",
+        "graduate_applicant",
+        "school_leaver"
+      ],
+      "minimum_total_score": null,
+      "minimum_subsections": [],
+      "validity_window": "UCAT must be taken in the year of application.",
+      "exemptions": [
+        {
+          "exception": "A UCAT access arrangement that UCAT cannot accommodate may be considered only after Birmingham gives formal approval.",
+          "execution_status": "manual_review"
+        }
+      ],
+      "cognitive_total": {
+        "subtests": [
+          "Verbal Reasoning",
+          "Decision Making",
+          "Quantitative Reasoning"
+        ],
+        "maximum": 2700
+      },
+      "current_cycle_decile_boundaries": {
+        "available": false,
+        "status": "unavailable_current_cycle_dependent",
+        "decision_outcome_without_verified_boundaries": "unknown",
+        "notes": "Do not derive or invent current raw-score decile boundaries."
+      },
+      "ucat": {
+        "status": "official_source_verified",
+        "required": true,
+        "required_for_group_ids": [
+          "home_fee",
+          "international_fee",
+          "contextual",
+          "widening_participation",
+          "graduate_applicant",
+          "school_leaver"
+        ],
+        "minimum_total_score": null,
+        "maximum_total_score": 2700,
+        "minimum_subsections": [],
+        "validity_window": "UCAT must be taken in the year of application.",
+        "current_cycle_decile_boundaries": {
+          "available": false,
+          "status": "unavailable_current_cycle_dependent",
+          "decision_outcome_without_verified_boundaries": "unknown"
+        },
+        "source_ids": [
+          "birmingham_entry_requirements_medicine_five_year",
+          "birmingham_selection_for_interview"
+        ]
+      },
+      "sjt": {
+        "used_as_eligibility_gate": false,
+        "used_for_interview_selection": false,
+        "accepted_bands": [
+          1,
+          2,
+          3,
+          4
+        ],
+        "band_4_automatic_rejection": false,
+        "band_4_policy": "accepted_pre_interview",
+        "notes": "SJT is ignored for eligibility and interview selection. Its separately evidenced post-interview use is recorded only under offer_selection."
+      },
+      "source_ids": [
+        "birmingham_entry_requirements_medicine_five_year",
+        "birmingham_selection_for_interview"
+      ]
+    },
+    "resits": {
+      "status": "official_source_verified_exception_not_executable",
+      "policy": "not_accepted_unless_official_exception",
+      "conditions": "GCSE, A-level and equivalent resits are not considered unless Birmingham approves an official extenuating-circumstances exception.",
+      "maximum_resits": 0,
+      "covid_calculated_grade_first_sitting_counts_as_resit": false,
+      "extenuating_circumstances_exception": {
+        "status": "manual_review",
+        "decision_outcome": "unknown",
+        "reason": "The deterministic approval criteria are not published."
+      },
+      "source_ids": [
+        "birmingham_entry_requirements_medicine_five_year"
+      ]
+    },
+    "english_language": {
+      "status": "official_source_verified_for_listed_tests",
+      "required_for_group_ids": [
+        "international_fee"
+      ],
+      "accepted_tests": [
+        {
+          "test": "IELTS",
+          "minimum_overall": 7,
+          "minimum_each_component": 7
+        },
+        {
+          "test": "TOEFL",
+          "minimum_overall": 95,
+          "minimum_each_component": 23
+        },
+        {
+          "test": "PTE",
+          "minimum_each_of_four_skills": 67
+        },
+        {
+          "test": "Cambridge English",
+          "minimum_overall": 185,
+          "minimum_each_component": 185
+        }
+      ],
+      "exemptions": [],
+      "unlisted_test_policy": "manual_review",
+      "source_ids": [
+        "birmingham_entry_requirements_medicine_five_year"
+      ]
+    },
+    "age_or_professional_checks": {
+      "status": "manual_review_not_in_research_scope",
+      "minimum_age": null,
+      "fitness_to_practise_required": null,
+      "dbs_required": null,
+      "occupational_health_required": null,
+      "decision_outcome": "unknown",
+      "source_ids": [],
+      "notes": "No values are inferred because the Phase 2 evidence package did not establish these fields."
+    },
+    "unsupported_international_qualifications": [
+      {
+        "qualification": "Iran Pre-University Certificate / Kuncur",
+        "status": "blocked",
+        "decision_outcome": "not_eligible"
+      },
+      {
+        "qualification": "Kuwait Al Thanawaya",
+        "status": "blocked",
+        "decision_outcome": "not_eligible"
+      },
+      {
+        "qualification": "Pakistan Higher Secondary Certificate",
+        "status": "blocked",
+        "decision_outcome": "not_eligible"
+      },
+      {
+        "qualification": "Saudi Thanawiyan",
+        "status": "blocked",
+        "decision_outcome": "not_eligible"
+      }
+    ]
+  },
+  "stage_2_interview_selection": {
+    "verification_status": "official_pre_interview_formula_verified",
+    "source_ids": [
+      "birmingham_selection_for_interview",
+      "birmingham_entry_requirements_medicine_five_year",
+      "birmingham_ukwpmed"
+    ],
+    "primary_model": "academic_plus_ucat_weighting",
+    "modifiers": [
+      "contextual_adjustment",
+      "widening_participation_scheme",
+      "guaranteed_interview",
+      "sjt_exclusion",
+      "separate_applicant_pool"
+    ],
+    "ranking_factors": [
+      {
+        "factor_id": "gcse",
+        "applies_to_pool_ids": [
+          "home_standard",
+          "home_contextual_scored"
+        ],
+        "role": "scored",
+        "weight_percent": 45,
+        "points_available": 4.5,
+        "source_ids": [
+          "birmingham_selection_for_interview"
+        ]
+      },
+      {
+        "factor_id": "ucat_cognitive_decile",
+        "applies_to_pool_ids": [
+          "home_standard",
+          "home_contextual_scored"
+        ],
+        "role": "scored",
+        "weight_percent": 40,
+        "points_available": 4,
+        "source_ids": [
+          "birmingham_selection_for_interview"
+        ]
+      },
+      {
+        "factor_id": "contextual_polar4",
+        "applies_to_pool_ids": [
+          "home_contextual_scored"
+        ],
+        "role": "scored",
+        "weight_percent": 15,
+        "points_available": 1.5,
+        "source_ids": [
+          "birmingham_selection_for_interview"
+        ]
+      },
+      {
+        "factor_id": "ucat_cognitive_total",
+        "applies_to_pool_ids": [
+          "graduate_a100",
+          "international"
+        ],
+        "role": "ranking",
+        "weight_percent": null,
+        "points_available": null,
+        "source_ids": [
+          "birmingham_selection_for_interview"
+        ]
+      },
+      {
+        "factor_id": "international_non_academic_review",
+        "applies_to_pool_ids": [
+          "international"
+        ],
+        "role": "manual_review",
+        "weight_percent": null,
+        "points_available": null,
+        "source_ids": [
+          "birmingham_selection_for_interview"
+        ]
+      }
+    ],
+    "calculation": {
+      "verification_status": "official_pre_interview_formula_verified",
+      "source_ids": [
+        "birmingham_selection_for_interview"
+      ],
+      "score_components": [
+        {
+          "component_id": "gcse_component",
+          "factor_id": "gcse",
+          "input_field": "gcse_raw_points",
+          "calculation_method": "gcse_raw_points \u00d7 (4.5 / 24)",
+          "scale": {
+            "minimum": 0,
+            "maximum": 4.5
+          },
+          "weight_percent": 45,
+          "rounding": "No official intermediate rounding rule is published; retain full precision.",
+          "notes": "Raw maximum is 24 from five named subjects and two free-choice subjects.",
+          "source_ids": [
+            "birmingham_selection_for_interview"
+          ]
+        },
+        {
+          "component_id": "ucat_component",
+          "factor_id": "ucat_cognitive_decile",
+          "input_field": "stage_1_eligibility.admissions_tests.ucat.total_score",
+          "calculation_method": "Derive the UCAT decile through the shared lookup, preferring a university-specific table and otherwise using the global UCAT decile dataset, then map it to Birmingham's published 0-4 points table.",
+          "scale": {
+            "minimum": 0,
+            "maximum": 4
+          },
+          "weight_percent": 40,
+          "rounding": "Use the published mapped value.",
+          "decile_points": {
+            "1": 0,
+            "2": 0.44,
+            "3": 0.89,
+            "4": 1.33,
+            "5": 1.78,
+            "6": 2.22,
+            "7": 2.67,
+            "8": 3.11,
+            "9": 3.56,
+            "10": 4
+          },
+          "current_raw_score_boundaries": null,
+          "execution_status": "shared_ucat_decile_lookup",
+          "notes": "The applicant supplies only their UCAT total. Decile lookup is internal and is not displayed on the result card.",
+          "source_ids": [
+            "birmingham_selection_for_interview"
+          ]
+        },
+        {
+          "component_id": "contextual_component",
+          "factor_id": "contextual_polar4",
+          "input_field": "verified_polar4_quintile",
+          "calculation_method": "Apply the POLAR4 points table only to an applicant whose contextual eligibility is verified.",
+          "scale": {
+            "minimum": 0,
+            "maximum": 1.5
+          },
+          "weight_percent": 15,
+          "rounding": "No rounding required.",
+          "points_by_quintile": {
+            "Q1": 1.5,
+            "Q2": 1.5,
+            "Q3": 1.2,
+            "Q4": 0.9,
+            "Q5": 0.6
+          },
+          "notes": "Do not infer contextual eligibility or postcode quintile.",
+          "source_ids": [
+            "birmingham_selection_for_interview",
+            "birmingham_entry_requirements_medicine_five_year"
+          ]
+        }
+      ],
+      "total_score": {
+        "calculation_method": "gcse_component + ucat_component + contextual_component",
+        "components": [
+          "gcse_component",
+          "ucat_component",
+          "contextual_component"
+        ],
+        "scale": {
+          "minimum": 0,
+          "maximum": 10
+        },
+        "notes": "This formula applies to Home standard/contextual scoring only. No current hard cut-off is defined.",
+        "source_ids": [
+          "birmingham_selection_for_interview"
+        ]
+      },
+      "notes": "Home scoring is deterministic after eligibility and contextual status are resolved and the shared engine can derive a UCAT decile from the applicant's raw score."
+    },
+    "thresholds": [
+      {
+        "threshold_id": "home_current_application_score_threshold",
+        "value": null,
+        "status": "current_cycle_not_known_in_advance",
+        "historical_values_are_executable": false,
+        "decision_outcome": "unknown",
+        "source_ids": [
+          "birmingham_selection_for_interview",
+          "birmingham_admissions_statistics_september_2025"
+        ]
+      },
+      {
+        "threshold_id": "home_minimum_ucat_cutoff",
+        "value": null,
+        "status": "no_minimum_cutoff",
+        "decision_outcome": "eligible",
+        "source_ids": [
+          "birmingham_selection_for_interview"
+        ]
+      }
+    ],
+    "selection_adjustments": [
+      {
+        "adjustment_id": "home_contextual_scored",
+        "modifier_id": "contextual_adjustment",
+        "applies_to_group_ids": [
+          "contextual"
+        ],
+        "rule": "Add the POLAR4 contextual component after contextual eligibility is verified. Do not reduce GCSE eligibility minimums.",
+        "source_ids": [
+          "birmingham_entry_requirements_medicine_five_year",
+          "birmingham_selection_for_interview"
+        ]
+      },
+      {
+        "adjustment_id": "ukwpmed_guaranteed_interview",
+        "modifier_id": "guaranteed_interview",
+        "applies_to_group_ids": [
+          "widening_participation"
+        ],
+        "rule": "Return guaranteed interview only when successful completion of a recognised programme, UCAS declaration and every Birmingham Appendix 1 threshold are verified.",
+        "decision_outcome_if_not_met": "not_eligible",
+        "source_ids": [
+          "birmingham_ukwpmed"
+        ]
+      },
+      {
+        "adjustment_id": "graduate_ucat_only",
+        "modifier_id": "separate_applicant_pool",
+        "applies_to_group_ids": [
+          "graduate_applicant"
+        ],
+        "rule": "After the graduate academic threshold is met, rank by UCAT cognitive total only. Do not score academic results and do not use GAMSAT.",
+        "source_ids": [
+          "birmingham_entry_requirements_medicine_five_year",
+          "birmingham_selection_for_interview"
+        ]
+      },
+      {
+        "adjustment_id": "international_ucat_ranking",
+        "modifier_id": "separate_applicant_pool",
+        "applies_to_group_ids": [
+          "international_fee"
+        ],
+        "rule": "After the international academic threshold is met, rank by UCAT cognitive total and complete the official non-academic personal-statement review manually.",
+        "source_ids": [
+          "birmingham_selection_for_interview"
+        ]
+      }
+    ],
+    "tie_breakers": [],
+    "output_band_policy": "No interview probability band is enabled in Phase 3. Eligibility, exact Home component scores and UKWPMED guaranteed-interview status may be returned only when all required applicant inputs and lookup evidence are present.",
+    "notes": "SJT is excluded from eligibility and interview selection, including Band 4. Historical score minima are guidance only and must never be executed as current cut-offs."
+  },
+  "contextual_admissions": {
+    "verification_status": "official_source_verified",
+    "source_ids": [
+      "birmingham_entry_requirements_medicine_five_year",
+      "birmingham_selection_for_interview",
+      "birmingham_ukwpmed"
+    ],
+    "available": true,
+    "applies_to_group_ids": [
+      "contextual",
+      "widening_participation",
+      "care_experienced"
+    ],
+    "criteria": [
+      {
+        "criterion_id": "free_school_meals",
+        "criterion": "Received Free School Meals during secondary education.",
+        "route": "home_contextual_scored"
+      },
+      {
+        "criterion_id": "local_authority_care",
+        "criterion": "Spent time in local authority care.",
+        "route": "home_contextual_scored"
+      }
+    ],
+    "adjustments": [
+      {
+        "adjustment_id": "polar4_contextual_points",
+        "route": "home_contextual_scored",
+        "maximum_points": 1.5,
+        "points_by_quintile": {
+          "Q1": 1.5,
+          "Q2": 1.5,
+          "Q3": 1.2,
+          "Q4": 0.9,
+          "Q5": 0.6
+        },
+        "gcse_minimum_reduced": false
+      },
+      {
+        "adjustment_id": "contextual_offer",
+        "route": "home_contextual_scored",
+        "offer": "AAA",
+        "predicted_minimum": "AAB"
+      }
+    ],
+    "guaranteed_interview_rules": [
+      {
+        "rule_id": "ukwpmed_birmingham_appendix_1",
+        "route": "ukwpmed_guaranteed_interview",
+        "separate_from_contextual_scored_route": true,
+        "recognised_programmes": [
+          "Routes to the Professions: Medicine \u2014 Birmingham",
+          "BrightMed \u2014 Brighton & Sussex",
+          "Pathways to Medicine \u2014 Hull York",
+          "Steps2Medicine \u2014 Keele",
+          "Manchester Access Programme / Preston Widening Access Programme \u2014 Manchester",
+          "Peninsula Pathways \u2014 Plymouth"
+        ],
+        "completion_required": true,
+        "ucas_extra_activities_declaration_required": true,
+        "appendix_1": {
+          "minimum_gcse_count": 7,
+          "minimum_gcse_grade": "4",
+          "named_subject_grade_profile": {
+            "subjects": [
+              "English Language",
+              "Mathematics",
+              "Chemistry",
+              "Biology or Double Award Science"
+            ],
+            "grades_in_any_order": [
+              "7",
+              "7",
+              "5",
+              "5"
+            ]
+          },
+          "ucat_must_be_taken": true,
+          "ucat_threshold_required": false,
+          "predicted_a_level_profile": [
+            "B",
+            "B",
+            "B"
+          ],
+          "required_a_level_subject_ids": [
+            "biology",
+            "chemistry"
+          ],
+          "human_biology_accepted_in_place_of_biology": true
+        },
+        "decision_outcome_when_all_met": "eligible",
+        "interview_outcome_when_all_met": "guaranteed_interview",
+        "decision_outcome_if_threshold_not_met": "not_eligible",
+        "unknown_or_undeclared_status": "manual_review",
+        "reduced_offer": "ABB",
+        "reduced_offer_cycle_warning": "Subject to annual change.",
+        "source_ids": [
+          "birmingham_ukwpmed"
+        ]
+      }
+    ],
+    "notes": "Do not infer contextual or UKWPMED status. UKWPMED is a separate guaranteed-interview pathway, not the scored contextual route."
+  },
+  "ranking_pools": [
+    {
+      "pool_id": "home_standard_and_contextual_scored",
+      "name": "Home standard and contextual scored selection",
+      "applies_to_group_ids": [
+        "home_fee",
+        "contextual",
+        "school_leaver"
+      ],
+      "fee_statuses": [
+        "home"
+      ],
+      "ranking_model": "academic_plus_ucat_weighting",
+      "ranking_factors": [
+        "GCSE score up to 4.5",
+        "UCAT national-decile score up to 4",
+        "Contextual POLAR4 score up to 1.5 where eligible"
+      ],
+      "places_available": null,
+      "source_ids": [
+        "birmingham_selection_for_interview"
+      ],
+      "notes": "No current-cycle application-score threshold is known in advance. Contextual applicants use the same GCSE minimums."
+    },
+    {
+      "pool_id": "ukwpmed_guaranteed_interview",
+      "name": "UKWPMED guaranteed-interview pathway",
+      "applies_to_group_ids": [
+        "widening_participation"
+      ],
+      "fee_statuses": [
+        "home"
+      ],
+      "ranking_model": "direct_interview_if_minimum_met",
+      "ranking_factors": [
+        "Verified programme completion",
+        "Verified UCAS declaration",
+        "Birmingham Appendix 1 academic and UCAT-taking thresholds"
+      ],
+      "places_available": null,
+      "source_ids": [
+        "birmingham_ukwpmed"
+      ],
+      "notes": "No UCAT threshold applies. Failure to meet Birmingham Appendix 1 means the applicant is not eligible for this WP route."
+    },
+    {
+      "pool_id": "graduate_a100",
+      "name": "Graduate A100 selection",
+      "applies_to_group_ids": [
+        "graduate_applicant"
+      ],
+      "fee_statuses": [
+        "home",
+        "international"
+      ],
+      "ranking_model": "ucat_ranking",
+      "ranking_factors": [
+        "UCAT cognitive total after graduate academic threshold"
+      ],
+      "places_available": null,
+      "source_ids": [
+        "birmingham_entry_requirements_medicine_five_year",
+        "birmingham_selection_for_interview"
+      ],
+      "notes": "GAMSAT is not used. Degree-content waiver cases require manual review."
+    },
+    {
+      "pool_id": "international",
+      "name": "International selection",
+      "applies_to_group_ids": [
+        "international_fee"
+      ],
+      "fee_statuses": [
+        "international"
+      ],
+      "ranking_model": "ucat_ranking",
+      "ranking_factors": [
+        "Pass/fail academic threshold",
+        "UCAT cognitive total ranking",
+        "Manual personal-statement non-academic review"
+      ],
+      "places_available": null,
+      "source_ids": [
+        "birmingham_selection_for_interview"
+      ],
+      "notes": "No GCSE/application-score formula applies. Unlisted or mixed qualifications require manual review."
+    }
+  ],
+  "quotas": [
+    {
+      "quota_id": "birmingham_a100_places_2027_entry_verified",
+      "name": "Verified Home/International places (2027 entry)",
+      "home_places": 380,
+      "international_places": 28,
+      "quota_type": "verified_current_places",
+      "source_ids": [
+        "applysmart_admissions_team_verified_2026"
+      ],
+      "notes": "Home/International place figures verified by the ApplySmart admissions research team for 2027 entry."
+    },
+    {
+      "quota_id": "historical_2025_places",
+      "home_places": 380,
+      "international_places": 28,
+      "current_cycle_executable": false,
+      "source_ids": [
+        "birmingham_admissions_statistics_september_2025"
+      ],
+      "notes": "Official 2025-entry historical places only. Do not assume these are the 2027 quota."
+    }
+  ],
+  "offer_selection": {
+    "verification_status": "official_source_verified_with_remaining_unpublished_offer_fields",
+    "source_ids": [
+      "birmingham_medicine_interviews",
+      "birmingham_entry_requirements_medicine_five_year",
+      "birmingham_ukwpmed"
+    ],
+    "interview_format": {
+      "type": "MMI",
+      "home": {
+        "delivery": "In person at Birmingham Medical School",
+        "station_count": "6 or 7",
+        "minutes_per_station": 8,
+        "preparation_minutes_included": 2
+      },
+      "international": {
+        "delivery": "Online via Zoom",
+        "minimum_mmi_stations": 2,
+        "role_play_included": true,
+        "separate_online_calculation_assessment": true
+      },
+      "source_ids": [
+        "birmingham_medicine_interviews"
+      ]
+    },
+    "interview_scoring": {
+      "status": "partially_published_not_deterministic",
+      "independent_scorers_per_station": 2,
+      "mmi_and_sjt_components_equally_weighted": true,
+      "sjt_post_interview_points": {
+        "Band 1": "maximum",
+        "Band 2": "two_thirds_of_maximum",
+        "Band 3": "one_third_of_maximum",
+        "Band 4": "zero"
+      },
+      "minimum_station_standard": {
+        "status": "official_not_published",
+        "calculation_station_excluded": true,
+        "numeric_value": null
+      },
+      "source_ids": [
+        "birmingham_medicine_interviews"
+      ],
+      "notes": "This post-interview use of SJT does not make Band 4 an eligibility or interview-selection rejection."
+    },
+    "offer_model": {
+      "prediction_enabled": false,
+      "status": "official_not_published",
+      "deterministic_formula_available": false,
+      "known_methodology_only": "Offers use interview performance and the SJT component. Academic information is reconsidered only if needed for applicants tied on interview score.",
+      "decision_outcome": "unknown"
+    },
+    "ranking_factors": [
+      "MMI station performance",
+      "Post-interview SJT component"
+    ],
+    "tie_breakers": [
+      {
+        "factor": "Academic information",
+        "use": "Only where applicants are tied on interview score and reconsideration is necessary.",
+        "numeric_rule_published": false
+      }
+    ],
+    "waiting_list_policy": {
+      "status": "official_not_published",
+      "prediction_enabled": false
+    },
+    "standard_offer": {
+      "a_level": "A*AA",
+      "required_subjects": "Chemistry and a second science from Biology, Physics or Mathematics."
+    },
+    "contextual_offer": {
+      "home_contextual_scored": "AAA",
+      "ukwpmed": "ABB",
+      "ukwpmed_warning": "Subject to annual change."
+    },
+    "notes": "Offer prediction is disabled. No unpublished station threshold, aggregate formula, tie-break value or waiting-list rule may be inferred."
+  },
+  "historical_admissions": {
+    "verification_status": "official_verified_guidance_thresholds_only",
+    "source_ids": [
+      "birmingham_admissions_statistics_september_2025"
+    ],
+    "cycles": [
+      {
+        "admissions_cycle": "2024-25",
+        "entry_year": 2025,
+        "classification": "historical_guidance",
+        "executable_as_current_cutoff": false,
+        "score_scale_conversion": {
+          "legacy_ucat_maximum": 3600,
+          "current_ucat_maximum": 2700,
+          "formula": "converted_score = legacy_score \u00d7 0.75"
+        },
+        "interview_guidance": {
+          "home_standard": {
+            "minimum_application_score": 7.236,
+            "minimum_ucat_legacy": 2680,
+            "minimum_ucat_converted": 2010,
+            "median_ucat_legacy": 2940,
+            "median_ucat_converted": 2205,
+            "mean_ucat_legacy": 2958.8,
+            "mean_ucat_converted": 2219,
+            "maximum_ucat_legacy": 3460,
+            "maximum_ucat_converted": 2595,
+            "mean_gcse_score": 4.355
+          },
+          "home_contextual": {
+            "minimum_application_score": 8.561,
+            "minimum_ucat_legacy": 2430,
+            "minimum_ucat_converted": 1820,
+            "median_ucat_legacy": 2780,
+            "median_ucat_converted": 2085,
+            "mean_ucat_legacy": 2804.3,
+            "mean_ucat_converted": 2103,
+            "maximum_ucat_legacy": 3400,
+            "maximum_ucat_converted": 2550,
+            "mean_gcse_score": 4.179
+          },
+          "international": {
+            "minimum_ucat_legacy": 2920,
+            "minimum_ucat_converted": 2190,
+            "median_ucat_legacy": 3080,
+            "median_ucat_converted": 2310,
+            "mean_ucat_legacy": 3097.1,
+            "mean_ucat_converted": 2323,
+            "maximum_ucat_legacy": 3410,
+            "maximum_ucat_converted": 2558
+          }
+        },
+        "admissions_volume": {
+          "home": {
+            "applications": 1503,
+            "interviews": 1061,
+            "offers": 845,
+            "enrolled": 385
+          },
+          "standard": {
+            "applications": 596,
+            "interviews": 395,
+            "offers": 322,
+            "enrolled": 143
+          },
+          "graduate": {
+            "applications": 127,
+            "interviews": 28,
+            "offers": 24,
+            "enrolled": 14
+          },
+          "contextual": {
+            "applications": 596,
+            "interviews": 395,
+            "offers": 322,
+            "enrolled": 143
+          },
+          "widening_participation": {
+            "applications": 245,
+            "interviews": 238,
+            "offers": 184,
+            "enrolled": 101
+          },
+          "international": {
+            "applications": 438,
+            "interviews": 117,
+            "offers": 79,
+            "enrolled": 16
+          }
+        },
+        "source_ids": [
+          "birmingham_admissions_statistics_september_2025"
+        ],
+        "notes": "All figures are historical context only. Converted UCAT values are guidance and not official current-cycle cut-offs."
+      }
+    ],
+    "notes": "Historical admissions statistics and converted UCAT values must never be used as hard eligibility or interview-selection thresholds."
+  },
+  "sources": [
+    {
+      "source_id": "birmingham_entry_requirements_medicine_five_year",
+      "title": "Entry Requirements - Medicine and Surgery (five-year)",
+      "url": "https://www.birmingham.ac.uk/about/college-of-medicine-and-health/birmingham-medical-school/applying-to-medicine/entry-requirements-medicine-and-surgery-five-year",
+      "source_type": "official_entry_requirements",
+      "published_date": null,
+      "accessed_date": "2026-07-01",
+      "applies_to_sections": [
+        "course",
+        "stage_1_eligibility",
+        "contextual_admissions",
+        "offer_selection"
+      ],
+      "confidence": "High",
+      "notes": "Official Birmingham Medicine entry requirements page; current rules are used for 2026/2027 entry where available."
+    },
+    {
+      "source_id": "birmingham_selection_for_interview",
+      "title": "Selection for interview and Application Scoring - Medicine and Surgery",
+      "url": "https://www.birmingham.ac.uk/about/college-of-medicine-and-health/birmingham-medical-school/applying-to-medicine/selection-for-interview",
+      "source_type": "official_selection_policy",
+      "published_date": null,
+      "accessed_date": "2026-07-01",
+      "applies_to_sections": [
+        "stage_1_eligibility",
+        "stage_2_interview_selection",
+        "ranking_pools",
+        "contextual_admissions"
+      ],
+      "confidence": "High",
+      "notes": "Official source for GCSE scoring, UCAT decile points, contextual scoring and route-specific interview selection."
+    },
+    {
+      "source_id": "birmingham_medicine_interviews",
+      "title": "Medicine Interviews",
+      "url": "https://www.birmingham.ac.uk/about/college-of-medicine-and-health/birmingham-medical-school/applying-to-medicine/medicine-interviews",
+      "source_type": "official_interview_policy",
+      "published_date": null,
+      "accessed_date": "2026-07-01",
+      "applies_to_sections": [
+        "offer_selection"
+      ],
+      "confidence": "High",
+      "notes": "Interview delivery and post-interview methodology are labelled for 2026 entry. Deterministic offer thresholds are not published."
+    },
+    {
+      "source_id": "birmingham_admissions_statistics_september_2025",
+      "title": "MBChB Admissions Cycle: 2024-25",
+      "url": "https://www.birmingham.ac.uk/documents/college-mds/medical-school/mbchb-admissions-statistics-sept-2025.pdf",
+      "source_type": "official_admissions_statistics_pdf",
+      "published_date": "2025-09",
+      "accessed_date": "2026-07-01",
+      "applies_to_sections": [
+        "quotas",
+        "historical_admissions"
+      ],
+      "confidence": "High",
+      "evidence_classification": "official_statistics_historical_guidance",
+      "notes": "Official 2025-entry statistics. Historical values are non-executable guidance."
+    },
+    {
+      "source_id": "birmingham_ukwpmed",
+      "title": "UKWPMED (UK Widening Participation in Medicine)",
+      "url": "https://www.birmingham.ac.uk/about/college-of-medicine-and-health/outreach-and-widening-participation/ukwpmed",
+      "source_type": "official_widening_participation_pathway",
+      "published_date": null,
+      "accessed_date": "2026-07-01",
+      "applies_to_sections": [
+        "stage_1_eligibility",
+        "stage_2_interview_selection",
+        "contextual_admissions",
+        "ranking_pools",
+        "offer_selection"
+      ],
+      "confidence": "High",
+      "notes": "Official UKWPMED route for 2026 entry or deferred entry in 2027."
+    }
+  ],
+  "validation": {
+    "source_status": "official_source_verified_with_remaining_unpublished_offer_fields",
+    "last_verified": "2026-07-01",
+    "confidence_level": "High for published eligibility and pre-interview formula; limited for current-cycle ranking and offers",
+    "completion_status": "Activated for eligibility, medium-confidence historical interview guidance and result cards; offer prediction remains disabled.",
+    "known_unknowns": [
+      "Official current-cycle UCAT raw-score decile boundaries.",
+      "Current-cycle Home application-score interview threshold.",
+      "Deterministic offer aggregation and numeric station minimum.",
+      "Graduate GCSE and A-level waiver assessment method.",
+      "Extenuating-circumstances resit exception assessment.",
+      "Complete accepted international qualification catalogue.",
+      "International non-academic review rubric.",
+      "Age and professional-check details not established in the Phase 2 package."
+    ],
+    "review_notes": "Access, BTEC, Foundation and four named unsupported international qualifications are blocked. Unlisted international qualifications, graduate waiver cases, resit exceptions and documented gap contextual/UKWPMED evidence require manual review. SJT Band 4 is not rejected before interview."
+  },
+  "engine_notes": {
+    "eligibility": true,
+    "interview_prediction": true,
+    "historical_guidance": true,
+    "international_prediction": true,
+    "contextual_logic": true,
+    "result_card": true,
+    "regression": true,
+    "research_completeness": "complete_for_supported_scope_with_documented_gaps",
+    "manual_review_required": true,
+    "eligibility_ready": true,
+    "interview_prediction_ready": true,
+    "prediction_confidence": "medium",
+    "result_card_ready": true,
+    "offer_prediction_scope": "out_of_scope",
+    "interview_band_config_ready": true,
+    "metadata_activation_ready": true,
+    "activation_ready": true,
+    "production_ready": true,
+    "blocking_missing_fields": [],
+    "non_blocking_warnings": [
+      "Official current-cycle national UCAT decile boundaries for converting raw Home UCAT totals.",
+      "International non-academic review cannot be automated from the published evidence.",
+      "Deterministic offer formula and station-level minimum are official_not_published.",
+      "Known unknown retained as non-blocking for activation-ready production scope: Official current-cycle UCAT raw-score decile boundaries.",
+      "Known unknown retained as non-blocking for activation-ready production scope: Current-cycle Home application-score interview threshold.",
+      "Known unknown retained as non-blocking for activation-ready production scope: Deterministic offer aggregation and numeric station minimum.",
+      "Known unknown retained as non-blocking for activation-ready production scope: Graduate GCSE and A-level waiver assessment method.",
+      "Known unknown retained as non-blocking for activation-ready production scope: Extenuating-circumstances resit exception assessment.",
+      "Known unknown retained as non-blocking for activation-ready production scope: Complete accepted international qualification catalogue.",
+      "Known unknown retained as non-blocking for activation-ready production scope: International non-academic review rubric.",
+      "Known unknown retained as non-blocking for activation-ready production scope: Age and professional-check details not established in the Phase 2 package."
+    ],
+    "engine_assumptions": [
+      "No historical threshold is used as a current decision rule.",
+      "Only the explicitly represented qualification routes are automatically evaluated.",
+      "UCAT decile is derived internally from the raw score through the shared university-specific-then-global lookup path."
+    ],
+    "do_not_infer": [
+      "Do not reject SJT Band 4 at eligibility or interview-selection stage.",
+      "Do not use SJT for eligibility or interview selection.",
+      "Do not convert historical UCAT statistics into current hard cut-offs.",
+      "Do not invent current-cycle national UCAT decile boundaries.",
+      "Do not infer a graduate academic waiver from degree title or free text.",
+      "Do not approve an extenuating-circumstances resit exception automatically.",
+      "Do not accept unlisted or mixed international qualifications automatically.",
+      "Do not merge UKWPMED with the Home contextual scored route."
+    ]
+  }
+}

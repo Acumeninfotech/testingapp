@@ -1,0 +1,737 @@
+{
+  "schema_version": "1.0.0",
+  "course_profile_id": "plymouth-a100",
+  "confidence": "low",
+  "evidence": {
+    "classification": "official_academic_gate_with_applysmart_historical_normalised_ucat_guidance",
+    "summary": "Plymouth BMBS A100 uses academic and route requirements as eligibility gates, then UCAT ranking guidance by applicant pool. ApplySmart uses Plymouth official 2023-2025 historical /3600 UCAT thresholds, normalised to /2700 and calibrated by the pool-specific median, to produce clearly labelled predictive guidance bands. These are ApplySmart-derived estimates, not official Plymouth thresholds, current cutoffs or guarantees.",
+    "source_ids": [
+      "plymouth_research_doc"
+    ]
+  },
+  "eligibility": {
+    "scope": "Automatic handling is restricted to supported UCAT-route A-level, IB and Scottish Advanced Higher applicants with complete GCSE, UCAT and English-language evidence where required. GAMSAT and graduate/internal transfer routes remain manual review or insufficient-evidence scope.",
+    "international_english_language_required": true,
+    "qualification_routes": {
+      "supported": [
+        "a_level",
+        "international_baccalaureate",
+        "scottish"
+      ],
+      "manual_review": [
+        "graduate",
+        "international_qualification"
+      ],
+      "explicitly_blocked": [
+        "access_to_medicine",
+        "access_to_he",
+        "foundation",
+        "unknown"
+      ]
+    },
+    "gcse": {
+      "minimum_count": 7,
+      "use_exact_subject_list": false,
+      "required_subjects": [
+        {
+          "subject_id": "english_language",
+          "minimum_grade": "4/C"
+        },
+        {
+          "subject_id": "mathematics",
+          "minimum_grade": "4/C"
+        }
+      ]
+    },
+    "a_level": {
+      "routes": [
+        {
+          "route_id": "plymouth_standard_a_star_aa",
+          "excluded_group_ids": [
+            "contextual",
+            "widening_participation",
+            "graduate_applicant"
+          ],
+          "grade_profile": [
+            "A*",
+            "A",
+            "A"
+          ],
+          "required_subject_ids": [
+            "biology"
+          ],
+          "one_of_subject_groups": [
+            {
+              "group_id": "second_science",
+              "minimum_required": 1,
+              "subject_ids": [
+                "chemistry",
+                "physics",
+                "mathematics",
+                "psychology"
+              ]
+            }
+          ],
+          "excluded_subject_ids": [
+            "general_studies"
+          ]
+        },
+        {
+          "route_id": "plymouth_contextual_aab",
+          "applies_to_group_ids": [
+            "home_fee",
+            "contextual"
+          ],
+          "excluded_group_ids": [
+            "international_fee",
+            "graduate_applicant"
+          ],
+          "grade_profile": [
+            "A",
+            "A",
+            "B"
+          ],
+          "required_subject_ids": [
+            "biology"
+          ],
+          "one_of_subject_groups": [
+            {
+              "group_id": "second_science",
+              "minimum_required": 1,
+              "subject_ids": [
+                "chemistry",
+                "physics",
+                "mathematics",
+                "psychology"
+              ]
+            }
+          ],
+          "excluded_subject_ids": [
+            "general_studies"
+          ]
+        },
+        {
+          "route_id": "plymouth_ukwpmed_abb",
+          "applies_to_group_ids": [
+            "home_fee",
+            "widening_participation"
+          ],
+          "excluded_group_ids": [
+            "international_fee",
+            "graduate_applicant"
+          ],
+          "grade_profile": [
+            "A",
+            "B",
+            "B"
+          ],
+          "required_subject_ids": [
+            "biology"
+          ],
+          "one_of_subject_groups": [
+            {
+              "group_id": "second_science",
+              "minimum_required": 1,
+              "subject_ids": [
+                "chemistry",
+                "physics",
+                "mathematics",
+                "psychology"
+              ]
+            }
+          ],
+          "excluded_subject_ids": [
+            "general_studies"
+          ]
+        }
+      ],
+      "science_practical_endorsement": {
+        "required": true,
+        "subject_ids": [
+          "biology",
+          "chemistry",
+          "physics"
+        ],
+        "accepted_values": [
+          "pass",
+          "passed"
+        ]
+      }
+    },
+    "international_baccalaureate": {
+      "routes": [
+        {
+          "route_id": "plymouth_ib_36_hl6_biology_second_science",
+          "excluded_group_ids": [
+            "contextual",
+            "widening_participation"
+          ],
+          "total_points": 36,
+          "hl_grade_profile": [
+            "6",
+            "6"
+          ],
+          "required_hl_subject_ids": [
+            "biology"
+          ],
+          "required_hl_subject_grade_options": [
+            {
+              "grade_requirements": [
+                {
+                  "subject_id": "biology",
+                  "minimum_grade": "6"
+                },
+                {
+                  "subject_id": "chemistry",
+                  "minimum_grade": "6"
+                }
+              ]
+            },
+            {
+              "grade_requirements": [
+                {
+                  "subject_id": "biology",
+                  "minimum_grade": "6"
+                },
+                {
+                  "subject_id": "physics",
+                  "minimum_grade": "6"
+                }
+              ]
+            },
+            {
+              "grade_requirements": [
+                {
+                  "subject_id": "biology",
+                  "minimum_grade": "6"
+                },
+                {
+                  "subject_id": "mathematics",
+                  "minimum_grade": "6"
+                }
+              ]
+            },
+            {
+              "grade_requirements": [
+                {
+                  "subject_id": "biology",
+                  "minimum_grade": "6"
+                },
+                {
+                  "subject_id": "psychology",
+                  "minimum_grade": "6"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    "scottish": {
+      "national_5": {
+        "minimum_count": 0,
+        "required_subject_ids": [
+          "english_language",
+          "mathematics"
+        ]
+      },
+      "post_16_routes": [
+        {
+          "route_id": "plymouth_advanced_higher_aaa",
+          "grade_profile": [
+            "A",
+            "A",
+            "A"
+          ],
+          "required_subject_ids": [
+            "biology"
+          ],
+          "one_of_subject_groups": [
+            {
+              "group_id": "second_advanced_higher_science",
+              "minimum_required": 1,
+              "subject_ids": [
+                "chemistry",
+                "physics",
+                "mathematics",
+                "psychology"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    "international_qualification": {
+      "unverified_outcome": "manual_review",
+      "manual_review_reason": "country_specific_international_qualification_equivalence_requires_plymouth_verification"
+    },
+    "ucat": {
+      "required_test_year": 2026,
+      "minimum_total_score": null,
+      "score_scale": 2700,
+      "required_in_application_cycle": true
+    },
+    "sjt": {
+      "used_as_gate": false,
+      "accepted_bands": [
+        1,
+        2,
+        3,
+        4
+      ],
+      "rejected_bands": []
+    },
+    "resits": {
+      "resits_accepted": true,
+      "allowed_resit_attempts": 1,
+      "applicant_form_required": false,
+      "routes": [
+        {
+          "route_id": "plymouth_resit_standard_aaa",
+          "excluded_group_ids": [
+            "contextual",
+            "widening_participation",
+            "graduate_applicant"
+          ],
+          "grade_profile": [
+            "A",
+            "A",
+            "A"
+          ]
+        },
+        {
+          "route_id": "plymouth_resit_contextual_aab",
+          "applies_to_group_ids": [
+            "home_fee",
+            "contextual"
+          ],
+          "excluded_group_ids": [
+            "international_fee",
+            "graduate_applicant"
+          ],
+          "grade_profile": [
+            "A",
+            "A",
+            "B"
+          ]
+        }
+      ]
+    },
+    "manual_review_routes": [
+      "GAMSAT applicants",
+      "Graduate applicants",
+      "Internal Biomedical Sciences or Medical Sciences transfer pathway",
+      "Country-specific international qualifications",
+      "Alternative English-language evidence not already verified"
+    ],
+    "do_not_infer": [
+      "Do not create an academic points score.",
+      "Do not use raw historical /3600 values in runtime comparison.",
+      "Do not present ApplySmart-derived /2700 values, median references or band boundaries as official Plymouth thresholds.",
+      "Do not present historical guidance as a guaranteed interview or future cutoff.",
+      "Do not automate GAMSAT ranking."
+    ]
+  },
+  "score_model": {
+    "type": "ranking_metric",
+    "basis": "Current-cycle UCAT total after academic eligibility. ApplySmart historical-normalised UCAT guidance uses official Plymouth 2023-2025 historical /3600 thresholds converted by ×0.75, a pool-specific median reference and fixed ±150 guidance bands.",
+    "metric": "ucat_total",
+    "pool_specific_output": true,
+    "scale": {
+      "min": 0,
+      "max": 2700
+    },
+    "fixed_current_cutoff": false,
+    "historical_guidance_only": true,
+    "legacy_3600_conversion_used": true,
+    "legacy_3600_values_display_only": true,
+    "converted_2700_values_display_only": false,
+    "normalised_2700_values_derived_for_prediction": true,
+    "executable": true,
+    "executable_band_rules_created": true,
+    "insufficient_evidence_output_for_eligible_applicants": false,
+    "applysmart_predictive_estimate": true,
+    "conversion_policy": {
+      "from_scale": 3600,
+      "to_scale": 2700,
+      "formula": "official_score_3600 * 3 / 4",
+      "rounding_policy": "Exact arithmetic is preserved for normalised historical values. Runtime boundaries are integers only where required for current applicant UCAT scores, with half-point cut points rounded upward to avoid assigning a stronger band below the exact mathematical boundary.",
+      "psychometric_equivalence": false,
+      "execution_rule": "Normalised historical values calibrate fixed ApplySmart guidance bands only. Raw /3600 values are source evidence and never runtime comparison values."
+    },
+    "calibration_policy": {
+      "method": "median_of_three_pool_specific_normalised_historical_thresholds",
+      "methodology_label": "ApplySmart historical-normalised UCAT guidance",
+      "evidence_status": "derived_for_prediction",
+      "official_status": "not_official_plymouth_threshold",
+      "historical_cycles_used": [
+        2023,
+        2024,
+        2025
+      ],
+      "margin_points": 150,
+      "margin_model": {
+        "interview_likely": "score >= reference + 150",
+        "realistic": "score >= reference and < reference + 150",
+        "ambitious": "score >= reference - 150 and < reference",
+        "high_risk": "score < reference - 150"
+      },
+      "pool_references": {
+        "home_a100": {
+          "official_scores_3600": [
+            2680,
+            2210,
+            2600
+          ],
+          "normalised_scores_2700": [
+            2010,
+            1657.5,
+            1950
+          ],
+          "sorted_normalised_scores_2700": [
+            1657.5,
+            1950,
+            2010
+          ],
+          "median_reference_2700": 1950,
+          "exact_reference_preserved": true,
+          "runtime_boundaries": {
+            "likely": 2100,
+            "realisticMin": 1950,
+            "realisticMax": 2099,
+            "ambitiousMin": 1800,
+            "ambitiousMax": 1949,
+            "highRiskBelow": 1800
+          },
+          "confidence": "medium"
+        },
+        "international_a100": {
+          "official_scores_3600": [
+            2440,
+            2600,
+            2670
+          ],
+          "normalised_scores_2700": [
+            1830,
+            1950,
+            2002.5
+          ],
+          "sorted_normalised_scores_2700": [
+            1830,
+            1950,
+            2002.5
+          ],
+          "median_reference_2700": 1950,
+          "exact_reference_preserved": true,
+          "runtime_boundaries": {
+            "likely": 2100,
+            "realisticMin": 1950,
+            "realisticMax": 2099,
+            "ambitiousMin": 1800,
+            "ambitiousMax": 1949,
+            "highRiskBelow": 1800
+          },
+          "confidence": "medium"
+        },
+        "ukwpmed_widening_access_a100": {
+          "official_scores_3600": [
+            2330,
+            2210,
+            2540
+          ],
+          "normalised_scores_2700": [
+            1747.5,
+            1657.5,
+            1905
+          ],
+          "sorted_normalised_scores_2700": [
+            1657.5,
+            1747.5,
+            1905
+          ],
+          "median_reference_2700": 1747.5,
+          "exact_reference_preserved": true,
+          "runtime_boundaries": {
+            "likely": 1898,
+            "realisticMin": 1748,
+            "realisticMax": 1897,
+            "ambitiousMin": 1598,
+            "ambitiousMax": 1747,
+            "highRiskBelow": 1598
+          },
+          "confidence": "low"
+        }
+      }
+    },
+    "historical_series": [
+      {
+        "group_id": "home_a100",
+        "official_scores_3600": [
+          2680,
+          2210,
+          2600
+        ],
+        "converted_scores_2700": [
+          2010,
+          1657.5,
+          1950
+        ],
+        "sorted_converted_scores_2700": [
+          1657.5,
+          1950,
+          2010
+        ],
+        "median_reference_2700": 1950,
+        "evidence_classification": "derived_for_prediction",
+        "display_only": false,
+        "applysmart_derived": true,
+        "official": false,
+        "usable_for_guidance_band_calibration": true,
+        "runtime_boundaries": {
+          "likely": 2100,
+          "realisticMin": 1950,
+          "realisticMax": 2099,
+          "ambitiousMin": 1800,
+          "ambitiousMax": 1949,
+          "highRiskBelow": 1800
+        },
+        "notes": "Home reference is the median of 1657.5, 1950, 2010 on the normalised /2700 scale."
+      },
+      {
+        "group_id": "international_a100",
+        "official_scores_3600": [
+          2440,
+          2600,
+          2670
+        ],
+        "converted_scores_2700": [
+          1830,
+          1950,
+          2002.5
+        ],
+        "sorted_converted_scores_2700": [
+          1830,
+          1950,
+          2002.5
+        ],
+        "median_reference_2700": 1950,
+        "evidence_classification": "derived_for_prediction",
+        "display_only": false,
+        "applysmart_derived": true,
+        "official": false,
+        "usable_for_guidance_band_calibration": true,
+        "runtime_boundaries": {
+          "likely": 2100,
+          "realisticMin": 1950,
+          "realisticMax": 2099,
+          "ambitiousMin": 1800,
+          "ambitiousMax": 1949,
+          "highRiskBelow": 1800
+        },
+        "notes": "International reference is the median of 1830, 1950, 2002.5 on the normalised /2700 scale."
+      },
+      {
+        "group_id": "ukwpmed_widening_access_a100",
+        "official_scores_3600": [
+          2330,
+          2210,
+          2540
+        ],
+        "converted_scores_2700": [
+          1747.5,
+          1657.5,
+          1905
+        ],
+        "sorted_converted_scores_2700": [
+          1657.5,
+          1747.5,
+          1905
+        ],
+        "median_reference_2700": 1747.5,
+        "evidence_classification": "derived_for_prediction",
+        "display_only": false,
+        "applysmart_derived": true,
+        "official": false,
+        "usable_for_guidance_band_calibration": true,
+        "runtime_boundaries": {
+          "likely": 1898,
+          "realisticMin": 1748,
+          "realisticMax": 1897,
+          "ambitiousMin": 1598,
+          "ambitiousMax": 1747,
+          "highRiskBelow": 1598
+        },
+        "notes": "UKWPMED/Widening Access reference is the median of 1657.5, 1747.5, 1905 on the normalised /2700 scale."
+      }
+    ],
+    "presentation": {
+      "pool_label": "Home, International and UKWPMED/Widening Access applicants have separate Plymouth historical-normalised UCAT guidance pools.",
+      "selection_summary": "Plymouth checks academic eligibility first, then ApplySmart compares the applicant UCAT with a pool-specific historical-normalised median guidance band. The bands are ApplySmart estimates, not official Plymouth cutoffs.",
+      "timeline_selection_summary": "Academic eligibility was checked before applying Plymouth pool-specific ApplySmart historical-normalised UCAT guidance.",
+      "evidence_used": [
+        "Official Plymouth academic eligibility rules",
+        "FOI historical UCAT threshold rows for 2023, 2024 and 2025",
+        "ApplySmart historical-normalised UCAT guidance methodology",
+        "Pool-specific median calibration and fixed ±150 guidance bands"
+      ]
+    }
+  },
+  "guidance_pools": [
+    {
+      "pool_id": "international_a100",
+      "priority": 30,
+      "applicant_match": {
+        "all_group_ids": [
+          "international_fee"
+        ]
+      },
+      "metric": "ucat_total",
+      "pool_specific_output": true,
+      "comparison_guidance": {
+        "comparison_type": "historical_range",
+        "label": "ApplySmart historical-normalised International UCAT guidance",
+        "caveat": "ApplySmart historical-normalised International guidance uses the median of Plymouth 2023-2025 official historical thresholds after transparent /3600 to /2700 conversion. It is not an official current Plymouth cutoff.",
+        "evidence_confidence": "medium"
+      },
+      "band_rules": [
+        {
+          "band": "interview_likely",
+          "operator": "greater_than_or_equal",
+          "value": 2100
+        },
+        {
+          "band": "realistic",
+          "operator": "between_inclusive",
+          "min": 1950,
+          "max": 2099
+        },
+        {
+          "band": "ambitious",
+          "operator": "between_inclusive",
+          "min": 1800,
+          "max": 1949
+        },
+        {
+          "band": "high_risk",
+          "operator": "less_than",
+          "value": 1800
+        }
+      ],
+      "official_candidate_decile_guidance": {
+        "min": 2440,
+        "max": 2670,
+        "cycle": "2023-2025 entry",
+        "executable": false,
+        "reason": "Official International historical thresholds remain raw /3600 source evidence. Runtime uses fixed ApplySmart-derived /2700 guidance boundaries from the median calibration."
+      }
+    },
+    {
+      "pool_id": "ukwpmed_widening_access_a100",
+      "priority": 25,
+      "applicant_match": {
+        "all_group_ids": [
+          "home_fee"
+        ],
+        "any_group_ids": [
+          "widening_participation",
+          "contextual"
+        ],
+        "excluded_group_ids": [
+          "international_fee"
+        ]
+      },
+      "metric": "ucat_total",
+      "pool_specific_output": true,
+      "comparison_guidance": {
+        "comparison_type": "historical_range",
+        "label": "ApplySmart historical-normalised UKWPMED/Widening Access UCAT guidance",
+        "caveat": "ApplySmart historical-normalised UKWPMED/Widening Access guidance uses the median of Plymouth 2023-2025 official historical thresholds. Runtime boundaries are rounded upward from the exact cut points so no applicant is placed in a stronger band below the exact mathematical boundary.",
+        "evidence_confidence": "low"
+      },
+      "band_rules": [
+        {
+          "band": "interview_likely",
+          "operator": "greater_than_or_equal",
+          "value": 1898
+        },
+        {
+          "band": "realistic",
+          "operator": "between_inclusive",
+          "min": 1748,
+          "max": 1897
+        },
+        {
+          "band": "ambitious",
+          "operator": "between_inclusive",
+          "min": 1598,
+          "max": 1747
+        },
+        {
+          "band": "high_risk",
+          "operator": "less_than",
+          "value": 1598
+        }
+      ],
+      "official_candidate_decile_guidance": {
+        "min": 2210,
+        "max": 2540,
+        "cycle": "2023-2025 entry",
+        "executable": false,
+        "reason": "Official UKWPMED/Widening Access historical thresholds remain raw /3600 source evidence. Runtime uses fixed ApplySmart-derived /2700 guidance boundaries from the median calibration."
+      }
+    },
+    {
+      "pool_id": "home_a100",
+      "priority": 20,
+      "applicant_match": {
+        "all_group_ids": [
+          "home_fee"
+        ],
+        "excluded_group_ids": [
+          "international_fee",
+          "contextual",
+          "widening_participation"
+        ]
+      },
+      "metric": "ucat_total",
+      "pool_specific_output": true,
+      "comparison_guidance": {
+        "comparison_type": "historical_range",
+        "label": "ApplySmart historical-normalised Home UCAT guidance",
+        "caveat": "ApplySmart historical-normalised Home guidance uses the median of Plymouth 2023-2025 official historical thresholds after transparent /3600 to /2700 conversion. It is not an official current Plymouth cutoff.",
+        "evidence_confidence": "medium"
+      },
+      "band_rules": [
+        {
+          "band": "interview_likely",
+          "operator": "greater_than_or_equal",
+          "value": 2100
+        },
+        {
+          "band": "realistic",
+          "operator": "between_inclusive",
+          "min": 1950,
+          "max": 2099
+        },
+        {
+          "band": "ambitious",
+          "operator": "between_inclusive",
+          "min": 1800,
+          "max": 1949
+        },
+        {
+          "band": "high_risk",
+          "operator": "less_than",
+          "value": 1800
+        }
+      ],
+      "official_candidate_decile_guidance": {
+        "min": 2210,
+        "max": 2680,
+        "cycle": "2023-2025 entry",
+        "executable": false,
+        "reason": "Official Home historical thresholds remain raw /3600 source evidence. Runtime uses fixed ApplySmart-derived /2700 guidance boundaries from the median calibration."
+      }
+    }
+  ]
+}

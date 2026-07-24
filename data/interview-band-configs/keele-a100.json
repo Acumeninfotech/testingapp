@@ -1,0 +1,317 @@
+{
+  "schema_version": "1.0.0",
+  "course_profile_id": "keele-a100",
+  "confidence": "low",
+  "evidence": {
+    "classification": "official_policy_with_supported_scope_limitations",
+    "summary": "Keele A100 has official GCSE, UCAT/SJT and shortlisting rules. ApplySmart enforces the separate Home and International UCAT minima through the generic applicant-group mechanism. Home /25 guidance remains limited because Keele's personal-statement score is not an available component.",
+    "source_ids": [
+      "keele_medicine_entry_requirements",
+      "keele_medicine_how_to_apply",
+      "keele_alternative_offers"
+    ]
+  },
+  "eligibility": {
+    "scope": "Automatic classification is restricted to supported A-level/IB GCSE gates, applicant-group-specific UCAT hard floors, SJT Band 1-3 and verified guaranteed-interview programme evidence. Home /25 score guidance remains withheld where Keele's personal-statement score is not available.",
+    "international_english_language_required": true,
+    "qualification_routes": {
+      "supported": [
+        "a_level",
+        "international_baccalaureate"
+      ],
+      "explicitly_blocked": [
+        "graduate",
+        "scottish",
+        "international_qualification",
+        "access_to_medicine",
+        "access_to_he",
+        "foundation",
+        "unknown"
+      ]
+    },
+    "gcse": {
+      "minimum_count": 5,
+      "use_exact_subject_list": true
+    },
+    "a_level": {
+      "science_practical_endorsement": {
+        "required": true,
+        "subject_ids": [
+          "biology",
+          "human_biology",
+          "chemistry",
+          "physics"
+        ],
+        "accepted_values": [
+          "pass",
+          "passed"
+        ]
+      },
+      "routes": [
+        {
+          "route_id": "keele_a_level_astar_aa_supported_subject_subset",
+          "applies_to_group_ids": [
+            "school_leaver"
+          ],
+          "excluded_group_ids": [
+            "graduate_applicant"
+          ],
+          "grade_profile": [
+            "A*",
+            "A",
+            "A"
+          ],
+          "one_of_subject_groups": [
+            {
+              "group_id": "biology_or_chemistry_primary",
+              "minimum_required": 1,
+              "subject_ids": [
+                "biology",
+                "chemistry"
+              ]
+            },
+            {
+              "group_id": "two_supported_subjects",
+              "minimum_required": 2,
+              "subject_ids": [
+                "biology",
+                "chemistry",
+                "mathematics",
+                "further_mathematics",
+                "physics",
+                "psychology"
+              ]
+            }
+          ],
+          "excluded_subject_ids": [
+            "general_studies"
+          ]
+        }
+      ]
+    },
+    "international_baccalaureate": {
+      "routes": [
+        {
+          "route_id": "keele_ib_37_766_biology_primary",
+          "total_points": 37,
+          "hl_grade_profile": [
+            "7",
+            "6",
+            "6"
+          ],
+          "required_hl_subject_ids": [
+            "biology"
+          ],
+          "required_hl_subject_grade_options": [
+            {
+              "grade_requirements": [
+                {
+                  "subject_id": "biology",
+                  "minimum_grade": "6"
+                },
+                {
+                  "subject_id": "chemistry",
+                  "minimum_grade": "6"
+                }
+              ]
+            },
+            {
+              "grade_requirements": [
+                {
+                  "subject_id": "biology",
+                  "minimum_grade": "6"
+                },
+                {
+                  "subject_id": "mathematics",
+                  "minimum_grade": "6"
+                }
+              ]
+            },
+            {
+              "grade_requirements": [
+                {
+                  "subject_id": "biology",
+                  "minimum_grade": "6"
+                },
+                {
+                  "subject_id": "physics",
+                  "minimum_grade": "6"
+                }
+              ]
+            },
+            {
+              "grade_requirements": [
+                {
+                  "subject_id": "biology",
+                  "minimum_grade": "6"
+                },
+                {
+                  "subject_id": "psychology",
+                  "minimum_grade": "6"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "route_id": "keele_ib_37_766_chemistry_primary",
+          "total_points": 37,
+          "hl_grade_profile": [
+            "7",
+            "6",
+            "6"
+          ],
+          "required_hl_subject_ids": [
+            "chemistry"
+          ],
+          "required_hl_subject_grade_options": [
+            {
+              "grade_requirements": [
+                {
+                  "subject_id": "chemistry",
+                  "minimum_grade": "6"
+                },
+                {
+                  "subject_id": "biology",
+                  "minimum_grade": "6"
+                }
+              ]
+            },
+            {
+              "grade_requirements": [
+                {
+                  "subject_id": "chemistry",
+                  "minimum_grade": "6"
+                },
+                {
+                  "subject_id": "mathematics",
+                  "minimum_grade": "6"
+                }
+              ]
+            },
+            {
+              "grade_requirements": [
+                {
+                  "subject_id": "chemistry",
+                  "minimum_grade": "6"
+                },
+                {
+                  "subject_id": "physics",
+                  "minimum_grade": "6"
+                }
+              ]
+            },
+            {
+              "grade_requirements": [
+                {
+                  "subject_id": "chemistry",
+                  "minimum_grade": "6"
+                },
+                {
+                  "subject_id": "psychology",
+                  "minimum_grade": "6"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    "ucat": {
+      "minimum_total_score": 1700,
+      "score_scale": 2700,
+      "group_minimum_total_scores": [
+        {
+          "applies_to_group_ids": [
+            "home_fee"
+          ],
+          "minimum_total_score": 1700
+        },
+        {
+          "applies_to_group_ids": [
+            "international_fee"
+          ],
+          "minimum_total_score": 1950
+        }
+      ]
+    },
+    "sjt": {
+      "used_as_gate": true,
+      "accepted_bands": [
+        1,
+        2,
+        3
+      ],
+      "rejected_bands": [
+        4
+      ]
+    },
+    "map_override": {
+      "outcome": "guaranteed_interview",
+      "interview_outcome": "guaranteed_interview",
+      "apply_ucat_guidance_band": false,
+      "applicant_evidence_path": "widening_participation_programme",
+      "required_evidence": {
+        "programme": "steps2medicine_or_ukwpmed",
+        "verified": true,
+        "home_fee_status": true
+      },
+      "applicant_facing_explanation": "The applicant qualifies under Keele's verified published guaranteed-interview policy. All mandatory academic, admissions-test and programme-specific conditions must still be satisfied. This applies to interview invitation only, not an offer."
+    },
+    "manual_review_routes": [
+      "Home /25 score where Keele personal-statement score is not supplied by Keele",
+      "A-level Economics as accepted second subject because Engine v1.0 has no canonical Economics subject identifier",
+      "Scottish Higher plus Advanced Higher route",
+      "Graduate A100 route",
+      "EPQ alternative offer",
+      "A-level completion timing/resit cases",
+      "Unlisted international qualifications"
+    ],
+    "do_not_infer": [
+      "Do not rank Home applicants by UCAT total alone.",
+      "Do not apply a lower contextual UCAT threshold.",
+      "Do not mix A104 rules with A100.",
+      "Do not convert the 15/25 Home guidance into an offer prediction."
+    ]
+  },
+  "score_model": {
+    "type": "ranking_metric",
+    "basis": "International applicants are ranked by UCAT total; Home applicants require Keele's /25 score and therefore receive insufficient-evidence output from the generic classifier unless a future engine component supports that score.",
+    "metric": "ucat_total",
+    "scale": {
+      "min": 0,
+      "max": 2700
+    },
+    "fixed_current_cutoff": false,
+    "historical_guidance_only": true,
+    "pool_specific_output": true,
+    "supported_scope_limitation": "Home selection_score /25 is documented but not automatically executable where Keele's personal-statement score is unavailable."
+  },
+  "guidance_pools": [
+    {
+      "pool_id": "international_ucat_ranked_guidance",
+      "priority": 30,
+      "applicant_match": {
+        "all_group_ids": [
+          "international_fee"
+        ],
+        "excluded_group_ids": [
+          "graduate_applicant"
+        ]
+      },
+      "metric": "ucat_total",
+      "band_rules": [
+        {
+          "band": "realistic",
+          "operator": "greater_than_or_equal",
+          "value": 1950
+        },
+        {
+          "band": "high_risk",
+          "operator": "less_than",
+          "value": 1950
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,871 @@
+{
+  "schema_version": "1.0.0",
+  "profile_id": "aberdeen-a100-research",
+  "course_profile_id": "aberdeen-a100",
+  "research_status": "research_team_academic_model_and_foi_ucat_ready",
+  "file_purpose": "Research and evidence profile for University of Aberdeen A100. This file does not replace the production admissions rules.",
+  "official_rules_source": "data/universities/aberdeen-a100.json",
+  "created_at": null,
+  "last_updated": "2026-07-02",
+  "research_scope": null,
+  "evidence_classification_policy": null,
+  "metadata": null,
+  "readiness": {
+    "eligibility": true,
+    "interview_prediction": true,
+    "historical_guidance": true,
+    "international_prediction": true,
+    "contextual_logic": false,
+    "result_card": true,
+    "regression": true,
+    "research_completeness": "complete_for_supported_scope_with_documented_gaps",
+    "manual_review_required": true,
+    "eligibility_ready": true,
+    "interview_prediction_ready": true,
+    "prediction_confidence": "medium",
+    "result_card_ready": true,
+    "offer_prediction_scope": "out_of_scope",
+    "eligibility_ready_status": "mostly_true",
+    "official_selection_formula_available": false,
+    "historical_guidance_available": true,
+    "historical_prediction_status": "historical_context_model_available",
+    "research_foi_pre_interview_score_ready": true,
+    "summary": "Aberdeen can support eligibility guidance, a useful result card, historical admissions context and a research/FOI pre-interview score. It cannot yet support full official formula prediction or",
+    "labels": [
+      "Eligibility guidance available",
+      "Historical admissions context available",
+      "Research/FOI pre-interview score available",
+      "FOI-verified UCAT conversion available",
+      "Historical UCAT comparison available",
+      "Official formula prediction unavailable"
+    ],
+    "source_ids": [
+      "abdn_uk_requirements",
+      "abdn_ucat",
+      "abdn_widening_access",
+      "abdn_admissions_data",
+      "abdn_foi_ucat_conversion",
+      "abdn_official_2025_sjt_policy",
+      "abdn_verified_international_admissions_evidence"
+    ]
+  },
+  "official_formula_status": {
+    "status": "partially_known",
+    "status_values": [
+      "available",
+      "unavailable",
+      "partially_known"
+    ],
+    "academic_calculation_known": false,
+    "ucat_calculation_known": true,
+    "sjt_calculation_known": true,
+    "interview_calculation_known": false,
+    "official_formula_prediction_available": false,
+    "known_components": [
+      {
+        "component_id": "published_weighting_summary",
+        "description": "Official course data records academic weighting at 30%, UCAT weighting at 20%, and interview weighting at 50% for offer selection."
+      },
+      {
+        "component_id": "foi_verified_ucat_conversion",
+        "description": "FOI-verified Aberdeen UCAT decile mapping, raw points conversion and weighted UCAT formula are available for the UCAT component."
+      },
+      {
+        "component_id": "research_team_academic_scoring",
+        "description": "Research-team academic scoring models are available for A-level, Scottish, IB and partially for graduate applicants. These are not official-source or FOI verified."
+      },
+      {
+        "component_id": "official_2025_sjt_policy",
+        "description": "The existing official 2025 SJT policy remains unchanged for Home applicants: SJT Band 4 is accepted and SJT is not used in scoring."
+      },
+      {
+        "component_id": "verified_international_selection",
+        "description": "International applicants use a separate ranking pool with 30% academic weighting, 20% UCAT cognitive weighting, a maximum shortlist score of 50, SJT Bands 1–3 accepted and SJT Band 4 automatically rejected."
+      }
+    ],
+    "unknown_components": [
+      "FOI or official source verification for the raw academic score table",
+      "Exact interview scoring formula",
+      "Tie-breaker rules",
+      "Validated historical competitiveness bands by cycle and applicant group"
+    ],
+    "explanation": "Aberdeen A100 remains unavailable for full official formula prediction. The UCAT decile mapping, raw points conversion and weighted UCAT formula are FOI verified. The existing Home SJT policy remains unchanged, while verified international evidence makes Band 4 an automatic interview rejection for international applicants. Research-team academic models are stored for prediction research, but academic scoring is not official-source or FOI verified. Interview calculation, offer ranking and wider tie-breakers remain incomplete.",
+    "source_ids": [
+      "abdn_admissions_data",
+      "abdn_foi_ucat_conversion",
+      "abdn_official_2025_sjt_policy",
+      "abdn_verified_international_admissions_evidence"
+    ],
+    "notes": "Historical, FOI or team research data must not be treated as the official Aberdeen scoring formula unless the source is stored and verified."
+  },
+  "official_formula_prediction": {
+    "available": false,
+    "source_status": "partially_foi_verified",
+    "reason": "The UCAT component is FOI verified and the SJT non-scoring policy is official-source verified, but the full official prediction formula remains unavailable because academic scoring, interview calculation, offer ranking and tie-breakers are not fully official-source or FOI verified.",
+    "required_before_available": [
+      "Attach official or FOI source for raw academic points table.",
+      "Attach official or FOI source for interview scoring and offer ranking."
+    ],
+    "source_ids": [
+      "abdn_foi_ucat_conversion"
+    ]
+  },
+  "international_selection_evidence": {
+    "applicant_group_ids": [
+      "international_fee"
+    ],
+    "ranking_pool": "separate",
+    "academic_weight_percent": 30,
+    "ucat_weight_percent": 20,
+    "maximum_shortlist_score": 50,
+    "ucat_score_input": "cognitive_total_only",
+    "sjt": {
+      "accepted_bands": [
+        1,
+        2,
+        3
+      ],
+      "band_4_outcome": "not_eligible_for_interview"
+    },
+    "historical_ucat_2700": {
+      "lowest_invited_range": {
+        "min": 1790,
+        "max": 1980
+      },
+      "average_invited_range": {
+        "min": 2025,
+        "max": 2100
+      },
+      "minimum_competitive": 1800,
+      "good_chance_range": {
+        "min": 1950,
+        "max": 2050
+      },
+      "highly_competitive_minimum": 2100,
+      "strong_target_minimum": 2140
+    },
+    "cohort": {
+      "places": 19,
+      "interview_invitations_range": {
+        "min": 60,
+        "max": 70
+      },
+      "offers_range": {
+        "min": 19,
+        "max": 22
+      },
+      "post_interview_offer_rate_percent_range": {
+        "min": 70,
+        "max": 72
+      }
+    },
+    "source_ids": [
+      "abdn_verified_international_admissions_evidence"
+    ]
+  },
+  "research_calculation_model": {
+    "model_id": "aberdeen_pre_interview_research_calculation_v0",
+    "source_status": "mixed_research_team_model_and_foi_verified",
+    "official_or_foi_verified": false,
+    "prediction_scope": "pre_interview_score_only",
+    "academic": {
+      "evidence_classification": "research_team_model",
+      "weighted_academic_score_formula": "(raw_academic_points / raw_max) * 30",
+      "routes": {
+        "a_level_standard_entry": {
+          "status": "available",
+          "evidence_classification": "research_team_model",
+          "raw_max": 81,
+          "grade_points": [
+            {
+              "grade": "A*",
+              "points": 27
+            },
+            {
+              "grade": "A",
+              "points": 25
+            },
+            {
+              "grade": "B",
+              "points": 20
+            }
+          ],
+          "formula": "(raw_academic_points / 81) * 30",
+          "examples": [
+            {
+              "grade_profile": [
+                "A*",
+                "A",
+                "A"
+              ],
+              "raw_academic_points": 77,
+              "weighted_academic_score": 28.52,
+              "score_max": 30
+            },
+            {
+              "grade_profile": [
+                "A",
+                "A",
+                "B"
+              ],
+              "applicant_context": "contextual",
+              "raw_academic_points": 70,
+              "weighted_academic_score": 25.93,
+              "score_max": 30
+            }
+          ],
+          "notes": "For standard A-level applicants, AAA is the usual minimum eligibility threshold before ranking. AAB is stored for contextual scoring where applicable."
+        },
+        "scottish": {
+          "status": "available",
+          "evidence_classification": "research_team_model",
+          "max_possible_raw_points": 78,
+          "s5_highers": {
+            "scored_subjects": "top_5_highers_only",
+            "max_points": 50,
+            "grade_points": [
+              {
+                "grade": "A",
+                "points": 10
+              },
+              {
+                "grade": "B",
+                "points": 5
+              },
+              {
+                "grade": "below_B",
+                "points": 0
+              }
+            ]
+          },
+          "s6_progression": {
+            "requirement": "at least BBB across 3 full academic S6 courses, Advanced Highers or new Highers",
+            "points_if_met": 28,
+            "points_if_below_expectation": 0
+          },
+          "formula": "((s5_higher_points + s6_progression_points) / 78) * 30",
+          "examples": [
+            {
+              "profile": "AAAAA in S5 plus BBB in S6",
+              "s5_higher_points": 50,
+              "s6_progression_points": 28,
+              "raw_academic_points": 78,
+              "weighted_academic_score": 30,
+              "score_max": 30
+            }
+          ]
+        },
+        "ib": {
+          "status": "available",
+          "evidence_classification": "research_team_model",
+          "raw_max": 81,
+          "scored_subjects": "3_hl_subjects_only",
+          "grade_points": [
+            {
+              "level": "HL",
+              "grade": 7,
+              "points": 27
+            },
+            {
+              "level": "HL",
+              "grade": 6,
+              "points": 25
+            },
+            {
+              "level": "HL",
+              "grade": 5,
+              "points": 20
+            },
+            {
+              "level": "HL",
+              "grade": "below_5",
+              "points": 0,
+              "decision_outcome": "fails_minimum_criteria"
+            }
+          ],
+          "formula": "(sum_of_3_hl_subject_points / 81) * 30",
+          "excluded_from_ranking_score": [
+            "SL subjects",
+            "TOK",
+            "EE bonus points"
+          ],
+          "notes": "Minimum IB overall requirement still applies separately in official eligibility rules.",
+          "examples": [
+            {
+              "hl_grade_profile": [
+                7,
+                6,
+                6
+              ],
+              "raw_academic_points": 77,
+              "weighted_academic_score": 28.52,
+              "score_max": 30
+            }
+          ]
+        },
+        "graduate": {
+          "status": "partially_known",
+          "evidence_classification": "research_team_model",
+          "raw_max": 78,
+          "formula": "((base_degree_points + postgraduate_boost) / 78) * 30",
+          "examples": [
+            {
+              "profile": "1st class honours degree",
+              "base_degree_points": 78,
+              "postgraduate_boost": 0,
+              "raw_academic_points": 78,
+              "weighted_academic_score": 30,
+              "score_max": 30
+            },
+            {
+              "profile": "2:1 honours degree plus Master's with Distinction",
+              "base_degree_points": 75,
+              "postgraduate_boost": 1,
+              "raw_academic_points": 76,
+              "weighted_academic_score": 29.23,
+              "score_max": 30
+            },
+            {
+              "profile": "2:1 honours degree only",
+              "base_degree_points": 75,
+              "postgraduate_boost": 0,
+              "raw_academic_points": 75,
+              "weighted_academic_score": 28.85,
+              "score_max": 30
+            }
+          ],
+          "missing_data": [
+            "Full graduate base degree points matrix",
+            "Full postgraduate boost matrix"
+          ]
+        }
+      },
+      "verification_status": "research_team_model",
+      "source_ids": []
+    },
+    "ucat": {
+      "raw_max": 60,
+      "mapping_method": "FOI-verified Aberdeen UCAT decile raw points conversion",
+      "evidence_classification": "foi_verified",
+      "mapping_table": [
+        {
+          "decile": 1,
+          "raw_ucat_points": 3
+        },
+        {
+          "decile": 2,
+          "raw_ucat_points": 9
+        },
+        {
+          "decile": 3,
+          "raw_ucat_points": 15
+        },
+        {
+          "decile": 4,
+          "raw_ucat_points": 21
+        },
+        {
+          "decile": 5,
+          "raw_ucat_points": 27
+        },
+        {
+          "decile": 6,
+          "raw_ucat_points": 33
+        },
+        {
+          "decile": 7,
+          "raw_ucat_points": 45,
+          "notes": "Non-linear jump from decile 6 to decile 7 retained because the supplied mapping is classified as FOI verified."
+        },
+        {
+          "decile": 8,
+          "raw_ucat_points": 48
+        },
+        {
+          "decile": 9,
+          "raw_ucat_points": 54
+        },
+        {
+          "decile": 10,
+          "raw_ucat_points": 60
+        }
+      ],
+      "raw_points_conversion_evidence": "foi_verified",
+      "example": {
+        "ucat_total": 2050,
+        "raw_ucat_score": 45,
+        "raw_ucat_max": 60
+      },
+      "scaled_score_formula": "(raw_ucat_score / 60) * 20",
+      "weighted_score_formula_evidence": "foi_verified",
+      "example_scaled_score": 15,
+      "verification_status": "foi_verified",
+      "notes": "UCAT decile mapping, raw points conversion and weighted UCAT formula are FOI verified. Decile 7 = 45 is intentionally retained as supplied and should not be auto-corrected to a linear progression.",
+      "source_ids": [
+        "abdn_foi_ucat_conversion"
+      ]
+    },
+    "sjt": {
+      "evidence_classification": "group_specific_verified_evidence",
+      "band_4_policy": "accepted",
+      "sjt_used_in_pre_interview_scoring": false,
+      "sjt_used_in_ucat_score_calculation": false,
+      "sjt_used_in_academic_score_calculation": false,
+      "sjt_used_in_pre_interview_score_out_of_50": false,
+      "sjt_points_added": 0,
+      "tie_breaker_use": null,
+      "pre_interview_points_added": false,
+      "post_interview_points_added": false,
+      "verification_status": "official_source_verified",
+      "source_ids": [
+        "abdn_official_2025_sjt_policy",
+        "abdn_verified_international_admissions_evidence"
+      ],
+      "group_policies": [
+        {
+          "applies_to_group_ids": [
+            "international_fee"
+          ],
+          "accepted_bands": [
+            1,
+            2,
+            3
+          ],
+          "excluded_bands": [
+            4
+          ],
+          "band_4_policy": "automatic_rejection",
+          "decision_outcome_if_excluded": "not_eligible_for_interview",
+          "source_ids": [
+            "abdn_verified_international_admissions_evidence"
+          ]
+        }
+      ],
+      "notes": "The existing official 2025 Band 4 acceptance policy remains unchanged for Home applicants. International applicants follow the separate verified Band 1–3 gate, with Band 4 automatically rejected."
+    },
+    "pre_interview": {
+      "formula": "academic_scaled_score + ucat_scaled_score",
+      "score_scale": {
+        "min": 0,
+        "max": 50
+      },
+      "example": {
+        "academic_scaled_score": 28.52,
+        "ucat_scaled_score": 15,
+        "final_pre_interview_score": 43.52,
+        "final_pre_interview_score_max": 50
+      },
+      "verification_status": "mixed_research_team_model_and_foi_verified",
+      "source_ids": [
+        "abdn_foi_ucat_conversion"
+      ],
+      "readiness": "ready_for_research_foi_pre_interview_score",
+      "notes": "Pre-interview scoring can now be calculated as a research/FOI model: academic scoring is research_team_model and UCAT scoring is foi_verified. This is not full official offer prediction."
+    },
+    "notes": "This model stores calculation research supplied to ApplySmart. Academic components are research_team_model and the UCAT component is foi_verified. Home SJT logic remains unchanged; international applicants use the verified Band 1–3 gate. Interview scoring and offer ranking still need separate verification before offer prediction readiness."
+  },
+  "historical_ucat_data": [
+    {
+      "entry_year": 2026,
+      "applicant_group_id": "scotland_domiciled",
+      "applicant_group_ids": [
+        "scotland_domiciled"
+      ],
+      "row_label": "Scottish",
+      "lowest_interviewed_ucat": 1700,
+      "average_interviewed_ucat": 1960,
+      "lowest_offer_holder_ucat": null,
+      "average_offer_holder_ucat": null,
+      "sample_size": 839,
+      "source_ids": [
+        "abdn_admissions_data"
+      ],
+      "notes": "Official Aberdeen admissions-data page gives lowest actual UCAT and average UCAT invited to interview for the Scottish row. Offer-holder UCAT values are not shown for 2026 entry on the current page."
+    },
+    {
+      "entry_year": 2026,
+      "applicant_group_id": "school_leaver",
+      "applicant_group_ids": [
+        "scotland_domiciled",
+        "school_leaver"
+      ],
+      "row_label": "Scottish School Leavers",
+      "lowest_interviewed_ucat": 1700,
+      "average_interviewed_ucat": 1970,
+      "lowest_offer_holder_ucat": null,
+      "average_offer_holder_ucat": null,
+      "sample_size": 702,
+      "source_ids": [
+        "abdn_admissions_data"
+      ],
+      "notes": "Applicant group is represented as a research row label combining Scotland domicile and school leaver status; applicant-groups.json stores these as separate reusable group IDs."
+    },
+    {
+      "entry_year": 2026,
+      "applicant_group_id": "graduate_applicant",
+      "applicant_group_ids": [
+        "scotland_domiciled",
+        "graduate_applicant"
+      ],
+      "row_label": "Scottish Graduates",
+      "lowest_interviewed_ucat": 1700,
+      "average_interviewed_ucat": 1940,
+      "lowest_offer_holder_ucat": null,
+      "average_offer_holder_ucat": null,
+      "sample_size": 82,
+      "source_ids": [
+        "abdn_admissions_data"
+      ],
+      "notes": "Applicant group is represented as a research row label combining Scotland domicile and graduate status; applicant-groups.json stores these as separate reusable group IDs."
+    },
+    {
+      "entry_year": 2026,
+      "applicant_group_id": "rest_of_uk",
+      "applicant_group_ids": [
+        "rest_of_uk"
+      ],
+      "row_label": "Rest of UK",
+      "lowest_interviewed_ucat": 1720,
+      "average_interviewed_ucat": 1990,
+      "lowest_offer_holder_ucat": null,
+      "average_offer_holder_ucat": null,
+      "sample_size": 164,
+      "source_ids": [
+        "abdn_admissions_data"
+      ],
+      "notes": "Official Aberdeen admissions-data page gives lowest actual UCAT and average UCAT invited to interview for the Rest of UK row."
+    },
+    {
+      "entry_year": 2026,
+      "applicant_group_id": "school_leaver",
+      "applicant_group_ids": [
+        "rest_of_uk",
+        "school_leaver"
+      ],
+      "row_label": "Rest of UK School Leavers",
+      "lowest_interviewed_ucat": 1720,
+      "average_interviewed_ucat": 2010,
+      "lowest_offer_holder_ucat": null,
+      "average_offer_holder_ucat": null,
+      "sample_size": 124,
+      "source_ids": [
+        "abdn_admissions_data"
+      ],
+      "notes": "Applicant group is represented as a research row label combining Rest of UK and school leaver status."
+    },
+    {
+      "entry_year": 2026,
+      "applicant_group_id": "graduate_applicant",
+      "applicant_group_ids": [
+        "rest_of_uk",
+        "graduate_applicant"
+      ],
+      "row_label": "Rest of UK Graduates",
+      "lowest_interviewed_ucat": 1730,
+      "average_interviewed_ucat": 1900,
+      "lowest_offer_holder_ucat": null,
+      "average_offer_holder_ucat": null,
+      "sample_size": 35,
+      "source_ids": [
+        "abdn_admissions_data"
+      ],
+      "notes": "Applicant group is represented as a research row label combining Rest of UK and graduate status."
+    },
+    {
+      "entry_year": null,
+      "applicant_group_id": "international_fee",
+      "applicant_group_ids": [
+        "international_fee"
+      ],
+      "row_label": "International",
+      "ucat_scale": 2700,
+      "lowest_interviewed_ucat": null,
+      "lowest_interviewed_ucat_range": {
+        "min": 1790,
+        "max": 1980
+      },
+      "average_interviewed_ucat": null,
+      "average_interviewed_ucat_range": {
+        "min": 2025,
+        "max": 2100
+      },
+      "lowest_offer_holder_ucat": null,
+      "average_offer_holder_ucat": null,
+      "sample_size": null,
+      "source_ids": [
+        "abdn_verified_international_admissions_evidence"
+      ],
+      "notes": "Verified international historical UCAT ranges converted to /2700. No entry cycle or subgroup split was supplied."
+    }
+  ],
+  "historical_admissions_stats": [
+    {
+      "entry_year": 2026,
+      "applicant_group_id": "scotland_domiciled",
+      "applicant_group_ids": [
+        "scotland_domiciled"
+      ],
+      "row_label": "Scottish",
+      "applications": 955,
+      "interviews": 839,
+      "offers": 643,
+      "places": 298,
+      "offer_rate": 0.6733,
+      "interview_rate": 0.8785,
+      "source_ids": [
+        "abdn_admissions_data"
+      ],
+      "notes": "Rates are derived from official applications/interviews/offers for display context only. Entrants listed as TBC on the page."
+    },
+    {
+      "entry_year": 2026,
+      "applicant_group_id": "rest_of_uk",
+      "applicant_group_ids": [
+        "rest_of_uk"
+      ],
+      "row_label": "Rest of UK",
+      "applications": 222,
+      "interviews": 164,
+      "offers": 133,
+      "places": null,
+      "offer_rate": 0.5991,
+      "interview_rate": 0.7387,
+      "source_ids": [
+        "abdn_admissions_data"
+      ],
+      "notes": "Rates are derived from official applications/interviews/offers for display context only. No separate places value was clearly represented for this row in the parsed page text; entrants listed as TBC."
+    },
+    {
+      "entry_year": null,
+      "applicant_group_id": "international_fee",
+      "applicant_group_ids": [
+        "international_fee"
+      ],
+      "row_label": "International",
+      "applications": null,
+      "interviews": null,
+      "interviews_range": {
+        "min": 60,
+        "max": 70
+      },
+      "offers": null,
+      "offers_range": {
+        "min": 19,
+        "max": 22
+      },
+      "places": 19,
+      "offer_rate": null,
+      "interview_rate": null,
+      "post_interview_offer_rate_percent_range": {
+        "min": 70,
+        "max": 72
+      },
+      "source_ids": [
+        "abdn_verified_international_admissions_evidence"
+      ],
+      "notes": "Verified international cohort ranges. No application count or entry cycle was supplied."
+    }
+  ],
+  "foi_sources": [
+    {
+      "source_id": "abdn_official_2025_sjt_policy",
+      "title": "Aberdeen A100 official 2025 SJT policy",
+      "url": null,
+      "file_reference": null,
+      "date_received": null,
+      "confidence": "High",
+      "source_type": "official_admissions_policy",
+      "notes": "Supplied official 2025 source states SJT Band 4 is accepted and SJT is not used in scoring. URL was not supplied in the request."
+    },
+    {
+      "source_id": "abdn_foi_ucat_conversion",
+      "title": "Aberdeen A100 UCAT decile conversion table",
+      "url": null,
+      "file_reference": null,
+      "date_received": null,
+      "confidence": "High",
+      "source_type": "foi_response",
+      "notes": "FOI-verified UCAT decile mapping, raw points conversion and weighted UCAT score formula. Decile 7 = 45 is intentionally stored as supplied."
+    },
+    {
+      "source_id": "abdn_admissions_data",
+      "title": "University of Aberdeen Medicine Admissions Data",
+      "url": "https://www.abdn.ac.uk/smmsn/undergraduate/medicine/admissions-data/",
+      "file_reference": null,
+      "date_received": null,
+      "confidence": "High",
+      "source_type": "official_admissions_statistics",
+      "notes": "Official admissions-data page. Use for historical UCAT/admissions context and estimated historical prediction context only; it is not the official academic or UCAT scoring formula."
+    },
+    {
+      "source_id": "abdn_verified_international_admissions_evidence",
+      "title": "Aberdeen A100 verified international admissions evidence",
+      "url": null,
+      "file_reference": null,
+      "date_received": null,
+      "confidence": "High",
+      "source_type": "verified_admissions_evidence",
+      "notes": "Verified international selection, historical UCAT guidance and cohort evidence supplied without a source URL or entry cycle."
+    }
+  ],
+  "estimated_historical_prediction": {
+    "available": true,
+    "prediction_type": "historical_context",
+    "method": "International applicants use the verified /2700 guidance bands in the separate international ranking pool. Existing Home applicant groups continue to use their unchanged historical UCAT comparison model. This is interview guidance and is not a full offer prediction.",
+    "method_status": "draft",
+    "method_status_values": [
+      "not_modelled",
+      "draft",
+      "validated",
+      "retired"
+    ],
+    "international_guidance_2700": {
+      "applicant_match": {
+        "all_group_ids": [
+          "international_fee"
+        ]
+      },
+      "ranking_pool": "international",
+      "bands": [
+        {
+          "classification": "high_risk",
+          "recommendation": "Consider stronger alternatives",
+          "condition": "ucat_total < 1800"
+        },
+        {
+          "classification": "ambitious",
+          "recommendation": "Possible but ambitious",
+          "condition": "ucat_total >= 1800 and ucat_total <= 1949"
+        },
+        {
+          "classification": "realistic",
+          "recommendation": "Good chance – recommend applying",
+          "condition": "ucat_total >= 1950 and ucat_total <= 2099"
+        },
+        {
+          "classification": "interview_likely",
+          "recommendation": "Strong choice",
+          "condition": "ucat_total >= 2100"
+        }
+      ],
+      "source_ids": [
+        "abdn_verified_international_admissions_evidence"
+      ]
+    },
+    "bands": [
+      {
+        "band_id": "very_high_risk_ambitious",
+        "label": "Very high risk / ambitious",
+        "criteria": [
+          "Applicant UCAT is below the historical lowest actual UCAT invited to interview for the matching applicant group."
+        ],
+        "interpretation": "The applicant is below the published historical invited-to-interview range for that group. Treat as ambitious with very high risk.",
+        "confidence": "medium",
+        "source_ids": [
+          "abdn_admissions_data"
+        ]
+      },
+      {
+        "band_id": "ambitious",
+        "label": "Ambitious",
+        "criteria": [
+          "Applicant UCAT is at or above the historical lowest actual UCAT invited to interview but below the historical average UCAT invited to interview for the matching applicant group."
+        ],
+        "interpretation": "The applicant may be eligible and within the historical interviewed range, but UCAT is below the average interviewed benchmark. Treat as ambitious.",
+        "confidence": "medium",
+        "source_ids": [
+          "abdn_admissions_data"
+        ]
+      },
+      {
+        "band_id": "realistic",
+        "label": "Realistic",
+        "criteria": [
+          "Applicant UCAT is around or near the historical average UCAT invited to interview for the matching applicant group."
+        ],
+        "interpretation": "The applicant is near the historical average interviewed UCAT benchmark. Treat as realistic historical context, not an official prediction.",
+        "confidence": "medium",
+        "source_ids": [
+          "abdn_admissions_data"
+        ]
+      },
+      {
+        "band_id": "strong_competitive",
+        "label": "Strong / competitive",
+        "criteria": [
+          "Applicant UCAT is above the historical average UCAT invited to interview for the matching applicant group."
+        ],
+        "interpretation": "The applicant is above the historical average interviewed UCAT benchmark. Treat as strong historical context, not an official prediction.",
+        "confidence": "medium",
+        "source_ids": [
+          "abdn_admissions_data"
+        ]
+      }
+    ],
+    "comparison_rules": {
+      "matching_priority": [
+        "verified international guidance for international_fee applicants",
+        "exact applicant group row where available",
+        "domicile or fee-status row",
+        "overall row if no group-specific row exists"
+      ],
+      "rules": [
+        {
+          "classification": "very_high_risk_ambitious",
+          "condition": "ucat_total < lowest_interviewed_ucat"
+        },
+        {
+          "classification": "ambitious",
+          "condition": "ucat_total >= lowest_interviewed_ucat and ucat_total < average_interviewed_ucat"
+        },
+        {
+          "classification": "realistic",
+          "condition": "ucat_total is around_or_near average_interviewed_ucat"
+        },
+        {
+          "classification": "strong_competitive",
+          "condition": "ucat_total > average_interviewed_ucat"
+        }
+      ],
+      "notes": "Near-average tolerance is intentionally not fixed yet; frontend wording should avoid false precision. This model compares UCAT only and does not account for interview score, offer cutoffs or final ranking."
+    },
+    "input_requirements": [
+      "Verified academic raw score table",
+      "More historical UCAT values by entry year and applicant group",
+      "Historical offer-holder UCAT values where available",
+      "Applicant group definitions matching applicant-groups.json"
+    ],
+    "limitations": [
+      "The UCAT component is FOI verified, but the complete pre-interview model is not fully verified.",
+      "Official Aberdeen admissions data supports historical competitiveness context only, not the official scoring formula.",
+      "The 2026 admissions-data page gives invited-to-interview UCAT values, but not offer-holder UCAT values.",
+      "Historical UCAT comparison can be generated from the official admissions-data page, but it is not a complete prediction model.",
+      "The current historical model uses UCAT comparison only and does not model interview score, academic score thresholds or offer ranking."
+    ],
+    "disclaimer": "Estimated historical prediction is based on historical, FOI or research-derived modelling and is not the official university scoring formula. It must be displayed separately from official formula prediction.",
+    "source_ids": [
+      "abdn_admissions_data",
+      "abdn_foi_ucat_conversion",
+      "abdn_verified_international_admissions_evidence"
+    ],
+    "notes": "Use this as historical competitiveness context only. Do not display as Aberdeen's official scoring formula or as a full chance of offer."
+  },
+  "engine_notes": {
+    "official_rules_source": "data/universities/aberdeen-a100.json",
+    "research_source": "data/research/aberdeen-a100-research.json",
+    "do_not_infer": [
+      "Do not treat Aberdeen's published weightings as exact calculation formulas.",
+      "Do not treat the research calculation model as official unless its source is verified as official or FOI.",
+      "Do not infer UCAT cutoffs from national UCAT deciles.",
+      "Do not infer historical Aberdeen cutoffs without Aberdeen-specific source data.",
+      "Do not mark Band 4 SJT as automatic rejection for Home applicants; international applicants follow the separate verified automatic-rejection rule.",
+      "Do not enable official_formula_prediction until exact academic, UCAT and interview calculations are proven.",
+      "Do not treat historical UCAT comparison as a full offer prediction."
+    ],
+    "course_specific_notes": [
+      "For Aberdeen A100, official_formula_prediction is unavailable unless the exact academic plus UCAT calculation is official or FOI verified.",
+      "Aberdeen A100 may still support estimated_historical_prediction if suitable FOI or historical data exists."
+    ],
+    "offer_prediction_scope": "out_of_scope"
+  }
+}

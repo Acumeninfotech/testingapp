@@ -1,0 +1,609 @@
+{
+  "schema_version": "1.0.0",
+  "template_version": "0.1.0",
+  "result_id": "example-lancaster-a100-home-standard-historical-guidance",
+  "generated_at": null,
+  "result_mode": "eligibility_and_historical_home_interview_guidance",
+  "course_identity": {
+    "profile_id": "lancaster-a100",
+    "university_name": "Lancaster University",
+    "display_name": "Lancaster A100",
+    "course_name": "Medicine and Surgery MBChB",
+    "ucas_code": "A100",
+    "entry_route": "standard_entry",
+    "entry_route_label": "Standard Entry",
+    "qualification_awarded": "MBChB",
+    "duration_years": 5,
+    "location": "Lancaster, England",
+    "campus": "Lancaster",
+    "entry_year": 2027,
+    "source_ids": [
+      "lancaster_admissions_policy_2026",
+      "lancaster_course_2027"
+    ]
+  },
+  "applicant_context": {
+    "profile_id": "lancaster_a100_home_standard_example",
+    "profile_type": "representative_home_standard_school_leaver",
+    "applies_to_group_ids": [
+      "home_fee",
+      "england_domiciled",
+      "rest_of_uk",
+      "school_leaver"
+    ],
+    "entry_route": "standard_entry",
+    "qualification_route": "a_level",
+    "fee_cohort": "home",
+    "contextual": false,
+    "widening_participation": false,
+    "graduate": false,
+    "resit_applicant": false,
+    "applicant_summary": "Representative Home standard school-leaver with eight GCSEs worth 14 Lancaster points, English Language and Mathematics at grade 6, separate sciences at grade 7, predicted AAB including Biology and Chemistry, UCAT 1950 and SJT Band 2.",
+    "academic_profile": {
+      "gcse": {
+        "total_count": 8,
+        "lancaster_points": 14,
+        "subjects": [
+          {
+            "subject_id": "english_language",
+            "grade": "6"
+          },
+          {
+            "subject_id": "mathematics",
+            "grade": "6"
+          },
+          {
+            "subject_id": "biology",
+            "grade": "7"
+          },
+          {
+            "subject_id": "chemistry",
+            "grade": "7"
+          },
+          {
+            "subject_id": "physics",
+            "grade": "7"
+          },
+          {
+            "subject_id": "history",
+            "grade": "8"
+          },
+          {
+            "subject_id": "geography",
+            "grade": "8"
+          },
+          {
+            "subject_id": "computer_science",
+            "grade": "7"
+          }
+        ]
+      },
+      "a_level": {
+        "predicted_grades": [
+          {
+            "subject_id": "biology",
+            "grade": "A"
+          },
+          {
+            "subject_id": "chemistry",
+            "grade": "A"
+          },
+          {
+            "subject_id": "mathematics",
+            "grade": "B"
+          }
+        ]
+      }
+    },
+    "admissions_tests": {
+      "ucat": {
+        "total_score": 1950,
+        "score_scale": 2700,
+        "sjt_band": 2,
+        "test_year": 2026
+      }
+    },
+    "source_ids": []
+  },
+  "readiness": {
+    "eligibility": true,
+    "interview_prediction": true,
+    "historical_guidance": true,
+    "international_prediction": true,
+    "contextual_logic": true,
+    "result_card": true,
+    "regression": true,
+    "research_completeness": "complete_for_supported_scope_with_documented_gaps",
+    "manual_review_required": true,
+    "eligibility_ready": true,
+    "interview_prediction_ready": true,
+    "prediction_confidence": "medium",
+    "result_card_ready": true,
+    "offer_prediction_scope": "out_of_scope",
+    "interview_band_config_ready": true,
+    "metadata_activation_ready": true,
+    "prediction_scope": "historical_ucat_guidance_for_home_standard_a_level_school_leavers",
+    "student_labels": [
+      "Academic eligibility can be shown for the represented standard A-level route",
+      "SJT Band 4 is excluded before UCAT ranking",
+      "Home standard, Home contextual and International applicants use separate UCAT guidance pools",
+      "2026-entry thresholds are historical guidance and not fixed 2027 cut-offs",
+      "Cross-qualification science conditions and other published routes may require review"
+    ],
+    "source_ids": [
+      "lancaster_admissions_policy_2026",
+      "lancaster_how_to_apply",
+      "lancaster_admissions_data",
+      "lancaster_course_2027"
+    ]
+  },
+  "student_summary": {
+    "headline": "Lancaster A100",
+    "subheadline": "Medicine and Surgery MBChB, Standard Entry, 5 years",
+    "status_message": "This representative Home standard applicant meets the implemented minimum gates. UCAT 1950 is 30 points above the published 2026-entry Home threshold of 1920, producing a strong-choice ApplySmart interpretation of historical data. It is not a current 2027 cut-off, an official Lancaster category or an interview guarantee.",
+    "key_points": [
+      "Eight represented GCSEs produce 14 Lancaster points, above the 13-point minimum.",
+      "English Language and Mathematics are at grade 6, and Biology, Chemistry and Physics are at grade 7.",
+      "Predicted AAB includes two of Biology, Chemistry and Psychology, so the Stage 1 academic gate is met.",
+      "UCAT is present and SJT Band 2 passes the Band 1-3 gate.",
+      "UCAT 1950 is compared with the 2026-entry Home standard threshold of 1920.",
+      "Historical threshold comparisons may change each admissions cycle depending on applicant competition and interview capacity. Historical figures are guidance only, not a current cut-off, and do not guarantee an interview."
+    ]
+  },
+  "eligibility": {
+    "status": "eligible",
+    "scope": "implemented_minimum_requirements_for_represented_home_standard_a_level_route",
+    "summary": "The representative Home standard A-level applicant passes the implemented GCSE, post-16, UCAT and SJT gates. Eligibility does not itself guarantee an interview.",
+    "stage_1_checks": [
+      {
+        "check_id": "gcse_count_and_points",
+        "label": "GCSE count and points",
+        "status": "pass",
+        "requirement": "At least eight GCSEs and 13 points from the best eight, with grades 7-9 worth two points and grade 6 worth one point.",
+        "applicant_value": "Eight represented GCSEs produce 14 points.",
+        "decision_outcome": "eligible",
+        "source_ids": [
+          "lancaster_admissions_policy_2026"
+        ]
+      },
+      {
+        "check_id": "gcse_core_and_sciences",
+        "label": "GCSE core subjects and sciences",
+        "status": "pass",
+        "requirement": "English Language and Mathematics at 6/B plus Biology, Chemistry and Physics separately, or Combined Science: Trilogy, at 6/B.",
+        "applicant_value": "English Language 6, Mathematics 6, Biology 7, Chemistry 7 and Physics 7.",
+        "decision_outcome": "eligible",
+        "source_ids": [
+          "lancaster_admissions_policy_2026",
+          "lancaster_entry_requirements"
+        ]
+      },
+      {
+        "check_id": "a_level_stage_1",
+        "label": "A-level Stage 1 gate",
+        "status": "pass",
+        "requirement": "Predicted at least AAB, including any two of Biology, Chemistry and Psychology.",
+        "applicant_value": "Predicted AAB in Biology, Chemistry and Mathematics.",
+        "decision_outcome": "eligible",
+        "source_ids": [
+          "lancaster_admissions_policy_2026"
+        ]
+      },
+      {
+        "check_id": "ucat_and_sjt",
+        "label": "UCAT and SJT",
+        "status": "pass",
+        "requirement": "Current-cycle UCAT is required; SJT Bands 1-3 pass and Band 4 is excluded.",
+        "applicant_value": "UCAT 1950 on the 2700 scale with SJT Band 2.",
+        "decision_outcome": "eligible",
+        "source_ids": [
+          "lancaster_admissions_policy_2026",
+          "lancaster_how_to_apply"
+        ]
+      }
+    ],
+    "blocking_reasons": [],
+    "warnings": [
+      "Eligibility covers the represented standard A-level route and supplied applicant evidence.",
+      "The 2027 live UCAT threshold is not encoded.",
+      "The standard final offer is normally AAA; ApplySmart does not assess post-interview decisions."
+    ],
+    "source_ids": [
+      "lancaster_admissions_policy_2026",
+      "lancaster_entry_requirements",
+      "lancaster_how_to_apply"
+    ]
+  },
+  "stage_1_requirements": {
+    "verification_status": "official_source_verified_for_represented_route",
+    "verified_requirements": [
+      {
+        "requirement_id": "gcse_gate",
+        "label": "GCSE eligibility gate",
+        "value": "Eight subjects, 13 points, English and Mathematics at 6/B, and the published science route.",
+        "applies_to_group_ids": [
+          "school_leaver"
+        ],
+        "source_ids": [
+          "lancaster_admissions_policy_2026",
+          "lancaster_entry_requirements"
+        ]
+      },
+      {
+        "requirement_id": "a_level_stage_1",
+        "label": "A-level Stage 1 gate",
+        "value": "Predicted AAB with any two of Biology, Chemistry and Psychology.",
+        "applies_to_group_ids": [
+          "school_leaver"
+        ],
+        "source_ids": [
+          "lancaster_admissions_policy_2026"
+        ]
+      },
+      {
+        "requirement_id": "ucat_and_sjt",
+        "label": "UCAT and SJT",
+        "value": "Current-cycle UCAT required; SJT Band 4 excluded.",
+        "applies_to_group_ids": [],
+        "source_ids": [
+          "lancaster_admissions_policy_2026",
+          "lancaster_how_to_apply"
+        ]
+      }
+    ],
+    "unknown_requirements": [
+      {
+        "requirement_id": "science_practical_endorsement",
+        "label": "Science practical endorsement",
+        "reason": "The supplied official evidence does not state that a practical endorsement is required.",
+        "source_ids": []
+      }
+    ],
+    "source_ids": [
+      "lancaster_admissions_policy_2026",
+      "lancaster_entry_requirements"
+    ]
+  },
+  "stage_2_selection": {
+    "verification_status": "official_ucat_ranking_with_historical_guidance",
+    "primary_model": "academic_and_sjt_gate_then_pool_specific_ucat_ranking",
+    "summary": "Eligible applicants are ranked for interview by UCAT cognitive total alone within the applicable Home standard, Home contextual or International pool. The displayed boundary is historical 2026-entry guidance, not the live 2027 threshold.",
+    "represented_ranking_input": {
+      "score": 1950,
+      "max": 2700,
+      "metric": "ucat_total"
+    },
+    "ranking_factors": [
+      {
+        "factor_id": "ucat_cognitive_total",
+        "label": "UCAT cognitive total",
+        "weight_percent": 100,
+        "calculation_status": "known",
+        "notes": "Sole ranking input after academic and SJT gates.",
+        "source_ids": [
+          "lancaster_admissions_policy_2026",
+          "lancaster_how_to_apply"
+        ]
+      }
+    ],
+    "selection_adjustments": [
+      {
+        "adjustment_id": "separate_home_standard_pool",
+        "label": "Home standard applicant pool",
+        "applies_to_group_ids": [
+          "home_fee",
+          "school_leaver"
+        ],
+        "effect_summary": "Compared with the Home non-contextual historical boundary.",
+        "calculation_status": "known",
+        "source_ids": [
+          "lancaster_admissions_data"
+        ]
+      },
+      {
+        "adjustment_id": "lower_contextual_boundary",
+        "label": "Verified contextual/WP applicant pool",
+        "applies_to_group_ids": [
+          "home_fee",
+          "contextual",
+          "widening_participation"
+        ],
+        "effect_summary": "Uses a separate lower annual UCAT boundary after Lancaster verifies status.",
+        "calculation_status": "known",
+        "source_ids": [
+          "lancaster_admissions_policy_2026",
+          "lancaster_admissions_data"
+        ]
+      }
+    ],
+    "unknown_calculation_areas": [
+      "The live 2027 pool-specific UCAT boundaries.",
+      "Any tie-break sequence at the interview-shortlisting boundary."
+    ],
+    "source_ids": [
+      "lancaster_admissions_policy_2026",
+      "lancaster_how_to_apply",
+      "lancaster_admissions_data"
+    ]
+  },
+  "historical_context": {
+    "use": "context_only",
+    "fixed_current_cutoff": false,
+    "not_deterministic": true,
+    "warning": "All values are cycle-labelled historical guidance, not current or future cut-offs, probabilities or guarantees.",
+    "represented_pool": {
+      "pool_id": "home_standard_school_leaver",
+      "entry_year": 2026,
+      "score_scale": 2700,
+      "published_threshold": 1920,
+      "borderline_interval": {
+        "min": 1910,
+        "max": 1919,
+        "additional_factor": "prior academic performance"
+      }
+    },
+    "legacy_2025_data": {
+      "score_scale": 3600,
+      "conversion_used": false,
+      "reason": "The research warns against direct comparison across the UCAT scale change."
+    }
+  },
+  "prediction": {
+    "available": true,
+    "capability": "interview_guidance",
+    "prediction_type": "historical_pool_specific_ucat_guidance",
+    "prediction_status": "historical_guidance_available",
+    "result_band": "interview_likely",
+    "guidance_pool_id": "home_standard_school_leaver",
+    "score": 1950,
+    "score_scale": {
+      "min": 0,
+      "max": 2700
+    },
+    "band_basis": "UCAT 1950 is 30 points above the published 2026-entry Home non-contextual threshold of 1920. This is an ApplySmart confidence interpretation of historical evidence (30-99 points above threshold), not an official Lancaster category, cut-off or interview guarantee.",
+    "historical_comparison": "30_to_99_points_above_2026_home_standard_threshold",
+    "missing_data_reasons": [],
+    "cannot_predict_explanation": null,
+    "source_ids": [
+      "lancaster_admissions_data"
+    ]
+  },
+  "missing_data": {
+    "current_2027_pool_thresholds": "not_published",
+    "final_2026_interviewed_and_offer_holder_averages": "not_published",
+    "ib_total_points": "not_separately_published",
+    "science_practical_endorsement": "not_stated",
+    "mmi_station_count_and_score_scale": "not_published",
+    "country_specific_international_equivalences": "held_in_separate_annual_fact_sheet"
+  },
+  "confidence": {
+    "level": "medium",
+    "summary": "The selection model and 2026-entry pool thresholds are official, but the 2027 live boundary and final 2026 distribution data are not yet available.",
+    "stage_confidence": {
+      "stage_1": "medium",
+      "stage_2": "medium",
+      "historical_guidance": "medium"
+    },
+    "source_ids": [
+      "lancaster_admissions_policy_2026",
+      "lancaster_how_to_apply",
+      "lancaster_admissions_data"
+    ]
+  },
+  "evidence_confidence": {
+    "level": "Medium",
+    "summary": "The recommendation is supported by core admissions evidence, with some historical or route-specific limits.",
+    "reasons": [
+      "Official eligibility rules are available.",
+      "The university selection approach is implemented.",
+      "Historical interview guidance is available, but some evidence is historical, FOI-derived or has documented gaps."
+    ]
+  },
+  "evidence": {
+    "source_ids": [
+      "lancaster_admissions_policy_2026",
+      "lancaster_entry_requirements",
+      "lancaster_how_to_apply",
+      "lancaster_admissions_data",
+      "lancaster_course_2027"
+    ],
+    "sources": [
+      {
+        "source_id": "lancaster_admissions_policy_2026",
+        "title": "Lancaster Medical School Admissions Policy, 2026 Entry",
+        "url": "https://www.lancaster.ac.uk/media/lancaster-university/content-assets/documents/medical-school/mbchb/entry-reqs/LancasterMedicalSchoolAdmissionsPolicy2026.pdf",
+        "source_type": "official_admissions_policy",
+        "confidence": "high",
+        "accessed_date": "2026-07-05"
+      },
+      {
+        "source_id": "lancaster_admissions_data",
+        "title": "Lancaster Medical School Admissions Data",
+        "url": "https://www.lancaster.ac.uk/lms/medicine-and-surgery/admissions-data/",
+        "source_type": "official_admissions_statistics",
+        "confidence": "high",
+        "accessed_date": "2026-07-05"
+      }
+    ]
+  },
+  "display": {
+    "headline": "Lancaster A100",
+    "subheadline": "Medicine and Surgery MBChB",
+    "primary_user_facing_recommendation": "Strong choice based on historical data",
+    "recommendation_display_state": "standard",
+    "primary_explanation": "UCAT 1950 is 30 points above Lancaster's published 2026-entry Home non-contextual threshold of 1920 after the represented academic and SJT gates are met. This is an ApplySmart confidence interpretation, not an official Lancaster category, cut-off or interview guarantee.",
+    "historical_guidance_caveat": "Interview thresholds may change each admissions cycle depending on applicant competition and interview capacity. Historical figures are guidance only, not a current cut-off, and do not guarantee an interview.",
+    "badges": [
+      {
+        "label": "Eligible for represented route",
+        "tone": "positive"
+      },
+      {
+        "label": "Historical UCAT guidance",
+        "tone": "neutral"
+      },
+      {
+        "label": "Medium evidence confidence",
+        "tone": "neutral"
+      }
+    ],
+    "secondary_explanation": "The 2027 live threshold is not yet known, and Lancaster may use prior academic performance for a small borderline pool.",
+    "next_best_action": "Confirm every route-specific condition and use the historical comparison as one part of university choice."
+  },
+  "decision_timeline": [
+    {
+      "step": 1,
+      "title": "Applicant details checked",
+      "status": "Complete",
+      "summary": "Your applicant type, qualifications and UCAT details were checked."
+    },
+    {
+      "step": 2,
+      "title": "Eligibility assessed",
+      "status": "Eligible",
+      "summary": "You meet the published entry requirements covered by ApplySmart."
+    },
+    {
+      "step": 3,
+      "title": "Selection model applied",
+      "status": "Complete",
+      "summary": "Academic requirements and the SJT filter were checked before UCAT ranking within the relevant Lancaster applicant pool."
+    },
+    {
+      "step": 4,
+      "title": "Historical guidance compared",
+      "status": "Complete",
+      "summary": "Your result was compared with interview information from previous admissions cycles. Interview thresholds may change each admissions cycle depending on applicant competition and interview capacity. Historical figures are guidance only, not a current cut-off, and do not guarantee an interview."
+    },
+    {
+      "step": 5,
+      "title": "Interview recommendation produced",
+      "status": "Strong choice",
+      "summary": "Strong choice based on historical data. Treat this as guidance for university choice, not a promised interview."
+    }
+  ],
+  "decision_transparency": {
+    "decision_path": [
+      {
+        "stage": "Eligibility",
+        "status": "Met",
+        "summary": "The representative Home standard A-level applicant passes the implemented GCSE, post-16, UCAT and SJT gates. Eligibility does not itself guarantee an interview.",
+        "checks": [
+          {
+            "label": "GCSE count and points",
+            "status": "Met",
+            "summary": "At least eight GCSEs and 13 points from the best eight, with grades 7-9 worth two points and grade 6 worth one point. Applicant information: Eight represented GCSEs produce 14 points."
+          },
+          {
+            "label": "GCSE core subjects and sciences",
+            "status": "Met",
+            "summary": "English Language and Mathematics at 6/B plus Biology, Chemistry and Physics separately, or Combined Science: Trilogy, at 6/B. Applicant information: English Language 6, Mathematics 6, Biology 7, Chemistry 7 and Physics 7."
+          },
+          {
+            "label": "A-level Stage 1 gate",
+            "status": "Met",
+            "summary": "Predicted at least AAB, including any two of Biology, Chemistry and Psychology. Applicant information: Predicted AAB in Biology, Chemistry and Mathematics."
+          },
+          {
+            "label": "UCAT and SJT",
+            "status": "Met",
+            "summary": "Current-cycle UCAT is required; SJT Bands 1-3 pass and Band 4 is excluded. Applicant information: UCAT 1950 on the 2700 scale with SJT Band 2."
+          }
+        ]
+      },
+      {
+        "stage": "Selection model",
+        "status": "Assessed",
+        "summary": "Lancaster checks academic requirements and the SJT filter before ranking eligible applicants by UCAT cognitive total within the relevant applicant pool.",
+        "checks": [
+          {
+            "label": "Applicant pool",
+            "status": "Used",
+            "summary": "Home standard school-leavers"
+          },
+          {
+            "label": "Academic screen",
+            "status": "Met",
+            "summary": "Eight GCSEs produce 14 Lancaster points, and the represented A-level profile meets the Stage 1 AAB subject gate."
+          },
+          {
+            "label": "SJT filter",
+            "status": "Met",
+            "summary": "SJT Band 2 passes; Band 4 would prevent interview consideration."
+          },
+          {
+            "label": "UCAT ranking",
+            "status": "Counted",
+            "summary": "UCAT 1950 out of 2700 is ranked in the Home standard applicant pool."
+          },
+          {
+            "label": "Historical boundary",
+            "status": "Guidance only",
+            "summary": "The published 2026-entry Home threshold was 1920; it is not a fixed 2027 cut-off."
+          }
+        ]
+      },
+      {
+        "stage": "Historical guidance",
+        "status": "Guidance available",
+        "summary": "The applicant's result is within the historical interview range used for this applicant group. Interview thresholds may change each admissions cycle depending on applicant competition and interview capacity. Historical figures are guidance only, not a current cut-off, and do not guarantee an interview.",
+        "checks": [
+          {
+            "label": "Applicant pool",
+            "status": "Used",
+            "summary": "Home standard school-leavers"
+          },
+          {
+            "label": "Important limitation",
+            "status": "Guidance only",
+            "summary": "Interview thresholds may change each admissions cycle depending on applicant competition and interview capacity. Historical figures are guidance only, not a current cut-off, and do not guarantee an interview."
+          }
+        ]
+      },
+      {
+        "stage": "Recommendation",
+        "status": "Guidance only",
+        "summary": "Strong choice based on historical data. Treat this as guidance for university choice, not a promised interview.",
+        "checks": []
+      }
+    ],
+    "key_reasons": [
+      "The supported GCSE, A-level, UCAT and SJT requirements are met.",
+      "UCAT cognitive total is the sole ranking score after the academic and SJT gates.",
+      "UCAT 1950 is 30 points above the available 2026-entry Home historical threshold, which is not the current 2027 threshold. This is an ApplySmart confidence interpretation, not an official Lancaster category or guarantee."
+    ],
+    "evidence_used": [
+      "Official admissions policy",
+      "University selection methodology",
+      "UCAT policy",
+      "Historical interview data",
+      "Contextual admissions policy"
+    ],
+    "evidence_confidence": {
+      "level": "Medium",
+      "summary": "The recommendation is supported by core admissions evidence, with some historical or route-specific limits.",
+      "reasons": [
+        "Official eligibility rules are available.",
+        "The university selection approach is implemented.",
+        "Historical interview guidance is available, but some evidence is historical, FOI-derived or has documented gaps."
+      ]
+    },
+    "manual_review_reason": null,
+    "insufficient_evidence_reason": null,
+    "warnings": []
+  },
+  "engine_notes": {
+    "generated_from_profile_id": "lancaster-a100",
+    "eligibility_ready": true,
+    "interview_prediction_ready": true,
+    "offer_prediction_scope": "out_of_scope",
+    "prediction_confidence": "medium",
+    "result_card_ready": true,
+    "engine_version": "ApplySmart Engine v1.0",
+    "assumptions": [],
+    "do_not_display": [
+      "Internal field names",
+      "Unsupported future cut-off claims"
+    ]
+  }
+}

@@ -1,0 +1,557 @@
+{
+  "schema_version": "1.0.0",
+  "profile_id": "cambridge-a100",
+  "profile_status": "activated_for_holistic_interview_guidance",
+  "verification_status": "mixed_official_and_historical_guidance",
+  "last_updated": "2026-07-21",
+  "university": {
+    "name": "University of Cambridge",
+    "slug": "cambridge",
+    "country": "United Kingdom",
+    "nation": "England",
+    "institution_type": "University",
+    "website_url": "https://www.cam.ac.uk/"
+  },
+  "course": {
+    "name": "Medicine MB BChir",
+    "ucas_code": "A100",
+    "entry_route": "standard_entry",
+    "qualification_awarded": "MB BChir",
+    "duration_years": 6,
+    "campus": "Cambridge",
+    "location": "Cambridge, England",
+    "entry_year": 2027,
+    "fee_statuses": [
+      "home",
+      "international"
+    ],
+    "is_gateway_or_foundation": false,
+    "is_graduate_entry": false,
+    "notes": "Standard-entry Medicine with three pre-clinical Cambridge years and three clinical years. The supplied research records an OfS maximum fundable limit of 291 Home and 22 overseas medical places across Cambridge medicine routes; A101 and affiliated graduate routes are separate or manual-review boundaries for this A100 profile."
+  },
+  "medical_school": {
+    "name": "School of Clinical Medicine, University of Cambridge",
+    "source_ids": [
+      "cambridge_a100_research_doc",
+      "cambridge_a100_engine_reference"
+    ]
+  },
+  "applicant_pools": [
+    {
+      "pool_id": "cambridge_home_a100",
+      "applies_to_group_ids": [
+        "home_fee"
+      ],
+      "excluded_group_ids": [
+        "international_fee"
+      ],
+      "selection_relevance": "Home applicants are reviewed holistically by college using academic record, UCAT cognitive total, reference, My Cambridge Application and contextual information."
+    },
+    {
+      "pool_id": "cambridge_international_a100",
+      "applies_to_group_ids": [
+        "international_fee"
+      ],
+      "selection_relevance": "International applicants are considered in a separate, centrally moderated competition under the small overseas medicine quota."
+    }
+  ],
+  "applies_to_group_ids": [
+    "england_domiciled",
+    "scotland_domiciled",
+    "wales_domiciled",
+    "northern_ireland_domiciled",
+    "home_fee",
+    "international_fee",
+    "rest_of_uk",
+    "contextual",
+    "widening_participation",
+    "care_experienced",
+    "graduate_applicant",
+    "school_leaver",
+    "mature_applicant",
+    "resit_applicant",
+    "deferred_entry"
+  ],
+  "stage_1_eligibility": {
+    "verification_status": "official_source_verified_with_documented_gaps",
+    "source_ids": [
+      "cambridge_a100_research_doc"
+    ],
+    "overall_policy": {
+      "status": "official_gate_plus_holistic_review",
+      "description": "Cambridge A100 requires UCAS by 15 October, My Cambridge Application, UCAT cognitive total, Chemistry plus at least one further science/maths subject and published post-16 grade requirements before holistic college review.",
+      "not_eligible_if": [
+        "Chemistry is absent from A Level or equivalent science requirements.",
+        "No Biology, Physics or Mathematics subject is present alongside Chemistry.",
+        "The standard A*A*A or equivalent academic gate is not met, except for contextual A*AA cases requiring manual review.",
+        "UCAT cognitive total is missing.",
+        "International English-language requirements are not met where required.",
+        "Applicant is under 18 at course start when age evidence is supplied."
+      ]
+    },
+    "gcse": {
+      "status": "official_source_verified",
+      "source_ids": [
+        "cambridge_a100_research_doc"
+      ],
+      "minimum_count": null,
+      "mandatory_subject_ids": [],
+      "grade_requirements": [],
+      "selection_role": "contextual_academic_review_only",
+      "scored_after_eligibility": false,
+      "notes": "No formal GCSE requirements and no GCSE points score. GCSE profile is used only as a modelled ApplySmart competitiveness modifier, with school context considered qualitatively."
+    },
+    "post_16": {
+      "status": "official_source_verified_with_documented_gaps",
+      "source_ids": [
+        "cambridge_a100_research_doc"
+      ],
+      "accepted_qualifications": [
+        "a_level",
+        "international_baccalaureate",
+        "scottish",
+        "degree",
+        "international_qualification"
+      ],
+      "a_level": {
+        "status": "official_source_verified",
+        "standard_offer": {
+          "grade_profile": [
+            "A*",
+            "A*",
+            "A"
+          ]
+        },
+        "contextual_offer": null,
+        "required_subject_ids": [
+          "chemistry"
+        ],
+        "one_of_subject_groups": [
+          {
+            "group_id": "second_science_or_maths",
+            "subject_ids": [
+              "biology",
+              "physics",
+              "mathematics"
+            ],
+            "minimum_required": 1
+          }
+        ],
+        "subject_combination_rule": {
+          "primary_subject_group": {
+            "subject_ids": [
+              "chemistry"
+            ],
+            "minimum_required": 1
+          },
+          "second_subject_group": {
+            "subject_ids": [
+              "biology",
+              "physics",
+              "mathematics"
+            ],
+            "minimum_required": 1
+          },
+          "subjects_must_be_distinct": true,
+          "minimum_subjects": 2,
+          "notes": "Most colleges prefer Chemistry plus two further science/maths subjects; this is recorded as guidance rather than a universal eligibility gate."
+        },
+        "science_practical_endorsement_required": true,
+        "predicted_grades_used_in_selection_scoring": false,
+        "notes": "Standard Medicine offers are not reduced contextually. Some colleges specify where A* grades must fall; this cannot be applied generically and remains an applicant-facing college-check warning."
+      },
+      "international_baccalaureate": {
+        "status": "official_source_verified",
+        "total_points": 41,
+        "hl_grade_profile": [
+          "7",
+          "7",
+          "6"
+        ],
+        "required_hl_subjects": [
+          {
+            "subject_id": "chemistry",
+            "minimum_grade": "6"
+          }
+        ],
+        "notes": "HL Chemistry plus one or two of Biology, Physics and Mathematics depending on college. ApplySmart implements Chemistry plus at least one further science/maths HL route."
+      },
+      "scottish": {
+        "status": "official_source_verified_with_route_execution_gap",
+        "advanced_higher_offer": "A1, A1, A2 including Chemistry and the same science/maths subject rules as A Level.",
+        "required_subjects": [
+          "chemistry",
+          "biology",
+          "physics",
+          "mathematics"
+        ],
+        "notes": "A1/A2 Advanced Higher precision is not represented in the current generic grade-rank engine, so Scottish profiles require manual review unless entered as equivalent A-level-style evidence."
+      },
+      "graduate": {
+        "status": "official_source_verified_with_manual_review_boundary",
+        "minimum_classification": "2_1",
+        "accepted_route": "Graduates may apply through standard A100 or affiliated A100 entry at Lucy Cavendish, St Edmund's or Wolfson. A101 is separate.",
+        "notes": "Graduate route, college restrictions and science coverage require manual review for this A100 profile."
+      },
+      "notes": "International country-specific qualification equivalency is not executable without verified qualification evidence."
+    },
+    "admissions_tests": {
+      "ucat": {
+        "required": true,
+        "test_name": "UCAT",
+        "minimum_total_score": null,
+        "score_scale": 2700,
+        "cognitive_total_only": true,
+        "validity_window": "current admissions cycle",
+        "notes": "UCAT is required for A100 and Cambridge publishes no fixed cut-off."
+      },
+      "sjt": {
+        "used": false,
+        "used_as_gate": false,
+        "accepted_bands": [
+          1,
+          2,
+          3,
+          4
+        ],
+        "excluded_bands": [],
+        "band_4_policy": "ignored_for_a100_interview_selection",
+        "notes": "SJT is not used at all for Cambridge A100 shortlisting in the supplied 2027-entry research."
+      }
+    },
+    "resits": {
+      "allowed": true,
+      "policy": "No formal ban, but resits without documented extenuating circumstances substantially weaken the application and require manual review.",
+      "maximum_resits": null
+    },
+    "english_language": {
+      "required_for_group": true,
+      "accepted_tests": [
+        {
+          "test": "IELTS Academic",
+          "overall_minimum": 7.5,
+          "minimum_each_component": 7.0
+        }
+      ],
+      "exemptions": [
+        "majority-English-speaking country",
+        "accepted GCSE/iGCSE English evidence"
+      ],
+      "notes": "Applies where English-language evidence is required, especially international applicants."
+    },
+    "age_or_professional_checks": {
+      "minimum_age": 18,
+      "minimum_age_date": "1 September in year of entry",
+      "source_ids": [
+        "cambridge_a100_research_doc"
+      ],
+      "dbs_required": true,
+      "occupational_health_required": true,
+      "fitness_to_practise_required": true,
+      "notes": "Students must be 18 by the start of the course; DBS, occupational health, immunisation and fitness-to-practise checks apply after offer/admission."
+    }
+  },
+  "stage_2_interview_selection": {
+    "verification_status": "mixed_official_and_historical_guidance",
+    "source_ids": [
+      "cambridge_a100_research_doc",
+      "cambridge_a100_engine_reference"
+    ],
+    "primary_model": "holistic_review",
+    "modifiers": [
+      "home_international_separate_ranking",
+      "contextual_adjustment",
+      "separate_applicant_pool"
+    ],
+    "ranking_factors": [
+      {
+        "factor_id": "academic_record",
+        "role": "review_factor",
+        "weight_percent": null,
+        "points_available": null,
+        "notes": "Central to holistic review but not converted into a published score."
+      },
+      {
+        "factor_id": "ucat_cognitive_total",
+        "role": "review_factor",
+        "weight_percent": null,
+        "points_available": null,
+        "notes": "UCAT cognitive total is considered alongside academic evidence. SJT is ignored."
+      },
+      {
+        "factor_id": "contextual_information",
+        "role": "qualitative_modifier",
+        "weight_percent": null,
+        "points_available": null,
+        "notes": "Contextual indicators inform judgement; they are not a numeric Cambridge bonus."
+      }
+    ],
+    "calculation": {
+      "verification_status": "mixed_official_and_historical_guidance",
+      "source_ids": [
+        "cambridge_a100_research_doc",
+        "cambridge_a100_engine_reference"
+      ],
+      "score_components": [],
+      "total_score": {
+        "calculation_method": "no_official_composite_score",
+        "components": [],
+        "scale": null,
+        "notes": "Cambridge has no published points-based shortlisting formula. ApplySmart uses hidden modelled bands for interview guidance only.",
+        "source_ids": [
+          "cambridge_a100_research_doc"
+        ]
+      },
+      "notes": "Modelled ApplySmart configuration lives in data/interview-band-configs/cambridge-a100.json. It must not be described as a Cambridge score."
+    },
+    "thresholds": [],
+    "selection_adjustments": [
+      {
+        "modifier_id": "contextual_adjustment",
+        "source_ids": [
+          "cambridge_a100_research_doc"
+        ],
+        "notes": "Qualitative contextual uplift; no reduced Medicine offer and no official points bonus."
+      }
+    ],
+    "tie_breakers": [
+      {
+        "tie_breaker_id": "holistic_judgement_and_winter_pool",
+        "source_ids": [
+          "cambridge_a100_research_doc"
+        ],
+        "notes": "No numeric tie-breaker is published. Close decisions use admissions judgement and the winter pool."
+      }
+    ],
+    "output_band_policy": "modelled_hidden_band_label_only",
+    "notes": "Cambridge does not publish a score, fixed UCAT cut-off or guarantee. Internal thresholds are modelled and hidden from applicants."
+  },
+  "contextual_admissions": {
+    "verification_status": "official_source_verified",
+    "source_ids": [
+      "cambridge_a100_research_doc"
+    ],
+    "available": true,
+    "applies_to_group_ids": [
+      "contextual",
+      "widening_participation",
+      "care_experienced"
+    ],
+    "criteria": [
+      "school performance data",
+      "area measures",
+      "free school meals",
+      "care experience",
+      "verified extenuating circumstances"
+    ],
+    "adjustments": [
+      {
+        "adjustment_id": "qualitative_uplift",
+        "modifier_id": "contextual_adjustment",
+        "notes": "Contextual information informs judgement but does not reduce the published Medicine offer."
+      }
+    ],
+    "guaranteed_interview_rules": [],
+    "notes": "No separate contextual pool or quota and no reduced contextual Medicine offer."
+  },
+  "ranking_pools": [
+    {
+      "pool_id": "cambridge_home_a100",
+      "name": "Cambridge A100 Home holistic pool",
+      "applies_to_group_ids": [
+        "home_fee"
+      ],
+      "fee_statuses": [
+        "home"
+      ],
+      "ranking_model": "holistic_review",
+      "ranking_factors": [
+        "academic_record",
+        "ucat_cognitive_total",
+        "contextual_information",
+        "college_review"
+      ],
+      "places_available": 291,
+      "source_ids": [
+        "cambridge_a100_research_doc"
+      ],
+      "notes": "OfS Home medical maximum fundable limit applies across Cambridge medicine routes, not solely A100."
+    },
+    {
+      "pool_id": "cambridge_international_a100",
+      "name": "Cambridge A100 International holistic pool",
+      "applies_to_group_ids": [
+        "international_fee"
+      ],
+      "fee_statuses": [
+        "international"
+      ],
+      "ranking_model": "holistic_review",
+      "ranking_factors": [
+        "academic_record",
+        "ucat_cognitive_total",
+        "contextual_information",
+        "central_moderation"
+      ],
+      "places_available": 22,
+      "source_ids": [
+        "cambridge_a100_research_doc"
+      ],
+      "notes": "OfS overseas quota is small and shared across Cambridge medicine routes; international outcomes require adviser review even where modelled guidance is available."
+    }
+  ],
+  "quotas": [
+    {
+      "quota_id": "cambridge_a100_places_2027_entry_verified",
+      "name": "Verified Home/International places (2027 entry)",
+      "home_places": 291,
+      "international_places": 22,
+      "quota_type": "verified_current_places",
+      "source_ids": [
+        "applysmart_admissions_team_verified_2026"
+      ],
+      "notes": "Home/International place figures verified by the ApplySmart admissions research team for 2027 entry."
+    },
+    {
+      "quota_id": "ofs_home_medical_mfl_291",
+      "source_ids": [
+        "cambridge_a100_research_doc"
+      ],
+      "places": 291,
+      "fee_status": "home",
+      "notes": "OfS anticipated Home places from 2025-26 onwards, shared across the university medical intake."
+    },
+    {
+      "quota_id": "ofs_overseas_medical_mfl_22",
+      "source_ids": [
+        "cambridge_a100_research_doc"
+      ],
+      "places": 22,
+      "fee_status": "international",
+      "notes": "OfS anticipated overseas places, shared across A100 and A101."
+    }
+  ],
+  "offer_selection": {
+    "verification_status": "official_source_verified_with_documented_gaps",
+    "source_ids": [
+      "cambridge_a100_research_doc"
+    ],
+    "interview_format": "One or two panel interviews, generally science-focused, held in December with possible pool interviews in January.",
+    "interview_scoring": "College-specific holistic judgement; no ApplySmart offer modelling.",
+    "offer_model": "College decision moderated by the winter pool. Offer-stage prediction is out of scope.",
+    "ranking_factors": [
+      "interview_performance",
+      "academic_record",
+      "UCAT cognitive total",
+      "reference",
+      "contextual information"
+    ],
+    "tie_breakers": [
+      "holistic judgement",
+      "winter pool redistribution",
+      "central moderation for international applicants"
+    ],
+    "waiting_list_policy": "No conventional reserve/waiting list; the winter pool redistributes strong applicants between colleges.",
+    "standard_offer": "A*A*A including Chemistry plus at least one of Biology, Physics or Mathematics, with college-specific variations.",
+    "contextual_offer": null,
+    "notes": "Offer prediction is unavailable and must not be implemented."
+  },
+  "historical_admissions": {
+    "verification_status": "mixed_official_and_historical_guidance",
+    "source_ids": [
+      "cambridge_a100_research_doc"
+    ],
+    "cycles": [
+      {
+        "entry_year": 2025,
+        "fee_status": "all_applicants",
+        "applications": 1791,
+        "offers": 288,
+        "score_scale": 2700,
+        "notes": "Headline applications and offers from the supplied research. UCAT means are retained in research/config metadata and are not rendered as cut-offs."
+      }
+    ],
+    "notes": "Cambridge publishes no interview cut-off. 2025 Home and International offer-holder UCAT means and modelled 2026/pre-2025 converted figures are historical calibration inputs only."
+  },
+  "sources": [
+    {
+      "source_id": "cambridge_a100_research_doc",
+      "title": "ApplySmart Cambridge A100 Master Research v2-2",
+      "url": null,
+      "source_type": "supplied_authoritative_research_document",
+      "published_date": "2026-07",
+      "accessed_date": "2026-07-21",
+      "applies_to_sections": [
+        "eligibility",
+        "interview_selection",
+        "contextual",
+        "historical_admissions",
+        "decision_timeline"
+      ],
+      "confidence": "mixed",
+      "evidence_classification": "official_foi_estimated_converted_modelled",
+      "notes": "User-supplied authoritative research document for this implementation."
+    },
+    {
+      "source_id": "cambridge_a100_engine_reference",
+      "title": "Cambridge A100 Engine JSON",
+      "url": null,
+      "source_type": "supplied_implementation_reference",
+      "published_date": "2026-07-21",
+      "accessed_date": "2026-07-21",
+      "applies_to_sections": [
+        "interview_band_config",
+        "result_card_wording"
+      ],
+      "confidence": "medium",
+      "evidence_classification": "implementation_reference_only",
+      "notes": "Used as reference only. Authoritative policy source remains the Cambridge research document."
+    }
+  ],
+  "validation": {
+    "source_status": "mixed_official_and_historical_guidance",
+    "last_verified": "2026-07-21",
+    "confidence_level": "Medium",
+    "completion_status": "complete_for_supported_scope_with_documented_gaps",
+    "known_unknowns": [
+      "College-specific A* placement and additional science/maths preferences vary and are not executable generically.",
+      "Scottish A1/A2 Advanced Higher precision is not represented in the generic grade-rank engine.",
+      "International country-specific qualification equivalency requires verified applicant evidence.",
+      "Cambridge publishes no official interview cut-off or score formula."
+    ],
+    "review_notes": "Implemented Cambridge A100 interview guidance as hidden modelled bands after official eligibility gates. Offer prediction remains out of scope."
+  },
+  "engine_notes": {
+    "eligibility": true,
+    "interview_prediction": true,
+    "historical_guidance": true,
+    "international_prediction": true,
+    "contextual_logic": true,
+    "result_card": true,
+    "regression": true,
+    "research_completeness": "complete_for_supported_scope_with_documented_gaps",
+    "manual_review_required": true,
+    "manual_review_policy": "conditional",
+    "eligibility_ready": true,
+    "interview_prediction_ready": true,
+    "offer_prediction_scope": "out_of_scope",
+    "prediction_confidence": "medium",
+    "result_card_ready": true,
+    "blocking_missing_fields": [],
+    "engine_assumptions": [
+      "The supplied research document is authoritative.",
+      "Cambridge Engine JSON is reference-only and not copied directly where it conflicts with the research.",
+      "Strong and Borderline Cambridge research labels are mapped onto existing ApplySmart canonical bands for runtime compatibility."
+    ],
+    "do_not_infer": [
+      "Do not expose internal UCAT boundaries or modelled score thresholds to applicants.",
+      "Do not treat modelled bands as Cambridge-published cut-offs.",
+      "Do not use SJT for Cambridge A100 interview selection.",
+      "Do not implement offer prediction.",
+      "Do not auto-evaluate non-standard overseas qualifications without verified equivalency evidence."
+    ],
+    "standardisation_drift": [
+      "Research labels five bands, including Strong and Borderline; ApplySmart runtime exposes existing canonical bands only. Strong maps conservatively into realistic guidance and Borderline maps to ambitious."
+    ]
+  }
+}

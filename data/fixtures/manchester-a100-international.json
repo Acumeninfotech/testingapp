@@ -1,0 +1,72 @@
+{
+  "schema_version": "1.0.0",
+  "course_profile_id": "manchester-a100",
+  "base_applicant_file": "data/fixtures/interview-band-classification/manchester-a100.json",
+  "base_applicant_property": "base_applicant",
+  "historical_guidance_cases": [
+    {
+      "ucat_total": 2029,
+      "expected_band": "high_risk",
+      "expected_recommendation": "Consider stronger alternatives"
+    },
+    {
+      "ucat_total": 2030,
+      "expected_band": "ambitious",
+      "expected_recommendation": "Possible but ambitious"
+    },
+    {
+      "ucat_total": 2059,
+      "expected_band": "ambitious",
+      "expected_recommendation": "Possible but ambitious"
+    },
+    {
+      "ucat_total": 2060,
+      "expected_band": "realistic",
+      "expected_recommendation": "Good chance – recommend applying"
+    },
+    {
+      "ucat_total": 2149,
+      "expected_band": "realistic",
+      "expected_recommendation": "Good chance – recommend applying"
+    },
+    {
+      "ucat_total": 2150,
+      "expected_band": "interview_likely",
+      "expected_recommendation": "Strong choice"
+    }
+  ],
+  "sjt_cases": [
+    {
+      "sjt_band": 1,
+      "expected_eligibility": "eligible"
+    },
+    {
+      "sjt_band": 2,
+      "expected_eligibility": "eligible"
+    },
+    {
+      "sjt_band": 3,
+      "expected_eligibility": "not_eligible",
+      "expected_failure": "disqualifying_sjt_rule"
+    },
+    {
+      "sjt_band": 4,
+      "expected_eligibility": "not_eligible",
+      "expected_failure": "disqualifying_sjt_rule"
+    }
+  ],
+  "post_interview_tie_break_case": {
+    "mmi_score": 35,
+    "candidates": [
+      {
+        "candidate_id": "lower_ucat",
+        "ucat_total": 2200
+      },
+      {
+        "candidate_id": "higher_ucat",
+        "ucat_total": 2250
+      }
+    ],
+    "expected_first": "higher_ucat"
+  }
+}

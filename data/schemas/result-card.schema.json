@@ -1,0 +1,762 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://applysmart.local/schemas/result-card.schema.json",
+  "title": "ApplySmart Completed University Result Card",
+  "type": "object",
+  "additionalProperties": true,
+  "required": [
+    "schema_version",
+    "template_version",
+    "result_id",
+    "generated_at",
+    "result_mode",
+    "course_identity",
+    "applicant_context",
+    "readiness",
+    "eligibility",
+    "prediction",
+    "confidence",
+    "evidence_confidence",
+    "display",
+    "decision_timeline",
+    "decision_transparency",
+    "engine_notes"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "1.0.0"
+    },
+    "template_version": {
+      "type": "string",
+      "minLength": 1
+    },
+    "result_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "generated_at": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "result_mode": {
+      "type": "string",
+      "minLength": 1
+    },
+    "course_identity": {
+      "type": "object",
+      "additionalProperties": true,
+      "required": [
+        "profile_id",
+        "university_name",
+        "course_name",
+        "ucas_code"
+      ],
+      "properties": {
+        "profile_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "university_name": {
+          "type": "string",
+          "minLength": 1
+        },
+        "course_name": {
+          "type": "string",
+          "minLength": 1
+        },
+        "ucas_code": {
+          "type": "string",
+          "minLength": 1
+        }
+      }
+    },
+    "applicant_context": {
+      "type": "object"
+    },
+    "readiness": {
+      "$ref": "#/$defs/readiness"
+    },
+    "eligibility": {
+      "type": "object",
+      "required": [
+        "status"
+      ],
+      "properties": {
+        "status": {
+          "type": "string",
+          "minLength": 1
+        }
+      }
+    },
+    "prediction": {
+      "type": "object",
+      "not": {
+        "anyOf": [
+          {
+            "required": [
+              "offer_prediction_status"
+            ]
+          },
+          {
+            "required": [
+              "offer_prediction_available"
+            ]
+          }
+        ]
+      },
+      "required": [
+        "available",
+        "result_band"
+      ],
+      "properties": {
+        "available": {
+          "type": "boolean"
+        },
+        "result_band": {
+          "enum": [
+            "interview_likely",
+            "realistic",
+            "ambitious",
+            "high_risk",
+            "eligible_to_apply",
+            "not_eligible",
+            "insufficient_evidence"
+          ]
+        }
+      }
+    },
+    "confidence": {
+      "type": "object",
+      "required": [
+        "level",
+        "summary",
+        "stage_confidence",
+        "source_ids"
+      ],
+      "properties": {
+        "level": {
+          "enum": [
+            "high",
+            "medium",
+            "low"
+          ]
+        },
+        "summary": {
+          "type": "string",
+          "minLength": 1
+        },
+        "stage_confidence": {
+          "type": "object"
+        },
+        "source_ids": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "uniqueItems": true
+        }
+      }
+    },
+    "evidence_confidence": {
+      "$ref": "#/$defs/evidence_confidence"
+    },
+    "display": {
+      "type": "object",
+      "required": [
+        "primary_user_facing_recommendation",
+        "recommendation_display_state",
+        "primary_explanation",
+        "historical_guidance_caveat"
+      ],
+      "properties": {
+        "primary_user_facing_recommendation": {
+          "type": "string",
+          "minLength": 1
+        },
+        "recommendation_display_state": {
+          "enum": [
+            "standard",
+            "eligibility_only",
+            "not_eligible",
+            "manual_review",
+            "insufficient_evidence"
+          ]
+        },
+        "primary_explanation": {
+          "type": "string",
+          "minLength": 1
+        },
+        "historical_guidance_caveat": {
+          "type": [
+            "string",
+            "null"
+          ]
+        }
+      }
+    },
+    "fee_information": {
+      "type": [
+        "object",
+        "null"
+      ]
+    },
+    "decision_timeline": {
+      "$ref": "#/$defs/decision_timeline"
+    },
+    "decision_transparency": {
+      "$ref": "#/$defs/decision_transparency"
+    },
+    "engine_notes": {
+      "type": "object"
+    },
+    "offer_prediction": false,
+    "offer_selection": false
+  },
+  "$defs": {
+    "decision_timeline_step": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "step",
+        "title",
+        "status",
+        "summary"
+      ],
+      "properties": {
+        "step": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 5
+        },
+        "title": {
+          "type": "string",
+          "minLength": 1
+        },
+        "status": {
+          "type": "string",
+          "minLength": 1
+        },
+        "summary": {
+          "type": "string",
+          "minLength": 1
+        }
+      }
+    },
+    "decision_timeline": {
+      "type": "array",
+      "prefixItems": [
+        {
+          "allOf": [
+            {
+              "$ref": "#/$defs/decision_timeline_step"
+            },
+            {
+              "properties": {
+                "step": {
+                  "const": 1
+                },
+                "title": {
+                  "const": "Applicant details checked"
+                },
+                "status": {
+                  "const": "Complete"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "allOf": [
+            {
+              "$ref": "#/$defs/decision_timeline_step"
+            },
+            {
+              "properties": {
+                "step": {
+                  "const": 2
+                },
+                "title": {
+                  "const": "Eligibility assessed"
+                },
+                "status": {
+                  "enum": [
+                    "Eligible",
+                    "Not eligible",
+                    "Manual review",
+                    "Insufficient evidence"
+                  ]
+                }
+              }
+            }
+          ]
+        },
+        {
+          "allOf": [
+            {
+              "$ref": "#/$defs/decision_timeline_step"
+            },
+            {
+              "properties": {
+                "step": {
+                  "const": 3
+                },
+                "title": {
+                  "const": "Selection model applied"
+                },
+                "status": {
+                  "enum": [
+                    "Complete",
+                    "Not predicted",
+                    "Manual review",
+                    "Insufficient evidence",
+                    "Not applied"
+                  ]
+                }
+              }
+            }
+          ]
+        },
+        {
+          "allOf": [
+            {
+              "$ref": "#/$defs/decision_timeline_step"
+            },
+            {
+              "properties": {
+                "step": {
+                  "const": 4
+                },
+                "title": {
+                  "const": "Historical guidance compared"
+                },
+                "status": {
+                  "enum": [
+                    "Complete",
+                    "Not used",
+                    "Not applied",
+                    "Insufficient evidence"
+                  ]
+                }
+              }
+            }
+          ]
+        },
+        {
+          "allOf": [
+            {
+              "$ref": "#/$defs/decision_timeline_step"
+            },
+            {
+              "properties": {
+                "step": {
+                  "const": 5
+                },
+                "title": {
+                  "const": "Interview recommendation produced"
+                },
+                "status": {
+                  "enum": [
+                    "Strong choice",
+                    "Good chance",
+                    "Possible but ambitious",
+                    "Consider stronger alternatives",
+                    "Eligible to apply",
+                    "Not eligible",
+                    "Manual review",
+                    "Insufficient evidence"
+                  ]
+                }
+              }
+            }
+          ]
+        }
+      ],
+      "items": false,
+      "minItems": 5,
+      "maxItems": 5
+    },
+    "decision_check": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "label",
+        "status",
+        "summary"
+      ],
+      "properties": {
+        "label": {
+          "type": "string",
+          "minLength": 1
+        },
+        "status": {
+          "type": "string",
+          "minLength": 1
+        },
+        "summary": {
+          "type": "string",
+          "minLength": 1
+        }
+      }
+    },
+    "decision_stage": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "stage",
+        "status",
+        "summary",
+        "checks"
+      ],
+      "properties": {
+        "stage": {
+          "enum": [
+            "Eligibility",
+            "Selection model",
+            "Historical guidance",
+            "Recommendation"
+          ]
+        },
+        "status": {
+          "type": "string",
+          "minLength": 1
+        },
+        "summary": {
+          "type": "string",
+          "minLength": 1
+        },
+        "checks": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/decision_check"
+          }
+        }
+      }
+    },
+    "decision_transparency": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "decision_path",
+        "key_reasons",
+        "evidence_used",
+        "evidence_confidence",
+        "manual_review_reason",
+        "insufficient_evidence_reason"
+      ],
+      "properties": {
+        "decision_path": {
+          "type": "array",
+          "prefixItems": [
+            {
+              "$ref": "#/$defs/decision_stage"
+            },
+            {
+              "$ref": "#/$defs/decision_stage"
+            },
+            {
+              "$ref": "#/$defs/decision_stage"
+            },
+            {
+              "$ref": "#/$defs/decision_stage"
+            }
+          ],
+          "items": false,
+          "minItems": 4,
+          "maxItems": 4
+        },
+        "key_reasons": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "evidence_used": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {
+            "enum": [
+              "Official admissions policy",
+              "University selection methodology",
+              "UCAT policy",
+              "Historical interview data",
+              "FOI evidence",
+              "Contextual admissions policy",
+              "International admissions policy",
+              "University selection process",
+              "Fee information",
+              "Documented prediction limitation"
+            ]
+          }
+        },
+        "evidence_confidence": {
+          "$ref": "#/$defs/evidence_confidence"
+        },
+        "warnings": {
+          "type": "array",
+          "description": "Applicant-facing public warnings only. Internal diagnostics stay in engine_notes, validation output, or logs.",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "manual_review_reason": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "insufficient_evidence_reason": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "insufficient_evidence_reason_code": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "enum": [
+            "university_methodology_gap",
+            "applicant_evidence_gap",
+            null
+          ]
+        },
+        "official_prediction": {
+          "type": [
+            "object",
+            "null"
+          ],
+          "additionalProperties": true,
+          "properties": {
+            "available": {
+              "type": "boolean"
+            },
+            "prediction_status": {
+              "type": "string"
+            },
+            "reason_code": {
+              "type": "string"
+            },
+            "explanation": {
+              "type": "string"
+            },
+            "source_ids": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "minLength": 1
+              }
+            }
+          }
+        },
+        "score_breakdown": {
+          "$ref": "#/$defs/score_breakdown"
+        },
+        "ucat_comparison": {
+          "type": [
+            "object",
+            "null"
+          ]
+        }
+      }
+    },
+    "score_breakdown": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "name",
+        "value",
+        "max",
+        "status",
+        "checks"
+      ],
+      "properties": {
+        "name": {
+          "type": "string",
+          "minLength": 1
+        },
+        "value": {
+          "type": [
+            "number",
+            "null"
+          ]
+        },
+        "max": {
+          "type": [
+            "number",
+            "null"
+          ]
+        },
+        "applicable_max_score": {
+          "type": [
+            "number",
+            "null"
+          ]
+        },
+        "selection_score_max": {
+          "type": [
+            "number",
+            "null"
+          ]
+        },
+        "global_max": {
+          "type": [
+            "number",
+            "null"
+          ]
+        },
+        "status": {
+          "type": "string",
+          "minLength": 1
+        },
+        "explanation": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "reason": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "unofficial": {
+          "type": "boolean"
+        },
+        "checks": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/decision_check"
+          }
+        }
+      }
+    },
+    "evidence_confidence": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "level",
+        "summary",
+        "reasons"
+      ],
+      "properties": {
+        "level": {
+          "enum": [
+            "High",
+            "Medium",
+            "Limited"
+          ]
+        },
+        "summary": {
+          "type": "string",
+          "minLength": 1
+        },
+        "reasons": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        }
+      }
+    },
+    "readiness": {
+      "type": "object",
+      "additionalProperties": true,
+      "not": {
+        "anyOf": [
+          {
+            "required": [
+              "offer_prediction"
+            ]
+          },
+          {
+            "required": [
+              "offer_prediction_ready"
+            ]
+          },
+          {
+            "required": [
+              "offer_prediction_enabled"
+            ]
+          }
+        ]
+      },
+      "required": [
+        "eligibility",
+        "interview_prediction",
+        "historical_guidance",
+        "international_prediction",
+        "contextual_logic",
+        "result_card",
+        "regression",
+        "research_completeness",
+        "manual_review_required",
+        "eligibility_ready",
+        "interview_prediction_ready",
+        "offer_prediction_scope",
+        "prediction_confidence",
+        "result_card_ready"
+      ],
+      "properties": {
+        "eligibility": {
+          "type": "boolean"
+        },
+        "interview_prediction": {
+          "type": "boolean"
+        },
+        "historical_guidance": {
+          "type": "boolean"
+        },
+        "international_prediction": {
+          "type": "boolean"
+        },
+        "contextual_logic": {
+          "type": "boolean"
+        },
+        "result_card": {
+          "type": "boolean"
+        },
+        "regression": {
+          "type": "boolean"
+        },
+        "research_completeness": {
+          "enum": [
+            "complete_for_supported_scope",
+            "complete_for_supported_scope_with_documented_gaps"
+          ]
+        },
+        "manual_review_required": {
+          "type": "boolean"
+        },
+        "eligibility_ready": {
+          "type": "boolean"
+        },
+        "interview_prediction_ready": {
+          "type": "boolean"
+        },
+        "offer_prediction_scope": {
+          "const": "out_of_scope"
+        },
+        "prediction_confidence": {
+          "enum": [
+            "high",
+            "medium",
+            "low"
+          ]
+        },
+        "result_card_ready": {
+          "type": "boolean"
+        }
+      }
+    }
+  }
+}

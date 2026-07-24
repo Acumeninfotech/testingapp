@@ -1,0 +1,305 @@
+{
+  "course_profile_id": "buckingham-71a8",
+  "base_applicant": {
+    "profile_id": "buckingham_base_home_a_level",
+    "application_year": 2026,
+    "course_target": {
+      "university_id": "buckingham-71a8",
+      "ucas_code": "71A8",
+      "entry_route": "standard_entry"
+    },
+    "applicant_identity": {
+      "fee_status": "Home",
+      "domicile": "England",
+      "applicant_type": "school_leaver"
+    },
+    "qualification_route": "a_level",
+    "gcse_profile": {
+      "subjects": {
+        "english_language": "6",
+        "mathematics": "6"
+      },
+      "total_gcse_count": 2
+    },
+    "a_level_profile": {
+      "subjects": [
+        {
+          "subject_id": "biology",
+          "predicted_grade": "A"
+        },
+        {
+          "subject_id": "chemistry",
+          "predicted_grade": "B"
+        },
+        {
+          "subject_id": "mathematics",
+          "predicted_grade": "B"
+        }
+      ]
+    },
+    "admissions_tests": {
+      "ucat": {
+        "taken": false,
+        "total_score": 1200,
+        "score_scale": 2700,
+        "sjt_band": 4,
+        "subtests": {
+          "verbal_reasoning": 400,
+          "decision_making": 400,
+          "quantitative_reasoning": 400
+        }
+      }
+    }
+  },
+  "scenarios": [
+    {
+      "scenario_id": "home_a_level_eligible_no_ucat_ranking",
+      "overrides": {},
+      "expected": {
+        "eligibility_status": "eligible",
+        "interview_band": "eligible_to_apply",
+        "guidance_pool_id": "home_71a8_eligibility_gate",
+        "fee_status": "home"
+      }
+    },
+    {
+      "scenario_id": "international_a_level_eligible_with_ielts",
+      "overrides": {
+        "profile_id": "buckingham_international_a_level",
+        "applicant_identity": {
+          "fee_status": "International",
+          "domicile": "international",
+          "applicant_type": "school_leaver"
+        },
+        "english_language_profile": {
+          "test": "IELTS Academic",
+          "scores": {
+            "overall": 7,
+            "reading": 6.5,
+            "writing": 6.5,
+            "listening": 6.5,
+            "speaking": 6.5
+          }
+        }
+      },
+      "expected": {
+        "eligibility_status": "eligible",
+        "interview_band": "eligible_to_apply",
+        "guidance_pool_id": "international_71a8_eligibility_gate",
+        "fee_status": "international"
+      }
+    },
+    {
+      "scenario_id": "low_a_level_grades_not_eligible",
+      "overrides": {
+        "a_level_profile": {
+          "subjects": [
+            {
+              "subject_id": "biology",
+              "predicted_grade": "B"
+            },
+            {
+              "subject_id": "chemistry",
+              "predicted_grade": "B"
+            },
+            {
+              "subject_id": "mathematics",
+              "predicted_grade": "B"
+            }
+          ]
+        }
+      },
+      "expected": {
+        "eligibility_status": "not_eligible",
+        "interview_band": "not_eligible",
+        "failure": "a_level_requirements_not_met"
+      }
+    },
+    {
+      "scenario_id": "missing_chemistry_or_biology_not_eligible",
+      "overrides": {
+        "a_level_profile": {
+          "subjects": [
+            {
+              "subject_id": "physics",
+              "predicted_grade": "A"
+            },
+            {
+              "subject_id": "mathematics",
+              "predicted_grade": "B"
+            },
+            {
+              "subject_id": "psychology",
+              "predicted_grade": "B"
+            }
+          ]
+        }
+      },
+      "expected": {
+        "eligibility_status": "not_eligible",
+        "interview_band": "not_eligible",
+        "failure": "a_level_requirements_not_met"
+      }
+    },
+    {
+      "scenario_id": "gcse_maths_failure",
+      "overrides": {
+        "gcse_profile": {
+          "subjects": {
+            "english_language": "6",
+            "mathematics": "3"
+          },
+          "total_gcse_count": 2
+        }
+      },
+      "expected": {
+        "eligibility_status": "not_eligible",
+        "interview_band": "not_eligible",
+        "failure": "minimum_gcse_grade_not_met:mathematics"
+      }
+    },
+    {
+      "scenario_id": "btec_explicitly_blocked",
+      "overrides": {
+        "qualification_route": "btec",
+        "btec_profile": {
+          "qualification": "BTEC Extended Diploma",
+          "subject_id": "science",
+          "grade": "D*D*D*"
+        }
+      },
+      "expected": {
+        "eligibility_status": "not_eligible",
+        "interview_band": "not_eligible",
+        "failure": "qualification_route_explicitly_blocked:btec"
+      }
+    },
+    {
+      "scenario_id": "ib_eligible",
+      "overrides": {
+        "qualification_route": "international_baccalaureate",
+        "a_level_profile": null,
+        "ib_profile": {
+          "total_points": 34,
+          "higher_level_subjects": [
+            {
+              "subject_id": "biology",
+              "grade": "6"
+            },
+            {
+              "subject_id": "chemistry",
+              "grade": "5"
+            },
+            {
+              "subject_id": "mathematics",
+              "grade": "5"
+            }
+          ]
+        }
+      },
+      "expected": {
+        "eligibility_status": "eligible",
+        "interview_band": "eligible_to_apply",
+        "guidance_pool_id": "home_71a8_eligibility_gate"
+      }
+    },
+    {
+      "scenario_id": "resit_requires_manual_review",
+      "overrides": {
+        "applicant_identity": {
+          "resit": {
+            "has_resits": true,
+            "first_sitting_grade_profile": [
+              "B",
+              "B",
+              "B"
+            ],
+            "extenuating_circumstances_exception_claimed": true
+          }
+        },
+        "a_level_profile": {
+          "subjects": [
+            {
+              "subject_id": "biology",
+              "achieved_grade": "A"
+            },
+            {
+              "subject_id": "chemistry",
+              "achieved_grade": "B"
+            },
+            {
+              "subject_id": "mathematics",
+              "achieved_grade": "B"
+            }
+          ]
+        }
+      },
+      "expected": {
+        "eligibility_status": "manual_review",
+        "interview_band": "insufficient_evidence",
+        "manual_review": "applicant_group_requires_manual_review:resit_applicant"
+      }
+    },
+    {
+      "scenario_id": "scottish_manual_review",
+      "overrides": {
+        "qualification_route": "scottish",
+        "a_level_profile": null,
+        "scottish_profile": {
+          "higher_subjects": [
+            {
+              "subject_id": "chemistry",
+              "grade": "A"
+            }
+          ]
+        }
+      },
+      "expected": {
+        "eligibility_status": "manual_review",
+        "interview_band": "insufficient_evidence",
+        "manual_review": "qualification_route_requires_manual_review:scottish"
+      }
+    },
+    {
+      "scenario_id": "international_missing_english_not_eligible",
+      "overrides": {
+        "applicant_identity": {
+          "fee_status": "International",
+          "domicile": "international",
+          "applicant_type": "school_leaver"
+        }
+      },
+      "expected": {
+        "eligibility_status": "not_eligible",
+        "interview_band": "not_eligible",
+        "failure": "international_english_language_requirement_not_met"
+      }
+    }
+  ],
+  "ucat_non_usage_checks": [
+    {
+      "taken": false,
+      "ucat_total": null,
+      "sjt_band": null,
+      "expected_band": "eligible_to_apply"
+    },
+    {
+      "taken": true,
+      "ucat_total": 1200,
+      "sjt_band": 4,
+      "expected_band": "eligible_to_apply"
+    },
+    {
+      "taken": true,
+      "ucat_total": 2100,
+      "sjt_band": 2,
+      "expected_band": "eligible_to_apply"
+    },
+    {
+      "taken": true,
+      "ucat_total": 2700,
+      "sjt_band": 1,
+      "expected_band": "eligible_to_apply"
+    }
+  ]
+}

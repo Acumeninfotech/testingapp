@@ -1,0 +1,1148 @@
+{
+  "schema_version": "1.0.0",
+  "profile_id": "imperial-college-london-a100",
+  "profile_status": "activated_for_scoped_eligibility_and_interview_guidance",
+  "verification_status": "official_and_foi_verified_exact_scoring_undisclosed",
+  "last_updated": "2026-07-22",
+  "university": {
+    "name": "Imperial College London",
+    "slug": "imperial-college-london",
+    "country": "United Kingdom",
+    "nation": "England",
+    "institution_type": "University",
+    "website_url": "https://www.imperial.ac.uk/"
+  },
+  "course": {
+    "name": "Medicine MBBS/BSc",
+    "ucas_code": "A100",
+    "entry_route": "standard_entry",
+    "qualification_awarded": "MBBS/BSc",
+    "duration_years": 6,
+    "campus": "London",
+    "location": "London, England",
+    "entry_year": 2027,
+    "fee_statuses": [
+      "home",
+      "international"
+    ],
+    "is_gateway_or_foundation": false,
+    "is_graduate_entry": false,
+    "notes": "Standard six-year Imperial College London A100 Medicine route only. Pears Cumbria Graduate Entry Medicine is out of scope."
+  },
+  "medical_school": {
+    "name": "School of Medicine, Faculty of Medicine",
+    "notes": "Production rules are mapped from the approved Imperial A100 research document supplied by the user."
+  },
+  "applicant_pools": [
+    {
+      "pool_id": "home_a100",
+      "applies_to_group_ids": [
+        "home_fee"
+      ],
+      "excluded_group_ids": [
+        "international_fee",
+        "contextual",
+        "widening_participation"
+      ],
+      "selection_relevance": "Eligible non-contextual Home applicants use the official 2026-entry Home UCAT threshold of 2320 as the last published interview-floor evidence."
+    },
+    {
+      "pool_id": "contextual_home_a100",
+      "applies_to_group_ids": [
+        "home_fee",
+        "contextual",
+        "widening_participation"
+      ],
+      "excluded_group_ids": [
+        "international_fee"
+      ],
+      "selection_relevance": "Eligible Home contextual or widening participation applicants use the official 2026-entry contextual UCAT threshold of 2170."
+    },
+    {
+      "pool_id": "overseas_a100",
+      "applies_to_group_ids": [
+        "international_fee"
+      ],
+      "selection_relevance": "Eligible overseas fee-status applicants use the official 2026-entry Overseas/EU/Query UCAT threshold of 2310."
+    }
+  ],
+  "applies_to_group_ids": [
+    "england_domiciled",
+    "scotland_domiciled",
+    "wales_domiciled",
+    "northern_ireland_domiciled",
+    "home_fee",
+    "international_fee",
+    "rest_of_uk",
+    "contextual",
+    "widening_participation",
+    "care_experienced",
+    "school_leaver",
+    "resit_applicant",
+    "deferred_entry"
+  ],
+  "stage_1_eligibility": {
+    "verification_status": "official_source_verified_with_documented_gaps",
+    "source_ids": [
+      "imperial_research_doc",
+      "imperial_course_page_2027",
+      "imperial_a100_foi_faq_2026_v2",
+      "imperial_english_language",
+      "msc_imperial_a100"
+    ],
+    "academic_requirements": {
+      "same_sitting": {
+        "required": true,
+        "qualification_routes": [
+          "a_level",
+          "international_baccalaureate",
+          "scottish"
+        ],
+        "notes": "Generic opt-in same-sitting enforcement. A-level has route-level applicant evidence; IB and Scottish same-sitting evidence are not currently represented and therefore route to manual review when this rule applies."
+      }
+    },
+    "overall_policy": {
+      "status": "official_rules_mapped_with_manual_review_boundaries",
+      "description": "Imperial checks eligibility first. Academic strength above the minimum is not scored. Eligible applicants must pass UCAT and SJT gates, then are considered against applicant-group-specific UCAT thresholds and ranking guidance.",
+      "not_eligible_if": [
+        "Minimum academic requirements are not met.",
+        "GCSE English Language is below grade 6/B.",
+        "A required science practical endorsement is not passed.",
+        "A-level qualifications were not completed in the same sitting unless an official exception applies.",
+        "Resits are present without formally accepted mitigating circumstances.",
+        "UCAT is missing, below the applicable official threshold, or not from the application cycle.",
+        "SJT Band 4 is supplied.",
+        "Graduate applicant is applying to A100."
+      ],
+      "source_ids": [
+        "imperial_research_doc",
+        "imperial_course_page_2027",
+        "imperial_a100_foi_faq_2026_v2"
+      ]
+    },
+    "gcse": {
+      "status": "official_source_verified",
+      "source_ids": [
+        "imperial_research_doc",
+        "imperial_course_page_2027"
+      ],
+      "minimum_count": null,
+      "counted_subject_limit": null,
+      "mandatory_subject_ids": [
+        "english_language"
+      ],
+      "grade_requirements": [
+        {
+          "requirement_id": "gcse_english_language_minimum",
+          "subject_id": "english_language",
+          "minimum_grade": "6/B",
+          "qualification_level": "gcse_or_igcse",
+          "decision_outcome_if_not_met": "not_eligible",
+          "source_ids": [
+            "imperial_research_doc",
+            "imperial_course_page_2027"
+          ]
+        }
+      ],
+      "accepted_equivalencies": [
+        "IGCSE English as a First Language grade B or 6",
+        "Scottish National 5 English grade B",
+        "IB English A grade 4 at SL or HL"
+      ],
+      "sitting_policy": "Only GCSE English Language is implemented as an automatic GCSE gate. GCSEs are not scored.",
+      "achieved_or_predicted": "achieved",
+      "selection_role": "eligibility_only",
+      "scored_after_eligibility": false,
+      "notes": "No GCSE Maths or GCSE science minimum is implemented because the supplied evidence does not publish one."
+    },
+    "post_16": {
+      "status": "official_source_verified_with_remaining_eligibility_exceptions",
+      "source_ids": [
+        "imperial_research_doc",
+        "imperial_course_page_2027"
+      ],
+      "accepted_qualification_types": [
+        "a_level",
+        "international_baccalaureate",
+        "advanced_highers",
+        "international_qualification"
+      ],
+      "a_level": {
+        "status": "official_source_verified",
+        "source_ids": [
+          "imperial_research_doc",
+          "imperial_course_page_2027"
+        ],
+        "standard_offer": {
+          "grade_profile": [
+            "A*",
+            "A",
+            "A"
+          ],
+          "source_ids": [
+            "imperial_research_doc"
+          ],
+          "notes": "A* and A must be across Biology and Chemistry, with the A* in either Biology or Chemistry."
+        },
+        "contextual_offer": {
+          "applies_to_group_ids": [
+            "home_fee",
+            "contextual",
+            "widening_participation"
+          ],
+          "grade_profile": [
+            "A*",
+            "A",
+            "A"
+          ],
+          "source_ids": [
+            "imperial_research_doc"
+          ],
+          "notes": "Contextual route keeps A*AA but the A* may be in any subject."
+        },
+        "grade_requirements": [
+          {
+            "requirement_id": "imperial_standard_a_level_astar_aa_biology_chemistry",
+            "excluded_group_ids": [
+              "contextual",
+              "widening_participation",
+              "graduate_applicant"
+            ],
+            "grade_profile": [
+              "A*",
+              "A",
+              "A"
+            ],
+            "required_subject_ids": [
+              "biology",
+              "chemistry"
+            ],
+            "required_subject_grade_options": [
+              {
+                "grade_requirements": [
+                  {
+                    "subject_id": "biology",
+                    "minimum_grade": "A*"
+                  },
+                  {
+                    "subject_id": "chemistry",
+                    "minimum_grade": "A"
+                  }
+                ]
+              },
+              {
+                "grade_requirements": [
+                  {
+                    "subject_id": "biology",
+                    "minimum_grade": "A"
+                  },
+                  {
+                    "subject_id": "chemistry",
+                    "minimum_grade": "A*"
+                  }
+                ]
+              }
+            ],
+            "excluded_subject_ids": [
+              "general_studies",
+              "thinking_skills"
+            ],
+            "decision_outcome_if_not_met": "not_eligible",
+            "source_ids": [
+              "imperial_research_doc"
+            ],
+            "notes": "General Studies and Critical Thinking are not accepted."
+          },
+          {
+            "requirement_id": "imperial_contextual_a_level_astar_any_subject_biology_chemistry_a",
+            "applies_to_group_ids": [
+              "home_fee"
+            ],
+            "any_group_ids": [
+              "contextual",
+              "widening_participation"
+            ],
+            "excluded_group_ids": [
+              "international_fee",
+              "graduate_applicant"
+            ],
+            "grade_profile": [
+              "A*",
+              "A",
+              "A"
+            ],
+            "required_subject_ids": [
+              "biology",
+              "chemistry"
+            ],
+            "subject_grade_requirements": [
+              {
+                "subject_id": "biology",
+                "minimum_grade": "A"
+              },
+              {
+                "subject_id": "chemistry",
+                "minimum_grade": "A"
+              }
+            ],
+            "excluded_subject_ids": [
+              "general_studies",
+              "thinking_skills"
+            ],
+            "decision_outcome_if_not_met": "not_eligible",
+            "source_ids": [
+              "imperial_research_doc"
+            ],
+            "notes": "Contextual applicants may place the A* in the third subject, but Biology and Chemistry must both be at A or above."
+          }
+        ],
+        "required_subject_ids": [
+          "biology",
+          "chemistry"
+        ],
+        "science_practical_endorsement_required": true,
+        "science_practical_subjects": [
+          "biology",
+          "chemistry",
+          "physics"
+        ],
+        "excluded_subject_ids": [
+          "general_studies",
+          "thinking_skills"
+        ],
+        "third_subject_rules": "Third subject must be grade A; General Studies and Critical Thinking are excluded.",
+        "predicted_grades_accepted": true,
+        "achieved_grades_scored": false,
+        "predicted_grades_scored": false,
+        "selection_role": "eligibility_only",
+        "notes": "Academic strength above A*AA does not create any Imperial UCAT-ranking advantage."
+      },
+      "ib": {
+        "status": "official_source_verified",
+        "source_ids": [
+          "imperial_research_doc"
+        ],
+        "total_points": 38,
+        "hl_points": null,
+        "contextual_route_implemented": true,
+        "grade_requirements": [
+          {
+            "requirement_id": "imperial_ib_38_hl6_biology_chemistry",
+            "total_points": 38,
+            "hl_grade_profile": [
+              "6",
+              "6"
+            ],
+            "required_hl_subject_grade_options": [
+              {
+                "grade_requirements": [
+                  {
+                    "subject_id": "biology",
+                    "minimum_grade": "6"
+                  },
+                  {
+                    "subject_id": "chemistry",
+                    "minimum_grade": "6"
+                  }
+                ]
+              }
+            ],
+            "required_hl_subject_ids": [
+              "biology",
+              "chemistry"
+            ],
+            "decision_outcome_if_not_met": "not_eligible",
+            "source_ids": [
+              "imperial_research_doc"
+            ]
+          }
+        ],
+        "required_hl_subject_ids": [
+          "biology",
+          "chemistry"
+        ],
+        "notes": "Same-sitting evidence for IB is not currently represented by the generic applicant input and therefore requires manual review when the same-sitting opt-in applies."
+      },
+      "scottish": {
+        "status": "official_source_verified",
+        "source_ids": [
+          "imperial_research_doc"
+        ],
+        "route_implemented": true,
+        "higher_offer": {
+          "grade_profile": [],
+          "source_ids": [
+            "imperial_research_doc"
+          ],
+          "notes": "Highers alone are insufficient."
+        },
+        "advanced_higher_offer": {
+          "grade_profile": [
+            "A",
+            "A",
+            "A"
+          ],
+          "source_ids": [
+            "imperial_research_doc"
+          ],
+          "notes": "Advanced Highers AAA including Biology, Chemistry and one further subject."
+        },
+        "grade_requirements": [
+          {
+            "requirement_id": "imperial_scottish_advanced_highers_aaa_biology_chemistry",
+            "qualification_level": "advanced_higher",
+            "grade_profile": [
+              "A",
+              "A",
+              "A"
+            ],
+            "required_subject_ids": [
+              "biology",
+              "chemistry"
+            ],
+            "one_of_subject_groups": [
+              {
+                "group_id": "third_advanced_higher",
+                "minimum_required": 1,
+                "subject_ids": [
+                  "physics",
+                  "mathematics",
+                  "further_mathematics",
+                  "psychology"
+                ]
+              }
+            ],
+            "decision_outcome_if_not_met": "not_eligible",
+            "source_ids": [
+              "imperial_research_doc"
+            ]
+          }
+        ],
+        "required_subject_ids": [
+          "biology",
+          "chemistry"
+        ],
+        "notes": "Same-sitting evidence for Scottish routes is not currently represented by the generic applicant input and therefore requires manual review when the same-sitting opt-in applies."
+      },
+      "degree": {
+        "status": "not_accepted_for_a100_entry_route",
+        "source_ids": [
+          "imperial_research_doc"
+        ],
+        "decision_outcome_if_not_met": "not_eligible",
+        "notes": "A100 does not accept graduate applicants; Pears Cumbria GEM is a separate out-of-scope course."
+      },
+      "blocked_routes": [
+        {
+          "route_id": "graduate",
+          "status": "blocked",
+          "notes": "Graduate applicants are not accepted onto Imperial London A100."
+        },
+        {
+          "route_id": "foundation_programmes",
+          "status": "blocked",
+          "notes": "Gateway/foundation routes are not part of Imperial A100 scope."
+        }
+      ],
+      "notes": "Country-specific international qualification equivalences are not automatically approximated."
+    },
+    "admissions_tests": {
+      "source_ids": [
+        "imperial_research_doc",
+        "imperial_a100_foi_faq_2026_v2"
+      ],
+      "ucat": {
+        "required": true,
+        "source_ids": [
+          "imperial_research_doc",
+          "imperial_a100_foi_faq_2026_v2"
+        ],
+        "minimum_total_score": null,
+        "group_minimum_total_scores": [
+          {
+            "applies_to_group_ids": [
+              "home_fee"
+            ],
+            "any_group_ids": [
+              "contextual",
+              "widening_participation"
+            ],
+            "excluded_group_ids": [
+              "international_fee"
+            ],
+            "minimum_total_score": 2170,
+            "source_ids": [
+              "imperial_a100_foi_faq_2026_v2"
+            ]
+          },
+          {
+            "applies_to_group_ids": [
+              "international_fee"
+            ],
+            "minimum_total_score": 2310,
+            "source_ids": [
+              "imperial_a100_foi_faq_2026_v2"
+            ]
+          },
+          {
+            "applies_to_group_ids": [
+              "home_fee"
+            ],
+            "excluded_group_ids": [
+              "international_fee",
+              "contextual",
+              "widening_participation"
+            ],
+            "minimum_total_score": 2320,
+            "source_ids": [
+              "imperial_course_page_2027",
+              "imperial_a100_foi_faq_2026_v2"
+            ]
+          }
+        ],
+        "minimum_subsection_scores": [],
+        "score_used_for_ranking": "UCAT cognitive total (VR + DM + QR)",
+        "validity_window": "current admissions cycle",
+        "exemptions": [],
+        "decision_outcome_if_not_met": "not_eligible",
+        "notes": "Do not invent subsection cutoffs. A 2025 subsection-minimum rule was referenced, but exact values were not disclosed and the official 2026 disclosure lists total-score and SJT thresholds only."
+      },
+      "sjt": {
+        "used": true,
+        "source_ids": [
+          "imperial_research_doc",
+          "imperial_a100_foi_faq_2026_v2"
+        ],
+        "used_as_gate": true,
+        "accepted_bands": [
+          1,
+          2,
+          3
+        ],
+        "excluded_bands": [
+          4
+        ],
+        "scoring": {
+          "used_in_score": false,
+          "points_by_band": {}
+        },
+        "decision_outcome_if_excluded": "not_eligible",
+        "notes": "SJT Bands 1-3 pass. Band 4 is discounted before interview prediction."
+      },
+      "other_tests": []
+    },
+    "resits": {
+      "policy": "not_accepted_unless_official_exception",
+      "source_ids": [
+        "imperial_research_doc",
+        "msc_imperial_a100"
+      ],
+      "allowed": false,
+      "conditions": [
+        "Only formally accepted mitigating circumstances may permit an exception."
+      ],
+      "maximum_resits": 0,
+      "decision_outcome_if_not_allowed": "not_eligible",
+      "notes": "Resit applicants without an approved official exception are not eligible."
+    },
+    "english_language": {
+      "source_ids": [
+        "imperial_english_language",
+        "imperial_research_doc"
+      ],
+      "applies_to_group_ids": [
+        "international_fee"
+      ],
+      "accepted_tests": [
+        {
+          "test": "IELTS Academic",
+          "overall_minimum": 7,
+          "minimum_each_component": 6.5,
+          "source_ids": [
+            "imperial_english_language"
+          ]
+        }
+      ],
+      "exemptions": [
+        "GCSE English Language grade 6/B",
+        "Accepted country or qualification exemption where Imperial confirms it"
+      ],
+      "decision_outcome_if_not_met": "not_eligible",
+      "notes": "Full Imperial Higher Level English table is retained in research metadata; the automatic engine checks IELTS or a declared exemption."
+    },
+    "age_or_professional_checks": {
+      "source_ids": [
+        "imperial_research_doc"
+      ],
+      "minimum_age": 18,
+      "fitness_to_practise_required": true,
+      "dbs_required": true,
+      "occupational_health_required": true,
+      "decision_outcome_if_not_met": "not_eligible",
+      "notes": "Applicant must be 18 by course start; professional checks apply before clinical placements."
+    }
+  },
+  "stage_2_interview_selection": {
+    "verification_status": "official_and_foi_verified_exact_scoring_undisclosed",
+    "source_ids": [
+      "imperial_research_doc",
+      "imperial_a100_foi_faq_2026_v2"
+    ],
+    "primary_model": "ucat_ranking",
+    "modifiers": [
+      "contextual_adjustment",
+      "separate_applicant_pool",
+      "sjt_band_4_exclusion"
+    ],
+    "ranking_factors": [
+      {
+        "factor_id": "ucat_cognitive_total",
+        "factor_type": "admissions_test",
+        "weight_percent": 100,
+        "points_available": null,
+        "source_field": "admissions_tests.ucat.total_score",
+        "source_ids": [
+          "imperial_research_doc",
+          "imperial_a100_foi_faq_2026_v2"
+        ],
+        "notes": "Academic requirements are eligibility gates only and do not add ranking points."
+      }
+    ],
+    "calculation": {
+      "verification_status": "official_source_verified",
+      "source_ids": [
+        "imperial_research_doc"
+      ],
+      "score_components": [
+        {
+          "component_id": "ucat_cognitive_total",
+          "factor_id": "ucat_cognitive_total",
+          "input_field": "admissions_tests.ucat.total_score",
+          "calculation_method": "direct_total_score",
+          "scale": {
+            "min": 0,
+            "max": 2700
+          },
+          "weight_percent": 100,
+          "rounding": "none",
+          "notes": "VR + DM + QR total on the 2700 scale.",
+          "source_ids": [
+            "imperial_research_doc"
+          ]
+        }
+      ],
+      "total_score": {
+        "calculation_method": "ucat_total",
+        "components": [
+          "ucat_cognitive_total"
+        ],
+        "scale": {
+          "min": 0,
+          "max": 2700
+        },
+        "notes": "No academic or SJT points are added to the UCAT total.",
+        "source_ids": [
+          "imperial_research_doc"
+        ]
+      },
+      "notes": "Threshold survivors are ranked by UCAT cognitive total; passing a threshold is not a guaranteed interview."
+    },
+    "thresholds": [
+      {
+        "threshold_id": "home_2026_ucat_floor",
+        "applies_to_group_ids": [
+          "home_fee"
+        ],
+        "metric": "ucat_total",
+        "operator": "greater_than_or_equal",
+        "value": 2320,
+        "decision_outcome_if_not_met": "not_eligible",
+        "source_ids": [
+          "imperial_a100_foi_faq_2026_v2"
+        ],
+        "notes": "Official 2026-entry Home threshold on the 2700 scale."
+      },
+      {
+        "threshold_id": "contextual_2026_ucat_floor",
+        "applies_to_group_ids": [
+          "home_fee",
+          "contextual"
+        ],
+        "metric": "ucat_total",
+        "operator": "greater_than_or_equal",
+        "value": 2170,
+        "decision_outcome_if_not_met": "not_eligible",
+        "source_ids": [
+          "imperial_a100_foi_faq_2026_v2"
+        ],
+        "notes": "Official 2026-entry contextual/WP threshold on the 2700 scale."
+      },
+      {
+        "threshold_id": "overseas_2026_ucat_floor",
+        "applies_to_group_ids": [
+          "international_fee"
+        ],
+        "metric": "ucat_total",
+        "operator": "greater_than_or_equal",
+        "value": 2310,
+        "decision_outcome_if_not_met": "not_eligible",
+        "source_ids": [
+          "imperial_a100_foi_faq_2026_v2"
+        ],
+        "notes": "Official Overseas/EU/Query fee-status threshold; no extra invented international penalty is applied."
+      }
+    ],
+    "selection_adjustments": [
+      {
+        "adjustment_id": "contextual_2026_threshold",
+        "modifier_id": "contextual_adjustment",
+        "applies_to_group_ids": [
+          "home_fee",
+          "contextual"
+        ],
+        "condition": {
+          "field": "applicant_group_ids",
+          "operator": "contains",
+          "value": "contextual"
+        },
+        "effect": {
+          "type": "threshold",
+          "target": "ucat_total",
+          "value": 2170
+        },
+        "decision_outcome": "eligible",
+        "source_ids": [
+          "imperial_a100_foi_faq_2026_v2"
+        ],
+        "notes": "Contextual handling changes the UCAT threshold and A-level A* placement only."
+      }
+    ],
+    "tie_breakers": [
+      {
+        "order": 1,
+        "metric": "unknown",
+        "direction": "unknown",
+        "source_ids": [
+          "imperial_research_doc"
+        ],
+        "notes": "Tie-breakers are not published."
+      }
+    ],
+    "output_band_policy": {
+      "bands": [
+        "interview_likely",
+        "realistic",
+        "ambitious",
+        "high_risk",
+        "not_eligible",
+        "insufficient_evidence"
+      ],
+      "notes": "Bands above official thresholds are ApplySmart modelled guidance only. They are not official Imperial cutoffs and must not be presented as guarantees."
+    },
+    "notes": "Academic eligibility failures, same-sitting failures, resit failures and SJT Band 4 suppress UCAT interview guidance."
+  },
+  "contextual_admissions": {
+    "verification_status": "official_source_verified_with_documented_gaps",
+    "source_ids": [
+      "imperial_research_doc",
+      "imperial_course_page_2027"
+    ],
+    "available": true,
+    "applies_to_group_ids": [
+      "home_fee",
+      "contextual",
+      "widening_participation"
+    ],
+    "criteria": [
+      {
+        "criterion_id": "imperial_wp_or_contextual_flag",
+        "applies_to_group_ids": [
+          "contextual",
+          "widening_participation"
+        ],
+        "description": "Imperial WP flag, declared carer evidence by the stated deadline, or participation in a recognised Imperial outreach programme.",
+        "source_ids": [
+          "imperial_research_doc"
+        ],
+        "notes": "The generic ApplySmart contextual group is used only where the applicant's Imperial-relevant contextual status has been confirmed."
+      }
+    ],
+    "adjustments": [
+      {
+        "adjustment_id": "contextual_ucat_threshold_2170",
+        "applies_to_group_ids": [
+          "home_fee",
+          "contextual",
+          "widening_participation"
+        ],
+        "stage": "interview_selection",
+        "policy_description": "Use official 2026 contextual UCAT threshold of 2170.",
+        "effect": {
+          "type": "threshold",
+          "target": "ucat_total",
+          "value": 2170
+        },
+        "source_ids": [
+          "imperial_a100_foi_faq_2026_v2"
+        ],
+        "notes": "No contextual points or percentage uplift are implemented."
+      }
+    ],
+    "guaranteed_interview_rules": [],
+    "notes": "Contextual A-level handling permits the A* in any subject but does not reduce the A*AA grade profile."
+  },
+  "ranking_pools": [
+    {
+      "pool_id": "home_a100",
+      "name": "Home A100",
+      "applies_to_group_ids": [
+        "home_fee"
+      ],
+      "fee_statuses": [
+        "home"
+      ],
+      "ranking_model": "ucat_ranking",
+      "ranking_factors": [
+        "ucat_cognitive_total"
+      ],
+      "places_available": 271,
+      "source_ids": [
+        "imperial_research_doc"
+      ],
+      "notes": "2026 Home places are used as latest confirmed intake context."
+    },
+    {
+      "pool_id": "overseas_a100",
+      "name": "Overseas A100",
+      "applies_to_group_ids": [
+        "international_fee"
+      ],
+      "fee_statuses": [
+        "international"
+      ],
+      "ranking_model": "ucat_ranking",
+      "ranking_factors": [
+        "ucat_cognitive_total"
+      ],
+      "places_available": 74,
+      "source_ids": [
+        "imperial_research_doc",
+        "imperial_a100_foi_faq_2026_v2"
+      ],
+      "notes": "Official Overseas threshold of 2310 is used; no additional inferred penalty is applied."
+    }
+  ],
+  "quotas": [
+    {
+      "quota_id": "imperial_college_london_a100_places_2027_entry_verified",
+      "name": "Verified Home/International places (2027 entry)",
+      "home_places": 271,
+      "international_places": 74,
+      "quota_type": "verified_current_places",
+      "source_ids": [
+        "applysmart_admissions_team_verified_2026"
+      ],
+      "notes": "Home/International place figures verified by the ApplySmart admissions research team for 2027 entry."
+    },
+    {
+      "quota_id": "home_places_2026",
+      "name": "Home places",
+      "applies_to_group_ids": [
+        "home_fee"
+      ],
+      "stage": "admissions_intake",
+      "quota_type": "places",
+      "value": 271,
+      "source_ids": [
+        "imperial_research_doc"
+      ],
+      "notes": "2026 entry latest confirmed places."
+    },
+    {
+      "quota_id": "overseas_places_2026",
+      "name": "Overseas places",
+      "applies_to_group_ids": [
+        "international_fee"
+      ],
+      "stage": "admissions_intake",
+      "quota_type": "places",
+      "value": 74,
+      "source_ids": [
+        "imperial_research_doc",
+        "imperial_a100_foi_faq_2026_v2"
+      ],
+      "notes": "2026 entry latest confirmed places."
+    }
+  ],
+  "offer_selection": {
+    "verification_status": "official_source_verified_with_remaining_unpublished_offer_fields",
+    "source_ids": [
+      "imperial_research_doc",
+      "imperial_a100_foi_faq_2026_v2"
+    ],
+    "interview_format": "MMI",
+    "interview_scoring": {
+      "score_used": "combined_mmi_total_score",
+      "minimum_score": null,
+      "station_scores": [
+        {
+          "station_count": 6,
+          "station_duration_minutes": 5,
+          "content_points": 6,
+          "communication_points": 4,
+          "total_points_per_station": 10,
+          "source_ids": [
+            "imperial_a100_foi_faq_2026_v2"
+          ]
+        }
+      ],
+      "sjt_used_post_interview": false,
+      "decision_outcome_if_not_met": "unknown",
+      "source_ids": [
+        "imperial_a100_foi_faq_2026_v2"
+      ],
+      "notes": "Offer threshold values are not published and offer prediction remains out of scope."
+    },
+    "offer_model": "out_of_scope",
+    "ranking_factors": [],
+    "tie_breakers": [],
+    "waiting_list_policy": "unknown",
+    "standard_offer": {
+      "grade_profile": [
+        "A*",
+        "A",
+        "A"
+      ],
+      "source_ids": [
+        "imperial_research_doc"
+      ],
+      "notes": "A*AA with Biology and Chemistry conditions."
+    },
+    "contextual_offer": {
+      "applies_to_group_ids": [
+        "home_fee",
+        "contextual"
+      ],
+      "grade_profile": [
+        "A*",
+        "A",
+        "A"
+      ],
+      "source_ids": [
+        "imperial_research_doc"
+      ],
+      "notes": "A* may be in any subject."
+    },
+    "notes": "Interview information is informational only and is not used for offer prediction."
+  },
+  "historical_admissions": {
+    "verification_status": "official_and_foi_verified_exact_scoring_undisclosed",
+    "source_ids": [
+      "imperial_research_doc",
+      "imperial_a100_foi_faq_2026_v2"
+    ],
+    "cycles": [
+      {
+        "cycle": "2026 entry",
+        "applies_to_group_ids": [
+          "home_fee"
+        ],
+        "applications": null,
+        "interviews": 617,
+        "offers": null,
+        "places": 271,
+        "ucat_cutoff": 2320,
+        "interview_score_cutoff": null,
+        "verification_status": "official_published_threshold",
+        "notes": "Official Home UCAT threshold on the 2700 scale."
+      },
+      {
+        "cycle": "2026 entry",
+        "applies_to_group_ids": [
+          "contextual",
+          "widening_participation"
+        ],
+        "applications": null,
+        "interviews": null,
+        "offers": null,
+        "places": null,
+        "ucat_cutoff": 2170,
+        "interview_score_cutoff": null,
+        "verification_status": "official_published_threshold",
+        "notes": "Official contextual/WP UCAT threshold on the 2700 scale."
+      },
+      {
+        "cycle": "2026 entry",
+        "applies_to_group_ids": [
+          "international_fee"
+        ],
+        "applications": null,
+        "interviews": 253,
+        "offers": null,
+        "places": 74,
+        "ucat_cutoff": 2310,
+        "interview_score_cutoff": null,
+        "verification_status": "official_published_threshold",
+        "notes": "Official Overseas/EU/Query UCAT threshold on the 2700 scale."
+      },
+      {
+        "cycle": "2025 entry",
+        "applies_to_group_ids": [],
+        "applications": 2149,
+        "interviews": 852,
+        "offers": 661,
+        "places": 357,
+        "ucat_cutoff": null,
+        "interview_score_cutoff": null,
+        "verification_status": "official_context_only_3600_scale_averages",
+        "notes": "2025 UCAT averages were on the former 3600 scale including Abstract Reasoning and are not converted or used as thresholds."
+      },
+      {
+        "cycle": "2020-2024 entry",
+        "applies_to_group_ids": [],
+        "applications": null,
+        "interviews": null,
+        "offers": null,
+        "places": null,
+        "ucat_cutoff": null,
+        "interview_score_cutoff": null,
+        "verification_status": "not_applicable_bmat_era",
+        "notes": "Imperial used BMAT before the 2025-entry UCAT cycle; pre-2025 UCAT thresholds are structurally not applicable."
+      }
+    ],
+    "notes": "Limited current-scale UCAT threshold depth is surfaced through low evidence confidence."
+  },
+  "sources": [
+    {
+      "source_id": "imperial_research_doc",
+      "title": "ApplySmart Master Research - Imperial College London A100 Medicine",
+      "url": "local:/Users/faizan/Desktop/medical university research/University-data-list/imperial/Imperial_A100_ApplySmart_FINAL_Merged-2.md",
+      "source_type": "user_supplied_official_sources_research",
+      "published_date": "2026-07-22",
+      "accessed_date": "2026-07-22",
+      "applies_to_sections": [
+        "all"
+      ],
+      "confidence": "high",
+      "notes": "User designated this research file as authoritative for Imperial-specific implementation."
+    },
+    {
+      "source_id": "imperial_course_page_2027",
+      "title": "Imperial College London Medicine MBBS/BSc A100 course page",
+      "url": "https://www.imperial.ac.uk/study/courses/undergraduate/medicine/",
+      "source_type": "official_course_page",
+      "published_date": null,
+      "accessed_date": "2026-07-22",
+      "applies_to_sections": [
+        "academic_requirements",
+        "ucat",
+        "contextual"
+      ],
+      "confidence": "high",
+      "notes": "Official course page evidence as captured in the supplied research."
+    },
+    {
+      "source_id": "imperial_a100_foi_faq_2026_v2",
+      "title": "Imperial A100 Admissions FOI FAQs 2026 v2",
+      "url": "https://www.imperial.ac.uk/media/imperial-college/medicine/study/undergraduate/A100-FOI-FAQs-2026--v2.pdf",
+      "source_type": "official_foi_faq",
+      "published_date": "2026",
+      "accessed_date": "2026-07-22",
+      "applies_to_sections": [
+        "ucat_thresholds",
+        "overseas_threshold",
+        "interview_format",
+        "statistics"
+      ],
+      "confidence": "high",
+      "notes": "Official 2026 thresholds and MMI details."
+    },
+    {
+      "source_id": "imperial_english_language",
+      "title": "Imperial English language Higher Level requirements",
+      "url": "https://www.imperial.ac.uk/study/apply/english-language/",
+      "source_type": "official_admissions_policy",
+      "published_date": null,
+      "accessed_date": "2026-07-22",
+      "applies_to_sections": [
+        "english_language"
+      ],
+      "confidence": "high",
+      "notes": "Full table preserved in research; automatic engine checks IELTS or declared exemption."
+    },
+    {
+      "source_id": "msc_imperial_a100",
+      "title": "Medical Schools Council Imperial College London Medicine A100",
+      "url": "https://www.medschools.ac.uk/courses/imperial-college-london-medicine-a100/",
+      "source_type": "official_cross_check",
+      "published_date": null,
+      "accessed_date": "2026-07-22",
+      "applies_to_sections": [
+        "resits",
+        "course_identity"
+      ],
+      "confidence": "medium",
+      "notes": "MSC cross-check used only where consistent with Imperial official evidence."
+    }
+  ],
+  "validation": {
+    "source_status": "official_and_foi_verified",
+    "last_verified": "2026-07-22",
+    "confidence_level": "Low",
+    "completion_status": {
+      "stage_1_eligibility": "complete_for_supported_scope_with_manual_review_boundaries",
+      "stage_2_interview_selection": "complete_for_interview_guidance",
+      "contextual_admissions": "complete_for_supported_scope",
+      "ranking_pools": "complete",
+      "quotas": "complete",
+      "offer_selection": "informational_only_out_of_scope",
+      "historical_admissions": "limited_depth_current_scale_thresholds_only",
+      "sources": "complete"
+    },
+    "known_unknowns": [
+      "UCAT subsection minimum values are unpublished and not executed.",
+      "Future-cycle UCAT thresholds are not published in advance.",
+      "Tie-breakers are unknown.",
+      "Reserve-list policy is unknown.",
+      "Post-interview offer thresholds are unpublished and out of scope.",
+      "IB and Scottish same-sitting evidence are not represented by current applicant inputs and route to manual review."
+    ],
+    "review_notes": "Existing Imperial seed profile replaced with official and FOI verified production profile for A100 only."
+  },
+  "engine_notes": {
+    "eligibility": true,
+    "interview_prediction": true,
+    "historical_guidance": true,
+    "international_prediction": true,
+    "contextual_logic": true,
+    "result_card": true,
+    "regression": true,
+    "research_completeness": "complete_for_supported_scope_with_documented_gaps",
+    "manual_review_required": true,
+    "eligibility_ready": true,
+    "interview_prediction_ready": true,
+    "offer_prediction_scope": "out_of_scope",
+    "prediction_confidence": "low",
+    "result_card_ready": true,
+    "interview_band_config_ready": true,
+    "metadata_activation_ready": true,
+    "production_ready": true,
+    "activation_ready": true,
+    "blocking_missing_fields": [],
+    "engine_assumptions": [
+      "Contextual group IDs are applied only after Imperial-relevant contextual/WP status is confirmed.",
+      "A-level same-sitting evidence uses a_level_profile.completed_in_one_sitting.",
+      "IB and Scottish applicants require manual review for same-sitting evidence because no route-level field exists in the current applicant model."
+    ],
+    "do_not_infer": [
+      "Do not score GCSEs.",
+      "Do not award academic ranking points above minimum eligibility.",
+      "Do not invent UCAT subsection cutoffs.",
+      "Do not convert 2025 /3600 UCAT averages to /2700.",
+      "Do not present 2400 or 2500 as official Imperial thresholds.",
+      "Do not claim an interview is guaranteed.",
+      "Do not predict offers or post-interview probability.",
+      "Do not route Imperial London A100 graduate applicants into Pears Cumbria GEM."
+    ]
+  }
+}

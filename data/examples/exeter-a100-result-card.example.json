@@ -1,0 +1,394 @@
+{
+  "schema_version": "1.0.0",
+  "template_version": "1.0.0",
+  "result_id": "exeter-a100-home-predicted-direct-school-leaver-example",
+  "generated_at": "2026-07-13",
+  "result_mode": "example_eligibility_with_official_exeter_score_and_guidance_threshold",
+  "course_identity": {
+    "profile_id": "exeter-a100",
+    "university_name": "University of Exeter",
+    "course_name": "BMBS Medicine",
+    "ucas_code": "A100",
+    "entry_route": "standard_entry",
+    "qualification_awarded": "BMBS",
+    "duration_years": 5,
+    "location": "Exeter, England",
+    "source_ids": [
+      "exeter_bmbs_admissions_policy_2026_v4"
+    ]
+  },
+  "applicant_context": {
+    "applies_to_group_ids": [
+      "england_domiciled",
+      "home_fee",
+      "school_leaver"
+    ],
+    "applicant_summary": "Home predicted A-level direct school-leaver with GCSE English Language 7, predicted A*AA including Biology and Chemistry, UCAT 2220/2700 and SJT Band 4.",
+    "fee_cohort": "home",
+    "entry_route": "standard_entry",
+    "qualification_route": "a_level",
+    "contextual": false,
+    "graduate": false,
+    "source_ids": []
+  },
+  "readiness": {
+    "eligibility": true,
+    "interview_prediction": true,
+    "historical_guidance": true,
+    "international_prediction": true,
+    "contextual_logic": true,
+    "result_card": true,
+    "regression": true,
+    "research_completeness": "complete_for_supported_scope_with_documented_gaps",
+    "manual_review_required": true,
+    "eligibility_ready": true,
+    "interview_prediction_ready": true,
+    "prediction_confidence": "medium",
+    "result_card_ready": true,
+    "offer_prediction_scope": "out_of_scope"
+  },
+  "eligibility": {
+    "status": "eligible",
+    "summary": "The represented Home predicted A-level direct school-leaver meets Exeter's supported GCSE, A-level and UCAT eligibility checks. SJT Band 4 is not used by Exeter for shortlisting.",
+    "stage_1_checks": [
+      {
+        "check_id": "gcse_english_language",
+        "label": "GCSE English Language",
+        "status": "pass",
+        "requirement": "GCSE English Language grade B/6.",
+        "applicant_value": "English Language 7.",
+        "decision_outcome": "eligible",
+        "source_ids": [
+          "exeter_bmbs_admissions_policy_2026_v4"
+        ]
+      },
+      {
+        "check_id": "a_level_subjects",
+        "label": "A-level threshold and subjects",
+        "status": "pass",
+        "requirement": "A*AA including grade A in Biology and Chemistry.",
+        "applicant_value": "Predicted A*AA including Biology and Chemistry.",
+        "decision_outcome": "eligible",
+        "source_ids": [
+          "exeter_bmbs_admissions_policy_2026_v4"
+        ]
+      },
+      {
+        "check_id": "ucat_required",
+        "label": "UCAT",
+        "status": "pass",
+        "requirement": "UCAT required for direct school leavers.",
+        "applicant_value": "UCAT 2220/2700.",
+        "decision_outcome": "eligible",
+        "source_ids": [
+          "exeter_bmbs_admissions_policy_2026_v4"
+        ]
+      },
+      {
+        "check_id": "sjt_not_used",
+        "label": "SJT",
+        "status": "pass",
+        "requirement": "SJT is not used as an Exeter shortlisting gate.",
+        "applicant_value": "Band 4 supplied; not excluded.",
+        "decision_outcome": "eligible",
+        "source_ids": [
+          "exeter_bmbs_admissions_policy_2026_v4"
+        ]
+      }
+    ],
+    "blocking_reasons": [],
+    "warnings": [
+      "Exeter Score guidance is not an offer prediction or a guaranteed interview.",
+      "GAMSAT/non-direct school-leaver applicants remain manual review."
+    ],
+    "source_ids": [
+      "exeter_bmbs_admissions_policy_2026_v4"
+    ]
+  },
+  "stage_2_selection": {
+    "verification_status": "official_exeter_score_verified",
+    "primary_model": "academic_plus_ucat_weighting",
+    "summary": "Exeter ranks direct school leavers using the official Exeter Score: grade profile plus UCAT decile, with +10 for achieved grades and +5 for WP/contextual eligibility. This example is non-contextual and predicted, so neither uplift is added.",
+    "represented_ranking_input": {
+      "score": 70,
+      "max": 90,
+      "metric": "selection_score"
+    },
+    "ranking_factors": [
+      {
+        "factor_id": "exeter_grade_profile_score",
+        "label": "Grade profile score",
+        "calculation_status": "calculated",
+        "notes": "Predicted A*AA maps to 38 base points before UCAT decile contribution.",
+        "source_ids": [
+          "exeter_bmbs_admissions_policy_2026_v4"
+        ]
+      },
+      {
+        "factor_id": "exeter_ucat_decile_score",
+        "label": "UCAT decile score",
+        "calculation_status": "calculated",
+        "notes": "UCAT 2220 is mapped through the shared national UCAT decile lookup and contributes 32 points.",
+        "source_ids": [
+          "exeter_bmbs_admissions_policy_2026_v4"
+        ]
+      },
+      {
+        "factor_id": "achieved_grade_uplift",
+        "label": "Achieved-grade uplift",
+        "calculation_status": "calculated",
+        "notes": "0/10 because the applicant is predicted, not achieved."
+      },
+      {
+        "factor_id": "wp_contextual_uplift",
+        "label": "Contextual uplift",
+        "calculation_status": "calculated",
+        "notes": "0/5 because the applicant is not WP/contextual. Contextual applicants receive the +5 score uplift only; ApplySmart does not also lower the threshold."
+      }
+    ],
+    "selection_adjustments": [],
+    "unknown_calculation_areas": [
+      "Future live interview cut-off",
+      "GAMSAT route automation",
+      "country-specific international qualification equivalence"
+    ],
+    "source_ids": [
+      "exeter_bmbs_admissions_policy_2026_v4",
+      "exeter_research_document_2026"
+    ]
+  },
+  "historical_context": {
+    "use": "score_guidance_only",
+    "fixed_current_cutoff": false,
+    "not_deterministic": true,
+    "warning": "The 74 Home Exeter Score figure is stored as guidance only. Historical FOI-derived UCAT equivalents are not used for prediction.",
+    "represented_pool": {
+      "pool_id": "exeter_home_direct_school_leaver",
+      "score_scale": 90,
+      "published_cutpoint": "74 Exeter Score Home guidance",
+      "entry_cycles": [
+        "2026"
+      ]
+    }
+  },
+  "prediction": {
+    "available": true,
+    "capability": "interview_guidance",
+    "prediction_type": "official_exeter_score_with_guidance_threshold",
+    "prediction_status": "official_score_calculated",
+    "result_band": "realistic",
+    "guidance_pool_id": "exeter_home_direct_school_leaver",
+    "score": 70,
+    "score_scale": {
+      "min": 0,
+      "max": 90
+    },
+    "band_basis": "The represented Exeter Score is 70/90, which is 4 points below the 74 Home score guidance threshold. Interview thresholds may change each admissions cycle depending on applicant competition and interview capacity. Historical figures are guidance only, not a current cut-off, and do not guarantee an interview.",
+    "historical_comparison": "score_guidance_threshold",
+    "missing_data_reasons": [],
+    "cannot_predict_explanation": null,
+    "source_ids": [
+      "exeter_bmbs_admissions_policy_2026_v4",
+      "exeter_research_document_2026"
+    ]
+  },
+  "confidence": {
+    "level": "medium",
+    "summary": "Official Exeter Score methodology is executable for the represented route; interview score guidance remains guidance rather than a future guarantee.",
+    "stage_confidence": {
+      "eligibility": "high",
+      "score_formula": "high",
+      "guidance_threshold": "medium",
+      "post_interview_offer_stage": "out_of_scope"
+    },
+    "source_ids": [
+      "exeter_bmbs_admissions_policy_2026_v4",
+      "exeter_research_document_2026"
+    ]
+  },
+  "evidence_confidence": {
+    "level": "Medium",
+    "summary": "The recommendation is supported by core admissions evidence, with some historical or route-specific limits.",
+    "reasons": [
+      "Official eligibility rules are available.",
+      "The university selection approach is implemented.",
+      "Historical interview guidance is available, but some evidence is historical, FOI-derived or has documented gaps."
+    ]
+  },
+  "display": {
+    "primary_user_facing_recommendation": "Realistic choice based on your selection score",
+    "recommendation_display_state": "standard",
+    "primary_explanation": "Your selection score is 4 points below the recent interview threshold of 74 for this applicant pool. This result does not mean the threshold was met.",
+    "historical_guidance_caveat": "Interview thresholds may change each admissions cycle depending on applicant competition and interview capacity. Historical figures are guidance only, not a current cut-off, and do not guarantee an interview."
+  },
+  "decision_timeline": [
+    {
+      "step": 1,
+      "title": "Applicant details checked",
+      "status": "Complete",
+      "summary": "Your applicant type, qualifications and UCAT details were checked."
+    },
+    {
+      "step": 2,
+      "title": "Eligibility assessed",
+      "status": "Eligible",
+      "summary": "You meet the published entry requirements covered by ApplySmart."
+    },
+    {
+      "step": 3,
+      "title": "Selection model applied",
+      "status": "Complete",
+      "summary": "The official Exeter Score was applied, combining grade-profile points, UCAT national-decile points and verified achieved-grade or contextual/WP uplifts."
+    },
+    {
+      "step": 4,
+      "title": "Historical guidance compared",
+      "status": "Complete",
+      "summary": "Your selection score is 4 points below the recent interview threshold of 74 for this applicant pool. This result does not mean the threshold was met. It was compared with interview information from previous admissions cycles. Interview thresholds may change each admissions cycle depending on applicant competition and interview capacity. Historical figures are guidance only, not a current cut-off, and do not guarantee an interview."
+    },
+    {
+      "step": 5,
+      "title": "Interview recommendation produced",
+      "status": "Good chance",
+      "summary": "Your selection score is 4 points below the recent interview threshold of 74 for this applicant pool. This result does not mean the threshold was met. Treat this as guidance for university choice, not a promised interview."
+    }
+  ],
+  "decision_transparency": {
+    "decision_path": [
+      {
+        "stage": "Eligibility",
+        "status": "Met",
+        "summary": "The supported entry requirements are met.",
+        "checks": [
+          {
+            "label": "Entry requirements",
+            "status": "Met",
+            "summary": "The supported entry requirements have been assessed."
+          }
+        ]
+      },
+      {
+        "stage": "Selection model",
+        "status": "Assessed",
+        "summary": "The university selection approach is applied after eligibility checks.",
+        "checks": [
+          {
+            "label": "Applicant pool",
+            "status": "Used",
+            "summary": "Home, Rest of UK applicants"
+          },
+          {
+            "label": "Grade profile score",
+            "status": "Counted",
+            "summary": "38 out of 58."
+          },
+          {
+            "label": "UCAT score",
+            "status": "Counted",
+            "summary": "32 out of 32."
+          },
+          {
+            "label": "Achieved-grade uplift",
+            "status": "Counted",
+            "summary": "0 out of 10."
+          },
+          {
+            "label": "Contextual uplift",
+            "status": "Counted",
+            "summary": "0 out of 5."
+          },
+          {
+            "label": "Selection score threshold",
+            "status": "Below threshold",
+            "summary": "Your selection score is 4 points below the recent interview threshold of 74 for this applicant pool. This result does not mean the threshold was met."
+          }
+        ]
+      },
+      {
+        "stage": "Historical guidance",
+        "status": "Guidance available",
+        "summary": "Your selection score is 4 points below the recent interview threshold of 74 for this applicant pool. This result does not mean the threshold was met. Interview thresholds may change each admissions cycle depending on applicant competition and interview capacity. Historical figures are guidance only, not a current cut-off, and do not guarantee an interview.",
+        "checks": [
+          {
+            "label": "Applicant pool",
+            "status": "Used",
+            "summary": "Home, Rest of UK applicants"
+          },
+          {
+            "label": "Important limitation",
+            "status": "Guidance only",
+            "summary": "Interview thresholds may change each admissions cycle depending on applicant competition and interview capacity. Historical figures are guidance only, not a current cut-off, and do not guarantee an interview."
+          }
+        ]
+      },
+      {
+        "stage": "Recommendation",
+        "status": "Guidance only",
+        "summary": "Your selection score is 4 points below the recent interview threshold of 74 for this applicant pool. This result does not mean the threshold was met. Treat this as guidance for university choice, not a promised interview.",
+        "checks": []
+      }
+    ],
+    "key_reasons": [
+      "The supported entry requirements are met.",
+      "The result uses Home, Rest of UK applicants.",
+      "Your selection score is 4 points below the recent interview threshold of 74 for this applicant pool. This result does not mean the threshold was met."
+    ],
+    "evidence_used": [
+      "Official admissions policy",
+      "University selection methodology",
+      "UCAT policy",
+      "Historical interview data"
+    ],
+    "evidence_confidence": {
+      "level": "Medium",
+      "summary": "The recommendation is supported by core admissions evidence, with some historical or route-specific limits.",
+      "reasons": [
+        "Official eligibility rules are available.",
+        "The university selection approach is implemented.",
+        "Historical interview guidance is available, but some evidence is historical, FOI-derived or has documented gaps."
+      ]
+    },
+    "warnings": [],
+    "manual_review_reason": null,
+    "insufficient_evidence_reason": null,
+    "insufficient_evidence_reason_code": null,
+    "score_breakdown": {
+      "name": "Exeter Score",
+      "value": 70,
+      "max": 90,
+      "status": "calculated",
+      "explanation": null,
+      "checks": [
+        {
+          "label": "Grade profile score",
+          "status": "Counted",
+          "summary": "Predicted A*AA maps to 38 base points before UCAT decile contribution."
+        },
+        {
+          "label": "UCAT decile score",
+          "status": "Counted",
+          "summary": "UCAT 2220 is mapped through the shared national UCAT decile lookup and contributes 32 points."
+        },
+        {
+          "label": "Achieved-grade uplift",
+          "status": "Counted",
+          "summary": "0/10 because the applicant is predicted, not achieved."
+        },
+        {
+          "label": "Contextual uplift",
+          "status": "Counted",
+          "summary": "0/5 because the applicant is not WP/contextual. Contextual applicants receive the +5 score uplift only; ApplySmart does not also lower the threshold."
+        }
+      ],
+      "applicable_max_score": 90,
+      "selection_score_max": 90,
+      "global_max": 105
+    }
+  },
+  "engine_notes": {
+    "offer_prediction_scope": "out_of_scope",
+    "contextual_double_counting_guard": "Contextual is represented as +5 score uplift only; no lower contextual threshold is applied.",
+    "historical_foi_ucat_equivalents_executable": false,
+    "gamsat_route": "manual_review"
+  }
+}

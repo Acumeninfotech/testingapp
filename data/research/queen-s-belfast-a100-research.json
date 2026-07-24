@@ -1,0 +1,309 @@
+{
+  "schema_version": "1.0.0",
+  "profile_id": "queen-s-belfast-a100-research",
+  "course_profile_id": "queen-s-belfast-a100",
+  "research_status": "complete_for_supported_scope_with_documented_gaps",
+  "file_purpose": "Research and evidence profile for Queen's University Belfast Medicine MB BCh BAO A100. Executable production rules live in data/universities/queen-s-belfast-a100.json.",
+  "official_rules_source": "data/universities/queen-s-belfast-a100.json",
+  "created_at": "2026-07-22",
+  "last_updated": "2026-07-22",
+  "research_scope": {
+    "target_entry_year": 2026,
+    "primary_course": "A100",
+    "primary_scope": [
+      "standard_home_school_leaver_a_level_with_representable_biology_route",
+      "standard_home_school_leaver_ib_with_gcse_scoring_evidence",
+      "contextual_route_detection_and_prediction_suppression",
+      "verified_pathway_opportunity_programme_guaranteed_interview",
+      "international_pathway_detection_and_prediction_suppression"
+    ],
+    "manual_review_scope": [
+      "A-level routes requiring AS Biology/Human Biology evidence",
+      "Scottish Higher academic-point scoring",
+      "Irish Junior Certificate academic-point scoring",
+      "country-specific international equivalencies",
+      "BTEC/OCR Level 2 GCSE-equivalence counting",
+      "resit applicants where applicant-specific evidence is required"
+    ],
+    "excluded_related_courses": [
+      "A101",
+      "A102",
+      "Gateway",
+      "Foundation",
+      "Graduate Entry Medicine"
+    ],
+    "production_json_updated": true,
+    "index_updated": true,
+    "examples_updated": true,
+    "regression_scripts_updated": true,
+    "activation_flags_updated": true,
+    "authoritative_inputs": [
+      "Qub_a100.docx",
+      "QUB_A100_Interview_Band_Config.json",
+      "QUB_A100_Runtime_Spec.json"
+    ],
+    "third_party_admissions_websites_used": false,
+    "notes": "The supplied dossier is the canonical university-specific source. No alternative admissions policy was substituted."
+  },
+  "evidence_classification_policy": {
+    "OFFICIAL": "Stated directly by QUB, MSC, UCAS or the UCAT Consortium in the supplied dossier.",
+    "FOI": "Official QUB Freedom of Information response cited by the supplied dossier.",
+    "APPLYSMART_DERIVED": "ApplySmart prediction-band labelling or calibration; not an official QUB band or cut-off.",
+    "UNAVAILABLE": "A source or value identified as unpublished or not found.",
+    "MANUAL_REVIEW": "Evidence-supported route that Engine v1.0 cannot execute fully without shared-engine changes."
+  },
+  "metadata": {
+    "engine_version": "ApplySmart Engine v1.0",
+    "architecture_change_required": false,
+    "implementation_mapping_source": "QUB_A100_Runtime_Spec.json",
+    "band_config_source": "QUB_A100_Interview_Band_Config.json",
+    "active_band_source_requested": "derived_prediction_bands_on_official_45_scale",
+    "active_band_source_stored": "derived_prediction_bands_45_scale",
+    "technical_naming_correction": "The runtime spec's active_band_source was aligned to the supplied band configuration key derived_prediction_bands_45_scale. Band values, confidence and methodology were not changed.",
+    "selection_model_mapping": "official_gcse_points_36_plus_official_ucat_decile_points_9_on_official_45_point_scale",
+    "standardisation_profile": "production_ready_supported_scope_with_applysmart_derived_prediction_bands"
+  },
+  "readiness": {
+    "eligibility": true,
+    "interview_prediction": true,
+    "historical_guidance": true,
+    "international_prediction": false,
+    "contextual_logic": true,
+    "result_card": true,
+    "regression": true,
+    "research_completeness": "complete_for_supported_scope_with_documented_gaps",
+    "manual_review_required": true,
+    "eligibility_ready": true,
+    "interview_prediction_ready": true,
+    "prediction_confidence": "medium",
+    "result_card_ready": true,
+    "offer_prediction_scope": "out_of_scope",
+    "interview_band_config_ready": true,
+    "metadata_activation_ready": true,
+    "activation_ready": true,
+    "production_ready": true,
+    "production_ready_candidate": true,
+    "production_activation_should_remain_blocked": false,
+    "activation_block_reason": null,
+    "critical_research_blockers": [],
+    "route_limited_blockers": [
+      "Official 2026 interview threshold is not yet published.",
+      "No official standard international GCSE+UCAT scoring formula is published.",
+      "AS-level Biology/Human Biology evidence is required for some A-level branches but is not executed by the generic Engine v1.0 route checker.",
+      "Scottish Higher and Irish Junior Certificate academic-point scoring are documented but not executed by the generic GCSE component-sum scorer."
+    ],
+    "engine_execution_boundaries": [
+      "Standard Home A-level and IB applicants can receive a prediction when eligibility, GCSE scoring and UCAT decile inputs are complete.",
+      "Contextual NI BT-postcode applicants are routed separately and do not receive the standard GCSE+UCAT prediction.",
+      "Verified QUB POP completers receive guaranteed-interview handling after academic eligibility checks pass.",
+      "International applicants are routed separately and do not receive a derived Home prediction band.",
+      "SJT is tie-break only and does not affect the main numeric score."
+    ],
+    "summary": "Official evidence supports the standard Home pre-interview formula and derived ApplySmart bands on the official 45-point scale. Documented route boundaries are explicitly suppressed or sent to review."
+  },
+  "course_identity": {
+    "university": "Queen's University Belfast",
+    "medical_school": "School of Medicine, Dentistry and Biomedical Sciences",
+    "course_name": "Medicine MB BCh BAO",
+    "ucas_code": "A100",
+    "duration_years": 5,
+    "entry_route": "standard_entry",
+    "home_places": 236,
+    "international_places": 36,
+    "source_ids": [
+      "qub_policy_2026",
+      "qub_course_page_2026",
+      "msc_qub_a100_2027"
+    ],
+    "evidence_classification": "OFFICIAL"
+  },
+  "selection_model": {
+    "type": "two_stage_process",
+    "stage_1": "Interview shortlisting uses the official pre-interview score: GCSE points plus UCAT decile points.",
+    "stage_2": "Final offers are based solely on MMI performance.",
+    "official_formula": "GCSE points + UCAT decile points",
+    "official_scale": {
+      "gcse_points_max": 36,
+      "ucat_points_max": 9,
+      "pre_interview_score_max": 45
+    },
+    "methodology_confidence": "High",
+    "prediction_calibration_confidence": "Medium",
+    "derived_prediction_bands": true,
+    "offer_prediction": "out_of_scope",
+    "sjt_shortlisting_role": "tie_break_only",
+    "source_ids": [
+      "qub_policy_2026"
+    ],
+    "evidence_classification": "OFFICIAL_WITH_APPLYSMART_DERIVED_BANDS"
+  },
+  "academic_requirements": {
+    "gcse": {
+      "minimum_subjects": [
+        "English Language grade C/4",
+        "Mathematics grade C/4 if not offered at AS/A-level",
+        "Physics grade C/4 or Double Award Science CC/44 if Physics not offered at AS/A-level"
+      ],
+      "scoring": {
+        "official": true,
+        "best_subject_count": 9,
+        "maximum_points": 36,
+        "points_by_grade": {
+          "9_or_A_star": 4,
+          "7_8_or_A": 3,
+          "6_or_B": 2,
+          "4_5_or_C": 1
+        },
+        "short_course": "half points where supported"
+      },
+      "source_ids": [
+        "qub_policy_2026",
+        "msc_qub_a100_2027"
+      ]
+    },
+    "a_level": {
+      "standard_routes": [
+        "AAA plus A in a fourth AS-level, including A-level Chemistry plus at least one other A-level from Biology/Human Biology, Mathematics or Physics; AS Biology/Human Biology required if not held at A-level",
+        "A*AA including Chemistry and Biology/Human Biology",
+        "A*AA including Chemistry and Mathematics or Physics plus AS Biology/Human Biology grade B"
+      ],
+      "engine_status": "A*AA Chemistry plus Biology/Human Biology route executable; AS-specific branches routed to manual review.",
+      "scored_for_interview": false,
+      "source_ids": [
+        "qub_policy_2026"
+      ]
+    },
+    "international_baccalaureate": {
+      "standard": "36 points with 6,6,6 including Chemistry and Biology at Higher Level",
+      "engine_status": "Eligibility route executable when complete IB and GCSE scoring evidence is supplied.",
+      "source_ids": [
+        "qub_policy_2026"
+      ]
+    },
+    "scottish": {
+      "academic_points_table": {
+        "ABBBB": 28,
+        "AABBB": 30,
+        "AAABB": 32,
+        "AAAAB": 34,
+        "AAAAA": 36
+      },
+      "advanced_higher_requirement": "Chemistry grade A plus one of Biology/Human Biology, Mathematics or Physics at A; offer profile depends on Higher performance.",
+      "engine_status": "Eligibility can be represented for the AAAAA plus AA route; prediction is suppressed for Scottish-only profiles because Engine v1.0 does not execute the QUB Higher academic-points table.",
+      "source_ids": [
+        "qub_policy_2026"
+      ]
+    },
+    "irish_leaving_certificate": {
+      "standard": "H1 H1 in Biology and Chemistry, H1 H1 H2 H2 at Higher Level, O3 English and Maths at Ordinary if not at Higher, and Physics background evidence.",
+      "shortlisting_score": "Junior Certificate best nine",
+      "engine_status": "Verified Irish route can be routed through international_qualification evidence; prediction is suppressed unless Junior Certificate scoring inputs are represented.",
+      "source_ids": [
+        "qub_policy_2026"
+      ]
+    }
+  },
+  "ucat_and_sjt": {
+    "ucat_required": true,
+    "ucat_points_2026": {
+      "official": true,
+      "scale": "decile points 0-9",
+      "points_by_decile": {
+        "1": 0,
+        "2": 1,
+        "3": 2,
+        "4": 3,
+        "5": 4,
+        "6": 5,
+        "7": 6,
+        "8": 7,
+        "9": 8,
+        "10": 9
+      }
+    },
+    "raw_ucat_cutoff": "not_published",
+    "sjt": {
+      "used_as_gate": false,
+      "used_in_score": false,
+      "tie_break_only": true,
+      "band_4_automatic_rejection": false
+    },
+    "source_ids": [
+      "qub_policy_2026",
+      "ucat_consortium_2025"
+    ]
+  },
+  "historical_thresholds": {
+    "scale_42_cycles_used": "2019-2025",
+    "thresholds": {
+      "2019": 32,
+      "2020": 30,
+      "2021": 32,
+      "2022": 37,
+      "2023": 38,
+      "2024": "38 or 37 plus SJT Bands 1-2",
+      "2025": 30
+    },
+    "cycles_excluded": "2015-2018 are not comparable because grades B/C were not scored before 2019.",
+    "source_ids": [
+      "qub_policy_2026"
+    ]
+  },
+  "contextual_and_international": {
+    "contextual_ni_bt_postcode": {
+      "standard_prediction": "suppressed",
+      "reason": "Alternative shortlisting basis uses AS-level grades, UCAT and predicted A-level performance rather than the standard GCSE score.",
+      "source_ids": [
+        "qub_policy_2026"
+      ]
+    },
+    "pop": {
+      "standard_prediction": "overridden",
+      "outcome": "guaranteed_interview",
+      "requires_specific_programme_completion": true,
+      "requires_academic_eligibility": true,
+      "generic_contextual_flag_sufficient": false,
+      "source_ids": [
+        "qub_policy_2026"
+      ]
+    },
+    "international": {
+      "standard_prediction": "suppressed",
+      "reason": "International applicants are assessed through a separate pathway and QUB has not published an equivalent international scoring methodology.",
+      "places": 36,
+      "source_ids": [
+        "qub_policy_2026"
+      ]
+    }
+  },
+  "remaining_evidence_gaps": [
+    {
+      "gap_id": "official_2026_interview_threshold",
+      "status": "not_published",
+      "blocking_for_supported_prediction": false,
+      "reason": "ApplySmart bands are clearly labelled as derived and use Medium prediction calibration confidence."
+    },
+    {
+      "gap_id": "standard_international_scoring_formula",
+      "status": "not_published",
+      "blocking_for_international_prediction": true,
+      "reason": "International applicants are routed to Not Applicable / International Pathway."
+    },
+    {
+      "gap_id": "exact_recent_cycle_counts",
+      "status": "not_published",
+      "blocking_for_supported_prediction": false
+    },
+    {
+      "gap_id": "contextual_ring_fenced_places",
+      "status": "not_published",
+      "blocking_for_supported_prediction": false
+    },
+    {
+      "gap_id": "official_3600_to_2700_raw_ucat_conversion",
+      "status": "not_published",
+      "blocking_for_supported_prediction": false,
+      "reason": "No raw UCAT cut-off is used or converted."
+    }
+  ]
+}

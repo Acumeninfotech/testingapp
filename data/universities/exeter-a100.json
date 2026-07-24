@@ -1,0 +1,715 @@
+{
+  "schema_version": "1.0.0",
+  "profile_id": "exeter-a100",
+  "profile_status": "production_ready_eligibility_and_interview_guidance",
+  "verification_status": "official_source_verified_with_documented_gaps",
+  "last_updated": "2026-07-13",
+  "university": {
+    "name": "University of Exeter",
+    "slug": "exeter",
+    "country": "United Kingdom",
+    "nation": "England",
+    "institution_type": "University",
+    "website_url": "https://www.exeter.ac.uk/"
+  },
+  "course": {
+    "name": "BMBS Medicine",
+    "ucas_code": "A100",
+    "entry_route": "standard_entry",
+    "qualification_awarded": "BMBS",
+    "duration_years": 5,
+    "campus": "Exeter",
+    "location": "Exeter, England",
+    "entry_year": 2027,
+    "fee_statuses": [
+      "home",
+      "international"
+    ],
+    "is_gateway_or_foundation": false,
+    "is_graduate_entry": false,
+    "notes": "Standard-entry BMBS Medicine. Exeter does not publish a separate A101/A102/A104/A106 route in the supplied research; non-direct school leavers, including graduates more than two full academic years after level 3 study, use GAMSAT and are routed to manual review in ApplySmart."
+  },
+  "medical_school": {
+    "name": "University of Exeter Medical School",
+    "notes": "Rules mapped from the user-supplied Exeter research document and the official BMBS Medicine Admissions Policy 2026 entry V4."
+  },
+  "applicant_pools": [
+    {
+      "pool_id": "exeter_home_direct_school_leaver",
+      "applies_to_group_ids": [
+        "home_fee",
+        "school_leaver"
+      ],
+      "excluded_group_ids": [
+        "international_fee",
+        "graduate_applicant"
+      ],
+      "selection_relevance": "Direct school leavers are scored using the Exeter Score: academic profile plus UCAT decile, with conditional achieved-grade and WP contextual uplifts where evidenced."
+    },
+    {
+      "pool_id": "exeter_international_direct_school_leaver",
+      "applies_to_group_ids": [
+        "international_fee",
+        "school_leaver"
+      ],
+      "excluded_group_ids": [
+        "graduate_applicant"
+      ],
+      "selection_relevance": "International applicants are ranked separately. The same Exeter Score is used, but international interview places are constrained by quota."
+    },
+    {
+      "pool_id": "exeter_gamsat_non_direct_school_leaver_manual_review",
+      "applies_to_group_ids": [
+        "graduate_applicant"
+      ],
+      "selection_relevance": "Non-direct school leavers, including graduates more than two full academic years after level 3 study, use GAMSAT. ApplySmart records this route as manual review and does not automate GAMSAT Exeter Score ranking."
+    }
+  ],
+  "applies_to_group_ids": [
+    "england_domiciled",
+    "scotland_domiciled",
+    "wales_domiciled",
+    "northern_ireland_domiciled",
+    "home_fee",
+    "international_fee",
+    "rest_of_uk",
+    "contextual",
+    "widening_participation",
+    "care_experienced",
+    "graduate_applicant",
+    "school_leaver",
+    "mature_applicant",
+    "resit_applicant",
+    "deferred_entry"
+  ],
+  "stage_1_eligibility": {
+    "verification_status": "official_source_verified_with_documented_gaps",
+    "source_ids": [
+      "exeter_bmbs_admissions_policy_2026_v4",
+      "exeter_bmbs_course_page_2026"
+    ],
+    "overall_policy": {
+      "status": "official_rules_mapped_with_manual_review_boundaries",
+      "description": "Applicants must meet the published academic entry requirements before Exeter Score shortlisting. Direct school leavers sit UCAT. Non-direct school leavers use GAMSAT and are manual review in ApplySmart.",
+      "not_eligible_if": [
+        "The applicable A-level or IB academic requirement is not met.",
+        "Required Biology and Chemistry subject conditions are not met.",
+        "GCSE English Language grade B/6 is not met.",
+        "A valid UCAT score is missing for the direct school-leaver route.",
+        "The course-target UCAS code is not A100."
+      ],
+      "source_ids": [
+        "exeter_bmbs_admissions_policy_2026_v4"
+      ]
+    },
+    "gcse": {
+      "status": "official_source_verified",
+      "minimum_count": 1,
+      "mandatory_subject_ids": [
+        "english_language"
+      ],
+      "grade_requirements": [
+        {
+          "requirement_id": "gcse_english_language_minimum",
+          "subject_id": "english_language",
+          "minimum_grade": "6/B",
+          "qualification_level": "gcse_or_equivalent",
+          "decision_outcome_if_not_met": "not_eligible",
+          "source_ids": [
+            "exeter_bmbs_admissions_policy_2026_v4"
+          ]
+        }
+      ],
+      "accepted_equivalencies": [
+        "Equivalent English Language qualifications may be considered by Exeter."
+      ],
+      "sitting_policy": "No additional executable GCSE sitting rule was supplied for the supported direct school-leaver route.",
+      "achieved_or_predicted": "achieved",
+      "selection_role": "eligibility_only",
+      "scored_after_eligibility": false,
+      "notes": "The official policy extract states GCSE English Language grade B/6. No GCSE points score is used for Exeter Score."
+    },
+    "post_16": {
+      "verification_status": "official_source_verified",
+      "accepted_qualification_types": [
+        "a_level",
+        "international_baccalaureate",
+        "access_to_he",
+        "gamsat_manual_review"
+      ],
+      "a_level": {
+        "status": "official_source_verified",
+        "standard_offer": {
+          "grade_profile": [
+            "A*",
+            "A",
+            "A"
+          ],
+          "required_subject_ids": [
+            "biology",
+            "chemistry"
+          ],
+          "subject_grade_requirements": [
+            {
+              "subject_id": "biology",
+              "minimum_grade": "A"
+            },
+            {
+              "subject_id": "chemistry",
+              "minimum_grade": "A"
+            }
+          ]
+        },
+        "contextual_offer": {
+          "grade_profile": [
+            "A",
+            "A",
+            "B"
+          ],
+          "required_subject_ids": [
+            "biology",
+            "chemistry"
+          ],
+          "subject_grade_requirements": [
+            {
+              "subject_id": "biology",
+              "minimum_grade": "A"
+            },
+            {
+              "subject_id": "chemistry",
+              "minimum_grade": "A"
+            }
+          ]
+        },
+        "excluded_subject_ids": [
+          "general_studies"
+        ],
+        "predicted_grades_accepted": true,
+        "notes": "Typical offer A*AA including A in Biology and Chemistry. Contextual offer AAB including A in Biology and Chemistry."
+      },
+      "ib": {
+        "status": "official_source_verified",
+        "total_points": 38,
+        "hl_points": null,
+        "required_hl_subjects": [
+          "biology",
+          "chemistry"
+        ],
+        "notes": "Standard IB route: 38 points or 7,6,6 in three Higher Level subjects, including HL grade 6 in Biology and Chemistry. Contextual route: 34 points and 6,6,5 at HL including HL grade 6 in Biology and Chemistry."
+      },
+      "access_to_he": {
+        "status": "manual_review",
+        "total_credits": 45,
+        "distinction_credits": 30,
+        "merit_credits": 15,
+        "subject_credits": [
+          "15 Level 3 Distinction credits in Biology subject area",
+          "15 Level 3 Distinction credits in Chemistry subject area"
+        ],
+        "notes": "Access requirements are documented but not used for automatic Exeter Score prediction in this implementation."
+      },
+      "notes": "Direct school-leaver A-level routes are executable for Exeter Score prediction. IB routes are eligibility-checked but do not receive an automated Exeter Score in this implementation. GAMSAT/non-direct school-leaver, unsupported equivalence and Access routes are documented manual-review boundaries."
+    },
+    "admissions_tests": {
+      "ucat": {
+        "required": true,
+        "minimum_total_score": null,
+        "score_scale": 2700,
+        "validity_window": "current admissions cycle",
+        "excluded_group_ids": [
+          "graduate_applicant"
+        ],
+        "minimum_total_score_basis": "Exeter publishes no standalone minimum UCAT score for direct school leavers; UCAT decile contributes to the Exeter Score.",
+        "notes": "SJT is not used for Exeter A100 pre-interview selection."
+      },
+      "sjt": {
+        "used_as_gate": false,
+        "accepted_bands": [
+          1,
+          2,
+          3,
+          4
+        ],
+        "excluded_bands": [],
+        "scoring": {
+          "used_in_score": false
+        },
+        "notes": "The supplied research and official policy state SJT is not used as a gate or scoring component."
+      },
+      "other_tests": [
+        {
+          "test_id": "gamsat",
+          "required": true,
+          "applies_to_group_ids": [
+            "graduate_applicant"
+          ],
+          "manual_review": true,
+          "notes": "Non-direct school leavers use GAMSAT. ApplySmart does not automate Exeter GAMSAT scoring in this implementation."
+        }
+      ]
+    },
+    "resits": {
+      "policy": "manual_review",
+      "conditions": "No hidden resit penalty was supplied, but resit edge cases remain manual review.",
+      "maximum_resits": null
+    },
+    "english_language": {
+      "required_for_group": true,
+      "accepted_tests": [
+        "Profile G English language requirements"
+      ],
+      "exemptions": [
+        "Verified English-language exemption or accepted equivalent"
+      ],
+      "notes": "International applicants must meet Exeter Profile G English-language requirements. The generic engine checks IELTS Academic 7.0 overall and in each component unless an exemption flag is supplied."
+    },
+    "age_or_professional_checks": {
+      "minimum_age": 18,
+      "age_date": "8 September in the first year of the programme",
+      "dbs_required": true,
+      "occupational_health_required": true,
+      "notes": "Professional checks are post-selection and do not drive interview prediction."
+    }
+  },
+  "stage_2_interview_selection": {
+    "verification_status": "official_pre_interview_formula_verified",
+    "source_ids": [
+      "exeter_bmbs_admissions_policy_2026_v4",
+      "exeter_research_document_2026"
+    ],
+    "primary_model": "academic_plus_ucat_weighting",
+    "modifiers": [
+      "contextual_adjustment",
+      "home_international_separate_ranking"
+    ],
+    "ranking_factors": [
+      {
+        "factor": "academic_score",
+        "role": "scored_component",
+        "weight_percent": 75,
+        "points_available": 58,
+        "notes": "The executable component stores the grade-profile base score before UCAT decile and conditional uplifts."
+      },
+      {
+        "factor": "ucat_decile",
+        "role": "scored_component",
+        "weight_percent": 25,
+        "points_available": 32,
+        "notes": "Configured from Exeter's rule that score decreases by four points per UCAT decile row."
+      }
+    ],
+    "calculation": {
+      "verification_status": "official_source_verified",
+      "source_ids": [
+        "exeter_bmbs_admissions_policy_2026_v4"
+      ],
+      "score_components": [
+        {
+          "component_id": "exeter_grade_profile_score",
+          "factor_id": "academic_profile",
+          "input_field": "a_level_profile or ib_profile",
+          "calculation_method": "Published Exeter Score grade-profile table represented as base points before UCAT decile row adjustment.",
+          "scale": {
+            "minimum": 0,
+            "maximum": 58
+          },
+          "weight_percent": 75,
+          "rounding": "integer",
+          "notes": "A*A*A* = 58, A*A*A = 48, A*AA = 38, AAA = 28, AAB = 18, ABB = 8 at the lowest decile row before UCAT decile points.",
+          "source_ids": [
+            "exeter_bmbs_admissions_policy_2026_v4"
+          ]
+        },
+        {
+          "component_id": "exeter_ucat_decile_score",
+          "factor_id": "ucat_decile",
+          "input_field": "admissions_tests.ucat.total_score",
+          "calculation_method": "Shared UCAT national decile lookup mapped to Exeter's four-points-per-row decile contribution.",
+          "scale": {
+            "minimum": 0,
+            "maximum": 32
+          },
+          "weight_percent": 25,
+          "rounding": "integer",
+          "notes": "Historical FOI-derived UCAT equivalents are not used for prediction.",
+          "source_ids": [
+            "exeter_bmbs_admissions_policy_2026_v4"
+          ]
+        },
+        {
+          "component_id": "achieved_grade_uplift",
+          "factor_id": "achieved_qualification_status",
+          "input_field": "qualification_status or achieved_grade presence",
+          "calculation_method": "Add 10 points only where the qualification status is achieved.",
+          "scale": {
+            "minimum": 0,
+            "maximum": 10
+          },
+          "weight_percent": null,
+          "rounding": "integer",
+          "notes": "This is a generic conditional score component, not Exeter-specific engine code.",
+          "source_ids": [
+            "exeter_bmbs_admissions_policy_2026_v4"
+          ]
+        },
+        {
+          "component_id": "wp_contextual_uplift",
+          "factor_id": "widening_participation_contextual",
+          "input_field": "applicant_identity.contextual or widening_participation flags",
+          "calculation_method": "Add 5 points only where the applicant is WP/contextual eligible.",
+          "scale": {
+            "minimum": 0,
+            "maximum": 5
+          },
+          "weight_percent": null,
+          "rounding": "integer",
+          "notes": "Official tables already include the +5 WP uplift. ApplySmart does not also lower the contextual comparison threshold.",
+          "source_ids": [
+            "exeter_bmbs_admissions_policy_2026_v4"
+          ]
+        }
+      ],
+      "total_score": {
+        "calculation_method": "exeter_grade_profile_score + exeter_ucat_decile_score + achieved_grade_uplift + wp_contextual_uplift",
+        "components": [
+          "exeter_grade_profile_score",
+          "exeter_ucat_decile_score",
+          "achieved_grade_uplift",
+          "wp_contextual_uplift"
+        ],
+        "scale": {
+          "minimum": 0,
+          "maximum": 105
+        },
+        "notes": "Maximums are predicted non-WP 90, predicted WP 95, achieved non-WP 100, achieved WP 105.",
+        "source_ids": [
+          "exeter_bmbs_admissions_policy_2026_v4"
+        ]
+      },
+      "notes": "No offer prediction is implemented."
+    },
+    "thresholds": [
+      {
+        "threshold_id": "home_score_guidance",
+        "applies_to_group_ids": [
+          "home_fee"
+        ],
+        "value": 74,
+        "metric": "selection_score",
+        "evidence_classification": "research_document_guidance",
+        "notes": "Used as interview-guidance context, not a future guarantee. Contextual applicants receive the official +5 score uplift and are not also compared against a reduced threshold."
+      },
+      {
+        "threshold_id": "international_score_guidance",
+        "applies_to_group_ids": [
+          "international_fee"
+        ],
+        "value": 80,
+        "metric": "selection_score",
+        "evidence_classification": "research_document_guidance",
+        "notes": "International applicants are ranked separately because only about 30 interview places are expected for 10 international places."
+      }
+    ],
+    "selection_adjustments": [
+      {
+        "adjustment_id": "achieved_grade_uplift",
+        "modifier_id": null,
+        "value": "+10 Exeter Score",
+        "source_ids": [
+          "exeter_bmbs_admissions_policy_2026_v4"
+        ]
+      },
+      {
+        "adjustment_id": "wp_contextual_uplift",
+        "modifier_id": "contextual_adjustment",
+        "value": "+5 Exeter Score",
+        "source_ids": [
+          "exeter_bmbs_admissions_policy_2026_v4"
+        ],
+        "notes": "Do not double-count by also lowering the contextual threshold unless future official evidence explicitly requires it."
+      }
+    ],
+    "tie_breakers": [
+      {
+        "tie_breaker_id": "post_interview_ucat_offer_tie_break",
+        "stage": "post_interview_offer",
+        "notes": "Offer-stage tie-break only; not used for interview prediction."
+      }
+    ],
+    "output_band_policy": "official_score_with_guidance_thresholds_not_offer_prediction",
+    "notes": "Shortlisting is numerical. Personal statements, references and work experience are not scored for interview shortlisting."
+  },
+  "contextual_admissions": {
+    "verification_status": "official_source_verified",
+    "source_ids": [
+      "exeter_bmbs_admissions_policy_2026_v4",
+      "exeter_contextual_offers"
+    ],
+    "available": true,
+    "applies_to_group_ids": [
+      "home_fee",
+      "contextual",
+      "widening_participation"
+    ],
+    "criteria": [
+      "WP2/contextual offer eligibility as determined by Exeter"
+    ],
+    "adjustments": [
+      {
+        "adjustment_id": "wp_contextual_exeter_score_uplift",
+        "modifier_id": "contextual_adjustment",
+        "value": "+5 Exeter Score",
+        "source_ids": [
+          "exeter_bmbs_admissions_policy_2026_v4"
+        ],
+        "notes": "The official score tables show contextual treatment as a +5 uplift. This implementation does not additionally reduce the Home score threshold."
+      }
+    ],
+    "guaranteed_interview_rules": [],
+    "notes": "Contextual eligibility does not guarantee interview."
+  },
+  "ranking_pools": [
+    {
+      "pool_id": "exeter_home_direct_school_leaver",
+      "name": "Home direct school-leaver pool",
+      "applies_to_group_ids": [
+        "home_fee",
+        "school_leaver"
+      ],
+      "fee_statuses": [
+        "home"
+      ],
+      "ranking_model": "academic_plus_ucat_weighting",
+      "ranking_factors": [
+        "Exeter Score"
+      ],
+      "places_available": 208,
+      "source_ids": [
+        "exeter_bmbs_admissions_policy_2026_v4",
+        "ofs_place_limits"
+      ],
+      "notes": "Home applicants are ranked by Exeter Score. The OfS maximum fundable limit is stored as capacity context only."
+    },
+    {
+      "pool_id": "exeter_international_direct_school_leaver",
+      "name": "International direct school-leaver pool",
+      "applies_to_group_ids": [
+        "international_fee",
+        "school_leaver"
+      ],
+      "fee_statuses": [
+        "international"
+      ],
+      "ranking_model": "academic_plus_ucat_weighting",
+      "ranking_factors": [
+        "Exeter Score"
+      ],
+      "places_available": 10,
+      "source_ids": [
+        "exeter_bmbs_admissions_policy_2026_v4",
+        "ofs_place_limits"
+      ],
+      "notes": "International applicants are ranked separately; approximately 30 international applicants are interviewed."
+    }
+  ],
+  "quotas": [
+    {
+      "quota_id": "exeter_a100_places_2027_entry_verified",
+      "name": "Verified Home/International places (2027 entry)",
+      "home_places": 208,
+      "international_places": 10,
+      "quota_type": "verified_current_places",
+      "source_ids": [
+        "applysmart_admissions_team_verified_2026"
+      ],
+      "notes": "Home/International place figures verified by the ApplySmart admissions research team for 2027 entry."
+    },
+    {
+      "quota_id": "home_places",
+      "value": 208,
+      "source_ids": [
+        "ofs_place_limits"
+      ],
+      "notes": "Maximum fundable limit, used as context only."
+    },
+    {
+      "quota_id": "international_places",
+      "value": 10,
+      "source_ids": [
+        "ofs_place_limits"
+      ],
+      "notes": "International fixed limit in supplied research, used as context only."
+    }
+  ],
+  "offer_selection": {
+    "verification_status": "official_source_verified",
+    "source_ids": [
+      "exeter_bmbs_admissions_policy_2026_v4"
+    ],
+    "interview_format": {
+      "type": "MMI",
+      "notes": "Interviews are Multiple Mini Interviews. Station details are not used for prediction."
+    },
+    "interview_scoring": {
+      "used_for_offer": true,
+      "notes": "Offers are made based on interview outcome; post-interview prediction remains out of scope."
+    },
+    "offer_model": "out_of_scope",
+    "ranking_factors": [
+      "MMI outcome",
+      "UCAT score only as an offer-stage tie-break where needed"
+    ],
+    "tie_breakers": [
+      "UCAT score may be used where there are many applicants in the eligible offer pool with the same Exeter Score."
+    ],
+    "waiting_list_policy": "reserve list may be used for certain late corrected predicted-grade errors",
+    "standard_offer": "A*AA including grade A in Biology and Chemistry",
+    "contextual_offer": "AAB including grade A in Biology and Chemistry",
+    "notes": "ApplySmart does not predict offers."
+  },
+  "historical_admissions": {
+    "verification_status": "official_verified_guidance_thresholds_only",
+    "source_ids": [
+      "exeter_bmbs_admissions_policy_2026_v4",
+      "exeter_research_document_2026"
+    ],
+    "cycles": [
+      {
+        "entry_cycle": "2026_entry",
+        "home_score_guidance": 74,
+        "international_score_guidance": 80,
+        "notes": "Stored as guidance thresholds for Exeter Score, not as raw UCAT cut-offs or offer prediction."
+      }
+    ],
+    "notes": "FOI-derived raw UCAT equivalents in the research document are retained as explanatory historical context only and are not executable prediction inputs."
+  },
+  "sources": [
+    {
+      "source_id": "exeter_bmbs_admissions_policy_2026_v4",
+      "title": "University of Exeter Medical School BMBS Medicine Admissions Policy 2026 entry V4",
+      "url": "https://www.exeter.ac.uk/v8media/recruitmentsites/documents/BMBS_Admissions_Policy_2026_(V4).pdf",
+      "source_type": "official_admissions_policy",
+      "published_date": "2026",
+      "accessed_date": "2026-07-13",
+      "applies_to_sections": [
+        "eligibility",
+        "selection",
+        "contextual",
+        "offer_selection"
+      ],
+      "confidence": "high",
+      "notes": "Official scoring tables show achieved and WP contextual uplifts as score additions."
+    },
+    {
+      "source_id": "exeter_bmbs_course_page_2026",
+      "title": "University of Exeter BMBS Medicine course page",
+      "url": "https://www.exeter.ac.uk/undergraduate-degrees-2026/bmbs-medicine/",
+      "source_type": "official_course_page",
+      "published_date": "2026",
+      "accessed_date": "2026-07-13",
+      "applies_to_sections": [
+        "course_identity",
+        "entry_requirements"
+      ],
+      "confidence": "high",
+      "notes": "Course page listed in supplied research."
+    },
+    {
+      "source_id": "ofs_place_limits",
+      "title": "Office for Students medical and dental maximum fundable limits",
+      "url": "https://www.officeforstudents.org.uk/for-providers/finance-and-funding/medicine-and-dentistry-funding/medical-and-dental-maximum-fundable-limits/",
+      "source_type": "official_capacity_data",
+      "published_date": "2025",
+      "accessed_date": "2026-07-13",
+      "applies_to_sections": [
+        "quotas"
+      ],
+      "confidence": "high",
+      "notes": "Capacity context only."
+    },
+    {
+      "source_id": "exeter_contextual_offers",
+      "title": "University of Exeter contextual offers",
+      "url": "https://www.exeter.ac.uk/undergraduate-degrees/entry-requirements/contextual-offers/",
+      "source_type": "official_contextual_policy",
+      "published_date": "2026",
+      "accessed_date": "2026-07-13",
+      "applies_to_sections": [
+        "contextual_admissions"
+      ],
+      "confidence": "high",
+      "notes": "Used only to identify contextual/WP eligibility; the score uplift comes from the BMBS admissions policy."
+    },
+    {
+      "source_id": "exeter_research_document_2026",
+      "title": "User-supplied Exeter Research Team document",
+      "url": "/Users/faizan/Desktop/medical university research/Exter-Research-team.docx",
+      "source_type": "approved_research_document",
+      "published_date": "2026",
+      "accessed_date": "2026-07-13",
+      "applies_to_sections": [
+        "implementation_mapping",
+        "historical_guidance"
+      ],
+      "confidence": "high",
+      "notes": "Authoritative implementation specification supplied by the user."
+    }
+  ],
+  "validation": {
+    "source_status": "official_source_verified_with_documented_gaps",
+    "last_verified": "2026-07-13",
+    "confidence_level": "High for direct school-leaver Exeter Score; medium for guidance thresholds",
+    "completion_status": "production_ready_for_supported_scope",
+    "known_unknowns": [
+      "Future live interview cut-offs.",
+      "Automated GAMSAT/non-direct school-leaver Exeter Score route.",
+      "Country-specific international qualification equivalence.",
+      "Access to HE scoring route.",
+      "Detailed resit edge-case handling."
+    ],
+    "review_notes": "Contextual score is implemented as the official +5 uplift only. No separate lower contextual threshold is applied."
+  },
+  "engine_notes": {
+    "eligibility": true,
+    "interview_prediction": true,
+    "historical_guidance": true,
+    "international_prediction": true,
+    "contextual_logic": true,
+    "result_card": true,
+    "regression": true,
+    "research_completeness": "complete_for_supported_scope_with_documented_gaps",
+    "manual_review_required": true,
+    "eligibility_ready": true,
+    "interview_prediction_ready": true,
+    "prediction_confidence": "medium",
+    "result_card_ready": true,
+    "offer_prediction_scope": "out_of_scope",
+    "interview_band_config_ready": true,
+    "metadata_activation_ready": true,
+    "activation_ready": true,
+    "blocked_by_engine_limitation": false,
+    "production_ready": true,
+    "production_ready_candidate": true,
+    "activation_block_reason": null,
+    "blocking_missing_fields": [],
+    "supported_scope": "Direct school-leaver A-level applicants using UCAT, including achieved/predicted and contextual/WP score uplifts. IB is eligibility-checked but not automatically Exeter-scored.",
+    "engine_assumptions": [
+      "The shared UCAT decile lookup is used to derive the Exeter UCAT decile contribution from a raw UCAT cognitive total.",
+      "The official contextual/WP treatment is the +5 Exeter Score uplift shown in the official scoring tables.",
+      "Home contextual applicants are compared against the same Home score-guidance pool as non-contextual applicants so the +5 uplift is not double counted.",
+      "Score guidance thresholds are guidance only and not offer prediction."
+    ],
+    "manual_review_boundaries": [
+      "GAMSAT/non-direct school-leaver and graduate route",
+      "Access to HE",
+      "country-specific international qualification equivalence",
+      "resit edge cases",
+      "post-interview offer selection"
+    ],
+    "do_not_infer": [
+      "Do not use historical FOI-derived raw UCAT equivalents to drive Exeter prediction.",
+      "Do not add both the +5 contextual uplift and a lower contextual threshold.",
+      "Do not predict offers."
+    ]
+  }
+}

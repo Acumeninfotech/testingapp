@@ -1,0 +1,228 @@
+{
+  "schema_version": "1.0.0",
+  "course_profile_id": "hull-york-a100",
+  "base_applicant": {
+    "profile_id": "hyms_home_contextual_school_leaver",
+    "label": "HYMS Home contextual school-leaver",
+    "application_year": 2027,
+    "applicant_identity": {
+      "applicant_type": "standard_school_leaver",
+      "fee_status": "Home",
+      "domicile": "England",
+      "age_on_1_october": 18,
+      "contextual": true,
+      "contextual_status_confirmed": true,
+      "contextual_flags": {
+        "ucat_bursary": true,
+        "recognised_wp_programme": true,
+        "polar4_quintile": 1,
+        "care_experienced": false,
+        "refugee": false,
+        "military_family": false,
+        "gypsy_roma_traveller": false,
+        "school_below_progress_8": false,
+        "first_generation_higher_education": false
+      },
+      "graduate": false,
+      "prior_university_study": false,
+      "resit": {
+        "has_resits": false,
+        "subjects_resat": []
+      }
+    },
+    "course_target": {
+      "discipline": "medicine",
+      "ucas_code": "A100",
+      "course_route": "standard",
+      "entry_route": "standard_entry"
+    },
+    "gcse_profile": {
+      "subjects": {
+        "english_language": "9",
+        "mathematics": "9",
+        "biology": "8",
+        "chemistry": "8",
+        "physics": "7",
+        "english_literature": "7"
+      },
+      "additional_subjects": [
+        {
+          "subject_id": "history",
+          "grade": "7"
+        },
+        {
+          "subject_id": "geography",
+          "grade": "6"
+        }
+      ],
+      "total_gcse_count": 8
+    },
+    "a_level_profile": {
+      "completed_in_one_sitting": true,
+      "subjects": [
+        {
+          "subject_id": "biology",
+          "predicted_grade": "A",
+          "sitting_status": "first_sitting"
+        },
+        {
+          "subject_id": "chemistry",
+          "predicted_grade": "A",
+          "sitting_status": "first_sitting"
+        },
+        {
+          "subject_id": "history",
+          "predicted_grade": "A",
+          "sitting_status": "first_sitting"
+        }
+      ]
+    },
+    "admissions_tests": {
+      "ucat": {
+        "total_score": 2200,
+        "score_scale": 2700,
+        "sjt_band": 2,
+        "test_year": 2026
+      }
+    },
+    "graduate_profile": {
+      "is_graduate": false,
+      "degree_classification": null
+    }
+  },
+  "scenarios": [
+    {
+      "scenario_id": "home_contextual_school_leaver_cap_applies",
+      "overrides": {},
+      "expected": {
+        "eligibility_status": "eligible",
+        "contextual_applicable": true,
+        "contextual_points": 15,
+        "contextual_raw_points": 18,
+        "contextual_cap_applied": true,
+        "score": 85.48,
+        "score_max": 100,
+        "band": "interview_likely"
+      }
+    },
+    {
+      "scenario_id": "international_receives_no_contextual_points",
+      "overrides": {
+        "applicant_identity": {
+          "applicant_type": "international_standard_school_leaver",
+          "fee_status": "International",
+          "domicile": "International",
+          "english_language_exempt": true
+        }
+      },
+      "expected": {
+        "eligibility_status": "eligible",
+        "contextual_applicable": false,
+        "contextual_points": 0,
+        "excluded_reason": "international_applicant",
+        "score": 70.48,
+        "score_max": 85,
+        "band": "ambitious"
+      }
+    },
+    {
+      "scenario_id": "graduate_receives_no_contextual_points",
+      "overrides": {
+        "applicant_identity": {
+          "applicant_type": "graduate",
+          "graduate": true
+        },
+        "graduate_profile": {
+          "is_graduate": true,
+          "degree_classification": "2_1"
+        },
+        "a_level_profile": {
+          "completed_in_one_sitting": true,
+          "subjects": [
+            {
+              "subject_id": "biology",
+              "achieved_grade": "B",
+              "sitting_status": "first_sitting"
+            },
+            {
+              "subject_id": "chemistry",
+              "achieved_grade": "B",
+              "sitting_status": "first_sitting"
+            },
+            {
+              "subject_id": "history",
+              "achieved_grade": "B",
+              "sitting_status": "first_sitting"
+            }
+          ]
+        }
+      },
+      "expected": {
+        "eligibility_status": "eligible",
+        "contextual_applicable": false,
+        "contextual_points": 0,
+        "excluded_reason": "graduate_applicant",
+        "score": 70.48,
+        "score_max": 85,
+        "band": "insufficient_evidence"
+      }
+    },
+    {
+      "scenario_id": "prior_university_receives_no_contextual_points",
+      "overrides": {
+        "applicant_identity": {
+          "prior_university_study": true
+        }
+      },
+      "expected": {
+        "eligibility_status": "eligible",
+        "contextual_applicable": false,
+        "contextual_points": 0,
+        "excluded_reason": "prior_university_applicant",
+        "score": 70.48,
+        "score_max": 85,
+        "band": "insufficient_evidence"
+      }
+    },
+    {
+      "scenario_id": "sjt_band_4_is_not_eligible",
+      "overrides": {
+        "admissions_tests": {
+          "ucat": {
+            "sjt_band": 4
+          }
+        }
+      },
+      "expected": {
+        "eligibility_status": "not_eligible",
+        "contextual_applicable": true,
+        "contextual_points": 15,
+        "score": null,
+        "score_max": 100,
+        "band": "not_eligible"
+      }
+    },
+    {
+      "scenario_id": "non_contextual_home_school_leaver",
+      "overrides": {
+        "applicant_identity": {
+          "contextual": false,
+          "contextual_status_confirmed": false,
+          "contextual_flags": {
+            "ucat_bursary": false,
+            "recognised_wp_programme": false,
+            "polar4_quintile": null
+          }
+        }
+      },
+      "expected": {
+        "eligibility_status": "eligible",
+        "contextual_applicable": true,
+        "contextual_points": 0,
+        "score": 70.48,
+        "score_max": 100,
+        "band": "ambitious"
+      }
+    }
+  ]
+}

@@ -1,0 +1,1829 @@
+{
+  "schema_version": "1.0.0",
+  "profile_id": "leicester-a100",
+  "profile_status": "production_ready_eligibility_and_interview_guidance",
+  "verification_status": "official_source_verified_with_remaining_eligibility_exceptions",
+  "last_updated": "2026-07-07",
+  "university": {
+    "name": "University of Leicester",
+    "slug": "leicester",
+    "country": "United Kingdom",
+    "nation": "England",
+    "institution_type": "University",
+    "website_url": "https://le.ac.uk/"
+  },
+  "course": {
+    "name": "A100 Medicine MBChB",
+    "ucas_code": "A100",
+    "entry_route": "standard_entry",
+    "qualification_awarded": "MBChB",
+    "duration_years": 5,
+    "campus": "Leicester",
+    "location": "Leicester, England",
+    "entry_year": 2027,
+    "fee_statuses": [
+      "home",
+      "international"
+    ],
+    "is_gateway_or_foundation": false,
+    "is_graduate_entry": false,
+    "notes": "Standard-entry A100 Medicine MBChB at Leicester Medical School. A199 Medicine with Foundation Year is a separate UCAS course and is out of scope; it is retained only as a reference note, not implemented."
+  },
+  "medical_school": {
+    "name": "Leicester Medical School",
+    "faculty": "College of Life Sciences",
+    "notes": "Rules are mapped from the University of Leicester A100 2027-entry scoring document and le.ac.uk entry-requirements pages supplied for this implementation."
+  },
+  "applicant_pools": [
+    {
+      "pool_id": "leicester_predicted_a_level_or_equivalent",
+      "applies_to_group_ids": [
+        "school_leaver"
+      ],
+      "excluded_group_ids": [
+        "graduate_applicant"
+      ],
+      "selection_relevance": "Predicted A-level, IB, Scottish Advanced Higher, Irish Leaving Certificate or verified international predicted-grade applicants are ranked in this pool. Scored using GCSE points plus UCAT points on the published /96 formula. Access to Medicine applicants (qualification_route access_to_medicine) are excluded and ranked separately."
+    },
+    {
+      "pool_id": "leicester_achieved_a_level_or_equivalent",
+      "applies_to_group_ids": [
+        "school_leaver"
+      ],
+      "excluded_group_ids": [
+        "graduate_applicant"
+      ],
+      "selection_relevance": "Achieved A-level, IB or equivalent applicants, most commonly first-gap-year applicants. May receive a direct guaranteed interview where the auto-interview criteria are met, otherwise scored using GCSE points plus UCAT points plus achieved-route bonus points on the published /96 formula. Access to Medicine applicants (qualification_route access_to_medicine) are excluded and ranked separately."
+    },
+    {
+      "pool_id": "leicester_graduate",
+      "applies_to_group_ids": [
+        "graduate_applicant"
+      ],
+      "selection_relevance": "Graduate applicants (predicted or achieved degree) are ranked in a separate pool using the published best-3-A-level-or-HL-plus-degree-classification /48 formula plus UCAT points."
+    },
+    {
+      "pool_id": "leicester_access_to_medicine",
+      "applies_to_group_ids": [
+        "home_fee",
+        "mature_applicant"
+      ],
+      "qualification_route": "access_to_medicine",
+      "selection_relevance": "Verified Access to Medicine Diploma applicants (qualification_route access_to_medicine) are ranked in a separate pool using the published /76 Access formula (GCSE, UCAT, references/employment, personal statement). Access is identified by qualification route, not by a dedicated applicant-group ID, consistent with how other universities in this engine (e.g. Liverpool) represent this route."
+    },
+    {
+      "pool_id": "leicester_contextual_guaranteed_interview",
+      "applies_to_group_ids": [
+        "home_fee",
+        "widening_participation"
+      ],
+      "excluded_group_ids": [
+        "international_fee"
+      ],
+      "selection_relevance": "Verified Access Leicester: Medicine (AL Med), Realising Opportunities Programme (ROP) and Sutton Trust Pathways to Medicine completers, and the 2027-restricted first-gap-year 2025-26 UKWPMED completers, receive a guaranteed interview once the contextual A-level offer and minimum criteria are verified met. This is a Home-only, narrow, evidence-gated route."
+    }
+  ],
+  "applies_to_group_ids": [
+    "england_domiciled",
+    "scotland_domiciled",
+    "wales_domiciled",
+    "northern_ireland_domiciled",
+    "home_fee",
+    "international_fee",
+    "contextual",
+    "widening_participation",
+    "care_experienced",
+    "graduate_applicant",
+    "school_leaver",
+    "mature_applicant",
+    "resit_applicant",
+    "deferred_entry"
+  ],
+  "stage_1_eligibility": {
+    "verification_status": "official_source_verified_with_remaining_eligibility_exceptions",
+    "source_ids": [
+      "leicester_a100_2027_scoring_document",
+      "leicester_a100_entry_requirements",
+      "ucas_leicester_a100_listing"
+    ],
+    "overall_policy": {
+      "status": "official_rules_mapped_with_manual_review_boundaries",
+      "description": "Leicester first checks minimum GCSE, A-level/equivalent, UCAT validity and UCAT decile exclusion, and SJT band before scoring predicted, achieved, graduate or Access applicants separately within four sub-groups. SJT Band 4 and bottom-two-decile UCAT are automatic pre-interview rejections.",
+      "not_eligible_if": [
+        "Minimum GCSE requirements (English Language, Mathematics, and Biology and Chemistry or Double Science, all at grade B/6) are not met.",
+        "No valid UCAT score from the year of application is held.",
+        "SJT Band 4 is supplied.",
+        "The applicant's UCAT total score falls in the bottom two deciles of that year's UCAT distribution.",
+        "The applicable predicted, achieved, graduate or Access minimum academic requirement is not met.",
+        "A-levels were not completed as first-sit results within the normal two-year study period, without accepted Mitigating Circumstances Panel approval.",
+        "The course-target UCAS code is not A100."
+      ],
+      "source_ids": [
+        "leicester_a100_2027_scoring_document",
+        "leicester_a100_entry_requirements"
+      ]
+    },
+    "gcse": {
+      "status": "official_source_verified",
+      "source_ids": [
+        "leicester_a100_entry_requirements",
+        "leicester_a100_2027_scoring_document"
+      ],
+      "qualification_scope": [
+        "GCSE",
+        "IGCSE"
+      ],
+      "minimum_count": 4,
+      "mandatory_subject_ids": [
+        "english_language",
+        "mathematics",
+        "biology",
+        "chemistry"
+      ],
+      "grade_requirements": [
+        {
+          "requirement_id": "gcse_english_language_minimum",
+          "subject_id": "english_language",
+          "minimum_grade": "6/B",
+          "qualification_level": "gcse_or_igcse",
+          "decision_outcome_if_not_met": "not_eligible",
+          "source_ids": [
+            "leicester_a100_entry_requirements"
+          ],
+          "notes": "English Language as a first-language qualification. Resits of English Language are accepted from any applicant."
+        },
+        {
+          "requirement_id": "gcse_mathematics_minimum",
+          "subject_id": "mathematics",
+          "minimum_grade": "6/B",
+          "qualification_level": "gcse_or_igcse",
+          "decision_outcome_if_not_met": "not_eligible",
+          "source_ids": [
+            "leicester_a100_entry_requirements"
+          ],
+          "notes": "Resits of Mathematics are accepted from any applicant."
+        },
+        {
+          "requirement_id": "gcse_biology_minimum",
+          "subject_id": "biology",
+          "minimum_grade": "6/B",
+          "qualification_level": "gcse_or_igcse",
+          "decision_outcome_if_not_met": "not_eligible",
+          "source_ids": [
+            "leicester_a100_entry_requirements"
+          ],
+          "notes": "Biology must be present at some level. Rare exception: if Biology is held at A-level/IB HL but not at GCSE, Chemistry plus Physics GCSE is considered instead; this exception is a manual-review overlay."
+        },
+        {
+          "requirement_id": "gcse_chemistry_minimum",
+          "subject_id": "chemistry",
+          "minimum_grade": "6/B",
+          "qualification_level": "gcse_or_igcse",
+          "decision_outcome_if_not_met": "not_eligible",
+          "source_ids": [
+            "leicester_a100_entry_requirements"
+          ]
+        }
+      ],
+      "accepted_equivalencies": [
+        "IGCSE",
+        "Double Science may substitute for separate Biology and Chemistry GCSEs, occupying both science scoring slots."
+      ],
+      "manual_review_overlays": [
+        "Biology held at A-level/IB HL but not at GCSE, with Chemistry plus Physics GCSE offered instead.",
+        "Non-mandatory-subject GCSE resits without confirmed Mitigating Circumstances Panel approval.",
+        "Home-schooled applicants, who are asked to submit further details used alongside academic and UCAT evidence; no published weighting formula exists for this review.",
+        "International applicants without a GCSE or IGCSE route requiring ECCTIS-style case-by-case equivalence assessment."
+      ],
+      "sitting_policy": "English Language and Mathematics resits are accepted from any applicant. Other GCSE subject resits are accepted only with Mitigating Circumstances Panel approval, and any resit must already be completed at the time of application. First-sit results are scored, even where a later resit exists, except where a mandatory subject's only sitting was the resit.",
+      "achieved_or_predicted": "achieved",
+      "selection_role": "eligibility_and_scored",
+      "scored_after_eligibility": true,
+      "scoring_model": {
+        "model_id": "leicester_eight_gcse_points_standard",
+        "applies_to": "Predicted and achieved A-level or equivalent applicants (Section 4.1)",
+        "count_exactly": 8,
+        "mandatory_components": [
+          "English Language",
+          "Mathematics",
+          "Chemistry",
+          "Biology (or Double Science occupying both science slots)"
+        ],
+        "additional_components": "The four highest-scoring other subjects, excluding Citizenship Studies and Global Perspectives.",
+        "grade_points": [
+          {
+            "grade": "9",
+            "points": 6
+          },
+          {
+            "grade": "8",
+            "points": 5
+          },
+          {
+            "grade": "7",
+            "points": 4
+          },
+          {
+            "grade": "6",
+            "points": 3
+          },
+          {
+            "grade": "below 6",
+            "points": 0
+          }
+        ],
+        "minimum_score": 0,
+        "maximum_score": 48,
+        "worked_example": {
+          "grades": {
+            "english_language": 7,
+            "mathematics": 9,
+            "chemistry": 9,
+            "biology": 9,
+            "physics": 9,
+            "business_studies": 8,
+            "religious_studies": 6,
+            "french": 5
+          },
+          "expected_total": 36,
+          "expected_max": 48,
+          "source_ids": [
+            "leicester_a100_2027_scoring_document"
+          ]
+        },
+        "compressed_access_variant": {
+          "model_id": "leicester_six_gcse_points_access",
+          "applies_to": "Access to Medicine applicants (Section 6.0)",
+          "count_exactly": 6,
+          "additional_components": "Best 2 other subjects.",
+          "grade_points": [
+            {
+              "grade": "9",
+              "points": 4
+            },
+            {
+              "grade": "8",
+              "points": 3
+            },
+            {
+              "grade": "7",
+              "points": 2
+            },
+            {
+              "grade": "6",
+              "points": 1
+            },
+            {
+              "grade": "below 6",
+              "points": 0
+            }
+          ],
+          "maximum_score": 24
+        },
+        "mechanical_rules": [
+          "Only first-sit results count, except where a mandatory subject's only sitting was a resit, which is an eligibility gate rather than a scoring rule.",
+          "Subjects normally come from the same academic year.",
+          "If both Mathematics and Further Mathematics/Statistics are held, only the higher-scoring counts; the Mathematics slot must still separately clear the grade 6/B minimum at eligibility."
+        ],
+        "execution_status": "active_for_supported_eligibility_and_official_scoring",
+        "source_ids": [
+          "leicester_a100_2027_scoring_document"
+        ]
+      },
+      "notes": "GCSEs are both an eligibility gate and a scored component contributing up to 48 of the 96 (or 24 of the 76 Access) pre-interview points."
+    },
+    "post_16": {
+      "status": "official_source_verified_with_manual_review_boundaries",
+      "source_ids": [
+        "leicester_a100_entry_requirements",
+        "leicester_a100_2027_scoring_document"
+      ],
+      "accepted_qualification_types": [
+        "a_level",
+        "international_baccalaureate",
+        "scottish_advanced_higher",
+        "degree",
+        "access_to_medicine",
+        "verified_international_equivalent"
+      ],
+      "a_level": {
+        "status": "official_source_verified_execution_partial",
+        "source_ids": [
+          "leicester_a100_entry_requirements"
+        ],
+        "standard_offer": {
+          "grade_profile": [
+            "A*",
+            "A",
+            "A"
+          ],
+          "source_ids": [
+            "leicester_a100_entry_requirements"
+          ],
+          "notes": "Standard offer A*AA including Chemistry or Biology plus one of Biology/Chemistry/Physics/Mathematics/Psychology. Excludes General Studies, Citizenship Studies, Critical Thinking and Global Perspectives."
+        },
+        "scoring_floor": {
+          "grade_profile": [
+            "A",
+            "A",
+            "B"
+          ],
+          "notes": "Any candidate predicted at least AAB is scored under the predicted-route formula. AAB is a scoring floor, not itself an offer level."
+        },
+        "alternative_offers": [
+          {
+            "offer_id": "aaa_plus_epq_b",
+            "grade_profile": [
+              "A",
+              "A",
+              "A"
+            ],
+            "additional_requirement": "EPQ grade B",
+            "source_ids": [
+              "leicester_a100_entry_requirements"
+            ]
+          },
+          {
+            "offer_id": "aaa_plus_fourth_as_a",
+            "grade_profile": [
+              "A",
+              "A",
+              "A"
+            ],
+            "additional_requirement": "4th-subject AS grade A",
+            "source_ids": [
+              "leicester_a100_entry_requirements"
+            ]
+          },
+          {
+            "offer_id": "aaa_plus_welsh_bacc_b",
+            "grade_profile": [
+              "A",
+              "A",
+              "A"
+            ],
+            "additional_requirement": "Advanced Welsh Baccalaureate Skills Challenge Certificate grade B+",
+            "source_ids": [
+              "leicester_a100_entry_requirements"
+            ]
+          },
+          {
+            "offer_id": "aaab_four_subjects",
+            "grade_profile": [
+              "A",
+              "A",
+              "A",
+              "B"
+            ],
+            "additional_requirement": "The two required science subjects at AA.",
+            "source_ids": [
+              "leicester_a100_entry_requirements"
+            ]
+          }
+        ],
+        "grade_requirements": [
+          {
+            "requirement_id": "leicester_predicted_route_aab_scoring_floor",
+            "applies_to_group_ids": [
+              "school_leaver"
+            ],
+            "excluded_group_ids": [
+              "graduate_applicant"
+            ],
+            "grade_profile": [
+              "A",
+              "A",
+              "B"
+            ],
+            "one_of_subject_groups": [
+              {
+                "group_id": "chemistry_or_biology",
+                "minimum_required": 1,
+                "subject_ids": [
+                  "chemistry",
+                  "biology"
+                ]
+              },
+              {
+                "group_id": "second_accepted_subject",
+                "minimum_required": 1,
+                "subject_ids": [
+                  "biology",
+                  "chemistry",
+                  "physics",
+                  "mathematics",
+                  "psychology"
+                ]
+              }
+            ],
+            "decision_outcome_if_not_met": "not_eligible",
+            "source_ids": [
+              "leicester_a100_2027_scoring_document"
+            ],
+            "notes": "AAB is the minimum floor to be scored under the predicted-route formula, reflecting the official acknowledgement that predictions can be inaccurate."
+          }
+        ],
+        "required_subject_ids": [],
+        "one_of_subject_groups": [
+          {
+            "group_id": "chemistry_or_biology",
+            "minimum_required": 1,
+            "subject_ids": [
+              "chemistry",
+              "biology"
+            ]
+          },
+          {
+            "group_id": "second_accepted_subject",
+            "minimum_required": 1,
+            "subject_ids": [
+              "biology",
+              "chemistry",
+              "physics",
+              "mathematics",
+              "psychology"
+            ]
+          }
+        ],
+        "excluded_subject_ids": [],
+        "subject_combination_rule": {
+          "offer_subject_count": 3,
+          "primary_subject_condition": {
+            "options": [
+              {
+                "subject_ids": [
+                  "chemistry",
+                  "biology"
+                ],
+                "minimum_required": 1
+              }
+            ]
+          },
+          "second_subject_group": {
+            "minimum_required": 1,
+            "subject_ids": [
+              "biology",
+              "chemistry",
+              "physics",
+              "mathematics",
+              "psychology"
+            ]
+          },
+          "subjects_must_be_distinct": true,
+          "minimum_subjects": 2,
+          "disallowed_overlaps": [
+            [
+              "mathematics",
+              "further_mathematics"
+            ]
+          ],
+          "notes": "Mathematics and Further Mathematics are not both counted toward the 3-subject requirement; only the higher grade of the two counts."
+        },
+        "third_subject_home_language_offer": {
+          "grade_profile": [
+            "A*",
+            "A*",
+            "A"
+          ],
+          "notes": "A 3rd A-level in a home/native language (not English Language) is offer-stage detail only, stored as contextual/explanatory metadata; it is not executable selection logic in this engine.",
+          "execution_status": "explanatory_only_not_executable"
+        },
+        "year_12_and_fourth_as_exclusion": "A-levels sat in Year 12 do not count toward pre-interview selection, nor do 4th-subject AS levels, except for achieved-AAA candidates or rare borderline-group cases handled by manual review.",
+        "three_year_first_sit_policy": "Candidates taking 3 years to complete first-sit A-levels are not normally considered; only with accepted Mitigating Circumstances Panel approval, otherwise not_eligible.",
+        "resit_policy": {
+          "status": "restricted",
+          "conditions": [
+            "Only considered if the candidate held a conditional firm offer.",
+            "Requires Mitigating Circumstances Panel-accepted mitigation.",
+            "Otherwise rejected outright."
+          ],
+          "resit_scoring_rule": "If accepted, the pre-interview score is based on GCSEs plus UCAT only, not the achieved-route auto-interview logic, plus a whole-UCAS-form manual review (reference, personal statement, employment/voluntary work).",
+          "decision_outcome_if_not_met": "not_eligible",
+          "execution_status": "manual_review_required"
+        },
+        "predicted_grades_accepted": true,
+        "practical_endorsement_required": false,
+        "manual_review_overlays": [
+          "3rd A-level in a home/native language adjusted offer.",
+          "A-level resits without confirmed Mitigating Circumstances Panel approval.",
+          "Home-schooled applicant further-details review.",
+          "Year 12 or 4th-subject AS borderline-group cases."
+        ],
+        "notes": "Predicted and achieved A-level routes are executable for the standard published grade and subject combination rules. Resits, home-language third A-levels and borderline Year-12/AS cases require manual review."
+      },
+      "ib": {
+        "status": "official_source_verified_execution_partial",
+        "source_ids": [
+          "leicester_a100_entry_requirements"
+        ],
+        "routes": [
+          {
+            "route_id": "leicester_ib_34_766_hl_science_route",
+            "total_points": 34,
+            "hl_grade_profile": [
+              "7",
+              "6",
+              "6"
+            ],
+            "required_hl_subject_grade_options": [
+              {
+                "grade_requirements": [
+                  {
+                    "subject_id": "chemistry",
+                    "minimum_grade": "7"
+                  }
+                ]
+              },
+              {
+                "grade_requirements": [
+                  {
+                    "subject_id": "biology",
+                    "minimum_grade": "7"
+                  }
+                ]
+              }
+            ],
+            "second_hl_subject_group": {
+              "minimum_required": 1,
+              "subject_ids": [
+                "chemistry",
+                "biology",
+                "physics",
+                "mathematics",
+                "psychology"
+              ]
+            },
+            "source_ids": [
+              "leicester_a100_entry_requirements"
+            ]
+          },
+          {
+            "route_id": "leicester_ib_36_666_hl_route",
+            "total_points": 36,
+            "hl_grade_profile": [
+              "6",
+              "6",
+              "6"
+            ],
+            "required_hl_subject_group": {
+              "minimum_required": 1,
+              "subject_ids": [
+                "chemistry",
+                "biology"
+              ]
+            },
+            "second_hl_subject_group": {
+              "minimum_required": 1,
+              "subject_ids": [
+                "chemistry",
+                "biology",
+                "physics",
+                "mathematics",
+                "psychology"
+              ]
+            },
+            "source_ids": [
+              "leicester_a100_entry_requirements"
+            ]
+          }
+        ],
+        "notes": "34 points with 7,6,6 HL (7 required in the science subject), or 36 points with 6,6,6 HL. HL subjects must include Chemistry or Biology plus one of Chemistry/Biology/Physics/Mathematics/Sports Science/Psychology. Sports Science is not in the shared subject catalogue and is recorded as a research note only."
+      },
+      "scottish": {
+        "status": "official_source_verified_manual_review_in_engine_v1",
+        "source_ids": [
+          "leicester_a100_entry_requirements"
+        ],
+        "highers_alone_accepted": false,
+        "advanced_higher_offer": {
+          "grade_profile": [
+            "A",
+            "A",
+            "A"
+          ],
+          "required_subject_group": {
+            "minimum_required": 1,
+            "subject_ids": [
+              "chemistry",
+              "biology"
+            ]
+          },
+          "second_subject_group": {
+            "minimum_required": 1,
+            "subject_ids": [
+              "biology",
+              "chemistry",
+              "physics",
+              "mathematics",
+              "psychology"
+            ]
+          },
+          "notes": "AAA at Advanced Higher including Chemistry or Biology plus one of Biology/Chemistry/Physics/Maths/Psychology."
+        },
+        "alternative_advanced_higher_offer": {
+          "advanced_higher_science_profile": [
+            "A",
+            "A"
+          ],
+          "highers_profile": [
+            "A",
+            "A",
+            "B"
+          ],
+          "notes": "2 sciences at Advanced Higher (AA) plus 3 Highers (AAB)."
+        },
+        "national_5_grade_gap": {
+          "status": "no_scotland_specific_national_5_grade_published",
+          "fallback_rule": "General GCSE-equivalent grade B/6 standard applies.",
+          "evidence_gap": true,
+          "blocking": false
+        },
+        "scottish_contextual_policy_gap": {
+          "status": "no_distinct_scottish_contextual_policy_published",
+          "fallback_rule": "General UK-wide contextual criteria apply.",
+          "evidence_gap": true,
+          "blocking": false
+        },
+        "grade_requirements": [],
+        "required_subject_ids": [],
+        "one_of_subject_groups": [],
+        "execution_status": "manual_review_required_engine_v1_cannot_jointly_assess_higher_and_advanced_higher_profiles",
+        "notes": "Highers alone are explicitly not accepted. Scottish Advanced-Higher-based routes are official but remain a manual-review route in the generic classifier, consistent with other universities in this engine."
+      },
+      "btec": {
+        "status": "not_supported_by_supplied_dossier",
+        "source_ids": [],
+        "notes": "No BTEC route is described in the supplied Leicester A100 research."
+      },
+      "access_to_he": {
+        "status": "not_supported_for_a100_distinct_from_access_to_medicine",
+        "source_ids": [
+          "leicester_a100_entry_requirements"
+        ],
+        "notes": "General Access to HE Diplomas are not the same route as the approved Access to Medicine Diploma; see access_to_medicine below."
+      },
+      "access_to_medicine": {
+        "status": "official_source_verified_execution_partial",
+        "source_ids": [
+          "leicester_a100_entry_requirements",
+          "leicester_a100_2027_scoring_document"
+        ],
+        "eligibility_gate": {
+          "requirement": "Must meet minimum GCSE requirements (Section 2.1) and have completed an approved Access to Medicine Diploma course.",
+          "not_available_to": [
+            "School leavers who could have done A-levels.",
+            "A fallback route for poor science A-level results.",
+            "Graduates with poor A-level results (graduates holding an Access Diploma with non-science A-levels are scored under the graduate formula instead)."
+          ],
+          "age_and_experience_requirement": "Must be 22+ at registration, with evidence of 5 years' paid employment or apprenticeship post-school, including at least 1 year in a relevant caring role.",
+          "cv_requirement": "Full CV (employment/education history, gaps explained) must be submitted by the UCAS 15 October deadline.",
+          "decision_outcome_if_not_met": "not_eligible"
+        },
+        "distinction_bonus_ambiguity_note": "Section 2.4 describes distinctions in all graded credits with distinction overall as an eligibility-adjacent statement, while Section 6.0 (scoring) operationalises the same fact as an 8-point scoring bonus. This implementation follows the more operationally precise Section 6.0 treatment: the eligibility gate is completion of an approved Access to Medicine Diploma meeting minimum GCSEs, and the distinction-in-all-credits fact is scored as a bonus, not required for eligibility. This is a recorded, non-blocking research ambiguity.",
+        "execution_status_manual_review_note": "Verification of diploma-provider approval, the 5-years/1-year caring-role employment evidence and CV completeness are manual-review boundaries; the engine cannot verify these facts automatically.",
+        "manual_review_overlays": [
+          "Diploma provider not confirmed as Leicester-approved.",
+          "Age, employment history and caring-role evidence verification.",
+          "CV completeness and deadline verification."
+        ]
+      },
+      "degree": {
+        "status": "official_source_verified_execution_partial",
+        "source_ids": [
+          "leicester_a100_entry_requirements",
+          "leicester_a100_2027_scoring_document"
+        ],
+        "applies_to_group_ids": [
+          "graduate_applicant"
+        ],
+        "minimum_classification": "2:1",
+        "achieved_or_predicted_accepted": true,
+        "additional_requirement": "Grade B in Chemistry or Biology at A-level, provided minimum GCSE requirements (Section 2.1) are also met.",
+        "a_level_equivalent_requirement": "Equivalent of BBB or ABC in 3 A-level subjects, which can be achieved over 3 years with a scoring adjustment.",
+        "masters_phd_not_substitutable": true,
+        "separate_graduate_course": false,
+        "deferred_entry_offered": false,
+        "decision_outcome_if_not_met": "not_eligible",
+        "execution_status": "active_for_supported_eligibility_and_official_scoring",
+        "notes": "Graduates apply through the same A100 route and are scored as a separate sub-group using the published best-3-A-level-or-HL-plus-degree /48 formula."
+      },
+      "international": {
+        "status": "official_equivalency_assessed_via_ecctis_manual_review_unless_route_encoded",
+        "source_ids": [
+          "leicester_a100_entry_requirements"
+        ],
+        "execution_status": "manual_review_required_unless_country_route_encoded",
+        "notes": "Country-specific international qualification equivalence is assessed via ECCTIS case-by-case and is not tabulated in the supplied research; this matches how other universities in this engine handle ECCTIS-style equivalence. ICCE is explicitly not considered (unsupported qualification; returns manual review, not a guessed equivalence)."
+      },
+      "notes": "Predicted A-level, achieved A-level, IB, degree/graduate and Access to Medicine routes are executable for the published grade, subject and scoring rules. Scottish Highers-only, A-level resits, home-schooled review, international country-specific equivalence and the AL Med/ROP/Sutton Trust/UKWPMED contextual routes require manual-review or guaranteed-interview handling as documented in contextual_admissions."
+    },
+    "admissions_tests": {
+      "source_ids": [
+        "leicester_a100_2027_scoring_document"
+      ],
+      "ucat": {
+        "required": true,
+        "source_ids": [
+          "leicester_a100_2027_scoring_document"
+        ],
+        "validity_window": "year_of_application",
+        "minimum_total_score": 1760,
+        "minimum_total_score_basis": "Approximation of the official but unfixed bottom-2-decile exclusion, using the shared data/ucat-deciles.json 3rd-decile boundary (1760) as the current-cycle minimum gate. The exact annual cutoff is not published by Leicester and moves with the cohort distribution each year; review this value annually against the shared decile dataset. This is an ApplySmart approximation, not an official Leicester threshold.",
+        "decile_exclusion": {
+          "status": "official_source_verified",
+          "excluded_deciles": [
+            1,
+            2
+          ],
+          "basis": "Bottom two deciles of that year's UCAT total-score distribution are excluded from scoring entirely, not given zero points. The exact cutoff score is not fixed and moves each year with the cohort distribution; the engine uses the shared data/ucat-deciles.json dataset for decile determination rather than a hardcoded cutoff.",
+          "decision_outcome_if_excluded": "not_eligible"
+        },
+        "score_used_for_ranking": true,
+        "points_bands_standard": {
+          "applies_to": "Predicted, achieved and graduate applicants (max 48 of 96)",
+          "bands": [
+            {
+              "min": 2401,
+              "max": 2700,
+              "points": 48
+            },
+            {
+              "min": 2350,
+              "max": 2399,
+              "points": 47
+            },
+            {
+              "min": 2300,
+              "max": 2349,
+              "points": 46
+            },
+            {
+              "min": 2260,
+              "max": 2299,
+              "points": 45
+            },
+            {
+              "min": 2200,
+              "max": 2249,
+              "points": 44
+            },
+            {
+              "min": 2150,
+              "max": 2199,
+              "points": 43
+            },
+            {
+              "min": 2100,
+              "max": 2149,
+              "points": 42
+            },
+            {
+              "min": 2050,
+              "max": 2099,
+              "points": 41
+            },
+            {
+              "min": 2000,
+              "max": 2049,
+              "points": 40
+            },
+            {
+              "min": 1950,
+              "max": 1999,
+              "points": 39
+            },
+            {
+              "min": 1900,
+              "max": 1949,
+              "points": 38
+            },
+            {
+              "min": 1850,
+              "max": 1899,
+              "points": 37
+            },
+            {
+              "min": 1800,
+              "max": 1849,
+              "points": 36
+            }
+          ],
+          "below_1800_policy": "Bands continue in the same approximately-1-point-per-50-point-band pattern below 1800, terminated by the bottom-two-decile exclusion rather than a hardcoded numeric floor. Do not hardcode bands below 1800; use the decile exclusion gate instead.",
+          "source_ids": [
+            "leicester_a100_2027_scoring_document"
+          ]
+        },
+        "points_bands_access": {
+          "applies_to": "Access to Medicine applicants (max 24 of 76, approximately half the standard scale)",
+          "bands": [
+            {
+              "min": 2401,
+              "max": 2700,
+              "points": 24
+            },
+            {
+              "min": 2350,
+              "max": 2399,
+              "points": 23
+            },
+            {
+              "min": 2300,
+              "max": 2349,
+              "points": 22
+            },
+            {
+              "min": 2260,
+              "max": 2299,
+              "points": 21
+            },
+            {
+              "min": 2200,
+              "max": 2249,
+              "points": 20
+            },
+            {
+              "min": 2150,
+              "max": 2199,
+              "points": 19
+            },
+            {
+              "min": 2100,
+              "max": 2149,
+              "points": 18
+            },
+            {
+              "min": 2050,
+              "max": 2099,
+              "points": 17
+            },
+            {
+              "min": 2000,
+              "max": 2049,
+              "points": 16
+            },
+            {
+              "min": 1950,
+              "max": 1999,
+              "points": 15
+            },
+            {
+              "min": 1900,
+              "max": 1949,
+              "points": 14
+            },
+            {
+              "min": 1850,
+              "max": 1899,
+              "points": 13
+            },
+            {
+              "min": 1800,
+              "max": 1849,
+              "points": 12
+            }
+          ],
+          "below_1800_policy": "Same decile-terminated pattern as the standard scale; do not hardcode bands below 1800.",
+          "source_ids": [
+            "leicester_a100_2027_scoring_document"
+          ]
+        },
+        "achieved_route_auto_interview_deciles": {
+          "home_minimum_decile": 5,
+          "international_minimum_decile": 3,
+          "contextual_wp_minimum_decile": 7,
+          "basis": "Top-5-decile (Home), top-3-decile (International) and top-7-decile (widening-participation/contextual routes) thresholds read from the shared data/ucat-deciles.json dataset, consistent with how other universities in this engine encode decile-based auto-interview thresholds.",
+          "source_ids": [
+            "leicester_a100_2027_scoring_document"
+          ]
+        },
+        "mitigating_circumstances": "UCAT mitigating circumstances are not normally accepted; only invigilator-flagged test-day issues are considered. This is a manual-review boundary, not an executable rule.",
+        "bursary_flag": "UCAT bursary award is a contextual flag for borderline manual review, not a scoring input.",
+        "historical_scale_caveat": "UCAT was rescaled in summer 2025 (2700 max, was 3600) and Leicester's own combined-score scale changed from /64 (pre-2026) to /96 (2026 entry onward). Only 2026-entry combined-score thresholds are on the new comparable scale; this is the first cycle of directly comparable data, and multi-year trend confidence must be labelled Limited, not asserted from pre-2026 data.",
+        "decision_outcome_if_not_met": "not_eligible",
+        "notes": "UCAT is required for all applicants in the year of application, or automatic rejection. UCAT forms 50% of the pre-interview score (48/96) for standard applicants and 24/76 (~32%) for Access applicants."
+      },
+      "sjt": {
+        "used": true,
+        "used_as_gate": true,
+        "accepted_bands": [
+          1,
+          2,
+          3
+        ],
+        "excluded_bands": [
+          4
+        ],
+        "band_4_policy": "automatic_rejection",
+        "applies_regardless_of_ucat_total": true,
+        "scoring": {
+          "used_in_score": false,
+          "notes": "SJT is a hard pre-interview gate (Band 4 rejection) and is not itself a scored component in the published /96 or /76 formulas."
+        },
+        "decision_outcome_if_excluded": "not_eligible",
+        "source_ids": [
+          "leicester_a100_2027_scoring_document"
+        ],
+        "notes": "SJT Band 4 is an automatic pre-interview rejection, a hard gate that applies regardless of UCAT total score."
+      }
+    },
+    "resits": {
+      "allowed": null,
+      "policy": "manual_review_required",
+      "conditions": [
+        "GCSE English Language and Mathematics resits are accepted from any applicant.",
+        "Other GCSE subject resits require Mitigating Circumstances Panel approval and must already be completed at the time of application.",
+        "A-level resits are only considered where the candidate held a conditional firm offer and had Mitigating-Circumstances-Panel-accepted mitigation; otherwise rejected outright.",
+        "Accepted A-level resit applicants are scored on GCSEs plus UCAT only, not the achieved-route auto-interview logic, plus a whole-UCAS-form manual review."
+      ],
+      "maximum_resits": null,
+      "source_ids": [
+        "leicester_a100_entry_requirements",
+        "leicester_a100_2027_scoring_document"
+      ]
+    },
+    "english_language": {
+      "required_for_group": true,
+      "source_ids": [
+        "leicester_a100_entry_requirements"
+      ],
+      "accepted_tests": [],
+      "exemptions": [
+        "GCSE or IGCSE English Language grade 6/B, as a first-language qualification."
+      ],
+      "manual_review_if": [
+        "International applicant relies on an unlisted English-language exemption or equivalence route."
+      ],
+      "notes": "GCSE/IGCSE English Language grade 6/B is the executable minimum-requirements route. Country-specific international English-language equivalence is a manual-review boundary."
+    },
+    "age_or_professional_checks": {
+      "source_ids": [
+        "leicester_a100_entry_requirements",
+        "leicester_a100_2027_scoring_document"
+      ],
+      "minimum_age_by_course_start": null,
+      "access_to_medicine_minimum_age": 22,
+      "course_start_reference": "September of entry year",
+      "dbs_required": true,
+      "occupational_health_required": true,
+      "fitness_to_practise_required": true,
+      "work_or_service_experience": "Access to Medicine applicants require evidence of 5 years' paid employment or apprenticeship post-school, including at least 1 year in a relevant caring role. Home-schooled and Access applicants may be asked for further details used alongside academic and UCAT evidence.",
+      "personal_statement": "Collected; scored explicitly for Access applicants (Section 6.0) by two independent Admissions Tutors. Not part of the published /96 predicted/achieved/graduate formula.",
+      "reference_policy": "Scored explicitly for Access applicants by two independent Admissions Tutors. Not part of the published /96 predicted/achieved/graduate formula."
+    }
+  },
+  "stage_2_interview_selection": {
+    "verification_status": "official_source_verified_with_remaining_unpublished_offer_fields",
+    "source_ids": [
+      "leicester_a100_2027_scoring_document",
+      "leicester_a100_admissions_statistics"
+    ],
+    "primary_model": "points_system",
+    "primary_method": "eligibility_and_hard_gates_then_sub_group_scoring_then_within_pool_ranking",
+    "modifiers": [
+      "sjt_band_4_exclusion",
+      "ucat_bottom_two_decile_exclusion",
+      "achieved_route_auto_interview_override",
+      "contextual_guaranteed_interview_override",
+      "home_international_separate_ranking"
+    ],
+    "ranking_factors": [
+      {
+        "factor": "gcse_points",
+        "role": "score_component_for_predicted_achieved_and_access_applicants",
+        "weight_percent": null,
+        "points_available": 48,
+        "source_ids": [
+          "leicester_a100_2027_scoring_document"
+        ],
+        "evidence_classification": "official"
+      },
+      {
+        "factor": "ucat_points",
+        "role": "score_component",
+        "weight_percent": 50,
+        "points_available": 48,
+        "source_ids": [
+          "leicester_a100_2027_scoring_document"
+        ],
+        "evidence_classification": "official"
+      },
+      {
+        "factor": "achieved_route_bonus_points",
+        "role": "score_component_for_achieved_applicants_only",
+        "weight_percent": null,
+        "points_available": 0,
+        "notes": "Additional A* and strong-4th-qualification bonus tracks, each documented separately; total academic score is capped at 48 regardless of bonuses. The interaction between the two bonus tracks is an unresolved, non-blocking research gap because no combined worked example is published.",
+        "source_ids": [
+          "leicester_a100_2027_scoring_document"
+        ],
+        "evidence_classification": "official"
+      },
+      {
+        "factor": "graduate_a_level_or_hl_points",
+        "role": "score_component_for_graduate_applicants_only",
+        "weight_percent": null,
+        "points_available": 36,
+        "source_ids": [
+          "leicester_a100_2027_scoring_document"
+        ],
+        "evidence_classification": "official"
+      },
+      {
+        "factor": "degree_classification_points",
+        "role": "score_component_for_graduate_applicants_only",
+        "weight_percent": null,
+        "points_available": 12,
+        "source_ids": [
+          "leicester_a100_2027_scoring_document"
+        ],
+        "evidence_classification": "official"
+      },
+      {
+        "factor": "access_diploma_distinction_bonus",
+        "role": "score_component_for_access_applicants_only",
+        "weight_percent": null,
+        "points_available": 8,
+        "source_ids": [
+          "leicester_a100_2027_scoring_document"
+        ],
+        "evidence_classification": "official"
+      },
+      {
+        "factor": "access_references_employment",
+        "role": "score_component_for_access_applicants_only_scored_by_two_admissions_tutors",
+        "weight_percent": null,
+        "points_available": 10,
+        "execution_status": "not_executable_holistic_review",
+        "source_ids": [
+          "leicester_a100_2027_scoring_document"
+        ]
+      },
+      {
+        "factor": "access_personal_statement",
+        "role": "score_component_for_access_applicants_only_scored_by_two_admissions_tutors",
+        "weight_percent": null,
+        "points_available": 10,
+        "execution_status": "not_executable_holistic_review",
+        "source_ids": [
+          "leicester_a100_2027_scoring_document"
+        ]
+      }
+    ],
+    "calculation": {
+      "verification_status": "official_pre_interview_formula_verified",
+      "source_ids": [
+        "leicester_a100_2027_scoring_document"
+      ],
+      "score_components": [
+        {
+          "component_id": "gcse_points",
+          "factor_id": "gcse_points",
+          "input_field": "stage_1_eligibility.gcse.scoring_model",
+          "calculation_method": "sum_points_for_four_mandatory_components_and_four_highest_scoring_other_subjects",
+          "scale": {
+            "minimum": 0,
+            "maximum": 48
+          },
+          "weight_percent": null,
+          "rounding": null,
+          "notes": "Grade 9=6, 8=5, 7=4, 6=3, below 6=0. Worked example: English Language 7=4, Maths 9=6, Chemistry 9=6, Biology 9=6, Physics 9=6, Business Studies 8=5, Religious Studies 6=3, French 5=0, total 36/48.",
+          "source_ids": [
+            "leicester_a100_2027_scoring_document"
+          ]
+        },
+        {
+          "component_id": "ucat_points",
+          "factor_id": "ucat_points",
+          "input_field": "stage_1_eligibility.admissions_tests.ucat.points_bands_standard",
+          "calculation_method": "band_lookup_on_ucat_total_score",
+          "scale": {
+            "minimum": 0,
+            "maximum": 48
+          },
+          "weight_percent": null,
+          "rounding": null,
+          "notes": "UCAT points are assigned using Leicester's published UCAT points bands and combined with GCSE points on the /96 scale.",
+          "source_ids": [
+            "leicester_a100_2027_scoring_document"
+          ]
+        }
+      ],
+      "total_score": {
+        "calculation_method": "gcse_points_plus_ucat_points_plus_achieved_route_bonus_where_applicable",
+        "components": [
+          "gcse_points",
+          "ucat_points"
+        ],
+        "scale": {
+          "minimum": 0,
+          "maximum": 96
+        },
+        "alternate_scale_for_access": {
+          "minimum": 0,
+          "maximum": 76
+        },
+        "alternate_scale_for_graduate": {
+          "minimum": 0,
+          "maximum": 48
+        },
+        "ranking_direction": "highest_to_lowest",
+        "selection_action": "Applicants are ranked within each of the 4 sub-groups (predicted A-level, achieved A-level, graduate, Access), with Home and International ranked separately, and the highest-scoring applicants within each group/pool are invited to interview.",
+        "notes": "No fixed number of interview places per sub-group is published; only aggregate expected interview volumes and 2026-entry actuals are available, and these are historical guidance only.",
+        "source_ids": [
+          "leicester_a100_2027_scoring_document",
+          "leicester_a100_admissions_statistics"
+        ]
+      },
+      "graduate_total_score": {
+        "calculation_method": "best_3_a_level_or_hl_points_plus_degree_classification_points",
+        "components": [
+          "graduate_a_level_or_hl_points",
+          "degree_classification_points"
+        ],
+        "scale": {
+          "minimum": 0,
+          "maximum": 48
+        },
+        "worked_examples": [
+          {
+            "label": "final_year_student_predicted_2_1",
+            "a_level_points": {
+              "chemistry_a": 10,
+              "biology_b": 8,
+              "maths_b": 8
+            },
+            "degree_points": {
+              "second_class_upper_predicted": 4
+            },
+            "expected_total": 30,
+            "expected_max": 48
+          },
+          {
+            "label": "achieved_graduate_first_class",
+            "a_level_points": {
+              "chemistry_a_star": 12,
+              "biology_b": 8,
+              "maths_b": 8
+            },
+            "degree_points": {
+              "first_class_obtained": 12
+            },
+            "expected_total": 40,
+            "expected_max": 48
+          }
+        ],
+        "a_level_hl_points_table": [
+          {
+            "grade": "A*/HL7",
+            "points_normal": 12,
+            "points_over_3_years": 10
+          },
+          {
+            "grade": "A/HL6",
+            "points_normal": 10,
+            "points_over_3_years": 8
+          },
+          {
+            "grade": "B/HL5",
+            "points_normal": 8,
+            "points_over_3_years": 6
+          },
+          {
+            "grade": "C/HL4",
+            "points_normal": 4,
+            "points_over_3_years": 2
+          }
+        ],
+        "degree_points_table": [
+          {
+            "outcome": "first_class_obtained",
+            "points": 12
+          },
+          {
+            "outcome": "first_class_predicted",
+            "points": 6
+          },
+          {
+            "outcome": "second_class_upper_obtained",
+            "points": 8
+          },
+          {
+            "outcome": "second_class_upper_predicted",
+            "points": 4
+          }
+        ],
+        "source_ids": [
+          "leicester_a100_2027_scoring_document"
+        ]
+      },
+      "access_total_score": {
+        "calculation_method": "gcse_24_plus_ucat_24_plus_references_10_plus_personal_statement_10",
+        "components": [
+          "access_gcse_points",
+          "ucat_points_access_scale",
+          "access_references_employment",
+          "access_personal_statement"
+        ],
+        "scale": {
+          "minimum": 0,
+          "maximum": 76
+        },
+        "academic_subtotal_cap": 32,
+        "notes": "6 GCSEs scored on the compressed 4/3/2/1 scale (max 24) plus up to an 8-point Access Diploma distinction-in-all-credits bonus and, where the candidate has not studied full A-levels, up to 3 non-science AS bonus grades; academic subtotal capped at 32. UCAT halved-band scale (max 24). References/employment and personal statement each scored out of 5 by two independent Admissions Tutors (max 10 each) and are not executable holistic-review components in this engine.",
+        "source_ids": [
+          "leicester_a100_2027_scoring_document"
+        ]
+      },
+      "percentage_weighting_split_published": true,
+      "additional_formula_permitted": false,
+      "execution_status": "active_for_official_scoring_and_guidance_only_historical_positioning",
+      "notes": "The GCSE, UCAT and graduate formulas are official and executable. Access references/employment and personal statement scoring by Admissions Tutors is not executable and remains a manual-review, non-scored boundary in this engine."
+    },
+    "achieved_route_auto_interview": {
+      "status": "official_source_verified_engine_execution_manual_review",
+      "conditions": [
+        "First gap year.",
+        "All minimum GCSE/English requirements met at first sit.",
+        "Minimum A-level requirements achieved within 2 years of GCSEs.",
+        "UCAT total in the top-5-decile (Home) or top-3-decile (International).",
+        "SJT Band 1-3."
+      ],
+      "outcome_if_all_met": "guaranteed_interview_no_further_scoring",
+      "outcome_if_not_all_met": "scored_using_gcse_plus_ucat_plus_achieved_route_bonus",
+      "second_gap_year_note": "Second gap year applicants are expected to show evidence of paid employment in a caring role, unless illness or mandatory national service; this is a manual-review flag, not an automatic disqualifier.",
+      "engine_execution_status": "not_executable_as_an_automatic_override_in_engine_v1",
+      "engine_execution_reason": "The shared generic classifier does not distinguish predicted from achieved A-level sitting status, nor does it support a first-gap-year guaranteed-interview override mechanism outside the bespoke per-university route functions already used by other universities in this engine. Achieved-route applicants are evaluated through the same GCSE-plus-UCAT scoring and Home/International guidance pools as predicted-route applicants (a safe, non-overstated fallback), and the auto-interview override itself is a manual-review boundary, not executable logic. This is a non-blocking, documented engine-execution gap: it does not withhold interview guidance, it only means the guaranteed-interview override is not automatically applied.",
+      "source_ids": [
+        "leicester_a100_2027_scoring_document"
+      ]
+    },
+    "thresholds": [
+      {
+        "threshold_id": "2026_entry_combined_score_guarantee_home_predicted",
+        "value": 79,
+        "scale": 96,
+        "pool": "home_non_grad_predicted_a_level",
+        "cycle_labelled_as": "2026 entry, most recent actual cycle",
+        "fixed_cutoff_published": false,
+        "executable": false,
+        "notes": "Minimum combined score to guarantee interview for 2026 entry. Historical guidance only; not extrapolated forward as guaranteed for 2027."
+      },
+      {
+        "threshold_id": "2026_entry_combined_score_guarantee_home_graduate",
+        "value_predicted": 68,
+        "value_achieved": 70,
+        "scale": 96,
+        "pool": "home_graduate",
+        "cycle_labelled_as": "2026 entry, most recent actual cycle",
+        "fixed_cutoff_published": false,
+        "executable": false
+      },
+      {
+        "threshold_id": "2026_entry_combined_score_guarantee_overseas_predicted",
+        "value": 88,
+        "scale": 96,
+        "pool": "overseas_non_grad_predicted_a_level",
+        "cycle_labelled_as": "2026 entry, most recent actual cycle",
+        "fixed_cutoff_published": false,
+        "executable": false
+      },
+      {
+        "threshold_id": "2026_entry_combined_score_guarantee_overseas_graduate",
+        "value_predicted": 79,
+        "value_achieved": 82,
+        "scale": 96,
+        "pool": "overseas_graduate",
+        "cycle_labelled_as": "2026 entry, most recent actual cycle",
+        "fixed_cutoff_published": false,
+        "executable": false
+      }
+    ],
+    "selection_adjustments": [
+      {
+        "adjustment_id": "sjt_band_4_exclusion",
+        "band": 4,
+        "effect": "exclude_from_interview_consideration",
+        "decision_outcome_if_excluded": "not_eligible",
+        "source_ids": [
+          "leicester_a100_2027_scoring_document"
+        ]
+      },
+      {
+        "adjustment_id": "ucat_bottom_two_decile_exclusion",
+        "effect": "exclude_from_scoring_entirely",
+        "decision_outcome_if_excluded": "not_eligible",
+        "source_ids": [
+          "leicester_a100_2027_scoring_document"
+        ]
+      },
+      {
+        "adjustment_id": "achieved_route_auto_interview_override",
+        "effect": "guaranteed_interview_bypassing_ordinary_scoring",
+        "source_ids": [
+          "leicester_a100_2027_scoring_document"
+        ]
+      },
+      {
+        "adjustment_id": "contextual_guaranteed_interview_override",
+        "effect": "guaranteed_interview_for_verified_al_med_rop_sutton_trust_or_restricted_ukwpmed_completers",
+        "source_ids": [
+          "leicester_a100_2027_scoring_document"
+        ]
+      }
+    ],
+    "tie_breakers": [],
+    "home_international_pool_separation": {
+      "officially_explicit_in_identical_wording": true,
+      "executable": true,
+      "notes": "Home and International candidates are ranked separately within each of the 4 sub-groups. International candidates are ranked only against other international candidates, a cross-cutting dimension rather than a 5th group."
+    },
+    "borderline_group_review": {
+      "status": "manual_review_metadata_only",
+      "notes": "Borderline-group candidates receive whole-UCAS-form review (contextual flags, reference, personal statement, UCAT/SJT results). This is not a separately scored or weighted step with a published formula and is represented as manual-review metadata only."
+    },
+    "output_band_policy": "eligible_supported_predicted_achieved_and_graduate_school_leaver_pools_receive_2026_entry_historical_guidance_bands",
+    "notes": "The GCSE plus UCAT /96 formula (and /48 graduate, /76 Access variants) is official and executable. 2026-entry combined-score guarantee thresholds are the closest published current-cycle numeric interview evidence and are used as historical guidance bands, clearly cycle-labelled, with Limited historical-trend confidence because only one year of directly comparable /96-scale data exists following the 2025 UCAT rescale and the 2026 Leicester scale change from /64 to /96."
+  },
+  "contextual_admissions": {
+    "verification_status": "official_source_verified_with_restricted_route",
+    "source_ids": [
+      "leicester_a100_entry_requirements",
+      "leicester_a100_2027_scoring_document"
+    ],
+    "available": true,
+    "applies_to_group_ids": [
+      "contextual",
+      "widening_participation",
+      "care_experienced"
+    ],
+    "criteria": [
+      "Access Leicester: Medicine (AL Med) programme completion by 1 December in year of application.",
+      "Realising Opportunities Programme (ROP) completion by 1 December in year of application.",
+      "Sutton Trust Pathways to Medicine completion by 1 December in year of application.",
+      "IMD quintile-1 (decile 1/2) applicants with UCAT bursary OR 16-19 bursary OR 6+ months Free School Meals OR 3+ months Local Authority care."
+    ],
+    "contextual_a_level_offer": {
+      "grade_profile": [
+        "A",
+        "A",
+        "A"
+      ],
+      "applies_to": "AL Med / ROP / Sutton Trust completers (predicted, or achieved in the first gap year only) and verified IMD quintile-1 applicants meeting the bursary/FSM/care criteria.",
+      "source_ids": [
+        "leicester_a100_entry_requirements"
+      ]
+    },
+    "guaranteed_interview_rules": [
+      {
+        "route_id": "al_med_guaranteed_interview",
+        "programme": "Access Leicester: Medicine",
+        "eligibility": "Verified AL Med completion by 1 December in year of application, contextual AAA offer criteria met.",
+        "fee_status": "home",
+        "source_ids": [
+          "leicester_a100_entry_requirements"
+        ]
+      },
+      {
+        "route_id": "rop_guaranteed_interview",
+        "programme": "Realising Opportunities Programme",
+        "eligibility": "Verified ROP completion by 1 December in year of application, contextual AAA offer criteria met.",
+        "fee_status": "home",
+        "source_ids": [
+          "leicester_a100_entry_requirements"
+        ]
+      },
+      {
+        "route_id": "sutton_trust_guaranteed_interview",
+        "programme": "Sutton Trust Pathways to Medicine",
+        "eligibility": "Verified Sutton Trust completion by 1 December in year of application, contextual AAA offer criteria met.",
+        "fee_status": "home",
+        "source_ids": [
+          "leicester_a100_entry_requirements"
+        ]
+      },
+      {
+        "route_id": "ukwpmed_restricted_guaranteed_interview_2027",
+        "programme": "UKWPMED",
+        "eligibility": "Restricted, narrow, closing route for 2027 entry: only accepted from applicants in their FIRST gap year who completed the UKWPMED programme in the 2025-2026 academic year. ABB offer with A in Chemistry or Biology, achieved (not predicted) at first sitting without resits.",
+        "fee_status": "home",
+        "restricted": true,
+        "cycle_specific": "2027_entry_only",
+        "source_ids": [
+          "leicester_a100_2027_scoring_document"
+        ],
+        "notes": "This is a hard, narrow eligibility gate and must not be treated as a generally available contextual route."
+      }
+    ],
+    "adjustments": [
+      {
+        "adjustment_id": "contextual_a_level_offer_adjustment",
+        "applies_to_group_ids": [
+          "contextual",
+          "widening_participation"
+        ],
+        "stage": "stage_1_eligibility",
+        "policy_description": "Verified AL Med, ROP, Sutton Trust completers and IMD quintile-1 applicants meeting bursary/FSM/care criteria receive the adjusted AAA A-level offer instead of the standard A*AA offer.",
+        "effect": {
+          "type": "adjusted_grade_offer",
+          "target": "stage_1_eligibility.post_16.a_level",
+          "value": "AAA"
+        },
+        "source_ids": [
+          "leicester_a100_entry_requirements"
+        ],
+        "notes": "Restricted UKWPMED 2027 applicants receive an ABB (with A in Chemistry or Biology) adjusted offer instead; see guaranteed_interview_rules."
+      }
+    ],
+    "manual_review_required": true,
+    "qualitative_flag_only": true,
+    "no_numeric_adjustment": true,
+    "engine_execution_status": "published_and_officially_documented_but_not_an_automatic_classifier_override_in_engine_v1",
+    "engine_execution_reason": "Leicester's guaranteed-interview routes (AL Med, ROP, Sutton Trust, restricted UKWPMED) are official and fully documented above, but the shared generic classifier's guaranteed-interview override mechanism is wired only for one other university's bespoke route function in this engine, not as a general-purpose declarative override. Applying that would require either a new bespoke Leicester route function or a generic engine change, both outside this implementation's scope without separate architecture-freeze approval. Verified AL Med/ROP/Sutton Trust/UKWPMED completers are therefore surfaced as a qualitative manual-review flag: an adviser confirms programme completion and the contextual offer criteria, rather than the engine auto-applying a guaranteed interview. This is a non-blocking, documented engine-execution gap, not a missing research finding.",
+    "notes": "Leicester's contextual/WP routes carry a published, official guaranteed-interview outcome once verified programme completion and the contextual offer criteria are confirmed met. In this engine, that verification and the resulting guaranteed-interview decision are manual-review boundaries rather than automatic classifier output, because ApplySmart cannot independently verify programme completion, IMD quintile/decile or bursary/FSM/care evidence, and the generic classifier does not yet expose a declarative guaranteed-interview override for this university."
+  },
+  "ranking_pools": [
+    {
+      "pool_id": "leicester_predicted_a_level_or_equivalent",
+      "name": "Leicester predicted A-level or equivalent",
+      "applies_to_group_ids": [
+        "home_fee",
+        "international_fee",
+        "school_leaver"
+      ],
+      "excluded_group_ids": [
+        "graduate_applicant"
+      ],
+      "fee_statuses": [
+        "home",
+        "international"
+      ],
+      "ranking_model": "points_system",
+      "ranking_factors": [
+        "gcse_points",
+        "ucat_points"
+      ],
+      "places_available": {
+        "home_approximate": 275,
+        "international_approximate": 18,
+        "status": "2026_entry_most_recent_published_home_and_hard_international_ofs_cap"
+      },
+      "source_ids": [
+        "leicester_a100_2027_scoring_document",
+        "leicester_a100_admissions_statistics"
+      ],
+      "notes": "Home and International ranked separately within this pool."
+    },
+    {
+      "pool_id": "leicester_achieved_a_level_or_equivalent",
+      "name": "Leicester achieved A-level or equivalent",
+      "applies_to_group_ids": [
+        "home_fee",
+        "international_fee",
+        "school_leaver"
+      ],
+      "excluded_group_ids": [
+        "graduate_applicant"
+      ],
+      "fee_statuses": [
+        "home",
+        "international"
+      ],
+      "ranking_model": "points_system",
+      "ranking_factors": [
+        "gcse_points",
+        "ucat_points",
+        "achieved_route_bonus_points"
+      ],
+      "places_available": {
+        "status": "not_separately_published"
+      },
+      "source_ids": [
+        "leicester_a100_2027_scoring_document",
+        "leicester_a100_admissions_statistics"
+      ],
+      "notes": "Home and International ranked separately. Auto-interview override applies before scoring for qualifying first-gap-year applicants."
+    },
+    {
+      "pool_id": "leicester_graduate",
+      "name": "Leicester graduate",
+      "applies_to_group_ids": [
+        "home_fee",
+        "international_fee",
+        "graduate_applicant"
+      ],
+      "fee_statuses": [
+        "home",
+        "international"
+      ],
+      "ranking_model": "points_system",
+      "ranking_factors": [
+        "graduate_a_level_or_hl_points",
+        "degree_classification_points"
+      ],
+      "places_available": {
+        "status": "not_separately_published"
+      },
+      "source_ids": [
+        "leicester_a100_2027_scoring_document",
+        "leicester_a100_admissions_statistics"
+      ],
+      "notes": "Home and International graduates ranked separately."
+    },
+    {
+      "pool_id": "leicester_access_to_medicine",
+      "name": "Leicester Access to Medicine",
+      "applies_to_group_ids": [
+        "home_fee",
+        "mature_applicant"
+      ],
+      "fee_statuses": [
+        "home"
+      ],
+      "ranking_model": "points_system",
+      "ranking_factors": [
+        "access_gcse_points",
+        "ucat_points_access_scale",
+        "access_references_employment",
+        "access_personal_statement"
+      ],
+      "places_available": {
+        "status": "not_separately_published"
+      },
+      "source_ids": [
+        "leicester_a100_2027_scoring_document"
+      ],
+      "notes": "Applicant pool identified by qualification_route access_to_medicine (see stage_1_eligibility.post_16.access_to_medicine), not by a dedicated applicant-group ID. Access references/employment and personal statement components require manual, non-executable Admissions Tutor review in this engine."
+    }
+  ],
+  "quotas": [
+    {
+      "quota_id": "leicester_a100_places_2027_entry_verified",
+      "name": "Verified Home/International places (2027 entry)",
+      "home_places": 275,
+      "international_places": 18,
+      "quota_type": "verified_current_places",
+      "source_ids": [
+        "applysmart_admissions_team_verified_2026"
+      ],
+      "notes": "Home/International place figures verified by the ApplySmart admissions research team for 2027 entry."
+    },
+    {
+      "quota_id": "home_places_expected_2026_entry",
+      "value": 275,
+      "fee_status": "home",
+      "source_ids": [
+        "leicester_a100_admissions_statistics"
+      ],
+      "notes": "Most recent published Home places (2026 entry)."
+    },
+    {
+      "quota_id": "international_places_hard_ofs_cap",
+      "value": 18,
+      "fee_status": "international",
+      "source_ids": [
+        "leicester_a100_admissions_statistics"
+      ],
+      "notes": "Hard Office for Students international places cap."
+    },
+    {
+      "quota_id": "expected_home_interviews_2027",
+      "value": 1400,
+      "fee_status": "home",
+      "source_ids": [
+        "leicester_a100_2027_scoring_document"
+      ],
+      "notes": "Expected 2027-entry Home interview volume, subject to change. Planning figure, not a fixed quota."
+    },
+    {
+      "quota_id": "expected_international_interviews_2027",
+      "value": 100,
+      "fee_status": "international",
+      "source_ids": [
+        "leicester_a100_2027_scoring_document"
+      ],
+      "notes": "Expected 2027-entry International interview volume, subject to change. Planning figure, not a fixed quota."
+    }
+  ],
+  "offer_selection": {
+    "verification_status": "official_source_verified_out_of_scope_for_applysmart",
+    "source_ids": [
+      "leicester_a100_2027_scoring_document"
+    ],
+    "interview_format": {
+      "format": "multiple_mini_interview",
+      "timing": "December to January",
+      "duration": null,
+      "station_count_published": false,
+      "delivery_mode_2027_plan": "Face-to-face for Home, online for International.",
+      "domains": [
+        "communication skills",
+        "problem solving",
+        "personal qualities and values",
+        "motivation and suitability",
+        "empathy and compassion",
+        "organisational ability",
+        "numeracy"
+      ],
+      "notes": "Station count is explicitly not published ('will depend on the situation at the time') and is not invented. Interview format is explanatory metadata only per this engine's interview-prediction scope; it does not affect selection."
+    },
+    "interview_scoring": {
+      "published_rubric": false,
+      "notes": "No interview scoring rubric or domain weights are published in the supplied research."
+    },
+    "offer_model": {
+      "status": "out_of_scope_for_applysmart",
+      "current_algorithm_published": false,
+      "reapplicant_waitlist_rule_note": "A re-applicant 5%-below-waitlist rule exists but is a post-interview/offer-adjacent policy requiring offer/waitlist data ApplySmart does not compute; stored only as a research note, never as executable logic."
+    },
+    "ranking_factors": [
+      "interview_score",
+      "SJT",
+      "UCAS Tariff or graduate weighted score",
+      "UCAT",
+      "combined pre-interview score"
+    ],
+    "tie_breakers": [],
+    "waiting_list_policy": "Not implemented; offer-stage and waitlist data are out of scope for this engine.",
+    "standard_offer": "A*AA",
+    "contextual_offer": "AAA (AL Med/ROP/Sutton Trust and verified IMD quintile-1); ABB restricted UKWPMED 2027",
+    "notes": "Offer prediction is not implemented in any executable form. Offer-stage thresholds and offer-holder statistics are retained only as labelled, non-core research notes."
+  },
+  "historical_admissions": {
+    "verification_status": "official_source_verified",
+    "source_ids": [
+      "leicester_a100_admissions_statistics"
+    ],
+    "cycles": [
+      {
+        "entry_year": 2026,
+        "fee_status": "home",
+        "pool": "graduate",
+        "applications": 100,
+        "interviews": 50
+      },
+      {
+        "entry_year": 2026,
+        "fee_status": "home",
+        "pool": "non_grad_predicted_a_level",
+        "applications": 1743,
+        "interviews": 1347
+      },
+      {
+        "entry_year": 2026,
+        "fee_status": "home",
+        "pool": "non_grad_achieved_a_level",
+        "applications": 134,
+        "interviews": 96
+      },
+      {
+        "entry_year": 2026,
+        "fee_status": "overseas",
+        "pool": "graduate",
+        "applications": 25,
+        "interviews": 6
+      },
+      {
+        "entry_year": 2026,
+        "fee_status": "overseas",
+        "pool": "non_grad_predicted_a_level",
+        "applications": 511,
+        "interviews": 104
+      },
+      {
+        "entry_year": 2026,
+        "fee_status": "overseas",
+        "pool": "non_grad_achieved_a_level",
+        "applications": 109,
+        "interviews": 35
+      }
+    ],
+    "totals_2026_entry": {
+      "applications": 2622,
+      "interviews": 1638
+    },
+    "notes": "2026-entry actuals are the most recent full published cycle and are used as historical guidance / ApplySmart-modelling labelling only, not as current-cycle official thresholds. Denominators and pool definitions are preserved exactly as published; no cross-cycle or cross-pool combination is performed."
+  },
+  "sources": [
+    {
+      "source_id": "leicester_a100_2027_scoring_document",
+      "title": "University of Leicester A100 Medicine 2027 Entry Scoring Document",
+      "url": "https://le.ac.uk/study/undergraduate/medicine/a100/how-we-select",
+      "source_type": "official",
+      "published_date": null,
+      "accessed_date": null,
+      "applies_to_sections": [
+        "stage_1_eligibility",
+        "stage_2_interview_selection",
+        "contextual_admissions"
+      ],
+      "confidence": "high",
+      "evidence_classification": "OFFICIAL",
+      "notes": "Primary official source for the GCSE, UCAT, achieved-route bonus, graduate and Access scoring formulas, transcribed for this implementation."
+    },
+    {
+      "source_id": "leicester_a100_entry_requirements",
+      "title": "University of Leicester A100 Medicine entry requirements",
+      "url": "https://le.ac.uk/courses/medicine-mbchb-a100/2027",
+      "source_type": "official",
+      "published_date": null,
+      "accessed_date": null,
+      "applies_to_sections": [
+        "stage_1_eligibility",
+        "contextual_admissions"
+      ],
+      "confidence": "high",
+      "evidence_classification": "OFFICIAL",
+      "notes": "Entry-requirements page evidence for GCSE, A-level, IB, Scottish, graduate, Access and contextual routes."
+    },
+    {
+      "source_id": "leicester_a100_admissions_statistics",
+      "title": "University of Leicester Medicine admissions statistics",
+      "url": "https://le.ac.uk/study/undergraduate/medicine/a100/entry-requirements/statistics",
+      "source_type": "official",
+      "published_date": null,
+      "accessed_date": null,
+      "applies_to_sections": [
+        "historical_admissions",
+        "stage_2_interview_selection"
+      ],
+      "confidence": "high",
+      "evidence_classification": "OFFICIAL",
+      "notes": "2026-entry applications, interviews and combined-score guarantee threshold statistics by sub-group."
+    },
+    {
+      "source_id": "ucas_leicester_a100_listing",
+      "title": "UCAS course listing: University of Leicester A100 Medicine MBChB",
+      "url": "https://www.ucas.com/explore/courses",
+      "source_type": "official",
+      "published_date": null,
+      "accessed_date": null,
+      "applies_to_sections": [
+        "course"
+      ],
+      "confidence": "medium",
+      "evidence_classification": "OFFICIAL",
+      "notes": "UCAS course listing corroborates course identity fields; exact permalink unavailable in the supplied dossier."
+    }
+  ],
+  "validation": {
+    "source_status": "official_source_verified_with_documented_gaps",
+    "last_verified": "2026-07-07",
+    "confidence_level": "High for 2027-entry published eligibility and scoring methodology; Limited for multi-year historical trend confidence because only one year of directly comparable /96-scale data exists",
+    "completion_status": "production_ready_for_supported_scope",
+    "known_unknowns": [
+      "Exact MMI station count and duration.",
+      "Raw UCAT averages or lowest scores of interviewed or offered candidates.",
+      "Scottish National-5-specific grade requirements.",
+      "IB Standard-Level English/Maths sub-requirements.",
+      "Country-specific international qualification equivalence tables.",
+      "Exact bonus-point value for accepted GCSE mitigation.",
+      "Interaction between the two achieved-A-level bonus tracks.",
+      "Access-route eligibility vs scoring-bonus precise operationalisation (resolved by following Section 6.0)."
+    ],
+    "review_notes": "Implemented as deterministic eligibility plus the official GCSE/UCAT points formulas for predicted, achieved, graduate and Access sub-groups, plus contextual/WP guaranteed-interview overrides and 2026-entry combined-score historical guidance bands. Historical-trend confidence is Limited due to the 2025 UCAT rescale and 2026 Leicester /64-to-/96 scale change."
+  },
+  "engine_notes": {
+    "eligibility": true,
+    "interview_prediction": true,
+    "historical_guidance": true,
+    "international_prediction": true,
+    "contextual_logic": false,
+    "result_card": true,
+    "regression": true,
+    "research_completeness": "complete_for_supported_scope_with_documented_gaps",
+    "manual_review_required": true,
+    "eligibility_ready": true,
+    "interview_prediction_ready": true,
+    "prediction_confidence": "medium",
+    "result_card_ready": true,
+    "offer_prediction_scope": "out_of_scope",
+    "interview_band_config_ready": true,
+    "metadata_activation_ready": true,
+    "activation_ready": true,
+    "production_ready": true,
+    "blocking_missing_fields": [],
+    "non_blocking_warnings": [
+      "Known unknown retained as non-blocking for activation-ready production scope: Exact MMI station count and duration.",
+      "Known unknown retained as non-blocking for activation-ready production scope: Raw UCAT averages or lowest scores of interviewed or offered candidates.",
+      "Known unknown retained as non-blocking for activation-ready production scope: Scottish National-5-specific grade requirements.",
+      "Known unknown retained as non-blocking for activation-ready production scope: IB Standard-Level English/Maths sub-requirements.",
+      "Known unknown retained as non-blocking for activation-ready production scope: Country-specific international qualification equivalence tables.",
+      "Known unknown retained as non-blocking for activation-ready production scope: Exact bonus-point value for accepted GCSE mitigation.",
+      "Known unknown retained as non-blocking for activation-ready production scope: Interaction between the two achieved-A-level bonus tracks.",
+      "Known unknown retained as non-blocking for activation-ready production scope: Access-route eligibility vs scoring-bonus precise operationalisation (resolved by following Section 6.0)."
+    ],
+    "engine_assumptions": [
+      "The shared data/ucat-deciles.json dataset is used for bottom-two-decile exclusion and for the achieved-route auto-interview decile thresholds, reviewed annually.",
+      "2026-entry /96-scale combined-score guarantee thresholds are used as current-cycle historical guidance bands only, not as fixed 2027 official thresholds.",
+      "Access references/employment and personal statement components are not executable and remain manual-review, non-scored boundaries."
+    ],
+    "do_not_infer": [
+      "Do not present 2026-entry /96-scale thresholds as guaranteed 2027 official thresholds.",
+      "Do not hardcode UCAT points bands below 1800; rely on the decile exclusion gate instead.",
+      "Do not invent MMI station counts, raw UCAT averages, or an exact GCSE-mitigation bonus value.",
+      "Do not implement offer prediction or the re-applicant 5%-below-waitlist rule as executable logic.",
+      "Do not treat the restricted 2027 UKWPMED route as a generally available contextual pathway.",
+      "Do not infer country-specific international qualification equivalence; use manual review (ECCTIS-style) instead."
+    ]
+  }
+}

@@ -1,0 +1,906 @@
+{
+  "schema_version": "1.0.0",
+  "course_profile_id": "kent-and-medway-a100",
+  "fixture_purpose": "KMMS A100 readiness, predicted-grade exclusion, official-threshold-null handling and ApplySmart advisory boundary coverage.",
+  "official_runtime_state": {
+    "official_2026_threshold_2700": null,
+    "official_outcome_for_eligible_profiles": "prediction_unavailable",
+    "action": "advisory_guidance_only"
+  },
+  "advisory_boundaries": [
+    {
+      "score": 900,
+      "expected_public_band": "High Risk",
+      "expected_canonical_band": "high_risk"
+    },
+    {
+      "score": 1844,
+      "expected_public_band": "High Risk",
+      "expected_canonical_band": "high_risk"
+    },
+    {
+      "score": 1845,
+      "expected_public_band": "Borderline",
+      "expected_canonical_band": "ambitious"
+    },
+    {
+      "score": 1846,
+      "expected_public_band": "Borderline",
+      "expected_canonical_band": "ambitious"
+    },
+    {
+      "score": 1854,
+      "expected_public_band": "Borderline",
+      "expected_canonical_band": "ambitious"
+    },
+    {
+      "score": 1855,
+      "expected_public_band": "Realistic",
+      "expected_canonical_band": "realistic"
+    },
+    {
+      "score": 1856,
+      "expected_public_band": "Realistic",
+      "expected_canonical_band": "realistic"
+    },
+    {
+      "score": 1864,
+      "expected_public_band": "Realistic",
+      "expected_canonical_band": "realistic"
+    },
+    {
+      "score": 1865,
+      "expected_public_band": "Strong",
+      "expected_canonical_band": "interview_likely"
+    },
+    {
+      "score": 1866,
+      "expected_public_band": "Strong",
+      "expected_canonical_band": "interview_likely"
+    },
+    {
+      "score": 2700,
+      "expected_public_band": "Strong",
+      "expected_canonical_band": "interview_likely"
+    }
+  ],
+  "base_applicant": {
+    "profile_id": "kmms-base",
+    "application_year": 2025,
+    "applicant_identity": {
+      "fee_status": "home",
+      "domicile": "england",
+      "applicant_type": "school_leaver"
+    },
+    "gcse_profile": {
+      "total_gcse_count": 8,
+      "subjects": {
+        "english_language": "6",
+        "mathematics": "6",
+        "biology": "7",
+        "chemistry": "7",
+        "physics": "7",
+        "english_literature": "6",
+        "psychology": "7",
+        "history": "7"
+      }
+    },
+    "a_level_profile": {
+      "qualification_status": "predicted",
+      "subjects": [
+        {
+          "subject_id": "biology",
+          "predicted_grade": "A"
+        },
+        {
+          "subject_id": "chemistry",
+          "predicted_grade": "A"
+        },
+        {
+          "subject_id": "mathematics",
+          "predicted_grade": "A"
+        }
+      ]
+    },
+    "admissions_tests": {
+      "ucat": {
+        "total_score": 1855,
+        "sjt_band": 2,
+        "test_year": 2025
+      }
+    },
+    "kmms": {
+      "group": "A",
+      "school_contextual_data": "available",
+      "academic_input_used": "achieved_gcse"
+    }
+  },
+  "scenarios": [
+    {
+      "scenario_id": "group_a_valid_gcse_no_achieved_a_levels_predicted_aaa_present",
+      "description": "Valid Group A achieved GCSEs and current predicted AAA; must not fail because achieved A-levels are absent.",
+      "overrides": {},
+      "expected": {
+        "kmms_group": "A",
+        "academic_input_used": "achieved_gcse",
+        "eligibility_status": "eligible",
+        "official_status": "prediction_unavailable",
+        "manual_review_required": false,
+        "canonical_band": "realistic",
+        "public_band": "Realistic",
+        "must_not_include_failure": "a_level_requirements_not_met"
+      }
+    },
+    {
+      "scenario_id": "group_a_valid_gcse_no_predicted_grades",
+      "description": "Valid Group A achieved GCSEs and no predicted grades; still assessed using GCSEs.",
+      "overrides": {
+        "a_level_profile": {
+          "qualification_status": "unknown",
+          "subjects": []
+        }
+      },
+      "expected": {
+        "kmms_group": "A",
+        "academic_input_used": "achieved_gcse",
+        "eligibility_status": "eligible",
+        "official_status": "prediction_unavailable",
+        "manual_review_required": false,
+        "canonical_band": "realistic",
+        "public_band": "Realistic"
+      }
+    },
+    {
+      "scenario_id": "group_a_gcse_academic_minimum_failure",
+      "overrides": {
+        "gcse_profile": {
+          "total_gcse_count": 4,
+          "subjects": {
+            "english_language": "6",
+            "mathematics": "6",
+            "biology": "6",
+            "chemistry": "6"
+          }
+        }
+      },
+      "expected": {
+        "eligibility_status": "not_eligible",
+        "failure": "minimum_gcse_count_not_met"
+      }
+    },
+    {
+      "scenario_id": "group_a_required_gcse_subject_missing",
+      "overrides": {
+        "gcse_profile": {
+          "total_gcse_count": 8,
+          "subjects": {
+            "english_language": "6",
+            "mathematics": null,
+            "biology": "7",
+            "chemistry": "7",
+            "physics": "7",
+            "english_literature": "6",
+            "psychology": "7",
+            "history": "7",
+            "geography": "7"
+          }
+        }
+      },
+      "expected": {
+        "eligibility_status": "not_eligible",
+        "failure": "required_gcse_subject_missing:mathematics"
+      }
+    },
+    {
+      "scenario_id": "group_a_school_contextual_data_available",
+      "overrides": {
+        "kmms": {
+          "group": "A",
+          "school_contextual_data": "available",
+          "contextual_metric": "gcse_attainment8_vs_school_average"
+        }
+      },
+      "expected": {
+        "eligibility_status": "eligible",
+        "official_status": "prediction_unavailable",
+        "contextual_rank_status": "available_to_kmms_not_held_by_applysmart"
+      }
+    },
+    {
+      "scenario_id": "group_a_school_contextual_data_unavailable",
+      "overrides": {
+        "kmms": {
+          "group": "A",
+          "school_contextual_data": "unavailable"
+        }
+      },
+      "expected": {
+        "eligibility_status": "eligible",
+        "official_status": "prediction_unavailable",
+        "contextual_rank_status": "prediction_unavailable"
+      }
+    },
+    {
+      "scenario_id": "group_a_reroutes_to_group_c_no_usable_school_data",
+      "overrides": {
+        "kmms": {
+          "group": "C",
+          "rerouted_from": "A",
+          "reroute_reason": "school_has_no_usable_contextualisation_data",
+          "casper_required": true
+        }
+      },
+      "expected": {
+        "kmms_group": "C",
+        "eligibility_status": "eligible",
+        "official_status": "prediction_unavailable",
+        "manual_review_required": false
+      }
+    },
+    {
+      "scenario_id": "group_b_achieved_aab_valid_science_subjects",
+      "overrides": {
+        "a_level_profile": {
+          "qualification_status": "achieved",
+          "subjects": [
+            {
+              "subject_id": "biology",
+              "achieved_grade": "A"
+            },
+            {
+              "subject_id": "chemistry",
+              "achieved_grade": "A"
+            },
+            {
+              "subject_id": "mathematics",
+              "achieved_grade": "B"
+            }
+          ],
+          "practical_passes": {
+            "biology": "pass",
+            "chemistry": "pass"
+          }
+        },
+        "kmms": {
+          "group": "B",
+          "academic_input_used": "achieved_a_level"
+        }
+      },
+      "expected": {
+        "kmms_group": "B",
+        "academic_input_used": "achieved_a_level",
+        "eligibility_status": "eligible",
+        "official_status": "prediction_unavailable"
+      }
+    },
+    {
+      "scenario_id": "group_b_achieved_bbb_below_minimum",
+      "overrides": {
+        "a_level_profile": {
+          "qualification_status": "achieved",
+          "subjects": [
+            {
+              "subject_id": "biology",
+              "achieved_grade": "B"
+            },
+            {
+              "subject_id": "chemistry",
+              "achieved_grade": "B"
+            },
+            {
+              "subject_id": "mathematics",
+              "achieved_grade": "B"
+            }
+          ],
+          "practical_passes": {
+            "biology": "pass",
+            "chemistry": "pass"
+          }
+        },
+        "kmms": {
+          "group": "B"
+        }
+      },
+      "expected": {
+        "eligibility_status": "not_eligible",
+        "failure": "a_level_requirements_not_met"
+      }
+    },
+    {
+      "scenario_id": "group_b_invalid_a_level_subject_combination",
+      "overrides": {
+        "a_level_profile": {
+          "qualification_status": "achieved",
+          "subjects": [
+            {
+              "subject_id": "mathematics",
+              "achieved_grade": "A"
+            },
+            {
+              "subject_id": "physics",
+              "achieved_grade": "A"
+            },
+            {
+              "subject_id": "history",
+              "achieved_grade": "B"
+            }
+          ],
+          "practical_passes": {
+            "physics": "pass"
+          }
+        },
+        "kmms": {
+          "group": "B"
+        }
+      },
+      "expected": {
+        "eligibility_status": "not_eligible",
+        "failure": "a_level_subject_combination_not_met"
+      }
+    },
+    {
+      "scenario_id": "group_b_missing_science_practical_endorsement",
+      "overrides": {
+        "a_level_profile": {
+          "qualification_status": "achieved",
+          "subjects": [
+            {
+              "subject_id": "biology",
+              "achieved_grade": "A"
+            },
+            {
+              "subject_id": "chemistry",
+              "achieved_grade": "A"
+            },
+            {
+              "subject_id": "mathematics",
+              "achieved_grade": "B"
+            }
+          ],
+          "practical_passes": {
+            "biology": "pass"
+          }
+        },
+        "kmms": {
+          "group": "B"
+        }
+      },
+      "expected": {
+        "eligibility_status": "manual_review",
+        "failure": "science_practical_endorsement_evidence_missing:chemistry"
+      }
+    },
+    {
+      "scenario_id": "group_b_valid_achieved_ib",
+      "overrides": {
+        "qualification_route": "international_baccalaureate",
+        "a_level_profile": null,
+        "ib_profile": {
+          "qualification_status": "achieved",
+          "total_points": 36,
+          "higher_level_subjects": [
+            {
+              "subject_id": "biology",
+              "achieved_grade": "6"
+            },
+            {
+              "subject_id": "chemistry",
+              "achieved_grade": "6"
+            },
+            {
+              "subject_id": "history",
+              "achieved_grade": "6"
+            }
+          ]
+        },
+        "kmms": {
+          "group": "B",
+          "academic_input_used": "achieved_ib"
+        }
+      },
+      "expected": {
+        "eligibility_status": "eligible",
+        "official_status": "prediction_unavailable"
+      }
+    },
+    {
+      "scenario_id": "group_b_achieved_ib_below_minimum",
+      "overrides": {
+        "qualification_route": "international_baccalaureate",
+        "a_level_profile": null,
+        "ib_profile": {
+          "qualification_status": "achieved",
+          "total_points": 33,
+          "higher_level_subjects": [
+            {
+              "subject_id": "biology",
+              "achieved_grade": "6"
+            },
+            {
+              "subject_id": "chemistry",
+              "achieved_grade": "6"
+            },
+            {
+              "subject_id": "history",
+              "achieved_grade": "6"
+            }
+          ]
+        }
+      },
+      "expected": {
+        "eligibility_status": "not_eligible",
+        "failure": "international_baccalaureate_requirements_not_met"
+      }
+    },
+    {
+      "scenario_id": "group_b_predicted_stronger_than_achieved_ignored",
+      "overrides": {
+        "a_level_profile": {
+          "qualification_status": "achieved",
+          "subjects": [
+            {
+              "subject_id": "biology",
+              "achieved_grade": "B",
+              "predicted_grade": "A"
+            },
+            {
+              "subject_id": "chemistry",
+              "achieved_grade": "B",
+              "predicted_grade": "A"
+            },
+            {
+              "subject_id": "mathematics",
+              "achieved_grade": "B",
+              "predicted_grade": "A"
+            }
+          ],
+          "practical_passes": {
+            "biology": "pass",
+            "chemistry": "pass"
+          }
+        },
+        "kmms": {
+          "group": "B"
+        }
+      },
+      "expected": {
+        "eligibility_status": "not_eligible",
+        "failure": "a_level_requirements_not_met",
+        "predicted_grades_effect": "none"
+      }
+    },
+    {
+      "scenario_id": "group_b_predicted_weaker_than_achieved_ignored",
+      "overrides": {
+        "a_level_profile": {
+          "qualification_status": "achieved",
+          "subjects": [
+            {
+              "subject_id": "biology",
+              "achieved_grade": "A",
+              "predicted_grade": "B"
+            },
+            {
+              "subject_id": "chemistry",
+              "achieved_grade": "A",
+              "predicted_grade": "B"
+            },
+            {
+              "subject_id": "mathematics",
+              "achieved_grade": "B",
+              "predicted_grade": "B"
+            }
+          ],
+          "practical_passes": {
+            "biology": "pass",
+            "chemistry": "pass"
+          }
+        },
+        "kmms": {
+          "group": "B"
+        }
+      },
+      "expected": {
+        "eligibility_status": "eligible",
+        "official_status": "prediction_unavailable",
+        "predicted_grades_effect": "none"
+      }
+    },
+    {
+      "scenario_id": "group_c_scottish_applicant",
+      "overrides": {
+        "qualification_route": "scottish",
+        "a_level_profile": null,
+        "scottish_profile": {
+          "higher_subjects": [
+            {
+              "subject_id": "biology",
+              "grade": "A"
+            },
+            {
+              "subject_id": "chemistry",
+              "grade": "A"
+            },
+            {
+              "subject_id": "mathematics",
+              "grade": "A"
+            },
+            {
+              "subject_id": "english",
+              "grade": "A"
+            },
+            {
+              "subject_id": "history",
+              "grade": "B"
+            }
+          ],
+          "advanced_higher_subjects": [
+            {
+              "subject_id": "biology",
+              "grade": "A"
+            },
+            {
+              "subject_id": "chemistry",
+              "grade": "A"
+            },
+            {
+              "subject_id": "mathematics",
+              "grade": "B"
+            }
+          ]
+        },
+        "kmms": {
+          "group": "C",
+          "casper_required": true,
+          "academic_input_used": "achieved_scottish_qualifications"
+        }
+      },
+      "expected": {
+        "eligibility_status": "eligible",
+        "official_status": "prediction_unavailable"
+      }
+    },
+    {
+      "scenario_id": "group_c_access_to_he_applicant",
+      "overrides": {
+        "qualification_route": "access_to_medicine",
+        "a_level_profile": null,
+        "access_to_medicine_profile": {
+          "provider_approved_by_institution": true,
+          "requirements_met": true
+        },
+        "kmms": {
+          "group": "C",
+          "casper_required": true,
+          "academic_input_used": "verified_access_to_he_medicine"
+        }
+      },
+      "expected": {
+        "eligibility_status": "eligible",
+        "official_status": "prediction_unavailable"
+      }
+    },
+    {
+      "scenario_id": "group_d_graduate_valid_2_1",
+      "overrides": {
+        "qualification_route": "graduate",
+        "applicant_identity": {
+          "fee_status": "home",
+          "domicile": "england",
+          "applicant_type": "graduate",
+          "graduate": true
+        },
+        "a_level_profile": null,
+        "graduate_profile": {
+          "is_graduate": true,
+          "degree_classification": "2_1",
+          "degree_subject_acceptable": true
+        },
+        "admissions_tests": {
+          "ucat": {
+            "total_score": 1855,
+            "sjt_band": 2,
+            "test_year": 2025
+          }
+        },
+        "kmms": {
+          "group": "D",
+          "academic_input_used": "achieved_degree"
+        }
+      },
+      "expected": {
+        "eligibility_status": "eligible",
+        "official_status": "prediction_unavailable"
+      }
+    },
+    {
+      "scenario_id": "group_d_graduate_below_2_1",
+      "overrides": {
+        "qualification_route": "graduate",
+        "applicant_identity": {
+          "fee_status": "home",
+          "domicile": "england",
+          "applicant_type": "graduate",
+          "graduate": true
+        },
+        "a_level_profile": null,
+        "graduate_profile": {
+          "is_graduate": true,
+          "degree_classification": "2_2"
+        },
+        "admissions_tests": {
+          "ucat": {
+            "total_score": 1855,
+            "sjt_band": 2,
+            "test_year": 2025
+          }
+        },
+        "kmms": {
+          "group": "D"
+        }
+      },
+      "expected": {
+        "eligibility_status": "not_eligible",
+        "failure": "graduate_degree_requirements_not_met"
+      }
+    },
+    {
+      "scenario_id": "group_e_school_leaver_route",
+      "overrides": {
+        "applicant_identity": {
+          "fee_status": "international",
+          "domicile": "international",
+          "applicant_type": "school_leaver",
+          "english_language_exempt": true
+        },
+        "qualification_route": "international_qualification",
+        "a_level_profile": null,
+        "international_qualification": {
+          "equivalence_status": "verified",
+          "verified_by_institution": true,
+          "requirements_met": true
+        },
+        "kmms": {
+          "group": "E",
+          "academic_input_used": "achieved_international_equivalent"
+        }
+      },
+      "expected": {
+        "eligibility_status": "eligible",
+        "official_status": "prediction_unavailable"
+      }
+    },
+    {
+      "scenario_id": "group_e_graduate_route",
+      "overrides": {
+        "qualification_route": "graduate",
+        "applicant_identity": {
+          "fee_status": "international",
+          "domicile": "international",
+          "applicant_type": "graduate",
+          "graduate": true,
+          "english_language_exempt": true
+        },
+        "a_level_profile": null,
+        "graduate_profile": {
+          "is_graduate": true,
+          "degree_classification": "2_1"
+        },
+        "admissions_tests": {
+          "ucat": {
+            "total_score": 1855,
+            "sjt_band": 2,
+            "test_year": 2025
+          }
+        },
+        "kmms": {
+          "group": "E",
+          "academic_input_used": "achieved_international_degree_equivalent"
+        }
+      },
+      "expected": {
+        "eligibility_status": "eligible",
+        "official_status": "prediction_unavailable"
+      }
+    },
+    {
+      "scenario_id": "school_leaver_sjt_band_1",
+      "overrides": {
+        "admissions_tests": {
+          "ucat": {
+            "total_score": 1855,
+            "sjt_band": 1,
+            "test_year": 2025
+          }
+        }
+      },
+      "expected": {
+        "eligibility_status": "eligible"
+      }
+    },
+    {
+      "scenario_id": "school_leaver_sjt_band_2",
+      "overrides": {},
+      "expected": {
+        "eligibility_status": "eligible"
+      }
+    },
+    {
+      "scenario_id": "school_leaver_sjt_band_3",
+      "overrides": {
+        "admissions_tests": {
+          "ucat": {
+            "total_score": 1855,
+            "sjt_band": 3,
+            "test_year": 2025
+          }
+        }
+      },
+      "expected": {
+        "eligibility_status": "eligible"
+      }
+    },
+    {
+      "scenario_id": "school_leaver_sjt_band_4",
+      "overrides": {
+        "admissions_tests": {
+          "ucat": {
+            "total_score": 1855,
+            "sjt_band": 4,
+            "test_year": 2025
+          }
+        }
+      },
+      "expected": {
+        "eligibility_status": "not_eligible",
+        "failure": "disqualifying_sjt_rule"
+      }
+    },
+    {
+      "scenario_id": "graduate_sjt_band_1",
+      "overrides": {
+        "qualification_route": "graduate",
+        "applicant_identity": {
+          "fee_status": "home",
+          "domicile": "england",
+          "applicant_type": "graduate",
+          "graduate": true
+        },
+        "a_level_profile": null,
+        "graduate_profile": {
+          "is_graduate": true,
+          "degree_classification": "2_1"
+        },
+        "admissions_tests": {
+          "ucat": {
+            "total_score": 1855,
+            "sjt_band": 1,
+            "test_year": 2025
+          }
+        }
+      },
+      "expected": {
+        "eligibility_status": "eligible"
+      }
+    },
+    {
+      "scenario_id": "graduate_sjt_band_2",
+      "overrides": {
+        "qualification_route": "graduate",
+        "applicant_identity": {
+          "fee_status": "home",
+          "domicile": "england",
+          "applicant_type": "graduate",
+          "graduate": true
+        },
+        "a_level_profile": null,
+        "graduate_profile": {
+          "is_graduate": true,
+          "degree_classification": "2_1"
+        },
+        "admissions_tests": {
+          "ucat": {
+            "total_score": 1855,
+            "sjt_band": 2,
+            "test_year": 2025
+          }
+        }
+      },
+      "expected": {
+        "eligibility_status": "eligible"
+      }
+    },
+    {
+      "scenario_id": "graduate_sjt_band_3",
+      "overrides": {
+        "qualification_route": "graduate",
+        "applicant_identity": {
+          "fee_status": "home",
+          "domicile": "england",
+          "applicant_type": "graduate",
+          "graduate": true
+        },
+        "a_level_profile": null,
+        "graduate_profile": {
+          "is_graduate": true,
+          "degree_classification": "2_1"
+        },
+        "admissions_tests": {
+          "ucat": {
+            "total_score": 1855,
+            "sjt_band": 3,
+            "test_year": 2025
+          }
+        }
+      },
+      "expected": {
+        "eligibility_status": "not_eligible",
+        "failure": "disqualifying_sjt_rule"
+      }
+    },
+    {
+      "scenario_id": "graduate_sjt_band_4",
+      "overrides": {
+        "qualification_route": "graduate",
+        "applicant_identity": {
+          "fee_status": "home",
+          "domicile": "england",
+          "applicant_type": "graduate",
+          "graduate": true
+        },
+        "a_level_profile": null,
+        "graduate_profile": {
+          "is_graduate": true,
+          "degree_classification": "2_1"
+        },
+        "admissions_tests": {
+          "ucat": {
+            "total_score": 1855,
+            "sjt_band": 4,
+            "test_year": 2025
+          }
+        }
+      },
+      "expected": {
+        "eligibility_status": "not_eligible",
+        "failure": "disqualifying_sjt_rule"
+      }
+    },
+    {
+      "scenario_id": "advisory_band_change_does_not_change_official_outcome_low",
+      "overrides": {
+        "admissions_tests": {
+          "ucat": {
+            "total_score": 1844,
+            "sjt_band": 2,
+            "test_year": 2025
+          }
+        }
+      },
+      "expected": {
+        "eligibility_status": "eligible",
+        "official_status": "prediction_unavailable",
+        "public_band": "High Risk",
+        "manual_review_required": false
+      }
+    },
+    {
+      "scenario_id": "advisory_band_change_does_not_change_official_outcome_high",
+      "overrides": {
+        "admissions_tests": {
+          "ucat": {
+            "total_score": 2700,
+            "sjt_band": 2,
+            "test_year": 2025
+          }
+        }
+      },
+      "expected": {
+        "eligibility_status": "eligible",
+        "official_status": "prediction_unavailable",
+        "public_band": "Strong",
+        "manual_review_required": false
+      }
+    }
+  ]
+}

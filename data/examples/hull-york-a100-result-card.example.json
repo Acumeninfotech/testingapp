@@ -1,0 +1,398 @@
+{
+  "schema_version": "1.0.0",
+  "template_version": "0.1.0",
+  "result_id": "hyms-hyms_home_contextual_school_leaver-estimate",
+  "generated_at": null,
+  "result_mode": "official_eligibility_with_hyms_specific_unofficial_estimate",
+  "course_identity": {
+    "profile_id": "hull-york-a100",
+    "university_name": "Hull York Medical School",
+    "course_name": "MB BS Medicine",
+    "ucas_code": "A100"
+  },
+  "applicant_context": {
+    "profile_id": "hyms_home_contextual_school_leaver",
+    "applies_to_group_ids": [
+      "home_fee",
+      "england_domiciled",
+      "rest_of_uk",
+      "contextual",
+      "widening_participation",
+      "school_leaver"
+    ],
+    "qualification_route": "a_level",
+    "fee_cohort": "home",
+    "contextual": true,
+    "graduate": false,
+    "prior_university": false,
+    "applicant_summary": "Applicant assessed in the Home UK school-leavers route."
+  },
+  "readiness": {
+    "eligibility": true,
+    "interview_prediction": true,
+    "historical_guidance": true,
+    "international_prediction": true,
+    "contextual_logic": true,
+    "result_card": true,
+    "regression": true,
+    "research_completeness": "complete_for_supported_scope_with_documented_gaps",
+    "manual_review_required": true,
+    "eligibility_ready": true,
+    "interview_prediction_ready": true,
+    "prediction_confidence": "low",
+    "result_card_ready": true,
+    "offer_prediction_scope": "out_of_scope",
+    "interview_band_config_ready": true,
+    "metadata_activation_ready": true,
+    "dedicated_consumer": "assets/js/engine/hull-york-a100-consumer.js",
+    "approved_activation_scope": "Official eligibility plus explicitly unofficial HYMS-specific estimate-mode interview guidance.",
+    "blocking_missing_fields": [],
+    "engine_assumptions": [
+      "National UCAT deciles from the shared official UCAT dataset are used as an estimate input.",
+      "The supplied third-party component tariffs and recommendation bands are directional estimates.",
+      "Contextual estimate points are available only to Home UK school-leavers without graduate or prior-university status."
+    ],
+    "do_not_infer": [
+      "Do not describe any estimated score as HYMS-published or official.",
+      "Do not present estimate bands as current HYMS cut-offs, probabilities or guarantees.",
+      "Do not award contextual estimate points to international, graduate or prior-university applicants.",
+      "Do not infer unverified international qualification equivalence."
+    ]
+  },
+  "eligibility": {
+    "status": "eligible",
+    "summary": "The applicant meets every supported official HYMS eligibility rule represented by the supplied evidence.",
+    "stage_1_checks": [
+      {
+        "check_id": "gcse_six_at_grade_4_or_above",
+        "status": "pass"
+      },
+      {
+        "check_id": "gcse_english_language_grade_6",
+        "status": "pass"
+      },
+      {
+        "check_id": "gcse_mathematics_grade_6",
+        "status": "pass"
+      },
+      {
+        "check_id": "a_level_AAA_biology_chemistry_one_sitting",
+        "status": "pass",
+        "grade_profile_met": true,
+        "biology_met": true,
+        "chemistry_met": true,
+        "one_sitting_met": true,
+        "excluded_subjects_present": []
+      },
+      {
+        "check_id": "ucat_required",
+        "status": "pass"
+      },
+      {
+        "check_id": "ucat_current_application_cycle",
+        "status": "pass"
+      },
+      {
+        "check_id": "sjt_band_1_to_3",
+        "status": "pass"
+      },
+      {
+        "check_id": "minimum_age_18_on_1_october",
+        "status": "pass",
+        "age": 18
+      },
+      {
+        "check_id": "medical_student_transfer_not_requested",
+        "status": "pass"
+      }
+    ],
+    "blocking_reasons": [],
+    "manual_review_reasons": []
+  },
+  "stage_2_selection": {
+    "summary": "HYMS ranks eligible applicants using GCSE, UCAT decile and SJT components, with contextual points available only to qualifying Home UK school-leavers. ApplySmart labels every calculated tariff and recommendation as an unofficial estimate."
+  },
+  "prediction": {
+    "available": true,
+    "capability": "interview",
+    "prediction_type": "unofficial_third_party_estimate",
+    "result_band": "interview_likely",
+    "score": 85.48,
+    "score_label": "Estimated HYMS selection score",
+    "score_scale": {
+      "min": 0,
+      "max": 100
+    },
+    "confidence_level": "low",
+    "deterministic": false,
+    "fixed_current_cutoff": false,
+    "cannot_predict_explanation": null
+  },
+  "confidence": {
+    "level": "low",
+    "summary": "Official eligibility rules are separated from a low-confidence, unofficial estimate of HYMS selection points and recommendation bands.",
+    "stage_confidence": {
+      "eligibility": "high_for_supported_routes",
+      "official_selection_framework": "high",
+      "estimate_tariffs": "low",
+      "recommendation_bands": "low"
+    },
+    "source_ids": [
+      "hyms_entry_requirements_2027",
+      "hyms_ucat_2027",
+      "hyms_selection_procedure_2027",
+      "hyms_contextual_admissions_2027",
+      "hyms_third_party_estimate_model"
+    ]
+  },
+  "evidence_confidence": {
+    "level": "Medium",
+    "summary": "The recommendation is supported by core admissions evidence, with some historical or route-specific limits.",
+    "reasons": [
+      "Official eligibility rules are available.",
+      "The university selection approach is implemented.",
+      "Historical interview guidance is available, but some evidence is historical, FOI-derived or has documented gaps."
+    ]
+  },
+  "display": {
+    "headline": "Estimated HYMS selection score",
+    "subheadline": null,
+    "primary_user_facing_recommendation": "Strong choice based on an unofficial estimate",
+    "recommendation_display_state": "standard",
+    "primary_explanation": "Estimated HYMS selection score 85.48/100 supports the \"Strong choice\" estimate band. This is an estimate based on unofficial, third-party scoring assumptions — Hull York Medical School has not published its exact points formula and has formally declined to release it under a Freedom of Information request. Treat this score as directional, not exact.",
+    "historical_guidance_caveat": "This is unofficial estimate-mode guidance, not a current HYMS cut-off or a guarantee of an interview.",
+    "score_label": "Estimated HYMS selection score",
+    "mandatory_disclosure": "This is an estimate based on unofficial, third-party scoring assumptions — Hull York Medical School has not published its exact points formula and has formally declined to release it under a Freedom of Information request. Treat this score as directional, not exact."
+  },
+  "decision_timeline": [
+    {
+      "step": 1,
+      "title": "Applicant details checked",
+      "status": "Complete",
+      "summary": "Your applicant type, qualifications and UCAT details were checked."
+    },
+    {
+      "step": 2,
+      "title": "Eligibility assessed",
+      "status": "Eligible",
+      "summary": "You meet the published entry requirements covered by ApplySmart."
+    },
+    {
+      "step": 3,
+      "title": "Selection model applied",
+      "status": "Complete",
+      "summary": "HYMS ranks eligible applicants using GCSE, UCAT decile and SJT components, with contextual points available only to qualifying Home UK school-leavers. ApplySmart labels every calculated tariff and recommendation as an unofficial estimate."
+    },
+    {
+      "step": 4,
+      "title": "Historical guidance compared",
+      "status": "Complete",
+      "summary": "Your result was compared with interview information from previous admissions cycles. Interview thresholds may change each admissions cycle depending on applicant competition and interview capacity. Historical figures are guidance only, not a current cut-off, and do not guarantee an interview."
+    },
+    {
+      "step": 5,
+      "title": "Interview recommendation produced",
+      "status": "Strong choice",
+      "summary": "Strong choice based on an unofficial estimate. Treat this as guidance for university choice, not a promised interview."
+    }
+  ],
+  "decision_transparency": {
+    "decision_path": [
+      {
+        "stage": "Eligibility",
+        "status": "Met",
+        "summary": "The applicant meets every supported official HYMS eligibility rule represented by the supplied evidence.",
+        "checks": [
+          {
+            "label": "Entry requirement",
+            "status": "Met",
+            "summary": "This requirement was assessed."
+          },
+          {
+            "label": "Entry requirement",
+            "status": "Met",
+            "summary": "This requirement was assessed."
+          },
+          {
+            "label": "Entry requirement",
+            "status": "Met",
+            "summary": "This requirement was assessed."
+          },
+          {
+            "label": "Entry requirement",
+            "status": "Met",
+            "summary": "This requirement was assessed."
+          }
+        ]
+      },
+      {
+        "stage": "Selection model",
+        "status": "Assessed",
+        "summary": "HYMS ranks eligible applicants using GCSE, UCAT decile and SJT components, with contextual points available only to qualifying Home UK school-leavers. ApplySmart labels every calculated tariff and recommendation as an unofficial estimate.",
+        "checks": [
+          {
+            "label": "Applicant pool",
+            "status": "Used",
+            "summary": "The applicant group matching the supplied fee status and entry route"
+          },
+          {
+            "label": "Selection approach",
+            "status": "Assessed",
+            "summary": "HYMS ranks eligible applicants using GCSE, UCAT decile and SJT components, with contextual points available only to qualifying Home UK school-leavers. ApplySmart labels every calculated tariff and recommendation as an unofficial estimate."
+          }
+        ]
+      },
+      {
+        "stage": "Historical guidance",
+        "status": "Guidance available",
+        "summary": "The applicant's result is above the historical interview range used for this applicant group. Interview thresholds may change each admissions cycle depending on applicant competition and interview capacity. Historical figures are guidance only, not a current cut-off, and do not guarantee an interview.",
+        "checks": [
+          {
+            "label": "Applicant pool",
+            "status": "Used",
+            "summary": "The applicant group matching the supplied fee status and entry route"
+          },
+          {
+            "label": "Important limitation",
+            "status": "Guidance only",
+            "summary": "Interview thresholds may change each admissions cycle depending on applicant competition and interview capacity. Historical figures are guidance only, not a current cut-off, and do not guarantee an interview."
+          }
+        ]
+      },
+      {
+        "stage": "Recommendation",
+        "status": "Guidance only",
+        "summary": "Strong choice based on an unofficial estimate. Treat this as guidance for university choice, not a promised interview.",
+        "checks": []
+      }
+    ],
+    "key_reasons": [
+      "The applicant meets every supported official HYMS eligibility rule represented by the supplied evidence.",
+      "The result uses The applicant group matching the supplied fee status and entry route.",
+      "The recommendation is based on historical interview guidance."
+    ],
+    "evidence_used": [
+      "Official admissions policy",
+      "University selection methodology",
+      "UCAT policy",
+      "Historical interview data"
+    ],
+    "evidence_confidence": {
+      "level": "Medium",
+      "summary": "The recommendation is supported by core admissions evidence, with some historical or route-specific limits.",
+      "reasons": [
+        "Official eligibility rules are available.",
+        "The university selection approach is implemented.",
+        "Historical interview guidance is available, but some evidence is historical, FOI-derived or has documented gaps."
+      ]
+    },
+    "manual_review_reason": null,
+    "insufficient_evidence_reason": null,
+    "warnings": [],
+    "score_breakdown": {
+      "name": "Estimated HYMS selection score",
+      "value": 85.48,
+      "max": 100,
+      "status": "calculated",
+      "explanation": "This is an estimate based on unofficial, third-party scoring assumptions — Hull York Medical School has not published its exact points formula and has formally declined to release it under a Freedom of Information request. Treat this score as directional, not exact.",
+      "checks": [
+        {
+          "label": "GCSE score",
+          "status": "Counted",
+          "summary": "28.98 out of 35."
+        },
+        {
+          "label": "UCAT score",
+          "status": "Counted",
+          "summary": "31.5 out of 35."
+        },
+        {
+          "label": "SJT score",
+          "status": "Counted",
+          "summary": "10 out of 15."
+        },
+        {
+          "label": "Contextual score",
+          "status": "Counted",
+          "summary": "15 out of 15."
+        }
+      ],
+      "unofficial": true
+    }
+  },
+  "engine_notes": {
+    "generated_from_profile_id": "hull-york-a100",
+    "dedicated_adapter": "hull_york_a100_consumer",
+    "generic_classifier_used": false,
+    "offer_prediction_scope": "out_of_scope"
+  },
+  "estimated_selection_score": {
+    "label": "Estimated HYMS selection score",
+    "status": "calculated",
+    "value": 85.48,
+    "max": 100,
+    "components": {
+      "gcse": {
+        "value": 28.98,
+        "max": 35,
+        "grades": [
+          "9",
+          "9",
+          "8",
+          "8",
+          "7",
+          "7"
+        ],
+        "evidence_classification": "unofficial_third_party_estimate"
+      },
+      "ucat": {
+        "value": 31.5,
+        "max": 35,
+        "national_decile": 9,
+        "lookup_source": "global_ucat_decile_json",
+        "reason": null,
+        "evidence_classification": "unofficial_third_party_estimate"
+      },
+      "sjt": {
+        "value": 10,
+        "max": 15,
+        "band": 2,
+        "reason": null,
+        "evidence_classification": "unofficial_third_party_estimate"
+      },
+      "contextual": {
+        "value": 15,
+        "max": 15,
+        "applicable": true,
+        "excluded_reason": null,
+        "evidence_classification": "unofficial_third_party_estimate"
+      }
+    },
+    "contextual": {
+      "applicable": true,
+      "points": 15,
+      "raw_points_before_cap": 18,
+      "cap": 15,
+      "cap_applied": true,
+      "criteria": [
+        "ucat_bursary",
+        "recognised_wp_programme",
+        "polar4_quintile_1"
+      ],
+      "official_contextual_eligibility": {
+        "minimum_criteria": 2,
+        "criteria_count": 3,
+        "met_from_supplied_flags": true,
+        "university_verification_required": true
+      },
+      "excluded_reason": null,
+      "evidence_classification": "unofficial_third_party_estimate",
+      "disclosure": "This is an estimate based on unofficial, third-party scoring assumptions — Hull York Medical School has not published its exact points formula and has formally declined to release it under a Freedom of Information request. Treat this score as directional, not exact."
+    },
+    "evidence_classification": "unofficial_third_party_estimate",
+    "official": false,
+    "deterministic": false,
+    "disclosure": "This is an estimate based on unofficial, third-party scoring assumptions — Hull York Medical School has not published its exact points formula and has formally declined to release it under a Freedom of Information request. Treat this score as directional, not exact."
+  },
+  "mandatory_unofficial_estimate_disclosure": "This is an estimate based on unofficial, third-party scoring assumptions — Hull York Medical School has not published its exact points formula and has formally declined to release it under a Freedom of Information request. Treat this score as directional, not exact."
+}

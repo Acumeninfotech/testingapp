@@ -1,0 +1,469 @@
+{
+  "schema_version": "1.0.0",
+  "course_profile_id": "queen-s-belfast-a100",
+  "confidence": "medium",
+  "evidence": {
+    "classification": "official_formula_with_applysmart_derived_prediction_bands",
+    "summary": "QUB's GCSE scoring, UCAT decile-points scoring, combined formula and 45-point maximum are official. The public prediction band labels are ApplySmart-derived from historical thresholds because the official 2026 interview threshold is not yet published.",
+    "source_ids": [
+      "qub_policy_2026",
+      "qub_foi_21_282",
+      "qub_foi_23_302",
+      "ucat_consortium_2025"
+    ]
+  },
+  "eligibility": {
+    "scope": "Automatic prediction applies to eligible standard Home school-leaver applicants with complete GCSE scoring and UCAT decile evidence. Contextual NI BT-postcode, international, Scottish-only, Irish-only and graduate-entry routes do not receive the standard Home GCSE+UCAT prediction.",
+    "international_english_language_required": false,
+    "qualification_routes": {
+      "supported": [
+        "a_level",
+        "international_baccalaureate",
+        "scottish",
+        "international_qualification"
+      ],
+      "manual_review": [],
+      "explicitly_blocked": [
+        "graduate",
+        "access_to_medicine",
+        "access_to_he",
+        "btec",
+        "t_level",
+        "unknown"
+      ]
+    },
+    "gcse": {
+      "minimum_count": null,
+      "use_exact_subject_list": true,
+      "required_subjects": [
+        {
+          "subject_id": "english_language",
+          "minimum_grade": "4/C"
+        },
+        {
+          "subject_id": "mathematics",
+          "minimum_grade": "4/C"
+        },
+        {
+          "subject_id": "science",
+          "minimum_grade": "4/C"
+        }
+      ],
+      "points": {
+        "subject_count": 9,
+        "minimum_points": 0,
+        "bands": [
+          {
+            "minimum_grade": "9",
+            "points": 4
+          },
+          {
+            "minimum_grade": "7",
+            "points": 3
+          },
+          {
+            "minimum_grade": "6",
+            "points": 2
+          },
+          {
+            "minimum_grade": "4",
+            "points": 1
+          }
+        ]
+      }
+    },
+    "a_level": {
+      "routes": [
+        {
+          "route_id": "qub_a_star_aa_chemistry_biology_route",
+          "grade_profile": [
+            "A*",
+            "A",
+            "A"
+          ],
+          "required_subject_ids": [
+            "chemistry",
+            "biology"
+          ]
+        },
+        {
+          "route_id": "qub_a_star_aa_chemistry_human_biology_route",
+          "grade_profile": [
+            "A*",
+            "A",
+            "A"
+          ],
+          "required_subject_ids": [
+            "chemistry",
+            "human_biology"
+          ]
+        },
+        {
+          "route_id": "qub_a_star_aa_chemistry_math_or_physics_as_biology_manual_review",
+          "grade_profile": [
+            "A*",
+            "A",
+            "A"
+          ],
+          "required_subject_ids": [
+            "chemistry"
+          ],
+          "one_of_subject_groups": [
+            {
+              "group_id": "maths_or_physics",
+              "minimum_required": 1,
+              "subject_ids": [
+                "mathematics",
+                "physics"
+              ]
+            }
+          ],
+          "excluded_subject_ids": [
+            "biology",
+            "human_biology"
+          ],
+          "manual_review_on_pass": true,
+          "manual_review_reason": "qub_as_biology_requirement_requires_manual_review"
+        }
+      ]
+    },
+    "international_baccalaureate": {
+      "routes": [
+        {
+          "route_id": "qub_ib_36_666_chemistry_biology",
+          "total_points": 36,
+          "minimum_hl_points": 18,
+          "hl_grade_profile": [
+            "6",
+            "6",
+            "6"
+          ],
+          "required_hl_subject_ids": [
+            "chemistry",
+            "biology"
+          ]
+        }
+      ]
+    },
+    "scottish": {
+      "national_5": {
+        "minimum_count": 0,
+        "required_subject_ids": []
+      },
+      "post_16_routes": [
+        {
+          "route_id": "qub_scottish_aaaaa_highers_aa_advanced_highers",
+          "qualification_level": "scottish_advanced_highers",
+          "higher_grade_profile": [
+            "A",
+            "A",
+            "A",
+            "A",
+            "A"
+          ],
+          "grade_profile": [
+            "A",
+            "A"
+          ],
+          "required_subject_ids": [
+            "chemistry"
+          ],
+          "one_of_subject_groups": [
+            {
+              "group_id": "second_science_or_maths",
+              "minimum_required": 1,
+              "subject_ids": [
+                "biology",
+                "human_biology",
+                "mathematics",
+                "physics"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    "international_qualification": {
+      "unverified_outcome": "manual_review",
+      "manual_review_reason": "qub_country_specific_or_irish_equivalence_requires_verified_profile"
+    },
+    "ucat": {
+      "minimum_total_score": null,
+      "score_scale": 2700,
+      "required_in_application_cycle": true
+    },
+    "sjt": {
+      "used_as_gate": false,
+      "accepted_bands": [
+        1,
+        2,
+        3,
+        4
+      ],
+      "rejected_bands": []
+    },
+    "map_override": {
+      "override_id": "qub_verified_pop_guaranteed_interview",
+      "description": "Apply only when verified evidence confirms QUB Pathway Opportunity Programme completion and academic eligibility. Generic contextual flags do not trigger this override.",
+      "outcome": "guaranteed_interview",
+      "interview_outcome": "guaranteed_interview",
+      "apply_ucat_guidance_band": false,
+      "any_conditions": [
+        {
+          "match": {
+            "all_group_ids": [
+              "home_fee"
+            ],
+            "excluded_group_ids": [
+              "international_fee"
+            ]
+          },
+          "applicant_evidence_path": "widening_participation.qub_pathway_opportunity_programme",
+          "required_evidence": {
+            "programme_completed": true,
+            "programme_completion_verified": true,
+            "academic_eligibility_confirmed": true,
+            "programme": "mdbs_pop"
+          },
+          "applicant_facing_explanation": "Verified QUB MDBS Pathway Opportunity Programme completion gives a guaranteed interview once the relevant academic eligibility requirements are met. This affects interview invitation only; final offers are decided by MMI performance."
+        },
+        {
+          "match": {
+            "all_group_ids": [
+              "home_fee"
+            ],
+            "excluded_group_ids": [
+              "international_fee"
+            ]
+          },
+          "applicant_evidence_path": "widening_participation.qub_pathway_opportunity_programme",
+          "required_evidence": {
+            "programme_completed": true,
+            "programme_completion_verified": true,
+            "academic_eligibility_confirmed": true,
+            "programme": "other_qub_pop"
+          },
+          "applicant_facing_explanation": "Verified QUB Pathway Opportunity Programme completion gives a guaranteed interview once the relevant academic eligibility requirements are met. This affects interview invitation only; final offers are decided by MMI performance."
+        }
+      ],
+      "verification_representation": "The structured applicant evidence at widening_participation.qub_pathway_opportunity_programme must be verified. A generic contextual or widening-participation flag is insufficient.",
+      "post_interview_note": "The guaranteed-interview policy affects interview invitation only. Interview performance and subsequent offer decisions are assessed normally."
+    },
+    "manual_review_routes": [
+      "A-level AS Biology/Human Biology branches",
+      "Scottish Higher academic-point scoring",
+      "Irish Leaving Certificate and Junior Certificate scoring",
+      "country-specific international qualifications",
+      "BTEC/OCR Level 2 GCSE equivalence",
+      "resit applicants with applicant-specific evidence"
+    ],
+    "do_not_infer": [
+      "Do not invent a 2026 official interview cut-off.",
+      "Do not present ApplySmart bands as official QUB thresholds.",
+      "Do not infer raw UCAT cut-offs or raw-score conversions.",
+      "Do not apply standard GCSE+UCAT prediction to NI BT-postcode contextual applicants.",
+      "Do not apply standard GCSE+UCAT prediction to international applicants.",
+      "Do not score SJT or reject Band 4 automatically.",
+      "Do not predict offers."
+    ]
+  },
+  "score_model": {
+    "type": "component_sum",
+    "basis": "Official QUB 2026 pre-interview score: GCSE points plus UCAT decile points on the official 45-point scale. ApplySmart band labels are derived.",
+    "scale": {
+      "min": 0,
+      "max": 45
+    },
+    "executable": true,
+    "official_formula": true,
+    "official_scale": true,
+    "prediction_band_labels_official": false,
+    "methodology_confidence": "high",
+    "prediction_calibration_confidence": "medium",
+    "active_band_source": "derived_prediction_bands_45_scale",
+    "runtime_spec_requested_active_band_source": "derived_prediction_bands_on_official_45_scale",
+    "technical_naming_correction": "Runtime references use derived_prediction_bands_45_scale because that is the actual stored supplied configuration key. Band values, confidence and methodology are unchanged.",
+    "components": [
+      {
+        "component_id": "gcse_points",
+        "type": "gcse_mandatory_then_best",
+        "subject_count": 9,
+        "bands": [
+          {
+            "minimum_grade": "9",
+            "points": 4
+          },
+          {
+            "minimum_grade": "7",
+            "points": 3
+          },
+          {
+            "minimum_grade": "6",
+            "points": 2
+          },
+          {
+            "minimum_grade": "4",
+            "points": 1
+          }
+        ],
+        "max": 36,
+        "official": true,
+        "notes": "Numeric grades 7 and 8 both receive 3 points; grade 9 receives 4 points. Letter equivalents are handled by the generic grade comparison logic."
+      },
+      {
+        "component_id": "ucat_decile_points",
+        "type": "ucat_national_decile_lookup",
+        "points_by_decile": {
+          "1": 0,
+          "2": 1,
+          "3": 2,
+          "4": 3,
+          "5": 4,
+          "6": 5,
+          "7": 6,
+          "8": 7,
+          "9": 8,
+          "10": 9
+        },
+        "output_max": 9,
+        "official": true
+      }
+    ],
+    "derived_prediction_bands_42_scale_historical": [
+      {
+        "qub_public_band": "Interview Likely",
+        "min": 38,
+        "max": 42,
+        "cycles_cleared": "7/7",
+        "confidence": "derived_medium_high"
+      },
+      {
+        "qub_public_band": "Strong",
+        "min": 35,
+        "max": 37,
+        "cycles_cleared": "5/7",
+        "confidence": "derived_medium_high"
+      },
+      {
+        "qub_public_band": "Competitive",
+        "min": 32,
+        "max": 34,
+        "cycles_cleared": "4/7",
+        "confidence": "derived_medium_high"
+      },
+      {
+        "qub_public_band": "Borderline",
+        "min": 30,
+        "max": 31,
+        "cycles_cleared": "2/7",
+        "confidence": "derived_medium_high"
+      },
+      {
+        "qub_public_band": "Unlikely",
+        "min": 0,
+        "max": 29,
+        "cycles_cleared": "0/7",
+        "confidence": "derived_medium_high"
+      }
+    ],
+    "derived_prediction_bands_45_scale": [
+      {
+        "qub_public_band": "Interview Likely",
+        "canonical_band": "interview_likely",
+        "min": 41,
+        "max": 45,
+        "confidence": "derived_low_medium"
+      },
+      {
+        "qub_public_band": "Strong",
+        "canonical_band": "realistic",
+        "min": 38,
+        "max": 40,
+        "confidence": "derived_low_medium"
+      },
+      {
+        "qub_public_band": "Competitive",
+        "canonical_band": "ambitious",
+        "min": 34,
+        "max": 37,
+        "confidence": "derived_low_medium"
+      },
+      {
+        "qub_public_band": "Borderline",
+        "canonical_band": "high_risk",
+        "min": 32,
+        "max": 33,
+        "confidence": "derived_low_medium"
+      },
+      {
+        "qub_public_band": "Unlikely",
+        "canonical_band": "high_risk",
+        "min": 0,
+        "max": 31,
+        "confidence": "derived_low_medium"
+      }
+    ],
+    "canonical_band_mapping_note": "ApplySmart's schema has four positive canonical recommendation bands. QUB's public labels are preserved in QUB-specific metadata and result-card text; the canonical IDs are used only for engine compatibility."
+  },
+  "guidance_pools": [
+    {
+      "pool_id": "qub_home_standard_gcse_ucat_45_scale",
+      "priority": 30,
+      "applicant_match": {
+        "all_group_ids": [
+          "home_fee",
+          "school_leaver"
+        ],
+        "excluded_group_ids": [
+          "international_fee",
+          "contextual",
+          "widening_participation",
+          "graduate_applicant"
+        ],
+        "qualification_routes": [
+          "a_level",
+          "international_baccalaureate"
+        ]
+      },
+      "metric": "selection_score",
+      "comparison_guidance": {
+        "comparison_type": "historical_threshold",
+        "label": "ApplySmart-derived prediction band on QUB's official 45-point pre-interview score",
+        "caveat": "The 45-point score is official QUB methodology. The band labels are ApplySmart-derived because QUB has not published a 2026 interview threshold.",
+        "evidence_confidence": "medium"
+      },
+      "band_rules": [
+        {
+          "band": "interview_likely",
+          "operator": "between_inclusive",
+          "min": 41,
+          "max": 45
+        },
+        {
+          "band": "realistic",
+          "operator": "between_inclusive",
+          "min": 38,
+          "max": 40
+        },
+        {
+          "band": "ambitious",
+          "operator": "between_inclusive",
+          "min": 34,
+          "max": 37
+        },
+        {
+          "band": "high_risk",
+          "operator": "between_inclusive",
+          "min": 32,
+          "max": 33
+        },
+        {
+          "band": "high_risk",
+          "operator": "between_inclusive",
+          "min": 0,
+          "max": 31
+        }
+      ]
+    }
+  ]
+}

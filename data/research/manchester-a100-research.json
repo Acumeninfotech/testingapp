@@ -1,0 +1,1350 @@
+{
+  "schema_version": "1.0.0",
+  "profile_id": "manchester-a100-research",
+  "course_profile_id": "manchester-a100",
+  "research_status": "complete_candidate",
+  "file_purpose": "Research and evidence profile for the University of Manchester five-year MBChB Medicine A106 course. This file stores the supplied official-source summaries, FOI-derived rules, historical admissions evidence, prediction guidance and known unknowns. It is not the production admissions rules file.",
+  "official_rules_source": "data/universities/manchester-a100.json",
+  "created_at": "2026-06-30",
+  "last_updated": "2026-07-02",
+  "research_scope": {
+    "target_entry_year": 2027,
+    "application_year": 2026,
+    "primary_course": "A106",
+    "primary_scope": [
+      "home_standard",
+      "home_contextual_widening_participation",
+      "international",
+      "a106_prior_degree_qualification_route"
+    ],
+    "reference_only_scope": [
+      "a101_graduate_entry_historical_ucat"
+    ],
+    "production_json_updated": true,
+    "index_updated": true,
+    "readme_updated": true,
+    "examples_updated": true,
+    "regression_scripts_updated": true,
+    "activation_flags_updated": true,
+    "third_party_admissions_websites_used": false,
+    "evidence_intake_basis": "Manchester A106 research-team evidence supplied on 2026-06-30",
+    "notes": "A101 is a separate graduate-entry course. Its historical UCAT figures are retained only as segregated reference evidence and must not enter A106 eligibility, interview or offer logic."
+  },
+  "evidence_classification_policy": {
+    "official": "A rule or fact attributed by the supplied research package to a first-party University of Manchester source.",
+    "FOI": "A rule attributed by the supplied research package to University of Manchester Freedom of Information disclosures.",
+    "historical_guidance": "A past-cycle value that may inform labelled prediction guidance but is not a guaranteed future threshold or current-cycle rule.",
+    "research_derived": "A transparent calculation or interpretation made from supplied evidence; it is not a University of Manchester rule.",
+    "unknown": "The supplied evidence does not establish the fact safely enough for execution.",
+    "intake_caveat": "Source classifications record the provenance asserted in the supplied research package. This intake did not independently browse or re-verify the linked pages."
+  },
+  "metadata": null,
+  "readiness": {
+    "eligibility": true,
+    "interview_prediction": true,
+    "historical_guidance": true,
+    "international_prediction": true,
+    "contextual_logic": true,
+    "result_card": true,
+    "regression": true,
+    "research_completeness": "complete_for_supported_scope_with_documented_gaps",
+    "manual_review_required": true,
+    "eligibility_ready": true,
+    "interview_prediction_ready": true,
+    "prediction_confidence": "medium",
+    "result_card_ready": true,
+    "offer_prediction_scope": "out_of_scope",
+    "eligibility_ready_candidate": true,
+    "production_ready_candidate": true,
+    "production_ready_scope": "Candidate for a production audit and implementation of evidenced A106 academic eligibility, contextual rules, UCAT/SJT gates, MMI-only post-interview ranking and labelled Home standard/WP historical interview guidance. Unsupported routes and live thresholds must remain non-executable.",
+    "interview_prediction_ready_candidate": true,
+    "interview_prediction_ready_scope": "Historical guidance bands are supported for Home standard, Home WP/contextual and International applicants from group-separated historical evidence. No historical value is a fixed current-cycle threshold.",
+    "result_card_ready_candidate": true,
+    "production_activation_should_remain_blocked": false,
+    "activation_block_reason": null,
+    "critical_research_blockers": [],
+    "route_limited_blockers": [
+      "No current 2027 guaranteed UCAT cutoff exists in the evidence; historical minimum invited scores may be used only as guidance.",
+      "The FOI disclosure identifiers, dates and URLs supporting the tie-break rules were not supplied."
+    ],
+    "summary": "The supplied evidence supports scoped A106 implementation and clearly labelled historical interview guidance for Home standard, WP/contextual and International cohorts."
+  },
+  "course_identity": {
+    "university": "University of Manchester",
+    "course_name": "MBChB Medicine",
+    "ucas_code": "A106",
+    "duration_years": 5,
+    "entry_route": "standard_entry_five_year",
+    "target_entry_year": 2027,
+    "application_route": "UCAS only",
+    "application_deadline": "2026-10-15",
+    "source_ids": [
+      "manchester_a106_application_and_selection_2027"
+    ],
+    "evidence_classification": "official"
+  },
+  "admissions_policy": {
+    "application_route": "UCAS only",
+    "application_deadline": "2026-10-15",
+    "transfers_into_course": {
+      "accepted": false,
+      "rule": "Transfers into A106 from other medical or dental programmes are not accepted."
+    },
+    "repeat_application": {
+      "rule": "An applicant rejected in two consecutive years cannot reapply."
+    },
+    "post_offer_requirements": [
+      "satisfactory DBS check",
+      "occupational health screening",
+      "required vaccinations"
+    ],
+    "applicant_group_policy": "The policy applies across applicant groups, with separate pathways and thresholds where stated.",
+    "source_ids": [
+      "manchester_a106_application_and_selection_2027"
+    ],
+    "evidence_classification": "official"
+  },
+  "applicant_groups": [
+    {
+      "group_id": "home_standard",
+      "name": "Home standard applicants",
+      "definition": "UK-domiciled applicants who do not receive the contextual or widening-participation adjustment.",
+      "fee_status": "home",
+      "separate_historical_ucat_series_available": true,
+      "prediction_support": "historical_interview_guidance_ready",
+      "source_ids": [
+        "manchester_medicine_eligibility",
+        "manchester_a106_ucat_2027"
+      ],
+      "evidence_classification": "official"
+    },
+    {
+      "group_id": "home_contextual_wp",
+      "name": "Home contextual or widening-participation applicants",
+      "definition": "Applicants verified through UCAS and University data as meeting an eligible contextual or widening-participation criterion.",
+      "named_criteria": [
+        "POLAR4 Quintile 1 or 2",
+        "Free School Meals",
+        "care-experienced",
+        "first-generation higher education",
+        "Manchester Access Programme participant"
+      ],
+      "separate_historical_ucat_series_available": true,
+      "prediction_support": "historical_interview_guidance_ready",
+      "source_ids": [
+        "manchester_medicine_eligibility",
+        "manchester_medicine_contextual"
+      ],
+      "evidence_classification": "official"
+    },
+    {
+      "group_id": "international",
+      "name": "International applicants",
+      "definition": "International applicants ranked in a completely separate cohort and competing only against other International applicants.",
+      "separate_quota": true,
+      "places_approximate": 28,
+      "separate_historical_ucat_series_available": true,
+      "prediction_support": "historical_interview_guidance_ready",
+      "source_ids": [
+        "manchester_medicine_eligibility",
+        "manchester_course_profile_2027",
+        "manchester_verified_international_official_and_foi_evidence"
+      ],
+      "evidence_classification": "official",
+      "notes": "The International threshold is independently determined after UCAT results are available each cycle. Historical values support guidance only and are not a fixed cut-off."
+    },
+    {
+      "group_id": "a106_prior_degree_applicant",
+      "name": "A106 applicants presenting a prior degree",
+      "definition": "Applicants holding a previous degree who apply to the five-year A106 course and are assessed through the A106 process with adjusted academic thresholds.",
+      "separate_course": false,
+      "prediction_support": "eligibility_candidate_only",
+      "source_ids": [
+        "manchester_a106_application_and_selection_2027",
+        "manchester_medicine_eligibility"
+      ],
+      "evidence_classification": "official",
+      "notes": "This qualification route must not be confused with the separate A101 Graduate Entry course."
+    },
+    {
+      "group_id": "graduate_entry_a101_reference_only",
+      "name": "Graduate Entry Medicine A101",
+      "definition": "Applicants to the separate A101 graduate-entry course.",
+      "separate_course": true,
+      "places": 95,
+      "prediction_support": "reference_only_do_not_execute_for_a106",
+      "source_ids": [
+        "manchester_a106_ucat_2027",
+        "manchester_course_profile_2027"
+      ],
+      "evidence_classification": "official"
+    }
+  ],
+  "international_selection_evidence": {
+    "applicant_groups": [
+      "home",
+      "widening_participation",
+      "international",
+      "graduate_a101"
+    ],
+    "ranking_pool": "separate_international_cohort",
+    "competes_only_with_international_applicants": true,
+    "places_approximate": 28,
+    "ucat_policy": {
+      "fixed_threshold": null,
+      "pre_published_fixed_threshold": false,
+      "threshold_determined_after_ucat_results_each_cycle": true,
+      "independent_international_threshold": true,
+      "ranked_score": "cognitive_total_only"
+    },
+    "eligibility_sequence": [
+      "Academic requirements satisfied.",
+      "SJT Band 1 or Band 2 only.",
+      "SJT Band 3 is automatic rejection.",
+      "SJT Band 4 is automatic rejection.",
+      "Assign the separate International cohort.",
+      "Apply the cohort-specific UCAT threshold.",
+      "Rank highest cognitive UCAT score first.",
+      "If cognitive UCAT scores are equal, prefer SJT Band 1 over Band 2.",
+      "Invite until interview capacity is filled."
+    ],
+    "historical_ucat_2700": [
+      {
+        "entry_year": 2022,
+        "lowest_invited": 2045,
+        "average_invited": 2180,
+        "average_invited_approximate": true,
+        "average_offer_holders": 2225,
+        "average_offer_holders_approximate": true
+      },
+      {
+        "entry_year": 2023,
+        "lowest_invited": 2060,
+        "average_invited": 2200,
+        "average_invited_approximate": true,
+        "average_offer_holders": 2240,
+        "average_offer_holders_approximate": true
+      },
+      {
+        "entry_year": 2024,
+        "lowest_invited": 2025,
+        "average_invited": 2170,
+        "average_invited_approximate": true,
+        "average_offer_holders": 2215,
+        "average_offer_holders_approximate": true
+      },
+      {
+        "entry_year": 2025,
+        "lowest_invited": 2030,
+        "average_invited": 2185,
+        "average_invited_approximate": true,
+        "average_offer_holders": 2230,
+        "average_offer_holders_approximate": true
+      },
+      {
+        "entry_year": 2026,
+        "lowest_invited": 2033,
+        "average_invited": 2260,
+        "average_invited_approximate": false,
+        "average_offer_holders": 2320,
+        "average_offer_holders_approximate": false
+      }
+    ],
+    "competition": {
+      "applications_approximate_range": {
+        "minimum": 650,
+        "maximum": 720
+      },
+      "interviews_approximate_range": {
+        "minimum": 300,
+        "maximum": 330
+      },
+      "offers_approximate_range": {
+        "minimum": 28,
+        "maximum": 32
+      }
+    },
+    "historical_guidance_bands": [
+      {
+        "operator": "less_than",
+        "value": 2030,
+        "recommendation": "Consider stronger alternatives"
+      },
+      {
+        "operator": "between_inclusive",
+        "minimum": 2030,
+        "maximum": 2059,
+        "recommendation": "Possible but ambitious"
+      },
+      {
+        "operator": "between_inclusive",
+        "minimum": 2060,
+        "maximum": 2149,
+        "recommendation": "Good chance – recommend applying"
+      },
+      {
+        "operator": "greater_than_or_equal",
+        "value": 2150,
+        "recommendation": "Strong choice"
+      }
+    ],
+    "post_interview": {
+      "academic_and_ucat_weights_reset": true,
+      "offer_ranking_basis": "mmi_score_only",
+      "final_tie_break": "higher_cognitive_ucat_total"
+    },
+    "personal_statement": {
+      "scored": false,
+      "checks": [
+        "authenticity",
+        "motivation"
+      ]
+    },
+    "guidance_disclaimer": "This recommendation is based on historical international interview competitiveness rather than a fixed UCAT cut-off.",
+    "source_ids": [
+      "manchester_verified_international_official_and_foi_evidence"
+    ],
+    "evidence_classification": "verified_official_and_FOI"
+  },
+  "academic_requirements": {
+    "gcse": {
+      "standard": {
+        "minimum_count_at_grade_7_or_A": 7,
+        "qualification_scope": [
+          "GCSE",
+          "IGCSE"
+        ]
+      },
+      "mandatory_minimums": [
+        {
+          "subject": "English Language",
+          "minimum_grade_numeric": 6,
+          "minimum_grade_legacy": "B"
+        },
+        {
+          "subject": "Mathematics",
+          "minimum_grade_numeric": 6,
+          "minimum_grade_legacy": "B"
+        },
+        {
+          "subject": "Two Sciences or Combined/Double Science",
+          "minimum_grade_numeric": 7,
+          "minimum_grade_legacy": "A"
+        }
+      ],
+      "selection_use": "eligibility_only",
+      "scored_after_eligibility": false,
+      "source_ids": [
+        "manchester_a106_application_and_selection_2027"
+      ],
+      "evidence_classification": "official"
+    },
+    "a_level": {
+      "standard_offer": "AAA",
+      "required_subject_rule": {
+        "first_required_science_condition": {
+          "operator": "either",
+          "options": [
+            {
+              "option": "Biology/Human Biology",
+              "operator": "one_of",
+              "subjects": [
+                "Biology",
+                "Human Biology"
+              ]
+            },
+            {
+              "option": "Chemistry",
+              "operator": "required_subject",
+              "subject": "Chemistry"
+            }
+          ],
+          "notes": "This is an explicit Biology/Human Biology OR Chemistry condition, not a flat unordered primary-subject list."
+        },
+        "second_subject_one_of": [
+          "Chemistry",
+          "Biology",
+          "Human Biology",
+          "Physics",
+          "Psychology",
+          "Mathematics",
+          "Further Mathematics"
+        ],
+        "subjects_must_be_distinct": true,
+        "overlapping_subjects_accepted": false,
+        "disallowed_similar_subject_combinations": [
+          [
+            "Biology",
+            "Human Biology"
+          ],
+          [
+            "Mathematics",
+            "Further Mathematics"
+          ]
+        ],
+        "offer_basis": {
+          "full_a_levels_counted": 3,
+          "extra_a_levels_included_in_offer": false,
+          "third_subject_preference": "none_if_first_and_second_subject_conditions_are_met",
+          "three_sciences_acceptable": true
+        }
+      },
+      "science_practical_endorsement": {
+        "required_for_any_science_a_level_taken": true,
+        "applicable_subjects": [
+          "Biology",
+          "Human Biology",
+          "Chemistry",
+          "Physics"
+        ],
+        "required_outcome": "pass"
+      },
+      "resits": {
+        "accepted": true,
+        "required_grades": "AAA",
+        "maximum_resits_per_subject": 1
+      },
+      "contextual_offer": "AAB",
+      "source_ids": [
+        "manchester_a106_application_and_selection_2027",
+        "manchester_medicine_contextual"
+      ],
+      "evidence_classification": "official"
+    },
+    "scottish": {
+      "sqa_highers": "AAAAB",
+      "advanced_highers": "AA",
+      "advanced_higher_subject_guidance": [
+        "Chemistry",
+        "Biology"
+      ],
+      "advanced_higher_subject_guidance_status": "recommended",
+      "national_5_minimums": [
+        {
+          "subject": "English",
+          "minimum_grade": "B/6"
+        },
+        {
+          "subject": "Mathematics",
+          "minimum_grade": "B/6"
+        },
+        {
+          "subject": "Science",
+          "minimum_grade": "B/6"
+        }
+      ],
+      "source_ids": [
+        "manchester_a106_application_and_selection_2027"
+      ],
+      "evidence_classification": "official"
+    },
+    "international_baccalaureate": {
+      "minimum_total_points": 36,
+      "minimum_higher_level_profile": [
+        6,
+        6,
+        6
+      ],
+      "competitive_profile": {
+        "total_points": 37,
+        "higher_level_profile": [
+          7,
+          6,
+          6
+        ],
+        "required_higher_level_subjects": [
+          "Chemistry",
+          "Biology"
+        ],
+        "status": "competitive_profile_not_minimum"
+      },
+      "standard_level_minimums_if_not_taken_at_higher_level": [
+        {
+          "subject": "Mathematics",
+          "minimum_grade": 5
+        },
+        {
+          "subject": "English",
+          "minimum_grade": 5
+        }
+      ],
+      "source_ids": [
+        "manchester_a106_application_and_selection_2027"
+      ],
+      "evidence_classification": "official"
+    },
+    "graduate_applicants_to_a106": {
+      "minimum_degree": "2:1 Honours",
+      "degree_subject_scope": "relevant life or health science subject",
+      "gcse_requirements_apply": true,
+      "a_level_requirements_waived_if_degree_requirement_met": true,
+      "course_scope": "A106 only",
+      "source_ids": [
+        "manchester_a106_application_and_selection_2027",
+        "manchester_medicine_eligibility"
+      ],
+      "evidence_classification": "official",
+      "notes": "The supplied evidence does not define the complete list of relevant degree subjects or equivalence decisions; ambiguous degrees require manual review."
+    }
+  },
+  "contextual_and_widening_participation_rules": {
+    "verification": "Eligibility is confirmed using UCAS and internal University data.",
+    "named_eligibility_criteria": [
+      "POLAR4 Quintile 1 or 2",
+      "Free School Meals",
+      "care-experienced",
+      "first-generation higher education",
+      "Manchester Access Programme participant"
+    ],
+    "benefits": {
+      "gcse_minimum_count_at_grade_7_or_A": 6,
+      "a_level_offer": "AAB",
+      "lower_historical_ucat_threshold": true
+    },
+    "map_guaranteed_interview": {
+      "applies": true,
+      "condition": "The Manchester Access Programme completer meets all minimum criteria."
+    },
+    "source_ids": [
+      "manchester_medicine_contextual"
+    ],
+    "evidence_classification": "official"
+  },
+  "ucat_and_sjt_rules": {
+    "ucat_mandatory": true,
+    "test_window": "July to September 2026",
+    "score_validity": "Scores are valid only for the application cycle in which the test is taken.",
+    "current_scale": {
+      "cognitive_total_minimum": 0,
+      "cognitive_total_maximum": 2700,
+      "applies_from": 2026
+    },
+    "sjt": {
+      "accepted_bands": [
+        1,
+        2
+      ],
+      "automatic_rejection_bands": [
+        3,
+        4
+      ]
+    },
+    "selection_use": "interview_selection_only",
+    "used_after_interview": false,
+    "post_interview_exception": "UCAT total is used only as the final tie-break after tied MMI totals.",
+    "historical_threshold_policy": "Historical minimum invited values may support labelled interview guidance. They are not guaranteed future cutoffs and must not be executed as a fixed 2027 threshold.",
+    "source_ids": [
+      "manchester_a106_ucat_2027",
+      "manchester_a106_interviews_2027",
+      "manchester_foi_tie_breakers_2022_2026"
+    ],
+    "evidence_classification": "official_and_FOI"
+  },
+  "historical_ucat_conversion": {
+    "from_scale": 3600,
+    "to_scale": 2700,
+    "formula": "original_score * 3 / 4",
+    "normalisation": "Round to the nearest 5 for derived averages in this file. Minimum-invited equivalents retain the values explicitly supplied by the research team. Exact unrounded results are also stored for traceability.",
+    "psychometric_equivalence": false,
+    "warning": "This arithmetic conversion aids presentation across scale changes; it does not establish psychometric equivalence between UCAT cohorts.",
+    "boundary_warning": "The supplied rule permits rounding to the nearest 5 or 10 but does not define a universal tie-rounding convention. Converted figures must not be used as exact executable boundaries.",
+    "evidence_classification": "research_derived"
+  },
+  "historical_ucat_data": {
+    "a106_home_standard": [
+      {
+        "entry_year": 2026,
+        "minimum_invited": {
+          "original_score": 2033,
+          "original_scale": 2700,
+          "raw_converted_score_2700": 2033,
+          "converted_score_2700": 2033,
+          "conversion_method": "identity_no_conversion"
+        },
+        "average_interview": {
+          "original_score": 2245,
+          "original_scale": 2700,
+          "raw_converted_score_2700": 2245,
+          "converted_score_2700": 2245,
+          "conversion_method": "identity_no_conversion"
+        },
+        "average_offer_holder": {
+          "original_score": 2310,
+          "original_scale": 2700,
+          "raw_converted_score_2700": 2310,
+          "converted_score_2700": 2310,
+          "conversion_method": "identity_no_conversion"
+        },
+        "sjt_rule": "Band 1 or 2 only",
+        "prediction_use": "historical_guidance_only",
+        "source_ids": [
+          "manchester_a106_ucat_2027"
+        ],
+        "evidence_classification": "official_historical_guidance"
+      },
+      {
+        "entry_year": 2025,
+        "minimum_invited": {
+          "original_score": 2710,
+          "original_scale": 3600,
+          "raw_converted_score_2700": 2032.5,
+          "converted_score_2700": 2030,
+          "conversion_method": "original_score * 3 / 4; research-team-supplied rounded equivalent retained"
+        },
+        "average_interview": {
+          "original_score": 2904,
+          "original_scale": 3600,
+          "raw_converted_score_2700": 2178,
+          "converted_score_2700": 2180,
+          "conversion_method": "original_score * 3 / 4; rounded to nearest 5"
+        },
+        "average_offer_holder": {
+          "original_score": 2960,
+          "original_scale": 3600,
+          "raw_converted_score_2700": 2220,
+          "converted_score_2700": 2220,
+          "conversion_method": "original_score * 3 / 4; exact multiple of 5"
+        },
+        "sjt_rule": "Band 1 or 2 only",
+        "prediction_use": "historical_guidance_only",
+        "source_ids": [
+          "manchester_a106_ucat_2027"
+        ],
+        "evidence_classification": "official_historical_guidance"
+      },
+      {
+        "entry_year": 2024,
+        "minimum_invited": {
+          "original_score": 2700,
+          "original_scale": 3600,
+          "raw_converted_score_2700": 2025,
+          "converted_score_2700": 2025,
+          "conversion_method": "original_score * 3 / 4; exact multiple of 5"
+        },
+        "average_interview": {
+          "original_score": 2880,
+          "original_scale": 3600,
+          "raw_converted_score_2700": 2160,
+          "converted_score_2700": 2160,
+          "conversion_method": "original_score * 3 / 4; exact multiple of 5"
+        },
+        "average_offer_holder": {
+          "original_score": 2940,
+          "original_scale": 3600,
+          "raw_converted_score_2700": 2205,
+          "converted_score_2700": 2205,
+          "conversion_method": "original_score * 3 / 4; exact multiple of 5"
+        },
+        "sjt_rule": "Band 1 or 2 only",
+        "prediction_use": "historical_guidance_only",
+        "source_ids": [
+          "manchester_a106_ucat_2027"
+        ],
+        "evidence_classification": "official_historical_guidance"
+      },
+      {
+        "entry_year": 2023,
+        "minimum_invited": {
+          "original_score": 2750,
+          "original_scale": 3600,
+          "raw_converted_score_2700": 2062.5,
+          "converted_score_2700": 2060,
+          "conversion_method": "original_score * 3 / 4; research-team-supplied rounded equivalent retained"
+        },
+        "average_interview": {
+          "original_score": 2920,
+          "original_scale": 3600,
+          "raw_converted_score_2700": 2190,
+          "converted_score_2700": 2190,
+          "conversion_method": "original_score * 3 / 4; exact multiple of 5"
+        },
+        "average_offer_holder": {
+          "original_score": 2970,
+          "original_scale": 3600,
+          "raw_converted_score_2700": 2227.5,
+          "converted_score_2700": 2230,
+          "conversion_method": "original_score * 3 / 4; rounded to nearest 5"
+        },
+        "sjt_rule": "Band 1 or 2 only",
+        "prediction_use": "historical_guidance_only",
+        "source_ids": [
+          "manchester_a106_ucat_2027"
+        ],
+        "evidence_classification": "official_historical_guidance"
+      },
+      {
+        "entry_year": 2022,
+        "minimum_invited": {
+          "original_score": 2690,
+          "original_scale": 3600,
+          "raw_converted_score_2700": 2017.5,
+          "converted_score_2700": 2015,
+          "conversion_method": "original_score * 3 / 4; research-team-supplied rounded equivalent retained"
+        },
+        "average_interview": {
+          "original_score": 2850,
+          "original_scale": 3600,
+          "raw_converted_score_2700": 2137.5,
+          "converted_score_2700": 2140,
+          "conversion_method": "original_score * 3 / 4; rounded to nearest 5"
+        },
+        "average_offer_holder": {
+          "original_score": 2910,
+          "original_scale": 3600,
+          "raw_converted_score_2700": 2182.5,
+          "converted_score_2700": 2185,
+          "conversion_method": "original_score * 3 / 4; rounded to nearest 5"
+        },
+        "sjt_rule": "Band 1 or 2 only",
+        "prediction_use": "historical_guidance_only",
+        "source_ids": [
+          "manchester_a106_ucat_2027"
+        ],
+        "evidence_classification": "official_historical_guidance"
+      }
+    ],
+    "a106_home_contextual_wp": [
+      {
+        "entry_year": 2026,
+        "minimum_invited": {
+          "original_score": 1890,
+          "original_scale": 2700,
+          "raw_converted_score_2700": 1890,
+          "converted_score_2700": 1890,
+          "conversion_method": "identity_no_conversion"
+        },
+        "reported_reduction_vs_standard": "approximately 140 points",
+        "prediction_use": "historical_guidance_only",
+        "source_ids": [
+          "manchester_a106_ucat_2027"
+        ],
+        "evidence_classification": "official_historical_guidance"
+      },
+      {
+        "entry_year": 2025,
+        "minimum_invited": {
+          "original_score": 2520,
+          "original_scale": 3600,
+          "raw_converted_score_2700": 1890,
+          "converted_score_2700": 1890,
+          "conversion_method": "original_score * 3 / 4; exact multiple of 5"
+        },
+        "reported_reduction_vs_standard_original_scale": "approximately 190 points",
+        "prediction_use": "historical_guidance_only",
+        "source_ids": [
+          "manchester_a106_ucat_2027"
+        ],
+        "evidence_classification": "official_historical_guidance"
+      },
+      {
+        "entry_year": 2024,
+        "minimum_invited": {
+          "original_score": 2500,
+          "original_scale": 3600,
+          "raw_converted_score_2700": 1875,
+          "converted_score_2700": 1875,
+          "conversion_method": "original_score * 3 / 4; exact multiple of 5"
+        },
+        "reported_reduction_vs_standard_original_scale": "approximately 200 points",
+        "prediction_use": "historical_guidance_only",
+        "source_ids": [
+          "manchester_a106_ucat_2027"
+        ],
+        "evidence_classification": "official_historical_guidance"
+      },
+      {
+        "entry_year": 2023,
+        "minimum_invited": {
+          "original_score": 2620,
+          "original_scale": 3600,
+          "raw_converted_score_2700": 1965,
+          "converted_score_2700": 1965,
+          "conversion_method": "original_score * 3 / 4; exact multiple of 5"
+        },
+        "reported_reduction_vs_standard_original_scale": "approximately 130 points",
+        "prediction_use": "historical_guidance_only",
+        "source_ids": [
+          "manchester_a106_ucat_2027"
+        ],
+        "evidence_classification": "official_historical_guidance"
+      },
+      {
+        "entry_year": 2022,
+        "minimum_invited": {
+          "original_score": 2480,
+          "original_scale": 3600,
+          "raw_converted_score_2700": 1860,
+          "converted_score_2700": 1860,
+          "conversion_method": "original_score * 3 / 4; exact multiple of 5"
+        },
+        "reported_reduction_vs_standard_original_scale": "approximately 210 points",
+        "prediction_use": "historical_guidance_only",
+        "source_ids": [
+          "manchester_a106_ucat_2027"
+        ],
+        "evidence_classification": "official_historical_guidance"
+      }
+    ],
+    "a106_international": {
+      "data_available": true,
+      "prediction_use": "historical_guidance_only",
+      "fixed_cutoff": false,
+      "records": [
+        {
+          "entry_year": 2022,
+          "minimum_invited": 2045,
+          "average_interview": 2180,
+          "average_interview_approximate": true,
+          "average_offer_holder": 2225,
+          "average_offer_holder_approximate": true
+        },
+        {
+          "entry_year": 2023,
+          "minimum_invited": 2060,
+          "average_interview": 2200,
+          "average_interview_approximate": true,
+          "average_offer_holder": 2240,
+          "average_offer_holder_approximate": true
+        },
+        {
+          "entry_year": 2024,
+          "minimum_invited": 2025,
+          "average_interview": 2170,
+          "average_interview_approximate": true,
+          "average_offer_holder": 2215,
+          "average_offer_holder_approximate": true
+        },
+        {
+          "entry_year": 2025,
+          "minimum_invited": 2030,
+          "average_interview": 2185,
+          "average_interview_approximate": true,
+          "average_offer_holder": 2230,
+          "average_offer_holder_approximate": true
+        },
+        {
+          "entry_year": 2026,
+          "minimum_invited": 2033,
+          "average_interview": 2260,
+          "average_interview_approximate": false,
+          "average_offer_holder": 2320,
+          "average_offer_holder_approximate": false
+        }
+      ],
+      "source_ids": [
+        "manchester_verified_international_official_and_foi_evidence"
+      ],
+      "evidence_classification": "official_and_FOI_historical_guidance"
+    },
+    "a101_graduate_entry_reference_only": {
+      "course_code": "A101",
+      "separate_from_a106": true,
+      "executable_for_a106": false,
+      "records": [
+        {
+          "entry_year": 2026,
+          "minimum_invited": {
+            "original_score": 2080,
+            "original_scale": 2700,
+            "raw_converted_score_2700": 2080,
+            "converted_score_2700": 2080,
+            "conversion_method": "identity_no_conversion"
+          }
+        },
+        {
+          "entry_year": 2025,
+          "minimum_invited": {
+            "original_score": 2760,
+            "original_scale": 3600,
+            "raw_converted_score_2700": 2070,
+            "converted_score_2700": 2070,
+            "conversion_method": "original_score * 3 / 4; exact multiple of 5"
+          }
+        },
+        {
+          "entry_year": 2024,
+          "minimum_invited": {
+            "original_score": 2740,
+            "original_scale": 3600,
+            "raw_converted_score_2700": 2055,
+            "converted_score_2700": 2055,
+            "conversion_method": "original_score * 3 / 4; exact multiple of 5"
+          }
+        },
+        {
+          "entry_year": 2023,
+          "minimum_invited": {
+            "original_score": 2780,
+            "original_scale": 3600,
+            "raw_converted_score_2700": 2085,
+            "converted_score_2700": 2085,
+            "conversion_method": "original_score * 3 / 4; exact multiple of 5"
+          }
+        }
+      ],
+      "source_ids": [
+        "manchester_a106_ucat_2027"
+      ],
+      "evidence_classification": "official_historical_guidance",
+      "notes": "These A101 values are reference data only. They must not be used for A106 prediction or production logic."
+    }
+  },
+  "interview_selection_methodology": {
+    "ordered_process": [
+      "Check that the applicant meets the relevant GCSE, A-level, IB or prior-degree minimum requirements.",
+      "Reject SJT Band 3 or 4; only Band 1 or 2 may progress.",
+      "Assign the applicant to the Home, Widening Participation, International or Graduate (A101) cohort.",
+      "Apply the independently determined cohort-specific UCAT selection boundary.",
+      "Rank by highest cognitive UCAT total and then prefer SJT Band 1 over Band 2 when cognitive totals are equal.",
+      "Invite until the cohort interview capacity is filled."
+    ],
+    "gcse_scored_after_eligibility": false,
+    "personal_statement": {
+      "scored": false,
+      "use": "Checked only for authenticity and motivation."
+    },
+    "map_exception": "MAP completers are guaranteed an interview if all minimum criteria are met.",
+    "invite_window": "November 2026 to January 2027",
+    "current_cycle_threshold_status": "unknown_dynamic",
+    "historical_thresholds_are_guaranteed_future_cutoffs": false,
+    "source_ids": [
+      "manchester_a106_interviews_2027",
+      "manchester_medicine_contextual",
+      "manchester_foi_tie_breakers_2022_2026",
+      "manchester_verified_international_official_and_foi_evidence"
+    ],
+    "evidence_classification": "official_and_FOI"
+  },
+  "interview_structure": {
+    "format": "Multiple Mini Interviews",
+    "station_count_range": {
+      "minimum": 6,
+      "maximum": 8
+    },
+    "station_duration_minutes_range": {
+      "minimum": 5,
+      "maximum": 7
+    },
+    "content_areas": [
+      "motivation for medicine and career awareness",
+      "ethical reasoning and patient safety",
+      "communication, empathy and teamwork",
+      "reflection on work experience or volunteering",
+      "basic scientific understanding and data interpretation"
+    ],
+    "scoring": {
+      "per_station_scale": {
+        "minimum": 1,
+        "maximum": 5
+      },
+      "aggregation": "Station scores are summed to produce a total MMI result."
+    },
+    "source_ids": [
+      "manchester_medicine_interviews"
+    ],
+    "evidence_classification": "official",
+    "execution_caveat": "The supplied evidence gives ranges rather than a fixed station count and duration for every interview cycle."
+  },
+  "offer_selection_methodology": {
+    "final_ranking_basis": "total MMI score only",
+    "academics_weighted_after_interview": false,
+    "ucat_weighted_after_interview": false,
+    "ucat_tie_break_only": true,
+    "offer_conditions": [
+      "achieve the required academic grades",
+      "pass DBS checks",
+      "pass occupational health checks",
+      "complete required vaccinations"
+    ],
+    "decision_window": "February to March 2027",
+    "prediction_status": "partial",
+    "prediction_limitation": "An applicant-specific final-offer prediction requires the applicant's MMI total and a cycle-specific offer boundary; neither is available before interview.",
+    "source_ids": [
+      "manchester_medicine_selection",
+      "manchester_foi_tie_breakers_2022_2026"
+    ],
+    "evidence_classification": "official_and_FOI"
+  },
+  "tie_breakers": {
+    "pre_interview": [
+      {
+        "priority": 1,
+        "criterion": "higher total UCAT score"
+      },
+      {
+        "priority": 2,
+        "criterion": "SJT Band 1 preferred over Band 2"
+      }
+    ],
+    "post_interview": [
+      {
+        "priority": 1,
+        "criterion": "higher total MMI score"
+      },
+      {
+        "priority": 2,
+        "criterion": "higher total UCAT score"
+      }
+    ],
+    "source_ids": [
+      "manchester_foi_tie_breakers_2022_2026"
+    ],
+    "evidence_classification": "FOI"
+  },
+  "places_and_quotas": {
+    "target_entry_year": 2027,
+    "a106": {
+      "home_places": 401,
+      "international_places_approximate": 28,
+      "total_places": 429,
+      "international_is_maximum_cap": false
+    },
+    "a101_reference_only": {
+      "places": 95,
+      "separate_course": true,
+      "executable_for_a106": false
+    },
+    "source_ids": [
+      "manchester_course_profile_2027"
+    ],
+    "evidence_classification": "official"
+  },
+  "historical_admissions_statistics": {
+    "a106_all_applicants": [
+      {
+        "entry_year": 2026,
+        "applications": 3210,
+        "interviewed": 1315,
+        "interview_rate_reported": 0.41,
+        "interview_rate_calculated": 0.4097,
+        "offers_made": 525,
+        "offer_rate_reported": 0.4,
+        "offer_rate_denominator": "interviewed",
+        "offer_rate_calculated": 0.3992,
+        "places_accepted": 429
+      },
+      {
+        "entry_year": 2025,
+        "applications": 3192,
+        "interviewed": 1308,
+        "interview_rate_reported": 0.41,
+        "interview_rate_calculated": 0.4098,
+        "offers_made": 522,
+        "offer_rate_reported": 0.4,
+        "offer_rate_denominator": "interviewed",
+        "offer_rate_calculated": 0.3991,
+        "places_accepted": 429
+      },
+      {
+        "entry_year": 2024,
+        "applications": 3047,
+        "interviewed": 1275,
+        "interview_rate_reported": 0.418,
+        "interview_rate_calculated": 0.4184,
+        "offers_made": 510,
+        "offer_rate_reported": 0.4,
+        "offer_rate_denominator": "interviewed",
+        "offer_rate_calculated": 0.4,
+        "places_accepted": 429
+      },
+      {
+        "entry_year": 2023,
+        "applications": 2916,
+        "interviewed": 1242,
+        "interview_rate_reported": 0.426,
+        "interview_rate_calculated": 0.4259,
+        "offers_made": 501,
+        "offer_rate_reported": 0.4,
+        "offer_rate_denominator": "interviewed",
+        "offer_rate_calculated": 0.4034,
+        "places_accepted": 429
+      },
+      {
+        "entry_year": 2022,
+        "applications": 2789,
+        "interviewed": 1198,
+        "interview_rate_reported": 0.43,
+        "interview_rate_calculated": 0.4295,
+        "offers_made": 492,
+        "offer_rate_reported": 0.41,
+        "offer_rate_denominator": "interviewed",
+        "offer_rate_calculated": 0.4107,
+        "places_accepted": 429
+      }
+    ],
+    "applicant_group_breakdown_available": {
+      "home": {
+        "applications_range_approximate": {
+          "minimum": 2400,
+          "maximum": 2600
+        },
+        "offers_approximate": 450
+      },
+      "international": {
+        "applications_range_approximate": {
+          "minimum": 650,
+          "maximum": 720
+        },
+        "interviews_range_approximate": {
+          "minimum": 300,
+          "maximum": 330
+        },
+        "offers_range_approximate": {
+          "minimum": 28,
+          "maximum": 32
+        },
+        "places_approximate": 28
+      }
+    },
+    "source_ids": [
+      "manchester_medicine_admissions_data"
+    ],
+    "evidence_classification": "official_historical",
+    "notes": "The supplied evidence provides exact all-applicant annual totals and approximate International competition ranges. It does not establish exact annual International applications, interviews or offers."
+  },
+  "historical_prediction_guidance": {
+    "available": true,
+    "method_status": "implemented",
+    "method": "Use group-specific historical minimum invited UCAT values as inputs for later interview guidance bands. Preserve year labels and original scores, show converted /2700 values, and avoid presenting any past value as a guaranteed future cutoff.",
+    "supported_groups": [
+      "home_standard",
+      "home_contextual_wp",
+      "international"
+    ],
+    "unsupported_groups": [
+      "a106_prior_degree_route_without_separate_evidence"
+    ],
+    "prohibited_inputs": [
+      "A101 graduate-entry UCAT thresholds",
+      "a fixed assumed 2027 UCAT cutoff",
+      "historical offer-holder UCAT as a post-interview selection score"
+    ],
+    "limitations": [
+      "UCAT cohort distributions and interview capacity vary by year.",
+      "Arithmetic conversion from /3600 to /2700 is not psychometric equivalence.",
+      "MAP completers follow a guaranteed-interview rule when all minimum criteria are met and should not be treated solely through a historical UCAT band.",
+      "SJT Bands 3 and 4 remain automatic rejection regardless of a cognitive-score guidance band."
+    ],
+    "disclaimer": "This recommendation is based on historical international interview competitiveness rather than a fixed UCAT cut-off.",
+    "source_ids": [
+      "manchester_a106_ucat_2027",
+      "manchester_medicine_contextual",
+      "manchester_verified_international_official_and_foi_evidence"
+    ],
+    "evidence_classification": "historical_guidance_and_research_derived"
+  },
+  "foi_references": [
+    {
+      "source_id": "manchester_foi_tie_breakers_2022_2026",
+      "title": "University of Manchester FOI disclosures concerning pre- and post-interview tie-break rules",
+      "coverage": "2022 to 2026 disclosures",
+      "url": null,
+      "disclosure_identifiers": [],
+      "date_received": null,
+      "rules_supported": [
+        "Pre-interview: total UCAT, then SJT Band 1 over Band 2.",
+        "Post-interview: total MMI, then total UCAT."
+      ],
+      "reference_complete": false,
+      "source_type": "foi_response_summary",
+      "confidence": "medium",
+      "evidence_classification": "FOI",
+      "notes": "The supplied research package identifies FOI disclosures for 2022-2026 but does not include disclosure numbers, dates, files or URLs. These metadata should be added if obtained."
+    }
+  ],
+  "known_unknowns": [
+    {
+      "unknown_id": "live_2027_ucat_boundaries",
+      "field": "2027 minimum invited UCAT by applicant group",
+      "status": "unknown",
+      "severity": "expected_dynamic_unknown",
+      "safe_execution": "Do not execute a historical score as a current cutoff; use labelled guidance bands only."
+    },
+    {
+      "unknown_id": "a106_prior_degree_applicant_ucat_treatment",
+      "field": "Whether A106 applicants presenting a prior degree have a distinct UCAT threshold or pool",
+      "status": "not_established",
+      "severity": "route_blocker",
+      "safe_execution": "Apply only evidenced graduate academic eligibility; do not import A101 UCAT thresholds."
+    },
+    {
+      "unknown_id": "relevant_degree_subject_list",
+      "field": "Exhaustive list and equivalence rules for relevant life or health science degrees",
+      "status": "missing",
+      "severity": "manual_review_required",
+      "safe_execution": "Refer ambiguous graduate degrees for manual review."
+    },
+    {
+      "unknown_id": "mmi_offer_boundary",
+      "field": "Current-cycle minimum MMI total needed for an offer",
+      "status": "unknown_dynamic",
+      "severity": "offer_prediction_blocker",
+      "safe_execution": "Report offer prediction as partial until an MMI result and appropriate cycle evidence exist."
+    },
+    {
+      "unknown_id": "mmi_operational_format",
+      "field": "Exact 2027 station count, station duration, station weighting and total maximum",
+      "status": "range_only",
+      "severity": "noncritical_for_research_handoff",
+      "safe_execution": "Present the supplied 6-8 station and 5-7 minute ranges; do not assert a fixed configuration."
+    },
+    {
+      "unknown_id": "foi_metadata",
+      "field": "FOI disclosure IDs, dates and URLs for tie-break evidence",
+      "status": "missing",
+      "severity": "evidence_traceability_gap",
+      "safe_execution": "Retain the FOI classification and flag incomplete provenance during production audit."
+    },
+    {
+      "unknown_id": "annual_group_admissions_breakdown",
+      "field": "Exact annual Home and International applications, interviews, offers and acceptances",
+      "status": "partial_approximate_ranges_only",
+      "severity": "noncritical_for_scoped_implementation",
+      "safe_execution": "Show only the supplied approximate ranges and do not manufacture annual group totals."
+    },
+    {
+      "unknown_id": "ucat_conversion_rounding_ties",
+      "field": "Single authoritative rounding convention for half-way /3600 to /2700 conversions",
+      "status": "ambiguous",
+      "severity": "noncritical_for_guidance",
+      "safe_execution": "Keep raw conversion values and supplied rounded equivalents; never use converted historical values as exact boundaries."
+    }
+  ],
+  "evidence_inventory": {
+    "official_fields": [
+      "course identity and A106 UCAS code",
+      "UCAS application route and 15 October 2026 deadline",
+      "transfer, repeat-application and post-offer compliance rules",
+      "applicant-group definitions and contextual criteria",
+      "GCSE, A-level, Scottish, IB and graduate academic requirements",
+      "contextual GCSE and A-level reductions",
+      "MAP guaranteed-interview rule",
+      "UCAT requirement, SJT eligibility filter and interview-only UCAT use",
+      "interview selection methodology and personal-statement use",
+      "MMI structure and content ranges",
+      "MMI-only final ranking",
+      "A106 places and quotas",
+      "historical UCAT and admissions values attributed to official University pages"
+    ],
+    "foi_derived_fields": [
+      "pre-interview tie-break order",
+      "post-interview tie-break order"
+    ],
+    "historical_guidance_only_fields": [
+      "all 2022-2026 minimum invited UCAT values",
+      "all historical average interview and offer-holder UCAT values",
+      "all /3600 to /2700 converted UCAT values",
+      "historical application, interview, offer and accepted-place statistics",
+      "approximate Home and International admissions ranges",
+      "A101 historical UCAT reference values"
+    ],
+    "research_derived_fields": [
+      "raw and rounded /2700 arithmetic conversions not explicitly supplied",
+      "calculated interview and post-interview offer rates",
+      "readiness and prediction-scope assessments"
+    ],
+    "unsafe_or_missing_fields": [
+      "live 2027 UCAT cutoffs",
+      "International historical UCAT boundary series",
+      "distinct UCAT boundary evidence for A106 applicants presenting a prior degree",
+      "current-cycle MMI offer threshold",
+      "exhaustive relevant-degree list",
+      "complete FOI reference metadata",
+      "exact annual Home and International admissions breakdowns"
+    ]
+  },
+  "source_registry": [
+    {
+      "source_id": "manchester_a106_application_and_selection_2027",
+      "title": "MBChB Medicine application and selection",
+      "url": "https://www.manchester.ac.uk/study/undergraduate/courses/2027/01428/mbchb-medicine/application-and-selection/",
+      "source_type": "official_university_webpage",
+      "evidence_classification": "official"
+    },
+    {
+      "source_id": "manchester_a106_ucat_2027",
+      "title": "MBChB Medicine UCAT",
+      "url": "https://www.manchester.ac.uk/study/undergraduate/courses/2027/01428/mbchb-medicine/ucat/",
+      "source_type": "official_university_webpage",
+      "evidence_classification": "official_and_historical_guidance"
+    },
+    {
+      "source_id": "manchester_medicine_eligibility",
+      "title": "Medicine eligibility",
+      "url": "https://www.bmh.manchester.ac.uk/study/medicine/apply/eligibility/",
+      "source_type": "official_university_webpage",
+      "evidence_classification": "official"
+    },
+    {
+      "source_id": "manchester_medicine_contextual",
+      "title": "Medicine contextual admissions",
+      "url": "https://www.bmh.manchester.ac.uk/study/medicine/apply/contextual/",
+      "source_type": "official_university_webpage",
+      "evidence_classification": "official"
+    },
+    {
+      "source_id": "manchester_a106_interviews_2027",
+      "title": "MBChB Medicine interviews",
+      "url": "https://www.manchester.ac.uk/study/undergraduate/courses/2027/01428/mbchb-medicine/interviews/",
+      "source_type": "official_university_webpage",
+      "evidence_classification": "official"
+    },
+    {
+      "source_id": "manchester_medicine_interviews",
+      "title": "Medicine interviews",
+      "url": "https://www.bmh.manchester.ac.uk/study/medicine/apply/interviews/",
+      "source_type": "official_university_webpage",
+      "evidence_classification": "official"
+    },
+    {
+      "source_id": "manchester_medicine_selection",
+      "title": "Medicine selection",
+      "url": "https://www.bmh.manchester.ac.uk/study/medicine/apply/selection/",
+      "source_type": "official_university_webpage",
+      "evidence_classification": "official"
+    },
+    {
+      "source_id": "manchester_medicine_admissions_data",
+      "title": "Medicine admissions data",
+      "url": "https://www.bmh.manchester.ac.uk/study/medicine/apply/data/",
+      "source_type": "official_university_webpage",
+      "evidence_classification": "official_historical"
+    },
+    {
+      "source_id": "manchester_course_profile_2027",
+      "title": "University of Manchester Course Profile 2027",
+      "url": null,
+      "source_type": "official_course_profile_reference",
+      "evidence_classification": "official",
+      "notes": "The supplied research package names the course profile but does not provide its URL or file."
+    },
+    {
+      "source_id": "manchester_foi_tie_breakers_2022_2026",
+      "title": "University of Manchester FOI disclosures 2022-2026 on tie-break rules",
+      "url": null,
+      "source_type": "foi_response_summary",
+      "evidence_classification": "FOI",
+      "notes": "Disclosure identifiers and URLs were not included in the supplied research evidence."
+    },
+    {
+      "source_id": "manchester_verified_international_official_and_foi_evidence",
+      "title": "Verified Manchester A100 International official and FOI evidence supplied for implementation",
+      "url": null,
+      "source_type": "verified_official_and_foi_evidence_intake",
+      "evidence_classification": "official_and_FOI",
+      "notes": "No source URL or disclosure identifier was supplied; no additional behaviour is inferred."
+    }
+  ],
+  "engine_notes": {
+    "official_rules_source": "data/universities/manchester-a100.json",
+    "research_source": "data/research/manchester-a100-research.json",
+    "do_not_infer": [
+      "Do not treat a historical minimum invited UCAT value as a guaranteed current or future cutoff.",
+      "Do not treat arithmetic /3600 to /2700 conversion as psychometric equivalence.",
+      "Do not use A101 graduate-entry evidence in A106 eligibility or prediction logic.",
+      "Do not describe UCAT as part of the normal post-interview score; it appears only as the final tie-break after MMI.",
+      "Do not treat International historical guidance as a fixed current-cycle threshold."
+    ],
+    "offer_prediction_scope": "out_of_scope"
+  }
+}

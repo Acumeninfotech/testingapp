@@ -1,0 +1,885 @@
+{
+  "schema_version": "1.0.0",
+  "profile_id": "hull-york-a100",
+  "profile_status": "active_for_official_eligibility_and_unofficial_estimate_mode_interview_guidance",
+  "verification_status": "official_and_foi_verified_exact_scoring_undisclosed",
+  "last_updated": "2026-07-06",
+  "university": {
+    "name": "Hull York Medical School",
+    "slug": "hull-york",
+    "country": "United Kingdom",
+    "nation": "England",
+    "institution_type": "Joint medical school of the University of Hull and University of York",
+    "website_url": "https://www.hyms.ac.uk/"
+  },
+  "course": {
+    "name": "MB BS Medicine",
+    "ucas_code": "A100",
+    "entry_route": "standard_entry",
+    "qualification_awarded": "MB BS Medicine",
+    "duration_years": 5,
+    "campus": "Hull and York",
+    "location": "Hull and York, England",
+    "entry_year": 2027,
+    "fee_statuses": [
+      "home",
+      "international"
+    ],
+    "is_gateway_or_foundation": false,
+    "is_graduate_entry": false,
+    "notes": "Graduates apply to the same A100 route. HYMS's separate six-year Gateway Year course is A108 and is outside this profile."
+  },
+  "medical_school": {
+    "name": "Hull York Medical School",
+    "institution_code": "H75",
+    "campus_code": "Z",
+    "research_profile": "data/research/hull-york-a100-research.json"
+  },
+  "applicant_pools": [
+    {
+      "pool_id": "home_school_leaver",
+      "name": "Home UK school-leavers",
+      "status": "supported",
+      "contextual_estimate_available": true,
+      "notes": "Official contextual eligibility and the unofficial estimate tariff are reported separately."
+    },
+    {
+      "pool_id": "international",
+      "name": "International applicants",
+      "status": "supported_with_country_equivalence_manual_review",
+      "contextual_estimate_available": false,
+      "places_available": "Up to 11 per year"
+    },
+    {
+      "pool_id": "graduate_a100",
+      "name": "Graduate applicants to A100",
+      "status": "supported_for_official_eligibility_and_estimated_score_only",
+      "contextual_estimate_available": false,
+      "notes": "No separate graduate quota or ranking pool is officially published."
+    },
+    {
+      "pool_id": "prior_university",
+      "name": "Applicants with prior university study",
+      "status": "supported_for_official_eligibility_and_estimated_score_only",
+      "contextual_estimate_available": false
+    }
+  ],
+  "applies_to_group_ids": [
+    "england_domiciled",
+    "scotland_domiciled",
+    "wales_domiciled",
+    "northern_ireland_domiciled",
+    "home_fee",
+    "international_fee",
+    "contextual",
+    "widening_participation",
+    "care_experienced",
+    "graduate_applicant",
+    "school_leaver",
+    "mature_applicant",
+    "resit_applicant",
+    "deferred_entry"
+  ],
+  "stage_1_eligibility": {
+    "verification_status": "official_source_verified_with_remaining_eligibility_exceptions",
+    "source_ids": [
+      "hyms_entry_requirements_2027",
+      "hyms_ucat_2027",
+      "hyms_international_students_2027",
+      "hyms_selection_procedure_2027"
+    ],
+    "overall_policy": {
+      "status": "implemented_for_supported_routes",
+      "description": "Published GCSE, A-level, IB, Scottish, graduate, UCAT, SJT, IELTS, age, transfer and supported resit rules are executable. Unlisted country-specific qualifications require HYMS equivalence review.",
+      "eligibility_screen_precedes_ranking": true,
+      "manual_review_if": [
+        "A country-specific international qualification has not been verified by HYMS.",
+        "Required age evidence is missing.",
+        "An unsupported qualification route or incomplete resit history is supplied."
+      ],
+      "source_ids": [
+        "hyms_entry_requirements_2027",
+        "hyms_ucat_2027",
+        "hyms_international_students_2027"
+      ]
+    },
+    "gcse": {
+      "status": "official_source_verified",
+      "source_ids": [
+        "hyms_entry_requirements_2027"
+      ],
+      "minimum_count": 6,
+      "counted_subject_limit": 6,
+      "mandatory_subject_ids": [
+        "english_language",
+        "mathematics"
+      ],
+      "minimum_count_at_or_above_grade": {
+        "requirement_id": "six_gcses_grade_4_or_above",
+        "count": 6,
+        "minimum_grade": "4/C",
+        "decision_outcome_if_not_met": "not_eligible",
+        "source_ids": [
+          "hyms_entry_requirements_2027"
+        ]
+      },
+      "grade_requirements": [
+        {
+          "requirement_id": "english_language_grade_6",
+          "subject_id": "english_language",
+          "minimum_grade": "6/B",
+          "decision_outcome_if_not_met": "not_eligible",
+          "source_ids": [
+            "hyms_entry_requirements_2027"
+          ]
+        },
+        {
+          "requirement_id": "mathematics_grade_6",
+          "subject_id": "mathematics",
+          "minimum_grade": "6/B",
+          "decision_outcome_if_not_met": "not_eligible",
+          "source_ids": [
+            "hyms_entry_requirements_2027"
+          ]
+        }
+      ],
+      "accepted_equivalencies": [
+        "iGCSE",
+        "HYMS-approved equivalents"
+      ],
+      "sitting_policy": "GCSE resits are accepted.",
+      "achieved_or_predicted": "Achieved grades are scored; applicants may be working towards the English Language and Mathematics minimums.",
+      "scoring_role": "The best six GCSE results contribute up to 35 points to the official selection framework.",
+      "exact_tariff_published": false,
+      "notes": "No separate GCSE Biology or Chemistry requirement is published."
+    },
+    "post_16": {
+      "status": "official_source_verified_with_remaining_eligibility_exceptions",
+      "source_ids": [
+        "hyms_entry_requirements_2027"
+      ],
+      "accepted_qualification_types": [
+        "a_level",
+        "international_baccalaureate",
+        "scottish_highers_and_advanced_highers",
+        "degree_with_required_a_levels",
+        "hyms_verified_international_equivalent"
+      ],
+      "a_level": {
+        "status": "official_source_verified",
+        "standard_offer": {
+          "grade_profile": [
+            "A",
+            "A",
+            "A"
+          ],
+          "source_ids": [
+            "hyms_entry_requirements_2027"
+          ],
+          "notes": "Biology and Chemistry are compulsory."
+        },
+        "grade_requirements": [
+          {
+            "requirement_id": "standard_AAA_biology_chemistry",
+            "grade_profile": [
+              "A",
+              "A",
+              "A"
+            ],
+            "required_subject_ids": [
+              "biology",
+              "chemistry"
+            ],
+            "decision_outcome_if_not_met": "not_eligible",
+            "source_ids": [
+              "hyms_entry_requirements_2027"
+            ]
+          }
+        ],
+        "required_subject_ids": [
+          "biology",
+          "chemistry"
+        ],
+        "excluded_subjects": [
+          "Applied Science",
+          "Citizenship",
+          "Critical Thinking",
+          "General Studies"
+        ],
+        "third_subject_rules": "Any third subject except the published exclusions.",
+        "predicted_grades_accepted": true,
+        "sitting_policy": "The three A levels must be studied and awarded concurrently in one sitting.",
+        "science_practical_endorsement": "No separate practical-endorsement requirement was stated in the supplied official research; it is not inferred.",
+        "notes": "Reduced AAB and alternative ABB contextual grades are offer-stage policies and do not replace the standard pre-interview eligibility gate in estimate mode."
+      },
+      "ib": {
+        "status": "official_source_verified",
+        "total_points": 36,
+        "hl_points": 17,
+        "grade_requirements": [
+          {
+            "requirement_id": "ib_36_HL_665_biology_chemistry",
+            "total_points": 36,
+            "hl_grade_profile": [
+              6,
+              6,
+              5
+            ],
+            "required_hl_subject_ids": [
+              "biology",
+              "chemistry"
+            ],
+            "minimum_required_subject_grade": 6,
+            "decision_outcome_if_not_met": "not_eligible",
+            "source_ids": [
+              "hyms_entry_requirements_2027"
+            ]
+          }
+        ],
+        "required_hl_subject_ids": [
+          "biology",
+          "chemistry"
+        ],
+        "standard_level_if_no_gcse_equivalent": {
+          "english_minimum": 5,
+          "mathematics_minimum": 5
+        },
+        "notes": "A repeated Year 13 equivalent requires at least 31 points and 5,5,5 at Higher Level at first sitting."
+      },
+      "scottish": {
+        "status": "official_source_verified",
+        "higher_offer": {
+          "grade_profile": [
+            "A",
+            "A",
+            "A",
+            "A",
+            "B"
+          ],
+          "source_ids": [
+            "hyms_entry_requirements_2027"
+          ],
+          "notes": "Used with the applicable Advanced Higher route."
+        },
+        "advanced_higher_offer": {
+          "grade_profile": [
+            "B",
+            "B",
+            "B"
+          ],
+          "source_ids": [
+            "hyms_entry_requirements_2027"
+          ],
+          "notes": "Biology and Chemistry are required at Advanced Higher. An alternative AAAAA Higher plus AA Advanced Higher Biology and Chemistry route is accepted."
+        },
+        "required_subject_ids": [
+          "biology",
+          "chemistry"
+        ],
+        "notes": "Repeated S6 requires at least BC in Advanced Higher Biology and Chemistry at first sitting."
+      },
+      "degree": {
+        "status": "official_source_verified",
+        "applies_to_group_ids": [
+          "graduate_applicant"
+        ],
+        "minimum_classification": "2:1",
+        "additional_requirement": "Three distinct A levels at BBB in the first sitting.",
+        "decision_outcome_if_not_met": "not_eligible",
+        "source_ids": [
+          "hyms_entry_requirements_2027"
+        ],
+        "notes": "Graduates apply through A100 and do not receive contextual selection points."
+      },
+      "international": {
+        "status": "official_source_verified_with_manual_equivalence_review",
+        "country_specific_requirements_published": true,
+        "automatic_scope": "A-level, IB, or a qualification explicitly marked as verified by HYMS in applicant evidence.",
+        "manual_review_scope": "All other country-specific equivalences."
+      },
+      "notes": "Unlisted and unverified qualification equivalence is never inferred."
+    },
+    "admissions_tests": {
+      "source_ids": [
+        "hyms_ucat_2027",
+        "hyms_selection_procedure_2027"
+      ],
+      "ucat": {
+        "required": true,
+        "source_ids": [
+          "hyms_ucat_2027"
+        ],
+        "minimum_total_score": null,
+        "minimum_subsection_scores": [],
+        "score_used_for_ranking": true,
+        "validity_window": "current_application_cycle",
+        "exemptions": [],
+        "decision_outcome_if_not_met": "not_eligible",
+        "ranking_method": "UCAT cognitive total converted to decile, worth up to 35 points.",
+        "notes": "HYMS publishes no fixed raw UCAT cut-off."
+      },
+      "sjt": {
+        "used": true,
+        "source_ids": [
+          "hyms_ucat_2027"
+        ],
+        "used_as_gate": true,
+        "accepted_bands": [
+          1,
+          2,
+          3
+        ],
+        "excluded_bands": [
+          4
+        ],
+        "scoring": {
+          "used_in_score": true,
+          "maximum_points": 15,
+          "exact_points_by_band_published": false
+        },
+        "decision_outcome_if_excluded": "not_eligible",
+        "notes": "SJT is both an eligibility gate and a scored component."
+      },
+      "other_tests": []
+    },
+    "resits": {
+      "policy": "accepted_with_conditions",
+      "source_ids": [
+        "hyms_entry_requirements_2027"
+      ],
+      "allowed": true,
+      "conditions": [
+        "GCSE resits are accepted.",
+        "Repeating Year 13 requires at least BBB at the initial sitting.",
+        "Adding Biology or Chemistry after the first sitting requires initial AAA with AA in Biology and Chemistry and completion within one year.",
+        "IB repeat applicants require at least 31 points and 5,5,5 at Higher Level at first sitting.",
+        "Repeated Scottish S6 requires at least BC in Advanced Higher Biology and Chemistry at first sitting."
+      ],
+      "maximum_resits": null,
+      "applies_to_group_ids": [
+        "resit_applicant"
+      ],
+      "decision_outcome_if_not_allowed": "not_eligible",
+      "notes": "Incomplete resit histories require manual review."
+    },
+    "english_language": {
+      "source_ids": [
+        "hyms_international_students_2027"
+      ],
+      "required_for_group_ids": [
+        "international_fee"
+      ],
+      "ielts": {
+        "overall_minimum": 7.5,
+        "minimum_each_component": 7,
+        "valid_within_years": 2
+      },
+      "accepted_equivalents": [
+        "GCSE or iGCSE English Language grade 6/B as a first-language qualification",
+        "A-level or AS English Language or Literature grade B",
+        "IB English A grade 5",
+        "PTE Academic 73 overall and 65 each",
+        "Cambridge C1 Advanced 195 overall and 190 each",
+        "TOEFL 105 overall with published component minimums"
+      ],
+      "notes": "Listed equivalents must be verified in applicant evidence."
+    },
+    "age_or_professional_checks": {
+      "minimum_age": 18,
+      "age_reference_date": "1 October",
+      "source_ids": [
+        "hyms_entry_requirements_2027"
+      ],
+      "medical_student_transfers_accepted": false,
+      "fitness_to_practise_details": "Separate policy not captured in the supplied research.",
+      "dbs_and_occupational_health": "Separate official pages exist; detailed content was not extracted."
+    }
+  },
+  "stage_2_interview_selection": {
+    "verification_status": "official_and_foi_verified_exact_scoring_undisclosed",
+    "source_ids": [
+      "hyms_selection_procedure_2027",
+      "hyms_ucat_2027",
+      "hyms_contextual_admissions_2027"
+    ],
+    "primary_model": "points_system",
+    "modifiers": [
+      "contextual_adjustment",
+      "widening_participation_scheme",
+      "sjt_exclusion",
+      "sjt_scoring",
+      "separate_applicant_pool"
+    ],
+    "ranking_factors": [
+      {
+        "factor_id": "gcse_best_six",
+        "role": "scored",
+        "points_available": 35,
+        "exact_tariff_published": false
+      },
+      {
+        "factor_id": "ucat_decile",
+        "role": "scored",
+        "points_available": 35,
+        "exact_tariff_published": false
+      },
+      {
+        "factor_id": "sjt_band",
+        "role": "gate_and_scored",
+        "points_available": 15,
+        "exact_tariff_published": false
+      },
+      {
+        "factor_id": "contextual",
+        "role": "scored_for_eligible_home_school_leavers_only",
+        "points_available": 15,
+        "exact_tariff_published": false
+      }
+    ],
+    "calculation": {
+      "verification_status": "official_and_foi_verified_exact_scoring_undisclosed",
+      "source_ids": [
+        "hyms_selection_procedure_2027",
+        "hyms_contextual_admissions_2027"
+      ],
+      "score_components": [
+        {
+          "component_id": "gcse_best_six",
+          "factor_id": "gcse_best_six",
+          "input_field": "gcse_profile",
+          "calculation_method": "Best six GCSE grades; exact official tariff unpublished.",
+          "scale": {
+            "minimum": 0,
+            "maximum": 35
+          },
+          "weight_percent": 35,
+          "rounding": "Official rounding unpublished.",
+          "notes": "Estimate mode uses a third-party linear tariff and labels it unofficial.",
+          "source_ids": [
+            "hyms_selection_procedure_2027"
+          ]
+        },
+        {
+          "component_id": "ucat_decile",
+          "factor_id": "ucat_decile",
+          "input_field": "admissions_tests.ucat.total_score",
+          "calculation_method": "UCAT cognitive total converted to decile; exact official points tariff unpublished.",
+          "scale": {
+            "minimum": 0,
+            "maximum": 35
+          },
+          "weight_percent": 35,
+          "rounding": "Official rounding unpublished.",
+          "notes": "Estimate mode uses national UCAT deciles and a third-party tariff.",
+          "source_ids": [
+            "hyms_ucat_2027"
+          ]
+        },
+        {
+          "component_id": "sjt",
+          "factor_id": "sjt_band",
+          "input_field": "admissions_tests.ucat.sjt_band",
+          "calculation_method": "Bands 1-3 scored; exact official points tariff unpublished. Band 4 is rejected.",
+          "scale": {
+            "minimum": 0,
+            "maximum": 15
+          },
+          "weight_percent": 15,
+          "rounding": "Not applicable.",
+          "notes": "Estimate mode assumes 15, 10 and 5 points for Bands 1, 2 and 3.",
+          "source_ids": [
+            "hyms_ucat_2027"
+          ]
+        },
+        {
+          "component_id": "contextual",
+          "factor_id": "contextual",
+          "input_field": "applicant_identity.contextual_flags",
+          "calculation_method": "Up to 15 official framework points; exact official per-criterion tariff unpublished.",
+          "scale": {
+            "minimum": 0,
+            "maximum": 15
+          },
+          "weight_percent": 15,
+          "rounding": "Capped at 15.",
+          "notes": "The estimate tariff is HYMS-specific, unofficial, and restricted to Home UK school-leavers without prior university study.",
+          "source_ids": [
+            "hyms_contextual_admissions_2027"
+          ]
+        }
+      ],
+      "total_score": {
+        "calculation_method": "GCSE + UCAT decile + SJT + applicable contextual points.",
+        "components": [
+          "gcse_best_six",
+          "ucat_decile",
+          "sjt",
+          "contextual"
+        ],
+        "scale": {
+          "minimum": 0,
+          "maximum": 100
+        },
+        "notes": "Only component maxima and the total framework are official. ApplySmart's exact score is an unofficial estimate.",
+        "source_ids": [
+          "hyms_selection_procedure_2027"
+        ]
+      },
+      "notes": "Applicants are ranked numerically and the interview cut-off changes with each cohort."
+    },
+    "thresholds": [],
+    "selection_adjustments": [
+      {
+        "adjustment_id": "home_contextual_points",
+        "modifier_id": "contextual_adjustment",
+        "applies_to_group_ids": [
+          "home_fee",
+          "school_leaver"
+        ],
+        "maximum_points": 15,
+        "exact_tariff_published": false,
+        "source_ids": [
+          "hyms_contextual_admissions_2027"
+        ]
+      }
+    ],
+    "tie_breakers": [],
+    "output_band_policy": "unofficial_estimate_mode_only",
+    "interview": {
+      "home": {
+        "format": "Five-station in-person MMI",
+        "locations": [
+          "Hull",
+          "York"
+        ]
+      },
+      "international": {
+        "format": "Six-station online MMI"
+      }
+    },
+    "notes": "HYMS publishes no fixed current cut-off and no exact points tariff. All numerical recommendations are explicitly unofficial estimates."
+  },
+  "contextual_admissions": {
+    "verification_status": "official_source_verified",
+    "source_ids": [
+      "hyms_contextual_admissions_2027"
+    ],
+    "available": true,
+    "applies_to_group_ids": [
+      "home_fee",
+      "school_leaver",
+      "contextual",
+      "widening_participation"
+    ],
+    "criteria": [
+      "UCAT bursary recipient",
+      "POLAR4 Quintile 1 or 2",
+      "First in family to attend university",
+      "School below national-average Progress 8 or devolved-nation equivalent",
+      "Care experienced",
+      "Refugee status",
+      "Military background",
+      "Gypsy, Roma or Traveller background",
+      "Completion of a recognised widening-participation programme"
+    ],
+    "minimum_criteria_count": 2,
+    "adjustments": [
+      {
+        "stage": "interview_selection",
+        "effect": "Up to 15 additional points; exact tariff unpublished."
+      },
+      {
+        "stage": "fast_track",
+        "effect": "Eligible applicants may be fast-tracked with UCAT decile 4+, or decile 5+ for specified routes."
+      },
+      {
+        "stage": "offer_conditions",
+        "effect": "Reduced AAB or alternative ABB offer conditions may apply after interview."
+      }
+    ],
+    "guaranteed_interview_rules": [],
+    "excluded_group_ids": [
+      "international_fee",
+      "graduate_applicant"
+    ],
+    "prior_university_study_excluded": true,
+    "notes": "Official contextual eligibility is separate from ApplySmart's unofficial estimate tariff and always remains subject to HYMS verification."
+  },
+  "ranking_pools": [
+    {
+      "pool_id": "a100_same_programme_cohort",
+      "name": "A100 programme cohort",
+      "applies_to_group_ids": [
+        "home_fee",
+        "international_fee",
+        "school_leaver",
+        "graduate_applicant"
+      ],
+      "fee_statuses": [
+        "home",
+        "international"
+      ],
+      "ranking_model": "points_system",
+      "ranking_factors": [
+        "GCSE best six",
+        "UCAT decile",
+        "SJT band",
+        "Applicable contextual points"
+      ],
+      "places_available": null,
+      "source_ids": [
+        "hyms_selection_procedure_2027"
+      ],
+      "notes": "HYMS does not explicitly publish separate pre-interview Home, International or Graduate ranking pools."
+    }
+  ],
+  "quotas": [
+    {
+      "quota_id": "hull_york_a100_places_2027_entry_verified",
+      "name": "Verified Home/International places (2027 entry)",
+      "home_places": 239,
+      "international_places": 11,
+      "quota_type": "verified_current_places",
+      "source_ids": [
+        "applysmart_admissions_team_verified_2026"
+      ],
+      "notes": "Home/International place figures verified by the ApplySmart admissions research team for 2027 entry."
+    },
+    {
+      "quota_id": "international_places",
+      "maximum_places": 11,
+      "source_ids": [
+        "hyms_international_students_2027"
+      ],
+      "notes": "HYMS states that up to 11 international places are available each year."
+    }
+  ],
+  "offer_selection": {
+    "verification_status": "official_source_verified_with_remaining_unpublished_offer_fields",
+    "source_ids": [
+      "hyms_offers_2027",
+      "hyms_interviews_2027",
+      "hyms_contextual_admissions_2027"
+    ],
+    "interview_format": {
+      "home": "Five-station in-person MMI",
+      "international": "Six-station online MMI"
+    },
+    "interview_scoring": {
+      "home_total": 80,
+      "international_total": 90,
+      "contextual_offer_stage_maximum": 10
+    },
+    "offer_model": "Interview performance is ranked with applicable contextual consideration. Stored for research context only.",
+    "ranking_factors": [
+      "Interview score",
+      "Applicable contextual consideration"
+    ],
+    "tie_breakers": [],
+    "waiting_list_policy": "Not published in the supplied research.",
+    "standard_offer": "AAA including Biology and Chemistry.",
+    "contextual_offer": "Reduced AAB or alternative ABB subject to the published contextual and programme conditions.",
+    "notes": "Offer prediction is out of scope and no post-interview outcome is produced."
+  },
+  "historical_admissions": {
+    "verification_status": "official_and_foi_partially_verified",
+    "source_ids": [
+      "hyms_selection_procedure_2027"
+    ],
+    "cycles": [
+      {
+        "entry_year": 2025,
+        "applications": 1625,
+        "interviews": 904,
+        "offers": 796,
+        "places": null,
+        "population": "Combined A100 cohort",
+        "source_ids": [
+          "hyms_selection_procedure_2027"
+        ]
+      }
+    ],
+    "official_historical_interview_cutoffs_published": false,
+    "official_pool_specific_ucat_statistics_published": false,
+    "notes": "The estimate-mode recommendation bands rely on explicitly unofficial third-party assumptions. Official or attributable FOI pool-specific cut-offs remain an evidence gap."
+  },
+  "sources": [
+    {
+      "source_id": "hyms_entry_requirements_2027",
+      "title": "HYMS Entry requirements for Medicine",
+      "url": "https://www.hyms.ac.uk/medicine/entry-requirements/entry-requirements-medicine",
+      "source_type": "official_university_page",
+      "published_date": null,
+      "accessed_date": "2026-07-06",
+      "applies_to_sections": [
+        "course",
+        "stage_1_eligibility"
+      ],
+      "confidence": "high",
+      "evidence_classification": "official",
+      "notes": "Primary 2027-entry academic requirements."
+    },
+    {
+      "source_id": "hyms_ucat_2027",
+      "title": "HYMS UCAT requirements",
+      "url": "https://www.hyms.ac.uk/medicine/entry-requirements/ucat",
+      "source_type": "official_university_page",
+      "published_date": null,
+      "accessed_date": "2026-07-06",
+      "applies_to_sections": [
+        "stage_1_eligibility",
+        "stage_2_interview_selection"
+      ],
+      "confidence": "high",
+      "evidence_classification": "official",
+      "notes": "Supports UCAT decile ranking and SJT gate/scoring."
+    },
+    {
+      "source_id": "hyms_selection_procedure_2027",
+      "title": "HYMS Selection procedure",
+      "url": "https://www.hyms.ac.uk/medicine/applying/selection-procedure",
+      "source_type": "official_university_page",
+      "published_date": null,
+      "accessed_date": "2026-07-06",
+      "applies_to_sections": [
+        "stage_2_interview_selection",
+        "historical_admissions"
+      ],
+      "confidence": "high",
+      "evidence_classification": "official",
+      "notes": "Supports the official component maxima, numerical ranking and 2025 funnel."
+    },
+    {
+      "source_id": "hyms_contextual_admissions_2027",
+      "title": "HYMS Contextual admissions and widening participation",
+      "url": "https://www.hyms.ac.uk/medicine/entry-requirements/contextual-admissions-and-widening-participation",
+      "source_type": "official_university_page",
+      "published_date": null,
+      "accessed_date": "2026-07-06",
+      "applies_to_sections": [
+        "contextual_admissions",
+        "stage_2_interview_selection"
+      ],
+      "confidence": "high",
+      "evidence_classification": "official",
+      "notes": "Exact per-criterion points are not published."
+    },
+    {
+      "source_id": "hyms_international_students_2027",
+      "title": "HYMS International students",
+      "url": "https://www.hyms.ac.uk/medicine/international-students",
+      "source_type": "official_university_page",
+      "published_date": null,
+      "accessed_date": "2026-07-06",
+      "applies_to_sections": [
+        "stage_1_eligibility",
+        "quotas"
+      ],
+      "confidence": "high",
+      "evidence_classification": "official",
+      "notes": "Supports English-language requirements and the international place cap."
+    },
+    {
+      "source_id": "hyms_interviews_2027",
+      "title": "HYMS Interviews",
+      "url": "https://www.hyms.ac.uk/medicine/applying/interviews",
+      "source_type": "official_university_page",
+      "published_date": null,
+      "accessed_date": "2026-07-06",
+      "applies_to_sections": [
+        "offer_selection"
+      ],
+      "confidence": "high",
+      "evidence_classification": "official",
+      "notes": "Interview format only; no offer prediction is implemented."
+    },
+    {
+      "source_id": "hyms_offers_2027",
+      "title": "HYMS Offers",
+      "url": "https://www.hyms.ac.uk/medicine/entry-requirements/offers",
+      "source_type": "official_university_page",
+      "published_date": null,
+      "accessed_date": "2026-07-06",
+      "applies_to_sections": [
+        "offer_selection"
+      ],
+      "confidence": "high",
+      "evidence_classification": "official",
+      "notes": "Stored as research context; offer prediction remains out of scope."
+    },
+    {
+      "source_id": "hyms_third_party_estimate_model",
+      "title": "Supplied HYMS third-party estimate model",
+      "url": null,
+      "source_type": "unverified_third_party_research_input",
+      "published_date": null,
+      "accessed_date": "2026-07-06",
+      "applies_to_sections": [
+        "stage_2_interview_selection",
+        "historical_admissions"
+      ],
+      "confidence": "low",
+      "evidence_classification": "unofficial_estimate",
+      "notes": "Used only in the dedicated HYMS estimate mode with mandatory disclosure."
+    }
+  ],
+  "validation": {
+    "source_status": "official_and_foi_verified_exact_scoring_undisclosed",
+    "last_verified": "2026-07-06",
+    "confidence_level": "Low for numerical prediction; high for supported official eligibility and selection-framework structure",
+    "completion_status": "complete_for_supported_scope_with_documented_gaps",
+    "known_unknowns": [
+      "Exact official GCSE grade tariff.",
+      "Exact official UCAT-decile tariff.",
+      "Exact official SJT-band tariff.",
+      "Exact official contextual per-criterion tariff.",
+      "Current and historical pool-specific interview cut-offs.",
+      "Country-specific international equivalence automation beyond verified evidence.",
+      "Published tie-breakers."
+    ],
+    "review_notes": "The dedicated consumer keeps official eligibility separate from the explicitly unofficial estimate score."
+  },
+  "engine_notes": {
+    "eligibility": true,
+    "interview_prediction": true,
+    "historical_guidance": true,
+    "international_prediction": true,
+    "contextual_logic": true,
+    "result_card": true,
+    "regression": true,
+    "research_completeness": "complete_for_supported_scope_with_documented_gaps",
+    "manual_review_required": true,
+    "eligibility_ready": true,
+    "interview_prediction_ready": true,
+    "prediction_confidence": "low",
+    "result_card_ready": true,
+    "offer_prediction_scope": "out_of_scope",
+    "interview_band_config_ready": true,
+    "metadata_activation_ready": true,
+    "activation_ready": true,
+    "production_ready": true,
+    "blocking_missing_fields": [],
+    "non_blocking_warnings": [
+      "Known unknown retained as non-blocking for activation-ready production scope: Exact official GCSE grade tariff.",
+      "Known unknown retained as non-blocking for activation-ready production scope: Exact official UCAT-decile tariff.",
+      "Known unknown retained as non-blocking for activation-ready production scope: Exact official SJT-band tariff.",
+      "Known unknown retained as non-blocking for activation-ready production scope: Exact official contextual per-criterion tariff.",
+      "Known unknown retained as non-blocking for activation-ready production scope: Current and historical pool-specific interview cut-offs.",
+      "Known unknown retained as non-blocking for activation-ready production scope: Country-specific international equivalence automation beyond verified evidence.",
+      "Known unknown retained as non-blocking for activation-ready production scope: Published tie-breakers."
+    ],
+    "engine_assumptions": [
+      "National UCAT deciles from the shared official UCAT dataset are used as an estimate input.",
+      "The supplied third-party component tariffs and recommendation bands are directional estimates.",
+      "Contextual estimate points are available only to Home UK school-leavers without graduate or prior-university status."
+    ],
+    "do_not_infer": [
+      "Do not describe any estimated score as HYMS-published or official.",
+      "Do not present estimate bands as current HYMS cut-offs, probabilities or guarantees.",
+      "Do not award contextual estimate points to international, graduate or prior-university applicants.",
+      "Do not infer unverified international qualification equivalence."
+    ],
+    "dedicated_consumer": "assets/js/engine/hull-york-a100-consumer.js",
+    "approved_activation_scope": "Official eligibility plus explicitly unofficial HYMS-specific estimate-mode interview guidance."
+  }
+}

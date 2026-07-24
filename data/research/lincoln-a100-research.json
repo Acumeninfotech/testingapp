@@ -1,0 +1,131 @@
+{
+  "schema_version": "1.0.0",
+  "profile_id": "lincoln-a100-research",
+  "course_profile_id": "lincoln-a100",
+  "research_status": "complete_for_supported_scope_with_documented_gaps",
+  "file_purpose": "Research and evidence profile for University of Lincoln MBChB Medicine A100. Executable rules live in data/universities/lincoln-a100.json and data/interview-band-configs/lincoln-a100.json.",
+  "official_rules_source": "data/universities/lincoln-a100.json",
+  "created_at": "2026-07-21",
+  "last_updated": "2026-07-21",
+  "research_scope": {
+    "target_entry_year": 2026,
+    "primary_policy_cycle": "2026 entry; first independent Lincoln A100 cycle",
+    "authoritative_research_file": "/Users/faizan/Desktop/medical university research/University-data-list/Lincoln/Lincoln_A100.docx",
+    "primary_scope": [
+      "home_year_13_gcse_recent_model_a",
+      "home_post_a_level_model_b",
+      "home_graduate_a100_model_b",
+      "contextual_model_a_uplift"
+    ],
+    "manual_review_scope": [
+      "scottish_route_if_not_supplied_as_gcse_equivalent_profile",
+      "graduate_degree_subject_relevance_or_transcript_science_coverage",
+      "undergraduate_current_study_eligibility_confirmation",
+      "ib_supporting_gcse_or_myp_evidence"
+    ],
+    "blocked_routes": [
+      "international_fee",
+      "deferred_entry",
+      "a106_gateway_in_this_a100_profile"
+    ],
+    "production_json_updated": true,
+    "index_updated": true,
+    "examples_updated": true,
+    "regression_scripts_updated": true,
+    "activation_flags_updated": true,
+    "third_party_admissions_websites_used": false
+  },
+  "evidence_classification_policy": {
+    "official_policy": "Rules classified as OFFICIAL in the supplied Lincoln research document and Appendix A.",
+    "runtime_rule": "Only source=OFFICIAL and prediction_ready=true rules enter runtime scoring.",
+    "display_only": "Historical partnership-era benchmark scores, modelled interview numbers and competitive profile descriptions are retained only as research/display metadata. Provisional prediction bands may be used only as low-confidence strategic guidance when clearly labelled as non-official.",
+    "null_until_published": "Official threshold and independent-cycle interview numbers remain null until Lincoln publishes or confirms them.",
+    "manual_review": "Evidence exists but cannot be executed safely without applicant-supplied structured proof or route-specific confirmation."
+  },
+  "metadata": {
+    "engine_version": "ApplySmart Engine v1.0",
+    "architecture_change_required": false,
+    "shared_engine_extensions": [],
+    "dual_model_implemented_by_configuration": true,
+    "contextual_cap_implemented_by_exact_combination_conditions": true,
+    "prediction_confidence_rationale": "Official scoring is strong, but no first-cycle threshold or interview-number calibration is available.",
+    "no_offer_prediction": true,
+    "appendices_read": [
+      "Appendix A - Prediction Engine Specification"
+    ],
+    "evidence_gaps": [
+      "official_interview_threshold:null",
+      "official_interview_numbers:null",
+      "first_independent_cycle_outcomes:null",
+      "science_practical_endorsement:null",
+      "graduate_degree_subject_relevance_requires_structured_evidence",
+      "undergraduate_current_study_eligibility_requires_structured_evidence"
+    ]
+  },
+  "readiness": {
+    "eligibility": true,
+    "interview_prediction": true,
+    "historical_guidance": false,
+    "international_prediction": false,
+    "contextual_logic": true,
+    "result_card": true,
+    "regression": true,
+    "research_completeness": "complete_for_supported_scope_with_documented_gaps",
+    "manual_review_required": true,
+    "eligibility_ready": true,
+    "interview_prediction_ready": true,
+    "prediction_confidence": "low",
+    "result_card_ready": true,
+    "offer_prediction_scope": "out_of_scope",
+    "interview_band_config_ready": true,
+    "metadata_activation_ready": true,
+    "production_ready_candidate": true,
+    "production_activation_should_remain_blocked": false,
+    "activation_block_reason": null
+  },
+  "official_selection_model": {
+    "model_a": "GCSE 30 + UCAT cognitive 15 + SJT 15 + contextual up to 12, capped at 60.",
+    "model_b": "(UCAT cognitive 15 + SJT 15) * 2, maximum 60.",
+    "hard_filters": [
+      "SJT Band 4",
+      "GCSE minimums",
+      "UCAT not in-cycle",
+      "international_fee"
+    ],
+    "tiebreak_to_interview": "higher raw UCAT /2700",
+    "offer_stage_reference_only": "MMI /70 + selection_score/2 /30; tie-break higher interview score."
+  },
+  "non_runtime_research_metadata": {
+    "estimated_interview_threshold": {
+      "official_value": null,
+      "historical_estimate_range": [
+        45,
+        50
+      ],
+      "prediction_ready": false,
+      "runtime_use": "provisional_guidance_only"
+    },
+    "interview_numbers": {
+      "official_value": null,
+      "modelled_context": "3-5 per place (~250-400)",
+      "prediction_ready": false,
+      "runtime_use": false
+    },
+    "provisional_prediction_bands": {
+      "prediction_ready": true,
+      "runtime_use": "provisional_guidance_only",
+      "label_required": "provisional"
+    },
+    "historical_benchmark_scores": {
+      "runtime_use": false,
+      "reason": "Nottingham partnership-era or third-party estimate data is not current Lincoln admissions behaviour."
+    }
+  },
+  "implementation_mapping": {
+    "production_json": "data/universities/lincoln-a100.json",
+    "interview_band_config": "data/interview-band-configs/lincoln-a100.json",
+    "result_card_example": "data/examples/lincoln-a100-result-card.example.json",
+    "fixture": "data/fixtures/interview-band-classification/lincoln-a100.json",
+    "readiness_test": "scripts/test-lincoln-a100-readiness.js"
+  }
+}

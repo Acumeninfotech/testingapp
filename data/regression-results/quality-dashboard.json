@@ -1,0 +1,871 @@
+{
+  "dashboard": "ApplySmart Quality Dashboard",
+  "source_files": [
+    "data/regression-results/regression-matrix.json",
+    "data/regression-results/regression-summary.json",
+    "data/regression-results/evidence-gap-tracker.json"
+  ],
+  "overall_project_health": {
+    "completed_universities": 38,
+    "regression_profiles": 16,
+    "total_university_profile_combinations": 608,
+    "pass_fail_status": "PASS",
+    "engine_errors": 0,
+    "result_card_precedence": "PASS"
+  },
+  "result_card_display_distribution": {
+    "standard_historical_recommendation": 210,
+    "entry_requirements_not_met": 354,
+    "needs_adviser_review": 24,
+    "evidence_not_yet_available": 9
+  },
+  "internal_historical_recommendation_distribution": {
+    "strong_choice": 75,
+    "good_chance_recommend_applying": 0,
+    "possible_but_ambitious": 0,
+    "consider_stronger_alternatives": 0,
+    "note": "Internal recommendations are present only when a supported historical comparison was made."
+  },
+  "evidence_coverage": {
+    "supported_historical_recommendations": 210,
+    "manual_review_outcomes": 24,
+    "insufficient_evidence_outcomes": 9,
+    "unique_outcomes_with_evidence_gaps": 33,
+    "evidence_gap_percentage": 5.43,
+    "evidence_tracker_records": 32
+  },
+  "profile_level_summary": [
+    {
+      "profile_id": "strong_standard_applicant",
+      "profile_label": "Strong standard applicant",
+      "total_profiles_tested": 38,
+      "eligible": 25,
+      "not_eligible": 12,
+      "manual_review": 1,
+      "insufficient_evidence": 0,
+      "strong_choice": 13,
+      "good_chance": 0,
+      "possible_but_ambitious": 0,
+      "consider_stronger_alternatives": 0
+    },
+    {
+      "profile_id": "average_competitive_applicant",
+      "profile_label": "Average competitive applicant",
+      "total_profiles_tested": 38,
+      "eligible": 25,
+      "not_eligible": 12,
+      "manual_review": 1,
+      "insufficient_evidence": 0,
+      "strong_choice": 8,
+      "good_chance": 0,
+      "possible_but_ambitious": 0,
+      "consider_stronger_alternatives": 0
+    },
+    {
+      "profile_id": "borderline_applicant",
+      "profile_label": "Borderline applicant",
+      "total_profiles_tested": 38,
+      "eligible": 16,
+      "not_eligible": 21,
+      "manual_review": 1,
+      "insufficient_evidence": 0,
+      "strong_choice": 0,
+      "good_chance": 0,
+      "possible_but_ambitious": 0,
+      "consider_stronger_alternatives": 0
+    },
+    {
+      "profile_id": "low_ucat_applicant",
+      "profile_label": "Low UCAT applicant",
+      "total_profiles_tested": 38,
+      "eligible": 24,
+      "not_eligible": 13,
+      "manual_review": 1,
+      "insufficient_evidence": 0,
+      "strong_choice": 1,
+      "good_chance": 0,
+      "possible_but_ambitious": 0,
+      "consider_stronger_alternatives": 0
+    },
+    {
+      "profile_id": "high_ucat_weak_gcse_applicant",
+      "profile_label": "High UCAT weak GCSE applicant",
+      "total_profiles_tested": 38,
+      "eligible": 13,
+      "not_eligible": 24,
+      "manual_review": 1,
+      "insufficient_evidence": 0,
+      "strong_choice": 6,
+      "good_chance": 0,
+      "possible_but_ambitious": 0,
+      "consider_stronger_alternatives": 0
+    },
+    {
+      "profile_id": "strong_gcse_low_ucat_applicant",
+      "profile_label": "Strong GCSE low UCAT applicant",
+      "total_profiles_tested": 38,
+      "eligible": 25,
+      "not_eligible": 12,
+      "manual_review": 1,
+      "insufficient_evidence": 0,
+      "strong_choice": 2,
+      "good_chance": 0,
+      "possible_but_ambitious": 0,
+      "consider_stronger_alternatives": 0
+    },
+    {
+      "profile_id": "sjt_band_4_applicant",
+      "profile_label": "SJT Band 4 applicant",
+      "total_profiles_tested": 38,
+      "eligible": 11,
+      "not_eligible": 27,
+      "manual_review": 0,
+      "insufficient_evidence": 0,
+      "strong_choice": 6,
+      "good_chance": 0,
+      "possible_but_ambitious": 0,
+      "consider_stronger_alternatives": 0
+    },
+    {
+      "profile_id": "missing_chemistry_applicant",
+      "profile_label": "Missing Chemistry applicant",
+      "total_profiles_tested": 38,
+      "eligible": 13,
+      "not_eligible": 25,
+      "manual_review": 0,
+      "insufficient_evidence": 1,
+      "strong_choice": 7,
+      "good_chance": 0,
+      "possible_but_ambitious": 0,
+      "consider_stronger_alternatives": 0
+    },
+    {
+      "profile_id": "aab_grade_failure_applicant",
+      "profile_label": "AAB grade failure applicant",
+      "total_profiles_tested": 38,
+      "eligible": 3,
+      "not_eligible": 35,
+      "manual_review": 0,
+      "insufficient_evidence": 0,
+      "strong_choice": 0,
+      "good_chance": 0,
+      "possible_but_ambitious": 0,
+      "consider_stronger_alternatives": 0
+    },
+    {
+      "profile_id": "low_english_gcse_applicant",
+      "profile_label": "Low English GCSE applicant",
+      "total_profiles_tested": 38,
+      "eligible": 8,
+      "not_eligible": 30,
+      "manual_review": 0,
+      "insufficient_evidence": 0,
+      "strong_choice": 0,
+      "good_chance": 0,
+      "possible_but_ambitious": 0,
+      "consider_stronger_alternatives": 0
+    },
+    {
+      "profile_id": "contextual_standard_applicant",
+      "profile_label": "Contextual standard applicant",
+      "total_profiles_tested": 38,
+      "eligible": 12,
+      "not_eligible": 25,
+      "manual_review": 1,
+      "insufficient_evidence": 3,
+      "strong_choice": 1,
+      "good_chance": 0,
+      "possible_but_ambitious": 0,
+      "consider_stronger_alternatives": 0
+    },
+    {
+      "profile_id": "international_standard_applicant",
+      "profile_label": "International standard applicant",
+      "total_profiles_tested": 38,
+      "eligible": 10,
+      "not_eligible": 28,
+      "manual_review": 0,
+      "insufficient_evidence": 1,
+      "strong_choice": 7,
+      "good_chance": 0,
+      "possible_but_ambitious": 0,
+      "consider_stronger_alternatives": 0
+    },
+    {
+      "profile_id": "scottish_home_applicant",
+      "profile_label": "Scottish home applicant",
+      "total_profiles_tested": 38,
+      "eligible": 0,
+      "not_eligible": 30,
+      "manual_review": 8,
+      "insufficient_evidence": 0,
+      "strong_choice": 0,
+      "good_chance": 0,
+      "possible_but_ambitious": 0,
+      "consider_stronger_alternatives": 0
+    },
+    {
+      "profile_id": "resit_applicant",
+      "profile_label": "Resit applicant",
+      "total_profiles_tested": 38,
+      "eligible": 5,
+      "not_eligible": 32,
+      "manual_review": 1,
+      "insufficient_evidence": 0,
+      "strong_choice": 2,
+      "good_chance": 0,
+      "possible_but_ambitious": 0,
+      "consider_stronger_alternatives": 0
+    },
+    {
+      "profile_id": "graduate_applicant",
+      "profile_label": "Graduate applicant",
+      "total_profiles_tested": 38,
+      "eligible": 6,
+      "not_eligible": 27,
+      "manual_review": 5,
+      "insufficient_evidence": 3,
+      "strong_choice": 0,
+      "good_chance": 0,
+      "possible_but_ambitious": 0,
+      "consider_stronger_alternatives": 0
+    },
+    {
+      "profile_id": "top_tier_applicant",
+      "profile_label": "Top-tier applicant (A*A*A, strong GCSEs, UCAT 2420, SJT Band 1)",
+      "total_profiles_tested": 38,
+      "eligible": 34,
+      "not_eligible": 1,
+      "manual_review": 3,
+      "insufficient_evidence": 1,
+      "strong_choice": 22,
+      "good_chance": 0,
+      "possible_but_ambitious": 0,
+      "consider_stronger_alternatives": 0
+    }
+  ],
+  "university_level_summary": [
+    {
+      "university": "University of Aberdeen",
+      "total_profiles_tested": 16,
+      "eligible": 10,
+      "not_eligible": 6,
+      "manual_review": 0,
+      "insufficient_evidence": 0,
+      "strong_choice": 6,
+      "good_chance": 0,
+      "possible_but_ambitious": 0,
+      "consider_stronger_alternatives": 0
+    },
+    {
+      "university": "Anglia Ruskin University",
+      "total_profiles_tested": 16,
+      "eligible": 9,
+      "not_eligible": 5,
+      "manual_review": 2,
+      "insufficient_evidence": 0,
+      "strong_choice": 5,
+      "good_chance": 0,
+      "possible_but_ambitious": 0,
+      "consider_stronger_alternatives": 0
+    },
+    {
+      "university": "Aston University",
+      "total_profiles_tested": 16,
+      "eligible": 3,
+      "not_eligible": 13,
+      "manual_review": 0,
+      "insufficient_evidence": 0,
+      "strong_choice": 1,
+      "good_chance": 0,
+      "possible_but_ambitious": 0,
+      "consider_stronger_alternatives": 0
+    },
+    {
+      "university": "University of Birmingham",
+      "total_profiles_tested": 16,
+      "eligible": 8,
+      "not_eligible": 7,
+      "manual_review": 1,
+      "insufficient_evidence": 0,
+      "strong_choice": 0,
+      "good_chance": 0,
+      "possible_but_ambitious": 0,
+      "consider_stronger_alternatives": 0
+    },
+    {
+      "university": "University of Bristol",
+      "total_profiles_tested": 16,
+      "eligible": 9,
+      "not_eligible": 5,
+      "manual_review": 2,
+      "insufficient_evidence": 0,
+      "strong_choice": 0,
+      "good_chance": 0,
+      "possible_but_ambitious": 0,
+      "consider_stronger_alternatives": 0
+    },
+    {
+      "university": "Brunel University of London",
+      "total_profiles_tested": 16,
+      "eligible": 9,
+      "not_eligible": 7,
+      "manual_review": 0,
+      "insufficient_evidence": 0,
+      "strong_choice": 0,
+      "good_chance": 0,
+      "possible_but_ambitious": 0,
+      "consider_stronger_alternatives": 0
+    },
+    {
+      "university": "University of Buckingham",
+      "total_profiles_tested": 16,
+      "eligible": 0,
+      "not_eligible": 16,
+      "manual_review": 0,
+      "insufficient_evidence": 0,
+      "strong_choice": 0,
+      "good_chance": 0,
+      "possible_but_ambitious": 0,
+      "consider_stronger_alternatives": 0
+    },
+    {
+      "university": "University of Cambridge",
+      "total_profiles_tested": 16,
+      "eligible": 1,
+      "not_eligible": 14,
+      "manual_review": 1,
+      "insufficient_evidence": 0,
+      "strong_choice": 1,
+      "good_chance": 0,
+      "possible_but_ambitious": 0,
+      "consider_stronger_alternatives": 0
+    },
+    {
+      "university": "Cardiff University",
+      "total_profiles_tested": 16,
+      "eligible": 8,
+      "not_eligible": 8,
+      "manual_review": 0,
+      "insufficient_evidence": 0,
+      "strong_choice": 5,
+      "good_chance": 0,
+      "possible_but_ambitious": 0,
+      "consider_stronger_alternatives": 0
+    },
+    {
+      "university": "University of Dundee",
+      "total_profiles_tested": 16,
+      "eligible": 10,
+      "not_eligible": 6,
+      "manual_review": 0,
+      "insufficient_evidence": 0,
+      "strong_choice": 6,
+      "good_chance": 0,
+      "possible_but_ambitious": 0,
+      "consider_stronger_alternatives": 0
+    },
+    {
+      "university": "University of East Anglia",
+      "total_profiles_tested": 16,
+      "eligible": 8,
+      "not_eligible": 6,
+      "manual_review": 2,
+      "insufficient_evidence": 0,
+      "strong_choice": 4,
+      "good_chance": 0,
+      "possible_but_ambitious": 0,
+      "consider_stronger_alternatives": 0
+    },
+    {
+      "university": "Edge Hill University",
+      "total_profiles_tested": 16,
+      "eligible": 8,
+      "not_eligible": 8,
+      "manual_review": 0,
+      "insufficient_evidence": 0,
+      "strong_choice": 5,
+      "good_chance": 0,
+      "possible_but_ambitious": 0,
+      "consider_stronger_alternatives": 0
+    },
+    {
+      "university": "University of Edinburgh",
+      "total_profiles_tested": 16,
+      "eligible": 5,
+      "not_eligible": 11,
+      "manual_review": 0,
+      "insufficient_evidence": 0,
+      "strong_choice": 3,
+      "good_chance": 0,
+      "possible_but_ambitious": 0,
+      "consider_stronger_alternatives": 0
+    },
+    {
+      "university": "University of Exeter",
+      "total_profiles_tested": 16,
+      "eligible": 2,
+      "not_eligible": 12,
+      "manual_review": 2,
+      "insufficient_evidence": 0,
+      "strong_choice": 1,
+      "good_chance": 0,
+      "possible_but_ambitious": 0,
+      "consider_stronger_alternatives": 0
+    },
+    {
+      "university": "University of Glasgow",
+      "total_profiles_tested": 16,
+      "eligible": 9,
+      "not_eligible": 7,
+      "manual_review": 0,
+      "insufficient_evidence": 0,
+      "strong_choice": 6,
+      "good_chance": 0,
+      "possible_but_ambitious": 0,
+      "consider_stronger_alternatives": 0
+    },
+    {
+      "university": "Hull York Medical School",
+      "total_profiles_tested": 16,
+      "eligible": 0,
+      "not_eligible": 8,
+      "manual_review": 8,
+      "insufficient_evidence": 0,
+      "strong_choice": 0,
+      "good_chance": 0,
+      "possible_but_ambitious": 0,
+      "consider_stronger_alternatives": 0
+    },
+    {
+      "university": "Imperial College London",
+      "total_profiles_tested": 16,
+      "eligible": 0,
+      "not_eligible": 15,
+      "manual_review": 1,
+      "insufficient_evidence": 0,
+      "strong_choice": 0,
+      "good_chance": 0,
+      "possible_but_ambitious": 0,
+      "consider_stronger_alternatives": 0
+    },
+    {
+      "university": "Keele University",
+      "total_profiles_tested": 16,
+      "eligible": 1,
+      "not_eligible": 15,
+      "manual_review": 0,
+      "insufficient_evidence": 1,
+      "strong_choice": 0,
+      "good_chance": 0,
+      "possible_but_ambitious": 0,
+      "consider_stronger_alternatives": 0
+    },
+    {
+      "university": "Kent & Medway Medical School",
+      "total_profiles_tested": 16,
+      "eligible": 12,
+      "not_eligible": 4,
+      "manual_review": 0,
+      "insufficient_evidence": 0,
+      "strong_choice": 0,
+      "good_chance": 0,
+      "possible_but_ambitious": 0,
+      "consider_stronger_alternatives": 0
+    },
+    {
+      "university": "King's College London",
+      "total_profiles_tested": 16,
+      "eligible": 1,
+      "not_eligible": 15,
+      "manual_review": 0,
+      "insufficient_evidence": 0,
+      "strong_choice": 1,
+      "good_chance": 0,
+      "possible_but_ambitious": 0,
+      "consider_stronger_alternatives": 0
+    },
+    {
+      "university": "University of Lancashire",
+      "total_profiles_tested": 16,
+      "eligible": 11,
+      "not_eligible": 4,
+      "manual_review": 1,
+      "insufficient_evidence": 0,
+      "strong_choice": 0,
+      "good_chance": 0,
+      "possible_but_ambitious": 0,
+      "consider_stronger_alternatives": 0
+    },
+    {
+      "university": "Lancaster University",
+      "total_profiles_tested": 16,
+      "eligible": 8,
+      "not_eligible": 8,
+      "manual_review": 0,
+      "insufficient_evidence": 1,
+      "strong_choice": 0,
+      "good_chance": 0,
+      "possible_but_ambitious": 0,
+      "consider_stronger_alternatives": 0
+    },
+    {
+      "university": "University of Leeds",
+      "total_profiles_tested": 16,
+      "eligible": 11,
+      "not_eligible": 4,
+      "manual_review": 1,
+      "insufficient_evidence": 2,
+      "strong_choice": 0,
+      "good_chance": 0,
+      "possible_but_ambitious": 0,
+      "consider_stronger_alternatives": 0
+    },
+    {
+      "university": "University of Leicester",
+      "total_profiles_tested": 16,
+      "eligible": 11,
+      "not_eligible": 5,
+      "manual_review": 0,
+      "insufficient_evidence": 2,
+      "strong_choice": 4,
+      "good_chance": 0,
+      "possible_but_ambitious": 0,
+      "consider_stronger_alternatives": 0
+    },
+    {
+      "university": "University of Lincoln",
+      "total_profiles_tested": 16,
+      "eligible": 7,
+      "not_eligible": 8,
+      "manual_review": 1,
+      "insufficient_evidence": 2,
+      "strong_choice": 0,
+      "good_chance": 0,
+      "possible_but_ambitious": 0,
+      "consider_stronger_alternatives": 0
+    },
+    {
+      "university": "University of Liverpool",
+      "total_profiles_tested": 16,
+      "eligible": 5,
+      "not_eligible": 11,
+      "manual_review": 0,
+      "insufficient_evidence": 0,
+      "strong_choice": 0,
+      "good_chance": 0,
+      "possible_but_ambitious": 0,
+      "consider_stronger_alternatives": 0
+    },
+    {
+      "university": "University of Manchester",
+      "total_profiles_tested": 16,
+      "eligible": 7,
+      "not_eligible": 9,
+      "manual_review": 0,
+      "insufficient_evidence": 0,
+      "strong_choice": 5,
+      "good_chance": 0,
+      "possible_but_ambitious": 0,
+      "consider_stronger_alternatives": 0
+    },
+    {
+      "university": "Newcastle University",
+      "total_profiles_tested": 16,
+      "eligible": 10,
+      "not_eligible": 6,
+      "manual_review": 0,
+      "insufficient_evidence": 0,
+      "strong_choice": 3,
+      "good_chance": 0,
+      "possible_but_ambitious": 0,
+      "consider_stronger_alternatives": 0
+    },
+    {
+      "university": "University of Nottingham",
+      "total_profiles_tested": 16,
+      "eligible": 6,
+      "not_eligible": 9,
+      "manual_review": 1,
+      "insufficient_evidence": 0,
+      "strong_choice": 1,
+      "good_chance": 0,
+      "possible_but_ambitious": 0,
+      "consider_stronger_alternatives": 0
+    },
+    {
+      "university": "University of Oxford",
+      "total_profiles_tested": 16,
+      "eligible": 1,
+      "not_eligible": 15,
+      "manual_review": 0,
+      "insufficient_evidence": 0,
+      "strong_choice": 1,
+      "good_chance": 0,
+      "possible_but_ambitious": 0,
+      "consider_stronger_alternatives": 0
+    },
+    {
+      "university": "University of Plymouth",
+      "total_profiles_tested": 16,
+      "eligible": 2,
+      "not_eligible": 14,
+      "manual_review": 0,
+      "insufficient_evidence": 0,
+      "strong_choice": 2,
+      "good_chance": 0,
+      "possible_but_ambitious": 0,
+      "consider_stronger_alternatives": 0
+    },
+    {
+      "university": "Queen Mary University of London",
+      "total_profiles_tested": 16,
+      "eligible": 1,
+      "not_eligible": 15,
+      "manual_review": 0,
+      "insufficient_evidence": 0,
+      "strong_choice": 1,
+      "good_chance": 0,
+      "possible_but_ambitious": 0,
+      "consider_stronger_alternatives": 0
+    },
+    {
+      "university": "Queen's University Belfast",
+      "total_profiles_tested": 16,
+      "eligible": 1,
+      "not_eligible": 15,
+      "manual_review": 0,
+      "insufficient_evidence": 0,
+      "strong_choice": 1,
+      "good_chance": 0,
+      "possible_but_ambitious": 0,
+      "consider_stronger_alternatives": 0
+    },
+    {
+      "university": "University of Sheffield",
+      "total_profiles_tested": 16,
+      "eligible": 7,
+      "not_eligible": 9,
+      "manual_review": 0,
+      "insufficient_evidence": 0,
+      "strong_choice": 0,
+      "good_chance": 0,
+      "possible_but_ambitious": 0,
+      "consider_stronger_alternatives": 0
+    },
+    {
+      "university": "University of Southampton",
+      "total_profiles_tested": 16,
+      "eligible": 11,
+      "not_eligible": 5,
+      "manual_review": 0,
+      "insufficient_evidence": 0,
+      "strong_choice": 7,
+      "good_chance": 0,
+      "possible_but_ambitious": 0,
+      "consider_stronger_alternatives": 0
+    },
+    {
+      "university": "University of St Andrews",
+      "total_profiles_tested": 16,
+      "eligible": 11,
+      "not_eligible": 5,
+      "manual_review": 0,
+      "insufficient_evidence": 1,
+      "strong_choice": 6,
+      "good_chance": 0,
+      "possible_but_ambitious": 0,
+      "consider_stronger_alternatives": 0
+    },
+    {
+      "university": "University of Sunderland",
+      "total_profiles_tested": 16,
+      "eligible": 7,
+      "not_eligible": 9,
+      "manual_review": 0,
+      "insufficient_evidence": 0,
+      "strong_choice": 0,
+      "good_chance": 0,
+      "possible_but_ambitious": 0,
+      "consider_stronger_alternatives": 0
+    },
+    {
+      "university": "University College London",
+      "total_profiles_tested": 16,
+      "eligible": 0,
+      "not_eligible": 15,
+      "manual_review": 1,
+      "insufficient_evidence": 0,
+      "strong_choice": 0,
+      "good_chance": 0,
+      "possible_but_ambitious": 0,
+      "consider_stronger_alternatives": 0
+    }
+  ],
+  "launch_readiness": {
+    "universities": [
+      {
+        "university": "University of Aberdeen",
+        "status": "Ready for supported scope"
+      },
+      {
+        "university": "Anglia Ruskin University",
+        "status": "Needs applicant evidence review"
+      },
+      {
+        "university": "Aston University",
+        "status": "Ready for supported scope"
+      },
+      {
+        "university": "University of Birmingham",
+        "status": "Needs applicant evidence review"
+      },
+      {
+        "university": "University of Bristol",
+        "status": "Needs applicant evidence review"
+      },
+      {
+        "university": "Brunel University of London",
+        "status": "Ready for supported scope"
+      },
+      {
+        "university": "University of Buckingham",
+        "status": "Ready for supported scope"
+      },
+      {
+        "university": "University of Cambridge",
+        "status": "Needs applicant evidence review"
+      },
+      {
+        "university": "Cardiff University",
+        "status": "Ready for supported scope"
+      },
+      {
+        "university": "University of Dundee",
+        "status": "Ready for supported scope"
+      },
+      {
+        "university": "University of East Anglia",
+        "status": "Needs applicant evidence review"
+      },
+      {
+        "university": "Edge Hill University",
+        "status": "Ready for supported scope"
+      },
+      {
+        "university": "University of Edinburgh",
+        "status": "Ready for supported scope"
+      },
+      {
+        "university": "University of Exeter",
+        "status": "Needs applicant evidence review"
+      },
+      {
+        "university": "University of Glasgow",
+        "status": "Ready for supported scope"
+      },
+      {
+        "university": "Hull York Medical School",
+        "status": "Needs applicant evidence review"
+      },
+      {
+        "university": "Imperial College London",
+        "status": "Needs applicant evidence review"
+      },
+      {
+        "university": "Keele University",
+        "status": "Ready with documented evidence gap"
+      },
+      {
+        "university": "Kent & Medway Medical School",
+        "status": "Ready for supported scope"
+      },
+      {
+        "university": "King's College London",
+        "status": "Ready for supported scope"
+      },
+      {
+        "university": "University of Lancashire",
+        "status": "Needs applicant evidence review"
+      },
+      {
+        "university": "Lancaster University",
+        "status": "Ready with documented evidence gap"
+      },
+      {
+        "university": "University of Leeds",
+        "status": "Needs applicant evidence review"
+      },
+      {
+        "university": "University of Leicester",
+        "status": "Ready with documented evidence gap"
+      },
+      {
+        "university": "University of Lincoln",
+        "status": "Needs applicant evidence review"
+      },
+      {
+        "university": "University of Liverpool",
+        "status": "Ready for supported scope"
+      },
+      {
+        "university": "University of Manchester",
+        "status": "Ready for supported scope"
+      },
+      {
+        "university": "Newcastle University",
+        "status": "Ready for supported scope"
+      },
+      {
+        "university": "University of Nottingham",
+        "status": "Needs applicant evidence review"
+      },
+      {
+        "university": "University of Oxford",
+        "status": "Ready for supported scope"
+      },
+      {
+        "university": "University of Plymouth",
+        "status": "Ready for supported scope"
+      },
+      {
+        "university": "Queen Mary University of London",
+        "status": "Ready for supported scope"
+      },
+      {
+        "university": "Queen's University Belfast",
+        "status": "Ready for supported scope"
+      },
+      {
+        "university": "University of Sheffield",
+        "status": "Ready for supported scope"
+      },
+      {
+        "university": "University of Southampton",
+        "status": "Ready for supported scope"
+      },
+      {
+        "university": "University of St Andrews",
+        "status": "Ready with documented evidence gap"
+      },
+      {
+        "university": "University of Sunderland",
+        "status": "Ready for supported scope"
+      },
+      {
+        "university": "University College London",
+        "status": "Needs applicant evidence review"
+      }
+    ]
+  },
+  "validation": {
+    "status": "PASS",
+    "checks": {
+      "matrix_has_expected_unique_profile_university_combinations": true,
+      "matrix_matches_production_ready_university_count": false,
+      "result_card_states_are_mutually_exclusive": false,
+      "evidence_tracker_matches_display_gaps": false,
+      "result_cards_contain_interview_scope_only": true
+    }
+  }
+}

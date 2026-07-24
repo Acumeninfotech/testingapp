@@ -1,0 +1,434 @@
+{
+  "schema_version": "1.0.0",
+  "course_profile_id": "bristol-a100",
+  "confidence": "medium",
+  "evidence": {
+    "classification": "official_ucat_ranking_with_pool_specific_historical_guidance",
+    "summary": "Bristol checks academic eligibility, then ranks eligible ordinary applicants by UCAT cognitive total only within separate Home and International pools. Published 2026-entry UCAT thresholds are used as historical guidance only; recognised Bristol widening participation programme completers may receive guaranteed-interview handling when the published criteria are met.",
+    "source_ids": [
+      "bristol_research_doc",
+      "bristol_course_page_2027",
+      "bristol_admissions_statement",
+      "bristol_wp_programmes"
+    ]
+  },
+  "eligibility": {
+    "scope": "Automatic banding applies after an executable academic route passes, UCAT is present for the application cycle, and the applicant pool is resolved.",
+    "international_english_language_required": true,
+    "qualification_routes": {
+      "supported": [
+        "a_level",
+        "international_baccalaureate",
+        "international_qualification"
+      ],
+      "manual_review": [
+        "scottish",
+        "graduate"
+      ],
+      "explicitly_blocked": [
+        "btec",
+        "t_level",
+        "access_to_he",
+        "foundation",
+        "unknown"
+      ]
+    },
+    "gcse": {
+      "minimum_count": null,
+      "use_exact_subject_list": false,
+      "required_subjects": [
+        {
+          "subject_id": "english_language",
+          "minimum_grade": "4/C"
+        },
+        {
+          "subject_id": "mathematics",
+          "minimum_grade": "7/A"
+        }
+      ]
+    },
+    "a_level": {
+      "routes": [
+        {
+          "route_id": "bristol_standard_a_level_aaa",
+          "grade_profile": [
+            "A",
+            "A",
+            "A"
+          ],
+          "subject_grade_requirements": [
+            {
+              "subject_id": "chemistry",
+              "minimum_grade": "A"
+            }
+          ],
+          "one_of_subject_groups": [
+            {
+              "group_id": "second_science_or_maths",
+              "minimum_required": 1,
+              "subject_ids": [
+                "biology",
+                "physics",
+                "mathematics",
+                "further_mathematics"
+              ]
+            }
+          ],
+          "excluded_subject_ids": [
+            "general_studies"
+          ]
+        },
+        {
+          "route_id": "bristol_contextual_a_level_abb",
+          "all_group_ids": [
+            "contextual"
+          ],
+          "grade_profile": [
+            "A",
+            "B",
+            "B"
+          ],
+          "subject_grade_requirements": [
+            {
+              "subject_id": "chemistry",
+              "minimum_grade": "A"
+            }
+          ],
+          "required_subject_grade_options": [
+            {
+              "grade_requirements": [
+                {
+                  "subject_id": "chemistry",
+                  "minimum_grade": "A"
+                },
+                {
+                  "subject_id": "biology",
+                  "minimum_grade": "B"
+                }
+              ]
+            },
+            {
+              "grade_requirements": [
+                {
+                  "subject_id": "chemistry",
+                  "minimum_grade": "A"
+                },
+                {
+                  "subject_id": "physics",
+                  "minimum_grade": "B"
+                }
+              ]
+            },
+            {
+              "grade_requirements": [
+                {
+                  "subject_id": "chemistry",
+                  "minimum_grade": "A"
+                },
+                {
+                  "subject_id": "mathematics",
+                  "minimum_grade": "B"
+                }
+              ]
+            },
+            {
+              "grade_requirements": [
+                {
+                  "subject_id": "chemistry",
+                  "minimum_grade": "A"
+                },
+                {
+                  "subject_id": "further_mathematics",
+                  "minimum_grade": "B"
+                }
+              ]
+            }
+          ],
+          "one_of_subject_groups": [
+            {
+              "group_id": "second_science_or_maths",
+              "minimum_required": 1,
+              "subject_ids": [
+                "biology",
+                "physics",
+                "mathematics",
+                "further_mathematics"
+              ]
+            }
+          ],
+          "excluded_subject_ids": [
+            "general_studies"
+          ]
+        }
+      ],
+      "science_practical_endorsement": {
+        "required": true,
+        "subject_ids": [
+          "biology",
+          "human_biology",
+          "chemistry",
+          "physics"
+        ],
+        "accepted_values": [
+          "pass",
+          "passed"
+        ]
+      }
+    },
+    "international_baccalaureate": {
+      "routes": [
+        {
+          "route_id": "bristol_contextual_ib_32_16_hl_science_route",
+          "all_group_ids": [
+            "contextual"
+          ],
+          "total_points": 32,
+          "minimum_hl_points": 16,
+          "hl_grade_profile": [
+            "6",
+            "5",
+            "5"
+          ],
+          "required_hl_subject_ids": [
+            "chemistry"
+          ],
+          "required_hl_subject_grade_options": [
+            {
+              "grade_requirements": [
+                {
+                  "subject_id": "chemistry",
+                  "minimum_grade": "6"
+                },
+                {
+                  "subject_id": "biology",
+                  "minimum_grade": "5"
+                }
+              ]
+            },
+            {
+              "grade_requirements": [
+                {
+                  "subject_id": "chemistry",
+                  "minimum_grade": "6"
+                },
+                {
+                  "subject_id": "physics",
+                  "minimum_grade": "5"
+                }
+              ]
+            },
+            {
+              "grade_requirements": [
+                {
+                  "subject_id": "chemistry",
+                  "minimum_grade": "6"
+                },
+                {
+                  "subject_id": "mathematics",
+                  "minimum_grade": "5"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "route_id": "bristol_ib_36_66_hl_science_route",
+          "total_points": 36,
+          "minimum_hl_points": 12,
+          "hl_grade_profile": [
+            "6",
+            "6"
+          ],
+          "required_hl_subject_ids": [
+            "chemistry"
+          ],
+          "required_hl_subject_grade_options": [
+            {
+              "grade_requirements": [
+                {
+                  "subject_id": "chemistry",
+                  "minimum_grade": "6"
+                },
+                {
+                  "subject_id": "biology",
+                  "minimum_grade": "6"
+                }
+              ]
+            },
+            {
+              "grade_requirements": [
+                {
+                  "subject_id": "chemistry",
+                  "minimum_grade": "6"
+                },
+                {
+                  "subject_id": "physics",
+                  "minimum_grade": "6"
+                }
+              ]
+            },
+            {
+              "grade_requirements": [
+                {
+                  "subject_id": "chemistry",
+                  "minimum_grade": "6"
+                },
+                {
+                  "subject_id": "mathematics",
+                  "minimum_grade": "6"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    "international_qualification": {
+      "routing": "Bristol-verified qualification equivalence only",
+      "unverified_outcome": "manual_review",
+      "manual_review_reason": "country_specific_international_qualification_equivalence_requires_bristol_verification"
+    },
+    "ucat": {
+      "minimum_total_score": null,
+      "score_scale": 2700,
+      "required_in_application_cycle": true
+    },
+    "sjt": {
+      "used_as_gate": false,
+      "accepted_bands": [
+        1,
+        2,
+        3,
+        4
+      ],
+      "rejected_bands": []
+    },
+    "manual_review_routes": [
+      "Scottish Highers plus Advanced Highers",
+      "graduate applying to A100",
+      "contextual IB",
+      "country-specific international qualifications without Bristol-verified equivalence",
+      "Profile A English-language evidence that is not a declared exemption"
+    ],
+    "map_override": {
+      "override_id": "verified_bristol_wp_programme_guaranteed_interview",
+      "description": "Apply only when verified evidence confirms completion of a recognised University of Bristol widening-participation guaranteed-interview programme. Academic eligibility and UCAT-cycle requirements are evaluated before this override.",
+      "outcome": "guaranteed_interview",
+      "interview_outcome": "guaranteed_interview",
+      "apply_ucat_guidance_band": false,
+      "match": {
+        "all_group_ids": [
+          "home_fee",
+          "bristol_wp_guaranteed_interview_verified"
+        ],
+        "excluded_group_ids": [
+          "international_fee"
+        ]
+      },
+      "applicant_evidence_path": "widening_participation.bristol_guaranteed_interview",
+      "required_evidence": {
+        "recognised_university_of_bristol_programme_completed": true,
+        "programme_completion_verified_by_bristol_or_partner": true,
+        "guaranteed_interview_policy_conditions_declared_met": true
+      },
+      "applicant_facing_explanation": "The applicant qualifies under the verified University of Bristol widening-participation guaranteed-interview programme route. All mandatory academic, UCAT-cycle and programme-specific conditions must still be satisfied. This applies to interview invitation only; interview performance and later offer decisions are assessed normally.",
+      "verification_representation": "The bristol_wp_guaranteed_interview_verified applicant group is sufficient only when generated after the structured widening_participation.bristol_guaranteed_interview evidence has been checked. Self-declared participation without these verified fields does not trigger the override.",
+      "post_interview_note": "The guaranteed-interview policy affects interview invitation only. Interview performance and subsequent offer decisions are assessed normally."
+    },
+    "do_not_infer": [
+      "Do not score GCSEs or post-16 grades.",
+      "Do not reject SJT Band 3 or Band 4.",
+      "Do not apply a lower UCAT threshold to contextual applicants.",
+      "Do not treat converted historical UCAT values as exact current-scale cut-offs.",
+      "Do not use personal statements for selection or tie-breaking.",
+      "Do not predict final offers."
+    ]
+  },
+  "score_model": {
+    "type": "ranking_metric",
+    "basis": "UCAT cognitive total after academic eligibility for ordinary applicants; separate Home and International historical guidance. Verified Bristol widening participation programme completers use the generic guaranteed-interview override instead of ordinary UCAT banding.",
+    "metric": "ucat_total",
+    "pool_specific_output": true,
+    "scale": {
+      "min": 0,
+      "max": 2700
+    },
+    "fixed_current_cutoff": false,
+    "historical_guidance_only": true,
+    "native_guidance_cycle": "2026 entry",
+    "legacy_3600_conversion_used": false
+  },
+  "guidance_pools": [
+    {
+      "pool_id": "international_a100",
+      "priority": 30,
+      "applicant_match": {
+        "all_group_ids": [
+          "international_fee"
+        ]
+      },
+      "metric": "ucat_total",
+      "pool_specific_output": true,
+      "historical_cutoff": {
+        "entry_cycle": "2026 entry",
+        "value": 2270,
+        "evidence_classification": "official_published_threshold"
+      },
+      "band_rules": [
+        {
+          "band": "realistic",
+          "operator": "greater_than_or_equal",
+          "value": 2270
+        },
+        {
+          "band": "high_risk",
+          "operator": "less_than",
+          "value": 2270
+        }
+      ]
+    },
+    {
+      "pool_id": "home_a100",
+      "priority": 20,
+      "applicant_match": {
+        "all_group_ids": [
+          "home_fee"
+        ],
+        "excluded_group_ids": [
+          "international_fee"
+        ]
+      },
+      "metric": "ucat_total",
+      "pool_specific_output": true,
+      "historical_cutoff": {
+        "entry_cycle": "2026 entry",
+        "value": 2240,
+        "evidence_classification": "official_published_threshold"
+      },
+      "band_rules": [
+        {
+          "band": "very_strong_interview_potential",
+          "operator": "greater_than_or_equal",
+          "value": 2340
+        },
+        {
+          "band": "interview_likely",
+          "operator": "between_inclusive",
+          "min": 2270,
+          "max": 2339
+        },
+        {
+          "band": "realistic",
+          "operator": "between_inclusive",
+          "min": 2240,
+          "max": 2269
+        },
+        {
+          "band": "high_risk",
+          "operator": "less_than",
+          "value": 2240
+        }
+      ]
+    }
+  ]
+}

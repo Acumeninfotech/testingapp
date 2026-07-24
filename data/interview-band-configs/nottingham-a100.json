@@ -1,0 +1,196 @@
+{
+  "schema_version": "1.0.0",
+  "course_profile_id": "nottingham-a100",
+  "confidence": "low",
+  "evidence": {
+    "classification": "official_score_with_research_team_confirmed_foi_historical_guidance",
+    "summary": "The official Nottingham /82 pre-interview score is positioned against research-team-confirmed FOI historical ranges. The output is descriptive historical guidance only: it is not a current cut-off, an interview outcome, or an admissions decision rule.",
+    "source_ids": [
+      "nottingham_undergraduate_selection_process_2026",
+      "nottingham_admissions_policy_2026_v1_3",
+      "nottingham_foi_historical_guidance"
+    ]
+  },
+  "eligibility": {
+    "mode": "guidance_only_historical_positioning",
+    "requires_eligible_applicant": true,
+    "required_score_scale": {
+      "min": 0,
+      "max": 82
+    },
+    "excluded_score_scales": [
+      {
+        "max": 50,
+        "reason": "Applicants without GCSE or equivalent results use Nottingham's official /50 scale; the supplied FOI ranges are /82 and must not be applied."
+      }
+    ],
+    "sjt_band_4": {
+      "points": 0,
+      "excludes_from_interview": true,
+      "banding_permitted": false
+    },
+    "group_resolution": {
+      "international_fee": "international",
+      "verified_home_contextual_or_widening_participation": "contextual_or_widening_participation",
+      "home_non_contextual": "home_standard",
+      "unknown_or_unverified": "no_guidance_pool"
+    },
+    "historical_guidance_is_admissions_logic": false,
+    "current_or_future_cutoff_available": false
+  },
+  "score_model": {
+    "type": "component_sum",
+    "basis": "Official Nottingham GCSE /32 plus UCAT cognitive /40 plus SJT /10 combined score",
+    "scale": {
+      "min": 0,
+      "max": 82
+    },
+    "official_components": [
+      {
+        "component_id": "gcse_points",
+        "max": 32
+      },
+      {
+        "component_id": "ucat_cognitive_points",
+        "max": 40
+      },
+      {
+        "component_id": "sjt_points",
+        "max": 10
+      }
+    ],
+    "historical_positioning": {
+      "source_type": "FOI",
+      "guidance_only": true,
+      "non_executable_admissions_logic": true,
+      "fixed_cutoff": false,
+      "metric": "selection_score",
+      "range_basis": "cross_cycle_typical_range_shown_in_evidence",
+      "groups": {
+        "home_standard": {
+          "historical_cycles": [
+            {
+              "entry_year": 2024,
+              "min": 68,
+              "max": 70
+            },
+            {
+              "entry_year": 2025,
+              "min": 67,
+              "max": 69
+            },
+            {
+              "entry_year": 2026,
+              "min": 66,
+              "max": 68
+            }
+          ],
+          "typical_range": {
+            "min": 65,
+            "max": 70
+          }
+        },
+        "contextual_or_widening_participation": {
+          "historical_cycles": [
+            {
+              "entry_year": 2024,
+              "min": 62,
+              "max": 64
+            },
+            {
+              "entry_year": 2025,
+              "min": 61,
+              "max": 63
+            },
+            {
+              "entry_year": 2026,
+              "min": 60,
+              "max": 62
+            }
+          ],
+          "typical_range": {
+            "min": 59,
+            "max": 64
+          }
+        },
+        "international": {
+          "historical_cycles": [
+            {
+              "entry_year": 2024,
+              "min": 72,
+              "max": 74
+            },
+            {
+              "entry_year": 2025,
+              "min": 71,
+              "max": 73
+            },
+            {
+              "entry_year": 2026,
+              "min": 70,
+              "max": 72
+            }
+          ],
+          "typical_range": {
+            "min": 70,
+            "max": 75
+          }
+        }
+      },
+      "labels": {
+        "above": "guidance-only: above the supplied historical range",
+        "within": "guidance-only: historically competitive range",
+        "below": "guidance-only: below the supplied historical guidance"
+      },
+      "warnings": [
+        "Nottingham does not publish a fixed interview threshold.",
+        "The threshold changes with applicant numbers and performance each year.",
+        "Historical positioning does not state a current or future interview outcome.",
+        "The FOI ranges must not affect eligibility, ranking, rejection, or offer decisions."
+      ]
+    }
+  },
+  "guidance_pools": [
+    {
+      "pool_id": "international_foi_historical_context",
+      "priority": 30,
+      "applicant_match": {
+        "all_group_ids": [
+          "international_fee"
+        ]
+      },
+      "metric": "selection_score",
+      "band_rules": []
+    },
+    {
+      "pool_id": "verified_home_contextual_or_wp_foi_historical_context",
+      "priority": 20,
+      "applicant_match": {
+        "all_group_ids": [
+          "home_fee"
+        ],
+        "any_group_ids": [
+          "contextual",
+          "widening_participation"
+        ]
+      },
+      "metric": "selection_score",
+      "band_rules": []
+    },
+    {
+      "pool_id": "home_standard_foi_historical_context",
+      "priority": 10,
+      "applicant_match": {
+        "all_group_ids": [
+          "home_fee"
+        ],
+        "excluded_group_ids": [
+          "contextual",
+          "widening_participation"
+        ]
+      },
+      "metric": "selection_score",
+      "band_rules": []
+    }
+  ]
+}

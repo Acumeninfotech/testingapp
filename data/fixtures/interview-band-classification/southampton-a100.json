@@ -1,0 +1,643 @@
+{
+  "schema_version": "1.0.0",
+  "course_profile_id": "southampton-a100",
+  "base_applicant": {
+    "profile_id": "southampton_a100_base_applicant",
+    "label": "Southampton BM5 A100 Home A-level school-leaver",
+    "applicant_identity": {
+      "applicant_type": "standard_school_leaver",
+      "fee_status": "Home",
+      "domicile": "England",
+      "contextual": false,
+      "widening_participation": false,
+      "graduate": false,
+      "resit": {
+        "has_resits": false
+      }
+    },
+    "course_target": {
+      "discipline": "medicine",
+      "ucas_code": "A100",
+      "course_route": "standard",
+      "entry_route": "standard_entry"
+    },
+    "qualification_route": "a_level",
+    "gcse_profile": {
+      "subjects": {
+        "english_language": "6",
+        "mathematics": "6",
+        "biology": "6",
+        "chemistry": "6",
+        "physics": "6",
+        "history": "6",
+        "geography": "6"
+      },
+      "additional_subjects": [],
+      "total_gcse_count": 7
+    },
+    "a_level_profile": {
+      "subjects": [
+        {
+          "subject_id": "biology",
+          "predicted_grade": "A",
+          "sitting_status": "first_sitting",
+          "practical_endorsement": "pass"
+        },
+        {
+          "subject_id": "chemistry",
+          "predicted_grade": "A",
+          "sitting_status": "first_sitting",
+          "practical_endorsement": "pass"
+        },
+        {
+          "subject_id": "mathematics",
+          "predicted_grade": "A",
+          "sitting_status": "first_sitting"
+        }
+      ],
+      "sitting_status": "first_sitting"
+    },
+    "admissions_tests": {
+      "ucat": {
+        "total_score": 2200,
+        "score_scale": 2700,
+        "sjt_band": 2,
+        "test_year": 2026,
+        "subtests": {
+          "verbal_reasoning": 730,
+          "decision_making": 735,
+          "quantitative_reasoning": 735
+        }
+      }
+    },
+    "application_year": 2026,
+    "graduate_profile": {
+      "is_graduate": false,
+      "degree_classification": null
+    }
+  },
+  "scenarios": [
+    {
+      "scenario_id": "high_ucat_home_applicant",
+      "overrides": {},
+      "expected": {
+        "eligibility_status": "eligible",
+        "guidance_pool_id": "home_a100",
+        "interview_band": "interview_likely",
+        "failure": null
+      }
+    },
+    {
+      "scenario_id": "borderline_home_applicant",
+      "overrides": {
+        "admissions_tests": {
+          "ucat": {
+            "total_score": 2090,
+            "subtests": {
+              "verbal_reasoning": 696,
+              "decision_making": 697,
+              "quantitative_reasoning": 697
+            }
+          }
+        }
+      },
+      "expected": {
+        "eligibility_status": "eligible",
+        "guidance_pool_id": "home_a100",
+        "interview_band": "realistic",
+        "failure": null
+      }
+    },
+    {
+      "scenario_id": "low_ucat_home_applicant",
+      "overrides": {
+        "admissions_tests": {
+          "ucat": {
+            "total_score": 1900,
+            "subtests": {
+              "verbal_reasoning": 633,
+              "decision_making": 633,
+              "quantitative_reasoning": 634
+            }
+          }
+        }
+      },
+      "expected": {
+        "eligibility_status": "eligible",
+        "guidance_pool_id": "home_a100",
+        "interview_band": "realistic",
+        "failure": null
+      }
+    },
+    {
+      "scenario_id": "international_applicant",
+      "overrides": {
+        "applicant_identity": {
+          "applicant_type": "international_standard_school_leaver",
+          "fee_status": "International",
+          "domicile": "International",
+          "english_language_exempt": true
+        },
+        "admissions_tests": {
+          "ucat": {
+            "total_score": 2140,
+            "subtests": {
+              "verbal_reasoning": 713,
+              "decision_making": 713,
+              "quantitative_reasoning": 714
+            }
+          }
+        }
+      },
+      "expected": {
+        "eligibility_status": "eligible",
+        "guidance_pool_id": "international_a100",
+        "interview_band": "insufficient_evidence",
+        "failure": null
+      }
+    },
+    {
+      "scenario_id": "graduate_applicant",
+      "overrides": {
+        "qualification_route": "graduate",
+        "applicant_identity": {
+          "applicant_type": "graduate",
+          "graduate": true
+        },
+        "graduate_profile": {
+          "is_graduate": true,
+          "degree_classification": "2_1"
+        },
+        "a_level_profile": null,
+        "admissions_tests": {
+          "ucat": {
+            "total_score": 2200,
+            "subtests": {
+              "verbal_reasoning": 733,
+              "decision_making": 733,
+              "quantitative_reasoning": 734
+            }
+          }
+        }
+      },
+      "expected": {
+        "eligibility_status": "eligible",
+        "guidance_pool_id": "home_a100",
+        "interview_band": "interview_likely",
+        "failure": null
+      }
+    },
+    {
+      "scenario_id": "graduate_2_1_insufficient_gcse_not_eligible",
+      "overrides": {
+        "qualification_route": "graduate",
+        "applicant_identity": {
+          "applicant_type": "graduate",
+          "graduate": true
+        },
+        "graduate_profile": {
+          "is_graduate": true,
+          "degree_classification": "2_1"
+        },
+        "a_level_profile": null,
+        "gcse_profile": {
+          "subjects": {
+            "english_language": "6",
+            "mathematics": "6",
+            "biology": "6",
+            "chemistry": "6",
+            "physics": "6",
+            "history": "5",
+            "geography": "5"
+          },
+          "total_gcse_count": 7
+        }
+      },
+      "expected": {
+        "eligibility_status": "not_eligible",
+        "guidance_pool_id": null,
+        "interview_band": "not_eligible",
+        "failure": "minimum_gcse_count_at_grade_not_met:seven_gcse_at_grade_6_or_b"
+      }
+    },
+    {
+      "scenario_id": "graduate_below_minimum_degree_not_eligible",
+      "overrides": {
+        "qualification_route": "graduate",
+        "applicant_identity": {
+          "applicant_type": "graduate",
+          "graduate": true
+        },
+        "graduate_profile": {
+          "is_graduate": true,
+          "degree_classification": "2_2",
+          "postgraduate_qualification": "masters",
+          "postgraduate_achieved_or_predicted": true
+        },
+        "a_level_profile": null
+      },
+      "expected": {
+        "eligibility_status": "not_eligible",
+        "guidance_pool_id": null,
+        "interview_band": "not_eligible",
+        "failure": "graduate_degree_requirements_not_met"
+      }
+    },
+    {
+      "scenario_id": "school_leaver_no_a_levels_not_eligible",
+      "overrides": {
+        "a_level_profile": null
+      },
+      "expected": {
+        "eligibility_status": "not_eligible",
+        "guidance_pool_id": null,
+        "interview_band": "not_eligible",
+        "failure": "a_level_requirements_not_met"
+      }
+    },
+    {
+      "scenario_id": "contextual_applicant",
+      "overrides": {
+        "applicant_identity": {
+          "contextual": true,
+          "widening_participation": true,
+          "contextual_flags": {
+            "care_experienced": true,
+            "free_school_meals": true
+          }
+        },
+        "a_level_profile": {
+          "subjects": [
+            {
+              "subject_id": "biology",
+              "predicted_grade": "A",
+              "sitting_status": "first_sitting",
+              "practical_endorsement": "pass"
+            },
+            {
+              "subject_id": "chemistry",
+              "predicted_grade": "A",
+              "sitting_status": "first_sitting",
+              "practical_endorsement": "pass"
+            },
+            {
+              "subject_id": "mathematics",
+              "predicted_grade": "B",
+              "sitting_status": "first_sitting"
+            }
+          ]
+        },
+        "admissions_tests": {
+          "ucat": {
+            "total_score": 2090,
+            "subtests": {
+              "verbal_reasoning": 696,
+              "decision_making": 697,
+              "quantitative_reasoning": 697
+            }
+          }
+        }
+      },
+      "expected": {
+        "eligibility_status": "eligible",
+        "guidance_pool_id": "home_a100",
+        "interview_band": "realistic",
+        "failure": null
+      }
+    },
+    {
+      "scenario_id": "scottish_applicant",
+      "overrides": {
+        "qualification_route": "scottish",
+        "applicant_identity": {
+          "domicile": "Scotland"
+        },
+        "scottish_profile": {
+          "national_5_subjects": [
+            {
+              "subject_id": "english_language",
+              "grade": "B"
+            },
+            {
+              "subject_id": "mathematics",
+              "grade": "B"
+            }
+          ],
+          "higher_subjects": [
+            {
+              "subject_id": "biology",
+              "grade": "A"
+            },
+            {
+              "subject_id": "chemistry",
+              "grade": "A"
+            },
+            {
+              "subject_id": "physics",
+              "grade": "A"
+            },
+            {
+              "subject_id": "mathematics",
+              "grade": "A"
+            },
+            {
+              "subject_id": "english_language",
+              "grade": "B"
+            }
+          ]
+        },
+        "admissions_tests": {
+          "ucat": {
+            "total_score": 2000,
+            "subtests": {
+              "verbal_reasoning": 666,
+              "decision_making": 667,
+              "quantitative_reasoning": 667
+            }
+          }
+        }
+      },
+      "expected": {
+        "eligibility_status": "eligible",
+        "guidance_pool_id": "home_a100",
+        "interview_band": "realistic",
+        "failure": null
+      }
+    },
+    {
+      "scenario_id": "ib_applicant",
+      "overrides": {
+        "qualification_route": "international_baccalaureate",
+        "ib_profile": {
+          "total_points": 36,
+          "higher_level_total_points": 18,
+          "higher_level_subjects": [
+            {
+              "subject_id": "biology",
+              "higher_level_grade": "6"
+            },
+            {
+              "subject_id": "chemistry",
+              "higher_level_grade": "6"
+            },
+            {
+              "subject_id": "history",
+              "higher_level_grade": "6"
+            }
+          ]
+        },
+        "admissions_tests": {
+          "ucat": {
+            "total_score": 2000,
+            "subtests": {
+              "verbal_reasoning": 666,
+              "decision_making": 667,
+              "quantitative_reasoning": 667
+            }
+          }
+        }
+      },
+      "expected": {
+        "eligibility_status": "eligible",
+        "guidance_pool_id": "home_a100",
+        "interview_band": "realistic",
+        "failure": null
+      }
+    },
+    {
+      "scenario_id": "applicant_missing_gcse_requirement",
+      "overrides": {
+        "gcse_profile": {
+          "subjects": {
+            "english_language": "5",
+            "mathematics": "6",
+            "biology": "6",
+            "chemistry": "6",
+            "physics": "6",
+            "history": "6",
+            "geography": "6"
+          },
+          "total_gcse_count": 7
+        }
+      },
+      "expected": {
+        "eligibility_status": "not_eligible",
+        "guidance_pool_id": null,
+        "interview_band": "not_eligible",
+        "failure": "minimum_gcse_count_at_grade_not_met:seven_gcse_at_grade_6_or_b"
+      }
+    },
+    {
+      "scenario_id": "applicant_missing_biology",
+      "overrides": {
+        "a_level_profile": {
+          "subjects": [
+            {
+              "subject_id": "chemistry",
+              "predicted_grade": "A",
+              "sitting_status": "first_sitting",
+              "practical_endorsement": "pass"
+            },
+            {
+              "subject_id": "physics",
+              "predicted_grade": "A",
+              "sitting_status": "first_sitting",
+              "practical_endorsement": "pass"
+            },
+            {
+              "subject_id": "mathematics",
+              "predicted_grade": "A",
+              "sitting_status": "first_sitting"
+            }
+          ]
+        }
+      },
+      "expected": {
+        "eligibility_status": "not_eligible",
+        "guidance_pool_id": null,
+        "interview_band": "not_eligible",
+        "failure": "a_level_requirements_not_met"
+      }
+    },
+    {
+      "scenario_id": "applicant_failing_practical_endorsement",
+      "overrides": {
+        "a_level_profile": {
+          "subjects": [
+            {
+              "subject_id": "biology",
+              "predicted_grade": "A",
+              "sitting_status": "first_sitting",
+              "practical_endorsement": "fail"
+            },
+            {
+              "subject_id": "chemistry",
+              "predicted_grade": "A",
+              "sitting_status": "first_sitting",
+              "practical_endorsement": "pass"
+            },
+            {
+              "subject_id": "mathematics",
+              "predicted_grade": "A",
+              "sitting_status": "first_sitting"
+            }
+          ]
+        }
+      },
+      "expected": {
+        "eligibility_status": "not_eligible",
+        "guidance_pool_id": null,
+        "interview_band": "not_eligible",
+        "failure": "science_practical_endorsement_not_confirmed:biology"
+      }
+    },
+    {
+      "scenario_id": "applicant_with_sjt_band_4",
+      "overrides": {
+        "admissions_tests": {
+          "ucat": {
+            "sjt_band": 4
+          }
+        }
+      },
+      "expected": {
+        "eligibility_status": "eligible",
+        "guidance_pool_id": "home_a100",
+        "interview_band": "interview_likely",
+        "failure": null
+      }
+    },
+    {
+      "scenario_id": "perfect_academics_low_ucat",
+      "overrides": {
+        "gcse_profile": {
+          "subjects": {
+            "english_language": "9",
+            "mathematics": "9",
+            "biology": "9",
+            "chemistry": "9",
+            "physics": "9",
+            "history": "9",
+            "geography": "9"
+          },
+          "total_gcse_count": 7
+        },
+        "a_level_profile": {
+          "subjects": [
+            {
+              "subject_id": "biology",
+              "predicted_grade": "A*",
+              "sitting_status": "first_sitting",
+              "practical_endorsement": "pass"
+            },
+            {
+              "subject_id": "chemistry",
+              "predicted_grade": "A*",
+              "sitting_status": "first_sitting",
+              "practical_endorsement": "pass"
+            },
+            {
+              "subject_id": "mathematics",
+              "predicted_grade": "A*",
+              "sitting_status": "first_sitting"
+            }
+          ]
+        },
+        "admissions_tests": {
+          "ucat": {
+            "total_score": 1899,
+            "subtests": {
+              "verbal_reasoning": 633,
+              "decision_making": 633,
+              "quantitative_reasoning": 633
+            }
+          }
+        }
+      },
+      "expected": {
+        "eligibility_status": "eligible",
+        "guidance_pool_id": "home_a100",
+        "interview_band": "high_risk",
+        "failure": null
+      }
+    },
+    {
+      "scenario_id": "average_academics_excellent_ucat",
+      "overrides": {
+        "admissions_tests": {
+          "ucat": {
+            "total_score": 2300,
+            "subtests": {
+              "verbal_reasoning": 766,
+              "decision_making": 767,
+              "quantitative_reasoning": 767
+            }
+          }
+        }
+      },
+      "expected": {
+        "eligibility_status": "eligible",
+        "guidance_pool_id": "home_a100",
+        "interview_band": "interview_likely",
+        "failure": null
+      }
+    }
+  ],
+  "historical_guidance_boundaries": [
+    {
+      "pool": "home",
+      "ucat_total": 1899,
+      "expected_band": "high_risk"
+    },
+    {
+      "pool": "home",
+      "ucat_total": 1900,
+      "expected_band": "realistic"
+    },
+    {
+      "pool": "home",
+      "ucat_total": 1999,
+      "expected_band": "realistic"
+    },
+    {
+      "pool": "home",
+      "ucat_total": 2099,
+      "expected_band": "realistic"
+    },
+    {
+      "pool": "home",
+      "ucat_total": 2100,
+      "expected_band": "realistic"
+    },
+    {
+      "pool": "home",
+      "ucat_total": 2199,
+      "expected_band": "realistic"
+    },
+    {
+      "pool": "home",
+      "ucat_total": 2200,
+      "expected_band": "interview_likely"
+    },
+    {
+      "pool": "home",
+      "ucat_total": 2300,
+      "expected_band": "interview_likely"
+    },
+    {
+      "pool": "home",
+      "ucat_total": 2400,
+      "expected_band": "interview_likely"
+    },
+    {
+      "pool": "home",
+      "ucat_total": 2700,
+      "expected_band": "interview_likely"
+    },
+    {
+      "pool": "international",
+      "ucat_total": 2400,
+      "expected_band": "insufficient_evidence"
+    }
+  ]
+}

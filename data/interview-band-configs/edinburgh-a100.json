@@ -1,0 +1,327 @@
+{
+  "schema_version": "1.0.0",
+  "course_profile_id": "edinburgh-a100",
+  "confidence": "high",
+  "evidence": {
+    "classification": "official_formula_with_verified_international_historical_guidance",
+    "summary": "Official pre-assessment formula with a separate verified international pool and historical international UCAT competitiveness guidance. Edinburgh ranks international applicants by total pre-interview score, not UCAT alone, and publishes no fixed interview cut-off.",
+    "source_ids": [
+      "edinburgh_entry_requirements_2027",
+      "edinburgh_ucat_2027",
+      "edinburgh_pre_assessment_day_scoring_process",
+      "edinburgh_admissions_stats_2025_pdf",
+      "edinburgh_foi_formula_evidence",
+      "edinburgh_verified_international_admissions_evidence"
+    ]
+  },
+  "eligibility": {},
+  "score_model": {
+    "type": "component_sum",
+    "basis": "Official Edinburgh pre-assessment score with historical UCAT decile estimate",
+    "scale": {
+      "min": 0,
+      "max": 40
+    },
+    "international_model": {
+      "applies_to_group_ids": [
+        "international_fee"
+      ],
+      "separate_ranking_pool": true,
+      "pre_interview_scale": {
+        "min": 0,
+        "max": 40
+      },
+      "components": [
+        {
+          "component_id": "international_academic_score",
+          "max": 20,
+          "hard_cap": 20,
+          "final_calculation": "min(qualification_specific_score_after_all_weighting_bonuses_and_subject_adjustments, 20)",
+          "final_weight_percent": 25
+        },
+        {
+          "component_id": "international_ucat_cognitive_score",
+          "max": 14,
+          "final_weight_percent": 17.5,
+          "ranking_basis": "international_cohort_deciles"
+        },
+        {
+          "component_id": "international_sjt_score",
+          "max": 6,
+          "final_weight_percent": 7.5,
+          "band_4_automatic_rejection": true,
+          "points_by_band": {
+            "1": 6,
+            "2": 4.5,
+            "3": 3,
+            "4": 0
+          },
+          "exact_points_evidence_classification": "foi_verified"
+        }
+      ],
+      "assessment_day_max": 40,
+      "assessment_day_final_weight_percent": 50,
+      "final_total_max": 80,
+      "fixed_published_interview_cutoff": false,
+      "notes": "Historical UCAT bands support guidance only; total pre-interview score determines international rank."
+    },
+    "components": [
+      {
+        "component_id": "academic_score",
+        "type": "academic_profile_matrix",
+        "max": 20,
+        "hard_cap": 20,
+        "final_calculation": "min(qualification_specific_score_after_all_weighting_bonuses_and_subject_adjustments, 20)",
+        "gcse": {
+          "subject_count": 8,
+          "bands": [
+            {
+              "band_id": "all_8_9",
+              "all_minimum_grade": "8",
+              "points": 12
+            },
+            {
+              "band_id": "all_7_plus_five_8_9",
+              "all_minimum_grade": "7",
+              "minimum_count_at_or_above": {
+                "grade": "8",
+                "count": 5
+              },
+              "points": 10
+            },
+            {
+              "band_id": "all_7_plus",
+              "all_minimum_grade": "7",
+              "points": 8
+            },
+            {
+              "band_id": "all_6_plus",
+              "all_minimum_grade": "6",
+              "points": 4
+            }
+          ]
+        },
+        "a_level": {
+          "bands": [
+            {
+              "band_id": "two_astars_chemistry_astar",
+              "minimum_profile": [
+                "A*",
+                "A*",
+                "A"
+              ],
+              "minimum_astar_count": 2,
+              "subject_minimum_grade": {
+                "subject_id": "chemistry",
+                "grade": "A*"
+              },
+              "points": 8
+            },
+            {
+              "band_id": "two_astars",
+              "minimum_profile": [
+                "A*",
+                "A*",
+                "A"
+              ],
+              "minimum_astar_count": 2,
+              "points": 6
+            },
+            {
+              "band_id": "one_astar_chemistry_astar",
+              "minimum_profile": [
+                "A*",
+                "A",
+                "A"
+              ],
+              "minimum_astar_count": 1,
+              "subject_minimum_grade": {
+                "subject_id": "chemistry",
+                "grade": "A*"
+              },
+              "points": 5
+            },
+            {
+              "band_id": "one_astar",
+              "minimum_profile": [
+                "A*",
+                "A",
+                "A"
+              ],
+              "minimum_astar_count": 1,
+              "points": 3
+            },
+            {
+              "band_id": "aaa",
+              "minimum_profile": [
+                "A",
+                "A",
+                "A"
+              ],
+              "points": 2
+            }
+          ]
+        }
+      },
+      {
+        "component_id": "ucat_decile_score",
+        "type": "ucat_range_lookup",
+        "ranges": [
+          {
+            "band": 1,
+            "min": 0,
+            "max": 1755
+          },
+          {
+            "band": 2,
+            "min": 1763,
+            "max": 1853
+          },
+          {
+            "band": 3,
+            "min": 1860,
+            "max": 1905
+          },
+          {
+            "band": 4,
+            "min": 1913,
+            "max": 1950
+          },
+          {
+            "band": 5,
+            "min": 1958,
+            "max": 1995
+          },
+          {
+            "band": 6,
+            "min": 2003,
+            "max": 2048
+          },
+          {
+            "band": 7,
+            "min": 2055,
+            "max": 2115
+          },
+          {
+            "band": 8,
+            "min": 2123,
+            "max": 2190
+          },
+          {
+            "band": 9,
+            "min": 2198,
+            "max": 2303
+          },
+          {
+            "band": 10,
+            "min": 2310,
+            "max": 2700
+          }
+        ],
+        "gap_policy": "nearest_range",
+        "points_by_band": {
+          "1": 1.4,
+          "2": 2.8,
+          "3": 4.2,
+          "4": 5.6,
+          "5": 7,
+          "6": 8.4,
+          "7": 9.8,
+          "8": 11.2,
+          "9": 12.6,
+          "10": 14
+        },
+        "max": 14
+      },
+      {
+        "component_id": "sjt_score",
+        "type": "sjt_band_lookup",
+        "points_by_band": {
+          "1": 6,
+          "2": 4.5,
+          "3": 3,
+          "4": 0
+        },
+        "max": 6,
+        "evidence_classification": "foi_verified",
+        "source_ids": [
+          "edinburgh_foi_formula_evidence"
+        ],
+        "public_source_note": "The public University page confirms SJT contributes 7.5% and Band 4 is automatically rejected; the exact Band 1–3 values are verified FOI evidence."
+      }
+    ]
+  },
+  "guidance_pools": [
+    {
+      "pool_id": "international",
+      "priority": 100,
+      "applicant_match": {
+        "all_group_ids": [
+          "international_fee"
+        ]
+      },
+      "metric": "ucat_total",
+      "band_rules": [
+        {
+          "band": "interview_likely",
+          "operator": "greater_than_or_equal",
+          "value": 2100
+        },
+        {
+          "band": "realistic",
+          "operator": "between_inclusive",
+          "min": 2050,
+          "max": 2099
+        },
+        {
+          "band": "ambitious",
+          "operator": "between_inclusive",
+          "min": 1950,
+          "max": 2049
+        },
+        {
+          "band": "high_risk",
+          "operator": "between_inclusive",
+          "min": 1650,
+          "max": 1949
+        }
+      ]
+    },
+    {
+      "pool_id": "home_rest_of_uk_school_leaver",
+      "priority": 10,
+      "applicant_match": {
+        "all_group_ids": [
+          "home_fee",
+          "rest_of_uk",
+          "school_leaver"
+        ]
+      },
+      "metric": "selection_score",
+      "band_rules": [
+        {
+          "band": "interview_likely",
+          "operator": "greater_than_or_equal",
+          "value": 30
+        },
+        {
+          "band": "realistic",
+          "operator": "between_inclusive",
+          "min": 25,
+          "max": 29.99
+        },
+        {
+          "band": "ambitious",
+          "operator": "between_inclusive",
+          "min": 22,
+          "max": 24.99
+        },
+        {
+          "band": "high_risk",
+          "operator": "less_than",
+          "value": 22
+        }
+      ]
+    }
+  ]
+}

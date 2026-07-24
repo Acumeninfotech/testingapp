@@ -1,0 +1,97 @@
+{
+  "schema_version": "1.0.0",
+  "course_profile_id": "glasgow-a100",
+  "confidence": "medium",
+  "evidence": {
+    "classification": "official_ucat_ranking_with_verified_international_historical_guidance",
+    "summary": "Official UCAT-only interview ranking after academic screening, with a separate international pool and verified historical international invited-score guidance. The guidance is not a fixed UCAT cut-off.",
+    "source_ids": [
+      "glasgow_degree_page_2027",
+      "glasgow_ucat_2027",
+      "glasgow_admissions_procedures_2026_pdf",
+      "glasgow_verified_international_admissions_evidence"
+    ]
+  },
+  "eligibility": {},
+  "score_model": {
+    "type": "ranking_metric",
+    "basis": "Official UCAT cognitive total ranking input",
+    "metric": "ucat_total",
+    "scale": {
+      "min": 0,
+      "max": 2700
+    }
+  },
+  "guidance_pools": [
+    {
+      "pool_id": "international",
+      "priority": 100,
+      "applicant_match": {
+        "all_group_ids": [
+          "international_fee"
+        ]
+      },
+      "metric": "ucat_total",
+      "band_rules": [
+        {
+          "band": "interview_likely",
+          "operator": "greater_than_or_equal",
+          "value": 2100
+        },
+        {
+          "band": "realistic",
+          "operator": "between_inclusive",
+          "min": 2050,
+          "max": 2099
+        },
+        {
+          "band": "ambitious",
+          "operator": "between_inclusive",
+          "min": 2025,
+          "max": 2049
+        },
+        {
+          "band": "high_risk",
+          "operator": "less_than",
+          "value": 2025
+        }
+      ]
+    },
+    {
+      "pool_id": "home_rest_of_uk_school_leaver",
+      "priority": 10,
+      "applicant_match": {
+        "all_group_ids": [
+          "home_fee",
+          "rest_of_uk",
+          "school_leaver"
+        ]
+      },
+      "metric": "ucat_total",
+      "band_rules": [
+        {
+          "band": "interview_likely",
+          "operator": "greater_than_or_equal",
+          "value": 2100
+        },
+        {
+          "band": "realistic",
+          "operator": "between_inclusive",
+          "min": 1950,
+          "max": 2099
+        },
+        {
+          "band": "ambitious",
+          "operator": "between_inclusive",
+          "min": 1800,
+          "max": 1949
+        },
+        {
+          "band": "high_risk",
+          "operator": "less_than",
+          "value": 1800
+        }
+      ]
+    }
+  ]
+}

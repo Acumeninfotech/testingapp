@@ -1,0 +1,2192 @@
+{
+  "schema_version": "1.0.0",
+  "profile_id": "glasgow-a100",
+  "profile_status": "official_and_foi_evidence_implemented_deterministic_prediction_blocked",
+  "verification_status": "official_and_foi_verified",
+  "last_updated": "2026-07-02",
+  "university": {
+    "name": "University of Glasgow",
+    "slug": "glasgow",
+    "country": "United Kingdom",
+    "nation": "Scotland",
+    "institution_type": "Unknown",
+    "website_url": "https://www.gla.ac.uk"
+  },
+  "course": {
+    "name": "Medicine MBChB",
+    "ucas_code": "A100",
+    "entry_route": "standard_entry",
+    "qualification_awarded": "MBChB",
+    "duration_years": 5,
+    "campus": "Glasgow: Gilmorehill campus",
+    "location": "Glasgow, Scotland",
+    "entry_year": 2027,
+    "fee_statuses": [
+      "home",
+      "rest_of_uk",
+      "international"
+    ],
+    "is_gateway_or_foundation": false,
+    "is_graduate_entry": false,
+    "notes": "Graduate applicants may apply to A100 if Glasgow's published degree and recency requirements are met, but this is not a graduate-entry course."
+  },
+  "medical_school": {
+    "name": "School of Medicine, Dentistry & Nursing",
+    "source_ids": [
+      "glasgow_degree_page_2027",
+      "glasgow_mbchb_admissions"
+    ]
+  },
+  "applicant_pools": [
+    {
+      "pool_id": "scotland_home",
+      "name": "Scots domiciled / Home applicants",
+      "applies_to_group_ids": [
+        "home_fee",
+        "scotland_domiciled"
+      ],
+      "selection_relevance": "UCAT thresholds may vary by applicant group.",
+      "future_quota_or_capacity": null,
+      "source_ids": [
+        "glasgow_ucat_2027",
+        "glasgow_admissions_data_2022_2025_pdf"
+      ],
+      "notes": "Future fixed quota is not published in the official evidence reviewed."
+    },
+    {
+      "pool_id": "rest_of_uk",
+      "name": "Rest of UK applicants",
+      "applies_to_group_ids": [
+        "rest_of_uk"
+      ],
+      "selection_relevance": "UCAT thresholds may vary by applicant group.",
+      "future_quota_or_capacity": null,
+      "source_ids": [
+        "glasgow_ucat_2027",
+        "glasgow_admissions_data_2022_2025_pdf"
+      ],
+      "notes": "Future fixed quota is not published in the official evidence reviewed."
+    },
+    {
+      "pool_id": "international",
+      "name": "International / EU applicants",
+      "applies_to_group_ids": [
+        "international_fee"
+      ],
+      "selection_relevance": "International applicants are ranked separately by UCAT cognitive total and compete only against other international applicants. The international threshold and interview quota are set for this pool.",
+      "future_quota_or_capacity": null,
+      "source_ids": [
+        "glasgow_ucat_2027",
+        "glasgow_international_entry_requirements",
+        "glasgow_admissions_data_2022_2025_pdf",
+        "glasgow_verified_international_admissions_evidence"
+      ],
+      "notes": "Official historical statistics group International and EU together. No contextual uplift applies to international applicants, and no pre-published fixed UCAT threshold is stored."
+    },
+    {
+      "pool_id": "graduate_applicant",
+      "name": "Graduate applicants",
+      "applies_to_group_ids": [
+        "graduate_applicant"
+      ],
+      "selection_relevance": "Graduate applicants must meet Glasgow's degree and subject-recency rules and complete UCAT.",
+      "future_quota_or_capacity": null,
+      "source_ids": [
+        "glasgow_degree_page_2027"
+      ],
+      "notes": "No separate graduate quota is published in the official evidence reviewed."
+    },
+    {
+      "pool_id": "contextual_widening_access",
+      "name": "Contextual / widening participation applicants",
+      "applies_to_group_ids": [
+        "contextual",
+        "widening_participation",
+        "care_experienced"
+      ],
+      "selection_relevance": "Adjusted Scottish entry requirements and separate contextual UCAT shortlisting apply where official criteria are met.",
+      "future_quota_or_capacity": null,
+      "source_ids": [
+        "glasgow_degree_page_2027",
+        "glasgow_adjusted_offers",
+        "glasgow_reach_programme",
+        "glasgow_contextual_ucat_verified_research"
+      ],
+      "notes": "Eligible Scottish-domiciled contextual applicants are ranked by unchanged raw UCAT in a separate group against a lower dynamic threshold."
+    }
+  ],
+  "applies_to_group_ids": [
+    "home_fee",
+    "scotland_domiciled",
+    "rest_of_uk",
+    "international_fee",
+    "school_leaver",
+    "graduate_applicant",
+    "contextual",
+    "widening_participation",
+    "care_experienced"
+  ],
+  "stage_1_eligibility": {
+    "verification_status": "official_source_verified",
+    "source_ids": [
+      "glasgow_degree_page_2027",
+      "glasgow_ucat_2027",
+      "glasgow_admissions_procedures_2026_pdf",
+      "glasgow_international_entry_requirements",
+      "glasgow_adjusted_offers",
+      "glasgow_reach_programme"
+    ],
+    "overall_policy": {
+      "status": "partially_verified",
+      "description": "Glasgow publishes 2027 A100 academic requirements, UCAT requirements, SJT policy, graduate applicant policy, resit policy and contextual Scottish adjusted requirements. Official UCAT-only ranking and historical applicant-group thresholds support medium-confidence interview guidance without a live cutoff; offer prediction remains unavailable.",
+      "not_eligible_if": [
+        "Required academic criteria are not fulfilled.",
+        "UCAT is not sat by the required deadline in the year of application.",
+        "The applicant is screened out by non-academic suitability checks, personal statement or reference review.",
+        "Required grades and subjects are not obtained at one sitting and first attempt, unless Glasgow accepts documented extenuating circumstances."
+      ],
+      "source_ids": [
+        "glasgow_degree_page_2027",
+        "glasgow_ucat_2027",
+        "glasgow_admissions_procedures_2026_pdf"
+      ]
+    },
+    "gcse": {
+      "status": "partially_verified",
+      "source_ids": [
+        "glasgow_degree_page_2027"
+      ],
+      "minimum_count": null,
+      "counted_subject_limit": null,
+      "mandatory_subject_ids": [
+        "english_language"
+      ],
+      "grade_requirements": [
+        {
+          "requirement_id": "gcse_english_language_or_literature_minimum",
+          "applies_to_group_ids": [
+            "school_leaver"
+          ],
+          "subject_id": "english_language",
+          "alternative_subject_ids": [
+            "english_literature"
+          ],
+          "minimum_grade": "B/6",
+          "qualification_level": "gcse",
+          "decision_outcome_if_not_met": "not_eligible",
+          "source_ids": [
+            "glasgow_degree_page_2027"
+          ],
+          "notes": "Official evidence states GCSE English Literature or English Language at Grade B/6."
+        },
+        {
+          "requirement_id": "gcse_biology_if_not_a_level_biology",
+          "applies_to_group_ids": [
+            "school_leaver"
+          ],
+          "subject_id": "biology",
+          "minimum_grade": "B/6",
+          "qualification_level": "gcse",
+          "condition": {
+            "field": "a_level.subject_ids",
+            "operator": "not_includes",
+            "value": "biology"
+          },
+          "decision_outcome_if_not_met": "not_eligible",
+          "source_ids": [
+            "glasgow_degree_page_2027"
+          ],
+          "notes": "Official evidence states GCSE Biology at B/6 is required if Biology is not studied at A-level."
+        }
+      ],
+      "accepted_equivalencies": [
+        {
+          "equivalency_id": "igcse_english_language_or_literature",
+          "value": "IGCSE English Literature or English Language at Grade B/6 is accepted where applicable.",
+          "source_ids": [
+            "glasgow_degree_page_2027"
+          ]
+        }
+      ],
+      "sitting_policy": "one_sitting_first_attempt_for_required_qualifications",
+      "achieved_or_predicted": "achieved_or_predicted",
+      "notes": "Official evidence reviewed does not publish a GCSE Mathematics requirement, a total GCSE count, or a top GCSE count for A100."
+    },
+    "national_5": {
+      "status": "official_and_research_team_verified",
+      "source_ids": [
+        "glasgow_degree_page_2027",
+        "glasgow_contextual_ucat_verified_research"
+      ],
+      "grade_requirements": [
+        {
+          "requirement_id": "national_5_english_minimum",
+          "applies_to_group_ids": [
+            "scotland_domiciled"
+          ],
+          "subject_id": "english_language",
+          "minimum_grade": "B",
+          "qualification_level": "national_5",
+          "decision_outcome_if_not_met": "not_eligible",
+          "source_ids": [
+            "glasgow_degree_page_2027"
+          ],
+          "notes": "National 5 English at grade B or above."
+        },
+        {
+          "requirement_id": "national_5_mathematics_minimum",
+          "applies_to_group_ids": [
+            "scotland_domiciled"
+          ],
+          "subject_id": "mathematics",
+          "minimum_grade": "B",
+          "qualification_level": "national_5",
+          "decision_outcome_if_not_met": "not_eligible",
+          "source_ids": [
+            "glasgow_contextual_ucat_verified_research"
+          ],
+          "notes": "Verified expanded research requirement."
+        },
+        {
+          "requirement_id": "national_5_biology_minimum",
+          "applies_to_group_ids": [
+            "scotland_domiciled"
+          ],
+          "subject_id": "biology",
+          "minimum_grade": "B",
+          "qualification_level": "national_5",
+          "decision_outcome_if_not_met": "not_eligible",
+          "source_ids": [
+            "glasgow_contextual_ucat_verified_research"
+          ],
+          "notes": "Verified expanded research requirement."
+        },
+        {
+          "requirement_id": "national_5_chemistry_minimum",
+          "applies_to_group_ids": [
+            "scotland_domiciled"
+          ],
+          "subject_id": "chemistry",
+          "minimum_grade": "B",
+          "qualification_level": "national_5",
+          "decision_outcome_if_not_met": "not_eligible",
+          "source_ids": [
+            "glasgow_contextual_ucat_verified_research"
+          ],
+          "notes": "Verified expanded research requirement."
+        },
+        {
+          "requirement_id": "national_5_physics_minimum",
+          "applies_to_group_ids": [
+            "scotland_domiciled"
+          ],
+          "subject_id": "physics",
+          "minimum_grade": "B",
+          "qualification_level": "national_5",
+          "decision_outcome_if_not_met": "not_eligible",
+          "source_ids": [
+            "glasgow_contextual_ucat_verified_research"
+          ],
+          "notes": "Verified expanded research requirement."
+        }
+      ],
+      "notes": "Required National 5 subjects are English, Mathematics, Biology, Chemistry and Physics, each at grade B or above."
+    },
+    "post_16": {
+      "status": "official_source_verified",
+      "source_ids": [
+        "glasgow_degree_page_2027",
+        "glasgow_international_entry_requirements",
+        "glasgow_adjusted_offers",
+        "glasgow_reach_programme"
+      ],
+      "accepted_qualification_types": [
+        "a_level",
+        "ib",
+        "scottish_highers",
+        "advanced_highers",
+        "degree",
+        "other"
+      ],
+      "a_level": {
+        "status": "official_source_verified",
+        "source_ids": [
+          "glasgow_degree_page_2027",
+          "glasgow_international_entry_requirements"
+        ],
+        "grade_requirements": [
+          {
+            "requirement_id": "a_level_uk_standard_offer",
+            "applies_to_group_ids": [
+              "home_fee",
+              "rest_of_uk",
+              "school_leaver"
+            ],
+            "grade_profile": [
+              "A",
+              "A",
+              "A"
+            ],
+            "required_subject_ids": [
+              "chemistry"
+            ],
+            "one_of_subject_groups": [
+              {
+                "group_id": "a_level_second_science_or_maths",
+                "minimum_required": 1,
+                "subject_ids": [
+                  "biology",
+                  "physics",
+                  "mathematics"
+                ],
+                "notes": "One of Biology, Physics or Mathematics is required alongside Chemistry."
+              }
+            ],
+            "decision_outcome_if_not_met": "not_eligible",
+            "source_ids": [
+              "glasgow_degree_page_2027"
+            ],
+            "notes": "UK A-level standard requirement."
+          },
+          {
+            "requirement_id": "a_level_international_standard_offer",
+            "applies_to_group_ids": [
+              "international_fee",
+              "school_leaver"
+            ],
+            "grade_profile": [
+              "A",
+              "A",
+              "A"
+            ],
+            "required_subject_ids": [
+              "chemistry",
+              "biology"
+            ],
+            "one_of_subject_groups": [
+              {
+                "group_id": "a_level_international_third_subject",
+                "minimum_required": 1,
+                "subject_ids": [
+                  "physics",
+                  "mathematics"
+                ],
+                "notes": "International A-level applicants require Chemistry, Biology and one of Physics or Mathematics."
+              }
+            ],
+            "decision_outcome_if_not_met": "not_eligible",
+            "source_ids": [
+              "glasgow_international_entry_requirements"
+            ],
+            "notes": "International A-level subject requirements are stricter than the UK A-level subject combination."
+          }
+        ],
+        "standard_offer": {
+          "grade_profile": [
+            "A",
+            "A",
+            "A"
+          ],
+          "source_ids": [
+            "glasgow_degree_page_2027"
+          ],
+          "notes": "A-level Chemistry and one of Biology, Physics or Mathematics for UK A-level applicants."
+        },
+        "contextual_offer": {
+          "applies_to_group_ids": [],
+          "grade_profile": [],
+          "source_ids": [],
+          "notes": "Official evidence reviewed only confirms adjusted Scottish requirements for Medicine, not an adjusted A-level offer."
+        },
+        "required_subject_ids": [
+          "chemistry"
+        ],
+        "one_of_subject_groups": [
+          {
+            "group_id": "a_level_second_science_or_maths",
+            "minimum_required": 1,
+            "subject_ids": [
+              "biology",
+              "physics",
+              "mathematics"
+            ],
+            "notes": "UK A-level applicants require Chemistry plus one of Biology, Physics or Mathematics."
+          }
+        ],
+        "excluded_subject_ids": [
+          "general_studies"
+        ],
+        "excluded_subject_names": [
+          "General Studies",
+          "Critical Thinking"
+        ],
+        "third_subject_rules": {
+          "policy": "Any third A-level subject is accepted except the stated exclusions.",
+          "excluded_subject_names": [
+            "General Studies",
+            "Critical Thinking"
+          ]
+        },
+        "predicted_grades_accepted": true,
+        "notes": "Required grades and subjects must be obtained at one sitting and at first attempt."
+      },
+      "ib": {
+        "status": "official_source_verified",
+        "source_ids": [
+          "glasgow_degree_page_2027",
+          "glasgow_international_entry_requirements"
+        ],
+        "total_points": 38,
+        "hl_points": "6,6,6",
+        "grade_requirements": [
+          {
+            "requirement_id": "ib_standard_offer",
+            "applies_to_group_ids": [
+              "school_leaver",
+              "international_fee"
+            ],
+            "total_points": 38,
+            "hl_points": "6,6,6",
+            "required_hl_subject_ids": [
+              "chemistry",
+              "biology"
+            ],
+            "one_of_hl_subject_groups": [],
+            "decision_outcome_if_not_met": "not_eligible",
+            "source_ids": [
+              "glasgow_degree_page_2027",
+              "glasgow_international_entry_requirements"
+            ],
+            "notes": "HL Chemistry and Biology required; SL Physics or Mathematics at 6, with HL recommended; SL English at 6."
+          }
+        ],
+        "required_hl_subject_ids": [
+          "chemistry",
+          "biology"
+        ],
+        "one_of_hl_subject_groups": [],
+        "notes": "Official evidence also requires SL Physics or Mathematics at 6 and SL English at 6. These SL requirements are stored in notes because the current course template models HL requirements more directly than SL subject rules."
+      },
+      "scottish": {
+        "status": "official_source_verified",
+        "source_ids": [
+          "glasgow_degree_page_2027",
+          "glasgow_adjusted_offers",
+          "glasgow_reach_programme"
+        ],
+        "higher_offer": {
+          "grade_profile": [
+            "A",
+            "A",
+            "A",
+            "A",
+            "B"
+          ],
+          "source_ids": [
+            "glasgow_degree_page_2027"
+          ],
+          "notes": "AAAAB at Higher in S5."
+        },
+        "advanced_higher_offer": {
+          "grade_profile": [
+            "B",
+            "B"
+          ],
+          "source_ids": [
+            "glasgow_degree_page_2027"
+          ],
+          "notes": "BB at Advanced Higher in S6."
+        },
+        "grade_requirements": [
+          {
+            "requirement_id": "sqa_standard_offer",
+            "applies_to_group_ids": [
+              "scotland_domiciled",
+              "school_leaver"
+            ],
+            "qualification_level": "scottish_highers_and_advanced_highers",
+            "grade_profile": [
+              "AAAAB Higher S5",
+              "BB Advanced Higher S6"
+            ],
+            "required_subject_ids": [
+              "chemistry",
+              "biology"
+            ],
+            "one_of_subject_groups": [
+              {
+                "group_id": "sqa_physics_or_maths",
+                "minimum_required": 1,
+                "subject_ids": [
+                  "physics",
+                  "mathematics"
+                ],
+                "notes": "Higher Chemistry, Biology and Physics or Mathematics are required."
+              }
+            ],
+            "decision_outcome_if_not_met": "not_eligible",
+            "source_ids": [
+              "glasgow_degree_page_2027"
+            ],
+            "notes": "Higher Application of Mathematics cannot replace Higher Mathematics or Physics. Highers taken in S4 are not considered towards Higher S5 grade requirements."
+          },
+          {
+            "requirement_id": "sqa_adjusted_contextual_offer",
+            "applies_to_group_ids": [
+              "scotland_domiciled",
+              "contextual",
+              "widening_participation"
+            ],
+            "qualification_level": "scottish_highers_and_advanced_highers",
+            "grade_profile": [
+              "AAABB or AAAAC Higher S5",
+              "BC Advanced Higher S6"
+            ],
+            "required_subject_ids": [
+              "chemistry",
+              "biology"
+            ],
+            "one_of_subject_groups": [
+              {
+                "group_id": "sqa_adjusted_physics_or_maths",
+                "minimum_required": 1,
+                "subject_ids": [
+                  "physics",
+                  "mathematics"
+                ],
+                "notes": "C grade cannot be in Chemistry. Successful completion of Reach is required."
+              }
+            ],
+            "decision_outcome_if_not_met": "not_eligible",
+            "source_ids": [
+              "glasgow_degree_page_2027",
+              "glasgow_adjusted_offers",
+              "glasgow_reach_programme"
+            ],
+            "notes": "Adjusted Scottish entry requirement for eligible widening participation applicants."
+          }
+        ],
+        "required_subject_ids": [
+          "chemistry",
+          "biology"
+        ],
+        "one_of_subject_groups": [
+          {
+            "group_id": "sqa_physics_or_maths",
+            "minimum_required": 1,
+            "subject_ids": [
+              "physics",
+              "mathematics"
+            ],
+            "notes": "Higher Chemistry, Biology and Physics or Mathematics are required."
+          }
+        ],
+        "notes": "Highers must meet S5 timing restrictions; required grades and subjects must be obtained at one sitting and at first attempt."
+      },
+      "btec": {
+        "status": "unknown",
+        "source_ids": [],
+        "accepted_subject_ids": [],
+        "accepted_combinations": [],
+        "notes": "BTEC handling for A100 was not confirmed in the official evidence captured in the research file."
+      },
+      "access_to_he": {
+        "status": "unknown",
+        "source_ids": [],
+        "total_credits": null,
+        "distinction_credits": null,
+        "merit_credits": null,
+        "subject_credit_requirements": [],
+        "notes": "Access to HE handling for A100 was not confirmed in the official evidence captured in the research file."
+      },
+      "degree": {
+        "status": "official_source_verified",
+        "source_ids": [
+          "glasgow_degree_page_2027"
+        ],
+        "applies_to_group_ids": [
+          "graduate_applicant"
+        ],
+        "minimum_classification": "2:1",
+        "accepted_degree_subject_ids": [
+          "science"
+        ],
+        "decision_outcome_if_not_met": "not_eligible",
+        "notes": "Minimum 2.1 Honours degree in a relevant science degree obtained within seven years of entry. Older relevant science degrees, non-science degrees and Masters/PhD compensation rules require the additional Chemistry/Biology evidence described in graduate_policy."
+      },
+      "graduate_policy": {
+        "status": "official_source_verified",
+        "source_ids": [
+          "glasgow_degree_page_2027"
+        ],
+        "standard": "Minimum 2.1 Honours degree in a relevant science degree obtained within seven years of entry.",
+        "older_or_non_science_degrees": "Applicants whose degree is older than seven years or who have a non-science degree require A-level/Scottish Higher Chemistry and A-level/AS-level/Scottish Higher Biology within seven years of entry, with minimum grades AB or AA with AS-level Biology.",
+        "masters_or_phd_compensation": "A 2.1 degree older than seven years plus a Masters or PhD in a relevant field obtained within seven years may compensate for not having Higher/A-level Chemistry and Biology.",
+        "ucat": "Graduate applicants must complete the UCAT and may be invited for interview.",
+        "notes": "Stored as eligibility policy. No separate graduate-entry course or separate graduate scoring model is evidenced."
+      },
+      "notes": "Official evidence confirms core A-level, SQA, IB and graduate routes. Non-standard qualifications remain unknown."
+    },
+    "admissions_tests": {
+      "source_ids": [
+        "glasgow_ucat_2027",
+        "glasgow_admissions_procedures_2026_pdf"
+      ],
+      "ucat": {
+        "required": true,
+        "source_ids": [
+          "glasgow_ucat_2027",
+          "glasgow_admissions_procedures_2026_pdf"
+        ],
+        "minimum_total_score": null,
+        "fixed_minimum_total_score_applies": false,
+        "minimum_subsection_scores": [],
+        "score_used_for_ranking": true,
+        "validity_window": "same year as application",
+        "exemptions": [],
+        "decision_outcome_if_not_met": "not_eligible",
+        "notes": "All applicants must complete UCAT by the deadline in the same year as application. Applicants who have not sat UCAT will not be considered; no exceptions are made. Current-cycle thresholds are unknown until after UCAT results and are not published until the cycle is complete."
+      },
+      "sjt": {
+        "used": false,
+        "source_ids": [
+          "glasgow_ucat_2027"
+        ],
+        "used_as_gate": false,
+        "accepted_bands": [
+          1,
+          2,
+          3,
+          4
+        ],
+        "excluded_bands": [],
+        "policy": "not_considered",
+        "scoring": {
+          "used_in_score": false,
+          "points_by_band": {}
+        },
+        "decision_outcome_if_excluded": "not_applicable",
+        "notes": "Official Glasgow evidence states the SJT portion of UCAT is not considered. Band 4 is not stored as an exclusion."
+      },
+      "other_tests": []
+    },
+    "resits": {
+      "policy": "not_permitted_except_documented_extenuating_circumstances",
+      "source_ids": [
+        "glasgow_degree_page_2027",
+        "glasgow_admissions_procedures_2026_pdf"
+      ],
+      "allowed": false,
+      "conditions": [
+        "Required grades and subjects must be obtained at one sitting and at first attempt.",
+        "If an applicant has taken longer than the standard period because of extenuating circumstances, an explanation and supporting documentation should be submitted at least six weeks before application.",
+        "UCAT scores cannot be adjusted or discounted for extenuating circumstances."
+      ],
+      "maximum_resits": 0,
+      "applies_to_group_ids": [
+        "school_leaver",
+        "graduate_applicant"
+      ],
+      "decision_outcome_if_not_allowed": "not_eligible",
+      "notes": "Official evidence states re-sits or additional time to sit qualifications is not permitted for the main academic requirements."
+    },
+    "english_language": {
+      "source_ids": [
+        "glasgow_degree_page_2027",
+        "glasgow_international_entry_requirements",
+        "glasgow_english_language_requirements"
+      ],
+      "applies_to_group_ids": [
+        "school_leaver",
+        "international_fee"
+      ],
+      "accepted_tests": [
+        {
+          "test": "IELTS Academic",
+          "overall": "7.0",
+          "components": {
+            "listening": "7.0",
+            "reading": "7.0",
+            "speaking": "7.0",
+            "writing": "7.0"
+          }
+        },
+        {
+          "test": "TOEFL iBT or at-home",
+          "overall": "104",
+          "components": {
+            "listening": "23",
+            "reading": "26",
+            "speaking": "24",
+            "writing": "24"
+          },
+          "notes": "TOEFL MyBest Score is not accepted."
+        },
+        {
+          "test": "PTE Academic",
+          "overall": "70",
+          "components": {
+            "listening": "64",
+            "reading": "65",
+            "speaking": "78",
+            "writing": "72"
+          }
+        }
+      ],
+      "exemptions": [],
+      "decision_outcome_if_not_met": "not_eligible",
+      "notes": "Tests must be taken within 2 years 5 months of the programme start date and all overall/component requirements must be met in one test. School-qualification alternatives and exemptions are documented by Glasgow."
+    },
+    "age_or_professional_checks": {
+      "source_ids": [
+        "glasgow_admissions_procedures_2026_pdf",
+        "glasgow_degree_page_2027"
+      ],
+      "minimum_age": null,
+      "fitness_to_practise_required": true,
+      "dbs_required": true,
+      "occupational_health_required": true,
+      "police_or_pvg_check_required": true,
+      "decision_outcome_if_not_met": "not_eligible",
+      "enhanced_disclosure_required": true,
+      "completion_point": "before_enrolment_and_offer_becomes_unconditional",
+      "notes": "A satisfactory Enhanced Disclosure/PVG certificate and health checks are required before enrolment; UK-domiciled applicants use the Protection of Vulnerable Groups Scheme administered by Disclosure Scotland."
+    },
+    "non_academic": {
+      "source_ids": [
+        "glasgow_admissions_procedures_2026_pdf",
+        "glasgow_degree_page_2027"
+      ],
+      "personal_statement": {
+        "reviewed": true,
+        "scored": false,
+        "weighted": false,
+        "used_for_interview_ranking": false,
+        "purposes": [
+          "suitability",
+          "consistency",
+          "motivation"
+        ],
+        "can_trigger_rejection": "unknown"
+      },
+      "reference_policy": {
+        "reviewed": true,
+        "scored": false,
+        "weighted": false,
+        "used_for_interview_ranking": false,
+        "purposes": [
+          "suitability",
+          "consistency",
+          "verification"
+        ],
+        "can_trigger_rejection": "unknown"
+      },
+      "work_experience": {
+        "required": false,
+        "policy": "Hospital or general-practice work experience is not required, but applicants are expected to have explored the realities of a medical career."
+      },
+      "decision_outcome_if_not_met": "unknown",
+      "notes": "The personal statement and reference are reviewed but are not scored, weighted or used to rank applicants for interview. Whether review alone can trigger rejection remains unknown. Work experience in a hospital or general practice is not required."
+    }
+  },
+  "stage_2_interview_selection": {
+    "verification_status": "official_source_verified",
+    "source_ids": [
+      "glasgow_ucat_2027",
+      "glasgow_admissions_procedures_2026_pdf"
+    ],
+    "primary_model": "ucat_ranking",
+    "selection_model_label": "UCAT_COGNITIVE_RANKING_AFTER_ACADEMIC_ELIGIBILITY",
+    "modifiers": [
+      "separate_applicant_pool"
+    ],
+    "academic_scoring": {
+      "applies": false,
+      "role": "minimum_eligibility_and_screening_only",
+      "notes": "Applicants meeting academic eligibility proceed to UCAT cognitive ranking; no competitive academic points are applied. Statement and reference review is unscored and not a ranking factor."
+    },
+    "international_selection": {
+      "applies_to_group_ids": [
+        "international_fee"
+      ],
+      "ranking_pool": "international_ucat_ranking_pool",
+      "separate_from_home_scottish_and_rest_of_uk": true,
+      "competes_only_with_international_applicants": true,
+      "official_ranking_groups": [
+        "scottish",
+        "rest_of_uk",
+        "international"
+      ],
+      "each_group_has_own_threshold_and_interview_quota": true,
+      "contextual_uplift_applies": false,
+      "ucat": {
+        "score_input": "cognitive_total_only",
+        "counted_sections": [
+          "verbal_reasoning",
+          "decision_making",
+          "quantitative_reasoning"
+        ],
+        "sjt_used": false,
+        "pre_published_fixed_threshold": false,
+        "fixed_threshold": null,
+        "threshold_setting": "set_after_all_ucat_scores_are_received_each_cycle"
+      },
+      "historical_guidance": {
+        "score_scale": 2700,
+        "guidance_only": true,
+        "fixed_cutoff": false,
+        "recent_lowest_invited_range": {
+          "min": 2025,
+          "max": 2175
+        },
+        "typical_working_threshold": "2050+",
+        "competitive_score": "2100+",
+        "average_invited_range": {
+          "approximate_min": 2120,
+          "approximate_max": 2220
+        },
+        "source_ids": [
+          "glasgow_verified_international_admissions_evidence"
+        ],
+        "notes": "Historical international interview guidance only. Glasgow has no pre-published fixed UCAT threshold."
+      },
+      "source_ids": [
+        "glasgow_verified_international_admissions_evidence"
+      ]
+    },
+    "ranking_factors": [
+      {
+        "factor_id": "ucat_total_score",
+        "factor_type": "ucat",
+        "weight_percent": null,
+        "points_available": null,
+        "source_field": "stage_1_eligibility.admissions_tests.ucat.total_score",
+        "source_ids": [
+          "glasgow_ucat_2027",
+          "glasgow_admissions_procedures_2026_pdf"
+        ],
+        "notes": "Applicants meeting academic eligibility are ranked for interview by UCAT cognitive score only. Glasgow does not publish a fixed 2027 threshold in advance."
+      }
+    ],
+    "calculation": {
+      "verification_status": "partially_verified",
+      "source_ids": [
+        "glasgow_ucat_2027",
+        "glasgow_admissions_procedures_2026_pdf"
+      ],
+      "score_components": [
+        {
+          "component_id": "ucat_rank_component",
+          "factor_id": "ucat_total_score",
+          "input_field": "ucat_total_score",
+          "calculation_method": "rank_by_ucat_total_after_screening",
+          "scale": {
+            "min": null,
+            "max": null
+          },
+          "weight_percent": null,
+          "rounding": null,
+          "notes": "UCAT ranking is official. Exact current-cycle threshold by applicant group is not known until the cycle progresses and must not be inferred from historical data.",
+          "source_ids": [
+            "glasgow_ucat_2027"
+          ]
+        }
+      ],
+      "total_score": {
+        "calculation_method": "ucat_total_ranking_only_no_points_formula_published",
+        "components": [
+          "ucat_rank_component"
+        ],
+        "scale": {
+          "min": null,
+          "max": null
+        },
+        "notes": "No points formula is published. This supports eligibility and UCAT ranking metadata only, not deterministic interview prediction.",
+        "source_ids": [
+          "glasgow_ucat_2027"
+        ]
+      },
+      "notes": "Academic and non-academic screening occurs before UCAT ranking. Academics are stored as eligibility/screening only because no competitive academic scoring model is confirmed."
+    },
+    "thresholds": [
+      {
+        "threshold_id": "current_cycle_ucat_thresholds_by_applicant_group",
+        "applies_to_group_ids": [
+          "home_fee",
+          "scotland_domiciled",
+          "rest_of_uk",
+          "international_fee"
+        ],
+        "metric": "ucat_total_score",
+        "operator": "ranked_threshold_unknown",
+        "value": null,
+        "decision_outcome_if_not_met": "not_selected_for_interview",
+        "source_ids": [
+          "glasgow_ucat_2027"
+        ],
+        "notes": "Glasgow states 2027 thresholds will not be known until November 2026 and will not be published until the cycle is complete in September 2027. Do not encode a fixed cutoff."
+      },
+      {
+        "threshold_id": "current_cycle_contextual_ucat_threshold",
+        "applies_to_group_ids": [
+          "scotland_domiciled",
+          "contextual",
+          "widening_participation"
+        ],
+        "metric": "raw_ucat_total_score",
+        "operator": "ranked_lower_contextual_threshold_unknown",
+        "value": null,
+        "decision_outcome_if_not_met": "not_selected_for_interview",
+        "source_ids": [
+          "glasgow_contextual_ucat_verified_research"
+        ],
+        "notes": "Eligible Scottish-domiciled contextual applicants are ranked in a separate contextual group using their unchanged raw UCAT score. A lower contextual threshold applies, but the live threshold is unknown."
+      }
+    ],
+    "selection_adjustments": [
+      {
+        "adjustment_id": "scottish_contextual_separate_ucat_ranking",
+        "applies_to_group_ids": [
+          "scotland_domiciled",
+          "contextual",
+          "widening_participation"
+        ],
+        "raw_score_changed": false,
+        "ranking_group": "scottish_contextual_ucat_ranking_pool",
+        "ranking_basis": "raw_ucat_total_score",
+        "threshold_effect": "lower_contextual_threshold",
+        "source_ids": [
+          "glasgow_contextual_ucat_verified_research"
+        ],
+        "notes": "This is a separate-pool threshold mechanism, not a UCAT score uplift."
+      }
+    ],
+    "tie_breakers": [],
+    "interview_format": {
+      "format": "two_part_panel_interview",
+      "delivery": "online",
+      "is_mmi": false,
+      "timing": "Late November 2026 to March 2027 unless otherwise stated.",
+      "duration_minutes": 30,
+      "interviewers": 2,
+      "assessed_domains": [
+        "motivation",
+        "understanding_of_medicine",
+        "communication",
+        "ethical_reasoning",
+        "teamwork",
+        "insight",
+        "values"
+      ],
+      "sections": [
+        {
+          "section": "Panel A",
+          "focus": [
+            "motivation",
+            "understanding of medicine",
+            "teamwork"
+          ]
+        },
+        {
+          "section": "Panel B",
+          "focus": [
+            "communication",
+            "ethical reasoning"
+          ]
+        }
+      ],
+      "source_ids": [
+        "glasgow_interviews_2027"
+      ],
+      "notes": "The same two interviewers cover both panels. This is not an MMI. The interview is conversational, with no writing required; interviewers know only the applicant's name."
+    },
+    "output_band_policy": {
+      "bands": [
+        "not_eligible",
+        "interview_likely",
+        "realistic",
+        "ambitious",
+        "high_risk"
+      ],
+      "basis": "Official UCAT-only ranking combined with applicant-group historical thresholds and clearly labelled confidence bands.",
+      "notes": "Bands are guidance, not current-cycle cutoff results or probability percentages. A live annual cutoff is not required."
+    },
+    "notes": "Primary selection model is UCAT ranking after screening. SJT is not considered. Current-cycle thresholds may differ by applicant group and are unknown."
+  },
+  "contextual_admissions": {
+    "verification_status": "official_source_verified",
+    "source_ids": [
+      "glasgow_degree_page_2027",
+      "glasgow_adjusted_offers",
+      "glasgow_reach_programme"
+    ],
+    "available": true,
+    "applies_to_group_ids": [
+      "scotland_domiciled",
+      "contextual",
+      "widening_participation",
+      "care_experienced"
+    ],
+    "criteria": [
+      {
+        "criterion_id": "simd_decile_1_to_4",
+        "applies_to_group_ids": [
+          "scotland_domiciled",
+          "widening_participation"
+        ],
+        "description": "Live in SIMD decile 1-4 (MD20/40) Scottish postcode area.",
+        "source_ids": [
+          "glasgow_adjusted_offers",
+          "glasgow_reach_programme"
+        ],
+        "notes": null
+      },
+      {
+        "criterion_id": "care_experienced",
+        "applies_to_group_ids": [
+          "care_experienced"
+        ],
+        "description": "Care experienced.",
+        "source_ids": [
+          "glasgow_adjusted_offers",
+          "glasgow_reach_programme"
+        ],
+        "notes": null
+      },
+      {
+        "criterion_id": "estranged_from_family",
+        "applies_to_group_ids": [
+          "widening_participation"
+        ],
+        "description": "Estranged from family and living without family support.",
+        "source_ids": [
+          "glasgow_adjusted_offers",
+          "glasgow_reach_programme"
+        ],
+        "notes": null
+      },
+      {
+        "criterion_id": "asylum_seeker_or_refugee",
+        "applies_to_group_ids": [
+          "widening_participation"
+        ],
+        "description": "Seeking asylum in the UK or has refugee status.",
+        "source_ids": [
+          "glasgow_adjusted_offers",
+          "glasgow_reach_programme"
+        ],
+        "notes": null
+      },
+      {
+        "criterion_id": "carer",
+        "applies_to_group_ids": [
+          "widening_participation"
+        ],
+        "description": "Carer.",
+        "source_ids": [
+          "glasgow_adjusted_offers",
+          "glasgow_reach_programme"
+        ],
+        "notes": null
+      },
+      {
+        "criterion_id": "western_isles_school_for_medicine",
+        "applies_to_group_ids": [
+          "widening_participation"
+        ],
+        "description": "Attend a Western Isles school for Medicine or Veterinary Medicine Reach eligibility.",
+        "source_ids": [
+          "glasgow_reach_programme"
+        ],
+        "notes": null
+      }
+    ],
+    "adjustments": [
+      {
+        "adjustment_id": "medicine_adjusted_sqa_entry_requirement",
+        "applies_to_group_ids": [
+          "scotland_domiciled",
+          "contextual",
+          "widening_participation"
+        ],
+        "stage": "stage_1_eligibility",
+        "policy_description": "For Medicine, adjusted Scottish entry requirement is AAABB or AAAAC Higher in S5 plus BC Advanced Higher in S6, with C not in Chemistry, and successful completion of Reach.",
+        "effect": {
+          "type": "lower_academic_threshold",
+          "target": "stage_1_eligibility.post_16.scottish",
+          "value": "AAABB or AAAAC Higher S5 plus BC Advanced Higher S6"
+        },
+        "source_ids": [
+          "glasgow_degree_page_2027",
+          "glasgow_adjusted_offers",
+          "glasgow_reach_programme"
+        ],
+        "notes": "Stored as official contextual academic eligibility rule."
+      },
+      {
+        "adjustment_id": "scottish_contextual_ucat_shortlisting",
+        "applies_to_group_ids": [
+          "scotland_domiciled",
+          "contextual",
+          "widening_participation"
+        ],
+        "stage": "stage_2_interview_selection",
+        "policy_description": "Eligible Scottish-domiciled contextual applicants are placed in a separate contextual shortlisting group and ranked by unchanged raw UCAT score against a lower contextual threshold.",
+        "effect": {
+          "type": "separate_ranking_pool_lower_threshold",
+          "target": "stage_2_interview_selection.thresholds.current_cycle_contextual_ucat_threshold",
+          "raw_ucat_score_changed": false
+        },
+        "source_ids": [
+          "glasgow_contextual_ucat_verified_research"
+        ],
+        "notes": "Contextual UCAT shortlisting applies only to eligible Scottish-domiciled applicants. Historical contextual thresholds, if supplied, must remain separate from policy."
+      }
+    ],
+    "guaranteed_interview_rules": [],
+    "notes": "Contextual UCAT shortlisting applies only to eligible Scottish-domiciled applicants. Raw UCAT is not uplifted: applicants are ranked in a separate contextual group against a lower threshold. This does not guarantee an interview."
+  },
+  "ranking_pools": [
+    {
+      "pool_id": "scotland_home_ucat_ranking_pool",
+      "name": "Scotland/Home UCAT ranking pool",
+      "applies_to_group_ids": [
+        "home_fee",
+        "scotland_domiciled"
+      ],
+      "fee_statuses": [
+        "home"
+      ],
+      "ranking_model": "ucat_ranking",
+      "ranking_factors": [
+        "ucat_total_score"
+      ],
+      "places_available": null,
+      "source_ids": [
+        "glasgow_ucat_2027",
+        "glasgow_admissions_data_2022_2025_pdf"
+      ],
+      "notes": "Future threshold and capacity are unknown. Historical data is context only."
+    },
+    {
+      "pool_id": "scottish_contextual_ucat_ranking_pool",
+      "name": "Scottish contextual UCAT ranking pool",
+      "applies_to_group_ids": [
+        "scotland_domiciled",
+        "contextual",
+        "widening_participation"
+      ],
+      "fee_statuses": [
+        "home"
+      ],
+      "ranking_model": "ucat_ranking",
+      "ranking_factors": [
+        "raw_ucat_total_score"
+      ],
+      "places_available": null,
+      "source_ids": [
+        "glasgow_contextual_ucat_verified_research"
+      ],
+      "notes": "Separate contextual shortlisting group with a lower dynamic threshold. Raw UCAT is unchanged; current and historical numeric contextual thresholds are not inferred."
+    },
+    {
+      "pool_id": "rest_of_uk_ucat_ranking_pool",
+      "name": "Rest of UK UCAT ranking pool",
+      "applies_to_group_ids": [
+        "rest_of_uk"
+      ],
+      "fee_statuses": [
+        "rest_of_uk"
+      ],
+      "ranking_model": "ucat_ranking",
+      "ranking_factors": [
+        "ucat_total_score"
+      ],
+      "places_available": null,
+      "source_ids": [
+        "glasgow_ucat_2027",
+        "glasgow_admissions_data_2022_2025_pdf"
+      ],
+      "notes": "Future threshold and capacity are unknown. Historical data is context only."
+    },
+    {
+      "pool_id": "international_ucat_ranking_pool",
+      "name": "International UCAT ranking pool",
+      "applies_to_group_ids": [
+        "international_fee"
+      ],
+      "fee_statuses": [
+        "international"
+      ],
+      "ranking_model": "ucat_ranking",
+      "ranking_factors": [
+        "ucat_total_score"
+      ],
+      "places_available": null,
+      "separate_from_home_scottish_and_rest_of_uk": true,
+      "competes_only_with_international_applicants": true,
+      "contextual_uplift_applies": false,
+      "sjt_used": false,
+      "fixed_ucat_cutoff": null,
+      "historical_annual_places": {
+        "approximate_min": 20,
+        "approximate_max": 25
+      },
+      "historical_annual_applications": {
+        "approximate_min": 950,
+        "approximate_max": 1000
+      },
+      "source_ids": [
+        "glasgow_ucat_2027",
+        "glasgow_admissions_data_2022_2025_pdf",
+        "glasgow_verified_international_admissions_evidence"
+      ],
+      "notes": "International applicants are ranked separately and compete only with other international applicants. Future threshold and capacity are unknown; historical data is guidance only, not a fixed cutoff."
+    }
+  ],
+  "quotas": [
+    {
+      "quota_id": "glasgow_a100_places_2027_entry_verified",
+      "name": "Verified Home/International places (2027 entry)",
+      "home_places": 269,
+      "international_places": 22,
+      "quota_type": "verified_current_places",
+      "source_ids": [
+        "applysmart_admissions_team_verified_2026"
+      ],
+      "notes": "Home/International place figures verified by the ApplySmart admissions research team for 2027 entry."
+    },
+    {
+      "quota_id": "future_fixed_capacity_by_pool",
+      "name": "Future fixed capacity by applicant pool",
+      "applies_to_group_ids": [
+        "home_fee",
+        "rest_of_uk",
+        "international_fee"
+      ],
+      "stage": "interview_selection_and_offer_selection",
+      "quota_type": "unknown",
+      "value": null,
+      "source_ids": [
+        "glasgow_ucat_2027",
+        "glasgow_admissions_data_2022_2025_pdf"
+      ],
+      "notes": "Applicant groups are evidenced, but fixed future quotas/capacity by Scottish, RUK and International groups are not stored in official evidence."
+    }
+  ],
+  "offer_selection": {
+    "verification_status": "official_and_foi_verified_exact_scoring_undisclosed",
+    "source_ids": [
+      "glasgow_admissions_procedures_2026_pdf",
+      "glasgow_interviews_2027",
+      "glasgow_mbchb_faq_2027",
+      "glasgow_final_foi_policy_verified_research"
+    ],
+    "interview_format": "online_30_minutes_two_part_panel_same_two_interviewers",
+    "interview_details": {
+      "format": "two_part_panel_interview",
+      "delivery": "online",
+      "is_mmi": false,
+      "duration_minutes": 30,
+      "interviewers": 2,
+      "assessed_domains": [
+        "motivation",
+        "understanding_of_medicine",
+        "communication",
+        "ethical_reasoning",
+        "teamwork",
+        "insight",
+        "values"
+      ],
+      "sections": [
+        {
+          "section": "Panel A",
+          "focus": [
+            "motivation",
+            "understanding of medicine",
+            "teamwork"
+          ]
+        },
+        {
+          "section": "Panel B",
+          "focus": [
+            "communication",
+            "ethical reasoning"
+          ]
+        }
+      ],
+      "source_ids": [
+        "glasgow_interviews_2027"
+      ]
+    },
+    "interview_scoring": {
+      "score_used": true,
+      "minimum_score": null,
+      "station_scores": [],
+      "exact_numerical_rubric_public": false,
+      "maximum_score_public": false,
+      "fixed_pass_mark_public": false,
+      "scaling_method": "scaled_annually_to_interview_cohort",
+      "exact_scaling_method_public": false,
+      "applicant_group_score_adjustment": false,
+      "sjt_used_post_interview": false,
+      "decision_outcome_if_not_met": "no_offer",
+      "source_ids": [
+        "glasgow_admissions_procedures_2026_pdf",
+        "glasgow_interviews_2027",
+        "glasgow_final_foi_policy_verified_research"
+      ],
+      "historical_score_context": {
+        "evidence_classification": "foi_estimate_historical_context",
+        "approximate_total_range": {
+          "min": 10,
+          "max": 30
+        },
+        "competitive_score_around": {
+          "value": 22,
+          "scale_max": 30,
+          "operator": "approximately_at_or_above"
+        },
+        "lowest_successful_score_around": {
+          "min": 19,
+          "max": 20,
+          "scale_max": 30
+        },
+        "average_score_around": {
+          "min": 23,
+          "max": 25,
+          "scale_max": 30
+        },
+        "not_a_current_threshold": true,
+        "not_a_deterministic_formula": true
+      },
+      "notes": "Interview scores are scaled annually to the cohort. FOI ranges are historical estimates only; the exact rubric, maximum, scaling calculation and fixed pass mark are not publicly released."
+    },
+    "offer_model": "interview_performance_only",
+    "interview_weight_percent": 100,
+    "pre_interview_score_carryover_percent": 0,
+    "ucat_used_post_interview": false,
+    "academic_score_used_post_interview": false,
+    "applicant_group_score_adjustment_post_interview": false,
+    "ranking_factors": [
+      {
+        "factor_id": "interview_performance",
+        "factor_type": "interview",
+        "weight_percent": 100,
+        "points_available": null,
+        "source_field": "interview_performance",
+        "source_ids": [
+          "glasgow_admissions_procedures_2026_pdf",
+          "glasgow_interviews_2027"
+        ],
+        "notes": "Final decisions are made solely on interview performance. Exact score scale, rubric and ranking conversion are unknown."
+      }
+    ],
+    "offer_ranking_pools": [
+      {
+        "pool_id": "scotland_home_offer_pool",
+        "applies_to_group_ids": [
+          "home_fee",
+          "scotland_domiciled"
+        ],
+        "ranking_basis": "annually_scaled_interview_score"
+      },
+      {
+        "pool_id": "rest_of_uk_offer_pool",
+        "applies_to_group_ids": [
+          "rest_of_uk"
+        ],
+        "ranking_basis": "annually_scaled_interview_score"
+      },
+      {
+        "pool_id": "international_offer_pool",
+        "applies_to_group_ids": [
+          "international_fee"
+        ],
+        "ranking_basis": "annually_scaled_interview_score"
+      },
+      {
+        "pool_id": "contextual_widening_access_offer_pool",
+        "applies_to_group_ids": [
+          "contextual",
+          "widening_participation"
+        ],
+        "ranking_basis": "annually_scaled_interview_score"
+      }
+    ],
+    "tie_breakers": [
+      {
+        "condition": "identical_interview_scores",
+        "method": "internal_review_of_attribute_consistency",
+        "fully_published": false,
+        "ucat_used": false,
+        "academic_grades_used": false,
+        "numeric_sequence": null,
+        "source_ids": [
+          "glasgow_final_foi_policy_verified_research"
+        ]
+      }
+    ],
+    "waiting_list_policy": {
+      "ranked_reserve_list_exists": true,
+      "activation": "offers_declined_or_places_become_available",
+      "ranking_basis": "interview_score_rank",
+      "policy": "A ranked reserve list is activated when offers are declined or places otherwise become available.",
+      "source_ids": [
+        "glasgow_admissions_procedures_2026_pdf",
+        "glasgow_mbchb_faq_2027",
+        "glasgow_final_foi_policy_verified_research"
+      ]
+    },
+    "standard_offer": {
+      "grade_profile": [],
+      "source_ids": [
+        "glasgow_degree_page_2027"
+      ],
+      "notes": "Academic entry requirements are stored under Stage 1 by qualification route."
+    },
+    "contextual_offer": {
+      "applies_to_group_ids": [
+        "scotland_domiciled",
+        "contextual",
+        "widening_participation"
+      ],
+      "grade_profile": [
+        "AAABB or AAAAC Higher S5",
+        "BC Advanced Higher S6"
+      ],
+      "source_ids": [
+        "glasgow_degree_page_2027",
+        "glasgow_adjusted_offers",
+        "glasgow_reach_programme"
+      ],
+      "notes": "Medicine adjusted Scottish entry requirement for eligible applicants; successful completion of Reach required."
+    },
+    "notes": "Final decisions are based solely on annually scaled interview performance within separate applicant pools. UCAT and academic scores do not carry forward and no applicant-group score adjustment is applied after interview. Exact numerical scoring and the complete tie-break sequence remain undisclosed."
+  },
+  "historical_admissions": {
+    "verification_status": "official_source_verified",
+    "source_ids": [
+      "glasgow_admissions_data_2022_2025_pdf",
+      "glasgow_final_foi_policy_verified_research"
+    ],
+    "data_scope": "Official MBChB admissions data for 2022-2025, including applications, interviews, offers, intake and historical interview thresholds by applicant pool.",
+    "cycles": [
+      {
+        "entry_year": 2025,
+        "applicant_group_id": "scots_domiciled",
+        "applications": 942,
+        "interviews": 658,
+        "offers": 499,
+        "places": 261,
+        "historical_interview_threshold": 2520,
+        "ucat_score_scale": "legacy_3600",
+        "average_interviewed_ucat": null,
+        "lowest_offer_holder_ucat": null,
+        "average_offer_holder_ucat": null,
+        "interview_score_cutoff": null,
+        "source_ids": [
+          "glasgow_admissions_data_2022_2025_pdf"
+        ],
+        "notes": "Official historical data for new entrants to Year 1 MBChB. Historical UCAT value is the lowest score considered for interview and must not be used as a 2027 cutoff."
+      },
+      {
+        "entry_year": 2025,
+        "applicant_group_id": "rest_of_uk",
+        "applications": 491,
+        "interviews": 351,
+        "offers": 123,
+        "places": 47,
+        "historical_interview_threshold": 2610,
+        "ucat_score_scale": "legacy_3600",
+        "average_interviewed_ucat": null,
+        "lowest_offer_holder_ucat": null,
+        "average_offer_holder_ucat": null,
+        "interview_score_cutoff": null,
+        "source_ids": [
+          "glasgow_admissions_data_2022_2025_pdf"
+        ],
+        "notes": "Official historical data for new entrants to Year 1 MBChB. Historical UCAT value is the lowest score considered for interview and must not be used as a 2027 cutoff."
+      },
+      {
+        "entry_year": 2025,
+        "applicant_group_id": "international_and_eu",
+        "applications": 568,
+        "interviews": 119,
+        "offers": 97,
+        "places": 33,
+        "historical_interview_threshold": 2800,
+        "ucat_score_scale": "legacy_3600",
+        "converted_historical_interview_threshold_2700": 2100,
+        "average_interviewed_ucat": null,
+        "lowest_offer_holder_ucat": null,
+        "average_offer_holder_ucat": null,
+        "interview_score_cutoff": null,
+        "source_ids": [
+          "glasgow_admissions_data_2022_2025_pdf",
+          "glasgow_verified_international_admissions_evidence"
+        ],
+        "notes": "Verified 2024/25 international lowest-invited score on the legacy and current scales. Historical guidance only; it must not be used as a fixed or 2027 cutoff."
+      },
+      {
+        "entry_year": 2025,
+        "applicant_group_id": "all_applicants",
+        "applications": 2001,
+        "interviews": 1128,
+        "offers": 719,
+        "places": 341,
+        "historical_interview_threshold": null,
+        "average_interviewed_ucat": null,
+        "lowest_offer_holder_ucat": null,
+        "average_offer_holder_ucat": null,
+        "interview_score_cutoff": null,
+        "source_ids": [
+          "glasgow_admissions_data_2022_2025_pdf"
+        ],
+        "notes": "Official published total admissions data for new entrants to Year 1 MBChB."
+      },
+      {
+        "entry_year": 2024,
+        "applicant_group_id": "scots_domiciled",
+        "applications": 711,
+        "interviews": 566,
+        "offers": 477,
+        "places": 270,
+        "historical_interview_threshold": 2450,
+        "ucat_score_scale": "legacy_3600",
+        "source_ids": [
+          "glasgow_admissions_data_2022_2025_pdf"
+        ],
+        "notes": "Official historical context only."
+      },
+      {
+        "entry_year": 2024,
+        "applicant_group_id": "rest_of_uk",
+        "applications": 266,
+        "interviews": 215,
+        "offers": 129,
+        "places": 49,
+        "historical_interview_threshold": 2500,
+        "ucat_score_scale": "legacy_3600",
+        "source_ids": [
+          "glasgow_admissions_data_2022_2025_pdf"
+        ],
+        "notes": "Official historical context only."
+      },
+      {
+        "entry_year": 2024,
+        "applicant_group_id": "international_and_eu",
+        "applications": 466,
+        "interviews": 160,
+        "offers": 113,
+        "places": 43,
+        "historical_interview_threshold": 2700,
+        "ucat_score_scale": "legacy_3600",
+        "converted_historical_interview_threshold_2700": 2025,
+        "source_ids": [
+          "glasgow_admissions_data_2022_2025_pdf",
+          "glasgow_verified_international_admissions_evidence"
+        ],
+        "notes": "Verified 2023/24 international lowest-invited score. Historical guidance only; not a fixed cutoff."
+      },
+      {
+        "entry_year": 2024,
+        "applicant_group_id": "all_applicants",
+        "applications": 1443,
+        "interviews": 941,
+        "offers": 719,
+        "places": 362,
+        "historical_interview_threshold": null,
+        "source_ids": [
+          "glasgow_admissions_data_2022_2025_pdf"
+        ],
+        "notes": "Official historical context only."
+      },
+      {
+        "entry_year": 2023,
+        "applicant_group_id": "scots_domiciled",
+        "applications": 778,
+        "interviews": 594,
+        "offers": 395,
+        "places": 240,
+        "historical_interview_threshold": 2440,
+        "ucat_score_scale": "legacy_3600",
+        "source_ids": [
+          "glasgow_admissions_data_2022_2025_pdf"
+        ],
+        "notes": "Official historical context only."
+      },
+      {
+        "entry_year": 2023,
+        "applicant_group_id": "rest_of_uk",
+        "applications": 400,
+        "interviews": 212,
+        "offers": 119,
+        "places": 66,
+        "historical_interview_threshold": 2690,
+        "ucat_score_scale": "legacy_3600",
+        "source_ids": [
+          "glasgow_admissions_data_2022_2025_pdf"
+        ],
+        "notes": "Official historical context only."
+      },
+      {
+        "entry_year": 2023,
+        "applicant_group_id": "international_and_eu",
+        "applications": 533,
+        "interviews": 164,
+        "offers": 95,
+        "places": 44,
+        "historical_interview_threshold": 2900,
+        "ucat_score_scale": "legacy_3600",
+        "converted_historical_interview_threshold_2700": 2175,
+        "source_ids": [
+          "glasgow_admissions_data_2022_2025_pdf",
+          "glasgow_verified_international_admissions_evidence"
+        ],
+        "notes": "Verified 2022/23 international lowest-invited score. Historical guidance only; not a fixed cutoff."
+      },
+      {
+        "entry_year": 2023,
+        "applicant_group_id": "all_applicants",
+        "applications": 1711,
+        "interviews": 970,
+        "offers": 609,
+        "places": 350,
+        "historical_interview_threshold": null,
+        "source_ids": [
+          "glasgow_admissions_data_2022_2025_pdf"
+        ],
+        "notes": "Official historical context only."
+      },
+      {
+        "entry_year": 2022,
+        "applicant_group_id": "scots_domiciled",
+        "applications": 970,
+        "interviews": 521,
+        "offers": 370,
+        "places": 233,
+        "historical_interview_threshold": 2640,
+        "ucat_score_scale": "legacy_3600",
+        "source_ids": [
+          "glasgow_admissions_data_2022_2025_pdf"
+        ],
+        "notes": "Official historical context only."
+      },
+      {
+        "entry_year": 2022,
+        "applicant_group_id": "rest_of_uk",
+        "applications": 687,
+        "interviews": 145,
+        "offers": 93,
+        "places": 42,
+        "historical_interview_threshold": 2870,
+        "ucat_score_scale": "legacy_3600",
+        "source_ids": [
+          "glasgow_admissions_data_2022_2025_pdf"
+        ],
+        "notes": "Official historical context only."
+      },
+      {
+        "entry_year": 2022,
+        "applicant_group_id": "international_and_eu",
+        "applications": 543,
+        "interviews": 91,
+        "offers": 52,
+        "places": 21,
+        "historical_interview_threshold": 2700,
+        "ucat_score_scale": "legacy_3600",
+        "converted_historical_interview_threshold_2700": 2025,
+        "source_ids": [
+          "glasgow_admissions_data_2022_2025_pdf",
+          "glasgow_verified_international_admissions_evidence"
+        ],
+        "notes": "Verified 2021/22 international lowest-invited score. Historical guidance only; not a fixed cutoff."
+      },
+      {
+        "entry_year": 2022,
+        "applicant_group_id": "all_applicants",
+        "applications": 2200,
+        "interviews": 757,
+        "offers": 515,
+        "places": 296,
+        "historical_interview_threshold": null,
+        "source_ids": [
+          "glasgow_admissions_data_2022_2025_pdf"
+        ],
+        "notes": "Official historical context only."
+      }
+    ],
+    "international_ucat_guidance_2700": {
+      "evidence_classification": "verified_historical_international_guidance",
+      "guidance_only": true,
+      "fixed_cutoff": false,
+      "score_input": "cognitive_total_only",
+      "score_scale": 2700,
+      "historical_lowest_invited_by_cycle": [
+        {
+          "cycle": "2021/22",
+          "legacy_score_3600": 2700,
+          "converted_score_2700": 2025
+        },
+        {
+          "cycle": "2022/23",
+          "legacy_score_3600": 2900,
+          "converted_score_2700": 2175
+        },
+        {
+          "cycle": "2023/24",
+          "legacy_score_3600": 2700,
+          "converted_score_2700": 2025
+        },
+        {
+          "cycle": "2024/25",
+          "legacy_score_3600": 2800,
+          "converted_score_2700": 2100
+        }
+      ],
+      "full_historical_invited_scores": [
+        {
+          "year": 2021,
+          "lowest_invited": 2025,
+          "average_invited_approximate": 2120
+        },
+        {
+          "year": 2022,
+          "lowest_invited": 2175,
+          "average_invited_approximate": 2220
+        },
+        {
+          "year": 2023,
+          "lowest_invited": 2025,
+          "average_invited_approximate": 2150
+        },
+        {
+          "year": 2024,
+          "lowest_invited": 2100,
+          "average_invited_approximate": 2180
+        },
+        {
+          "year": 2025,
+          "lowest_invited": 2050,
+          "average_invited_approximate": 2160
+        }
+      ],
+      "estimate_2026_27": {
+        "min": 2050,
+        "max": 2100
+      },
+      "summary": {
+        "recent_lowest_invited_range": {
+          "min": 2025,
+          "max": 2175
+        },
+        "typical_working_threshold": "2050+",
+        "competitive_score": "2100+",
+        "average_invited_range_approximate": {
+          "min": 2120,
+          "max": 2220
+        },
+        "annual_places_approximate": {
+          "min": 20,
+          "max": 25
+        },
+        "annual_applications_approximate": {
+          "min": 950,
+          "max": 1000
+        }
+      },
+      "guidance_bands": [
+        {
+          "ucat": "<2025",
+          "recommendation": "Consider stronger alternatives"
+        },
+        {
+          "ucat": "2025\u20132049",
+          "recommendation": "Possible but ambitious"
+        },
+        {
+          "ucat": "2050\u20132099",
+          "recommendation": "Good chance \u2013 recommend applying"
+        },
+        {
+          "ucat": "\u22652100",
+          "recommendation": "Strong choice"
+        },
+        {
+          "ucat": "\u22652175",
+          "recommendation": "Strong choice",
+          "profile_context": "very_strong_top_competitive_profile"
+        }
+      ],
+      "source_ids": [
+        "glasgow_verified_international_admissions_evidence"
+      ],
+      "notes": "Historical invited-score guidance only. Glasgow sets the international threshold after receiving each cycle's UCAT scores and has no pre-published fixed threshold."
+    },
+    "historical_offer_holder_ucat_2700": [
+      {
+        "cycle": "2024-2025",
+        "applicant_group_id": "scotland_home",
+        "lowest_offer_holder_ucat": 1830,
+        "average_offer_holder_ucat": 1950,
+        "score_scale": "converted_2700",
+        "evidence_classification": "foi_historical_context",
+        "source_ids": [
+          "glasgow_final_foi_policy_verified_research"
+        ]
+      },
+      {
+        "cycle": "2024-2025",
+        "applicant_group_id": "rest_of_uk",
+        "lowest_offer_holder_ucat": 1900,
+        "average_offer_holder_ucat": 2020,
+        "score_scale": "converted_2700",
+        "evidence_classification": "foi_historical_context",
+        "source_ids": [
+          "glasgow_final_foi_policy_verified_research"
+        ]
+      },
+      {
+        "cycle": "2024-2025",
+        "applicant_group_id": "international",
+        "lowest_offer_holder_ucat": 2050,
+        "average_offer_holder_ucat": 2130,
+        "score_scale": "converted_2700",
+        "evidence_classification": "foi_historical_context",
+        "source_ids": [
+          "glasgow_final_foi_policy_verified_research"
+        ]
+      },
+      {
+        "cycle": "2024-2025",
+        "applicant_group_id": "contextual_widening_access",
+        "lowest_offer_holder_ucat": 1750,
+        "average_offer_holder_ucat": 1840,
+        "score_scale": "converted_2700",
+        "evidence_classification": "foi_historical_context",
+        "source_ids": [
+          "glasgow_final_foi_policy_verified_research"
+        ]
+      }
+    ],
+    "contextual_historical_interview_thresholds": {
+      "thresholds": [],
+      "availability": "no_numeric_values_in_supplied_verified_dataset",
+      "notes": "Contextual policy is stored separately. No numeric historical contextual thresholds were supplied, so none are inferred."
+    },
+    "notes": "Historical admissions, interview thresholds and converted offer-holder UCAT statistics are context only. They are not deterministic, not current-cycle cutoffs and not an official prediction model."
+  },
+  "sources": [
+    {
+      "source_id": "glasgow_degree_page_2027",
+      "title": "University of Glasgow - Undergraduate study - 2027 Degree programmes A-Z - Medicine",
+      "url": "https://www.gla.ac.uk/undergraduate/degrees/medicine/",
+      "source_type": "official_university_webpage",
+      "published_date": null,
+      "accessed_date": "2026-06-26",
+      "applies_to_sections": [
+        "course",
+        "stage_1_eligibility",
+        "contextual_admissions"
+      ],
+      "confidence": "High",
+      "notes": "Official Glasgow course page used for course identity, UCAS code, duration, entry requirements, graduate policy, resit policy and contextual Scottish adjusted requirements."
+    },
+    {
+      "source_id": "glasgow_mbchb_admissions",
+      "title": "University of Glasgow - Undergraduate Medical School - Admissions",
+      "url": "https://www.gla.ac.uk/schools/medicine/mus/admissions/",
+      "source_type": "official_university_webpage",
+      "published_date": null,
+      "accessed_date": "2026-06-26",
+      "applies_to_sections": [
+        "course",
+        "sources"
+      ],
+      "confidence": "High",
+      "notes": "MBChB A100 admissions landing page for 2027 entry, admissions categories and links to official policy/data documents."
+    },
+    {
+      "source_id": "glasgow_ucat_2027",
+      "title": "University of Glasgow - University Clinical Aptitude Test (UCAT)",
+      "url": "https://www.gla.ac.uk/schools/medicine/mus/admissions/universityclinicalaptitudetestucat/",
+      "source_type": "official_university_webpage",
+      "published_date": null,
+      "accessed_date": "2026-06-26",
+      "applies_to_sections": [
+        "stage_1_eligibility",
+        "stage_2_interview_selection",
+        "ranking_pools"
+      ],
+      "confidence": "High",
+      "notes": "UCAT required for all medicine applicants, no exceptions for missing UCAT, SJT not considered, interviews allocated by UCAT score after screening, thresholds vary by applicant group and are not known/published until specified cycle points."
+    },
+    {
+      "source_id": "glasgow_interviews_2027",
+      "title": "University of Glasgow - MBChB Interviews",
+      "url": "https://www.gla.ac.uk/schools/medicine/mus/admissions/mbchbinterviews/",
+      "source_type": "official_university_webpage",
+      "published_date": null,
+      "accessed_date": "2026-06-26",
+      "applies_to_sections": [
+        "stage_2_interview_selection",
+        "offer_selection"
+      ],
+      "confidence": "High",
+      "notes": "Interview timing, online format, 30-minute duration, Panel A and Panel B content, two interviewers, confidentiality and invite information."
+    },
+    {
+      "source_id": "glasgow_international_entry_requirements",
+      "title": "University of Glasgow - International Entry Requirements",
+      "url": "https://www.gla.ac.uk/schools/medicine/mus/admissions/internationalentryrequirements/",
+      "source_type": "official_university_webpage",
+      "published_date": null,
+      "accessed_date": "2026-06-26",
+      "applies_to_sections": [
+        "stage_1_eligibility"
+      ],
+      "confidence": "High",
+      "notes": "Worldwide and international school-leaver subject requirements, International A-level and IB requirements, and resit restrictions."
+    },
+    {
+      "source_id": "glasgow_admissions_procedures_2026_pdf",
+      "title": "Undergraduate Medical School MBChB Admissions Procedures",
+      "url": "https://www.gla.ac.uk/media/Media_1233235_smxx.pdf",
+      "source_type": "official_university_pdf",
+      "published_date": null,
+      "accessed_date": "2026-06-26",
+      "applies_to_sections": [
+        "stage_1_eligibility",
+        "stage_2_interview_selection",
+        "offer_selection"
+      ],
+      "confidence": "High",
+      "notes": "Admissions procedures covering UCAS application requirements, references, predicted grades, fee status, selection process, UCAT screening, interviews, post-interview ranking and offer checks."
+    },
+    {
+      "source_id": "glasgow_admissions_data_2022_2025_pdf",
+      "title": "MBChB Admissions Data 2022-2025",
+      "url": "https://www.gla.ac.uk/media/Media_1233096_smxx.pdf",
+      "source_type": "official_admissions_statistics",
+      "published_date": null,
+      "accessed_date": "2026-06-26",
+      "applies_to_sections": [
+        "historical_admissions",
+        "ranking_pools"
+      ],
+      "confidence": "High",
+      "notes": "Published admissions data for 2022-2025, including applications, interviews, offers, intake and historical UCAT lowest score considered for interview by applicant group. Use as historical context only."
+    },
+    {
+      "source_id": "glasgow_adjusted_offers",
+      "title": "University of Glasgow - Adjusted Offers and Contextual Admissions",
+      "url": "https://www.gla.ac.uk/study/wp/adjustedoffers/",
+      "source_type": "official_university_webpage",
+      "published_date": null,
+      "accessed_date": "2026-06-26",
+      "applies_to_sections": [
+        "contextual_admissions",
+        "stage_1_eligibility"
+      ],
+      "confidence": "High",
+      "notes": "Contextual admissions scope for Scotland-domiciled applicants, guaranteed adjusted-offer criteria and pre-entry programme links."
+    },
+    {
+      "source_id": "glasgow_reach_programme",
+      "title": "University of Glasgow - Reach Programme",
+      "url": "https://www.gla.ac.uk/study/wp/reach/",
+      "source_type": "official_university_webpage",
+      "published_date": null,
+      "accessed_date": "2026-06-26",
+      "applies_to_sections": [
+        "contextual_admissions",
+        "stage_1_eligibility"
+      ],
+      "confidence": "High",
+      "notes": "Reach programme eligibility, medicine relevance, assessment and link to adjusted entry requirements."
+    },
+    {
+      "source_id": "glasgow_english_language_requirements",
+      "title": "University of Glasgow - MBChB English language proficiency requirements",
+      "url": "https://www.gla.ac.uk/schools/medicine/mus/admissions/english%20language/",
+      "source_type": "official_university_webpage",
+      "published_date": null,
+      "accessed_date": "2026-06-27",
+      "applies_to_sections": [
+        "stage_1_eligibility"
+      ],
+      "confidence": "High",
+      "notes": "Official MBChB IELTS Academic, TOEFL iBT/at-home and PTE Academic overall and component requirements."
+    },
+    {
+      "source_id": "glasgow_contextual_ucat_verified_research",
+      "title": "Glasgow A100 expanded research dataset - contextual UCAT mechanism and academic supplements",
+      "url": null,
+      "source_type": "foi_verified_research_dataset",
+      "published_date": null,
+      "accessed_date": "2026-06-27",
+      "applies_to_sections": [
+        "stage_1_eligibility",
+        "stage_2_interview_selection",
+        "contextual_admissions",
+        "ranking_pools"
+      ],
+      "confidence": "High",
+      "notes": "Research-team verified contextual shortlisting mechanism, complete National 5 subject set and excluded A-level subjects. No public FOI URL or reference number was supplied, so none is invented."
+    },
+    {
+      "source_id": "glasgow_mbchb_faq_2027",
+      "title": "University of Glasgow - MBChB Admissions Frequently Asked Questions",
+      "url": "https://www.gla.ac.uk/schools/medicine/mus/admissions/frequentlyaskedquestions/",
+      "source_type": "official_university_webpage",
+      "published_date": null,
+      "accessed_date": "2026-06-27",
+      "applies_to_sections": [
+        "stage_1_eligibility",
+        "stage_2_interview_selection",
+        "offer_selection"
+      ],
+      "confidence": "High",
+      "notes": "Official FAQ covering academic screening, UCAT sequencing, applicant pools, reserve contact, graduate/contextual eligibility and application requirements."
+    },
+    {
+      "source_id": "glasgow_final_foi_policy_verified_research",
+      "title": "Glasgow A100 final verified FOI/policy dataset",
+      "url": null,
+      "source_type": "foi_verified_research_dataset",
+      "published_date": null,
+      "accessed_date": "2026-06-27",
+      "applies_to_sections": [
+        "offer_selection",
+        "historical_admissions",
+        "engine_notes"
+      ],
+      "confidence": "High",
+      "notes": "Research-team verified interview-only ranking, annual cohort scaling, interview domains and historical ranges, separate offer pools, reserve-list operation, partial tie-break method and converted offer-holder UCAT statistics. No public WhatDoTheyKnow URL or FOI reference number was supplied or located."
+    },
+    {
+      "source_id": "glasgow_verified_international_admissions_evidence",
+      "title": "Glasgow A100 verified international admissions evidence",
+      "url": null,
+      "source_type": "verified_research_dataset",
+      "published_date": null,
+      "accessed_date": "2026-07-02",
+      "applies_to_sections": [
+        "applicant_pools",
+        "stage_2_interview_selection",
+        "ranking_pools",
+        "historical_admissions",
+        "engine_notes"
+      ],
+      "confidence": "High",
+      "notes": "Verified evidence for separate international ranking, cognitive-only UCAT use, SJT exclusion, no international contextual uplift, dynamic thresholds, historical invited-score guidance and approximate international application/place volumes. No public source URL was supplied, so none is invented."
+    },
+    {
+      "source_id": "msc_glasgow_a100_background",
+      "title": "Medical Schools Council - Glasgow Medicine A100",
+      "url": "https://www.medschools.ac.uk/courses/glasgow-medicine-a100/",
+      "source_type": "msc_background_discovery",
+      "published_date": null,
+      "accessed_date": "2026-06-19",
+      "applies_to_sections": [
+        "course"
+      ],
+      "confidence": "Low",
+      "notes": "Discovery/background source only. Production rules in this profile use official University of Glasgow evidence from the Glasgow research file."
+    }
+  ],
+  "validation": {
+    "source_status": "official_source_verified",
+    "last_verified": "2026-06-27",
+    "confidence_level": "Medium",
+    "completion_status": "production_ready_for_supported_scope_with_documented_gaps",
+    "section_completion_status": {
+      "course_identity": "complete",
+      "stage_1_eligibility": "partial",
+      "stage_2_interview_selection": "complete_policy_live_threshold_unknown",
+      "contextual_admissions": "complete_policy_live_threshold_unknown",
+      "ranking_pools": "partial",
+      "quotas": "documented_gap_non_blocking",
+      "offer_selection": "complete_policy_exact_scoring_undisclosed",
+      "historical_admissions": "complete_2022_to_2025_context_only",
+      "sources": "reviewed"
+    },
+    "known_unknowns": [
+      "Current-cycle UCAT thresholds by applicant group are unknown and not published until the cycle is complete.",
+      "Academics are minimum eligibility/screening only; no competitive academic score is applied.",
+      "The exact numerical interview rubric, maximum score, annual scaling calculation and fixed pass mark are undisclosed.",
+      "Final decisions are interview-only; FOI historical score ranges are context rather than a deterministic current-cycle formula.",
+      "Attribute-consistency review is verified for identical interview scores, but the complete tie-break sequence is undisclosed.",
+      "Fixed future quotas/capacity by applicant pool are unknown.",
+      "BTEC, Access to HE, T-level and other non-standard qualification handling remain unknown.",
+      "GCSE Mathematics, total GCSE count and top GCSE count are not confirmed for the A-level route.",
+      "Numeric historical contextual interview thresholds were not supplied; historical widening-access offer-holder UCAT statistics are stored separately.",
+      "The current-cycle lower contextual UCAT threshold is unknown until live applicant data is processed."
+    ],
+    "review_notes": "MSC seed-shell values have been replaced with official University of Glasgow evidence. Official UCAT-only ranking after academic screening, separate pools and 2022-2025 historical thresholds support medium-confidence interview guidance without requiring a live annual cutoff. Offer prediction remains unavailable because interview scoring and annual scaling are unpublished."
+  },
+  "engine_notes": {
+    "eligibility": true,
+    "interview_prediction": true,
+    "historical_guidance": true,
+    "international_prediction": true,
+    "contextual_logic": false,
+    "result_card": true,
+    "regression": true,
+    "research_completeness": "complete_for_supported_scope_with_documented_gaps",
+    "manual_review_required": true,
+    "eligibility_ready": true,
+    "interview_prediction_ready": true,
+    "prediction_confidence": "medium",
+    "result_card_ready": true,
+    "offer_prediction_scope": "out_of_scope",
+    "interview_band_config_ready": true,
+    "metadata_activation_ready": true,
+    "activation_ready": true,
+    "production_ready": true,
+    "blocking_missing_fields": [],
+    "non_blocking_warnings": [
+      "Documented evidence or automation gap retained as non-blocking for activation-ready production scope: current_cycle_ucat_thresholds_by_applicant_group",
+      "Documented evidence or automation gap retained as non-blocking for activation-ready production scope: exact_interview_scoring_rubric",
+      "Documented evidence or automation gap retained as non-blocking for activation-ready production scope: exact_annual_interview_scaling_calculation",
+      "Documented evidence or automation gap retained as non-blocking for activation-ready production scope: fixed_interview_pass_mark",
+      "Documented evidence or automation gap retained as non-blocking for activation-ready production scope: complete_tie_break_sequence",
+      "Documented evidence or automation gap retained as non-blocking for activation-ready production scope: fixed_future_quotas_or_capacity",
+      "Documented evidence or automation gap retained as non-blocking for activation-ready production scope: non_standard_qualification_rules",
+      "Known unknown retained as non-blocking for activation-ready production scope: Current-cycle UCAT thresholds by applicant group are unknown and not published until the cycle is complete.",
+      "Known unknown retained as non-blocking for activation-ready production scope: Academics are minimum eligibility/screening only; no competitive academic score is applied.",
+      "Known unknown retained as non-blocking for activation-ready production scope: The exact numerical interview rubric, maximum score, annual scaling calculation and fixed pass mark are undisclosed.",
+      "Known unknown retained as non-blocking for activation-ready production scope: Final decisions are interview-only; FOI historical score ranges are context rather than a deterministic current-cycle formula.",
+      "Known unknown retained as non-blocking for activation-ready production scope: Attribute-consistency review is verified for identical interview scores, but the complete tie-break sequence is undisclosed.",
+      "Known unknown retained as non-blocking for activation-ready production scope: Fixed future quotas/capacity by applicant pool are unknown.",
+      "Known unknown retained as non-blocking for activation-ready production scope: BTEC, Access to HE, T-level and other non-standard qualification handling remain unknown.",
+      "Known unknown retained as non-blocking for activation-ready production scope: GCSE Mathematics, total GCSE count and top GCSE count are not confirmed for the A-level route.",
+      "Known unknown retained as non-blocking for activation-ready production scope: Numeric historical contextual interview thresholds were not supplied; historical widening-access offer-holder UCAT statistics are stored separately.",
+      "Known unknown retained as non-blocking for activation-ready production scope: The current-cycle lower contextual UCAT threshold is unknown until live applicant data is processed."
+    ],
+    "engine_assumptions": [],
+    "do_not_infer": [
+      "Do not use MSC seed-shell values as production Glasgow rules unless independently verified from official Glasgow sources.",
+      "Do not treat historical UCAT thresholds as 2027 cutoffs.",
+      "Do not present interview guidance as a guaranteed outcome or live-cutoff result.",
+      "Do not apply SJT Band 4 exclusion; Glasgow states SJT is not considered.",
+      "Do not infer academic scoring beyond minimum eligibility.",
+      "Do not turn FOI historical interview-score ranges or offer-holder UCAT statistics into current-cycle cutoffs."
+    ],
+    "prediction_scope": "interview_guidance_from_official_ucat_ranking_and_historical_applicant_group_thresholds",
+    "eligibility_rules_partly_implementable": true,
+    "historical_ucat_guidance_ready": true,
+    "historical_interview_score_guidance_ready": true,
+    "interview_selection_prediction": "medium_confidence_historical_guidance",
+    "course_specific_notes": [
+      "Glasgow A100 official evidence is implemented in production JSON.",
+      "UCAT cognitive score is the sole interview-ranking factor after academic eligibility.",
+      "SJT is not considered.",
+      "Academics are represented as eligibility/screening only unless later FOI or official evidence confirms scoring.",
+      "Eligible Scottish contextual applicants use unchanged raw UCAT in a separate ranking group with a lower dynamic threshold; no UCAT score uplift is applied.",
+      "Historical offer-holder UCAT statistics and interview-score ranges are available for labelled guidance only.",
+      "Final decisions are based solely on annually scaled interview performance within separate offer pools; UCAT and academic scores do not carry forward."
+    ]
+  }
+}

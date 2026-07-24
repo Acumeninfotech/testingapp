@@ -1,0 +1,888 @@
+{
+  "schema_version": "1.0.0",
+  "profile_id": "east-anglia-a100",
+  "profile_status": "production_ready_eligibility_and_interview_guidance",
+  "verification_status": "official_and_foi_verified_exact_scoring_undisclosed",
+  "last_updated": "2026-07-16",
+  "university": {
+    "name": "University of East Anglia",
+    "slug": "east-anglia",
+    "country": "United Kingdom",
+    "nation": "England",
+    "institution_type": "University",
+    "website_url": "https://www.uea.ac.uk/"
+  },
+  "course": {
+    "name": "MBBS Medicine",
+    "ucas_code": "A100",
+    "entry_route": "standard_entry",
+    "qualification_awarded": "MBBS",
+    "duration_years": 5,
+    "campus": "Norwich",
+    "location": "Norwich, England",
+    "entry_year": 2027,
+    "fee_statuses": [
+      "home",
+      "international"
+    ],
+    "is_gateway_or_foundation": false,
+    "is_graduate_entry": false,
+    "notes": "Standard-entry A100 Medicine. UEA A101 Graduate Entry Medicine and A104 Gateway Medicine are separate courses and are not implemented as subgroups inside this A100 profile."
+  },
+  "medical_school": {
+    "name": "Norwich Medical School",
+    "source_ids": [
+      "uea_research_doc"
+    ]
+  },
+  "applicant_pools": [
+    {
+      "pool_id": "home_a100",
+      "applies_to_group_ids": [
+        "home_fee",
+        "england_domiciled",
+        "scotland_domiciled",
+        "wales_domiciled",
+        "northern_ireland_domiciled",
+        "rest_of_uk"
+      ],
+      "excluded_group_ids": [
+        "international_fee",
+        "graduate_applicant"
+      ],
+      "selection_relevance": "Eligible Home A100 applicants are ranked by UCAT cognitive total when interview capacity is oversubscribed. No contextual A100 adjustment is applied."
+    },
+    {
+      "pool_id": "international_a100",
+      "applies_to_group_ids": [
+        "international_fee"
+      ],
+      "excluded_group_ids": [
+        "graduate_applicant"
+      ],
+      "selection_relevance": "International A100 applicants follow the same published admissions methodology, with places allocated against a separate International quota. International-only UCAT historical statistics are not published in the supplied evidence."
+    }
+  ],
+  "applies_to_group_ids": [
+    "england_domiciled",
+    "scotland_domiciled",
+    "wales_domiciled",
+    "northern_ireland_domiciled",
+    "home_fee",
+    "international_fee",
+    "rest_of_uk",
+    "contextual",
+    "widening_participation",
+    "care_experienced",
+    "graduate_applicant",
+    "school_leaver",
+    "mature_applicant",
+    "resit_applicant",
+    "deferred_entry"
+  ],
+  "stage_1_eligibility": {
+    "verification_status": "official_source_verified_with_documented_gaps",
+    "source_ids": [
+      "uea_research_doc",
+      "uea_course_page_2026",
+      "msc_uea_a100_profile",
+      "uea_foi_20_271",
+      "uea_foi_24_267"
+    ],
+    "overall_policy": {
+      "status": "official_rules_mapped_with_manual_review_boundaries",
+      "description": "UEA checks GCSE, post-16, UCAT and non-academic threshold requirements before ranking eligible applicants for interview by UCAT cognitive total when the interview pool is oversubscribed. GCSEs and predicted grades are not scored.",
+      "not_eligible_if": [
+        "The supported GCSE threshold is not met.",
+        "The supported A-level or IB academic route is not met.",
+        "A current-cycle UCAT cognitive total is not supplied.",
+        "A required English science A-level practical endorsement is not passed.",
+        "An International applicant does not satisfy IELTS 7.5 overall with at least 7.0 in each component or an accepted exemption.",
+        "The applicant is applying as a graduate-entry Medicine applicant, which belongs to UEA A101 rather than A100."
+      ],
+      "manual_review_if": [
+        "The applicant is using Scottish qualifications because the current generic evaluator cannot safely enforce UEA's National 5 grade thresholds.",
+        "The applicant is using country-specific international qualifications without verified UEA equivalence.",
+        "The applicant is a resit applicant because UEA's resit rule depends on subject-level resit evidence not fully represented by the generic route."
+      ],
+      "source_ids": [
+        "uea_research_doc"
+      ]
+    },
+    "gcse": {
+      "status": "official_source_verified",
+      "source_ids": [
+        "uea_research_doc",
+        "uea_course_page_2026",
+        "uea_foi_20_271"
+      ],
+      "qualification_scope": [
+        "GCSE",
+        "IGCSE",
+        "National 5 subject equivalents for manual Scottish review"
+      ],
+      "minimum_count": 6,
+      "minimum_count_at_or_above_grade": {
+        "requirement_id": "six_gcse_at_grade_7_or_a",
+        "count": 6,
+        "minimum_grade": "7/A"
+      },
+      "mandatory_subject_ids": [
+        "english_language",
+        "mathematics"
+      ],
+      "grade_requirements": [
+        {
+          "requirement_id": "gcse_english_language_minimum",
+          "subject_id": "english_language",
+          "minimum_grade": "5/B",
+          "qualification_level": "gcse_or_igcse",
+          "decision_outcome_if_not_met": "not_eligible",
+          "source_ids": [
+            "uea_research_doc"
+          ],
+          "notes": "English Language may sit outside the six GCSE subjects at grade 7/A or above."
+        },
+        {
+          "requirement_id": "gcse_mathematics_minimum",
+          "subject_id": "mathematics",
+          "minimum_grade": "7/A",
+          "qualification_level": "gcse_or_igcse",
+          "decision_outcome_if_not_met": "not_eligible",
+          "source_ids": [
+            "uea_research_doc"
+          ]
+        }
+      ],
+      "science_requirement": {
+        "requirement_id": "gcse_two_sciences_or_double_science",
+        "requirement_type": "any_of",
+        "minimum_options_required": 1,
+        "accepted_options": [
+          {
+            "option_id": "two_single_sciences",
+            "accepted_subject_ids": [
+              "biology",
+              "chemistry",
+              "physics"
+            ],
+            "minimum_subjects_required": 2,
+            "minimum_grade": "7/A"
+          },
+          {
+            "option_id": "combined_science_double_award",
+            "subject_id": "combined_science",
+            "minimum_grade_profile": [
+              "7",
+              "7"
+            ],
+            "accepted_equivalent_profile": [
+              "A",
+              "A"
+            ],
+            "counts_as_gcse_subjects": 2
+          }
+        ],
+        "decision_outcome_if_not_met": "not_eligible",
+        "notes": "Two science subjects or Double Science satisfy the science threshold. GCSE sciences are checked only as a threshold, never scored."
+      },
+      "accepted_equivalencies": [
+        "IGCSE",
+        "Double Science / Combined Science"
+      ],
+      "sitting_policy": "GCSE resits are recorded as allowed only when actively resitting and predicted to achieve the required grade; ApplySmart routes detailed resit cases to manual review.",
+      "achieved_or_predicted": "achieved_or_currently_resitting_with_verified_prediction",
+      "selection_role": "eligibility_only",
+      "scored_after_eligibility": false,
+      "notes": "GCSEs are threshold-only. UEA FOI evidence confirms GCSEs are not scored."
+    },
+    "post_16": {
+      "status": "official_source_verified_with_documented_gaps",
+      "source_ids": [
+        "uea_research_doc",
+        "uea_course_page_2026",
+        "msc_uea_a100_profile"
+      ],
+      "accepted_qualifications": [
+        "a_level",
+        "international_baccalaureate",
+        "advanced_highers",
+        "international_qualification"
+      ],
+      "a_level": {
+        "status": "official_source_verified",
+        "standard_offer": {
+          "grade_profile": [
+            "A",
+            "A",
+            "A"
+          ],
+          "source_ids": [
+            "uea_research_doc"
+          ]
+        },
+        "contextual_offer": null,
+        "grade_requirements": [
+          {
+            "requirement_id": "uea_standard_a_level_aaa_biology_or_chemistry",
+            "grade_profile": [
+              "A",
+              "A",
+              "A"
+            ],
+            "required_subject_grade_options": [
+              {
+                "grade_requirements": [
+                  {
+                    "subject_id": "biology",
+                    "minimum_grade": "A"
+                  }
+                ]
+              },
+              {
+                "grade_requirements": [
+                  {
+                    "subject_id": "chemistry",
+                    "minimum_grade": "A"
+                  }
+                ]
+              }
+            ],
+            "excluded_subject_ids": [
+              "general_studies",
+              "critical_thinking"
+            ],
+            "source_ids": [
+              "uea_research_doc"
+            ]
+          }
+        ],
+        "required_subject_ids": [],
+        "excluded_subject_ids": [
+          "general_studies",
+          "critical_thinking"
+        ],
+        "excluded_subject_names": [
+          "General Studies",
+          "Critical Thinking"
+        ],
+        "science_practical_endorsement_required": true,
+        "predicted_grades_accepted": true,
+        "predicted_grades_scored": false,
+        "achieved_grades_scored": false,
+        "notes": "AAA including Biology or Chemistry. General Studies and Critical Thinking are not accepted. Science practical endorsement must be passed where applicable for English awarding bodies."
+      },
+      "ib": {
+        "status": "official_source_verified",
+        "total_points": 34,
+        "hl_points": 18,
+        "required_hl_subjects": [
+          "biology_or_chemistry"
+        ],
+        "hl_grade_profile": [
+          "6",
+          "6",
+          "6"
+        ],
+        "notes": "34 overall with 6,6,6 at Higher Level including Biology or Chemistry."
+      },
+      "scottish": {
+        "status": "official_source_verified_manual_review_required_for_runtime",
+        "higher_offer": null,
+        "advanced_higher_offer": [
+          "B",
+          "B",
+          "B"
+        ],
+        "required_subjects": [
+          "Biology or Chemistry"
+        ],
+        "notes": "Advanced Higher BBB including Biology or Chemistry is recorded. Automatic Scottish eligibility is withheld because National 5 grade thresholds cannot be safely enforced by the current generic evaluator."
+      },
+      "btec": {
+        "status": "not_supported_for_a100_from_supplied_evidence",
+        "accepted_subjects": [],
+        "accepted_combinations": "",
+        "notes": "No supported BTEC A100 route is implemented from the supplied evidence."
+      },
+      "access_to_he": {
+        "status": "not_supported_for_a100_from_supplied_evidence",
+        "total_credits": null,
+        "distinction_credits": null,
+        "merit_credits": null,
+        "subject_credits": [],
+        "notes": "No supported Access to HE A100 route is implemented from the supplied evidence."
+      },
+      "notes": "Academic qualifications are threshold checks only and are not converted into a selection score."
+    },
+    "admissions_tests": {
+      "ucat": {
+        "test": "UCAT",
+        "required": true,
+        "minimum_total_score": null,
+        "weight_percent": 100,
+        "validity_window": "current admissions cycle",
+        "source_ids": [
+          "uea_research_doc",
+          "uea_foi_25_193"
+        ],
+        "notes": "UEA states that it has no fixed UCAT cut-off. Eligible applicants are ranked by overall UCAT score if interview capacity is oversubscribed."
+      },
+      "sjt": {
+        "used_as_gate": false,
+        "accepted_bands": [
+          1,
+          2,
+          3,
+          4
+        ],
+        "excluded_bands": [],
+        "band_4_policy": "not_verified_as_automatic_rejection",
+        "scoring": {
+          "used_in_score": false,
+          "notes": "SJT is included later in UEA's interview-stage score, but ApplySmart does not predict interview performance or offers."
+        },
+        "notes": "Band 3 is not rejected. Band 4 is not implemented as an automatic rejection because the supplied official evidence does not verify that rule."
+      }
+    },
+    "resits": {
+      "verification_status": "official_source_verified_manual_review_required",
+      "source_ids": [
+        "uea_research_doc",
+        "msc_uea_a100_profile"
+      ],
+      "allowed": true,
+      "conditions": "A-level resit applicants must meet UEA's published resit policy, including at least one A* in the resat subject(s). GCSE resits must be active and predicted to meet the requirement.",
+      "maximum_resits": null,
+      "notes": "Subject-level resit evidence is not safely represented by the current generic runtime, so resit applicants are routed to manual review."
+    },
+    "english_language": {
+      "required_for_group": true,
+      "applies_to_group_ids": [
+        "international_fee"
+      ],
+      "accepted_tests": [
+        {
+          "test": "IELTS Academic",
+          "overall": 7.5,
+          "component_minimum": 7.0,
+          "validity": "within 2 years of course start"
+        }
+      ],
+      "exemptions": [
+        "GCSE English Language grade 7/A for International applicants, except specified IGCSE English qualifications requiring IELTS."
+      ],
+      "notes": "ApplySmart checks IELTS-style component evidence or a declared verified exemption. Listed IGCSE exceptions require manual verification."
+    },
+    "age_or_professional_checks": {
+      "minimum_age": 18,
+      "minimum_age_date": "course start date",
+      "degree_required": false,
+      "degree_classification": null,
+      "accepted_degree_subjects": [],
+      "dbs_required": true,
+      "occupational_health_required": true,
+      "fitness_to_practise_required": true,
+      "notes": "Applicants must be aged 18 or over by course start. DBS, occupational health and fitness-to-practise checks are conditions of the professional course."
+    },
+    "non_academic": {
+      "work_experience": "Two examples of relevant work experience are required for discussion at interview; not used as a pre-interview selection score in ApplySmart.",
+      "personal_statement": "Checked as non-scored screening information only.",
+      "reference_policy": "Satisfactory reference required as a pass/fail screening item.",
+      "fitness_to_practise_required": true,
+      "dbs_required": true,
+      "occupational_health_required": true,
+      "notes": "Personal statement, reference and work-experience examples are not assigned points and do not alter interview guidance."
+    }
+  },
+  "stage_2_interview_selection": {
+    "verification_status": "official_and_foi_verified_exact_scoring_undisclosed",
+    "source_ids": [
+      "uea_research_doc",
+      "uea_course_page_2026",
+      "uea_foi_25_193",
+      "uea_foi_24_267"
+    ],
+    "primary_model": "ucat_ranking",
+    "modifiers": [
+      "home_international_separate_ranking"
+    ],
+    "ranking_factors": [
+      {
+        "factor_id": "ucat_cognitive_total",
+        "factor": "ucat_total",
+        "role": "ranking_metric_after_academic_gate",
+        "weight_percent": 100,
+        "points_available": null,
+        "notes": "Eligible applicants are ranked by overall UCAT score for interview selection when applications exceed interview capacity."
+      }
+    ],
+    "calculation": {
+      "verification_status": "official_source_verified",
+      "source_ids": [
+        "uea_research_doc"
+      ],
+      "score_components": [],
+      "total_score": {
+        "calculation_method": "not_applicable_no_academic_points_score",
+        "components": [
+          "ucat_cognitive_total"
+        ],
+        "scale": {
+          "min": 0,
+          "max": 2700
+        },
+        "notes": "Runtime guidance uses UCAT total only after eligibility. No GCSE, predicted-grade or SJT points are calculated for interview selection.",
+        "source_ids": [
+          "uea_research_doc"
+        ]
+      },
+      "notes": "UEA does not publish a fixed current-year UCAT threshold. ApplySmart uses historical-normalised Home guidance only where evidence is usable."
+    },
+    "thresholds": [],
+    "selection_adjustments": [],
+    "tie_breakers": [],
+    "output_band_policy": "interview_likely_realistic_ambitious_high_risk_not_eligible_insufficient_evidence",
+    "international_selection": {
+      "same_published_methodology": true,
+      "separate_places": true,
+      "international_places_2026": 13,
+      "international_specific_historical_ucat_available": false,
+      "notes": "Do not claim a separate International UCAT threshold. International-only historical UCAT statistics are an evidence gap."
+    },
+    "notes": "No contextual academic reductions, contextual UCAT uplift, contextual scoring or contextual interview threshold are applied to A100."
+  },
+  "contextual_admissions": {
+    "verification_status": "official_source_verified",
+    "source_ids": [
+      "uea_research_doc",
+      "uea_contextual_admissions",
+      "uea_foi_24_267"
+    ],
+    "available": false,
+    "applies_to_group_ids": [],
+    "criteria": [],
+    "adjustments": [],
+    "guaranteed_interview_rules": [],
+    "notes": "UEA A100 has no standard contextual admissions adjustment. A104 Gateway Medicine is a separate course and is not implemented inside this A100 profile. The Preparing for Medicine outreach interview guarantee is not implemented because the current profile does not contain verified programme-specific evidence inputs."
+  },
+  "ranking_pools": [
+    {
+      "pool_id": "home_a100",
+      "name": "Home A100",
+      "applies_to_group_ids": [
+        "home_fee"
+      ],
+      "fee_statuses": [
+        "home"
+      ],
+      "ranking_model": "ucat_ranking",
+      "ranking_factors": [
+        "ucat_cognitive_total"
+      ],
+      "places_available": 195,
+      "source_ids": [
+        "uea_research_doc"
+      ],
+      "notes": "2026 Home place number is subject to confirmation by the Office for Students."
+    },
+    {
+      "pool_id": "international_a100",
+      "name": "International A100",
+      "applies_to_group_ids": [
+        "international_fee"
+      ],
+      "fee_statuses": [
+        "international"
+      ],
+      "ranking_model": "ucat_ranking",
+      "ranking_factors": [
+        "ucat_cognitive_total"
+      ],
+      "places_available": 13,
+      "source_ids": [
+        "uea_research_doc"
+      ],
+      "notes": "Same published method as Home applicants, but International-only historical UCAT guidance is not published."
+    }
+  ],
+  "quotas": [
+    {
+      "quota_id": "east_anglia_a100_places_2027_entry_verified",
+      "name": "Verified Home/International places (2027 entry)",
+      "home_places": 195,
+      "international_places": 13,
+      "quota_type": "verified_current_places",
+      "source_ids": [
+        "applysmart_admissions_team_verified_2026"
+      ],
+      "notes": "Home/International place figures verified by the ApplySmart admissions research team for 2027 entry."
+    },
+    {
+      "quota_id": "home_places_2026",
+      "places": 195,
+      "fee_status": "home",
+      "source_ids": [
+        "uea_research_doc"
+      ],
+      "notes": "Subject to OfS confirmation."
+    },
+    {
+      "quota_id": "international_places_2026",
+      "places": 13,
+      "fee_status": "international",
+      "source_ids": [
+        "uea_research_doc"
+      ],
+      "notes": "Subject to OfS confirmation."
+    }
+  ],
+  "offer_selection": {
+    "verification_status": "official_source_verified",
+    "source_ids": [
+      "uea_research_doc",
+      "uea_course_page_2026"
+    ],
+    "interview_format": {
+      "type": "mmi",
+      "stations": 6,
+      "duration": "5 minutes per station with 1.5 minutes preparation time"
+    },
+    "interview_scoring": {
+      "scored": true,
+      "sjt_included_at_interview_stage": true,
+      "notes": "Interview scoring and SJT contribution are recorded for transparency only."
+    },
+    "offer_model": {
+      "stored_for_transparency_only": true,
+      "description": "UEA states that post-interview ranking uses 50% UCAT and 50% interview score.",
+      "applysmart_runtime_use": "not_used_for_offer_prediction"
+    },
+    "ranking_factors": [
+      {
+        "factor_id": "ucat_post_interview",
+        "weight_percent": 50,
+        "runtime_use": "transparency_only"
+      },
+      {
+        "factor_id": "interview_score",
+        "weight_percent": 50,
+        "runtime_use": "transparency_only"
+      }
+    ],
+    "tie_breakers": [],
+    "waiting_list_policy": {
+      "status": "not_published",
+      "runtime_use": "not_implemented"
+    },
+    "standard_offer": {
+      "a_level": "AAA including Biology or Chemistry",
+      "ib": "34 overall with 6,6,6 at Higher Level including Biology or Chemistry",
+      "advanced_higher": "BBB including Biology or Chemistry"
+    },
+    "contextual_offer": null,
+    "notes": "Offer prediction, probability of offer, MMI performance prediction and waiting-list prediction are out of scope."
+  },
+  "historical_admissions": {
+    "verification_status": "official_and_foi_verified",
+    "source_ids": [
+      "uea_research_doc",
+      "uea_foi_24_267",
+      "uea_foi_25_193",
+      "uea_foi_25_265"
+    ],
+    "cycles": [
+      {
+        "entry_year": 2019,
+        "fee_status": "home",
+        "applicants": 1343,
+        "interviews": 998,
+        "offers": 663,
+        "average_interviewed_ucat": 2571,
+        "lowest_interviewed_ucat": 2030,
+        "highest_interviewed_ucat": 3200,
+        "score_scale": 3600,
+        "display_original_scale": true,
+        "usable_for_guidance_band_calibration": true,
+        "source_ids": [
+          "uea_foi_24_267"
+        ]
+      },
+      {
+        "entry_year": 2020,
+        "fee_status": "home",
+        "applicants": 1404,
+        "interviews": 1049,
+        "offers": 573,
+        "average_interviewed_ucat": 2553,
+        "lowest_interviewed_ucat": 1980,
+        "highest_interviewed_ucat": 1390,
+        "score_scale": 3600,
+        "display_original_scale": true,
+        "official_source_anomaly": true,
+        "anomaly_note": "UEA FOI_24-267 reports a high value of 1390 and an inverted low/high relationship. Values are preserved verbatim but excluded from automated guidance calibration.",
+        "usable_for_guidance_band_calibration": false,
+        "source_ids": [
+          "uea_foi_24_267"
+        ]
+      },
+      {
+        "entry_year": 2021,
+        "fee_status": "home",
+        "applicants": 1587,
+        "interviews": 596,
+        "offers": 378,
+        "average_interviewed_ucat": 2706,
+        "lowest_interviewed_ucat": 1970,
+        "highest_interviewed_ucat": 3310,
+        "score_scale": 3600,
+        "display_original_scale": true,
+        "usable_for_guidance_band_calibration": true,
+        "source_ids": [
+          "uea_foi_24_267"
+        ]
+      },
+      {
+        "entry_year": 2022,
+        "fee_status": "home",
+        "applicants": 2126,
+        "interviews": 693,
+        "offers": 413,
+        "average_interviewed_ucat": 2769,
+        "lowest_interviewed_ucat": 2290,
+        "highest_interviewed_ucat": 3290,
+        "score_scale": 3600,
+        "display_original_scale": true,
+        "usable_for_guidance_band_calibration": true,
+        "source_ids": [
+          "uea_foi_24_267"
+        ]
+      },
+      {
+        "entry_year": 2023,
+        "fee_status": "home",
+        "applicants": 2089,
+        "interviews": 703,
+        "offers": 479,
+        "average_interviewed_ucat": 2849,
+        "lowest_interviewed_ucat": 2340,
+        "highest_interviewed_ucat": 3420,
+        "score_scale": 3600,
+        "display_original_scale": true,
+        "usable_for_guidance_band_calibration": true,
+        "source_ids": [
+          "uea_foi_24_267"
+        ]
+      },
+      {
+        "entry_year": 2024,
+        "fee_status": "home",
+        "applicants": 1396,
+        "interviews": 707,
+        "offers": 563,
+        "average_interviewed_ucat": 2795,
+        "lowest_interviewed_ucat": 2190,
+        "highest_interviewed_ucat": 3410,
+        "score_scale": 3600,
+        "display_original_scale": true,
+        "usable_for_guidance_band_calibration": true,
+        "source_ids": [
+          "uea_foi_24_267"
+        ]
+      },
+      {
+        "entry_year": 2025,
+        "fee_status": "non_contextual",
+        "average_interviewed_ucat": 2739,
+        "median_interviewed_ucat": 2710,
+        "average_offer_ucat": 2758,
+        "median_offer_ucat": 2730,
+        "score_scale": 2700,
+        "official_source_anomaly": true,
+        "anomaly_note": "Research reports values above the 2700-point scale. No local source snapshot verified whether these are transcription errors, scale errors or a cycle-label issue, so they are preserved as an evidence discrepancy and excluded from runtime guidance.",
+        "usable_for_guidance_band_calibration": false,
+        "source_ids": [
+          "uea_foi_25_265"
+        ]
+      }
+    ],
+    "notes": "Home 2019-2024 legacy /3600 figures are preserved on their original scale. The 2020 anomaly and unverified 2025 /2700 discrepancy are not used for automated interview-band calibration. International-only historical UCAT statistics are missing."
+  },
+  "sources": [
+    {
+      "source_id": "uea_research_doc",
+      "title": "ApplySmart Medical University Research - University of East Anglia, Norwich Medical School, A100",
+      "url": null,
+      "source_type": "approved_research_document",
+      "published_date": null,
+      "accessed_date": "2026-07-16",
+      "applies_to_sections": [
+        "all"
+      ],
+      "confidence": "high",
+      "notes": "User-supplied authoritative research file for this implementation."
+    },
+    {
+      "source_id": "uea_course_page_2026",
+      "title": "UEA official MBBS Medicine course page",
+      "url": "https://www.uea.ac.uk/course/undergraduate/mbbs-medicine",
+      "source_type": "official_course_page",
+      "published_date": null,
+      "accessed_date": "2026-07-16",
+      "applies_to_sections": [
+        "eligibility",
+        "selection",
+        "interview"
+      ],
+      "confidence": "high",
+      "notes": "Cited in the supplied research for 2026/27 entry."
+    },
+    {
+      "source_id": "msc_uea_a100_profile",
+      "title": "Medical Schools Council UEA Medicine A100 profile",
+      "url": "https://www.medschools.ac.uk/courses/uea-medicine-a100/",
+      "source_type": "official_course_profile",
+      "published_date": null,
+      "accessed_date": "2026-07-16",
+      "applies_to_sections": [
+        "eligibility"
+      ],
+      "confidence": "high",
+      "notes": "Cited in the supplied research for A-level, IB and Advanced Higher details."
+    },
+    {
+      "source_id": "uea_contextual_admissions",
+      "title": "UEA Contextual Admissions",
+      "url": "https://www.uea.ac.uk/apply/undergraduate/contextual-admissions",
+      "source_type": "official_policy",
+      "published_date": null,
+      "accessed_date": "2026-07-16",
+      "applies_to_sections": [
+        "contextual_admissions"
+      ],
+      "confidence": "high",
+      "notes": "Research records that A100 and A101 Medicine do not use contextual data in screening."
+    },
+    {
+      "source_id": "uea_foi_24_267",
+      "title": "UEA FOI_24-267",
+      "url": null,
+      "source_type": "freedom_of_information",
+      "published_date": null,
+      "accessed_date": "2026-07-16",
+      "applies_to_sections": [
+        "historical_admissions",
+        "contextual_admissions"
+      ],
+      "confidence": "high",
+      "notes": "Home historical UCAT and application/interview/offer data, including the preserved 2020 anomaly."
+    },
+    {
+      "source_id": "uea_foi_25_193",
+      "title": "UEA FOI_25-193",
+      "url": null,
+      "source_type": "freedom_of_information",
+      "published_date": null,
+      "accessed_date": "2026-07-16",
+      "applies_to_sections": [
+        "selection",
+        "historical_admissions"
+      ],
+      "confidence": "high",
+      "notes": "Research records no fixed UCAT cut-off and all-applicant historical figures."
+    },
+    {
+      "source_id": "uea_foi_25_265",
+      "title": "UEA FOI_25-265",
+      "url": null,
+      "source_type": "freedom_of_information",
+      "published_date": null,
+      "accessed_date": "2026-07-16",
+      "applies_to_sections": [
+        "historical_admissions",
+        "sjt"
+      ],
+      "confidence": "medium",
+      "notes": "Research records Band 3 interview/offer evidence and mathematically impossible 2025 UCAT values on a 2700-point scale; those numeric UCAT values are excluded from runtime guidance pending source validation."
+    },
+    {
+      "source_id": "uea_foi_20_271",
+      "title": "UEA FOI_20-271",
+      "url": null,
+      "source_type": "freedom_of_information",
+      "published_date": null,
+      "accessed_date": "2026-07-16",
+      "applies_to_sections": [
+        "gcse",
+        "academic_scoring"
+      ],
+      "confidence": "high",
+      "notes": "Research records UEA confirmation that GCSEs are not scored."
+    }
+  ],
+  "validation": {
+    "source_status": "official_and_foi_verified",
+    "last_verified": "2026-07-16",
+    "confidence_level": "Medium",
+    "completion_status": "complete_for_supported_scope_with_documented_gaps",
+    "schema_validated": true,
+    "evidence_gaps": [
+      "International-only UCAT interview statistics are not published in the supplied evidence.",
+      "Country-specific international qualification equivalency tables are not itemised.",
+      "UEA 2025 FOI UCAT values reported in the research exceed the stated 2700-point scale and require source-level validation before use.",
+      "Scottish National 5 grade thresholds are recorded but require manual review in the current generic runtime."
+    ],
+    "known_unknowns": [
+      "International-only UCAT interview statistics are not published in the supplied evidence.",
+      "Country-specific international qualification equivalency tables are not itemised.",
+      "UEA 2025 FOI UCAT values reported in the research exceed the stated 2700-point scale and require source-level validation before use.",
+      "Scottish National 5 grade thresholds are recorded but require manual review in the current generic runtime."
+    ],
+    "review_notes": "UEA A100 fits the existing UCAT-ranking architecture without shared-engine changes. The implemented runtime excludes anomalous or unverified historical values from band calibration."
+  },
+  "engine_notes": {
+    "eligibility": true,
+    "interview_prediction": true,
+    "historical_guidance": true,
+    "international_prediction": false,
+    "contextual_logic": false,
+    "result_card": true,
+    "regression": true,
+    "research_completeness": "complete_for_supported_scope_with_documented_gaps",
+    "manual_review_required": true,
+    "eligibility_ready": true,
+    "interview_prediction_ready": true,
+    "prediction_confidence": "low",
+    "result_card_ready": true,
+    "offer_prediction_scope": "out_of_scope",
+    "metadata_activation_ready": true,
+    "activation_ready": true,
+    "production_ready": true,
+    "blocking_missing_fields": [
+      "International-only UCAT historical guidance is unavailable.",
+      "Country-specific international qualification equivalencies require UEA verification.",
+      "Scottish National 5 grade thresholds require manual review.",
+      "2025 UCAT values above the stated /2700 scale require source validation before use."
+    ],
+    "engine_assumptions": [
+      "Supported Home A-level and IB applicants are assessed through the generic threshold-eligibility and UCAT-ranking path.",
+      "Contextual and widening-participation flags do not alter A100 eligibility or UCAT guidance.",
+      "International A100 applicants follow the same published methodology but receive insufficient-evidence interview guidance because International-only historical data is missing."
+    ],
+    "do_not_infer": [
+      "Do not create a fixed current-year UCAT threshold.",
+      "Do not score GCSEs, predicted grades, personal statement, reference or work experience.",
+      "Do not reject SJT Band 3 or Band 4.",
+      "Do not apply A104 Gateway or A101 Graduate Entry rules inside A100.",
+      "Do not use anomalous 2020 or unverified 2025 historical UCAT values for runtime guidance.",
+      "Do not predict offers, interview performance or waiting-list outcomes."
+    ],
+    "implementation_scope": "Eligibility and interview guidance only. No offer, MMI-performance or waiting-list prediction.",
+    "standardisation_notes": [
+      "GCSEs are threshold-only.",
+      "No contextual A100 adjustment is implemented.",
+      "International interview prediction remains unavailable because International-only historical UCAT statistics are missing.",
+      "2020 and 2025 anomalous historical UCAT fields are preserved but excluded from runtime calibration."
+    ]
+  }
+}

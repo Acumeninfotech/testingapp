@@ -1,0 +1,263 @@
+{
+  "schema_version": "1.0.0",
+  "course_profile_id": "hull-york-a100",
+  "confidence": "low",
+  "evidence": {
+    "classification": "official_selection_framework_with_unofficial_third_party_estimate_mode",
+    "summary": "HYMS officially publishes a 100-point selection framework but not its exact GCSE, UCAT-decile, SJT or contextual tariffs. ApplySmart's numerical score and recommendation bands are therefore explicitly unofficial, low-confidence estimates and are never presented as HYMS-confirmed values.",
+    "source_ids": [
+      "hyms_entry_requirements_2027",
+      "hyms_ucat_2027",
+      "hyms_selection_procedure_2027",
+      "hyms_contextual_admissions_2027",
+      "hyms_third_party_estimate_model"
+    ]
+  },
+  "eligibility": {
+    "execution_adapter": "hull_york_a100_consumer",
+    "official_rules_separate_from_estimate_mode": true,
+    "scope": "Official academic, UCAT, SJT, English-language, age, transfer, graduate and supported resit rules are evaluated before estimate mode.",
+    "contextual_official_policy": {
+      "minimum_criteria_count": 2,
+      "university_verification_required": true,
+      "applies_to": [
+        "Home UK-resident school-leavers"
+      ],
+      "excluded": [
+        "International applicants",
+        "Graduates",
+        "Applicants who previously started or completed a university course"
+      ]
+    },
+    "do_not_infer": [
+      "Do not treat the estimate tariff as the official HYMS points table.",
+      "Do not apply contextual estimate points outside the Home UK school-leaver route.",
+      "Do not treat an estimate recommendation band as a current HYMS cut-off or interview guarantee.",
+      "Do not use post-interview information for offer prediction."
+    ]
+  },
+  "score_model": {
+    "type": "component_sum",
+    "basis": "Official HYMS framework with a separately labelled university-specific estimate mode",
+    "scale": {
+      "min": 0,
+      "max": 100
+    },
+    "components": [
+      {
+        "component_id": "estimated_gcse_best_six",
+        "type": "gcse_mandatory_then_best",
+        "subject_count": 6,
+        "bands": [
+          {
+            "minimum_grade": "9",
+            "points": 5.83
+          },
+          {
+            "minimum_grade": "8",
+            "points": 4.83
+          },
+          {
+            "minimum_grade": "7",
+            "points": 3.83
+          },
+          {
+            "minimum_grade": "6",
+            "points": 2.83
+          },
+          {
+            "minimum_grade": "5",
+            "points": 1.83
+          },
+          {
+            "minimum_grade": "4",
+            "points": 0.83
+          }
+        ],
+        "max": 35,
+        "official": false
+      },
+      {
+        "component_id": "estimated_ucat_decile",
+        "type": "ucat_national_decile_lookup",
+        "points_by_decile": {
+          "1": 1.5,
+          "2": 7,
+          "3": 10.5,
+          "4": 14,
+          "5": 17.5,
+          "6": 21,
+          "7": 24.5,
+          "8": 28.5,
+          "9": 31.5,
+          "10": 35
+        },
+        "max": 35,
+        "official": false
+      },
+      {
+        "component_id": "estimated_sjt",
+        "type": "sjt_band_lookup",
+        "points_by_band": {
+          "1": 15,
+          "2": 10,
+          "3": 5
+        },
+        "max": 15,
+        "official": false
+      }
+    ],
+    "official_framework": {
+      "gcse_best_six_max": 35,
+      "ucat_decile_max": 35,
+      "sjt_max": 15,
+      "contextual_max": 15,
+      "total_max": 100,
+      "exact_component_tariffs_published": false,
+      "applicants_ranked_in_numerical_order": true
+    },
+    "estimate_mode": {
+      "mode_id": "hyms_unofficial_third_party_estimate",
+      "official": false,
+      "confidence": "low",
+      "consumer": "hull_york_a100_consumer",
+      "components": {
+        "gcse": {
+          "subject_count": 6,
+          "points_by_grade": {
+            "4": 0.83,
+            "5": 1.83,
+            "6": 2.83,
+            "7": 3.83,
+            "8": 4.83,
+            "9": 5.83,
+            "A*": 5.83,
+            "A": 3.83,
+            "B": 2.83,
+            "C": 0.83
+          },
+          "max": 35
+        },
+        "ucat": {
+          "points_by_national_decile": {
+            "1": 1.5,
+            "2": 7,
+            "3": 10.5,
+            "4": 14,
+            "5": 17.5,
+            "6": 21,
+            "7": 24.5,
+            "8": 28.5,
+            "9": 31.5,
+            "10": 35
+          },
+          "max": 35,
+          "lookup": "shared_national_ucat_decile_service"
+        },
+        "sjt": {
+          "points_by_band": {
+            "1": 15,
+            "2": 10,
+            "3": 5
+          },
+          "band_4_outcome": "not_eligible",
+          "max": 15
+        }
+      },
+      "contextual": {
+        "applies_to_group_ids": [
+          "home_fee",
+          "school_leaver"
+        ],
+        "excluded_group_ids": [
+          "international_fee",
+          "graduate_applicant"
+        ],
+        "exclude_prior_university_study": true,
+        "official_contextual_minimum_criteria": 2,
+        "points_by_flag": {
+          "care_experienced": 15,
+          "refugee": 15,
+          "military_family": 15,
+          "gypsy_roma_traveller": 15,
+          "ucat_bursary": 8,
+          "recognised_wp_programme": 7,
+          "school_below_progress_8": 3,
+          "polar4_quintile_1": 3,
+          "polar4_quintile_2": 2,
+          "first_generation_higher_education": 1
+        },
+        "cap": 15,
+        "official": false,
+        "conflict_note": "The third-party model's automatic 15 points for certain single criteria conflicts with HYMS's official requirement to meet at least two contextual criteria. ApplySmart reports official contextual eligibility separately and labels every estimated point as unofficial."
+      },
+      "home_recommendation_bands": [
+        {
+          "band": "interview_likely",
+          "min": 80
+        },
+        {
+          "band": "realistic",
+          "min": 72,
+          "max": 79.99
+        },
+        {
+          "band": "ambitious",
+          "min": 64,
+          "max": 71.99
+        },
+        {
+          "band": "high_risk",
+          "max": 63.99
+        }
+      ],
+      "international_guidance": {
+        "score_max": 85,
+        "possible_ucat_total_minimum": 2020,
+        "status": "rough_unofficial_directional_divide_only",
+        "fixed_score_bands_available": false
+      },
+      "mandatory_disclosure": "This is an estimate based on unofficial, third-party scoring assumptions — Hull York Medical School has not published its exact points formula and has formally declined to release it under a Freedom of Information request. Treat this score as directional, not exact."
+    }
+  },
+  "guidance_pools": [
+    {
+      "pool_id": "home_school_leaver_estimate",
+      "priority": 30,
+      "applicant_match": {
+        "all_group_ids": [
+          "home_fee",
+          "school_leaver"
+        ],
+        "excluded_group_ids": [
+          "graduate_applicant",
+          "international_fee"
+        ]
+      },
+      "metric": "selection_score",
+      "band_rules": []
+    },
+    {
+      "pool_id": "international_estimate_limited",
+      "priority": 20,
+      "applicant_match": {
+        "all_group_ids": [
+          "international_fee"
+        ]
+      },
+      "metric": "selection_score",
+      "band_rules": []
+    },
+    {
+      "pool_id": "graduate_score_only_no_band",
+      "priority": 10,
+      "applicant_match": {
+        "all_group_ids": [
+          "graduate_applicant"
+        ]
+      },
+      "metric": "selection_score",
+      "band_rules": []
+    }
+  ]
+}

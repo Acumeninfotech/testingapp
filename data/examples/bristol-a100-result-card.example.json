@@ -1,0 +1,435 @@
+{
+  "schema_version": "1.0.0",
+  "template_version": "1.0.0",
+  "result_id": "bristol-a100-home-standard-example",
+  "generated_at": "2026-07-13",
+  "result_mode": "example_eligibility_and_historical_interview_guidance",
+  "production_state": {
+    "profile_active": true,
+    "metadata_activation_enabled": true,
+    "result_card_output_enabled": true,
+    "note": "This example reflects Bristol A100 interview guidance for the declared supported scope."
+  },
+  "course_identity": {
+    "profile_id": "bristol-a100",
+    "university_name": "University of Bristol",
+    "course_name": "MB ChB Medicine",
+    "ucas_code": "A100",
+    "entry_route": "standard_entry",
+    "qualification_awarded": "MB ChB",
+    "duration_years": 5,
+    "location": "Bristol, England",
+    "source_ids": [
+      "bristol_research_doc",
+      "bristol_course_page_2027"
+    ]
+  },
+  "applicant_context": {
+    "applies_to_group_ids": [
+      "england_domiciled",
+      "rest_of_uk",
+      "home_fee",
+      "school_leaver"
+    ],
+    "applicant_summary": "Home standard A-level school-leaver with GCSE English Language 6, Mathematics 7, AAA in Biology, Chemistry and Mathematics, passed science practical endorsements, UCAT 2250/2700 and SJT Band 4.",
+    "fee_cohort": "home",
+    "entry_route": "standard_entry",
+    "contextual": false,
+    "graduate": false,
+    "source_ids": []
+  },
+  "readiness": {
+    "eligibility": true,
+    "interview_prediction": true,
+    "historical_guidance": true,
+    "international_prediction": true,
+    "contextual_logic": true,
+    "result_card": true,
+    "regression": true,
+    "research_completeness": "complete_for_supported_scope_with_documented_gaps",
+    "manual_review_required": true,
+    "eligibility_ready": true,
+    "interview_prediction_ready": true,
+    "prediction_confidence": "medium",
+    "result_card_ready": true,
+    "offer_prediction_scope": "out_of_scope"
+  },
+  "eligibility": {
+    "status": "eligible",
+    "summary": "The represented Home standard school-leaver meets Bristol's supported GCSE, A-level, practical-endorsement and UCAT requirements.",
+    "stage_1_checks": [
+      {
+        "check_id": "gcse_threshold",
+        "label": "GCSE threshold",
+        "status": "pass",
+        "requirement": "GCSE English Language grade 4/C and Mathematics grade 7/A.",
+        "applicant_value": "English Language 6 and Mathematics 7.",
+        "decision_outcome": "eligible",
+        "source_ids": [
+          "bristol_research_doc"
+        ]
+      },
+      {
+        "check_id": "a_level_threshold",
+        "label": "A-level threshold and subjects",
+        "status": "pass",
+        "requirement": "AAA including Chemistry and one of Biology, Physics, Mathematics or Further Mathematics.",
+        "applicant_value": "AAA in Biology, Chemistry and Mathematics.",
+        "decision_outcome": "eligible",
+        "source_ids": [
+          "bristol_research_doc"
+        ]
+      },
+      {
+        "check_id": "science_practical_endorsements",
+        "label": "Science practical endorsements",
+        "status": "pass",
+        "requirement": "Pass the practical endorsement for English linear science A-levels.",
+        "applicant_value": "Biology and Chemistry practical endorsements are passed.",
+        "decision_outcome": "eligible",
+        "source_ids": [
+          "bristol_research_doc"
+        ]
+      },
+      {
+        "check_id": "ucat_and_sjt",
+        "label": "UCAT and SJT",
+        "status": "pass",
+        "requirement": "UCAT is required and SJT is not used.",
+        "applicant_value": "UCAT 2250/2700 with SJT Band 4.",
+        "decision_outcome": "eligible",
+        "source_ids": [
+          "bristol_research_doc"
+        ]
+      }
+    ],
+    "blocking_reasons": [],
+    "warnings": [
+      "Eligibility covers the represented standard A-level route and supplied applicant evidence.",
+      "The 2026-entry UCAT threshold is historical guidance, not a current threshold or guarantee."
+    ],
+    "source_ids": [
+      "bristol_research_doc",
+      "bristol_admissions_statement"
+    ]
+  },
+  "stage_1_requirements": {
+    "verification_status": "official_source_verified_for_represented_route",
+    "verified_requirements": [
+      {
+        "requirement_id": "gcse_gate",
+        "label": "GCSE eligibility gate",
+        "value": "English Language 4/C and Mathematics 7/A.",
+        "applies_to_group_ids": [
+          "school_leaver"
+        ],
+        "source_ids": [
+          "bristol_research_doc"
+        ]
+      },
+      {
+        "requirement_id": "a_level_gate",
+        "label": "A-level eligibility gate",
+        "value": "AAA with Chemistry plus a second science or maths and passed practical endorsements.",
+        "applies_to_group_ids": [
+          "school_leaver"
+        ],
+        "source_ids": [
+          "bristol_research_doc"
+        ]
+      },
+      {
+        "requirement_id": "ucat_required",
+        "label": "UCAT required",
+        "value": "UCAT cognitive total is the sole ranking metric after academic eligibility.",
+        "applies_to_group_ids": [],
+        "source_ids": [
+          "bristol_research_doc"
+        ]
+      }
+    ],
+    "unknown_requirements": [],
+    "source_ids": [
+      "bristol_research_doc"
+    ]
+  },
+  "stage_2_selection": {
+    "verification_status": "official_ucat_ranking_with_historical_guidance",
+    "primary_model": "academic_gate_then_pool_specific_ucat_ranking",
+    "summary": "Bristol first checks academic eligibility. Ordinary eligible applicants are then ranked by UCAT cognitive total within separate Home and International pools; GCSEs, A-levels, SJT and personal statements are not scored.",
+    "represented_ranking_input": {
+      "score": 2250,
+      "max": 2700,
+      "metric": "ucat_total"
+    },
+    "ranking_factors": [
+      {
+        "factor_id": "ucat_cognitive_total",
+        "label": "UCAT cognitive total",
+        "weight_percent": 100,
+        "calculation_status": "known",
+        "notes": "Sole ranking input after academic eligibility for ordinary applicants.",
+        "source_ids": [
+          "bristol_research_doc"
+        ]
+      }
+    ],
+    "selection_adjustments": [],
+    "unknown_calculation_areas": [
+      "Future-cycle Home and International UCAT thresholds.",
+      "Post-interview MMI score distributions and offer cut-offs."
+    ],
+    "source_ids": [
+      "bristol_research_doc"
+    ]
+  },
+  "historical_context": {
+    "use": "guidance_only",
+    "fixed_current_cutoff": false,
+    "not_deterministic": true,
+    "warning": "The 2026-entry Home threshold is historical guidance, not a current or future cut-off, probability or guarantee.",
+    "represented_pool": {
+      "pool_id": "home_a100",
+      "cycle": "2026 entry",
+      "score_scale": 2700,
+      "published_cutpoint": 2240,
+      "evidence_classification": "official_published_threshold"
+    },
+    "legacy_3600_data": {
+      "conversion_used_for_execution": false,
+      "reason": "Converted historical figures are retained for context only and are not treated as exact future thresholds."
+    }
+  },
+  "prediction": {
+    "available": true,
+    "capability": "interview_guidance",
+    "prediction_type": "historical_pool_specific_ucat_guidance",
+    "prediction_status": "historical_guidance_available",
+    "result_band": "realistic",
+    "guidance_pool_id": "home_a100",
+    "score": 2250,
+    "score_scale": {
+      "min": 0,
+      "max": 2700
+    },
+    "band_basis": "UCAT 2250 is at or above Bristol's published 2026-entry Home threshold of 2240. This threshold is historical guidance only and is not a guaranteed future cut-off.",
+    "historical_comparison": "at_or_above_2026_entry_home_threshold",
+    "missing_data_reasons": [],
+    "cannot_predict_explanation": null,
+    "source_ids": [
+      "bristol_research_doc"
+    ]
+  },
+  "missing_data": {
+    "future_cycle_pool_cutpoints": "not_published_before_dynamic_ranking",
+    "converted_legacy_thresholds": "context_only_not_executable",
+    "country_specific_international_equivalences": "not_tabulated",
+    "post_interview_distributions_and_offer_cutoffs": "not_published_out_of_scope"
+  },
+  "confidence": {
+    "level": "medium",
+    "summary": "Official eligibility and selection rules support the represented route, with future-cycle and post-interview evidence limits.",
+    "stage_confidence": {
+      "stage_1": "medium",
+      "stage_2": "medium",
+      "historical_guidance": "medium"
+    },
+    "source_ids": [
+      "bristol_research_doc",
+      "bristol_course_page_2027",
+      "bristol_admissions_statement"
+    ]
+  },
+  "evidence_confidence": {
+    "level": "Medium",
+    "summary": "The recommendation is supported by core admissions evidence, with some historical or route-specific limits.",
+    "reasons": [
+      "Official eligibility rules are available.",
+      "The university selection approach is implemented.",
+      "Historical interview guidance is available, but some evidence is historical, FOI-derived or has documented gaps."
+    ]
+  },
+  "evidence": {
+    "source_ids": [
+      "bristol_research_doc",
+      "bristol_course_page_2027",
+      "bristol_admissions_statement",
+      "bristol_contextual_admissions",
+      "bristol_wp_programmes"
+    ],
+    "sources": [
+      {
+        "source_id": "bristol_research_doc",
+        "title": "Bristol A100 Research Document supplied for ApplySmart production implementation",
+        "url": null,
+        "source_type": "approved_research_document",
+        "confidence": "high",
+        "accessed_date": "2026-07-13"
+      }
+    ]
+  },
+  "display": {
+    "headline": "Good chance based on historical data",
+    "subheadline": "Eligible Home A100 applicant",
+    "primary_user_facing_recommendation": "Good chance based on historical data",
+    "recommendation_display_state": "standard",
+    "primary_explanation": "The supported entry requirements are met, and UCAT 2250 is at or above Bristol's published 2026-entry Home threshold.",
+    "historical_guidance_caveat": "Interview thresholds may change each admissions cycle depending on applicant competition and interview capacity. Historical figures are guidance only, not a current cut-off, and do not guarantee an interview."
+  },
+  "decision_timeline": [
+    {
+      "step": 1,
+      "title": "Applicant details checked",
+      "status": "Complete",
+      "summary": "Your applicant type, qualifications and UCAT details were checked."
+    },
+    {
+      "step": 2,
+      "title": "Eligibility assessed",
+      "status": "Eligible",
+      "summary": "You meet the published entry requirements covered by ApplySmart."
+    },
+    {
+      "step": 3,
+      "title": "Selection model applied",
+      "status": "Complete",
+      "summary": "Bristol first checks academic eligibility. Ordinary eligible applicants are then ranked by UCAT cognitive total within separate Home and International pools; GCSEs, A-levels, SJT and personal statements are not scored."
+    },
+    {
+      "step": 4,
+      "title": "Historical guidance compared",
+      "status": "Complete",
+      "summary": "Your result was compared with interview information from previous admissions cycles. Interview thresholds may change each admissions cycle depending on applicant competition and interview capacity. Historical figures are guidance only, not a current cut-off, and do not guarantee an interview."
+    },
+    {
+      "step": 5,
+      "title": "Interview recommendation produced",
+      "status": "Good chance",
+      "summary": "Good chance based on historical data. Treat this as guidance for university choice, not a promised interview."
+    }
+  ],
+  "decision_transparency": {
+    "decision_path": [
+      {
+        "stage": "Eligibility",
+        "status": "Met",
+        "summary": "The represented Home standard school-leaver meets Bristol's supported GCSE, A-level, practical-endorsement and UCAT requirements.",
+        "checks": [
+          {
+            "label": "GCSE threshold",
+            "status": "Met",
+            "summary": "GCSE English Language 4/C and Mathematics 7/A. Applicant information: English Language 6 and Mathematics 7."
+          },
+          {
+            "label": "A-level threshold and subjects",
+            "status": "Met",
+            "summary": "AAA including Chemistry and a second science or maths. Applicant information: AAA in Biology, Chemistry and Mathematics."
+          },
+          {
+            "label": "Science practical endorsements",
+            "status": "Met",
+            "summary": "Biology and Chemistry practical endorsements are passed."
+          },
+          {
+            "label": "UCAT and SJT",
+            "status": "Met",
+            "summary": "UCAT is present. SJT Band 4 is not used by Bristol."
+          }
+        ]
+      },
+      {
+        "stage": "Selection model",
+        "status": "Assessed",
+        "summary": "Bristol checks academic eligibility before ranking ordinary eligible applicants by UCAT cognitive total within separate Home and International pools.",
+        "checks": [
+          {
+            "label": "Applicant pool",
+            "status": "Used",
+            "summary": "Home A100 applicants"
+          },
+          {
+            "label": "Academic screen",
+            "status": "Met",
+            "summary": "The GCSE and A-level minimum requirements are met; grades are not scored after this gate."
+          },
+          {
+            "label": "UCAT ranking",
+            "status": "Counted",
+            "summary": "UCAT 2250 is compared with the published 2026-entry Home threshold of 2240."
+          },
+          {
+            "label": "SJT",
+            "status": "Not used",
+            "summary": "SJT Band 4 is not a Bristol shortlisting gate."
+          },
+          {
+            "label": "Personal statement",
+            "status": "Not used",
+            "summary": "Personal statements are not scored for interview selection, offer selection or tie-breaking."
+          }
+        ]
+      },
+      {
+        "stage": "Historical guidance",
+        "status": "Guidance available",
+        "summary": "The applicant's result is within the historical interview range used for this applicant group. Interview thresholds may change each admissions cycle depending on applicant competition and interview capacity. Historical figures are guidance only, not a current cut-off, and do not guarantee an interview.",
+        "checks": [
+          {
+            "label": "Applicant pool",
+            "status": "Used",
+            "summary": "Home A100 applicants"
+          },
+          {
+            "label": "Important limitation",
+            "status": "Guidance only",
+            "summary": "Bristol sets annual UCAT thresholds dynamically after the UCAS deadline."
+          }
+        ]
+      },
+      {
+        "stage": "Recommendation",
+        "status": "Guidance only",
+        "summary": "Good chance based on historical data. Treat this as guidance for university choice, not a promised interview.",
+        "checks": []
+      }
+    ],
+    "key_reasons": [
+      "The supported GCSE, A-level, practical-endorsement and UCAT requirements are met.",
+      "GCSEs and A-levels are threshold-only; UCAT cognitive total is the ranking input after those gates.",
+      "UCAT 2250 is at or above Bristol's published 2026-entry Home threshold of 2240, which is historical guidance, not a current threshold or guarantee."
+    ],
+    "evidence_used": [
+      "Official admissions policy",
+      "University selection methodology",
+      "UCAT policy",
+      "Historical interview data",
+      "Contextual admissions policy"
+    ],
+    "evidence_confidence": {
+      "level": "Medium",
+      "summary": "The recommendation is supported by core admissions evidence, with some historical or route-specific limits.",
+      "reasons": [
+        "Official eligibility rules are available.",
+        "The university selection approach is implemented.",
+        "Historical interview guidance is available, but some evidence is historical, FOI-derived or has documented gaps."
+      ]
+    },
+    "manual_review_reason": null,
+    "insufficient_evidence_reason": null,
+    "warnings": []
+  },
+  "engine_notes": {
+    "generated_from_profile_id": "bristol-a100",
+    "eligibility_ready": true,
+    "interview_prediction_ready": true,
+    "offer_prediction_scope": "out_of_scope",
+    "prediction_confidence": "medium",
+    "engine_version": "ApplySmart Engine v1.0",
+    "assumptions": [],
+    "do_not_display": [
+      "Converted historical values must not be displayed as cut-offs",
+      "Post-interview scoring research",
+      "Offer probability"
+    ]
+  }
+}

@@ -1,0 +1,424 @@
+{
+  "schema_version": "1.0.0",
+  "course_profile_id": "cambridge-a100",
+  "base_applicant": {
+    "profile_id": "cambridge_a100_base_home_applicant",
+    "label": "Cambridge A100 Home predicted A-level applicant",
+    "applicant_identity": {
+      "applicant_type": "standard_school_leaver",
+      "fee_status": "Home",
+      "domicile": "England",
+      "contextual": false,
+      "widening_participation": false,
+      "graduate": false,
+      "english_language_exempt": true,
+      "age_on_1_september": 18
+    },
+    "course_target": {
+      "discipline": "medicine",
+      "ucas_code": "A100",
+      "course_route": "standard",
+      "entry_route": "standard_entry"
+    },
+    "qualification_route": "a_level",
+    "gcse_profile": {
+      "subjects": {
+        "english_language": "8",
+        "mathematics": "8",
+        "biology": "8",
+        "chemistry": "8",
+        "physics": "8",
+        "english_literature": "8",
+        "history": "8",
+        "geography": "8",
+        "french": "8",
+        "music": "8"
+      },
+      "total_gcse_count": 10
+    },
+    "a_level_profile": {
+      "subjects": [
+        {
+          "subject_id": "chemistry",
+          "predicted_grade": "A*",
+          "practical_endorsement": "pass"
+        },
+        {
+          "subject_id": "biology",
+          "predicted_grade": "A*",
+          "practical_endorsement": "pass"
+        },
+        {
+          "subject_id": "mathematics",
+          "predicted_grade": "A"
+        }
+      ]
+    },
+    "admissions_tests": {
+      "ucat": {
+        "total_score": 2360,
+        "score_scale": 2700,
+        "sjt_band": 2,
+        "test_year": 2026
+      }
+    },
+    "application_year": 2027,
+    "graduate_profile": {
+      "is_graduate": false,
+      "degree_classification": null
+    }
+  },
+  "scenarios": [
+    {
+      "scenario_id": "home_high_ucat_strong_gcse_interview_likely",
+      "overrides": {},
+      "expected": {
+        "eligibility_status": "eligible",
+        "guidance_pool_id": "cambridge_home_hidden_holistic_guidance",
+        "interview_band": "interview_likely",
+        "score": 4,
+        "manual_review_required": false,
+        "gcse_profile_class": "strong"
+      }
+    },
+    {
+      "scenario_id": "home_2300_clean_profile_maps_to_realistic_canonical_band",
+      "overrides": {
+        "admissions_tests": {
+          "ucat": {
+            "total_score": 2300,
+            "sjt_band": 2
+          }
+        }
+      },
+      "expected": {
+        "eligibility_status": "eligible",
+        "interview_band": "realistic",
+        "score": 3,
+        "manual_review_required": false,
+        "gcse_profile_class": "strong"
+      }
+    },
+    {
+      "scenario_id": "home_2300_moderate_gcse_one_band_down",
+      "overrides": {
+        "gcse_profile": {
+          "subjects": {
+            "english_language": "9",
+            "mathematics": "8",
+            "biology": "8",
+            "chemistry": "8",
+            "physics": "8",
+            "english_literature": "8",
+            "history": "8",
+            "geography": "7",
+            "french": "7",
+            "music": "6"
+          },
+          "total_gcse_count": 10
+        },
+        "admissions_tests": {
+          "ucat": {
+            "total_score": 2300,
+            "sjt_band": 2
+          }
+        }
+      },
+      "expected": {
+        "eligibility_status": "eligible",
+        "interview_band": "realistic",
+        "score": 2,
+        "manual_review_required": false,
+        "gcse_profile_class": "moderate"
+      }
+    },
+    {
+      "scenario_id": "home_weak_gcse_high_ucat_reduced",
+      "overrides": {
+        "gcse_profile": {
+          "subjects": {
+            "english_language": "8",
+            "mathematics": "8",
+            "biology": "8",
+            "chemistry": "8",
+            "physics": "7",
+            "english_literature": "7",
+            "history": "6",
+            "geography": "6",
+            "french": "6",
+            "music": "5"
+          },
+          "total_gcse_count": 10
+        }
+      },
+      "expected": {
+        "eligibility_status": "eligible",
+        "interview_band": "realistic",
+        "score": 2,
+        "manual_review_required": false,
+        "gcse_profile_class": "weak"
+      }
+    },
+    {
+      "scenario_id": "sjt_band_4_ignored",
+      "overrides": {
+        "admissions_tests": {
+          "ucat": {
+            "total_score": 2360,
+            "sjt_band": 4
+          }
+        }
+      },
+      "expected": {
+        "eligibility_status": "eligible",
+        "interview_band": "interview_likely",
+        "manual_review_required": false
+      }
+    },
+    {
+      "scenario_id": "non_contextual_aaa_not_eligible",
+      "overrides": {
+        "a_level_profile": {
+          "subjects": [
+            {
+              "subject_id": "chemistry",
+              "predicted_grade": "A",
+              "practical_endorsement": "pass"
+            },
+            {
+              "subject_id": "biology",
+              "predicted_grade": "A",
+              "practical_endorsement": "pass"
+            },
+            {
+              "subject_id": "mathematics",
+              "predicted_grade": "A"
+            }
+          ]
+        }
+      },
+      "expected": {
+        "eligibility_status": "not_eligible",
+        "interview_band": "not_eligible",
+        "failure": "a_level_requirements_not_met"
+      }
+    },
+    {
+      "scenario_id": "contextual_a_star_aa_manual_review_capped_to_borderline_equivalent",
+      "overrides": {
+        "applicant_identity": {
+          "contextual": true,
+          "widening_participation": true,
+          "contextual_flags": {
+            "free_school_meals": true
+          }
+        },
+        "a_level_profile": {
+          "subjects": [
+            {
+              "subject_id": "chemistry",
+              "predicted_grade": "A*",
+              "practical_endorsement": "pass"
+            },
+            {
+              "subject_id": "biology",
+              "predicted_grade": "A",
+              "practical_endorsement": "pass"
+            },
+            {
+              "subject_id": "mathematics",
+              "predicted_grade": "A"
+            }
+          ]
+        },
+        "admissions_tests": {
+          "ucat": {
+            "total_score": 2460,
+            "sjt_band": 1
+          }
+        }
+      },
+      "expected": {
+        "eligibility_status": "manual_review",
+        "interview_band": "ambitious",
+        "score": 5,
+        "manual_review_required": true,
+        "manual_review_reason": "contextual_a_level_gate_exception_requires_manual_review"
+      }
+    },
+    {
+      "scenario_id": "missing_chemistry_not_eligible",
+      "overrides": {
+        "a_level_profile": {
+          "subjects": [
+            {
+              "subject_id": "biology",
+              "predicted_grade": "A*",
+              "practical_endorsement": "pass"
+            },
+            {
+              "subject_id": "physics",
+              "predicted_grade": "A*",
+              "practical_endorsement": "pass"
+            },
+            {
+              "subject_id": "mathematics",
+              "predicted_grade": "A"
+            }
+          ]
+        }
+      },
+      "expected": {
+        "eligibility_status": "not_eligible",
+        "interview_band": "not_eligible",
+        "failure": "a_level_requirements_not_met"
+      }
+    },
+    {
+      "scenario_id": "science_practical_missing_manual_review",
+      "overrides": {
+        "a_level_profile": {
+          "subjects": [
+            {
+              "subject_id": "chemistry",
+              "predicted_grade": "A*"
+            },
+            {
+              "subject_id": "biology",
+              "predicted_grade": "A*",
+              "practical_endorsement": "pass"
+            },
+            {
+              "subject_id": "mathematics",
+              "predicted_grade": "A"
+            }
+          ]
+        }
+      },
+      "expected": {
+        "eligibility_status": "manual_review",
+        "interview_band": "insufficient_evidence",
+        "failure_prefix": "science_practical_endorsement_evidence_missing"
+      }
+    },
+    {
+      "scenario_id": "science_practical_failed_not_eligible",
+      "overrides": {
+        "a_level_profile": {
+          "subjects": [
+            {
+              "subject_id": "chemistry",
+              "predicted_grade": "A*",
+              "practical_endorsement": "fail"
+            },
+            {
+              "subject_id": "biology",
+              "predicted_grade": "A*",
+              "practical_endorsement": "pass"
+            },
+            {
+              "subject_id": "mathematics",
+              "predicted_grade": "A"
+            }
+          ]
+        }
+      },
+      "expected": {
+        "eligibility_status": "not_eligible",
+        "interview_band": "not_eligible",
+        "failure_prefix": "science_practical_endorsement_not_confirmed"
+      }
+    },
+    {
+      "scenario_id": "international_realistic_requires_manual_review",
+      "overrides": {
+        "applicant_identity": {
+          "applicant_type": "international_standard_school_leaver",
+          "fee_status": "International",
+          "domicile": "International",
+          "english_language_exempt": true
+        },
+        "admissions_tests": {
+          "ucat": {
+            "total_score": 2360,
+            "sjt_band": 2
+          }
+        }
+      },
+      "expected": {
+        "eligibility_status": "eligible",
+        "guidance_pool_id": "cambridge_international_hidden_holistic_guidance",
+        "interview_band": "realistic",
+        "score": 3,
+        "manual_review_required": true
+      }
+    },
+    {
+      "scenario_id": "international_english_language_not_met",
+      "overrides": {
+        "applicant_identity": {
+          "applicant_type": "international_standard_school_leaver",
+          "fee_status": "International",
+          "domicile": "International",
+          "english_language_exempt": false
+        },
+        "english_language_profile": {
+          "test": "IELTS Academic",
+          "scores": {
+            "overall": 7.0,
+            "reading": 7.0,
+            "writing": 7.0,
+            "listening": 7.0,
+            "speaking": 7.0
+          }
+        }
+      },
+      "expected": {
+        "eligibility_status": "not_eligible",
+        "interview_band": "not_eligible",
+        "failure": "international_english_language_requirement_not_met"
+      }
+    },
+    {
+      "scenario_id": "ib_41_776_hl_eligible",
+      "overrides": {
+        "qualification_route": "international_baccalaureate",
+        "a_level_profile": null,
+        "ib_profile": {
+          "total_points": 41,
+          "higher_level_subjects": [
+            {
+              "subject_id": "chemistry",
+              "higher_level_grade": "7"
+            },
+            {
+              "subject_id": "biology",
+              "higher_level_grade": "7"
+            },
+            {
+              "subject_id": "mathematics",
+              "higher_level_grade": "6"
+            }
+          ]
+        }
+      },
+      "expected": {
+        "eligibility_status": "eligible",
+        "interview_band": "interview_likely"
+      }
+    },
+    {
+      "scenario_id": "under_minimum_age_not_eligible_when_supplied",
+      "overrides": {
+        "applicant_identity": {
+          "age_on_1_september": 17
+        }
+      },
+      "expected": {
+        "eligibility_status": "not_eligible",
+        "interview_band": "not_eligible",
+        "failure": "minimum_age_requirement_not_met"
+      }
+    }
+  ]
+}

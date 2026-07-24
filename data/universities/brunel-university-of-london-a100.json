@@ -1,0 +1,863 @@
+{
+  "schema_version": "1.0.0",
+  "profile_id": "brunel-university-of-london-a100",
+  "profile_status": "activated_for_scoped_eligibility_and_interview_guidance",
+  "verification_status": "official_and_foi_verified_exact_scoring_undisclosed",
+  "last_updated": "2026-07-20",
+  "university": {
+    "name": "Brunel University of London",
+    "slug": "brunel-university-of-london",
+    "country": "United Kingdom",
+    "nation": "England",
+    "institution_type": "University",
+    "website_url": "https://www.brunel.ac.uk/"
+  },
+  "course": {
+    "name": "Medicine MBBS",
+    "ucas_code": "A100",
+    "entry_route": "standard_entry",
+    "qualification_awarded": "MBBS",
+    "duration_years": 5,
+    "campus": "Uxbridge",
+    "location": "London, England",
+    "entry_year": 2027,
+    "fee_statuses": [
+      "home",
+      "international"
+    ],
+    "is_gateway_or_foundation": false,
+    "is_graduate_entry": false,
+    "notes": "Standard-entry A100. The supplied evidence does not establish a separate graduate-entry course code or quota."
+  },
+  "medical_school": {
+    "name": "Brunel Medical School",
+    "source_ids": [
+      "brunel_research_doc"
+    ]
+  },
+  "applicant_pools": [
+    {
+      "pool_id": "home_a100",
+      "applies_to_group_ids": [
+        "home_fee"
+      ],
+      "excluded_group_ids": [
+        "international_fee"
+      ],
+      "selection_relevance": "Eligible Home applicants are ranked by total UCAT score after academic eligibility and SJT Band 4 screening."
+    },
+    {
+      "pool_id": "international_a100",
+      "applies_to_group_ids": [
+        "international_fee"
+      ],
+      "selection_relevance": "International applicants use a separate non-UCAT application review route. ApplySmart does not apply Home UCAT guidance to this pool."
+    }
+  ],
+  "applies_to_group_ids": [
+    "england_domiciled",
+    "scotland_domiciled",
+    "wales_domiciled",
+    "northern_ireland_domiciled",
+    "home_fee",
+    "international_fee",
+    "rest_of_uk",
+    "contextual",
+    "widening_participation",
+    "care_experienced",
+    "graduate_applicant",
+    "school_leaver",
+    "mature_applicant",
+    "resit_applicant"
+  ],
+  "stage_1_eligibility": {
+    "verification_status": "official_source_verified_with_documented_gaps",
+    "source_ids": [
+      "brunel_research_doc",
+      "brunel_foi_historical_ucat"
+    ],
+    "overall_policy": {
+      "status": "official_rules_mapped_with_manual_review_boundaries",
+      "description": "Brunel checks minimum academic eligibility before interview selection. Home applicants must have a current-cycle UCAT and SJT Band 1-3; SJT Band 4 is a rejection rule. International applicants follow a separate non-UCAT selection route.",
+      "not_eligible_if": [
+        "The supported academic eligibility profile is not met.",
+        "A Home applicant does not provide a current-cycle UCAT cognitive total.",
+        "A Home applicant has SJT Band 4.",
+        "The applicant uses an unsupported qualification route where Brunel-specific evidence is incomplete."
+      ],
+      "source_ids": [
+        "brunel_research_doc"
+      ]
+    },
+    "gcse": {
+      "status": "official_source_verified_with_documented_discrepancy",
+      "source_ids": [
+        "brunel_research_doc"
+      ],
+      "minimum_count": 5,
+      "minimum_count_at_or_above_grade": {
+        "requirement_id": "five_gcse_at_grade_6_or_b",
+        "count": 5,
+        "minimum_grade": "6/B"
+      },
+      "mandatory_subject_ids": [
+        "english_language",
+        "mathematics"
+      ],
+      "grade_requirements": [
+        {
+          "requirement_id": "gcse_english_language_minimum",
+          "subject_id": "english_language",
+          "minimum_grade": "4/C",
+          "qualification_level": "gcse",
+          "decision_outcome_if_not_met": "not_eligible"
+        },
+        {
+          "requirement_id": "gcse_mathematics_minimum",
+          "subject_id": "mathematics",
+          "minimum_grade": "5",
+          "qualification_level": "gcse",
+          "decision_outcome_if_not_met": "not_eligible",
+          "notes": "The source text shows 'grade 5/B', mixing numeric and legacy grades. ApplySmart enforces numeric Grade 5 and records the B wording as an evidence discrepancy."
+        }
+      ],
+      "science_requirement": {
+        "requirement_id": "two_gcse_sciences_at_grade_6",
+        "requirement_type": "any_of",
+        "minimum_options_required": 1,
+        "accepted_options": [
+          {
+            "option_id": "two_separate_sciences",
+            "accepted_subject_ids": [
+              "biology",
+              "chemistry",
+              "physics"
+            ],
+            "minimum_subjects_required": 2,
+            "minimum_grade": "6/B"
+          },
+          {
+            "option_id": "combined_science_double_award",
+            "subject_id": "combined_science",
+            "minimum_grade_profile": [
+              "6",
+              "6"
+            ],
+            "accepted_equivalent_profile": [
+              "B",
+              "B"
+            ],
+            "counts_as_gcse_subjects": 2
+          }
+        ],
+        "decision_outcome_if_not_met": "not_eligible"
+      },
+      "accepted_equivalencies": [
+        "Accepted GCSE-equivalent Level 2 qualifications where Brunel confirms equivalence."
+      ],
+      "sitting_policy": "No verified Brunel-specific GCSE resit scoring policy was supplied.",
+      "achieved_or_predicted": "achieved",
+      "selection_role": "eligibility_only",
+      "scored_after_eligibility": false,
+      "notes": "GCSEs are minimum eligibility gates only. They are not converted into points and are not used for Home UCAT ranking."
+    },
+    "post_16": {
+      "status": "official_source_verified_with_documented_gaps",
+      "source_ids": [
+        "brunel_research_doc"
+      ],
+      "accepted_qualifications": [
+        "a_level",
+        "international_baccalaureate",
+        "degree",
+        "international_qualification"
+      ],
+      "a_level": {
+        "status": "official_source_verified_with_practical_endorsement_gap",
+        "standard_offer": {
+          "grade_profile": [
+            "A",
+            "A",
+            "A"
+          ]
+        },
+        "contextual_offer": {
+          "grade_profile": [
+            "A",
+            "A",
+            "B"
+          ],
+          "applies_to_group_ids": [
+            "home_fee",
+            "contextual"
+          ],
+          "notes": "Contextual offer information is recorded as downstream offer metadata only. It is not used for interview prediction."
+        },
+        "grade_requirements": [
+          {
+            "requirement_id": "brunel_standard_a_level_aaa_two_sciences",
+            "grade_profile": [
+              "A",
+              "A",
+              "A"
+            ],
+            "required_subject_grade_options": [
+              {
+                "grade_requirements": [
+                  {
+                    "subject_id": "biology",
+                    "minimum_grade": "A"
+                  },
+                  {
+                    "subject_id": "chemistry",
+                    "minimum_grade": "A"
+                  }
+                ]
+              },
+              {
+                "grade_requirements": [
+                  {
+                    "subject_id": "biology",
+                    "minimum_grade": "A"
+                  },
+                  {
+                    "subject_id": "physics",
+                    "minimum_grade": "A"
+                  }
+                ]
+              },
+              {
+                "grade_requirements": [
+                  {
+                    "subject_id": "biology",
+                    "minimum_grade": "A"
+                  },
+                  {
+                    "subject_id": "mathematics",
+                    "minimum_grade": "A"
+                  }
+                ]
+              },
+              {
+                "grade_requirements": [
+                  {
+                    "subject_id": "chemistry",
+                    "minimum_grade": "A"
+                  },
+                  {
+                    "subject_id": "physics",
+                    "minimum_grade": "A"
+                  }
+                ]
+              },
+              {
+                "grade_requirements": [
+                  {
+                    "subject_id": "chemistry",
+                    "minimum_grade": "A"
+                  },
+                  {
+                    "subject_id": "mathematics",
+                    "minimum_grade": "A"
+                  }
+                ]
+              }
+            ],
+            "excluded_subject_ids": [
+              "general_studies"
+            ],
+            "decision_outcome_if_not_met": "not_eligible"
+          }
+        ],
+        "required_subject_ids": [],
+        "excluded_subject_ids": [
+          "general_studies"
+        ],
+        "third_subject_rules": "A third A-level subject is required; General Studies is not accepted.",
+        "science_practical_endorsement_required": null,
+        "predicted_grades_accepted": true,
+        "notes": "The supplied evidence does not verify whether a science practical endorsement pass is required, so no practical-endorsement gate is enforced."
+      },
+      "ib": {
+        "status": "official_source_verified",
+        "total_points": 36,
+        "required_hl_subjects": [
+          "chemistry_or_biology",
+          "second_science"
+        ],
+        "notes": "IB requires 36 points overall, with HL 6 in Chemistry or Biology and HL 6 in a second science from Chemistry, Biology, Physics or Mathematics."
+      },
+      "scottish": {
+        "status": "not_verified",
+        "higher_offer": null,
+        "advanced_higher_offer": null,
+        "required_subjects": [],
+        "notes": "No Brunel-specific Scottish Highers or Advanced Highers route was verified in the supplied evidence."
+      },
+      "btec": {
+        "status": "not_verified",
+        "accepted_subjects": [],
+        "accepted_combinations": "",
+        "notes": "No Brunel-specific BTEC route was verified in the supplied evidence."
+      },
+      "access_to_he": {
+        "status": "not_verified",
+        "notes": "No Brunel-specific Access to HE route was verified in the supplied evidence."
+      },
+      "degree": {
+        "status": "partially_verified_contradictory_test_route",
+        "minimum_classification": "2_1",
+        "accepted_degree_subjects": [
+          "medicine_relevant_subject"
+        ],
+        "notes": "Graduates apply to A100, but the supplied evidence contains differing UCAT and GAMSAT references. ApplySmart does not automate graduate interview prediction until the admissions-test route is reconciled."
+      },
+      "notes": "A-level and IB school-leaver routes are executable. Scottish, BTEC, Access and graduate route details remain evidence gaps or manual-review routes."
+    },
+    "admissions_tests": {
+      "source_ids": [
+        "brunel_research_doc"
+      ],
+      "ucat": {
+        "required": true,
+        "excluded_group_ids": [
+          "international_fee"
+        ],
+        "minimum_total_score": null,
+        "minimum_subsection_scores": [],
+        "score_used_for_ranking": "total_cognitive_score",
+        "validity_window": "current admissions cycle",
+        "exemptions": [],
+        "decision_outcome_if_not_met": "not_eligible",
+        "notes": "Home applicants are ranked by total UCAT score after academic and SJT gates. Brunel does not publish a fixed prospective UCAT cut-off. International applicants do not require UCAT/GAMSAT in the supplied evidence."
+      },
+      "sjt": {
+        "used": true,
+        "used_as_gate": true,
+        "accepted_bands": [
+          1,
+          2,
+          3
+        ],
+        "excluded_bands": [
+          4
+        ],
+        "group_policies": [
+          {
+            "applies_to_group_ids": [
+              "international_fee"
+            ],
+            "used_as_gate": false,
+            "accepted_bands": [],
+            "excluded_bands": [],
+            "notes": "International applicants follow a separate non-UCAT route in the supplied evidence."
+          }
+        ],
+        "scoring": {
+          "used_in_score": false,
+          "points_by_band": {}
+        },
+        "decision_outcome_if_excluded": "not_eligible",
+        "notes": "SJT Band 4 prevents Home interview selection. Bands 1-3 are not awarded additional points."
+      },
+      "other_tests": [
+        {
+          "test_id": "gamsat",
+          "required": false,
+          "applies_to_group_ids": [
+            "graduate_applicant"
+          ],
+          "notes": "The supplied evidence contains differing graduate UCAT/GAMSAT wording; this is recorded but not executed."
+        }
+      ]
+    },
+    "resits": {
+      "policy": "case_by_case",
+      "allowed": true,
+      "conditions": [
+        "Applicants may need to provide an explanation for resits."
+      ],
+      "maximum_resits": null,
+      "notes": "Detailed resit automation is not implemented beyond the standard academic profile because the supplied evidence does not define a deterministic rule."
+    },
+    "contextual": {
+      "available": true,
+      "criteria": [
+        "Widening Access Criteria"
+      ],
+      "adjustments": [
+        {
+          "type": "contextual_offer_after_interview",
+          "scope": "offer_stage_only",
+          "applysmart_effect": "informational_only"
+        }
+      ],
+      "notes": "Contextual status is not used as a UCAT uplift, separate pool, lower interview threshold or guaranteed interview."
+    },
+    "english_language": {
+      "required_for_group": true,
+      "applies_to_group_ids": [
+        "international_fee"
+      ],
+      "accepted_tests": [
+        {
+          "test": "IELTS Academic",
+          "overall_minimum": 7.0,
+          "reading_minimum": 7.0,
+          "writing_minimum": 7.0,
+          "listening_minimum": 7.0,
+          "speaking_minimum": 7.0
+        },
+        {
+          "test": "Pearson",
+          "overall_minimum": 64,
+          "component_minimum": 64,
+          "execution_status": "recorded_not_executed"
+        }
+      ],
+      "exemptions": [],
+      "notes": "The source text includes an unexplained 'TOEFL 5' entry, so TOEFL is not encoded as an executable accepted test."
+    },
+    "age_or_degree": {
+      "minimum_age": null,
+      "degree_required": false,
+      "degree_classification": null,
+      "accepted_degree_subjects": [],
+      "notes": "Degree details are relevant only for graduate A100 applicants, which remain manual review."
+    },
+    "age_or_professional_checks": {
+      "minimum_age": null,
+      "fitness_to_practise_required": true,
+      "dbs_required": true,
+      "occupational_health_required": true,
+      "notes": "Professional checks apply to offer holders and are not used for interview prediction."
+    },
+    "non_academic": {
+      "work_experience": "not_mandatory_minimum_hours_verified",
+      "personal_statement": "reviewed_for_international_route",
+      "reference_policy": "reviewed_for_international_route",
+      "fitness_to_practise_required": true,
+      "dbs_required": true,
+      "occupational_health_required": true,
+      "notes": "International non-UCAT review factors are recorded as evidence but not converted into a numerical ApplySmart prediction."
+    }
+  },
+  "stage_2_interview_selection": {
+    "verification_status": "official_and_foi_verified_exact_scoring_undisclosed",
+    "source_ids": [
+      "brunel_research_doc",
+      "brunel_foi_historical_ucat"
+    ],
+    "primary_model": "ucat_ranking",
+    "primary_method": "ucat_ranking",
+    "academic_scoring": {
+      "applies": false,
+      "notes": "Academic attainment is an eligibility threshold for the Home UCAT pathway and is not scored for ranking."
+    },
+    "ranking_factors": [
+      {
+        "factor": "ucat_total",
+        "role": "ranking_metric",
+        "weight_percent": 100,
+        "points_available": null,
+        "notes": "Eligible Home applicants with SJT Bands 1-3 are ranked by total UCAT score."
+      }
+    ],
+    "thresholds": [],
+    "calculation": {
+      "verification_status": "official_source_verified",
+      "source_ids": [
+        "brunel_research_doc",
+        "brunel_foi_historical_ucat"
+      ],
+      "score_components": [],
+      "total_score": {
+        "calculation_method": "not_applicable_ucat_ranking_only",
+        "components": [],
+        "scale": null,
+        "notes": "Home interview selection uses total UCAT ranking after eligibility gates, not a combined calculated score.",
+        "source_ids": [
+          "brunel_research_doc"
+        ]
+      },
+      "notes": "No academic score, GCSE points, A-level points or combined score is created for the Home UCAT-ranking route."
+    },
+    "selection_adjustments": [],
+    "modifiers": [
+      "sjt_band_4_exclusion",
+      "home_international_separate_ranking"
+    ],
+    "tie_breakers": [],
+    "quotas_or_pools": [
+      {
+        "pool_id": "home_a100",
+        "ranking": "ucat_total_descending"
+      },
+      {
+        "pool_id": "international_a100",
+        "ranking": "non_ucat_application_review_not_executable"
+      }
+    ],
+    "international_selection": {
+      "prediction_available": false,
+      "selection_process": "academic_suitability_personal_statement_reference_review",
+      "sjt": {
+        "band_4_automatic_rejection": false
+      },
+      "notes": "No reliable numerical international ranking formula is supplied."
+    },
+    "output_band_policy": "strong_reasonable_risky_not_eligible",
+    "selection_adjustment_notes": [
+      "SJT Band 4 is a rejection rule.",
+      "International applicants are not compared with Home UCAT-ranked applicants."
+    ],
+    "notes": "Home prediction bands use FOI-backed historical interview-stage UCAT observations as ApplySmart guidance only. They are not official future cut-offs."
+  },
+  "contextual_admissions": {
+    "verification_status": "official_source_verified_with_documented_gaps",
+    "available": true,
+    "source_ids": [
+      "brunel_research_doc"
+    ],
+    "applies_to_group_ids": [
+      "home_fee",
+      "contextual",
+      "widening_participation"
+    ],
+    "criteria": [
+      "Widening Access Criteria"
+    ],
+    "adjustments": [
+      {
+        "adjustment_id": "contextual_offer_after_interview",
+        "stage": "offer_stage_only",
+        "applysmart_effect": "informational_only"
+      }
+    ],
+    "guaranteed_interview_rules": [],
+    "criteria_summary": "Widening Access Criteria may support a contextual offer after a successful interview.",
+    "interview_selection_adjustment": {
+      "applies": false,
+      "notes": "No contextual UCAT uplift, separate pool, lower interview threshold or guaranteed interview is implemented."
+    },
+    "offer_stage_only": true,
+    "applysmart_effect": "informational_only",
+    "notes": "Contextual information is not used to alter UCAT ranking or to guarantee an interview in this implementation."
+  },
+  "ranking_pools": [
+    {
+      "pool_id": "home_a100",
+      "name": "Home A100 UCAT-ranked pool",
+      "applies_to_group_ids": [
+        "home_fee"
+      ],
+      "excluded_group_ids": [
+        "international_fee"
+      ],
+      "fee_statuses": [
+        "home"
+      ],
+      "ranking_model": "ucat_ranking",
+      "ranking_factors": [
+        "ucat_total"
+      ],
+      "places_available": null,
+      "ranking_metric": "ucat_total",
+      "ranking_order": "descending",
+      "source_ids": [
+        "brunel_research_doc",
+        "brunel_foi_historical_ucat"
+      ],
+      "notes": "Eligible Home applicants are ranked by total UCAT score until interview capacity is filled."
+    },
+    {
+      "pool_id": "international_a100",
+      "name": "International A100 non-UCAT review pool",
+      "applies_to_group_ids": [
+        "international_fee"
+      ],
+      "fee_statuses": [
+        "international"
+      ],
+      "ranking_model": "holistic_review",
+      "ranking_factors": [
+        "academic_suitability",
+        "personal_statement",
+        "reference"
+      ],
+      "places_available": null,
+      "ranking_metric": "non_ucat_review",
+      "ranking_order": "not_executable",
+      "source_ids": [
+        "brunel_research_doc"
+      ],
+      "notes": "International applicants follow a separate non-UCAT process. ApplySmart returns insufficient evidence rather than reusing Home UCAT guidance."
+    }
+  ],
+  "quotas": [
+    {
+      "quota_id": "brunel_university_of_london_a100_places_2027_entry_verified",
+      "name": "Verified Home/International places (2027 entry)",
+      "home_places": 53,
+      "international_places": 240,
+      "quota_type": "verified_current_places",
+      "source_ids": [
+        "applysmart_admissions_team_verified_2026"
+      ],
+      "notes": "Home/International place figures verified by the ApplySmart admissions research team for 2027 entry."
+    },
+    {
+      "quota_id": "home_places_reference_only",
+      "applies_to_group_ids": [
+        "home_fee"
+      ],
+      "places": 50,
+      "cycle": "2024/25 first Home intake",
+      "source_ids": [
+        "brunel_research_doc"
+      ],
+      "execution_role": "reference_only",
+      "notes": "Home places are recorded as reference-only capacity context and are not used as a deterministic interview threshold."
+    }
+  ],
+  "offer_selection": {
+    "verification_status": "official_source_verified_out_of_scope_for_applysmart",
+    "source_ids": [
+      "brunel_research_doc"
+    ],
+    "interview_format": "virtual_mmi",
+    "interview_scoring": "post_interview_mmi_score",
+    "offer_model": "rank_by_total_mmi_score",
+    "ranking_factors": [
+      "mmi_score"
+    ],
+    "tie_breakers": [],
+    "waiting_list_policy": "reference_only",
+    "standard_offer": {
+      "a_level": [
+        "A",
+        "A",
+        "A"
+      ]
+    },
+    "contextual_offer": {
+      "status": "available_after_successful_interview",
+      "applysmart_effect": "informational_only"
+    },
+    "selection_basis": "post_interview_mmi_score",
+    "offer_prediction_supported": false,
+    "notes": "Post-interview offer decisions, waiting lists and MMI performance prediction are outside ApplySmart's interview-prediction scope."
+  },
+  "historical_admissions": {
+    "verification_status": "foi_verified",
+    "source_ids": [
+      "brunel_foi_historical_ucat"
+    ],
+    "methodology": "Home interview-stage UCAT observations from 2023-2025 are preserved on the original /3600 scale and converted to /2700 by the shared x0.75 historical-normalisation convention. Offer-stage figures are reference-only and not used for interview prediction.",
+    "cycles": [
+      {
+        "entry_year": 2023,
+        "fee_status": "Home",
+        "application_pool": "Home",
+        "metric": "lowest_interviewed",
+        "original_score": 2340,
+        "original_scale": 3600,
+        "converted_score_2700": 1755,
+        "score_scale": 2700,
+        "display_original_scale": true,
+        "display_converted_scale": true,
+        "usable_for_guidance_band_calibration": true
+      },
+      {
+        "entry_year": 2023,
+        "fee_status": "Home",
+        "application_pool": "Home",
+        "metric": "average_interviewed",
+        "original_score": 2610,
+        "original_scale": 3600,
+        "converted_score_2700": 1957.5,
+        "display_score_2700": 1958,
+        "score_scale": 2700,
+        "display_original_scale": true,
+        "display_converted_scale": true,
+        "usable_for_guidance_band_calibration": true
+      },
+      {
+        "entry_year": 2024,
+        "fee_status": "Home",
+        "application_pool": "Home",
+        "metric": "lowest_interviewed",
+        "original_score": 2290,
+        "original_scale": 3600,
+        "converted_score_2700": 1717.5,
+        "display_score_2700": 1718,
+        "score_scale": 2700,
+        "display_original_scale": true,
+        "display_converted_scale": true,
+        "usable_for_guidance_band_calibration": true
+      },
+      {
+        "entry_year": 2024,
+        "fee_status": "Home",
+        "application_pool": "Home",
+        "metric": "average_interviewed",
+        "original_score": 2640,
+        "original_scale": 3600,
+        "converted_score_2700": 1980,
+        "score_scale": 2700,
+        "display_original_scale": true,
+        "display_converted_scale": true,
+        "usable_for_guidance_band_calibration": true
+      },
+      {
+        "entry_year": 2025,
+        "fee_status": "Home",
+        "application_pool": "Home",
+        "metric": "lowest_interviewed",
+        "original_score": 2240,
+        "original_scale": 3600,
+        "converted_score_2700": 1680,
+        "score_scale": 2700,
+        "display_original_scale": true,
+        "display_converted_scale": true,
+        "usable_for_guidance_band_calibration": true
+      },
+      {
+        "entry_year": 2025,
+        "fee_status": "Home",
+        "application_pool": "Home",
+        "metric": "average_interviewed",
+        "original_score": 2660,
+        "original_scale": 3600,
+        "converted_score_2700": 1995,
+        "score_scale": 2700,
+        "display_original_scale": true,
+        "display_converted_scale": true,
+        "usable_for_guidance_band_calibration": true
+      }
+    ],
+    "offer_stage_reference_only": [
+      {
+        "entry_year": 2023,
+        "lowest_offered_3600": 2430,
+        "average_offered_3600": 2670,
+        "lowest_offered_2700": 1822.5,
+        "average_offered_2700": 2002.5
+      },
+      {
+        "entry_year": 2024,
+        "lowest_offered_3600": 2390,
+        "average_offered_3600": 2700,
+        "lowest_offered_2700": 1792.5,
+        "average_offered_2700": 2025
+      },
+      {
+        "entry_year": 2025,
+        "lowest_offered_3600": 2370,
+        "average_offered_3600": 2720,
+        "lowest_offered_2700": 1777.5,
+        "average_offered_2700": 2040
+      }
+    ],
+    "notes": "Historical UCAT records are observations from previous cycles and must not be presented as a fixed future cut-off."
+  },
+  "fee_information": {
+    "currency": "GBP",
+    "entry_cycle": "2026/27",
+    "home": {
+      "first_year": null
+    },
+    "international": {
+      "first_year": null
+    },
+    "eligibility_effect": "informational_only",
+    "fees_subject_to_change": true
+  },
+  "sources": [
+    {
+      "source_id": "brunel_research_doc",
+      "title": "Brunel University of London Medicine MBBS A100 research document",
+      "url": null,
+      "source_type": "user_supplied_research_document",
+      "published_date": null,
+      "accessed_date": "2026-07-20",
+      "applies_to_sections": [
+        "stage_1_eligibility",
+        "stage_2_interview_selection",
+        "contextual_admissions",
+        "offer_selection"
+      ],
+      "confidence": "medium",
+      "notes": "Local file: /Users/faizan/Desktop/medical university research/University-data-list/Brunel/brunel.docx"
+    },
+    {
+      "source_id": "brunel_foi_historical_ucat",
+      "title": "Brunel FOI historical UCAT table embedded in supplied research document",
+      "url": null,
+      "source_type": "foi",
+      "published_date": null,
+      "accessed_date": "2026-07-20",
+      "applies_to_sections": [
+        "historical_admissions",
+        "stage_2_interview_selection"
+      ],
+      "confidence": "low",
+      "notes": "Embedded image table records Home lowest and average interviewed UCAT scores for 2023, 2024 and 2025 entry, with /3600 source values and /2700 conversions."
+    }
+  ],
+  "validation": {
+    "source_status": "official_and_foi_verified",
+    "last_verified": "2026-07-20",
+    "confidence_level": "Medium",
+    "completion_status": "complete_for_supported_scope_with_documented_gaps",
+    "known_unknowns": [
+      "International non-UCAT review formula is not executable.",
+      "Graduate UCAT/GAMSAT route evidence is contradictory.",
+      "Scottish, Access and BTEC routes are not verified.",
+      "Science practical endorsement requirement is not verified.",
+      "GCSE Mathematics grade 5/B wording is internally inconsistent."
+    ],
+    "review_notes": "Implementation follows the approved ucat_ranking interpretation for Home applicants. International, graduate, Scottish, Access and BTEC routes retain evidence gaps where deterministic rules are not supported."
+  },
+  "engine_notes": {
+    "eligibility": true,
+    "interview_prediction": true,
+    "historical_guidance": true,
+    "international_prediction": false,
+    "contextual_logic": true,
+    "result_card": true,
+    "regression": true,
+    "research_completeness": "complete_for_supported_scope_with_documented_gaps",
+    "manual_review_required": true,
+    "eligibility_ready": true,
+    "interview_prediction_ready": true,
+    "prediction_confidence": "low",
+    "result_card_ready": true,
+    "offer_prediction_scope": "out_of_scope",
+    "interview_band_config_ready": true,
+    "metadata_activation_ready": true,
+    "activation_ready": true,
+    "production_ready": true,
+    "assessment_mode": "interview_prediction",
+    "production_ready_candidate": true,
+    "activation_block_reason": null,
+    "blocking_missing_fields": [],
+    "engine_assumptions": [
+      "Home applicants are ranked by UCAT only after academic and SJT gates, per the approved Brunel interpretation.",
+      "International applicants must not reuse Home UCAT historical guidance."
+    ],
+    "do_not_infer": [
+      "Do not create an academic score.",
+      "Do not create a contextual UCAT uplift.",
+      "Do not use offer-stage UCAT figures for interview prediction.",
+      "Do not expose offer prediction, MMI prediction or waiting-list prediction."
+    ],
+    "evidence_gaps": [
+      "International non-UCAT review has no executable numerical formula.",
+      "Graduate UCAT/GAMSAT route evidence is contradictory.",
+      "Scottish, Access to HE and BTEC routes are not verified.",
+      "Science practical endorsement requirement is not verified.",
+      "GCSE Mathematics source wording mixes Grade 5 and B."
+    ]
+  }
+}

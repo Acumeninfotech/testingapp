@@ -1,0 +1,178 @@
+{
+  "schema_version": "1.0.0",
+  "profile_id": "kent-and-medway-a100-research",
+  "course_profile_id": "kent-and-medway-a100",
+  "research_status": "complete_for_supported_scope_with_documented_gaps",
+  "file_purpose": "Research and evidence profile for Kent & Medway Medical School BM BS Medicine A100. This file maps the approved KMMS research document and approved ApplySmart configuration into ApplySmart Engine v1.0 production artifacts; executable rules live in data/universities/kent-and-medway-a100.json and advisory banding metadata lives in data/interview-band-configs/kent-and-medway-a100.json.",
+  "official_rules_source": "data/universities/kent-and-medway-a100.json",
+  "created_at": "2026-07-23",
+  "last_updated": "2026-07-23",
+  "research_scope": {
+    "target_entry_year": 2026,
+    "primary_policy_cycle": "2026 entry, with 2020-2023 historical admissions evidence retained only in its published scale",
+    "primary_course": "A100",
+    "primary_scope": [
+      "KMMS Group A pre-A-level or pre-IB Home school-leaver route",
+      "KMMS Group B post-A-level or post-IB Home route",
+      "KMMS Group C non-standard/no-contextual-school-data Home route",
+      "KMMS Group D graduate A100 route",
+      "KMMS Group E international route"
+    ],
+    "excluded_related_courses": [],
+    "production_json_updated": true,
+    "index_updated": true,
+    "examples_updated": true,
+    "regression_scripts_updated": true,
+    "activation_flags_updated": true,
+    "third_party_admissions_websites_used": false,
+    "evidence_intake_basis": [
+      "/Users/faizan/Downloads/KMMS_A100_Admissions_Reference_2026entry.md",
+      "/Users/faizan/Downloads/kmms-applysmart-config-2.json"
+    ],
+    "fixture_correction": "The supplied config example F5 described a predicted-only Group A input as not eligible because no achieved qualification was present. That would conflict with the activation rule that Group A is assessed using achieved GCSEs and must not require achieved A-levels. Repo fixtures correct this by supplying achieved GCSEs and asserting that predicted A-levels do not affect the outcome."
+  },
+  "evidence_classification_policy": {
+    "official": "A rule or statistic attributed by the approved research to KMMS, University of Kent, UCAT Consortium, OfS, MSC or an official University of Kent FOI response.",
+    "foi_verified_historical_guidance": "A cycle-labelled historical statistic from an official FOI reply.",
+    "legacy_3600_historical_figure": "A UCAT score from the old 1200-3600 scale. These figures are displayed only in their original scale and are not converted into official 2026 runtime thresholds.",
+    "applysmart_advisory": "A non-official historical-percentile-equivalence guide from the approved KMMS configuration. It cannot pass, reject or rank a KMMS applicant.",
+    "unknown": "The approved evidence does not establish the fact safely enough for automated execution."
+  },
+  "metadata": {
+    "authoritative_research_file": "/Users/faizan/Downloads/KMMS_A100_Admissions_Reference_2026entry.md",
+    "authoritative_config_file": "/Users/faizan/Downloads/kmms-applysmart-config-2.json",
+    "engine_version": "ApplySmart Engine v1.0",
+    "architecture_change_required": true,
+    "architecture_change_summary": "A narrow generic opt-in was added so university configs can ignore predicted A-level grades and allow pre-completion applicants to be assessed through achieved GCSEs.",
+    "selection_model_mapping": "academic_gate_then_sjt_gate_then_official_ucat_threshold_manual_review_plus_separate_applysmart_advisory",
+    "standardisation_profile": "completed_production_university",
+    "repository_discrepancy_reported_before_edit": "The existing KMMS profile was an MSC seed with unknown GCSE, A-level, UCAT and shortlisting rules."
+  },
+  "readiness": {
+    "eligibility": true,
+    "interview_prediction": true,
+    "historical_guidance": true,
+    "international_prediction": true,
+    "contextual_logic": true,
+    "result_card": true,
+    "regression": true,
+    "research_completeness": "complete_for_supported_scope_with_documented_gaps",
+    "manual_review_required": false,
+    "eligibility_ready": true,
+    "interview_prediction_ready": true,
+    "prediction_confidence": "low",
+    "result_card_ready": true,
+    "offer_prediction_scope": "out_of_scope",
+    "interview_band_config_ready": true,
+    "metadata_activation_ready": true,
+    "production_ready_candidate": true,
+    "production_activation_should_remain_blocked": false,
+    "activation_block_reason": null,
+    "critical_research_blockers": [],
+    "route_limited_blockers": [
+      "Official 2026-entry KMMS UCAT threshold on the current 900-2700 scale is not published.",
+      "ApplySmart does not hold school-level GCSE Attainment 8 or AAB+ comparison data required for official Group A/B contextual ranking.",
+      "Exact Group C, D and E scoring formulae and CASPer handling thresholds are not published.",
+      "Exact MMI scoring rubric and offer threshold are not published.",
+      "Country-specific international qualification equivalence must be verified externally."
+    ],
+    "engine_execution_boundaries": [
+      "Official UCAT cognitive gate returns prediction_unavailable/manual_review while threshold is null.",
+      "SJT Band 4 is executable as not eligible.",
+      "Graduate-route SJT Band 3 and Band 4 are executable as not eligible.",
+      "Group A achieved GCSE gate is executable without achieved A-levels.",
+      "Predicted grades are ignored for KMMS."
+    ],
+    "summary": "Official and FOI evidence supports KMMS eligibility gating, group routing, SJT gates, prediction-unavailable handling for the unpublished official UCAT threshold, and separate ApplySmart advisory guidance."
+  },
+  "course_identity": {
+    "university": "Kent & Medway Medical School",
+    "course_name": "BM BS Medicine",
+    "ucas_code": "A100",
+    "duration_years": 5,
+    "entry_route": "standard_entry",
+    "home_places": 109,
+    "international_places": "No fixed published cap found",
+    "source_ids": [
+      "kmms_entry_requirements_2026",
+      "ofs_mfl"
+    ],
+    "evidence_classification": "official"
+  },
+  "selection_model": {
+    "type": "sequential_gate",
+    "steps": [
+      "Resolve KMMS Group A-E.",
+      "Check academic minimum using the appropriate achieved qualification.",
+      "Apply group-specific SJT gate.",
+      "Keep official UCAT cognitive threshold unavailable while the 2026 2700-scale threshold is null.",
+      "Return official prediction unavailable and show separate ApplySmart advisory guidance where enough UCAT data exists.",
+      "Do not predict offers."
+    ],
+    "academic_scoring": false,
+    "ucat_ranking": false,
+    "ucat_threshold_gate": true,
+    "predicted_grades_used": false,
+    "home_and_international_ranked_separately": true,
+    "guaranteed_interview_routes": false,
+    "source_ids": [
+      "kmms_research_doc"
+    ],
+    "evidence_classification": "official"
+  },
+  "official_evidence_gaps": [
+    {
+      "gap_id": "official_2026_threshold_2700",
+      "status": "not_published",
+      "runtime_outcome": "prediction_unavailable_manual_review"
+    },
+    {
+      "gap_id": "school_performance_contextual_rank_inputs",
+      "status": "not_held_by_applysmart",
+      "runtime_outcome": "contextual_rank_unknown_manual_review"
+    },
+    {
+      "gap_id": "group_c_d_e_scoring_formulae",
+      "status": "not_published",
+      "runtime_outcome": "manual_review"
+    },
+    {
+      "gap_id": "mmi_numeric_offer_threshold",
+      "status": "not_published",
+      "runtime_outcome": "out_of_scope"
+    }
+  ],
+  "applysmart_advisory_model": {
+    "disclaimer": "ApplySmart Advisory Prediction - This guidance is based on historical percentile equivalence and historical KMMS admissions evidence. It is not an official KMMS interview threshold, ranking or admissions decision.",
+    "historical_equivalent_zone_2700": {
+      "low": 1845,
+      "central": 1855,
+      "high": 1865
+    },
+    "runtime_use": "advisory_display_only",
+    "cannot": [
+      "alter academic eligibility",
+      "override an official UCAT threshold",
+      "pass or reject an applicant",
+      "alter Group A-E routing",
+      "replace contextual ranking",
+      "imply KMMS ranks by UCAT",
+      "create a guaranteed band"
+    ],
+    "confidence": "low"
+  },
+  "sources": [
+    {
+      "source_id": "kmms_research_doc",
+      "title": "Approved KMMS A100 Admissions Reference 2026 entry",
+      "source_type": "approved_user_supplied_research",
+      "path": "/Users/faizan/Downloads/KMMS_A100_Admissions_Reference_2026entry.md"
+    },
+    {
+      "source_id": "kmms_applysmart_config",
+      "title": "Approved KMMS ApplySmart Configuration",
+      "source_type": "approved_user_supplied_config",
+      "path": "/Users/faizan/Downloads/kmms-applysmart-config-2.json"
+    }
+  ]
+}

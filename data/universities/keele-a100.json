@@ -1,0 +1,851 @@
+{
+  "schema_version": "1.0.0",
+  "profile_id": "keele-a100",
+  "profile_status": "production_ready_eligibility_and_interview_guidance",
+  "verification_status": "official_source_verified_with_remaining_eligibility_exceptions",
+  "last_updated": "2026-07-08",
+  "university": {
+    "name": "Keele University",
+    "slug": "keele",
+    "country": "United Kingdom",
+    "nation": "England",
+    "institution_type": "University",
+    "website_url": "https://www.keele.ac.uk/"
+  },
+  "course": {
+    "name": "MBChB Medicine",
+    "ucas_code": "A100",
+    "entry_route": "standard_entry",
+    "qualification_awarded": "MBChB",
+    "duration_years": 5,
+    "campus": "Keele",
+    "location": "Keele, England",
+    "entry_year": 2027,
+    "fee_statuses": [
+      "home",
+      "international"
+    ],
+    "is_gateway_or_foundation": false,
+    "is_graduate_entry": false,
+    "notes": "A100 is the standard five-year MBChB Medicine course. Keele A104 Health Foundation Year for Medicine remains a separate UCAS course and is not mixed into this A100 profile."
+  },
+  "medical_school": {
+    "name": "Keele University School of Medicine",
+    "notes": "Rules are mapped from the supplied Keele A100 official-source research pack for 2027 entry."
+  },
+  "applicant_pools": [
+    {
+      "pool_id": "home_a100",
+      "applies_to_group_ids": [
+        "home_fee"
+      ],
+      "excluded_group_ids": [
+        "international_fee"
+      ],
+      "selection_relevance": "Home applicants must clear the GCSE and UCAT/SJT gates, then are shortlisted on Keele's UCAT/SJT/bonus-point component plus a personal-statement score out of 15, producing a score out of 25."
+    },
+    {
+      "pool_id": "international_a100",
+      "applies_to_group_ids": [
+        "international_fee"
+      ],
+      "selection_relevance": "International applicants are ranked separately by UCAT total only after the International UCAT minimum and SJT gate."
+    },
+    {
+      "pool_id": "steps2medicine_ukwpmed_guaranteed_interview",
+      "applies_to_group_ids": [
+        "home_fee",
+        "widening_participation"
+      ],
+      "excluded_group_ids": [
+        "international_fee"
+      ],
+      "selection_relevance": "Verified Steps2Medicine or UKWPMED completers receive guaranteed interview handling only where the minimum GCSE and UCAT/SJT requirements are met."
+    },
+    {
+      "pool_id": "a104_separate_course",
+      "applies_to_group_ids": [
+        "home_fee",
+        "widening_participation"
+      ],
+      "selection_relevance": "A104 is a separate gateway/foundation course and must not be evaluated through this A100 profile."
+    }
+  ],
+  "applies_to_group_ids": [
+    "england_domiciled",
+    "scotland_domiciled",
+    "wales_domiciled",
+    "northern_ireland_domiciled",
+    "home_fee",
+    "international_fee",
+    "rest_of_uk",
+    "contextual",
+    "widening_participation",
+    "care_experienced",
+    "graduate_applicant",
+    "school_leaver",
+    "resit_applicant",
+    "deferred_entry"
+  ],
+  "stage_1_eligibility": {
+    "verification_status": "official_source_verified_with_remaining_eligibility_exceptions",
+    "source_ids": [
+      "keele_medicine_entry_requirements",
+      "keele_medicine_how_to_apply",
+      "keele_alternative_offers"
+    ],
+    "overall_policy": {
+      "status": "official_rules_mapped_with_engine_boundaries",
+      "description": "Keele A100 first checks GCSE, post-16, UCAT and SJT eligibility. GCSEs are gates only, not scored. Home applicants have a 1700 UCAT floor; International applicants have a 1950 floor; SJT Band 4 is an automatic rejection.",
+      "not_eligible_if": [
+        "Minimum GCSE requirements are not met.",
+        "Home UCAT total is below 1700 or International UCAT total is below 1950.",
+        "SJT Band 4 is supplied.",
+        "The course target is A104 rather than A100.",
+        "The applicable post-16 academic route is not met."
+      ],
+      "source_ids": [
+        "keele_medicine_entry_requirements",
+        "keele_medicine_how_to_apply"
+      ]
+    },
+    "gcse": {
+      "status": "official_source_verified",
+      "source_ids": [
+        "keele_medicine_entry_requirements"
+      ],
+      "qualification_scope": [
+        "GCSE",
+        "IGCSE"
+      ],
+      "minimum_count": 5,
+      "minimum_count_at_or_above_grade": {
+        "requirement_id": "five_gcse_grade_7_minimum",
+        "count": 5,
+        "minimum_grade": "7/A",
+        "decision_outcome_if_not_met": "not_eligible",
+        "source_ids": [
+          "keele_medicine_entry_requirements"
+        ]
+      },
+      "mandatory_subject_ids": [
+        "english_language",
+        "mathematics",
+        "science"
+      ],
+      "grade_requirements": [
+        {
+          "requirement_id": "gcse_english_language_minimum",
+          "subject_id": "english_language",
+          "minimum_grade": "6/B",
+          "qualification_level": "gcse_or_igcse",
+          "decision_outcome_if_not_met": "not_eligible",
+          "source_ids": [
+            "keele_medicine_entry_requirements"
+          ]
+        },
+        {
+          "requirement_id": "gcse_mathematics_minimum",
+          "subject_id": "mathematics",
+          "minimum_grade": "6/B",
+          "qualification_level": "gcse_or_igcse",
+          "decision_outcome_if_not_met": "not_eligible",
+          "source_ids": [
+            "keele_medicine_entry_requirements"
+          ]
+        }
+      ],
+      "science_requirement": {
+        "requirement_id": "gcse_science_minimum",
+        "requirement_type": "any_of",
+        "minimum_options_required": 1,
+        "accepted_options": [
+          {
+            "option_id": "separate_biology_chemistry_physics",
+            "grade_requirements": [
+              {
+                "subject_id": "biology",
+                "minimum_grade": "6/B"
+              },
+              {
+                "subject_id": "chemistry",
+                "minimum_grade": "6/B"
+              },
+              {
+                "subject_id": "physics",
+                "minimum_grade": "6/B"
+              }
+            ]
+          },
+          {
+            "option_id": "combined_science_double_award",
+            "subject_id": "combined_science",
+            "minimum_grade_profile": [
+              "6",
+              "6"
+            ],
+            "accepted_equivalent_profile": [
+              "B",
+              "B"
+            ],
+            "counts_as_gcse_subjects": 2
+          }
+        ],
+        "decision_outcome_if_not_met": "not_eligible",
+        "source_ids": [
+          "keele_medicine_entry_requirements"
+        ],
+        "notes": "Biology plus Chemistry without Physics is explicitly not accepted for the separate-science route."
+      },
+      "accepted_equivalencies": [
+        "IGCSE",
+        "IGCSE co-ordinated sciences or double award at 66/BB"
+      ],
+      "sitting_policy": "GCSE requirements must be met before applying.",
+      "achieved_or_predicted": "achieved",
+      "selection_role": "eligibility_only",
+      "scored_after_eligibility": false,
+      "notes": "GCSEs are eligibility gates only and are not part of Keele's numerical shortlisting score."
+    },
+    "post_16": {
+      "status": "official_source_verified_with_engine_boundaries",
+      "source_ids": [
+        "keele_medicine_entry_requirements"
+      ],
+      "accepted_qualification_types": [
+        "a_level",
+        "international_baccalaureate",
+        "scottish_highers",
+        "advanced_highers",
+        "degree",
+        "international_qualification"
+      ],
+      "a_level": {
+        "status": "official_source_verified_supported_subset",
+        "source_ids": [
+          "keele_medicine_entry_requirements",
+          "keele_alternative_offers"
+        ],
+        "grade_requirements": [
+          {
+            "requirement_id": "standard_a_level_astar_aa_supported_subject_subset",
+            "applies_to_group_ids": [
+              "school_leaver"
+            ],
+            "grade_profile": [
+              "A*",
+              "A",
+              "A"
+            ],
+            "one_of_subject_groups": [
+              {
+                "group_id": "biology_or_chemistry_primary",
+                "minimum_required": 1,
+                "subject_ids": [
+                  "biology",
+                  "chemistry"
+                ]
+              },
+              {
+                "group_id": "second_supported_subject_engine_subset",
+                "minimum_required": 2,
+                "subject_ids": [
+                  "biology",
+                  "chemistry",
+                  "mathematics",
+                  "further_mathematics",
+                  "physics",
+                  "psychology"
+                ]
+              }
+            ],
+            "excluded_subject_ids": [
+              "general_studies"
+            ],
+            "decision_outcome_if_not_met": "not_eligible",
+            "source_ids": [
+              "keele_medicine_entry_requirements"
+            ],
+            "notes": "Economics is an accepted Keele second subject but has no Engine v1.0 canonical subject identifier; Economics-bearing profiles are a manual-review boundary."
+          }
+        ],
+        "standard_offer": {
+          "grade_profile": [
+            "A*",
+            "A",
+            "A"
+          ],
+          "source_ids": [
+            "keele_medicine_entry_requirements"
+          ],
+          "notes": "AAA plus EPQ grade A is an accepted alternative but is not executable in the generic classifier."
+        },
+        "contextual_offer": {
+          "applies_to_group_ids": [
+            "contextual",
+            "widening_participation"
+          ],
+          "grade_profile": [
+            "A",
+            "A",
+            "B"
+          ],
+          "source_ids": [
+            "keele_alternative_offers"
+          ],
+          "notes": "Contextual applicants receive a one-grade-lower offer; they do not receive a lower UCAT threshold."
+        },
+        "required_subject_ids": [],
+        "one_of_subject_groups": [],
+        "excluded_subject_ids": [
+          "general_studies"
+        ],
+        "excluded_subject_names": [
+          "General Studies",
+          "Critical Thinking"
+        ],
+        "science_practical_endorsement_required": true,
+        "third_subject_rules": "Third A-level may be any other academic subject; General Studies and Critical Thinking are excluded.",
+        "predicted_grades_accepted": true,
+        "notes": "Applications are not considered from students who have taken more than three years to complete three A-levels; this timing rule remains a manual-review boundary."
+      },
+      "ib": {
+        "status": "official_source_verified_supported",
+        "source_ids": [
+          "keele_medicine_entry_requirements"
+        ],
+        "total_points": 37,
+        "hl_points": "766",
+        "notes": "Standard IB route requires 37 points including TOK/EE and 766 in HL subjects including Biology or Chemistry plus a second accepted subject."
+      },
+      "scottish": {
+        "status": "official_source_verified_manual_review_required",
+        "source_ids": [
+          "keele_medicine_entry_requirements"
+        ],
+        "higher_offer": {
+          "grade_profile": [
+            "A",
+            "A",
+            "A",
+            "A",
+            "A"
+          ],
+          "source_ids": [
+            "keele_medicine_entry_requirements"
+          ],
+          "notes": "AAAAA by end of S5 including Chemistry/Biology plus a second science."
+        },
+        "advanced_higher_offer": {
+          "grade_profile": [
+            "A",
+            "B"
+          ],
+          "source_ids": [
+            "keele_medicine_entry_requirements"
+          ],
+          "notes": "AB from two science subjects in S6."
+        },
+        "notes": "Mapped as official evidence but left as manual review because the generic classifier cannot jointly evaluate Keele's S5/S6 profile safely."
+      },
+      "degree": {
+        "status": "official_source_verified_manual_review_required",
+        "source_ids": [
+          "keele_medicine_entry_requirements"
+        ],
+        "applies_to_group_ids": [
+          "graduate_applicant"
+        ],
+        "minimum_classification": "2:1",
+        "accepted_degree_subject_ids": [],
+        "decision_outcome_if_not_met": "not_eligible",
+        "notes": "Graduate applicants apply through A100 but require a degree plus BBB/GAMSAT route checks that are not executable as a single generic route in Engine v1.0."
+      },
+      "notes": "A-level and IB school-leaver routes are represented for supported subject identifiers. Scottish, graduate, EPQ and Economics-second-subject routes are documented manual-review boundaries."
+    },
+    "admissions_tests": {
+      "source_ids": [
+        "keele_medicine_how_to_apply"
+      ],
+      "ucat": {
+        "required": true,
+        "source_ids": [
+          "keele_medicine_how_to_apply"
+        ],
+        "minimum_total_score": 1700,
+        "group_minimum_total_scores": [
+          {
+            "applies_to_group_ids": [
+              "home_fee"
+            ],
+            "minimum_total_score": 1700,
+            "execution_status": "executable_group_specific_minimum"
+          },
+          {
+            "applies_to_group_ids": [
+              "international_fee"
+            ],
+            "minimum_total_score": 1950,
+            "execution_status": "executable_group_specific_minimum"
+          }
+        ],
+        "minimum_subsection_scores": [],
+        "score_used_for_ranking": true,
+        "validity_window": "current admissions cycle",
+        "exemptions": [],
+        "decision_outcome_if_not_met": "not_eligible",
+        "notes": "ApplySmart enforces Keele's applicant-group-specific UCAT hard floors through the generic group-aware UCAT minimum mechanism: Home applicants require at least 1700 and International applicants require at least 1950."
+      },
+      "sjt": {
+        "used": true,
+        "source_ids": [
+          "keele_medicine_how_to_apply"
+        ],
+        "used_as_gate": true,
+        "accepted_bands": [
+          1,
+          2,
+          3
+        ],
+        "excluded_bands": [
+          4
+        ],
+        "scoring": {
+          "used_in_score": true,
+          "scale": "part_of_keele_ucat_grade_component",
+          "notes": "Keele uses SJT in the UCAT-grade component for Home applicants, but the full UCAT/SJT/bonus table is not executable in Engine v1.0."
+        },
+        "decision_outcome_if_not_met": "not_eligible",
+        "notes": "SJT Band 4 is an automatic rejection."
+      }
+    },
+    "resits": {
+      "allowed": true,
+      "policy": "A-level applicants taking more than three years to complete three A-levels are not considered except in limited accepted circumstances.",
+      "conditions": [
+        "GCSE requirements must be met before applying.",
+        "A-level completion timing beyond three years requires individual review."
+      ],
+      "maximum_resits": null
+    },
+    "english_language": {
+      "required_for_group": true,
+      "accepted_tests": [
+        "GCSE English Language 6/B",
+        "IELTS Academic 7.0 in each component",
+        "TOEFL iBT 100 with Keele subtest minimums",
+        "Pearson PTE Academic 65",
+        "Cambridge C1/C2",
+        "IB English SL"
+      ],
+      "exemptions": [
+        "GCSE English Language 6/B",
+        "Listed Keele English-language equivalents"
+      ],
+      "notes": "International English-language evidence is required unless a listed exemption is met."
+    },
+    "age_or_professional_checks": {
+      "minimum_age": 18,
+      "age_date": "1 October of year of entry to Year 1",
+      "fitness_to_practise_required": true,
+      "dbs_required": true,
+      "occupational_health_required": true,
+      "notes": "Offer-holder checks are not interview prediction."
+    }
+  },
+  "stage_2_interview_selection": {
+    "verification_status": "official_pre_interview_formula_verified",
+    "source_ids": [
+      "keele_medicine_how_to_apply"
+    ],
+    "primary_model": "points_system",
+    "modifiers": [
+      "contextual_adjustment",
+      "widening_participation_scheme",
+      "guaranteed_interview",
+      "sjt_exclusion",
+      "tie_breaker",
+      "separate_applicant_pool"
+    ],
+    "ranking_factors": [
+      {
+        "factor_id": "home_keele_selection_score",
+        "applies_to_group_ids": [
+          "home_fee"
+        ],
+        "role": "ranking_factor",
+        "weight_percent": 100,
+        "points_available": 25,
+        "notes": "Home score combines Keele's UCAT-grade component, bonus points and a personal-statement score out of 15."
+      },
+      {
+        "factor_id": "international_ucat_total",
+        "applies_to_group_ids": [
+          "international_fee"
+        ],
+        "role": "ranking_factor",
+        "weight_percent": 100,
+        "points_available": 2700,
+        "notes": "International applicants are ranked by UCAT total only."
+      }
+    ],
+    "calculation": {
+      "verification_status": "official_pre_interview_formula_verified",
+      "source_ids": [
+        "keele_medicine_how_to_apply"
+      ],
+      "score_components": [
+        {
+          "component_id": "ucat_grade_bonus_component",
+          "factor_id": "ucat_sjt_bonus",
+          "input_field": "admissions_tests.ucat plus verified bonus flags",
+          "calculation_method": "Keele UCAT quintile points plus SJT band points plus documented bonus points",
+          "scale": {
+            "min": 0,
+            "max": 10
+          },
+          "weight_percent": 40,
+          "rounding": "not_applicable",
+          "notes": "The exact operational quintile table is not represented by an Engine v1.0 component.",
+          "source_ids": [
+            "keele_medicine_how_to_apply"
+          ]
+        },
+        {
+          "component_id": "personal_statement_component",
+          "factor_id": "personal_statement",
+          "input_field": "keele_personal_statement_score",
+          "calculation_method": "Keele-scored personal statement against five person-specification criteria",
+          "scale": {
+            "min": 0,
+            "max": 15
+          },
+          "weight_percent": 60,
+          "rounding": "not_applicable",
+          "notes": "ApplySmart cannot invent or calculate Keele's personal-statement score.",
+          "source_ids": [
+            "keele_medicine_how_to_apply"
+          ]
+        }
+      ],
+      "total_score": {
+        "calculation_method": "ucat_grade_bonus_component plus personal_statement_component",
+        "components": [
+          "ucat_grade_bonus_component",
+          "personal_statement_component"
+        ],
+        "scale": {
+          "min": 0,
+          "max": 25
+        },
+        "notes": "Known guidance is around 15/25, with 14/25 possible where UCAT Verbal Reasoning is at least 600.",
+        "source_ids": [
+          "keele_medicine_how_to_apply"
+        ]
+      },
+      "notes": "The official Home formula is documented, but ApplySmart cannot calculate the PS score or Keele's UCAT-grade quintile component without a supplied Keele score or future supported component."
+    },
+    "thresholds": [
+      {
+        "threshold_id": "home_shortlisting_guidance_2025_entry",
+        "applies_to_group_ids": [
+          "home_fee"
+        ],
+        "value": 15,
+        "scale": 25,
+        "threshold_type": "historical_guidance",
+        "notes": "Around 15/25; 14/25 was possible if UCAT Verbal Reasoning was at least 600."
+      },
+      {
+        "threshold_id": "international_minimum_ucat",
+        "applies_to_group_ids": [
+          "international_fee"
+        ],
+        "value": 1950,
+        "scale": 2700,
+        "threshold_type": "minimum_gate",
+        "notes": "International applicants below this floor are not eligible. ApplySmart enforces this through the generic applicant-group-specific UCAT minimum mechanism."
+      }
+    ],
+    "selection_adjustments": [
+      {
+        "modifier_id": "contextual_adjustment",
+        "applies_to_group_ids": [
+          "contextual"
+        ],
+        "adjustment": "+1 point in the UCAT-grade component and one-grade-lower offer",
+        "source_ids": [
+          "keele_alternative_offers"
+        ],
+        "notes": "Contextual applicants do not receive a lower UCAT threshold."
+      },
+      {
+        "modifier_id": "guaranteed_interview",
+        "applies_to_group_ids": [
+          "widening_participation"
+        ],
+        "adjustment": "Verified Steps2Medicine/UKWPMED completers receive guaranteed interview handling where minimum GCSE and UCAT/SJT requirements are met.",
+        "source_ids": [
+          "keele_medicine_how_to_apply"
+        ],
+        "notes": "This is not a general contextual guarantee."
+      }
+    ],
+    "tie_breakers": [
+      {
+        "tie_breaker_id": "ucat_verbal_reasoning",
+        "input_field": "admissions_tests.ucat.subtests.verbal_reasoning",
+        "stage": "shortlisting_and_post_interview_boundary",
+        "notes": "UCAT Verbal Reasoning at least 600 was used for 14/25 shortlisting guidance and Verbal Reasoning is also documented as an offer-stage tie-breaker."
+      }
+    ],
+    "output_band_policy": "strong_reasonable_risky_not_eligible",
+    "notes": "Executable generic classifier output is deliberately conservative for Home applicants because the PS score and UCAT-grade component are not available as supported Engine v1.0 inputs."
+  },
+  "contextual_admissions": {
+    "verification_status": "official_source_verified",
+    "source_ids": [
+      "keele_alternative_offers",
+      "keele_medicine_how_to_apply"
+    ],
+    "available": true,
+    "applies_to_group_ids": [
+      "home_fee",
+      "contextual",
+      "widening_participation",
+      "care_experienced"
+    ],
+    "criteria": [
+      "POLAR4 Q1-2 with state school",
+      "IMD Q1-2 with state school",
+      "Care leaver",
+      "Refugee, asylum seeker or humanitarian protection",
+      "Free school meals",
+      "Young carer",
+      "First generation to higher education",
+      "Armed Forces family or service leaver"
+    ],
+    "adjustments": [
+      "+1 shortlisting point in the UCAT-grade component",
+      "One full grade reduction in the A-level offer"
+    ],
+    "guaranteed_interview_rules": [
+      "Verified Steps2Medicine or UKWPMED completers only, provided minimum GCSE and UCAT/SJT requirements are met."
+    ],
+    "notes": "No lower UCAT threshold is applied for contextual applicants."
+  },
+  "ranking_pools": [
+    {
+      "pool_id": "home_a100",
+      "name": "Home A100 applicants",
+      "applies_to_group_ids": [
+        "home_fee"
+      ],
+      "fee_statuses": [
+        "home"
+      ],
+      "ranking_model": "points_system",
+      "ranking_factors": [
+        "Keele UCAT/SJT/bonus component",
+        "Keele personal-statement score"
+      ],
+      "places_available": 161,
+      "source_ids": [
+        "keele_medicine_how_to_apply"
+      ],
+      "notes": "Home places figure is for 2026 entry."
+    },
+    {
+      "pool_id": "international_a100",
+      "name": "International A100 applicants",
+      "applies_to_group_ids": [
+        "international_fee"
+      ],
+      "fee_statuses": [
+        "international"
+      ],
+      "ranking_model": "ucat_ranking",
+      "ranking_factors": [
+        "UCAT total"
+      ],
+      "places_available": 10,
+      "source_ids": [
+        "keele_medicine_how_to_apply"
+      ],
+      "notes": "International places figure is for 2026 entry."
+    }
+  ],
+  "quotas": [
+    {
+      "quota_id": "keele_a100_places_2027_entry_verified",
+      "name": "Verified Home/International places (2027 entry)",
+      "home_places": 161,
+      "international_places": 10,
+      "quota_type": "verified_current_places",
+      "source_ids": [
+        "applysmart_admissions_team_verified_2026"
+      ],
+      "notes": "Home/International place figures verified by the ApplySmart admissions research team for 2027 entry."
+    },
+    {
+      "quota_id": "a100_places_2026_entry",
+      "home_places": 161,
+      "international_places": 10,
+      "total_places": 171,
+      "source_ids": [
+        "keele_medicine_how_to_apply"
+      ],
+      "notes": "A100 only. A104 has up to 20 separate places and is not included."
+    }
+  ],
+  "offer_selection": {
+    "verification_status": "official_source_verified_with_remaining_unpublished_offer_fields",
+    "source_ids": [
+      "keele_medicine_how_to_apply",
+      "keele_medicine_entry_requirements",
+      "keele_alternative_offers"
+    ],
+    "interview_format": "Two separate 15-minute online interviews via Microsoft Teams.",
+    "interview_scoring": "Interview performance is scored, but the public page does not publish the numerical rubric.",
+    "offer_model": "Offer decisions are interview-based only; ApplySmart does not predict offers.",
+    "ranking_factors": [
+      "Interview performance only"
+    ],
+    "tie_breakers": [
+      "UCAT Verbal Reasoning score where applicable"
+    ],
+    "waiting_list_policy": "Reserve list operates for candidates close to the offer threshold.",
+    "standard_offer": "A*AA, or AAA plus EPQ grade A, subject rules unchanged.",
+    "contextual_offer": "One full grade reduction for eligible contextual applicants; Steps2Medicine/UKWPMED offer is typically ABB where criteria are met.",
+    "notes": "Offer prediction remains out of scope. This section records process transparency only."
+  },
+  "historical_admissions": {
+    "verification_status": "official_source_verified_with_remaining_unpublished_offer_fields",
+    "source_ids": [
+      "keele_medicine_how_to_apply"
+    ],
+    "cycles": [
+      {
+        "entry_cycle": "2025 entry for 2026 places",
+        "a100_places": 171,
+        "home_places": 161,
+        "international_places": 10,
+        "a100_applications": 2738,
+        "home_applications": 2320,
+        "international_applications": 418,
+        "interviews": "Not broken out for A100; around 700 total interview invitations across A100 plus A104 target.",
+        "offers": "Not published"
+      },
+      {
+        "entry_cycle": "2025 entry",
+        "home_shortlisting_guidance": "Around 15/25, with 14/25 possible if Verbal Reasoning >=600."
+      }
+    ],
+    "notes": "Multi-year UCAT interview data, offer-holder UCAT statistics, interview-to-offer conversion data, multi-year application statistics and International interviewed/offered UCAT ranges are retained as evidence gaps."
+  },
+  "sources": [
+    {
+      "source_id": "keele_medicine_entry_requirements",
+      "title": "Keele University Medicine Entry Requirements",
+      "url": "https://www.keele.ac.uk/study/undergraduate/undergraduatecourses/medicine/medicineentryrequirements/",
+      "source_type": "official_university_course_page",
+      "published_date": "2027 entry",
+      "accessed_date": "2026-07-08",
+      "applies_to_sections": [
+        "course_identity",
+        "stage_1_eligibility",
+        "offer_selection"
+      ],
+      "confidence": "high",
+      "notes": "Source cited by the supplied Keele A100 research pack."
+    },
+    {
+      "source_id": "keele_medicine_how_to_apply",
+      "title": "Keele University Medicine How to Apply",
+      "url": "https://www.keele.ac.uk/study/undergraduate/undergraduatecourses/medicine/medicinehowtoapply/",
+      "source_type": "official_university_admissions_page",
+      "published_date": "2027 entry",
+      "accessed_date": "2026-07-08",
+      "applies_to_sections": [
+        "stage_2_interview_selection",
+        "historical_admissions",
+        "offer_selection"
+      ],
+      "confidence": "high",
+      "notes": "Source cited by the supplied Keele A100 research pack."
+    },
+    {
+      "source_id": "keele_alternative_offers",
+      "title": "Keele University Alternative Offers",
+      "url": "https://www.keele.ac.uk/alternativeoffers/",
+      "source_type": "official_university_contextual_page",
+      "published_date": "2027 entry",
+      "accessed_date": "2026-07-08",
+      "applies_to_sections": [
+        "contextual_admissions",
+        "stage_1_eligibility"
+      ],
+      "confidence": "high",
+      "notes": "Source cited by the supplied Keele A100 research pack."
+    }
+  ],
+  "validation": {
+    "source_status": "official_source_verified_with_remaining_eligibility_exceptions",
+    "last_verified": "2026-07-08",
+    "confidence_level": "Medium for policy evidence; Low for executable Home prediction where Keele's personal-statement score is unavailable",
+    "completion_status": "production_ready_for_supported_scope",
+    "known_unknowns": [
+      "Multi-year UCAT interview data",
+      "Offer-holder UCAT statistics",
+      "Interview-to-offer conversion data",
+      "Multi-year application statistics",
+      "International interviewed/offered UCAT ranges"
+    ],
+    "review_notes": "Keele A100 evidence is sufficient for production activation within the supported interview-prediction scope. Applicant-group-specific UCAT minima are executable; Home /25 interview guidance remains transparently limited where Keele's personal-statement score is unavailable."
+  },
+  "engine_notes": {
+    "eligibility": true,
+    "interview_prediction": true,
+    "historical_guidance": true,
+    "international_prediction": true,
+    "contextual_logic": true,
+    "result_card": true,
+    "regression": true,
+    "research_completeness": "complete_for_supported_scope_with_documented_gaps",
+    "manual_review_required": true,
+    "eligibility_ready": true,
+    "interview_prediction_ready": true,
+    "prediction_confidence": "low",
+    "result_card_ready": true,
+    "offer_prediction_scope": "out_of_scope",
+    "interview_band_config_ready": true,
+    "metadata_activation_ready": true,
+    "activation_ready": true,
+    "production_ready": true,
+    "blocking_missing_fields": [],
+    "non_blocking_warnings": [
+      "Known unknown retained as non-blocking for activation-ready production scope: Multi-year UCAT interview data",
+      "Known unknown retained as non-blocking for activation-ready production scope: Offer-holder UCAT statistics",
+      "Known unknown retained as non-blocking for activation-ready production scope: Interview-to-offer conversion data",
+      "Known unknown retained as non-blocking for activation-ready production scope: Multi-year application statistics",
+      "Known unknown retained as non-blocking for activation-ready production scope: International interviewed/offered UCAT ranges"
+    ],
+    "engine_assumptions": [
+      "A104 is a separate course and is not evaluated through this A100 profile.",
+      "GCSEs are eligibility gates only.",
+      "Contextual status adds Keele's documented shortlisting uplift and lower academic offer, not a lower UCAT threshold."
+    ],
+    "do_not_infer": [
+      "Do not implement offer prediction.",
+      "Do not rank Home applicants by UCAT total alone.",
+      "Do not lower the contextual UCAT threshold below 1700.",
+      "Do not mix A104 gateway rules with A100.",
+      "Do not invent missing multi-year or International UCAT distributions."
+    ],
+    "blocked_by_engine_limitation": false,
+    "supported_scope_limitations": [
+      "ApplySmart cannot calculate Keele's Home /25 score because the personal-statement score and UCAT-grade quintile component are not supported component inputs.",
+      "International interview guidance uses Keele's UCAT-ranked selection model and the published 1950 minimum; unpublished International interviewed/offered UCAT ranges remain an evidence gap."
+    ]
+  }
+}

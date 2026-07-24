@@ -1,0 +1,263 @@
+{
+  "schema_version": "1.0.0",
+  "profile_id": "buckingham-71a8-research",
+  "course_profile_id": "buckingham-71a8",
+  "research_status": "complete_for_supported_scope_with_documented_gaps",
+  "file_purpose": "Research and implementation mapping for University of Buckingham MB ChB Medicine 71A8 January 2027 entry.",
+  "official_rules_source": "data/universities/buckingham-71a8.json",
+  "created_at": "2026-07-18",
+  "last_updated": "2026-07-18",
+  "research_scope": {
+    "implemented": [
+      "course identity for 71A8",
+      "January intake metadata",
+      "Home and International applicant support",
+      "A-level academic eligibility",
+      "IB academic eligibility using the current course-linked PDF and UCAS value",
+      "graduate same-course academic eligibility by degree classification",
+      "BTEC exclusion",
+      "IELTS Academic/UKVI English-language requirement",
+      "fees as informational result-card metadata",
+      "eligibility-only public result-card guidance"
+    ],
+    "excluded": [
+      "offer prediction",
+      "MMA score prediction",
+      "MMI performance prediction",
+      "UCAT ranking",
+      "GAMSAT ranking",
+      "country-specific international qualification automation",
+      "Scottish S5 plus Advanced Higher automation",
+      "conditional GCSE science automation for applicants taking only one A-level science"
+    ],
+    "applicant_pool": {
+      "home": true,
+      "international": true,
+      "ranking_pool": null,
+      "notes": "Official sources confirm Home/UK and International fee rows and UCAS international applicant information. No separate academic or progression threshold by fee status is published."
+    },
+    "contextual_policy": {
+      "contextual_logic": false,
+      "notes": "No Buckingham 71A8 contextual reduction or guaranteed-interview route was identified in the official sources reviewed."
+    }
+  },
+  "evidence_classification_policy": {
+    "academic_rules": "official_source_verified",
+    "selection_process": "official_source_verified",
+    "interview_prediction": "insufficient_public_evidence",
+    "fees": "official_source_verified",
+    "prediction_confidence": "low",
+    "limitations": [
+      "Buckingham publishes a staged process but not a numeric MMA score, MMI score or progression threshold.",
+      "No historical interview invitation cut-offs or progression rates were found.",
+      "The course page body and official PDF/UCAS disagree on IB total points; ApplySmart uses the 34-point PDF/UCAS value and records the discrepancy.",
+      "Country-specific international qualification rules are official but too broad for the current generic evaluator."
+    ]
+  },
+  "metadata": {
+    "university_name": "University of Buckingham",
+    "institution_code": "B90",
+    "course_name": "MB ChB Medicine",
+    "ucas_code": "71A8",
+    "entry_route": "standard_entry",
+    "course_type": "standard_undergraduate_medicine",
+    "qualification": "MB ChB",
+    "duration_years": 4.5,
+    "intake_month": "January",
+    "entry_cycle": "2027-01",
+    "academic_model": "eligibility_gate",
+    "academic_ranking": false,
+    "prediction_model": "eligibility_only",
+    "assessment_mode": "eligibility_only",
+    "ranking_model": null,
+    "uses_ucat": false,
+    "uses_gamsat": false,
+    "uses_bmat": false,
+    "application_channels": [
+      "ucas",
+      "direct"
+    ],
+    "fees_informational_only": true
+  },
+  "applicant_groups": {
+    "home": {
+      "accepted": true,
+      "selection_difference_published": false,
+      "fee_status": "home"
+    },
+    "international": {
+      "accepted": true,
+      "selection_difference_published": false,
+      "fee_status": "international",
+      "english_language_required": true
+    }
+  },
+  "academic_requirements": {
+    "gcse": {
+      "required": [
+        "English Language grade 4/C or equivalent",
+        "Mathematics grade 4/C or equivalent"
+      ],
+      "conditional_science_review": "Applicants who have not completed A-level Biology or Chemistry should have studied the missing subject to GCSE/equivalent and achieved grade B. This conditional rule is documented but not auto-executed."
+    },
+    "a_level": {
+      "standard": "ABB including Chemistry or Biology",
+      "excluded_subjects": [
+        "General Studies"
+      ],
+      "predicted_and_achieved_grades_accepted": true,
+      "resits": "A-level resits are possible only under published mitigation conditions."
+    },
+    "ib": {
+      "total_points": 34,
+      "hl": "Biology and Chemistry both taken at HL, with at least HL6 in one and HL5 in the other.",
+      "discrepancy": "Course page body states 32 points while UCAS and the course-linked 2026/27 PDF state 34 points."
+    },
+    "scottish": {
+      "published": "S5 AABBB plus two Advanced Highers including Chemistry and one from Biology or Maths at BB.",
+      "automation_status": "manual_review_required"
+    },
+    "graduate": {
+      "same_course": true,
+      "separate_gem": false,
+      "degree": "Bachelor degree in a subject cognate to Medicine with or predicted at least 2:1."
+    },
+    "btec": {
+      "accepted": false
+    },
+    "international_qualifications": {
+      "published_table": true,
+      "automation_status": "manual_review_required"
+    },
+    "english_language": {
+      "ielts": "7.0 overall and minimum 6.5 in each component",
+      "cambridge_english_advanced": "185 overall average and minimum 176 in each paper",
+      "automation_status": "IELTS Academic/UKVI automated; Cambridge and exemptions manual review."
+    }
+  },
+  "selection_process": {
+    "stage_1": "Academic Screening",
+    "stage_2": "Digital Multiple Mini Assessment",
+    "stage_3": "Multiple Mini Interview",
+    "published_thresholds": false,
+    "historical_cutoffs": false,
+    "applysmart_output": "eligible_applicants_receive_eligible_to_apply_eligibility_only_guidance"
+  },
+  "fees": {
+    "currency": "GBP",
+    "entry_cycle": "2027-01",
+    "home": {
+      "first_year": 41500,
+      "course_total": 186750
+    },
+    "international": {
+      "first_year": 47000,
+      "course_total": 211500
+    },
+    "deposit": 10000,
+    "deposit_refundable_if_conditions_not_met": true,
+    "fees_subject_to_change": true,
+    "eligibility_effect": "informational_only"
+  },
+  "implementation_mapping": {
+    "architecture_change_required": true,
+    "architecture_change_summary": "Generic optional fee_information schema/presenter support and configured IELTS component thresholds were added. No Buckingham-specific frontend hard-coding was introduced.",
+    "production_json": "data/universities/buckingham-71a8.json",
+    "interview_band_config": "data/interview-band-configs/buckingham-71a8.json",
+    "result_card_example": "data/examples/buckingham-71a8-result-card.example.json",
+    "fixture": "data/fixtures/interview-band-classification/buckingham-71a8.json",
+    "dedicated_test": "scripts/test-buckingham-71a8-readiness.js"
+  },
+  "evidence_gaps": [
+    {
+      "gap_id": "mma_scoring_threshold",
+      "status": "blocking_for_interview_prediction",
+      "notes": "The digital MMA scoring and progression criteria are not published."
+    },
+    {
+      "gap_id": "mmi_progression_rate",
+      "status": "blocking_for_interview_prediction",
+      "notes": "No official progression rate from academic screen or MMA to MMI was found."
+    },
+    {
+      "gap_id": "ib_total_points_discrepancy",
+      "status": "documented_non_blocking_for_conservative_eligibility",
+      "notes": "ApplySmart uses the 34-point requirement from UCAS and the current course-linked entry requirements PDF."
+    },
+    {
+      "gap_id": "conditional_missing_science_gcse",
+      "status": "manual_review",
+      "notes": "The current generic evaluator cannot conditionally require GCSE Biology or Chemistry only when the applicant lacks that A-level subject."
+    }
+  ],
+  "source_evidence": [
+    {
+      "source_id": "buckingham_course_page_2027",
+      "title": "MB ChB Medicine (4.5-year degree)",
+      "url": "https://www.buckingham.ac.uk/courses/undergraduate/mb-chb-medicine-4.5-year-degree/",
+      "accessed_date": "2026-07-18",
+      "entry_cycle": "2027-01",
+      "applicant_pool": "Home and International",
+      "evidence_confidence": "high",
+      "classification": "official",
+      "summary": "Verifies January 2027 full-time 4.5-year undergraduate MB ChB, 71A8 UCAS code, ABB including Chemistry or Biology, GCSE English/Maths grade 4, IELTS 7.0/6.5, staged academic screen/MMA/MMI process, Home and International fees, deposit and direct application route."
+    },
+    {
+      "source_id": "buckingham_entry_requirements_pdf_2026_27",
+      "title": "Medicine 2026/27 Entry Requirements",
+      "url": "https://www.buckingham.ac.uk/wp-content/uploads/2025/10/Med-2627-Entry-Requirements.pdf",
+      "accessed_date": "2026-07-18",
+      "entry_cycle": "2026/27",
+      "applicant_pool": "All applicants",
+      "evidence_confidence": "high",
+      "classification": "official",
+      "summary": "Verifies A-level ABB, General Studies exclusion, A-level resit conditions, Scottish Advanced Higher route, IB 34, UK Science degree 2:1 and country-specific requirements."
+    },
+    {
+      "source_id": "ucas_buckingham_71a8",
+      "title": "Medicine, University of Buckingham",
+      "url": "https://www.ucas.com/explore/courses/2e6f7565-7172-baa3-7908-ef0b6e9df6f1/medicine?studyYear=2025",
+      "accessed_date": "2026-07-18",
+      "entry_cycle": "2025/26 listing",
+      "applicant_pool": "Home and International",
+      "evidence_confidence": "high",
+      "classification": "official",
+      "summary": "Verifies course code 71A8, institution code B90, MB ChB 4.5 years, January start, Year 1 point of entry and UCAS application details."
+    },
+    {
+      "source_id": "buckingham_undergraduate_apply",
+      "title": "How to apply - undergraduate study",
+      "url": "https://www.buckingham.ac.uk/admissions/applyonline/how-to-apply-undergraduate-study/",
+      "accessed_date": "2026-07-18",
+      "entry_cycle": "2026/27",
+      "applicant_pool": "Home and International",
+      "evidence_confidence": "high",
+      "classification": "official",
+      "summary": "Verifies Buckingham accepts undergraduate applications via UCAS or direct online form and lists institution code B90."
+    }
+  ],
+  "readiness": {
+    "eligibility": true,
+    "interview_prediction": false,
+    "assessment_mode": "eligibility_only",
+    "assessment_available": true,
+    "interview_prediction_available": false,
+    "historical_guidance": false,
+    "international_prediction": false,
+    "contextual_logic": false,
+    "result_card": true,
+    "regression": true,
+    "research_completeness": "complete_for_supported_scope_with_documented_gaps",
+    "manual_review_required": true,
+    "eligibility_ready": true,
+    "eligibility_only_ready": true,
+    "interview_prediction_ready": false,
+    "offer_prediction_scope": "out_of_scope",
+    "prediction_confidence": "low",
+    "result_card_ready": true,
+    "interview_band_config_ready": true,
+    "metadata_activation_ready": true,
+    "activation_ready": true,
+    "production_ready": true
+  }
+}

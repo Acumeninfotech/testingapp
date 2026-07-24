@@ -1,0 +1,344 @@
+{
+  "schema_version": "1.0.0",
+  "profile_id": "bristol-a100-research",
+  "course_profile_id": "bristol-a100",
+  "research_status": "complete_for_supported_scope_with_documented_gaps",
+  "file_purpose": "Research and evidence profile for University of Bristol MB ChB Medicine A100. This file preserves the approved Bristol research document, evidence classifications, implementation mapping and known review boundaries; executable rules live in data/universities/bristol-a100.json.",
+  "official_rules_source": "data/universities/bristol-a100.json",
+  "created_at": "2026-07-13",
+  "last_updated": "2026-07-13",
+  "research_scope": {
+    "target_entry_year": 2027,
+    "primary_policy_cycle": "2027 entry",
+    "historical_guidance_cycle": "2026 entry published thresholds with older converted context",
+    "primary_course": "A100",
+    "primary_scope": [
+      "home_standard_a_level_school_leaver",
+      "home_contextual_a_level_school_leaver",
+      "home_standard_international_baccalaureate",
+      "international_a_level_or_ib_with_confirmed_profile_a_english_evidence",
+      "verified_bristol_widening_participation_programme_completer"
+    ],
+    "manual_review_scope": [
+      "scottish_highers_plus_advanced_highers",
+      "graduate_applying_to_a100",
+      "country_specific_international_qualification",
+      "contextual_ib",
+      "non_ielts_profile_a_english_language_variants",
+      "post_interview_offer_thresholds"
+    ],
+    "excluded_related_courses": [
+      "A108 Gateway to Medicine"
+    ],
+    "production_json_updated": true,
+    "index_updated": true,
+    "examples_updated": true,
+    "regression_scripts_updated": true,
+    "activation_flags_updated": true,
+    "third_party_admissions_websites_used": false,
+    "evidence_intake_basis": "/Users/faizan/Desktop/medical university research/bristol.docx supplied by the user on 2026-07-13",
+    "notes": "The existing repository profile was an MSC seed with unknown rules. It has been replaced with the approved research-backed production profile."
+  },
+  "evidence_classification_policy": {
+    "official": "A rule or statistic attributed by the supplied research to a first-party University of Bristol source.",
+    "official_published_threshold": "A UCAT threshold directly published by the University of Bristol for a named entry cycle.",
+    "foi_derived": "A figure obtained from or derived from Freedom of Information evidence as labelled in the approved research.",
+    "converted_historical_figure": "A score originally published on the previous 3600-point UCAT scale and converted proportionally to the current 2700-point scale for comparison only.",
+    "historical_guidance": "A cycle-labelled observation used to position interview competitiveness, never as a current guarantee.",
+    "unknown": "The supplied evidence does not establish the fact safely enough for execution.",
+    "intake_caveat": "The user designated the completed Bristol research document as authoritative. Source classifications preserve its evidence log and caveats."
+  },
+  "metadata": {
+    "authoritative_research_file": "/Users/faizan/Desktop/medical university research/bristol.docx",
+    "engine_version": "ApplySmart Engine v1.0",
+    "architecture_change_required": false,
+    "selection_model_mapping": "academic_gate_then_pool_specific_ucat_ranking",
+    "standardisation_profile": "completed_production_university",
+    "repository_discrepancy_reported_before_edit": "Existing Bristol A100 production JSON was a low-confidence MSC seed with unknown GCSE, A-level, UCAT and shortlisting rules; the production implementation replaces it with the approved research-backed UCAT-only model."
+  },
+  "readiness": {
+    "eligibility": true,
+    "interview_prediction": true,
+    "historical_guidance": true,
+    "international_prediction": true,
+    "contextual_logic": true,
+    "result_card": true,
+    "regression": true,
+    "research_completeness": "complete_for_supported_scope_with_documented_gaps",
+    "manual_review_required": true,
+    "eligibility_ready": true,
+    "interview_prediction_ready": true,
+    "prediction_confidence": "medium",
+    "result_card_ready": true,
+    "offer_prediction_scope": "out_of_scope",
+    "interview_band_config_ready": true,
+    "metadata_activation_ready": true,
+    "production_ready_candidate": true,
+    "production_activation_should_remain_blocked": false,
+    "activation_block_reason": null,
+    "critical_research_blockers": [],
+    "route_limited_blockers": [
+      "Bristol sets annual UCAT thresholds dynamically after the UCAS deadline, so future thresholds cannot be predicted deterministically.",
+      "Several older UCAT thresholds are converted historical figures from the legacy 3600-point scale and are approximate comparison values only.",
+      "Country-specific international qualification equivalences are not tabulated in the approved research.",
+      "Post-interview MMI score distributions, maximum score and offer cut-off scores are not published.",
+      "Reserve-list numbers and activation rates are not routinely published."
+    ],
+    "engine_execution_boundaries": [
+      "Scottish Higher plus Advanced Higher eligibility is documented but remains manual review because the generic classifier cannot safely evaluate the joint profile.",
+      "Graduate A100 eligibility is documented as a 2:1 degree plus BBB school-qualification branch, but remains manual review because the generic classifier does not combine both conditions.",
+      "Contextual IB is documented but remains manual review for automatic classification.",
+      "Country-specific international qualification equivalences require institution-verified evidence.",
+      "The Profile A English-language policy contains multiple school-qualification, test and exemption variants; the generic classifier requires verified exemption or manually reviewed evidence for non-standard routes."
+    ],
+    "summary": "Official evidence supports scoped A100 eligibility and pool-specific UCAT interview guidance for Home, International and verified University of Bristol widening participation programme applicants."
+  },
+  "course_identity": {
+    "university": "University of Bristol",
+    "medical_school": "Bristol Medical School",
+    "course_name": "MB ChB Medicine",
+    "ucas_code": "A100",
+    "duration_years": 5,
+    "entry_route": "standard_entry",
+    "home_places": 268,
+    "international_places": 19,
+    "source_ids": [
+      "bristol_research_doc"
+    ],
+    "evidence_classification": "official"
+  },
+  "selection_model": {
+    "type": "sequential_gate",
+    "steps": [
+      "Check minimum academic eligibility.",
+      "Require UCAT for the relevant application cycle.",
+      "Rank eligible ordinary applicants by UCAT cognitive total only within separate Home and International pools.",
+      "Apply verified Bristol widening participation guaranteed-interview handling where published criteria are met.",
+      "Do not use SJT, GCSE scoring, predicted-grade scoring or personal statements."
+    ],
+    "academic_scoring": false,
+    "ucat_ranking": true,
+    "ucat_weight_percent": 100,
+    "sjt_shortlisting_role": "none",
+    "home_and_international_ranked_separately": true,
+    "scottish_or_ruk_separate_pool": false,
+    "source_ids": [
+      "bristol_research_doc"
+    ],
+    "evidence_classification": "official"
+  },
+  "academic_requirements": {
+    "gcse": {
+      "minimum_profile": "GCSE English Language grade 4/C and Mathematics grade 7/A.",
+      "scored_after_threshold": false,
+      "science_gcse_required": false,
+      "minimum_count": null,
+      "resits": "Accepted to meet minimum academic entry requirements.",
+      "source_ids": [
+        "bristol_research_doc"
+      ]
+    },
+    "a_level": {
+      "standard": "AAA",
+      "contextual": "ABB including A in Chemistry and B in the second required science or maths subject",
+      "subject_rule": "Chemistry plus one of Biology, Physics, Mathematics or Further Mathematics.",
+      "practical_endorsement_required": true,
+      "excluded": [
+        "General Studies",
+        "Critical Thinking"
+      ],
+      "one_sitting_required": false,
+      "source_ids": [
+        "bristol_research_doc"
+      ]
+    },
+    "international_baccalaureate": {
+      "standard": "36 points overall with 18 at Higher Level, including 6 and 6 in Chemistry and one of Biology, Physics or Mathematics.",
+      "contextual": "32 points overall with 16 at Higher Level, including 6 at HL Chemistry and 5 at HL in one of Biology, Physics or Mathematics.",
+      "source_ids": [
+        "bristol_research_doc"
+      ]
+    },
+    "scottish": {
+      "standard": "AAAAB Highers plus AA Advanced Highers including Chemistry and one of Biology, Physics or Mathematics.",
+      "separate_applicant_pool": false,
+      "source_ids": [
+        "bristol_research_doc"
+      ]
+    },
+    "graduate_a100": {
+      "requirement": "2:1 degree in any subject plus BBB at A-level including Chemistry and one of Biology, Physics, Mathematics or Further Mathematics.",
+      "a101_separate": false,
+      "source_ids": [
+        "bristol_research_doc"
+      ]
+    },
+    "english_language": {
+      "profile": "Profile A",
+      "ielts": "7.5 overall with at least 7.0 in each skill",
+      "documented_exemptions": [
+        "GCSE English Language grade B or 6",
+        "GCSE English Literature grade A or 7",
+        "IGCSE English as a First Language grade A or 7",
+        "Accepted IB or A-level English qualification",
+        "Nationality or recent study in a UKVI recognised English-speaking country"
+      ],
+      "source_ids": [
+        "bristol_research_doc"
+      ]
+    }
+  },
+  "ucat_and_sjt": {
+    "ucat_required": true,
+    "ranking_metric": "total_cognitive_score",
+    "score_scale": 2700,
+    "selection_weight_percent": 100,
+    "fixed_cutoff": false,
+    "home_threshold": {
+      "entry_cycle": "2026 entry",
+      "value": 2240,
+      "scale": 2700,
+      "use": "historical_guidance",
+      "evidence_classification": "official_published_threshold"
+    },
+    "international_threshold": {
+      "entry_cycle": "2026 entry",
+      "value": 2270,
+      "scale": 2700,
+      "use": "historical_guidance",
+      "evidence_classification": "official_published_threshold"
+    },
+    "contextual_threshold": "same_as_home",
+    "graduate_threshold": "same_as_relevant_home_or_international_pool",
+    "sjt_shortlisting_role": "not_used",
+    "sjt_bands_3_and_4_automatic_shortlisting_rejection": false,
+    "source_ids": [
+      "bristol_research_doc"
+    ]
+  },
+  "historical_context": {
+    "use": "guidance_only",
+    "fixed_future_cutoff": false,
+    "not_deterministic": true,
+    "warning": "Historical UCAT thresholds are guidance only and must never be presented as guaranteed future cut-offs.",
+    "official_published_thresholds": [
+      {
+        "entry_cycle": "2026 entry",
+        "home": 2240,
+        "international": 2270,
+        "scale": 2700
+      }
+    ],
+    "converted_historical_thresholds": [
+      {
+        "entry_cycle": "2025 entry",
+        "home": 2258,
+        "international": 2310,
+        "scale": 2700,
+        "approximate": true
+      },
+      {
+        "entry_cycle": "2024 entry",
+        "home": 2205,
+        "international": 2220,
+        "scale": 2700,
+        "approximate": true
+      },
+      {
+        "entry_cycle": "2023 entry",
+        "home": 2183,
+        "international": 2183,
+        "scale": 2700,
+        "approximate": true
+      }
+    ],
+    "foi_derived_volumes": [
+      {
+        "entry_cycle": "2024 entry",
+        "interviews_total": 968,
+        "offers_total": 650
+      },
+      {
+        "entry_cycle": "2023 entry",
+        "interviews_total": 1098,
+        "offers_total": 627
+      }
+    ]
+  },
+  "international_policy": {
+    "separate_ranking_pool": true,
+    "places": 19,
+    "ucat_threshold_2026_entry": 2270,
+    "contextual_or_wp_reductions_apply": false,
+    "english_language_profile": "Profile A",
+    "format_affects_prediction": false,
+    "source_ids": [
+      "bristol_research_doc"
+    ]
+  },
+  "contextual_and_widening_participation": {
+    "contextual_offer_only": true,
+    "lower_ucat_threshold": false,
+    "extra_points_or_uplift": false,
+    "home_only": true,
+    "recognised_wp_programmes": [
+      "Access to Bristol",
+      "Insight into Bristol",
+      "Next Step Bristol"
+    ],
+    "guaranteed_interview_available": true,
+    "notes": "Standard contextual applicants do not receive a guaranteed interview. Recognised Bristol WP programme completers may receive one when the published criteria are met."
+  },
+  "offer_selection_research": {
+    "applysmart_scope": "out_of_scope",
+    "initial_offer_ranking": "combined MMI interview score",
+    "tie_break_sequence": [
+      "Total UCAT score",
+      "Academic history"
+    ],
+    "personal_statement_used": false,
+    "sjt_used": false,
+    "published_offer_score_cutoffs": false
+  },
+  "evidence_gaps": [
+    {
+      "gap_id": "future_ucat_thresholds",
+      "description": "Future UCAT thresholds are not known before each admissions cycle's applicant pool is ranked.",
+      "impact": "Prediction can only use labelled historical guidance."
+    },
+    {
+      "gap_id": "post_interview_score_distribution",
+      "description": "Bristol does not publicly release MMI score distributions or offer cut-off scores.",
+      "impact": "Offer prediction remains out of scope."
+    },
+    {
+      "gap_id": "country_specific_international_equivalences",
+      "description": "Country-specific equivalence tables are referenced but not tabulated in the approved research.",
+      "impact": "Unlisted international qualifications require verified equivalence evidence."
+    },
+    {
+      "gap_id": "reserve_list_statistics",
+      "description": "Reserve-list size and activation rates are not routinely published.",
+      "impact": "No reserve-list prediction is implemented."
+    }
+  ],
+  "implementation_mapping": {
+    "architecture_change_required": false,
+    "shared_engine_changes_required": false,
+    "generic_mechanisms_reused": [
+      "Course JSON eligibility gates",
+      "Interview-band config with ranking_metric score model",
+      "Fee-status guidance pools",
+      "Result-card readiness contract",
+      "Decision transparency and timeline presenter",
+      "Standard JSON and schema validation"
+    ],
+    "unsupported_behaviour_not_implemented": [
+      "Offer probability",
+      "MMI score prediction",
+      "Reserve-list prediction",
+      "Speculative future UCAT thresholds",
+      "Personal statement scoring"
+    ]
+  }
+}

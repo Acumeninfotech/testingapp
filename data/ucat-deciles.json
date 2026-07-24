@@ -1,0 +1,140 @@
+{
+  "dataset_version": "2027.1.0",
+  "entry_year": 2027,
+  "last_updated": "2026-06-19",
+  "source": {
+    "name": "UCAT Consortium",
+    "type": "official",
+    "url": "https://www.ucat.ac.uk/results/test-statistics/",
+    "accessed_date": "2026-06-19",
+    "test_cycle": 2025,
+    "notes": "Latest official UCAT test statistics available at update time. The UCAT Consortium states the 2025 data is valid up to 26 September 2025 based on 41,354 tests taken."
+  },
+  "score_scale": {
+    "cognitive_total_min": 900,
+    "cognitive_total_max": 2700,
+    "subtests_included": [
+      "Verbal Reasoning",
+      "Decision Making",
+      "Quantitative Reasoning"
+    ],
+    "sjt_included_in_total": false,
+    "abstract_reasoning_included": false
+  },
+  "summary_statistics": {
+    "number_of_candidates": 41354,
+    "mean_total_score": 1891,
+    "mean_subtest_scores": {
+      "verbal_reasoning": 602,
+      "decision_making": 628,
+      "quantitative_reasoning": 661
+    },
+    "sjt_band_distribution_percent": {
+      "band_1": 21,
+      "band_2": 39,
+      "band_3": 29,
+      "band_4": 10
+    }
+  },
+  "official_decile_thresholds": {
+    "1": 1580,
+    "2": 1680,
+    "3": 1760,
+    "4": 1820,
+    "5": 1880,
+    "6": 1950,
+    "7": 2010,
+    "8": 2100,
+    "9": 2220
+  },
+  "derived_decile_bands": {
+    "below_1st_decile": {
+      "min": 900,
+      "max": 1570
+    },
+    "1st_to_2nd_decile": {
+      "min": 1580,
+      "max": 1670
+    },
+    "2nd_to_3rd_decile": {
+      "min": 1680,
+      "max": 1750
+    },
+    "3rd_to_4th_decile": {
+      "min": 1760,
+      "max": 1810
+    },
+    "4th_to_5th_decile": {
+      "min": 1820,
+      "max": 1870
+    },
+    "5th_to_6th_decile": {
+      "min": 1880,
+      "max": 1940
+    },
+    "6th_to_7th_decile": {
+      "min": 1950,
+      "max": 2000
+    },
+    "7th_to_8th_decile": {
+      "min": 2010,
+      "max": 2090
+    },
+    "8th_to_9th_decile": {
+      "min": 2100,
+      "max": 2210
+    },
+    "above_9th_decile": {
+      "min": 2220,
+      "max": 2700
+    }
+  },
+  "usage": {
+    "purpose": "Convert applicant UCAT cognitive total score into national decile.",
+    "used_by": [
+      "Universities using UCAT decile points",
+      "Universities using contextual UCAT decile adjustment",
+      "Apply Smart risk category calculation"
+    ],
+    "not_used_for": [
+      "University-specific UCAT cut-offs",
+      "University-specific interview thresholds",
+      "SJT scoring",
+      "Edinburgh A100 current-cycle fee-cohort deciles"
+    ]
+  },
+  "implementation_notes": [
+    "UCAT officially publishes the nine score boundaries between ten decile groups. The derived_decile_bands object converts those thresholds into app-friendly deciles 1-10.",
+    "Derived score bands assume UCAT cognitive totals move in 10-point increments.",
+    "Replace this file when the UCAT Consortium publishes final statistics for the test cycle used by 2027-entry applicants.",
+    "Edinburgh A100 historical admissions-statistics deciles are stored separately under university_specific_deciles and must not replace national UCAT deciles or live fee-cohort deciles."
+  ],
+  "university_specific_deciles": {
+    "edinburgh-a100": {
+      "university": "Edinburgh",
+      "course": "A100",
+      "source_year": 2025,
+      "source_type": "official_admissions_statistics",
+      "prediction_basis": "historical_estimate",
+      "current_cycle_status": "not_current_cycle_live_deciles",
+      "source": {
+        "name": "University of Edinburgh MBChB Admissions Statistics 2025",
+        "url": "https://medicine-vet-medicine.ed.ac.uk/sites/default/files/2025-10/MBChB%20Admissions%20Statistics%202025.pdf",
+        "accessed_date": "2026-06-26"
+      },
+      "warning": "Use for Edinburgh A100 historical UCAT decile estimate only. Do not use as current live applicant-pool deciles.",
+      "decile_bands_2700": {
+        "1": "<=1755",
+        "2": "1763-1853",
+        "3": "1860-1905",
+        "4": "1913-1950",
+        "5": "1958-1995",
+        "6": "2003-2048",
+        "7": "2055-2115",
+        "8": "2123-2190",
+        "9": "2198-2303",
+        "10": "2310-2700"
+      }
+    }
+  }
+}

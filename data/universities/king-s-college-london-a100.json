@@ -1,0 +1,1410 @@
+{
+  "schema_version": "1.0.0",
+  "profile_id": "king-s-college-london-a100",
+  "profile_status": "activated_for_scoped_eligibility_and_interview_guidance",
+  "verification_status": "official_and_foi_partially_verified",
+  "last_updated": "2026-07-23",
+  "university": {
+    "name": "King's College London",
+    "slug": "king-s-college-london",
+    "country": "United Kingdom",
+    "nation": "England",
+    "institution_type": "University",
+    "website_url": "https://www.kcl.ac.uk/"
+  },
+  "course": {
+    "name": "Medicine MBBS",
+    "ucas_code": "A100",
+    "entry_route": "standard_entry",
+    "qualification_awarded": "MBBS",
+    "duration_years": 5,
+    "campus": "GKT School of Medical Education",
+    "location": "London, England",
+    "entry_year": 2027,
+    "fee_statuses": [
+      "home",
+      "international"
+    ],
+    "is_gateway_or_foundation": false,
+    "is_graduate_entry": false,
+    "notes": "This record covers A100 only. A101 (Extended Medical Degree Programme), A102 (Graduate/Professional Entry) and A105 (Healthcare Entry) are out of scope and are referenced only where KCL's own guidance redirects applicants between programmes."
+  },
+  "medical_school": {
+    "name": "GKT School of Medical Education",
+    "faculty": "Faculty of Life Sciences & Medicine",
+    "notes": "Production rules are mapped from the approved KCL A100 research document and companion JSON supplied by the user on 2026-07-23."
+  },
+  "applicant_pools": [
+    {
+      "pool_id": "kcl_home_domicile_a100",
+      "applies_to_group_ids": [
+        "home_fee"
+      ],
+      "excluded_group_ids": [
+        "international_fee"
+      ],
+      "selection_relevance": "UK-domicile/home applicants use the separately calibrated Home historical UCAT-percentile guidance route."
+    },
+    {
+      "pool_id": "kcl_non_uk_domicile_a100",
+      "applies_to_group_ids": [
+        "international_fee"
+      ],
+      "selection_relevance": "Non-UK/international applicants use the separately calibrated International historical UCAT-percentile guidance route."
+    }
+  ],
+  "applies_to_group_ids": [
+    "england_domiciled",
+    "scotland_domiciled",
+    "wales_domiciled",
+    "northern_ireland_domiciled",
+    "home_fee",
+    "international_fee",
+    "rest_of_uk",
+    "contextual",
+    "widening_participation",
+    "care_experienced",
+    "graduate_applicant",
+    "school_leaver",
+    "mature_applicant",
+    "resit_applicant",
+    "deferred_entry"
+  ],
+  "stage_1_eligibility": {
+    "verification_status": "official_source_verified_with_documented_gaps",
+    "source_ids": [
+      "S2",
+      "S4",
+      "S5",
+      "kcl_research_doc"
+    ],
+    "overall_policy": {
+      "status": "official_rules_mapped",
+      "description": "KCL checks academic and GCSE thresholds before shortlisting. Academic requirements are hard gates; GCSE A* count was also a ranked component in the 2022 FOI-disclosed model.",
+      "not_eligible_if": [
+        "A-level or equivalent academic threshold is not met.",
+        "GCSE English Language or Mathematics is below grade 6/B unless a verified equivalent applies.",
+        "UCAT from the application cycle is missing.",
+        "International English-language evidence is required but not verified."
+      ],
+      "source_ids": [
+        "S2",
+        "S6"
+      ]
+    },
+    "academic_requirements": {
+      "same_sitting": {
+        "required": false,
+        "notes": "KCL requires Scottish Highers AAB in one sitting, represented in the Scottish route notes. A-level same-sitting is not published as a universal A100 gate."
+      }
+    },
+    "gcse": {
+      "status": "official_source_verified",
+      "source_ids": [
+        "S2",
+        "kcl_research_doc"
+      ],
+      "minimum_count": null,
+      "counted_subject_limit": null,
+      "mandatory_subject_ids": [
+        "english_language",
+        "mathematics"
+      ],
+      "grade_requirements": [
+        {
+          "requirement_id": "kcl_gcse_english_language_minimum",
+          "subject_id": "english_language",
+          "minimum_grade": "6/B",
+          "qualification_level": "gcse_or_equivalent",
+          "decision_outcome_if_not_met": "not_eligible",
+          "source_ids": [
+            "S2"
+          ]
+        },
+        {
+          "requirement_id": "kcl_gcse_mathematics_minimum",
+          "subject_id": "mathematics",
+          "minimum_grade": "6/B",
+          "qualification_level": "gcse_or_equivalent",
+          "decision_outcome_if_not_met": "not_eligible",
+          "source_ids": [
+            "S2"
+          ]
+        }
+      ],
+      "accepted_equivalencies": [
+        "IB Mathematics SL/HL grade 2 or Middle Years Mathematics grade 5 can satisfy the Mathematics requirement where applicable.",
+        "IB English Language SL or Middle Years grade 5 can satisfy the English Language requirement where applicable.",
+        "Applicants educated abroad without GCSEs/IGCSEs are considered on evidence of equivalency and must not be assigned zero GCSE ranking points."
+      ],
+      "sitting_policy": "Functional Skills and Numeracy/Literacy modules within Access to HE are not accepted for the GCSE threshold.",
+      "achieved_or_predicted": "achieved_or_verified_equivalent",
+      "selection_role": "threshold_and_historical_ranked_component",
+      "scored_after_eligibility": true,
+      "notes": "The disclosed 2022 formula scored GCSE A* count up to 40 points, including school-quintile adjustments. The current formula is not confirmed; exact GCSE ranking execution is disabled by default."
+    },
+    "post_16": {
+      "status": "official_source_verified_with_documented_gaps",
+      "source_ids": [
+        "S2",
+        "S5",
+        "kcl_research_doc"
+      ],
+      "accepted_qualification_types": [
+        "a_level",
+        "international_baccalaureate",
+        "scottish",
+        "access_to_he",
+        "graduate",
+        "international_qualification"
+      ],
+      "a_level": {
+        "status": "official_source_verified",
+        "source_ids": [
+          "S2"
+        ],
+        "standard_offer": {
+          "grade_profile": [
+            "A*",
+            "A",
+            "A"
+          ],
+          "notes": "A*AA including grade A in Biology and Chemistry."
+        },
+        "contextual_offer": null,
+        "grade_requirements": [
+          {
+            "requirement_id": "kcl_a_level_astar_aa_biology_chemistry_a",
+            "excluded_group_ids": [
+              "graduate_applicant"
+            ],
+            "grade_profile": [
+              "A*",
+              "A",
+              "A"
+            ],
+            "required_subject_ids": [
+              "biology",
+              "chemistry"
+            ],
+            "subject_grade_requirements": [
+              {
+                "subject_id": "biology",
+                "minimum_grade": "A"
+              },
+              {
+                "subject_id": "chemistry",
+                "minimum_grade": "A"
+              }
+            ],
+            "excluded_subject_ids": [
+              "general_studies",
+              "thinking_skills",
+              "global_perspectives_and_research"
+            ],
+            "decision_outcome_if_not_met": "not_eligible",
+            "source_ids": [
+              "S2"
+            ]
+          }
+        ],
+        "excluded_subject_ids": [
+          "general_studies",
+          "thinking_skills",
+          "global_perspectives_and_research"
+        ],
+        "predicted_grades_accepted": true,
+        "achieved_grades_scored": false,
+        "predicted_grades_scored": false,
+        "notes": "Predicted and achieved grades are considered for threshold eligibility. The 2022 FOI formula did not score A-level grades as a points component."
+      },
+      "international_baccalaureate": {
+        "status": "official_source_verified",
+        "total_points": 38,
+        "hl_points": 19,
+        "required_hl_subjects": [
+          "biology",
+          "chemistry"
+        ],
+        "notes": "38 overall or aggregate 19 from three HLs, including HL Biology and HL Chemistry at grade 6. The total includes TOK/EE."
+      },
+      "scottish": {
+        "status": "official_source_verified",
+        "higher_offer": "AAB in one sitting",
+        "advanced_higher_offer": "AA",
+        "required_subjects": [
+          "biology",
+          "chemistry"
+        ],
+        "notes": "Grade A at Advanced Higher in both Chemistry and Biology. Higher and Advanced Higher in the same subject are not double-counted."
+      },
+      "access_to_he": {
+        "status": "official_source_verified",
+        "total_credits": 60,
+        "distinction_credits": 39,
+        "merit_credits": 6,
+        "subject_credits": [
+          {
+            "subject_id": "biology",
+            "credits": 15,
+            "minimum_grade": "Distinction"
+          },
+          {
+            "subject_id": "chemistry",
+            "credits": 15,
+            "minimum_grade": "Distinction"
+          }
+        ],
+        "notes": "Must be QAA-accredited Medicine or Dentistry Access to HE from a UK provider."
+      },
+      "graduate": {
+        "status": "official_source_verified_with_manual_review_boundary",
+        "bioscience": "Minimum 2:1 in a biosciences subject with both Biology and Chemistry content.",
+        "other": "Minimum 2:1 plus AA at A-level in Biology and Chemistry.",
+        "notes": "Graduate applicants apply through A100 but are not separately reported in the statistics; automated interview prediction carries manual review."
+      }
+    },
+    "admissions_tests": {
+      "ucat": {
+        "test": "UCAT",
+        "required": true,
+        "minimum_total_score": null,
+        "minimum_subsections": [],
+        "validity_window": "current admissions cycle",
+        "source_ids": [
+          "S2",
+          "S6"
+        ],
+        "notes": "KCL publishes no UCAT threshold or cut-off. Overall UCAT is a ranked shortlisting factor."
+      },
+      "sjt": {
+        "used_as_gate": false,
+        "accepted_bands": [
+          1,
+          2,
+          3,
+          4
+        ],
+        "excluded_bands": [],
+        "band_4_policy": "Not an official automatic rejection, but Band 4 has not appeared among interviewees or offer holders in the 2020-2024 published data.",
+        "notes": "The 2022 formula scored SJT Band 1 = 10, Band 2 = 5, Bands 3 and 4 = 0. Current SJT scoring is not confirmed."
+      }
+    },
+    "resits": {
+      "allowed": true,
+      "policy": "Resits considered; applicants taking longer than the standard timeframe may be viewed less favourably. Second resits require significant mitigating circumstances.",
+      "maximum_resits": null,
+      "notes": "Access/Foundation after grades below entry criteria counts as a resit application."
+    },
+    "contextual": {
+      "available": true,
+      "contextual_offers_made": false,
+      "criteria": [
+        "K+",
+        "care-leaver status",
+        "POLAR indicators",
+        "ACORN indicators"
+      ],
+      "adjustments": [
+        "2022 FOI: up to 20 WP points and GCSE school-quintile adjustment"
+      ],
+      "notes": "A100 does not make contextual offers; eligible contextual applicants are directed to A101. Current numerical WP allocation is not published."
+    },
+    "english_language": {
+      "required_for_group": "international_applicants_where_not_exempt",
+      "accepted_tests": [
+        {
+          "test": "KCL English Language Band B",
+          "notes": "Exact test/component values require applicant-specific official verification."
+        }
+      ],
+      "exemptions": [],
+      "notes": "KCL English language Band B applies."
+    },
+    "non_academic": {
+      "personal_statement": "Listed as a shortlisting input but not scored in the disclosed 2022 points formula.",
+      "reference_policy": "Listed as a shortlisting input but no points are published.",
+      "fitness_to_practise_required": true,
+      "dbs_required": true,
+      "occupational_health_required": true
+    },
+    "age_or_professional_checks": {
+      "minimum_age": null,
+      "minimum_age_note": "Applicants must turn 18 before starting year two.",
+      "fitness_to_practise_required": true,
+      "dbs_required": true,
+      "occupational_health_required": true,
+      "notes": "Professional checks and age timing are informational for ApplySmart pre-interview guidance."
+    }
+  },
+  "stage_2_interview_selection": {
+    "verification_status": "official_and_foi_partially_verified",
+    "source_ids": [
+      "S1",
+      "S2",
+      "S5",
+      "S6",
+      "S7",
+      "kcl_research_doc"
+    ],
+    "primary_model": "points_system",
+    "modifiers": [
+      "home_international_separate_ranking",
+      "contextual_adjustment",
+      "widening_participation_scheme",
+      "sjt_scoring",
+      "tie_breaker"
+    ],
+    "ranking_factors": [
+      {
+        "factor_id": "ucat_pool_percentile",
+        "label": "UCAT applicant-pool percentile",
+        "role": "historical_ranked_component_2022",
+        "weight_percent": null,
+        "points_available": 100,
+        "notes": "FOI-confirmed for 2022 entry only; current formula not confirmed."
+      },
+      {
+        "factor_id": "sjt_band",
+        "label": "SJT band",
+        "role": "historical_ranked_component_2022",
+        "weight_percent": null,
+        "points_available": 10,
+        "notes": "Band 1 = 10, Band 2 = 5, Bands 3 and 4 = 0 in 2022."
+      },
+      {
+        "factor_id": "gcse_a_star_count",
+        "label": "GCSE A* count",
+        "role": "historical_ranked_component_2022",
+        "weight_percent": null,
+        "points_available": 40,
+        "notes": "Subject not considered in the 2022 points component; school-quintile adjustment may apply."
+      },
+      {
+        "factor_id": "widening_participation",
+        "label": "Widening participation",
+        "role": "historical_ranked_component_2022",
+        "weight_percent": null,
+        "points_available": 20,
+        "notes": "Allocation within the 20 points is unpublished; ApplySmart treats this categorically, not as exact numeric scoring."
+      }
+    ],
+    "calculation": {
+      "verification_status": "official_and_foi_partially_verified",
+      "source_ids": [
+        "S6",
+        "S7"
+      ],
+      "formula_expression_2022": "UCAT applicant-pool percentile x 100 + SJT points + GCSE A* points + WP points",
+      "exact_score_execution": "disabled_by_default",
+      "public_score_exposure": false,
+      "total_score": {
+        "calculation_method": "historical_2022_formula_not_current_exact_execution",
+        "components": [
+          "ucat_pool_percentile",
+          "sjt_band",
+          "gcse_a_star_count",
+          "widening_participation"
+        ],
+        "scale": {
+          "minimum": 0,
+          "maximum": 170
+        },
+        "notes": "The 170-point maximum is derived from the disclosed 2022 component maxima and is not exposed as a current official applicant score.",
+        "source_ids": [
+          "S6",
+          "S7"
+        ]
+      },
+      "notes": "The 2022 formula is used for transparent historical context only. KCL withheld confirmation of current-cycle formula after 2023.",
+      "score_components": []
+    },
+    "thresholds": [],
+    "selection_adjustments": [
+      {
+        "adjustment_id": "school_quintile_gcse_adjustment_2022",
+        "status": "manual_review_until_verified_source",
+        "notes": "Lowest two quintiles convert A grades to A* equivalents; third quintile counts A grades as 0.5 A*. Current source/measure/year must be verified before execution."
+      },
+      {
+        "adjustment_id": "wp_points_2022",
+        "status": "categorical_only",
+        "notes": "Up to 20 points disclosed; allocation is not published, so no numeric WP points are returned."
+      }
+    ],
+    "tie_breakers": [
+      {
+        "factor_id": "tie_policy",
+        "role": "not_published",
+        "notes": "Where equal evidence creates a tie, ApplySmart widens guidance rather than inventing an ordering."
+      }
+    ],
+    "output_band_policy": "domicile_routed_historical_percentile_guidance_with_hidden_compensation_context",
+    "notes": "UCAT bands are UCAT-position context only unless combined with the hidden compensation matrix. Offer prediction remains out of scope."
+  },
+  "contextual_admissions": {
+    "verification_status": "official_and_foi_partially_verified",
+    "contextual_offers_made": false,
+    "contextual_information_used": true,
+    "source_ids": [
+      "S2",
+      "S6"
+    ],
+    "summary": "No contextual offers are made for A100. Contextual information and WP indicators affected the disclosed 2022 shortlisting model, but current numerical allocation is not published.",
+    "manual_review_boundaries": [
+      "unknown school quintile",
+      "unknown WP status",
+      "confirmed contextual factors requiring exact points"
+    ],
+    "available": true,
+    "applies_to_group_ids": [
+      "home_fee",
+      "contextual",
+      "widening_participation"
+    ],
+    "criteria": [
+      "K+",
+      "care-leaver status",
+      "POLAR indicators",
+      "ACORN indicators"
+    ],
+    "adjustments": [
+      "2022 FOI: up to 20 WP points and GCSE school-quintile adjustment"
+    ],
+    "guaranteed_interview_rules": [],
+    "notes": "No contextual offers are made for A100. Contextual information and WP indicators affected the disclosed 2022 shortlisting model, but current numerical allocation is not published."
+  },
+  "ranking_pools": [
+    {
+      "pool_id": "kcl_home_domicile_a100",
+      "label": "UK-domicile A100 applicants",
+      "source_ids": [
+        "S1"
+      ],
+      "notes": "KCL reports statistics by domicile.",
+      "name": "UK-domicile A100 applicants",
+      "fee_statuses": [
+        "home"
+      ],
+      "ranking_model": "points_system",
+      "ranking_factors": [
+        "ucat_pool_percentile",
+        "sjt_band",
+        "gcse_a_star_count",
+        "widening_participation"
+      ],
+      "places_available": null,
+      "applies_to_group_ids": [
+        "home_fee"
+      ]
+    },
+    {
+      "pool_id": "kcl_non_uk_domicile_a100",
+      "label": "Non-UK-domicile A100 applicants",
+      "source_ids": [
+        "S1"
+      ],
+      "notes": "Non-UK UCAT distributions are materially higher and are not merged with UK data.",
+      "name": "Non-UK-domicile A100 applicants",
+      "fee_statuses": [
+        "international"
+      ],
+      "ranking_model": "points_system",
+      "ranking_factors": [
+        "ucat_pool_percentile",
+        "sjt_band",
+        "gcse_a_star_count",
+        "widening_participation"
+      ],
+      "places_available": null,
+      "applies_to_group_ids": [
+        "international_fee"
+      ]
+    }
+  ],
+  "quotas": [
+    {
+      "quota_id": "king_s_college_london_a100_places_2027_entry_verified",
+      "name": "Verified Home/International places (2027 entry)",
+      "home_places": 310,
+      "international_places": 30,
+      "quota_type": "verified_current_places",
+      "source_ids": [
+        "applysmart_admissions_team_verified_2026"
+      ],
+      "notes": "Home/International place figures verified by the ApplySmart admissions research team for 2027 entry."
+    },
+    {
+      "quota_id": "kcl_a100_places_approximate",
+      "value": 300,
+      "source_ids": [
+        "S2"
+      ],
+      "notes": "Approximate KCL-stated A100 places; not used as an exact runtime threshold."
+    },
+    {
+      "quota_id": "kcl_international_places_approximate",
+      "value": 30,
+      "source_ids": [
+        "S4",
+        "S11"
+      ],
+      "notes": "Approximate/subject to change; not used as an exact runtime threshold."
+    }
+  ],
+  "offer_selection": {
+    "verification_status": "official_source_verified",
+    "source_ids": [
+      "S4",
+      "kcl_research_doc"
+    ],
+    "interview_format": {
+      "type": "MMI",
+      "stations": 7,
+      "mode": "online per 2024 FAQ and MSC current listing",
+      "timing": "November to May"
+    },
+    "offer_model": "interview_performance_only",
+    "ranking_factors": [
+      "interview_score"
+    ],
+    "notes": "Final decisions after MMI are based on interview performance. ApplySmart does not predict offers.",
+    "interview_scoring": {
+      "criteria": [
+        "Communication skills",
+        "Health-related social and ethical issues",
+        "Suitability for medicine and a health profession",
+        "Contribution to the university"
+      ],
+      "notes": "MMI performance is assessed after shortlisting."
+    },
+    "tie_breakers": [],
+    "waiting_list_policy": null,
+    "standard_offer": "A*AA including grade A in Biology and Chemistry.",
+    "contextual_offer": null
+  },
+  "historical_admissions": {
+    "verification_status": "official_source_verified",
+    "public_recent_label": "Recent admissions data",
+    "public_summary_style": "recent_admissions_sentence",
+    "source_ids": [
+      "S1",
+      "kcl_research_doc"
+    ],
+    "cycles": [
+      {
+        "cycle": 2020,
+        "applications": 2881,
+        "interviews": 1060,
+        "offers": 740,
+        "acceptances": 340,
+        "enrolments": 338,
+        "interview_rate": 0.3679,
+        "offer_per_interview": 0.6981,
+        "offer_rate": 0.2569
+      },
+      {
+        "cycle": 2021,
+        "applications": 3911,
+        "interviews": 1049,
+        "offers": 703,
+        "acceptances": 328,
+        "enrolments": 321,
+        "interview_rate": 0.2682,
+        "offer_per_interview": 0.6702,
+        "offer_rate": 0.1797
+      },
+      {
+        "cycle": 2022,
+        "applications": 3703,
+        "interviews": 1101,
+        "offers": 553,
+        "acceptances": 330,
+        "enrolments": 322,
+        "interview_rate": 0.2973,
+        "offer_per_interview": 0.5023,
+        "offer_rate": 0.1493
+      },
+      {
+        "cycle": 2023,
+        "applications": 3457,
+        "interviews": 1116,
+        "offers": 645,
+        "acceptances": 341,
+        "enrolments": 337,
+        "interview_rate": 0.3228,
+        "offer_per_interview": 0.578,
+        "offer_rate": 0.1866
+      },
+      {
+        "cycle": 2024,
+        "applications": 2810,
+        "interviews": 982,
+        "offers": 762,
+        "acceptances": 332,
+        "enrolments": 328,
+        "interview_rate": 0.3495,
+        "offer_per_interview": 0.776,
+        "offer_rate": 0.2712
+      }
+    ],
+    "ucat_historical_data": {
+      "source_ref": "S1",
+      "scale": "pre_2025_3600",
+      "scale_note": "All KCL-published cycles predate the 2025 scale change. No cycle on the 2700 scale has been published by KCL.",
+      "statistics_published": [
+        "lowest",
+        "mean",
+        "highest",
+        "highest_sjt_band",
+        "lowest_sjt_band",
+        "modal_sjt_band"
+      ],
+      "statistics_not_published": [
+        "median",
+        "quartiles",
+        "deciles",
+        "full_distribution"
+      ],
+      "mean_rounding": "Means rounded to the nearest integer by KCL.",
+      "applicants": {
+        "all_domiciles": [
+          {
+            "cycle": 2020,
+            "lowest": 1440,
+            "mean": 2607,
+            "highest": 3440
+          },
+          {
+            "cycle": 2021,
+            "lowest": 1480,
+            "mean": 2669,
+            "highest": 3440
+          },
+          {
+            "cycle": 2022,
+            "lowest": 1490,
+            "mean": 2713,
+            "highest": 3420
+          },
+          {
+            "cycle": 2023,
+            "lowest": 1400,
+            "mean": 2732,
+            "highest": 3480
+          },
+          {
+            "cycle": 2024,
+            "lowest": 1720,
+            "mean": 2744,
+            "highest": 3510
+          }
+        ],
+        "uk": [
+          {
+            "cycle": 2020,
+            "lowest": 1600,
+            "mean": 2625,
+            "highest": 3300
+          },
+          {
+            "cycle": 2021,
+            "lowest": 1480,
+            "mean": 2678,
+            "highest": 3440
+          },
+          {
+            "cycle": 2022,
+            "lowest": 1670,
+            "mean": 2724,
+            "highest": 3370
+          },
+          {
+            "cycle": 2023,
+            "lowest": 1400,
+            "mean": 2750,
+            "highest": 3480
+          },
+          {
+            "cycle": 2024,
+            "lowest": 1720,
+            "mean": 2759,
+            "highest": 3510
+          }
+        ],
+        "non_uk": [
+          {
+            "cycle": 2020,
+            "lowest": 1440,
+            "mean": 2557,
+            "highest": 3440
+          },
+          {
+            "cycle": 2021,
+            "lowest": 1650,
+            "mean": 2643,
+            "highest": 3420
+          },
+          {
+            "cycle": 2022,
+            "lowest": 1490,
+            "mean": 2673,
+            "highest": 3420
+          },
+          {
+            "cycle": 2023,
+            "lowest": 1670,
+            "mean": 2674,
+            "highest": 3410
+          },
+          {
+            "cycle": 2024,
+            "lowest": 1810,
+            "mean": 2701,
+            "highest": 3480
+          }
+        ]
+      },
+      "interviewees": {
+        "all_domiciles": [
+          {
+            "cycle": 2020,
+            "lowest": 2400,
+            "mean": 2810,
+            "highest": 3440
+          },
+          {
+            "cycle": 2021,
+            "lowest": 2220,
+            "mean": 2932,
+            "highest": 3440
+          },
+          {
+            "cycle": 2022,
+            "lowest": 2380,
+            "mean": 2948,
+            "highest": 3380
+          },
+          {
+            "cycle": 2023,
+            "lowest": 2470,
+            "mean": 2997,
+            "highest": 3480
+          },
+          {
+            "cycle": 2024,
+            "lowest": 2340,
+            "mean": 3020,
+            "highest": 3510
+          }
+        ],
+        "uk": [
+          {
+            "cycle": 2020,
+            "lowest": 2400,
+            "mean": 2797,
+            "highest": 3300
+          },
+          {
+            "cycle": 2021,
+            "lowest": 2390,
+            "mean": 2922,
+            "highest": 3440
+          },
+          {
+            "cycle": 2022,
+            "lowest": 2380,
+            "mean": 2935,
+            "highest": 3370
+          },
+          {
+            "cycle": 2023,
+            "lowest": 2470,
+            "mean": 2985,
+            "highest": 3480
+          },
+          {
+            "cycle": 2024,
+            "lowest": 2340,
+            "mean": 3007,
+            "highest": 3510
+          }
+        ],
+        "non_uk": [
+          {
+            "cycle": 2020,
+            "lowest": 2650,
+            "mean": 2911,
+            "highest": 3440
+          },
+          {
+            "cycle": 2021,
+            "lowest": 2220,
+            "mean": 3033,
+            "highest": 3420
+          },
+          {
+            "cycle": 2022,
+            "lowest": 2820,
+            "mean": 3087,
+            "highest": 3380
+          },
+          {
+            "cycle": 2023,
+            "lowest": 2710,
+            "mean": 3101,
+            "highest": 3410
+          },
+          {
+            "cycle": 2024,
+            "lowest": 2720,
+            "mean": 3078,
+            "highest": 3420
+          }
+        ]
+      },
+      "offer_holders": {
+        "all_domiciles": [
+          {
+            "cycle": 2020,
+            "lowest": 2400,
+            "mean": 2814,
+            "highest": 3300
+          },
+          {
+            "cycle": 2021,
+            "lowest": 2220,
+            "mean": 2927,
+            "highest": 3430
+          },
+          {
+            "cycle": 2022,
+            "lowest": 2420,
+            "mean": 2955,
+            "highest": 3380
+          },
+          {
+            "cycle": 2023,
+            "lowest": 2470,
+            "mean": 2994,
+            "highest": 3480
+          },
+          {
+            "cycle": 2024,
+            "lowest": 2340,
+            "mean": 3019,
+            "highest": 3510
+          }
+        ],
+        "uk": [
+          {
+            "cycle": 2020,
+            "lowest": 2400,
+            "mean": 2802,
+            "highest": 3300
+          },
+          {
+            "cycle": 2021,
+            "lowest": 2400,
+            "mean": 2913,
+            "highest": 3430
+          },
+          {
+            "cycle": 2022,
+            "lowest": 2420,
+            "mean": 2943,
+            "highest": 3370
+          },
+          {
+            "cycle": 2023,
+            "lowest": 2470,
+            "mean": 2984,
+            "highest": 3480
+          },
+          {
+            "cycle": 2024,
+            "lowest": 2340,
+            "mean": 3005,
+            "highest": 3510
+          }
+        ],
+        "non_uk": [
+          {
+            "cycle": 2020,
+            "lowest": 2660,
+            "mean": 2910,
+            "highest": 3260
+          },
+          {
+            "cycle": 2021,
+            "lowest": 2220,
+            "mean": 3038,
+            "highest": 3420
+          },
+          {
+            "cycle": 2022,
+            "lowest": 2850,
+            "mean": 3110,
+            "highest": 3380
+          },
+          {
+            "cycle": 2023,
+            "lowest": 2710,
+            "mean": 3109,
+            "highest": 3410
+          },
+          {
+            "cycle": 2024,
+            "lowest": 2720,
+            "mean": 3078,
+            "highest": 3420
+          }
+        ]
+      },
+      "analysis_notes": [
+        "The all-domicile interviewee mean rose every cycle: 2810, 2932, 2948, 2997, 3020. A static model will drift.",
+        "The offer-holder mean tracks the interviewee mean within 12 points in every cycle, indicating UCAT does no further work after shortlisting."
+      ]
+    },
+    "interview_scores": {
+      "units": "percentage_rounded_to_integer",
+      "minima_not_cut_offs": true,
+      "all_interviewees": {
+        "all_domiciles": [
+          {
+            "cycle": 2020,
+            "lowest": 47,
+            "mean": 76,
+            "highest": 95
+          },
+          {
+            "cycle": 2021,
+            "lowest": 26,
+            "mean": 74,
+            "highest": 99
+          },
+          {
+            "cycle": 2022,
+            "lowest": 25,
+            "mean": 75,
+            "highest": 100
+          },
+          {
+            "cycle": 2023,
+            "lowest": 33,
+            "mean": 74,
+            "highest": 100
+          },
+          {
+            "cycle": 2024,
+            "lowest": 31,
+            "mean": 75,
+            "highest": 100
+          }
+        ],
+        "uk": [
+          {
+            "cycle": 2020,
+            "lowest": 47,
+            "mean": 77,
+            "highest": 95
+          },
+          {
+            "cycle": 2021,
+            "lowest": 26,
+            "mean": 74,
+            "highest": 99
+          },
+          {
+            "cycle": 2022,
+            "lowest": 25,
+            "mean": 75,
+            "highest": 100
+          },
+          {
+            "cycle": 2023,
+            "lowest": 33,
+            "mean": 74,
+            "highest": 100
+          },
+          {
+            "cycle": 2024,
+            "lowest": 31,
+            "mean": 75,
+            "highest": 100
+          }
+        ],
+        "non_uk": [
+          {
+            "cycle": 2020,
+            "lowest": 51,
+            "mean": 76,
+            "highest": 91
+          },
+          {
+            "cycle": 2021,
+            "lowest": 36,
+            "mean": 75,
+            "highest": 98
+          },
+          {
+            "cycle": 2022,
+            "lowest": 45,
+            "mean": 73,
+            "highest": 98
+          },
+          {
+            "cycle": 2023,
+            "lowest": 37,
+            "mean": 73,
+            "highest": 99
+          },
+          {
+            "cycle": 2024,
+            "lowest": 36,
+            "mean": 74,
+            "highest": 100
+          }
+        ]
+      },
+      "offer_holders": {
+        "all_domiciles": [
+          {
+            "cycle": 2020,
+            "lowest": 58,
+            "mean": 80,
+            "highest": 95
+          },
+          {
+            "cycle": 2021,
+            "lowest": 51,
+            "mean": 81,
+            "highest": 99
+          },
+          {
+            "cycle": 2022,
+            "lowest": 61,
+            "mean": 83,
+            "highest": 100
+          },
+          {
+            "cycle": 2023,
+            "lowest": 65,
+            "mean": 82,
+            "highest": 100
+          },
+          {
+            "cycle": 2024,
+            "lowest": 51,
+            "mean": 79,
+            "highest": 100
+          }
+        ],
+        "uk": [
+          {
+            "cycle": 2020,
+            "lowest": 58,
+            "mean": 80,
+            "highest": 95
+          },
+          {
+            "cycle": 2021,
+            "lowest": 51,
+            "mean": 82,
+            "highest": 99
+          },
+          {
+            "cycle": 2022,
+            "lowest": 63,
+            "mean": 83,
+            "highest": 100
+          },
+          {
+            "cycle": 2023,
+            "lowest": 65,
+            "mean": 82,
+            "highest": 100
+          },
+          {
+            "cycle": 2024,
+            "lowest": 51,
+            "mean": 80,
+            "highest": 100
+          }
+        ],
+        "non_uk": [
+          {
+            "cycle": 2020,
+            "lowest": 64,
+            "mean": 79,
+            "highest": 91
+          },
+          {
+            "cycle": 2021,
+            "lowest": 58,
+            "mean": 78,
+            "highest": 98
+          },
+          {
+            "cycle": 2022,
+            "lowest": 61,
+            "mean": 82,
+            "highest": 98
+          },
+          {
+            "cycle": 2023,
+            "lowest": 68,
+            "mean": 83,
+            "highest": 99
+          },
+          {
+            "cycle": 2024,
+            "lowest": 61,
+            "mean": 78,
+            "highest": 100
+          }
+        ]
+      },
+      "analysis": "The interviewee-to-offer-holder mean gap is 4-8 percentage points, but the lower tail moves sharply. A poor interview is disqualifying; an excellent one is not decisive. No cut-off is published and the 2024 lowest successful score of 51% sits well below the 2023 figure of 65%."
+    },
+    "notes": "Historical minima are not cut-offs. Pre-2025 UCAT values are retained on their native 3600 scale for traceability."
+  },
+  "sources": [
+    {
+      "source_id": "S1",
+      "title": "Admissions statistics for Undergraduate Medicine (UCAS code: A100)",
+      "source_type": "university_official_primary",
+      "url": "https://www.kcl.ac.uk/assets/about/pdf/strategy/admissions-statistics/admissions-statistics-for-undergraduate-medicine-ucas-code-a100.pdf",
+      "published_date": null,
+      "accessed_date": "2026-07-23",
+      "applies_to_sections": [
+        "eligibility",
+        "interview_selection",
+        "historical_guidance"
+      ],
+      "confidence": "high",
+      "notes": ""
+    },
+    {
+      "source_id": "S2",
+      "title": "Medicine MBBS Entry Requirements",
+      "source_type": "university_official_primary",
+      "url": "https://www.kcl.ac.uk/study/undergraduate/courses/medicine-mbbs/requirements",
+      "published_date": null,
+      "accessed_date": "2026-07-23",
+      "applies_to_sections": [
+        "eligibility",
+        "interview_selection",
+        "historical_guidance"
+      ],
+      "confidence": "high",
+      "notes": ""
+    },
+    {
+      "source_id": "S3",
+      "title": "Admissions statistics landing page",
+      "source_type": "university_official",
+      "url": "https://www.kcl.ac.uk/about/strategy/learning-and-teaching/admissions-statistics",
+      "published_date": null,
+      "accessed_date": "2026-07-23",
+      "applies_to_sections": [
+        "eligibility",
+        "interview_selection",
+        "historical_guidance"
+      ],
+      "confidence": "high",
+      "notes": ""
+    },
+    {
+      "source_id": "S4",
+      "title": "Applying to Medicine FAQs (July 2023)",
+      "source_type": "university_official_primary",
+      "url": "https://www.kcl.ac.uk/lsm/assets/applying-to-medicine-faqs.pdf",
+      "published_date": null,
+      "accessed_date": "2026-07-23",
+      "applies_to_sections": [
+        "eligibility",
+        "interview_selection",
+        "historical_guidance"
+      ],
+      "confidence": "high",
+      "notes": ""
+    },
+    {
+      "source_id": "S5",
+      "title": "Medical Schools Council \u2014 KCL MBBS Medicine (A100)",
+      "source_type": "msc_summary_cross_reference",
+      "url": "https://www.medschools.ac.uk/courses/kings-college-london-medicine-a100/",
+      "published_date": null,
+      "accessed_date": "2026-07-23",
+      "applies_to_sections": [
+        "eligibility",
+        "interview_selection",
+        "historical_guidance"
+      ],
+      "confidence": "high",
+      "notes": ""
+    },
+    {
+      "source_id": "S6",
+      "title": "FOI 666.22 \u2014 MBBS Medicine A100 Interview Selection",
+      "source_type": "foi_official_university_reply",
+      "url": "https://www.whatdotheyknow.com/request/mbbs_medicine_a100_interview_sel",
+      "published_date": null,
+      "accessed_date": "2026-07-23",
+      "applies_to_sections": [
+        "eligibility",
+        "interview_selection",
+        "historical_guidance"
+      ],
+      "confidence": "high",
+      "notes": ""
+    },
+    {
+      "source_id": "S7",
+      "title": "FOI 540.23 \u2014 Interview selection scoring for A100 home applicants",
+      "source_type": "foi_official_university_reply",
+      "url": "https://www.whatdotheyknow.com/request/interview_selection_scoring_for",
+      "published_date": null,
+      "accessed_date": "2026-07-23",
+      "applies_to_sections": [
+        "eligibility",
+        "interview_selection",
+        "historical_guidance"
+      ],
+      "confidence": "high",
+      "notes": ""
+    },
+    {
+      "source_id": "S8",
+      "title": "UCAT Consortium \u2014 Test Statistics 2024",
+      "source_type": "ucat_consortium_official",
+      "url": "https://www.ucat.ac.uk/results/test-statistics-2024/",
+      "published_date": null,
+      "accessed_date": "2026-07-23",
+      "applies_to_sections": [
+        "eligibility",
+        "interview_selection",
+        "historical_guidance"
+      ],
+      "confidence": "high",
+      "notes": ""
+    },
+    {
+      "source_id": "S9",
+      "title": "UCAT Consortium \u2014 Test Statistics 2025",
+      "source_type": "ucat_consortium_official",
+      "url": "https://www.ucat.ac.uk/results/test-statistics-2025/",
+      "published_date": null,
+      "accessed_date": "2026-07-23",
+      "applies_to_sections": [
+        "eligibility",
+        "interview_selection",
+        "historical_guidance"
+      ],
+      "confidence": "high",
+      "notes": ""
+    },
+    {
+      "source_id": "S10",
+      "title": "UCAT Consortium \u2014 Test Statistics (current)",
+      "source_type": "ucat_consortium_official",
+      "url": "https://www.ucat.ac.uk/results/test-statistics/",
+      "published_date": null,
+      "accessed_date": "2026-07-23",
+      "applies_to_sections": [
+        "eligibility",
+        "interview_selection",
+        "historical_guidance"
+      ],
+      "confidence": "high",
+      "notes": ""
+    },
+    {
+      "source_id": "S11",
+      "title": "Office for Students \u2014 Medical and dental maximum fundable limits",
+      "source_type": "ofs_official",
+      "url": "https://www.officeforstudents.org.uk/for-providers/finance-and-funding/medicine-and-dentistry-funding/medical-and-dental-maximum-fundable-limits/",
+      "published_date": null,
+      "accessed_date": "2026-07-23",
+      "applies_to_sections": [
+        "eligibility",
+        "interview_selection",
+        "historical_guidance"
+      ],
+      "confidence": "high",
+      "notes": ""
+    },
+    {
+      "source_id": "kcl_research_doc",
+      "title": "KCL_A100_ApplySmart_Research.docx supplied by user",
+      "source_type": "approved_research_document",
+      "url": null,
+      "published_date": null,
+      "accessed_date": "2026-07-23",
+      "applies_to_sections": [
+        "eligibility",
+        "interview_selection",
+        "historical_guidance",
+        "result_card"
+      ],
+      "confidence": "high",
+      "notes": "Canonical local research document for this implementation."
+    }
+  ],
+  "validation": {
+    "source_status": "official_and_foi_partially_verified",
+    "last_verified": "2026-07-23",
+    "confidence_level": "High evidence confidence; low current formula prediction confidence",
+    "review_notes": "Mapped from approved KCL package. No additional admissions research was performed.",
+    "completion_status": "production_activated_for_supported_scope",
+    "known_unknowns": [
+      "Current KCL shortlisting formula is not confirmed.",
+      "Full KCL applicant-pool UCAT percentile distributions are not published."
+    ]
+  },
+  "engine_notes": {
+    "eligibility": true,
+    "interview_prediction": true,
+    "historical_guidance": true,
+    "international_prediction": true,
+    "contextual_logic": false,
+    "result_card": true,
+    "regression": true,
+    "research_completeness": "complete_for_supported_scope_with_documented_gaps",
+    "manual_review_required": false,
+    "eligibility_ready": true,
+    "interview_prediction_ready": true,
+    "interview_band_config_ready": true,
+    "metadata_activation_ready": true,
+    "activation_ready": true,
+    "production_ready": true,
+    "offer_prediction_scope": "out_of_scope",
+    "prediction_confidence": "low",
+    "result_card_ready": true,
+    "prediction_mode": "historical_disclosed_formula",
+    "evidence_confidence": "high",
+    "blocking_missing_fields": [],
+    "manual_review_triggers": [
+      "unknown school quintile",
+      "international academic equivalence",
+      "graduate route",
+      "unknown widening-participation status",
+      "incomplete or not-computable GCSE record",
+      "SJT Band 4"
+    ],
+    "do_not_infer": [
+      "Do not present a UCAT score as a KCL cut-off.",
+      "Do not claim the 2022 FOI formula is confirmed for the current cycle.",
+      "Do not convert a current 2700-scale applicant UCAT score to the historical 3600 scale.",
+      "Do not expose exact shortlisting-point calculations on public result cards.",
+      "Do not make contextual offers for A100.",
+      "Do not predict offers or post-interview outcomes."
+    ],
+    "engine_assumptions": [
+      "Current KCL A100 applicants are routed by UCAT national percentile, not by back-converting current /2700 scores to /3600.",
+      "The 2022 FOI formula is used for historical transparency but exact current shortlisting points are not executed.",
+      "School-quintile adjustment stays inactive unless the source status is verified by the approved data source."
+    ]
+  }
+}

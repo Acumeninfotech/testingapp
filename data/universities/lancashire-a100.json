@@ -1,0 +1,666 @@
+{
+  "schema_version": "1.0.0",
+  "profile_id": "lancashire-a100",
+  "profile_status": "production_ready_eligibility_only",
+  "verification_status": "official_source_verified_with_documented_gaps",
+  "last_updated": "2026-07-20",
+  "university": {
+    "name": "University of Lancashire",
+    "slug": "lancashire",
+    "country": "United Kingdom",
+    "nation": "England",
+    "institution_type": "University",
+    "website_url": "https://www.lancashire.ac.uk/"
+  },
+  "course": {
+    "name": "Medicine and Surgery, MBBS",
+    "ucas_code": "A100",
+    "entry_route": "standard_entry",
+    "qualification_awarded": "MBBS",
+    "duration_years": 5,
+    "campus": "Preston",
+    "location": "Preston, England",
+    "entry_year": 2027,
+    "application_channels": [
+      "ucas",
+      "direct"
+    ],
+    "fee_statuses": [
+      "home",
+      "international"
+    ],
+    "is_gateway_or_foundation": false,
+    "is_graduate_entry": false,
+    "notes": "Standard A100 MBBS route at Preston. The published North West Home residency/Foundation Entry restriction is intentionally not evaluated in ApplySmart for this profile; all UK applicants use the existing Home applicant group. The separate international Foundation Entry route is outside this A100 profile."
+  },
+  "medical_school": {
+    "name": "School of Medicine and Dentistry, University of Lancashire",
+    "source_ids": [
+      "lancashire_course_page_2026",
+      "ucas_lancashire_a100_2026"
+    ]
+  },
+  "applicant_pools": [
+    {
+      "pool_id": "home_a100",
+      "applies_to_group_ids": [
+        "home_fee"
+      ],
+      "excluded_group_ids": [
+        "international_fee"
+      ],
+      "selection_relevance": "Home/UK applicants follow the generic Home pathway. UCAT is required, but the 1750 value is stored only as ApplySmart working historical guidance, not as an official University of Lancashire cut-off."
+    },
+    {
+      "pool_id": "international_a100",
+      "applies_to_group_ids": [
+        "international_fee"
+      ],
+      "selection_relevance": "International applicants are assessed through the existing International group and do not require UCAT."
+    }
+  ],
+  "applies_to_group_ids": [
+    "england_domiciled",
+    "scotland_domiciled",
+    "wales_domiciled",
+    "northern_ireland_domiciled",
+    "home_fee",
+    "international_fee",
+    "rest_of_uk",
+    "contextual",
+    "widening_participation",
+    "graduate_applicant",
+    "school_leaver",
+    "resit_applicant",
+    "mature_applicant"
+  ],
+  "stage_1_eligibility": {
+    "verification_status": "official_source_verified_with_documented_gaps",
+    "source_ids": [
+      "lancashire_course_page_2026",
+      "lancashire_how_to_apply_mbbs",
+      "ucas_lancashire_a100_2026"
+    ],
+    "overall_policy": {
+      "status": "official_rules_mapped_with_scope_exclusion",
+      "description": "ApplySmart checks the measurable GCSE, A-level/IB/international/graduate academic requirements and Home UCAT requirement. It does not model regional Home residency or UCLan Foundation Entry status by product-scope decision.",
+      "not_eligible_if": [
+        "Supported academic requirements are not met.",
+        "A Home/UK applicant has not supplied a UCAT score for the current application cycle.",
+        "A-levels are flagged as not taken in one sitting."
+      ],
+      "source_ids": [
+        "lancashire_course_page_2026",
+        "ucas_lancashire_a100_2026"
+      ]
+    },
+    "gcse": {
+      "status": "official_source_verified",
+      "source_ids": [
+        "lancashire_course_page_2026",
+        "ucas_lancashire_a100_2026"
+      ],
+      "minimum_count": null,
+      "mandatory_subject_ids": [
+        "english_language",
+        "mathematics"
+      ],
+      "grade_requirements": [
+        {
+          "requirement_id": "gcse_english_language_grade_5",
+          "subject_id": "english_language",
+          "minimum_grade": "5/B",
+          "qualification_level": "gcse_or_equivalent",
+          "decision_outcome_if_not_met": "not_eligible"
+        },
+        {
+          "requirement_id": "gcse_mathematics_grade_5",
+          "subject_id": "mathematics",
+          "minimum_grade": "5/B",
+          "qualification_level": "gcse_or_equivalent",
+          "decision_outcome_if_not_met": "not_eligible"
+        }
+      ],
+      "achieved_or_predicted": "achieved",
+      "selection_role": "eligibility_only",
+      "notes": "The broader statement about sustained Science, English and Maths study to age 16 is documented but not converted into a numeric GCSE score."
+    },
+    "post_16": {
+      "status": "official_source_verified_with_documented_gaps",
+      "source_ids": [
+        "lancashire_course_page_2026",
+        "ucas_lancashire_a100_2026"
+      ],
+      "accepted_qualification_types": [
+        "a_level",
+        "international_baccalaureate",
+        "degree",
+        "international_qualification"
+      ],
+      "a_level": {
+        "status": "official_source_verified",
+        "standard_offer": {
+          "grade_profile": [
+            "A",
+            "A",
+            "A"
+          ],
+          "notes": "AAA including Chemistry plus one further science subject. All A-levels must be taken in one sitting."
+        },
+        "grade_requirements": [
+          {
+            "requirement_id": "lancashire_aaa_chemistry_plus_second_science",
+            "grade_profile": [
+              "A",
+              "A",
+              "A"
+            ],
+            "required_subject_ids": [
+              "chemistry"
+            ],
+            "one_of_subject_groups": [
+              {
+                "group_id": "second_science",
+                "minimum_required": 1,
+                "subject_ids": [
+                  "biology",
+                  "human_biology",
+                  "physics",
+                  "mathematics"
+                ]
+              }
+            ],
+            "decision_outcome_if_not_met": "not_eligible"
+          }
+        ],
+        "predicted_grades_accepted": true,
+        "achieved_grades_accepted": true,
+        "selection_role": "eligibility_only",
+        "notes": "The current generic profile does not collect one-sitting evidence unless the applicant flags resits; resit flags are treated as not meeting the one-sitting requirement."
+      },
+      "ib": {
+        "status": "official_source_verified",
+        "grade_requirements": [
+          {
+            "route_id": "lancashire_ib_36_hl6_chemistry_second_science",
+            "total_points": 36,
+            "required_hl_subject_ids": [
+              "chemistry"
+            ],
+            "required_hl_subject_grade_options": [
+              {
+                "grade_requirements": [
+                  {
+                    "subject_id": "chemistry",
+                    "minimum_grade": "6"
+                  },
+                  {
+                    "subject_id": "biology",
+                    "minimum_grade": "6"
+                  }
+                ]
+              },
+              {
+                "grade_requirements": [
+                  {
+                    "subject_id": "chemistry",
+                    "minimum_grade": "6"
+                  },
+                  {
+                    "subject_id": "physics",
+                    "minimum_grade": "6"
+                  }
+                ]
+              },
+              {
+                "grade_requirements": [
+                  {
+                    "subject_id": "chemistry",
+                    "minimum_grade": "6"
+                  },
+                  {
+                    "subject_id": "mathematics",
+                    "minimum_grade": "6"
+                  }
+                ]
+              }
+            ],
+            "notes": "IB 36 overall with HL Chemistry and a second HL science at grade 6 is represented for International applicants and any applicant using IB."
+          }
+        ],
+        "selection_role": "eligibility_only"
+      },
+      "degree": {
+        "status": "official_source_verified_execution_partial",
+        "minimum_classification": "2_1",
+        "degree_requirement": {
+          "accepted_classifications": [
+            "2_1",
+            "first"
+          ],
+          "subject_requirement": "Science/Health degree, or another subject with BBB at A-level including two sciences with Chemistry.",
+          "achieved_or_predicted": true
+        },
+        "selection_role": "eligibility_only",
+        "notes": "The generic evaluator can check the 2:1 classification, GCSE Maths/English and Home UCAT. Degree subject and alternate BBB science evidence remain documented boundaries."
+      },
+      "international_qualification": {
+        "status": "official_source_verified_manual_review",
+        "unverified_outcome": "manual_review",
+        "notes": "International qualifications are assessed by the university against the published 144 UCAS Tariff/equivalence benchmark. ApplySmart only accepts applicant-supplied institution-verified equivalence."
+      },
+      "notes": "Supported automatic routes are A-level, IB, institution-verified international qualification and the representable part of the graduate route."
+    },
+    "admissions_tests": {
+      "ucat": {
+        "required": true,
+        "minimum_total_score": null,
+        "maximum_total_score": 2700,
+        "excluded_group_ids": [
+          "international_fee"
+        ],
+        "working_historical_guidance_threshold": 1750,
+        "threshold_basis": "ApplySmart working historical guidance only, not an official University of Lancashire cut-off.",
+        "notes": "UCAT is required for UK/Home applicants. International applicants are exempt. No official minimum UCAT cut-off or weighting is published."
+      },
+      "sjt": {
+        "used_as_gate": false,
+        "accepted_bands": [
+          1,
+          2,
+          3,
+          4
+        ],
+        "excluded_bands": [],
+        "scoring": {
+          "used_in_score": false
+        },
+        "notes": "No official SJT policy was located."
+      },
+      "other_tests": []
+    },
+    "resits": {
+      "policy": "a_levels_must_be_taken_in_one_sitting",
+      "allowed": false,
+      "maximum_resits": 0,
+      "conditions": "UCAS specifies that all A-levels must be taken in one sitting. ApplySmart does not infer a broader resit policy."
+    },
+    "english_language": {
+      "required_for_group": false,
+      "applies_to_group_ids": [
+        "international_fee"
+      ],
+      "accepted_tests": [],
+      "exemptions": [],
+      "notes": "UCAS and the university course page disagree on the IELTS overall requirement. ApplySmart records the discrepancy and does not enforce a definitive IELTS rule until resolved."
+    },
+    "age_or_professional_checks": {
+      "minimum_age": null,
+      "dbs_required": true,
+      "occupational_health_required": true,
+      "fitness_to_practise_required": true,
+      "notes": "Professional checks are informational course requirements and are not used for interview prediction."
+    }
+  },
+  "stage_2_interview_selection": {
+    "verification_status": "official_source_verified_with_documented_gaps",
+    "source_ids": [
+      "lancashire_how_to_apply_mbbs",
+      "ucas_lancashire_a100_2026"
+    ],
+    "primary_model": "holistic_review",
+    "modifiers": [
+      "home_international_separate_ranking"
+    ],
+    "ranking_factors": [
+      {
+        "factor": "academic_requirements",
+        "role": "eligibility_gate_and_unpublished_academic_score",
+        "weight_percent": null,
+        "points_available": null,
+        "source_ids": [
+          "lancashire_course_page_2026"
+        ],
+        "notes": "An academic score is referenced but no executable scoring formula is published."
+      },
+      {
+        "factor": "ucat_home_applicants",
+        "role": "selection_factor_for_home_applicants",
+        "weight_percent": null,
+        "points_available": null,
+        "source_ids": [
+          "ucas_lancashire_a100_2026"
+        ],
+        "notes": "UCAT is used as part of selection before interview for UK applicants, but no official cut-off or weighting is published."
+      },
+      {
+        "factor": "personal_reflective_statement",
+        "role": "qualitative_review",
+        "weight_percent": null,
+        "points_available": null,
+        "source_ids": [
+          "lancashire_how_to_apply_mbbs"
+        ],
+        "notes": "ApplySmart cannot objectively score this component."
+      },
+      {
+        "factor": "academic_reference_and_selection_panel",
+        "role": "qualitative_review",
+        "weight_percent": null,
+        "points_available": null,
+        "source_ids": [
+          "lancashire_how_to_apply_mbbs"
+        ],
+        "notes": "ApplySmart cannot objectively score reference or panel-review components."
+      }
+    ],
+    "calculation": {
+      "verification_status": "official_source_verified_with_documented_gaps",
+      "source_ids": [
+        "lancashire_how_to_apply_mbbs",
+        "ucas_lancashire_a100_2026"
+      ],
+      "score_components": [],
+      "total_score": {
+        "calculation_method": "not_published",
+        "components": [],
+        "scale": null,
+        "notes": "No numeric academic/UCAT/personal-statement/reference weighting model is published.",
+        "source_ids": [
+          "lancashire_how_to_apply_mbbs",
+          "ucas_lancashire_a100_2026"
+        ]
+      },
+      "notes": "No ApplySmart interview probability or interview-likelihood band is calculated."
+    },
+    "thresholds": [],
+    "selection_adjustments": [],
+    "tie_breakers": [],
+    "output_band_policy": "eligibility_only_eligible_to_apply_or_guidance_not_met",
+    "notes": "ApplySmart checks measurable academic requirements and Home UCAT guidance only. It does not estimate interview likelihood."
+  },
+  "contextual_admissions": {
+    "verification_status": "official_source_verified_with_documented_gaps",
+    "source_ids": [
+      "lancashire_fair_access_scheme"
+    ],
+    "available": true,
+    "applies_to_group_ids": [
+      "contextual",
+      "widening_participation"
+    ],
+    "criteria": [
+      "Fair Access Scheme",
+      "Lancashire Scholars Programme"
+    ],
+    "adjustments": [
+      {
+        "adjustment_id": "medicine_tariff_reduction",
+        "stage": "offer_condition",
+        "value": "Up to 8 UCAS Tariff points for eligible Medicine applicants.",
+        "execution_status": "documented_not_used_for_interview_prediction"
+      }
+    ],
+    "guaranteed_interview_rules": [],
+    "notes": "Contextual policy is documented for eligibility transparency but not used to create an interview prediction or lower UCAT guidance threshold."
+  },
+  "ranking_pools": [
+    {
+      "pool_id": "home_a100",
+      "name": "Home A100 applicants",
+      "applies_to_group_ids": [
+        "home_fee"
+      ],
+      "fee_statuses": [
+        "home"
+      ],
+      "ranking_model": "holistic_review",
+      "ranking_factors": [
+        "academic_score",
+        "ucat",
+        "personal_reflective_statement",
+        "academic_reference",
+        "selection_panel_review"
+      ],
+      "places_available": null,
+      "source_ids": [
+        "lancashire_how_to_apply_mbbs",
+        "ucas_lancashire_a100_2026"
+      ],
+      "notes": "ApplySmart does not estimate this holistic shortlisting process."
+    },
+    {
+      "pool_id": "international_a100",
+      "name": "International A100 applicants",
+      "applies_to_group_ids": [
+        "international_fee"
+      ],
+      "fee_statuses": [
+        "international"
+      ],
+      "ranking_model": "holistic_review",
+      "ranking_factors": [
+        "academic_requirements",
+        "personal_statement",
+        "reference",
+        "selection_panel_review"
+      ],
+      "places_available": null,
+      "source_ids": [
+        "lancashire_course_page_2026",
+        "lancashire_how_to_apply_mbbs"
+      ],
+      "notes": "International applicants do not require UCAT."
+    }
+  ],
+  "quotas": [
+    {
+      "quota_id": "lancashire_a100_places_2027_entry_verified",
+      "name": "Verified Home/International places (2027 entry)",
+      "home_places": 56,
+      "international_places": 200,
+      "quota_type": "verified_current_places",
+      "source_ids": [
+        "applysmart_admissions_team_verified_2026"
+      ],
+      "notes": "Home/International place figures verified by the ApplySmart admissions research team for 2027 entry."
+    },
+    {
+      "quota_id": "home_places_2027_entry",
+      "applicant_pool": "home_a100",
+      "places": 70,
+      "admissions_cycle": "2027 entry",
+      "figure_type": "published_intake_places",
+      "estimate": false,
+      "source_ids": [
+        "lancashire_course_page_2026"
+      ],
+      "notes": "Official published Home/UK intake places for the 2027-entry A100 admissions cycle. Informational only; not used for eligibility, interview prediction or applicant ranking."
+    },
+    {
+      "quota_id": "international_places_2027_entry",
+      "applicant_pool": "international_a100",
+      "places": 200,
+      "admissions_cycle": "2027 entry",
+      "figure_type": "published_intake_places",
+      "estimate": false,
+      "source_ids": [
+        "lancashire_course_page_2026"
+      ],
+      "notes": "Official published International intake places for the 2027-entry A100 admissions cycle. Informational only; not used for eligibility, interview prediction or applicant ranking."
+    }
+  ],
+  "offer_selection": {
+    "verification_status": "official_source_verified_out_of_scope_for_applysmart",
+    "source_ids": [
+      "lancashire_course_page_2026",
+      "lancashire_how_to_apply_mbbs"
+    ],
+    "interview_format": "Multiple Mini Interview",
+    "interview_scoring": "not_published",
+    "offer_model": "out_of_scope",
+    "ranking_factors": [],
+    "tie_breakers": [],
+    "waiting_list_policy": null,
+    "standard_offer": {
+      "a_level": "AAA including Chemistry plus one further science subject"
+    },
+    "contextual_offer": "Fair Access Scheme may reduce Medicine offers by up to 8 UCAS Tariff points, with subject requirements still applying.",
+    "notes": "Offer prediction is out of scope."
+  },
+  "historical_admissions": {
+    "verification_status": "historical_guidance",
+    "source_ids": [
+      "third_party_lancashire_ucat_context"
+    ],
+    "cycles": [],
+    "notes": "Third-party UCAT figures informed ApplySmart's internal working threshold but are not university-published and are not displayed as official cut-offs."
+  },
+  "sources": [
+    {
+      "source_id": "lancashire_course_page_2026",
+      "title": "Medicine and Surgery, MBBS",
+      "url": "https://www.lancashire.ac.uk/undergraduate/courses/medicine-mbbs/",
+      "source_type": "official_course_page",
+      "published_date": null,
+      "accessed_date": "2026-07-19",
+      "applies_to_sections": [
+        "course_identity",
+        "entry_requirements",
+        "international_entry",
+        "intake_places",
+        "professional_checks"
+      ],
+      "confidence": "high",
+      "evidence_classification": "official",
+      "notes": "Verifies course identity, standard route, academic requirements, international-entry information, and official published Home/UK and International intake places for the 2027-entry admissions cycle."
+    },
+    {
+      "source_id": "lancashire_how_to_apply_mbbs",
+      "title": "How to apply for MBBS",
+      "url": "https://www.lancashire.ac.uk/undergraduate/how-to-apply/mbbs/",
+      "source_type": "official_admissions_page",
+      "published_date": null,
+      "accessed_date": "2026-07-19",
+      "applies_to_sections": [
+        "selection_process",
+        "personal_reflective_statement",
+        "reference",
+        "interview"
+      ],
+      "confidence": "high",
+      "evidence_classification": "official",
+      "notes": "Verifies qualitative selection components and interview-process information."
+    },
+    {
+      "source_id": "ucas_lancashire_a100_2026",
+      "title": "Medicine and Surgery, University of Lancashire",
+      "url": "https://www.ucas.com/explore/courses/ae491b74-0009-cf97-e2b5-e73e2e77c65c/course",
+      "source_type": "official_ucas_listing",
+      "published_date": null,
+      "accessed_date": "2026-07-19",
+      "applies_to_sections": [
+        "course_identity",
+        "entry_requirements",
+        "ucat",
+        "english_language"
+      ],
+      "confidence": "high",
+      "evidence_classification": "official",
+      "notes": "Verifies UCAS code A100, institution code C30, UCAT usage for UK applicants and IELTS discrepancy against the university course page."
+    },
+    {
+      "source_id": "lancashire_fair_access_scheme",
+      "title": "Fair Access Scheme",
+      "url": "https://www.lancashire.ac.uk/undergraduate/fair-access-scheme/",
+      "source_type": "official_contextual_page",
+      "published_date": null,
+      "accessed_date": "2026-07-19",
+      "applies_to_sections": [
+        "contextual_admissions"
+      ],
+      "confidence": "medium",
+      "evidence_classification": "official",
+      "notes": "Documents offer-stage contextual tariff reduction. It is not used for interview prediction."
+    },
+    {
+      "source_id": "third_party_lancashire_ucat_context",
+      "title": "Third-party UCAT historical context retained by ApplySmart research",
+      "url": "internal_research_report",
+      "source_type": "third_party_context",
+      "published_date": null,
+      "accessed_date": "2026-07-19",
+      "applies_to_sections": [
+        "ucat_guidance"
+      ],
+      "confidence": "low",
+      "evidence_classification": "historical_guidance",
+      "notes": "Supports only the internal working threshold of 1750; it is not an official university threshold."
+    }
+  ],
+  "validation": {
+    "source_status": "official_source_verified_with_documented_gaps",
+    "last_verified": "2026-07-19",
+    "confidence_level": "Low",
+    "completion_status": "production_ready_eligibility_only_interview_prediction_not_ready",
+    "known_unknowns": [
+      "North West residency/Foundation Entry restriction is intentionally not modelled by product-scope decision.",
+      "Official UCAT cut-off is not published.",
+      "UCAT weighting is not published.",
+      "Academic scoring formula is not published.",
+      "Personal reflective statement and reference weighting is not published.",
+      "SJT policy is not published.",
+      "Interview shortlisting threshold is not published.",
+      "IELTS official-source discrepancy is unresolved."
+    ],
+    "review_notes": "Safe for production eligibility-only assessment. Interview prediction remains disabled."
+  },
+  "engine_notes": {
+    "assessment_mode": "eligibility_only",
+    "eligibility": true,
+    "interview_prediction": false,
+    "assessment_available": true,
+    "interview_prediction_available": false,
+    "historical_guidance": false,
+    "international_prediction": false,
+    "contextual_logic": false,
+    "result_card": true,
+    "regression": true,
+    "research_completeness": "complete_for_supported_scope_with_documented_gaps",
+    "manual_review_required": true,
+    "eligibility_ready": true,
+    "eligibility_only_ready": true,
+    "interview_prediction_ready": false,
+    "offer_prediction_scope": "out_of_scope",
+    "prediction_confidence": "low",
+    "result_card_ready": true,
+    "interview_band_config_ready": true,
+    "metadata_activation_ready": true,
+    "activation_ready": true,
+    "production_ready": true,
+    "prediction_methodology": "eligibility_only",
+    "blocking_missing_fields": [
+      "official_ucat_cutoff",
+      "ucat_weighting",
+      "academic_scoring_formula",
+      "personal_statement_reference_weighting",
+      "sjt_policy",
+      "interview_shortlisting_threshold",
+      "resolved_ielts_requirement"
+    ],
+    "engine_assumptions": [
+      "All UK applicants use the existing Home applicant group; North West residency and UCLan Foundation Entry status are not collected or evaluated.",
+      "1750 is ApplySmart working historical guidance only, not an official University of Lancashire cut-off.",
+      "International applicants do not require UCAT.",
+      "IELTS is recorded as an unresolved official-source discrepancy and is not enforced automatically."
+    ],
+    "do_not_infer": [
+      "Do not implement North West residency or Foundation Entry evidence gates.",
+      "Do not label 1750 as an official UCAT minimum.",
+      "Do not produce Strong, Realistic, High Risk or Interview Likely bands.",
+      "Do not estimate interview probability.",
+      "Do not infer SJT use or weighting.",
+      "Do not predict offers."
+    ]
+  }
+}

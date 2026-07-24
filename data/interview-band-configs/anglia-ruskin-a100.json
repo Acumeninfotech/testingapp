@@ -1,0 +1,377 @@
+{
+  "schema_version": "1.0.0",
+  "course_profile_id": "anglia-ruskin-a100",
+  "confidence": "medium",
+  "evidence": {
+    "classification": "official_method_with_authoritative_supplied_current_working_thresholds",
+    "summary": "ARU publishes an academic threshold, SJT Band 4 rejection and UCAT ranking with WAMS/regional percentage uplifts. ApplySmart uses the supplied working thresholds and historical data as interview guidance only; this is not offer prediction.",
+    "source_ids": [
+      "aru_docx_authoritative_spec",
+      "aru_medicine_entry_requirements",
+      "aru_medicine_admissions_policy"
+    ]
+  },
+  "eligibility": {
+    "scope": "Automatic classifier handling is restricted to Home A-level applicants with complete GCSE, A-level, UCAT and SJT evidence. Graduates are not separated into another A100 pool when they are evaluated on the same A100 academic route.",
+    "international_english_language_required": false,
+    "explicitly_blocked_applicant_groups": [
+      "international_fee"
+    ],
+    "qualification_routes": {
+      "supported": [
+        "a_level"
+      ],
+      "manual_review": [
+        "graduate",
+        "international_baccalaureate",
+        "ib",
+        "scottish"
+      ],
+      "explicitly_blocked": [
+        "international_qualification",
+        "access_to_medicine",
+        "access_to_he",
+        "btec",
+        "unknown"
+      ]
+    },
+    "gcse": {
+      "minimum_count": 4,
+      "use_exact_subject_list": false,
+      "required_subjects": [
+        {
+          "subject_id": "english_language",
+          "minimum_grade": "5/B"
+        },
+        {
+          "subject_id": "mathematics",
+          "minimum_grade": "5/B"
+        },
+        {
+          "subject_id": "biology",
+          "minimum_grade": "5/B"
+        },
+        {
+          "subject_id": "chemistry",
+          "minimum_grade": "5/B"
+        }
+      ]
+    },
+    "a_level": {
+      "routes": [
+        {
+          "route_id": "aru_a_level_standard_aaa_science_route",
+          "applies_to_group_ids": [
+            "home_fee"
+          ],
+          "excluded_group_ids": [
+            "wams"
+          ],
+          "grade_profile": [
+            "A",
+            "A",
+            "A"
+          ],
+          "one_of_subject_groups": [
+            {
+              "group_id": "chemistry_or_biology",
+              "minimum_required": 1,
+              "subject_ids": [
+                "chemistry",
+                "biology"
+              ]
+            }
+          ]
+        },
+        {
+          "route_id": "aru_a_level_wams_abb_science_route",
+          "applies_to_group_ids": [
+            "home_fee",
+            "wams"
+          ],
+          "grade_profile": [
+            "A",
+            "B",
+            "B"
+          ],
+          "one_of_subject_groups": [
+            {
+              "group_id": "chemistry_or_biology",
+              "minimum_required": 1,
+              "subject_ids": [
+                "chemistry",
+                "biology"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    "ucat": {
+      "minimum_total_score": null,
+      "score_scale": 2700,
+      "minimum_basis": "UCAT is required and used for ranking. ARU working thresholds are guidance, not deterministic eligibility cut-offs."
+    },
+    "sjt": {
+      "used_as_gate": true,
+      "accepted_bands": [
+        1,
+        2,
+        3
+      ],
+      "rejected_bands": [
+        4
+      ]
+    },
+    "map_override": {
+      "override_id": "aru_care_or_fsm_guaranteed_interview",
+      "outcome": "guaranteed_interview",
+      "interview_outcome": "guaranteed_interview",
+      "apply_ucat_guidance_band": false,
+      "description": "Care-experienced/Care Leaver and Free School Meals applicants receive a guaranteed interview only after implemented academic checks and SJT Band 1-3 pass.",
+      "applicant_facing_explanation": "The applicant qualifies under Anglia Ruskin's verified published guaranteed-interview policy. All mandatory academic, admissions-test and route-specific conditions must still be satisfied. This applies to interview invitation only, not an offer.",
+      "any_conditions": [
+        {
+          "condition_id": "care_experienced_or_care_leaver",
+          "match": {
+            "all_group_ids": [
+              "home_fee",
+              "care_experienced"
+            ]
+          },
+          "applicant_evidence_path": "applicant_identity.contextual_flags",
+          "required_evidence": {
+            "care_experienced": true
+          }
+        },
+        {
+          "condition_id": "free_school_meals",
+          "match": {
+            "all_group_ids": [
+              "home_fee",
+              "free_school_meals"
+            ]
+          },
+          "applicant_evidence_path": "applicant_identity.contextual_flags",
+          "required_evidence": {
+            "free_school_meals": true
+          }
+        }
+      ]
+    },
+    "manual_review_routes": [
+      "graduate route where standard A100 academic evidence is not supplied",
+      "IB",
+      "Scottish qualifications",
+      "non-A-level equivalencies",
+      "resit applicants with incomplete first-sitting evidence"
+    ],
+    "do_not_infer": [
+      "Do not add flat regional points.",
+      "Do not separate graduates into a different A100 applicant pool.",
+      "Do not make international applicants eligible.",
+      "Do not treat final MMI ranking or offers as ApplySmart prediction outputs."
+    ]
+  },
+  "score_model": {
+    "type": "component_sum",
+    "basis": "Adjusted UCAT cognitive total after documented percentage uplifts. WAMS may stack with the single applicable regional uplift; Essex takes precedence over East of England. Academics are pass/fail only and SJT is a gate only.",
+    "scale": {
+      "min": 0,
+      "max": 2700
+    },
+    "components": [
+      {
+        "component_id": "adjusted_ucat_total",
+        "type": "ucat_total_with_percentage_uplifts",
+        "max": 2700,
+        "uplifts": [
+          {
+            "uplift_id": "wams_5_percent",
+            "label": "WAMS UCAT uplift",
+            "percent": 5,
+            "match": {
+              "all_group_ids": [
+                "wams"
+              ]
+            }
+          }
+        ],
+        "exclusive_uplift_groups": [
+          {
+            "group_id": "regional_uplift",
+            "selection_strategy": "first_match",
+            "uplifts": [
+              {
+                "uplift_id": "essex_5_percent",
+                "label": "Essex UCAT uplift",
+                "percent": 5,
+                "match": {
+                  "all_group_ids": [
+                    "essex"
+                  ]
+                }
+              },
+              {
+                "uplift_id": "east_of_england_2_5_percent",
+                "label": "East of England UCAT uplift",
+                "percent": 2.5,
+                "match": {
+                  "all_group_ids": [
+                    "east_of_england"
+                  ]
+                }
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  "guidance_pools": [
+    {
+      "pool_id": "aru_home_uplift_guidance",
+      "priority": 80,
+      "applicant_match": {
+        "all_group_ids": [
+          "home_fee"
+        ],
+        "any_group_ids": [
+          "wams",
+          "east_of_england",
+          "essex"
+        ],
+        "excluded_group_ids": [
+          "international_fee",
+          "care_experienced",
+          "free_school_meals"
+        ]
+      },
+      "metric": "selection_score",
+      "band_rules": [
+        {
+          "band": "interview_likely",
+          "operator": "greater_than_or_equal",
+          "value": 2084
+        },
+        {
+          "band": "realistic",
+          "operator": "between_inclusive",
+          "min": 2010,
+          "max": 2083.99
+        },
+        {
+          "band": "ambitious",
+          "operator": "between_inclusive",
+          "min": 1943,
+          "max": 2009.99
+        },
+        {
+          "band": "high_risk",
+          "operator": "less_than",
+          "value": 1943
+        }
+      ],
+      "official_candidate_decile_guidance": {
+        "min": 2010,
+        "max": 2084,
+        "executable": false,
+        "reason": "The metric is adjusted UCAT after documented percentage uplifts. These are not flat regional points."
+      }
+    },
+    {
+      "pool_id": "aru_home_standard_guidance",
+      "priority": 50,
+      "applicant_match": {
+        "all_group_ids": [
+          "home_fee"
+        ],
+        "excluded_group_ids": [
+          "international_fee",
+          "wams",
+          "east_of_england",
+          "essex",
+          "care_experienced",
+          "free_school_meals"
+        ]
+      },
+      "metric": "selection_score",
+      "band_rules": [
+        {
+          "band": "interview_likely",
+          "operator": "greater_than_or_equal",
+          "value": 2084
+        },
+        {
+          "band": "realistic",
+          "operator": "between_inclusive",
+          "min": 2010,
+          "max": 2083.99
+        },
+        {
+          "band": "ambitious",
+          "operator": "between_inclusive",
+          "min": 1943,
+          "max": 2009.99
+        },
+        {
+          "band": "high_risk",
+          "operator": "less_than",
+          "value": 1943
+        }
+      ],
+      "official_candidate_decile_guidance": {
+        "min": 2010,
+        "max": 2084,
+        "executable": false,
+        "reason": "Historical ARU thresholds are used for ApplySmart interview guidance only."
+      }
+    },
+    {
+      "pool_id": "aru_graduate_same_a100_pool_guidance",
+      "priority": 70,
+      "applicant_match": {
+        "all_group_ids": [
+          "home_fee",
+          "graduate_applicant"
+        ],
+        "excluded_group_ids": [
+          "international_fee",
+          "care_experienced",
+          "free_school_meals"
+        ]
+      },
+      "metric": "selection_score",
+      "band_rules": [
+        {
+          "band": "interview_likely",
+          "operator": "greater_than_or_equal",
+          "value": 1935
+        },
+        {
+          "band": "realistic",
+          "operator": "between_inclusive",
+          "min": 1830,
+          "max": 1934.99
+        },
+        {
+          "band": "ambitious",
+          "operator": "between_inclusive",
+          "min": 1740,
+          "max": 1829.99
+        },
+        {
+          "band": "high_risk",
+          "operator": "less_than",
+          "value": 1740
+        }
+      ],
+      "official_candidate_decile_guidance": {
+        "min": 1830,
+        "max": 1935,
+        "executable": false,
+        "reason": "Graduate A100 applicants remain in the same A100 process. Graduate historical values are contextual guidance, not a separate applicant pool or offer prediction."
+      }
+    }
+  ]
+}

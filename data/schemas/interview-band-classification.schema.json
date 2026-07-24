@@ -1,0 +1,853 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://applysmart.local/schemas/interview-band-classification.schema.json",
+  "title": "ApplySmart Interview Band Classification Config",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "course_profile_id",
+    "confidence",
+    "evidence",
+    "eligibility",
+    "score_model",
+    "guidance_pools"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "1.0.0"
+    },
+    "course_profile_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "confidence": {
+      "enum": [
+        "high",
+        "medium",
+        "low"
+      ]
+    },
+    "evidence": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "classification",
+        "summary",
+        "source_ids"
+      ],
+      "properties": {
+        "classification": {
+          "type": "string",
+          "minLength": 1
+        },
+        "summary": {
+          "type": "string",
+          "minLength": 1
+        },
+        "source_ids": {
+          "$ref": "#/$defs/string_array"
+        }
+      }
+    },
+    "eligibility": {
+      "type": "object",
+      "additionalProperties": true,
+      "properties": {
+        "international_baccalaureate": {
+          "type": "object",
+          "additionalProperties": true,
+          "properties": {
+            "routes": {
+              "type": "array",
+              "items": {
+                "$ref": "#/$defs/ib_route"
+              }
+            }
+          }
+        },
+        "international_qualification": {
+          "type": "object",
+          "additionalProperties": true,
+          "properties": {
+            "unverified_outcome": {
+              "enum": [
+                "not_eligible",
+                "manual_review"
+              ]
+            }
+          }
+        },
+        "graduate": {
+          "type": "object",
+          "additionalProperties": true,
+          "properties": {
+            "gcse_required": {
+              "type": "boolean"
+            },
+            "waive_a_level_requirements": {
+              "type": "boolean"
+            },
+            "minimum_classification": {
+              "enum": [
+                "2_2",
+                "lower_second",
+                "2_1",
+                "upper_second",
+                "first",
+                "first_class"
+              ]
+            },
+            "postgraduate_compensation_allowed": {
+              "type": "boolean"
+            }
+          }
+        },
+        "map_override": {
+          "$ref": "#/$defs/guaranteed_interview_override"
+        }
+      }
+    },
+    "score_model": {
+      "type": "object",
+      "additionalProperties": true,
+      "required": [
+        "type",
+        "basis",
+        "scale"
+      ],
+      "properties": {
+        "type": {
+          "enum": [
+            "component_sum",
+            "ranking_metric"
+          ]
+        },
+        "basis": {
+          "type": "string",
+          "minLength": 1
+        },
+        "metric": {
+          "enum": [
+            "ucat_total",
+            "ucat_national_percentile",
+            "gamsat_total"
+          ]
+        },
+        "scale": {
+          "$ref": "#/$defs/scale"
+        },
+        "components": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": true,
+            "required": [
+              "component_id",
+              "type"
+            ],
+            "properties": {
+              "component_id": {
+                "type": "string",
+                "minLength": 1
+              },
+              "type": {
+                  "enum": [
+                    "a_level_grade_points_scaled",
+                    "ucat_national_decile_lookup",
+                    "gcse_mandatory_then_best",
+                    "qualification_presence",
+                    "academic_profile_matrix",
+                    "ucat_range_lookup",
+                    "ucat_exact_score_table_lookup",
+                    "sjt_band_lookup",
+                    "degree_classification_points",
+                    "conditional_points",
+                    "gcse_profile_modifier",
+                    "academic_ucat_compensation_matrix",
+                    "ucat_total_with_percentage_uplifts",
+                    "gcse_ucat_weighted_composite"
+                  ]
+              },
+              "uplifts": {
+                "$ref": "#/$defs/percentage_uplifts"
+              },
+              "exclusive_uplift_groups": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/$defs/exclusive_percentage_uplift_group"
+                }
+              }
+            },
+            "allOf": [
+              {
+                "if": {
+                  "properties": {
+                    "type": {
+                      "const": "ucat_total_with_percentage_uplifts"
+                    }
+                  }
+                },
+                "then": {
+                  "anyOf": [
+                    {
+                      "required": [
+                        "uplifts"
+                      ]
+                    },
+                    {
+                      "required": [
+                        "exclusive_uplift_groups"
+                      ]
+                    }
+                  ]
+                }
+              }
+            ]
+          }
+          }
+        }
+    },
+    "guidance_pools": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "pool_id",
+          "priority",
+          "applicant_match",
+          "metric",
+          "band_rules"
+        ],
+        "properties": {
+          "pool_id": {
+            "type": "string",
+            "minLength": 1
+          },
+          "priority": {
+            "type": "integer"
+          },
+          "applicant_match": {
+            "$ref": "#/$defs/applicant_match"
+          },
+          "metric": {
+          "enum": [
+            "selection_score",
+            "ucat_total",
+            "ucat_national_percentile",
+            "gamsat_total",
+            "eligibility_gate"
+          ]
+          },
+          "pool_specific_output": {
+            "type": "boolean"
+          },
+          "comparison_guidance": {
+            "$ref": "#/$defs/comparison_guidance"
+          },
+          "band_rules": {
+            "type": "array",
+            "items": {
+              "$ref": "#/$defs/band_rule"
+            }
+          },
+          "official_candidate_decile_guidance": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "min",
+              "max",
+              "executable"
+            ],
+            "properties": {
+              "min": {
+                "type": "integer"
+              },
+              "max": {
+                "type": "integer"
+              },
+              "cycle": {
+                "type": "string"
+              },
+              "executable": {
+                "const": false
+              },
+              "reason": {
+                "type": "string"
+              }
+            }
+          },
+          "historical_cutoff": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "entry_cycle",
+              "value",
+              "evidence_classification"
+            ],
+            "properties": {
+              "entry_cycle": {
+                "type": "string"
+              },
+              "value": {
+                "type": "number"
+              },
+              "evidence_classification": {
+                "enum": [
+                  "foi_verified_historical_guidance",
+                  "official_published_threshold"
+                ]
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "$defs": {
+    "string_array": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "uniqueItems": true
+    },
+    "scale": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "min",
+        "max"
+      ],
+      "properties": {
+        "min": {
+          "type": "number"
+        },
+        "max": {
+          "type": "number"
+        }
+      }
+    },
+    "applicant_match": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "all_group_ids": {
+          "$ref": "#/$defs/string_array"
+        },
+        "any_group_ids": {
+          "$ref": "#/$defs/string_array"
+        },
+        "excluded_group_ids": {
+          "$ref": "#/$defs/string_array"
+        },
+        "qualification_routes": {
+          "$ref": "#/$defs/string_array"
+        },
+        "qualification_route": {
+          "type": [
+            "string",
+            "array"
+          ],
+          "items": {
+            "type": "string"
+          }
+        },
+        "qualification_status": {
+          "type": [
+            "string",
+            "array"
+          ],
+          "items": {
+            "type": "string"
+          }
+        },
+        "excluded_qualification_status": {
+          "type": [
+            "string",
+            "array"
+          ],
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "evidence_requirements": {
+      "type": "object",
+      "additionalProperties": {
+        "type": [
+          "boolean",
+          "string",
+          "number"
+        ]
+      },
+      "minProperties": 1
+    },
+    "ib_route": {
+      "type": "object",
+      "additionalProperties": true,
+      "properties": {
+        "minimum_hl_points": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 21
+        }
+      }
+    },
+    "comparison_guidance": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "comparison_type",
+        "label",
+        "caveat"
+      ],
+      "properties": {
+        "comparison_type": {
+          "enum": [
+            "current_guidance",
+            "historical_threshold",
+            "historical_range"
+          ]
+        },
+        "label": {
+          "type": "string",
+          "minLength": 1
+        },
+        "caveat": {
+          "type": "string",
+          "minLength": 1
+        },
+        "evidence_confidence": {
+          "enum": [
+            "high",
+            "medium",
+            "low"
+          ]
+        }
+      }
+    },
+    "guaranteed_interview_condition": {
+      "type": "object",
+      "additionalProperties": true,
+      "required": [
+        "applicant_evidence_path",
+        "required_evidence"
+      ],
+      "properties": {
+        "match": {
+          "$ref": "#/$defs/applicant_match"
+        },
+        "applicant_evidence_path": {
+          "type": "string",
+          "minLength": 1
+        },
+        "required_evidence": {
+          "$ref": "#/$defs/evidence_requirements"
+        },
+        "applicant_facing_explanation": {
+          "type": "string",
+          "minLength": 1
+        }
+      }
+    },
+    "guaranteed_interview_override": {
+      "type": "object",
+      "additionalProperties": true,
+      "required": [
+        "apply_ucat_guidance_band"
+      ],
+      "properties": {
+        "outcome": {
+          "const": "guaranteed_interview"
+        },
+        "interview_outcome": {
+          "const": "guaranteed_interview"
+        },
+        "apply_ucat_guidance_band": {
+          "const": false
+        },
+        "match": {
+          "$ref": "#/$defs/applicant_match"
+        },
+        "applicant_evidence_path": {
+          "type": "string",
+          "minLength": 1
+        },
+        "required_evidence": {
+          "$ref": "#/$defs/evidence_requirements"
+        },
+        "any_conditions": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "$ref": "#/$defs/guaranteed_interview_condition"
+          }
+        },
+        "applicant_facing_explanation": {
+          "type": "string",
+          "minLength": 1
+        }
+      },
+      "allOf": [
+        {
+          "anyOf": [
+            {
+              "required": [
+                "outcome"
+              ]
+            },
+            {
+              "required": [
+                "interview_outcome"
+              ]
+            }
+          ]
+        },
+        {
+          "anyOf": [
+            {
+              "required": [
+                "applicant_evidence_path",
+                "required_evidence"
+              ]
+            },
+            {
+              "required": [
+                "any_conditions"
+              ]
+            }
+          ]
+        },
+        {
+          "not": {
+            "anyOf": [
+              {
+                "required": [
+                  "threshold"
+                ]
+              },
+              {
+                "required": [
+                  "value"
+                ]
+              },
+              {
+                "required": [
+                  "band"
+                ]
+              },
+              {
+                "required": [
+                  "interview_band"
+                ]
+              },
+              {
+                "required": [
+                  "canonical_interview_band"
+                ]
+              },
+              {
+                "required": [
+                  "band_rules"
+                ]
+              },
+              {
+                "required": [
+                  "historical_cutoff"
+                ]
+              }
+            ]
+          }
+        }
+      ]
+    },
+    "percentage_uplifts": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/percentage_uplift"
+      }
+    },
+    "percentage_uplift": {
+      "type": "object",
+      "additionalProperties": true,
+      "required": [
+        "uplift_id",
+        "percent",
+        "match"
+      ],
+      "properties": {
+        "uplift_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "label": {
+          "type": "string"
+        },
+        "percent": {
+          "type": "number",
+          "minimum": 0
+        },
+        "match": {
+          "$ref": "#/$defs/applicant_match"
+        }
+      }
+    },
+    "exclusive_percentage_uplift_group": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "group_id",
+        "selection_strategy",
+        "uplifts"
+      ],
+      "properties": {
+        "group_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "selection_strategy": {
+          "enum": [
+            "first_match",
+            "highest_percent"
+          ]
+        },
+        "uplifts": {
+          "$ref": "#/$defs/percentage_uplifts"
+        }
+      }
+    },
+    "band_rule": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "band",
+        "operator"
+      ],
+      "properties": {
+        "band": {
+          "enum": [
+            "interview_likely",
+            "realistic",
+            "ambitious",
+            "high_risk",
+            "eligible_to_apply"
+          ]
+        },
+        "operator": {
+          "enum": [
+            "greater_than",
+            "greater_than_or_equal",
+            "less_than",
+            "less_than_or_equal",
+            "between_inclusive"
+          ]
+        },
+        "value": {
+          "type": "number"
+        },
+        "min": {
+          "type": "number"
+        },
+        "max": {
+          "type": "number"
+        },
+        "score_scale": {
+          "enum": [
+            "current_2700",
+            "historical_3600"
+          ]
+        },
+        "conversion_reference": {
+          "type": "string",
+          "minLength": 1
+        },
+        "historical_score": {
+          "type": "number"
+        },
+        "minimum_historical_score": {
+          "type": "number"
+        },
+        "maximum_historical_score": {
+          "type": "number"
+        },
+        "derived_score_2700": {
+          "type": "number"
+        },
+        "minimum_derived_score_2700": {
+          "type": "number"
+        },
+        "maximum_derived_score_2700": {
+          "type": "number"
+        },
+        "derived_score_status": {
+          "const": "applysmart_derived"
+        },
+        "evidence_status": {
+          "enum": [
+            "official_historical_evidence",
+            "official_current_evidence",
+            "applysmart_derived"
+          ]
+        },
+        "evidence_classification": {
+          "const": "foi_verified_historical_guidance"
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "required": [
+              "score_scale"
+            ],
+            "properties": {
+              "score_scale": {
+                "const": "historical_3600"
+              }
+            }
+          },
+          "then": {
+            "required": [
+              "conversion_reference",
+              "evidence_status"
+            ],
+            "allOf": [
+              {
+                "properties": {
+                  "evidence_status": {
+                    "const": "official_historical_evidence"
+                  }
+                }
+              },
+              {
+                "if": {
+                  "properties": {
+                    "operator": {
+                      "const": "between_inclusive"
+                    }
+                  }
+                },
+                "then": {
+                  "required": [
+                    "minimum_historical_score",
+                    "maximum_historical_score"
+                  ],
+                  "not": {
+                    "anyOf": [
+                      {
+                        "required": [
+                          "min"
+                        ]
+                      },
+                      {
+                        "required": [
+                          "max"
+                        ]
+                      },
+                      {
+                        "required": [
+                          "value"
+                        ]
+                      }
+                    ]
+                  }
+                },
+                "else": {
+                  "required": [
+                    "historical_score"
+                  ],
+                  "not": {
+                    "anyOf": [
+                      {
+                        "required": [
+                          "value"
+                        ]
+                      },
+                      {
+                        "required": [
+                          "min"
+                        ]
+                      },
+                      {
+                        "required": [
+                          "max"
+                        ]
+                      }
+                    ]
+                  }
+                }
+              }
+            ]
+          },
+          "else": {
+            "allOf": [
+              {
+                "not": {
+                  "anyOf": [
+                    {
+                      "required": [
+                        "conversion_reference"
+                      ]
+                    },
+                    {
+                      "required": [
+                        "historical_score"
+                      ]
+                    },
+                    {
+                      "required": [
+                        "minimum_historical_score"
+                      ]
+                    },
+                    {
+                      "required": [
+                        "maximum_historical_score"
+                      ]
+                    },
+                    {
+                      "required": [
+                        "derived_score_2700"
+                      ]
+                    },
+                    {
+                      "required": [
+                        "minimum_derived_score_2700"
+                      ]
+                    },
+                    {
+                      "required": [
+                        "maximum_derived_score_2700"
+                      ]
+                    }
+                  ]
+                }
+              },
+              {
+                "if": {
+                  "properties": {
+                    "operator": {
+                      "const": "between_inclusive"
+                    }
+                  }
+                },
+                "then": {
+                  "required": [
+                    "min",
+                    "max"
+                  ]
+                },
+                "else": {
+                  "required": [
+                    "value"
+                  ]
+                }
+              }
+            ]
+          }
+        }
+      ]
+    }
+  }
+}

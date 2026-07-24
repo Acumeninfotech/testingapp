@@ -1,0 +1,460 @@
+{
+  "schema_version": "1.0.0",
+  "template_version": "1.0.0",
+  "result_id": "sheffield-a100-home-standard-example",
+  "generated_at": "2026-07-06",
+  "result_mode": "example_eligibility_and_historical_interview_guidance",
+  "production_state": {
+    "profile_active": true,
+    "metadata_activation_enabled": true,
+    "result_card_output_enabled": true,
+    "note": "This example reflects Sheffield A100 interview guidance for the declared supported scope."
+  },
+  "course_identity": {
+    "profile_id": "sheffield-a100",
+    "university_name": "University of Sheffield",
+    "course_name": "MBChB Medicine",
+    "ucas_code": "A100",
+    "entry_route": "standard_entry",
+    "qualification_awarded": "MBChB",
+    "duration_years": 5,
+    "location": "Sheffield, England",
+    "source_ids": [
+      "sheffield_admissions_page",
+      "sheffield_course_page_2027"
+    ]
+  },
+  "applicant_context": {
+    "applies_to_group_ids": [
+      "england_domiciled",
+      "rest_of_uk",
+      "home_fee",
+      "school_leaver"
+    ],
+    "applicant_summary": "Home standard A-level school-leaver with five GCSEs at grade 7, AAA in Biology, Chemistry and Mathematics, passed science practical endorsements, UCAT 2200/2700 and SJT Band 4.",
+    "fee_cohort": "home",
+    "entry_route": "standard_entry",
+    "contextual": false,
+    "graduate": false,
+    "source_ids": []
+  },
+  "readiness": {
+    "eligibility": true,
+    "interview_prediction": true,
+    "historical_guidance": true,
+    "international_prediction": true,
+    "contextual_logic": true,
+    "result_card": true,
+    "regression": true,
+    "research_completeness": "complete_for_supported_scope_with_documented_gaps",
+    "manual_review_required": true,
+    "eligibility_ready": true,
+    "interview_prediction_ready": true,
+    "prediction_confidence": "medium",
+    "result_card_ready": true,
+    "offer_prediction_scope": "out_of_scope"
+  },
+  "eligibility": {
+    "status": "eligible",
+    "summary": "The represented Home standard school-leaver meets Sheffield's supported GCSE, A-level, practical-endorsement and UCAT minimum requirements.",
+    "stage_1_checks": [
+      {
+        "check_id": "gcse_threshold",
+        "label": "GCSE threshold",
+        "status": "pass",
+        "requirement": "At least five GCSEs at grade 7/A, with English Language, Mathematics and one accepted science at grade 6/B.",
+        "applicant_value": "Five represented GCSEs are at grade 7, including English Language, Mathematics and sciences.",
+        "decision_outcome": "eligible",
+        "source_ids": [
+          "sheffield_course_page_2027",
+          "sheffield_a100_policy_2027"
+        ]
+      },
+      {
+        "check_id": "a_level_threshold",
+        "label": "A-level threshold and subjects",
+        "status": "pass",
+        "requirement": "AAA including Chemistry or Biology plus a second accepted science.",
+        "applicant_value": "AAA in Biology, Chemistry and Mathematics.",
+        "decision_outcome": "eligible",
+        "source_ids": [
+          "sheffield_course_page_2027",
+          "sheffield_a100_policy_2027"
+        ]
+      },
+      {
+        "check_id": "science_practical_endorsements",
+        "label": "Science practical endorsements",
+        "status": "pass",
+        "requirement": "Pass the practical element of science A-levels taken.",
+        "applicant_value": "Biology and Chemistry practical endorsements are passed.",
+        "decision_outcome": "eligible",
+        "source_ids": [
+          "sheffield_course_page_2027",
+          "sheffield_a100_policy_2027"
+        ]
+      },
+      {
+        "check_id": "ucat_minimum_and_sjt",
+        "label": "UCAT minimum and SJT",
+        "status": "pass",
+        "requirement": "UCAT total at least 1800/2700; SJT is not a shortlisting gate.",
+        "applicant_value": "UCAT 2200/2700 with SJT Band 4.",
+        "decision_outcome": "eligible",
+        "source_ids": [
+          "sheffield_admissions_page",
+          "sheffield_a100_policy_2027"
+        ]
+      }
+    ],
+    "blocking_reasons": [],
+    "warnings": [
+      "Eligibility covers the represented standard A-level route and supplied applicant evidence.",
+      "The 2025-26 cutpoint is historical guidance, not a guaranteed future boundary."
+    ],
+    "source_ids": [
+      "sheffield_admissions_page",
+      "sheffield_course_page_2027",
+      "sheffield_a100_policy_2027"
+    ]
+  },
+  "stage_1_requirements": {
+    "verification_status": "official_source_verified_for_represented_route",
+    "verified_requirements": [
+      {
+        "requirement_id": "gcse_gate",
+        "label": "GCSE eligibility gate",
+        "value": "Five GCSEs at grade 7/A plus English Language, Mathematics and an accepted science at grade 6/B.",
+        "applies_to_group_ids": [
+          "school_leaver"
+        ],
+        "source_ids": [
+          "sheffield_course_page_2027",
+          "sheffield_a100_policy_2027"
+        ]
+      },
+      {
+        "requirement_id": "a_level_gate",
+        "label": "A-level eligibility gate",
+        "value": "AAA with Chemistry or Biology plus a second science and passed practical endorsements.",
+        "applies_to_group_ids": [
+          "school_leaver"
+        ],
+        "source_ids": [
+          "sheffield_course_page_2027",
+          "sheffield_a100_policy_2027"
+        ]
+      },
+      {
+        "requirement_id": "ucat_gate",
+        "label": "UCAT minimum",
+        "value": "At least 1800 out of 2700 in the application cycle.",
+        "applies_to_group_ids": [],
+        "source_ids": [
+          "sheffield_admissions_page"
+        ]
+      }
+    ],
+    "unknown_requirements": [],
+    "source_ids": [
+      "sheffield_admissions_page",
+      "sheffield_course_page_2027",
+      "sheffield_a100_policy_2027"
+    ]
+  },
+  "stage_2_selection": {
+    "verification_status": "official_ucat_ranking_with_native_historical_guidance",
+    "primary_model": "academic_and_ucat_minimum_gates_then_pool_specific_ucat_ranking",
+    "summary": "Sheffield first checks academic eligibility and the UCAT minimum. Most applicants are then ranked by UCAT within separate Home and International pools; GCSEs and A-levels are not scored after the minimum is met.",
+    "represented_ranking_input": {
+      "score": 2200,
+      "max": 2700,
+      "metric": "ucat_total"
+    },
+    "ranking_factors": [
+      {
+        "factor_id": "ucat_cognitive_total",
+        "label": "UCAT cognitive total",
+        "weight_percent": 100,
+        "calculation_status": "known",
+        "notes": "Sole ranking input after academic and UCAT minimum gates for this ordinary Home applicant.",
+        "source_ids": [
+          "sheffield_admissions_page",
+          "sheffield_a100_policy_2027"
+        ]
+      }
+    ],
+    "selection_adjustments": [],
+    "unknown_calculation_areas": [
+      "The future-cycle Home and International UCAT cutpoints.",
+      "Tie-breakers at the interview-shortlisting boundary."
+    ],
+    "source_ids": [
+      "sheffield_admissions_page",
+      "sheffield_a100_policy_2027"
+    ]
+  },
+  "historical_context": {
+    "use": "guidance_only",
+    "fixed_current_cutoff": false,
+    "not_deterministic": true,
+    "warning": "The native 2025-26 Home cutpoint is historical guidance, not a current or future cut-off, probability or guarantee.",
+    "represented_pool": {
+      "pool_id": "home_a100",
+      "cycle": "2025-26",
+      "score_scale": 2700,
+      "published_cutpoint": 2120
+    },
+    "legacy_3600_data": {
+      "conversion_used": false,
+      "reason": "Legacy scores are not psychometrically equivalent to the three-subtest 2700 scale."
+    }
+  },
+  "prediction": {
+    "available": true,
+    "capability": "interview_guidance",
+    "prediction_type": "historical_pool_specific_ucat_guidance",
+    "prediction_status": "historical_guidance_available",
+    "result_band": "interview_likely",
+    "guidance_pool_id": "home_a100",
+    "score": 2200,
+    "score_scale": {
+      "min": 0,
+      "max": 2700
+    },
+    "band_basis": "UCAT 2200 is 80 points above the native 2025-26 Home A100 cutpoint of 2120. This is an ApplySmart confidence interpretation of historical evidence (30-99 points above the cutpoint), not an official Sheffield category, cut-off or interview guarantee.",
+    "historical_comparison": "30_to_99_points_above_2025_26_home_cutpoint",
+    "missing_data_reasons": [],
+    "cannot_predict_explanation": null,
+    "source_ids": [
+      "sheffield_admissions_page"
+    ]
+  },
+  "missing_data": {
+    "future_cycle_pool_cutpoints": "not_published",
+    "international_historical_distributions": "partial",
+    "country_specific_international_equivalences": "not_tabulated",
+    "post_interview_distributions_and_tie_breakers": "not_published_out_of_scope"
+  },
+  "confidence": {
+    "level": "medium",
+    "summary": "Current official rules and native-scale pool cutpoints support the represented route, with future-cycle and route-specific evidence limits.",
+    "stage_confidence": {
+      "stage_1": "medium",
+      "stage_2": "medium",
+      "historical_guidance": "medium"
+    },
+    "source_ids": [
+      "sheffield_admissions_page",
+      "sheffield_course_page_2027",
+      "sheffield_a100_policy_2027"
+    ]
+  },
+  "evidence_confidence": {
+    "level": "Medium",
+    "summary": "The recommendation is supported by core admissions evidence, with some historical or route-specific limits.",
+    "reasons": [
+      "Official eligibility rules are available.",
+      "The university selection approach is implemented.",
+      "Historical interview guidance is available, but some evidence is historical, FOI-derived or has documented gaps."
+    ]
+  },
+  "evidence": {
+    "source_ids": [
+      "sheffield_admissions_page",
+      "sheffield_course_page_2027",
+      "sheffield_a100_policy_2027",
+      "sheffield_widening_access"
+    ],
+    "sources": [
+      {
+        "source_id": "sheffield_admissions_page",
+        "title": "Medicine admissions",
+        "url": "https://sheffield.ac.uk/smph/undergraduate/medicine-admissions",
+        "source_type": "official_selection_page",
+        "confidence": "high",
+        "accessed_date": "2026-07-06"
+      },
+      {
+        "source_id": "sheffield_course_page_2027",
+        "title": "Medicine MBChB, 2027 entry",
+        "url": "https://sheffield.ac.uk/undergraduate/courses/2027/medicine-mbchb",
+        "source_type": "official_course_page",
+        "confidence": "high",
+        "accessed_date": "2026-07-06"
+      },
+      {
+        "source_id": "sheffield_a100_policy_2027",
+        "title": "A100 Admissions Policy, 2027 entry",
+        "url": "https://sheffield.ac.uk/media/69386/download",
+        "source_type": "official_admissions_policy",
+        "confidence": "high",
+        "accessed_date": "2026-07-06"
+      }
+    ]
+  },
+  "display": {
+    "headline": "Strong choice based on historical data",
+    "subheadline": "Eligible Home A100 applicant",
+    "primary_user_facing_recommendation": "Strong choice based on historical data",
+    "recommendation_display_state": "standard",
+    "primary_explanation": "The supported entry requirements and UCAT minimum are met, and UCAT 2200 is 80 points above the native 2025-26 Home historical cutpoint. This is an ApplySmart confidence interpretation, not an official Sheffield category, cut-off or interview guarantee.",
+    "historical_guidance_caveat": "Interview thresholds may change each admissions cycle depending on applicant competition and interview capacity. Historical figures are guidance only, not a current cut-off, and do not guarantee an interview."
+  },
+  "decision_timeline": [
+    {
+      "step": 1,
+      "title": "Applicant details checked",
+      "status": "Complete",
+      "summary": "Your applicant type, qualifications and UCAT details were checked."
+    },
+    {
+      "step": 2,
+      "title": "Eligibility assessed",
+      "status": "Eligible",
+      "summary": "You meet the published entry requirements covered by ApplySmart."
+    },
+    {
+      "step": 3,
+      "title": "Selection model applied",
+      "status": "Complete",
+      "summary": "Academic eligibility and the UCAT minimum were checked before UCAT ranking within the relevant Sheffield applicant pool."
+    },
+    {
+      "step": 4,
+      "title": "Historical guidance compared",
+      "status": "Complete",
+      "summary": "Your result was compared with interview information from previous admissions cycles. Interview thresholds may change each admissions cycle depending on applicant competition and interview capacity. Historical figures are guidance only, not a current cut-off, and do not guarantee an interview."
+    },
+    {
+      "step": 5,
+      "title": "Interview recommendation produced",
+      "status": "Strong choice",
+      "summary": "Strong choice based on historical data. Treat this as guidance for university choice, not a promised interview."
+    }
+  ],
+  "decision_transparency": {
+    "decision_path": [
+      {
+        "stage": "Eligibility",
+        "status": "Met",
+        "summary": "The represented Home standard school-leaver meets Sheffield's supported GCSE, A-level, practical-endorsement and UCAT minimum requirements.",
+        "checks": [
+          {
+            "label": "GCSE threshold",
+            "status": "Met",
+            "summary": "At least five GCSEs at grade 7/A, with English Language, Mathematics and one accepted science at grade 6/B. Applicant information: Five represented GCSEs are at grade 7, including English Language, Mathematics and sciences."
+          },
+          {
+            "label": "A-level threshold and subjects",
+            "status": "Met",
+            "summary": "AAA including Chemistry or Biology plus a second accepted science. Applicant information: AAA in Biology, Chemistry and Mathematics."
+          },
+          {
+            "label": "Science practical endorsements",
+            "status": "Met",
+            "summary": "Pass the practical element of science A-levels taken. Applicant information: Biology and Chemistry practical endorsements are passed."
+          },
+          {
+            "label": "UCAT minimum and SJT",
+            "status": "Met",
+            "summary": "UCAT total at least 1800/2700; SJT is not a shortlisting gate. Applicant information: UCAT 2200/2700 with SJT Band 4."
+          }
+        ]
+      },
+      {
+        "stage": "Selection model",
+        "status": "Assessed",
+        "summary": "Sheffield checks academic eligibility and the UCAT minimum before ranking most eligible applicants by UCAT cognitive total within separate Home and International pools.",
+        "checks": [
+          {
+            "label": "Applicant pool",
+            "status": "Used",
+            "summary": "Home A100 applicants"
+          },
+          {
+            "label": "Academic screen",
+            "status": "Met",
+            "summary": "The GCSE and A-level minimum requirements are met; grades are not scored after this gate."
+          },
+          {
+            "label": "UCAT minimum",
+            "status": "Met",
+            "summary": "UCAT 2200 is above the required minimum of 1800 out of 2700."
+          },
+          {
+            "label": "UCAT ranking",
+            "status": "Counted",
+            "summary": "UCAT 2200 is compared with the native 2025–26 Home A100 cutpoint of 2120."
+          },
+          {
+            "label": "SJT",
+            "status": "Not used",
+            "summary": "SJT Band 4 would not cause automatic rejection during interview shortlisting."
+          }
+        ]
+      },
+      {
+        "stage": "Historical guidance",
+        "status": "Guidance available",
+        "summary": "The applicant's result is within the historical interview range used for this applicant group. Interview thresholds may change each admissions cycle depending on applicant competition and interview capacity. Historical figures are guidance only, not a current cut-off, and do not guarantee an interview.",
+        "checks": [
+          {
+            "label": "Applicant pool",
+            "status": "Used",
+            "summary": "Home A100 applicants"
+          },
+          {
+            "label": "Important limitation",
+            "status": "Guidance only",
+            "summary": "Interview thresholds may change each admissions cycle depending on applicant competition and interview capacity. Historical figures are guidance only, not a current cut-off, and do not guarantee an interview."
+          }
+        ]
+      },
+      {
+        "stage": "Recommendation",
+        "status": "Guidance only",
+        "summary": "Strong choice based on historical data. Treat this as guidance for university choice, not a promised interview.",
+        "checks": []
+      }
+    ],
+    "key_reasons": [
+      "The supported GCSE, A-level, practical-endorsement and UCAT minimum requirements are met.",
+      "GCSEs and A-levels are threshold-only; UCAT cognitive total is the ranking input after those gates.",
+      "UCAT 2200 is 80 points above the native 2025–26 Home historical cutpoint of 2120, supporting an ApplySmart strong-choice interpretation. This is not an official Sheffield category or a guaranteed future boundary."
+    ],
+    "evidence_used": [
+      "Official admissions policy",
+      "University selection methodology",
+      "UCAT policy",
+      "Historical interview data",
+      "Contextual admissions policy"
+    ],
+    "evidence_confidence": {
+      "level": "Medium",
+      "summary": "The recommendation is supported by core admissions evidence, with some historical or route-specific limits.",
+      "reasons": [
+        "Official eligibility rules are available.",
+        "The university selection approach is implemented.",
+        "Historical interview guidance is available, but some evidence is historical, FOI-derived or has documented gaps."
+      ]
+    },
+    "manual_review_reason": null,
+    "insufficient_evidence_reason": null,
+    "warnings": []
+  },
+  "engine_notes": {
+    "generated_from_profile_id": "sheffield-a100",
+    "eligibility_ready": true,
+    "interview_prediction_ready": true,
+    "offer_prediction_scope": "out_of_scope",
+    "prediction_confidence": "medium",
+    "engine_version": "ApplySmart Engine v1.0",
+    "assumptions": [],
+    "do_not_display": [
+      "Internal evidence-gap identifiers",
+      "Legacy converted UCAT values",
+      "Post-interview scoring research"
+    ]
+  }
+}

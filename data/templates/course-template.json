@@ -1,0 +1,556 @@
+{
+  "schema_version": "1.0.0",
+  "template_version": "0.1.0",
+  "template_purpose": "Human-readable blueprint for Apply Smart university course JSON files. This is not real university data.",
+  "verification_status_values": [
+    "template_only",
+    "unverified",
+    "partially_verified",
+    "verified",
+    "official_source_verified"
+  ],
+  "decision_outcome_values": [
+    "not_eligible",
+    "eligible",
+    "unknown",
+    "warning",
+    "risk_flag"
+  ],
+  "profile_id": null,
+  "profile_status": "template",
+  "verification_status": "template_only",
+  "last_updated": null,
+
+  "university": {
+    "name": null,
+    "slug": null,
+    "country": null,
+    "nation": null,
+    "institution_type": null,
+    "website_url": null
+  },
+
+  "course": {
+    "name": null,
+    "ucas_code": null,
+    "entry_route": null,
+    "entry_route_values": [
+      "standard_entry",
+      "graduate_entry",
+      "gateway",
+      "foundation",
+      "gateway_foundation"
+    ],
+    "qualification_awarded": null,
+    "duration_years": null,
+    "campus": null,
+    "location": null,
+    "entry_year": null,
+    "fee_statuses": [],
+    "is_gateway_or_foundation": null,
+    "is_graduate_entry": null,
+    "notes": null
+  },
+
+  "applies_to_group_ids": [],
+
+  "stage_1_eligibility": {
+    "verification_status": "unverified",
+    "source_ids": [],
+    "overall_policy": {
+      "status": "unknown",
+      "description": null,
+      "not_eligible_if": [],
+      "source_ids": []
+    },
+    "gcse": {
+      "status": "unknown",
+      "source_ids": [],
+      "minimum_count": null,
+      "counted_subject_limit": null,
+      "mandatory_subject_ids": [],
+      "grade_requirements": [
+        {
+          "requirement_id": null,
+          "applies_to_group_ids": [],
+          "subject_id": null,
+          "minimum_grade": null,
+          "qualification_level": "gcse",
+          "decision_outcome_if_not_met": "not_eligible",
+          "source_ids": [],
+          "notes": null
+        }
+      ],
+      "accepted_equivalencies": [],
+      "sitting_policy": null,
+      "achieved_or_predicted": null,
+      "notes": null
+    },
+    "post_16": {
+      "status": "unknown",
+      "source_ids": [],
+      "accepted_qualification_types": [],
+      "a_level": {
+        "status": "unknown",
+        "source_ids": [],
+        "grade_requirements": [
+          {
+            "requirement_id": null,
+            "applies_to_group_ids": [],
+            "grade_profile": [],
+            "required_subject_ids": [],
+            "one_of_subject_groups": [],
+            "decision_outcome_if_not_met": "not_eligible",
+            "source_ids": [],
+            "notes": null
+          }
+        ],
+        "standard_offer": {
+          "grade_profile": [],
+          "source_ids": [],
+          "notes": null
+        },
+        "contextual_offer": {
+          "applies_to_group_ids": [],
+          "grade_profile": [],
+          "source_ids": [],
+          "notes": null
+        },
+        "required_subject_ids": [],
+        "one_of_subject_groups": [
+          {
+            "group_id": null,
+            "minimum_required": null,
+            "subject_ids": [],
+            "notes": null
+          }
+        ],
+        "excluded_subject_ids": [],
+        "third_subject_rules": null,
+        "predicted_grades_accepted": null,
+        "notes": null
+      },
+      "ib": {
+        "status": "unknown",
+        "source_ids": [],
+        "total_points": null,
+        "hl_points": null,
+        "grade_requirements": [
+          {
+            "requirement_id": null,
+            "applies_to_group_ids": [],
+            "total_points": null,
+            "hl_points": null,
+            "required_hl_subject_ids": [],
+            "one_of_hl_subject_groups": [],
+            "decision_outcome_if_not_met": "not_eligible",
+            "source_ids": [],
+            "notes": null
+          }
+        ],
+        "required_hl_subject_ids": [],
+        "one_of_hl_subject_groups": [],
+        "notes": null
+      },
+      "scottish": {
+        "status": "unknown",
+        "source_ids": [],
+        "higher_offer": {
+          "grade_profile": [],
+          "source_ids": [],
+          "notes": null
+        },
+        "advanced_higher_offer": {
+          "grade_profile": [],
+          "source_ids": [],
+          "notes": null
+        },
+        "grade_requirements": [
+          {
+            "requirement_id": null,
+            "applies_to_group_ids": [],
+            "qualification_level": null,
+            "grade_profile": [],
+            "required_subject_ids": [],
+            "one_of_subject_groups": [],
+            "decision_outcome_if_not_met": "not_eligible",
+            "source_ids": [],
+            "notes": null
+          }
+        ],
+        "required_subject_ids": [],
+        "one_of_subject_groups": [],
+        "notes": null
+      },
+      "btec": {
+        "status": "unknown",
+        "source_ids": [],
+        "accepted_subject_ids": [],
+        "accepted_combinations": [],
+        "notes": null
+      },
+      "access_to_he": {
+        "status": "unknown",
+        "source_ids": [],
+        "total_credits": null,
+        "distinction_credits": null,
+        "merit_credits": null,
+        "subject_credit_requirements": [
+          {
+            "subject_id": null,
+            "minimum_credits": null,
+            "minimum_grade": null,
+            "decision_outcome_if_not_met": "not_eligible",
+            "source_ids": [],
+            "notes": null
+          }
+        ],
+        "notes": null
+      },
+      "degree": {
+        "status": "unknown",
+        "source_ids": [],
+        "applies_to_group_ids": [],
+        "minimum_classification": null,
+        "accepted_degree_subject_ids": [],
+        "decision_outcome_if_not_met": "not_eligible",
+        "notes": null
+      },
+      "notes": null
+    },
+    "admissions_tests": {
+      "source_ids": [],
+      "ucat": {
+        "required": null,
+        "source_ids": [],
+        "minimum_total_score": null,
+        "minimum_subsection_scores": [],
+        "score_used_for_ranking": null,
+        "validity_window": null,
+        "exemptions": [],
+        "decision_outcome_if_not_met": "not_eligible",
+        "notes": null
+      },
+      "sjt": {
+        "used": null,
+        "source_ids": [],
+        "used_as_gate": null,
+        "accepted_bands": [],
+        "excluded_bands": [],
+        "scoring": {
+          "used_in_score": null,
+          "points_by_band": {}
+        },
+        "decision_outcome_if_excluded": "not_eligible",
+        "notes": null
+      },
+      "other_tests": []
+    },
+    "resits": {
+      "policy": "unknown",
+      "source_ids": [],
+      "allowed": null,
+      "conditions": [],
+      "maximum_resits": null,
+      "applies_to_group_ids": [],
+      "decision_outcome_if_not_allowed": "not_eligible",
+      "notes": null
+    },
+    "english_language": {
+      "source_ids": [],
+      "applies_to_group_ids": [],
+      "accepted_tests": [],
+      "exemptions": [],
+      "decision_outcome_if_not_met": "not_eligible",
+      "notes": null
+    },
+    "age_or_professional_checks": {
+      "source_ids": [],
+      "minimum_age": null,
+      "fitness_to_practise_required": null,
+      "dbs_required": null,
+      "occupational_health_required": null,
+      "decision_outcome_if_not_met": "not_eligible",
+      "notes": null
+    }
+  },
+
+  "stage_2_interview_selection": {
+    "verification_status": "unverified",
+    "source_ids": [],
+    "primary_model": null,
+    "modifiers": [],
+    "ranking_factors": [
+      {
+        "factor_id": null,
+        "factor_type": null,
+        "weight_percent": null,
+        "points_available": null,
+        "source_field": null,
+        "source_ids": [],
+        "notes": null
+      }
+    ],
+    "calculation": {
+      "verification_status": "unverified",
+      "source_ids": [],
+      "score_components": [
+        {
+          "component_id": null,
+          "factor_id": null,
+          "input_field": null,
+          "calculation_method": null,
+          "scale": {
+            "min": null,
+            "max": null
+          },
+          "weight_percent": null,
+          "rounding": null,
+          "notes": null,
+          "source_ids": []
+        }
+      ],
+      "total_score": {
+        "calculation_method": null,
+        "components": [],
+        "scale": {
+          "min": null,
+          "max": null
+        },
+        "notes": null,
+        "source_ids": []
+      },
+      "notes": null
+    },
+    "thresholds": [
+      {
+        "threshold_id": null,
+        "applies_to_group_ids": [],
+        "metric": null,
+        "operator": null,
+        "value": null,
+        "decision_outcome_if_not_met": "not_eligible",
+        "source_ids": [],
+        "notes": null
+      }
+    ],
+    "selection_adjustments": [
+      {
+        "adjustment_id": null,
+        "modifier_id": null,
+        "applies_to_group_ids": [],
+        "condition": {
+          "field": null,
+          "operator": null,
+          "value": null
+        },
+        "effect": {
+          "type": null,
+          "target": null,
+          "value": null
+        },
+        "decision_outcome": "unknown",
+        "source_ids": [],
+        "notes": null
+      }
+    ],
+    "tie_breakers": [
+      {
+        "order": null,
+        "metric": null,
+        "direction": null,
+        "source_ids": [],
+        "notes": null
+      }
+    ],
+    "output_band_policy": {
+      "bands": [
+        "strong",
+        "reasonable",
+        "risky",
+        "not_eligible",
+        "unknown"
+      ],
+      "notes": null
+    },
+    "notes": null
+  },
+
+  "contextual_admissions": {
+    "verification_status": "unverified",
+    "source_ids": [],
+    "available": null,
+    "applies_to_group_ids": [],
+    "criteria": [
+      {
+        "criterion_id": null,
+        "applies_to_group_ids": [],
+        "description": null,
+        "source_ids": [],
+        "notes": null
+      }
+    ],
+    "adjustments": [
+      {
+        "adjustment_id": null,
+        "applies_to_group_ids": [],
+        "stage": null,
+        "policy_description": null,
+        "effect": {
+          "type": null,
+          "target": null,
+          "value": null
+        },
+        "source_ids": [],
+        "notes": null
+      }
+    ],
+    "guaranteed_interview_rules": [
+      {
+        "rule_id": null,
+        "applies_to_group_ids": [],
+        "minimum_requirements_must_be_met": null,
+        "conditions": [],
+        "source_ids": [],
+        "notes": null
+      }
+    ],
+    "notes": null
+  },
+
+  "ranking_pools": [
+    {
+      "pool_id": null,
+      "name": null,
+      "applies_to_group_ids": [],
+      "fee_statuses": [],
+      "ranking_model": null,
+      "ranking_factors": [],
+      "places_available": null,
+      "source_ids": [],
+      "notes": null
+    }
+  ],
+
+  "quotas": [
+    {
+      "quota_id": null,
+      "name": null,
+      "applies_to_group_ids": [],
+      "stage": null,
+      "quota_type": null,
+      "value": null,
+      "source_ids": [],
+      "notes": null
+    }
+  ],
+
+  "offer_selection": {
+    "verification_status": "unverified",
+    "source_ids": [],
+    "interview_format": null,
+    "interview_scoring": {
+      "score_used": null,
+      "minimum_score": null,
+      "station_scores": [],
+      "sjt_used_post_interview": null,
+      "decision_outcome_if_not_met": "not_eligible",
+      "source_ids": [],
+      "notes": null
+    },
+    "offer_model": null,
+    "ranking_factors": [],
+    "tie_breakers": [],
+    "waiting_list_policy": null,
+    "standard_offer": {
+      "grade_profile": [],
+      "source_ids": [],
+      "notes": null
+    },
+    "contextual_offer": {
+      "applies_to_group_ids": [],
+      "grade_profile": [],
+      "source_ids": [],
+      "notes": null
+    },
+    "notes": null
+  },
+
+  "historical_admissions": {
+    "verification_status": "unverified",
+    "source_ids": [],
+    "cycles": [
+      {
+        "cycle": null,
+        "applies_to_group_ids": [],
+        "applications": null,
+        "interviews": null,
+        "offers": null,
+        "places": null,
+        "ucat_cutoff": null,
+        "interview_score_cutoff": null,
+        "verification_status": "unverified",
+        "notes": null,
+        "source_ids": []
+      }
+    ],
+    "notes": null
+  },
+
+  "sources": [
+    {
+      "source_id": null,
+      "title": null,
+      "url": null,
+      "source_type": null,
+      "published_date": null,
+      "accessed_date": null,
+      "applies_to_sections": [],
+      "confidence": null,
+      "notes": null
+    }
+  ],
+
+  "validation": {
+    "source_status": "unverified",
+    "last_verified": null,
+    "confidence_level": null,
+    "completion_status": {
+      "stage_1_eligibility": "incomplete",
+      "stage_2_interview_selection": "incomplete",
+      "contextual_admissions": "incomplete",
+      "ranking_pools": "incomplete",
+      "quotas": "incomplete",
+      "offer_selection": "incomplete",
+      "historical_admissions": "incomplete",
+      "sources": "incomplete"
+    },
+    "known_unknowns": [],
+    "review_notes": null
+  },
+
+  "engine_notes": {
+    "eligibility": false,
+    "interview_prediction": false,
+    "historical_guidance": false,
+    "international_prediction": false,
+    "contextual_logic": false,
+    "result_card": false,
+    "regression": false,
+    "research_completeness": "incomplete",
+    "manual_review_required": true,
+    "eligibility_ready": false,
+    "interview_prediction_ready": false,
+    "offer_prediction_scope": "out_of_scope",
+    "prediction_confidence": "low",
+    "result_card_ready": false,
+    "blocking_missing_fields": [],
+    "engine_assumptions": [],
+    "do_not_infer": [
+      "Do not infer missing subject requirements.",
+      "Do not infer UCAT thresholds from historical data unless explicitly modelled.",
+      "Do not treat aliases as canonical subject IDs.",
+      "Do not apply contextual adjustments unless represented as structured rules."
+    ]
+  }
+}

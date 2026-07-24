@@ -1,0 +1,432 @@
+{
+  "schema_version": "1.0.0",
+  "course_profile_id": "brunel-university-of-london-a100",
+  "confidence": "low",
+  "evidence": {
+    "classification": "official_academic_gate_with_foi_historical_home_ucat_guidance",
+    "summary": "Brunel A100 uses academic eligibility gates and SJT Band 4 exclusion before ranking eligible Home applicants by total UCAT score. Brunel does not publish a fixed prospective UCAT cut-off. ApplySmart uses FOI-backed 2023-2025 Home interview-stage UCAT observations, normalised from /3600 to /2700, as low-confidence guidance only. International applicants follow a separate non-UCAT review route and do not receive Home UCAT-based prediction.",
+    "source_ids": [
+      "brunel_research_doc",
+      "brunel_foi_historical_ucat"
+    ]
+  },
+  "eligibility": {
+    "scope": "Automatic interview guidance is restricted to Home A-level and IB applicants with supported GCSE evidence, current-cycle UCAT and SJT Band 1-3. International applicants receive insufficient-evidence output rather than Home UCAT guidance. Graduate, Scottish, Access and BTEC routes are blocked or manual review according to evidence limits.",
+    "international_english_language_required": true,
+    "qualification_routes": {
+      "supported": [
+        "a_level",
+        "international_baccalaureate"
+      ],
+      "manual_review": [
+        "graduate",
+        "international_qualification"
+      ],
+      "explicitly_blocked": [
+        "scottish",
+        "access_to_medicine",
+        "access_to_he",
+        "btec",
+        "t_level",
+        "foundation",
+        "unknown"
+      ]
+    },
+    "gcse": {
+      "minimum_count": 5,
+      "use_exact_subject_list": false,
+      "required_subjects": [
+        {
+          "subject_id": "english_language",
+          "minimum_grade": "4/C"
+        },
+        {
+          "subject_id": "mathematics",
+          "minimum_grade": "5"
+        }
+      ]
+    },
+    "a_level": {
+      "routes": [
+        {
+          "route_id": "brunel_standard_aaa_two_sciences",
+          "grade_profile": [
+            "A",
+            "A",
+            "A"
+          ],
+          "required_subject_grade_options": [
+            {
+              "grade_requirements": [
+                {
+                  "subject_id": "biology",
+                  "minimum_grade": "A"
+                },
+                {
+                  "subject_id": "chemistry",
+                  "minimum_grade": "A"
+                }
+              ]
+            },
+            {
+              "grade_requirements": [
+                {
+                  "subject_id": "biology",
+                  "minimum_grade": "A"
+                },
+                {
+                  "subject_id": "physics",
+                  "minimum_grade": "A"
+                }
+              ]
+            },
+            {
+              "grade_requirements": [
+                {
+                  "subject_id": "biology",
+                  "minimum_grade": "A"
+                },
+                {
+                  "subject_id": "mathematics",
+                  "minimum_grade": "A"
+                }
+              ]
+            },
+            {
+              "grade_requirements": [
+                {
+                  "subject_id": "chemistry",
+                  "minimum_grade": "A"
+                },
+                {
+                  "subject_id": "physics",
+                  "minimum_grade": "A"
+                }
+              ]
+            },
+            {
+              "grade_requirements": [
+                {
+                  "subject_id": "chemistry",
+                  "minimum_grade": "A"
+                },
+                {
+                  "subject_id": "mathematics",
+                  "minimum_grade": "A"
+                }
+              ]
+            }
+          ],
+          "excluded_subject_ids": [
+            "general_studies"
+          ]
+        }
+      ]
+    },
+    "international_baccalaureate": {
+      "routes": [
+        {
+          "route_id": "brunel_ib_36_hl6_two_sciences",
+          "total_points": 36,
+          "hl_grade_profile": [
+            "6",
+            "6"
+          ],
+          "required_hl_subject_grade_options": [
+            {
+              "grade_requirements": [
+                {
+                  "subject_id": "biology",
+                  "minimum_grade": "6"
+                },
+                {
+                  "subject_id": "chemistry",
+                  "minimum_grade": "6"
+                }
+              ]
+            },
+            {
+              "grade_requirements": [
+                {
+                  "subject_id": "biology",
+                  "minimum_grade": "6"
+                },
+                {
+                  "subject_id": "physics",
+                  "minimum_grade": "6"
+                }
+              ]
+            },
+            {
+              "grade_requirements": [
+                {
+                  "subject_id": "biology",
+                  "minimum_grade": "6"
+                },
+                {
+                  "subject_id": "mathematics",
+                  "minimum_grade": "6"
+                }
+              ]
+            },
+            {
+              "grade_requirements": [
+                {
+                  "subject_id": "chemistry",
+                  "minimum_grade": "6"
+                },
+                {
+                  "subject_id": "physics",
+                  "minimum_grade": "6"
+                }
+              ]
+            },
+            {
+              "grade_requirements": [
+                {
+                  "subject_id": "chemistry",
+                  "minimum_grade": "6"
+                },
+                {
+                  "subject_id": "mathematics",
+                  "minimum_grade": "6"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    "international_qualification": {
+      "unverified_outcome": "manual_review",
+      "manual_review_reason": "international_non_ucat_review_requires_manual_review"
+    },
+    "ucat": {
+      "required_test_year": 2026,
+      "minimum_total_score": null,
+      "score_scale": 2700,
+      "required_in_application_cycle": true
+    },
+    "sjt": {
+      "used_as_gate": true,
+      "accepted_bands": [
+        1,
+        2,
+        3
+      ],
+      "rejected_bands": [
+        4
+      ]
+    },
+    "manual_review_routes": [
+      "International non-UCAT application review",
+      "Graduate A100 applicants because UCAT and GAMSAT evidence is contradictory",
+      "Country-specific international qualification equivalencies"
+    ],
+    "do_not_infer": [
+      "Do not create academic ranking points.",
+      "Do not create GCSE or A-level scoring.",
+      "Do not apply contextual UCAT points or a contextual UCAT threshold.",
+      "Do not apply Home UCAT guidance to International applicants.",
+      "Do not present historical lowest-interviewed scores as official future cut-offs.",
+      "Do not automate science practical endorsement rejection without verified evidence."
+    ]
+  },
+  "score_model": {
+    "type": "ranking_metric",
+    "basis": "Current-cycle UCAT total after Home applicant-group, academic and SJT eligibility gates. Historical guidance uses Brunel FOI Home interview-stage observations from 2023-2025, converted from the old /3600 scale to the current /2700 scale by x0.75.",
+    "metric": "ucat_total",
+    "pool_specific_output": true,
+    "scale": {
+      "min": 0,
+      "max": 2700
+    },
+    "fixed_current_cutoff": false,
+    "historical_guidance_only": true,
+    "legacy_3600_conversion_used": true,
+    "legacy_3600_values_display_only": true,
+    "converted_2700_values_display_only": false,
+    "normalised_2700_values_derived_for_prediction": true,
+    "executable": true,
+    "executable_band_rules_created": true,
+    "insufficient_evidence_output_for_eligible_applicants": false,
+    "applysmart_predictive_estimate": true,
+    "prediction_confidence": "low",
+    "conversion_policy": {
+      "from_scale": 3600,
+      "to_scale": 2700,
+      "formula": "official_score_3600 * 3 / 4",
+      "rounding_policy": "Exact arithmetic is preserved for derived values; image-display rounded values are recorded separately where the source table rounded half-points upward.",
+      "execution_rule": "Converted values calibrate guidance bands only. Raw legacy values are source evidence and are never compared directly with current applicant UCAT scores."
+    },
+    "calibration_policy": {
+      "method": "historical_lowest_to_average_interviewed_range_with_150_point_lower_margin",
+      "methodology_label": "ApplySmart Brunel historical Home UCAT guidance",
+      "evidence_status": "foi_verified_historical_guidance",
+      "official_status": "not_official_brunel_future_threshold",
+      "historical_cycles_used": [
+        2023,
+        2024,
+        2025
+      ],
+      "margin_points": 150,
+      "margin_model": {
+        "interview_likely": "score above the highest observed average interviewed score",
+        "realistic": "score within the observed lowest-to-average interviewed range",
+        "ambitious": "score within 150 points below the lowest observed interviewed score",
+        "high_risk": "score more than 150 points below the lowest observed interviewed score"
+      },
+      "pool_references": {
+        "home_a100": {
+          "lowest_interviewed_original_3600": [
+            2340,
+            2290,
+            2240
+          ],
+          "average_interviewed_original_3600": [
+            2610,
+            2640,
+            2660
+          ],
+          "lowest_interviewed_2700": [
+            1755,
+            1717.5,
+            1680
+          ],
+          "average_interviewed_2700": [
+            1957.5,
+            1980,
+            1995
+          ],
+          "observed_lowest_min_2700": 1680,
+          "observed_average_max_2700": 1995,
+          "runtime_boundaries": {
+            "likely": 1996,
+            "realisticMin": 1680,
+            "realisticMax": 1995,
+            "ambitiousMin": 1530,
+            "ambitiousMax": 1679,
+            "highRiskBelow": 1530
+          },
+          "confidence": "low"
+        }
+      }
+    },
+    "historical_series": [
+      {
+        "group_id": "home_a100",
+        "converted_scores_2700": [
+          1755,
+          1957.5,
+          1717.5,
+          1980,
+          1680,
+          1995
+        ],
+        "lowest_interviewed_2700": [
+          1755,
+          1717.5,
+          1680
+        ],
+        "average_interviewed_2700": [
+          1957.5,
+          1980,
+          1995
+        ],
+        "evidence_classification": "foi_verified_historical_guidance",
+        "display_only": false,
+        "applysmart_derived": true,
+        "official": false,
+        "usable_for_guidance_band_calibration": true,
+        "runtime_boundaries": {
+          "likely": 1996,
+          "realisticMin": 1680,
+          "realisticMax": 1995,
+          "ambitiousMin": 1530,
+          "ambitiousMax": 1679,
+          "highRiskBelow": 1530
+        },
+        "notes": "Home guidance uses interview-stage observations only. Offer-stage UCAT figures are not used for prediction."
+      }
+    ],
+    "presentation": {
+      "pool_label": "Home A100 applicants",
+      "selection_summary": "Brunel checks academic eligibility and the SJT Band 4 gate first, then ranks eligible Home applicants by total UCAT score. No academic score is created.",
+      "timeline_selection_summary": "Academic eligibility and the SJT Band 4 gate were checked before applying Home-pool UCAT ranking guidance.",
+      "evidence_used": [
+        "Official admissions policy",
+        "University selection methodology",
+        "UCAT policy",
+        "Historical interview data",
+        "FOI evidence"
+      ],
+      "ucat_band_recommendations": {
+        "interview_likely": {
+          "recommendation": "Strong choice"
+        },
+        "realistic": {
+          "recommendation": "Realistic choice"
+        },
+        "ambitious": {
+          "recommendation": "Ambitious choice"
+        },
+        "high_risk": {
+          "recommendation": "Ambitious choice"
+        }
+      },
+      "ucat_band_explanations": {
+        "interview_likely": "You meet the supported academic requirements. Your UCAT is above Brunel's recent Home interviewed-score range. Brunel does not publish a fixed future UCAT cut-off, so this is guidance only.",
+        "realistic": "You meet the supported academic requirements. Your UCAT is within Brunel's recent Home interviewed-score range. Brunel does not publish a fixed future UCAT cut-off, so this is guidance only.",
+        "ambitious": "You meet the supported academic requirements. Your UCAT is slightly below Brunel's recent Home interviewed-score range. Brunel does not publish a fixed future UCAT cut-off, so this is guidance only.",
+        "high_risk": "You meet the supported academic requirements. Your UCAT is below Brunel's recent Home interviewed-score range. Brunel does not publish a fixed future UCAT cut-off, so this is guidance only."
+      }
+    }
+  },
+  "guidance_pools": [
+    {
+      "pool_id": "home_a100",
+      "priority": 10,
+      "applicant_match": {
+        "all_group_ids": [
+          "home_fee"
+        ],
+        "excluded_group_ids": [
+          "international_fee",
+          "graduate_applicant"
+        ]
+      },
+      "metric": "ucat_total",
+      "pool_specific_output": true,
+      "comparison_guidance": {
+        "comparison_type": "historical_range",
+        "label": "Brunel Home historical UCAT guidance",
+        "caveat": "Brunel does not publish a fixed future UCAT threshold. Historical Home interview scores are guidance only and do not guarantee an interview.",
+        "evidence_confidence": "low"
+      },
+      "band_rules": [
+        {
+          "band": "interview_likely",
+          "operator": "greater_than_or_equal",
+          "value": 1996
+        },
+        {
+          "band": "realistic",
+          "operator": "between_inclusive",
+          "min": 1680,
+          "max": 1995
+        },
+        {
+          "band": "ambitious",
+          "operator": "between_inclusive",
+          "min": 1530,
+          "max": 1679
+        },
+        {
+          "band": "high_risk",
+          "operator": "less_than",
+          "value": 1530
+        }
+      ]
+    }
+  ]
+}

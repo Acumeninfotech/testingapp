@@ -1,0 +1,806 @@
+{
+  "schema_version": "1.0.0",
+  "profile_id": "newcastle-a100",
+  "profile_status": "activated_for_scoped_eligibility_and_interview_guidance",
+  "verification_status": "official_source_verified_with_documented_gaps",
+  "last_updated": "2026-07-14",
+  "university": {
+    "name": "Newcastle University",
+    "slug": "newcastle",
+    "country": "United Kingdom",
+    "nation": "England",
+    "institution_type": "University",
+    "website_url": "https://www.ncl.ac.uk/"
+  },
+  "course": {
+    "name": "Medicine MBBS",
+    "ucas_code": "A100",
+    "entry_route": "standard_entry",
+    "qualification_awarded": "MBBS",
+    "duration_years": 5,
+    "campus": "Newcastle",
+    "location": "Newcastle, England",
+    "entry_year": 2026,
+    "fee_statuses": [
+      "home",
+      "international"
+    ],
+    "is_gateway_or_foundation": false,
+    "is_graduate_entry": false,
+    "notes": "Standard Entry Medicine A100. Graduates may apply through A100 using the graduate A100 route rules in the approved Newcastle research specification."
+  },
+  "medical_school": {
+    "name": "School of Medicine",
+    "gmc_regulated": true,
+    "source_ids": [
+      "newcastle_a100_research_spec"
+    ]
+  },
+  "applicant_pools": [
+    {
+      "pool_id": "standard_home",
+      "applies_to_group_ids": [
+        "home_fee"
+      ],
+      "excluded_group_ids": [
+        "international_fee",
+        "contextual",
+        "widening_participation",
+        "graduate_applicant"
+      ],
+      "selection_relevance": "Standard Home applicants are ranked by academic score out of 40 plus UCAT score out of 60."
+    },
+    {
+      "pool_id": "contextual_home",
+      "applies_to_group_ids": [
+        "home_fee",
+        "contextual"
+      ],
+      "excluded_group_ids": [
+        "international_fee",
+        "graduate_applicant"
+      ],
+      "selection_relevance": "Contextual and widening participation applicants are ranked in a separate Home pool using academic score plus UCAT score."
+    },
+    {
+      "pool_id": "partners_supported",
+      "applies_to_group_ids": [
+        "home_fee",
+        "partners_supported"
+      ],
+      "excluded_group_ids": [
+        "international_fee"
+      ],
+      "selection_relevance": "PARTNERS and supported-entry applicants use a separate supported-entry profile."
+    },
+    {
+      "pool_id": "international",
+      "applies_to_group_ids": [
+        "international_fee"
+      ],
+      "selection_relevance": "International applicants complete an academic pass/fail screen and are ranked only by UCAT cognitive total in a separate pool."
+    },
+    {
+      "pool_id": "graduate_a100",
+      "applies_to_group_ids": [
+        "graduate_applicant"
+      ],
+      "selection_relevance": "Graduate A100 applicants are ranked using approved academic or degree scoring plus UCAT."
+    }
+  ],
+  "applies_to_group_ids": [
+    "england_domiciled",
+    "scotland_domiciled",
+    "wales_domiciled",
+    "northern_ireland_domiciled",
+    "home_fee",
+    "international_fee",
+    "rest_of_uk",
+    "contextual",
+    "widening_participation",
+    "graduate_applicant",
+    "school_leaver",
+    "mature_applicant",
+    "resit_applicant"
+  ],
+  "stage_1_eligibility": {
+    "verification_status": "official_source_verified_with_documented_gaps",
+    "source_ids": [
+      "newcastle_a100_research_spec",
+      "newcastle_ucat_academic_threshold_document"
+    ],
+    "overall_policy": {
+      "status": "official_rules_mapped_with_manual_review_boundaries",
+      "description": "Newcastle checks academic eligibility, current-cycle UCAT and SJT. Standard Home, Contextual, PARTNERS and Graduate A100 applicants use academic plus UCAT scoring; International applicants use academic pass/fail screening and UCAT-only ranking.",
+      "not_eligible_if": [
+        "The relevant academic profile is not met.",
+        "A current-cycle UCAT cognitive score is missing or for the wrong application cycle.",
+        "SJT Band 4 is supplied.",
+        "A required Biology, Chemistry or Physics A-level practical endorsement is not passed when that subject is taken."
+      ],
+      "source_ids": [
+        "newcastle_a100_research_spec"
+      ]
+    },
+    "gcse": {
+      "status": "official_source_verified",
+      "source_ids": [
+        "newcastle_a100_research_spec"
+      ],
+      "qualification_scope": [
+        "GCSE",
+        "Accepted equivalent Level 2 qualifications"
+      ],
+      "minimum_count": null,
+      "counted_subject_limit": 8,
+      "mandatory_subject_ids": [],
+      "grade_requirements": [],
+      "accepted_equivalencies": [
+        "Accepted equivalent Level 2 qualifications"
+      ],
+      "sitting_policy": "Best eight achieved GCSE or accepted Level 2 equivalent grades are scored. Where fewer than eight have been taken, the available scored results are normalised using the published formula.",
+      "achieved_or_predicted": "achieved",
+      "selection_role": "scored_for_home_ranking",
+      "scored_after_eligibility": true,
+      "scoring_model": {
+        "selection_rule": "BEST_EIGHT_ACHIEVED",
+        "subject_count": 8,
+        "normalise_when_fewer_subjects": true,
+        "normalisation_formula": "(sum_of_gcse_points / number_of_gcse_subjects_taken) * 8",
+        "points": {
+          "6": 1,
+          "7": 3,
+          "8": 4,
+          "9": 5,
+          "5_or_below": 0
+        },
+        "maximum_score": 40
+      },
+      "notes": "There are no compulsory GCSE subjects or minimum subject-level GCSE grades in the supplied Newcastle A100 interview-selection evidence."
+    },
+    "post_16": {
+      "status": "official_source_verified_with_remaining_eligibility_exceptions",
+      "source_ids": [
+        "newcastle_a100_research_spec"
+      ],
+      "accepted_qualifications": [
+        "a_level",
+        "international_baccalaureate",
+        "scottish_highers",
+        "advanced_highers",
+        "irish_leaving_certificate",
+        "access_to_he",
+        "degree",
+        "international_qualification"
+      ],
+      "a_level": {
+        "status": "official_source_verified",
+        "standard_offer": {
+          "grade_profile": [
+            "A",
+            "A",
+            "A"
+          ],
+          "source_ids": [
+            "newcastle_a100_research_spec"
+          ]
+        },
+        "contextual_offer": {
+          "grade_profile": [
+            "A",
+            "B",
+            "B"
+          ],
+          "source_ids": [
+            "newcastle_a100_research_spec"
+          ]
+        },
+        "partners_supported_offer": {
+          "grade_profile": [
+            "B",
+            "B",
+            "B"
+          ],
+          "upper_supported_profile": [
+            "A",
+            "B",
+            "B"
+          ],
+          "source_ids": [
+            "newcastle_a100_research_spec"
+          ]
+        },
+        "required_subject_ids": [],
+        "excluded_subject_names": [
+          "General Studies",
+          "Use of Mathematics",
+          "World Development",
+          "Communication and Culture",
+          "Critical Thinking"
+        ],
+        "minimum_distinct_non_excluded_subjects": 3,
+        "mathematics_and_further_mathematics_both_recognised": true,
+        "third_distinct_non_excluded_subject_required": true,
+        "science_practical_endorsement_required": true,
+        "science_practical_subjects": [
+          "biology",
+          "chemistry",
+          "physics"
+        ],
+        "predicted_grades_accepted": true,
+        "achieved_grades_scored": true,
+        "achieved_a_level_scoring": {
+          "subjects_counted": 3,
+          "points": {
+            "A*": 16,
+            "A": 12,
+            "B": 8
+          },
+          "maximum_score": 40
+        },
+        "notes": "No mandatory or preferred A-level subjects are specified for standard A100 entry. Excluded subjects do not count toward the required profile."
+      },
+      "ib": {
+        "status": "official_source_verified",
+        "total_points": 36,
+        "individual_subject_floor": 5,
+        "required_hl_subjects": [
+          "biology",
+          "chemistry"
+        ],
+        "notes": "IB Diploma requires 36 points, individual subject floor 5 and Higher Level Biology and Chemistry."
+      },
+      "scottish": {
+        "status": "official_source_verified",
+        "higher_offer": "AAAAA",
+        "advanced_higher_offer": "AA",
+        "required_subjects": [
+          "biology",
+          "chemistry"
+        ],
+        "notes": "Biology and Chemistry are mandatory within the Scottish route; secondary science pool includes Mathematics, Statistics and Physics."
+      },
+      "irish_leaving_certificate": {
+        "status": "official_source_verified",
+        "minimum_grades": [
+          "H1",
+          "H1",
+          "H1",
+          "H2",
+          "H2",
+          "H2"
+        ],
+        "required_subjects": [
+          "biology",
+          "chemistry"
+        ]
+      },
+      "access_to_he": {
+        "status": "conditionally_accepted",
+        "course_preapproval_required": true,
+        "medicine_qaa_descriptor_required": true,
+        "minimum_years_out_of_formal_education": 3,
+        "standard_profile": "45 graded Level 3 credits at Distinction plus 15 remaining credits at Pass.",
+        "contextual_profile": "24 Distinction credits, 21 Merit credits and ungraded credits at Pass."
+      },
+      "btec": {
+        "status": "not_accepted",
+        "auto_reject": true
+      },
+      "notes": "Country-level international qualification mappings require official country lookup or manual review and are not hardcoded as automated rejection rules."
+    },
+    "admissions_tests": {
+      "ucat": {
+        "required": true,
+        "score_scale": 2700,
+        "test_cycle": "year_of_application",
+        "minimum_total_score": null,
+        "weight_percent": null,
+        "notes": "Home UCAT is converted to an official 60-point exact table. International applicants are ranked by UCAT cognitive total only."
+      },
+      "sjt": {
+        "used_as_gate": true,
+        "accepted_bands": [
+          1,
+          2,
+          3
+        ],
+        "excluded_bands": [
+          4
+        ],
+        "band_4_policy": "reject",
+        "scoring": {
+          "used_in_pre_interview_score": false,
+          "post_interview_reference_only": true
+        },
+        "notes": "Bands 1-3 are accepted at pre-interview stage; Band 4 is rejected."
+      }
+    },
+    "resits": {
+      "allowed": true,
+      "maximum_resits": 1,
+      "grade_uplift_required": true,
+      "rules": {
+        "standard_home": "A*AA",
+        "contextual_home": "AAB",
+        "partners_supported": "ABB"
+      },
+      "source_ids": [
+        "newcastle_a100_research_spec"
+      ]
+    },
+    "english_language": {
+      "required_for_group": true,
+      "accepted_tests": [
+        {
+          "test": "IELTS Academic",
+          "overall_minimum": 7,
+          "component_minimum": 7,
+          "one_skill_retake_accepted": true
+        }
+      ],
+      "exemptions": [],
+      "notes": "International English-language exemptions or non-IELTS routes require adviser review unless verified."
+    },
+    "age_or_professional_checks": {
+      "minimum_age": null,
+      "fitness_to_practise_required": true,
+      "dbs_required": true,
+      "occupational_health_required": true,
+      "notes": "Professional checks are reference information and do not drive interview prediction."
+    }
+  },
+  "stage_2_interview_selection": {
+    "verification_status": "official_pre_interview_formula_verified",
+    "source_ids": [
+      "newcastle_a100_research_spec",
+      "newcastle_ucat_academic_threshold_document"
+    ],
+    "primary_model": "academic_plus_ucat_weighting",
+    "modifiers": [
+      "separate_applicant_pool",
+      "home_international_separate_ranking",
+      "resit_policy_adjustment",
+      "sjt_band_4_exclusion"
+    ],
+    "ranking_factors": [
+      {
+        "factor_id": "academic_score",
+        "role": "scored_component",
+        "points_available": 40,
+        "applies_to": "Home, Contextual, PARTNERS and Graduate A100 ranking. International applicants use academic pass/fail only.",
+        "source_ids": [
+          "newcastle_a100_research_spec"
+        ]
+      },
+      {
+        "factor_id": "ucat_home_points",
+        "role": "scored_component",
+        "points_available": 60,
+        "applies_to": "Home, Contextual, PARTNERS and Graduate A100 ranking.",
+        "source_ids": [
+          "newcastle_ucat_academic_threshold_document"
+        ]
+      },
+      {
+        "factor_id": "ucat_cognitive_total",
+        "role": "ranking_metric",
+        "points_available": 2700,
+        "applies_to": "International pool after academic pass/fail screening.",
+        "source_ids": [
+          "newcastle_a100_research_spec"
+        ]
+      }
+    ],
+    "calculation": {
+      "verification_status": "official_pre_interview_formula_verified",
+      "source_ids": [
+        "newcastle_a100_research_spec",
+        "newcastle_ucat_academic_threshold_document"
+      ],
+      "score_components": [
+        {
+          "component_id": "academic_score",
+          "factor_id": "academic_score",
+          "input_field": "GCSE, achieved A-level or degree profile",
+          "calculation_method": "Best eight GCSEs normalised where fewer than eight are taken, or achieved A-level/degree score where applicable.",
+          "scale": {
+            "min": 0,
+            "max": 40
+          },
+          "weight_percent": 40,
+          "rounding": "two_decimal_places_for_normalised_gcse",
+          "notes": "International applicants do not receive this Home academic score.",
+          "source_ids": [
+            "newcastle_a100_research_spec"
+          ]
+        },
+        {
+          "component_id": "ucat_score",
+          "factor_id": "ucat_home_points",
+          "input_field": "UCAT cognitive total",
+          "calculation_method": "Exact official 2026-entry UCAT points table lookup; no interpolation or conversion.",
+          "scale": {
+            "min": 1,
+            "max": 60
+          },
+          "weight_percent": 60,
+          "rounding": "none",
+          "notes": "Scores not represented by the official table are not rounded by ApplySmart.",
+          "source_ids": [
+            "newcastle_ucat_academic_threshold_document"
+          ]
+        }
+      ],
+      "total_score": {
+        "calculation_method": "academic_score + ucat_score",
+        "components": [
+          "academic_score",
+          "ucat_score"
+        ],
+        "scale": {
+          "min": 0,
+          "max": 100
+        },
+        "notes": "Home combined score only. International ranking uses UCAT total and suppresses /40 and /100 scoring.",
+        "source_ids": [
+          "newcastle_a100_research_spec"
+        ]
+      },
+      "notes": "Historical minima are not hard rejection rules."
+    },
+    "thresholds": [
+      {
+        "threshold_id": "historical_2025_core_combined_range",
+        "entry_cycle": "2025_ENTRY",
+        "pool": "core",
+        "range": [
+          50,
+          100
+        ],
+        "mean": 70,
+        "use": "historical_guidance_only",
+        "hard_rejection_enabled": false,
+        "source_ids": [
+          "newcastle_a100_research_spec"
+        ]
+      },
+      {
+        "threshold_id": "historical_2025_wp_combined_range",
+        "entry_cycle": "2025_ENTRY",
+        "pool": "widening_participation",
+        "range": [
+          50,
+          100
+        ],
+        "mean": 82,
+        "use": "historical_guidance_only",
+        "hard_rejection_enabled": false,
+        "source_ids": [
+          "newcastle_a100_research_spec"
+        ]
+      }
+    ],
+    "selection_adjustments": [
+      {
+        "modifier_id": "home_international_separate_ranking",
+        "notes": "International applicants are not scored out of 100 and are ranked separately by UCAT total after academic screening."
+      },
+      {
+        "modifier_id": "separate_applicant_pool",
+        "notes": "Standard Home, Contextual/Widening, PARTNERS and International are separate pools."
+      }
+    ],
+    "tie_breakers": [],
+    "output_band_policy": "applysmart_not_eligible_very_ambitious_ambitious_competitive_strong",
+    "notes": "ApplySmart canonical bands map Newcastle historical data to guidance only; they are not official Newcastle categories."
+  },
+  "contextual_admissions": {
+    "verification_status": "official_source_verified",
+    "source_ids": [
+      "newcastle_a100_research_spec"
+    ],
+    "available": true,
+    "applies_to_group_ids": [
+      "home_fee",
+      "contextual",
+      "widening_participation"
+    ],
+    "criteria": [
+      "Contextual Home",
+      "PARTNERS / supported entry"
+    ],
+    "adjustments": [
+      "Contextual A-level profile ABB.",
+      "PARTNERS supported profile BBB, with resit requirement ABB."
+    ],
+    "guaranteed_interview_rules": [],
+    "notes": "Contextual, widening and PARTNERS applicants are routed to separate pools. No guaranteed interview is implemented."
+  },
+  "ranking_pools": [
+    {
+      "pool_id": "standard_home",
+      "name": "Standard Home",
+      "applies_to_group_ids": [
+        "home_fee"
+      ],
+      "fee_statuses": [
+        "home"
+      ],
+      "ranking_model": "academic_plus_ucat_weighting",
+      "ranking_factors": [
+        "academic_score_40",
+        "ucat_score_60"
+      ],
+      "places_available": 343,
+      "source_ids": [
+        "newcastle_a100_research_spec"
+      ],
+      "notes": "Home places are reference-only maximum fundable intake, not an interview quota."
+    },
+    {
+      "pool_id": "contextual_home",
+      "name": "Contextual / Widening Home",
+      "applies_to_group_ids": [
+        "home_fee",
+        "contextual"
+      ],
+      "fee_statuses": [
+        "home"
+      ],
+      "ranking_model": "academic_plus_ucat_weighting",
+      "ranking_factors": [
+        "academic_score_40",
+        "ucat_score_60"
+      ],
+      "places_available": 343,
+      "source_ids": [
+        "newcastle_a100_research_spec"
+      ],
+      "notes": "Uses widening-participation historical comparator data."
+    },
+    {
+      "pool_id": "international",
+      "name": "International",
+      "applies_to_group_ids": [
+        "international_fee"
+      ],
+      "fee_statuses": [
+        "international"
+      ],
+      "ranking_model": "ucat_ranking",
+      "ranking_factors": [
+        "ucat_cognitive_total"
+      ],
+      "places_available": 26,
+      "source_ids": [
+        "newcastle_a100_research_spec"
+      ],
+      "notes": "International places are reference-only maximum fundable intake, not an interview quota."
+    }
+  ],
+  "quotas": [
+    {
+      "quota_id": "newcastle_a100_places_2027_entry_verified",
+      "name": "Verified Home/International places (2027 entry)",
+      "home_places": 343,
+      "international_places": 26,
+      "quota_type": "verified_current_places",
+      "source_ids": [
+        "applysmart_admissions_team_verified_2026"
+      ],
+      "notes": "Home/International place figures verified by the ApplySmart admissions research team for 2027 entry."
+    },
+    {
+      "quota_id": "annual_intake_reference_only",
+      "total_places": 369,
+      "home_places": 343,
+      "international_places": 26,
+      "reference_only": true,
+      "source_ids": [
+        "ofs_medical_and_dental_maximum_fundable_limits"
+      ],
+      "notes": "Office for Students maximum fundable limits. These figures are not interview quotas or thresholds."
+    }
+  ],
+  "offer_selection": {
+    "verification_status": "official_source_verified_out_of_scope_for_applysmart",
+    "source_ids": [
+      "newcastle_a100_research_spec"
+    ],
+    "interview_format": {
+      "home_format": "MMI",
+      "home_station_count": 7,
+      "home_station_duration_minutes": 7,
+      "international_format": "panel",
+      "international_selector_count": 2,
+      "blinded": true
+    },
+    "interview_scoring": {
+      "used_for_interview_prediction": false,
+      "notes": "Post-interview score is not calculated or predicted by ApplySmart."
+    },
+    "offer_model": {
+      "used_for_interview_prediction": false,
+      "reference_only": true,
+      "reported_weighting": {
+        "stage_1_academic_and_ucat": 50,
+        "stage_2_interview_and_sjt": 50
+      }
+    },
+    "ranking_factors": [
+      "interview",
+      "SJT post-interview reference only"
+    ],
+    "tie_breakers": [],
+    "waiting_list_policy": null,
+    "standard_offer": "AAA",
+    "contextual_offer": "ABB",
+    "notes": "Offer prediction is out of scope. Post-interview SJT points are retained only as reference metadata."
+  },
+  "historical_admissions": {
+    "verification_status": "historical_guidance",
+    "source_ids": [
+      "newcastle_a100_research_spec"
+    ],
+    "cycles": [
+      {
+        "entry_year": 2021,
+        "fee_status": "home",
+        "pool": "core",
+        "average_national_ucat": 2511,
+        "ucat_cutoff": 2820,
+        "ucat_score_scale": 3600,
+        "use": "display_only_original_scale"
+      },
+      {
+        "entry_year": 2022,
+        "fee_status": "home",
+        "pool": "core",
+        "average_national_ucat": 2570,
+        "ucat_cutoff": 2800,
+        "ucat_score_scale": 3600,
+        "use": "display_only_original_scale"
+      },
+      {
+        "entry_year": 2023,
+        "fee_status": "home",
+        "pool": "core",
+        "average_national_ucat": 2500,
+        "ucat_cutoff": 2820,
+        "ucat_score_scale": 3600,
+        "use": "display_only_original_scale"
+      },
+      {
+        "entry_year": 2024,
+        "fee_status": "home",
+        "pool": "core",
+        "average_national_ucat": 2516,
+        "ucat_cutoff": 2490,
+        "ucat_score_scale": 3600,
+        "use": "display_only_original_scale"
+      },
+      {
+        "entry_year": 2025,
+        "fee_status": "home",
+        "pool": "core",
+        "minimum_combined_score": 50,
+        "combined_score_scale": 100,
+        "combined_mean": 70,
+        "academic_mean": 34,
+        "ucat_component_mean": 36,
+        "use": "historical_guidance_only"
+      },
+      {
+        "entry_year": 2025,
+        "fee_status": "home",
+        "pool": "widening_participation",
+        "minimum_combined_score": 50,
+        "combined_score_scale": 100,
+        "combined_mean": 82,
+        "academic_mean": 37,
+        "ucat_component_mean": 45,
+        "use": "historical_guidance_only"
+      },
+      {
+        "entry_year": 2025,
+        "fee_status": "international",
+        "pool": "international",
+        "ucat_cutoff": 2980,
+        "ucat_score_scale": 3600,
+        "use": "display_only_original_scale"
+      }
+    ],
+    "notes": "Historical 3600-scale UCAT thresholds are displayed with original scale and cycle only. No cross-scale conversion is used for execution."
+  },
+  "sources": [
+    {
+      "source_id": "newcastle_a100_research_spec",
+      "title": "Newcastle University A100 ApplySmart Production Implementation Specification",
+      "url": "supplied-user-research-file:/Users/faizan/Downloads/Newcastle-A100-Production-Implementation-Specification-v2.md",
+      "source_type": "approved_research_specification",
+      "published_date": "2026-07-14",
+      "accessed_date": "2026-07-14",
+      "applies_to_sections": [
+        "course_identity",
+        "eligibility",
+        "selection",
+        "historical_admissions",
+        "result_card"
+      ],
+      "confidence": "high",
+      "evidence_classification": "official_policy_compiled_in_approved_research",
+      "notes": "User-supplied Newcastle production implementation specification; official-source-only research package is designated authoritative for this implementation."
+    },
+    {
+      "source_id": "newcastle_ucat_academic_threshold_document",
+      "title": "Newcastle UCAT and Academic Threshold Document",
+      "url": "official-source-referenced-in-approved-research-specification",
+      "source_type": "official_policy",
+      "published_date": "2026",
+      "accessed_date": "2026-07-14",
+      "applies_to_sections": [
+        "ucat_table",
+        "academic_scoring",
+        "historical_thresholds"
+      ],
+      "confidence": "high",
+      "evidence_classification": "official_policy",
+      "notes": "Referenced by the approved Newcastle research specification as part of the primary evidence package."
+    },
+    {
+      "source_id": "ofs_medical_and_dental_maximum_fundable_limits",
+      "title": "Office for Students - Medical and Dental Maximum Fundable Limits",
+      "url": "official-source-referenced-in-approved-research-specification",
+      "source_type": "official_statistics",
+      "published_date": "2026",
+      "accessed_date": "2026-07-14",
+      "applies_to_sections": [
+        "quotas"
+      ],
+      "confidence": "high",
+      "evidence_classification": "official_statistics",
+      "notes": "Reference-only intake capacity; not used as interview quota or selection threshold."
+    }
+  ],
+  "validation": {
+    "source_status": "official_source_verified_with_documented_gaps",
+    "last_verified": "2026-07-14",
+    "confidence_level": "High for supported Home, Contextual, PARTNERS, Graduate and International interview-prediction routing; medium overall because some alternative qualification routes remain guarded manual review.",
+    "completion_status": "complete_for_supported_scope_with_documented_gaps",
+    "known_unknowns": [
+      "No rounding rule is supplied for UCAT totals that do not match the official exact table; ApplySmart does not round or interpolate.",
+      "Country-specific international qualification mappings require Newcastle A100-specific confirmation before automated hard rules.",
+      "Post-interview offer selection is reference only and not implemented for prediction."
+    ],
+    "review_notes": "Existing Newcastle A100 MSC seed profile has been replaced with the approved research-backed production profile."
+  },
+  "engine_notes": {
+    "eligibility": true,
+    "interview_prediction": true,
+    "historical_guidance": true,
+    "international_prediction": true,
+    "contextual_logic": true,
+    "result_card": true,
+    "regression": true,
+    "research_completeness": "complete_for_supported_scope_with_documented_gaps",
+    "manual_review_required": true,
+    "eligibility_ready": true,
+    "interview_prediction_ready": true,
+    "prediction_confidence": "medium",
+    "result_card_ready": true,
+    "offer_prediction_scope": "out_of_scope",
+    "blocking_missing_fields": [],
+    "engine_assumptions": [
+      "UCAT table lookup is exact; no interpolation, conversion or unapproved rounding is applied.",
+      "Historical 3600-scale thresholds are retained as display-only original-scale evidence.",
+      "International applicants are routed to UCAT-only ranking after academic pass/fail screening."
+    ],
+    "do_not_infer": [
+      "Do not treat historical lowest observed 2025 combined score as a formal minimum.",
+      "Do not show International applicants an academic score out of 40 or combined score out of 100.",
+      "Do not use post-interview SJT points in pre-interview prediction.",
+      "Do not hardcode country-level alternative qualification rejection rules without A100-specific official evidence."
+    ]
+  }
+}

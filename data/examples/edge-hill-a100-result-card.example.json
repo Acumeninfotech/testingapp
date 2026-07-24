@@ -1,0 +1,472 @@
+{
+  "schema_version": "1.0.0",
+  "template_version": "1.0.0",
+  "result_id": "edge-hill-a100-home-standard-historical-ucat-guidance-example",
+  "generated_at": "2026-07-16",
+  "result_mode": "example_eligibility_with_historical_ucat_guidance",
+  "course_identity": {
+    "profile_id": "edge-hill-a100",
+    "university_name": "Edge Hill University",
+    "course_name": "MBChB Medicine",
+    "ucas_code": "A100",
+    "entry_route": "standard_entry",
+    "qualification_awarded": "MBChB",
+    "duration_years": 5,
+    "location": "Ormskirk, England",
+    "source_ids": [
+      "edge_hill_research_doc",
+      "edge_hill_verified_clarifications"
+    ]
+  },
+  "applicant_context": {
+    "applies_to_group_ids": [
+      "england_domiciled",
+      "home_fee",
+      "school_leaver"
+    ],
+    "applicant_summary": "Home A-level school-leaver meeting Edge Hill's represented GCSE and A-level gates with UCAT 2000/2700 and SJT Band 2.",
+    "fee_cohort": "home",
+    "entry_route": "standard_entry",
+    "qualification_route": "a_level",
+    "contextual": false,
+    "graduate": false,
+    "admissions_tests": {
+      "ucat": {
+        "total_score": 2000,
+        "score_scale": 2700,
+        "sjt_band": 2,
+        "test_year": 2026
+      }
+    },
+    "source_ids": []
+  },
+  "readiness": {
+    "eligibility": true,
+    "interview_prediction": true,
+    "historical_guidance": true,
+    "international_prediction": false,
+    "contextual_logic": false,
+    "result_card": true,
+    "regression": true,
+    "research_completeness": "complete_for_supported_scope_with_documented_gaps",
+    "manual_review_required": true,
+    "eligibility_ready": true,
+    "interview_prediction_ready": true,
+    "prediction_confidence": "low",
+    "result_card_ready": true,
+    "offer_prediction_scope": "out_of_scope",
+    "activation_ready": true,
+    "production_ready": true
+  },
+  "eligibility": {
+    "status": "eligible",
+    "summary": "The represented applicant meets Edge Hill's supported Home A100 academic, UCAT and SJT eligibility gates.",
+    "stage_1_checks": [
+      {
+        "check_id": "applicant_pool",
+        "label": "Applicant pool",
+        "status": "pass",
+        "requirement": "A100 accepts Home applicants only.",
+        "applicant_value": "Home fee status.",
+        "decision_outcome": "eligible",
+        "source_ids": [
+          "edge_hill_verified_clarifications"
+        ]
+      },
+      {
+        "check_id": "gcse_gate",
+        "label": "GCSE gate",
+        "status": "pass",
+        "requirement": "At least five GCSEs at Grade 6/B or above including English Language, Mathematics and Biology plus Chemistry or Double Award Science 6-6.",
+        "applicant_value": "Five GCSEs at Grade 6 including English Language, Mathematics, Biology and Chemistry.",
+        "decision_outcome": "eligible",
+        "source_ids": [
+          "edge_hill_research_doc"
+        ]
+      },
+      {
+        "check_id": "a_level_gate",
+        "label": "A-level gate",
+        "status": "pass",
+        "requirement": "AAA including Biology and Chemistry, or A* in Biology/Chemistry with a third subject at B.",
+        "applicant_value": "AAA in Biology, Chemistry and Mathematics.",
+        "decision_outcome": "eligible",
+        "source_ids": [
+          "edge_hill_research_doc"
+        ]
+      },
+      {
+        "check_id": "sjt_gate",
+        "label": "SJT gate",
+        "status": "pass",
+        "requirement": "SJT Bands 1-3 are accepted; Band 4 is rejected.",
+        "applicant_value": "Band 2.",
+        "decision_outcome": "eligible",
+        "source_ids": [
+          "edge_hill_verified_clarifications"
+        ]
+      }
+    ],
+    "blocking_reasons": [],
+    "warnings": [
+      "Edge Hill does not publish a fixed future UCAT interview threshold.",
+      "Eligibility does not guarantee an interview."
+    ],
+    "source_ids": [
+      "edge_hill_research_doc",
+      "edge_hill_verified_clarifications"
+    ]
+  },
+  "stage_1_requirements": {
+    "verification_status": "official_source_verified_with_documented_gaps",
+    "verified_requirements": [
+      {
+        "requirement_id": "academic_gate",
+        "label": "Academic eligibility gate",
+        "value": "GCSE and post-16 requirements are checked as minimum thresholds and are not scored for interview ranking.",
+        "source_ids": [
+          "edge_hill_verified_clarifications"
+        ]
+      },
+      {
+        "requirement_id": "sjt_gate",
+        "label": "SJT gate",
+        "value": "Band 4 is rejected; Bands 1-3 remain eligible subject to all other requirements.",
+        "source_ids": [
+          "edge_hill_verified_clarifications"
+        ]
+      }
+    ],
+    "unknown_requirements": [
+      "Live 2027 UCAT interview threshold.",
+      "Graduate degree subject and recency verification."
+    ],
+    "source_ids": [
+      "edge_hill_research_doc",
+      "edge_hill_verified_clarifications"
+    ]
+  },
+  "stage_2_selection": {
+    "verification_status": "foi_verified_historical_guidance",
+    "primary_model": "ucat_ranking",
+    "summary": "Edge Hill ranks eligible Home A100 applicants by total UCAT score after academic and SJT screening. ApplySmart compares the applicant UCAT with verified historical Home thresholds as guidance only, not current cut-offs.",
+    "represented_ranking_input": {
+      "score": 2000,
+      "max": 2700,
+      "metric": "ucat_total"
+    },
+    "ranking_factors": [
+      {
+        "factor_id": "ucat_total",
+        "label": "UCAT total",
+        "weight_percent": 100,
+        "calculation_status": "known_factor_historical_guidance",
+        "notes": "Total UCAT score is the interview-ranking metric. No academic score is created.",
+        "source_ids": [
+          "edge_hill_verified_clarifications"
+        ]
+      }
+    ],
+    "selection_adjustments": [],
+    "unknown_calculation_areas": [
+      "The live 2027 threshold is not known in advance."
+    ],
+    "source_ids": [
+      "edge_hill_verified_clarifications",
+      "edge_hill_foi_historical_ucat"
+    ]
+  },
+  "historical_context": {
+    "use": "historical_ucat_guidance",
+    "fixed_current_cutoff": false,
+    "not_deterministic": true,
+    "methodology": "Median of verified converted 2021-2025 Home historical UCAT guidance values; they are not current cut-offs.",
+    "warning": "Historical Edge Hill UCAT thresholds are guidance only. They are not current or future cut-offs and do not guarantee an interview.",
+    "annual_variation_warning": "The effective threshold can vary each year because applicant competition and interview capacity change.",
+    "represented_pool": {
+      "pool_id": "home_a100",
+      "entry_cycles": [
+        "2021",
+        "2022",
+        "2023",
+        "2024",
+        "2025"
+      ]
+    },
+    "historical_ucat_rows": [
+      {
+        "entry_year": 2025,
+        "application_pool": "Home",
+        "original_scale": 2700,
+        "original_score": null,
+        "converted_scale": 2700,
+        "converted_score_2700": 1920,
+        "evidence_classification": "foi_verified_historical_guidance",
+        "display_only_source_row": true
+      },
+      {
+        "entry_year": 2024,
+        "application_pool": "Home",
+        "original_scale": 3600,
+        "original_score": 2600,
+        "converted_scale": 2700,
+        "converted_score_2700": 1950,
+        "evidence_classification": "foi_verified_historical_guidance",
+        "display_only_source_row": true
+      },
+      {
+        "entry_year": 2023,
+        "application_pool": "Home",
+        "original_scale": 3600,
+        "original_score": 2610,
+        "converted_scale": 2700,
+        "converted_score_2700": 1957.5,
+        "evidence_classification": "foi_verified_historical_guidance",
+        "display_only_source_row": true
+      },
+      {
+        "entry_year": 2022,
+        "application_pool": "Home",
+        "original_scale": 3600,
+        "original_score": 2600,
+        "converted_scale": 2700,
+        "converted_score_2700": 1950,
+        "evidence_classification": "foi_verified_historical_guidance",
+        "display_only_source_row": true
+      },
+      {
+        "entry_year": 2021,
+        "application_pool": "Home",
+        "original_scale": 3600,
+        "original_score": 2440,
+        "converted_scale": 2700,
+        "converted_score_2700": 1830,
+        "evidence_classification": "foi_verified_historical_guidance",
+        "display_only_source_row": true
+      }
+    ],
+    "reference_calculation": {
+      "method": "median of converted Home historical UCAT guidance values, not current thresholds",
+      "normalised_values_2700_sorted": [
+        1830,
+        1920,
+        1950,
+        1950,
+        1957.5
+      ],
+      "median_reference_2700": 1950,
+      "band_margin_points": 150,
+      "executable_boundaries": {
+        "likely": 2100,
+        "realisticMin": 1950,
+        "realisticMax": 2099,
+        "ambitiousMin": 1800,
+        "ambitiousMax": 1949,
+        "highRiskBelow": 1800
+      }
+    },
+    "conversion_precision_note": "The 2023 legacy value 2610/3600 converts to 1957.5/2700 and is preserved exactly."
+  },
+  "prediction": {
+    "available": true,
+    "capability": "interview_guidance",
+    "prediction_type": "historical_ucat_guidance",
+    "prediction_status": "guidance_available_low_confidence",
+    "result_band": "realistic",
+    "guidance_pool_id": "home_a100",
+    "ranking_metric": "ucat_total",
+    "score": 2000,
+    "score_scale": {
+      "min": 0,
+      "max": 2700
+    },
+    "band_basis": "UCAT 2000/2700 is within the Home historical guidance range of 1950-2099.",
+    "historical_comparison": "home_historical_ucat_guidance",
+    "missing_data_reasons": [
+      "No fixed 2027 Edge Hill UCAT threshold is published."
+    ],
+    "cannot_predict_explanation": null
+  },
+  "confidence": {
+    "level": "low",
+    "summary": "The UCAT-ranking methodology is verified, but future thresholds change by cycle depending on applicant competition and interview capacity.",
+    "stage_confidence": {
+      "eligibility": "medium",
+      "interview_methodology": "medium",
+      "historical_guidance": "low",
+      "post_interview_decisions": "out_of_scope"
+    },
+    "source_ids": [
+      "edge_hill_research_doc",
+      "edge_hill_verified_clarifications",
+      "edge_hill_foi_historical_ucat"
+    ]
+  },
+  "evidence_confidence": {
+    "level": "Medium",
+    "summary": "The recommendation is supported by core admissions evidence, with some historical or route-specific limits.",
+    "reasons": [
+      "Official eligibility rules are available.",
+      "The university selection approach is implemented.",
+      "Historical interview guidance is available, but some evidence is historical, FOI-derived or has documented gaps."
+    ]
+  },
+  "display": {
+    "primary_user_facing_recommendation": "Good chance",
+    "recommendation_display_state": "standard",
+    "primary_explanation": "You meet the represented Edge Hill A100 academic and SJT gates. Your UCAT is within the Home historical guidance range, but Edge Hill does not publish a fixed future cut-off.",
+    "historical_guidance_caveat": "Historical information is guidance only and does not guarantee an interview."
+  },
+  "decision_timeline": [
+    {
+      "step": 1,
+      "title": "Applicant details checked",
+      "status": "Complete",
+      "summary": "Your applicant type, qualifications and UCAT details were checked."
+    },
+    {
+      "step": 2,
+      "title": "Eligibility assessed",
+      "status": "Eligible",
+      "summary": "You meet the published entry requirements covered by ApplySmart."
+    },
+    {
+      "step": 3,
+      "title": "Selection model applied",
+      "status": "Complete",
+      "summary": "Edge Hill ranks eligible Home A100 applicants by total UCAT score after academic and SJT screening. ApplySmart compares the applicant UCAT with verified historical Home thresholds as guidance only, not current cut-offs."
+    },
+    {
+      "step": 4,
+      "title": "Historical guidance compared",
+      "status": "Complete",
+      "summary": "Your UCAT was compared with interview information from previous admissions cycles. Interview thresholds may change each admissions cycle depending on applicant competition and interview capacity. Historical figures are guidance only, not a current cut-off, and do not guarantee an interview."
+    },
+    {
+      "step": 5,
+      "title": "Interview recommendation produced",
+      "status": "Good chance",
+      "summary": "Good chance. Treat this as guidance for university choice, not a promised interview."
+    }
+  ],
+  "decision_transparency": {
+    "decision_path": [
+      {
+        "stage": "Eligibility",
+        "status": "Met",
+        "summary": "The represented applicant meets Edge Hill's supported Home A100 academic, UCAT and SJT eligibility gates.",
+        "checks": [
+          {
+            "label": "Applicant pool",
+            "status": "Met",
+            "summary": "Home A100 pool. International applicants are not accepted."
+          },
+          {
+            "label": "Academic eligibility",
+            "status": "Met",
+            "summary": "GCSE and A-level requirements are eligibility gates only."
+          },
+          {
+            "label": "SJT",
+            "status": "Met",
+            "summary": "Band 2 is accepted. Band 4 would be rejected."
+          }
+        ]
+      },
+      {
+        "stage": "Selection model",
+        "status": "Assessed",
+        "summary": "Edge Hill ranks eligible Home applicants by total UCAT after academic and SJT screening.",
+        "checks": [
+          {
+            "label": "Applicant pool",
+            "status": "Used",
+            "summary": "Home A100 applicants"
+          },
+          {
+            "label": "Selection approach",
+            "status": "Assessed",
+            "summary": "UCAT total is the ranking metric. No academic score is created."
+          }
+        ]
+      },
+      {
+        "stage": "Historical guidance",
+        "status": "Guidance available",
+        "summary": "The applicant's UCAT is within the historical interview range used for this applicant group. Interview thresholds may change each admissions cycle depending on applicant competition and interview capacity. Historical figures are guidance only, not a current cut-off, and do not guarantee an interview.",
+        "checks": [
+          {
+            "label": "Applicant pool",
+            "status": "Used",
+            "summary": "Home A100 applicants"
+          },
+          {
+            "label": "UCAT comparison",
+            "status": "Compared",
+            "summary": "UCAT: 2000 - within the historical interview range of 1950-2099."
+          },
+          {
+            "label": "2025 Home historical UCAT guidance",
+            "status": "Historical",
+            "summary": "2025 Home historical UCAT guidance: 1920/2700, not a current cut-off."
+          },
+          {
+            "label": "2023 Home converted threshold",
+            "status": "Historical",
+            "summary": "2023 Home threshold: original 2610/3600; converted 1957.5/2700."
+          },
+          {
+            "label": "Important limitation",
+            "status": "Guidance only",
+            "summary": "Interview thresholds may change each admissions cycle depending on applicant competition and interview capacity. Historical figures are guidance only, not a current cut-off, and do not guarantee an interview."
+          }
+        ]
+      },
+      {
+        "stage": "Recommendation",
+        "status": "Guidance only",
+        "summary": "Good chance. Treat this as guidance for university choice, not a promised interview.",
+        "checks": []
+      }
+    ],
+    "key_reasons": [
+      "The represented applicant meets Edge Hill's supported Home A100 academic, UCAT and SJT eligibility gates.",
+      "The result uses Home A100 applicants.",
+      "You meet the academic requirements. Your UCAT is within the historical interview range for applicants in your group."
+    ],
+    "evidence_used": [
+      "Official admissions policy",
+      "University selection methodology",
+      "UCAT policy",
+      "Historical interview data",
+      "FOI evidence"
+    ],
+    "evidence_confidence": {
+      "level": "Medium",
+      "summary": "The recommendation is supported by core admissions evidence, with some historical or route-specific limits.",
+      "reasons": [
+        "Official eligibility rules are available.",
+        "The university selection approach is implemented.",
+        "Historical interview guidance is available, but some evidence is historical, FOI-derived or has documented gaps."
+      ]
+    },
+    "warnings": [],
+    "manual_review_reason": null,
+    "insufficient_evidence_reason": null,
+    "insufficient_evidence_reason_code": null
+  },
+  "engine_notes": {
+    "offer_prediction_scope": "out_of_scope",
+    "prediction_confidence": "low",
+    "academic_model": "eligibility_gate",
+    "academic_ranking": false,
+    "international_prediction": false,
+    "contextual_logic": false,
+    "do_not_infer": [
+      "Do not apply A110 contextual rules to A100.",
+      "Do not create an International UCAT pool.",
+      "Do not create an academic score.",
+      "Do not predict offers."
+    ]
+  }
+}

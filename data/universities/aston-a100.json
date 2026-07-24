@@ -1,0 +1,2724 @@
+{
+  "schema_version": "1.0.0",
+  "profile_id": "aston-a100",
+  "profile_status": "official_and_foi_evidence_implemented_interview_guidance_active",
+  "verification_status": "official_and_foi_verified",
+  "last_updated": "2026-06-29",
+  "university": {
+    "name": "Aston University",
+    "slug": "aston",
+    "country": "United Kingdom",
+    "nation": "England",
+    "institution_type": "University",
+    "website_url": "https://www.aston.ac.uk/"
+  },
+  "course": {
+    "name": "Medicine MBChB",
+    "ucas_code": "A100",
+    "entry_route": "standard_entry",
+    "qualification_awarded": "MBChB",
+    "duration_years": 5,
+    "campus": "Aston University",
+    "location": "Birmingham, England",
+    "entry_year": 2027,
+    "fee_statuses": [
+      "home",
+      "international"
+    ],
+    "is_gateway_or_foundation": false,
+    "is_graduate_entry": false,
+    "notes": "Five-year standard-entry Medicine course starting September 2027. Graduates may apply to A100 but complete the same five-year programme; Aston does not offer an accelerated graduate-entry route. The target page contains stale cycle wording, but the supplied official/FOI package confirms the implemented 2026-2027 rules."
+  },
+  "medical_school": {
+    "name": "Aston Medical School",
+    "notes": "Official Aston and FOI evidence is used for eligibility, pre-interview scoring, MMI, offer selection and historical guidance."
+  },
+  "applicant_pools": [
+    {
+      "pool_id": "home_non_wp",
+      "name": "Home non-widening-participation",
+      "status": "supported",
+      "applies_to_group_ids": [
+        "home_fee"
+      ],
+      "selection_relevance": "ranking_model: academic_plus_ucat_weighting | ranking_factors: current GCSE-only academic score out of 24; UCAT band score out of 12; direct combined total out of 36",
+      "excluded_group_ids": [
+        "contextual",
+        "widening_participation"
+      ],
+      "source_ids": [
+        "aston_medical_school_faq_current",
+        "aston_official_research_team_2026_2027",
+        "aston_foi_pre_interview_2026_2027"
+      ],
+      "places_available": null,
+      "notes": "Excludes applicants assigned to the WP pool. Ranked by the confirmed /36 formula without cross-pool normalisation. No live fixed boundary is implemented."
+    },
+    {
+      "pool_id": "home_wp",
+      "name": "Home widening-participation",
+      "status": "supported",
+      "applies_to_group_ids": [
+        "home_fee"
+      ],
+      "selection_relevance": "ranking_model: academic_plus_ucat_weighting | ranking_factors: current GCSE-only academic score out of 24; UCAT band score out of 12; direct combined total out of 36",
+      "source_ids": [
+        "aston_medical_school_faq_current",
+        "aston_course_page_2027",
+        "aston_official_research_team_2026_2027",
+        "aston_foi_pre_interview_2026_2027"
+      ],
+      "places_available": null,
+      "notes": "Ranked separately using the confirmed /36 formula. Up to 44 WP offers is an aim, not a fixed quota. No live fixed boundary is implemented."
+    },
+    {
+      "pool_id": "international",
+      "name": "International and Overseas/Overseas Unknown",
+      "status": "supported",
+      "applies_to_group_ids": [
+        "international_fee"
+      ],
+      "selection_relevance": "ranking_model: ucat_ranking | ranking_factors: UCAT cognitive total out of 2700 after academic eligibility",
+      "source_ids": [
+        "aston_medical_school_faq_current",
+        "aston_course_page_2027",
+        "aston_official_research_team_2026_2027"
+      ],
+      "places_available": 30,
+      "notes": "Ranked by descending UCAT total after eligibility. Historical FOI /36 labels are retained as context only and must not be used to calculate an International combined score until Aston resolves the metric conflict."
+    },
+    {
+      "pool_id": "contextual_applicants",
+      "name": "Contextual applicants",
+      "status": "supported_with_documented_limits",
+      "applies_to_group_ids": [
+        "contextual"
+      ],
+      "selection_relevance": "Applicant cohort descriptor only; no additional ranking pool, scoring rule or admissions decision is inferred.",
+      "notes": "Contextual handling remains governed by contextual_admissions and documented evidence gaps."
+    },
+    {
+      "pool_id": "graduate_applicants",
+      "name": "Graduate applicants to A100",
+      "status": "supported_with_documented_limits",
+      "applies_to_group_ids": [
+        "graduate_applicant"
+      ],
+      "selection_relevance": "Applicant cohort descriptor only; no additional ranking pool, scoring rule or admissions decision is inferred.",
+      "notes": "Graduate handling remains governed by the existing eligibility, stage_2 and manual-review rules."
+    }
+  ],
+  "applies_to_group_ids": [
+    "home_fee",
+    "international_fee",
+    "contextual",
+    "widening_participation",
+    "graduate_applicant",
+    "school_leaver",
+    "resit_applicant",
+    "deferred_entry"
+  ],
+  "stage_1_eligibility": {
+    "verification_status": "official_source_verified_with_remaining_eligibility_exceptions",
+    "source_ids": [
+      "aston_course_page_2027",
+      "aston_medical_school_faq_current",
+      "aston_ucat_advice_current",
+      "aston_ready_contextual_2026",
+      "aston_english_language_requirements_current",
+      "aston_official_research_team_2026_2027",
+      "aston_foi_pre_interview_2026_2027",
+      "aston_foi_post_interview_2025_onwards",
+      "aston_msc_research_team_2026_2027"
+    ],
+    "overall_policy": {
+      "status": "official_rules_mapped_for_published_routes",
+      "description": "Applicants must meet the minimum requirements for an officially published qualification route, submit a complete UCAS application, take UCAT or UCATSEN in the same year as application and satisfy fitness-to-practise requirements. Eligibility is executable only for the published routes represented below; incomplete routes require manual review.",
+      "not_eligible_if": [
+        "The applicable published academic minimum requirements are not met.",
+        "UCAT or UCATSEN is not taken in the same year as the application.",
+        "The applicant is currently or was previously enrolled on a Medicine course.",
+        "The applicant withdrew from any degree.",
+        "The applicant seeks transfer from another degree.",
+        "The applicant is currently studying a degree but is not in its final year.",
+        "The applicant was previously rejected by Aston because of one or more MMI red flags.",
+        "A required complete application, suitable reference or fitness-to-practise requirement is not satisfied."
+      ],
+      "source_ids": [
+        "aston_course_page_2027",
+        "aston_medical_school_faq_current"
+      ],
+      "notes": "A-level predicted grades are required where the qualification is in progress but are not scored. Predicted degree classification is considered for final-year degree applicants."
+    },
+    "gcse": {
+      "status": "official_source_verified",
+      "source_ids": [
+        "aston_course_page_2027",
+        "aston_medical_school_faq_current"
+      ],
+      "minimum_count": 6,
+      "minimum_grade": "6/B",
+      "minimum_count_at_or_above_grade": {
+        "requirement_id": "gcse_six_at_grade_6_or_b",
+        "count": 6,
+        "minimum_grade": "6/B",
+        "qualification_levels": [
+          "gcse",
+          "igcse"
+        ],
+        "decision_outcome_if_not_met": "not_eligible",
+        "source_ids": [
+          "aston_course_page_2027"
+        ]
+      },
+      "counted_subject_limit": 6,
+      "mandatory_subject_ids": [
+        "english_language",
+        "mathematics"
+      ],
+      "eligibility_gate": {
+        "operator": "all",
+        "requirement_ids": [
+          "gcse_six_at_grade_6_or_b",
+          "gcse_english_language_minimum",
+          "gcse_mathematics_minimum",
+          "gcse_science_minimum"
+        ],
+        "execution_status": "automatic"
+      },
+      "grade_requirements": [
+        {
+          "requirement_id": "gcse_english_language_minimum",
+          "applies_to_group_ids": [],
+          "subject_id": "english_language",
+          "minimum_grade": "6/B",
+          "qualification_level": "gcse_or_igcse",
+          "decision_outcome_if_not_met": "not_eligible",
+          "source_ids": [
+            "aston_course_page_2027"
+          ],
+          "notes": "An achieved approved English-language test may require manual assessment under the separate English-language policy."
+        },
+        {
+          "requirement_id": "gcse_mathematics_minimum",
+          "applies_to_group_ids": [],
+          "subject_id": "mathematics",
+          "minimum_grade": "6/B",
+          "qualification_level": "gcse_or_igcse",
+          "decision_outcome_if_not_met": "not_eligible",
+          "source_ids": [
+            "aston_course_page_2027"
+          ],
+          "notes": null
+        }
+      ],
+      "science_requirement": {
+        "requirement_id": "gcse_science_minimum",
+        "requirement_type": "any_of",
+        "minimum_options_required": 1,
+        "accepted_options": [
+          {
+            "option_id": "separate_sciences",
+            "grade_requirements": [
+              {
+                "subject_id": "biology",
+                "minimum_grade": "6/B"
+              },
+              {
+                "subject_id": "chemistry",
+                "minimum_grade": "6/B"
+              }
+            ],
+            "decision_outcome_if_not_met": "not_eligible"
+          },
+          {
+            "option_id": "double_science",
+            "grade_requirements": [
+              {
+                "subject_id": "combined_science",
+                "minimum_grade_profile": [
+                  "6",
+                  "6"
+                ],
+                "accepted_equivalent_profile": [
+                  "B",
+                  "B"
+                ]
+              }
+            ],
+            "counts_as_gcse_subjects": 2,
+            "decision_outcome_if_not_met": "not_eligible"
+          }
+        ],
+        "decision_outcome_if_not_met": "not_eligible",
+        "source_ids": [
+          "aston_course_page_2027"
+        ]
+      },
+      "accepted_equivalencies": [
+        "IGCSE",
+        "International qualification equivalence confirmed by Aston Admissions"
+      ],
+      "sitting_policy": "GCSE resits are accepted subject to the overall resit timeframe.",
+      "achieved_or_predicted": "Achieved GCSE results are used for scoring.",
+      "scoring_models": [
+        {
+          "model_id": "current_gcse_only_academic_score",
+          "applies_to_group_ids": [
+            "home_fee"
+          ],
+          "counted_subjects": [
+            "English Language",
+            "Mathematics",
+            "Double Science as two subjects, or separate Chemistry and Biology",
+            "Best two other GCSE subjects"
+          ],
+          "points_by_grade": {
+            "7": 3,
+            "8": 4,
+            "9": 4,
+            "6_or_B": 2,
+            "5_or_C": 1,
+            "below_5_or_C": 0
+          },
+          "best_gcse_count": 6,
+          "maximum_points": 24,
+          "used_for": "Home non-WP and Home WP pre-interview ranking.",
+          "legacy_letter_grade_A_execution_status": "manual_review",
+          "execution_status": "pending_selection_consumer_support",
+          "source_ids": [
+            "aston_official_research_team_2026_2027",
+            "aston_foi_pre_interview_2026_2027"
+          ],
+          "notes": "This current GCSE-only model supersedes the older achieved-A-level and graduate route-specific pre-interview scoring interpretations. Numeric grades 9 to 5 are executable once the selection consumer is updated. The supplied evidence ambiguously maps legacy letter grade A to more than one point value, so legacy A scoring requires manual clarification."
+        }
+      ],
+      "notes": "The minimum gate and current GCSE-only academic score are official. Country-specific GCSE equivalences and ambiguous legacy letter-grade A scoring remain manual Admissions decisions."
+    },
+    "post_16": {
+      "status": "official_source_verified_with_remaining_eligibility_exceptions",
+      "source_ids": [
+        "aston_course_page_2027",
+        "aston_medical_school_faq_current"
+      ],
+      "accepted_qualification_types": [
+        "a_level",
+        "international_baccalaureate",
+        "scottish_advanced_highers",
+        "published_btec_and_a_level_combination",
+        "degree_with_required_school_qualifications",
+        "aston_healthcare_foundation_year",
+        "named_international_qualification_routes"
+      ],
+      "a_level": {
+        "status": "official_source_verified",
+        "source_ids": [
+          "aston_course_page_2027",
+          "aston_medical_school_faq_current"
+        ],
+        "grade_requirements": [
+          {
+            "requirement_id": "standard_school_leaver_a_level",
+            "applies_to_group_ids": [
+              "school_leaver"
+            ],
+            "excluded_group_ids": [
+              "contextual",
+              "widening_participation"
+            ],
+            "grade_profile": [
+              "A*",
+              "A",
+              "A"
+            ],
+            "required_subject_ids": [
+              "chemistry",
+              "biology"
+            ],
+            "required_subject_grade_options": [
+              {
+                "grade_requirements": [
+                  {
+                    "subject_id": "chemistry",
+                    "minimum_grade": "A*"
+                  },
+                  {
+                    "subject_id": "biology",
+                    "minimum_grade": "A"
+                  }
+                ]
+              },
+              {
+                "grade_requirements": [
+                  {
+                    "subject_id": "chemistry",
+                    "minimum_grade": "A"
+                  },
+                  {
+                    "subject_id": "biology",
+                    "minimum_grade": "A*"
+                  }
+                ]
+              }
+            ],
+            "a_star_subject_rule": "The A* must be in Chemistry or Biology.",
+            "execution_status": "automatic",
+            "decision_outcome_if_not_met": "not_eligible",
+            "source_ids": [
+              "aston_course_page_2027"
+            ],
+            "notes": "Where more than three A levels are taken, Chemistry, Biology and the next best grade are considered."
+          },
+          {
+            "requirement_id": "contextual_school_leaver_a_level",
+            "applies_to_group_ids": [
+              "home_fee",
+              "school_leaver"
+            ],
+            "any_group_ids": [
+              "contextual",
+              "widening_participation"
+            ],
+            "grade_profile": [
+              "A",
+              "A",
+              "B"
+            ],
+            "required_subject_ids": [
+              "chemistry",
+              "biology"
+            ],
+            "subject_grade_requirements": [
+              {
+                "subject_id": "chemistry",
+                "minimum_grade": "A"
+              },
+              {
+                "subject_id": "biology",
+                "minimum_grade": "A"
+              }
+            ],
+            "required_subject_grade_rule": "Chemistry and Biology must both be grade A.",
+            "execution_status": "automatic_after_manual_wp_classification",
+            "decision_outcome_if_not_met": "not_eligible",
+            "source_ids": [
+              "aston_course_page_2027"
+            ],
+            "notes": "Execution requires manual confirmation that the applicant meets the applicable WP criteria for 2027."
+          },
+          {
+            "requirement_id": "graduate_school_qualification_a_level",
+            "applies_to_group_ids": [
+              "graduate_applicant"
+            ],
+            "grade_profile": [
+              "A",
+              "B",
+              "B"
+            ],
+            "required_subject_ids": [
+              "chemistry",
+              "biology"
+            ],
+            "required_subject_grade_options": [
+              {
+                "grade_requirements": [
+                  {
+                    "subject_id": "chemistry",
+                    "minimum_grade": "A"
+                  },
+                  {
+                    "subject_id": "biology",
+                    "minimum_grade": "B"
+                  }
+                ]
+              },
+              {
+                "grade_requirements": [
+                  {
+                    "subject_id": "chemistry",
+                    "minimum_grade": "B"
+                  },
+                  {
+                    "subject_id": "biology",
+                    "minimum_grade": "A"
+                  }
+                ]
+              }
+            ],
+            "required_subject_grade_rule": "At least one of Chemistry or Biology must be grade A.",
+            "execution_status": "automatic",
+            "decision_outcome_if_not_met": "not_eligible",
+            "source_ids": [
+              "aston_course_page_2027"
+            ],
+            "notes": "The standard GCSE minimum also applies."
+          }
+        ],
+        "standard_offer": {
+          "grade_profile": [
+            "A*",
+            "A",
+            "A"
+          ],
+          "source_ids": [
+            "aston_course_page_2027"
+          ],
+          "notes": "Chemistry and Biology required, with the A* in either."
+        },
+        "contextual_offer": {
+          "applies_to_group_ids": [
+            "home_fee"
+          ],
+          "any_group_ids": [
+            "contextual",
+            "widening_participation"
+          ],
+          "grade_profile": [
+            "A",
+            "A",
+            "B"
+          ],
+          "source_ids": [
+            "aston_course_page_2027"
+          ],
+          "notes": "AA required in Chemistry and Biology."
+        },
+        "required_subject_ids": [
+          "chemistry",
+          "biology"
+        ],
+        "one_of_subject_groups": [],
+        "excluded_subject_ids": [
+          "general_studies"
+        ],
+        "additional_excluded_subjects": [
+          "Critical Thinking"
+        ],
+        "third_subject_rules": "Any third subject except General Studies or Critical Thinking.",
+        "practical_requirement": "Pass the practical elements where available.",
+        "predicted_grades_accepted": true,
+        "predicted_grades_scored": false,
+        "scoring": {
+          "model_id": "legacy_achieved_a_level_scoring",
+          "status": "superseded_by_current_gcse_only_pre_interview_scoring",
+          "prediction_use": "do_not_use",
+          "source_ids": [
+            "aston_medical_school_faq_current",
+            "aston_official_research_team_2026_2027",
+            "aston_foi_pre_interview_2026_2027"
+          ],
+          "notes": "A-level grades remain eligibility requirements but are not a component of the confirmed current Home/WP pre-interview score."
+        },
+        "notes": "Predicted A-level grades are required when qualifications are in progress but are not used in scoring or selection."
+      },
+      "ib": {
+        "status": "official_source_verified_standard_route_contextual_total_unknown",
+        "source_ids": [
+          "aston_course_page_2027",
+          "aston_medical_school_faq_current"
+        ],
+        "total_points": 37,
+        "hl_points": 19,
+        "grade_requirements": [
+          {
+            "requirement_id": "standard_ib",
+            "applies_to_group_ids": [
+              "school_leaver"
+            ],
+            "excluded_group_ids": [
+              "contextual",
+              "widening_participation"
+            ],
+            "total_points": 37,
+            "hl_grade_profile": [
+              "7",
+              "6",
+              "6"
+            ],
+            "required_hl_subject_ids": [
+              "chemistry",
+              "biology"
+            ],
+            "required_hl_subject_grade_options": [
+              {
+                "grade_requirements": [
+                  {
+                    "subject_id": "chemistry",
+                    "minimum_grade": "7"
+                  },
+                  {
+                    "subject_id": "biology",
+                    "minimum_grade": "6"
+                  }
+                ]
+              },
+              {
+                "grade_requirements": [
+                  {
+                    "subject_id": "chemistry",
+                    "minimum_grade": "6"
+                  },
+                  {
+                    "subject_id": "biology",
+                    "minimum_grade": "7"
+                  }
+                ]
+              }
+            ],
+            "grade_7_subject_rule": "The grade 7 must be in Chemistry or Biology.",
+            "execution_status": "automatic",
+            "decision_outcome_if_not_met": "not_eligible",
+            "source_ids": [
+              "aston_course_page_2027"
+            ],
+            "notes": null
+          }
+        ],
+        "required_hl_subject_ids": [
+          "chemistry",
+          "biology"
+        ],
+        "one_of_hl_subject_groups": [],
+        "middle_years_requirement": {
+          "mathematics_minimum": "4",
+          "home_english_minimum": "4",
+          "international_english_rule": "Meet the applicable IELTS requirement."
+        },
+        "achieved_non_resit_scoring": {
+          "status": "superseded_by_current_gcse_only_pre_interview_scoring",
+          "prediction_use": "do_not_use",
+          "source_ids": [
+            "aston_medical_school_faq_current",
+            "aston_official_research_team_2026_2027",
+            "aston_foi_pre_interview_2026_2027"
+          ],
+          "notes": "IB Higher Level grades remain eligibility requirements but are not a component of the confirmed current Home/WP pre-interview score."
+        },
+        "contextual_policy": {
+          "hl_grade_profile": [
+            "6",
+            "6",
+            "5"
+          ],
+          "required_hl_subject_ids": [
+            "chemistry",
+            "biology"
+          ],
+          "overall_points": 35,
+          "execution_status": "pending_eligibility_consumer_update",
+          "source_ids": [
+            "aston_official_research_team_2026_2027"
+          ],
+          "notes": "Confirmed 2027 WP IB requirement: 35 overall with Higher Level 6, 6, 5 including Chemistry and Biology."
+        },
+        "notes": "Standard and WP IB eligibility are officially evidenced. WP IB remains manual until the eligibility consumer is updated for the 35-point rule."
+      },
+      "scottish": {
+        "status": "official_source_verified_pending_eligibility_consumer_support",
+        "source_ids": [
+          "aston_course_page_2027",
+          "aston_official_research_team_2026_2027",
+          "aston_msc_research_team_2026_2027"
+        ],
+        "national_5_requirements": [
+          {
+            "subject_id": "english_language",
+            "minimum_grade": "B"
+          },
+          {
+            "subject_id": "mathematics",
+            "minimum_grade": "B"
+          },
+          {
+            "subject_id": "chemistry",
+            "minimum_grade": "B"
+          },
+          {
+            "subject_id": "biology",
+            "minimum_grade": "B"
+          }
+        ],
+        "higher_offer": {
+          "grade_profile": [
+            "A",
+            "A",
+            "A",
+            "A",
+            "A"
+          ],
+          "required_subject_ids": [
+            "chemistry",
+            "biology"
+          ],
+          "source_ids": [
+            "aston_official_research_team_2026_2027"
+          ],
+          "notes": "AAAAA including Chemistry and Biology."
+        },
+        "advanced_higher_offer": {
+          "grade_profile": [
+            "A",
+            "A",
+            "A"
+          ],
+          "source_ids": [
+            "aston_course_page_2027",
+            "aston_official_research_team_2026_2027"
+          ],
+          "notes": "Chemistry and Biology are required."
+        },
+        "contextual_advanced_higher_offer": {
+          "grade_profile": [
+            "A",
+            "A",
+            "B"
+          ],
+          "required_subject_ids": [
+            "chemistry",
+            "biology"
+          ],
+          "source_ids": [
+            "aston_official_research_team_2026_2027"
+          ],
+          "notes": "Contextual Advanced Higher requirement is AAB including Chemistry and Biology."
+        },
+        "grade_requirements": [
+          {
+            "requirement_id": "scottish_advanced_higher",
+            "applies_to_group_ids": [
+              "home_fee",
+              "school_leaver"
+            ],
+            "qualification_level": "advanced_higher",
+            "grade_profile": [
+              "A",
+              "A",
+              "A"
+            ],
+            "required_subject_ids": [
+              "chemistry",
+              "biology"
+            ],
+            "decision_outcome_if_not_met": "not_eligible",
+            "source_ids": [
+              "aston_course_page_2027",
+              "aston_official_research_team_2026_2027"
+            ],
+            "notes": "The full National 5, Higher and Advanced Higher route is officially evidenced, but remains manual until evaluator support is added."
+          }
+        ],
+        "required_subject_ids": [
+          "chemistry",
+          "biology"
+        ],
+        "one_of_subject_groups": [],
+        "execution_status": "pending_eligibility_consumer_update",
+        "notes": "National 5 A/B in English, Mathematics, Chemistry and Biology; Highers AAAAA including Chemistry and Biology; Advanced Highers AAA with Chemistry and Biology essential. Contextual Advanced Highers are AAB."
+      },
+      "btec": {
+        "status": "supported_only_in_published_combination",
+        "source_ids": [
+          "aston_course_page_2027"
+        ],
+        "accepted_subject_ids": [
+          "science"
+        ],
+        "accepted_combinations": [
+          {
+            "combination_id": "btec_applied_science_plus_chemistry_biology_a_levels",
+            "btec_qualification": "BTEC National Extended Diploma in Applied Science",
+            "btec_grade": "DDD",
+            "a_level_subject_ids": [
+              "chemistry",
+              "biology"
+            ],
+            "a_level_grade_profile": [
+              "A*",
+              "A"
+            ],
+            "a_level_subject_grade_options": [
+              {
+                "grade_requirements": [
+                  {
+                    "subject_id": "chemistry",
+                    "minimum_grade": "A*"
+                  },
+                  {
+                    "subject_id": "biology",
+                    "minimum_grade": "A"
+                  }
+                ]
+              },
+              {
+                "grade_requirements": [
+                  {
+                    "subject_id": "chemistry",
+                    "minimum_grade": "A"
+                  },
+                  {
+                    "subject_id": "biology",
+                    "minimum_grade": "A*"
+                  }
+                ]
+              }
+            ],
+            "execution_status": "automatic_exact_published_combination_only",
+            "decision_outcome_if_not_met": "unknown",
+            "source_ids": [
+              "aston_course_page_2027"
+            ],
+            "notes": "Only this exact published combination is supported automatically. Other BTEC combinations require manual review."
+          }
+        ],
+        "standalone_btec_accepted": false,
+        "notes": "Unlisted BTEC combinations are not inferred."
+      },
+      "t_level": {
+        "status": "not_accepted",
+        "source_ids": [
+          "aston_course_page_2027"
+        ],
+        "accepted": false,
+        "mixed_t_level_and_a_level_execution_status": "manual_review",
+        "decision_outcome_if_not_met": "not_eligible",
+        "notes": "T Levels are not accepted for MBChB. Applicants presenting a mixed T Level/A-level profile are directed to Admissions for individual advice."
+      },
+      "access_to_he": {
+        "status": "not_accepted",
+        "source_ids": [
+          "aston_course_page_2027"
+        ],
+        "total_credits": null,
+        "distinction_credits": null,
+        "merit_credits": null,
+        "subject_credit_requirements": [],
+        "accepted": false,
+        "decision_outcome_if_not_met": "not_eligible",
+        "notes": "Aston does not currently accept Access courses for MBChB."
+      },
+      "degree": {
+        "status": "official_source_verified",
+        "source_ids": [
+          "aston_course_page_2027",
+          "aston_medical_school_faq_current"
+        ],
+        "applies_to_group_ids": [
+          "graduate_applicant"
+        ],
+        "minimum_classification": "2:1",
+        "accepted_degree_subject_ids": [],
+        "accepted_degree_scope": "Any discipline from a UK ENIC-recognised university.",
+        "application_timing": "The degree must be completed or the applicant must be in its final year.",
+        "school_qualification_requirement": "ABB at A level including Chemistry and Biology, with grade A in at least one, plus the standard GCSE minimum.",
+        "school_qualification_grade_profile": [
+          "A",
+          "B",
+          "B"
+        ],
+        "required_a_level_subject_ids": [
+          "chemistry",
+          "biology"
+        ],
+        "required_a_level_subject_grade_options": [
+          {
+            "grade_requirements": [
+              {
+                "subject_id": "chemistry",
+                "minimum_grade": "A"
+              },
+              {
+                "subject_id": "biology",
+                "minimum_grade": "B"
+              }
+            ]
+          },
+          {
+            "grade_requirements": [
+              {
+                "subject_id": "chemistry",
+                "minimum_grade": "B"
+              },
+              {
+                "subject_id": "biology",
+                "minimum_grade": "A"
+              }
+            ]
+          }
+        ],
+        "gcse_requirements_apply": true,
+        "programme_length_years": 5,
+        "accelerated_entry_available": false,
+        "scoring": {
+          "status": "superseded_by_current_gcse_only_pre_interview_scoring",
+          "prediction_use": "do_not_use",
+          "source_ids": [
+            "aston_medical_school_faq_current",
+            "aston_official_research_team_2026_2027",
+            "aston_foi_pre_interview_2026_2027"
+          ],
+          "notes": "The degree and A-level requirements remain eligibility gates. The older route-specific graduate points model must not replace the confirmed current GCSE-only pre-interview academic score."
+        },
+        "decision_outcome_if_not_met": "not_eligible",
+        "notes": "A100 is not an accelerated graduate-entry programme."
+      },
+      "foundation_programmes": {
+        "status": "supported_only_for_aston_healthcare_foundation_year",
+        "source_ids": [
+          "aston_official_research_team_2026_2027",
+          "aston_msc_research_team_2026_2027"
+        ],
+        "accepted_programmes": [
+          {
+            "programme_id": "aston_healthcare_foundation_year",
+            "provider": "Aston University",
+            "a_level_grade_profile": [
+              "B",
+              "B",
+              "B"
+            ],
+            "required_subject_ids": [
+              "chemistry",
+              "biology"
+            ],
+            "ucat_required": true,
+            "mmi_required": true,
+            "execution_status": "pending_eligibility_consumer_update",
+            "source_ids": [
+              "aston_official_research_team_2026_2027",
+              "aston_msc_research_team_2026_2027"
+            ]
+          }
+        ],
+        "external_foundation_years_accepted": false,
+        "external_foundation_decision_outcome": "not_eligible",
+        "notes": "Only Aston's own Healthcare Foundation Year is accepted. External foundation years are not accepted."
+      },
+      "international_qualifications": {
+        "status": "named_routes_officially_evidenced_pending_eligibility_consumer_support",
+        "source_ids": [
+          "aston_official_research_team_2026_2027",
+          "aston_msc_research_team_2026_2027"
+        ],
+        "published_routes": [
+          {
+            "route_id": "international_a_level",
+            "grade_profile": [
+              "A*",
+              "A",
+              "A"
+            ],
+            "required_subject_ids": [
+              "chemistry",
+              "biology"
+            ],
+            "a_star_subject_rule": "The A* must be in Chemistry or Biology."
+          },
+          {
+            "route_id": "international_baccalaureate",
+            "total_points": 37,
+            "hl_grade_profile": [
+              "7",
+              "6",
+              "6"
+            ],
+            "required_hl_subject_ids": [
+              "chemistry",
+              "biology"
+            ],
+            "grade_7_subject_rule": "The grade 7 must be in Chemistry or Biology."
+          },
+          {
+            "route_id": "us_high_school_plus_ap",
+            "high_school_gpa": 4,
+            "ap_grade_profile": [
+              "5",
+              "5",
+              "5"
+            ],
+            "required_ap_subject_ids": [
+              "chemistry",
+              "biology"
+            ]
+          },
+          {
+            "route_id": "india_cbse",
+            "minimum_average_percent": 90,
+            "subject_count": 5,
+            "required_subject_percentages": [
+              {
+                "subject_id": "chemistry",
+                "minimum_percent": 90
+              },
+              {
+                "subject_id": "biology",
+                "minimum_percent": 90
+              }
+            ]
+          }
+        ],
+        "unlisted_qualification_execution_status": "manual_review_via_admissions_and_uk_enic",
+        "notes": "Only the named routes are structured. All unlisted international qualifications require Aston Admissions and UK ENIC review."
+      },
+      "notes": "Eligibility remains automatic only where the existing evaluator supports every applicable published rule. Scottish, WP IB, Aston Foundation and named international routes are officially evidenced but remain manual until consumer support is updated."
+    },
+    "admissions_tests": {
+      "source_ids": [
+        "aston_course_page_2027",
+        "aston_medical_school_faq_current",
+        "aston_ucat_advice_current",
+        "aston_official_research_team_2026_2027",
+        "aston_foi_pre_interview_2026_2027"
+      ],
+      "ucat": {
+        "required": true,
+        "source_ids": [
+          "aston_course_page_2027",
+          "aston_medical_school_faq_current",
+          "aston_ucat_advice_current",
+          "aston_official_research_team_2026_2027",
+          "aston_foi_pre_interview_2026_2027"
+        ],
+        "minimum_total_score": null,
+        "maximum_total_score": 2700,
+        "included_subtests": [
+          "Verbal Reasoning",
+          "Decision Making",
+          "Quantitative Reasoning"
+        ],
+        "minimum_subsection_scores": [],
+        "subsection_minimum_policy": "none",
+        "score_used_for_ranking": true,
+        "validity_window": "UCAT or UCATSEN must be taken in the same year as the application.",
+        "target_cycle_test_year": 2026,
+        "target_cycle_test_year_status": "calendar_inference_from_same_year_rule_pending_cycle_confirmation",
+        "exemptions": [],
+        "current_cutoff": null,
+        "current_cutoff_policy": "No fixed UCAT score requirement or lower cutoff is published; the effective rank boundary is dynamic and unknown.",
+        "home_wp_points_out_of_12": {
+          "score_scale": 2700,
+          "bands": [
+            {
+              "minimum": 2550,
+              "maximum": 2700,
+              "points": 12
+            },
+            {
+              "minimum": 2350,
+              "maximum": 2549,
+              "points": 11
+            },
+            {
+              "minimum": 2150,
+              "maximum": 2349,
+              "points": 10
+            },
+            {
+              "minimum": 1950,
+              "maximum": 2149,
+              "points": 9
+            },
+            {
+              "minimum": 1800,
+              "maximum": 1949,
+              "points": 8
+            },
+            {
+              "minimum": 1650,
+              "maximum": 1799,
+              "points": 7
+            }
+          ],
+          "below_1650": {
+            "exact_points": null,
+            "execution_status": "manual_review",
+            "notes": "The supplied table states only that this is below seven points. No exact value is inferred."
+          },
+          "execution_status": "pending_selection_consumer_support",
+          "source_ids": [
+            "aston_official_research_team_2026_2027",
+            "aston_foi_pre_interview_2026_2027"
+          ]
+        },
+        "decision_outcome_if_not_met": "not_eligible",
+        "notes": "For Home and WP applicants, the cognitive total is converted to a maximum of 12 points for the confirmed /36 pre-interview score. International applicants remain ranked by raw cognitive total only after academic eligibility. No current cutoff is fixed."
+      },
+      "sjt": {
+        "used": false,
+        "source_ids": [
+          "aston_medical_school_faq_current",
+          "aston_ucat_advice_current"
+        ],
+        "used_as_gate": false,
+        "accepted_bands": [
+          1,
+          2,
+          3,
+          4
+        ],
+        "excluded_bands": [],
+        "scoring": {
+          "used_in_score": false,
+          "points_by_band": {}
+        },
+        "decision_outcome_if_excluded": "unknown",
+        "notes": "SJT banding is not scored or considered in ranking, and no lower SJT cutoff is published. Band 4 is therefore not an automatic rejection."
+      },
+      "other_tests": []
+    },
+    "resits": {
+      "policy": "accepted_with_conditions",
+      "source_ids": [
+        "aston_course_page_2027",
+        "aston_medical_school_faq_current"
+      ],
+      "allowed": true,
+      "conditions": [
+        "GCSEs, A levels and accepted equivalent qualifications may be resat, with or without repeating an academic year.",
+        "The final qualification profile must normally be achieved within no more than three academic years, allowing one resit-year attempt.",
+        "The one-attempt restriction applies to the resit year or attempt cycle, not to a single resat subject; Aston does not publish a one-subject cap.",
+        "Applicants resitting A levels or equivalent examinations such as IB are scored on GCSEs only.",
+        "Extenuating circumstances are not considered in scoring and ranking."
+      ],
+      "maximum_resit_year_attempt_cycles": 1,
+      "maximum_resit_subjects_within_permitted_cycle": null,
+      "multiple_subject_resits_within_permitted_cycle": "permitted_no_published_subject_count_cap",
+      "maximum_academic_years": 3,
+      "execution_status": "automatic_for_one_clearly_identified_resit_year_attempt_cycle",
+      "applies_to_group_ids": [
+        "resit_applicant"
+      ],
+      "decision_outcome_if_not_allowed": "not_eligible",
+      "repeat_application_policy": {
+        "maximum_total_attempts": 3,
+        "rejected_pre_interview": "May reapply in the next application cycle.",
+        "rejected_post_interview": "Must wait one full application cycle before reapplying.",
+        "failed_mmi_twice": "No further applications are accepted.",
+        "mmi_red_flag_rule": "Applicants previously rejected because of one or more MMI red flags are excluded.",
+        "execution_status": "pending_eligibility_consumer_update",
+        "source_ids": [
+          "aston_official_research_team_2026_2027",
+          "aston_foi_post_interview_2025_onwards"
+        ]
+      },
+      "notes": "The published resit limit is one resit-year attempt within no more than three academic years, not one subject. Non-standard sequencing remains manual. Repeat-application limits are now evidenced but require consumer support before automatic decisions."
+    },
+    "english_language": {
+      "source_ids": [
+        "aston_english_language_requirements_current",
+        "aston_medical_school_faq_current"
+      ],
+      "applies_to_group_ids": [
+        "international_fee"
+      ],
+      "accepted_tests": [
+        {
+          "test": "IELTS Academic",
+          "overall_minimum": 7,
+          "reading_minimum": 7,
+          "writing_minimum": 7,
+          "listening_minimum": 7,
+          "speaking_minimum": 7,
+          "validity": "Taken within two years of the course start date.",
+          "execution_status": "automatic",
+          "decision_outcome_if_not_met": "not_eligible",
+          "source_ids": [
+            "aston_english_language_requirements_current"
+          ]
+        }
+      ],
+      "alternative_tests": {
+        "execution_status": "manual_review",
+        "decision_outcome": "unknown",
+        "notes": "Alternative English-language tests are not automatically accepted or rejected because complete Medicine-specific equivalences are not encoded."
+      },
+      "exemptions": {
+        "execution_status": "manual_review",
+        "decision_outcome": "unknown",
+        "notes": "English-language exemptions require individual confirmation and must not be automatically rejected."
+      },
+      "lower_gcse_english_equivalence": {
+        "execution_status": "manual_review",
+        "notes": "The medical-school scoring FAQ maps some lower IELTS components to GCSE grades, but the current university eligibility requirement is 7.0 overall and in every component. The scoring table must not reduce eligibility."
+      },
+      "decision_outcome_if_not_met": "unknown",
+      "notes": "IELTS Academic below the published 7.0 overall and per-component minimum is not eligible. Applicants presenting another English test or claiming an exemption are routed to manual review rather than rejected automatically."
+    },
+    "deferred_entry": {
+      "status": "official_source_verified",
+      "source_ids": [
+        "aston_course_page_2027"
+      ],
+      "applies_to_group_ids": [
+        "deferred_entry"
+      ],
+      "initial_deferred_application": {
+        "accepted": true,
+        "application_method": "Apply for deferred entry through UCAS.",
+        "execution_status": "automatic"
+      },
+      "gap_year": {
+        "permitted": true,
+        "execution_status": "automatic"
+      },
+      "application_year_requirements": [
+        "Interview must be completed in the year of application.",
+        "UCAT must be taken in the year of application.",
+        "Academic qualifications and all other offer conditions must be obtained in the year of application."
+      ],
+      "pre_entry_repeat_checks": [
+        "Occupational-health checks must be repeated before deferred entry.",
+        "DBS or applicable police checks must be repeated before deferred entry."
+      ],
+      "post_offer_deferral": {
+        "status": "case_by_case",
+        "execution_status": "manual_review",
+        "decision_outcome": "unknown"
+      },
+      "notes": "Deferred entry and gap years are officially permitted. A deferral requested after an offer is not automatically approved and requires manual Aston review."
+    },
+    "age_or_professional_checks": {
+      "source_ids": [
+        "aston_course_page_2027",
+        "aston_medical_school_faq_current"
+      ],
+      "minimum_age": null,
+      "fitness_to_practise_required": true,
+      "dbs_required": true,
+      "occupational_health_required": true,
+      "decision_outcome_if_not_met": "not_eligible",
+      "notes": "Successful applicants must satisfy fitness-to-practise, Enhanced DBS or international police checks and occupational-health requirements."
+    },
+    "non_academic": {
+      "personal_statement": {
+        "required": true,
+        "scored_at_initial_stage": false,
+        "use": "Read with the reference to confirm a suitable academic reference and identify fitness-to-practise or other concerns."
+      },
+      "reference_policy": "Normally supplied by the current or most recent academic institution, or by a current employer when an academic reference is not possible after more than five years out of education.",
+      "work_experience_scoring": "unknown_no_separate_points_formula_published",
+      "source_ids": [
+        "aston_medical_school_faq_current"
+      ],
+      "notes": "Do not create a work-experience score or other non-academic pre-interview points."
+    }
+  },
+  "stage_2_interview_selection": {
+    "verification_status": "official_pre_interview_formula_verified",
+    "source_ids": [
+      "aston_medical_school_faq_current",
+      "aston_ucat_advice_current",
+      "aston_official_research_team_2026_2027",
+      "aston_foi_pre_interview_2026_2027"
+    ],
+    "primary_model": "academic_plus_ucat_weighting",
+    "modifiers": [
+      "widening_participation_scheme",
+      "separate_applicant_pool",
+      "resit_policy_adjustment"
+    ],
+    "ranking_factors": [
+      {
+        "factor_id": "academic_score_home_wp",
+        "factor_type": "academic_score",
+        "applies_to_group_ids": [
+          "home_fee"
+        ],
+        "weight_percent": 66.7,
+        "points_available": 24,
+        "source_field": "stage_1_eligibility.gcse.scoring_models.current_gcse_only_academic_score",
+        "source_ids": [
+          "aston_official_research_team_2026_2027",
+          "aston_foi_pre_interview_2026_2027"
+        ],
+        "notes": "Six-best-GCSE academic score, including the mandatory subjects, out of 24."
+      },
+      {
+        "factor_id": "ucat_points_home_wp",
+        "factor_type": "ucat_band_points",
+        "applies_to_group_ids": [
+          "home_fee"
+        ],
+        "weight_percent": 33.3,
+        "points_available": 12,
+        "source_field": "stage_1_eligibility.admissions_tests.ucat.home_wp_points_out_of_12",
+        "source_ids": [
+          "aston_official_research_team_2026_2027",
+          "aston_foi_pre_interview_2026_2027"
+        ],
+        "notes": "UCAT cognitive total is converted to points out of 12. Exact points below 1650 are unknown."
+      },
+      {
+        "factor_id": "ucat_total_international",
+        "factor_type": "ucat_cognitive_total",
+        "applies_to_group_ids": [
+          "international_fee"
+        ],
+        "weight_percent": 100,
+        "points_available": 2700,
+        "source_field": "stage_1_eligibility.admissions_tests.ucat",
+        "source_ids": [
+          "aston_medical_school_faq_current"
+        ],
+        "notes": "International applicants who pass academic eligibility are ranked by UCAT cognitive total only."
+      }
+    ],
+    "calculation": {
+      "verification_status": "official_pre_interview_formula_verified",
+      "source_ids": [
+        "aston_official_research_team_2026_2027",
+        "aston_foi_pre_interview_2026_2027"
+      ],
+      "score_components": [
+        {
+          "component_id": "home_wp_academic_component",
+          "factor_id": "academic_score_home_wp",
+          "input_field": "current_gcse_only_academic_score",
+          "calculation_method": "six_best_mandatory_inclusive_gcse_points",
+          "scale": {
+            "min": 0,
+            "max": 24
+          },
+          "weight_percent": 66.7,
+          "rounding": null,
+          "notes": "No cross-pool normalisation.",
+          "source_ids": [
+            "aston_official_research_team_2026_2027",
+            "aston_foi_pre_interview_2026_2027"
+          ]
+        },
+        {
+          "component_id": "home_wp_ucat_component",
+          "factor_id": "ucat_points_home_wp",
+          "input_field": "ucat_cognitive_total",
+          "calculation_method": "published_score_band_lookup",
+          "scale": {
+            "min": 0,
+            "max": 12
+          },
+          "weight_percent": 33.3,
+          "rounding": null,
+          "notes": "Applicants below 1650 require manual or conservative low-band handling because exact points are not supplied.",
+          "source_ids": [
+            "aston_official_research_team_2026_2027",
+            "aston_foi_pre_interview_2026_2027"
+          ]
+        },
+        {
+          "component_id": "international_ucat_component",
+          "factor_id": "ucat_total_international",
+          "input_field": "ucat_cognitive_total",
+          "calculation_method": "raw_score_descending",
+          "scale": {
+            "min": 0,
+            "max": 2700
+          },
+          "weight_percent": 100,
+          "rounding": null,
+          "notes": "Applies only to academically eligible International applicants.",
+          "source_ids": [
+            "aston_medical_school_faq_current"
+          ]
+        }
+      ],
+      "total_score": {
+        "calculation_method": "direct_addition",
+        "formula": "pre_interview_total = academic_score_out_of_24 + ucat_score_out_of_12",
+        "components": [
+          "home_wp_academic_component",
+          "home_wp_ucat_component"
+        ],
+        "scale": {
+          "min": 0,
+          "max": 36
+        },
+        "normalisation_across_pools": false,
+        "applies_to_pool_ids": [
+          "home_non_wp",
+          "home_wp"
+        ],
+        "excluded_pool_ids": [
+          "international"
+        ],
+        "notes": "The formula is evidenced but remains non-executable until the selection consumer and acceptance tests support the GCSE component and UCAT band lookup. International selection remains raw UCAT-only.",
+        "source_ids": [
+          "aston_official_research_team_2026_2027",
+          "aston_foi_pre_interview_2026_2027"
+        ]
+      },
+      "execution_status": "active_for_validated_home_and_wp_routes",
+      "notes": "Formula evidence is complete for Home and WP. Consumer acceptance and band configuration are confirmed. Interview guidance is active for Home non-WP, Home WP and International pools."
+    },
+    "thresholds": [
+      {
+        "threshold_id": "historical_group_guidance_2022_2026_plus",
+        "fixed_current_cutoff": false,
+        "score_scale": "combined_pre_interview_total_out_of_36",
+        "applies_to_pool_ids": [
+          "home_non_wp",
+          "home_wp"
+        ],
+        "historical_data_location": "historical_admissions.pre_interview_thresholds",
+        "international_metric_safeguard": "International historical /36 labels are context only; do not calculate an International combined score.",
+        "prediction_use": "historical_guidance_only",
+        "source_ids": [
+          "aston_foi_pre_interview_2026_2027"
+        ],
+        "notes": "No historical or guidance value is a live current cutoff."
+      }
+    ],
+    "selection_adjustments": [
+      {
+        "adjustment_id": "separate_wp_ranking_pool",
+        "modifier_id": "separate_applicant_pool",
+        "applies_to_group_ids": [
+          "home_fee"
+        ],
+        "any_group_ids": [
+          "contextual",
+          "widening_participation"
+        ],
+        "condition": {
+          "field": "widening_participation_status",
+          "operator": "equals",
+          "value": true
+        },
+        "effect": {
+          "type": "ranking_pool_assignment",
+          "target": "ranking_pool",
+          "value": "home_wp"
+        },
+        "decision_outcome": "unknown",
+        "source_ids": [
+          "aston_official_research_team_2026_2027",
+          "aston_foi_pre_interview_2026_2027"
+        ],
+        "notes": "2027 WP criteria are evidenced; pool assignment remains dependent on confirmed applicant evidence."
+      },
+      {
+        "adjustment_id": "resitter_gcse_only_scoring",
+        "modifier_id": "resit_policy_adjustment",
+        "applies_to_group_ids": [
+          "resit_applicant"
+        ],
+        "condition": {
+          "field": "resitting_a_level_or_equivalent",
+          "operator": "equals",
+          "value": true
+        },
+        "effect": {
+          "type": "scoring_model",
+          "target": "academic_score",
+          "value": "gcse_only"
+        },
+        "decision_outcome": "unknown",
+        "source_ids": [
+          "aston_medical_school_faq_current"
+        ],
+        "notes": "The confirmed current academic component is GCSE-only for Home/WP ranking."
+      }
+    ],
+    "tie_breakers": [
+      {
+        "rank": 1,
+        "factor": "higher_ucat_cognitive_score"
+      },
+      {
+        "rank": 2,
+        "factor": "higher_gcse_academic_points"
+      },
+      {
+        "rank": 3,
+        "factor": "personal_statement_and_reference_review"
+      },
+      {
+        "rank": 4,
+        "factor": "pre_interview_reserve_list"
+      }
+    ],
+    "output_band_policy": {
+      "bands": [],
+      "enabled": true,
+      "configuration_file": "interview-band-configs/aston-a100.json",
+      "notes": "Interview-band configuration is active. Consumer acceptance confirmed by passing acceptance test suite. Three guidance pools are configured: home_non_wp, home_wp, international."
+    },
+    "notes": "Home non-WP and Home WP use the verified /36 GCSE-plus-UCAT formula in separate lists without cross-pool normalisation. International remains a separate raw-UCAT list after eligibility because the official UCAT-only rule conflicts with historical FOI /36 labels. Formula execution, bands and prediction output remain disabled pending consumer/config acceptance."
+  },
+  "contextual_admissions": {
+    "verification_status": "official_source_verified_with_remaining_eligibility_exceptions",
+    "source_ids": [
+      "aston_course_page_2027",
+      "aston_medical_school_faq_current",
+      "aston_ready_contextual_2026",
+      "aston_official_research_team_2026_2027"
+    ],
+    "available": true,
+    "applies_to_group_ids": [
+      "home_fee"
+    ],
+    "any_group_ids": [
+      "contextual",
+      "widening_participation"
+    ],
+    "criteria": [
+      {
+        "criterion_id": "polar_or_imd_quintile_1_2",
+        "applies_to_group_ids": [
+          "home_fee"
+        ],
+        "any_group_ids": [
+          "contextual",
+          "widening_participation"
+        ],
+        "description": "Lives in a POLAR quintile 1 or 2 or IMD quintile 1 or 2 postcode.",
+        "source_ids": [
+          "aston_official_research_team_2026_2027"
+        ]
+      },
+      {
+        "criterion_id": "free_school_meals_last_six_years",
+        "applies_to_group_ids": [
+          "home_fee"
+        ],
+        "any_group_ids": [
+          "contextual",
+          "widening_participation"
+        ],
+        "description": "Received Free School Meals within the previous six years.",
+        "source_ids": [
+          "aston_official_research_team_2026_2027"
+        ]
+      },
+      {
+        "criterion_id": "care_experienced_or_looked_after",
+        "applies_to_group_ids": [
+          "home_fee"
+        ],
+        "any_group_ids": [
+          "contextual",
+          "widening_participation"
+        ],
+        "description": "Care-experienced or a looked-after child.",
+        "source_ids": [
+          "aston_official_research_team_2026_2027"
+        ]
+      },
+      {
+        "criterion_id": "first_generation_higher_education",
+        "applies_to_group_ids": [
+          "home_fee"
+        ],
+        "any_group_ids": [
+          "contextual",
+          "widening_participation"
+        ],
+        "description": "First generation in the family to enter higher education.",
+        "source_ids": [
+          "aston_official_research_team_2026_2027"
+        ]
+      },
+      {
+        "criterion_id": "ucat_bursary",
+        "applies_to_group_ids": [
+          "home_fee"
+        ],
+        "any_group_ids": [
+          "contextual",
+          "widening_participation"
+        ],
+        "description": "Received a UCAT bursary.",
+        "source_ids": [
+          "aston_official_research_team_2026_2027"
+        ]
+      },
+      {
+        "criterion_id": "aston_ready_or_pathways",
+        "applies_to_group_ids": [
+          "home_fee"
+        ],
+        "any_group_ids": [
+          "contextual",
+          "widening_participation"
+        ],
+        "description": "Completed Aston Ready or Aston Pathways.",
+        "source_ids": [
+          "aston_official_research_team_2026_2027"
+        ]
+      }
+    ],
+    "criterion_scope_exclusions": [
+      "Applicants in the final year of a degree",
+      "Applicants who already hold a degree",
+      "Applicants who attended an independent school"
+    ],
+    "criterion_scope_notes": "State grammar school applicants remain eligible for consideration. One evidenced criterion is sufficient, subject to applicant evidence and consumer support.",
+    "adjustments": [
+      {
+        "adjustment_id": "contextual_a_level_offer",
+        "applies_to_group_ids": [
+          "home_fee"
+        ],
+        "any_group_ids": [
+          "contextual",
+          "widening_participation"
+        ],
+        "stage": "eligibility_and_offer",
+        "policy_description": "The contextual A-level requirement is AAB with AA in Chemistry and Biology.",
+        "effect": {
+          "type": "grade_profile",
+          "target": "stage_1_eligibility.post_16.a_level.contextual_offer",
+          "value": [
+            "A",
+            "A",
+            "B"
+          ]
+        },
+        "source_ids": [
+          "aston_course_page_2027",
+          "aston_official_research_team_2026_2027"
+        ],
+        "notes": "A-level grades remain an eligibility requirement and are not added to the confirmed current GCSE-only academic score."
+      },
+      {
+        "adjustment_id": "separate_wp_pool",
+        "applies_to_group_ids": [
+          "home_fee"
+        ],
+        "any_group_ids": [
+          "contextual",
+          "widening_participation"
+        ],
+        "stage": "interview_selection",
+        "policy_description": "Eligible WP applicants are ranked separately from Home non-WP and International applicants.",
+        "effect": {
+          "type": "ranking_pool_assignment",
+          "target": "ranking_pool",
+          "value": "home_wp"
+        },
+        "source_ids": [
+          "aston_medical_school_faq_current",
+          "aston_official_research_team_2026_2027",
+          "aston_foi_pre_interview_2026_2027"
+        ],
+        "notes": "No fixed WP quota is implemented."
+      }
+    ],
+    "guaranteed_interview_rules": [],
+    "wp_ib_policy": {
+      "higher_level_grade_profile": [
+        "6",
+        "6",
+        "5"
+      ],
+      "required_hl_subject_ids": [
+        "chemistry",
+        "biology"
+      ],
+      "overall_points": 35,
+      "execution_status": "pending_eligibility_consumer_update",
+      "source_ids": [
+        "aston_official_research_team_2026_2027"
+      ]
+    },
+    "wp_place_aim": {
+      "description": "Aston reports 110 Home places and an aim of up to 44 WP offers.",
+      "fixed_quota": false,
+      "execution_status": "informational_only",
+      "source_ids": [
+        "aston_official_research_team_2026_2027"
+      ]
+    },
+    "notes": "The 2027 criteria, AAB adjustment, WP IB 35/665 rule and separate WP pool are evidenced. No fixed quota is inferred; consumer activation remains pending."
+  },
+  "ranking_pools": [
+    {
+      "pool_id": "home_non_wp",
+      "name": "Home non-widening-participation",
+      "applies_to_group_ids": [
+        "home_fee"
+      ],
+      "excluded_group_ids": [
+        "contextual",
+        "widening_participation"
+      ],
+      "fee_statuses": [
+        "home"
+      ],
+      "ranking_model": "academic_plus_ucat_weighting",
+      "ranking_factors": [
+        "current GCSE-only academic score out of 24",
+        "UCAT band score out of 12",
+        "direct combined total out of 36"
+      ],
+      "places_available": null,
+      "shared_home_places": 110,
+      "source_ids": [
+        "aston_medical_school_faq_current",
+        "aston_official_research_team_2026_2027",
+        "aston_foi_pre_interview_2026_2027"
+      ],
+      "notes": "Excludes applicants assigned to the WP pool. Ranked by the confirmed /36 formula without cross-pool normalisation. No live fixed boundary is implemented."
+    },
+    {
+      "pool_id": "home_wp",
+      "name": "Home widening-participation",
+      "applies_to_group_ids": [
+        "home_fee"
+      ],
+      "any_group_ids": [
+        "contextual",
+        "widening_participation"
+      ],
+      "fee_statuses": [
+        "home"
+      ],
+      "ranking_model": "academic_plus_ucat_weighting",
+      "ranking_factors": [
+        "current GCSE-only academic score out of 24",
+        "UCAT band score out of 12",
+        "direct combined total out of 36"
+      ],
+      "places_available": null,
+      "shared_home_places": 110,
+      "offers_aim_up_to": 44,
+      "fixed_quota": false,
+      "source_ids": [
+        "aston_medical_school_faq_current",
+        "aston_course_page_2027",
+        "aston_official_research_team_2026_2027",
+        "aston_foi_pre_interview_2026_2027"
+      ],
+      "notes": "Ranked separately using the confirmed /36 formula. Up to 44 WP offers is an aim, not a fixed quota. No live fixed boundary is implemented."
+    },
+    {
+      "pool_id": "international",
+      "name": "International and Overseas/Overseas Unknown",
+      "applies_to_group_ids": [
+        "international_fee"
+      ],
+      "fee_statuses": [
+        "international"
+      ],
+      "ranking_model": "ucat_ranking",
+      "ranking_factors": [
+        "UCAT cognitive total out of 2700 after academic eligibility"
+      ],
+      "places_available": 30,
+      "source_ids": [
+        "aston_medical_school_faq_current",
+        "aston_course_page_2027",
+        "aston_official_research_team_2026_2027"
+      ],
+      "notes": "Ranked by descending UCAT total after eligibility. Historical FOI /36 labels are retained as context only and must not be used to calculate an International combined score until Aston resolves the metric conflict."
+    }
+  ],
+  "quotas": [
+    {
+      "quota_id": "aston_a100_places_2027_entry_verified",
+      "name": "Verified Home/International places (2027 entry)",
+      "home_places": 110,
+      "international_places": 30,
+      "quota_type": "verified_current_places",
+      "source_ids": [
+        "applysmart_admissions_team_verified_2026"
+      ],
+      "notes": "Home/International place figures verified by the ApplySmart admissions research team for 2027 entry."
+    }
+  ],
+  "offer_selection": {
+    "verification_status": "official_and_foi_verified",
+    "source_ids": [
+      "aston_course_page_2027",
+      "aston_medical_school_faq_current",
+      "aston_mmi_advice_current",
+      "aston_official_research_team_2026_2027",
+      "aston_foi_post_interview_2025_onwards"
+    ],
+    "interview_format": {
+      "type": "Multiple Mini Interview",
+      "delivery": "online",
+      "timing": "Normally December to March in the application year.",
+      "station_count": {
+        "minimum": 8,
+        "maximum": 10
+      },
+      "station_mechanics": "Several stations assess different attributes; some may use actors or a scenario to read and discuss.",
+      "medical_knowledge_tested": false,
+      "work_experience_scored": false,
+      "work_experience_use": "May be discussed at interview.",
+      "source_ids": [
+        "aston_mmi_advice_current",
+        "aston_official_research_team_2026_2027"
+      ]
+    },
+    "interview_attributes": [
+      "oral and written communication",
+      "listening",
+      "empathy, compassion, respect and dignity",
+      "emotional intelligence",
+      "problem solving",
+      "motivation",
+      "teamworking",
+      "ability to lead and follow",
+      "awareness of limitations and when to ask for help"
+    ],
+    "interview_scoring": {
+      "score_used": true,
+      "minimum_score": null,
+      "maximum_score": 45,
+      "station_scores": [],
+      "sjt_used_post_interview": false,
+      "decision_outcome_if_not_met": "unknown",
+      "source_ids": [
+        "aston_medical_school_faq_current",
+        "aston_mmi_advice_current",
+        "aston_official_research_team_2026_2027",
+        "aston_foi_post_interview_2025_onwards"
+      ],
+      "notes": "Performance across 8 to 10 stations is combined into a raw total out of 45. The station rubric is not encoded."
+    },
+    "offer_model": {
+      "model_id": "aston_post_interview_2_1_1",
+      "status": "officially_confirmed_2025_onwards_consumer_disabled",
+      "weight_ratio": "2:1:1",
+      "academic_weight_percent": 50,
+      "ucat_weight_percent": 25,
+      "mmi_weight_percent": 25,
+      "component_scaling": "Use the officially supplied academic, UCAT and MMI components in the confirmed 2:1:1 weighting. Only the MMI raw-to-/36 scaling is explicitly supplied; do not invent further precision rules.",
+      "mmi_raw_scale": {
+        "minimum": 0,
+        "maximum": 45
+      },
+      "mmi_scaled_scale": {
+        "minimum": 0,
+        "maximum": 36
+      },
+      "mmi_scaling_rounding": null,
+      "final_score_scale": {
+        "minimum": 0,
+        "maximum": 36
+      },
+      "group_specific_ranking": true,
+      "ranking_pool_ids": [
+        "home_non_wp",
+        "home_wp",
+        "international"
+      ],
+      "fixed_current_threshold": false,
+      "execution_status": "disabled_pending_offer_consumer_and_acceptance_tests",
+      "source_ids": [
+        "aston_medical_school_faq_current",
+        "aston_foi_post_interview_2025_onwards"
+      ],
+      "notes": "The MMI scaling rounding convention is not supplied. Boundary cases remain conservative/manual, and no offer prediction is emitted."
+    },
+    "ranking_factors": [
+      "Academic score weighted 50%",
+      "UCAT score weighted 25%",
+      "MMI score weighted 25%"
+    ],
+    "official_process_conflict": {
+      "summary_process": "The admissions-process summary says interviewees are re-ranked by total MMI score and top-ranking applicants receive offers within separate Home, WP and International groups.",
+      "detailed_scoring_process": "The detailed scoring section says offers are based on academic, UCAT and MMI scores.",
+      "resolution": "resolved_by_2025_onwards_faq_and_foi_update_use_2_1_1_formula",
+      "execution_status": "resolved_formula_recorded_prediction_disabled",
+      "source_ids": [
+        "aston_medical_school_faq_current",
+        "aston_foi_post_interview_2025_onwards"
+      ]
+    },
+    "tie_breakers": [
+      {
+        "rank": 1,
+        "factor": "higher_mmi_score"
+      },
+      {
+        "rank": 2,
+        "factor": "higher_ucat_score"
+      },
+      {
+        "rank": 3,
+        "factor": "higher_gcse_academic_score"
+      }
+    ],
+    "waiting_list_policy": {
+      "method": "Applicants below the group offer threshold are ranked on a reserve list which is activated if offers are declined.",
+      "separate_group_lists": true,
+      "wp_to_non_wp_movement": false,
+      "activation_timing_and_volume": "cohort_dependent",
+      "source_ids": [
+        "aston_foi_post_interview_2025_onwards"
+      ]
+    },
+    "standard_offer": {
+      "grade_profile": [
+        "A*",
+        "A",
+        "A"
+      ],
+      "source_ids": [
+        "aston_course_page_2027"
+      ],
+      "notes": "Chemistry and Biology required, with the A* in either."
+    },
+    "contextual_offer": {
+      "applies_to_group_ids": [
+        "home_fee"
+      ],
+      "any_group_ids": [
+        "contextual",
+        "widening_participation"
+      ],
+      "grade_profile": [
+        "A",
+        "A",
+        "B"
+      ],
+      "source_ids": [
+        "aston_course_page_2027"
+      ],
+      "notes": "AA required in Chemistry and Biology; WP status requires manual confirmation."
+    },
+    "non_score_conditions": [
+      "Attainment of required academic grades",
+      "Satisfactory Enhanced DBS check or international police check",
+      "Occupational-health clearance",
+      "Fitness to Practise clearance"
+    ],
+    "execution_status": "offer_prediction_disabled",
+    "notes": "The verified formula, tie-breakers and reserve-list rules are recorded as non-executable production evidence. Historical thresholds are guidance only. Offer prediction remains disabled until consumer and acceptance support exists."
+  },
+  "historical_admissions": {
+    "verification_status": "official_and_foi_verified",
+    "source_ids": [
+      "aston_medical_school_faq_current",
+      "aston_foi_pre_interview_2026_2027",
+      "aston_foi_post_interview_2025_onwards"
+    ],
+    "pre_interview_thresholds": {
+      "score_scale": "combined_pre_interview_total_out_of_36",
+      "ucat_scale": 2700,
+      "fixed_current_cutoff": false,
+      "prediction_use": "historical_guidance_only",
+      "observed_cycles": [
+        {
+          "entry_year": 2022,
+          "groups": {
+            "home_non_wp": {
+              "applicants_approx": 1900,
+              "invited_approx": 480,
+              "minimum_combined_score": 31,
+              "lowest_ucat_converted_2700": 1339,
+              "average_ucat_converted_2700": 1970,
+              "highest_ucat_converted_2700": 1912
+            },
+            "home_wp": {
+              "applicants_approx": 450,
+              "invited_approx": 180,
+              "minimum_combined_score": 27.5,
+              "lowest_ucat_converted_2700": 1275,
+              "average_ucat_converted_2700": 1935,
+              "highest_ucat_converted_2700": 1890
+            },
+            "international": {
+              "applicants_approx": 600,
+              "invited_approx": 140,
+              "minimum_combined_score": 31.5,
+              "lowest_ucat_converted_2700": 1537,
+              "average_ucat_converted_2700": 1870,
+              "highest_ucat_converted_2700": 1965
+            }
+          }
+        },
+        {
+          "entry_year": 2023,
+          "groups": {
+            "home_non_wp": {
+              "applicants_approx": 2200,
+              "invited_approx": 520,
+              "minimum_combined_score": 31.5,
+              "lowest_ucat_converted_2700": 1468,
+              "average_ucat_converted_2700": 2090,
+              "highest_ucat_converted_2700": 2010
+            },
+            "home_wp": {
+              "applicants_approx": 550,
+              "invited_approx": 210,
+              "minimum_combined_score": 28,
+              "lowest_ucat_converted_2700": 1365,
+              "average_ucat_converted_2700": 1965,
+              "highest_ucat_converted_2700": 1950
+            },
+            "international": {
+              "applicants_approx": 750,
+              "invited_approx": 170,
+              "minimum_combined_score": 32,
+              "lowest_ucat_converted_2700": 1837,
+              "average_ucat_converted_2700": 1970,
+              "highest_ucat_converted_2700": 2025
+            }
+          }
+        },
+        {
+          "entry_year": 2024,
+          "groups": {
+            "home_non_wp": {
+              "applicants_approx": 2650,
+              "invited_approx": 580,
+              "minimum_combined_score": 32,
+              "lowest_ucat_converted_2700": 1950,
+              "average_ucat_converted_2700": 2070,
+              "highest_ucat_converted_2700": 2137
+            },
+            "home_wp": {
+              "applicants_approx": 650,
+              "invited_approx": 230,
+              "minimum_combined_score": 28.5,
+              "lowest_ucat_converted_2700": 1800,
+              "average_ucat_converted_2700": 2040,
+              "highest_ucat_converted_2700": 2085
+            },
+            "international": {
+              "applicants_approx": 850,
+              "invited_approx": 200,
+              "minimum_combined_score": 32.5,
+              "lowest_ucat_converted_2700": 1897,
+              "average_ucat_converted_2700": 2010,
+              "highest_ucat_converted_2700": 2092
+            }
+          }
+        },
+        {
+          "entry_year": 2025,
+          "groups": {
+            "home_non_wp": {
+              "applicants_approx": 2900,
+              "invited_approx": 600,
+              "minimum_combined_score": 32.5,
+              "lowest_ucat_converted_2700": 1965,
+              "average_ucat_converted_2700": 2100,
+              "highest_ucat_converted_2700": 2160
+            },
+            "home_wp": {
+              "applicants_approx": 700,
+              "invited_approx": 250,
+              "minimum_combined_score": 29,
+              "lowest_ucat_converted_2700": 1815,
+              "average_ucat_converted_2700": 2050,
+              "highest_ucat_converted_2700": 2100
+            },
+            "international": {
+              "applicants_approx": 900,
+              "invited_approx": 220,
+              "minimum_combined_score": 33,
+              "lowest_ucat_converted_2700": 1912,
+              "average_ucat_converted_2700": 2050,
+              "highest_ucat_converted_2700": 2115
+            }
+          }
+        }
+      ],
+      "guidance_2026_onwards": {
+        "status": "guidance_not_observed_outcome",
+        "groups": {
+          "home_non_wp": {
+            "applicants_approx": 3100,
+            "invited_approx": 620,
+            "minimum_combined_score": 32.5,
+            "lowest_ucat_converted_2700": 1950,
+            "average_ucat_converted_2700": {
+              "minimum": 2100,
+              "maximum": 2150
+            },
+            "highest_ucat_converted_2700": "2250_plus"
+          },
+          "home_wp": {
+            "applicants_approx": 750,
+            "invited_approx": 260,
+            "minimum_combined_score": 29,
+            "lowest_ucat_converted_2700": 1800,
+            "average_ucat_converted_2700": {
+              "minimum": 2000,
+              "maximum": 2050
+            },
+            "highest_ucat_converted_2700": "2150_plus"
+          },
+          "international": {
+            "applicants_approx": 950,
+            "invited_approx": 230,
+            "minimum_combined_score": 33,
+            "lowest_ucat_converted_2700": 2050,
+            "average_ucat_converted_2700": {
+              "minimum": 2150,
+              "maximum": 2200
+            },
+            "highest_ucat_converted_2700": "2300_plus"
+          }
+        }
+      },
+      "international_metric_status": "historical_context_only_pending_ucat_only_vs_36_point_clarification",
+      "inconsistent_early_cycle_extrema": true,
+      "automatic_band_derivation_from_inconsistent_extrema": false,
+      "source_ids": [
+        "aston_foi_pre_interview_2026_2027"
+      ],
+      "notes": "Converted values are preserved exactly as supplied. Some early-cycle converted maxima are lower than supplied averages; those extrema must not be repaired or used automatically. International /36 labels do not override the official UCAT-only model."
+    },
+    "ucat_distribution_2024_2025": {
+      "score_scale": 2700,
+      "all_applicants": {
+        "mean": 1980,
+        "median": 2010,
+        "minimum": 900,
+        "maximum": 2650
+      },
+      "invited_home_non_wp": {
+        "mean": 2120,
+        "median": 2150,
+        "minimum": 1950,
+        "maximum": 2480
+      },
+      "invited_home_wp": {
+        "mean": 2030,
+        "median": 2050,
+        "minimum": 1800,
+        "maximum": 2350
+      },
+      "invited_international": {
+        "mean": 2180,
+        "median": 2200,
+        "minimum": 2050,
+        "maximum": 2520
+      },
+      "prediction_use": "historical_guidance_only",
+      "source_ids": [
+        "aston_foi_pre_interview_2026_2027"
+      ]
+    },
+    "offer_thresholds_2024_2025": {
+      "final_score_scale": 36,
+      "fixed_current_thresholds": false,
+      "groups": {
+        "home_non_wp": {
+          "offers_approx": 160,
+          "minimum_final_score": 31.5,
+          "average_final_score": 33.2,
+          "average_mmi_raw_out_of_45": 34,
+          "average_ucat_converted_2700": 2150
+        },
+        "home_wp": {
+          "offers_approx": 80,
+          "minimum_final_score": 28.5,
+          "average_final_score": 30.8,
+          "average_mmi_raw_out_of_45": 33,
+          "average_ucat_converted_2700": 2050
+        },
+        "international": {
+          "offers_approx": 70,
+          "minimum_final_score": 32,
+          "average_final_score": 33.8,
+          "average_mmi_raw_out_of_45": 35,
+          "average_ucat_converted_2700": 2220
+        }
+      },
+      "prediction_use": "historical_guidance_only",
+      "source_ids": [
+        "aston_foi_post_interview_2025_onwards"
+      ]
+    },
+    "cycles": [
+      {
+        "cycle": 2025,
+        "applies_to_group_ids": [],
+        "any_group_ids": [
+          "home_fee",
+          "international_fee",
+          "widening_participation"
+        ],
+        "applications": null,
+        "interviews": null,
+        "offers": null,
+        "places": null,
+        "ucat_cutoff": null,
+        "interview_score_cutoff": null,
+        "verification_status": "official_source_verified",
+        "academic_score_scale": {
+          "minimum_possible": 0,
+          "maximum_possible": 24
+        },
+        "academic_score_distributions": {
+          "applicants": {
+            "all": {
+              "minimum": 12,
+              "average": 21.94,
+              "maximum": 24
+            },
+            "home": {
+              "minimum": 12,
+              "average": 22.28,
+              "maximum": 24
+            },
+            "wp": {
+              "minimum": 12,
+              "average": 21.68,
+              "maximum": 24
+            },
+            "international": {
+              "minimum": 13,
+              "average": 21.88,
+              "maximum": 24
+            }
+          },
+          "interviewees": {
+            "all": {
+              "minimum": 22,
+              "average": 23.84,
+              "maximum": 24
+            },
+            "home": {
+              "minimum": 22,
+              "average": 23.87,
+              "maximum": 24
+            },
+            "wp": {
+              "minimum": 22,
+              "average": 23.76,
+              "maximum": 24
+            },
+            "international": {
+              "minimum": 23,
+              "average": 23.9,
+              "maximum": 24
+            }
+          },
+          "offer_holders": {
+            "all": {
+              "minimum": 22,
+              "average": 23.84,
+              "maximum": 24
+            },
+            "home": {
+              "minimum": 22,
+              "average": 23.86,
+              "maximum": 24
+            },
+            "wp": {
+              "minimum": 22,
+              "average": 23.77,
+              "maximum": 24
+            },
+            "international": {
+              "minimum": 23,
+              "average": 23.89,
+              "maximum": 24
+            }
+          },
+          "enrolled": {
+            "all": {
+              "minimum": 23,
+              "average": 23.84,
+              "maximum": 24
+            },
+            "home": {
+              "minimum": 23,
+              "average": 23.87,
+              "maximum": 24
+            },
+            "wp": {
+              "minimum": 23,
+              "average": 23.77,
+              "maximum": 24
+            },
+            "international": {
+              "minimum": 23,
+              "average": 23.88,
+              "maximum": 24
+            }
+          }
+        },
+        "ucat_score_scale": "pre_2025_four_cognitive_subtest_total_out_of_3600",
+        "ucat_score_distributions": {
+          "applicants": {
+            "all": {
+              "minimum": 1840,
+              "average": 2521,
+              "maximum": 3500
+            },
+            "home": {
+              "minimum": 1910,
+              "average": 2575,
+              "maximum": 3500
+            },
+            "wp": {
+              "minimum": 1960,
+              "average": 2520,
+              "maximum": 3340
+            },
+            "international": {
+              "minimum": 1840,
+              "average": 2469,
+              "maximum": 3160
+            }
+          },
+          "interviewees": {
+            "all": {
+              "minimum": 2320,
+              "average": 2696,
+              "maximum": 3500
+            },
+            "home": {
+              "minimum": 2460,
+              "average": 2743,
+              "maximum": 3500
+            },
+            "wp": {
+              "minimum": 2320,
+              "average": 2678,
+              "maximum": 3340
+            },
+            "international": {
+              "minimum": 2430,
+              "average": 2668,
+              "maximum": 3160
+            }
+          },
+          "offer_holders": {
+            "all": {
+              "minimum": 2320,
+              "average": 2703,
+              "maximum": 3500
+            },
+            "home": {
+              "minimum": 2460,
+              "average": 2744,
+              "maximum": 3500
+            },
+            "wp": {
+              "minimum": 2320,
+              "average": 2686,
+              "maximum": 3340
+            },
+            "international": {
+              "minimum": 2430,
+              "average": 2680,
+              "maximum": 3160
+            }
+          },
+          "enrolled": {
+            "all": {
+              "minimum": 2320,
+              "average": 2700,
+              "maximum": 3270
+            },
+            "home": {
+              "minimum": 2460,
+              "average": 2744,
+              "maximum": 3220
+            },
+            "wp": {
+              "minimum": 2320,
+              "average": 2676,
+              "maximum": 3270
+            },
+            "international": {
+              "minimum": 2430,
+              "average": 2682,
+              "maximum": 2960
+            }
+          }
+        },
+        "mmi_score_scale": "total_out_of_50",
+        "mmi_maximum_per_station": 10,
+        "mmi_score_distributions": {
+          "interviewees": {
+            "all": {
+              "minimum": 21,
+              "average": 33.78,
+              "maximum": 45
+            },
+            "home": {
+              "minimum": 22,
+              "average": 34.58,
+              "maximum": 45
+            },
+            "wp": {
+              "minimum": 23,
+              "average": 34.08,
+              "maximum": 44
+            },
+            "international": {
+              "minimum": 21,
+              "average": 32.7,
+              "maximum": 44
+            }
+          },
+          "offer_holders": {
+            "all": {
+              "minimum": 23,
+              "average": 34.38,
+              "maximum": 45
+            },
+            "home": {
+              "minimum": 23,
+              "average": 34.96,
+              "maximum": 45
+            },
+            "wp": {
+              "minimum": 26,
+              "average": 34.37,
+              "maximum": 44
+            },
+            "international": {
+              "minimum": 28,
+              "average": 33.82,
+              "maximum": 44
+            }
+          },
+          "enrolled": {
+            "all": {
+              "minimum": 23,
+              "average": 34.2,
+              "maximum": 42
+            },
+            "home": {
+              "minimum": 23,
+              "average": 34.69,
+              "maximum": 41
+            },
+            "wp": {
+              "minimum": 26,
+              "average": 34.2,
+              "maximum": 42
+            },
+            "international": {
+              "minimum": 29,
+              "average": 33.76,
+              "maximum": 41
+            }
+          }
+        },
+        "prediction_use": "historical_context_only",
+        "observed_minima_are_cutoffs": false,
+        "conversion_to_2700_applied": false,
+        "notes": "Official 2025 descriptive distributions only. Aston states that these values do not guarantee or predict future outcomes. Observed minima are not cutoffs, the /3600 UCAT values must not be compared directly with the current /2700 total, and the 50/10 MMI values do not establish a current five-station format.",
+        "source_ids": [
+          "aston_medical_school_faq_current"
+        ]
+      }
+    ],
+    "notes": "Historical figures are stored for transparent, group-specific guidance only. No value is a fixed current cutoff. The legacy 2025 FAQ distributions remain descriptive; the supplied /2700 conversions are preserved as supplied, and inconsistent extrema are excluded from automatic band derivation."
+  },
+  "sources": [
+    {
+      "source_id": "aston_course_page_2027",
+      "title": "Aston University - Medicine MBChB, September 2027",
+      "url": "https://www.aston.ac.uk/study/courses/medicine-mbchb/september-2027",
+      "source_type": "official_course_page",
+      "published_date": null,
+      "accessed_date": "2026-06-29",
+      "applies_to_sections": [
+        "university",
+        "course",
+        "stage_1_eligibility",
+        "contextual_admissions",
+        "ranking_pools",
+        "offer_selection"
+      ],
+      "confidence": "High for course identity and published academic rules; medium for cycle-sensitive cohort wording",
+      "evidence_classification": "official",
+      "notes": "Primary 2027 source. Its UCAT sentence and cohort wording still refer to 2026, so those cycle-specific details require confirmation."
+    },
+    {
+      "source_id": "aston_medical_school_faq_current",
+      "title": "Aston Medical School - Frequently Asked Questions",
+      "url": "https://www.aston.ac.uk/hls/aston-medical-school/advice-zone/faq",
+      "source_type": "official_medical_school_scoring_and_admissions_page",
+      "published_date": null,
+      "accessed_date": "2026-06-29",
+      "applies_to_sections": [
+        "stage_1_eligibility",
+        "stage_2_interview_selection",
+        "contextual_admissions",
+        "ranking_pools",
+        "offer_selection",
+        "historical_admissions"
+      ],
+      "confidence": "High for published components and 2025 descriptive data; low for unresolved combination and offer formula",
+      "evidence_classification": "official",
+      "notes": "Supplies current scoring text and official 2025 distributions. Historical values are not future cutoffs or prediction inputs."
+    },
+    {
+      "source_id": "aston_ucat_advice_current",
+      "title": "Aston Medical School Advice Zone - The UCAT",
+      "url": "https://www.aston.ac.uk/hls/aston-medical-school/advice-zone/ucat",
+      "source_type": "official_medical_school_advice_page",
+      "published_date": null,
+      "accessed_date": "2026-06-29",
+      "applies_to_sections": [
+        "stage_1_eligibility.admissions_tests",
+        "stage_2_interview_selection"
+      ],
+      "confidence": "Medium",
+      "evidence_classification": "official",
+      "notes": "Used for the same-year test rule and no-cutoff statements. Its four-subtest description is stale; the current FAQ governs the three-subtest /2700 total."
+    },
+    {
+      "source_id": "aston_mmi_advice_current",
+      "title": "Aston Medical School Advice Zone - The MMI",
+      "url": "https://www.aston.ac.uk/hls/aston-medical-school/advice-zone/mmi",
+      "source_type": "official_medical_school_interview_page",
+      "published_date": null,
+      "accessed_date": "2026-06-29",
+      "applies_to_sections": [
+        "offer_selection.interview_format",
+        "offer_selection.interview_scoring"
+      ],
+      "confidence": "Medium",
+      "evidence_classification": "official",
+      "notes": "Current page does not state a current station count or scoring rubric."
+    },
+    {
+      "source_id": "aston_ready_contextual_2026",
+      "title": "Aston University - Contextual Offer Aston Ready",
+      "url": "https://www.aston.ac.uk/undergraduate/contextual-offer-aston-ready",
+      "source_type": "official_contextual_admissions_page",
+      "published_date": null,
+      "accessed_date": "2026-06-29",
+      "applies_to_sections": [
+        "contextual_admissions",
+        "stage_1_eligibility.post_16.a_level"
+      ],
+      "confidence": "Medium",
+      "evidence_classification": "official",
+      "notes": "Retained for legacy scope and AAB context. The supplied 2026-2027 official evidence package is controlling for the confirmed 2027 WP criteria."
+    },
+    {
+      "source_id": "aston_english_language_requirements_current",
+      "title": "Aston University - English Language Requirements",
+      "url": "https://www.aston.ac.uk/international/english-language-requirements",
+      "source_type": "official_university_english_language_policy",
+      "published_date": null,
+      "accessed_date": "2026-06-29",
+      "applies_to_sections": [
+        "stage_1_eligibility.english_language"
+      ],
+      "confidence": "High",
+      "evidence_classification": "official",
+      "notes": "The Aston Medical School requirement is IELTS 7.0 overall and in every component."
+    },
+    {
+      "source_id": "aston_official_research_team_2026_2027",
+      "title": "Aston A100 official evidence package supplied by the research team",
+      "url": null,
+      "source_type": "research_team_supplied_official_aston_evidence",
+      "published_date": null,
+      "accessed_date": "2026-06-29",
+      "applies_to_sections": [
+        "stage_1_eligibility",
+        "stage_2_interview_selection",
+        "contextual_admissions",
+        "ranking_pools",
+        "offer_selection"
+      ],
+      "confidence": "High for the supplied 2026-2027 official rules; traceability URL pending",
+      "evidence_classification": "official",
+      "notes": "Supports the current GCSE scoring, UCAT table, 2027 WP, Scottish, foundation, international, repeat-application and MMI rules. No publication URL was supplied, so none has been invented."
+    },
+    {
+      "source_id": "aston_foi_pre_interview_2026_2027",
+      "title": "Aston A100 pre-interview scoring and historical admissions FOI evidence",
+      "url": null,
+      "source_type": "research_team_supplied_aston_foi_response",
+      "published_date": null,
+      "accessed_date": "2026-06-29",
+      "applies_to_sections": [
+        "stage_1_eligibility.gcse",
+        "stage_1_eligibility.admissions_tests",
+        "stage_2_interview_selection",
+        "ranking_pools",
+        "historical_admissions"
+      ],
+      "confidence": "High for supplied formula and historical values; publication identifier pending",
+      "evidence_classification": "FOI",
+      "notes": "Supports the /36 Home/WP formula, UCAT bands, tie-breakers and 2022-2026+ guidance. Values are retained exactly as supplied."
+    },
+    {
+      "source_id": "aston_foi_post_interview_2025_onwards",
+      "title": "Aston A100 post-interview scoring, offers and reserve-list FOI update",
+      "url": null,
+      "source_type": "research_team_supplied_aston_foi_response",
+      "published_date": null,
+      "accessed_date": "2026-06-29",
+      "applies_to_sections": [
+        "stage_1_eligibility.resits",
+        "offer_selection",
+        "historical_admissions"
+      ],
+      "confidence": "High for supplied 2025-onwards formula and rules; publication identifier pending",
+      "evidence_classification": "FOI",
+      "notes": "Supports the 2:1:1 offer formula, MMI scaling, historical offer thresholds, tie-breakers, reserve list and repeat-application limits. No FOI URL or identifier was supplied."
+    },
+    {
+      "source_id": "aston_msc_research_team_2026_2027",
+      "title": "Medical Schools Council Aston A100 evidence supplied by the research team",
+      "url": null,
+      "source_type": "research_team_supplied_medical_schools_council_evidence",
+      "published_date": null,
+      "accessed_date": "2026-06-29",
+      "applies_to_sections": [
+        "stage_1_eligibility.post_16"
+      ],
+      "confidence": "Supporting cross-check only; source URL pending",
+      "evidence_classification": "official",
+      "notes": "Used only to cross-check Scottish, foundation and named international routes. It does not replace Aston first-party or FOI evidence."
+    }
+  ],
+  "validation": {
+    "source_status": "official_source_verified_with_remaining_eligibility_exceptions",
+    "last_verified": "2026-06-29",
+    "confidence_level": "High for evidenced eligibility and Home/WP selection formula; medium-high for scoped offer guidance; activation remains disabled",
+    "completion_status": "production_ready_for_supported_scope_with_documented_gaps",
+    "section_completion_status": {
+      "course_identity": "complete",
+      "stage_1_eligibility": "complete_for_official_published_routes_with_manual_review_exceptions",
+      "stage_2_interview_selection": "official_and_foi_formula_complete_consumer_and_config_pending",
+      "contextual_admissions": "official_2027_criteria_and_wp_ib_complete_consumer_pending",
+      "ranking_pools": "official_pool_identities_formula_and_tie_breakers_complete",
+      "quotas": "not_implemented",
+      "offer_selection": "official_and_foi_2_1_1_formula_complete_consumer_pending",
+      "historical_admissions": "complete_for_2022_2026_plus_interview_and_2024_2025_offer_guidance",
+      "sources": "complete_with_new_source_urls_pending"
+    },
+    "known_unknowns": [
+      "The exact UCAT point value below 1650.",
+      "The intended point value for legacy GCSE letter grade A where the supplied evidence is ambiguous.",
+      "Whether the historical International /36 metric can be reconciled with the current official UCAT-only ranking rule.",
+      "The MMI /45 to /36 scaling precision and rounding convention.",
+      "A complete catalogue of international qualification equivalences beyond the named routes.",
+      "Medicine-specific acceptance thresholds for alternative English-language tests and the complete exemption policy.",
+      "Publication URLs or identifiers for the new official, FOI and MSC evidence package.",
+      "The cause of inconsistent converted extrema in some early historical cycles.",
+      "Current live interview and offer boundaries, which are dynamic rather than fixed."
+    ],
+    "review_notes": "Production now records the verified Home/WP /36 pre-interview formula, current GCSE and UCAT scoring, 2027 route updates, historical guidance, MMI structure and 2:1:1 offer model. Eligibility remains route-scoped. Interview guidance is active for Home non-WP, Home WP and International pools at low confidence. Offer prediction remains disabled pending offer consumer and MMI scaling resolution."
+  },
+  "engine_notes": {
+    "eligibility": true,
+    "interview_prediction": true,
+    "historical_guidance": true,
+    "international_prediction": true,
+    "contextual_logic": false,
+    "result_card": true,
+    "regression": true,
+    "research_completeness": "complete_for_supported_scope_with_documented_gaps",
+    "manual_review_required": true,
+    "eligibility_ready": true,
+    "interview_prediction_ready": true,
+    "prediction_confidence": "low",
+    "result_card_ready": true,
+    "offer_prediction_scope": "out_of_scope",
+    "interview_band_config_ready": true,
+    "metadata_activation_ready": true,
+    "activation_ready": true,
+    "production_ready": true,
+    "blocking_missing_fields": [],
+    "non_blocking_warnings": [
+      "Documented evidence or automation gap retained as non-blocking for activation-ready production scope: offer_consumer.post_interview_2_1_1_support",
+      "Documented evidence or automation gap retained as non-blocking for activation-ready production scope: offer_consumer.mmi_scaling_boundary_handling",
+      "Documented evidence or automation gap retained as non-blocking for activation-ready production scope: source_traceability.new_evidence_publication_urls",
+      "Known unknown retained as non-blocking for activation-ready production scope: The exact UCAT point value below 1650.",
+      "Known unknown retained as non-blocking for activation-ready production scope: The intended point value for legacy GCSE letter grade A where the supplied evidence is ambiguous.",
+      "Known unknown retained as non-blocking for activation-ready production scope: Whether the historical International /36 metric can be reconciled with the current official UCAT-only ranking rule.",
+      "Known unknown retained as non-blocking for activation-ready production scope: The MMI /45 to /36 scaling precision and rounding convention.",
+      "Known unknown retained as non-blocking for activation-ready production scope: A complete catalogue of international qualification equivalences beyond the named routes.",
+      "Known unknown retained as non-blocking for activation-ready production scope: Medicine-specific acceptance thresholds for alternative English-language tests and the complete exemption policy.",
+      "Known unknown retained as non-blocking for activation-ready production scope: Publication URLs or identifiers for the new official, FOI and MSC evidence package.",
+      "Known unknown retained as non-blocking for activation-ready production scope: The cause of inconsistent converted extrema in some early historical cycles.",
+      "Known unknown retained as non-blocking for activation-ready production scope: Current live interview and offer boundaries, which are dynamic rather than fixed."
+    ],
+    "engine_assumptions": [],
+    "do_not_infer": [
+      "Do not use the MSC seed profile as executable evidence.",
+      "Do not present any 2022-2026+ historical or guidance threshold as a live current cutoff.",
+      "Do not repair, recalculate or automatically derive bands from inconsistent early-cycle converted UCAT extrema.",
+      "Do not invent exact UCAT points below 1650.",
+      "Do not resolve the ambiguous legacy GCSE letter-grade A point value without clarification.",
+      "Do not score SJT or reject SJT Band 4.",
+      "Do not treat predicted A-level grades as scoring inputs.",
+      "Do not apply the Home/WP /36 formula or add academic points to International pre-interview ranking while the official UCAT-only rule remains controlling.",
+      "Do not assume a separate RUK ranking pool.",
+      "Do not infer a fixed WP quota from the aim of up to 44 WP offers.",
+      "Do not use the superseded historical five-station or /50 MMI interpretation as the current format.",
+      "Do not invent an MMI scaling rounding convention.",
+      "Do not implement MMI-only offer ranking; use the verified 2:1:1 model only after consumer acceptance."
+    ],
+    "eligibility_scope": "The existing evaluator remains active only for its tested standard A-level, standard IB, exact BTEC, graduate, resit, IELTS and deferred-entry scope. Newly evidenced WP IB, Scottish, Aston Healthcare Foundation, named international and repeat-application rules remain manual until consumer acceptance is extended.",
+    "eligibility_execution_contract": {
+      "status": "active_for_previously_tested_routes_extended_routes_pending_consumer_update",
+      "required_rule_support": [
+        "all_group_ids or applies_to_group_ids, any_group_ids and excluded_group_ids",
+        "GCSE minimum_count_at_or_above_grade and the complete eligibility_gate",
+        "GCSE science_requirement any-of alternatives, including Double Science grade profiles",
+        "A-level, IB, BTEC and graduate subject-grade option permutations",
+        "exact published BTEC combination matching",
+        "one-resit-year attempt-cycle handling",
+        "IELTS automatic decisions with alternative tests and exemptions routed to manual review",
+        "deferred-entry automatic rules with post-offer deferral routed to manual review",
+        "WP IB 35 overall with HL 665 including Chemistry and Biology",
+        "Scottish National 5, Higher and Advanced Higher sequences",
+        "Aston Healthcare Foundation Year only and external foundation rejection",
+        "named US AP and India CBSE international qualification routes",
+        "repeat-application attempt, wait-cycle and failed-MMI limits"
+      ],
+      "outcome_if_consumer_cannot_enforce_every_applicable_rule": "manual_review",
+      "notes": "Eligibility-ready remains route-scoped. Newly structured rules are not permission for a partial evaluator to omit gates or auto-pass unsupported routes."
+    },
+    "eligibility_ready_by_route": {
+      "standard_a_level_school_leaver": true,
+      "standard_ib_school_leaver": true,
+      "published_btec_combination": true,
+      "graduate_a100": true,
+      "gcse_separate_biology_and_chemistry_route": true,
+      "gcse_double_science_route": true,
+      "resit_within_one_permitted_resit_year": true,
+      "ielts_academic": true,
+      "initial_deferred_entry_or_gap_year": true,
+      "access_to_he": true,
+      "t_level": true,
+      "scottish_advanced_higher": false,
+      "foundation_programme": false,
+      "contextual_wp_classification": false,
+      "contextual_ib": false,
+      "country_specific_international": false,
+      "alternative_english_test_or_exemption": false,
+      "post_offer_deferral": false,
+      "unlisted_btec_combination": false,
+      "mixed_t_level_and_a_level": false,
+      "ambiguous_fee_status": false
+    },
+    "official_selection_formula_available": true,
+    "historical_guidance_available": true,
+    "manual_review_routes": [
+      "Aston Healthcare Foundation Year applicants until eligibility consumer support is added",
+      "External foundation applicants are not eligible; ambiguous foundation evidence requires review",
+      "Applicants with unlisted international qualifications or equivalences",
+      "Named international routes until eligibility consumer support is added",
+      "Scottish applicants until the National 5, Higher and Advanced Higher evaluator is added",
+      "Repeat applicants until attempt and wait-cycle consumer logic is added",
+      "WP classification where the applicant's evidence is incomplete or ambiguous",
+      "WP IB applicants until the 35 overall and HL 665 evaluator is added",
+      "Applicants presenting unlisted BTEC combinations",
+      "Mixed T Level and A-level cases",
+      "Applicants presenting alternative English-language tests or claiming an English-language exemption",
+      "Applicants relying on lower-GCSE-English and IELTS equivalence scoring",
+      "Applicants requesting deferral after an offer",
+      "Applicants with non-standard resit sequencing outside one clearly identified resit-year attempt cycle",
+      "Ambiguous fee-status cases",
+      "Applicants with UCAT below 1650 when an exact pre-interview score is required",
+      "Applicants whose scored GCSE profile uses legacy letter grade A",
+      "Offer-boundary cases affected by unknown MMI scaling precision"
+    ],
+    "research_source": "data/research/aston-a100-research.json",
+    "notes": "Formula evidence and historical guidance are present in production. Eligibility readiness remains route-scoped. Interview guidance is active at low confidence for Home non-WP, Home WP and International pools."
+  }
+}

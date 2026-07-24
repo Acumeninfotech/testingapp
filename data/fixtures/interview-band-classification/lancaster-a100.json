@@ -1,0 +1,479 @@
+{
+  "schema_version": "1.0.0",
+  "course_profile_id": "lancaster-a100",
+  "base_applicant": {
+    "profile_id": "lancaster_a100_base_applicant",
+    "label": "Lancaster A100 standard Home A-level school-leaver",
+    "applicant_identity": {
+      "applicant_type": "standard_school_leaver",
+      "fee_status": "Home",
+      "domicile": "England",
+      "contextual": false,
+      "widening_participation": false,
+      "contextual_flags": {
+        "care_experienced": false,
+        "refugee": false,
+        "free_school_meals": false,
+        "simd40": false
+      },
+      "graduate": false,
+      "resit": {
+        "has_resits": false
+      }
+    },
+    "course_target": {
+      "discipline": "medicine",
+      "ucas_code": "A100",
+      "course_route": "standard",
+      "entry_route": "standard_entry"
+    },
+    "gcse_profile": {
+      "subjects": {
+        "english_language": "6",
+        "mathematics": "6",
+        "biology": "7",
+        "chemistry": "7",
+        "physics": "7"
+      },
+      "additional_subjects": [
+        {
+          "subject_id": "history",
+          "grade": "8"
+        },
+        {
+          "subject_id": "geography",
+          "grade": "8"
+        },
+        {
+          "subject_id": "computer_science",
+          "grade": "7"
+        }
+      ],
+      "total_gcse_count": 8,
+      "top_8_gcse_grades": [
+        "8",
+        "8",
+        "7",
+        "7",
+        "7",
+        "6",
+        "6",
+        "6"
+      ]
+    },
+    "a_level_profile": {
+      "subjects": [
+        {
+          "subject_id": "biology",
+          "predicted_grade": "A",
+          "sitting_status": "first_sitting",
+          "practical_endorsement": "pass"
+        },
+        {
+          "subject_id": "chemistry",
+          "predicted_grade": "A",
+          "sitting_status": "first_sitting",
+          "practical_endorsement": "pass"
+        },
+        {
+          "subject_id": "mathematics",
+          "predicted_grade": "B",
+          "sitting_status": "first_sitting"
+        }
+      ],
+      "sitting_status": "first_sitting"
+    },
+    "admissions_tests": {
+      "ucat": {
+        "total_score": 1920,
+        "score_scale": 2700,
+        "sjt_band": 2,
+        "test_year": 2026
+      }
+    },
+    "application_year": 2026,
+    "graduate_profile": {
+      "is_graduate": false,
+      "degree_classification": null
+    }
+  },
+  "scenarios": [
+    {
+      "scenario_id": "home_standard_at_historical_threshold",
+      "overrides": {},
+      "expected": {
+        "eligibility_status": "eligible",
+        "guidance_pool_id": "home_standard_school_leaver",
+        "interview_band": "realistic"
+      }
+    },
+    {
+      "scenario_id": "home_standard_borderline_lower_bound",
+      "overrides": {
+        "admissions_tests": {
+          "ucat": {
+            "total_score": 1910
+          }
+        }
+      },
+      "expected": {
+        "eligibility_status": "eligible",
+        "guidance_pool_id": "home_standard_school_leaver",
+        "interview_band": "ambitious"
+      }
+    },
+    {
+      "scenario_id": "home_standard_below_borderline",
+      "overrides": {
+        "admissions_tests": {
+          "ucat": {
+            "total_score": 1909
+          }
+        }
+      },
+      "expected": {
+        "eligibility_status": "eligible",
+        "guidance_pool_id": "home_standard_school_leaver",
+        "interview_band": "high_risk"
+      }
+    },
+    {
+      "scenario_id": "home_standard_realistic_upper_bound",
+      "overrides": {
+        "admissions_tests": {
+          "ucat": {
+            "total_score": 1949
+          }
+        }
+      },
+      "expected": {
+        "eligibility_status": "eligible",
+        "guidance_pool_id": "home_standard_school_leaver",
+        "interview_band": "realistic"
+      }
+    },
+    {
+      "scenario_id": "home_standard_interview_likely_lower_bound",
+      "overrides": {
+        "admissions_tests": {
+          "ucat": {
+            "total_score": 1950
+          }
+        }
+      },
+      "expected": {
+        "eligibility_status": "eligible",
+        "guidance_pool_id": "home_standard_school_leaver",
+        "interview_band": "interview_likely"
+      }
+    },
+    {
+      "scenario_id": "home_standard_interview_likely_upper_bound",
+      "overrides": {
+        "admissions_tests": {
+          "ucat": {
+            "total_score": 2019
+          }
+        }
+      },
+      "expected": {
+        "eligibility_status": "eligible",
+        "guidance_pool_id": "home_standard_school_leaver",
+        "interview_band": "interview_likely"
+      }
+    },
+    {
+      "scenario_id": "home_standard_very_strong_interview_potential_lower_bound",
+      "overrides": {
+        "admissions_tests": {
+          "ucat": {
+            "total_score": 2020
+          }
+        }
+      },
+      "expected": {
+        "eligibility_status": "eligible",
+        "guidance_pool_id": "home_standard_school_leaver",
+        "interview_band": "very_strong_interview_potential"
+      }
+    },
+    {
+      "scenario_id": "home_contextual_at_historical_threshold",
+      "overrides": {
+        "applicant_identity": {
+          "contextual": true,
+          "widening_participation": true,
+          "contextual_flags": {
+            "free_school_meals": true
+          }
+        },
+        "admissions_tests": {
+          "ucat": {
+            "total_score": 1870
+          }
+        }
+      },
+      "expected": {
+        "eligibility_status": "eligible",
+        "guidance_pool_id": "home_contextual_wp_school_leaver",
+        "interview_band": "realistic"
+      }
+    },
+    {
+      "scenario_id": "home_contextual_borderline_upper_bound",
+      "overrides": {
+        "applicant_identity": {
+          "contextual": true,
+          "widening_participation": true,
+          "contextual_flags": {
+            "care_experienced": true
+          }
+        },
+        "admissions_tests": {
+          "ucat": {
+            "total_score": 1869
+          }
+        }
+      },
+      "expected": {
+        "eligibility_status": "eligible",
+        "guidance_pool_id": "home_contextual_wp_school_leaver",
+        "interview_band": "ambitious"
+      }
+    },
+    {
+      "scenario_id": "international_at_historical_threshold",
+      "overrides": {
+        "applicant_identity": {
+          "applicant_type": "international_standard_school_leaver",
+          "fee_status": "International",
+          "domicile": "International",
+          "english_language_exempt": true
+        },
+        "admissions_tests": {
+          "ucat": {
+            "total_score": 1900
+          }
+        }
+      },
+      "expected": {
+        "eligibility_status": "eligible",
+        "guidance_pool_id": "international_school_leaver",
+        "interview_band": "realistic"
+      }
+    },
+    {
+      "scenario_id": "international_below_historical_threshold",
+      "overrides": {
+        "applicant_identity": {
+          "applicant_type": "international_standard_school_leaver",
+          "fee_status": "International",
+          "domicile": "International",
+          "english_language_exempt": true
+        },
+        "admissions_tests": {
+          "ucat": {
+            "total_score": 1899
+          }
+        }
+      },
+      "expected": {
+        "eligibility_status": "eligible",
+        "guidance_pool_id": "international_school_leaver",
+        "interview_band": "high_risk"
+      }
+    },
+    {
+      "scenario_id": "sjt_band_3_passes",
+      "overrides": {
+        "admissions_tests": {
+          "ucat": {
+            "sjt_band": 3
+          }
+        }
+      },
+      "expected": {
+        "eligibility_status": "eligible",
+        "guidance_pool_id": "home_standard_school_leaver",
+        "interview_band": "realistic"
+      }
+    },
+    {
+      "scenario_id": "sjt_band_4_rejected",
+      "overrides": {
+        "admissions_tests": {
+          "ucat": {
+            "sjt_band": 4
+          }
+        }
+      },
+      "expected": {
+        "eligibility_status": "not_eligible",
+        "guidance_pool_id": null,
+        "interview_band": "not_eligible",
+        "failure": "disqualifying_sjt_rule"
+      }
+    },
+    {
+      "scenario_id": "gcse_points_below_13",
+      "overrides": {
+        "gcse_profile": {
+          "subjects": {
+            "english_language": "6",
+            "mathematics": "6",
+            "biology": "6",
+            "chemistry": "6",
+            "physics": "6"
+          },
+          "additional_subjects": [
+            {
+              "subject_id": "history",
+              "grade": "6"
+            },
+            {
+              "subject_id": "geography",
+              "grade": "6"
+            },
+            {
+              "subject_id": "computer_science",
+              "grade": "6"
+            }
+          ],
+          "top_8_gcse_grades": [
+            "6",
+            "6",
+            "6",
+            "6",
+            "6",
+            "6",
+            "6",
+            "6"
+          ]
+        }
+      },
+      "expected": {
+        "eligibility_status": "not_eligible",
+        "guidance_pool_id": null,
+        "interview_band": "not_eligible",
+        "failure": "minimum_gcse_points_not_met"
+      }
+    },
+    {
+      "scenario_id": "a_level_subject_pair_not_met",
+      "overrides": {
+        "a_level_profile": {
+          "subjects": [
+            {
+              "subject_id": "biology",
+              "predicted_grade": "A"
+            },
+            {
+              "subject_id": "mathematics",
+              "predicted_grade": "A"
+            },
+            {
+              "subject_id": "physics",
+              "predicted_grade": "B"
+            }
+          ]
+        }
+      },
+      "expected": {
+        "eligibility_status": "not_eligible",
+        "guidance_pool_id": null,
+        "interview_band": "not_eligible",
+        "failure": "a_level_requirements_not_met"
+      }
+    },
+    {
+      "scenario_id": "explicit_failed_practical_not_enforced",
+      "overrides": {
+        "a_level_profile": {
+          "subjects": [
+            {
+              "subject_id": "biology",
+              "predicted_grade": "A",
+              "practical_endorsement": "fail"
+            },
+            {
+              "subject_id": "chemistry",
+              "predicted_grade": "A",
+              "practical_endorsement": "fail"
+            },
+            {
+              "subject_id": "mathematics",
+              "predicted_grade": "B"
+            }
+          ]
+        }
+      },
+      "expected": {
+        "eligibility_status": "eligible",
+        "guidance_pool_id": "home_standard_school_leaver",
+        "interview_band": "realistic"
+      }
+    }
+  ],
+  "historical_guidance_boundaries": [
+    {
+      "pool": "home_standard",
+      "ucat_total": 1910,
+      "expected_band": "ambitious"
+    },
+    {
+      "pool": "home_standard",
+      "ucat_total": 1919,
+      "expected_band": "ambitious"
+    },
+    {
+      "pool": "home_standard",
+      "ucat_total": 1920,
+      "expected_band": "realistic"
+    },
+    {
+      "pool": "home_standard",
+      "ucat_total": 1949,
+      "expected_band": "realistic"
+    },
+    {
+      "pool": "home_standard",
+      "ucat_total": 1950,
+      "expected_band": "interview_likely"
+    },
+    {
+      "pool": "home_standard",
+      "ucat_total": 2019,
+      "expected_band": "interview_likely"
+    },
+    {
+      "pool": "home_standard",
+      "ucat_total": 2020,
+      "expected_band": "very_strong_interview_potential"
+    },
+    {
+      "pool": "home_contextual",
+      "ucat_total": 1860,
+      "expected_band": "ambitious"
+    },
+    {
+      "pool": "home_contextual",
+      "ucat_total": 1869,
+      "expected_band": "ambitious"
+    },
+    {
+      "pool": "home_contextual",
+      "ucat_total": 1870,
+      "expected_band": "realistic"
+    },
+    {
+      "pool": "international",
+      "ucat_total": 1899,
+      "expected_band": "high_risk"
+    },
+    {
+      "pool": "international",
+      "ucat_total": 1900,
+      "expected_band": "realistic"
+    }
+  ]
+}

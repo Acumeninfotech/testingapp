@@ -1,0 +1,433 @@
+{
+  "schema_version": "1.0.0",
+  "course_profile_id": "leicester-a100",
+  "confidence": "medium",
+  "evidence": {
+    "classification": "official_pre_interview_formula_with_current_cycle_historical_guidance",
+    "summary": "Leicester publishes a fully executable 48-point GCSE plus 48-point UCAT pre-interview formula (96 points total) for predicted and achieved A-level/IB applicants, a best-3-A-level-plus-degree formula for graduates, and a 76-point formula for Access applicants. 2026-entry combined-score guarantee thresholds are used as current-cycle historical guidance bands. Only one year of directly comparable data exists on the current 96-point/2700-UCAT scale because of the 2025 UCAT rescale and Leicester's 2026 64pt-to-96pt scoring-scale change, so historical-trend confidence is Limited even though current-cycle eligibility and methodology confidence is higher.",
+    "source_ids": [
+      "leicester_a100_2027_scoring_document",
+      "leicester_a100_admissions_statistics"
+    ]
+  },
+  "eligibility": {
+    "scope": "Automatic classifier handling is restricted to supported predicted/achieved A-level and IB school-leaver routes, the graduate eligibility gate, and the Access to Medicine eligibility gate, with complete GCSE, UCAT and SJT evidence.",
+    "international_english_language_required": true,
+    "qualification_routes": {
+      "supported": [
+        "a_level",
+        "international_baccalaureate",
+        "graduate",
+        "access_to_medicine"
+      ],
+      "explicitly_blocked": [
+        "scottish",
+        "international_qualification",
+        "access_to_he",
+        "unknown"
+      ]
+    },
+    "gcse": {
+      "minimum_count": 4,
+      "use_exact_subject_list": false,
+      "required_subjects": [
+        {
+          "subject_id": "english_language",
+          "minimum_grade": "6/B"
+        },
+        {
+          "subject_id": "mathematics",
+          "minimum_grade": "6/B"
+        },
+        {
+          "subject_id": "biology",
+          "minimum_grade": "6/B"
+        },
+        {
+          "subject_id": "chemistry",
+          "minimum_grade": "6/B"
+        }
+      ],
+      "points": {
+        "subject_count": 8,
+        "minimum_points": 0,
+        "bands": [
+          {
+            "minimum_grade": "9",
+            "points": 6
+          },
+          {
+            "minimum_grade": "8",
+            "points": 5
+          },
+          {
+            "minimum_grade": "7",
+            "points": 4
+          },
+          {
+            "minimum_grade": "6",
+            "points": 3
+          }
+        ]
+      }
+    },
+    "a_level": {
+      "routes": [
+        {
+          "route_id": "leicester_predicted_route_aab_scoring_floor",
+          "applies_to_group_ids": [
+            "school_leaver"
+          ],
+          "excluded_group_ids": [
+            "graduate_applicant"
+          ],
+          "grade_profile": [
+            "A",
+            "A",
+            "B"
+          ],
+          "one_of_subject_groups": [
+            {
+              "group_id": "chemistry_or_biology",
+              "minimum_required": 1,
+              "subject_ids": [
+                "chemistry",
+                "biology"
+              ]
+            },
+            {
+              "group_id": "second_accepted_subject",
+              "minimum_required": 1,
+              "subject_ids": [
+                "biology",
+                "chemistry",
+                "physics",
+                "mathematics",
+                "psychology"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    "international_baccalaureate": {
+      "routes": [
+        {
+          "route_id": "leicester_ib_34_766_hl_science_route",
+          "total_points": 34,
+          "hl_grade_profile": [
+            "7",
+            "6",
+            "6"
+          ],
+          "required_hl_subject_grade_options": [
+            {
+              "grade_requirements": [
+                {
+                  "subject_id": "chemistry",
+                  "minimum_grade": "7"
+                }
+              ]
+            },
+            {
+              "grade_requirements": [
+                {
+                  "subject_id": "biology",
+                  "minimum_grade": "7"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "route_id": "leicester_ib_36_666_hl_route",
+          "total_points": 36,
+          "hl_grade_profile": [
+            "6",
+            "6",
+            "6"
+          ],
+          "required_hl_subject_grade_options": [
+            {
+              "grade_requirements": [
+                {
+                  "subject_id": "chemistry",
+                  "minimum_grade": "6"
+                }
+              ]
+            },
+            {
+              "grade_requirements": [
+                {
+                  "subject_id": "biology",
+                  "minimum_grade": "6"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    "ucat": {
+      "minimum_total_score": 1760,
+      "score_scale": 2700,
+      "minimum_basis": "Approximation of Leicester's unfixed bottom-2-decile exclusion, using the shared data/ucat-deciles.json 3rd-decile boundary (1760) as the current-cycle minimum gate. Review annually."
+    },
+    "sjt": {
+      "used_as_gate": true,
+      "accepted_bands": [
+        1,
+        2,
+        3
+      ],
+      "rejected_bands": [
+        4
+      ]
+    },
+    "manual_review_routes": [
+      "Scottish Advanced Higher plus Higher joint evaluation",
+      "Irish Leaving Certificate route",
+      "Country-specific international qualification equivalence (ECCTIS)",
+      "Home-schooled applicant further-details review",
+      "GCSE mitigating circumstances bonus points",
+      "A-level resit applicants",
+      "Year 12 / 4th-subject AS borderline-group cases",
+      "Access to Medicine references/employment and personal-statement scoring (Admissions-Tutor-scored, not executable)",
+      "Access to Medicine diploma-provider approval and CV/employment-history verification",
+      "Graduate degree/A-level bonus interaction edge cases beyond the two published worked examples"
+    ],
+    "do_not_infer": [
+      "Do not present 2026-entry /96-scale combined-score thresholds as guaranteed 2027 official thresholds.",
+      "Do not hardcode UCAT points bands below 1800; rely on the minimum_total_score gate instead.",
+      "Do not invent MMI station counts, raw UCAT averages, or an exact GCSE-mitigation bonus value.",
+      "Do not implement offer prediction or the re-applicant 5%-below-waitlist rule as executable logic.",
+      "Do not treat the restricted 2027 UKWPMED route as a generally available contextual pathway.",
+      "Do not infer country-specific international qualification equivalence."
+    ]
+  },
+  "score_model": {
+    "type": "component_sum",
+    "basis": "Official Leicester pre-interview score: 48-point GCSE plus 48-point UCAT (96 points total) for predicted and achieved A-level/IB applicants.",
+    "scale": {
+      "min": 0,
+      "max": 96
+    },
+    "components": [
+      {
+        "component_id": "gcse_score",
+        "type": "gcse_mandatory_then_best",
+        "subject_count": 8,
+        "mandatory_subject_ids": [
+          "english_language",
+          "mathematics",
+          "chemistry",
+          "biology"
+        ],
+        "bands": [
+          {
+            "minimum_grade": "9",
+            "points": 6
+          },
+          {
+            "minimum_grade": "8",
+            "points": 5
+          },
+          {
+            "minimum_grade": "7",
+            "points": 4
+          },
+          {
+            "minimum_grade": "6",
+            "points": 3
+          }
+        ],
+        "max": 48
+      },
+      {
+        "component_id": "ucat_score",
+        "type": "ucat_range_lookup",
+        "max": 48,
+        "gap_policy": "nearest_range",
+        "ranges": [
+          {
+            "min": 2401,
+            "max": 2700,
+            "band": "2401_plus"
+          },
+          {
+            "min": 2350,
+            "max": 2400,
+            "band": "2350_2400"
+          },
+          {
+            "min": 2300,
+            "max": 2349,
+            "band": "2300_2349"
+          },
+          {
+            "min": 2260,
+            "max": 2299,
+            "band": "2260_2299"
+          },
+          {
+            "min": 2200,
+            "max": 2259,
+            "band": "2200_2259"
+          },
+          {
+            "min": 2150,
+            "max": 2199,
+            "band": "2150_2199"
+          },
+          {
+            "min": 2100,
+            "max": 2149,
+            "band": "2100_2149"
+          },
+          {
+            "min": 2050,
+            "max": 2099,
+            "band": "2050_2099"
+          },
+          {
+            "min": 2000,
+            "max": 2049,
+            "band": "2000_2049"
+          },
+          {
+            "min": 1950,
+            "max": 1999,
+            "band": "1950_1999"
+          },
+          {
+            "min": 1900,
+            "max": 1949,
+            "band": "1900_1949"
+          },
+          {
+            "min": 1850,
+            "max": 1899,
+            "band": "1850_1899"
+          },
+          {
+            "min": 1760,
+            "max": 1849,
+            "band": "1760_1849"
+          }
+        ],
+        "points_by_band": {
+          "2401_plus": 48,
+          "2350_2400": 47,
+          "2300_2349": 46,
+          "2260_2299": 45,
+          "2200_2259": 44,
+          "2150_2199": 43,
+          "2100_2149": 42,
+          "2050_2099": 41,
+          "2000_2049": 40,
+          "1950_1999": 39,
+          "1900_1949": 38,
+          "1850_1899": 37,
+          "1760_1849": 36
+        },
+        "notes": "Bands below 1760 are not reachable: applicants below the 1760 minimum_total_score gate are excluded from scoring entirely (not_eligible) before this component is calculated."
+      }
+    ]
+  },
+  "guidance_pools": [
+    {
+      "pool_id": "leicester_home_predicted_a_level_or_equivalent",
+      "priority": 20,
+      "applicant_match": {
+        "all_group_ids": [
+          "home_fee",
+          "school_leaver"
+        ],
+        "excluded_group_ids": [
+          "graduate_applicant",
+          "contextual",
+          "widening_participation"
+        ]
+      },
+      "metric": "selection_score",
+      "band_rules": [
+        {
+          "band": "interview_likely",
+          "operator": "greater_than_or_equal",
+          "value": 82
+        },
+        {
+          "band": "realistic",
+          "operator": "between_inclusive",
+          "min": 79,
+          "max": 81
+        },
+        {
+          "band": "ambitious",
+          "operator": "between_inclusive",
+          "min": 74,
+          "max": 78
+        },
+        {
+          "band": "high_risk",
+          "operator": "less_than",
+          "value": 74
+        }
+      ],
+      "official_candidate_decile_guidance": {
+        "min": 79,
+        "max": 96,
+        "cycle": "2026_entry",
+        "executable": false,
+        "reason": "79/96 is Leicester's official 2026-entry minimum combined score to guarantee interview for Home non-graduate predicted A-levels. This is the most recent actual cycle, not a fixed 2027 threshold; only one year of directly comparable 96-point-scale data exists."
+      }
+    },
+    {
+      "pool_id": "leicester_overseas_predicted_a_level_or_equivalent",
+      "priority": 20,
+      "applicant_match": {
+        "all_group_ids": [
+          "international_fee",
+          "school_leaver"
+        ],
+        "excluded_group_ids": [
+          "graduate_applicant",
+          "contextual",
+          "widening_participation"
+        ]
+      },
+      "metric": "selection_score",
+      "band_rules": [
+        {
+          "band": "interview_likely",
+          "operator": "greater_than_or_equal",
+          "value": 91
+        },
+        {
+          "band": "realistic",
+          "operator": "between_inclusive",
+          "min": 88,
+          "max": 90
+        },
+        {
+          "band": "ambitious",
+          "operator": "between_inclusive",
+          "min": 83,
+          "max": 87
+        },
+        {
+          "band": "high_risk",
+          "operator": "less_than",
+          "value": 83
+        }
+      ],
+      "official_candidate_decile_guidance": {
+        "min": 88,
+        "max": 96,
+        "cycle": "2026_entry",
+        "executable": false,
+        "reason": "88/96 is Leicester's official 2026-entry minimum combined score to guarantee interview for Overseas non-graduate predicted A-levels. This is the most recent actual cycle, not a fixed 2027 threshold; only one year of directly comparable 96-point-scale data exists."
+      }
+    }
+  ]
+}

@@ -1,0 +1,1000 @@
+{
+  "schema_version": "1.0.0",
+  "course_profile_id": "oxford-a100",
+  "description": "Oxford A100 interview-band regression fixture. Expected outcomes are recalculated from the implemented ApplySmart formula, not copied from the supplied technical document.",
+  "base_applicant": {
+    "profile_id": "oxford_base_home_a_level",
+    "application_year": 2027,
+    "qualification_route": "a_level",
+    "applicant_identity": {
+      "applicant_type": "school_leaver",
+      "fee_status": "Home",
+      "domicile": "England"
+    },
+    "a_level_profile": {
+      "subjects": [
+        {
+          "subject_id": "chemistry",
+          "predicted_grade": "A*"
+        },
+        {
+          "subject_id": "biology",
+          "predicted_grade": "A"
+        },
+        {
+          "subject_id": "mathematics",
+          "predicted_grade": "A"
+        }
+      ],
+      "practical_passes": {
+        "chemistry": "pass",
+        "biology": "pass"
+      }
+    },
+    "gcse_profile": {
+      "total_gcse_count": 10,
+      "subjects": {
+        "english_language": "9",
+        "mathematics": "9",
+        "biology": "9",
+        "chemistry": "9",
+        "physics": "9"
+      },
+      "additional_subjects": [
+        {
+          "subject_id": "history",
+          "grade": "9",
+          "exam_year": 2024
+        },
+        {
+          "subject_id": "geography",
+          "grade": "9",
+          "exam_year": 2024
+        },
+        {
+          "subject_id": "french",
+          "grade": "9",
+          "exam_year": 2024
+        },
+        {
+          "subject_id": "computer_science",
+          "grade": "9",
+          "exam_year": 2024
+        },
+        {
+          "subject_id": "music",
+          "grade": "9",
+          "exam_year": 2024
+        }
+      ],
+      "exam_year": 2024
+    },
+    "school_context": {
+      "attainment_8_available": true,
+      "attainment_8_score": 48
+    },
+    "admissions_tests": {
+      "ucat": {
+        "total_score": 2420,
+        "score_scale": 2700,
+        "sjt_band": 2,
+        "test_year": 2026
+      }
+    }
+  },
+  "scenarios": [
+    {
+      "scenario_id": "TC_01_perfect_gcse_avg_ucat",
+      "overrides": {
+        "admissions_tests": {
+          "ucat": {
+            "total_score": 2220
+          }
+        }
+      },
+      "expected": {
+        "eligibility_status": "eligible",
+        "interview_band": "interview_likely",
+        "score": 91.11,
+        "gcse_score": 50,
+        "ucat_score": 41.11
+      }
+    },
+    {
+      "scenario_id": "TC_02_perfect_gcse_low_ucat",
+      "overrides": {
+        "admissions_tests": {
+          "ucat": {
+            "total_score": 2050
+          }
+        }
+      },
+      "expected": {
+        "eligibility_status": "eligible",
+        "interview_band": "interview_likely",
+        "score": 87.96
+      }
+    },
+    {
+      "scenario_id": "TC_03_poor_gcse_high_ucat",
+      "overrides": {
+        "admissions_tests": {
+          "ucat": {
+            "total_score": 2620
+          }
+        },
+        "gcse_profile": {
+          "subjects": {
+            "english_language": "9",
+            "mathematics": "9",
+            "biology": "9",
+            "chemistry": "7",
+            "physics": "7"
+          },
+          "additional_subjects": [
+            {
+              "subject_id": "history",
+              "grade": "7",
+              "exam_year": 2024
+            },
+            {
+              "subject_id": "geography",
+              "grade": "7",
+              "exam_year": 2024
+            },
+            {
+              "subject_id": "french",
+              "grade": "7",
+              "exam_year": 2024
+            },
+            {
+              "subject_id": "computer_science",
+              "grade": "7",
+              "exam_year": 2024
+            },
+            {
+              "subject_id": "music",
+              "grade": "7",
+              "exam_year": 2024
+            }
+          ]
+        }
+      },
+      "expected": {
+        "eligibility_status": "eligible",
+        "interview_band": "high_risk",
+        "score": 63.52,
+        "gcse_score": 15
+      }
+    },
+    {
+      "scenario_id": "TC_04_four_gcse_ucat_double_weighted",
+      "overrides": {
+        "gcse_profile": {
+          "total_gcse_count": 4,
+          "subjects": {
+            "english_language": "9",
+            "mathematics": "9",
+            "biology": "9",
+            "chemistry": "9"
+          },
+          "additional_subjects": []
+        },
+        "school_context": {},
+        "admissions_tests": {
+          "ucat": {
+            "total_score": 2450
+          }
+        }
+      },
+      "expected": {
+        "eligibility_status": "eligible",
+        "interview_band": "interview_likely",
+        "score": 90.74,
+        "route": "ucat_double_weighted"
+      }
+    },
+    {
+      "scenario_id": "TC_05_covid_gcse_ucat_double_weighted",
+      "overrides": {
+        "gcse_profile": {
+          "majority_completed_between_summer_2020_and_summer_2021": true
+        },
+        "admissions_tests": {
+          "ucat": {
+            "total_score": 2380
+          }
+        }
+      },
+      "expected": {
+        "eligibility_status": "eligible",
+        "interview_band": "interview_likely",
+        "score": 88.15,
+        "route": "ucat_double_weighted"
+      }
+    },
+    {
+      "scenario_id": "TC_06_contextual_wp_applicant",
+      "overrides": {
+        "applicant_identity": {
+          "contextual": true,
+          "contextual_flags": {
+            "care_experienced": true
+          }
+        },
+        "school_context": {
+          "attainment_8_available": true,
+          "attainment_8_score": 38
+        },
+        "admissions_tests": {
+          "ucat": {
+            "total_score": 2300
+          }
+        },
+        "gcse_profile": {
+          "subjects": {
+            "english_language": "9",
+            "mathematics": "9",
+            "biology": "9",
+            "chemistry": "9",
+            "physics": "9"
+          },
+          "additional_subjects": [
+            {
+              "subject_id": "history",
+              "grade": "9",
+              "exam_year": 2024
+            },
+            {
+              "subject_id": "geography",
+              "grade": "7",
+              "exam_year": 2024
+            },
+            {
+              "subject_id": "french",
+              "grade": "7",
+              "exam_year": 2024
+            },
+            {
+              "subject_id": "computer_science",
+              "grade": "7",
+              "exam_year": 2024
+            },
+            {
+              "subject_id": "music",
+              "grade": "7",
+              "exam_year": 2024
+            }
+          ]
+        }
+      },
+      "expected": {
+        "eligibility_status": "eligible",
+        "interview_band": "realistic",
+        "score": 75.09
+      }
+    },
+    {
+      "scenario_id": "TC_07_international_applicant",
+      "overrides": {
+        "applicant_identity": {
+          "applicant_type": "international_standard_school_leaver",
+          "fee_status": "International",
+          "domicile": "International"
+        },
+        "admissions_tests": {
+          "ucat": {
+            "total_score": 2480
+          }
+        }
+      },
+      "expected": {
+        "eligibility_status": "eligible",
+        "guidance_pool_id": "oxford_international_modelled_composite",
+        "interview_band": "interview_likely",
+        "score": 95.93
+      }
+    },
+    {
+      "scenario_id": "TC_08_graduate_applying_a100_with_required_a_levels",
+      "overrides": {
+        "applicant_identity": {
+          "graduate": true
+        },
+        "graduate_profile": {
+          "is_graduate": true,
+          "degree_classification": "2_1"
+        },
+        "qualification_route": "a_level",
+        "admissions_tests": {
+          "ucat": {
+            "total_score": 2400
+          }
+        }
+      },
+      "expected": {
+        "eligibility_status": "eligible",
+        "interview_band": "interview_likely",
+        "score": 94.44
+      }
+    },
+    {
+      "scenario_id": "TC_09_scottish_applicant",
+      "overrides": {
+        "qualification_route": "scottish",
+        "scottish_profile": {
+          "advanced_higher_subjects": [
+            {
+              "subject_id": "chemistry",
+              "achieved_grade": "A"
+            },
+            {
+              "subject_id": "biology",
+              "achieved_grade": "A"
+            }
+          ],
+          "higher_subjects": [
+            {
+              "subject_id": "chemistry",
+              "achieved_grade": "A"
+            },
+            {
+              "subject_id": "biology",
+              "achieved_grade": "A"
+            },
+            {
+              "subject_id": "mathematics",
+              "achieved_grade": "A"
+            },
+            {
+              "subject_id": "english",
+              "achieved_grade": "A"
+            },
+            {
+              "subject_id": "history",
+              "achieved_grade": "A"
+            }
+          ]
+        },
+        "a_level_profile": null,
+        "admissions_tests": {
+          "ucat": {
+            "total_score": 2400
+          }
+        }
+      },
+      "expected": {
+        "eligibility_status": "eligible",
+        "interview_band": "interview_likely",
+        "score": 94.44
+      }
+    },
+    {
+      "scenario_id": "TC_10_ib_applicant",
+      "overrides": {
+        "qualification_route": "international_baccalaureate",
+        "ib_profile": {
+          "total_points": 39,
+          "higher_level_subjects": [
+            {
+              "subject_id": "chemistry",
+              "achieved_grade": "7"
+            },
+            {
+              "subject_id": "biology",
+              "achieved_grade": "6"
+            },
+            {
+              "subject_id": "mathematics",
+              "achieved_grade": "6"
+            }
+          ]
+        },
+        "a_level_profile": null,
+        "admissions_tests": {
+          "ucat": {
+            "total_score": 2420
+          }
+        }
+      },
+      "expected": {
+        "eligibility_status": "eligible",
+        "interview_band": "interview_likely",
+        "score": 94.81
+      }
+    },
+    {
+      "scenario_id": "TC_11_unexcused_resit",
+      "overrides": {
+        "applicant_identity": {
+          "resit": {
+            "has_resits": true,
+            "extenuating_circumstances_accepted": false
+          }
+        }
+      },
+      "expected": {
+        "eligibility_status": "not_eligible",
+        "interview_band": "not_eligible",
+        "failure": "resit_policy_not_met"
+      }
+    },
+    {
+      "scenario_id": "TC_12_modelled_home_boundary_2200",
+      "overrides": {
+        "admissions_tests": {
+          "ucat": {
+            "total_score": 2200
+          }
+        }
+      },
+      "expected": {
+        "eligibility_status": "eligible",
+        "interview_band": "interview_likely",
+        "score": 90.74
+      }
+    },
+    {
+      "scenario_id": "TC_13_committee_zone_boundary",
+      "overrides": {
+        "admissions_tests": {
+          "ucat": {
+            "total_score": 2320
+          }
+        },
+        "gcse_profile": {
+          "subjects": {
+            "english_language": "9",
+            "mathematics": "9",
+            "biology": "9",
+            "chemistry": "9",
+            "physics": "9"
+          },
+          "additional_subjects": [
+            {
+              "subject_id": "history",
+              "grade": "9",
+              "exam_year": 2024
+            },
+            {
+              "subject_id": "geography",
+              "grade": "9",
+              "exam_year": 2024
+            },
+            {
+              "subject_id": "french",
+              "grade": "7",
+              "exam_year": 2024
+            },
+            {
+              "subject_id": "computer_science",
+              "grade": "7",
+              "exam_year": 2024
+            },
+            {
+              "subject_id": "music",
+              "grade": "7",
+              "exam_year": 2024
+            }
+          ]
+        }
+      },
+      "expected": {
+        "eligibility_status": "eligible",
+        "interview_band": "realistic",
+        "score": 77.96
+      }
+    },
+    {
+      "scenario_id": "boundary_minus_0_1",
+      "overrides": {
+        "admissions_tests": {
+          "ucat": {
+            "total_score": 1182.6
+          }
+        }
+      },
+      "expected": {
+        "eligibility_status": "eligible",
+        "interview_band": "ambitious",
+        "score": 71.9
+      }
+    },
+    {
+      "scenario_id": "boundary_exact",
+      "overrides": {
+        "admissions_tests": {
+          "ucat": {
+            "total_score": 1188
+          }
+        }
+      },
+      "expected": {
+        "eligibility_status": "eligible",
+        "interview_band": "realistic",
+        "score": 72
+      }
+    },
+    {
+      "scenario_id": "boundary_plus_0_1",
+      "overrides": {
+        "admissions_tests": {
+          "ucat": {
+            "total_score": 1193.4
+          }
+        }
+      },
+      "expected": {
+        "eligibility_status": "eligible",
+        "interview_band": "realistic",
+        "score": 72.1
+      }
+    },
+    {
+      "scenario_id": "ucat_minimum",
+      "overrides": {
+        "admissions_tests": {
+          "ucat": {
+            "total_score": 1200
+          }
+        }
+      },
+      "expected": {
+        "eligibility_status": "eligible",
+        "interview_band": "realistic",
+        "score": 72.22
+      }
+    },
+    {
+      "scenario_id": "ucat_maximum",
+      "overrides": {
+        "admissions_tests": {
+          "ucat": {
+            "total_score": 2700
+          }
+        }
+      },
+      "expected": {
+        "eligibility_status": "eligible",
+        "interview_band": "interview_likely",
+        "score": 100
+      }
+    },
+    {
+      "scenario_id": "zero_usable_gcse_grades",
+      "overrides": {
+        "gcse_profile": {
+          "total_gcse_count": 0,
+          "subjects": {},
+          "additional_subjects": []
+        }
+      },
+      "expected": {
+        "eligibility_status": "eligible",
+        "interview_band": "interview_likely",
+        "score": 89.63,
+        "route": "ucat_double_weighted"
+      }
+    },
+    {
+      "scenario_id": "six_gcse_boundary",
+      "overrides": {
+        "gcse_profile": {
+          "total_gcse_count": 6,
+          "subjects": {
+            "english_language": "9",
+            "mathematics": "9",
+            "biology": "9",
+            "chemistry": "9",
+            "physics": "9",
+            "history": "9"
+          },
+          "additional_subjects": []
+        }
+      },
+      "expected": {
+        "eligibility_status": "eligible",
+        "interview_band": "interview_likely",
+        "score": 84.81
+      }
+    },
+    {
+      "scenario_id": "five_gcse_boundary",
+      "overrides": {
+        "gcse_profile": {
+          "total_gcse_count": 5,
+          "subjects": {
+            "english_language": "9",
+            "mathematics": "9",
+            "biology": "9",
+            "chemistry": "9",
+            "physics": "9"
+          },
+          "additional_subjects": []
+        }
+      },
+      "expected": {
+        "eligibility_status": "eligible",
+        "interview_band": "interview_likely",
+        "score": 89.63,
+        "route": "ucat_double_weighted"
+      }
+    },
+    {
+      "scenario_id": "mixed_covid_and_non_covid_gcse",
+      "overrides": {
+        "gcse_profile": {
+          "subjects": {
+            "english_language": "9",
+            "mathematics": "9",
+            "biology": "9",
+            "chemistry": "9",
+            "physics": "9"
+          },
+          "subject_exam_years": {
+            "english_language": 2021,
+            "mathematics": 2021
+          }
+        }
+      },
+      "expected": {
+        "eligibility_status": "eligible",
+        "interview_band": "interview_likely",
+        "score": 89.81
+      }
+    },
+    {
+      "scenario_id": "missing_gcse_count_uses_subject_entries",
+      "overrides": {
+        "gcse_profile": {
+          "total_gcse_count": null
+        }
+      },
+      "expected": {
+        "eligibility_status": "eligible",
+        "interview_band": "interview_likely",
+        "score": 94.81
+      }
+    },
+    {
+      "scenario_id": "missing_school_context_fallback_penalty",
+      "overrides": {
+        "school_context": null
+      },
+      "expected": {
+        "eligibility_status": "eligible",
+        "interview_band": "interview_likely",
+        "score": 92.31,
+        "missing_school_context_penalty": 5
+      }
+    },
+    {
+      "scenario_id": "very_high_ucat_weak_gcse",
+      "overrides": {
+        "admissions_tests": {
+          "ucat": {
+            "total_score": 2700
+          }
+        },
+        "gcse_profile": {
+          "subjects": {
+            "english_language": "9",
+            "mathematics": "9",
+            "biology": "7",
+            "chemistry": "7",
+            "physics": "7"
+          },
+          "additional_subjects": [
+            {
+              "subject_id": "history",
+              "grade": "7",
+              "exam_year": 2024
+            },
+            {
+              "subject_id": "geography",
+              "grade": "7",
+              "exam_year": 2024
+            },
+            {
+              "subject_id": "french",
+              "grade": "7",
+              "exam_year": 2024
+            },
+            {
+              "subject_id": "computer_science",
+              "grade": "7",
+              "exam_year": 2024
+            },
+            {
+              "subject_id": "music",
+              "grade": "7",
+              "exam_year": 2024
+            }
+          ]
+        }
+      },
+      "expected": {
+        "eligibility_status": "eligible",
+        "interview_band": "high_risk",
+        "score": 60
+      }
+    },
+    {
+      "scenario_id": "perfect_gcse_lower_ucat",
+      "overrides": {
+        "admissions_tests": {
+          "ucat": {
+            "total_score": 1900
+          }
+        }
+      },
+      "expected": {
+        "eligibility_status": "eligible",
+        "interview_band": "interview_likely",
+        "score": 85.19
+      }
+    },
+    {
+      "scenario_id": "home_vs_international_same_profile_home",
+      "overrides": {
+        "admissions_tests": {
+          "ucat": {
+            "total_score": 1500
+          }
+        }
+      },
+      "expected": {
+        "eligibility_status": "eligible",
+        "guidance_pool_id": "oxford_home_modelled_composite",
+        "interview_band": "realistic",
+        "score": 77.78
+      }
+    },
+    {
+      "scenario_id": "home_vs_international_same_profile_international",
+      "overrides": {
+        "applicant_identity": {
+          "applicant_type": "international_standard_school_leaver",
+          "fee_status": "International",
+          "domicile": "International"
+        },
+        "admissions_tests": {
+          "ucat": {
+            "total_score": 1500
+          }
+        }
+      },
+      "expected": {
+        "eligibility_status": "eligible",
+        "guidance_pool_id": "oxford_international_modelled_composite",
+        "interview_band": "ambitious",
+        "score": 77.78
+      }
+    },
+    {
+      "scenario_id": "practical_endorsement_fail",
+      "overrides": {
+        "a_level_profile": {
+          "practical_passes": {
+            "chemistry": "fail",
+            "biology": "pass"
+          }
+        }
+      },
+      "expected": {
+        "eligibility_status": "not_eligible",
+        "interview_band": "not_eligible",
+        "failure_prefix": "science_practical_endorsement_not_confirmed"
+      }
+    },
+    {
+      "scenario_id": "required_subject_fail_missing_chemistry",
+      "overrides": {
+        "a_level_profile": {
+          "subjects": [
+            {
+              "subject_id": "biology",
+              "predicted_grade": "A*"
+            },
+            {
+              "subject_id": "physics",
+              "predicted_grade": "A"
+            },
+            {
+              "subject_id": "mathematics",
+              "predicted_grade": "A"
+            }
+          ],
+          "practical_passes": {
+            "biology": "pass",
+            "physics": "pass"
+          }
+        }
+      },
+      "expected": {
+        "eligibility_status": "not_eligible",
+        "interview_band": "not_eligible",
+        "failure": "a_level_requirements_not_met"
+      }
+    },
+    {
+      "scenario_id": "achieved_grades_pass",
+      "overrides": {
+        "a_level_profile": {
+          "subjects": [
+            {
+              "subject_id": "chemistry",
+              "achieved_grade": "A*"
+            },
+            {
+              "subject_id": "biology",
+              "achieved_grade": "A"
+            },
+            {
+              "subject_id": "mathematics",
+              "achieved_grade": "A"
+            }
+          ],
+          "practical_passes": {
+            "chemistry": "pass",
+            "biology": "pass"
+          }
+        }
+      },
+      "expected": {
+        "eligibility_status": "eligible",
+        "interview_band": "interview_likely"
+      }
+    },
+    {
+      "scenario_id": "graduate_without_required_a_levels",
+      "overrides": {
+        "applicant_identity": {
+          "graduate": true
+        },
+        "graduate_profile": {
+          "is_graduate": true,
+          "degree_classification": "first"
+        },
+        "qualification_route": "a_level",
+        "a_level_profile": {
+          "subjects": [
+            {
+              "subject_id": "psychology",
+              "predicted_grade": "A*"
+            },
+            {
+              "subject_id": "history",
+              "predicted_grade": "A"
+            },
+            {
+              "subject_id": "mathematics",
+              "predicted_grade": "A"
+            }
+          ],
+          "practical_passes": {}
+        }
+      },
+      "expected": {
+        "eligibility_status": "not_eligible",
+        "interview_band": "not_eligible",
+        "failure": "a_level_requirements_not_met"
+      }
+    },
+    {
+      "scenario_id": "scottish_boundary_fail_highers",
+      "overrides": {
+        "qualification_route": "scottish",
+        "scottish_profile": {
+          "advanced_higher_subjects": [
+            {
+              "subject_id": "chemistry",
+              "achieved_grade": "A"
+            },
+            {
+              "subject_id": "biology",
+              "achieved_grade": "A"
+            }
+          ],
+          "higher_subjects": [
+            {
+              "subject_id": "chemistry",
+              "achieved_grade": "A"
+            },
+            {
+              "subject_id": "biology",
+              "achieved_grade": "A"
+            },
+            {
+              "subject_id": "mathematics",
+              "achieved_grade": "A"
+            },
+            {
+              "subject_id": "english",
+              "achieved_grade": "A"
+            },
+            {
+              "subject_id": "history",
+              "achieved_grade": "B"
+            }
+          ]
+        },
+        "a_level_profile": null
+      },
+      "expected": {
+        "eligibility_status": "not_eligible",
+        "interview_band": "not_eligible",
+        "failure": "scottish_post_16_requirements_not_met"
+      }
+    },
+    {
+      "scenario_id": "ib_boundary_fail",
+      "overrides": {
+        "qualification_route": "international_baccalaureate",
+        "ib_profile": {
+          "total_points": 38,
+          "higher_level_subjects": [
+            {
+              "subject_id": "chemistry",
+              "achieved_grade": "7"
+            },
+            {
+              "subject_id": "biology",
+              "achieved_grade": "6"
+            },
+            {
+              "subject_id": "mathematics",
+              "achieved_grade": "6"
+            }
+          ]
+        },
+        "a_level_profile": null
+      },
+      "expected": {
+        "eligibility_status": "not_eligible",
+        "interview_band": "not_eligible",
+        "failure": "international_baccalaureate_requirements_not_met"
+      }
+    },
+    {
+      "scenario_id": "resit_with_accepted_extenuating_circumstances",
+      "overrides": {
+        "applicant_identity": {
+          "resit": {
+            "has_resits": true,
+            "extenuating_circumstances_accepted": true
+          }
+        },
+        "resit_profile": {
+          "has_resits": true,
+          "extenuating_circumstances_accepted": true,
+          "first_sitting_grade_profile": [
+            "A",
+            "B",
+            "B"
+          ]
+        }
+      },
+      "expected": {
+        "eligibility_status": "eligible",
+        "interview_band": "interview_likely"
+      }
+    },
+    {
+      "scenario_id": "unsupported_qualification_route",
+      "overrides": {
+        "qualification_route": "access_to_medicine",
+        "a_level_profile": null,
+        "access_to_medicine_profile": {
+          "provider_approved_by_institution": true,
+          "requirements_met": true
+        }
+      },
+      "expected": {
+        "eligibility_status": "not_eligible",
+        "interview_band": "not_eligible",
+        "failure": "qualification_route_explicitly_blocked:access_to_medicine"
+      }
+    }
+  ]
+}

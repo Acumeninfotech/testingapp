@@ -1,0 +1,1157 @@
+{
+  "schema_version": "1.0.0",
+  "profile_id": "queen-s-belfast-a100",
+  "profile_status": "production_ready_eligibility_and_interview_guidance",
+  "verification_status": "official_pre_interview_formula_verified",
+  "last_updated": "2026-07-22",
+  "university": {
+    "name": "Queen's University Belfast",
+    "slug": "queen-s-belfast",
+    "country": "United Kingdom",
+    "nation": "Northern Ireland",
+    "institution_type": "University",
+    "website_url": "https://www.qub.ac.uk/"
+  },
+  "course": {
+    "name": "Medicine MB BCh BAO",
+    "ucas_code": "A100",
+    "entry_route": "standard_entry",
+    "qualification_awarded": "MB BCh BAO",
+    "duration_years": 5,
+    "campus": "Belfast",
+    "location": "Belfast, Northern Ireland",
+    "entry_year": 2026,
+    "fee_statuses": [
+      "home",
+      "international"
+    ],
+    "is_gateway_or_foundation": false,
+    "is_graduate_entry": false,
+    "notes": "Standard-entry A100 Medicine only. Graduate Entry, Gateway, Foundation and other related courses are outside this profile."
+  },
+  "medical_school": {
+    "name": "School of Medicine, Dentistry and Biomedical Sciences",
+    "source_ids": [
+      "qub_policy_2026"
+    ]
+  },
+  "applicant_pools": [
+    {
+      "pool_id": "qub_home_standard_gcse_ucat",
+      "applies_to_group_ids": [
+        "home_fee",
+        "school_leaver"
+      ],
+      "excluded_group_ids": [
+        "international_fee",
+        "contextual",
+        "widening_participation",
+        "graduate_applicant"
+      ],
+      "selection_relevance": "Eligible standard Home school-leavers with a representable A-level or IB route use the official GCSE points plus UCAT decile-points formula on the official 45-point scale."
+    },
+    {
+      "pool_id": "qub_contextual_ni_bt_postcode",
+      "applies_to_group_ids": [
+        "home_fee",
+        "contextual",
+        "widening_participation"
+      ],
+      "selection_relevance": "NI BT-postcode secondary-school applicants may be shortlisted through AS grades, UCAT and predicted A-level performance instead of the standard GCSE score. ApplySmart suppresses the ordinary GCSE+UCAT band."
+    },
+    {
+      "pool_id": "qub_pop_guaranteed_interview",
+      "applies_to_group_ids": [
+        "home_fee",
+        "contextual",
+        "widening_participation"
+      ],
+      "selection_relevance": "Verified QUB Pathway Opportunity Programme completers receive guaranteed-interview handling after implemented academic eligibility checks pass."
+    },
+    {
+      "pool_id": "qub_international_pathway",
+      "applies_to_group_ids": [
+        "international_fee"
+      ],
+      "selection_relevance": "International applicants are assessed through a separate pathway. ApplySmart does not provide the Home GCSE+UCAT interview prediction because QUB has not published an equivalent international scoring methodology."
+    }
+  ],
+  "applies_to_group_ids": [
+    "england_domiciled",
+    "scotland_domiciled",
+    "wales_domiciled",
+    "northern_ireland_domiciled",
+    "home_fee",
+    "international_fee",
+    "contextual",
+    "widening_participation",
+    "school_leaver",
+    "resit_applicant"
+  ],
+  "stage_1_eligibility": {
+    "verification_status": "official_source_verified_with_remaining_eligibility_exceptions",
+    "source_ids": [
+      "qub_policy_2026",
+      "qub_course_page_2026",
+      "msc_qub_a100_2027"
+    ],
+    "overall_policy": {
+      "status": "official_rules_mapped_with_route_boundaries",
+      "description": "QUB checks minimum academic requirements before interview shortlisting. For standard Home applicants, the official interview-selection score is GCSE points plus UCAT decile points on a maximum 45-point scale.",
+      "not_eligible_if": [
+        "Minimum GCSE subject requirements are not met.",
+        "The represented post-16 route does not meet a documented QUB route.",
+        "Required UCAT evidence is missing.",
+        "The course target is not A100."
+      ],
+      "source_ids": [
+        "qub_policy_2026",
+        "qub_course_page_2026"
+      ]
+    },
+    "gcse": {
+      "status": "official_source_verified",
+      "source_ids": [
+        "qub_policy_2026",
+        "msc_qub_a100_2027"
+      ],
+      "qualification_scope": [
+        "GCSE",
+        "IGCSE",
+        "Junior Certificate for the Irish route where verified separately"
+      ],
+      "minimum_count": null,
+      "counted_subject_limit": 9,
+      "mandatory_subject_ids": [
+        "english_language",
+        "mathematics",
+        "science"
+      ],
+      "grade_requirements": [
+        {
+          "requirement_id": "gcse_english_language_minimum",
+          "subject_id": "english_language",
+          "minimum_grade": "4/C",
+          "qualification_level": "gcse_or_igcse",
+          "decision_outcome_if_not_met": "not_eligible",
+          "source_ids": [
+            "msc_qub_a100_2027",
+            "qub_policy_2026"
+          ],
+          "notes": "The MSC summary specifies English Language grade C/4."
+        },
+        {
+          "requirement_id": "gcse_mathematics_minimum",
+          "subject_id": "mathematics",
+          "minimum_grade": "4/C",
+          "qualification_level": "gcse_or_igcse",
+          "decision_outcome_if_not_met": "not_eligible",
+          "source_ids": [
+            "qub_policy_2026"
+          ],
+          "notes": "Required if not offered at AS/A-level."
+        },
+        {
+          "requirement_id": "gcse_physics_or_double_award_minimum",
+          "subject_id": "science",
+          "minimum_grade": "4/C",
+          "qualification_level": "gcse_or_igcse",
+          "decision_outcome_if_not_met": "not_eligible",
+          "source_ids": [
+            "qub_policy_2026"
+          ],
+          "notes": "Physics grade C/4, or CC/44 in Double Award Science, is required if Physics is not offered at AS/A-level."
+        }
+      ],
+      "science_requirement": {
+        "requirement_type": "any_of",
+        "accepted_options": [
+          {
+            "option_id": "gcse_physics_grade_4",
+            "subject_id": "physics",
+            "minimum_grade": "4",
+            "counts_as_gcse_subjects": 1
+          },
+          {
+            "option_id": "gcse_combined_science_double_award_44",
+            "subject_id": "combined_science",
+            "minimum_grade_profile": [
+              "4",
+              "4"
+            ],
+            "accepted_equivalent_profile": [
+              "C",
+              "C"
+            ],
+            "counts_as_gcse_subjects": 2
+          }
+        ],
+        "notes": "The generic engine represents QUB's Physics-or-Double-Award GCSE gate as a science alternative."
+      },
+      "accepted_equivalencies": [
+        "IGCSE",
+        "Double Award Science CC/44 for the Physics GCSE minimum",
+        "A maximum of one BTEC/OCR Level 2 may count as one or two GCSEs where verified"
+      ],
+      "sitting_policy": "Only GCSEs taken in Years 11-12, or Years 10-11 in England/Wales, count for scoring.",
+      "achieved_or_predicted": "achieved",
+      "selection_role": "eligibility_and_ranked_gcse_points",
+      "scored_after_eligibility": true,
+      "scoring_model": {
+        "official": true,
+        "subject_count": 9,
+        "maximum_points": 36,
+        "points_by_grade": {
+          "9": 4,
+          "8": 3,
+          "7": 3,
+          "6": 2,
+          "5": 1,
+          "4": 1,
+          "A*": 4,
+          "A": 3,
+          "B": 2,
+          "C": 1
+        },
+        "short_course_points": "half points where represented by the engine"
+      },
+      "notes": "Best nine eligible GCSEs are scored for the standard Home pre-interview formula. The 36-point GCSE maximum is official QUB methodology."
+    },
+    "post_16": {
+      "status": "official_source_verified_with_manual_review_boundaries",
+      "source_ids": [
+        "qub_policy_2026",
+        "qub_course_page_2026"
+      ],
+      "accepted_qualification_types": [
+        "a_level",
+        "international_baccalaureate",
+        "scottish_highers",
+        "advanced_highers",
+        "irish_leaving_certificate",
+        "verified_international_equivalent"
+      ],
+      "a_level": {
+        "status": "official_source_verified_execution_partial",
+        "source_ids": [
+          "qub_policy_2026"
+        ],
+        "standard_offer": {
+          "grade_profile": [
+            "A*",
+            "A",
+            "A"
+          ],
+          "source_ids": [
+            "qub_policy_2026"
+          ],
+          "notes": "QUB also documents AAA plus A in a fourth AS-level route and A*AA variants requiring AS Biology/Human Biology when Biology is not held at A-level. Those AS-specific checks are routed to manual review in Engine v1.0."
+        },
+        "contextual_offer": {
+          "applies_to_group_ids": [
+            "widening_participation"
+          ],
+          "grade_profile": [],
+          "source_ids": [
+            "qub_policy_2026"
+          ],
+          "notes": "MDBS POP completion may allow a one-grade-lower offer, but offer prediction is out of scope."
+        },
+        "grade_requirements": [
+          {
+            "requirement_id": "qub_a_star_aa_chemistry_biology_route",
+            "grade_profile": [
+              "A*",
+              "A",
+              "A"
+            ],
+            "required_subject_ids": [
+              "chemistry",
+              "biology"
+            ],
+            "decision_outcome_if_not_met": "not_eligible",
+            "source_ids": [
+              "qub_policy_2026"
+            ],
+            "notes": "Executable representation of A*AA including Chemistry and Biology/Human Biology."
+          },
+          {
+            "requirement_id": "qub_a_star_aa_chemistry_human_biology_route",
+            "grade_profile": [
+              "A*",
+              "A",
+              "A"
+            ],
+            "required_subject_ids": [
+              "chemistry",
+              "human_biology"
+            ],
+            "decision_outcome_if_not_met": "not_eligible",
+            "source_ids": [
+              "qub_policy_2026"
+            ],
+            "notes": "Executable representation of A*AA including Chemistry and Human Biology."
+          },
+          {
+            "requirement_id": "qub_a_star_aa_chemistry_math_or_physics_as_biology_manual_review",
+            "grade_profile": [
+              "A*",
+              "A",
+              "A"
+            ],
+            "required_subject_ids": [
+              "chemistry"
+            ],
+            "one_of_subject_groups": [
+              {
+                "group_id": "maths_or_physics",
+                "minimum_required": 1,
+                "subject_ids": [
+                  "mathematics",
+                  "physics"
+                ]
+              }
+            ],
+            "excluded_subject_ids": [
+              "biology",
+              "human_biology"
+            ],
+            "manual_review_on_pass": true,
+            "manual_review_reason": "qub_as_biology_requirement_requires_manual_review",
+            "decision_outcome_if_not_met": "not_eligible",
+            "source_ids": [
+              "qub_policy_2026"
+            ],
+            "notes": "QUB requires AS-level Biology/Human Biology grade B where Biology/Human Biology is not at A-level. Engine v1.0 does not execute AS-level evidence for this branch."
+          }
+        ],
+        "required_subject_ids": [
+          "chemistry"
+        ],
+        "one_of_subject_groups": [
+          {
+            "group_id": "second_science",
+            "minimum_required": 1,
+            "subject_ids": [
+              "biology",
+              "human_biology",
+              "mathematics",
+              "physics"
+            ],
+            "notes": "At least one of Biology/Human Biology, Mathematics or Physics is required alongside Chemistry, with AS Biology/Human Biology conditions for the non-Biology A-level branches."
+          }
+        ],
+        "excluded_subject_ids": [
+          "general_studies",
+          "thinking_skills"
+        ],
+        "third_subject_rules": "General Studies is not accepted; Critical Thinking counts only at AS-level.",
+        "predicted_grades_accepted": true,
+        "selection_role": "eligibility_or_offer_condition_only",
+        "scored_for_interview": false,
+        "notes": "A-levels are not part of the standard Home interview-selection score."
+      },
+      "ib": {
+        "status": "official_source_verified",
+        "source_ids": [
+          "qub_policy_2026"
+        ],
+        "total_points": 36,
+        "hl_points": 18,
+        "grade_requirements": [
+          {
+            "requirement_id": "qub_ib_36_666_chemistry_biology",
+            "total_points": 36,
+            "hl_points": 18,
+            "required_hl_subject_ids": [
+              "chemistry",
+              "biology"
+            ],
+            "decision_outcome_if_not_met": "not_eligible",
+            "source_ids": [
+              "qub_policy_2026"
+            ],
+            "notes": "Representative international route: IB 36 with 6,6,6 including Chemistry and Biology at Higher Level."
+          }
+        ],
+        "required_hl_subject_ids": [
+          "chemistry",
+          "biology"
+        ],
+        "one_of_hl_subject_groups": [],
+        "notes": "IB applicants still require route-specific evidence and GCSE/Junior Cert scoring evidence before a standard score can be calculated."
+      },
+      "scottish": {
+        "status": "official_source_verified_prediction_manual_review",
+        "source_ids": [
+          "qub_policy_2026"
+        ],
+        "higher_offer": {
+          "grade_profile": [
+            "A",
+            "A",
+            "A",
+            "A",
+            "A"
+          ],
+          "source_ids": [
+            "qub_policy_2026"
+          ],
+          "notes": "Highers profile maps to 36 academic points for QUB scoring."
+        },
+        "advanced_higher_offer": {
+          "grade_profile": [
+            "A",
+            "A"
+          ],
+          "source_ids": [
+            "qub_policy_2026"
+          ],
+          "notes": "Advanced Higher offer depends on Higher performance and must include Chemistry plus one of Biology/Human Biology, Mathematics or Physics at A."
+        },
+        "grade_requirements": [
+          {
+            "requirement_id": "qub_scottish_aaaaa_highers_aa_advanced_highers",
+            "qualification_level": "scottish_advanced_highers",
+            "higher_grade_profile": [
+              "A",
+              "A",
+              "A",
+              "A",
+              "A"
+            ],
+            "grade_profile": [
+              "A",
+              "A"
+            ],
+            "required_subject_ids": [
+              "chemistry"
+            ],
+            "one_of_subject_groups": [
+              {
+                "group_id": "second_science_or_maths",
+                "minimum_required": 1,
+                "subject_ids": [
+                  "biology",
+                  "human_biology",
+                  "mathematics",
+                  "physics"
+                ]
+              }
+            ],
+            "decision_outcome_if_not_met": "not_eligible",
+            "source_ids": [
+              "qub_policy_2026"
+            ],
+            "notes": "Engine v1.0 can check the represented top Higher route, but QUB's Higher-to-academic-point scoring is not used for a standard GCSE+UCAT prediction."
+          }
+        ],
+        "required_subject_ids": [
+          "chemistry"
+        ],
+        "one_of_subject_groups": [],
+        "execution_status": "eligibility_represented_prediction_suppressed_without_gcse_junior_cert_score",
+        "notes": "QUB publishes Higher profiles from ABBBB to AAAAA mapping to 28-36 academic points. The generic component-sum scorer does not execute that Scottish academic-points table, so prediction is suppressed for Scottish-only profiles."
+      },
+      "btec": {
+        "status": "route_limited_to_level_2_gcse_equivalence_only",
+        "source_ids": [
+          "qub_policy_2026"
+        ],
+        "accepted_subject_ids": [],
+        "accepted_combinations": [],
+        "notes": "A maximum of one BTEC/OCR Level 2 may count as one or two GCSEs where verified; no BTEC post-16 route is implemented."
+      },
+      "access_to_he": {
+        "status": "not_implemented_for_a100_standard_entry",
+        "source_ids": [],
+        "total_credits": null,
+        "distinction_credits": null,
+        "merit_credits": null,
+        "subject_credit_requirements": [],
+        "notes": "No supplied A100 standard-entry Access to HE executable route."
+      },
+      "degree": {
+        "status": "out_of_scope_graduate_entry_not_implemented",
+        "source_ids": [],
+        "applies_to_group_ids": [
+          "graduate_applicant"
+        ],
+        "minimum_classification": null,
+        "accepted_degree_subject_ids": [],
+        "decision_outcome_if_not_met": "not_eligible",
+        "notes": "Graduate Entry Medicine is explicitly out of scope for this QUB A100 implementation."
+      },
+      "irish_leaving_certificate": {
+        "status": "official_source_verified_prediction_manual_review",
+        "offer": "H1 H1 in Biology and Chemistry plus H1 H1 H2 H2 at Higher Level; O3 English and Maths at Ordinary if not at Higher; Physics background required.",
+        "shortlisting_score_source": "Junior Certificate best nine",
+        "execution_status": "eligibility_requires_verified_international_qualification_profile_prediction_suppressed_without_junior_certificate_score",
+        "source_ids": [
+          "qub_policy_2026"
+        ]
+      },
+      "notes": "A-level, IB, Scottish, Irish and verified international-equivalence routes are documented. The standard Home numerical prediction is only produced where the official GCSE/Junior Certificate score and UCAT decile-points inputs are representable."
+    },
+    "admissions_tests": {
+      "source_ids": [
+        "qub_policy_2026",
+        "ucat_consortium_2025"
+      ],
+      "ucat": {
+        "required": true,
+        "source_ids": [
+          "qub_policy_2026"
+        ],
+        "minimum_total_score": null,
+        "minimum_subsection_scores": [],
+        "score_used_for_ranking": true,
+        "validity_window": "current admissions cycle",
+        "exemptions": [
+          "Very exceptional evidenced circumstances only"
+        ],
+        "decision_outcome_if_not_met": "not_eligible",
+        "scoring": {
+          "official": true,
+          "input": "UCAT centile band",
+          "points_min": 0,
+          "points_max": 9,
+          "points_by_decile_group": {
+            "1": 0,
+            "2": 1,
+            "3": 2,
+            "4": 3,
+            "5": 4,
+            "6": 5,
+            "7": 6,
+            "8": 7,
+            "9": 8,
+            "10": 9
+          }
+        },
+        "notes": "UCAT contributes decile points to the pre-interview score. QUB does not publish or use a fixed raw UCAT cut-off."
+      },
+      "sjt": {
+        "used": true,
+        "source_ids": [
+          "qub_policy_2026"
+        ],
+        "used_as_gate": false,
+        "accepted_bands": [
+          1,
+          2,
+          3,
+          4
+        ],
+        "excluded_bands": [],
+        "scoring": {
+          "used_in_score": false,
+          "points_by_band": {},
+          "tie_break_only": true,
+          "historical_context_only": "2024 accepted 37 points plus SJT Bands 1-2 at the margin; this is not a universal runtime rule."
+        },
+        "decision_outcome_if_excluded": "not_eligible",
+        "notes": "SJT is used only as a tie-breaker for similar pre-interview or interview scores. It does not add points, subtract points or automatically reject Band 4."
+      },
+      "other_tests": []
+    },
+    "resits": {
+      "policy": "not_material_to_standard_interview_formula_in_supplied_runtime_spec",
+      "source_ids": [
+        "qub_policy_2026"
+      ],
+      "allowed": null,
+      "conditions": [],
+      "maximum_resits": null,
+      "applies_to_group_ids": [],
+      "decision_outcome_if_not_allowed": "not_eligible",
+      "notes": "Resit handling is not used to invent additional interview scoring behaviour."
+    },
+    "english_language": {
+      "source_ids": [
+        "qub_policy_2026"
+      ],
+      "required_for_group_ids": [
+        "international_fee"
+      ],
+      "accepted_tests": [
+        {
+          "test": "IELTS Academic",
+          "overall_minimum": 7.5,
+          "speaking_minimum": 7,
+          "listening_minimum": 7,
+          "reading_minimum": 6.5,
+          "writing_minimum": 6.5,
+          "source_ids": [
+            "qub_policy_2026"
+          ]
+        },
+        {
+          "test": "TOEFL iBT",
+          "overall_minimum": 105,
+          "listening_minimum": 24,
+          "reading_minimum": 21,
+          "speaking_minimum": 23,
+          "writing_minimum": 23,
+          "source_ids": [
+            "qub_policy_2026"
+          ]
+        }
+      ],
+      "exemptions": [],
+      "notes": "English-language evidence is relevant to international eligibility, but the standard Home prediction is not applied to international applicants."
+    },
+    "age_or_professional_checks": {
+      "minimum_age": null,
+      "fitness_to_practise_required": true,
+      "dbs_required": true,
+      "occupational_health_required": true,
+      "source_ids": [
+        "qub_course_page_2026"
+      ],
+      "notes": "Professional checks are informational for ApplySmart's interview-invitation scope."
+    }
+  },
+  "stage_2_interview_selection": {
+    "verification_status": "official_pre_interview_formula_verified",
+    "source_ids": [
+      "qub_policy_2026",
+      "qub_foi_21_282",
+      "qub_foi_23_302"
+    ],
+    "primary_model": "points_system",
+    "modifiers": [
+      "tie_breaker",
+      "separate_applicant_pool",
+      "contextual_guaranteed_interview_override"
+    ],
+    "ranking_factors": [
+      {
+        "factor_id": "gcse_points",
+        "factor": "academic_score",
+        "role": "ranked_component",
+        "points_available": 36,
+        "weight_percent": null,
+        "source_ids": [
+          "qub_policy_2026"
+        ],
+        "notes": "Best nine eligible GCSEs are scored on the official QUB scale."
+      },
+      {
+        "factor_id": "ucat_decile_points",
+        "factor": "ucat",
+        "role": "ranked_component",
+        "points_available": 9,
+        "weight_percent": null,
+        "source_ids": [
+          "qub_policy_2026"
+        ],
+        "notes": "UCAT contributes official decile points for 2026 entry."
+      },
+      {
+        "factor_id": "sjt",
+        "factor": "sjt",
+        "role": "tie_breaker",
+        "points_available": 0,
+        "weight_percent": null,
+        "source_ids": [
+          "qub_policy_2026"
+        ],
+        "notes": "SJT is tie-break only and is not added to the pre-interview score."
+      }
+    ],
+    "calculation": {
+      "verification_status": "official_pre_interview_formula_verified",
+      "source_ids": [
+        "qub_policy_2026"
+      ],
+      "score_components": [
+        {
+          "component_id": "gcse_component",
+          "factor_id": "gcse_points",
+          "input_field": "gcse_profile",
+          "calculation_method": "score best nine eligible GCSEs: 9/A*=4, 7-8/A=3, 6/B=2, 4-5/C=1; short courses half points where represented",
+          "scale": {
+            "min": 0,
+            "max": 36
+          },
+          "weight_percent": null,
+          "rounding": "none",
+          "notes": "Official GCSE component.",
+          "source_ids": [
+            "qub_policy_2026"
+          ]
+        },
+        {
+          "component_id": "ucat_component",
+          "factor_id": "ucat_decile_points",
+          "input_field": "admissions_tests.ucat.total_score",
+          "calculation_method": "map UCAT centile group to official QUB decile points 0-9",
+          "scale": {
+            "min": 0,
+            "max": 9
+          },
+          "weight_percent": null,
+          "rounding": "none",
+          "notes": "Official UCAT component. No raw UCAT cut-off is inferred.",
+          "source_ids": [
+            "qub_policy_2026",
+            "ucat_consortium_2025"
+          ]
+        }
+      ],
+      "total_score": {
+        "calculation_method": "gcse_component + ucat_component",
+        "components": [
+          "gcse_component",
+          "ucat_component"
+        ],
+        "scale": {
+          "min": 0,
+          "max": 45
+        },
+        "notes": "The 45-point pre-interview score scale is official QUB methodology.",
+        "source_ids": [
+          "qub_policy_2026"
+        ]
+      },
+      "notes": "This is a straight points-addition model, not a percentage weighting model."
+    },
+    "thresholds": [
+      {
+        "entry_year": 2026,
+        "threshold": null,
+        "status": "not_published",
+        "source_ids": [
+          "qub_policy_2026"
+        ],
+        "notes": "QUB releases interview point thresholds retrospectively. ApplySmart bands are derived estimates and must not be presented as official cut-offs."
+      },
+      {
+        "entry_year": 2025,
+        "threshold": 30,
+        "scale": 42,
+        "status": "official_published_historical_threshold",
+        "source_ids": [
+          "qub_policy_2026"
+        ]
+      },
+      {
+        "entry_year": 2024,
+        "threshold": "38, or 37 plus SJT Bands 1-2 at the margin",
+        "scale": 42,
+        "status": "official_published_historical_threshold",
+        "source_ids": [
+          "qub_policy_2026"
+        ]
+      }
+    ],
+    "selection_adjustments": [
+      {
+        "adjustment_id": "ni_bt_postcode_contextual_route",
+        "modifier_id": "contextual_adjustment",
+        "applies_to_group_ids": [
+          "contextual",
+          "widening_participation"
+        ],
+        "effect": "standard_gcse_ucat_prediction_suppressed",
+        "source_ids": [
+          "qub_policy_2026"
+        ],
+        "notes": "NI BT-postcode school applicants may use AS-level grades, UCAT and predicted A-levels rather than the standard GCSE academic component."
+      },
+      {
+        "adjustment_id": "pathway_opportunity_programme_guaranteed_interview",
+        "modifier_id": "guaranteed_interview",
+        "applies_to_group_ids": [
+          "widening_participation"
+        ],
+        "effect": "guaranteed_interview_when_specific_programme_completion_and_academic_eligibility_are_verified",
+        "source_ids": [
+          "qub_policy_2026"
+        ],
+        "notes": "Does not trigger from a generic contextual flag alone."
+      }
+    ],
+    "tie_breakers": [
+      {
+        "tie_breaker_id": "sjt_band",
+        "factor_id": "sjt",
+        "used_at_stage": [
+          "pre_interview_borderline",
+          "post_interview_borderline"
+        ],
+        "adds_points": false,
+        "automatic_band_4_rejection": false,
+        "source_ids": [
+          "qub_policy_2026"
+        ],
+        "notes": "SJT does not independently determine the prediction band."
+      }
+    ],
+    "output_band_policy": "applysmart_derived_on_official_45_point_scale",
+    "notes": "QUB's final offer ranking is based solely on MMI performance. The pre-interview score predicts interview invitation only and does not feed an offer prediction."
+  },
+  "contextual_admissions": {
+    "verification_status": "official_source_verified",
+    "source_ids": [
+      "qub_policy_2026"
+    ],
+    "available": true,
+    "applies_to_group_ids": [
+      "contextual",
+      "widening_participation"
+    ],
+    "criteria": [
+      {
+        "criterion_id": "ni_bt_postcode_school_to_year_12",
+        "description": "Educated at a Northern Ireland secondary school with a BT postcode to at least Year 12.",
+        "effect": "alternative_shortlisting_basis",
+        "standard_prediction_applicable": false,
+        "source_ids": [
+          "qub_policy_2026"
+        ]
+      },
+      {
+        "criterion_id": "pathway_opportunity_programme_mdbs",
+        "description": "Confirmed completion of the QUB Pathway Opportunity Programme MDBS pathway with academic eligibility.",
+        "effect": "guaranteed_interview",
+        "source_ids": [
+          "qub_policy_2026"
+        ]
+      },
+      {
+        "criterion_id": "pathway_opportunity_programme_other",
+        "description": "Confirmed completion of another eligible QUB Pathway Opportunity Programme route with academic eligibility.",
+        "effect": "guaranteed_interview",
+        "source_ids": [
+          "qub_policy_2026"
+        ]
+      }
+    ],
+    "adjustments": [
+      {
+        "adjustment_id": "contextual_ni_bt_prediction_suppression",
+        "modifier_id": "contextual_adjustment",
+        "description": "Suppress standard GCSE+UCAT prediction and explain reduced comparability.",
+        "source_ids": [
+          "qub_policy_2026"
+        ]
+      }
+    ],
+    "guaranteed_interview_rules": [
+      {
+        "rule_id": "qub_pop_guaranteed_interview",
+        "requires_specific_programme_completion": true,
+        "requires_academic_eligibility": true,
+        "generic_contextual_flag_sufficient": false,
+        "applies_to_programmes": [
+          "MDBS Pathway Opportunity Programme",
+          "Other eligible QUB Pathway Opportunity Programme routes"
+        ],
+        "effect": "guaranteed_interview",
+        "source_ids": [
+          "qub_policy_2026"
+        ],
+        "notes": "The override is represented in data/interview-band-configs/queen-s-belfast-a100.json."
+      }
+    ],
+    "notes": "Contextual routes are separate from the standard Home GCSE+UCAT prediction model."
+  },
+  "ranking_pools": [
+    {
+      "pool_id": "qub_home_standard_gcse_ucat",
+      "name": "QUB Home standard school-leaver",
+      "applies_to_group_ids": [
+        "home_fee",
+        "school_leaver"
+      ],
+      "fee_statuses": [
+        "home"
+      ],
+      "ranking_model": "points_system",
+      "ranking_factors": [
+        "gcse_points",
+        "ucat_decile_points"
+      ],
+      "places_available": 236,
+      "source_ids": [
+        "qub_policy_2026"
+      ],
+      "notes": "Standard Home applicants are ranked by the official 45-point pre-interview score. ApplySmart prediction bands are derived labels."
+    },
+    {
+      "pool_id": "qub_international_separate_pathway",
+      "name": "QUB International separate pathway",
+      "applies_to_group_ids": [
+        "international_fee"
+      ],
+      "fee_statuses": [
+        "international"
+      ],
+      "ranking_model": "holistic_review",
+      "ranking_factors": [
+        "academic_background",
+        "ucat",
+        "borderline_sjt"
+      ],
+      "places_available": 36,
+      "source_ids": [
+        "qub_policy_2026"
+      ],
+      "notes": "QUB has not published an international equivalent to the Home GCSE+UCAT formula. ApplySmart does not derive an international band."
+    }
+  ],
+  "quotas": [
+    {
+      "quota_id": "queen_s_belfast_a100_places_2027_entry_verified",
+      "name": "Verified Home/International places (2027 entry)",
+      "home_places": 236,
+      "international_places": 36,
+      "quota_type": "verified_current_places",
+      "source_ids": [
+        "applysmart_admissions_team_verified_2026"
+      ],
+      "notes": "Home/International place figures verified by the ApplySmart admissions research team for 2027 entry."
+    },
+    {
+      "quota_id": "home_places",
+      "places": 236,
+      "source_ids": [
+        "qub_policy_2026"
+      ],
+      "notes": "Published Home places for the documented cycle."
+    },
+    {
+      "quota_id": "international_places",
+      "places": 36,
+      "source_ids": [
+        "qub_policy_2026"
+      ],
+      "notes": "Published international places for the documented cycle."
+    }
+  ],
+  "offer_selection": {
+    "verification_status": "official_source_verified_out_of_scope_for_applysmart",
+    "source_ids": [
+      "qub_policy_2026"
+    ],
+    "interview_format": {
+      "home": "In-person MMI in Belfast, nine stations",
+      "international": "Online MMI, seven stations",
+      "source_ids": [
+        "qub_policy_2026"
+      ]
+    },
+    "interview_scoring": {
+      "used_for_offer_ranking": true,
+      "pre_interview_score_carries_forward": false,
+      "source_ids": [
+        "qub_policy_2026"
+      ]
+    },
+    "offer_model": "interview_score_only",
+    "ranking_factors": [
+      "mmi_interview_performance"
+    ],
+    "tie_breakers": [
+      "sjt_band_for_similar_interview_scores"
+    ],
+    "waiting_list_policy": null,
+    "standard_offer": {
+      "a_level": "See Stage 1 post-16 requirements; offers are outside ApplySmart prediction scope."
+    },
+    "contextual_offer": {
+      "mdbs_pop": "Possible one A-level grade below normal target where QUB POP MDBS completion and eligibility are confirmed; offer prediction remains out of scope."
+    },
+    "notes": "This implementation predicts interview invitation only. It never predicts offer outcome."
+  },
+  "historical_admissions": {
+    "verification_status": "official_source_verified_with_documented_gaps",
+    "source_ids": [
+      "qub_policy_2026",
+      "qub_foi_21_282",
+      "qub_foi_23_302"
+    ],
+    "cycles": [
+      {
+        "entry_year": 2019,
+        "combined_points_threshold": 32,
+        "scale": 42
+      },
+      {
+        "entry_year": 2020,
+        "combined_points_threshold": 30,
+        "scale": 42
+      },
+      {
+        "entry_year": 2021,
+        "combined_points_threshold": 32,
+        "scale": 42
+      },
+      {
+        "entry_year": 2022,
+        "combined_points_threshold": 37,
+        "scale": 42
+      },
+      {
+        "entry_year": 2023,
+        "combined_points_threshold": 38,
+        "scale": 42
+      },
+      {
+        "entry_year": 2024,
+        "combined_points_threshold": "38, or 37 plus SJT Bands 1-2",
+        "scale": 42
+      },
+      {
+        "entry_year": 2025,
+        "combined_points_threshold": 30,
+        "scale": 42
+      }
+    ],
+    "notes": "Historical thresholds from 2019 onward are comparable under QUB's post-2019 GCSE scoring. The 2026 threshold is not published yet."
+  },
+  "sources": [
+    {
+      "source_id": "qub_policy_2026",
+      "title": "QUB Admission Policy Statement for Medicine, 2026 Entry",
+      "url": "https://www.qub.ac.uk/directorates/MRCI/admissions/FileStore/QUB-Admissions-Policy-Statement-for-Medicine-2026.pdf",
+      "source_type": "official_university_policy",
+      "published_date": "2025",
+      "accessed_date": "2026-07-22",
+      "applies_to_sections": [
+        "eligibility",
+        "interview_selection",
+        "contextual_admissions",
+        "offer_selection",
+        "historical_admissions"
+      ],
+      "confidence": "high",
+      "evidence_classification": "OFFICIAL",
+      "notes": "Primary official QUB policy evidence."
+    },
+    {
+      "source_id": "qub_course_page_2026",
+      "title": "Queen's University Belfast Medicine MB A100 course page",
+      "url": "https://www.qub.ac.uk/courses/undergraduate/medicine-mb-a100/",
+      "source_type": "official_course_page",
+      "published_date": "2026",
+      "accessed_date": "2026-07-22",
+      "applies_to_sections": [
+        "course_identity",
+        "eligibility"
+      ],
+      "confidence": "high",
+      "evidence_classification": "OFFICIAL",
+      "notes": "Official course-page cross-reference."
+    },
+    {
+      "source_id": "msc_qub_a100_2027",
+      "title": "Medical Schools Council Queen's University Belfast Medicine A100",
+      "url": "https://www.medschools.ac.uk/courses/queens-university-belfast-medicine-a100/",
+      "source_type": "official_msc_cross_reference",
+      "published_date": "2027",
+      "accessed_date": "2026-07-22",
+      "applies_to_sections": [
+        "course_identity",
+        "gcse_english_language"
+      ],
+      "confidence": "high",
+      "evidence_classification": "OFFICIAL",
+      "notes": "Official MSC cross-reference used in the supplied research dossier."
+    },
+    {
+      "source_id": "qub_foi_21_282",
+      "title": "FOI-21-282 Medicine admissions information",
+      "url": "https://www.whatdotheyknow.com/request/medicine_admissions_information_38",
+      "source_type": "official_foi_response",
+      "published_date": "2021-09-23",
+      "accessed_date": "2026-07-22",
+      "applies_to_sections": [
+        "historical_admissions",
+        "ucat"
+      ],
+      "confidence": "high",
+      "evidence_classification": "FOI",
+      "notes": "Official QUB FOI response cited by the supplied dossier."
+    },
+    {
+      "source_id": "qub_foi_23_302",
+      "title": "FOI-23-302 Scoring for medicine interviews",
+      "url": "https://www.whatdotheyknow.com/request/scoring_for_medicine_interviews",
+      "source_type": "official_foi_response",
+      "published_date": "2023-09-07",
+      "accessed_date": "2026-07-22",
+      "applies_to_sections": [
+        "historical_admissions",
+        "ucat"
+      ],
+      "confidence": "high",
+      "evidence_classification": "FOI",
+      "notes": "Official QUB FOI response cited by the supplied dossier."
+    },
+    {
+      "source_id": "ucat_consortium_2025",
+      "title": "UCAT Consortium current scoring structure",
+      "url": "https://www.ucat.ac.uk/",
+      "source_type": "official_test_provider",
+      "published_date": "2025",
+      "accessed_date": "2026-07-22",
+      "applies_to_sections": [
+        "ucat_decile_lookup"
+      ],
+      "confidence": "high",
+      "evidence_classification": "OFFICIAL",
+      "notes": "Used for the shared national UCAT decile lookup service."
+    }
+  ],
+  "validation": {
+    "source_status": "official_source_verified_with_documented_gaps",
+    "last_verified": "2026-07-22",
+    "confidence_level": "High methodology confidence; Medium prediction calibration confidence",
+    "completion_status": "complete_for_supported_scope_with_documented_gaps",
+    "known_unknowns": [
+      "Official 2026 interview threshold not yet published.",
+      "No official standard international GCSE+UCAT scoring formula.",
+      "Exact recent per-year applicant/interview/offer counts are not published.",
+      "Number of contextual or ring-fenced places is not published.",
+      "Official raw 3600-to-2700 UCAT conversion for historical raw-score context is not available."
+    ],
+    "review_notes": "The standard Home formula, GCSE scoring, UCAT scoring and 45-point maximum are official. ApplySmart prediction bands are derived labels and are not official QUB cut-offs."
+  },
+  "engine_notes": {
+    "eligibility": true,
+    "interview_prediction": true,
+    "historical_guidance": true,
+    "international_prediction": false,
+    "contextual_logic": true,
+    "result_card": true,
+    "regression": true,
+    "research_completeness": "complete_for_supported_scope_with_documented_gaps",
+    "manual_review_required": true,
+    "eligibility_ready": true,
+    "interview_prediction_ready": true,
+    "interview_band_config_ready": true,
+    "metadata_activation_ready": true,
+    "activation_ready": true,
+    "production_ready": true,
+    "offer_prediction_scope": "out_of_scope",
+    "prediction_confidence": "medium",
+    "result_card_ready": true,
+    "blocking_missing_fields": [],
+    "engine_assumptions": [
+      "The active ApplySmart band source is stored as derived_prediction_bands_45_scale to match the supplied band configuration key.",
+      "QUB public band labels are mapped to ApplySmart canonical internal bands only for schema compatibility.",
+      "AS-level Biology/Human Biology branches and Scottish/Irish academic-point tables are routed to review or prediction suppression where Engine v1.0 cannot execute them without shared-engine changes."
+    ],
+    "do_not_infer": [
+      "Do not describe the official 45-point score scale as derived.",
+      "Do not present ApplySmart prediction bands as official QUB cut-offs.",
+      "Do not infer a raw UCAT cut-off.",
+      "Do not score or reject SJT Band 4 as part of the main prediction.",
+      "Do not apply the Home GCSE+UCAT prediction to international applicants.",
+      "Do not use the pre-interview score for offer prediction."
+    ]
+  }
+}

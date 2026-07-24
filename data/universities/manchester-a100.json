@@ -1,0 +1,2359 @@
+{
+  "schema_version": "1.0.0",
+  "profile_id": "manchester-a100",
+  "profile_status": "activated_for_scoped_eligibility_and_interview_guidance",
+  "verification_status": "official_and_foi_partially_verified",
+  "last_updated": "2026-07-02",
+  "university": {
+    "name": "University of Manchester",
+    "slug": "manchester",
+    "country": "United Kingdom",
+    "nation": "England",
+    "institution_type": "University",
+    "website_url": "https://www.manchester.ac.uk/"
+  },
+  "course": {
+    "name": "MBChB Medicine",
+    "ucas_code": "A100",
+    "entry_route": "standard_entry",
+    "qualification_awarded": "MBChB Medicine",
+    "duration_years": 5,
+    "campus": "Manchester",
+    "location": "Manchester, England",
+    "entry_year": 2027,
+    "fee_statuses": [
+      "home",
+      "international"
+    ],
+    "is_gateway_or_foundation": false,
+    "is_graduate_entry": false,
+    "notes": "Five-year standard undergraduate A106 course. Applicants presenting a prior degree may use the evidenced A106 academic eligibility branch. A101 Graduate Entry remains reference-only and non-executable for A106. Applications are through UCAS with a 15 October 2026 deadline."
+  },
+  "medical_school": {
+    "name": "Manchester Medical School",
+    "notes": "Production rules in this internal A100 portfolio profile are derived only from data/research/manchester-a100-research.json. Official evidence retains Manchester's A106 course terminology."
+  },
+  "applicant_pools": [
+    {
+      "pool_id": "a106_home_standard",
+      "name": "A106 Home standard interview-selection pool",
+      "status": "supported",
+      "applies_to_group_ids": [
+        "home_fee",
+        "school_leaver"
+      ],
+      "selection_relevance": "ranking_model: ucat_ranking | ranking_factors: total UCAT cognitive score; SJT Band 1 preferred over Band 2 as the second pre-interview tie-break",
+      "excluded_group_ids": [
+        "contextual",
+        "widening_participation",
+        "graduate_applicant"
+      ],
+      "source_ids": [
+        "manchester_a106_ucat_2027",
+        "manchester_foi_tie_breakers_2022_2026",
+        "manchester_course_profile_2027"
+      ],
+      "places_available": 401,
+      "notes": "The 401 Home places are course-level capacity and must not be treated as reserved solely for this pool."
+    },
+    {
+      "pool_id": "a106_home_contextual_wp",
+      "name": "A106 Home contextual/WP interview-selection pool",
+      "status": "supported",
+      "applies_to_group_ids": [
+        "home_fee",
+        "contextual",
+        "widening_participation",
+        "care_experienced"
+      ],
+      "selection_relevance": "ranking_model: ucat_ranking | ranking_factors: total UCAT cognitive score; SJT Band 1 preferred over Band 2 as the second pre-interview tie-break",
+      "source_ids": [
+        "manchester_a106_ucat_2027",
+        "manchester_medicine_contextual",
+        "manchester_foi_tie_breakers_2022_2026",
+        "manchester_course_profile_2027"
+      ],
+      "places_available": 401,
+      "notes": "MAP completers meeting all minimums receive a guaranteed interview. No fixed contextual places quota is inferred."
+    },
+    {
+      "pool_id": "a106_international",
+      "name": "A106 International interview-selection pool",
+      "status": "supported",
+      "applies_to_group_ids": [
+        "international_fee"
+      ],
+      "selection_relevance": "ranking_model: ucat_ranking | ranking_factors: highest total UCAT cognitive score first; SJT Band 1 preferred over Band 2 when cognitive totals are equal",
+      "source_ids": [
+        "manchester_course_profile_2027",
+        "manchester_verified_international_official_and_foi_evidence"
+      ],
+      "places_available": 28,
+      "notes": "International applicants compete only within their own cohort. The independently determined threshold is set after UCAT results are available; historical guidance is not a fixed cut-off."
+    },
+    {
+      "pool_id": "a106_graduate_applicants",
+      "name": "Graduate applicants to five-year A106",
+      "status": "supported",
+      "applies_to_group_ids": [
+        "graduate_applicant"
+      ],
+      "selection_relevance": "Applicant cohort descriptor; selection remains governed by the canonical ranking_pools and stage_2_interview_selection sections.",
+      "source_ids": [
+        "manchester_a106_application_and_selection_2027",
+        "manchester_medicine_eligibility"
+      ],
+      "places_available": null,
+      "notes": "Academic eligibility is represented, but distinct A106 graduate UCAT treatment is not established. A101 data must not be used."
+    }
+  ],
+  "applies_to_group_ids": [
+    "home_fee",
+    "international_fee",
+    "contextual",
+    "widening_participation",
+    "care_experienced",
+    "graduate_applicant",
+    "school_leaver",
+    "resit_applicant"
+  ],
+  "stage_1_eligibility": {
+    "verification_status": "official_source_verified_with_remaining_eligibility_exceptions",
+    "source_ids": [
+      "manchester_a106_application_and_selection_2027",
+      "manchester_medicine_eligibility",
+      "manchester_medicine_contextual",
+      "manchester_a106_ucat_2027"
+    ],
+    "overall_policy": {
+      "status": "official_rules_mapped_for_published_routes",
+      "description": "Applicants must meet the minimum requirements for one supported academic route, take UCAT in the application cycle, achieve SJT Band 1 or 2 and satisfy the applicable application and professional requirements. Only the qualification routes represented below are executable.",
+      "not_eligible_if": [
+        "The applicable published academic minimum requirements are not met.",
+        "UCAT is not taken in the application cycle.",
+        "The applicant receives SJT Band 3 or Band 4.",
+        "The applicant seeks transfer into A106 from another medical or dental programme.",
+        "The applicant was rejected by Manchester in each of the two immediately preceding consecutive application years."
+      ],
+      "source_ids": [
+        "manchester_a106_application_and_selection_2027",
+        "manchester_medicine_eligibility",
+        "manchester_a106_ucat_2027"
+      ],
+      "notes": "Unsupported or ambiguous qualification equivalence must return manual review rather than eligible."
+    },
+    "gcse": {
+      "status": "official_source_verified",
+      "source_ids": [
+        "manchester_a106_application_and_selection_2027",
+        "manchester_medicine_contextual"
+      ],
+      "qualification_scope": [
+        "GCSE",
+        "IGCSE"
+      ],
+      "minimum_count": 7,
+      "minimum_grade": "7/A",
+      "minimum_count_at_or_above_grade": [
+        {
+          "requirement_id": "gcse_standard_seven_at_7_or_a",
+          "applies_to_group_ids": [
+            "school_leaver"
+          ],
+          "excluded_group_ids": [
+            "contextual",
+            "widening_participation"
+          ],
+          "count": 7,
+          "minimum_grade": "7/A",
+          "decision_outcome_if_not_met": "not_eligible",
+          "source_ids": [
+            "manchester_a106_application_and_selection_2027"
+          ]
+        },
+        {
+          "requirement_id": "gcse_contextual_six_at_7_or_a",
+          "applies_to_group_ids": [
+            "contextual",
+            "widening_participation"
+          ],
+          "count": 6,
+          "minimum_grade": "7/A",
+          "decision_outcome_if_not_met": "not_eligible",
+          "source_ids": [
+            "manchester_medicine_contextual"
+          ]
+        }
+      ],
+      "counted_subject_limit": null,
+      "mandatory_subject_ids": [
+        "english_language",
+        "mathematics",
+        "science"
+      ],
+      "grade_requirements": [
+        {
+          "requirement_id": "gcse_english_language_minimum",
+          "applies_to_group_ids": [],
+          "subject_id": "english_language",
+          "minimum_grade": "6/B",
+          "qualification_level": "gcse_or_igcse",
+          "decision_outcome_if_not_met": "not_eligible",
+          "source_ids": [
+            "manchester_a106_application_and_selection_2027"
+          ],
+          "notes": null
+        },
+        {
+          "requirement_id": "gcse_mathematics_minimum",
+          "applies_to_group_ids": [],
+          "subject_id": "mathematics",
+          "minimum_grade": "6/B",
+          "qualification_level": "gcse_or_igcse",
+          "decision_outcome_if_not_met": "not_eligible",
+          "source_ids": [
+            "manchester_a106_application_and_selection_2027"
+          ],
+          "notes": null
+        }
+      ],
+      "science_requirement": {
+        "requirement_id": "gcse_science_minimum",
+        "requirement_type": "any_of",
+        "minimum_options_required": 1,
+        "accepted_options": [
+          {
+            "option_id": "two_separate_sciences",
+            "minimum_subjects_required": 2,
+            "accepted_subject_ids": [
+              "biology",
+              "chemistry",
+              "physics"
+            ],
+            "minimum_grade": "7/A"
+          },
+          {
+            "option_id": "combined_or_double_science",
+            "subject_id": "combined_science",
+            "minimum_grade_profile": [
+              "7",
+              "7"
+            ],
+            "accepted_equivalent_profile": [
+              "A",
+              "A"
+            ]
+          }
+        ],
+        "decision_outcome_if_not_met": "not_eligible",
+        "source_ids": [
+          "manchester_a106_application_and_selection_2027"
+        ]
+      },
+      "eligibility_gate": {
+        "operator": "all",
+        "requirements": [
+          "The applicable standard or contextual minimum count at grade 7/A.",
+          "English Language at grade 6/B.",
+          "Mathematics at grade 6/B.",
+          "Two sciences or Combined/Double Science at grade 7/A."
+        ],
+        "execution_status": "automatic_for_complete_gcse_or_igcse_profiles"
+      },
+      "accepted_equivalencies": [
+        "IGCSE",
+        "Combined or Double Science as the published science alternative"
+      ],
+      "sitting_policy": null,
+      "achieved_or_predicted": "achieved",
+      "selection_role": "eligibility_only",
+      "scored_after_eligibility": false,
+      "notes": "GCSEs are not competitively scored after the eligibility screen. Non-standard equivalencies not represented above require manual review."
+    },
+    "post_16": {
+      "status": "official_source_verified_with_remaining_eligibility_exceptions",
+      "source_ids": [
+        "manchester_a106_application_and_selection_2027",
+        "manchester_medicine_eligibility",
+        "manchester_medicine_contextual"
+      ],
+      "accepted_qualification_types": [
+        "a_level",
+        "international_baccalaureate",
+        "scottish_highers_and_advanced_highers",
+        "degree_in_relevant_life_or_health_science"
+      ],
+      "a_level": {
+        "status": "official_source_verified",
+        "source_ids": [
+          "manchester_a106_application_and_selection_2027",
+          "manchester_medicine_contextual"
+        ],
+        "grade_requirements": [
+          {
+            "requirement_id": "a_level_standard_offer",
+            "applies_to_group_ids": [
+              "school_leaver"
+            ],
+            "excluded_group_ids": [
+              "contextual",
+              "widening_participation"
+            ],
+            "grade_profile": [
+              "A",
+              "A",
+              "A"
+            ],
+            "decision_outcome_if_not_met": "not_eligible",
+            "source_ids": [
+              "manchester_a106_application_and_selection_2027"
+            ],
+            "notes": "The published subject-combination gate also applies."
+          },
+          {
+            "requirement_id": "a_level_contextual_offer",
+            "applies_to_group_ids": [
+              "contextual",
+              "widening_participation"
+            ],
+            "grade_profile": [
+              "A",
+              "A",
+              "B"
+            ],
+            "decision_outcome_if_not_met": "not_eligible",
+            "source_ids": [
+              "manchester_medicine_contextual"
+            ],
+            "notes": "The published subject-combination gate also applies."
+          }
+        ],
+        "standard_offer": {
+          "grade_profile": [
+            "A",
+            "A",
+            "A"
+          ],
+          "source_ids": [
+            "manchester_a106_application_and_selection_2027"
+          ],
+          "notes": null
+        },
+        "contextual_offer": {
+          "applies_to_group_ids": [
+            "contextual",
+            "widening_participation"
+          ],
+          "grade_profile": [
+            "A",
+            "A",
+            "B"
+          ],
+          "source_ids": [
+            "manchester_medicine_contextual"
+          ],
+          "notes": "Available only after Manchester verifies contextual/WP status."
+        },
+        "subject_combination_rule": {
+          "requirement_id": "a_level_medicine_subject_combination",
+          "minimum_subjects": 2,
+          "primary_subject_condition": {
+            "operator": "any_option",
+            "options": [
+              {
+                "option_id": "biology_or_human_biology",
+                "operator": "one_of",
+                "minimum_required": 1,
+                "subject_ids": [
+                  "biology",
+                  "human_biology"
+                ]
+              },
+              {
+                "option_id": "chemistry",
+                "operator": "required_subject",
+                "minimum_required": 1,
+                "subject_ids": [
+                  "chemistry"
+                ]
+              }
+            ]
+          },
+          "second_subject_group": {
+            "minimum_required": 1,
+            "subject_ids": [
+              "chemistry",
+              "biology",
+              "human_biology",
+              "physics",
+              "psychology",
+              "mathematics",
+              "further_mathematics"
+            ]
+          },
+          "disallowed_overlaps": [
+            [
+              "biology",
+              "human_biology"
+            ],
+            [
+              "mathematics",
+              "further_mathematics"
+            ]
+          ],
+          "subjects_must_be_distinct": true,
+          "offer_subject_count": 3,
+          "extra_a_levels_included_in_offer": false,
+          "third_subject_preference": "none",
+          "three_sciences_acceptable": true,
+          "decision_outcome_if_not_met": "not_eligible",
+          "source_ids": [
+            "manchester_a106_application_and_selection_2027"
+          ],
+          "notes": "The engine must select three full A levels that meet the applicable grade profile, then enforce Biology/Human Biology OR Chemistry as the first condition and a distinct approved second subject. Biology with Human Biology and Mathematics with Further Mathematics cannot be counted together. Extra A levels are excluded from the offer; there is no third-subject preference, and three sciences are acceptable."
+        },
+        "required_subject_ids": [],
+        "one_of_subject_groups": [],
+        "excluded_subject_ids": [],
+        "full_a_levels_counted_for_offer": 3,
+        "extra_a_levels_included_in_offer": false,
+        "third_subject_rules": "No preference for the third full A level once the first and second subject conditions are met. Three sciences are acceptable.",
+        "science_practical_endorsement_required": true,
+        "predicted_grades_accepted": true,
+        "notes": "Offers are based on three full A levels only. Extra A levels are not included. Practical endorsements must be passed for every applicable science A level taken."
+      },
+      "ib": {
+        "status": "official_source_verified",
+        "source_ids": [
+          "manchester_a106_application_and_selection_2027"
+        ],
+        "total_points": 36,
+        "hl_points": 18,
+        "grade_requirements": [
+          {
+            "requirement_id": "ib_minimum_offer",
+            "applies_to_group_ids": [
+              "school_leaver"
+            ],
+            "total_points": 36,
+            "higher_level_grade_profile": [
+              6,
+              6,
+              6
+            ],
+            "required_hl_subject_ids": [],
+            "decision_outcome_if_not_met": "not_eligible",
+            "source_ids": [
+              "manchester_a106_application_and_selection_2027"
+            ],
+            "notes": "The supplied evidence establishes 36 points with 666 at Higher Level as the minimum."
+          }
+        ],
+        "competitive_profile": {
+          "total_points": 37,
+          "higher_level_grade_profile": [
+            7,
+            6,
+            6
+          ],
+          "required_hl_subject_ids": [
+            "chemistry",
+            "biology"
+          ],
+          "status": "guidance_only_not_an_eligibility_minimum"
+        },
+        "standard_level_requirements_if_not_at_higher_level": [
+          {
+            "subject_id": "mathematics",
+            "minimum_grade": 5
+          },
+          {
+            "subject_id": "english_language",
+            "minimum_grade": 5
+          }
+        ],
+        "required_hl_subject_ids": [],
+        "one_of_hl_subject_groups": [],
+        "notes": "Do not convert the competitive 37/766 profile into a minimum eligibility gate."
+      },
+      "scottish": {
+        "status": "official_source_verified",
+        "source_ids": [
+          "manchester_a106_application_and_selection_2027"
+        ],
+        "higher_offer": {
+          "grade_profile": [
+            "A",
+            "A",
+            "A",
+            "A",
+            "B"
+          ],
+          "source_ids": [
+            "manchester_a106_application_and_selection_2027"
+          ],
+          "notes": "SQA Highers AAAAB."
+        },
+        "advanced_higher_offer": {
+          "grade_profile": [
+            "A",
+            "A"
+          ],
+          "source_ids": [
+            "manchester_a106_application_and_selection_2027"
+          ],
+          "notes": "Chemistry and Biology are recommended Advanced Higher subjects, not encoded as compulsory subjects."
+        },
+        "grade_requirements": [
+          {
+            "requirement_id": "scottish_higher_and_advanced_higher_offer",
+            "applies_to_group_ids": [
+              "scotland_domiciled",
+              "school_leaver"
+            ],
+            "higher_grade_profile": [
+              "A",
+              "A",
+              "A",
+              "A",
+              "B"
+            ],
+            "advanced_higher_grade_profile": [
+              "A",
+              "A"
+            ],
+            "required_subject_ids": [],
+            "decision_outcome_if_not_met": "not_eligible",
+            "source_ids": [
+              "manchester_a106_application_and_selection_2027"
+            ],
+            "notes": "Both published grade profiles must be evaluated for this route."
+          }
+        ],
+        "national_5_requirements": [
+          {
+            "subject_id": "english_language",
+            "minimum_grade": "B/6"
+          },
+          {
+            "subject_id": "mathematics",
+            "minimum_grade": "B/6"
+          },
+          {
+            "subject_id": "science",
+            "minimum_grade": "B/6"
+          }
+        ],
+        "required_subject_ids": [],
+        "recommended_advanced_higher_subject_ids": [
+          "chemistry",
+          "biology"
+        ],
+        "one_of_subject_groups": [],
+        "notes": "Chemistry and Biology at Advanced Higher are recommendations only. They must not be turned into automatic rejection rules."
+      },
+      "btec": {
+        "status": "unsupported_no_verified_rule",
+        "source_ids": [],
+        "accepted_subject_ids": [],
+        "accepted_combinations": [],
+        "decision_outcome": "unknown",
+        "notes": "No executable BTEC rule was supplied."
+      },
+      "access_to_he": {
+        "status": "unsupported_no_verified_rule",
+        "source_ids": [],
+        "total_credits": null,
+        "distinction_credits": null,
+        "merit_credits": null,
+        "subject_credit_requirements": [],
+        "decision_outcome": "unknown",
+        "notes": "No executable Access to HE rule was supplied."
+      },
+      "degree": {
+        "status": "official_source_verified_with_manual_subject_confirmation",
+        "source_ids": [
+          "manchester_a106_application_and_selection_2027",
+          "manchester_medicine_eligibility"
+        ],
+        "applies_to_group_ids": [
+          "graduate_applicant"
+        ],
+        "course_scope": "A106_only",
+        "minimum_classification": "2:1 Honours",
+        "accepted_degree_subject_ids": [],
+        "degree_subject_scope": "relevant life or health science subject",
+        "gcse_requirements_apply": true,
+        "a_level_requirements_waived_if_degree_requirement_met": true,
+        "execution_status": "automatic_only_after_relevant_degree_subject_has_been_confirmed",
+        "decision_outcome_if_not_met": "not_eligible",
+        "notes": "The complete list of relevant degrees and equivalence decisions is unpublished in the supplied evidence. An unclassified or ambiguous degree subject must return manual review. A101 thresholds and places are never used."
+      },
+      "notes": "Published A-level, IB and Scottish rules are executable when the consumer enforces every applicable gate. The A106 prior-degree qualification route additionally requires confirmed degree-subject relevance. Other qualification routes remain unsupported."
+    },
+    "admissions_tests": {
+      "source_ids": [
+        "manchester_a106_ucat_2027",
+        "manchester_a106_interviews_2027"
+      ],
+      "ucat": {
+        "required": true,
+        "source_ids": [
+          "manchester_a106_ucat_2027"
+        ],
+        "minimum_total_score": null,
+        "minimum_subsection_scores": [],
+        "score_scale": {
+          "minimum": 0,
+          "maximum": 2700,
+          "applies_from": 2026
+        },
+        "test_window": "July to September 2026",
+        "score_used_for_ranking": true,
+        "validity_window": "Only the application cycle in which the test is taken.",
+        "exemptions": [],
+        "decision_outcome_if_not_met": "not_eligible",
+        "notes": "A current-cycle fixed UCAT cutoff is not published. Historical values are guidance only."
+      },
+      "sjt": {
+        "used": true,
+        "source_ids": [
+          "manchester_a106_ucat_2027",
+          "manchester_a106_interviews_2027"
+        ],
+        "used_as_gate": true,
+        "accepted_bands": [
+          1,
+          2
+        ],
+        "excluded_bands": [
+          3,
+          4
+        ],
+        "group_policies": [
+          {
+            "applies_to_group_ids": [
+              "international_fee"
+            ],
+            "used_as_gate": true,
+            "accepted_bands": [
+              1,
+              2
+            ],
+            "excluded_bands": [
+              3,
+              4
+            ],
+            "decision_outcome_if_excluded": "not_eligible",
+            "source_ids": [
+              "manchester_verified_international_official_and_foi_evidence"
+            ]
+          }
+        ],
+        "scoring": {
+          "used_in_score": false,
+          "points_by_band": {}
+        },
+        "pre_interview_tie_break": "Band 1 is preferred over Band 2 after total UCAT score.",
+        "decision_outcome_if_excluded": "not_eligible",
+        "notes": "SJT Bands 3 and 4 are automatic rejection. SJT is not part of the normal post-interview score."
+      },
+      "other_tests": []
+    },
+    "resits": {
+      "policy": "official_source_verified",
+      "source_ids": [
+        "manchester_a106_application_and_selection_2027"
+      ],
+      "allowed": true,
+      "conditions": [
+        "A-level resits must achieve AAA.",
+        "Each A-level subject may be resat no more than once."
+      ],
+      "maximum_resits": 1,
+      "maximum_resits_scope": "per_a_level_subject",
+      "applies_to_group_ids": [
+        "resit_applicant"
+      ],
+      "decision_outcome_if_not_allowed": "not_eligible",
+      "notes": "No broader resit rule should be inferred beyond the supplied A-level evidence."
+    },
+    "english_language": {
+      "source_ids": [
+        "manchester_a106_application_and_selection_2027"
+      ],
+      "applies_to_group_ids": [],
+      "accepted_tests": [],
+      "exemptions": [],
+      "decision_outcome_if_not_met": "not_eligible",
+      "notes": "The GCSE/IGCSE English Language minimum is implemented above. No separate executable English-test equivalence was supplied."
+    },
+    "age_or_professional_checks": {
+      "source_ids": [
+        "manchester_a106_application_and_selection_2027"
+      ],
+      "minimum_age": null,
+      "fitness_to_practise_required": true,
+      "dbs_required": true,
+      "occupational_health_required": true,
+      "vaccinations_required": true,
+      "decision_outcome_if_not_met": "not_eligible",
+      "notes": "DBS, occupational-health and vaccination conditions apply after an offer."
+    }
+  },
+  "stage_2_interview_selection": {
+    "verification_status": "official_and_foi_partially_verified",
+    "source_ids": [
+      "manchester_a106_ucat_2027",
+      "manchester_a106_interviews_2027",
+      "manchester_medicine_contextual",
+      "manchester_foi_tie_breakers_2022_2026",
+      "manchester_verified_international_official_and_foi_evidence"
+    ],
+    "primary_model": "ucat_ranking",
+    "selection_model_label": "ACADEMIC_AND_SJT_GATE_THEN_GROUP_SPECIFIC_UCAT_RANKING",
+    "modifiers": [
+      "contextual_adjustment",
+      "widening_participation_scheme",
+      "guaranteed_interview",
+      "sjt_exclusion",
+      "tie_breaker",
+      "separate_applicant_pool"
+    ],
+    "ordered_process": [
+      "Confirm the applicable academic eligibility route.",
+      "Reject SJT Band 3 or 4; only Band 1 or 2 progresses.",
+      "Guarantee an interview to a Manchester Access Programme completer who meets all minimum criteria.",
+      "Separate applicants into Home, Widening Participation, International and Graduate (A101) cohorts.",
+      "For other supported applicants, apply the independently determined applicant-cohort UCAT boundary.",
+      "Rank by highest cognitive UCAT total first; if equal, prefer SJT Band 1 over Band 2 and invite until interview capacity is filled."
+    ],
+    "ranking_factors": [
+      {
+        "factor_id": "ucat_cognitive_total",
+        "factor_type": "ucat",
+        "weight_percent": null,
+        "points_available": null,
+        "source_field": "stage_1_eligibility.admissions_tests.ucat.total_score",
+        "source_ids": [
+          "manchester_a106_ucat_2027",
+          "manchester_a106_interviews_2027"
+        ],
+        "notes": "The UCAT cognitive total is the primary interview-ranking factor after eligibility and SJT screening."
+      },
+      {
+        "factor_id": "sjt_band_pre_interview_tie_break",
+        "factor_type": "sjt",
+        "weight_percent": null,
+        "points_available": null,
+        "source_field": "stage_1_eligibility.admissions_tests.sjt.band",
+        "source_ids": [
+          "manchester_foi_tie_breakers_2022_2026"
+        ],
+        "notes": "After total UCAT, Band 1 is preferred over Band 2. Bands 3 and 4 have already failed the gate."
+      }
+    ],
+    "calculation": {
+      "verification_status": "official_and_foi_partially_verified",
+      "source_ids": [
+        "manchester_a106_ucat_2027",
+        "manchester_a106_interviews_2027",
+        "manchester_foi_tie_breakers_2022_2026"
+      ],
+      "score_components": [
+        {
+          "component_id": "ucat_rank_component",
+          "factor_id": "ucat_cognitive_total",
+          "input_field": "ucat_total_score",
+          "calculation_method": "rank_descending_within_supported_applicant_group_after_academic_and_sjt_gates",
+          "scale": {
+            "min": 0,
+            "max": 2700
+          },
+          "weight_percent": null,
+          "rounding": null,
+          "notes": "The live group boundary is cohort-dependent and unknown. Historical guidance bands are descriptive, not executable cutoffs.",
+          "source_ids": [
+            "manchester_a106_ucat_2027",
+            "manchester_a106_interviews_2027"
+          ]
+        }
+      ],
+      "total_score": {
+        "calculation_method": "raw_ucat_cognitive_total_ranking_no_additive_academic_score",
+        "components": [
+          "ucat_rank_component"
+        ],
+        "scale": {
+          "min": 0,
+          "max": 2700
+        },
+        "notes": "GCSE and post-16 academics are eligibility gates, not competitive score components.",
+        "source_ids": [
+          "manchester_a106_interviews_2027"
+        ]
+      },
+      "notes": "The engine can show historical guidance for Home standard, Home contextual/WP and International groups, but it cannot reproduce a live cohort ranking boundary."
+    },
+    "international_selection": {
+      "applies_to_group_ids": [
+        "international_fee"
+      ],
+      "ranking_pool": "a106_international",
+      "separate_applicant_cohort": true,
+      "competes_only_with_international_applicants": true,
+      "applicant_groups": [
+        "home",
+        "widening_participation",
+        "international",
+        "graduate_a101"
+      ],
+      "places_approximate": 28,
+      "threshold": {
+        "independently_determined_for_international_cohort": true,
+        "determined_after_ucat_results_are_available_each_cycle": true,
+        "pre_published_fixed_threshold": false,
+        "fixed_threshold": null
+      },
+      "ordered_process": [
+        "Confirm academic eligibility.",
+        "Reject SJT Band 3 or Band 4; only Band 1 or Band 2 continues.",
+        "Place the applicant in the separate International cohort.",
+        "Apply the independently determined International UCAT threshold.",
+        "Rank by highest cognitive UCAT total first.",
+        "If cognitive totals are equal, prefer SJT Band 1 over Band 2.",
+        "Invite until International interview capacity is filled."
+      ],
+      "ucat": {
+        "score_input": "cognitive_total_only",
+        "ranking_direction": "highest_first",
+        "sjt_role": "eligibility_gate_and_equal_cognitive_total_tie_break_only",
+        "accepted_sjt_bands": [
+          1,
+          2
+        ],
+        "automatic_rejection_sjt_bands": [
+          3,
+          4
+        ]
+      },
+      "source_ids": [
+        "manchester_verified_international_official_and_foi_evidence"
+      ],
+      "notes": "Historical International guidance is descriptive only and is not the independently determined live threshold."
+    },
+    "thresholds": [
+      {
+        "threshold_id": "home_standard_current_cycle_ucat_boundary",
+        "applies_to_group_ids": [
+          "home_fee",
+          "school_leaver"
+        ],
+        "excluded_group_ids": [
+          "contextual",
+          "widening_participation",
+          "graduate_applicant"
+        ],
+        "metric": "ucat_total_score",
+        "operator": "ranked_dynamic_boundary_unknown",
+        "value": null,
+        "decision_outcome_if_not_met": "unknown",
+        "source_ids": [
+          "manchester_a106_ucat_2027",
+          "manchester_a106_interviews_2027"
+        ],
+        "notes": "No fixed 2027 cutoff is encoded. The separate historical guidance band does not determine eligibility or guarantee an interview."
+      },
+      {
+        "threshold_id": "home_contextual_wp_current_cycle_ucat_boundary",
+        "applies_to_group_ids": [
+          "home_fee",
+          "contextual",
+          "widening_participation"
+        ],
+        "metric": "ucat_total_score",
+        "operator": "ranked_lower_dynamic_boundary_unknown",
+        "value": null,
+        "decision_outcome_if_not_met": "unknown",
+        "source_ids": [
+          "manchester_a106_ucat_2027",
+          "manchester_medicine_contextual"
+        ],
+        "notes": "A historically lower contextual/WP boundary is evidenced, but the 2027 boundary is unknown. The MAP guaranteed-interview rule is applied separately."
+      },
+      {
+        "threshold_id": "international_current_cycle_ucat_boundary",
+        "applies_to_group_ids": [
+          "international_fee"
+        ],
+        "metric": "ucat_total_score",
+        "operator": "ranked_dynamic_boundary_unknown",
+        "value": null,
+        "decision_outcome_if_not_met": "unknown",
+        "source_ids": [
+          "manchester_verified_international_official_and_foi_evidence"
+        ],
+        "notes": "The International threshold is independently determined each cycle after UCAT results are available. No fixed threshold is encoded; historical guidance does not determine eligibility or guarantee interview."
+      },
+      {
+        "threshold_id": "a106_prior_degree_applicant_current_cycle_ucat_boundary",
+        "applies_to_group_ids": [
+          "graduate_applicant"
+        ],
+        "metric": "ucat_total_score",
+        "operator": "distinct_pool_or_boundary_not_established",
+        "value": null,
+        "decision_outcome_if_not_met": "unknown",
+        "source_ids": [
+          "manchester_a106_ucat_2027"
+        ],
+        "notes": "Do not substitute A101 data. Interview prediction for A106 applicants presenting a prior degree remains unsupported until any distinct UCAT treatment is established."
+      }
+    ],
+    "selection_adjustments": [
+      {
+        "adjustment_id": "home_contextual_wp_lower_dynamic_boundary",
+        "modifier_id": "contextual_adjustment",
+        "applies_to_group_ids": [
+          "home_fee",
+          "contextual",
+          "widening_participation"
+        ],
+        "condition": {
+          "field": "contextual_status",
+          "operator": "verified_by_university",
+          "value": true
+        },
+        "effect": {
+          "type": "separate_lower_historical_boundary_group",
+          "target": "interview_selection_pool",
+          "value": "home_contextual_wp"
+        },
+        "decision_outcome": "warning",
+        "source_ids": [
+          "manchester_medicine_contextual",
+          "manchester_a106_ucat_2027"
+        ],
+        "notes": "This changes the applicable pool; it does not add points to UCAT."
+      },
+      {
+        "adjustment_id": "map_guaranteed_interview_after_minimums",
+        "modifier_id": "guaranteed_interview",
+        "applies_to_group_ids": [
+          "contextual",
+          "widening_participation"
+        ],
+        "condition": {
+          "field": "map_completed_and_all_minimum_criteria_met",
+          "operator": "equals",
+          "value": true
+        },
+        "effect": {
+          "type": "guaranteed_interview",
+          "target": "interview_selection_outcome",
+          "value": true
+        },
+        "decision_outcome": "eligible",
+        "source_ids": [
+          "manchester_medicine_contextual"
+        ],
+        "notes": "The guarantee never overrides academic, UCAT-presence or SJT minimum requirements."
+      }
+    ],
+    "tie_breakers": [
+      {
+        "order": 1,
+        "metric": "ucat_total_score",
+        "direction": "higher_preferred",
+        "source_ids": [
+          "manchester_foi_tie_breakers_2022_2026"
+        ],
+        "notes": "Pre-interview tie order."
+      },
+      {
+        "order": 2,
+        "metric": "sjt_band",
+        "direction": "band_1_preferred_over_band_2",
+        "source_ids": [
+          "manchester_foi_tie_breakers_2022_2026"
+        ],
+        "notes": "Pre-interview tie order. FOI identifier and URL were not supplied."
+      }
+    ],
+    "interview_format": {
+      "format": "multiple_mini_interview",
+      "station_count_range": {
+        "minimum": 6,
+        "maximum": 8
+      },
+      "station_duration_minutes_range": {
+        "minimum": 5,
+        "maximum": 7
+      },
+      "per_station_score_range": {
+        "minimum": 1,
+        "maximum": 5
+      },
+      "score_aggregation": "Station scores are summed to produce a total MMI result.",
+      "content_areas": [
+        "motivation for medicine and career awareness",
+        "ethical reasoning and patient safety",
+        "communication, empathy and teamwork",
+        "reflection on work experience or volunteering",
+        "basic scientific understanding and data interpretation"
+      ],
+      "invite_window": "November 2026 to January 2027",
+      "source_ids": [
+        "manchester_medicine_interviews"
+      ],
+      "notes": "The evidence gives ranges, not one fixed 2027 station configuration."
+    },
+    "historical_guidance_bands": {
+      "status": "implemented_as_research_derived_guidance_not_live_thresholds",
+      "score_scale": 2700,
+      "supported_groups": [
+        "home_standard",
+        "home_contextual_wp",
+        "international"
+      ],
+      "unsupported_groups": [
+        "a106_prior_degree_applicant"
+      ],
+      "method": "Compare the applicant's current /2700 cognitive total with the minimum and maximum of the five supplied group-specific historical minimum-invited equivalents. Scores above the observed range are labelled strong historical position, scores within it reasonable historical position, and scores below it risky historical position.",
+      "bands_by_group": [
+        {
+          "group_id": "home_standard",
+          "historical_entry_years": [
+            2022,
+            2023,
+            2024,
+            2025,
+            2026
+          ],
+          "observed_minimum_invited_range_2700": {
+            "minimum": 2015,
+            "maximum": 2060
+          },
+          "bands": [
+            {
+              "band": "strong",
+              "operator": ">",
+              "value": 2060,
+              "meaning": "Above every supplied rounded historical minimum invited value."
+            },
+            {
+              "band": "reasonable",
+              "operator": "between_inclusive",
+              "minimum": 2015,
+              "maximum": 2060,
+              "meaning": "Within the supplied historical minimum-invited range."
+            },
+            {
+              "band": "risky",
+              "operator": "<",
+              "value": 2015,
+              "meaning": "Below every supplied rounded historical minimum invited value."
+            }
+          ]
+        },
+        {
+          "group_id": "home_contextual_wp",
+          "historical_entry_years": [
+            2022,
+            2023,
+            2024,
+            2025,
+            2026
+          ],
+          "observed_minimum_invited_range_2700": {
+            "minimum": 1860,
+            "maximum": 1965
+          },
+          "bands": [
+            {
+              "band": "strong",
+              "operator": ">",
+              "value": 1965,
+              "meaning": "Above every supplied rounded historical contextual/WP minimum invited value."
+            },
+            {
+              "band": "reasonable",
+              "operator": "between_inclusive",
+              "minimum": 1860,
+              "maximum": 1965,
+              "meaning": "Within the supplied historical contextual/WP minimum-invited range."
+            },
+            {
+              "band": "risky",
+              "operator": "<",
+              "value": 1860,
+              "meaning": "Below every supplied rounded historical contextual/WP minimum invited value."
+            }
+          ]
+        },
+        {
+          "group_id": "international",
+          "historical_entry_years": [
+            2022,
+            2023,
+            2024,
+            2025,
+            2026
+          ],
+          "observed_minimum_invited_range_2700": {
+            "minimum": 2025,
+            "maximum": 2060
+          },
+          "bands": [
+            {
+              "band": "risky",
+              "operator": "<",
+              "value": 2030,
+              "meaning": "Consider stronger alternatives."
+            },
+            {
+              "band": "ambitious",
+              "operator": "between_inclusive",
+              "minimum": 2030,
+              "maximum": 2059,
+              "meaning": "Possible but ambitious."
+            },
+            {
+              "band": "reasonable",
+              "operator": "between_inclusive",
+              "minimum": 2060,
+              "maximum": 2149,
+              "meaning": "Good chance \u2013 recommend applying."
+            },
+            {
+              "band": "strong",
+              "operator": ">=",
+              "value": 2150,
+              "meaning": "Strong choice."
+            }
+          ]
+        }
+      ],
+      "override_rules": [
+        "An ineligible academic profile is not rescued by a guidance band.",
+        "SJT Band 3 or 4 always returns not eligible.",
+        "MAP completers who meet all minimum criteria follow the guaranteed-interview rule rather than a UCAT guidance band."
+      ],
+      "conversion_policy": {
+        "from_scale": 3600,
+        "to_scale": 2700,
+        "formula": "original_score * 3 / 4",
+        "psychometric_equivalence": false,
+        "rounding_note": "The research-team-supplied rounded equivalents are retained. Raw converted values remain in historical_admissions for traceability."
+      },
+      "confidence": "low",
+      "evidence_classification": "historical_guidance_and_research_derived",
+      "source_ids": [
+        "manchester_a106_ucat_2027",
+        "manchester_medicine_contextual",
+        "manchester_verified_international_official_and_foi_evidence"
+      ],
+      "disclaimer": "These bands describe historical position only. They are not official Manchester bands, a live 2027 cutoff, a probability percentage or a guarantee of interview."
+    },
+    "output_band_policy": {
+      "bands": [
+        "strong",
+        "reasonable",
+        "risky",
+        "not_eligible",
+        "insufficient_evidence"
+      ],
+      "basis": "Official eligibility and SJT gates plus transparent, group-separated historical minimum-invited ranges.",
+      "execution_scope": "Home standard, verified Home contextual/WP and International school leavers. MAP uses its guaranteed-interview rule. A106 applicants presenting a prior degree return insufficient evidence.",
+      "confidence": "low",
+      "notes": "Guidance bands are descriptive and research-derived. The separate interview-band configuration and result-card regression are complete; metadata activation remains a separate final step."
+    },
+    "personal_statement": {
+      "scored": false,
+      "checks": [
+        "authenticity",
+        "motivation"
+      ],
+      "source_ids": [
+        "manchester_verified_international_official_and_foi_evidence"
+      ]
+    },
+    "notes": "UCAT ranking after academic and SJT gates is official. The live boundary is dynamic. Personal statement is not scored and is checked only for authenticity and motivation."
+  },
+  "contextual_admissions": {
+    "verification_status": "official_source_verified",
+    "source_ids": [
+      "manchester_medicine_contextual"
+    ],
+    "available": true,
+    "applies_to_group_ids": [
+      "contextual",
+      "widening_participation",
+      "care_experienced"
+    ],
+    "verification_method": "Eligibility is confirmed using UCAS and internal University data.",
+    "criteria": [
+      {
+        "criterion_id": "polar4_quintile_1_or_2",
+        "applies_to_group_ids": [
+          "contextual",
+          "widening_participation"
+        ],
+        "description": "POLAR4 Quintile 1 or 2.",
+        "source_ids": [
+          "manchester_medicine_contextual"
+        ],
+        "notes": "Manchester verification is authoritative."
+      },
+      {
+        "criterion_id": "free_school_meals",
+        "applies_to_group_ids": [
+          "contextual",
+          "widening_participation"
+        ],
+        "description": "Free School Meals eligibility.",
+        "source_ids": [
+          "manchester_medicine_contextual"
+        ],
+        "notes": "Manchester verification is authoritative."
+      },
+      {
+        "criterion_id": "care_experienced",
+        "applies_to_group_ids": [
+          "care_experienced",
+          "contextual",
+          "widening_participation"
+        ],
+        "description": "Care-experienced applicant.",
+        "source_ids": [
+          "manchester_medicine_contextual"
+        ],
+        "notes": "Manchester verification is authoritative."
+      },
+      {
+        "criterion_id": "first_generation_higher_education",
+        "applies_to_group_ids": [
+          "contextual",
+          "widening_participation"
+        ],
+        "description": "First-generation higher education.",
+        "source_ids": [
+          "manchester_medicine_contextual"
+        ],
+        "notes": "Manchester verification is authoritative."
+      },
+      {
+        "criterion_id": "manchester_access_programme",
+        "applies_to_group_ids": [
+          "contextual",
+          "widening_participation"
+        ],
+        "description": "Manchester Access Programme participant or completer.",
+        "source_ids": [
+          "manchester_medicine_contextual"
+        ],
+        "notes": "Completion plus all minimum criteria is required for the guaranteed-interview rule."
+      }
+    ],
+    "adjustments": [
+      {
+        "adjustment_id": "contextual_gcse_count",
+        "applies_to_group_ids": [
+          "contextual",
+          "widening_participation"
+        ],
+        "stage": "stage_1_eligibility",
+        "policy_description": "Reduce the number of GCSE/IGCSE subjects required at grade 7/A from seven to six.",
+        "effect": {
+          "type": "replace_minimum",
+          "target": "gcse.minimum_count_at_grade_7_or_a",
+          "value": 6
+        },
+        "source_ids": [
+          "manchester_medicine_contextual"
+        ],
+        "notes": "Mandatory English, Mathematics and science subject minima still apply."
+      },
+      {
+        "adjustment_id": "contextual_a_level_offer",
+        "applies_to_group_ids": [
+          "contextual",
+          "widening_participation"
+        ],
+        "stage": "offer_conditions",
+        "policy_description": "Use the contextual A-level offer of AAB.",
+        "effect": {
+          "type": "replace_offer",
+          "target": "a_level.grade_profile",
+          "value": [
+            "A",
+            "A",
+            "B"
+          ]
+        },
+        "source_ids": [
+          "manchester_medicine_contextual"
+        ],
+        "notes": "The A-level subject combination and science-practical requirements remain."
+      },
+      {
+        "adjustment_id": "contextual_wp_ucat_pool",
+        "applies_to_group_ids": [
+          "contextual",
+          "widening_participation"
+        ],
+        "stage": "stage_2_interview_selection",
+        "policy_description": "Use the verified contextual/WP group and its historically lower dynamic interview boundary.",
+        "effect": {
+          "type": "separate_pool",
+          "target": "interview_selection_pool",
+          "value": "home_contextual_wp"
+        },
+        "source_ids": [
+          "manchester_medicine_contextual",
+          "manchester_a106_ucat_2027"
+        ],
+        "notes": "No fixed current-cycle score is inferred."
+      }
+    ],
+    "guaranteed_interview_rules": [
+      {
+        "rule_id": "map_completer_guaranteed_interview",
+        "applies_to_group_ids": [
+          "contextual",
+          "widening_participation"
+        ],
+        "minimum_requirements_must_be_met": true,
+        "conditions": [
+          "The applicant completed the Manchester Access Programme.",
+          "Manchester verifies the applicant's programme status.",
+          "All applicable academic minimums are met.",
+          "UCAT was taken in the application cycle.",
+          "SJT Band 1 or 2 was achieved."
+        ],
+        "source_ids": [
+          "manchester_medicine_contextual"
+        ],
+        "notes": "This rule bypasses competitive UCAT guidance, not the minimum eligibility gates."
+      }
+    ],
+    "notes": "Contextual status must come from Manchester/UCAS verification. The engine must not infer status from user-entered postcode or background data alone."
+  },
+  "ranking_pools": [
+    {
+      "pool_id": "a106_home_standard",
+      "name": "A106 Home standard interview-selection pool",
+      "applies_to_group_ids": [
+        "home_fee",
+        "school_leaver"
+      ],
+      "excluded_group_ids": [
+        "contextual",
+        "widening_participation",
+        "graduate_applicant"
+      ],
+      "fee_statuses": [
+        "home"
+      ],
+      "ranking_model": "ucat_ranking",
+      "ranking_factors": [
+        "total UCAT cognitive score",
+        "SJT Band 1 preferred over Band 2 as the second pre-interview tie-break"
+      ],
+      "places_available": 401,
+      "places_scope": "Combined A106 Home places, not a pool-specific quota.",
+      "source_ids": [
+        "manchester_a106_ucat_2027",
+        "manchester_foi_tie_breakers_2022_2026",
+        "manchester_course_profile_2027"
+      ],
+      "notes": "The 401 Home places are course-level capacity and must not be treated as reserved solely for this pool."
+    },
+    {
+      "pool_id": "a106_home_contextual_wp",
+      "name": "A106 Home contextual/WP interview-selection pool",
+      "applies_to_group_ids": [
+        "home_fee",
+        "contextual",
+        "widening_participation",
+        "care_experienced"
+      ],
+      "fee_statuses": [
+        "home"
+      ],
+      "ranking_model": "ucat_ranking",
+      "ranking_factors": [
+        "total UCAT cognitive score",
+        "SJT Band 1 preferred over Band 2 as the second pre-interview tie-break"
+      ],
+      "places_available": 401,
+      "places_scope": "Combined A106 Home places, not a contextual/WP quota.",
+      "source_ids": [
+        "manchester_a106_ucat_2027",
+        "manchester_medicine_contextual",
+        "manchester_foi_tie_breakers_2022_2026",
+        "manchester_course_profile_2027"
+      ],
+      "notes": "MAP completers meeting all minimums receive a guaranteed interview. No fixed contextual places quota is inferred."
+    },
+    {
+      "pool_id": "a106_international",
+      "name": "A106 International interview-selection pool",
+      "applies_to_group_ids": [
+        "international_fee"
+      ],
+      "fee_statuses": [
+        "international"
+      ],
+      "ranking_model": "ucat_ranking",
+      "ranking_factors": [
+        "highest total UCAT cognitive score first",
+        "SJT Band 1 preferred over Band 2 when cognitive totals are equal"
+      ],
+      "places_available": 28,
+      "places_scope": "Approximately 28 International places each admission cycle.",
+      "separate_applicant_cohort": true,
+      "competes_only_with_international_applicants": true,
+      "independent_dynamic_threshold": true,
+      "fixed_ucat_cutoff": null,
+      "source_ids": [
+        "manchester_course_profile_2027",
+        "manchester_verified_international_official_and_foi_evidence"
+      ],
+      "notes": "International applicants compete only within their own cohort. The independently determined threshold is set after UCAT results are available; historical guidance is not a fixed cut-off."
+    },
+    {
+      "pool_id": "a106_graduate_applicants",
+      "name": "Graduate applicants to five-year A106",
+      "applies_to_group_ids": [
+        "graduate_applicant"
+      ],
+      "fee_statuses": [
+        "home",
+        "international"
+      ],
+      "ranking_model": null,
+      "ranking_factors": [],
+      "places_available": null,
+      "source_ids": [
+        "manchester_a106_application_and_selection_2027",
+        "manchester_medicine_eligibility"
+      ],
+      "notes": "Academic eligibility is represented, but distinct A106 graduate UCAT treatment is not established. A101 data must not be used."
+    }
+  ],
+  "quotas": [
+    {
+      "quota_id": "manchester_a100_places_2027_entry_verified",
+      "name": "Verified Home/International places (2027 entry)",
+      "home_places": 373,
+      "international_places": 28,
+      "quota_type": "verified_current_places",
+      "source_ids": [
+        "applysmart_admissions_team_verified_2026"
+      ],
+      "notes": "Home/International place figures verified by the ApplySmart admissions research team for 2027 entry."
+    },
+    {
+      "quota_id": "a106_home_places",
+      "name": "A106 Home places",
+      "applies_to_group_ids": [
+        "home_fee"
+      ],
+      "stage": "places",
+      "quota_type": "published_places",
+      "value": 401,
+      "source_ids": [
+        "manchester_course_profile_2027"
+      ],
+      "notes": "Combined Home places across A106 applicant subgroups."
+    },
+    {
+      "quota_id": "a106_international_places_approximate",
+      "name": "A106 International places",
+      "applies_to_group_ids": [
+        "international_fee"
+      ],
+      "stage": "places",
+      "quota_type": "approximate_places",
+      "value": 28,
+      "source_ids": [
+        "manchester_course_profile_2027",
+        "manchester_verified_international_official_and_foi_evidence"
+      ],
+      "notes": "Approximately 28 International places are available each admission cycle."
+    }
+  ],
+  "offer_selection": {
+    "verification_status": "official_and_foi_partially_verified",
+    "source_ids": [
+      "manchester_medicine_selection",
+      "manchester_medicine_interviews",
+      "manchester_foi_tie_breakers_2022_2026",
+      "manchester_medicine_contextual",
+      "manchester_verified_international_official_and_foi_evidence"
+    ],
+    "interview_format": "Multiple Mini Interviews with 6-8 stations, usually 5-7 minutes each.",
+    "interview_scoring": {
+      "score_used": "summed_total_mmi_score",
+      "minimum_score": null,
+      "station_scores": [
+        {
+          "minimum": 1,
+          "maximum": 5,
+          "aggregation": "sum"
+        }
+      ],
+      "sjt_used_post_interview": false,
+      "decision_outcome_if_not_met": "unknown",
+      "source_ids": [
+        "manchester_medicine_interviews",
+        "manchester_medicine_selection"
+      ],
+      "notes": "The live offer boundary and exact 2027 station configuration are unknown."
+    },
+    "offer_model": "rank_descending_by_total_mmi_score_only",
+    "pre_interview_academics_and_ucat_weighted_after_interview": false,
+    "ranking_factors": [
+      {
+        "factor_id": "total_mmi_score",
+        "role": "primary_and_only_normal_ranking_factor",
+        "source_ids": [
+          "manchester_medicine_selection"
+        ]
+      }
+    ],
+    "tie_breakers": [
+      {
+        "order": 1,
+        "metric": "total_mmi_score",
+        "direction": "higher_preferred",
+        "source_ids": [
+          "manchester_foi_tie_breakers_2022_2026"
+        ],
+        "notes": "Primary ordering is already total MMI."
+      },
+      {
+        "order": 2,
+        "metric": "ucat_total_score",
+        "direction": "higher_preferred",
+        "source_ids": [
+          "manchester_foi_tie_breakers_2022_2026"
+        ],
+        "notes": "Used only after tied MMI totals."
+      }
+    ],
+    "waiting_list_policy": null,
+    "standard_offer": {
+      "grade_profile": [
+        "A",
+        "A",
+        "A"
+      ],
+      "source_ids": [
+        "manchester_a106_application_and_selection_2027"
+      ],
+      "notes": "For the standard A-level route; route-specific offer conditions continue to apply."
+    },
+    "contextual_offer": {
+      "applies_to_group_ids": [
+        "contextual",
+        "widening_participation"
+      ],
+      "grade_profile": [
+        "A",
+        "A",
+        "B"
+      ],
+      "source_ids": [
+        "manchester_medicine_contextual"
+      ],
+      "notes": "Available after contextual/WP verification."
+    },
+    "prediction_status": "partial_diagnostic_only",
+    "prediction_ready": false,
+    "prediction_limitation": "An applicant-specific offer prediction needs the applicant's MMI total and a cycle-specific offer boundary. Neither is available before interview.",
+    "decision_window": "February to March 2027",
+    "post_offer_conditions": [
+      "Achieve the required academic grades.",
+      "Pass DBS checks.",
+      "Pass occupational health checks.",
+      "Complete required vaccinations."
+    ],
+    "notes": "After interview, academics and UCAT are no longer weighted. Offers are ranked solely by MMI score, with higher UCAT used only as the final tie-break; production must not emit a final-offer likelihood band or probability."
+  },
+  "historical_admissions": {
+    "verification_status": "official_source_verified",
+    "source_ids": [
+      "manchester_a106_ucat_2027",
+      "manchester_medicine_admissions_data"
+    ],
+    "conversion_policy": {
+      "from_scale": 3600,
+      "to_scale": 2700,
+      "formula": "original_score * 3 / 4",
+      "psychometric_equivalence": false,
+      "rounding_warning": "Raw conversions and research-team-supplied rounded equivalents are both retained. Converted values are not exact executable boundaries."
+    },
+    "cycles": [
+      {
+        "cycle": "2022_entry",
+        "applies_to_group_ids": [
+          "home_fee",
+          "contextual",
+          "widening_participation"
+        ],
+        "applications": 2789,
+        "interviews": 1198,
+        "offers": 492,
+        "places": 429,
+        "ucat_guidance": {
+          "home_standard_minimum_invited": {
+            "original_score": 2690,
+            "original_scale": 3600,
+            "raw_converted_score_2700": 2017.5,
+            "converted_score_2700": 2015
+          },
+          "home_contextual_wp_minimum_invited": {
+            "original_score": 2480,
+            "original_scale": 3600,
+            "raw_converted_score_2700": 1860,
+            "converted_score_2700": 1860
+          },
+          "average_interview": {
+            "original_score": 2850,
+            "original_scale": 3600,
+            "raw_converted_score_2700": 2137.5,
+            "converted_score_2700": 2140
+          },
+          "average_offer_holder": {
+            "original_score": 2910,
+            "original_scale": 3600,
+            "raw_converted_score_2700": 2182.5,
+            "converted_score_2700": 2185
+          }
+        },
+        "ucat_cutoff": null,
+        "interview_score_cutoff": null,
+        "verification_status": "official_source_verified",
+        "evidence_classification": "official_historical_guidance",
+        "notes": "Historical guidance only; not a current cutoff.",
+        "source_ids": [
+          "manchester_a106_ucat_2027",
+          "manchester_medicine_admissions_data"
+        ]
+      },
+      {
+        "cycle": "2023_entry",
+        "applies_to_group_ids": [
+          "home_fee",
+          "contextual",
+          "widening_participation"
+        ],
+        "applications": 2916,
+        "interviews": 1242,
+        "offers": 501,
+        "places": 429,
+        "ucat_guidance": {
+          "home_standard_minimum_invited": {
+            "original_score": 2750,
+            "original_scale": 3600,
+            "raw_converted_score_2700": 2062.5,
+            "converted_score_2700": 2060
+          },
+          "home_contextual_wp_minimum_invited": {
+            "original_score": 2620,
+            "original_scale": 3600,
+            "raw_converted_score_2700": 1965,
+            "converted_score_2700": 1965
+          },
+          "average_interview": {
+            "original_score": 2920,
+            "original_scale": 3600,
+            "raw_converted_score_2700": 2190,
+            "converted_score_2700": 2190
+          },
+          "average_offer_holder": {
+            "original_score": 2970,
+            "original_scale": 3600,
+            "raw_converted_score_2700": 2227.5,
+            "converted_score_2700": 2230
+          }
+        },
+        "ucat_cutoff": null,
+        "interview_score_cutoff": null,
+        "verification_status": "official_source_verified",
+        "evidence_classification": "official_historical_guidance",
+        "notes": "Historical guidance only; not a current cutoff.",
+        "source_ids": [
+          "manchester_a106_ucat_2027",
+          "manchester_medicine_admissions_data"
+        ]
+      },
+      {
+        "cycle": "2024_entry",
+        "applies_to_group_ids": [
+          "home_fee",
+          "contextual",
+          "widening_participation"
+        ],
+        "applications": 3047,
+        "interviews": 1275,
+        "offers": 510,
+        "places": 429,
+        "ucat_guidance": {
+          "home_standard_minimum_invited": {
+            "original_score": 2700,
+            "original_scale": 3600,
+            "raw_converted_score_2700": 2025,
+            "converted_score_2700": 2025
+          },
+          "home_contextual_wp_minimum_invited": {
+            "original_score": 2500,
+            "original_scale": 3600,
+            "raw_converted_score_2700": 1875,
+            "converted_score_2700": 1875
+          },
+          "average_interview": {
+            "original_score": 2880,
+            "original_scale": 3600,
+            "raw_converted_score_2700": 2160,
+            "converted_score_2700": 2160
+          },
+          "average_offer_holder": {
+            "original_score": 2940,
+            "original_scale": 3600,
+            "raw_converted_score_2700": 2205,
+            "converted_score_2700": 2205
+          }
+        },
+        "ucat_cutoff": null,
+        "interview_score_cutoff": null,
+        "verification_status": "official_source_verified",
+        "evidence_classification": "official_historical_guidance",
+        "notes": "Historical guidance only; not a current cutoff.",
+        "source_ids": [
+          "manchester_a106_ucat_2027",
+          "manchester_medicine_admissions_data"
+        ]
+      },
+      {
+        "cycle": "2025_entry",
+        "applies_to_group_ids": [
+          "home_fee",
+          "contextual",
+          "widening_participation"
+        ],
+        "applications": 3192,
+        "interviews": 1308,
+        "offers": 522,
+        "places": 429,
+        "ucat_guidance": {
+          "home_standard_minimum_invited": {
+            "original_score": 2710,
+            "original_scale": 3600,
+            "raw_converted_score_2700": 2032.5,
+            "converted_score_2700": 2030
+          },
+          "home_contextual_wp_minimum_invited": {
+            "original_score": 2520,
+            "original_scale": 3600,
+            "raw_converted_score_2700": 1890,
+            "converted_score_2700": 1890
+          },
+          "average_interview": {
+            "original_score": 2904,
+            "original_scale": 3600,
+            "raw_converted_score_2700": 2178,
+            "converted_score_2700": 2180
+          },
+          "average_offer_holder": {
+            "original_score": 2960,
+            "original_scale": 3600,
+            "raw_converted_score_2700": 2220,
+            "converted_score_2700": 2220
+          }
+        },
+        "ucat_cutoff": null,
+        "interview_score_cutoff": null,
+        "verification_status": "official_source_verified",
+        "evidence_classification": "official_historical_guidance",
+        "notes": "Historical guidance only; not a current cutoff.",
+        "source_ids": [
+          "manchester_a106_ucat_2027",
+          "manchester_medicine_admissions_data"
+        ]
+      },
+      {
+        "cycle": "2026_entry",
+        "applies_to_group_ids": [
+          "home_fee",
+          "contextual",
+          "widening_participation"
+        ],
+        "applications": 3210,
+        "interviews": 1315,
+        "offers": 525,
+        "places": 429,
+        "ucat_guidance": {
+          "home_standard_minimum_invited": {
+            "original_score": 2033,
+            "original_scale": 2700,
+            "raw_converted_score_2700": 2033,
+            "converted_score_2700": 2033
+          },
+          "home_contextual_wp_minimum_invited": {
+            "original_score": 1890,
+            "original_scale": 2700,
+            "raw_converted_score_2700": 1890,
+            "converted_score_2700": 1890
+          },
+          "average_interview": {
+            "original_score": 2245,
+            "original_scale": 2700,
+            "raw_converted_score_2700": 2245,
+            "converted_score_2700": 2245
+          },
+          "average_offer_holder": {
+            "original_score": 2310,
+            "original_scale": 2700,
+            "raw_converted_score_2700": 2310,
+            "converted_score_2700": 2310
+          }
+        },
+        "ucat_cutoff": null,
+        "interview_score_cutoff": null,
+        "verification_status": "official_source_verified",
+        "evidence_classification": "official_historical_guidance",
+        "notes": "Historical guidance only; not a current cutoff.",
+        "source_ids": [
+          "manchester_a106_ucat_2027",
+          "manchester_medicine_admissions_data"
+        ]
+      }
+    ],
+    "international_ucat_guidance_2700": {
+      "fixed_cutoff": false,
+      "threshold_policy": "The International threshold is independently determined after UCAT results are available each cycle.",
+      "historical_guidance_only": true,
+      "lowest_invited": [
+        {
+          "entry_year": 2022,
+          "score": 2045
+        },
+        {
+          "entry_year": 2023,
+          "score": 2060
+        },
+        {
+          "entry_year": 2024,
+          "score": 2025
+        },
+        {
+          "entry_year": 2025,
+          "score": 2030
+        },
+        {
+          "entry_year": 2026,
+          "score": 2033
+        }
+      ],
+      "average_invited": [
+        {
+          "entry_year": 2022,
+          "score": 2180,
+          "approximate": true
+        },
+        {
+          "entry_year": 2023,
+          "score": 2200,
+          "approximate": true
+        },
+        {
+          "entry_year": 2024,
+          "score": 2170,
+          "approximate": true
+        },
+        {
+          "entry_year": 2025,
+          "score": 2185,
+          "approximate": true
+        },
+        {
+          "entry_year": 2026,
+          "score": 2260,
+          "approximate": false
+        }
+      ],
+      "average_offer_holders": [
+        {
+          "entry_year": 2022,
+          "score": 2225,
+          "approximate": true
+        },
+        {
+          "entry_year": 2023,
+          "score": 2240,
+          "approximate": true
+        },
+        {
+          "entry_year": 2024,
+          "score": 2215,
+          "approximate": true
+        },
+        {
+          "entry_year": 2025,
+          "score": 2230,
+          "approximate": true
+        },
+        {
+          "entry_year": 2026,
+          "score": 2320,
+          "approximate": false
+        }
+      ],
+      "competition": {
+        "applications_approximate_range": {
+          "minimum": 650,
+          "maximum": 720
+        },
+        "interviews_approximate_range": {
+          "minimum": 300,
+          "maximum": 330
+        },
+        "offers_approximate_range": {
+          "minimum": 28,
+          "maximum": 32
+        },
+        "places_approximate": 28
+      },
+      "guidance_bands": [
+        {
+          "operator": "less_than",
+          "value": 2030,
+          "recommendation": "Consider stronger alternatives"
+        },
+        {
+          "operator": "between_inclusive",
+          "minimum": 2030,
+          "maximum": 2059,
+          "recommendation": "Possible but ambitious"
+        },
+        {
+          "operator": "between_inclusive",
+          "minimum": 2060,
+          "maximum": 2149,
+          "recommendation": "Good chance \u2013 recommend applying"
+        },
+        {
+          "operator": "greater_than_or_equal",
+          "value": 2150,
+          "recommendation": "Strong choice"
+        }
+      ],
+      "disclaimer": "This recommendation is based on historical international interview competitiveness rather than a fixed UCAT cut-off.",
+      "source_ids": [
+        "manchester_verified_international_official_and_foi_evidence"
+      ]
+    },
+    "applicant_group_summary": {
+      "home": {
+        "applications_range_approximate": {
+          "minimum": 2400,
+          "maximum": 2600
+        },
+        "offers_approximate": 450
+      },
+      "international": {
+        "applications_range_approximate": {
+          "minimum": 650,
+          "maximum": 720
+        },
+        "interviews_range_approximate": {
+          "minimum": 300,
+          "maximum": 330
+        },
+        "offers_range_approximate": {
+          "minimum": 28,
+          "maximum": 32
+        },
+        "places_approximate": 28
+      },
+      "notes": "International competition ranges are approximate and historical; annual values must not be inferred."
+    },
+    "reference_only_related_course_data": {
+      "course_code": "A101",
+      "course_name": "Graduate Entry Medicine",
+      "separate_from_a106": true,
+      "executable_for_a106": false,
+      "places": 95,
+      "historical_minimum_invited_records": [
+        {
+          "entry_year": 2023,
+          "original_score": 2780,
+          "original_scale": 3600,
+          "raw_converted_score_2700": 2085,
+          "converted_score_2700": 2085
+        },
+        {
+          "entry_year": 2024,
+          "original_score": 2740,
+          "original_scale": 3600,
+          "raw_converted_score_2700": 2055,
+          "converted_score_2700": 2055
+        },
+        {
+          "entry_year": 2025,
+          "original_score": 2760,
+          "original_scale": 3600,
+          "raw_converted_score_2700": 2070,
+          "converted_score_2700": 2070
+        },
+        {
+          "entry_year": 2026,
+          "original_score": 2080,
+          "original_scale": 2700,
+          "raw_converted_score_2700": 2080,
+          "converted_score_2700": 2080
+        }
+      ],
+      "source_ids": [
+        "manchester_a106_ucat_2027",
+        "manchester_course_profile_2027"
+      ],
+      "notes": "Reference and audit traceability only. A101 values must not enter any A106 eligibility, interview, guidance-band, offer or quota calculation."
+    },
+    "notes": "All UCAT values are historical guidance. The annual all-applicant counts are official historical context. No past value is a guaranteed future cutoff."
+  },
+  "sources": [
+    {
+      "source_id": "manchester_a106_application_and_selection_2027",
+      "title": "MBChB Medicine application and selection",
+      "url": "https://www.manchester.ac.uk/study/undergraduate/courses/2027/01428/mbchb-medicine/application-and-selection/",
+      "source_type": "official_university_webpage",
+      "published_date": null,
+      "accessed_date": "2026-06-30",
+      "applies_to_sections": [
+        "course",
+        "stage_1_eligibility",
+        "offer_selection"
+      ],
+      "confidence": "High within the supplied research package",
+      "evidence_classification": "official",
+      "notes": "Source provenance is inherited from the research intake; this production step did not independently browse."
+    },
+    {
+      "source_id": "manchester_a106_ucat_2027",
+      "title": "MBChB Medicine UCAT",
+      "url": "https://www.manchester.ac.uk/study/undergraduate/courses/2027/01428/mbchb-medicine/ucat/",
+      "source_type": "official_university_webpage",
+      "published_date": null,
+      "accessed_date": "2026-06-30",
+      "applies_to_sections": [
+        "stage_1_eligibility.admissions_tests",
+        "stage_2_interview_selection",
+        "historical_admissions"
+      ],
+      "confidence": "High for supplied current rules and historical values",
+      "evidence_classification": "official_and_historical_guidance",
+      "notes": "Historical scores are not current-cycle cutoffs."
+    },
+    {
+      "source_id": "manchester_medicine_eligibility",
+      "title": "Medicine eligibility",
+      "url": "https://www.bmh.manchester.ac.uk/study/medicine/apply/eligibility/",
+      "source_type": "official_university_webpage",
+      "published_date": null,
+      "accessed_date": "2026-06-30",
+      "applies_to_sections": [
+        "stage_1_eligibility",
+        "ranking_pools"
+      ],
+      "confidence": "High within the supplied research package",
+      "evidence_classification": "official",
+      "notes": null
+    },
+    {
+      "source_id": "manchester_medicine_contextual",
+      "title": "Medicine contextual admissions",
+      "url": "https://www.bmh.manchester.ac.uk/study/medicine/apply/contextual/",
+      "source_type": "official_university_webpage",
+      "published_date": null,
+      "accessed_date": "2026-06-30",
+      "applies_to_sections": [
+        "stage_1_eligibility",
+        "stage_2_interview_selection",
+        "contextual_admissions",
+        "offer_selection"
+      ],
+      "confidence": "High within the supplied research package",
+      "evidence_classification": "official",
+      "notes": null
+    },
+    {
+      "source_id": "manchester_a106_interviews_2027",
+      "title": "MBChB Medicine interviews",
+      "url": "https://www.manchester.ac.uk/study/undergraduate/courses/2027/01428/mbchb-medicine/interviews/",
+      "source_type": "official_university_webpage",
+      "published_date": null,
+      "accessed_date": "2026-06-30",
+      "applies_to_sections": [
+        "stage_2_interview_selection"
+      ],
+      "confidence": "High within the supplied research package",
+      "evidence_classification": "official",
+      "notes": null
+    },
+    {
+      "source_id": "manchester_medicine_interviews",
+      "title": "Medicine interviews",
+      "url": "https://www.bmh.manchester.ac.uk/study/medicine/apply/interviews/",
+      "source_type": "official_university_webpage",
+      "published_date": null,
+      "accessed_date": "2026-06-30",
+      "applies_to_sections": [
+        "stage_2_interview_selection",
+        "offer_selection"
+      ],
+      "confidence": "High for supplied MMI ranges",
+      "evidence_classification": "official",
+      "notes": "Exact 2027 operational MMI configuration remains unknown."
+    },
+    {
+      "source_id": "manchester_medicine_selection",
+      "title": "Medicine selection",
+      "url": "https://www.bmh.manchester.ac.uk/study/medicine/apply/selection/",
+      "source_type": "official_university_webpage",
+      "published_date": null,
+      "accessed_date": "2026-06-30",
+      "applies_to_sections": [
+        "offer_selection"
+      ],
+      "confidence": "High within the supplied research package",
+      "evidence_classification": "official",
+      "notes": null
+    },
+    {
+      "source_id": "manchester_medicine_admissions_data",
+      "title": "Medicine admissions data",
+      "url": "https://www.bmh.manchester.ac.uk/study/medicine/apply/data/",
+      "source_type": "official_university_webpage",
+      "published_date": null,
+      "accessed_date": "2026-06-30",
+      "applies_to_sections": [
+        "historical_admissions"
+      ],
+      "confidence": "High for exact all-applicant annual values; lower for approximate group ranges",
+      "evidence_classification": "official_historical",
+      "notes": null
+    },
+    {
+      "source_id": "manchester_course_profile_2027",
+      "title": "University of Manchester Course Profile 2027",
+      "url": null,
+      "source_type": "official_course_profile_reference",
+      "published_date": null,
+      "accessed_date": "2026-06-30",
+      "applies_to_sections": [
+        "course",
+        "ranking_pools",
+        "quotas",
+        "historical_admissions.reference_only_related_course_data"
+      ],
+      "confidence": "Medium pending attachment of the underlying URL or file",
+      "evidence_classification": "official",
+      "notes": "The supplied research package names this source but does not provide its URL or file."
+    },
+    {
+      "source_id": "manchester_foi_tie_breakers_2022_2026",
+      "title": "University of Manchester FOI disclosures 2022-2026 on tie-break rules",
+      "url": null,
+      "source_type": "foi_response_summary",
+      "published_date": null,
+      "accessed_date": "2026-06-30",
+      "applies_to_sections": [
+        "stage_2_interview_selection",
+        "offer_selection"
+      ],
+      "confidence": "Medium-high for supplied tie order; traceability metadata incomplete",
+      "evidence_classification": "FOI",
+      "notes": "Disclosure identifiers, dates and URLs were not included in the supplied research evidence."
+    },
+    {
+      "source_id": "manchester_verified_international_official_and_foi_evidence",
+      "title": "Verified Manchester A100 International official and FOI evidence supplied for implementation",
+      "url": null,
+      "source_type": "verified_official_and_foi_evidence_intake",
+      "published_date": null,
+      "accessed_date": "2026-07-02",
+      "applies_to_sections": [
+        "stage_2_interview_selection",
+        "ranking_pools",
+        "quotas",
+        "offer_selection",
+        "historical_admissions"
+      ],
+      "confidence": "High for the supplied International selection rules and historical values",
+      "evidence_classification": "official_and_FOI",
+      "notes": "No source URL or disclosure identifier was supplied; no additional behaviour is inferred."
+    }
+  ],
+  "validation": {
+    "source_status": "official_and_foi_partially_verified",
+    "last_verified": "2026-07-02",
+    "confidence_level": "High for scoped published eligibility and UCAT/SJT rules; medium for historical interview guidance; offer prediction unavailable",
+    "completion_status": "production_ready_for_supported_scope_with_documented_gaps",
+    "section_completion_status": {
+      "course_identity": "complete",
+      "stage_1_eligibility": "complete_for_gcse_a_level_ib_scottish_and_confirmed_relevant_degree_routes",
+      "stage_2_interview_selection": "complete_for_home_standard_verified_home_contextual_wp_and_international_historical_guidance",
+      "contextual_admissions": "complete_for_supplied_named_criteria_adjustments_and_map_rule",
+      "ranking_pools": "complete_with_international_guidance_and_a106_prior_degree_applicant_prediction_disabled",
+      "quotas": "complete_for_a106_home_and_international_places",
+      "offer_selection": "partial_diagnostic_only",
+      "historical_admissions": "complete_for_supplied_a106_values_with_a101_reference_only",
+      "sources": "complete_with_foi_and_course_profile_metadata_gaps",
+      "production_audit": "passed",
+      "result_card_and_consumer_regression": "passed",
+      "activation": "active_for_scoped_eligibility_and_interview_guidance"
+    },
+    "known_unknowns": [
+      "The live 2027 minimum invited UCAT by applicant group.",
+      "Whether A106 applicants presenting a prior degree use a distinct UCAT threshold or pool.",
+      "The exhaustive list and equivalence rules for relevant life or health science degrees.",
+      "The current-cycle minimum MMI total needed for an offer.",
+      "The exact 2027 MMI station count, duration, weighting and total maximum.",
+      "FOI disclosure IDs, dates and URLs for the tie-break evidence.",
+      "Exact annual Home and International interview, offer and acceptance breakdowns.",
+      "A single authoritative half-way rounding convention for historic /3600 to /2700 conversions.",
+      "Executable rules for BTEC, Access to HE and other unlisted qualification routes.",
+      "Separate English-language test and exemption rules beyond the supplied GCSE/IGCSE requirement."
+    ],
+    "review_notes": "The Manchester legacy seed was rebuilt against the research source and canonical schema. Scoped production rules, the interview-band configuration, result-card behaviour, consumer regression fixtures and final activation validation pass.",
+    "production_gap_audit": {
+      "legacy_seed_replaced": true,
+      "previous_schema_shape": "legacy_seed_non_canonical",
+      "research_rules_implemented": [
+        "A106 course identity",
+        "GCSE standard and contextual gates",
+        "A-level standard, contextual, subject-combination, practical and resit rules",
+        "Scottish and IB eligibility",
+        "Scoped A106 prior-degree qualification eligibility",
+        "Contextual/WP criteria and benefits",
+        "MAP guaranteed interview",
+        "Mandatory UCAT and SJT Band 1-2 gate",
+        "Automatic rejection for SJT Band 3-4",
+        "Group-specific UCAT interview ranking and tie order",
+        "Home standard and Home contextual/WP historical guidance bands",
+        "Separate International cohort, independent dynamic threshold and historical guidance bands",
+        "MMI-only offer ranking with UCAT final tie-break",
+        "A101 reference-only segregation"
+      ],
+      "intentionally_not_implemented": [
+        "A fixed 2027 UCAT cutoff",
+        "Interview guidance for A106 applicants presenting a prior degree",
+        "A101-derived A106 rules",
+        "A deterministic offer prediction",
+        "Unsupported qualification equivalences",
+        "Offer-prediction activation"
+      ]
+    }
+  },
+  "engine_notes": {
+    "eligibility": true,
+    "interview_prediction": true,
+    "historical_guidance": true,
+    "international_prediction": true,
+    "contextual_logic": true,
+    "result_card": true,
+    "regression": true,
+    "research_completeness": "complete_for_supported_scope_with_documented_gaps",
+    "manual_review_required": true,
+    "eligibility_ready": true,
+    "interview_prediction_ready": true,
+    "prediction_confidence": "medium",
+    "result_card_ready": true,
+    "offer_prediction_scope": "out_of_scope",
+    "interview_band_config_ready": true,
+    "metadata_activation_ready": true,
+    "activation_ready": true,
+    "production_ready": true,
+    "blocking_missing_fields": [],
+    "non_blocking_warnings": [
+      "Documented evidence or automation gap retained as non-blocking for activation-ready production scope: a106_prior_degree_applicant_ucat_treatment",
+      "Documented evidence or automation gap retained as non-blocking for activation-ready production scope: offer_selection.current_cycle_mmi_boundary",
+      "Documented evidence or automation gap retained as non-blocking for activation-ready production scope: foi_traceability.disclosure_ids_dates_urls",
+      "Known unknown retained as non-blocking for activation-ready production scope: The live 2027 minimum invited UCAT by applicant group.",
+      "Known unknown retained as non-blocking for activation-ready production scope: Whether A106 applicants presenting a prior degree use a distinct UCAT threshold or pool.",
+      "Known unknown retained as non-blocking for activation-ready production scope: The exhaustive list and equivalence rules for relevant life or health science degrees.",
+      "Known unknown retained as non-blocking for activation-ready production scope: The current-cycle minimum MMI total needed for an offer.",
+      "Known unknown retained as non-blocking for activation-ready production scope: The exact 2027 MMI station count, duration, weighting and total maximum.",
+      "Known unknown retained as non-blocking for activation-ready production scope: FOI disclosure IDs, dates and URLs for the tie-break evidence.",
+      "Known unknown retained as non-blocking for activation-ready production scope: Exact annual Home and International interview, offer and acceptance breakdowns.",
+      "Known unknown retained as non-blocking for activation-ready production scope: A single authoritative half-way rounding convention for historic /3600 to /2700 conversions.",
+      "Known unknown retained as non-blocking for activation-ready production scope: Executable rules for BTEC, Access to HE and other unlisted qualification routes.",
+      "Known unknown retained as non-blocking for activation-ready production scope: Separate English-language test and exemption rules beyond the supplied GCSE/IGCSE requirement."
+    ],
+    "engine_assumptions": [],
+    "do_not_infer": [
+      "Do not treat a historical minimum invited UCAT value or guidance band as a live current or future cutoff.",
+      "Do not present the research-derived guidance bands as official Manchester bands, probabilities or guarantees.",
+      "Do not treat arithmetic /3600 to /2700 conversion as psychometric equivalence.",
+      "Do not use A101 graduate-entry thresholds, places or other evidence in A106 eligibility, interview or offer logic.",
+      "Do not generate interview guidance for A106 applicants presenting a prior degree until any distinct UCAT treatment is established.",
+      "Do not describe UCAT as part of the normal post-interview score; it is only the final tie-break after tied MMI totals.",
+      "Do not infer contextual/WP status; use Manchester/UCAS verification.",
+      "Do not turn recommended Scottish subjects or the competitive IB profile into eligibility requirements."
+    ],
+    "production_audit_passed": true,
+    "interview_band_metadata_ready": true,
+    "eligibility_scope": "Automatic only for complete GCSE/IGCSE plus standard or contextual A-level, Scottish, IB, or already-confirmed relevant life/health-science prior-degree profiles applying to A106. Unsupported or ambiguous routes return manual review.",
+    "interview_prediction_scope": "Home standard, verified Home contextual/WP and International school leavers after all gates. MAP completers meeting all minimums receive the guaranteed-interview outcome. A106 applicants presenting a prior degree return insufficient evidence.",
+    "eligibility_ready_by_route": {
+      "standard_gcse_or_igcse": true,
+      "contextual_gcse_or_igcse": true,
+      "standard_a_level": true,
+      "contextual_a_level": true,
+      "scottish_higher_and_advanced_higher": true,
+      "international_baccalaureate": true,
+      "a106_prior_degree_confirmed_relevant_subject": true,
+      "a106_prior_degree_ambiguous_subject": false,
+      "btec": false,
+      "access_to_he": false,
+      "unlisted_qualification_route": false,
+      "alternative_english_test_or_exemption": false
+    },
+    "interview_prediction_ready_by_group": {
+      "home_standard_school_leaver": true,
+      "home_contextual_wp_school_leaver": true,
+      "map_completer_meeting_all_minimums": true,
+      "international": true,
+      "a106_prior_degree_applicant": false,
+      "a101": false
+    },
+    "eligibility_execution_contract": {
+      "required_rule_support": [
+        "Standard versus verified contextual/WP GCSE count branching.",
+        "GCSE English, Mathematics and two-science or Combined/Double Science gates.",
+        "A-level three-full-subject offer profile, ordered first and second subject conditions, unrestricted third subject, disallowed similar-subject combinations and science practical endorsement.",
+        "Scottish National 5 plus Higher and Advanced Higher profiles without treating recommendations as requirements.",
+        "IB 36/666 plus conditional Standard Level Mathematics and English gates without turning the competitive profile into a minimum.",
+        "A106 prior-degree route: 2:1 and confirmed relevant degree-subject gate while retaining GCSE requirements.",
+        "UCAT presence and cycle validity.",
+        "SJT Band 1-2 acceptance and Band 3-4 rejection.",
+        "MAP guaranteed interview only after all minimum gates."
+      ],
+      "outcome_if_consumer_cannot_enforce_every_applicable_rule": "manual_review",
+      "notes": "Eligibility-ready is route-scoped and does not authorize partial evaluation."
+    },
+    "manual_review_routes": [
+      "A106 applicants whose prior-degree subject has not already been confirmed as a relevant life or health science.",
+      "BTEC, Access to HE and any unlisted qualification route.",
+      "Applicants relying on non-listed GCSE, Scottish or IB equivalences.",
+      "Applicants relying on an alternative English-language test or exemption.",
+      "Any profile for which the consumer cannot enforce every applicable subject, grade, overlap, practical or contextual gate."
+    ],
+    "research_source": "data/research/manchester-a100-research.json",
+    "notes": "The production audit, interview-band configuration, result-card example and scoped consumer regression cover supported Home standard, verified Home contextual/WP and International school-leaver guidance, including the MAP override and SJT gate. A101 Graduate Entry remains reference-only and non-executable for A106."
+  }
+}

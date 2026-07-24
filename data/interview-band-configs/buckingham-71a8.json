@@ -1,0 +1,218 @@
+{
+  "schema_version": "1.0.0",
+  "course_profile_id": "buckingham-71a8",
+  "confidence": "low",
+  "evidence": {
+    "classification": "official_academic_screening_with_unpublished_mma_mmi_progression",
+    "summary": "Buckingham 71A8 publishes academic eligibility requirements and a three-stage selection process: academic screening, digital Multiple Mini Assessment and Multiple Mini Interview. It does not publish a UCAT/GAMSAT requirement, a ranking formula, historical interview thresholds or MMA/MMI progression cut-offs. ApplySmart therefore checks eligibility and returns eligibility-only guidance for eligible applicants.",
+    "source_ids": [
+      "buckingham_course_page_2027",
+      "buckingham_entry_requirements_pdf_2026_27",
+      "ucas_buckingham_71a8"
+    ]
+  },
+  "eligibility": {
+    "scope": "Automatic handling is restricted to Home and International applicants using represented A-level, IB or graduate degree routes with complete GCSE English/Maths evidence, plus IELTS evidence where required. Resit, Scottish, country-specific international, Cambridge English, Access, BTEC and conditional missing-science GCSE cases are not auto-evaluated.",
+    "international_english_language_required": true,
+    "manual_review_applicant_groups": [
+      "resit_applicant"
+    ],
+    "qualification_routes": {
+      "supported": [
+        "a_level",
+        "international_baccalaureate",
+        "graduate"
+      ],
+      "manual_review": [
+        "scottish",
+        "international_qualification"
+      ],
+      "explicitly_blocked": [
+        "btec",
+        "t_level",
+        "access_to_medicine",
+        "access_to_he",
+        "foundation",
+        "unknown"
+      ]
+    },
+    "gcse": {
+      "minimum_count": null,
+      "use_exact_subject_list": false,
+      "required_subjects": [
+        {
+          "subject_id": "english_language",
+          "minimum_grade": "4/C"
+        },
+        {
+          "subject_id": "mathematics",
+          "minimum_grade": "4/C"
+        }
+      ]
+    },
+    "a_level": {
+      "routes": [
+        {
+          "route_id": "buckingham_abb_chemistry_or_biology",
+          "grade_profile": [
+            "A",
+            "B",
+            "B"
+          ],
+          "one_of_subject_groups": [
+            {
+              "group_id": "chemistry_or_biology",
+              "minimum_required": 1,
+              "subject_ids": [
+                "chemistry",
+                "biology"
+              ]
+            }
+          ],
+          "excluded_subject_ids": [
+            "general_studies"
+          ]
+        }
+      ]
+    },
+    "international_baccalaureate": {
+      "routes": [
+        {
+          "route_id": "buckingham_ib_34_hl6_hl5_biology_chemistry",
+          "total_points": 34,
+          "hl_grade_profile": [
+            "6",
+            "5",
+            "5"
+          ],
+          "required_hl_subject_ids": [
+            "biology",
+            "chemistry"
+          ],
+          "required_hl_subject_grade_options": [
+            {
+              "grade_requirements": [
+                {
+                  "subject_id": "biology",
+                  "minimum_grade": "6"
+                },
+                {
+                  "subject_id": "chemistry",
+                  "minimum_grade": "5"
+                }
+              ]
+            },
+            {
+              "grade_requirements": [
+                {
+                  "subject_id": "biology",
+                  "minimum_grade": "5"
+                },
+                {
+                  "subject_id": "chemistry",
+                  "minimum_grade": "6"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    "graduate": {
+      "gcse_required": false,
+      "minimum_classification": "2_1",
+      "postgraduate_compensation_allowed": false
+    },
+    "resits": {
+      "resits_accepted": true,
+      "applicant_form_required": false,
+      "routes": [
+        {
+          "route_id": "buckingham_resit_abb",
+          "grade_profile": [
+            "A",
+            "B",
+            "B"
+          ],
+          "one_of_subject_groups": [
+            {
+              "group_id": "chemistry_or_biology",
+              "minimum_required": 1,
+              "subject_ids": [
+                "chemistry",
+                "biology"
+              ]
+            }
+          ],
+          "excluded_subject_ids": [
+            "general_studies"
+          ]
+        }
+      ]
+    }
+  },
+  "score_model": {
+    "type": "component_sum",
+    "assessment_mode": "eligibility_only",
+    "basis": "Eligibility-gate only; Buckingham's MMA/MMI progression model is unpublished.",
+    "scale": {
+      "min": 0,
+      "max": 1
+    },
+    "components": [],
+    "prediction_confidence": "low",
+    "historical_guidance_only": false,
+    "guidance_policy": {
+      "labels": [
+        "Buckingham does not publish a UCAT/GAMSAT ranking model for 71A8.",
+        "Buckingham does not publish MMA or MMI progression thresholds.",
+        "Eligible applicants must complete Buckingham's staged MMA/MMI process."
+      ]
+    },
+    "presentation": {
+      "selection_summary": "Buckingham checks academic eligibility first, then uses its own digital Multiple Mini Assessment before the MMI. ApplySmart does not estimate interview likelihood because the MMA/MMI scoring and progression thresholds are not published.",
+      "timeline_selection_summary": "Academic eligibility was checked. Buckingham's published staged MMA/MMI process is shown as a limitation, not converted into an interview prediction.",
+      "eligible_to_apply_recommendation": "Eligible to Apply",
+      "eligible_to_apply_explanation": "You meet the Buckingham academic requirements ApplySmart can check. Buckingham then uses a digital Multiple Mini Assessment before the MMI; ApplySmart does not estimate progression through those stages."
+    }
+  },
+  "guidance_pools": [
+    {
+      "pool_id": "home_71a8_eligibility_gate",
+      "priority": 20,
+      "applicant_match": {
+        "all_group_ids": [
+          "home_fee"
+        ],
+        "excluded_group_ids": [
+          "international_fee"
+        ]
+      },
+      "metric": "eligibility_gate",
+      "band_rules": [
+        {
+          "band": "eligible_to_apply",
+          "operator": "greater_than_or_equal",
+          "value": 1
+        }
+      ]
+    },
+    {
+      "pool_id": "international_71a8_eligibility_gate",
+      "priority": 30,
+      "applicant_match": {
+        "all_group_ids": [
+          "international_fee"
+        ]
+      },
+      "metric": "eligibility_gate",
+      "band_rules": [
+        {
+          "band": "eligible_to_apply",
+          "operator": "greater_than_or_equal",
+          "value": 1
+        }
+      ]
+    }
+  ]
+}

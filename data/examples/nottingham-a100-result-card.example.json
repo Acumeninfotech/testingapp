@@ -1,0 +1,755 @@
+{
+  "schema_version": "1.0.0",
+  "template_version": "0.1.0",
+  "result_id": "example-nottingham-a100-home-standard-guidance-only",
+  "generated_at": null,
+  "result_mode": "example_only_eligibility_official_score_and_guidance_only_historical_positioning",
+  "production_state": {
+    "profile_active": true,
+    "metadata_activation_enabled": true,
+    "result_card_output_enabled": true,
+    "interview_guidance_execution_mode": "guidance_only_non_executable",
+    "note": "This validation example reflects the active scoped Nottingham output. Historical positioning remains guidance-only and non-executable."
+  },
+  "course_identity": {
+    "profile_id": "nottingham-a100",
+    "university_name": "University of Nottingham",
+    "display_name": "Nottingham A100",
+    "course_name": "Medicine BMBS",
+    "ucas_code": "A100",
+    "entry_route": "standard_entry",
+    "qualification_awarded": "BMBS Medicine",
+    "duration_years": 5,
+    "location": "Nottingham, England",
+    "campus": "Queen's Medical Centre and University Park",
+    "entry_year": 2027,
+    "source_ids": [
+      "nottingham_course_page_2027",
+      "nottingham_admissions_policy_2026_v1_3"
+    ]
+  },
+  "applicant_context": {
+    "profile_type": "representative_home_standard_non_contextual_a_level_school_leaver",
+    "example_input_only": true,
+    "applies_to_group_ids": [
+      "home_fee",
+      "england_domiciled",
+      "rest_of_uk",
+      "school_leaver"
+    ],
+    "selected_guidance_group": "home_standard",
+    "qualification_route": "a_level",
+    "fee_cohort": "home",
+    "contextual": false,
+    "widening_participation": false,
+    "international": false,
+    "graduate": false,
+    "resit_applicant": false,
+    "has_gcse_or_equivalent_results": true,
+    "applicant_summary": "Representative Home standard A-level school-leaver with eight scored GCSEs, predicted AAA including Biology and Chemistry, UCAT Verbal Reasoning 750, Quantitative Reasoning 650, Decision Making 850, and SJT Band 2.",
+    "academic_profile": {
+      "gcse": {
+        "subjects": [
+          {
+            "subject_id": "biology",
+            "grade": "9"
+          },
+          {
+            "subject_id": "chemistry",
+            "grade": "9"
+          },
+          {
+            "subject_id": "mathematics",
+            "grade": "9"
+          },
+          {
+            "subject_id": "english_language",
+            "grade": "9"
+          },
+          {
+            "subject_id": "physics",
+            "grade": "9"
+          },
+          {
+            "subject_id": "geography",
+            "grade": "9"
+          },
+          {
+            "subject_id": "history",
+            "grade": "8"
+          },
+          {
+            "subject_id": "french",
+            "grade": "6"
+          }
+        ]
+      },
+      "a_level": {
+        "predicted_grades": [
+          {
+            "subject_id": "biology",
+            "grade": "A",
+            "practical_endorsement": "pass"
+          },
+          {
+            "subject_id": "chemistry",
+            "grade": "A",
+            "practical_endorsement": "pass"
+          },
+          {
+            "subject_id": "history",
+            "grade": "A",
+            "practical_endorsement": null
+          }
+        ],
+        "completed_in_one_sitting": true,
+        "study_period_years": 2
+      }
+    },
+    "admissions_tests": {
+      "ucat": {
+        "taken": true,
+        "test_year": 2026,
+        "subtests": {
+          "verbal_reasoning": 750,
+          "quantitative_reasoning": 650,
+          "decision_making": 850
+        },
+        "sjt_band": 2
+      }
+    },
+    "age_on_1_september": 19,
+    "source_ids": []
+  },
+  "readiness": {
+    "eligibility": true,
+    "interview_prediction": true,
+    "historical_guidance": true,
+    "international_prediction": true,
+    "contextual_logic": true,
+    "result_card": true,
+    "regression": true,
+    "research_completeness": "complete_for_supported_scope_with_documented_gaps",
+    "manual_review_required": true,
+    "eligibility_ready": true,
+    "interview_prediction_ready": true,
+    "prediction_confidence": "low",
+    "result_card_ready": true,
+    "offer_prediction_scope": "out_of_scope",
+    "example_created": true,
+    "eligibility_output_available_for_represented_route": true,
+    "official_score_breakdown_available": true,
+    "guidance_only_historical_positioning_available": true,
+    "production_result_card_ready": true,
+    "metadata_activation_enabled": true,
+    "confidence": "low_for_future_cycle_positioning",
+    "scope": "A non-production example for a supported Home standard A-level applicant scored on Nottingham's official /82 scale."
+  },
+  "student_summary": {
+    "headline": "Nottingham A100 — guidance-only historical positioning",
+    "subheadline": "Eligibility requirements shown as met; official pre-interview score 66/82",
+    "status_message": "The represented applicant meets the implemented eligibility requirements and has an official Nottingham score of 66/82. That score sits within the supplied Home standard historical range and is shown only as descriptive FOI context. It does not state a current or future interview outcome.",
+    "key_points": [
+      "The represented GCSE and A-level requirements are met.",
+      "Eight GCSE results contribute 28/32.",
+      "Verbal Reasoning, Quantitative Reasoning and Decision Making contribute 32/40; Abstract Reasoning is excluded.",
+      "SJT Band 2 contributes 6/10.",
+      "The official combined score is 28 + 32 + 6 = 66/82.",
+      "The supplied Home standard historical range is 65–70/82 and is descriptive FOI guidance only.",
+      "Nottingham does not publish a fixed interview threshold.",
+      "Contextual status adds no shortlisting points; verified contextual adjustments apply only at offer stage."
+    ]
+  },
+  "eligibility": {
+    "status": "eligible",
+    "scope": "implemented_requirements_for_the_represented_home_standard_a_level_route",
+    "summary": "The represented applicant passes every supported eligibility check used by the Nottingham consumer. Eligibility does not establish an interview or offer outcome.",
+    "checks": [
+      {
+        "check_id": "six_gcses_at_grade_7_or_A",
+        "status": "pass",
+        "requirement": "At least six GCSEs at grade 7/A, including the applicable science requirements.",
+        "applicant_value": "Seven of the eight represented GCSEs are at grade 7 or above.",
+        "source_ids": [
+          "nottingham_course_page_2027",
+          "nottingham_admissions_policy_2026_v1_3"
+        ]
+      },
+      {
+        "check_id": "gcse_biology_and_chemistry",
+        "status": "pass",
+        "requirement": "Biology or Human Biology and Chemistry, or the published Double Science alternative, at grade 7/A.",
+        "applicant_value": "Biology grade 9 and Chemistry grade 9.",
+        "source_ids": [
+          "nottingham_course_page_2027",
+          "nottingham_admissions_policy_2026_v1_3"
+        ]
+      },
+      {
+        "check_id": "gcse_mathematics_and_english_language",
+        "status": "pass",
+        "requirement": "Mathematics and English Language at grade 6/B.",
+        "applicant_value": "Mathematics grade 9 and English Language grade 9.",
+        "source_ids": [
+          "nottingham_course_page_2027",
+          "nottingham_admissions_policy_2026_v1_3"
+        ]
+      },
+      {
+        "check_id": "a_level_AAA_biology_chemistry",
+        "status": "pass",
+        "requirement": "AAA including Biology or Human Biology and Chemistry, with applicable science practical endorsements.",
+        "applicant_value": "Predicted AAA in Biology, Chemistry and History; both represented science practical endorsements are passed.",
+        "source_ids": [
+          "nottingham_course_page_2027",
+          "nottingham_admissions_policy_2026_v1_3"
+        ]
+      },
+      {
+        "check_id": "minimum_age_on_1_september",
+        "status": "pass",
+        "requirement": "Minimum age 17 on 1 September in the year the course begins.",
+        "applicant_value": "Age 19 on the represented reference date.",
+        "source_ids": [
+          "nottingham_admissions_policy_2026_v1_3"
+        ]
+      },
+      {
+        "check_id": "ucat_current_application_cycle",
+        "status": "pass",
+        "requirement": "UCAT taken in the application year.",
+        "applicant_value": "UCAT taken in 2026 for the represented 2026 application year.",
+        "source_ids": [
+          "nottingham_undergraduate_selection_process_2026",
+          "nottingham_admissions_policy_2026_v1_3"
+        ]
+      },
+      {
+        "check_id": "sjt_band_1_to_3",
+        "status": "pass",
+        "requirement": "SJT Bands 1 to 3 can proceed to ranking; Band 4 excludes an applicant from interview consideration.",
+        "applicant_value": "SJT Band 2.",
+        "source_ids": [
+          "nottingham_undergraduate_selection_process_2026",
+          "nottingham_admissions_policy_2026_v1_3"
+        ]
+      }
+    ],
+    "blocking_reasons": [],
+    "manual_review_reasons": [],
+    "source_ids": [
+      "nottingham_course_page_2027",
+      "nottingham_applying_to_medicine_2026",
+      "nottingham_undergraduate_selection_process_2026",
+      "nottingham_admissions_policy_2026_v1_3"
+    ]
+  },
+  "prediction": {
+    "available": true,
+    "capability": "interview",
+    "prediction_status": "guidance_only_historical_positioning",
+    "prediction_type": "historical_guidance_only",
+    "result_band": "realistic",
+    "score": 66,
+    "score_type": "official_pre_interview_score",
+    "score_scale": {
+      "min": 0,
+      "max": 82
+    },
+    "band_basis": "The official score is positioned against historical evidence as guidance only.",
+    "interview_probability": null,
+    "interview_likelihood": "historically_competitive_guidance_only",
+    "confidence_level": "low",
+    "deterministic": false,
+    "fixed_current_cutoff": false,
+    "missing_data_reasons": [],
+    "cannot_predict_explanation": "Historical positioning does not state or guarantee a current or future interview outcome.",
+    "source_ids": [
+      "nottingham_foi_historical_guidance"
+    ]
+  },
+  "confidence": {
+    "eligibility_and_official_score": "high_for_the_represented_supported_route",
+    "foi_origin": "research_team_confirmed",
+    "foi_document_chain": "medium",
+    "future_cycle_positioning": "low",
+    "offer_output": "unavailable",
+    "level": "low",
+    "summary": "Confidence reflects the supported eligibility scope and the quality of the historical interview evidence.",
+    "stage_confidence": {
+      "eligibility_and_official_score": "high_for_the_represented_supported_route",
+      "foi_origin": "research_team_confirmed",
+      "foi_document_chain": "medium",
+      "future_cycle_positioning": "low",
+      "offer_output": "unavailable"
+    },
+    "source_ids": []
+  },
+  "evidence_confidence": {
+    "level": "Medium",
+    "summary": "The recommendation is supported by core admissions evidence, with some historical or route-specific limits.",
+    "reasons": [
+      "Official eligibility rules are available.",
+      "The university selection approach is implemented.",
+      "Historical interview guidance is available, but some evidence is historical, FOI-derived or has documented gaps."
+    ]
+  },
+  "evidence": {
+    "official_source_ids": [
+      "nottingham_course_page_2027",
+      "nottingham_applying_to_medicine_2026",
+      "nottingham_undergraduate_selection_process_2026",
+      "nottingham_admissions_policy_2026_v1_3",
+      "nottingham_contextual_admissions_policy_2026"
+    ],
+    "foi_source_ids": [
+      "nottingham_foi_historical_guidance"
+    ],
+    "foi_evidence_classification": "FOI_historical_guidance",
+    "foi_use": "descriptive_guidance_only",
+    "foi_executable": false
+  },
+  "display": {
+    "headline": "Nottingham A100 — guidance-only historical positioning",
+    "subheadline": "Eligibility requirements shown as met; official pre-interview score 66/82",
+    "primary_user_facing_recommendation": "Good chance based on historical data",
+    "recommendation_display_state": "standard",
+    "primary_explanation": "Your score is within the historical interview range available to ApplySmart.",
+    "historical_guidance_caveat": "Interview thresholds may change each admissions cycle depending on applicant competition and interview capacity. Historical figures are guidance only, not a current cut-off, and do not guarantee an interview.",
+    "show_eligibility": true,
+    "show_official_score_breakdown": true,
+    "show_guidance_only_historical_positioning": true,
+    "show_fixed_threshold_warning": true,
+    "show_contextual_offer_stage_message": true,
+    "show_sjt_band_4_exclusion_policy": true,
+    "guidance_badge": "Historical guidance only",
+    "confidence_badge": "Low confidence for future-cycle positioning"
+  },
+  "decision_timeline": [
+    {
+      "step": 1,
+      "title": "Applicant details checked",
+      "status": "Complete",
+      "summary": "Your applicant type, qualifications and UCAT details were checked."
+    },
+    {
+      "step": 2,
+      "title": "Eligibility assessed",
+      "status": "Eligible",
+      "summary": "You meet the published entry requirements covered by ApplySmart."
+    },
+    {
+      "step": 3,
+      "title": "Selection model applied",
+      "status": "Complete",
+      "summary": "Points from eight GCSEs, the UCAT cognitive sections and SJT were combined."
+    },
+    {
+      "step": 4,
+      "title": "Historical guidance compared",
+      "status": "Complete",
+      "summary": "Your result was compared with interview information from previous admissions cycles. Interview thresholds may change each admissions cycle depending on applicant competition and interview capacity. Historical figures are guidance only, not a current cut-off, and do not guarantee an interview."
+    },
+    {
+      "step": 5,
+      "title": "Interview recommendation produced",
+      "status": "Good chance",
+      "summary": "Good chance based on historical data. Treat this as guidance for university choice, not a promised interview."
+    }
+  ],
+  "decision_transparency": {
+    "decision_path": [
+      {
+        "stage": "Eligibility",
+        "status": "Met",
+        "summary": "The represented applicant passes every supported eligibility check used by the Nottingham consumer. Eligibility does not establish an interview or post-interview decision.",
+        "checks": [
+          {
+            "label": "Entry requirements",
+            "status": "Met",
+            "summary": "The represented applicant passes every supported eligibility check used by the Nottingham consumer. Eligibility does not establish an interview or post-interview decision."
+          }
+        ]
+      },
+      {
+        "stage": "Selection model",
+        "status": "Assessed",
+        "summary": "Nottingham combines points from eight GCSEs, the three UCAT cognitive sections and SJT.",
+        "checks": [
+          {
+            "label": "Applicant pool",
+            "status": "Used",
+            "summary": "Home standard school-leavers"
+          },
+          {
+            "label": "GCSE contribution",
+            "status": "Counted",
+            "summary": "Eight selected GCSEs contribute 28 points out of 32."
+          },
+          {
+            "label": "UCAT cognitive contribution",
+            "status": "Counted",
+            "summary": "UCAT cognitive sections contribute 32 points out of 40, with Verbal Reasoning points doubled."
+          },
+          {
+            "label": "SJT contribution",
+            "status": "Counted",
+            "summary": "SJT Band 2 contributes 6 points out of 10; Band 4 would prevent interview selection."
+          },
+          {
+            "label": "Combined score",
+            "status": "Calculated",
+            "summary": "The official pre-interview score is 66 out of 82."
+          }
+        ]
+      },
+      {
+        "stage": "Historical guidance",
+        "status": "Guidance available",
+        "summary": "The applicant's result is within the historical interview range used for this applicant group. Interview thresholds may change each admissions cycle depending on applicant competition and interview capacity. Historical figures are guidance only, not a current cut-off, and do not guarantee an interview.",
+        "checks": [
+          {
+            "label": "Applicant pool",
+            "status": "Used",
+            "summary": "Home standard school-leavers"
+          },
+          {
+            "label": "Important limitation",
+            "status": "Guidance only",
+            "summary": "Interview thresholds may change each admissions cycle depending on applicant competition and interview capacity. Historical figures are guidance only, not a current cut-off, and do not guarantee an interview."
+          }
+        ]
+      },
+      {
+        "stage": "Recommendation",
+        "status": "Guidance only",
+        "summary": "Good chance based on historical data. Treat this as guidance for university choice, not a promised interview.",
+        "checks": []
+      }
+    ],
+    "key_reasons": [
+      "The supported Nottingham entry requirements are met.",
+      "GCSE, UCAT cognitive and SJT points produce 66 out of 82.",
+      "The score is within the available historical interview range, with low confidence for a future cycle."
+    ],
+    "evidence_used": [
+      "Official admissions policy",
+      "University selection methodology",
+      "UCAT policy",
+      "Historical interview data"
+    ],
+    "evidence_confidence": {
+      "level": "Medium",
+      "summary": "The recommendation is supported by core admissions evidence, with some historical or route-specific limits.",
+      "reasons": [
+        "Official eligibility rules are available.",
+        "The university selection approach is implemented.",
+        "Historical interview guidance is available, but some evidence is historical, FOI-derived or has documented gaps."
+      ]
+    },
+    "manual_review_reason": null,
+    "insufficient_evidence_reason": null,
+    "warnings": [],
+    "score_breakdown": {
+      "name": "Official Nottingham pre-interview score",
+      "value": 66,
+      "max": 82,
+      "status": "calculated",
+      "explanation": "GCSE points /32 + UCAT cognitive points /40 + SJT points /10",
+      "checks": [
+        {
+          "label": "GCSE score",
+          "status": "Counted",
+          "summary": "28 out of 32."
+        },
+        {
+          "label": "UCAT cognitive score",
+          "status": "Counted",
+          "summary": "32 out of 40."
+        },
+        {
+          "label": "SJT score",
+          "status": "Counted",
+          "summary": "6 out of 10."
+        }
+      ]
+    }
+  },
+  "engine_notes": {
+    "example_only": true,
+    "production_result_card_output_enabled": false,
+    "metadata_activation_enabled": false,
+    "shared_interview_band_rules_used": false,
+    "score_scale_required_for_positioning": 82,
+    "excluded_score_scale_max": 50,
+    "historical_guidance_execution_status": "non_executable",
+    "current_or_future_fixed_threshold_available": false,
+    "no_estimation_safeguard": true
+  },
+  "official_score": {
+    "status": "calculated",
+    "value": 66,
+    "max": 82,
+    "scale": "GCSE plus UCAT cognitive plus SJT /82",
+    "formula": "GCSE points /32 + UCAT cognitive points /40 + SJT points /10",
+    "components": {
+      "gcse": {
+        "status": "calculated",
+        "value": 28,
+        "max": 32,
+        "method": "Biology, Chemistry, Mathematics and English Language plus the four highest-scoring other subjects.",
+        "counted_subjects": [
+          {
+            "subject_id": "biology",
+            "grade": "9",
+            "points": 4,
+            "selection_role": "mandatory"
+          },
+          {
+            "subject_id": "chemistry",
+            "grade": "9",
+            "points": 4,
+            "selection_role": "mandatory"
+          },
+          {
+            "subject_id": "mathematics",
+            "grade": "9",
+            "points": 4,
+            "selection_role": "mandatory"
+          },
+          {
+            "subject_id": "english_language",
+            "grade": "9",
+            "points": 4,
+            "selection_role": "mandatory"
+          },
+          {
+            "subject_id": "physics",
+            "grade": "9",
+            "points": 4,
+            "selection_role": "best_other"
+          },
+          {
+            "subject_id": "geography",
+            "grade": "9",
+            "points": 4,
+            "selection_role": "best_other"
+          },
+          {
+            "subject_id": "history",
+            "grade": "8",
+            "points": 3,
+            "selection_role": "best_other"
+          },
+          {
+            "subject_id": "french",
+            "grade": "6",
+            "points": 1,
+            "selection_role": "best_other"
+          }
+        ],
+        "grade_points": {
+          "8": 3,
+          "9_or_A_star": 4,
+          "7_or_A": 2,
+          "6_or_B": 1,
+          "below_6_or_B": 0
+        }
+      },
+      "ucat_cognitive": {
+        "status": "calculated",
+        "value": 32,
+        "max": 40,
+        "subtests": [
+          {
+            "subtest": "Verbal Reasoning",
+            "raw_score": 750,
+            "band_points": 8,
+            "multiplier": 2,
+            "weighted_points": 16
+          },
+          {
+            "subtest": "Quantitative Reasoning",
+            "raw_score": 650,
+            "band_points": 6,
+            "multiplier": 1,
+            "weighted_points": 6
+          },
+          {
+            "subtest": "Decision Making",
+            "raw_score": 850,
+            "band_points": 10,
+            "multiplier": 1,
+            "weighted_points": 10
+          }
+        ],
+        "excluded_subtests": [
+          "Abstract Reasoning"
+        ],
+        "band_table": [
+          {
+            "raw_score": "801–900",
+            "points": 10
+          },
+          {
+            "raw_score": "701–800",
+            "points": 8
+          },
+          {
+            "raw_score": "601–700",
+            "points": 6
+          },
+          {
+            "raw_score": "501–600",
+            "points": 4
+          },
+          {
+            "raw_score": "401–500",
+            "points": 2
+          },
+          {
+            "raw_score": "below 400",
+            "points": 0
+          }
+        ],
+        "method": "Verbal Reasoning band points are doubled, then Quantitative Reasoning and Decision Making band points are added."
+      },
+      "sjt": {
+        "status": "calculated",
+        "band": 2,
+        "value": 6,
+        "max": 10,
+        "excludes_from_interview": false,
+        "band_table": [
+          {
+            "band": 1,
+            "points": 10,
+            "excludes_from_interview": false
+          },
+          {
+            "band": 2,
+            "points": 6,
+            "excludes_from_interview": false
+          },
+          {
+            "band": 3,
+            "points": 2,
+            "excludes_from_interview": false
+          },
+          {
+            "band": 4,
+            "points": 0,
+            "excludes_from_interview": true
+          }
+        ],
+        "message": "SJT Band 2 contributes 6 points."
+      }
+    },
+    "calculation": "28 + 32 + 6 = 66/82",
+    "ranking_factors_not_weighted": [
+      "Predicted grades beyond minimum eligibility",
+      "Personal statement",
+      "Reference"
+    ],
+    "ranking_warning": "Nottingham does not publish a fixed interview threshold. Ranking changes with the applicant pool.",
+    "source_ids": [
+      "nottingham_undergraduate_selection_process_2026",
+      "nottingham_admissions_policy_2026_v1_3"
+    ]
+  },
+  "contextual_policy": {
+    "applicable_to_example": false,
+    "ranking_bonus_points": 0,
+    "effect_stage": "offer_stage_only",
+    "message": "Contextual status does not change Nottingham's shortlisting score. For verified applicants who succeed at interview, the stored offer-stage routes are AAB, enhanced contextual ABB, or Elite Athlete AAB, subject to the published Biology or Chemistry condition.",
+    "offer_stage_adjustments": [
+      {
+        "route": "standard_contextual",
+        "grade_profile": "AAB",
+        "subject_condition": "At least one A in Biology or Chemistry."
+      },
+      {
+        "route": "enhanced_contextual",
+        "grade_profile": "ABB",
+        "subject_condition": "At least one A in Biology or Chemistry."
+      },
+      {
+        "route": "elite_athlete",
+        "grade_profile": "AAB",
+        "subject_condition": "At least one A in Biology or Chemistry."
+      }
+    ],
+    "source_ids": [
+      "nottingham_admissions_policy_2026_v1_3",
+      "nottingham_contextual_admissions_policy_2026",
+      "nottingham_course_page_2027"
+    ]
+  },
+  "interview_positioning": {
+    "status": "guidance_only_historical_positioning",
+    "guidance_label": "guidance-only: historically competitive range",
+    "historical_comparison": "within",
+    "applicant_score": {
+      "value": 66,
+      "max": 82
+    },
+    "guidance_group": "home_standard",
+    "historical_typical_range": {
+      "min": 65,
+      "max": 70,
+      "scale_max": 82,
+      "source_type": "FOI",
+      "descriptive_summary_only": true
+    },
+    "historical_cycles": [
+      {
+        "entry_year": 2024,
+        "min": 68,
+        "max": 70
+      },
+      {
+        "entry_year": 2025,
+        "min": 67,
+        "max": 69
+      },
+      {
+        "entry_year": 2026,
+        "min": 66,
+        "max": 68
+      }
+    ],
+    "confidence": "low_for_future_cycle_positioning",
+    "messages": [
+      "The ranges are historical FOI guidance only.",
+      "Nottingham does not publish a fixed interview threshold.",
+      "The threshold changes with applicant numbers and performance each year.",
+      "Historical positioning does not state a current or future interview outcome.",
+      "The ranges do not affect eligibility, ranking, rejection or offer decisions."
+    ],
+    "safeguards": {
+      "guidance_only": true,
+      "fixed_cutoff": false,
+      "non_executable": true,
+      "admissions_decision_effect": false,
+      "current_cycle_threshold_claimed": false,
+      "deterministic_interview_output_enabled": false
+    },
+    "source_ids": [
+      "nottingham_foi_historical_guidance"
+    ]
+  },
+  "exclusion_handling": {
+    "sjt_band_4": {
+      "points": 0,
+      "excludes_from_interview": true,
+      "historical_positioning_performed": false,
+      "guidance_label": null,
+      "message": "SJT Band 4 excludes an applicant from interview consideration before historical positioning."
+    },
+    "no_gcse_50_point_route": {
+      "included_in_this_example": false,
+      "eligible_for_82_point_historical_positioning": false,
+      "message": "Applicants using Nottingham's official no-GCSE /50 scale are excluded from the /82 historical-positioning example."
+    }
+  }
+}

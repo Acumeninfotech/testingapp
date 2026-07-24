@@ -1,0 +1,962 @@
+{
+  "schema_version": "1.0.0",
+  "profile_id": "nottingham-a100-research",
+  "course_profile_id": "nottingham-a100",
+  "research_status": "scoped_production_handoff_complete_with_confirmed_gaps",
+  "file_purpose": "Research evidence profile for University of Nottingham A100 Medicine. This file captures official admissions evidence and non-executable FOI historical interview-shortlisting guidance. It is not a production admissions rules file.",
+  "official_rules_source": "data/universities/nottingham-a100.json",
+  "created_at": "2026-07-01",
+  "last_updated": "2026-07-01",
+  "research_scope": {
+    "phase": "scoped_production_handoff_complete",
+    "primary_source": "nottingham_a100_admissions_dossier",
+    "secondary_verification": [
+      "nottingham_scoring_summary_screenshots",
+      "nottingham_foi_historical_guidance_screenshot"
+    ],
+    "source_of_truth_policy": "The supplied Markdown dossier is the single source of truth. Screenshots are used only to verify structured scoring tables and research-team-confirmed FOI historical guidance.",
+    "entry_cycles_covered": [
+      2026,
+      2027
+    ],
+    "cycle_caveat": "The official Admissions Policy PDF covers 2026 entry. The live course page covers 2027 entry and contains some updated or inconsistent details. Every cycle-sensitive fact must retain its entry-year label, and the live Nottingham website must be checked for the cycle being advised on.",
+    "third_party_admissions_websites_used": false,
+    "production_json_created_or_updated": true,
+    "index_updated": true,
+    "interview_band_configuration_created": true,
+    "result_card_examples_created": true,
+    "metadata_activated": true,
+    "engine_or_prediction_logic_modified": true
+  },
+  "evidence_classification_policy": {
+    "official": "Evidence stated in the supplied dossier as originating from an official University of Nottingham source.",
+    "FOI": "Historical evidence confirmed by the research team to originate from official Freedom of Information responses. It is retained as historical guidance only.",
+    "research_gap": "Information not officially available in the supplied evidence. No value is estimated or inferred.",
+    "foi_execution_policy": "FOI historical ranges must not be treated as published fixed cut-offs, deterministic thresholds, eligibility rules, or executable production logic."
+  },
+  "metadata": null,
+  "readiness": {
+    "eligibility": true,
+    "interview_prediction": true,
+    "historical_guidance": true,
+    "international_prediction": true,
+    "contextual_logic": true,
+    "result_card": true,
+    "regression": true,
+    "research_completeness": "complete_for_supported_scope_with_documented_gaps",
+    "manual_review_required": true,
+    "eligibility_ready": true,
+    "interview_prediction_ready": true,
+    "prediction_confidence": "low",
+    "result_card_ready": true,
+    "offer_prediction_scope": "out_of_scope",
+    "regression_ready": true,
+    "evidence_intake_complete": true,
+    "primary_dossier_captured": true,
+    "secondary_scoring_tables_verified": true,
+    "foi_historical_guidance_captured": true,
+    "foi_historical_guidance_non_executable": true,
+    "course_information_ready": true,
+    "minimum_eligibility_ready_for_published_routes": true,
+    "minimum_eligibility_all_routes_complete": false,
+    "gcse_scoring_evidence_ready": true,
+    "ucat_scoring_evidence_ready": true,
+    "sjt_policy_evidence_ready": true,
+    "combined_ranking_evidence_ready": true,
+    "contextual_policy_evidence_ready": true,
+    "interview_process_evidence_ready": "partial_due_to_rubric_and_delivery_mode_gaps",
+    "historical_admissions_statistics_ready": "partial_published_ranges_only",
+    "official_sources_registered": true,
+    "confirmed_gaps_recorded": true,
+    "sufficient_for_production_gap_audit": true,
+    "production_json_ready": true,
+    "production_activation_ready": true,
+    "interview_prediction_research_basis": "available_as_non_deterministic_historical_guidance_only",
+    "summary": "Research and the scoped production handoff are complete for the supplied dossier and screenshots. Official eligibility, GCSE/UCAT/SJT scoring, combined ranking, contextual offers, interview process and published historical ranges are captured. FOI ranges are used only as historical guidance. Deterministic interview and"
+  },
+  "course_information": {
+    "university": "University of Nottingham",
+    "medical_school": "School of Medicine",
+    "course_name": "Medicine BMBS",
+    "ucas_code": "A100",
+    "institution_code": "N84",
+    "duration_years": 5,
+    "study_mode": "full_time",
+    "entry_route": "standard_entry_five_year",
+    "start_month": "September",
+    "campus": [
+      "Queen's Medical Centre",
+      "University Park"
+    ],
+    "approximate_places": {
+      "home": 200,
+      "international": 20,
+      "status": "approximate_published_capacity"
+    },
+    "related_routes": {
+      "A108": {
+        "name": "Medicine with a Foundation Year",
+        "duration_years": 6,
+        "approximate_home_places": 27,
+        "eligibility_scope": "UK Home applicants meeting widening-participation/contextual criteria",
+        "not_open_to": [
+          "international applicants",
+          "EU applicants without qualifying Home status",
+          "applicants who have already studied at university"
+        ]
+      },
+      "A101": {
+        "name": "Graduate Entry Medicine",
+        "duration_years": 4,
+        "relationship_to_A100": "A graduate may apply to A100 or A101, but not both in the same cycle."
+      }
+    },
+    "graduate_applicants_to_A100": {
+      "permitted": true,
+      "degree_subject": "any subject",
+      "final_year_applicants_permitted": true,
+      "minimum_degree_profile": "At least predicted or achieved 2:1, or 2:2 with a taught Master's at merit or above.",
+      "application_restriction": "May apply to A100 or A101, but not both in the same cycle."
+    },
+    "deferred_entry": {
+      "generally_accepted": true,
+      "request_deadline": "1 May",
+      "deferred_offer_count_may_be_capped": true,
+      "A101_exception": "Deferred entry is not accepted for A101."
+    },
+    "mature_applicants": {
+      "accepted": true,
+      "separate_A100_academic_concession_published": false,
+      "policy": "Mature applicants follow the applicable standard or graduate academic route."
+    },
+    "minimum_age": {
+      "requirement": "Applicant must be 17 or older by 1 September in the year of entry.",
+      "under_18_requirement": "A parent or legal guardian must complete the University consent form if the applicant is under 18 at registration.",
+      "excluded": "Applicants who would be in their 16th year on 1 September are not considered."
+    },
+    "source_ids": [
+      "nottingham_course_page_2027",
+      "nottingham_applying_to_medicine_2026",
+      "nottingham_admissions_policy_2026_v1_3"
+    ],
+    "evidence_classification": "official"
+  },
+  "minimum_eligibility_by_qualification_route": {
+    "common_requirements": {
+      "gcse": "Minimum six GCSEs at grade 7/A, including Biology or Human Biology and Chemistry or Double Science; minimum grade 6/B in Mathematics and English Language.",
+      "mathematics": "GCSE Mathematics grade 6/B minimum or equivalent across routes, including the graduate route.",
+      "english_language": {
+        "gcse": "English Language grade 6/B",
+        "accepted_alternatives_if_gcse_requirement_not_met": [
+          {
+            "qualification": "IELTS",
+            "overall": 7.5,
+            "minimum_element": 7
+          },
+          {
+            "qualification": "PTE Academic",
+            "overall": 79,
+            "minimum_element": 76
+          },
+          {
+            "qualification": "Cambridge Proficiency or Advanced",
+            "overall": 191,
+            "minimum_element": 185
+          },
+          {
+            "qualification": "IB English A",
+            "minimum_grade": 5
+          },
+          {
+            "qualification": "IB English B Standard Level",
+            "minimum_grade": 6
+          },
+          {
+            "qualification": "IB English B Higher Level",
+            "minimum_grade": 5
+          }
+        ]
+      },
+      "predicted_grades_policy": "Predicted A-level or equivalent grades are not used in shortlisting or scoring. They are relevant only to the conditions of a subsequent offer.",
+      "practical_endorsement": "A pass is required in science practical endorsement tests where assessed separately; it is not numerically scored.",
+      "source_ids": [
+        "nottingham_course_page_2027",
+        "nottingham_admissions_policy_2026_v1_3",
+        "nottingham_undergraduate_selection_process_2026"
+      ],
+      "evidence_classification": "official"
+    },
+    "a_level": {
+      "standard": "AAA",
+      "required_subjects": [
+        "Biology or Human Biology",
+        "Chemistry"
+      ],
+      "excluded_third_subjects": [
+        "Citizenship Studies",
+        "Critical Thinking",
+        "General Studies",
+        "Global Perspectives"
+      ],
+      "study_period": "Maximum two-year period.",
+      "sitting_policy": "Three A levels must be passed at the required grades in one sitting.",
+      "resits": {
+        "maximum_subjects": 2,
+        "conditions": [
+          "A levels were completed within the last 12 months.",
+          "At least ABB was achieved at the first sitting.",
+          "The first sitting included an A in Biology or Human Biology, or Chemistry.",
+          "Resit grades meet AAA and include Biology or Human Biology and Chemistry."
+        ]
+      },
+      "source_ids": [
+        "nottingham_course_page_2027",
+        "nottingham_admissions_policy_2026_v1_3"
+      ],
+      "evidence_classification": "official"
+    },
+    "international_baccalaureate": {
+      "option_1": "34 points overall, including Higher Level grade 6 in Biology and Higher Level grade 6 in Chemistry.",
+      "option_2": "Three Higher Level certificates at 6,6,6, including grade 6 in Biology and grade 6 in Chemistry.",
+      "source_ids": [
+        "nottingham_course_page_2027"
+      ],
+      "evidence_classification": "official"
+    },
+    "scottish_welsh_irish": {
+      "published_A100_specific_profiles_available": false,
+      "official_direction": "Other qualifications, including international qualifications, are considered and applicants should contact the University of Nottingham Recruitment and Admissions Team.",
+      "do_not_transfer_requirements_from_other_courses": true,
+      "status": "confirmed_research_gap",
+      "source_ids": [
+        "nottingham_course_page_2027",
+        "nottingham_admissions_policy_2026_v1_3"
+      ],
+      "evidence_classification": "official_and_research_gap"
+    },
+    "access_to_he": {
+      "accepted_for_A100": false,
+      "policy": "BTEC Nationals and the Access to HE Diploma are not accepted for A100.",
+      "related_route_note": "A qualifying Access to Medicine Diploma may be accepted for A108 only under its defined credit criteria.",
+      "source_ids": [
+        "nottingham_course_page_2027",
+        "nottingham_admissions_policy_2026_v1_3"
+      ],
+      "evidence_classification": "official"
+    },
+    "graduate_A100": {
+      "option_1": "2:1 honours degree in any subject.",
+      "option_2": "2:2 honours degree with a taught Master's at merit or above.",
+      "non_bioscience_requirement": "A-level Biology grade B is required where the degree has insufficient biology content.",
+      "mathematics_requirement": "GCSE Mathematics grade 6/B minimum or equivalent.",
+      "degree_completion": "The degree must be completed in its natural length and ratified evidence must be supplied by the specified July deadline.",
+      "application_restriction": "Cannot apply to both A100 and A101 in the same cycle.",
+      "source_ids": [
+        "nottingham_admissions_policy_2026_v1_3"
+      ],
+      "evidence_classification": "official"
+    },
+    "international": {
+      "eligible_for_A100": true,
+      "transcript_requirement": "Applicants without a full GCSE or iGCSE history must provide a Year 10 or 11 transcript showing approximately six subjects, including Biology, Chemistry, Mathematics and English, at an equivalent standard.",
+      "english_language_requirement_applies": true,
+      "source_ids": [
+        "nottingham_admissions_policy_2026_v1_3"
+      ],
+      "evidence_classification": "official"
+    },
+    "gcse_resits": {
+      "maximum_subjects": 1,
+      "permitted_subjects": [
+        "Mathematics",
+        "English Language",
+        "Biology",
+        "Human Biology",
+        "Chemistry",
+        "Double Science"
+      ],
+      "required_resit_grade": "The resit must meet the original minimum: grade 6/B for Mathematics or English Language and grade 7/A for the specified sciences.",
+      "source_ids": [
+        "nottingham_course_page_2027",
+        "nottingham_admissions_policy_2026_v1_3",
+        "nottingham_undergraduate_selection_process_2026"
+      ],
+      "evidence_classification": "official"
+    }
+  },
+  "gcse_scoring": {
+    "applies_to": "A100 applicants with GCSE, iGCSE or accepted equivalent results",
+    "number_scored": 8,
+    "maximum_points": 32,
+    "compulsory_components": [
+      "Biology or Human Biology, or the applicable Double Science result",
+      "Chemistry",
+      "Mathematics",
+      "English Language"
+    ],
+    "additional_components": "The four highest-scoring other subjects.",
+    "grade_points": [
+      {
+        "grade": "9 or A*",
+        "points": 4
+      },
+      {
+        "grade": "8",
+        "points": 3
+      },
+      {
+        "grade": "7 or A",
+        "points": 2
+      },
+      {
+        "grade": "6 or B",
+        "points": 1
+      }
+    ],
+    "below_grade_6_points": 0,
+    "subject_weighting": "All eight scored results are equally weighted. Science subjects receive no multiplier within the GCSE score.",
+    "official_worked_example": {
+      "results": "Five grade 8s, two grade 7s and one grade 6 in English Language.",
+      "total_points": 20
+    },
+    "contextual_adjustment": "None. Contextual status does not change GCSE points.",
+    "applicants_without_gcse_or_equivalent": {
+      "gcse_score_used": false,
+      "selection_basis": "Only UCAT is scored.",
+      "official_caveat": "Nottingham states that these applicants are not disadvantaged."
+    },
+    "gcse_stage_tie_breaker_published": false,
+    "source_ids": [
+      "nottingham_undergraduate_selection_process_2026"
+    ],
+    "screenshot_verification_ids": [
+      "nottingham_scoring_summary_screenshot_1",
+      "nottingham_scoring_table_screenshot_4"
+    ],
+    "evidence_classification": "official"
+  },
+  "ucat_scoring": {
+    "required_for_A100": true,
+    "test_timing": "UCAT must be taken in the same year as the UCAS application.",
+    "cognitive_subtests_used": [
+      "Verbal Reasoning",
+      "Quantitative Reasoning",
+      "Decision Making"
+    ],
+    "abstract_reasoning_used": false,
+    "raw_score_points": [
+      {
+        "raw_score_range": "801-900",
+        "points": 10
+      },
+      {
+        "raw_score_range": "701-800",
+        "points": 8
+      },
+      {
+        "raw_score_range": "601-700",
+        "points": 6
+      },
+      {
+        "raw_score_range": "501-600",
+        "points": 4
+      },
+      {
+        "raw_score_range": "401-500",
+        "points": 2
+      },
+      {
+        "raw_score_range": "<400",
+        "points": 0
+      }
+    ],
+    "verbal_reasoning_multiplier": 2,
+    "maximum_cognitive_points": 40,
+    "maximum_sjt_points": 10,
+    "maximum_total_ucat_points": 50,
+    "official_worked_example": {
+      "verbal_reasoning": {
+        "raw_score": 680,
+        "base_points": 6,
+        "multiplier": 2,
+        "awarded_points": 12
+      },
+      "quantitative_reasoning": {
+        "raw_score": 500,
+        "awarded_points": 2
+      },
+      "decision_making": {
+        "raw_score": 580,
+        "awarded_points": 4
+      },
+      "sjt": {
+        "band": 2,
+        "awarded_points": 6
+      },
+      "total_points": 24,
+      "maximum_points": 50
+    },
+    "fixed_raw_ucat_cutoff_published": false,
+    "official_threshold_caveat": "Nottingham does not use a fixed score to select for interview. The threshold varies each year and cannot be predicted in advance. Nottingham states that it does not share previous years' interview thresholds through its published selection guidance.",
+    "applicant_group_application": {
+      "home": "Same A100 UCAT and SJT scoring process.",
+      "international": "Same A100 UCAT and SJT scoring process.",
+      "graduate_A100": "Same A100 UCAT and SJT scoring process."
+    },
+    "related_A101_note": "A101 uses GAMSAT for 2026 entry. A future move to UCAT was not confirmed on Nottingham's official current pages in the dossier and must not be treated as confirmed.",
+    "source_ids": [
+      "nottingham_undergraduate_selection_process_2026",
+      "nottingham_admissions_policy_2026_v1_3"
+    ],
+    "screenshot_verification_ids": [
+      "nottingham_scoring_summary_screenshot_1",
+      "nottingham_ucat_table_screenshot_5",
+      "nottingham_sjt_and_combined_screenshot_6"
+    ],
+    "evidence_classification": "official"
+  },
+  "sjt_policy": {
+    "used": true,
+    "scored_separately_from_cognitive_ucat": true,
+    "band_points": [
+      {
+        "band": 1,
+        "points": 10,
+        "interview_eligible_on_sjt": true
+      },
+      {
+        "band": 2,
+        "points": 6,
+        "interview_eligible_on_sjt": true
+      },
+      {
+        "band": 3,
+        "points": 2,
+        "interview_eligible_on_sjt": true
+      },
+      {
+        "band": 4,
+        "points": 0,
+        "interview_eligible_on_sjt": false
+      }
+    ],
+    "band_4_policy": "Automatic exclusion from interview consideration.",
+    "source_ids": [
+      "nottingham_undergraduate_selection_process_2026"
+    ],
+    "screenshot_verification_ids": [
+      "nottingham_scoring_summary_screenshot_1",
+      "nottingham_sjt_and_combined_screenshot_6"
+    ],
+    "evidence_classification": "official"
+  },
+  "combined_ranking_methodology": {
+    "eligibility_screen_first": true,
+    "formula": "GCSE points + UCAT cognitive points + SJT points",
+    "maximum_points_with_gcse": 82,
+    "maximum_points_without_gcse_or_equivalent": 50,
+    "ranking_direction": "highest_to_lowest",
+    "selection_action": "Top-scoring applicants are invited until interview capacity is filled.",
+    "fixed_or_published_cutoff": false,
+    "cutoff_caveat": "There is no fixed or published interview cut-off. The competitive threshold changes with applicant numbers and performance each year.",
+    "a_level_or_predicted_grade_weight": 0,
+    "personal_statement_weight_at_shortlisting": 0,
+    "reference_weight_at_shortlisting": 0,
+    "percentage_weighting_split_published": false,
+    "point_sum_confirmed": true,
+    "separate_course_ranking_pools": [
+      "A100",
+      "A108",
+      "A101"
+    ],
+    "home_international_A100_pool_separation": {
+      "officially_explicit_in_identical_wording": false,
+      "dossier_observation": "Separate Home and International place allocations and statistics are consistent with separate management, but the dossier identifies this as an inference rather than an explicitly published A100 pool rule.",
+      "executable": false
+    },
+    "contextual_bonus_points": 0,
+    "contextual_scoring_adjustment_published": false,
+    "shortlisting_tie_breaker_published": false,
+    "source_ids": [
+      "nottingham_undergraduate_selection_process_2026",
+      "nottingham_admissions_policy_2026_v1_3"
+    ],
+    "screenshot_verification_ids": [
+      "nottingham_combined_and_contextual_screenshot_2",
+      "nottingham_sjt_and_combined_screenshot_6"
+    ],
+    "evidence_classification": "official"
+  },
+  "foi_historical_interview_guidance": {
+    "guidance_id": "nottingham_foi_historical_combined_score_ranges",
+    "source_type": "FOI",
+    "guidance_type": "historical_interview_shortlisting_guidance",
+    "metric": "Combined Nottingham pre-interview points on the 82-point GCSE plus UCAT scale",
+    "scope": "Historical ranges associated with interview shortlisting, split by applicant group.",
+    "values": [
+      {
+        "entry_year": 2024,
+        "home_standard": {
+          "minimum": 68,
+          "maximum": 70
+        },
+        "contextual_or_widening_participation": {
+          "minimum": 62,
+          "maximum": 64
+        },
+        "international": {
+          "minimum": 72,
+          "maximum": 74
+        }
+      },
+      {
+        "entry_year": 2025,
+        "home_standard": {
+          "minimum": 67,
+          "maximum": 69
+        },
+        "contextual_or_widening_participation": {
+          "minimum": 61,
+          "maximum": 63
+        },
+        "international": {
+          "minimum": 71,
+          "maximum": 73
+        }
+      },
+      {
+        "entry_year": 2026,
+        "home_standard": {
+          "minimum": 66,
+          "maximum": 68
+        },
+        "contextual_or_widening_participation": {
+          "minimum": 60,
+          "maximum": 62
+        },
+        "international": {
+          "minimum": 70,
+          "maximum": 72
+        }
+      }
+    ],
+    "cross_cycle_typical_range_shown_in_evidence": {
+      "home_standard": {
+        "minimum": 65,
+        "maximum": 70
+      },
+      "contextual_or_widening_participation": {
+        "minimum": 59,
+        "maximum": 64
+      },
+      "international": {
+        "minimum": 70,
+        "maximum": 75
+      },
+      "status": "descriptive_summary_only"
+    },
+    "provenance": {
+      "research_team_confirmation": "The historical ranges are confirmed by the research team to originate from official FOI responses.",
+      "evidence_supplied_in_this_intake": "Secondary screenshot transcription; the underlying FOI response documents were not attached.",
+      "screenshot_id": "nottingham_foi_historical_guidance_screenshot_7"
+    },
+    "confidence": {
+      "official_origin": "high",
+      "transcription": "high",
+      "document_chain_completeness": "medium",
+      "future_cycle_prediction": "low_to_medium"
+    },
+    "permitted_use": [
+      "Historical context",
+      "Non-deterministic interview prediction guidance",
+      "Production Gap Audit evidence"
+    ],
+    "prohibited_use": [
+      "Published fixed cut-off",
+      "Current-cycle guaranteed threshold",
+      "Eligibility rule",
+      "Automatic rejection rule",
+      "Executable scoring or prediction rule"
+    ],
+    "executable": false,
+    "fixed_cutoff": false,
+    "official_caveats": [
+      "Nottingham does not publish a fixed interview threshold.",
+      "The threshold moves each year with the applicant pool and overall performance.",
+      "Historical ranges cannot predict a future threshold in advance.",
+      "The ranges are FOI historical guidance and are not a guarantee of interview selection.",
+      "Applicants without GCSE or equivalent results are scored on the 50-point UCAT scale, so the 82-point ranges must not be applied to them."
+    ],
+    "evidence_classification": "FOI_historical_guidance"
+  },
+  "contextual_admissions_policy": {
+    "scope": "Eligible UK Home fee-status applicants meeting University of Nottingham contextual criteria.",
+    "shortlisting_score_changed": false,
+    "bonus_points_added": false,
+    "published_separate_shortlisting_mechanism": false,
+    "effect": "Contextual status changes the academic grades required in an eventual offer after a successful interview; it does not alter the published GCSE and UCAT point formula.",
+    "offers": {
+      "standard_contextual": {
+        "grades": "AAB",
+        "reduction_from_standard": "one grade",
+        "subject_condition": "At least one A in Biology or Chemistry."
+      },
+      "enhanced_contextual": {
+        "grades": "ABB",
+        "reduction_from_standard": "two grades",
+        "subject_condition": "At least one A in Biology or Chemistry."
+      },
+      "elite_athletes": {
+        "grades": "AAB",
+        "subject_condition": "Same requirement for an A in Biology or Chemistry."
+      }
+    },
+    "A108_note": "A108 is the dedicated foundation/widening-participation route for eligible applicants who do not meet standard A100 grades.",
+    "non_A_level_equivalents": "Contextual treatment of other equivalent qualifications is reviewed case by case.",
+    "source_ids": [
+      "nottingham_admissions_policy_2026_v1_3",
+      "nottingham_contextual_admissions_policy_2026",
+      "nottingham_course_page_2027"
+    ],
+    "screenshot_verification_ids": [
+      "nottingham_combined_and_contextual_screenshot_2"
+    ],
+    "evidence_classification": "official"
+  },
+  "interview_process": {
+    "format": "Multiple Mini Interview",
+    "scenarios": 6,
+    "role_play_minimum": 1,
+    "scenario_duration_minutes": 5,
+    "unscored_icebreaker_minutes": 1,
+    "published_total_duration": "Up to one hour.",
+    "assessed_qualities": [
+      "Good communication and listening skills",
+      "Understanding of professional issues such as teamwork",
+      "Respect for patients",
+      "Respect for the contribution of professions allied to medicine"
+    ],
+    "assessment_basis": "Qualities are based on Medical Schools Council guidance.",
+    "numeric_station_or_domain_weights_published": false,
+    "pre_interview_scores_reset_for_offer_ranking": true,
+    "offer_stage_role": "Interview performance is the sole scored determinant of offers.",
+    "delivery_mode": {
+      "2026_entry": "Expected to be entirely online using Microsoft Teams.",
+      "2027_entry_home_page": "Likely to be held in person.",
+      "2027_entry_international_page": "Refers to Microsoft Teams online delivery.",
+      "status": "official_source_inconsistency_requires_cycle_specific_confirmation"
+    },
+    "source_ids": [
+      "nottingham_undergraduate_selection_process_2026",
+      "nottingham_admissions_policy_2026_v1_3",
+      "nottingham_course_page_2027",
+      "medical_schools_council_core_values_guidance"
+    ],
+    "screenshot_verification_ids": [
+      "nottingham_interview_and_offer_screenshot_3"
+    ],
+    "evidence_classification": "official"
+  },
+  "offer_process": {
+    "ranking_basis": "Applicants are ranked solely by total interview score after interview.",
+    "pre_interview_gcse_ucat_sjt_score_used_in_offer_ranking": false,
+    "interview_weight_for_offer_ranking": "100%",
+    "tie_breaker": "Where interview scores are identical, UCAT score is the primary differentiator for A100; GAMSAT is used for A101.",
+    "personal_statement_and_reference": {
+      "reviewed_after_interview": true,
+      "scored": false,
+      "purpose": "Satisfactory review before final offers."
+    },
+    "formal_waiting_or_reserve_list_published": false,
+    "near_miss_process": "Conditional offer-holders who narrowly miss their grade terms may be reviewed in August if places remain unfilled. Decisions are communicated through UCAS.",
+    "near_miss_numeric_methodology_published": false,
+    "conditions": [
+      "Meet the grade requirements shown in UCAS Hub.",
+      "Successful interview.",
+      "Satisfactory Occupational Health assessment.",
+      "Satisfactory Disclosure and Barring Service clearance.",
+      "No outstanding fitness-to-practise issues.",
+      "Satisfactory check against the Medical Schools Council Excluded Students Database."
+    ],
+    "source_ids": [
+      "nottingham_undergraduate_selection_process_2026",
+      "nottingham_admissions_policy_2026_v1_3",
+      "nottingham_applying_to_medicine_2026"
+    ],
+    "screenshot_verification_ids": [
+      "nottingham_interview_and_offer_screenshot_3"
+    ],
+    "evidence_classification": "official"
+  },
+  "historical_admissions_statistics": {
+    "publication_format": "Ranges across the past few years, not year-by-year figures.",
+    "official_warning": "Nottingham advises applicants not to base an application decision on previous-year data because applicant, interview and offer numbers change and may not represent the current competition.",
+    "groups": {
+      "A100_home": {
+        "applicants_meeting_entry_criteria": {
+          "minimum": 1874,
+          "maximum": 2100
+        },
+        "interviewed": {
+          "minimum": 823,
+          "maximum": 1219
+        },
+        "offers_made": {
+          "minimum": 267,
+          "maximum": 642
+        },
+        "approximate_places": 200
+      },
+      "A100_international": {
+        "applicants_meeting_entry_criteria": {
+          "minimum": 190,
+          "maximum": 327
+        },
+        "interviewed": {
+          "minimum": 60,
+          "maximum": 96
+        },
+        "offers_made": {
+          "minimum": 28,
+          "maximum": 60
+        },
+        "approximate_places": 20
+      },
+      "A108_foundation": {
+        "applicants_meeting_entry_criteria": {
+          "minimum": 187,
+          "maximum": 443
+        },
+        "interviewed": {
+          "minimum": 100,
+          "maximum": 125
+        },
+        "offers_made": {
+          "minimum": 35,
+          "maximum": 65
+        },
+        "approximate_places": 27
+      }
+    },
+    "not_published": [
+      "Separate enrolled-student figures",
+      "Historical UCAT averages",
+      "Historical GCSE averages for successful applicants",
+      "Contextual or widening-participation applicant, interview and offer counts",
+      "Graduate applicants to A100 as a separate statistical group",
+      "A101 applicant, interview and offer ranges"
+    ],
+    "source_ids": [
+      "nottingham_applying_to_medicine_2026",
+      "nottingham_admissions_policy_2026_v1_3"
+    ],
+    "evidence_classification": "official"
+  },
+  "official_sources": [
+    {
+      "source_id": "nottingham_course_page_2027",
+      "title": "Medicine BMBS (Hons), 2027 entry",
+      "publisher": "University of Nottingham",
+      "url": "https://www.nottingham.ac.uk/studywithus/ugstudy/courses/UG/2027/Medicine-BMBS.html",
+      "entry_cycle": 2027,
+      "source_type": "official_course_page",
+      "authority": "primary_official",
+      "notes": "Live course content is cycle-sensitive and must be read with the dossier's 2026/2027 caveat."
+    },
+    {
+      "source_id": "nottingham_applying_to_medicine_2026",
+      "title": "Applying to Medicine at Nottingham",
+      "publisher": "University of Nottingham",
+      "url": "https://www.nottingham.ac.uk/medicine/study-with-us/undergraduate/undergraduate-medicine/applying-to-medicine.aspx",
+      "entry_cycle": 2026,
+      "source_type": "official_guidance_page",
+      "authority": "primary_official"
+    },
+    {
+      "source_id": "nottingham_undergraduate_selection_process_2026",
+      "title": "Undergraduate Selection Process",
+      "publisher": "University of Nottingham",
+      "url": "https://www.nottingham.ac.uk/medicine/study-with-us/undergraduate/undergraduate-medicine/undergraduate-selection-process.aspx",
+      "entry_cycle": 2026,
+      "source_type": "official_selection_page",
+      "authority": "primary_official"
+    },
+    {
+      "source_id": "nottingham_admissions_policy_2026_v1_3",
+      "title": "Admissions Policy for A100, A108 and A101 Undergraduate Medicine (2026)",
+      "publisher": "University of Nottingham School of Medicine",
+      "url": "https://www.nottingham.ac.uk/medicine/documents/medicine-policies/admissions-policy-a100-a108-a101-admissions-policy-2026-entry.pdf",
+      "entry_cycle": 2026,
+      "version": "1.3",
+      "last_updated": "2025-07",
+      "source_type": "official_policy_pdf",
+      "authority": "primary_official",
+      "notes": "The dossier identifies version 1.3 as its source. Policy is reviewed annually and is subject to change."
+    },
+    {
+      "source_id": "nottingham_contextual_admissions_policy_2026",
+      "title": "Contextual admissions policy",
+      "publisher": "University of Nottingham",
+      "url": "https://www.nottingham.ac.uk/ugstudy/applying/contextual-admissions-policy.aspx",
+      "entry_cycle": 2026,
+      "source_type": "official_policy_page",
+      "authority": "primary_official"
+    },
+    {
+      "source_id": "medical_schools_council_core_values_guidance",
+      "title": "Medical Schools Council core values guidance",
+      "publisher": "Medical Schools Council",
+      "url": null,
+      "entry_cycle": null,
+      "source_type": "official_sector_guidance",
+      "authority": "official_referenced_background",
+      "notes": "Referenced by Nottingham's policy; an exact locator was not supplied in the dossier and has not been inferred."
+    }
+  ],
+  "input_evidence_registry": [
+    {
+      "evidence_id": "nottingham_a100_admissions_dossier",
+      "title": "University of Nottingham A100 Medicine (BMBS) Admissions Research Dossier",
+      "format": "Markdown",
+      "role": "primary_source_and_single_source_of_truth",
+      "path": "/Users/faizan/Desktop/university-data/Nottingham/Nottingham_A100_Admissions_Dossier.md",
+      "ingested_at": "2026-07-01",
+      "confidence": "high"
+    },
+    {
+      "evidence_id": "nottingham_scoring_summary_screenshot_1",
+      "title": "GCSE, UCAT and SJT scoring summary",
+      "format": "PNG screenshot",
+      "role": "secondary_verification",
+      "path": "/Users/faizan/Desktop/screen /Screenshot 2026-07-01 at 13.05.06.png",
+      "confidence": "high"
+    },
+    {
+      "evidence_id": "nottingham_combined_and_contextual_screenshot_2",
+      "title": "Combined ranking and contextual selection summary",
+      "format": "PNG screenshot",
+      "role": "secondary_verification",
+      "path": "/Users/faizan/Desktop/screen /Screenshot 2026-07-01 at 13.05.28.png",
+      "confidence": "high"
+    },
+    {
+      "evidence_id": "nottingham_interview_and_offer_screenshot_3",
+      "title": "Interview and offer decision summary",
+      "format": "PNG screenshot",
+      "role": "secondary_verification",
+      "path": "/Users/faizan/Desktop/screen /Screenshot 2026-07-01 at 13.05.52.png",
+      "confidence": "high"
+    },
+    {
+      "evidence_id": "nottingham_scoring_table_screenshot_4",
+      "title": "GCSE points scoring table",
+      "format": "PNG screenshot",
+      "role": "secondary_verification",
+      "path": "/Users/faizan/Desktop/screen /Screenshot 2026-07-01 at 13.10.11.png",
+      "confidence": "high"
+    },
+    {
+      "evidence_id": "nottingham_ucat_table_screenshot_5",
+      "title": "UCAT cognitive points scoring table",
+      "format": "PNG screenshot",
+      "role": "secondary_verification",
+      "path": "/Users/faizan/Desktop/screen /Screenshot 2026-07-01 at 13.10.29.png",
+      "confidence": "high"
+    },
+    {
+      "evidence_id": "nottingham_sjt_and_combined_screenshot_6",
+      "title": "SJT points and combined selection formula",
+      "format": "PNG screenshot",
+      "role": "secondary_verification",
+      "path": "/Users/faizan/Desktop/screen /Screenshot 2026-07-01 at 13.10.53.png",
+      "confidence": "high"
+    },
+    {
+      "evidence_id": "nottingham_foi_historical_guidance_screenshot_7",
+      "title": "FOI-verified historical points threshold ranges",
+      "format": "PNG screenshot",
+      "role": "secondary_verification_of_research_team_confirmed_FOI_guidance",
+      "path": "/Users/faizan/Desktop/screen /Screenshot 2026-07-01 at 13.11.05.png",
+      "source_type": "FOI",
+      "confidence": {
+        "official_origin": "high",
+        "transcription": "high",
+        "document_chain_completeness": "medium"
+      }
+    }
+  ],
+  "confirmed_research_gaps": [
+    {
+      "gap_id": "nottingham_A100_scottish_welsh_irish_profiles",
+      "field": "A100-specific Scottish Higher and Advanced Higher, Welsh Baccalaureate, and Irish Leaving Certificate grade profiles",
+      "status": "not_officially_published_in_supplied_research",
+      "impact": "Eligibility cannot be determined for these routes from this evidence.",
+      "required_follow_up": "Direct confirmation from Nottingham Admissions.",
+      "estimate_permitted": false
+    },
+    {
+      "gap_id": "nottingham_percentage_weighting_or_additional_formula",
+      "field": "Any numeric weighting split beyond the published GCSE plus UCAT point sum",
+      "status": "not_officially_published",
+      "impact": "No additional percentage formula may be represented.",
+      "required_follow_up": "Official clarification or FOI response.",
+      "estimate_permitted": false
+    },
+    {
+      "gap_id": "nottingham_current_cycle_interview_threshold",
+      "field": "Current or future cycle interview threshold",
+      "status": "not_available_in_advance",
+      "impact": "Interview selection cannot be guaranteed from a fixed score.",
+      "required_follow_up": "None before the applicant pool is ranked; historical FOI guidance remains non-executable.",
+      "estimate_permitted": false
+    },
+    {
+      "gap_id": "nottingham_historical_threshold_primary_documents",
+      "field": "Underlying FOI response documents for the supplied historical point ranges",
+      "status": "not_attached_to_this_intake",
+      "impact": "Official FOI origin is research-team-confirmed, but the document chain cannot be independently audited from the supplied files.",
+      "required_follow_up": "Attach the original FOI responses during the Production Gap Audit if document-level traceability is required.",
+      "estimate_permitted": false
+    },
+    {
+      "gap_id": "nottingham_interview_numeric_rubric",
+      "field": "Per-station and per-domain numeric interview scoring and weighting",
+      "status": "not_officially_published",
+      "impact": "Interview score calculation and deterministic offer prediction are unavailable.",
+      "required_follow_up": "Official clarification or FOI response.",
+      "estimate_permitted": false
+    },
+    {
+      "gap_id": "nottingham_interview_delivery_mode",
+      "field": "Single confirmed interview delivery mode for the cycle being advised on",
+      "status": "official_sources_inconsistent_across_2026_and_2027",
+      "impact": "Delivery mode must be cycle-labelled and cannot be generalised.",
+      "required_follow_up": "Confirm directly with Nottingham Admissions for the relevant applicant group and entry cycle.",
+      "estimate_permitted": false
+    },
+    {
+      "gap_id": "nottingham_A101_future_test_and_statistics",
+      "field": "A101 historical applicant, interview and offer statistics, and confirmed timing of any move from GAMSAT to UCAT",
+      "status": "not_officially_available_in_supplied_research",
+      "impact": "No A101 future test rule or historical prediction can be created.",
+      "required_follow_up": "Direct official confirmation or FOI response.",
+      "estimate_permitted": false
+    },
+    {
+      "gap_id": "nottingham_waiting_reserve_list_method",
+      "field": "Formal reserve or waiting-list ranking methodology beyond the August near-miss review",
+      "status": "not_officially_published",
+      "impact": "Reserve-list likelihood and ordering cannot be predicted.",
+      "required_follow_up": "Official clarification or FOI response.",
+      "estimate_permitted": false
+    },
+    {
+      "gap_id": "nottingham_enrolment_and_group_statistics",
+      "field": "Separate enrolment, contextual, widening-participation, graduate A100, historical UCAT average, and successful-applicant GCSE average statistics",
+      "status": "not_officially_published_in_supplied_research",
+      "impact": "Historical conversion and subgroup outcome rates cannot be calculated.",
+      "required_follow_up": "FOI request if required for later modelling.",
+      "estimate_permitted": false
+    }
+  ]
+}

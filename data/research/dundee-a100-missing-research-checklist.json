@@ -1,0 +1,257 @@
+{
+  "schema_version": "1.0.0",
+  "checklist_id": "dundee-a100-missing-research-checklist",
+  "course_profile_id": "dundee-a100",
+  "research_profile_id": "dundee-a100-research",
+  "last_updated": "2026-07-02",
+  "status_values": [
+    "available",
+    "missing",
+    "partially_available",
+    "not_published"
+  ],
+  "official_formula_missing": [
+    {
+      "item": "academic scoring formula",
+      "status": "partially_available",
+      "notes": "Predictor-estimated standard entry academic scoring model exists with max 60 points, GCSE/National 5 max 30, and A-level/Higher max 30. Detailed RUK/Scottish point tables remain empty with missing_from_supplied_request notes. Do not generate point tables from assumptions.",
+      "source_ids": [
+        "dundee_admissions_statistics"
+      ]
+    },
+    {
+      "item": "academic weighting",
+      "status": "available",
+      "notes": "Verified international evidence records 60% academic weighting in a separate international pool. Home logic is unchanged; graduate A100 weighting remains a predictor estimate.",
+      "source_ids": [
+        "dundee_verified_international_admissions_evidence"
+      ]
+    },
+    {
+      "item": "UCAT scoring formula",
+      "status": "partially_available",
+      "notes": "Verified international evidence records cognitive-total UCAT conversion by national decile rank at 40%, with no fixed cut-off. The detailed decile point table and Home/graduate models retain their existing evidence labels.",
+      "source_ids": [
+        "dundee_admissions_statistics",
+        "dundee_verified_international_admissions_evidence"
+      ]
+    },
+    {
+      "item": "UCAT weighting",
+      "status": "available",
+      "notes": "Verified international evidence records 40% UCAT weighting using national decile rank in a separate international pool. Home logic is unchanged; graduate A100 weighting remains a predictor estimate.",
+      "source_ids": [
+        "dundee_verified_international_admissions_evidence"
+      ]
+    },
+    {
+      "item": "UCAT decile scoring",
+      "status": "partially_available",
+      "notes": "Predictor-estimated standard entry and graduate A100 decile point tables are stored; not official unless FOI verified.",
+      "source_ids": []
+    },
+    {
+      "item": "SJT use/scoring",
+      "status": "available",
+      "notes": "Dundee states SJT is not used for initial interview selection; research model also marks SJT not used pre-interview and post-interview, with no banned band.",
+      "source_ids": [
+        "dundee_admissions_statistics"
+      ]
+    },
+    {
+      "item": "interview scoring formula",
+      "status": "not_published",
+      "notes": "Verified international evidence records a two-stage hybrid interview and interview-only offer ranking, but the exact interview scoring rubric is not supplied.",
+      "source_ids": [
+        "dundee_interview_page",
+        "dundee_verified_international_admissions_evidence"
+      ]
+    },
+    {
+      "item": "offer ranking formula",
+      "status": "partially_available",
+      "notes": "Verified for the international pool: pre-interview academic and UCAT scores reset, and international offers are ranked 100% by interview score. Home offer ranking remains unchanged and incomplete.",
+      "source_ids": [
+        "dundee_verified_international_admissions_evidence"
+      ]
+    },
+    {
+      "item": "tie-breakers",
+      "status": "missing",
+      "notes": "No tie-breaker rules are stored.",
+      "source_ids": []
+    }
+  ],
+  "historical_ucat_missing": [
+    {
+      "item": "lowest interviewed UCAT by year",
+      "status": "available",
+      "notes": "Stored for total rows from 2019/20 through 2023/24. Published Dundee UCAT values are from the old 3600 scale; converted 2700-scale estimates are available for rough context only and are not official current cutoffs.",
+      "source_ids": [
+        "dundee_admissions_statistics"
+      ]
+    },
+    {
+      "item": "average interviewed UCAT by year",
+      "status": "available",
+      "notes": "Stored for total rows from 2019/20 through 2023/24. Published Dundee UCAT values are from the old 3600 scale; converted 2700-scale estimates are available for rough context only and are not official current cutoffs.",
+      "source_ids": [
+        "dundee_admissions_statistics"
+      ]
+    },
+    {
+      "item": "lowest offer-holder UCAT",
+      "status": "not_published",
+      "notes": "Lowest offer-holder UCAT values were not supplied. Do not infer them from average offer-holder or interview data.",
+      "source_ids": [
+        "dundee_verified_international_admissions_evidence"
+      ]
+    },
+    {
+      "item": "average offer-holder UCAT",
+      "status": "partially_available",
+      "notes": "Verified average international offer-holder UCAT values are stored for 2023/24, 2024/25 and 2025/26 on the /2700 scale. Home average offer-holder values remain unavailable.",
+      "source_ids": [
+        "dundee_verified_international_admissions_evidence"
+      ]
+    },
+    {
+      "item": "UCAT by applicant group",
+      "status": "partially_available",
+      "notes": "Verified international invited and average offer-holder UCAT values are stored for 2023/24 through 2025/26. Existing Home historical extraction remains unchanged and incomplete across applicant groups.",
+      "source_ids": [
+        "dundee_admissions_statistics",
+        "dundee_verified_international_admissions_evidence"
+      ]
+    }
+  ],
+  "historical_admissions_stats_missing": [
+    {
+      "item": "applications",
+      "status": "available",
+      "notes": "Stored for total rows from 2019/20 through 2023/24 and latest 2023/24 fee-status rows. Published Dundee UCAT values are from the old 3600 scale; converted 2700-scale estimates are available for rough context only and are not official current cutoffs.",
+      "source_ids": [
+        "dundee_admissions_statistics"
+      ]
+    },
+    {
+      "item": "interviews",
+      "status": "available",
+      "notes": "Stored as invited-to-interview counts for total rows from 2019/20 through 2023/24 and latest 2023/24 fee-status rows. Published Dundee UCAT values are from the old 3600 scale; converted 2700-scale estimates are available for rough context only and are not official current cutoffs.",
+      "source_ids": [
+        "dundee_admissions_statistics"
+      ]
+    },
+    {
+      "item": "offers",
+      "status": "available",
+      "notes": "Stored for total rows from 2019/20 through 2023/24 and latest 2023/24 fee-status rows. Published Dundee UCAT values are from the old 3600 scale; converted 2700-scale estimates are available for rough context only and are not official current cutoffs.",
+      "source_ids": [
+        "dundee_admissions_statistics"
+      ]
+    },
+    {
+      "item": "places",
+      "status": "not_published",
+      "notes": "Dundee publishes matriculations in the stored data, not places. Places remain null.",
+      "source_ids": [
+        "dundee_admissions_statistics"
+      ]
+    },
+    {
+      "item": "interview rate",
+      "status": "available",
+      "notes": "Derived from official applications and invited-to-interview counts for stored rows. Published Dundee UCAT values are from the old 3600 scale; converted 2700-scale estimates are available for rough context only and are not official current cutoffs.",
+      "source_ids": [
+        "dundee_admissions_statistics"
+      ]
+    },
+    {
+      "item": "offer rate",
+      "status": "available",
+      "notes": "Derived from official applications and offers for stored rows. Published Dundee UCAT values are from the old 3600 scale; converted 2700-scale estimates are available for rough context only and are not official current cutoffs.",
+      "source_ids": [
+        "dundee_admissions_statistics"
+      ]
+    }
+  ],
+  "foi_needed": [
+    {
+      "item": "exact pre-interview scoring",
+      "status": "partially_available",
+      "notes": "Pre-interview formula is stored for standard entry applicants and graduate A100, but some components remain predictor estimates or incomplete.",
+      "source_ids": []
+    },
+    {
+      "item": "UCAT ranking method",
+      "status": "partially_available",
+      "notes": "National cohort decile ranking using UCAT cognitive total only is verified for international applicants. Home and graduate evidence labels remain unchanged.",
+      "source_ids": [
+        "dundee_verified_international_admissions_evidence"
+      ]
+    },
+    {
+      "item": "academic weighting",
+      "status": "available",
+      "notes": "International A100 academic weighting of 60% is verified. Home and graduate logic remains unchanged.",
+      "source_ids": [
+        "dundee_verified_international_admissions_evidence"
+      ]
+    },
+    {
+      "item": "interview scoring",
+      "status": "partially_available",
+      "notes": "International interview-only offer ranking is verified, but the exact scoring rubric remains missing.",
+      "source_ids": [
+        "dundee_verified_international_admissions_evidence"
+      ]
+    },
+    {
+      "item": "offer-making method",
+      "status": "partially_available",
+      "notes": "International offer-making is verified as 100% interview-score ranking after pre-interview scores reset. Home offer-making remains incomplete.",
+      "source_ids": [
+        "dundee_verified_international_admissions_evidence"
+      ]
+    }
+  ],
+  "prediction_readiness": {
+    "eligibility_ready": {
+      "status": "available",
+      "value": true,
+      "notes": "Stage 1 eligibility guidance is available and mostly complete for the reviewed applicant routes."
+    },
+    "official_formula_prediction_ready": {
+      "status": "partially_available",
+      "value": false,
+      "notes": "Estimated scoring can support historical_prediction_engine only. Official formula prediction remains false because the formula is not fully official/FOI verified."
+    },
+    "historical_prediction_ready": {
+      "status": "available",
+      "value": true,
+      "notes": "Verified international historical guidance is available on the /2700 scale. It is guidance only and not a fixed UCAT cut-off or offer prediction; Home guidance remains unchanged."
+    },
+    "result_card_ready": {
+      "status": "available",
+      "value": true,
+      "notes": "The Dundee result card can show eligibility guidance, known Stage 2 facts and historical admissions context."
+    }
+  },
+  "ucat_scale_conversion": {
+    "status": "available",
+    "original_scale": 3600,
+    "current_scale": 2700,
+    "conversion_formula": "converted_ucat_2700_estimate = round(original_ucat_3600 * 0.75)",
+    "notes": "Published Dundee UCAT values are from the old 3600 scale; converted 2700-scale estimates are available for rough context only and are not official current cutoffs.",
+    "source_ids": [
+      "dundee_admissions_statistics"
+    ]
+  },
+  "validated_historical_competitiveness_bands": {
+    "status": "available",
+    "notes": "Verified international guidance bands are stored for <1950, 1950–2049, 2050–2099 and 2100+. The 2200+ profile remains Strong choice because no separate Very strong production label exists. Home bands remain unchanged.",
+    "source_ids": [
+      "dundee_verified_international_admissions_evidence"
+    ]
+  }
+}

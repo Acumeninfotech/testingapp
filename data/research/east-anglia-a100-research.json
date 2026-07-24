@@ -1,0 +1,110 @@
+{
+  "schema_version": "1.0.0",
+  "profile_id": "east-anglia-a100-research",
+  "course_profile_id": "east-anglia-a100",
+  "research_status": "complete_for_supported_scope_with_documented_gaps",
+  "file_purpose": "Structured ApplySmart research record for UEA Norwich Medical School A100 eligibility and interview guidance.",
+  "official_rules_source": "data/universities/east-anglia-a100.json",
+  "created_at": "2026-07-16",
+  "last_updated": "2026-07-16",
+  "research_scope": {
+    "course": "University of East Anglia, Norwich Medical School, A100 MBBS Medicine",
+    "implemented": [
+      "eligibility assessment",
+      "threshold-only GCSE and post-16 academic checks",
+      "UCAT-ranking interview guidance",
+      "historical Home competitiveness guidance",
+      "Decision Transparency",
+      "Evidence Confidence",
+      "Decision Timeline"
+    ],
+    "not_implemented": [
+      "offer prediction",
+      "probability of offer",
+      "MMI performance prediction",
+      "waiting-list prediction",
+      "A101 Graduate Entry Medicine",
+      "A104 Gateway Medicine",
+      "Preparing for Medicine outreach guarantee"
+    ]
+  },
+  "evidence_classification_policy": {
+    "official_only": true,
+    "sources_avoided": [
+      "student forums",
+      "tutoring websites",
+      "blogs",
+      "unverified cached summaries"
+    ],
+    "historical_scale_policy": "Legacy UCAT /3600 values are preserved as source evidence. Runtime Home guidance uses only explicit ApplySmart /3600 to /2700 normalisation for non-anomalous rows. Anomalous 2020 fields and unverified 2025 /2700 values are excluded.",
+    "offer_prediction_policy": "Post-interview 50% UCAT and 50% interview formula is stored only as explanatory metadata and never used for offer prediction."
+  },
+  "metadata": {
+    "university_name": "University of East Anglia",
+    "medical_school": "Norwich Medical School",
+    "course_name": "MBBS Medicine",
+    "ucas_code": "A100",
+    "selection_model": "threshold_academic_gate_then_ucat_ranking",
+    "contextual_a100": false,
+    "home_places_2026": 195,
+    "international_places_2026": 13,
+    "evidence_summary": "UEA A100 uses GCSE and post-16 thresholds, requires UCAT, has no fixed UCAT cut-off, and ranks eligible applicants by UCAT for interview when oversubscribed. Home and International applicants follow the same published methodology while places are allocated against separate quotas.",
+    "historical_data_quality": {
+      "home_2019_2024_legacy_3600": "available_with_2020_anomaly",
+      "all_applicant_2023_2024_legacy_3600": "available_display_only",
+      "international_specific": "missing",
+      "twenty_twenty_five_2700": "unverified_values_exceed_scale"
+    },
+    "source_validation_attempts": [
+      {
+        "date": "2026-07-16",
+        "action": "Searched local repository and supplied research directory for FOI_25-265, 2739, 2758, 2710 and 2730.",
+        "result": "No independent source snapshot was found beyond the supplied research file."
+      },
+      {
+        "date": "2026-07-16",
+        "action": "Searched the web for UEA FOI_25-265 and the anomalous 2025 UCAT values.",
+        "result": "No accessible official source result confirming the values was found during implementation."
+      }
+    ],
+    "evidence_gaps": [
+      "International-only UCAT interview statistics are not available in the supplied evidence.",
+      "Country-specific international qualification equivalency tables are not itemised.",
+      "2025 UCAT figures in the research exceed the stated 2700-point scale and are excluded pending source validation.",
+      "Scottish National 5 grade thresholds need manual review in the current runtime."
+    ],
+    "source_ids": [
+      "uea_research_doc",
+      "uea_course_page_2026",
+      "msc_uea_a100_profile",
+      "uea_contextual_admissions",
+      "uea_foi_24_267",
+      "uea_foi_25_193",
+      "uea_foi_25_265",
+      "uea_foi_20_271"
+    ]
+  },
+  "readiness": {
+    "eligibility": true,
+    "interview_prediction": true,
+    "historical_guidance": true,
+    "international_prediction": false,
+    "contextual_logic": false,
+    "result_card": true,
+    "regression": true,
+    "research_completeness": "complete_for_supported_scope_with_documented_gaps",
+    "manual_review_required": true,
+    "eligibility_ready": true,
+    "interview_prediction_ready": true,
+    "offer_prediction_scope": "out_of_scope",
+    "prediction_confidence": "low",
+    "result_card_ready": true,
+    "production_ready_candidate": true,
+    "activation_ready": true,
+    "notes": [
+      "Home interview guidance is available as low-confidence ApplySmart historical-normalised guidance.",
+      "International applicants can be checked for eligibility but receive insufficient-evidence interview guidance because International-only historical UCAT statistics are missing.",
+      "Contextual A100 adjustments are intentionally false because official evidence confirms no contextual A100 scheme."
+    ]
+  }
+}

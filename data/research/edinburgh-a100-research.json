@@ -1,0 +1,1573 @@
+{
+  "schema_version": "1.0.0",
+  "profile_id": "edinburgh-a100-research",
+  "course_profile_id": "edinburgh-a100",
+  "research_status": "foi_formula_evidence_available",
+  "file_purpose": "Audit, FOI evidence and gap-tracking profile for Edinburgh A100. This file records official Edinburgh evidence, FOI-derived formula rules, historical statistics, unresolved gaps and integration policy.",
+  "official_rules_source": "data/universities/edinburgh-a100.json",
+  "created_at": "2026-06-25",
+  "last_updated": "2026-07-02",
+  "research_scope": null,
+  "evidence_classification_policy": null,
+  "metadata": {
+    "profile_id": "edinburgh-a100",
+    "university": "University of Edinburgh",
+    "medical_school": "Edinburgh Medical School",
+    "course": "MBChB Medicine (6-year programme) MBChB",
+    "ucas_code": "A100",
+    "entry_year": 2027,
+    "verification_status": "official_and_foi_evidence_implemented",
+    "prediction_readiness": "foi_formula_ready",
+    "prediction_scope": "official_pre_assessment_formula_with_verified_international_interview_guidance",
+    "notes": "Updated with the official universal 20-point academic ceiling, corrected IB 6 + 14 final-score structure, and FOI-attributed SJT Band 1–3 points. Home, Scottish and Rest of UK eligibility and international pool logic remain unchanged."
+  },
+  "readiness": {
+    "eligibility": true,
+    "interview_prediction": true,
+    "historical_guidance": true,
+    "international_prediction": true,
+    "contextual_logic": false,
+    "result_card": true,
+    "regression": true,
+    "research_completeness": "complete_for_supported_scope_with_documented_gaps",
+    "manual_review_required": true,
+    "eligibility_ready": true,
+    "interview_prediction_ready": true,
+    "prediction_confidence": "high",
+    "result_card_ready": true,
+    "offer_prediction_scope": "out_of_scope",
+    "eligibility_ready_status": "official_evidence_available",
+    "official_selection_formula_available": true,
+    "historical_guidance_available": true,
+    "historical_statistics_ready": true,
+    "research_estimate_ready": false,
+    "prediction_model_ready": true,
+    "summary": "Edinburgh A100 supports eligibility checks, verified international historical UCAT guidance and separate international pre-interview ranking out of 40. Assessment Day final-score calculation is retained only as an optional research utility.",
+    "labels": [
+      "Official Edinburgh evidence implemented",
+      "Eligibility-only support",
+      "UCAT cutoff and SJT Band 4 gate available",
+      "Contextual UCAT uplift policy stored",
+      "FOI formula scoring available",
+      "Verified international scoring and ranking available",
+      "International UCAT guidance is historical, not a fixed interview cut-off",
+      "Result-card formula context available",
+      "Assessment Day final-score calculation is optional research utility only"
+    ],
+    "source_ids": [
+      "edinburgh_degree_finder_2027",
+      "edinburgh_entry_requirements_2027",
+      "edinburgh_ucat_2027",
+      "edinburgh_selection_process",
+      "edinburgh_pre_assessment_day_scoring_process",
+      "edinburgh_foi_formula_evidence",
+      "edinburgh_admissions_stats_2025_pdf",
+      "edinburgh_verified_international_admissions_evidence"
+    ]
+  },
+  "official_evidence_summary": {
+    "course_identity": {
+      "university": "University of Edinburgh",
+      "medical_school": "Edinburgh Medical School",
+      "course_name": "MBChB Medicine (6-year programme) MBChB",
+      "ucas_code": "A100",
+      "entry_route": "standard_entry",
+      "duration_years": 6,
+      "entry_year": 2027,
+      "source_ids": [
+        "edinburgh_degree_finder_2027"
+      ]
+    },
+    "applicant_pools": [
+      {
+        "pool_id": "scotland_fee_rate",
+        "name": "Scottish fee-rate applicants",
+        "official_evidence": "Official 2025 admissions statistics publish Scottish Fee Rate Data.",
+        "fixed_future_quota_known": true,
+        "cohort_target": 166,
+        "source_ids": [
+          "edinburgh_admissions_stats_2025_pdf"
+        ]
+      },
+      {
+        "pool_id": "rest_of_uk_roi_fee_rate",
+        "name": "Rest of UK and Republic of Ireland fee-rate applicants",
+        "official_evidence": "Official 2025 admissions statistics publish Rest of the UK Fee Rate Data, including Republic of Ireland.",
+        "fixed_future_quota_known": true,
+        "cohort_target": 79,
+        "source_ids": [
+          "edinburgh_admissions_stats_2025_pdf"
+        ]
+      },
+      {
+        "pool_id": "overseas_international_fee_rate",
+        "name": "Overseas/International fee-rate applicants",
+        "official_evidence": "Official 2025 admissions statistics publish Overseas/International Fee Rate Data.",
+        "fixed_future_quota_known": true,
+        "cohort_target": 21,
+        "source_ids": [
+          "edinburgh_admissions_stats_2025_pdf"
+        ]
+      }
+    ],
+    "academic_requirements": {
+      "a_level": {
+        "standard": "AAA in one sitting, including Chemistry and one from Biology/Human Biology, Mathematics/Further Mathematics or Physics.",
+        "widening_access": "AAB in one sitting for eligible widening access Plus Flag applicants.",
+        "gcse_dependency": "Standard GCSE Biology, Chemistry, English and Mathematics at A/7; widening access minimum B/6.",
+        "source_ids": [
+          "edinburgh_entry_requirements_2027"
+        ]
+      },
+      "sqa": {
+        "standard": "AAAAB by end of S5 and BB at Advanced Higher in S6.",
+        "widening_access": "AAABB by end of S5 and CC at Advanced Higher in S6.",
+        "required_subjects": "Higher Chemistry plus two from Biology/Human Biology, Mathematics/Applications of Mathematics or Physics.",
+        "national_5": "Biology, Chemistry, English and Mathematics at B. Higher Applications of Mathematics at C may replace National 5 Mathematics at B.",
+        "source_ids": [
+          "edinburgh_entry_requirements_2027"
+        ]
+      },
+      "ib": {
+        "standard": "38 points with 666 at Higher Level, including Chemistry and one from Biology, Mathematics or Physics.",
+        "widening_access": "34 points with 655 at Higher Level.",
+        "standard_level_requirements": "Mathematics, English and Biology if not at Higher Level are required at the published standard/widening grades.",
+        "source_ids": [
+          "edinburgh_entry_requirements_2027"
+        ]
+      },
+      "graduate_policy": {
+        "minimum": "UK 2:1 honours degree or international equivalent.",
+        "preferred_subjects": [
+          "Biomedical Sciences",
+          "Medical Sciences",
+          "Nursing",
+          "Paramedic Science"
+        ],
+        "other_science_subjects": [
+          "Biology",
+          "Chemistry",
+          "Mathematics",
+          "Physics"
+        ],
+        "non_science_condition": "Non-science graduates also require SQA Higher, A level, or equivalent, in Chemistry at B.",
+        "source_ids": [
+          "edinburgh_entry_requirements_2027"
+        ]
+      },
+      "resit_policy": {
+        "summary": "All examination grades must be obtained at first attempt. Resit qualifications are not entered into selection except in very exceptional circumstances with verified evidence before UCAS application.",
+        "source_ids": [
+          "edinburgh_entry_requirements_2027"
+        ]
+      }
+    },
+    "ucat_sjt_policy": {
+      "ucat_required": true,
+      "ucat_cutoff_2027": 1850,
+      "ucat_ranking_method": "Scores are ranked, divided into deciles and allocated a score.",
+      "ucat_decile_points_known": true,
+      "sjt_used": true,
+      "sjt_band_4_exclusion": true,
+      "sjt_points_known": true,
+      "sjt_exact_points_evidence_classification": "foi_verified",
+      "sjt_exact_points_source_id": "edinburgh_foi_formula_evidence",
+      "sjt_public_page_scope": "Confirms 7.5% contribution and Band 4 automatic rejection, but not exact Band 1–3 values.",
+      "exemption_policy": "UCAT exemptions only in very exceptional circumstances with prior agreement; exempt applicants receive average UCAT score and SJT banding for their fee-status group.",
+      "deadline_conflict": "Degree Finder states 15 July 2026; UCAT page states 1 August in the year of application.",
+      "source_ids": [
+        "edinburgh_ucat_2027",
+        "edinburgh_degree_finder_2027",
+        "edinburgh_foi_formula_evidence"
+      ]
+    },
+    "contextual_policy": {
+      "academic_minimums_available": true,
+      "ucat_uplifts_available": true,
+      "plus_flag": "Considered with any UCAT total score and receives 10% UCAT uplift.",
+      "ucat_bursary": "Receives same concessions as Plus Flag applicants.",
+      "flag": "Must meet cutoff and receives 5% UCAT uplift.",
+      "simd40": "Scottish-domiciled applicants in the second lowest SIMD40 quintile must meet cutoff and receive 10% UCAT uplift.",
+      "band_4_override": "No applicant with SJT Band 4 is considered, regardless of contextual eligibility.",
+      "source_ids": [
+        "edinburgh_entry_requirements_2027",
+        "edinburgh_ucat_2027"
+      ]
+    },
+    "interview_format": {
+      "required": true,
+      "format": "Assessment half-day with a series of short interviews.",
+      "delivery": "Scottish and RUK/RoI fee-rate candidates are required to attend in person; Degree Finder also refers to assessment day at Edinburgh Medical School or online.",
+      "assessment_basis": "Medical Schools Council core attributes required of doctors.",
+      "scoring_rubric_known": false,
+      "source_ids": [
+        "edinburgh_selection_process",
+        "edinburgh_degree_finder_2027"
+      ]
+    },
+    "historical_2025_admissions_statistics": {
+      "all_applicants": {
+        "applications": 1909,
+        "interviews": 839,
+        "offers": 585,
+        "placed": 290
+      },
+      "contextual_admissions_consideration": {
+        "applications": 314,
+        "interviews": 249,
+        "offers": 189,
+        "placed": 92
+      },
+      "scottish_fee_rate": {
+        "applications": 678,
+        "interviews": 508,
+        "offers": 411,
+        "placed": 191,
+        "average_ucat": {
+          "applicants": 2715,
+          "interviewed": 2793,
+          "offers": 2821,
+          "placed": 2778
+        },
+        "minimum_ucat": {
+          "applicants": 1790,
+          "interviewed": 2046,
+          "offers": 2332,
+          "placed": 2354
+        }
+      },
+      "rest_of_uk_roi_fee_rate": {
+        "applications": 545,
+        "interviews": 233,
+        "offers": 182,
+        "placed": 77,
+        "average_ucat": {
+          "applicants": 2802,
+          "interviewed": 2987,
+          "offers": 3042,
+          "placed": 2991
+        },
+        "minimum_ucat": {
+          "applicants": 2010,
+          "interviewed": 2134,
+          "offers": 2134,
+          "placed": 2134
+        }
+      },
+      "overseas_international_fee_rate": {
+        "applications": 686,
+        "interviews": 98,
+        "offers": 68,
+        "placed": 22,
+        "average_ucat": {
+          "applicants": 2710,
+          "interviewed": 3048,
+          "offers": 3056,
+          "placed": 3047
+        },
+        "minimum_ucat": {
+          "applicants": 1610,
+          "interviewed": 2690,
+          "offers": 2690,
+          "placed": 2730
+        }
+      },
+      "official_2025_ucat_decile_bands": [
+        "3600-3080",
+        "3070-2930",
+        "2920-2830",
+        "2820-2740",
+        "2730-2670",
+        "2660-2610",
+        "2600-2550",
+        "2540-2480",
+        "2470-2350",
+        "2340 and below"
+      ],
+      "use_policy": "Historical context only. Do not use as current prediction cutoffs.",
+      "source_ids": [
+        "edinburgh_admissions_stats_2025_pdf"
+      ]
+    }
+  },
+  "international_selection_evidence": {
+    "source_ids": [
+      "edinburgh_verified_international_admissions_evidence"
+    ],
+    "applies_to_group_ids": [
+      "international_fee"
+    ],
+    "ranking_pool": "separate_international_pool",
+    "ranking_order": "highest_to_lowest_pre_interview_score",
+    "pre_interview_score": {
+      "scale": {
+        "min": 0,
+        "max": 40
+      },
+      "final_weight_percent": 50,
+      "components": {
+        "academic": {
+          "scale": {
+            "min": 0,
+            "max": 20
+          },
+          "final_weight_percent": 25
+        },
+        "ucat_cognitive": {
+          "scale": {
+            "min": 0,
+            "max": 14
+          },
+          "final_weight_percent": 17.5
+        },
+        "sjt": {
+          "scale": {
+            "min": 0,
+            "max": 6
+          },
+          "final_weight_percent": 7.5
+        }
+      },
+      "formula": "Academic score out of 20 + UCAT cognitive score out of 14 + SJT score out of 6",
+      "notes": "International applicants are ranked by the total pre-interview score, not by UCAT alone."
+    },
+    "ucat_policy": {
+      "must_be_taken_in_same_application_year": true,
+      "cognitive_scoring_method": "international_cohort_deciles",
+      "decile_10_points": 14,
+      "decile_1_points": 1.4,
+      "minimum_total_2026": 1650,
+      "score_scale": 2700,
+      "threshold_changes_annually": true,
+      "international_threshold_usually_higher_due_to_competition": true,
+      "fixed_published_interview_cutoff": false,
+      "notes": "The verified 1650 value is the 2026 eligibility threshold. It is not a fixed interview cut-off, and no fixed international interview boundary is published."
+    },
+    "sjt_policy": {
+      "accepted_bands": [
+        1,
+        2,
+        3
+      ],
+      "band_1_points": 6,
+      "band_2_points": 4.5,
+      "band_3_points": 3,
+      "band_4_points": 0,
+      "band_4_automatic_rejection": true,
+      "points_by_band": {
+        "1": 6,
+        "2": 4.5,
+        "3": 3,
+        "4": 0
+      },
+      "exact_points_evidence_classification": "foi_verified",
+      "exact_points_source_ids": [
+        "edinburgh_foi_formula_evidence"
+      ],
+      "public_source_note": "The public University page confirms SJT contributes 7.5% and Band 4 is automatically rejected, but does not publish the exact Band 1–3 values."
+    },
+    "academic_scoring": {
+      "scale": {
+        "min": 0,
+        "max": 20
+      },
+      "hard_cap": 20,
+      "final_calculation": "academic_score = min(qualification_specific_score_after_all_weighting_bonuses_and_subject_adjustments, 20)",
+      "cap_application_order": "after_all_qualification_specific_calculations_weighting_bonuses_and_subject_adjustments",
+      "applies_to_all_recognised_qualification_routes": true,
+      "entry_requirements_used_in_scoring": false,
+      "gcse_or_national_5_equivalent": {
+        "raw_scale": {
+          "min": 0,
+          "max": 6
+        },
+        "multiplier": 2,
+        "final_scale": {
+          "min": 0,
+          "max": 12
+        }
+      },
+      "ib": {
+        "entry_requirements_reference": "official_rules.stage_1_eligibility.post_16.international_baccalaureate",
+        "entry_requirements_used_in_scoring": false,
+        "overall_ib_performance_component": {
+          "min": 0,
+          "max": 6
+        },
+        "higher_level_subject_combination_component": {
+          "min": 0,
+          "max": 14
+        },
+        "component_total_max": 20,
+        "final_score_already_doubled": true,
+        "post_total_multiplier": 1,
+        "final_score_calculation": "min(overall_ib_performance_component + higher_level_subject_combination_component, 20)",
+        "notes": "The component total is already the final doubled score out of 20. The IB minimum entry requirement is separate and must never be used as an academic-score input."
+      },
+      "a_level": {
+        "standard": "AAA with A in Chemistry",
+        "scoring_basis": "identical_to_uk_applicants",
+        "a_level_component_max_points": 8,
+        "total_with_gcse_equivalent_max_points": 20,
+        "final_score_calculation": "min(gcse_or_equivalent_component + a_level_component, 20)"
+      },
+      "sqa": {
+        "max_points": 20,
+        "final_score_calculation": "min(national_5_component + higher_advanced_higher_component, 20)"
+      },
+      "recognised_international_equivalent": {
+        "max_points": 20,
+        "final_score_calculation": "min(qualification_specific_score_after_all_weighting_bonuses_and_subject_adjustments, 20)"
+      }
+    },
+    "assessment_day": {
+      "scale": {
+        "min": 0,
+        "max": 40
+      },
+      "final_weight_percent": 50
+    },
+    "final_total": {
+      "scale": {
+        "min": 0,
+        "max": 80
+      },
+      "formula": "Pre-interview score out of 40 + Assessment Day/MMI score out of 40"
+    },
+    "annual_volume": {
+      "international_interview_invites": {
+        "approximate_min": 80,
+        "approximate_max": 100
+      },
+      "international_places": {
+        "approximate_min": 20,
+        "approximate_max": 25
+      }
+    },
+    "historical_ucat_guidance_2700": {
+      "fixed_published_interview_cutoff": false,
+      "bands": [
+        {
+          "minimum": 0,
+          "maximum": 1649,
+          "band": "not_eligible",
+          "recommendation": "Not eligible / automatic rejection due to minimum UCAT threshold"
+        },
+        {
+          "minimum": 1650,
+          "maximum": 1949,
+          "band": "high_risk",
+          "recommendation": "Consider stronger alternatives"
+        },
+        {
+          "minimum": 1950,
+          "maximum": 2049,
+          "band": "ambitious",
+          "recommendation": "Possible but ambitious"
+        },
+        {
+          "minimum": 2050,
+          "maximum": 2099,
+          "band": "realistic",
+          "recommendation": "Good chance – recommend applying"
+        },
+        {
+          "minimum": 2100,
+          "maximum": 2700,
+          "band": "interview_likely",
+          "recommendation": "Strong choice"
+        }
+      ],
+      "disclaimer": "Historical international UCAT competitiveness guidance only. Edinburgh ranks by total pre-interview score out of 40, not UCAT alone, and publishes no fixed interview cut-off."
+    },
+    "minimum_requirements_guarantee_interview": false,
+    "notes": "Verified international evidence only. Do not apply this branch to Home, Scottish or Rest of UK applicants."
+  },
+  "academic_score_ceiling_evidence": {
+    "verification_status": "official_source_verified",
+    "source_ids": [
+      "edinburgh_pre_assessment_day_scoring_process"
+    ],
+    "maximum_points": 20,
+    "universal_across_recognised_qualification_routes": true,
+    "applies_to_routes": [
+      "a_level",
+      "sqa",
+      "international_baccalaureate",
+      "recognised_international_equivalent"
+    ],
+    "hard_cap_formula": "academic_score = min(qualification_specific_score_after_all_weighting_bonuses_and_subject_adjustments, 20)",
+    "cap_application_order": "after_all_qualification_specific_calculations_weighting_bonuses_and_subject_adjustments",
+    "entry_requirements_separate_from_scoring": true,
+    "ib": {
+      "overall_ib_performance_component_max": 6,
+      "higher_level_subject_combination_component_max": 14,
+      "final_academic_score_max": 20,
+      "final_score_already_doubled": true,
+      "post_total_multiplier": 1,
+      "entry_requirement_example_not_a_score": "IB 37 points is a minimum entry requirement and is not an input to the academic scoring calculation."
+    },
+    "notes": "Official scoring tables confirm the same 20-point final academic ceiling for A Level, Scottish, IB and recognised international qualification routes."
+  },
+  "implemented_rules": {
+    "implemented_in": "data/universities/edinburgh-a100.json",
+    "safe_for_production_display": [
+      "Course identity and UCAS code A100",
+      "2027 entry year and six-year standard-entry route",
+      "Applicant fee-status pools",
+      "A-level, GCSE, SQA, National 5 and IB requirements",
+      "Graduate applicant policy",
+      "Resit policy",
+      "English language evidence requirements",
+      "UCAT requirement and 2027 minimum cutoff 1850",
+      "SJT Band 4 exclusion",
+      "FOI-verified UCAT decile-to-points table",
+      "FOI-verified SJT Band 1/2/3 points table",
+      "Official universal 20-point academic-score hard cap after all route calculations and adjustments",
+      "Official IB academic structure: overall performance maximum 6 plus Higher Level subject combination maximum 14, already final and doubled out of 20",
+      "FOI-verified pre-interview score out of 50",
+      "FOI-verified final ranking formula out of 100 when interview score is supplied",
+      "FOI-verified fee-cohort ranking and cohort targets",
+      "Contextual and widening-access academic minimums",
+      "Contextual UCAT uplift policies",
+      "UCAT exemption policy and deadline conflict",
+      "Personal statement and UCAS reference policy",
+      "Assessment Day / short-interview format",
+      "2025 official historical admissions statistics as context",
+      "Verified separate international ranking pool",
+      "Verified international academic 20 + UCAT cognitive 14 + SJT 6 pre-interview score",
+      "Verified international Assessment Day 40 and final total 80",
+      "Verified international historical UCAT guidance with no fixed interview cut-off"
+    ],
+    "must_remain_non_predictive": [
+      "2025 admissions statistics",
+      "2025 UCAT averages and minimums",
+      "2025 SJT band counts",
+      "2025 UCAT decile bands",
+      "Approximate 2027 interview invitation count",
+      "ApplySmart predictor thresholds supplied in the package",
+      "Verified international historical UCAT guidance when presented as a fixed interview cut-off or UCAT-only prediction"
+    ]
+  },
+  "foi_formula_evidence": {
+    "source_ids": [
+      "edinburgh_foi_formula_evidence"
+    ],
+    "selection_model": "ACADEMIC_UCAT_DECILE_SJT_INTERVIEW_WEIGHTED",
+    "selection_family": "FULL_WEIGHTED_RANKING",
+    "cohort_targets": {
+      "scotland_home": 166,
+      "rest_of_uk": 79,
+      "overseas_international": 21,
+      "total_intake": 266
+    },
+    "selection_by_fee_cohort": true,
+    "offer_allocation": {
+      "ranked_within_fee_cohorts": true,
+      "offers_made_in_rank_order": true,
+      "places_limited_by_cohort_capacity": true
+    },
+    "ucat_scoring": {
+      "score_scale": 2700,
+      "minimum_score_2027": 1850,
+      "ranking_pool": "fee_status_cohort",
+      "decile_points": {
+        "1": 1.4,
+        "2": 2.8,
+        "3": 4.2,
+        "4": 5.6,
+        "5": 7,
+        "6": 8.4,
+        "7": 9.8,
+        "8": 11.2,
+        "9": 12.6,
+        "10": 14
+      },
+      "current_cycle_deciles_available": false,
+      "historical_estimate_available": true
+    },
+    "sjt_points": {
+      "1": 6,
+      "2": 4.5,
+      "3": 3,
+      "4": 0,
+      "band_4_rejected": true,
+      "exact_points_evidence_classification": "foi_verified",
+      "exact_points_source_id": "edinburgh_foi_formula_evidence",
+      "public_source_confirmation": "The public University page confirms SJT contributes 7.5% and Band 4 is automatically rejected; it does not publish exact Band 1–3 values."
+    },
+    "pre_interview_scoring": {
+      "maximum_points": 40,
+      "academic_score_max": 20,
+      "ucat_decile_score_max": 14,
+      "sjt_score_max": 6,
+      "formula": "Academic score + UCAT cognitive decile score + SJT score",
+      "final_weighting": "Pre-assessment score contributes 50% of the final overall score.",
+      "academic_component_note": "Academic score is capped at 20 after all qualification-specific calculations, weighting, bonuses and subject adjustments. Entry requirements remain separate from scoring."
+    },
+    "post_interview_scoring": {
+      "maximum_points": 50,
+      "interview_score_required": true,
+      "station_marking_rubric_known": false
+    },
+    "final_ranking": {
+      "maximum_points": 100,
+      "formula": "(pre_assessment_score / 40 * 50) + assessment_day_score_out_of_50",
+      "ranked_within_fee_cohorts": true,
+      "interview_score_must_be_supplied": true
+    },
+    "tie_breaker": {
+      "uses_ucat_subtests": true,
+      "subtests": [
+        "Verbal_Reasoning",
+        "Decision_Making",
+        "Quantitative_Reasoning"
+      ],
+      "exact_sequence_order_known": false
+    },
+    "excluded_from_university_evidence": {
+      "predictor_thresholds": "ApplySmart predictor metadata only unless separately evidenced.",
+      "predictor_logic_importance_labels": "ApplySmart predictor metadata only unless separately evidenced."
+    },
+    "official_source_update": {
+      "source_id": "edinburgh_pre_assessment_day_scoring_process",
+      "status": "official_source_verified",
+      "notes": "The official page verifies the pre-assessment structure, universal academic ceiling, IB component maxima, SJT weighting and Band 4 rejection. Exact SJT Band 1–3 points remain attributed to verified FOI evidence because the public page does not publish them."
+    },
+    "academic_scoring": {
+      "evidence_classification": "official_source_verified",
+      "max_points": 20,
+      "scoring_basis": "route_specific_matrix",
+      "hard_cap": 20,
+      "final_calculation": "academic_score = min(qualification_specific_score_after_all_weighting_bonuses_and_subject_adjustments, 20)",
+      "cap_application_order": "after_all_qualification_specific_calculations_weighting_bonuses_and_subject_adjustments",
+      "applies_to_all_recognised_qualification_routes": true,
+      "entry_requirements_used_in_scoring": false,
+      "routes": {
+        "a_level": {
+          "max_points": 20,
+          "final_score_calculation": "min(gcse_component + a_level_component, 20)",
+          "gcse_component_max": 12,
+          "a_level_component_max": 8,
+          "gcse_component": {
+            "counted_subjects": 8,
+            "must_include_subject_ids": [
+              "biology",
+              "chemistry",
+              "mathematics",
+              "english_language"
+            ],
+            "point_bands": [
+              {
+                "band_id": "science_grade_6",
+                "condition": "Grade 6/B in Biology OR Chemistry",
+                "raw_points": 1,
+                "final_points": 2
+              },
+              {
+                "band_id": "other_subject_grade_6",
+                "condition": "Grade 6/B in any other subject",
+                "raw_points": 2,
+                "final_points": 4
+              },
+              {
+                "band_id": "all_7_plus_up_to_four_8_9",
+                "condition": "All grades >=7/A with up to four grades 8/9",
+                "raw_points": 4,
+                "final_points": 8
+              },
+              {
+                "band_id": "all_7_plus_five_to_seven_8_9",
+                "condition": "All grades >=7/A with five to seven grades 8/9",
+                "raw_points": 5,
+                "final_points": 10
+              },
+              {
+                "band_id": "all_8_9",
+                "condition": "All grades 8/9 across the best eight",
+                "raw_points": 6,
+                "final_points": 12
+              }
+            ]
+          },
+          "a_level_component": {
+            "counted_subjects": 3,
+            "must_include_subject_ids": [
+              "chemistry"
+            ],
+            "one_of_subject_groups": [
+              [
+                "biology",
+                "human_biology",
+                "mathematics",
+                "further_mathematics",
+                "physics"
+              ]
+            ],
+            "point_bands": [
+              {
+                "band_id": "aaa",
+                "grades": [
+                  "A",
+                  "A",
+                  "A"
+                ],
+                "points": 2
+              },
+              {
+                "band_id": "astar_aa_not_chemistry",
+                "grades": [
+                  "A*",
+                  "A",
+                  "A"
+                ],
+                "chemistry_grade": "A",
+                "points": 3
+              },
+              {
+                "band_id": "astar_aa_chemistry",
+                "grades": [
+                  "A*",
+                  "A",
+                  "A"
+                ],
+                "chemistry_grade": "A*",
+                "points": 5
+              },
+              {
+                "band_id": "astar_astar_a_no_chemistry_astar",
+                "grades": [
+                  "A*",
+                  "A*",
+                  "A"
+                ],
+                "chemistry_grade": "A",
+                "points": 6
+              },
+              {
+                "band_id": "astar_astar_a_chemistry_astar",
+                "grades": [
+                  "A*",
+                  "A*",
+                  "A"
+                ],
+                "chemistry_grade": "A*",
+                "points": 8
+              }
+            ]
+          }
+        },
+        "sqa": {
+          "max_points": 20,
+          "final_score_calculation": "min(national_5_component + higher_advanced_higher_component, 20)",
+          "national_5_component_max": 12,
+          "higher_advanced_higher_component_max": 8,
+          "national_5_component": {
+            "counted_subjects": 5,
+            "must_include_subject_ids": [
+              "biology",
+              "chemistry",
+              "mathematics",
+              "english_language"
+            ],
+            "point_bands": [
+              {
+                "band_id": "science_grade_b",
+                "condition": "Grade B in Biology OR Chemistry",
+                "raw_points": 1,
+                "final_points": 2
+              },
+              {
+                "band_id": "other_subject_grade_b",
+                "condition": "Grade B in any other subject",
+                "raw_points": 2,
+                "final_points": 4
+              },
+              {
+                "band_id": "all_a_up_to_four_a_grades",
+                "condition": "All >=A plus up to four A grades",
+                "raw_points": 4,
+                "final_points": 8
+              },
+              {
+                "band_id": "all_a_five_a_grades",
+                "condition": "All >=A plus five A grades",
+                "raw_points": 5,
+                "final_points": 10
+              },
+              {
+                "band_id": "all_a_strong_a_profile",
+                "condition": "All >=A plus strong A profile",
+                "raw_points": 6,
+                "final_points": 12
+              }
+            ]
+          },
+          "higher_advanced_higher_component": {
+            "counted_highers": 5,
+            "max_advanced_highers": 2,
+            "must_include_subject_ids": [
+              "chemistry"
+            ],
+            "point_bands": [
+              {
+                "band_id": "aaaab_or_aaabb_no_advanced_highers",
+                "condition": "AAAAB / AAABB with no Advanced Highers",
+                "points": 2
+              },
+              {
+                "band_id": "aaaaa_cc_advanced_highers",
+                "condition": "AAAAA + CC Advanced Highers",
+                "points": 3
+              },
+              {
+                "band_id": "aaaaa_bc_advanced_highers",
+                "condition": "AAAAA + BC Advanced Highers",
+                "points": 5
+              },
+              {
+                "band_id": "aaaaa_bb_advanced_highers",
+                "condition": "AAAAA + BB Advanced Highers",
+                "points": 6
+              },
+              {
+                "band_id": "aaaaa_bb_advanced_highers_chemistry_b_or_higher",
+                "condition": "AAAAA + BB Advanced Highers with Chemistry at AH B or higher",
+                "points": 8
+              }
+            ]
+          }
+        },
+        "ib": {
+          "max_points": 20,
+          "overall_ib_performance_component_max": 6,
+          "higher_level_subject_combination_component_max": 14,
+          "entry_requirements_reference": "official_rules.stage_1_eligibility.post_16.international_baccalaureate",
+          "entry_requirements_used_in_scoring": false,
+          "final_score_already_doubled": true,
+          "post_total_multiplier": 1,
+          "final_score_calculation": "min(overall_ib_performance_component + higher_level_subject_combination_component, 20)",
+          "ib_component": {
+            "overall_ib_performance": {
+              "max_points": 6
+            },
+            "higher_level_subject_combination": {
+              "max_points": 14
+            },
+            "component_total_max": 20,
+            "final_score_note": "The component total is already the final doubled score out of 20. Do not double or multiply it again."
+          }
+        },
+        "recognised_international_equivalent": {
+          "max_points": 20,
+          "final_score_calculation": "min(qualification_specific_score_after_all_weighting_bonuses_and_subject_adjustments, 20)"
+        }
+      },
+      "source_ids": [
+        "edinburgh_pre_assessment_day_scoring_process"
+      ]
+    }
+  },
+  "unresolved_gaps": [
+    {
+      "gap_id": "interview_scoring_rubric",
+      "severity": "High",
+      "status": "missing",
+      "description": "FOI-derived evidence confirms post-interview score is out of 50 and reports Assessment Day structure/domains, but exact station marking scheme is not supplied.",
+      "required_for": [
+        "interview_score_estimation",
+        "station_level_feedback"
+      ],
+      "needed_evidence_type": "official_or_foi"
+    },
+    {
+      "gap_id": "tie_break_sequence_order",
+      "severity": "High",
+      "status": "partially_known",
+      "description": "FOI-derived evidence confirms UCAT subtest use as tie-break metadata, but not the exact sequence/order of tie-break application.",
+      "required_for": [
+        "exact_borderline_rank_ordering"
+      ],
+      "needed_evidence_type": "official_or_foi"
+    },
+    {
+      "gap_id": "full_contextual_handling",
+      "severity": "High",
+      "status": "partially_known",
+      "description": "Plus Flag and SIMD40 UCAT policies are partly represented, but full handling for Flag, UCAT bursary, care-experienced, refugee and asylum seeker applicants remains incomplete.",
+      "required_for": [
+        "contextual_formula_prediction",
+        "automated_contextual_classification"
+      ],
+      "needed_evidence_type": "official_or_foi"
+    },
+    {
+      "gap_id": "ucat_uplift_before_or_after_decile_ranking",
+      "severity": "High",
+      "status": "missing",
+      "description": "The current evidence stores UCAT uplift percentages but does not explicitly confirm whether uplift is applied before or after fee-cohort decile ranking.",
+      "required_for": [
+        "contextual_ucat_scoring"
+      ],
+      "needed_evidence_type": "official_or_foi"
+    },
+    {
+      "gap_id": "ucat_exemption_deadline_conflict",
+      "severity": "Medium",
+      "status": "official_conflict",
+      "description": "Degree Finder gives 15 July 2026; UCAT page gives 1 August in the year of application.",
+      "required_for": [
+        "strict_deadline_validation"
+      ],
+      "needed_evidence_type": "official_clarification"
+    },
+    {
+      "gap_id": "non_standard_qualifications",
+      "severity": "Medium",
+      "status": "not_extracted",
+      "description": "BTEC, Access to HE, T-Level and other non-standard qualification rules were not verified in Step 1 official evidence or the FOI formula package.",
+      "required_for": [
+        "non_standard_route_eligibility"
+      ],
+      "needed_evidence_type": "official_source_review"
+    }
+  ],
+  "shared_ucat_integration": {
+    "ucat_required": {
+      "status": "enabled",
+      "value": true,
+      "source_ids": [
+        "edinburgh_ucat_2027"
+      ]
+    },
+    "minimum_cutoff_1850": {
+      "status": "enabled",
+      "value": 1850,
+      "entry_year": 2027,
+      "source_ids": [
+        "edinburgh_ucat_2027"
+      ]
+    },
+    "sjt_band_4_exclusion": {
+      "status": "enabled",
+      "excluded_band": 4,
+      "source_ids": [
+        "edinburgh_ucat_2027"
+      ]
+    },
+    "contextual_ucat_uplift": {
+      "status": "policy_stored_eligibility_cautious",
+      "rules": [
+        "Plus Flag: any UCAT total score considered and 10% uplift.",
+        "UCAT bursary: same concessions as Plus Flag.",
+        "Flag: cutoff must be met and 5% uplift.",
+        "Scottish SIMD40 second lowest quintile: cutoff must be met and 10% uplift."
+      ],
+      "notes": "Eligibility classification should be cautious unless applicant contextual status is explicit."
+    },
+    "ucat_decile_scoring": {
+      "status": "enabled_official_points_historical_decile_estimate_when_live_decile_missing",
+      "ranking_pool": "fee_status_cohort",
+      "max_points": 14,
+      "source_ids": [
+        "edinburgh_foi_formula_evidence"
+      ]
+    },
+    "total_pre_interview_score": {
+      "status": "enabled_foi_verified",
+      "max_points": 40,
+      "requires_inputs": [
+        "applicant_qualification_profile",
+        "sjt_band",
+        "current_fee_cohort_ucat_decile_or_historical_edinburgh_decile_estimate"
+      ],
+      "source_ids": [
+        "edinburgh_foi_formula_evidence"
+      ]
+    }
+  },
+  "prediction_policy": {
+    "eligibility_gates_can_be_checked": true,
+    "prediction_score_must_not_be_calculated": false,
+    "historical_statistics_must_not_be_used_as_cutoffs": true,
+    "result_card_prediction_should_wait": false,
+    "allowed_outputs": [
+      "official eligibility guidance",
+      "UCAT cutoff gate",
+      "SJT Band 4 exclusion gate",
+      "contextual policy notes",
+      "FOI-derived pre-interview formula score",
+      "FOI-derived final ranking score when interview score is supplied",
+      "historical admissions context with non-predictive disclaimer",
+      "official pre-assessment formula score with historical UCAT decile estimate clearly labelled"
+    ],
+    "blocked_outputs": [
+      "unsupported competitiveness bands",
+      "offer probability without calibrated policy",
+      "inferred interview score",
+      "station-level interview feedback",
+      "contextual UCAT scoring where uplift timing is unknown",
+      "current-cycle UCAT decile label when only historical Edinburgh deciles are used"
+    ],
+    "disclaimer": "Official pre-assessment formula scoring is available. When current fee-cohort UCAT deciles are unavailable, UCAT decile may only be estimated from latest published Edinburgh historical admissions statistics and must not be labelled current-cycle official."
+  },
+  "historical_ucat_data": [
+    {
+      "entry_year": 2025,
+      "applicant_group_id": "scotland_domiciled",
+      "lowest_interviewed_ucat": 2046,
+      "average_interviewed_ucat": 2793,
+      "lowest_offer_holder_ucat": 2332,
+      "average_offer_holder_ucat": 2821,
+      "sample_size": 678,
+      "source_ids": [
+        "edinburgh_admissions_stats_2025_pdf"
+      ],
+      "notes": "Official historical statistics for Scottish fee-rate applicants. These are context only, not current prediction cutoffs."
+    },
+    {
+      "entry_year": 2025,
+      "applicant_group_id": "rest_of_uk",
+      "lowest_interviewed_ucat": 2134,
+      "average_interviewed_ucat": 2987,
+      "lowest_offer_holder_ucat": 2134,
+      "average_offer_holder_ucat": 3042,
+      "sample_size": 545,
+      "source_ids": [
+        "edinburgh_admissions_stats_2025_pdf"
+      ],
+      "notes": "Official historical statistics for RUK/ROI fee-rate applicants. These are context only, not current prediction cutoffs."
+    },
+    {
+      "entry_year": 2025,
+      "applicant_group_id": "international_fee",
+      "lowest_interviewed_ucat": 2690,
+      "average_interviewed_ucat": 3048,
+      "lowest_offer_holder_ucat": 2690,
+      "average_offer_holder_ucat": 3056,
+      "sample_size": 686,
+      "source_ids": [
+        "edinburgh_admissions_stats_2025_pdf"
+      ],
+      "notes": "Official historical statistics for Overseas/International fee-rate applicants. These are context only, not current prediction cutoffs."
+    }
+  ],
+  "historical_admissions_stats": [
+    {
+      "entry_year": 2025,
+      "applicant_group_id": null,
+      "row_label": "All applicants",
+      "applications": 1909,
+      "interviews": 839,
+      "offers": 585,
+      "places": 290,
+      "offer_rate": null,
+      "interview_rate": null,
+      "source_ids": [
+        "edinburgh_admissions_stats_2025_pdf"
+      ],
+      "notes": "Official historical admissions context only."
+    },
+    {
+      "entry_year": 2025,
+      "applicant_group_id": "contextual",
+      "row_label": "Contextual admissions consideration",
+      "applications": 314,
+      "interviews": 249,
+      "offers": 189,
+      "places": 92,
+      "offer_rate": null,
+      "interview_rate": null,
+      "source_ids": [
+        "edinburgh_admissions_stats_2025_pdf"
+      ],
+      "notes": "Official historical admissions context only."
+    },
+    {
+      "entry_year": 2025,
+      "applicant_group_id": "scotland_domiciled",
+      "row_label": "Scottish fee-rate applicants",
+      "applications": 678,
+      "interviews": 508,
+      "offers": 411,
+      "places": 191,
+      "offer_rate": null,
+      "interview_rate": null,
+      "source_ids": [
+        "edinburgh_admissions_stats_2025_pdf"
+      ],
+      "notes": "Official historical admissions context only."
+    },
+    {
+      "entry_year": 2025,
+      "applicant_group_id": "rest_of_uk",
+      "row_label": "Rest of UK / ROI fee-rate applicants",
+      "applications": 545,
+      "interviews": 233,
+      "offers": 182,
+      "places": 77,
+      "offer_rate": null,
+      "interview_rate": null,
+      "source_ids": [
+        "edinburgh_admissions_stats_2025_pdf"
+      ],
+      "notes": "Official historical admissions context only."
+    },
+    {
+      "entry_year": 2025,
+      "applicant_group_id": "international_fee",
+      "row_label": "Overseas/International fee-rate applicants",
+      "applications": 686,
+      "interviews": 98,
+      "offers": 68,
+      "places": 22,
+      "offer_rate": null,
+      "interview_rate": null,
+      "source_ids": [
+        "edinburgh_admissions_stats_2025_pdf"
+      ],
+      "notes": "Official historical admissions context only."
+    }
+  ],
+  "foi_historical_statistics_2023_2025": {
+    "use_policy": "Historical evidence only. Do not use as current cutoffs or competitiveness bands.",
+    "source_ids": [
+      "edinburgh_foi_formula_evidence"
+    ],
+    "by_entry_year": {
+      "2023": {
+        "applications": {
+          "scotland": 804,
+          "ruk": 837,
+          "international": 711
+        },
+        "assessment_day_invites": {
+          "scotland": 422,
+          "ruk": 300,
+          "international": 81
+        },
+        "offers": {
+          "scotland": 355,
+          "ruk": 166,
+          "international": 47
+        },
+        "placed": {
+          "scotland": 172,
+          "ruk": 85,
+          "international": 21
+        },
+        "average_ucat_2700": {
+          "scotland": 2018,
+          "ruk": 2100,
+          "international": 2010
+        }
+      },
+      "2024": {
+        "applications": {
+          "scotland": 593,
+          "ruk": 521,
+          "international": 483
+        },
+        "assessment_day_invites": {
+          "scotland": 432,
+          "ruk": 237,
+          "international": 98
+        },
+        "offers": {
+          "scotland": 424,
+          "ruk": 160,
+          "international": 45
+        },
+        "placed": {
+          "scotland": 191,
+          "ruk": 76,
+          "international": 21
+        },
+        "average_ucat_2700": {
+          "scotland": 2029,
+          "ruk": 2117,
+          "international": 2058
+        }
+      },
+      "2025": {
+        "applications": {
+          "scotland": 678,
+          "ruk": 545,
+          "international": 686
+        },
+        "assessment_day_invites": {
+          "scotland": 508,
+          "ruk": 233,
+          "international": 98
+        },
+        "offers": {
+          "scotland": 411,
+          "ruk": 182,
+          "international": 68
+        },
+        "placed": {
+          "scotland": 191,
+          "ruk": 77,
+          "international": 22
+        },
+        "average_ucat_2700": {
+          "scotland": 2036,
+          "ruk": 2102,
+          "international": 2033
+        }
+      }
+    }
+  },
+  "foi_historical_ucat_deciles_2700": {
+    "use_policy": "Historical Edinburgh A100 decile estimate only. Do not use as current live applicant-pool deciles.",
+    "source_ids": [
+      "edinburgh_admissions_stats_2025_pdf"
+    ],
+    "classification": "historical_decile_estimate",
+    "by_entry_year": {
+      "2023": {
+        "1": "<=1904",
+        "2": "1905-1946",
+        "3": "1947-1987",
+        "4": "1988-2032",
+        "5": "2033-2077",
+        "6": "2078-2122",
+        "7": "2123-2182",
+        "8": "2183-2249",
+        "9": "2250-2339",
+        "10": "2340-2700"
+      },
+      "2024": {
+        "1": "<=1883",
+        "2": "1890-1920",
+        "3": "1928-1958",
+        "4": "1965-2003",
+        "5": "2010-2063",
+        "6": "2070-2115",
+        "7": "2123-2175",
+        "8": "2183-2250",
+        "9": "2258-2340",
+        "10": "2348-2700"
+      },
+      "2025": {
+        "1": "<=1755",
+        "2": "1763-1853",
+        "3": "1860-1905",
+        "4": "1913-1950",
+        "5": "1958-1995",
+        "6": "2003-2048",
+        "7": "2055-2115",
+        "8": "2123-2190",
+        "9": "2198-2303",
+        "10": "2310-2700"
+      }
+    }
+  },
+  "foi_sources": [
+    {
+      "source_id": "edinburgh_foi_formula_evidence",
+      "title": "Edinburgh A100 FOI-derived formula and capacity evidence package",
+      "source_type": "foi_response",
+      "received_date": "2026-06-25",
+      "verification_status": "research_team_supplied_candidate_foi",
+      "evidence_scope": [
+        "academic_component_maximum",
+        "ucat_decile_points",
+        "sjt_band_points",
+        "pre_interview_score_out_of_50",
+        "post_interview_score_out_of_50",
+        "final_ranking_formula_out_of_100",
+        "fee_cohort_ranking",
+        "cohort_targets",
+        "ucat_subtest_tie_break_metadata",
+        "historical_statistics",
+        "historical_ucat_decile_tables"
+      ],
+      "excluded_scope": [
+        "ApplySmart predictor thresholds",
+        "ApplySmart predictor importance labels",
+        "Unsupported competitiveness bands"
+      ],
+      "notes": "Use only FOI/official rules and historical statistics from the package as Edinburgh evidence. Exact SJT points are FOI-confirmed: Band 1 = 6.0, Band 2 = 4.5, Band 3 = 3.0 and Band 4 = 0.0. Predictor metadata remains ApplySmart-only."
+    }
+  ],
+  "foi_request_targets": [
+    {
+      "request_id": "edinburgh_interview_station_marking_rubric",
+      "question": "Please provide the exact station marking scheme/rubric used to convert Assessment Day station/domain marks into the interview score out of 50.",
+      "severity": "High"
+    },
+    {
+      "request_id": "edinburgh_exact_tie_break_sequence",
+      "question": "Please provide the exact tie-break order/sequence, including how UCAT subtest scores are ordered and whether additional tie-breakers are applied.",
+      "severity": "High"
+    },
+    {
+      "request_id": "edinburgh_contextual_formula_edge_cases",
+      "question": "Please clarify full formula handling for Flag, UCAT bursary, care-experienced, refugee and asylum seeker applicants, including whether UCAT uplift is applied before or after decile ranking.",
+      "severity": "High"
+    },
+    {
+      "request_id": "edinburgh_non_standard_qualifications",
+      "question": "Please confirm BTEC, Access to HE and T-Level acceptance and grade/subject requirements for Edinburgh A100.",
+      "severity": "Medium"
+    },
+    {
+      "request_id": "edinburgh_ucat_exemption_deadline_conflict",
+      "question": "Please clarify whether the UCAT exemption deadline should be encoded as 15 July 2026 or 1 August in the application year.",
+      "severity": "Medium"
+    }
+  ],
+  "estimated_historical_prediction": {
+    "available": false,
+    "method": null,
+    "method_status": "not_modelled",
+    "bands": [],
+    "input_requirements": [],
+    "limitations": [
+      "Historical statistics are official context only and must not be treated as current cutoffs.",
+      "FOI formula scoring is available, but historical statistics are not calibrated into competitiveness bands.",
+      "No validated historical competitiveness bands exist for Edinburgh A100."
+    ],
+    "disclaimer": "Estimated historical prediction is not available for Edinburgh A100 in this file.",
+    "source_ids": [
+      "edinburgh_admissions_stats_2025_pdf"
+    ],
+    "notes": "Do not create safe/realistic/ambitious bands from the 2025 statistics without a validated research method."
+  },
+  "sources": [
+    {
+      "source_id": "edinburgh_verified_international_admissions_evidence",
+      "title": "Verified Edinburgh A100 international admissions evidence",
+      "url": null,
+      "source_type": "verified_admissions_evidence",
+      "published_date": null,
+      "accessed_date": "2026-07-02",
+      "confidence": "High",
+      "used_for": [
+        "international_pre_interview_scoring",
+        "international_cohort_ucat_deciles",
+        "international_sjt_policy",
+        "international_academic_scoring",
+        "international_separate_pool_ranking",
+        "international_historical_ucat_guidance",
+        "international_assessment_day_and_final_scoring",
+        "international_interview_and_place_volumes"
+      ],
+      "notes": "Verified supplied evidence. No source URL was supplied; no values beyond the supplied evidence are inferred."
+    },
+    {
+      "source_id": "edinburgh_degree_finder_2027",
+      "title": "MBChB Medicine (6-year programme) MBChB - Undergraduate programmes",
+      "url": "https://study.ed.ac.uk/programmes/undergraduate/354-mbchb-medicine-6-year-programme",
+      "source_type": "official_course_page",
+      "published_date": null,
+      "accessed_date": "2026-06-25",
+      "confidence": "High",
+      "used_for": [
+        "course_identity",
+        "entry_year",
+        "ucas_code",
+        "selection_summary",
+        "interview_invitation_count",
+        "ucat_exemption_deadline_conflict"
+      ],
+      "notes": "Official University of Edinburgh 2027 Degree Finder page for A100."
+    },
+    {
+      "source_id": "edinburgh_entry_requirements_2027",
+      "title": "MBChB Medicine (6-year programme) MBChB entry requirements",
+      "url": "https://study.ed.ac.uk/programmes/undergraduate/354-mbchb-medicine-6-year-programme/entry-requirements",
+      "source_type": "official_entry_requirements",
+      "published_date": null,
+      "accessed_date": "2026-06-25",
+      "confidence": "High",
+      "used_for": [
+        "a_level_requirements",
+        "gcse_requirements",
+        "sqa_requirements",
+        "national_5_requirements",
+        "ib_requirements",
+        "graduate_policy",
+        "resit_policy",
+        "english_language",
+        "contextual_academic_minimums"
+      ],
+      "notes": "Official entry requirements source page."
+    },
+    {
+      "source_id": "edinburgh_academic_requirements",
+      "title": "Academic requirements",
+      "url": "https://medicine-vet-medicine.ed.ac.uk/edinburgh-medical-school/medicine/applying/how-to-apply/requirements/academic",
+      "source_type": "official_admissions_policy",
+      "published_date": "2024-09-09",
+      "accessed_date": "2026-06-25",
+      "confidence": "High",
+      "used_for": [
+        "selection_eligibility",
+        "academic_requirements_reference"
+      ],
+      "notes": "Official Edinburgh Medical School page stating applications enter selection only if academic criteria are fulfilled."
+    },
+    {
+      "source_id": "edinburgh_ucat_2027",
+      "title": "The University Clinical Aptitude Test (UCAT)",
+      "url": "https://medicine-vet-medicine.ed.ac.uk/edinburgh-medical-school/medicine/applying/how-to-apply/requirements/ucat",
+      "source_type": "official_admissions_policy",
+      "published_date": "2024-09-09",
+      "accessed_date": "2026-06-25",
+      "confidence": "High",
+      "used_for": [
+        "ucat_requirement",
+        "ucat_cutoff",
+        "sjt_band_4_exclusion",
+        "ucat_decile_ranking_policy",
+        "contextual_ucat_uplifts",
+        "ucat_exemption_policy",
+        "tie_breaker_partial_evidence"
+      ],
+      "notes": "Official UCAT policy page for 2027 entry."
+    },
+    {
+      "source_id": "edinburgh_selection_process",
+      "title": "The selection process",
+      "url": "https://medicine-vet-medicine.ed.ac.uk/edinburgh-medical-school/medicine/applying/assessment-selection-and-statistics/selection",
+      "source_type": "official_admissions_policy",
+      "published_date": "2024-09-09",
+      "accessed_date": "2026-06-25",
+      "confidence": "High",
+      "used_for": [
+        "interview_format",
+        "assessment_day",
+        "care_experienced_reference",
+        "successful_applicant_process"
+      ],
+      "notes": "Official selection-process page."
+    },
+    {
+      "source_id": "edinburgh_personal_statement",
+      "title": "Your personal statement",
+      "url": "https://medicine-vet-medicine.ed.ac.uk/edinburgh-medical-school/medicine/applying/how-to-apply/requirements/personal-statement",
+      "source_type": "official_admissions_policy",
+      "published_date": "2024-09-09",
+      "accessed_date": "2026-06-25",
+      "confidence": "High",
+      "used_for": [
+        "personal_statement_policy",
+        "ucat_reference_policy",
+        "career_exploration_guidance"
+      ],
+      "notes": "Official personal statement and UCAS reference guidance."
+    },
+    {
+      "source_id": "edinburgh_admissions_stats_page",
+      "title": "MBChB admissions statistics",
+      "url": "https://medicine-vet-medicine.ed.ac.uk/edinburgh-medical-school/medicine/applying/assessment-selection-and-statistics/admissions-stats",
+      "source_type": "official_admissions_statistics",
+      "published_date": "2024-09-09",
+      "accessed_date": "2026-06-25",
+      "confidence": "High",
+      "used_for": [
+        "admissions_statistics_pdf_index"
+      ],
+      "notes": "Official page linking Edinburgh MBChB admissions statistics PDFs."
+    },
+    {
+      "source_id": "edinburgh_admissions_stats_2025_pdf",
+      "title": "MBChB Admissions Statistics 2025",
+      "url": "https://medicine-vet-medicine.ed.ac.uk/sites/default/files/2025-10/MBChB%20Admissions%20Statistics%202025.pdf",
+      "source_type": "official_admissions_statistics",
+      "published_date": "2025-10",
+      "accessed_date": "2026-06-25",
+      "confidence": "High",
+      "used_for": [
+        "historical_admissions_context",
+        "historical_ucat_context",
+        "historical_sjt_context",
+        "applicant_pool_evidence"
+      ],
+      "notes": "Official 2025 admissions statistics PDF. Historical context only, not current prediction cutoffs."
+    },
+    {
+      "source_id": "edinburgh_foi_formula_evidence",
+      "title": "Edinburgh A100 FOI-derived formula and capacity evidence package",
+      "url": null,
+      "source_type": "foi_response",
+      "published_date": null,
+      "accessed_date": "2026-06-25",
+      "confidence": "High",
+      "used_for": [
+        "academic_component_maximum",
+        "ucat_decile_points",
+        "sjt_band_points",
+        "pre_interview_score_formula",
+        "post_interview_score_scale",
+        "final_ranking_formula",
+        "cohort_targets",
+        "fee_cohort_ranking",
+        "ucat_subtest_tie_break_metadata"
+      ],
+      "notes": "Research-team supplied candidate FOI evidence package. Exact SJT Band 1–3 points originate here and are not labelled as publicly published values. ApplySmart predictor thresholds from the package are not treated as university evidence."
+    },
+    {
+      "source_id": "edinburgh_pre_assessment_day_scoring_process",
+      "title": "Pre-Assessment Day Scoring Process",
+      "url": "https://medicine-vet-medicine.ed.ac.uk/edinburgh-medical-school/medicine/applying/assessment-selection-and-statistics/pre-assessment-day-scoring-process",
+      "source_type": "official_admissions_policy",
+      "published_date": "2024-09-09",
+      "accessed_date": "2026-06-26",
+      "applies_to_sections": [
+        "stage_2_interview_selection",
+        "offer_selection"
+      ],
+      "confidence": "High",
+      "notes": "Official University of Edinburgh pre-assessment day scoring page. Confirms the universal academic maximum of 20, the IB 6 + 14 final academic structure, UCAT cognitive scoring, SJT contribution of 7.5%, and Band 4 automatic rejection. Exact SJT Band 1–3 point values are not published on this page.",
+      "used_for": [
+        "official_pre_assessment_scoring",
+        "academic_scoring_matrix",
+        "ucat_decile_points",
+        "sjt_maximum_and_band_4_rejection",
+        "final_weighting"
+      ]
+    }
+  ],
+  "engine_notes": {
+    "official_rules_source": "data/universities/edinburgh-a100.json",
+    "research_source": "data/research/edinburgh-a100-research.json",
+    "eligibility_ready": true,
+    "interview_prediction_ready": true,
+    "prediction_confidence": "high",
+    "official_selection_formula_available": true,
+    "eligibility_only": false,
+    "requires_supplied_interview_score_for_final_ranking": true,
+    "blocking_missing_fields": [
+      "interview_scoring_rubric",
+      "exact_tie_break_sequence_order",
+      "full_contextual_handling",
+      "non_standard_qualification_rules",
+      "ucat_exemption_deadline_conflict",
+      "ucat_uplift_before_or_after_decile_ranking"
+    ],
+    "do_not_infer": [
+      "Do not infer missing academic intermediate bands.",
+      "Do not infer interview station marking rubric.",
+      "Do not infer exact tie-break sequence/order.",
+      "Do not infer contextual handling beyond stored evidence.",
+      "Do not use 2025 historical UCAT minimums as current cutoffs.",
+      "Do not use historical admissions statistics as prediction bands.",
+      "Do not use ApplySmart predictor thresholds as university evidence.",
+      "Do not treat the verified international historical UCAT guidance as a fixed interview cut-off.",
+      "Do not rank international applicants by UCAT alone.",
+      "Do not apply international scoring or guidance to Home, Scottish or Rest of UK applicants.",
+      "Do not use minimum entry requirements, including the IB 37-point minimum, as academic-score inputs.",
+      "Do not apply a multiplier after the IB component total reaches the final doubled score out of 20."
+    ],
+    "course_specific_notes": [
+      "Shared UCAT integration may enforce UCAT required, 1850 cutoff, SJT Band 4 exclusion and FOI UCAT decile scoring.",
+      "FOI formula enables pre-interview score out of 50.",
+      "Final ranking out of 100 requires supplied interview score out of 50 for the existing Scottish/RUK model.",
+      "International final scoring is separately verified as 40 pre-interview points plus 40 Assessment Day points, out of 80."
+    ],
+    "offer_prediction_scope": "out_of_scope"
+  }
+}

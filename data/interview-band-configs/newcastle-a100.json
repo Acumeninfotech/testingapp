@@ -1,0 +1,659 @@
+{
+  "schema_version": "1.0.0",
+  "course_profile_id": "newcastle-a100",
+  "confidence": "medium",
+  "evidence": {
+    "classification": "official_pre_interview_formula_with_historical_guidance",
+    "summary": "Newcastle publishes the A100 Home academic plus UCAT scoring method, the 2026-entry UCAT points table and pool-specific historical interviewee data. International applicants are academically screened and ranked by UCAT cognitive total only; legacy 3600-scale historical thresholds are display-only and are not converted.",
+    "source_ids": [
+      "newcastle_a100_research_spec",
+      "newcastle_ucat_academic_threshold_document"
+    ]
+  },
+  "eligibility": {
+    "scope": "Automatic classifier handling covers A-level school-leaver, IB, graduate A100, verified Access to HE, guarded international-qualification and Scottish profiles with current-cycle UCAT, SJT and practical-endorsement evidence.",
+    "international_english_language_required": true,
+    "qualification_routes": {
+      "supported": [
+        "a_level",
+        "international_baccalaureate",
+        "graduate",
+        "scottish",
+        "access_to_medicine",
+        "international_qualification"
+      ],
+      "explicitly_blocked": [
+        "btec",
+        "t_level",
+        "unknown"
+      ]
+    },
+    "gcse": {
+      "minimum_count": null,
+      "use_exact_subject_list": true
+    },
+    "a_level": {
+      "science_practical_endorsement": {
+        "required": true,
+        "subject_ids": [
+          "biology",
+          "chemistry",
+          "physics"
+        ]
+      },
+      "routes": [
+        {
+          "route_id": "newcastle_standard_home_aaa",
+          "applies_to_group_ids": [
+            "home_fee"
+          ],
+          "excluded_group_ids": [
+            "international_fee",
+            "contextual",
+            "widening_participation",
+            "partners_supported",
+            "graduate_applicant"
+          ],
+          "grade_profile": [
+            "A",
+            "A",
+            "A"
+          ],
+          "excluded_subject_policy": "do_not_count",
+          "excluded_subject_ids": [
+            "general_studies",
+            "use_of_mathematics",
+            "world_development",
+            "communication_and_culture",
+            "critical_thinking"
+          ]
+        },
+        {
+          "route_id": "newcastle_contextual_home_abb",
+          "applies_to_group_ids": [
+            "home_fee"
+          ],
+          "any_group_ids": [
+            "contextual",
+            "widening_participation"
+          ],
+          "excluded_group_ids": [
+            "international_fee",
+            "partners_supported",
+            "graduate_applicant"
+          ],
+          "grade_profile": [
+            "A",
+            "B",
+            "B"
+          ],
+          "excluded_subject_policy": "do_not_count",
+          "excluded_subject_ids": [
+            "general_studies",
+            "use_of_mathematics",
+            "world_development",
+            "communication_and_culture",
+            "critical_thinking"
+          ]
+        },
+        {
+          "route_id": "newcastle_partners_supported_bbb",
+          "applies_to_group_ids": [
+            "home_fee",
+            "partners_supported"
+          ],
+          "excluded_group_ids": [
+            "international_fee",
+            "graduate_applicant"
+          ],
+          "grade_profile": [
+            "B",
+            "B",
+            "B"
+          ],
+          "excluded_subject_policy": "do_not_count",
+          "excluded_subject_ids": [
+            "general_studies",
+            "use_of_mathematics",
+            "world_development",
+            "communication_and_culture",
+            "critical_thinking"
+          ]
+        },
+        {
+          "route_id": "newcastle_international_a_level_aaa",
+          "applies_to_group_ids": [
+            "international_fee"
+          ],
+          "excluded_group_ids": [
+            "graduate_applicant"
+          ],
+          "grade_profile": [
+            "A",
+            "A",
+            "A"
+          ],
+          "excluded_subject_policy": "do_not_count",
+          "excluded_subject_ids": [
+            "general_studies",
+            "use_of_mathematics",
+            "world_development",
+            "communication_and_culture",
+            "critical_thinking"
+          ]
+        }
+      ]
+    },
+    "international_baccalaureate": {
+      "routes": [
+        {
+          "route_id": "newcastle_ib_36_biology_chemistry_hl",
+          "total_points": 36,
+          "hl_grade_profile": [
+            "5",
+            "5",
+            "5"
+          ],
+          "required_hl_subject_ids": [
+            "biology",
+            "chemistry"
+          ]
+        }
+      ]
+    },
+    "scottish": {
+      "national_5": {
+        "minimum_count": 0,
+        "required_subject_ids": []
+      },
+      "post_16_routes": [
+        {
+          "route_id": "newcastle_scottish_advanced_higher_aa",
+          "grade_profile": [
+            "A",
+            "A"
+          ],
+          "required_subject_ids": [
+            "biology",
+            "chemistry"
+          ]
+        }
+      ]
+    },
+    "international_qualification": {
+      "unverified_outcome": "manual_review",
+      "manual_review_reason": "international_qualification_requires_manual_review"
+    },
+    "graduate": {
+      "maximum_years_without_recent_higher_education": 5,
+      "recency_fail_action": "not_eligible"
+    },
+    "ucat": {
+      "required_test_year": 2026
+    },
+    "sjt": {
+      "used_as_gate": true,
+      "accepted_bands": [
+        1,
+        2,
+        3
+      ],
+      "rejected_bands": [
+        4
+      ]
+    },
+    "resits": {
+      "resits_accepted": true,
+      "allowed_resit_attempts": 1,
+      "applicant_form_required": false,
+      "routes": [
+        {
+          "route_id": "newcastle_standard_home_resit_astar_aa",
+          "applies_to_group_ids": [
+            "home_fee"
+          ],
+          "excluded_group_ids": [
+            "international_fee",
+            "contextual",
+            "widening_participation",
+            "partners_supported"
+          ],
+          "grade_profile": [
+            "A*",
+            "A",
+            "A"
+          ]
+        },
+        {
+          "route_id": "newcastle_contextual_home_resit_aab",
+          "applies_to_group_ids": [
+            "home_fee"
+          ],
+          "any_group_ids": [
+            "contextual",
+            "widening_participation"
+          ],
+          "excluded_group_ids": [
+            "international_fee",
+            "partners_supported"
+          ],
+          "grade_profile": [
+            "A",
+            "A",
+            "B"
+          ]
+        },
+        {
+          "route_id": "newcastle_partners_resit_abb",
+          "applies_to_group_ids": [
+            "home_fee",
+            "partners_supported"
+          ],
+          "excluded_group_ids": [
+            "international_fee"
+          ],
+          "grade_profile": [
+            "A",
+            "B",
+            "B"
+          ]
+        }
+      ]
+    },
+    "manual_review_routes": [
+      "Country-specific international qualification equivalence without Newcastle A100-specific confirmation",
+      "Access to HE course preapproval, Medicine QAA descriptor and years-out-of-education evidence",
+      "Scottish Higher plus Advanced Higher edge cases not represented by the generic route",
+      "Irish Leaving Certificate detailed subject confirmation",
+      "Degree recency where recent higher education evidence is absent or unclear"
+    ],
+    "do_not_infer": [
+      "Do not round UCAT scores that are not represented in the official exact lookup table.",
+      "Do not compare historical 3600-scale UCAT thresholds with current 2700-scale scores.",
+      "Do not treat the 2025 observed combined-score range as a formal minimum.",
+      "Do not apply post-interview SJT points to pre-interview guidance."
+    ]
+  },
+  "score_model": {
+    "type": "component_sum",
+    "basis": "Official Newcastle Home A100 pre-interview score: academic score out of 40 plus UCAT table score out of 60. International pools bypass this score and rank by UCAT cognitive total only.",
+    "label": "Newcastle academic plus UCAT score",
+    "pool_specific_output": true,
+    "scale": {
+      "min": 0,
+      "max": 100
+    },
+    "components": [
+      {
+        "component_id": "gcse_score",
+        "type": "gcse_mandatory_then_best",
+        "subject_count": 8,
+        "bands": [
+          {
+            "minimum_grade": "9",
+            "points": 5
+          },
+          {
+            "minimum_grade": "8",
+            "points": 4
+          },
+          {
+            "minimum_grade": "7",
+            "points": 3
+          },
+          {
+            "minimum_grade": "6",
+            "points": 1
+          }
+        ],
+        "normalise_when_fewer_subjects": true,
+        "minimum_subjects_for_normalisation": 1,
+        "normalisation_formula": "(sum_of_gcse_points / number_of_gcse_subjects_taken) * 8",
+        "max": 40,
+        "match": {
+          "excluded_group_ids": [
+            "international_fee",
+            "graduate_applicant"
+          ],
+          "qualification_routes": [
+            "a_level",
+            "international_baccalaureate",
+            "scottish",
+            "access_to_medicine"
+          ],
+          "excluded_qualification_status": [
+            "achieved"
+          ]
+        }
+      },
+      {
+        "component_id": "achieved_a_level_score",
+        "type": "a_level_grade_points_scaled",
+        "subject_count": 3,
+        "points_by_grade": {
+          "A*": 16,
+          "A": 12,
+          "B": 8
+        },
+        "hard_cap": 40,
+        "max": 40,
+        "match": {
+          "excluded_group_ids": [
+            "international_fee",
+            "graduate_applicant"
+          ],
+          "qualification_routes": [
+            "a_level"
+          ],
+          "qualification_status": [
+            "achieved"
+          ]
+        }
+      },
+      {
+        "component_id": "degree_score",
+        "type": "degree_classification_points",
+        "points_by_classification": {
+          "first": 40,
+          "first_class": 40,
+          "2_1": 35,
+          "upper_second": 35
+        },
+        "max": 40,
+        "match": {
+          "all_group_ids": [
+            "graduate_applicant"
+          ],
+          "excluded_group_ids": [
+            "international_fee"
+          ]
+        }
+      },
+      {
+        "component_id": "ucat_score",
+        "type": "ucat_exact_score_table_lookup",
+        "max": 60,
+        "exact_step_size": 10,
+        "upper_or_equal": {
+          "score": 2400,
+          "points": 60
+        },
+        "lower_or_equal": {
+          "score": 1810,
+          "points": 1
+        },
+        "points_by_score": {
+          "1820": 2,
+          "1830": 3,
+          "1840": 4,
+          "1850": 5,
+          "1860": 6,
+          "1870": 7,
+          "1880": 8,
+          "1890": 9,
+          "1900": 10,
+          "1910": 11,
+          "1920": 12,
+          "1930": 13,
+          "1940": 14,
+          "1950": 15,
+          "1960": 16,
+          "1970": 17,
+          "1980": 18,
+          "1990": 19,
+          "2000": 20,
+          "2010": 21,
+          "2020": 22,
+          "2030": 23,
+          "2040": 24,
+          "2050": 25,
+          "2060": 26,
+          "2070": 27,
+          "2080": 28,
+          "2090": 29,
+          "2100": 30,
+          "2110": 31,
+          "2120": 32,
+          "2130": 33,
+          "2140": 34,
+          "2150": 35,
+          "2160": 36,
+          "2170": 37,
+          "2180": 38,
+          "2190": 39,
+          "2200": 40,
+          "2210": 41,
+          "2220": 42,
+          "2230": 43,
+          "2240": 44,
+          "2250": 45,
+          "2260": 46,
+          "2270": 47,
+          "2280": 48,
+          "2290": 49,
+          "2300": 50,
+          "2310": 51,
+          "2320": 52,
+          "2330": 53,
+          "2340": 54,
+          "2350": 55,
+          "2360": 56,
+          "2370": 57,
+          "2380": 58,
+          "2390": 59
+        },
+        "match": {
+          "excluded_group_ids": [
+            "international_fee"
+          ]
+        }
+      }
+    ]
+  },
+  "guidance_pools": [
+    {
+      "pool_id": "newcastle_partners_supported_home",
+      "priority": 50,
+      "applicant_match": {
+        "all_group_ids": [
+          "home_fee",
+          "partners_supported"
+        ],
+        "excluded_group_ids": [
+          "international_fee"
+        ]
+      },
+      "metric": "selection_score",
+      "band_rules": [
+        {
+          "band": "interview_likely",
+          "operator": "greater_than_or_equal",
+          "value": 82
+        },
+        {
+          "band": "realistic",
+          "operator": "between_inclusive",
+          "min": 50,
+          "max": 81.99
+        },
+        {
+          "band": "ambitious",
+          "operator": "between_inclusive",
+          "min": 45,
+          "max": 49.99
+        },
+        {
+          "band": "high_risk",
+          "operator": "less_than",
+          "value": 45
+        }
+      ],
+      "historical_cutoff": {
+        "entry_cycle": "2025_ENTRY",
+        "value": 50,
+        "evidence_classification": "official_published_threshold"
+      }
+    },
+    {
+      "pool_id": "newcastle_contextual_or_widening_home",
+      "priority": 40,
+      "applicant_match": {
+        "all_group_ids": [
+          "home_fee"
+        ],
+        "any_group_ids": [
+          "contextual",
+          "widening_participation"
+        ],
+        "excluded_group_ids": [
+          "international_fee",
+          "graduate_applicant"
+        ]
+      },
+      "metric": "selection_score",
+      "band_rules": [
+        {
+          "band": "interview_likely",
+          "operator": "greater_than_or_equal",
+          "value": 82
+        },
+        {
+          "band": "realistic",
+          "operator": "between_inclusive",
+          "min": 50,
+          "max": 81.99
+        },
+        {
+          "band": "ambitious",
+          "operator": "between_inclusive",
+          "min": 45,
+          "max": 49.99
+        },
+        {
+          "band": "high_risk",
+          "operator": "less_than",
+          "value": 45
+        }
+      ],
+      "historical_cutoff": {
+        "entry_cycle": "2025_ENTRY",
+        "value": 50,
+        "evidence_classification": "official_published_threshold"
+      }
+    },
+    {
+      "pool_id": "newcastle_graduate_a100_home",
+      "priority": 35,
+      "applicant_match": {
+        "all_group_ids": [
+          "home_fee",
+          "graduate_applicant"
+        ],
+        "excluded_group_ids": [
+          "international_fee"
+        ]
+      },
+      "metric": "selection_score",
+      "band_rules": [
+        {
+          "band": "interview_likely",
+          "operator": "greater_than_or_equal",
+          "value": 70
+        },
+        {
+          "band": "realistic",
+          "operator": "between_inclusive",
+          "min": 50,
+          "max": 69.99
+        },
+        {
+          "band": "ambitious",
+          "operator": "between_inclusive",
+          "min": 45,
+          "max": 49.99
+        },
+        {
+          "band": "high_risk",
+          "operator": "less_than",
+          "value": 45
+        }
+      ],
+      "historical_cutoff": {
+        "entry_cycle": "2025_ENTRY",
+        "value": 50,
+        "evidence_classification": "official_published_threshold"
+      }
+    },
+    {
+      "pool_id": "newcastle_international_ucat_only",
+      "priority": 30,
+      "applicant_match": {
+        "all_group_ids": [
+          "international_fee"
+        ]
+      },
+      "metric": "ucat_total",
+      "pool_specific_output": true,
+      "band_rules": [
+        {
+          "band": "high_risk",
+          "operator": "greater_than",
+          "value": 9999
+        }
+      ],
+      "official_candidate_decile_guidance": {
+        "min": 2980,
+        "max": 2980,
+        "cycle": "2025_ENTRY",
+        "executable": false,
+        "reason": "The most recent International threshold is 2980 on the historical 3600 UCAT scale. ApplySmart displays it on the original scale only and does not compare it with current 2700-scale UCAT scores."
+      }
+    },
+    {
+      "pool_id": "newcastle_standard_home",
+      "priority": 20,
+      "applicant_match": {
+        "all_group_ids": [
+          "home_fee"
+        ],
+        "excluded_group_ids": [
+          "international_fee",
+          "contextual",
+          "widening_participation",
+          "partners_supported",
+          "graduate_applicant"
+        ]
+      },
+      "metric": "selection_score",
+      "band_rules": [
+        {
+          "band": "interview_likely",
+          "operator": "greater_than_or_equal",
+          "value": 70
+        },
+        {
+          "band": "realistic",
+          "operator": "between_inclusive",
+          "min": 50,
+          "max": 69.99
+        },
+        {
+          "band": "ambitious",
+          "operator": "between_inclusive",
+          "min": 45,
+          "max": 49.99
+        },
+        {
+          "band": "high_risk",
+          "operator": "less_than",
+          "value": 45
+        }
+      ],
+      "historical_cutoff": {
+        "entry_cycle": "2025_ENTRY",
+        "value": 50,
+        "evidence_classification": "official_published_threshold"
+      }
+    }
+  ]
+}

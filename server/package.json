@@ -1,0 +1,16 @@
+{
+  "name": "applysmart-api",
+  "version": "1.0.0",
+  "description": "Thin Node API exposing production-ready ApplySmart university profiles.",
+  "main": "src/server.js",
+  "type": "commonjs",
+  "scripts": {
+    "start": "node src/server.js",
+    "dev": "node src/server.js",
+    "test": "node test/universities.test.js && node test/predict.test.js"
+  },
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^4.19.2"
+  }
+}

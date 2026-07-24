@@ -1,0 +1,400 @@
+{
+  "schema_version": "1.0.0",
+  "template_version": "1.0.0",
+  "result_id": "anglia-ruskin-a100-home-standard-adjusted-ucat-example",
+  "generated_at": "2026-07-13",
+  "result_mode": "example_eligibility_with_applysmart_interview_guidance",
+  "production_state": {
+    "profile_active": true,
+    "metadata_activation_enabled": true,
+    "result_card_output_enabled": true,
+    "note": "This example reflects the activated ARU A100 supported scope. Interview guidance is not offer prediction, MMI prediction or an interview guarantee."
+  },
+  "course_identity": {
+    "profile_id": "anglia-ruskin-a100",
+    "university_name": "Anglia Ruskin University",
+    "course_name": "MBChB Medicine",
+    "ucas_code": "A100",
+    "entry_route": "standard_entry",
+    "qualification_awarded": "MBChB",
+    "duration_years": 5,
+    "location": "Chelmsford, England",
+    "source_ids": [
+      "aru_docx_authoritative_spec",
+      "aru_medicine_entry_requirements",
+      "aru_medicine_admissions_policy"
+    ]
+  },
+  "applicant_context": {
+    "applies_to_group_ids": [
+      "england_domiciled",
+      "home_fee",
+      "school_leaver"
+    ],
+    "applicant_summary": "Home standard A-level school-leaver with four required GCSEs at grade 5/B or above, AAA in Biology, Chemistry and Mathematics, UCAT 2050/2700 and SJT Band 2.",
+    "fee_cohort": "home",
+    "entry_route": "standard_entry",
+    "qualification_route": "a_level",
+    "contextual": false,
+    "graduate": false,
+    "source_ids": []
+  },
+  "readiness": {
+    "eligibility": true,
+    "interview_prediction": true,
+    "historical_guidance": true,
+    "international_prediction": false,
+    "contextual_logic": true,
+    "result_card": true,
+    "regression": true,
+    "research_completeness": "complete_for_supported_scope_with_documented_gaps",
+    "manual_review_required": true,
+    "eligibility_ready": true,
+    "interview_prediction_ready": true,
+    "prediction_confidence": "medium",
+    "result_card_ready": true,
+    "offer_prediction_scope": "out_of_scope"
+  },
+  "eligibility": {
+    "status": "eligible",
+    "summary": "The represented Home standard A-level applicant meets ARU's supported GCSE, A-level, UCAT and SJT eligibility checks.",
+    "stage_1_checks": [
+      {
+        "check_id": "gcse_profile",
+        "label": "GCSE threshold",
+        "status": "pass",
+        "requirement": "At least four GCSEs at grade 5/B or above, including English Language, Mathematics and two sciences.",
+        "applicant_value": "Required GCSEs are represented at grade 6.",
+        "decision_outcome": "eligible",
+        "source_ids": [
+          "aru_medicine_entry_requirements"
+        ]
+      },
+      {
+        "check_id": "a_level_threshold",
+        "label": "A-level threshold",
+        "status": "pass",
+        "requirement": "AAA for standard applicants, with Chemistry or Biology.",
+        "applicant_value": "AAA in Biology, Chemistry and Mathematics.",
+        "decision_outcome": "eligible",
+        "source_ids": [
+          "aru_medicine_entry_requirements"
+        ]
+      },
+      {
+        "check_id": "ucat_required",
+        "label": "UCAT requirement",
+        "status": "pass",
+        "requirement": "UCAT is required and used for interview ranking.",
+        "applicant_value": "UCAT 2050/2700.",
+        "decision_outcome": "eligible",
+        "source_ids": [
+          "aru_medicine_admissions_policy"
+        ]
+      },
+      {
+        "check_id": "sjt_gate",
+        "label": "SJT gate",
+        "status": "pass",
+        "requirement": "SJT Bands 1-3 are accepted; Band 4 is an automatic rejection.",
+        "applicant_value": "SJT Band 2.",
+        "decision_outcome": "eligible",
+        "source_ids": [
+          "aru_medicine_admissions_policy"
+        ]
+      }
+    ],
+    "blocking_reasons": [],
+    "warnings": [
+      "Eligibility does not imply an interview. ApplySmart's interview guidance is based on ARU's documented UCAT-ranking method and historical/working-threshold context only, not a current threshold.",
+      "Final offers are based solely on MMI ranking, but offer prediction is outside ApplySmart scope."
+    ],
+    "source_ids": [
+      "aru_docx_authoritative_spec",
+      "aru_medicine_entry_requirements",
+      "aru_medicine_admissions_policy"
+    ]
+  },
+  "stage_1_requirements": {
+    "verification_status": "official_source_verified_for_represented_route",
+    "verified_requirements": [
+      {
+        "requirement_id": "gcse_gate",
+        "label": "GCSE eligibility gate",
+        "value": "Four GCSEs at grade 5/B or above, including English Language, Mathematics and two sciences.",
+        "applies_to_group_ids": [
+          "school_leaver"
+        ],
+        "source_ids": [
+          "aru_medicine_entry_requirements"
+        ]
+      },
+      {
+        "requirement_id": "a_level_gate",
+        "label": "A-level eligibility gate",
+        "value": "AAA for standard applicants; WAMS may use ABB.",
+        "applies_to_group_ids": [
+          "school_leaver"
+        ],
+        "source_ids": [
+          "aru_medicine_entry_requirements"
+        ]
+      },
+      {
+        "requirement_id": "ucat_sjt_gate",
+        "label": "UCAT and SJT",
+        "value": "UCAT required for ranking; SJT Band 4 rejected.",
+        "applies_to_group_ids": [],
+        "source_ids": [
+          "aru_medicine_admissions_policy"
+        ]
+      }
+    ],
+    "unknown_requirements": [
+      "Applicant-specific resit first-sitting evidence where relevant",
+      "Non-A-level qualification execution details"
+    ],
+    "source_ids": [
+      "aru_docx_authoritative_spec"
+    ]
+  },
+  "stage_2_selection": {
+    "verification_status": "official_method_with_authoritative_threshold_context",
+    "primary_model": "adjusted_ucat_ranking",
+    "summary": "ARU ranks eligible applicants by UCAT cognitive total after documented percentage UCAT uplifts. WAMS may stack with one regional uplift, and Essex takes precedence over East of England. Academics are threshold-only and SJT is a filter only.",
+    "represented_ranking_input": {
+      "score": 2050,
+      "max": 2700,
+      "metric": "adjusted_ucat_total"
+    },
+    "ranking_factors": [
+      {
+        "factor_id": "raw_ucat_total",
+        "label": "Raw UCAT total",
+        "weight_percent": 100,
+        "calculation_status": "calculated",
+        "notes": "Raw UCAT 2050/2700 before any contextual or regional percentage uplift.",
+        "source_ids": [
+          "aru_medicine_admissions_policy"
+        ]
+      },
+      {
+        "factor_id": "percentage_ucat_uplifts",
+        "label": "Percentage UCAT uplifts",
+        "weight_percent": null,
+        "calculation_status": "calculated",
+        "notes": "No WAMS, East of England or Essex uplift applies in this standard example. WAMS may stack with one regional uplift; Essex takes precedence over East of England.",
+        "source_ids": [
+          "aru_docx_authoritative_spec"
+        ]
+      }
+    ],
+    "selection_adjustments": [],
+    "unknown_calculation_areas": [
+      "Final MMI rank and offer outcomes are outside ApplySmart scope."
+    ],
+    "source_ids": [
+      "aru_docx_authoritative_spec",
+      "aru_medicine_admissions_policy"
+    ]
+  },
+  "historical_context": {
+    "use": "applysmart_interview_guidance",
+    "fixed_current_cutoff": false,
+    "not_deterministic": true,
+    "warning": "ARU working thresholds and historical UCAT values are interview guidance context only. They are not offer prediction.",
+    "represented_pool": {
+      "pool_id": "aru_home_standard_guidance",
+      "score_scale": 2700,
+      "recent_working_threshold": 2010,
+      "average_interviewed": 2084
+    },
+    "source_ids": [
+      "aru_docx_authoritative_spec"
+    ]
+  },
+  "prediction": {
+    "available": true,
+    "result_band": "realistic",
+    "headline": "Realistic choice based on adjusted UCAT",
+    "primary_metric": "adjusted_ucat_total",
+    "ranking_metric": "adjusted_ucat_total",
+    "score_scale": {
+      "min": 0,
+      "max": 2700
+    },
+    "summary": "The represented adjusted UCAT score sits within the recent ARU interview guidance range for the standard Home A100 pool.",
+    "recommendation": "Realistic choice",
+    "limitations": [
+      "This is interview guidance only.",
+      "It is not a guarantee of interview.",
+      "It is not offer prediction, because ARU offers are based solely on MMI ranking."
+    ]
+  },
+  "confidence": {
+    "level": "medium",
+    "summary": "Official ARU method evidence is available and ARU.docx supplies working-threshold context only and historical guidance data, with non-A-level routes retained as documented manual-review boundaries.",
+    "stage_confidence": {
+      "eligibility": "high",
+      "interview_prediction": "medium",
+      "historical_guidance": "medium"
+    },
+    "source_ids": [
+      "aru_docx_authoritative_spec",
+      "aru_medicine_entry_requirements",
+      "aru_medicine_admissions_policy"
+    ]
+  },
+  "evidence_confidence": {
+    "level": "Medium",
+    "summary": "The recommendation is supported by core admissions evidence, with some historical or route-specific limits.",
+    "reasons": [
+      "Official eligibility rules are available.",
+      "The university selection approach is implemented.",
+      "Historical interview guidance is available, but some evidence is historical, FOI-derived or has documented gaps."
+    ]
+  },
+  "display": {
+    "recommendation_display_state": "standard",
+    "primary_user_facing_recommendation": "Realistic choice",
+    "primary_explanation": "ARU ranks eligible applicants by adjusted UCAT for interview selection. This result is interview guidance only, not an offer prediction or an interview guarantee.",
+    "historical_guidance_caveat": "Interview thresholds may change each admissions cycle depending on applicant competition and interview capacity. Historical figures are guidance only, not a current cut-off, and do not guarantee an interview.",
+    "secondary_explanation": "WAMS, East of England and Essex uplifts are percentage UCAT uplifts. WAMS may stack with one regional uplift; Essex takes precedence over East of England. No flat regional point values are used.",
+    "badges": [
+      "Home applicants only",
+      "SJT Band 4 rejected",
+      "Offer prediction out of scope"
+    ]
+  },
+  "decision_timeline": [
+    {
+      "step": 1,
+      "title": "Applicant details checked",
+      "status": "Complete",
+      "summary": "Your applicant type, qualifications and UCAT details were checked."
+    },
+    {
+      "step": 2,
+      "title": "Eligibility assessed",
+      "status": "Eligible",
+      "summary": "You meet the published entry requirements covered by ApplySmart."
+    },
+    {
+      "step": 3,
+      "title": "Selection model applied",
+      "status": "Complete",
+      "summary": "Academic thresholds and the SJT filter were checked before adjusted-UCAT interview guidance was applied."
+    },
+    {
+      "step": 4,
+      "title": "Historical guidance compared",
+      "status": "Complete",
+      "summary": "Your result was compared with interview information from previous admissions cycles. Interview thresholds may change each admissions cycle depending on applicant competition and interview capacity. Historical figures are guidance only, not a current cut-off, and do not guarantee an interview."
+    },
+    {
+      "step": 5,
+      "title": "Interview recommendation produced",
+      "status": "Good chance",
+      "summary": "Realistic choice. Treat this as guidance for university choice, not a promised interview."
+    }
+  ],
+  "decision_transparency": {
+    "decision_path": [
+      {
+        "stage": "Eligibility",
+        "status": "Passed",
+        "summary": "The represented Home standard A-level applicant meets the supported ARU eligibility checks.",
+        "checks": [
+          {
+            "label": "Academic thresholds",
+            "status": "Passed",
+            "summary": "The represented GCSE and A-level profile meets the supported ARU threshold checks."
+          },
+          {
+            "label": "SJT filter",
+            "status": "Passed",
+            "summary": "SJT Band 2 is accepted; Band 4 would be rejected."
+          }
+        ]
+      },
+      {
+        "stage": "Selection model",
+        "status": "Applied",
+        "summary": "Adjusted UCAT ranking was applied after academic thresholds and the SJT filter.",
+        "checks": [
+          {
+            "label": "Applicant pool",
+            "status": "Applied",
+            "summary": "Home A100 applicants are ranked together; graduates are not separated into a different A100 pool."
+          },
+          {
+            "label": "Selection approach",
+            "status": "Applied",
+            "summary": "ARU ranks eligible applicants by adjusted UCAT after documented percentage UCAT uplifts."
+          },
+          {
+            "label": "Percentage UCAT uplifts",
+            "status": "Calculated",
+            "summary": "No WAMS, East of England or Essex uplift applies in this example. WAMS may stack with one regional uplift; Essex takes precedence over East of England."
+          }
+        ]
+      },
+      {
+        "stage": "Historical guidance",
+        "status": "Compared",
+        "summary": "The adjusted UCAT score was compared with recent ARU interview guidance only; this is not a guarantee of an interview.",
+        "checks": [
+          {
+            "label": "Interview guidance range",
+            "status": "Compared",
+            "summary": "The represented adjusted UCAT score was compared with ARU working-threshold context only and historical interview data."
+          }
+        ]
+      },
+      {
+        "stage": "Recommendation",
+        "status": "Guidance only",
+        "summary": "Realistic choice. Treat this as guidance for university choice, not a promised interview.",
+        "checks": []
+      }
+    ],
+    "key_reasons": [
+      "The represented Home standard A-level applicant meets ARU's supported GCSE, A-level, UCAT and SJT eligibility checks.",
+      "The recommendation uses adjusted UCAT ranking after documented percentage UCAT uplifts.",
+      "The output is interview guidance only and does not model post-interview decisions."
+    ],
+    "evidence_used": [
+      "Official admissions policy",
+      "University selection methodology",
+      "UCAT policy",
+      "Historical interview data",
+      "Contextual admissions policy"
+    ],
+    "evidence_confidence": {
+      "level": "Medium",
+      "summary": "The recommendation is supported by core admissions evidence, with some historical or route-specific limits.",
+      "reasons": [
+        "Official eligibility rules are available.",
+        "The university selection approach is implemented.",
+        "Historical interview guidance is available, but some evidence is historical, FOI-derived or has documented gaps."
+      ]
+    },
+    "manual_review_reason": null,
+    "insufficient_evidence_reason": null,
+    "warnings": []
+  },
+  "engine_notes": {
+    "offer_prediction_scope": "out_of_scope",
+    "must_not_display_offer_probability": true,
+    "must_not_predict_mmi": true,
+    "implementation_notes": [
+      "WAMS UCAT uplift: 5%.",
+      "East of England UCAT uplift: 2.5%.",
+      "Essex UCAT uplift: 5%.",
+      "WAMS may stack with one regional uplift.",
+      "Essex receives the Essex uplift instead of also receiving the East of England uplift.",
+      "International applicants are not eligible.",
+      "Final offers are based solely on MMI ranking, but offer prediction remains out of ApplySmart scope."
+    ]
+  }
+}

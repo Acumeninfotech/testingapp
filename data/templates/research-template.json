@@ -1,0 +1,136 @@
+{
+  "schema_version": "1.0.0",
+  "template_version": "0.1.0",
+  "template_purpose": "Human-readable blueprint for ApplySmart research profiles. Research files store FOI data, historical admissions data, cutoffs, interview statistics, offer statistics and estimated prediction models. They must not replace official admissions rules stored in data/universities/*.json.",
+
+  "profile_id": null,
+  "course_profile_id": null,
+  "research_status": "template_only",
+  "file_purpose": null,
+  "official_rules_source": null,
+  "created_at": null,
+  "last_updated": null,
+  "research_scope": null,
+  "evidence_classification_policy": null,
+  "metadata": null,
+
+  "readiness": {
+    "eligibility": false,
+    "interview_prediction": false,
+    "historical_guidance": false,
+    "international_prediction": false,
+    "contextual_logic": false,
+    "result_card": false,
+    "regression": false,
+    "research_completeness": "incomplete",
+    "manual_review_required": true,
+    "eligibility_ready": false,
+    "interview_prediction_ready": false,
+    "offer_prediction_scope": "out_of_scope",
+    "prediction_confidence": "low",
+    "result_card_ready": false,
+    "notes": "A live annual cutoff is not required for interview_prediction_ready when official selection evidence and sufficient official/FOI historical guidance exist."
+  },
+
+  "official_formula_status": {
+    "status": "unavailable",
+    "status_values": [
+      "available",
+      "unavailable",
+      "partially_known"
+    ],
+    "academic_calculation_known": false,
+    "ucat_calculation_known": false,
+    "sjt_calculation_known": false,
+    "interview_calculation_known": false,
+    "official_formula_prediction_available": false,
+    "known_components": [],
+    "unknown_components": [],
+    "source_ids": [],
+    "notes": "Official formula prediction is available only when the university's exact scoring formula is known. Historical or FOI data must not be treated as the official scoring formula."
+  },
+
+  "historical_ucat_data": [
+    {
+      "entry_year": null,
+      "applicant_group_id": null,
+      "lowest_interviewed_ucat": null,
+      "average_interviewed_ucat": null,
+      "lowest_offer_holder_ucat": null,
+      "average_offer_holder_ucat": null,
+      "sample_size": null,
+      "source_ids": [],
+      "notes": null
+    }
+  ],
+
+  "historical_admissions_stats": [
+    {
+      "entry_year": null,
+      "applicant_group_id": null,
+      "applications": null,
+      "interviews": null,
+      "offers": null,
+      "places": null,
+      "offer_rate": null,
+      "interview_rate": null,
+      "source_ids": [],
+      "notes": null
+    }
+  ],
+
+  "foi_sources": [
+    {
+      "source_id": null,
+      "title": null,
+      "url": null,
+      "file_reference": null,
+      "date_received": null,
+      "confidence": null,
+      "source_type": "foi_response",
+      "notes": null
+    }
+  ],
+
+  "estimated_historical_prediction": {
+    "available": false,
+    "method": null,
+    "method_status": "not_modelled",
+    "method_status_values": [
+      "not_modelled",
+      "draft",
+      "validated",
+      "retired"
+    ],
+    "bands": [
+      {
+        "band_id": null,
+        "label": null,
+        "criteria": [],
+        "interpretation": null,
+        "confidence": null,
+        "source_ids": []
+      }
+    ],
+    "input_requirements": [],
+    "limitations": [],
+    "disclaimer": "Estimated historical prediction is based on historical or FOI data and is not the official university scoring formula. It should be shown separately from official formula prediction.",
+    "source_ids": [],
+    "notes": null
+  },
+
+  "engine_notes": {
+    "official_rules_source": "data/universities/*.json",
+    "research_source": "data/research/*.json",
+    "do_not_infer": [
+      "Do not treat historical UCAT data as an official UCAT cutoff unless the university explicitly publishes it as a cutoff.",
+      "Do not treat FOI or historical admissions statistics as the official university scoring formula.",
+      "Do not enable official_formula_prediction unless exact academic, UCAT, SJT and interview calculations needed by the course model are known.",
+      "Do not merge estimated_historical_prediction with official_formula_prediction in frontend messaging."
+    ],
+    "course_specific_notes": [
+      "For Aberdeen A100, official_formula_prediction is unavailable unless the exact academic plus UCAT calculation is known.",
+      "Aberdeen A100 may still support estimated_historical_prediction if suitable FOI or historical data exists."
+    ]
+  }
+}

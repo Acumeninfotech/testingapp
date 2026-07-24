@@ -1,0 +1,196 @@
+{
+  "schema_version": "1.0.0",
+  "profile_id": "lancashire-a100-research",
+  "course_profile_id": "lancashire-a100",
+  "research_status": "complete_for_supported_scope_with_documented_gaps",
+  "file_purpose": "Research and implementation mapping for University of Lancashire Medicine and Surgery MBBS A100 2027 entry.",
+  "official_rules_source": "data/universities/lancashire-a100.json",
+  "created_at": "2026-07-19",
+  "last_updated": "2026-07-20",
+  "research_scope": {
+    "implemented": [
+      "course identity for A100",
+      "Home and International applicant-group routing using existing ApplySmart groups",
+      "GCSE English Language and Mathematics grade 5/B",
+      "A-level AAA including Chemistry plus one further science subject",
+      "IB 36 with HL Chemistry and a second HL science at grade 6",
+      "institution-verified international qualification route",
+      "representable graduate 2:1 route with GCSE and Home UCAT retained",
+      "Home UCAT required",
+      "Home UCAT 1750 ApplySmart working historical guidance threshold",
+      "official published Home/UK and International intake places as reference-only metadata",
+      "eligibility-only public result-card guidance"
+    ],
+    "excluded": [
+      "offer prediction",
+      "interview prediction",
+      "Strong/Realistic/High Risk/Interview Likely bands",
+      "North West residency/Foundation Entry restriction by product-scope decision",
+      "regional residency fields",
+      "UCLan Foundation Entry evidence fields",
+      "personal reflective statement scoring",
+      "academic reference scoring",
+      "selection panel review scoring",
+      "definitive IELTS enforcement while official sources conflict"
+    ],
+    "applicant_pool": {
+      "home": true,
+      "international": true,
+      "notes": "Home/UK applicants use the existing Home group; International applicants use the existing International group. Regional UK residency is intentionally not modelled."
+    }
+  },
+  "evidence_classification_policy": {
+    "academic_rules": "official_source_verified",
+    "selection_process": "official_source_verified_with_documented_gaps",
+    "ucat_guidance": "applysmart_working_historical_guidance_not_official_cutoff",
+    "interview_prediction": "insufficient_public_evidence",
+    "prediction_confidence": "low",
+    "limitations": [
+      "Official UCAT cut-off is not published.",
+      "UCAT weighting is not published.",
+      "Academic scoring formula is not published.",
+      "Personal statement and reference weighting is not published.",
+      "SJT policy is not published.",
+      "Interview shortlisting threshold is not published.",
+      "IELTS official-source discrepancy is unresolved.",
+      "North West residency/Foundation Entry restriction is intentionally not modelled."
+    ]
+  },
+  "metadata": {
+    "university_name": "University of Lancashire",
+    "former_name": "University of Central Lancashire / UCLan",
+    "institution_code": "C30",
+    "course_name": "Medicine and Surgery, MBBS",
+    "ucas_code": "A100",
+    "entry_route": "standard_entry",
+    "course_type": "standard_undergraduate_medicine",
+    "qualification": "MBBS",
+    "duration_years": 5,
+    "entry_cycle": "2027",
+    "academic_model": "eligibility_gate",
+    "prediction_model": "eligibility_only",
+    "assessment_mode": "eligibility_only",
+    "ranking_model": null,
+    "uses_ucat": true,
+    "ucat_required_home": true,
+    "ucat_required_international": false,
+    "ucat_working_guidance_threshold": 1750,
+    "ucat_working_guidance_official_cutoff": false,
+    "home_places": 70,
+    "international_places": 200,
+    "intake_figures_reference_only": true,
+    "intake_figures_estimated": false,
+    "intake_figures_admissions_cycle": "2027 entry",
+    "intake_figures_source_ids": [
+      "lancashire_course_page_2026"
+    ],
+    "intake_figures_notes": "Official published intake numbers for Home/UK and International A100 places. These figures are informational only and do not affect eligibility, interview prediction, applicant ranking or the eligibility-only methodology."
+  },
+  "academic_requirements": {
+    "gcse": {
+      "required": [
+        "English Language grade 5/B or equivalent",
+        "Mathematics grade 5/B or equivalent"
+      ]
+    },
+    "a_level": {
+      "standard": "AAA including Chemistry plus one further science subject",
+      "one_sitting": true
+    },
+    "ib": {
+      "total_points": 36,
+      "hl": "Chemistry and another science subject at Higher Level grade 6."
+    },
+    "graduate": {
+      "degree": "2:1 Honours degree in Science/Health, or 2:1 in another subject plus BBB at A-level with two sciences including Chemistry.",
+      "automation_status": "2:1 classification, GCSE and Home UCAT are executable; degree subject and alternate BBB evidence remain documented boundaries."
+    },
+    "international_qualifications": {
+      "automation_status": "institution-verified equivalence only"
+    },
+    "english_language": {
+      "discrepancy": "UCAS states IELTS Academic 7.5 overall with no component below 7.0; the university course page states 7.0 in all components. ApplySmart does not enforce a definitive IELTS rule until resolved."
+    }
+  },
+  "selection_process": {
+    "published_components": [
+      "minimum academic requirements",
+      "academic score",
+      "UCAT for UK applicants",
+      "personal reflective statement",
+      "academic reference",
+      "selection panel review"
+    ],
+    "applysmart_output": "eligible_to_apply_or_ucat_guidance_not_met_eligibility_only",
+    "interview_prediction_available": false
+  },
+  "implementation_mapping": {
+    "architecture_change_required": false,
+    "production_json": "data/universities/lancashire-a100.json",
+    "interview_band_config": "data/interview-band-configs/lancashire-a100.json",
+    "result_card_example": "data/examples/lancashire-a100-result-card.example.json",
+    "fixture": "data/fixtures/interview-band-classification/lancashire-a100.json",
+    "dedicated_test": "scripts/test-lancashire-a100-readiness.js"
+  },
+  "evidence_gaps": [
+    {
+      "gap_id": "north_west_residency_foundation_entry_scope_exclusion",
+      "status": "intentional_not_modelled",
+      "notes": "Product decision: do not collect or evaluate regional UK residency or UCLan Foundation Entry status. Do not expose this as an applicant-facing failure or warning."
+    },
+    {
+      "gap_id": "official_ucat_cutoff",
+      "status": "blocking_for_interview_prediction",
+      "notes": "No official University of Lancashire UCAT cut-off is published."
+    },
+    {
+      "gap_id": "ucat_weighting",
+      "status": "blocking_for_interview_prediction",
+      "notes": "UCAT is used for UK applicants, but weighting is not published."
+    },
+    {
+      "gap_id": "academic_scoring_formula",
+      "status": "blocking_for_interview_prediction",
+      "notes": "Academic scoring is referenced but the formula is not published."
+    },
+    {
+      "gap_id": "qualitative_component_weighting",
+      "status": "blocking_for_interview_prediction",
+      "notes": "Personal reflective statement, academic reference and selection panel weighting is not published and cannot be objectively scored by ApplySmart."
+    },
+    {
+      "gap_id": "sjt_policy",
+      "status": "documented_gap",
+      "notes": "No official SJT use policy was located."
+    },
+    {
+      "gap_id": "ielts_discrepancy",
+      "status": "documented_gap",
+      "notes": "Official UCAS and university IELTS wording conflicts."
+    }
+  ],
+  "readiness": {
+    "eligibility": true,
+    "interview_prediction": false,
+    "assessment_mode": "eligibility_only",
+    "assessment_available": true,
+    "interview_prediction_available": false,
+    "historical_guidance": false,
+    "international_prediction": false,
+    "contextual_logic": false,
+    "result_card": true,
+    "regression": true,
+    "research_completeness": "complete_for_supported_scope_with_documented_gaps",
+    "manual_review_required": true,
+    "eligibility_ready": true,
+    "eligibility_only_ready": true,
+    "interview_prediction_ready": false,
+    "offer_prediction_scope": "out_of_scope",
+    "prediction_confidence": "low",
+    "result_card_ready": true,
+    "interview_band_config_ready": true,
+    "metadata_activation_ready": true,
+    "activation_ready": true,
+    "production_ready": true
+  }
+}

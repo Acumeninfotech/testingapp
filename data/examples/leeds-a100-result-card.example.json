@@ -1,0 +1,468 @@
+{
+  "schema_version": "1.0.0",
+  "template_version": "1.0.0",
+  "result_id": "leeds-a100-home-standard-example",
+  "generated_at": "2026-07-20",
+  "result_mode": "example_eligibility_and_historical_interview_guidance",
+  "production_state": {
+    "profile_active": true,
+    "metadata_activation_enabled": true,
+    "result_card_output_enabled": true,
+    "note": "This example reflects Leeds A100 Home interview guidance for the supported scope."
+  },
+  "course_identity": {
+    "profile_id": "leeds-a100",
+    "university_name": "University of Leeds",
+    "course_name": "Medicine and Surgery MBChB",
+    "ucas_code": "A100",
+    "entry_route": "standard_entry",
+    "qualification_awarded": "MBChB",
+    "duration_years": 5,
+    "location": "Leeds, England",
+    "source_ids": [
+      "leeds_course_page_2027",
+      "leeds_understanding_ucat"
+    ]
+  },
+  "applicant_context": {
+    "applies_to_group_ids": [
+      "england_domiciled",
+      "rest_of_uk",
+      "home_fee",
+      "school_leaver"
+    ],
+    "applicant_summary": "Home standard A-level school-leaver meeting Leeds GCSE and AAA Biology/Chemistry requirements, UCAT 2050/2700 and SJT Band 2.",
+    "fee_cohort": "home",
+    "entry_route": "standard_entry",
+    "contextual": false,
+    "graduate": false,
+    "source_ids": []
+  },
+  "readiness": {
+    "eligibility": true,
+    "interview_prediction": true,
+    "historical_guidance": true,
+    "international_prediction": false,
+    "contextual_logic": true,
+    "result_card": true,
+    "regression": true,
+    "research_completeness": "complete_for_supported_scope_with_documented_gaps",
+    "manual_review_required": true,
+    "eligibility_ready": true,
+    "interview_prediction_ready": true,
+    "prediction_confidence": "medium",
+    "result_card_ready": true,
+    "offer_prediction_scope": "out_of_scope",
+    "interview_band_config_ready": true,
+    "metadata_activation_ready": true,
+    "activation_ready": true,
+    "production_ready": true,
+    "blocking_missing_fields": [],
+    "engine_assumptions": [
+      "Home standard A-level school-leaver guidance uses the approved ApplySmart internal compensation matrix.",
+      "Achieved and predicted grades are treated identically until Leeds publishes a weighting distinction.",
+      "WP and International pools are not mapped to Home thresholds.",
+      "SJT Band 4 is an eligibility exclusion; SJT Bands 1-3 receive no points."
+    ],
+    "architecture_change_required": true,
+    "architecture_change_summary": "Generic opt-in academic-UCAT compensation-matrix component and public score-breakdown suppression were added for internal-only methodology profiles.",
+    "do_not_infer": [
+      "Do not present ApplySmart's internal calculation details as official Leeds policy.",
+      "Do not apply an achieved-grade uplift.",
+      "Do not score SJT Bands 1-3.",
+      "Do not reuse Home UCAT bands for WP or International applicants.",
+      "Do not invent graduate, IB, Scottish or alternative-route scoring.",
+      "Do not predict offers."
+    ],
+    "manual_review_boundaries": [
+      "Graduate A100 applicants.",
+      "IB, Scottish and alternative qualification routes.",
+      "Unverified contextual/WP status.",
+      "International qualification and English-language evidence.",
+      "Non-standard resit evidence."
+    ]
+  },
+  "eligibility": {
+    "status": "eligible",
+    "summary": "The represented Home standard school-leaver meets Leeds published GCSE, A-level, UCAT, SJT and science practical endorsement requirements.",
+    "stage_1_checks": [
+      {
+        "check_id": "gcse_minimums",
+        "label": "GCSE minimums",
+        "status": "pass",
+        "requirement": "At least six GCSEs at grade 4 or above, including English Language, Mathematics and accepted science subjects.",
+        "applicant_value": "Eight GCSEs are represented, including English Language, Mathematics, Biology and Chemistry at grade 7 or above.",
+        "decision_outcome": "eligible",
+        "source_ids": [
+          "leeds_course_page_2027"
+        ]
+      },
+      {
+        "check_id": "a_level_threshold",
+        "label": "A-level threshold and subjects",
+        "status": "pass",
+        "requirement": "AAA including Chemistry and Biology; A*A*B is not accepted instead of AAA.",
+        "applicant_value": "AAA in Biology, Chemistry and Mathematics.",
+        "decision_outcome": "eligible",
+        "source_ids": [
+          "leeds_course_page_2027"
+        ]
+      },
+      {
+        "check_id": "ucat_and_sjt",
+        "label": "UCAT and SJT",
+        "status": "pass",
+        "requirement": "UCAT is required in the application year; SJT Band 4 is excluded.",
+        "applicant_value": "UCAT 2050/2700 with SJT Band 2.",
+        "decision_outcome": "eligible",
+        "source_ids": [
+          "leeds_understanding_ucat"
+        ]
+      },
+      {
+        "check_id": "science_practical_endorsements",
+        "label": "Science practical endorsements",
+        "status": "pass",
+        "requirement": "Science practical endorsements must be passed where applicable.",
+        "applicant_value": "Biology and Chemistry practical endorsements are passed.",
+        "decision_outcome": "eligible",
+        "source_ids": [
+          "leeds_master_spec_2026_07_20"
+        ]
+      }
+    ],
+    "blocking_reasons": [],
+    "warnings": [
+      "Home historical UCAT guidance is not a fixed Leeds cut-off."
+    ],
+    "source_ids": [
+      "leeds_course_page_2027",
+      "leeds_understanding_ucat"
+    ]
+  },
+  "stage_1_requirements": {
+    "verification_status": "official_source_verified_for_represented_route",
+    "verified_requirements": [
+      {
+        "requirement_id": "gcse_gate",
+        "label": "GCSE eligibility gate",
+        "value": "Six GCSEs at grade 4 or above including English Language, Mathematics and Biology plus Chemistry or accepted combined science.",
+        "applies_to_group_ids": [
+          "school_leaver"
+        ],
+        "source_ids": [
+          "leeds_course_page_2027"
+        ]
+      },
+      {
+        "requirement_id": "a_level_gate",
+        "label": "A-level eligibility gate",
+        "value": "AAA including Chemistry and Biology.",
+        "applies_to_group_ids": [
+          "school_leaver"
+        ],
+        "source_ids": [
+          "leeds_course_page_2027"
+        ]
+      },
+      {
+        "requirement_id": "sjt_gate",
+        "label": "SJT eligibility gate",
+        "value": "Band 4 is not eligible for interview consideration.",
+        "applies_to_group_ids": [],
+        "source_ids": [
+          "leeds_master_spec_2026_07_20"
+        ]
+      }
+    ],
+    "unknown_requirements": [
+      "WP and International public prediction calibration remains outstanding."
+    ],
+    "source_ids": [
+      "leeds_course_page_2027",
+      "leeds_understanding_ucat"
+    ]
+  },
+  "stage_2_selection": {
+    "verification_status": "mixed_official_and_applysmart_internal_methodology",
+    "primary_model": "official_eligibility_gates_then_combined_academic_and_ucat_guidance",
+    "summary": "Leeds considers academics and UCAT together and does not publish a fixed cut-off. ApplySmart applies the approved Home historical-guidance compensation model without showing internal calculations.",
+    "represented_ranking_input": {
+      "metric": "combined_academic_and_ucat_guidance",
+      "public_result": "Strong Choice",
+      "max": null
+    },
+    "ranking_factors": [
+      {
+        "factor_id": "academic_profile",
+        "label": "Academic profile",
+        "calculation_status": "considered",
+        "notes": "Considered with UCAT; internal calculations are not displayed.",
+        "source_ids": [
+          "leeds_master_spec_2026_07_20"
+        ]
+      },
+      {
+        "factor_id": "ucat_cognitive_total",
+        "label": "UCAT cognitive total",
+        "calculation_status": "considered",
+        "notes": "Compared with recent Home historical shortlisted-score observations as guidance only.",
+        "source_ids": [
+          "leeds_understanding_ucat"
+        ]
+      }
+    ],
+    "selection_adjustments": [],
+    "unknown_calculation_areas": [
+      "Exact official Leeds academic scoring formula",
+      "Current-cycle shortlisting boundary",
+      "WP and International calibrated public prediction bands"
+    ],
+    "source_ids": [
+      "leeds_understanding_ucat",
+      "leeds_master_spec_2026_07_20"
+    ]
+  },
+  "historical_context": {
+    "use": "guidance_only",
+    "fixed_current_cutoff": false,
+    "not_deterministic": true,
+    "warning": "Leeds historical UCAT figures are guidance only, not a current or future cut-off, probability or guarantee.",
+    "represented_pool": {
+      "pool_id": "home_a100",
+      "score_scale": 2700,
+      "recent_home_lowest_shortlisted_equivalents": [
+        1927.5,
+        1957.5
+      ]
+    },
+    "conversion_policy": {
+      "stored_for_internal_guidance": true,
+      "public_formula_displayed": false
+    }
+  },
+  "prediction": {
+    "available": true,
+    "capability": "interview_guidance",
+    "prediction_type": "combined_academic_ucat_historical_guidance",
+    "prediction_status": "historical_guidance_available_for_home_pool",
+    "result_band": "interview_likely",
+    "internal_calculations_hidden": true,
+    "guidance_pool_id": "home_a100",
+    "band_basis": "Home historical guidance applied through the approved compensation matrix; internal calculations are hidden.",
+    "historical_comparison": "above_recent_home_lowest_shortlisted_equivalents",
+    "missing_data_reasons": [],
+    "cannot_predict_explanation": null,
+    "source_ids": [
+      "leeds_understanding_ucat",
+      "leeds_master_spec_2026_07_20"
+    ]
+  },
+  "missing_data": {
+    "exact_official_academic_formula": "not_published",
+    "fixed_current_ucat_cutoff": "not_published",
+    "wp_public_prediction_calibration": "outstanding",
+    "international_public_prediction_calibration": "outstanding",
+    "alternative_route_scoring": "not_published"
+  },
+  "confidence": {
+    "level": "medium",
+    "summary": "Official eligibility and combined-ranking evidence is strong; the public recommendation uses approved ApplySmart internal methodology and historical Home UCAT guidance.",
+    "stage_confidence": {
+      "stage_1": "high",
+      "stage_2": "medium",
+      "historical_guidance": "medium"
+    },
+    "source_ids": [
+      "leeds_course_page_2027",
+      "leeds_understanding_ucat",
+      "leeds_master_spec_2026_07_20"
+    ]
+  },
+  "evidence_confidence": {
+    "level": "Medium",
+    "summary": "The recommendation is supported by core admissions evidence, with some historical or route-specific limits.",
+    "reasons": [
+      "Official eligibility rules are available.",
+      "The university selection approach is implemented.",
+      "Historical interview guidance is available, but some evidence is historical, FOI-derived or has documented gaps."
+    ]
+  },
+  "display": {
+    "primary_user_facing_recommendation": "Strong Choice",
+    "recommendation_display_state": "standard",
+    "primary_explanation": "Your academic profile is strong and your UCAT is above the lowest scores seen among recently shortlisted Leeds Home applicants. Leeds considers academics and UCAT together and does not publish a fixed cut-off.",
+    "historical_guidance_caveat": "Interview thresholds may change each admissions cycle depending on applicant competition and interview capacity. Historical figures are guidance only, not a current cut-off, and do not guarantee an interview."
+  },
+  "decision_timeline": [
+    {
+      "step": 1,
+      "title": "Applicant details checked",
+      "status": "Complete",
+      "summary": "Your applicant type, qualifications and UCAT details were checked."
+    },
+    {
+      "step": 2,
+      "title": "Eligibility assessed",
+      "status": "Eligible",
+      "summary": "You meet the published entry requirements covered by ApplySmart."
+    },
+    {
+      "step": 3,
+      "title": "Selection model applied",
+      "status": "Complete",
+      "summary": "Published entry requirements were checked before academics and UCAT were considered together using Leeds-specific historical Home guidance."
+    },
+    {
+      "step": 4,
+      "title": "Historical guidance compared",
+      "status": "Complete",
+      "summary": "Your result was compared with interview information from previous admissions cycles. Interview thresholds may change each admissions cycle depending on applicant competition and interview capacity. Historical figures are guidance only, not a current cut-off, and do not guarantee an interview."
+    },
+    {
+      "step": 5,
+      "title": "Interview recommendation produced",
+      "status": "Strong choice",
+      "summary": "Strong Choice. Treat this as guidance for university choice, not a promised interview."
+    }
+  ],
+  "decision_transparency": {
+    "decision_path": [
+      {
+        "stage": "Eligibility",
+        "status": "Met",
+        "summary": "The supported entry requirements are met.",
+        "checks": [
+          {
+            "label": "Entry requirements",
+            "status": "Met",
+            "summary": "The supported entry requirements have been assessed."
+          }
+        ]
+      },
+      {
+        "stage": "Selection model",
+        "status": "Assessed",
+        "summary": "Leeds considers academics and UCAT together when ranking applicants for interview. ApplySmart uses historical Home UCAT guidance and a conservative compensation model, while keeping internal calculations hidden.",
+        "checks": [
+          {
+            "label": "Applicant pool",
+            "status": "Used",
+            "summary": "Home, Rest of UK applicants"
+          },
+          {
+            "label": "Selection approach",
+            "status": "Assessed",
+            "summary": "Leeds considers academics and UCAT together when ranking applicants for interview. ApplySmart uses historical Home UCAT guidance and a conservative compensation model, while keeping internal calculations hidden."
+          }
+        ]
+      },
+      {
+        "stage": "Historical guidance",
+        "status": "Guidance available",
+        "summary": "The applicant's result is above the historical interview range used for this applicant group. Interview thresholds may change each admissions cycle depending on applicant competition and interview capacity. Historical figures are guidance only, not a current cut-off, and do not guarantee an interview.",
+        "checks": [
+          {
+            "label": "Applicant pool",
+            "status": "Used",
+            "summary": "Home, Rest of UK applicants"
+          },
+          {
+            "label": "Home (2025)",
+            "status": "Historical",
+            "summary": "UCAT interview threshold ~1927.5 (2700 scale)."
+          },
+          {
+            "label": "Widening Participation (2025)",
+            "status": "Historical",
+            "summary": "UCAT interview threshold ~1837.5 (2700 scale)."
+          },
+          {
+            "label": "Important limitation",
+            "status": "Guidance only",
+            "summary": "Interview thresholds may change each admissions cycle depending on applicant competition and interview capacity. Historical figures are guidance only, not a current cut-off, and do not guarantee an interview."
+          }
+        ]
+      },
+      {
+        "stage": "Recommendation",
+        "status": "Guidance only",
+        "summary": "Strong Choice. Treat this as guidance for university choice, not a promised interview.",
+        "checks": []
+      }
+    ],
+    "key_reasons": [
+      "The supported entry requirements are met.",
+      "The result uses Home, Rest of UK applicants.",
+      "Leeds considers academics and UCAT together when ranking applicants for interview. ApplySmart uses historical Home UCAT guidance and a conservative compensation model, while keeping internal calculations hidden."
+    ],
+    "evidence_used": [
+      "Official admissions policy",
+      "University selection methodology",
+      "UCAT policy",
+      "Historical interview data",
+      "Contextual admissions policy",
+      "International admissions policy"
+    ],
+    "evidence_confidence": {
+      "level": "Medium",
+      "summary": "The recommendation is supported by core admissions evidence, with some historical or route-specific limits.",
+      "reasons": [
+        "Official eligibility rules are available.",
+        "The university selection approach is implemented.",
+        "Historical interview guidance is available, but some evidence is historical, FOI-derived or has documented gaps."
+      ]
+    },
+    "warnings": [],
+    "manual_review_reason": null,
+    "insufficient_evidence_reason": null,
+    "insufficient_evidence_reason_code": null,
+    "ucat_comparison": null
+  },
+  "engine_notes": {
+    "eligibility": true,
+    "interview_prediction": true,
+    "historical_guidance": true,
+    "international_prediction": false,
+    "contextual_logic": true,
+    "result_card": true,
+    "regression": true,
+    "research_completeness": "complete_for_supported_scope_with_documented_gaps",
+    "manual_review_required": true,
+    "eligibility_ready": true,
+    "interview_prediction_ready": true,
+    "prediction_confidence": "medium",
+    "result_card_ready": true,
+    "offer_prediction_scope": "out_of_scope",
+    "interview_band_config_ready": true,
+    "metadata_activation_ready": true,
+    "activation_ready": true,
+    "production_ready": true,
+    "blocking_missing_fields": [],
+    "engine_assumptions": [
+      "Home standard A-level school-leaver guidance uses the approved ApplySmart internal compensation matrix.",
+      "Achieved and predicted grades are treated identically until Leeds publishes a weighting distinction.",
+      "WP and International pools are not mapped to Home thresholds.",
+      "SJT Band 4 is an eligibility exclusion; SJT Bands 1-3 receive no points."
+    ],
+    "architecture_change_required": true,
+    "architecture_change_summary": "Generic opt-in academic-UCAT compensation-matrix component and public score-breakdown suppression were added for internal-only methodology profiles.",
+    "do_not_infer": [
+      "Do not present ApplySmart's internal calculation details as official Leeds policy.",
+      "Do not apply an achieved-grade uplift.",
+      "Do not score SJT Bands 1-3.",
+      "Do not reuse Home UCAT bands for WP or International applicants.",
+      "Do not invent graduate, IB, Scottish or alternative-route scoring.",
+      "Do not predict offers."
+    ],
+    "manual_review_boundaries": [
+      "Graduate A100 applicants.",
+      "IB, Scottish and alternative qualification routes.",
+      "Unverified contextual/WP status.",
+      "International qualification and English-language evidence.",
+      "Non-standard resit evidence."
+    ],
+    "generated_from_profile_id": "leeds-a100",
+    "example_only": true
+  }
+}

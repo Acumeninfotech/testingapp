@@ -1,0 +1,303 @@
+{
+  "schema_version": "1.0.0",
+  "course_profile_id": "manchester-a100",
+  "confidence": "medium",
+  "evidence": {
+    "classification": "official_ucat_ranking_with_group_separated_historical_guidance",
+    "summary": "Official Manchester academic and SJT screening followed by UCAT cognitive-total ranking in separate applicant cohorts. International bands use verified historical international interview competitiveness and are not a fixed UCAT cut-off, probability or interview guarantee.",
+    "source_ids": [
+      "manchester_a106_ucat_2027",
+      "manchester_a106_interviews_2027",
+      "manchester_medicine_contextual",
+      "manchester_verified_international_official_and_foi_evidence"
+    ]
+  },
+  "eligibility": {
+    "scope": "Banding applies only after every applicable production eligibility rule passes, UCAT is present for the application cycle, SJT Band 1 or 2 is confirmed, and a supported applicant pool is resolved.",
+    "a_level": {
+      "science_practical_endorsement": {
+        "required": true,
+        "subject_ids": [
+          "biology",
+          "human_biology",
+          "chemistry",
+          "physics"
+        ],
+        "accepted_values": [
+          "pass",
+          "passed"
+        ]
+      }
+    },
+    "ucat": {
+      "required_test_year": 2026
+    },
+    "pre_banding_order": [
+      "Evaluate all applicable academic and contextual eligibility rules from the production profile.",
+      "Require UCAT in the application cycle.",
+      "Reject SJT Band 3 or Band 4 before selecting a guidance pool or applying a UCAT band.",
+      "Allow SJT Band 1 or Band 2 to proceed.",
+      "Resolve the separate International, Home standard or verified Home contextual/WP pool.",
+      "Apply the matching historical UCAT guidance band."
+    ],
+    "sjt_gate": {
+      "accepted_bands": [
+        1,
+        2
+      ],
+      "rejected_bands": [
+        3,
+        4
+      ],
+      "rejection_outcome": "not_eligible",
+      "applied_before_ucat_banding": true,
+      "source_ids": [
+        "manchester_a106_ucat_2027",
+        "manchester_a106_interviews_2027"
+      ]
+    },
+    "map_override": {
+      "condition": "The applicant is a verified Manchester Access Programme completer and meets every applicable minimum criterion.",
+      "outcome": "guaranteed_interview",
+      "interview_outcome": "guaranteed_interview",
+      "apply_ucat_guidance_band": false,
+      "applicant_evidence_path": "contextual_evidence.manchester_access_programme",
+      "required_evidence": {
+        "completed": true,
+        "verified": true
+      },
+      "applicant_facing_explanation": "The applicant qualifies under Manchester's verified published guaranteed-interview policy. All mandatory academic, admissions-test and programme-specific conditions must still be satisfied. This applies to interview invitation only, not an offer.",
+      "source_ids": [
+        "manchester_medicine_contextual"
+      ],
+      "notes": "The result-card/consumer integration must apply this production override before ordinary historical band output."
+    },
+    "unsupported_and_insufficient_evidence_groups": [
+      "A106 applicants presenting a prior degree where distinct UCAT treatment is not established",
+      "Applicants to A101",
+      "Applicants whose Home standard or verified Home contextual/WP pool cannot be resolved"
+    ],
+    "reference_only_exclusions": [
+      {
+        "course_code": "A101",
+        "separate_from_a106": true,
+        "executable_for_a106": false,
+        "excluded_from_score_model": true,
+        "excluded_from_guidance_pools": true,
+        "notes": "A101 Graduate Entry remains reference-only and non-executable for A106. A101 UCAT thresholds, places and admissions rules are stored only as reference data."
+      }
+    ],
+    "do_not_infer": [
+      "Do not treat a historical minimum-invited score as a fixed current or future cutoff.",
+      "Do not present a canonical band as a probability or guarantee.",
+      "Do not generate prior-degree-applicant bands without matching evidence.",
+      "No executable A101 logic is implemented within A106.",
+      "Do not apply a UCAT band after SJT Band 3 or Band 4.",
+      "Do not replace the MAP guaranteed-interview rule with an ordinary UCAT guidance band.",
+      "Do not use arithmetic /3600 to /2700 conversion as evidence of psychometric equivalence."
+    ]
+  },
+  "score_model": {
+    "type": "ranking_metric",
+    "basis": "Official UCAT cognitive-total interview ranking input after academic eligibility and the SJT Band 1-2 gate; International boundaries are ApplySmart historical guidance and not a fixed UCAT cut-off.",
+    "metric": "ucat_total",
+    "scale": {
+      "min": 0,
+      "max": 2700
+    },
+    "fixed_current_cutoff": false,
+    "historical_guidance_only": true,
+    "band_label_mapping": {
+      "production_strong": "interview_likely",
+      "production_reasonable": "realistic",
+      "production_risky": "high_risk",
+      "ambitious": "not_created_no_separate_evidence_boundary"
+    },
+    "conversion_policy": {
+      "from_scale": 3600,
+      "to_scale": 2700,
+      "formula": "original_score * 3 / 4",
+      "psychometric_equivalence": false,
+      "rounding_policy": "Use the research-team-supplied converted equivalents. Preserve raw converted values in the research and production profiles for traceability.",
+      "execution_rule": "Converted historical values define guidance ranges only and are never deterministic current-cycle boundaries."
+    },
+    "historical_series": [
+      {
+        "group_id": "home_standard",
+        "entry_years": [
+          2022,
+          2023,
+          2024,
+          2025,
+          2026
+        ],
+        "minimum_invited_values_2700": [
+          2015,
+          2060,
+          2025,
+          2030,
+          2033
+        ],
+        "observed_range": {
+          "min": 2015,
+          "max": 2060
+        }
+      },
+      {
+        "group_id": "home_contextual_wp",
+        "entry_years": [
+          2022,
+          2023,
+          2024,
+          2025,
+          2026
+        ],
+        "minimum_invited_values_2700": [
+          1860,
+          1965,
+          1875,
+          1890,
+          1890
+        ],
+        "observed_range": {
+          "min": 1860,
+          "max": 1965
+        }
+      },
+      {
+        "group_id": "international",
+        "entry_years": [
+          2022,
+          2023,
+          2024,
+          2025,
+          2026
+        ],
+        "minimum_invited_values_2700": [
+          2045,
+          2060,
+          2025,
+          2030,
+          2033
+        ],
+        "observed_range": {
+          "min": 2025,
+          "max": 2060
+        }
+      }
+    ]
+  },
+  "guidance_pools": [
+    {
+      "pool_id": "a106_international",
+      "priority": 100,
+      "applicant_match": {
+        "all_group_ids": [
+          "international_fee"
+        ],
+        "excluded_group_ids": [
+          "graduate_applicant"
+        ]
+      },
+      "metric": "ucat_total",
+      "band_rules": [
+        {
+          "band": "interview_likely",
+          "operator": "greater_than_or_equal",
+          "value": 2150
+        },
+        {
+          "band": "realistic",
+          "operator": "between_inclusive",
+          "min": 2060,
+          "max": 2149
+        },
+        {
+          "band": "ambitious",
+          "operator": "between_inclusive",
+          "min": 2030,
+          "max": 2059
+        },
+        {
+          "band": "high_risk",
+          "operator": "less_than",
+          "value": 2030
+        }
+      ]
+    },
+    {
+      "pool_id": "a106_home_contextual_wp_school_leaver",
+      "priority": 20,
+      "applicant_match": {
+        "all_group_ids": [
+          "home_fee",
+          "school_leaver"
+        ],
+        "any_group_ids": [
+          "contextual",
+          "widening_participation",
+          "care_experienced"
+        ],
+        "excluded_group_ids": [
+          "international_fee",
+          "graduate_applicant"
+        ]
+      },
+      "metric": "ucat_total",
+      "band_rules": [
+        {
+          "band": "interview_likely",
+          "operator": "greater_than",
+          "value": 1965
+        },
+        {
+          "band": "realistic",
+          "operator": "between_inclusive",
+          "min": 1860,
+          "max": 1965
+        },
+        {
+          "band": "high_risk",
+          "operator": "less_than",
+          "value": 1860
+        }
+      ]
+    },
+    {
+      "pool_id": "a106_home_standard_school_leaver",
+      "priority": 10,
+      "applicant_match": {
+        "all_group_ids": [
+          "home_fee",
+          "school_leaver"
+        ],
+        "excluded_group_ids": [
+          "contextual",
+          "widening_participation",
+          "care_experienced",
+          "international_fee",
+          "graduate_applicant"
+        ]
+      },
+      "metric": "ucat_total",
+      "band_rules": [
+        {
+          "band": "interview_likely",
+          "operator": "greater_than",
+          "value": 2060
+        },
+        {
+          "band": "realistic",
+          "operator": "between_inclusive",
+          "min": 2015,
+          "max": 2060
+        },
+        {
+          "band": "high_risk",
+          "operator": "less_than",
+          "value": 2015
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,852 @@
+{
+  "schema_version": "applysmart.fixtures.v1",
+  "course": "KCL A100",
+  "config_version": "applysmart.university_course.v2.4",
+  "generated_on": "2026-07-23",
+  "fixtures": [
+    {
+      "id": "BND-H-01",
+      "description": "Home, UCAT at the 2024 UK interviewee mean, lower boundary of strong",
+      "input": {
+        "domicile": "uk",
+        "ucat_old_3600": 3007
+      },
+      "expected": {
+        "route": "home",
+        "ucat_band": "strong",
+        "new_2700": 2281,
+        "national_percentile": 91.3
+      }
+    },
+    {
+      "id": "BND-H-02",
+      "description": "Home, one point below the strong boundary falls to competitive",
+      "input": {
+        "domicile": "uk",
+        "ucat_old_3600": 3006
+      },
+      "expected": {
+        "route": "home",
+        "ucat_band": "competitive"
+      }
+    },
+    {
+      "id": "BND-H-03",
+      "description": "Home, at the 2024 UK interviewee minimum, bottom of high_risk",
+      "input": {
+        "domicile": "uk",
+        "ucat_old_3600": 2340
+      },
+      "expected": {
+        "route": "home",
+        "ucat_band": "high_risk",
+        "new_2700": 1744
+      }
+    },
+    {
+      "id": "BND-H-04",
+      "description": "Home, one point below the lowest ever interviewed UK score",
+      "input": {
+        "domicile": "uk",
+        "ucat_old_3600": 2339
+      },
+      "expected": {
+        "route": "home",
+        "ucat_band": "very_high_risk"
+      }
+    },
+    {
+      "id": "BND-I-01",
+      "description": "International, at the 2024 non-UK interviewee mean",
+      "input": {
+        "domicile": "non_uk",
+        "ucat_old_3600": 3078
+      },
+      "expected": {
+        "route": "international",
+        "ucat_band": "strong",
+        "new_2700": 2332
+      }
+    },
+    {
+      "id": "BND-I-02",
+      "description": "International, at the 2024 non-UK interviewee minimum",
+      "input": {
+        "domicile": "non_uk",
+        "ucat_old_3600": 2720
+      },
+      "expected": {
+        "route": "international",
+        "ucat_band": "borderline",
+        "new_2700": 2046
+      }
+    },
+    {
+      "id": "BND-X-01",
+      "description": "Same score uses separate domicile calibration even when both routes produce the same band",
+      "input": {
+        "ucat_old_3600": 2760,
+        "compare_domiciles": [
+          "uk",
+          "non_uk"
+        ]
+      },
+      "expected": {
+        "uk_band": "borderline",
+        "non_uk_band": "borderline",
+        "uk_pool_percentile_interval": [
+          50.1,
+          50.2
+        ],
+        "non_uk_pool_percentile_interval": [
+          52.5,
+          52.9
+        ],
+        "assert": "pool percentile intervals must differ between routes"
+      }
+    },
+    {
+      "id": "BND-X-02",
+      "description": "Combined band set must not be reachable",
+      "input": {
+        "request_band_set": "combined"
+      },
+      "expected": {
+        "error": "combined_bands_deprecated",
+        "must_not_return_prediction": true
+      }
+    },
+    {
+      "id": "GCS-01",
+      "description": "Eight grade 9s — both normalisation variants agree",
+      "input": {
+        "gcse": {
+          "9": 8
+        }
+      },
+      "expected": {
+        "inclusive_top_grades": 8,
+        "conservative_top_grades": 8,
+        "gcse_strength": "very_strong",
+        "interval_widened": false
+      }
+    },
+    {
+      "id": "GCS-02",
+      "description": "Five 9s and three 8s — variants disagree, band must widen",
+      "input": {
+        "gcse": {
+          "9": 5,
+          "8": 3
+        }
+      },
+      "expected": {
+        "inclusive_top_grades": 8,
+        "conservative_top_grades": 5,
+        "gcse_strength_range": [
+          "limited",
+          "very_strong"
+        ],
+        "interval_widened": true,
+        "ambiguity_disclosed": true
+      }
+    },
+    {
+      "id": "GCS-03",
+      "description": "Legacy letter grades, top-quintile school (verified quintile source)",
+      "input": {
+        "gcse": {
+          "legacy_a_star": 7,
+          "legacy_a": 3
+        },
+        "school_quintile": "top_two",
+        "school_quintile_source_status": "verified"
+      },
+      "expected": {
+        "top_grades": 7,
+        "gcse_strength": "strong"
+      }
+    },
+    {
+      "id": "GCS-04",
+      "description": "Incomplete GCSE record",
+      "input": {
+        "gcse": null
+      },
+      "expected": {
+        "gcse_strength": "not_computable",
+        "result_class": "Manual review required"
+      }
+    },
+    {
+      "id": "SCH-01",
+      "description": "Lowest-quintile school converts A-grade analogues into top grades (verified quintile source)",
+      "input": {
+        "gcse": {
+          "9": 5,
+          "7": 3
+        },
+        "school_quintile": "lowest",
+        "school_quintile_source_status": "verified"
+      },
+      "expected": {
+        "adjusted_top_grades": 8,
+        "gcse_strength": "very_strong"
+      }
+    },
+    {
+      "id": "SCH-02",
+      "description": "Third-quintile school halves A-grade analogues (verified quintile source)",
+      "input": {
+        "gcse": {
+          "9": 5,
+          "7": 4
+        },
+        "school_quintile": "third",
+        "school_quintile_source_status": "verified"
+      },
+      "expected": {
+        "adjusted_top_grades": 7.0,
+        "gcse_strength": "strong"
+      }
+    },
+    {
+      "id": "SCH-03",
+      "description": "Unknown school quintile must return a dual outcome, not a top-quintile default",
+      "input": {
+        "gcse": {
+          "9": 5,
+          "7": 3
+        },
+        "school_quintile": "unknown"
+      },
+      "expected": {
+        "unadjusted_top_grades": 5,
+        "adjusted_top_grades": 8,
+        "result_range": [
+          "limited",
+          "very_strong"
+        ],
+        "result_class": "Manual review required",
+        "assert": "must not silently default to top_two"
+      }
+    },
+    {
+      "id": "SJT-01",
+      "description": "Band 4 is a major negative but not an eligibility rejection",
+      "input": {
+        "sjt_band": 4
+      },
+      "expected": {
+        "eligibility_rejection": false,
+        "prediction_effect": "major_negative",
+        "result_class": "Manual review required"
+      }
+    },
+    {
+      "id": "SJT-02",
+      "description": "Band 1 is positive and does not trigger review",
+      "input": {
+        "sjt_band": 1
+      },
+      "expected": {
+        "eligibility_rejection": false,
+        "prediction_effect": "positive",
+        "manual_review": false
+      }
+    },
+    {
+      "id": "WP-01",
+      "description": "WP status must never produce a numeric point value",
+      "input": {
+        "wp_indicators": [
+          "K+",
+          "POLAR",
+          "ACORN"
+        ]
+      },
+      "expected": {
+        "wp_category": "strong",
+        "wp_points": null,
+        "assert": "no numeric WP score may appear in the output"
+      }
+    },
+    {
+      "id": "WP-02",
+      "description": "Unknown WP status escalates rather than defaulting to none",
+      "input": {
+        "wp_indicators": "unknown"
+      },
+      "expected": {
+        "wp_category": "unknown",
+        "result_class": "Manual review required"
+      }
+    },
+    {
+      "id": "INT-01",
+      "description": "International applicant without GCSEs must not score zero",
+      "input": {
+        "domicile": "non_uk",
+        "gcse": null,
+        "qualifications": "national_high_school_diploma",
+        "ucat_old_3600": 3078
+      },
+      "expected": {
+        "gcse_ranking_points": "not_computable",
+        "route": "international",
+        "result_class": "Manual review required",
+        "assert": "gcse_ranking_points must not be 0"
+      }
+    },
+    {
+      "id": "SCR-01",
+      "description": "Exact 170-point score is suppressed by default",
+      "input": {
+        "request_exact_score": true,
+        "prediction_mode": "historical_disclosed_formula"
+      },
+      "expected": {
+        "exact_score_returned": false,
+        "reason": "exact_score_execution_disabled"
+      }
+    },
+    {
+      "id": "SCR-02",
+      "description": "If enabled, the score must be an interval and labelled estimated",
+      "input": {
+        "request_exact_score": true,
+        "exact_score_execution": "enabled",
+        "domicile": "uk",
+        "ucat_old_3600": 3007,
+        "sjt_band": 2,
+        "gcse": {
+          "9": 7
+        },
+        "school_quintile": "top_two",
+        "school_quintile_source_status": "verified"
+      },
+      "expected": {
+        "score_type": "interval",
+        "pool_percentile_interval": [
+          79.2,
+          82.8
+        ],
+        "label_contains": "estimated",
+        "point_value_returned": false
+      }
+    },
+    {
+      "id": "CNV-01",
+      "description": "Applicant's current 2700-scale score must never be converted",
+      "input": {
+        "ucat_new_2700": 2100,
+        "request_conversion": true
+      },
+      "expected": {
+        "error": "conversion_not_applicable_to_current_scale_scores"
+      }
+    },
+    {
+      "id": "CNV-02",
+      "description": "Historical conversion must not use the linear method",
+      "input": {
+        "ucat_old_3600": 3020
+      },
+      "expected": {
+        "new_2700": 2291,
+        "must_not_equal": 2265,
+        "method": "percentile_anchored"
+      }
+    },
+    {
+      "id": "CNV-03",
+      "description": "Stored derived value must not override the calculated conversion",
+      "input": {
+        "ucat_old_3600": 3020,
+        "stored_derived_2700": 2265
+      },
+      "expected": {
+        "new_2700": 2291,
+        "assert": "calculated value wins"
+      }
+    },
+    {
+      "id": "TIE-01",
+      "description": "Tie widens the band rather than ordering applicants",
+      "input": {
+        "tied_profiles": 2
+      },
+      "expected": {
+        "behaviour": "widen_band",
+        "ordering_invented": false
+      }
+    },
+    {
+      "id": "RTE-01",
+      "description": "Graduate route carries very low confidence and manual review",
+      "input": {
+        "route": "graduate",
+        "domicile": "uk",
+        "ucat_old_3600": 3100
+      },
+      "expected": {
+        "prediction_confidence": "very_low",
+        "result_class": "Manual review required"
+      }
+    },
+    {
+      "id": "CRD-01",
+      "description": "Result card must never contain a numeric probability",
+      "input": {
+        "any_valid_profile": true
+      },
+      "expected": {
+        "contains_numeric_probability": false,
+        "contains_advisory_label": true,
+        "contains_2022_provenance": true,
+        "contains_derived_conversion_disclosure": true
+      }
+    },
+    {
+      "id": "CRD-02",
+      "description": "Prohibited phrasing must not appear",
+      "input": {
+        "any_valid_profile": true
+      },
+      "expected": {
+        "must_not_contain": [
+          "KCL's current scoring formula",
+          "your official KCL score",
+          "the formula KCL will use for 2027 entry",
+          "your interview threshold"
+        ]
+      }
+    },
+    {
+      "id": "OFR-01",
+      "description": "Offer prediction is out of scope",
+      "input": {
+        "request": "offer_probability"
+      },
+      "expected": {
+        "error": "offer_prediction_out_of_scope",
+        "message_contains": "Final offers are based on interview performance"
+      }
+    },
+    {
+      "id": "CMP-01",
+      "description": "Worked example A reproduces as Competitive",
+      "input": {
+        "ucat_band": "strong",
+        "gcse_strength": "strong",
+        "sjt_band": 2,
+        "wp_category": "none_identified"
+      },
+      "expected": {
+        "index": 5.0,
+        "class": "Competitive historical profile"
+      }
+    },
+    {
+      "id": "CMP-02",
+      "description": "Worked example B, contextual profile must outrank A rather than clamping to the same class",
+      "input": {
+        "ucat_band": "strong",
+        "gcse_strength": "very_strong",
+        "sjt_band": 1,
+        "wp_category": "strong"
+      },
+      "expected": {
+        "index_range": [
+          7.5,
+          8.5
+        ],
+        "class": "Very competitive historical profile",
+        "assert": "must rank above CMP-01"
+      }
+    },
+    {
+      "id": "CMP-03",
+      "description": "Worked example C, borderline UCAT with strong GCSE and Band 3",
+      "input": {
+        "ucat_band": "borderline",
+        "gcse_strength": "strong",
+        "sjt_band": 3,
+        "wp_category": "none_identified"
+      },
+      "expected": {
+        "index": 2.5,
+        "class": "Uncertain / balanced profile"
+      }
+    },
+    {
+      "id": "CMP-04",
+      "description": "Borderline UCAT with maximum compensation outranks strong UCAT with minimal GCSE — the core fairness case",
+      "input": {
+        "compare": [
+          {
+            "ucat_band": "borderline",
+            "gcse_strength": "very_strong",
+            "sjt_band": 1,
+            "wp_category": "strong"
+          },
+          {
+            "ucat_band": "strong",
+            "gcse_strength": "minimal",
+            "sjt_band": 3,
+            "wp_category": "none_identified"
+          }
+        ]
+      },
+      "expected": {
+        "first_index_range": [
+          5.5,
+          6.5
+        ],
+        "second_index": 1.5,
+        "assert": "contextual borderline profile must rank above uncontextualised strong profile"
+      }
+    },
+    {
+      "id": "CMP-05",
+      "description": "Exact class boundary at index 6.0 resolves upward",
+      "input": {
+        "ucat_band": "very_strong",
+        "gcse_strength": "strong",
+        "sjt_band": 2,
+        "wp_category": "none_identified"
+      },
+      "expected": {
+        "index": 6.0,
+        "class": "Very competitive historical profile",
+        "assert": "index exactly at threshold takes the higher class"
+      }
+    },
+    {
+      "id": "CMP-06",
+      "description": "Index 5.5, just below the 6.0 boundary",
+      "input": {
+        "ucat_band": "very_strong",
+        "gcse_strength": "strong",
+        "sjt_band": 3,
+        "wp_category": "none_identified"
+      },
+      "expected": {
+        "index": 5.5,
+        "class": "Competitive historical profile"
+      }
+    },
+    {
+      "id": "CMP-07",
+      "description": "WP range straddling the 6.0 boundary returns a class range and discloses ambiguity",
+      "input": {
+        "ucat_band": "strong",
+        "gcse_strength": "strong",
+        "sjt_band": 2,
+        "wp_category": "possible"
+      },
+      "expected": {
+        "index_range": [
+          5.5,
+          6.5
+        ],
+        "class_range": [
+          "Competitive historical profile",
+          "Very competitive historical profile"
+        ],
+        "ambiguity_disclosed": true
+      }
+    },
+    {
+      "id": "CMP-08",
+      "description": "Unknown WP produces a range spanning two classes",
+      "input": {
+        "ucat_band": "competitive",
+        "gcse_strength": "strong",
+        "sjt_band": 1,
+        "wp_category": "unknown"
+      },
+      "expected": {
+        "index_range": [
+          4.5,
+          6.5
+        ],
+        "class_range": [
+          "Competitive historical profile",
+          "Very competitive historical profile"
+        ],
+        "ambiguity_disclosed": true,
+        "result_class": "Manual review required"
+      }
+    },
+    {
+      "id": "CMP-09",
+      "description": "Not-computable GCSE overrides a high index",
+      "input": {
+        "ucat_band": "very_strong",
+        "gcse_strength": "not_computable",
+        "sjt_band": 1,
+        "wp_category": "none_identified"
+      },
+      "expected": {
+        "result_class": "Manual review required",
+        "assert": "override precedence beats computed class"
+      }
+    },
+    {
+      "id": "CMP-10",
+      "description": "Index must never be clamped at the UCAT band maximum",
+      "input": {
+        "ucat_band": "very_strong",
+        "gcse_strength": "very_strong",
+        "sjt_band": 1,
+        "wp_category": "strong"
+      },
+      "expected": {
+        "index_range": [
+          8.5,
+          9.5
+        ],
+        "clamped": false,
+        "assert": "index may exceed 5.0"
+      }
+    },
+    {
+      "id": "CMP-11",
+      "description": "Output must carry no numeric probability",
+      "input": {
+        "any_valid_profile": true
+      },
+      "expected": {
+        "contains_numeric_probability": false,
+        "output_type": "ordinal_class"
+      }
+    },
+    {
+      "id": "SCH-04",
+      "description": "Quintile adjustment must stay inactive while the data source is unconfirmed",
+      "input": {
+        "school_quintile_source": "dfe_attainment_8_candidate",
+        "confirmed_by_kcl": false
+      },
+      "expected": {
+        "adjustment_applied": false,
+        "school_quintile": "unknown",
+        "result_class": "Manual review required"
+      }
+    },
+    {
+      "id": "MRV-01",
+      "description": "Clean UK school-leaver profile must NOT trigger manual review (verified quintile source)",
+      "input": {
+        "domicile": "uk",
+        "school_quintile": "top_two",
+        "gcse": {
+          "9": 8
+        },
+        "sjt_band": 2,
+        "wp_category": "none_identified",
+        "route": "school_leaver",
+        "school_quintile_source_status": "verified"
+      },
+      "expected": {
+        "manual_review": false,
+        "prediction_confidence": "medium",
+        "assert": "manual_review_required must not be applied universally"
+      }
+    },
+    {
+      "id": "MRV-02",
+      "description": "Unknown school quintile triggers review on an otherwise clean profile",
+      "input": {
+        "domicile": "uk",
+        "school_quintile": "unknown",
+        "gcse": {
+          "9": 8
+        },
+        "sjt_band": 2,
+        "wp_category": "none_identified"
+      },
+      "expected": {
+        "manual_review": true,
+        "prediction_confidence": "low"
+      }
+    },
+    {
+      "id": "CNF-01",
+      "description": "Confidence is computed per profile, not read from a fixed field",
+      "input": {
+        "profiles": [
+          "all_inputs_computable",
+          "pool_percentile_estimated_only",
+          "manual_review_trigger_present"
+        ]
+      },
+      "expected": {
+        "confidences": [
+          "medium",
+          "medium_low",
+          "low"
+        ],
+        "static_value_used": false
+      }
+    },
+    {
+      "id": "CRD-03",
+      "description": "Card must use parent-friendly evidence wording without claiming a current official formula",
+      "input": {
+        "any_valid_profile": true
+      },
+      "expected": {
+        "must_contain": [
+          "published selection approach and available admissions evidence",
+          "not a guarantee of interview"
+        ],
+        "must_not_contain": [
+          "best available predictive model",
+          "current official formula"
+        ]
+      }
+    },
+    {
+      "id": "SCH-05",
+      "description": "Known quintile with unverified source must be forced to unknown",
+      "input": {
+        "school_quintile": "lowest",
+        "school_quintile_source_status": "unverified",
+        "gcse": {
+          "9": 5,
+          "7": 3
+        }
+      },
+      "expected": {
+        "effective_school_quintile": "unknown",
+        "adjustment_applied": false,
+        "result_class": "Manual review required",
+        "assert": "a known quintile must not execute without a verified source"
+      }
+    },
+    {
+      "id": "BND-H-05",
+      "description": "Current-scale home score routes by national percentile, not by converted score",
+      "input": {
+        "domicile": "uk",
+        "ucat_new_2700": 2281,
+        "test_year": 2025
+      },
+      "expected": {
+        "route": "home",
+        "routing_key": "national_percentile",
+        "converted_score_used": false,
+        "assert": "the 2281 collision between strong and competitive must not arise, because /2700 is display only"
+      }
+    },
+    {
+      "id": "BND-H-06",
+      "description": "Percentile exactly on the strong lower bound resolves to strong",
+      "input": {
+        "domicile": "uk",
+        "national_percentile": 91.28
+      },
+      "expected": {
+        "ucat_band": "strong",
+        "boundary_precedence": "higher_band_on_inclusive_minimum"
+      }
+    },
+    {
+      "id": "BND-H-07",
+      "description": "Percentile just below the strong lower bound resolves to competitive",
+      "input": {
+        "domicile": "uk",
+        "national_percentile": 91.27
+      },
+      "expected": {
+        "ucat_band": "competitive"
+      }
+    },
+    {
+      "id": "CNV-04",
+      "description": "Current 2700-scale score must never be back-converted to match old-scale boundaries",
+      "input": {
+        "ucat_new_2700": 2281,
+        "request_back_conversion": true
+      },
+      "expected": {
+        "error": "back_conversion_prohibited",
+        "routing_key": "national_percentile"
+      }
+    },
+    {
+      "id": "CMP-12",
+      "description": "Negative index is legitimate and lands in Higher-risk",
+      "input": {
+        "ucat_band": "very_high_risk",
+        "gcse_strength": "minimal",
+        "sjt_band": 3,
+        "wp_category": "none_identified"
+      },
+      "expected": {
+        "index": -2.5,
+        "class": "Higher-risk historical profile",
+        "clamped": false,
+        "assert": "index_range lower bound is -2.5, not 0.0"
+      }
+    },
+    {
+      "id": "MOD-01",
+      "description": "prediction_mode must be identical in readiness and prediction_mode blocks",
+      "input": {
+        "read": [
+          "readiness.prediction_mode",
+          "prediction_mode.mode"
+        ]
+      },
+      "expected": {
+        "values_equal": true,
+        "value": "historical_disclosed_formula"
+      }
+    },
+    {
+      "id": "META-01",
+      "description": "School-quintile source-status policy is enforced consistently, including negative fixtures",
+      "input": {
+        "scan": "all_fixtures",
+        "field": "school_quintile",
+        "known_values": [
+          "lowest",
+          "lowest_two",
+          "third",
+          "top_two"
+        ]
+      },
+      "expected": {
+        "policy": "known_quintile_executes_only_with_verified_source_status",
+        "verified_source_may_execute_adjustment": true,
+        "unverified_or_absent_source_forced_to_unknown": true,
+        "unverified_or_absent_source_adjustment_applied": false,
+        "unverified_or_absent_source_result_class": "Manual review required",
+        "negative_fixtures_allowed": [
+          "SCH-05"
+        ],
+        "violations": 0
+      }
+    },
+    {
+      "id": "META-02",
+      "description": "Every band lower bound must classify into its own band under inclusive-minimum precedence",
+      "input": {
+        "scan": "all_routes",
+        "probe": [
+          "nat_pct_min",
+          "nat_pct_min - 0.01"
+        ]
+      },
+      "expected": {
+        "at_bound": "own band",
+        "below_bound": "next band down",
+        "violations": 0
+      }
+    }
+  ],
+  "fixture_count": 55
+}

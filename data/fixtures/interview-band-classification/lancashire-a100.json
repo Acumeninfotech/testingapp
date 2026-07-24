@@ -1,0 +1,222 @@
+{
+  "course_profile_id": "lancashire-a100",
+  "base_applicant": {
+    "profile_id": "lancashire_base_home_a_level",
+    "application_year": 2027,
+    "course_target": {
+      "university_id": "lancashire-a100",
+      "ucas_code": "A100",
+      "entry_route": "standard_entry"
+    },
+    "applicant_identity": {
+      "fee_status": "Home",
+      "domicile": "England",
+      "applicant_type": "school_leaver"
+    },
+    "qualification_route": "a_level",
+    "gcse_profile": {
+      "subjects": {
+        "english_language": "6",
+        "mathematics": "6"
+      },
+      "total_gcse_count": 2
+    },
+    "a_level_profile": {
+      "subjects": [
+        {
+          "subject_id": "chemistry",
+          "predicted_grade": "A"
+        },
+        {
+          "subject_id": "biology",
+          "predicted_grade": "A"
+        },
+        {
+          "subject_id": "mathematics",
+          "predicted_grade": "A"
+        }
+      ]
+    },
+    "admissions_tests": {
+      "ucat": {
+        "taken": true,
+        "total_score": 1800,
+        "score_scale": 2700,
+        "sjt_band": 3,
+        "subtests": {
+          "verbal_reasoning": 600,
+          "decision_making": 600,
+          "quantitative_reasoning": 600
+        }
+      }
+    }
+  },
+  "scenarios": [
+    {
+      "scenario_id": "home_a_level_eligible_ucat_guidance_met",
+      "overrides": {},
+      "expected": {
+        "eligibility_status": "eligible",
+        "interview_band": "eligible_to_apply",
+        "guidance_pool_id": "home_a100_ucat_guidance_gate",
+        "card_result_band": "eligible_to_apply",
+        "fee_status": "home"
+      }
+    },
+    {
+      "scenario_id": "home_a_level_ucat_guidance_not_met",
+      "overrides": {
+        "admissions_tests": {
+          "ucat": {
+            "taken": true,
+            "total_score": 1700,
+            "score_scale": 2700,
+            "sjt_band": 2
+          }
+        }
+      },
+      "expected": {
+        "eligibility_status": "eligible",
+        "interview_band": "insufficient_evidence",
+        "guidance_pool_id": "home_a100_ucat_guidance_gate",
+        "card_result_band": "insufficient_evidence"
+      }
+    },
+    {
+      "scenario_id": "international_ib_eligible_ucat_not_required",
+      "overrides": {
+        "profile_id": "lancashire_international_ib",
+        "applicant_identity": {
+          "fee_status": "International",
+          "domicile": "international",
+          "applicant_type": "school_leaver"
+        },
+        "qualification_route": "international_baccalaureate",
+        "a_level_profile": null,
+        "ib_profile": {
+          "total_points": 36,
+          "higher_level_subjects": [
+            {
+              "subject_id": "chemistry",
+              "grade": "6"
+            },
+            {
+              "subject_id": "biology",
+              "grade": "6"
+            },
+            {
+              "subject_id": "mathematics",
+              "grade": "5"
+            }
+          ]
+        },
+        "admissions_tests": {
+          "ucat": {
+            "taken": false,
+            "total_score": null,
+            "score_scale": 2700,
+            "sjt_band": null
+          }
+        }
+      },
+      "expected": {
+        "eligibility_status": "eligible",
+        "interview_band": "eligible_to_apply",
+        "guidance_pool_id": "international_a100_eligibility_gate",
+        "card_result_band": "eligible_to_apply",
+        "fee_status": "international"
+      }
+    },
+    {
+      "scenario_id": "academic_a_level_failure",
+      "overrides": {
+        "a_level_profile": {
+          "subjects": [
+            {
+              "subject_id": "chemistry",
+              "predicted_grade": "A"
+            },
+            {
+              "subject_id": "biology",
+              "predicted_grade": "B"
+            },
+            {
+              "subject_id": "mathematics",
+              "predicted_grade": "A"
+            }
+          ]
+        }
+      },
+      "expected": {
+        "eligibility_status": "not_eligible",
+        "interview_band": "not_eligible",
+        "failure": "a_level_requirements_not_met",
+        "card_result_band": "not_eligible"
+      }
+    },
+    {
+      "scenario_id": "missing_second_science_failure",
+      "overrides": {
+        "a_level_profile": {
+          "subjects": [
+            {
+              "subject_id": "chemistry",
+              "predicted_grade": "A"
+            },
+            {
+              "subject_id": "english_literature",
+              "predicted_grade": "A"
+            },
+            {
+              "subject_id": "general_studies",
+              "predicted_grade": "A"
+            }
+          ]
+        }
+      },
+      "expected": {
+        "eligibility_status": "not_eligible",
+        "interview_band": "not_eligible",
+        "failure": "a_level_requirements_not_met",
+        "card_result_band": "not_eligible"
+      }
+    },
+    {
+      "scenario_id": "gcse_maths_failure",
+      "overrides": {
+        "gcse_profile": {
+          "subjects": {
+            "english_language": "6",
+            "mathematics": "4"
+          },
+          "total_gcse_count": 2
+        }
+      },
+      "expected": {
+        "eligibility_status": "not_eligible",
+        "interview_band": "not_eligible",
+        "failure": "minimum_gcse_grade_not_met:mathematics",
+        "card_result_band": "not_eligible"
+      }
+    },
+    {
+      "scenario_id": "home_missing_ucat_failure",
+      "overrides": {
+        "admissions_tests": {
+          "ucat": {
+            "taken": false,
+            "total_score": null,
+            "score_scale": 2700,
+            "sjt_band": null
+          }
+        }
+      },
+      "expected": {
+        "eligibility_status": "not_eligible",
+        "interview_band": "not_eligible",
+        "failure": "required_admissions_test_missing:ucat",
+        "card_result_band": "not_eligible"
+      }
+    }
+  ]
+}

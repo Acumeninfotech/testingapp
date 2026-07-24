@@ -1,0 +1,141 @@
+{
+  "schema_version": "1.0.0",
+  "profile_id": "cambridge-a100-research",
+  "course_profile_id": "cambridge-a100",
+  "research_status": "complete_for_supported_scope_with_documented_gaps",
+  "file_purpose": "Research and evidence profile for University of Cambridge Medicine MB BChir A100. Executable rules live in data/universities/cambridge-a100.json and data/interview-band-configs/cambridge-a100.json.",
+  "official_rules_source": "data/universities/cambridge-a100.json",
+  "created_at": "2026-07-21",
+  "last_updated": "2026-07-21",
+  "research_scope": {
+    "target_entry_year": 2027,
+    "primary_policy_cycle": "2027 entry cycle, calibrated from the supplied July 2026 Cambridge research document.",
+    "authoritative_research_file": "/Users/faizan/Desktop/medical university research/University-data-list/cambridge/ApplySmart_Cambridge_A100_Master_Research_v2-2.docx",
+    "implementation_reference_file": "/Users/faizan/Desktop/medical university research/University-data-list/cambridge/cambridge_a100_engine.json",
+    "primary_scope": [
+      "home_a100_school_leaver_holistic_guidance",
+      "international_a100_school_leaver_holistic_guidance",
+      "contextual_qualitative_uplift",
+      "sjt_ignored_for_a100"
+    ],
+    "manual_review_scope": [
+      "contextual_a_level_a_star_a_a_gate_exception",
+      "borderline_or_high_risk_final_band",
+      "international_realistic_or_above_due_quota_pressure",
+      "scottish_advanced_higher_a1_a2_precision",
+      "graduate_or_affiliated_a100_route",
+      "non_standard_overseas_qualification_equivalency",
+      "resits_or_extenuating_circumstances"
+    ],
+    "blocked_routes": [
+      "offer_prediction",
+      "gateway_or_foundation_medicine_route",
+      "transfer_into_a100",
+      "access_to_medicine_automatic_route"
+    ],
+    "production_json_updated": true,
+    "index_updated": true,
+    "examples_updated": true,
+    "regression_scripts_updated": true,
+    "activation_flags_updated": true,
+    "third_party_admissions_websites_used": false
+  },
+  "evidence_classification_policy": {
+    "official_policy": "Eligibility gates, no GCSE scoring, UCAT required, SJT ignored for A100, no published cut-off, no reduced Medicine contextual offer, winter pool, application timing and OfS place limits are treated as official where classified as official in the supplied research.",
+    "runtime_rule": "Official eligibility gates are executable. Modelled UCAT bands, GCSE modifiers and contextual uplift are executable only as hidden ApplySmart guidance and must not be presented as Cambridge policy.",
+    "display_only": "College-level UCAT averages, estimated interview floors, prep-provider ranges, converted BMAT-era trend rows and likelihood percentages remain evidence-labelled context and are not displayed as public thresholds.",
+    "threshold_protection": "Internal boundaries and modifier values are hidden through presentation flags and dedicated regression assertions.",
+    "manual_review": "Evidence exists but current applicant state or route pressure requires adviser review for specified cases."
+  },
+  "metadata": {
+    "engine_version": "ApplySmart Engine v1.0",
+    "architecture_change_required": true,
+    "shared_engine_extensions": [
+      "config_driven_gcse_profile_modifier_component",
+      "config_driven_conditional_manual_review_triggers",
+      "config_driven_manual_review_band_caps"
+    ],
+    "architecture_change_rationale": "Cambridge's supplied engine specification requires a deterministic GCSE context modifier, conditional review triggers and a contextual A*AA manual-review cap. Existing generic configuration could not express these without hard-coding Cambridge.",
+    "no_offer_prediction": true,
+    "research_engine_json_discrepancies": [
+      {
+        "field": "engine_fields.manual_review_required / metadata.manual_review_required",
+        "research": "Manual review is conditional with specific triggers.",
+        "engine_reference": "Set to true.",
+        "implementation_resolution": "Implemented conditional triggers from the authoritative research. The supplied reference JSON was not modified."
+      },
+      {
+        "field": "bands.approx_probability",
+        "research": "Probability ranges are internal calibration only and must never be serialized to users.",
+        "engine_reference": "Approximate probability strings appear on public band objects.",
+        "implementation_resolution": "Production config has no public approx_probability fields and result-card tests assert no percentages/threshold leaks."
+      }
+    ],
+    "evidence_gaps": [
+      "college_specific_a_star_subject_placement:not_executable_generically",
+      "scottish_advanced_higher_a1_a2_precision:manual_review",
+      "international_country_specific_equivalency:manual_review",
+      "official_cambridge_interview_cutoff:null",
+      "official_cambridge_points_formula:null",
+      "offer_prediction:out_of_scope"
+    ]
+  },
+  "readiness": {
+    "eligibility": true,
+    "interview_prediction": true,
+    "historical_guidance": true,
+    "international_prediction": true,
+    "contextual_logic": true,
+    "result_card": true,
+    "regression": true,
+    "research_completeness": "complete_for_supported_scope_with_documented_gaps",
+    "manual_review_required": true,
+    "manual_review_policy": "conditional",
+    "eligibility_ready": true,
+    "interview_prediction_ready": true,
+    "prediction_confidence": "medium",
+    "result_card_ready": true,
+    "offer_prediction_scope": "out_of_scope",
+    "interview_band_config_ready": true,
+    "metadata_activation_ready": true,
+    "production_ready_candidate": true,
+    "production_activation_should_remain_blocked": false,
+    "activation_block_reason": null
+  },
+  "official_selection_model": {
+    "model": "Holistic college review; no official composite score, fixed UCAT cut-off, UCAT weighting, GCSE score or SJT rule.",
+    "hard_filters": [
+      "A*A*A or equivalent academic gate, except contextual A*AA manual-review exception",
+      "Chemistry plus at least one of Biology, Physics or Mathematics",
+      "Science practical endorsement pass where applicable",
+      "UCAT cognitive total supplied",
+      "English-language and minimum-age requirements where applicable"
+    ],
+    "sjt": "Ignored for A100 interview selection, including Band 4.",
+    "tiebreak_to_interview": "No numeric tie-breaker; holistic judgement and winter pool redistribution.",
+    "offer_stage_reference_only": "Interview performance and college judgement dominate. Offer prediction unavailable."
+  },
+  "non_runtime_research_metadata": {
+    "home_places": 291,
+    "international_places": 22,
+    "place_limit_scope": "OfS medical maximum fundable limits across Cambridge medicine intake, not solely A100.",
+    "2025_entry": {
+      "applications": 1791,
+      "offers": 288,
+      "home_offer_holder_ucat_mean_3600": 3081,
+      "international_offer_holder_ucat_mean_3600": 3207,
+      "home_offer_holder_ucat_mean_converted_2700": 2311,
+      "international_offer_holder_ucat_mean_converted_2700": 2405,
+      "runtime_use": "calibration_only"
+    },
+    "modelled_bands_hidden": true,
+    "probability_display": "band_label_only"
+  },
+  "implementation_mapping": {
+    "production_json": "data/universities/cambridge-a100.json",
+    "interview_band_config": "data/interview-band-configs/cambridge-a100.json",
+    "result_card_example": "data/examples/cambridge-a100-result-card.example.json",
+    "fixture": "data/fixtures/interview-band-classification/cambridge-a100.json",
+    "readiness_test": "scripts/test-cambridge-a100-readiness.js"
+  }
+}

@@ -1,0 +1,1000 @@
+{
+  "schema_version": "1.0.0",
+  "profile_id": "leeds-a100",
+  "profile_status": "activated_for_scoped_home_eligibility_and_interview_guidance",
+  "verification_status": "mixed_official_and_historical_guidance",
+  "last_updated": "2026-07-20",
+  "university": {
+    "name": "University of Leeds",
+    "slug": "leeds",
+    "country": "United Kingdom",
+    "nation": "England",
+    "institution_type": "University",
+    "website_url": "https://www.leeds.ac.uk/"
+  },
+  "course": {
+    "name": "Medicine and Surgery MBChB",
+    "ucas_code": "A100",
+    "entry_route": "standard_entry",
+    "qualification_awarded": "MBChB",
+    "duration_years": 5,
+    "campus": "Leeds",
+    "location": "Leeds, England",
+    "entry_year": 2027,
+    "fee_statuses": [
+      "home",
+      "international"
+    ],
+    "is_gateway_or_foundation": false,
+    "is_graduate_entry": false,
+    "notes": "Standard-entry A100 Medicine and Surgery MBChB. Leeds has a separate Gateway route; graduates apply through A100, but route-specific graduate scoring is not published."
+  },
+  "medical_school": {
+    "name": "School of Medicine",
+    "source_ids": [
+      "leeds_master_spec_2026_07_20"
+    ]
+  },
+  "applicant_pools": [
+    {
+      "pool_id": "home_a100",
+      "applies_to_group_ids": [
+        "home_fee"
+      ],
+      "excluded_group_ids": [
+        "international_fee",
+        "contextual",
+        "widening_participation"
+      ],
+      "selection_relevance": "Executable Home A100 pool using ApplySmart's approved internal academic-strength and historical Home UCAT guidance methodology."
+    },
+    {
+      "pool_id": "access_to_leeds_wp_a100",
+      "applies_to_group_ids": [
+        "home_fee",
+        "contextual",
+        "widening_participation"
+      ],
+      "excluded_group_ids": [
+        "international_fee"
+      ],
+      "selection_relevance": "Separate contextual/WP pool retained. Historical WP calibration is outstanding, so ApplySmart does not reuse Home bands for public prediction."
+    },
+    {
+      "pool_id": "international_a100",
+      "applies_to_group_ids": [
+        "international_fee"
+      ],
+      "selection_relevance": "Separate International pool retained. International UCAT calibration is outstanding, so public prediction is withheld."
+    }
+  ],
+  "applies_to_group_ids": [
+    "england_domiciled",
+    "scotland_domiciled",
+    "wales_domiciled",
+    "northern_ireland_domiciled",
+    "home_fee",
+    "international_fee",
+    "rest_of_uk",
+    "contextual",
+    "widening_participation",
+    "care_experienced",
+    "graduate_applicant",
+    "school_leaver",
+    "mature_applicant",
+    "resit_applicant",
+    "deferred_entry"
+  ],
+  "stage_1_eligibility": {
+    "verification_status": "official_source_verified_with_documented_gaps",
+    "source_ids": [
+      "leeds_course_page_2027",
+      "leeds_understanding_ucat",
+      "leeds_master_spec_2026_07_20"
+    ],
+    "overall_policy": {
+      "status": "official_rules_mapped_with_conservative_unresolved_policy_defaults",
+      "description": "Leeds checks published academic eligibility, UCAT in the application year and SJT Band 4 exclusion before applicants are ranked using academics and UCAT together.",
+      "not_eligible_if": [
+        "The applicable GCSE or A-level published minimum is not met.",
+        "Chemistry and Biology are not included in the A-level profile.",
+        "A current-cycle UCAT score is not supplied.",
+        "UCAT SJT Band 4 is supplied.",
+        "A required science practical endorsement is not passed.",
+        "More than one resit attempt per subject is recorded."
+      ],
+      "source_ids": [
+        "leeds_course_page_2027",
+        "leeds_understanding_ucat",
+        "leeds_master_spec_2026_07_20"
+      ]
+    },
+    "gcse": {
+      "status": "official_source_verified_with_internal_scoring_used_after_gate",
+      "qualification_scope": [
+        "GCSE",
+        "IGCSE",
+        "Accepted combined or dual science alternative"
+      ],
+      "minimum_count": 6,
+      "minimum_count_at_or_above_grade": {
+        "requirement_id": "six_gcse_at_grade_4_or_above",
+        "count": 6,
+        "minimum_grade": "4"
+      },
+      "mandatory_subject_ids": [
+        "english_language",
+        "mathematics"
+      ],
+      "grade_requirements": [
+        {
+          "requirement_id": "gcse_english_language_minimum",
+          "subject_id": "english_language",
+          "minimum_grade": "4",
+          "qualification_level": "gcse_or_igcse",
+          "decision_outcome_if_not_met": "not_eligible",
+          "source_ids": [
+            "leeds_course_page_2027"
+          ]
+        },
+        {
+          "requirement_id": "gcse_mathematics_minimum",
+          "subject_id": "mathematics",
+          "minimum_grade": "4",
+          "qualification_level": "gcse_or_igcse",
+          "decision_outcome_if_not_met": "not_eligible",
+          "source_ids": [
+            "leeds_course_page_2027"
+          ]
+        }
+      ],
+      "science_requirement": {
+        "requirement_id": "gcse_biology_and_chemistry_or_combined_science",
+        "requirement_type": "any_of",
+        "minimum_options_required": 1,
+        "accepted_options": [
+          {
+            "option_id": "separate_biology_and_chemistry",
+            "grade_requirements": [
+              {
+                "subject_id": "biology",
+                "minimum_grade": "4"
+              },
+              {
+                "subject_id": "chemistry",
+                "minimum_grade": "4"
+              }
+            ]
+          },
+          {
+            "option_id": "combined_science_double_award",
+            "subject_id": "combined_science",
+            "minimum_grade_profile": [
+              "4",
+              "4"
+            ],
+            "accepted_equivalent_profile": [
+              "C",
+              "C"
+            ],
+            "counts_as_gcse_subjects": 2
+          }
+        ],
+        "decision_outcome_if_not_met": "not_eligible",
+        "source_ids": [
+          "leeds_course_page_2027"
+        ]
+      },
+      "accepted_equivalencies": [
+        "Accepted combined or dual science alternative"
+      ],
+      "sitting_policy": "One GCSE/A-level resit accepted from 2026; third attempts are not accepted.",
+      "achieved_or_predicted": "achieved",
+      "selection_role": "eligibility_gate_then_applysmart_internal_academic_strength",
+      "scored_after_eligibility": true,
+      "internal_scoring": {
+        "evidence_boundary": "applysmart_internal_methodology",
+        "counted_subject_limit": 8,
+        "maximum_points": 24,
+        "grade_points": {
+          "9_or_8": 3,
+          "7": 2,
+          "6": 1,
+          "5_and_below": 0
+        },
+        "public_display": false
+      },
+      "notes": "Leeds officially confirms eight GCSEs are scored but does not publish the full grade-to-points table. The scoring table here is approved ApplySmart internal methodology and must not be presented as official Leeds policy."
+    },
+    "post_16": {
+      "status": "official_source_verified_with_alternative_route_manual_review_boundaries",
+      "accepted_qualifications": [
+        "a_level",
+        "international_baccalaureate",
+        "scottish_highers",
+        "degree",
+        "verified_international_equivalent"
+      ],
+      "a_level": {
+        "status": "official_source_verified",
+        "standard_offer": {
+          "grade_profile": [
+            "A",
+            "A",
+            "A"
+          ]
+        },
+        "contextual_offer": {
+          "grade_profile": [
+            "A",
+            "B",
+            "B"
+          ],
+          "applies_to_group_ids": [
+            "home_fee",
+            "contextual"
+          ],
+          "notes": "Access to Leeds offer: ABB including Chemistry and Biology with an A in either subject."
+        },
+        "grade_requirements": [
+          {
+            "requirement_id": "leeds_standard_a_level_aaa",
+            "applies_to_group_ids": [
+              "home_fee"
+            ],
+            "excluded_group_ids": [
+              "contextual",
+              "widening_participation",
+              "graduate_applicant"
+            ],
+            "grade_profile": [
+              "A",
+              "A",
+              "A"
+            ],
+            "required_subject_ids": [
+              "chemistry",
+              "biology"
+            ],
+            "decision_outcome_if_not_met": "not_eligible",
+            "notes": "A*A*B is not accepted instead of AAA."
+          },
+          {
+            "requirement_id": "leeds_international_a_level_aaa",
+            "applies_to_group_ids": [
+              "international_fee"
+            ],
+            "excluded_group_ids": [
+              "graduate_applicant"
+            ],
+            "grade_profile": [
+              "A",
+              "A",
+              "A"
+            ],
+            "required_subject_ids": [
+              "chemistry",
+              "biology"
+            ],
+            "decision_outcome_if_not_met": "not_eligible"
+          },
+          {
+            "requirement_id": "leeds_access_to_leeds_abb",
+            "applies_to_group_ids": [
+              "home_fee",
+              "contextual"
+            ],
+            "excluded_group_ids": [
+              "international_fee",
+              "graduate_applicant"
+            ],
+            "grade_profile": [
+              "A",
+              "B",
+              "B"
+            ],
+            "required_subject_ids": [
+              "chemistry",
+              "biology"
+            ],
+            "required_subject_grade_options": [
+              {
+                "grade_requirements": [
+                  {
+                    "subject_id": "chemistry",
+                    "minimum_grade": "A"
+                  }
+                ]
+              },
+              {
+                "grade_requirements": [
+                  {
+                    "subject_id": "biology",
+                    "minimum_grade": "A"
+                  }
+                ]
+              }
+            ],
+            "decision_outcome_if_not_met": "not_eligible"
+          }
+        ],
+        "required_subject_ids": [
+          "chemistry",
+          "biology"
+        ],
+        "science_practical_endorsement_required": true,
+        "science_practical_subjects": [
+          "biology",
+          "chemistry"
+        ],
+        "predicted_grades_accepted": true,
+        "achieved_grades_scored": false,
+        "predicted_grades_scored": false,
+        "selection_role": "eligibility_gate_then_applysmart_internal_academic_strength",
+        "internal_scoring": {
+          "evidence_boundary": "applysmart_internal_methodology",
+          "maximum_points": 8,
+          "aaa_points": 8,
+          "achieved_and_predicted_treated_identically": true,
+          "public_display": false
+        },
+        "notes": "Achieved and predicted grades are accepted for eligibility and treated identically in the internal model. No additional achieved-grade weighting is applied."
+      },
+      "ib": {
+        "status": "manual_review",
+        "notes": "Leeds does not publish enough route-specific scoring detail in the supplied specification for automatic IB scoring."
+      },
+      "scottish": {
+        "status": "manual_review",
+        "notes": "Scottish route eligibility and scoring require manual review until official route-specific scoring evidence is available."
+      },
+      "degree": {
+        "status": "manual_review",
+        "notes": "Graduates apply through A100, but Leeds does not publish a separate graduate scoring methodology."
+      },
+      "notes": "Alternative qualifications are not assigned invented conversion formulas."
+    },
+    "admissions_tests": {
+      "ucat": {
+        "required": true,
+        "minimum_total_score": null,
+        "score_scale": 2700,
+        "test_cycle": "year_of_application",
+        "used_in_selection": true,
+        "weight_percent": null,
+        "fixed_current_cutoff": false,
+        "threshold_policy": "Leeds does not publish a predetermined UCAT cut-off; UCAT is combined with academic performance for ranking.",
+        "source_ids": [
+          "leeds_understanding_ucat"
+        ]
+      },
+      "sjt": {
+        "used_as_gate": true,
+        "accepted_bands": [
+          1,
+          2,
+          3
+        ],
+        "excluded_bands": [
+          4
+        ],
+        "band_4_policy": "not_eligible_for_interview_consideration",
+        "scoring": {
+          "used_in_score": false,
+          "points_available": 0
+        },
+        "notes": "SJT Band 4 is excluded. Bands 1-3 remain eligible and no bonus or penalty points are awarded."
+      }
+    },
+    "resits": {
+      "allowed": true,
+      "conditions": [
+        "One GCSE/A-level resit attempt per subject is permitted from 2026 entry.",
+        "Third attempts are not accepted."
+      ],
+      "maximum_resits": 1,
+      "manual_review_required": false,
+      "notes": "Resits are used only for eligibility. No academic point penalty or UCAT adjustment is applied."
+    },
+    "contextual": {
+      "available": true,
+      "criteria": [
+        "Access to Leeds or widening participation route verified externally"
+      ],
+      "adjustments": [
+        "A-level offer may be ABB including Chemistry and Biology with an A in either subject.",
+        "No assumed UCAT uplift, points bonus or threshold reduction is applied."
+      ],
+      "notes": "Contextual/WP applicants are routed separately. Public prediction is withheld until WP calibration is complete."
+    },
+    "english_language": {
+      "required_for_group": true,
+      "accepted_tests": [],
+      "exemptions": [],
+      "notes": "International English-language route detail is not implemented without applicant-specific verification."
+    },
+    "age_or_professional_checks": {
+      "minimum_age": null,
+      "fitness_to_practise_required": true,
+      "dbs_required": true,
+      "occupational_health_required": true,
+      "notes": "Enhanced DBS and occupational health clearance are required. These are professional checks and do not affect pre-interview prediction."
+    },
+    "age_or_degree": {
+      "minimum_age": null,
+      "degree_required": false,
+      "degree_classification": null,
+      "accepted_degree_subjects": [],
+      "notes": "No separate graduate-entry course is operated."
+    },
+    "non_academic": {
+      "work_experience": "valued_not_mandatory",
+      "personal_statement": "not_modelled_for_interview_prediction",
+      "reference_policy": "not_modelled_for_interview_prediction",
+      "fitness_to_practise_required": true,
+      "dbs_required": true,
+      "occupational_health_required": true,
+      "notes": "Professional checks are required but do not affect pre-interview prediction."
+    }
+  },
+  "stage_2_interview_selection": {
+    "verification_status": "mixed_official_and_historical_guidance",
+    "source_ids": [
+      "leeds_understanding_ucat",
+      "leeds_master_spec_2026_07_20"
+    ],
+    "primary_model": "academic_plus_ucat_weighting",
+    "selection_model": "official_eligibility_gates_then_applysmart_internal_academic_strength_plus_home_historical_ucat_guidance",
+    "modifiers": [
+      "separate_applicant_pool",
+      "contextual_adjustment",
+      "widening_participation_scheme",
+      "sjt_band_4_exclusion"
+    ],
+    "ranking_factors": [
+      {
+        "factor_id": "academic_performance",
+        "factor_type": "academic_profile",
+        "weight_percent": null,
+        "points_available": 32,
+        "calculation_status": "applysmart_internal_methodology",
+        "public_display": false,
+        "notes": "Internal GCSE /24 plus A-level /8 score. This is not the official Leeds formula."
+      },
+      {
+        "factor_id": "ucat_cognitive_total",
+        "factor_type": "admissions_test",
+        "weight_percent": null,
+        "points_available": null,
+        "source_field": "admissions_tests.ucat.total_score",
+        "notes": "Leeds officially combines UCAT with academic performance and publishes historical lowest shortlisted scores."
+      }
+    ],
+    "calculation": {
+      "verification_status": "mixed_official_and_historical_guidance",
+      "source_ids": [
+        "leeds_master_spec_2026_07_20"
+      ],
+      "score_components": [
+        {
+          "component_id": "internal_academic_strength",
+          "factor_id": "academic_performance",
+          "input_field": "gcse_profile + a_level_profile",
+          "calculation_method": "ApplySmart internal GCSE /24 plus A-level /8 academic-strength model.",
+          "scale": {
+            "min": 0,
+            "max": 32
+          },
+          "weight_percent": null,
+          "rounding": "none",
+          "maximum": 32,
+          "public_display": false,
+          "notes": "Hidden internal methodology; not an official Leeds formula.",
+          "source_ids": [
+            "leeds_master_spec_2026_07_20"
+          ]
+        },
+        {
+          "component_id": "home_historical_ucat_position",
+          "factor_id": "ucat_cognitive_total",
+          "input_field": "admissions_tests.ucat.total_score",
+          "calculation_method": "Place the Home applicant's UCAT total into the approved historical guidance position bands.",
+          "scale": {
+            "min": 0,
+            "max": 2700
+          },
+          "weight_percent": null,
+          "rounding": "none",
+          "score_scale": 2700,
+          "public_display": false,
+          "notes": "Historical guidance only; not a fixed Leeds cut-off.",
+          "source_ids": [
+            "leeds_understanding_ucat",
+            "leeds_master_spec_2026_07_20"
+          ]
+        }
+      ],
+      "total_score": {
+        "calculation_method": "ApplySmart internal compensation matrix; no public composite score is shown.",
+        "components": [
+          "internal_academic_strength",
+          "home_historical_ucat_position"
+        ],
+        "scale": {
+          "min": 1,
+          "max": 3
+        },
+        "notes": "The output is converted directly to public labels: Higher Risk, Realistic Choice or Strong Choice.",
+        "source_ids": [
+          "leeds_master_spec_2026_07_20"
+        ]
+      },
+      "notes": "ApplySmart internal methodology is stored for auditability and is not presented as an official Leeds scoring formula."
+    },
+    "thresholds": [
+      {
+        "threshold_id": "home_historical_guidance_below_recent_range",
+        "applicant_pool": "home_a100",
+        "metric": "ucat_total",
+        "operator": "less_than",
+        "value": 1900,
+        "score_scale": 2700,
+        "use": "applysmart_historical_guidance",
+        "evidence_classification": "applysmart_internal_methodology"
+      },
+      {
+        "threshold_id": "home_historical_guidance_borderline",
+        "applicant_pool": "home_a100",
+        "metric": "ucat_total",
+        "operator": "between_inclusive",
+        "min": 1900,
+        "max": 1929,
+        "score_scale": 2700,
+        "use": "applysmart_historical_guidance",
+        "evidence_classification": "applysmart_internal_methodology"
+      },
+      {
+        "threshold_id": "home_historical_guidance_competitive",
+        "applicant_pool": "home_a100",
+        "metric": "ucat_total",
+        "operator": "between_inclusive",
+        "min": 1930,
+        "max": 2049,
+        "score_scale": 2700,
+        "use": "applysmart_historical_guidance",
+        "evidence_classification": "historical_guidance_range"
+      },
+      {
+        "threshold_id": "home_historical_guidance_strong",
+        "applicant_pool": "home_a100",
+        "metric": "ucat_total",
+        "operator": "greater_than_or_equal",
+        "value": 2050,
+        "score_scale": 2700,
+        "use": "applysmart_historical_guidance",
+        "evidence_classification": "applysmart_internal_methodology"
+      }
+    ],
+    "selection_adjustments": [
+      {
+        "adjustment_id": "contextual_route_separate_no_uplift",
+        "modifier_id": "widening_participation_scheme",
+        "applies_to_group_ids": [
+          "home_fee",
+          "contextual",
+          "widening_participation"
+        ],
+        "effect": {
+          "type": "separate_pool_no_numerical_uplift",
+          "target": "applicant_pool",
+          "value": "WP calibration outstanding"
+        },
+        "decision_outcome": "warning",
+        "notes": "Do not apply a percentage uplift, bonus academic points or reused Home UCAT bands."
+      }
+    ],
+    "tie_breakers": [
+      {
+        "order": 1,
+        "factor": "sjt_band_1_to_3",
+        "applies_to_stage": "equal_composite_scores_only",
+        "notes": "Leeds evidence says SJT is used only as a tie-break where applicants have equal composite scores. No SJT points are implemented."
+      }
+    ],
+    "quotas_or_pools": [
+      "Home places: 275.",
+      "International places: 19.",
+      "Access to Leeds/WP applicants are routed separately.",
+      "International applicants are routed separately."
+    ],
+    "output_band_policy": {
+      "bands": [
+        "interview_likely",
+        "realistic",
+        "high_risk",
+        "not_eligible",
+        "insufficient_evidence"
+      ],
+      "public_labels": [
+        "Strong Choice",
+        "Realistic Choice",
+        "Higher Risk",
+        "Minimum Requirements Not Met"
+      ],
+      "notes": "Internal academic score, GCSE points, A-level points, strength bands and historical conversion calculations must remain hidden."
+    },
+    "notes": "Leeds officially combines academic performance and UCAT; ApplySmart implements the approved four-stage Home methodology and withholds WP/International prediction until calibration is complete."
+  },
+  "contextual_admissions": {
+    "verification_status": "official_source_verified_with_documented_gaps",
+    "available": true,
+    "source_ids": [
+      "leeds_course_page_2027",
+      "leeds_master_spec_2026_07_20"
+    ],
+    "applies_to_group_ids": [
+      "home_fee",
+      "contextual",
+      "widening_participation"
+    ],
+    "excluded_group_ids": [
+      "international_fee"
+    ],
+    "criteria": [
+      {
+        "criterion_id": "access_to_leeds",
+        "description": "Verified Access to Leeds eligibility."
+      }
+    ],
+    "adjustments": [
+      {
+        "adjustment_id": "access_to_leeds_abb",
+        "type": "a_level_offer_reduction",
+        "value": "ABB including Chemistry and Biology with an A in either",
+        "applies_to": "verified_access_to_leeds_applicants"
+      }
+    ],
+    "guaranteed_interview_rules": [],
+    "notes": "No numerical contextual uplift, bonus score or UCAT reduction is implemented."
+  },
+  "ranking_pools": [
+    {
+      "pool_id": "home_a100",
+      "name": "Home A100 combined academic and UCAT guidance pool",
+      "applies_to_group_ids": [
+        "home_fee"
+      ],
+      "excluded_group_ids": [
+        "international_fee",
+        "contextual",
+        "widening_participation"
+      ],
+      "fee_statuses": [
+        "home"
+      ],
+      "ranking_model": "academic_plus_ucat_weighting",
+      "ranking_factors": [
+        {
+          "factor_id": "academic_performance",
+          "weight_percent": null
+        },
+        {
+          "factor_id": "ucat_cognitive_total",
+          "weight_percent": null
+        }
+      ],
+      "places_available": 275,
+      "source_ids": [
+        "leeds_master_spec_2026_07_20"
+      ],
+      "notes": "Executable Home guidance uses the approved ApplySmart internal compensation matrix."
+    },
+    {
+      "pool_id": "access_to_leeds_wp_a100",
+      "name": "Access to Leeds / WP A100 pool",
+      "applies_to_group_ids": [
+        "home_fee",
+        "contextual",
+        "widening_participation"
+      ],
+      "fee_statuses": [
+        "home"
+      ],
+      "ranking_model": null,
+      "ranking_factors": [],
+      "places_available": null,
+      "source_ids": [
+        "leeds_master_spec_2026_07_20"
+      ],
+      "notes": "Historical WP observations exist but final prediction guidance is not approved."
+    },
+    {
+      "pool_id": "international_a100",
+      "name": "International A100 pool",
+      "applies_to_group_ids": [
+        "international_fee"
+      ],
+      "fee_statuses": [
+        "international"
+      ],
+      "ranking_model": null,
+      "ranking_factors": [],
+      "places_available": 19,
+      "source_ids": [
+        "leeds_master_spec_2026_07_20"
+      ],
+      "notes": "Historical International observations exist but final prediction guidance is not approved."
+    }
+  ],
+  "quotas": [
+    {
+      "quota_id": "leeds_a100_places_2027_entry_verified",
+      "name": "Verified Home/International places (2027 entry)",
+      "home_places": 275,
+      "international_places": 17,
+      "quota_type": "verified_current_places",
+      "source_ids": [
+        "applysmart_admissions_team_verified_2026"
+      ],
+      "notes": "Home/International place figures verified by the ApplySmart admissions research team for 2027 entry."
+    },
+    {
+      "quota_id": "home_places_2027",
+      "applicant_pool": "home_a100",
+      "places": 275,
+      "source_ids": [
+        "office_for_students"
+      ],
+      "notes": "Home places reported in the Leeds specification."
+    },
+    {
+      "quota_id": "international_places_2027",
+      "applicant_pool": "international_a100",
+      "places": 19,
+      "source_ids": [
+        "office_for_students"
+      ],
+      "notes": "International places reported in the Leeds specification."
+    }
+  ],
+  "offer_selection": {
+    "verification_status": "official_source_verified_out_of_scope_for_applysmart",
+    "source_ids": [
+      "leeds_master_spec_2026_07_20"
+    ],
+    "interview_format": {
+      "format": "not_modelled",
+      "online": null,
+      "notes": "Interview format and offer selection are outside this implementation."
+    },
+    "interview_scoring": {
+      "published": false,
+      "weight_percent": null,
+      "notes": "Post-interview scoring is not implemented; ApplySmart does not predict offers."
+    },
+    "offer_model": "out_of_scope",
+    "ranking_factors": [],
+    "standard_offer": "AAA including Chemistry and Biology.",
+    "contextual_offer": "Access to Leeds: ABB including Chemistry and Biology with an A in either.",
+    "applysmart_scope": "out_of_scope",
+    "tie_breakers": [],
+    "waiting_list_policy": "Not implemented; waiting-list prediction is outside ApplySmart scope.",
+    "notes": "Offer prediction remains outside ApplySmart scope."
+  },
+  "historical_admissions": {
+    "verification_status": "mixed_official_and_historical_guidance",
+    "source_ids": [
+      "leeds_understanding_ucat",
+      "office_for_students",
+      "leeds_master_spec_2026_07_20"
+    ],
+    "use": "historical_guidance_only",
+    "notes": "Leeds published lowest shortlisted UCAT scores for 2024 and 2025 entry on the 3600 scale. ApplySmart stores proportional 2700 equivalents for internal historical comparison only.",
+    "warning": "Converted UCAT equivalents are not official Leeds current-scale cut-offs.",
+    "cycles": [
+      {
+        "entry_year": 2025,
+        "fee_status": "home",
+        "any_group_ids": [
+          "home_fee"
+        ],
+        "lowest_shortlisted_ucat": 2570,
+        "ucat_score_scale": 3600,
+        "converted_historical_interview_threshold_2700": 1927.5,
+        "display_original_scale": true,
+        "measure": "lowest_shortlisted_score",
+        "evidence_classification": "official_historical_guidance"
+      },
+      {
+        "entry_year": 2024,
+        "fee_status": "home",
+        "any_group_ids": [
+          "home_fee"
+        ],
+        "lowest_shortlisted_ucat": 2610,
+        "ucat_score_scale": 3600,
+        "converted_historical_interview_threshold_2700": 1957.5,
+        "display_original_scale": true,
+        "measure": "lowest_shortlisted_score",
+        "evidence_classification": "official_historical_guidance"
+      },
+      {
+        "entry_year": 2025,
+        "fee_status": "widening_participation",
+        "any_group_ids": [
+          "home_fee",
+          "widening_participation"
+        ],
+        "lowest_shortlisted_ucat": 2450,
+        "ucat_score_scale": 3600,
+        "converted_historical_interview_threshold_2700": 1837.5,
+        "display_original_scale": true,
+        "measure": "lowest_shortlisted_score",
+        "evidence_classification": "official_historical_guidance",
+        "executable_for_public_prediction": false
+      },
+      {
+        "entry_year": 2025,
+        "fee_status": "international",
+        "any_group_ids": [
+          "international_fee"
+        ],
+        "lowest_shortlisted_ucat": 2750,
+        "ucat_score_scale": 3600,
+        "converted_historical_interview_threshold_2700": 2062.5,
+        "display_original_scale": true,
+        "measure": "lowest_shortlisted_score",
+        "evidence_classification": "official_historical_guidance",
+        "executable_for_public_prediction": false
+      }
+    ],
+    "historical_admissions_statistics": [
+      {
+        "entry_year": 2024,
+        "applications": 3100,
+        "interviews": 850,
+        "offers": 270,
+        "places": 265,
+        "international_offers": 12,
+        "approximate": true
+      },
+      {
+        "entry_year": 2023,
+        "applications": 2950,
+        "interviews": 800,
+        "offers": 260,
+        "places": 258,
+        "international_offers": 7,
+        "approximate": true
+      },
+      {
+        "entry_year": 2022,
+        "applications": 2965,
+        "interviews": 1050,
+        "offers": 257,
+        "places": 255,
+        "international_offers": 16,
+        "approximate": true
+      }
+    ]
+  },
+  "sources": [
+    {
+      "source_id": "leeds_master_spec_2026_07_20",
+      "title": "University of Leeds Medicine and Surgery MBChB A100 ApplySmart Master Research & Implementation Specification v1.0",
+      "url": null,
+      "source_type": "approved_research_document",
+      "confidence": "high",
+      "published_date": "2026-07-20",
+      "accessed_date": "2026-07-20",
+      "applies_to_sections": [
+        "course_identity",
+        "stage_1_eligibility",
+        "stage_2_interview_selection",
+        "contextual_admissions",
+        "historical_admissions"
+      ],
+      "notes": "User-supplied authoritative Leeds specification: /Users/faizan/Desktop/medical university research/Leeds.docx"
+    },
+    {
+      "source_id": "leeds_course_page_2027",
+      "title": "University of Leeds Medicine and Surgery MBChB course page",
+      "url": "https://courses.leeds.ac.uk/5580/medicine-and-surgery-mbchb",
+      "source_type": "official_course_page",
+      "confidence": "high",
+      "published_date": null,
+      "accessed_date": "2026-07-20",
+      "applies_to_sections": [
+        "stage_1_eligibility",
+        "contextual_admissions"
+      ],
+      "notes": "Official Leeds course-page source recorded in the authoritative specification."
+    },
+    {
+      "source_id": "leeds_understanding_ucat",
+      "title": "University of Leeds Understanding UCAT",
+      "url": "https://medicinehealth.leeds.ac.uk/homepage/248/understanding-ucat",
+      "source_type": "official_selection_policy",
+      "confidence": "high",
+      "published_date": null,
+      "accessed_date": "2026-07-20",
+      "applies_to_sections": [
+        "stage_2_interview_selection",
+        "historical_admissions"
+      ],
+      "notes": "Official Leeds UCAT explanation source recorded in the authoritative specification."
+    },
+    {
+      "source_id": "office_for_students",
+      "title": "Office for Students",
+      "url": "https://www.officeforstudents.org.uk/",
+      "source_type": "official_statistics",
+      "confidence": "high",
+      "published_date": null,
+      "accessed_date": "2026-07-20",
+      "applies_to_sections": [
+        "quotas",
+        "historical_admissions"
+      ],
+      "notes": "Statistics source recorded in the authoritative specification."
+    }
+  ],
+  "validation": {
+    "source_status": "mixed_official_and_historical_guidance",
+    "last_verified": "2026-07-20",
+    "confidence_level": "Medium",
+    "completion_status": "complete_for_supported_scope_with_documented_gaps",
+    "known_unknowns": [
+      "Leeds does not publish its exact academic scoring formula or UCAT normalisation formula.",
+      "WP and International final prediction calibration is outstanding.",
+      "SJT Bands 1-3 ranking weight is unpublished; no points are applied.",
+      "Graduate, IB, Scottish and alternative-route scoring remains unpublished.",
+      "Current-cycle live shortlisting cut-offs are not predetermined or published."
+    ],
+    "review_notes": "The implementation activates Home A-level school-leaver guidance only. Contextual/WP and International pools are separated and prediction is withheld until calibration is approved."
+  },
+  "engine_notes": {
+    "eligibility": true,
+    "interview_prediction": true,
+    "historical_guidance": true,
+    "international_prediction": false,
+    "contextual_logic": true,
+    "result_card": true,
+    "regression": true,
+    "research_completeness": "complete_for_supported_scope_with_documented_gaps",
+    "manual_review_required": true,
+    "eligibility_ready": true,
+    "interview_prediction_ready": true,
+    "prediction_confidence": "medium",
+    "result_card_ready": true,
+    "offer_prediction_scope": "out_of_scope",
+    "interview_band_config_ready": true,
+    "metadata_activation_ready": true,
+    "activation_ready": true,
+    "production_ready": true,
+    "blocking_missing_fields": [],
+    "engine_assumptions": [
+      "Home standard A-level school-leaver guidance uses the approved ApplySmart internal compensation matrix.",
+      "Achieved and predicted grades are treated identically until Leeds publishes a weighting distinction.",
+      "WP and International pools are not mapped to Home thresholds.",
+      "SJT Band 4 is an eligibility exclusion; SJT Bands 1-3 receive no points."
+    ],
+    "architecture_change_required": true,
+    "architecture_change_summary": "Generic opt-in academic-UCAT compensation-matrix component and public score-breakdown suppression were added for internal-only methodology profiles.",
+    "do_not_infer": [
+      "Do not present ApplySmart's academic score, GCSE points, A-level points, strength bands or UCAT conversions as official Leeds policy.",
+      "Do not apply an achieved-grade uplift.",
+      "Do not score SJT Bands 1-3.",
+      "Do not reuse Home UCAT bands for WP or International applicants.",
+      "Do not invent graduate, IB, Scottish or alternative-route scoring.",
+      "Do not predict offers."
+    ],
+    "manual_review_boundaries": [
+      "Graduate A100 applicants.",
+      "IB, Scottish and alternative qualification routes.",
+      "Unverified contextual/WP status.",
+      "International qualification and English-language evidence.",
+      "Non-standard resit evidence."
+    ]
+  }
+}

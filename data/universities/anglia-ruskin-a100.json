@@ -1,0 +1,1027 @@
+{
+  "schema_version": "1.0.0",
+  "profile_id": "anglia-ruskin-a100",
+  "profile_status": "production_ready_eligibility_and_interview_guidance",
+  "verification_status": "official_and_foi_partially_verified",
+  "last_updated": "2026-07-13",
+  "university": {
+    "name": "Anglia Ruskin University",
+    "slug": "anglia-ruskin",
+    "country": "United Kingdom",
+    "nation": "England",
+    "institution_type": "University",
+    "website_url": "https://www.aru.ac.uk/"
+  },
+  "course": {
+    "name": "MBChB Medicine",
+    "ucas_code": "A100",
+    "entry_route": "standard_entry",
+    "qualification_awarded": "MBChB",
+    "duration_years": 5,
+    "campus": "Chelmsford",
+    "location": "Chelmsford, England",
+    "entry_year": 2027,
+    "fee_statuses": [
+      "home"
+    ],
+    "is_gateway_or_foundation": false,
+    "is_graduate_entry": false,
+    "notes": "ARU A100 accepts Home-fee applicants only. Graduate applicants apply through the same A100 admissions process and remain in the same applicant pool; this profile must not be treated as a separate graduate-entry route."
+  },
+  "medical_school": {
+    "name": "Anglia Ruskin School of Medicine",
+    "faculty": "Faculty of Health, Medicine and Social Care",
+    "notes": "Rules are mapped from ARU.docx, supplied as the authoritative implementation specification."
+  },
+  "applicant_pools": [
+    {
+      "pool_id": "aru_home_standard",
+      "applies_to_group_ids": [
+        "home_fee"
+      ],
+      "excluded_group_ids": [
+        "international_fee",
+        "care_experienced",
+        "contextual",
+        "widening_participation"
+      ],
+      "selection_relevance": "Eligible Home applicants are ranked for interview by UCAT cognitive score after any applicable percentage uplifts. Standard applicants receive no uplift."
+    },
+    {
+      "pool_id": "aru_home_wams_or_regional",
+      "applies_to_group_ids": [
+        "home_fee"
+      ],
+      "selection_relevance": "WAMS, East of England and Essex applicants remain in the same A100 pool but may receive percentage UCAT uplifts. WAMS may stack with one regional uplift; Essex takes precedence over East of England. No flat regional point values are used."
+    },
+    {
+      "pool_id": "aru_care_or_fsm_guaranteed_interview",
+      "applies_to_group_ids": [
+        "home_fee"
+      ],
+      "selection_relevance": "Care-experienced/Care Leaver or Free School Meals applicants receive a guaranteed interview only after the implemented academic thresholds and SJT Band 1-3 conditions are met."
+    }
+  ],
+  "applies_to_group_ids": [
+    "england_domiciled",
+    "scotland_domiciled",
+    "wales_domiciled",
+    "northern_ireland_domiciled",
+    "home_fee",
+    "contextual",
+    "widening_participation",
+    "care_experienced",
+    "graduate_applicant",
+    "school_leaver",
+    "resit_applicant"
+  ],
+  "stage_1_eligibility": {
+    "verification_status": "official_source_verified_with_documented_gaps",
+    "source_ids": [
+      "aru_medicine_entry_requirements",
+      "aru_medicine_admissions_policy",
+      "aru_docx_authoritative_spec"
+    ],
+    "overall_policy": {
+      "status": "official_rules_mapped",
+      "description": "ARU checks academic minimums, requires UCAT and rejects SJT Band 4. Academics are not competitively scored after threshold checks.",
+      "not_eligible_if": [
+        "The applicable academic minimum requirements are not met.",
+        "UCAT evidence is missing.",
+        "SJT Band 4 is supplied.",
+        "The applicant has International/Overseas fee status.",
+        "Deferred entry is requested."
+      ],
+      "source_ids": [
+        "aru_medicine_entry_requirements",
+        "aru_medicine_admissions_policy"
+      ]
+    },
+    "gcse": {
+      "status": "official_source_verified_execution_partial",
+      "source_ids": [
+        "aru_medicine_entry_requirements"
+      ],
+      "qualification_scope": [
+        "GCSE",
+        "IGCSE"
+      ],
+      "minimum_count": 4,
+      "mandatory_subject_ids": [
+        "english_language",
+        "mathematics",
+        "biology",
+        "chemistry"
+      ],
+      "minimum_count_at_or_above_grade": [
+        {
+          "requirement_id": "four_gcse_grade_5_minimum",
+          "count": 4,
+          "minimum_grade": "5/B",
+          "decision_outcome_if_not_met": "not_eligible",
+          "source_ids": [
+            "aru_medicine_entry_requirements"
+          ]
+        }
+      ],
+      "grade_requirements": [
+        {
+          "requirement_id": "gcse_english_language_grade_5",
+          "subject_id": "english_language",
+          "minimum_grade": "5/B",
+          "qualification_level": "gcse_or_igcse",
+          "decision_outcome_if_not_met": "not_eligible",
+          "source_ids": [
+            "aru_medicine_entry_requirements"
+          ]
+        },
+        {
+          "requirement_id": "gcse_mathematics_grade_5",
+          "subject_id": "mathematics",
+          "minimum_grade": "5/B",
+          "qualification_level": "gcse_or_igcse",
+          "decision_outcome_if_not_met": "not_eligible",
+          "source_ids": [
+            "aru_medicine_entry_requirements"
+          ]
+        },
+        {
+          "requirement_id": "gcse_biology_grade_5",
+          "subject_id": "biology",
+          "minimum_grade": "5/B",
+          "qualification_level": "gcse_or_igcse",
+          "decision_outcome_if_not_met": "not_eligible",
+          "source_ids": [
+            "aru_medicine_entry_requirements"
+          ]
+        },
+        {
+          "requirement_id": "gcse_chemistry_grade_5",
+          "subject_id": "chemistry",
+          "minimum_grade": "5/B",
+          "qualification_level": "gcse_or_igcse",
+          "decision_outcome_if_not_met": "not_eligible",
+          "source_ids": [
+            "aru_medicine_entry_requirements"
+          ]
+        }
+      ],
+      "science_requirement": {
+        "requirement_type": "any_of",
+        "accepted_options": [
+          {
+            "option_id": "separate_biology_and_chemistry",
+            "grade_requirements": [
+              {
+                "subject_id": "biology",
+                "minimum_grade": "5/B"
+              },
+              {
+                "subject_id": "chemistry",
+                "minimum_grade": "5/B"
+              }
+            ]
+          },
+          {
+            "option_id": "combined_science_double_award",
+            "subject_id": "combined_science",
+            "minimum_grade_profile": [
+              "5",
+              "5"
+            ],
+            "accepted_equivalent_profile": [
+              "B",
+              "B"
+            ],
+            "counts_as_gcse_subjects": 2
+          }
+        ]
+      },
+      "accepted_equivalencies": [
+        "IGCSE",
+        "Combined Science or Double Award at 55/BB may satisfy the two-science requirement."
+      ],
+      "sitting_policy": "No separate GCSE resit policy is published in the supplied ARU specification.",
+      "achieved_or_predicted": "achieved",
+      "selection_role": "eligibility_only",
+      "scored_after_eligibility": false,
+      "notes": "GCSEs are a strict pass/fail threshold. Higher GCSE grades are not scored after the minimum is met."
+    },
+    "post_16": {
+      "status": "official_source_verified_with_manual_review_boundaries",
+      "source_ids": [
+        "aru_medicine_entry_requirements"
+      ],
+      "accepted_qualification_types": [
+        "a_level",
+        "international_baccalaureate",
+        "scottish_highers",
+        "advanced_highers",
+        "degree"
+      ],
+      "a_level": {
+        "status": "official_source_verified_execution_partial",
+        "source_ids": [
+          "aru_medicine_entry_requirements"
+        ],
+        "standard_offer": {
+          "grade_profile": [
+            "A",
+            "A",
+            "A"
+          ],
+          "source_ids": [
+            "aru_medicine_entry_requirements"
+          ],
+          "notes": "AAA minimum for standard applicants."
+        },
+        "contextual_offer": {
+          "applies_to_group_ids": [
+            "contextual",
+            "widening_participation"
+          ],
+          "grade_profile": [
+            "A",
+            "B",
+            "B"
+          ],
+          "source_ids": [
+            "aru_medicine_entry_requirements"
+          ],
+          "notes": "WAMS applicants may receive an ABB A-level threshold."
+        },
+        "grade_requirements": [
+          {
+            "route_id": "aru_a_level_standard_aaa_science_route",
+            "applies_to_group_ids": [
+              "home_fee"
+            ],
+            "excluded_group_ids": [
+              "contextual",
+              "widening_participation"
+            ],
+            "grade_profile": [
+              "A",
+              "A",
+              "A"
+            ],
+            "one_of_subject_groups": [
+              {
+                "group_id": "chemistry_or_biology",
+                "minimum_required": 1,
+                "subject_ids": [
+                  "chemistry",
+                  "biology"
+                ]
+              }
+            ],
+            "source_ids": [
+              "aru_medicine_entry_requirements"
+            ]
+          },
+          {
+            "route_id": "aru_a_level_wams_abb_science_route",
+            "applies_to_group_ids": [
+              "home_fee",
+              "contextual",
+              "widening_participation"
+            ],
+            "grade_profile": [
+              "A",
+              "B",
+              "B"
+            ],
+            "one_of_subject_groups": [
+              {
+                "group_id": "chemistry_or_biology",
+                "minimum_required": 1,
+                "subject_ids": [
+                  "chemistry",
+                  "biology"
+                ]
+              }
+            ],
+            "source_ids": [
+              "aru_medicine_entry_requirements"
+            ]
+          }
+        ],
+        "subject_combination_rule": {
+          "primary_subject_group": {
+            "minimum_required": 1,
+            "subject_ids": [
+              "chemistry",
+              "biology"
+            ]
+          },
+          "second_subject_group": {
+            "minimum_required": 1,
+            "subject_ids": [
+              "chemistry",
+              "biology",
+              "physics",
+              "mathematics",
+              "further_mathematics",
+              "psychology",
+              "english_literature"
+            ]
+          },
+          "subjects_must_be_distinct": true
+        },
+        "practical_endorsement_required": false,
+        "notes": "A-levels must be achieved within three academic years of application. Resit applicants must meet the first-sitting policy documented under resits."
+      },
+      "ib": {
+        "status": "official_source_verified_manual_review",
+        "notes": "IB route is documented in the ARU specification but remains a manual-review boundary in this implementation unless complete official subject-grade execution data is supplied."
+      },
+      "scottish": {
+        "status": "official_source_verified_manual_review",
+        "notes": "Scottish route is documented in the ARU specification but remains a manual-review boundary in this implementation."
+      },
+      "notes": "Automatic execution is limited to the A-level route because ARU.docx supplied enough exact A-level thresholds for deterministic checking."
+    },
+    "admissions_tests": {
+      "ucat": {
+        "test": "UCAT",
+        "required": true,
+        "score_used_for_ranking": true,
+        "minimum_total_score": null,
+        "minimum_total_score_basis": "ARU uses UCAT ranking and published working thresholds. No fixed universal eligibility cut-off is encoded; low UCAT applicants remain eligible but may receive high-risk guidance unless a documented guaranteed-interview override applies.",
+        "score_scale": 2700,
+        "validity_window": "current admissions cycle",
+        "exemptions": [],
+        "source_ids": [
+          "aru_medicine_admissions_policy"
+        ]
+      },
+      "sjt": {
+        "used_as_gate": true,
+        "accepted_bands": [
+          1,
+          2,
+          3
+        ],
+        "excluded_bands": [
+          4
+        ],
+        "band_4_policy": "automatic_rejection",
+        "scoring": {
+          "used_in_score": false,
+          "notes": "SJT is a filter only and is not scored for interview ranking."
+        },
+        "source_ids": [
+          "aru_medicine_admissions_policy"
+        ]
+      }
+    },
+    "resits": {
+      "allowed": true,
+      "policy": "Applicants must have achieved at least AAB at first sitting, or BBB if WAMS eligible. If AAA has already been achieved in a resit, the first-sitting requirement is waived.",
+      "conditions": "Applicant-specific resit evidence may require manual review because the shared classifier can only apply the generic first-sitting profile check.",
+      "maximum_resits": null,
+      "source_ids": [
+        "aru_medicine_entry_requirements"
+      ]
+    },
+    "contextual": {
+      "available": true,
+      "criteria": [
+        "WAMS eligibility",
+        "Care experienced or Care Leaver",
+        "Free School Meals within the last five years",
+        "Other ARU WAMS criteria documented in the supplied specification"
+      ],
+      "adjustments": [
+        "WAMS: 5% UCAT uplift",
+        "East of England: 2.5% UCAT uplift",
+        "Essex: 5% UCAT uplift",
+        "Care-experienced/Care Leaver and Free School Meals: guaranteed interview only when academics and SJT Band 1-3 are met"
+      ],
+      "notes": "WAMS may stack with the single applicable regional percentage uplift. Essex takes precedence over East of England; do not invent flat regional point values."
+    },
+    "english_language": {
+      "required_for_group": false,
+      "accepted_tests": [],
+      "exemptions": [],
+      "notes": "International applicants are not eligible for ARU A100 in this implementation."
+    },
+    "age_or_degree": {
+      "minimum_age": 18,
+      "minimum_age_date": "1 October in year of entry",
+      "degree_required": false,
+      "degree_classification": null,
+      "accepted_degree_subjects": [],
+      "notes": "Graduates are accepted through the same A100 process and same applicant pool, subject to the published graduate-category UCAT context and standard academic requirements."
+    },
+    "age_or_professional_checks": {
+      "source_ids": [
+        "aru_docx_authoritative_spec",
+        "aru_medicine_entry_requirements"
+      ],
+      "minimum_age_by_course_start": 18,
+      "course_start_reference": "1 October in year of entry",
+      "under_18_policy": "not_eligible_if_under_18_by_1_october_manual_review_if_unclear",
+      "dbs_required": true,
+      "dbs_update_service_required": false,
+      "occupational_health_required": true,
+      "fitness_to_practise_required": true,
+      "work_or_service_experience": "Recommended and may be discussed at MMI, but not scored for interview shortlisting.",
+      "personal_statement": "Submitted through UCAS and may be used as a basis for MMI discussion; not scored for interview shortlisting.",
+      "reference_policy": "Standard UCAS academic or professional reference required; not scored for interview shortlisting."
+    },
+    "non_academic": {
+      "work_experience": "recommended_not_scored",
+      "personal_statement": "not_scored_for_shortlisting_may_be_discussed_at_interview",
+      "reference_policy": "standard_ucas_reference_required_not_scored",
+      "fitness_to_practise_required": true,
+      "dbs_required": true,
+      "occupational_health_required": true,
+      "notes": "Non-academic evidence is not used to compute ApplySmart interview prediction."
+    }
+  },
+  "stage_2_interview_selection": {
+    "verification_status": "official_source_verified",
+    "source_ids": [
+      "aru_docx_authoritative_spec",
+      "aru_medicine_admissions_policy"
+    ],
+    "primary_model": "ucat_ranking",
+    "primary_method": "ucat_ranking_after_thresholds_and_percentage_uplifts",
+    "ranking_factors": [
+      {
+        "factor": "ucat_total",
+        "role": "primary_ranking_metric",
+        "weight_percent": 100,
+        "points_available": null,
+        "notes": "Applicants are ranked by UCAT cognitive score after eligible percentage uplifts. Academics are pass/fail only; SJT is a filter only.",
+        "source_ids": [
+          "aru_medicine_admissions_policy"
+        ]
+      }
+    ],
+    "calculation": {
+      "verification_status": "official_source_verified",
+      "source_ids": [
+        "aru_docx_authoritative_spec",
+        "aru_medicine_admissions_policy"
+      ],
+      "score_components": [
+        {
+          "component_id": "adjusted_ucat_total",
+          "factor_id": "ucat_total",
+          "input_field": "admissions_tests.ucat.total_score",
+          "calculation_method": "raw_ucat_total_plus_wams_and_single_regional_percentage_uplift",
+          "scale": {
+            "min": 0,
+            "max": 2700
+          },
+          "weight_percent": 100,
+          "rounding": "decimal_allowed_for_internal_guidance",
+          "notes": "WAMS adds 5%. Regional uplift is exclusive by precedence: Essex adds 5%, otherwise East of England adds 2.5%, otherwise 0%. WAMS may stack with the selected regional uplift. No flat regional point values are used.",
+          "source_ids": [
+            "aru_docx_authoritative_spec"
+          ]
+        }
+      ],
+      "total_score": {
+        "calculation_method": "adjusted_ucat_total_only",
+        "components": [
+          "adjusted_ucat_total"
+        ],
+        "scale": {
+          "min": 0,
+          "max": 2700
+        },
+        "notes": "Academics are pass/fail only and SJT is a gate only. The adjusted UCAT score is used for interview guidance, not offer prediction.",
+        "source_ids": [
+          "aru_docx_authoritative_spec",
+          "aru_medicine_admissions_policy"
+        ]
+      },
+      "notes": "The model is representable as adjusted UCAT ranking after pass/fail academic and SJT gates."
+    },
+    "thresholds": [
+      {
+        "threshold_id": "aru_2026_working_thresholds_2700",
+        "cycle": "2026_entry",
+        "scale": 2700,
+        "values": {
+          "non_graduate_main": 2010,
+          "non_graduate_wams": 1920,
+          "non_graduate_east_of_england": 1960,
+          "non_graduate_east_of_england_wams": 1870,
+          "non_graduate_essex": 1920,
+          "non_graduate_essex_wams": 1830,
+          "graduate_main": 1830,
+          "graduate_east_of_england": 1790,
+          "graduate_essex": 1740
+        },
+        "use": "historical_guidance_not_fixed_eligibility_cutoff",
+        "source_ids": [
+          "aru_docx_authoritative_spec"
+        ]
+      }
+    ],
+    "modifiers": [
+      "contextual_adjustment",
+      "widening_participation_scheme",
+      "guaranteed_interview",
+      "sjt_band_4_exclusion"
+    ],
+    "selection_adjustments": [
+      {
+        "modifier_id": "widening_participation_scheme",
+        "source_ids": [
+          "aru_docx_authoritative_spec"
+        ],
+        "stacks": true,
+        "stacks_with_regional_uplifts": true,
+        "notes": "WAMS applicants receive a 5% UCAT uplift."
+      },
+      {
+        "modifier_id": "contextual_adjustment",
+        "source_ids": [
+          "aru_docx_authoritative_spec"
+        ],
+        "stacks": false,
+        "stacks_with_wams": true,
+        "stacks_with_other_regional_uplifts": false,
+        "regional_precedence": 2,
+        "notes": "East of England applicants receive a 2.5% UCAT uplift unless the Essex regional uplift also applies."
+      },
+      {
+        "modifier_id": "contextual_adjustment",
+        "source_ids": [
+          "aru_docx_authoritative_spec"
+        ],
+        "stacks": false,
+        "stacks_with_wams": true,
+        "stacks_with_other_regional_uplifts": false,
+        "regional_precedence": 1,
+        "notes": "Essex applicants receive a 5% UCAT uplift instead of the East of England regional uplift."
+      }
+    ],
+    "tie_breakers": [],
+    "quotas_or_pools": [
+      {
+        "pool_id": "aru_home_a100_same_pool",
+        "notes": "School-leavers and graduates apply through the same A100 process and remain in the same applicant pool. Historical graduate threshold guidance is labelled separately but is not a separate course route."
+      }
+    ],
+    "output_band_policy": "strong_reasonable_risky_not_eligible",
+    "notes": "International applicants are not eligible. Final offers are based solely on MMI ranking, but ApplySmart does not provide offer prediction."
+  },
+  "contextual_admissions": {
+    "verification_status": "official_source_verified_with_documented_gaps",
+    "source_ids": [
+      "aru_docx_authoritative_spec",
+      "aru_medicine_entry_requirements"
+    ],
+    "available": true,
+    "applies_to_group_ids": [
+      "contextual",
+      "widening_participation",
+      "care_experienced"
+    ],
+    "criteria": [
+      "WAMS eligibility according to ARU's published criteria.",
+      "Care-experienced or Care Leaver status.",
+      "Free School Meals within the last five years.",
+      "Living or studying in the East of England or Essex for the documented regional UCAT uplifts."
+    ],
+    "adjustments": [
+      "WAMS: ABB A-level threshold and 5% UCAT uplift.",
+      "East of England: 2.5% UCAT uplift.",
+      "Essex: 5% UCAT uplift.",
+      "Care-experienced/Care Leaver and Free School Meals: guaranteed interview only when academic and SJT conditions are met."
+    ],
+    "notes": "WAMS may stack with one regional UCAT percentage uplift. Essex receives the Essex uplift instead of also receiving the East of England uplift. This implementation does not use or invent flat regional point values.",
+    "qualitative_flag_only": false,
+    "engine_execution_status": "percentage_ucat_uplifts_and_guaranteed_interview_conditions_executable_for_supported_flags",
+    "wams": {
+      "ucat_uplift_percent": 5,
+      "a_level_threshold": "ABB",
+      "notes": "WAMS uplift stacks with the single applicable regional uplift."
+    },
+    "regional_uplifts": [
+      {
+        "region": "East of England",
+        "ucat_uplift_percent": 2.5
+      },
+      {
+        "region": "Essex",
+        "ucat_uplift_percent": 5
+      }
+    ],
+    "guaranteed_interview_rules": [
+      {
+        "route_id": "aru_care_experienced_or_care_leaver_guaranteed_interview",
+        "applies_to_group_ids": [
+          "care_experienced"
+        ],
+        "conditions": [
+          "Home fee status",
+          "Academic thresholds met",
+          "SJT Band 1, 2 or 3"
+        ],
+        "notes": "Not available when academics fail or SJT Band 4 is supplied."
+      },
+      {
+        "route_id": "aru_free_school_meals_guaranteed_interview",
+        "applies_to_group_ids": [
+          "widening_participation"
+        ],
+        "conditions": [
+          "Home fee status",
+          "Academic thresholds met",
+          "SJT Band 1, 2 or 3"
+        ],
+        "notes": "Not available when academics fail or SJT Band 4 is supplied."
+      }
+    ]
+  },
+  "ranking_pools": [
+    {
+      "pool_id": "aru_home_a100",
+      "name": "Home A100 adjusted UCAT ranking pool",
+      "applies_to_group_ids": [
+        "home_fee"
+      ],
+      "excluded_group_ids": [
+        "international_fee"
+      ],
+      "fee_statuses": [
+        "home"
+      ],
+      "ranking_model": "ucat_ranking",
+      "ranking_factors": [
+        "Adjusted UCAT cognitive total after documented percentage uplifts"
+      ],
+      "places_available": 128,
+      "source_ids": [
+        "aru_docx_authoritative_spec",
+        "aru_medicine_admissions_policy"
+      ],
+      "fee_status": "home",
+      "ranking_metric": "adjusted_ucat_total",
+      "notes": "Same A100 pool for school-leavers and graduates. Graduate historical thresholds are context only."
+    }
+  ],
+  "quotas": [
+    {
+      "quota_id": "anglia_ruskin_a100_places_2027_entry_verified",
+      "name": "Verified Home/International places (2027 entry)",
+      "home_places": 128,
+      "international_places": 0,
+      "quota_type": "verified_current_places",
+      "source_ids": [
+        "applysmart_admissions_team_verified_2026"
+      ],
+      "notes": "Home/International place figures verified by the ApplySmart admissions research team for 2027 entry."
+    },
+    {
+      "quota_id": "aru_home_places_historical_context",
+      "name": "ARU A100 Home places historical context",
+      "applies_to_group_ids": [
+        "home_fee"
+      ],
+      "stage": "enrolment",
+      "quota_type": "historical_context",
+      "value": 128,
+      "source_ids": [
+        "aru_docx_authoritative_spec"
+      ],
+      "notes": "Historical place count in ARU.docx; not a future fixed capacity."
+    },
+    {
+      "quota_id": "aru_international_places_not_available",
+      "name": "International places not available",
+      "applies_to_group_ids": [
+        "international_fee"
+      ],
+      "stage": "eligibility",
+      "quota_type": "not_applicable",
+      "value": 0,
+      "source_ids": [
+        "aru_docx_authoritative_spec"
+      ],
+      "notes": "International applicants are not eligible for ARU A100."
+    }
+  ],
+  "offer_selection": {
+    "verification_status": "official_source_verified_out_of_scope_for_applysmart",
+    "source_ids": [
+      "aru_docx_authoritative_spec",
+      "aru_medicine_admissions_policy"
+    ],
+    "interview_format": "In-person Multiple Mini Interview at the Chelmsford School of Medicine building; six stations with seven minutes per station and one minute reading time.",
+    "interview_scoring": {
+      "score_used": "mmi_total_score",
+      "minimum_score": null,
+      "station_scores": [
+        {
+          "station_count": 6,
+          "points_per_station": 15,
+          "maximum_total": 90
+        }
+      ],
+      "sjt_used_post_interview": false,
+      "decision_outcome_if_not_met": "not_applicable_to_applysmart",
+      "source_ids": [
+        "aru_docx_authoritative_spec"
+      ],
+      "notes": "Each station is marked for quality of answer, skills/qualities and communication. Global station scores may be used as a tie-breaker."
+    },
+    "offer_model": "Offers are based solely on MMI ranking.",
+    "ranking_factors": [
+      {
+        "factor_id": "mmi_ranking",
+        "weight_percent": 100,
+        "source_ids": [
+          "aru_docx_authoritative_spec"
+        ]
+      }
+    ],
+    "tie_breakers": [
+      {
+        "tie_breaker_id": "global_station_scores",
+        "source_ids": [
+          "aru_docx_authoritative_spec"
+        ],
+        "notes": "Global station scores are used when candidates have the same numerical MMI score."
+      }
+    ],
+    "waiting_list_policy": "Not implemented in ApplySmart.",
+    "standard_offer": {
+      "grade_profile": [
+        "A",
+        "A",
+        "A"
+      ],
+      "source_ids": [
+        "aru_medicine_entry_requirements"
+      ],
+      "notes": "Offer conditions are included for transparency only and are not offer prediction."
+    },
+    "contextual_offer": {
+      "applies_to_group_ids": [
+        "contextual",
+        "widening_participation"
+      ],
+      "grade_profile": [
+        "A",
+        "B",
+        "B"
+      ],
+      "source_ids": [
+        "aru_medicine_entry_requirements"
+      ],
+      "notes": "WAMS contextual A-level threshold."
+    },
+    "scope": "out_of_scope",
+    "official_policy": "Offers are based solely on MMI ranking.",
+    "applysmart_policy": "ApplySmart must not predict offers, MMI score, waiting list position, or offer probability.",
+    "notes": "UCAT and academics do not directly determine final offers after interview shortlisting."
+  },
+  "historical_admissions": {
+    "verification_status": "mixed_official_and_historical_guidance",
+    "source_ids": [
+      "aru_docx_authoritative_spec"
+    ],
+    "cycles": [
+      {
+        "cycle": "2024 entry",
+        "ucat_scale": 2700,
+        "applies_to_group_ids": [
+          "home_fee"
+        ],
+        "pool": "home_a100",
+        "applications": 1510,
+        "interviews": 600,
+        "offers": 352,
+        "places": 128,
+        "ucat_cutoff": 1980,
+        "average_ucat_interviewed": 2084,
+        "average_ucat_offer_holders": 2059,
+        "interview_score_cutoff": null,
+        "verification_status": "mixed_official_and_historical_guidance",
+        "notes": "Home cycle statistics and UCAT context from ARU.docx; offer-holder UCAT is historical context only and not used for offer prediction.",
+        "source_ids": [
+          "aru_docx_authoritative_spec"
+        ]
+      },
+      {
+        "cycle": "2023 entry",
+        "ucat_scale": 2700,
+        "applies_to_group_ids": [
+          "home_fee"
+        ],
+        "pool": "home_a100",
+        "applications": 1481,
+        "interviews": 500,
+        "offers": 245,
+        "places": 128,
+        "ucat_cutoff": null,
+        "average_ucat_interviewed": null,
+        "average_ucat_offer_holders": null,
+        "interview_score_cutoff": null,
+        "verification_status": "mixed_official_and_historical_guidance",
+        "notes": "Application/interview/offer counts from ARU.docx.",
+        "source_ids": [
+          "aru_docx_authoritative_spec"
+        ]
+      },
+      {
+        "cycle": "2022 entry",
+        "ucat_scale": 2700,
+        "applies_to_group_ids": [
+          "home_fee"
+        ],
+        "pool": "home_a100",
+        "applications": 1872,
+        "interviews": 500,
+        "offers": 182,
+        "places": 128,
+        "ucat_cutoff": null,
+        "average_ucat_interviewed": null,
+        "average_ucat_offer_holders": null,
+        "interview_score_cutoff": null,
+        "verification_status": "mixed_official_and_historical_guidance",
+        "notes": "Application/interview/offer counts from ARU.docx.",
+        "source_ids": [
+          "aru_docx_authoritative_spec"
+        ]
+      }
+    ],
+    "use": "guidance_only",
+    "executable_for_current_2700_scale": true,
+    "summary": "ARU.docx supplies official-method and FOI/historical admissions context including current working UCAT thresholds, interview volumes and offer volumes. ApplySmart uses these only for interview competitiveness guidance.",
+    "lowest_ucat_interviewed": {
+      "home": 1980,
+      "contextual_or_regional": 1860,
+      "graduate": 1830,
+      "scale": 2700
+    },
+    "average_ucat_interviewed": {
+      "home": 2084,
+      "graduate": 1935,
+      "scale": 2700
+    },
+    "application_statistics": [
+      {
+        "cycle": "2024_entry",
+        "home_applications": 1510,
+        "home_interviews": 600,
+        "home_offers": 352,
+        "places": 128
+      },
+      {
+        "cycle": "2023_entry",
+        "home_applications": 1481,
+        "home_interviews": 500,
+        "home_offers": 245,
+        "places": 128
+      },
+      {
+        "cycle": "2022_entry",
+        "home_applications": 1872,
+        "home_interviews": 500,
+        "home_offers": 182,
+        "places": 128
+      }
+    ],
+    "warnings": [
+      "Historical or working thresholds are not offer predictions.",
+      "Final offers are based solely on MMI ranking and remain out of ApplySmart scope."
+    ],
+    "notes": "Historical admissions data supports interview guidance only. It must not be used for offer prediction."
+  },
+  "sources": [
+    {
+      "source_id": "aru_docx_authoritative_spec",
+      "title": "ARU.docx supplied implementation specification",
+      "source_type": "authoritative_user_supplied_research",
+      "published_date": null,
+      "accessed_date": "2026-07-13",
+      "applies_to_sections": [
+        "course_identity",
+        "stage_1_eligibility",
+        "stage_2_interview_selection",
+        "contextual_admissions",
+        "offer_selection",
+        "historical_admissions"
+      ],
+      "confidence": "high",
+      "evidence_classification": "official",
+      "url": null,
+      "notes": "Replaces the Markdown research file referenced by the master prompt."
+    },
+    {
+      "source_id": "aru_medicine_entry_requirements",
+      "title": "Anglia Ruskin University MBChB Medicine entry requirements",
+      "source_type": "official_course_page",
+      "published_date": null,
+      "accessed_date": "2026-07-13",
+      "applies_to_sections": [
+        "stage_1_eligibility",
+        "contextual_admissions",
+        "offer_selection"
+      ],
+      "confidence": "high",
+      "evidence_classification": "official",
+      "url": "https://www.aru.ac.uk/study/undergraduate/medicine#entry_requirements",
+      "notes": "Cited in ARU.docx."
+    },
+    {
+      "source_id": "aru_medicine_admissions_policy",
+      "title": "ARU School of Medicine admissions policy",
+      "source_type": "official_policy",
+      "published_date": null,
+      "accessed_date": "2026-07-13",
+      "applies_to_sections": [
+        "stage_1_eligibility",
+        "stage_2_interview_selection",
+        "offer_selection"
+      ],
+      "confidence": "high",
+      "evidence_classification": "official",
+      "url": "https://www.aru.ac.uk/",
+      "notes": "Cited in ARU.docx for UCAT ranking, SJT filter, MMI and offer-selection policy."
+    }
+  ],
+  "validation": {
+    "source_status": "official_and_foi_partially_verified",
+    "last_verified": "2026-07-13",
+    "confidence_level": "High",
+    "completion_status": "production_ready_for_supported_scope_with_documented_gaps",
+    "section_completion_status": {
+      "course_identity": "complete",
+      "stage_1_eligibility": "complete_for_supported_a_level_scope_with_manual_review_boundaries",
+      "stage_2_interview_selection": "complete",
+      "contextual_admissions": "complete_for_percentage_uplifts_and_documented_guaranteed_interview_conditions",
+      "ranking_pools": "complete",
+      "quotas": "complete_for_historical_context",
+      "offer_selection": "research_context_complete_applysmart_offer_prediction_out_of_scope",
+      "historical_admissions": "complete_for_supplied_evidence",
+      "sources": "reviewed"
+    },
+    "known_unknowns": [
+      "Non-A-level automatic execution remains a manual-review boundary.",
+      "Future-cycle ARU working UCAT thresholds may change.",
+      "Offer outcomes are based solely on MMI ranking and are not predicted by ApplySmart."
+    ],
+    "sources": [
+      {
+        "title": "ARU.docx supplied implementation specification",
+        "url": null,
+        "source_type": "authoritative_user_supplied_research",
+        "accessed_date": "2026-07-13",
+        "notes": "Authoritative for this implementation."
+      }
+    ],
+    "review_notes": "Production ARU A100 implementation supports Home A-level applicants, WAMS/regional UCAT percentage uplifts, SJT Band 4 rejection, and documented guaranteed-interview subgroups. International applicants are explicitly blocked."
+  },
+  "engine_notes": {
+    "eligibility": true,
+    "interview_prediction": true,
+    "historical_guidance": true,
+    "international_prediction": false,
+    "contextual_logic": true,
+    "result_card": true,
+    "regression": true,
+    "research_completeness": "complete_for_supported_scope_with_documented_gaps",
+    "manual_review_required": true,
+    "eligibility_ready": true,
+    "interview_prediction_ready": true,
+    "prediction_confidence": "medium",
+    "result_card_ready": true,
+    "offer_prediction_scope": "out_of_scope",
+    "interview_band_config_ready": true,
+    "metadata_activation_ready": true,
+    "activation_ready": true,
+    "production_ready": true,
+    "production_ready_candidate": true,
+    "blocked_by_engine_limitation": false,
+    "activation_block_reason": null,
+    "blocking_missing_fields": [],
+    "engine_assumptions": [
+      "Automatic execution is scoped to Home A-level applicants with complete GCSE, A-level, UCAT and SJT evidence.",
+      "ARU-specific WAMS, East of England, Essex and Free School Meals flags are supplied to the classifier as applicant group/contextual flags.",
+      "Graduates remain in the same A100 process when standard A100 academic evidence is supplied."
+    ],
+    "do_not_infer": [
+      "Do not invent flat regional point values.",
+      "Do not make International applicants eligible.",
+      "Do not create a separate graduate A100 pool.",
+      "Do not predict offers, MMI score, waiting-list position or offer probability."
+    ],
+    "engine_execution_boundaries": [
+      "Automatic eligibility execution is limited to the supported A-level route with complete GCSE, UCAT and SJT evidence.",
+      "WAMS, East of England and Essex percentage UCAT uplifts are executable. WAMS stacks with one regional uplift; Essex takes precedence over East of England.",
+      "Care-experienced/Care Leaver and Free School Meals guaranteed-interview handling applies only after academic thresholds and SJT Band 1-3 pass.",
+      "International applicants are not eligible.",
+      "Offer prediction remains out of scope."
+    ]
+  }
+}

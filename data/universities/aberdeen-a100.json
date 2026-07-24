@@ -1,0 +1,1308 @@
+{
+  "schema_version": "1.0.0",
+  "profile_id": "aberdeen-a100",
+  "profile_status": "stage_1_verified_structural_pilot",
+  "verification_status": "partially_verified",
+  "last_updated": "2026-07-02",
+  "university": {
+    "name": "University of Aberdeen",
+    "slug": "aberdeen",
+    "country": "United Kingdom",
+    "nation": "Scotland",
+    "institution_type": "Unknown",
+    "website_url": null
+  },
+  "course": {
+    "name": "MBChB Medicine (A100)",
+    "ucas_code": "A100",
+    "entry_route": "standard_entry",
+    "qualification_awarded": "MBChB Medicine",
+    "duration_years": 5,
+    "campus": "Aberdeen",
+    "location": "Aberdeen, Scotland",
+    "entry_year": null,
+    "fee_statuses": [
+      "home",
+      "international"
+    ],
+    "is_gateway_or_foundation": false,
+    "is_graduate_entry": false,
+    "notes": null
+  },
+  "medical_school": {
+    "name": null,
+    "research_profile": "data/research/aberdeen-a100-research.json",
+    "notes": "Medical-school display name is not separately represented in the current production evidence; admissions logic remains in the canonical course sections."
+  },
+  "applicant_pools": [
+    {
+      "pool_id": "international",
+      "name": "International interview ranking pool",
+      "status": "supported",
+      "applies_to_group_ids": [
+        "international_fee"
+      ],
+      "selection_relevance": "ranking_model: academic_plus_ucat_weighting | ranking_factors: academic score weighted at 30%; UCAT cognitive score weighted at 20%; SJT Band 1\u20133 gate",
+      "source_ids": [
+        "abdn_verified_international_admissions_evidence"
+      ],
+      "places_available": 19,
+      "notes": "International applicants compete only within this separate pool. SJT Band 4 makes the applicant ineligible for interview."
+    },
+    {
+      "pool_id": "home_fee_applicants",
+      "name": "Home-fee applicants",
+      "status": "supported_for_eligibility_and_guidance",
+      "applies_to_group_ids": [
+        "home_fee"
+      ],
+      "selection_relevance": "Applicant cohort descriptor only; no additional ranking pool, scoring rule or admissions decision is inferred.",
+      "notes": "Added to expose the production applicant-pool contract where the current profile already supports Home-fee eligibility or guidance but does not publish a separate Home ranking pool."
+    }
+  ],
+  "applies_to_group_ids": [
+    "home_fee",
+    "scotland_domiciled",
+    "international_fee",
+    "school_leaver"
+  ],
+  "stage_1_eligibility": {
+    "verification_status": "official_source_verified",
+    "source_ids": [
+      "abdn_uk_requirements",
+      "abdn_course_page",
+      "abdn_ucat",
+      "abdn_extenuating_circumstances",
+      "abdn_widening_access"
+    ],
+    "overall_policy": {
+      "status": "partially_verified",
+      "description": "Aberdeen publishes minimum academic requirements and requires all medicine applicants to complete UCAT. Stage 2 selection and offer rules remain incomplete.",
+      "not_eligible_if": [],
+      "source_ids": [
+        "abdn_uk_requirements",
+        "abdn_ucat"
+      ]
+    },
+    "gcse": {
+      "status": "verified",
+      "source_ids": [
+        "abdn_uk_requirements",
+        "abdn_course_page"
+      ],
+      "minimum_count": null,
+      "counted_subject_limit": null,
+      "mandatory_subject_ids": [
+        "english_language",
+        "mathematics"
+      ],
+      "grade_requirements": [
+        {
+          "requirement_id": "gcse_english_language_minimum",
+          "applies_to_group_ids": [],
+          "subject_id": "english_language",
+          "minimum_grade": "6/B",
+          "qualification_level": "gcse",
+          "decision_outcome_if_not_met": "not_eligible",
+          "source_ids": [
+            "abdn_uk_requirements",
+            "abdn_course_page"
+          ],
+          "notes": "GCSE English Language grade 6, or National 5 English grade B, is required."
+        },
+        {
+          "requirement_id": "gcse_mathematics_minimum",
+          "applies_to_group_ids": [],
+          "subject_id": "mathematics",
+          "minimum_grade": "6/B",
+          "qualification_level": "gcse",
+          "decision_outcome_if_not_met": "not_eligible",
+          "source_ids": [
+            "abdn_uk_requirements",
+            "abdn_course_page"
+          ],
+          "notes": "GCSE Mathematics grade 6, or National 5 Mathematics grade B, is required."
+        }
+      ],
+      "accepted_equivalencies": [],
+      "sitting_policy": "unknown",
+      "achieved_or_predicted": "unknown",
+      "notes": "Biology and Physics are recommended but not compulsory."
+    },
+    "post_16": {
+      "status": "verified",
+      "source_ids": [
+        "abdn_uk_requirements",
+        "abdn_widening_access"
+      ],
+      "accepted_qualification_types": [
+        "a_level",
+        "ib",
+        "scottish_highers",
+        "advanced_highers",
+        "btec",
+        "access_to_he",
+        "degree",
+        "other"
+      ],
+      "a_level": {
+        "status": "verified",
+        "source_ids": [
+          "abdn_uk_requirements",
+          "abdn_widening_access"
+        ],
+        "grade_requirements": [
+          {
+            "requirement_id": "a_level_standard_offer",
+            "applies_to_group_ids": [],
+            "grade_profile": [
+              "A",
+              "A",
+              "A"
+            ],
+            "required_subject_ids": [
+              "chemistry"
+            ],
+            "one_of_subject_groups": [
+              {
+                "group_id": "a_level_second_science_or_maths",
+                "minimum_required": 1,
+                "subject_ids": [
+                  "biology",
+                  "human_biology",
+                  "mathematics",
+                  "physics"
+                ],
+                "notes": "One subject from Biology/Human Biology, Mathematics or Physics is required."
+              }
+            ],
+            "decision_outcome_if_not_met": "not_eligible",
+            "source_ids": [
+              "abdn_uk_requirements"
+            ],
+            "notes": "Three A-levels must be taken together at first sitting over a maximum of two years."
+          },
+          {
+            "requirement_id": "a_level_widening_access_offer",
+            "applies_to_group_ids": [
+              "widening_participation"
+            ],
+            "grade_profile": [
+              "A",
+              "A",
+              "B"
+            ],
+            "required_subject_ids": [
+              "chemistry"
+            ],
+            "one_of_subject_groups": [
+              {
+                "group_id": "a_level_contextual_second_science_or_maths",
+                "minimum_required": 1,
+                "subject_ids": [
+                  "biology",
+                  "mathematics",
+                  "physics"
+                ],
+                "notes": "Widening access A-level adjustment requires Chemistry plus one from Biology, Physics or Mathematics."
+              }
+            ],
+            "decision_outcome_if_not_met": "not_eligible",
+            "source_ids": [
+              "abdn_widening_access"
+            ],
+            "notes": "Widening access minimum for eligible applicants."
+          }
+        ],
+        "standard_offer": {
+          "grade_profile": [
+            "A",
+            "A",
+            "A"
+          ],
+          "source_ids": [
+            "abdn_uk_requirements",
+            "abdn_course_page"
+          ],
+          "notes": "Chemistry required, plus one from Biology/Human Biology, Mathematics or Physics, and one further subject."
+        },
+        "contextual_offer": {
+          "applies_to_group_ids": [
+            "widening_participation"
+          ],
+          "grade_profile": [
+            "A",
+            "A",
+            "B"
+          ],
+          "source_ids": [
+            "abdn_widening_access"
+          ],
+          "notes": "Widening access adjustment."
+        },
+        "required_subject_ids": [
+          "chemistry"
+        ],
+        "one_of_subject_groups": [
+          {
+            "group_id": "a_level_second_science_or_maths",
+            "minimum_required": 1,
+            "subject_ids": [
+              "biology",
+              "human_biology",
+              "mathematics",
+              "physics"
+            ],
+            "notes": "One subject from Biology/Human Biology, Mathematics or Physics is required."
+          }
+        ],
+        "excluded_subject_ids": [
+          "general_studies",
+          "global_perspectives_and_research"
+        ],
+        "third_subject_rules": "One further A-level in most other subjects. General Studies and Global Perspectives and Research are not accepted.",
+        "predicted_grades_accepted": true,
+        "notes": "Academic score is awarded on the basis of predicted or achieved A2 grades."
+      },
+      "ib": {
+        "status": "verified",
+        "source_ids": [
+          "abdn_uk_requirements",
+          "abdn_course_page"
+        ],
+        "total_points": 36,
+        "hl_points": null,
+        "grade_requirements": [
+          {
+            "requirement_id": "ib_standard_offer",
+            "applies_to_group_ids": [],
+            "total_points": 36,
+            "hl_points": null,
+            "required_hl_subject_ids": [
+              "chemistry"
+            ],
+            "one_of_hl_subject_groups": [
+              {
+                "group_id": "ib_hl_second_science_or_maths",
+                "minimum_required": 1,
+                "subject_ids": [
+                  "mathematics",
+                  "biology",
+                  "physics"
+                ],
+                "notes": "One of Mathematics, Biology or Physics is required at Higher Level."
+              }
+            ],
+            "decision_outcome_if_not_met": "not_eligible",
+            "source_ids": [
+              "abdn_uk_requirements"
+            ],
+            "notes": "36 points overall including core, with three appropriate HL subjects at grade 6 and three appropriate SL subjects with an average of 6. If only two sciences are offered at HL, a further science subject at SL is required."
+          }
+        ],
+        "required_hl_subject_ids": [
+          "chemistry"
+        ],
+        "one_of_hl_subject_groups": [
+          {
+            "group_id": "ib_hl_second_science_or_maths",
+            "minimum_required": 1,
+            "subject_ids": [
+              "mathematics",
+              "biology",
+              "physics"
+            ],
+            "notes": "One of Mathematics, Biology or Physics is required at Higher Level."
+          }
+        ],
+        "notes": "Aberdeen accepts both Analysis and Approaches and Applications and Interpretation maths pathways. Maths Studies is not considered a science."
+      },
+      "scottish": {
+        "status": "verified",
+        "source_ids": [
+          "abdn_uk_requirements",
+          "abdn_widening_access"
+        ],
+        "higher_offer": {
+          "grade_profile": [
+            "A",
+            "A",
+            "A",
+            "A",
+            "B"
+          ],
+          "source_ids": [
+            "abdn_uk_requirements"
+          ],
+          "notes": "Standard entry: five Highers at AAAAB."
+        },
+        "advanced_higher_offer": {
+          "grade_profile": [],
+          "source_ids": [
+            "abdn_uk_requirements"
+          ],
+          "notes": "Where S5 minimum requirements are not met, S6 programmes may include new Highers and/or Advanced Highers. See structured grade requirements and notes."
+        },
+        "grade_requirements": [
+          {
+            "requirement_id": "scottish_higher_standard",
+            "applies_to_group_ids": [],
+            "qualification_level": "scottish_highers",
+            "grade_profile": [
+              "A",
+              "A",
+              "A",
+              "A",
+              "B"
+            ],
+            "required_subject_ids": [
+              "chemistry"
+            ],
+            "one_of_subject_groups": [
+              {
+                "group_id": "scottish_two_sciences_or_maths",
+                "minimum_required": 2,
+                "subject_ids": [
+                  "biology",
+                  "human_biology",
+                  "mathematics",
+                  "physics"
+                ],
+                "notes": "Two subjects are required from Biology/Human Biology, Mathematics and Physics."
+              }
+            ],
+            "decision_outcome_if_not_met": "not_eligible",
+            "source_ids": [
+              "abdn_uk_requirements"
+            ],
+            "notes": "Normally AAAAB from five full academic courses at one sitting, from Highers and/or Advanced Highers."
+          },
+          {
+            "requirement_id": "scottish_higher_widening_access",
+            "applies_to_group_ids": [
+              "widening_participation"
+            ],
+            "qualification_level": "scottish_highers",
+            "grade_profile": [
+              "A",
+              "A",
+              "A",
+              "B"
+            ],
+            "required_subject_ids": [
+              "chemistry"
+            ],
+            "one_of_subject_groups": [
+              {
+                "group_id": "scottish_contextual_two_sciences_or_maths",
+                "minimum_required": 2,
+                "subject_ids": [
+                  "biology",
+                  "human_biology",
+                  "mathematics",
+                  "physics"
+                ],
+                "notes": "Widening access adjusted entry requires Chemistry plus two from Biology/Human Biology, Physics or Mathematics."
+              }
+            ],
+            "decision_outcome_if_not_met": "not_eligible",
+            "source_ids": [
+              "abdn_widening_access"
+            ],
+            "notes": "Adjusted entry requirement for widening access applicants."
+          }
+        ],
+        "required_subject_ids": [
+          "chemistry"
+        ],
+        "one_of_subject_groups": [
+          {
+            "group_id": "scottish_two_sciences_or_maths",
+            "minimum_required": 2,
+            "subject_ids": [
+              "biology",
+              "human_biology",
+              "mathematics",
+              "physics"
+            ],
+            "notes": "Two subjects are required from Biology/Human Biology, Mathematics and Physics."
+          }
+        ],
+        "notes": "Foundation Apprenticeships are accepted in some cases, but are not yet modelled as subject IDs."
+      },
+      "btec": {
+        "status": "unknown",
+        "source_ids": [
+          "abdn_uk_requirements"
+        ],
+        "accepted_subject_ids": [],
+        "accepted_combinations": [],
+        "notes": null
+      },
+      "access_to_he": {
+        "status": "unknown",
+        "source_ids": [
+          "abdn_uk_requirements"
+        ],
+        "total_credits": null,
+        "distinction_credits": null,
+        "merit_credits": null,
+        "subject_credit_requirements": [],
+        "notes": null
+      },
+      "degree": {
+        "status": "unknown",
+        "source_ids": [
+          "abdn_uk_requirements",
+          "abdn_extenuating_circumstances"
+        ],
+        "applies_to_group_ids": [],
+        "minimum_classification": null,
+        "accepted_degree_subject_ids": [],
+        "decision_outcome_if_not_met": "not_eligible",
+        "notes": null
+      },
+      "notes": "UK school-leaver academic requirements are now represented. Graduate, mature, EU and international academic routes need separate extraction before prediction for those groups."
+    },
+    "admissions_tests": {
+      "source_ids": [
+        "abdn_ucat",
+        "abdn_extenuating_circumstances"
+      ],
+      "ucat": {
+        "required": true,
+        "source_ids": [
+          "abdn_ucat",
+          "abdn_extenuating_circumstances"
+        ],
+        "minimum_total_score": null,
+        "minimum_subsection_scores": [],
+        "score_used_for_ranking": true,
+        "validity_window": "current admissions cycle",
+        "exemptions": [],
+        "decision_outcome_if_not_met": "not_eligible",
+        "notes": "All applicants must complete UCAT by the appropriate closing date. Aberdeen states no minimum UCAT cut-off score is used; UCAT is scored relative to other Aberdeen applicants and considered for interview selection."
+      },
+      "sjt": {
+        "used": null,
+        "source_ids": [
+          "abdn_ucat",
+          "abdn_verified_international_admissions_evidence"
+        ],
+        "used_as_gate": null,
+        "accepted_bands": [],
+        "excluded_bands": [],
+        "scoring": {
+          "used_in_score": null,
+          "points_by_band": {}
+        },
+        "group_policies": [
+          {
+            "applies_to_group_ids": [
+              "international_fee"
+            ],
+            "used": true,
+            "used_as_gate": true,
+            "accepted_bands": [
+              1,
+              2,
+              3
+            ],
+            "excluded_bands": [
+              4
+            ],
+            "decision_outcome_if_excluded": "not_eligible",
+            "notes": "International applicants with SJT Band 4 are automatically ineligible for interview. Bands 1\u20133 are acceptable."
+          }
+        ],
+        "decision_outcome_if_excluded": "not_eligible",
+        "notes": "The top-level policy remains unchanged for Home applicants. International applicants follow the separate verified group policy."
+      },
+      "other_tests": []
+    },
+    "resits": {
+      "policy": "not_normally_considered_for_upgrade_unless_extenuating_circumstances",
+      "source_ids": [
+        "abdn_extenuating_circumstances",
+        "abdn_uk_requirements"
+      ],
+      "allowed": false,
+      "conditions": [
+        "Applicants resitting exams to upgrade results are not normally considered unless very serious personal difficulties affected first sitting.",
+        "Extenuating circumstances must have been declared to the relevant exam board at the time of sitting.",
+        "AS module resits are permitted if the final three A-levels are undertaken simultaneously over two years of study."
+      ],
+      "maximum_resits": null,
+      "applies_to_group_ids": [],
+      "decision_outcome_if_not_allowed": "not_eligible",
+      "notes": "Borderline cases and serious personal difficulties are considered under Aberdeen's extenuating circumstances policy."
+    },
+    "english_language": {
+      "source_ids": [
+        "abdn_course_page"
+      ],
+      "applies_to_group_ids": [
+        "international_fee"
+      ],
+      "accepted_tests": [
+        {
+          "test": "IELTS Academic",
+          "overall": "7.0",
+          "components": {
+            "listening": "5.5",
+            "reading": "5.5",
+            "speaking": "7.0",
+            "writing": "6.0"
+          }
+        },
+        {
+          "test": "TOEFL iBT",
+          "overall": "100",
+          "components": {
+            "listening": "21",
+            "reading": "22",
+            "speaking": "28",
+            "writing": "21"
+          }
+        },
+        {
+          "test": "PTE Academic",
+          "overall": "70",
+          "components": {
+            "listening": "59",
+            "reading": "59",
+            "speaking": "70",
+            "writing": "59"
+          }
+        },
+        {
+          "test": "Cambridge English B2 First, C1 Advanced or C2 Proficiency",
+          "overall": "185",
+          "components": {
+            "listening": "162",
+            "reading": "162",
+            "speaking": "185",
+            "writing": "169"
+          }
+        }
+      ],
+      "exemptions": [],
+      "decision_outcome_if_not_met": "not_eligible",
+      "notes": "English language requirements may apply to applicants whose first language is not English or who require English language evidence."
+    },
+    "age_or_professional_checks": {
+      "source_ids": [
+        "msc_index",
+        "msc_aberdeen_course_page"
+      ],
+      "minimum_age": null,
+      "fitness_to_practise_required": true,
+      "dbs_required": true,
+      "occupational_health_required": true,
+      "decision_outcome_if_not_met": "not_eligible",
+      "notes": "Professional checks usually apply; exact timing/wording needs verification."
+    }
+  },
+  "stage_2_interview_selection": {
+    "verification_status": "partially_verified",
+    "source_ids": [
+      "abdn_entrance_requirements",
+      "abdn_ucat",
+      "abdn_widening_access",
+      "abdn_verified_international_admissions_evidence"
+    ],
+    "primary_model": "academic_plus_ucat_weighting",
+    "international_selection": {
+      "applies_to_group_ids": [
+        "international_fee"
+      ],
+      "separate_ranking_pool": true,
+      "academic_weight_percent": 30,
+      "ucat_weight_percent": 20,
+      "maximum_shortlist_score": 50,
+      "ucat_score_input": "cognitive_total_only",
+      "historical_guidance_2700": {
+        "lowest_invited_range": {
+          "min": 1790,
+          "max": 1980
+        },
+        "average_invited_range": {
+          "min": 2025,
+          "max": 2100
+        },
+        "minimum_competitive": 1800,
+        "good_chance_range": {
+          "min": 1950,
+          "max": 2050
+        },
+        "highly_competitive_minimum": 2100,
+        "strong_target_minimum": 2140
+      },
+      "sjt_accepted_bands": [
+        1,
+        2,
+        3
+      ],
+      "sjt_band_4_outcome": "not_eligible_for_interview",
+      "source_ids": [
+        "abdn_verified_international_admissions_evidence"
+      ],
+      "notes": "International applicants are assessed in a completely separate ranking pool."
+    },
+    "modifiers": [
+      "contextual_adjustment"
+    ],
+    "ranking_factors": [
+      {
+        "factor_id": "academic_score",
+        "factor_type": "academic",
+        "weight_percent": 30,
+        "points_available": null,
+        "source_field": "academic_achievement_or_prediction",
+        "source_ids": [
+          "abdn_entrance_requirements"
+        ],
+        "notes": "Aberdeen states applications are scored objectively by academic achievements/predictions at 30%. Full implementation deferred to Stage 2 modelling."
+      },
+      {
+        "factor_id": "ucat_score",
+        "factor_type": "ucat",
+        "weight_percent": 20,
+        "points_available": null,
+        "source_field": "ucat_total_numerical_score",
+        "source_ids": [
+          "abdn_entrance_requirements",
+          "abdn_ucat"
+        ],
+        "notes": "Aberdeen states UCAT score is weighted at 20% before interview. Full ranking model remains unverified."
+      }
+    ],
+    "calculation": {
+      "verification_status": "partially_verified",
+      "source_ids": [
+        "abdn_entrance_requirements",
+        "abdn_ucat"
+      ],
+      "score_components": [
+        {
+          "component_id": "academic_score_component",
+          "factor_id": "academic_score",
+          "input_field": "academic_achievement_or_prediction",
+          "calculation_method": "unknown",
+          "scale": {
+            "min": null,
+            "max": null
+          },
+          "weight_percent": 30,
+          "rounding": null,
+          "notes": "Official weighting verified: academic achievements/predictions contribute 30%. Exact academic scoring formula is unknown and not verified.",
+          "source_ids": [
+            "abdn_entrance_requirements"
+          ]
+        },
+        {
+          "component_id": "ucat_score_component",
+          "factor_id": "ucat_score",
+          "input_field": "stage_1_eligibility.admissions_tests.ucat",
+          "calculation_method": "unknown_relative_applicant_pool_score",
+          "scale": {
+            "min": null,
+            "max": null
+          },
+          "weight_percent": 20,
+          "rounding": null,
+          "notes": "Official weighting verified: UCAT contributes 20%. Aberdeen states UCAT score is allocated based on overall performance compared with all other Aberdeen applicants, using the total numerical score from four subtests. Exact UCAT conversion formula is unknown and not verified.",
+          "source_ids": [
+            "abdn_ucat",
+            "abdn_entrance_requirements"
+          ]
+        }
+      ],
+      "total_score": {
+        "calculation_method": "academic_score_plus_ucat_score_before_interview",
+        "components": [
+          "academic_score_component",
+          "ucat_score_component"
+        ],
+        "scale": {
+          "min": null,
+          "max": null
+        },
+        "notes": "Official process verified: pre-interview selection combines academic and UCAT components, and highest scoring applicants are invited to interview. Exact component formulas are unknown.",
+        "source_ids": [
+          "abdn_entrance_requirements"
+        ]
+      },
+      "notes": "Calculation stores official weightings and process only. Exact academic scoring formula and UCAT conversion formula remain unknown."
+    },
+    "thresholds": [],
+    "selection_adjustments": [
+      {
+        "adjustment_id": "simd20_or_care_experienced_ucat_uplift",
+        "modifier_id": "contextual_adjustment",
+        "applies_to_group_ids": [
+          "widening_participation"
+        ],
+        "condition": {
+          "field": "contextual_criteria",
+          "operator": "includes_any",
+          "value": [
+            "simd20",
+            "care_experienced"
+          ]
+        },
+        "effect": {
+          "type": "score_uplift_percent",
+          "target": "ucat_score",
+          "value": 10
+        },
+        "decision_outcome": "risk_flag",
+        "source_ids": [
+          "abdn_widening_access"
+        ],
+        "notes": "Stage 2 placeholder only. Aberdeen states 10% UCAT uplift for SIMD20 and/or care experienced school-leaving applicants."
+      },
+      {
+        "adjustment_id": "simd40_ucat_uplift",
+        "modifier_id": "contextual_adjustment",
+        "applies_to_group_ids": [
+          "widening_participation"
+        ],
+        "condition": {
+          "field": "contextual_criteria",
+          "operator": "includes",
+          "value": "simd40"
+        },
+        "effect": {
+          "type": "score_uplift_percent",
+          "target": "ucat_score",
+          "value": 5
+        },
+        "decision_outcome": "risk_flag",
+        "source_ids": [
+          "abdn_widening_access"
+        ],
+        "notes": "Stage 2 placeholder only. Aberdeen states 5% UCAT uplift for SIMD40 school-leaving applicants."
+      }
+    ],
+    "tie_breakers": [],
+    "output_band_policy": {
+      "bands": [
+        "interview_likely",
+        "realistic",
+        "ambitious",
+        "high_risk",
+        "not_eligible"
+      ],
+      "notes": "Bands are ApplySmart interview guidance from official weighting, FOI conversion evidence and applicant-group historical data; they are not live cutoffs or probability percentages."
+    },
+    "notes": "Stage 2 weighting and broad pre-interview selection process are official-source verified. Exact academic scoring and UCAT conversion formulas remain unknown. SJT policy remains unknown/not explicitly stated."
+  },
+  "contextual_admissions": {
+    "verification_status": "official_source_verified",
+    "source_ids": [
+      "abdn_widening_access"
+    ],
+    "available": true,
+    "applies_to_group_ids": [
+      "widening_participation",
+      "care_experienced"
+    ],
+    "criteria": [
+      {
+        "criterion_id": "simd20_or_simd40",
+        "applies_to_group_ids": [
+          "widening_participation"
+        ],
+        "description": "Home postcode in SIMD20 or SIMD40 postcode areas.",
+        "source_ids": [
+          "abdn_widening_access"
+        ],
+        "notes": null
+      },
+      {
+        "criterion_id": "polar4_quintile_1",
+        "applies_to_group_ids": [
+          "widening_participation"
+        ],
+        "description": "Polar 4 Quintile 1.",
+        "source_ids": [
+          "abdn_widening_access"
+        ],
+        "notes": null
+      },
+      {
+        "criterion_id": "care_experienced",
+        "applies_to_group_ids": [
+          "care_experienced"
+        ],
+        "description": "Care experienced or looked-after background at any stage in life.",
+        "source_ids": [
+          "abdn_widening_access"
+        ],
+        "notes": null
+      }
+    ],
+    "adjustments": [
+      {
+        "adjustment_id": "sqa_widening_access_minimum",
+        "applies_to_group_ids": [
+          "widening_participation"
+        ],
+        "stage": "stage_1_eligibility",
+        "policy_description": "Adjusted SQA minimum from S5 to AAAB, including Chemistry plus two from Biology/Human Biology, Physics or Mathematics.",
+        "effect": {
+          "type": "lower_academic_threshold",
+          "target": "stage_1_eligibility.post_16.scottish",
+          "value": "AAAB"
+        },
+        "source_ids": [
+          "abdn_widening_access"
+        ],
+        "notes": null
+      },
+      {
+        "adjustment_id": "a_level_widening_access_minimum",
+        "applies_to_group_ids": [
+          "widening_participation"
+        ],
+        "stage": "stage_1_eligibility",
+        "policy_description": "Adjusted A-level minimum to AAB, including Chemistry plus one from Biology, Physics or Mathematics.",
+        "effect": {
+          "type": "lower_academic_threshold",
+          "target": "stage_1_eligibility.post_16.a_level",
+          "value": "AAB"
+        },
+        "source_ids": [
+          "abdn_widening_access"
+        ],
+        "notes": null
+      }
+    ],
+    "guaranteed_interview_rules": [
+      {
+        "rule_id": "scottish_widening_access_guaranteed_interview",
+        "applies_to_group_ids": [
+          "scotland_domiciled",
+          "widening_participation"
+        ],
+        "minimum_requirements_must_be_met": true,
+        "conditions": [
+          "Applicant has achieved Aberdeen's minimum academic requirements.",
+          "Applicant's UCAT score is within the top 75% of scores of all applicants to Aberdeen."
+        ],
+        "source_ids": [
+          "abdn_widening_access"
+        ],
+        "notes": "Stored as policy rule only; full Stage 2 execution requires applicant pool percentile data."
+      }
+    ],
+    "notes": null
+  },
+  "ranking_pools": [
+    {
+      "pool_id": "international",
+      "name": "International interview ranking pool",
+      "applies_to_group_ids": [
+        "international_fee"
+      ],
+      "fee_statuses": [
+        "international"
+      ],
+      "ranking_model": "academic_plus_ucat_weighting",
+      "ranking_factors": [
+        "academic score weighted at 30%",
+        "UCAT cognitive score weighted at 20%",
+        "SJT Band 1\u20133 gate"
+      ],
+      "places_available": 19,
+      "maximum_shortlist_score": 50,
+      "source_ids": [
+        "abdn_verified_international_admissions_evidence"
+      ],
+      "notes": "International applicants compete only within this separate pool. SJT Band 4 makes the applicant ineligible for interview."
+    }
+  ],
+  "quotas": [
+    {
+      "quota_id": "aberdeen_a100_places_2027_entry_verified",
+      "name": "Verified Home/International places (2027 entry)",
+      "home_places": 200,
+      "international_places": 19,
+      "quota_type": "verified_current_places",
+      "source_ids": [
+        "applysmart_admissions_team_verified_2026"
+      ],
+      "notes": "Home/International place figures verified by the ApplySmart admissions research team for 2027 entry."
+    }
+  ],
+  "offer_selection": {
+    "verification_status": "partially_verified",
+    "source_ids": [
+      "abdn_entrance_requirements"
+    ],
+    "interview_format": null,
+    "interview_scoring": {
+      "score_used": null,
+      "minimum_score": null,
+      "station_scores": [],
+      "sjt_used_post_interview": null,
+      "decision_outcome_if_not_met": "not_eligible",
+      "source_ids": [
+        "abdn_entrance_requirements"
+      ],
+      "notes": "Interview performance contributes 50% to offer selection, but exact interview scoring formula is not yet modelled."
+    },
+    "offer_model": "combined_academic_ucat_interview_score",
+    "ranking_factors": [
+      {
+        "factor_id": "academic_score",
+        "factor_type": "academic",
+        "weight_percent": 30,
+        "points_available": null,
+        "source_field": "academic_achievement_or_prediction",
+        "source_ids": [
+          "abdn_entrance_requirements"
+        ],
+        "notes": "Official weighting verified for offer selection. Exact scoring formula remains unknown."
+      },
+      {
+        "factor_id": "ucat_score",
+        "factor_type": "ucat",
+        "weight_percent": 20,
+        "points_available": null,
+        "source_field": "ucat_total_numerical_score",
+        "source_ids": [
+          "abdn_entrance_requirements",
+          "abdn_ucat"
+        ],
+        "notes": "Official weighting verified for offer selection. Exact conversion formula remains unknown."
+      },
+      {
+        "factor_id": "interview_score",
+        "factor_type": "interview",
+        "weight_percent": 50,
+        "points_available": null,
+        "source_field": "interview_performance",
+        "source_ids": [
+          "abdn_entrance_requirements"
+        ],
+        "notes": "Official weighting verified for offer selection. Exact interview scoring formula remains unknown."
+      }
+    ],
+    "tie_breakers": [],
+    "waiting_list_policy": null,
+    "standard_offer": {
+      "grade_profile": [],
+      "source_ids": [
+        "abdn_uk_requirements",
+        "abdn_course_page"
+      ],
+      "notes": null
+    },
+    "contextual_offer": {
+      "applies_to_group_ids": [
+        "widening_participation"
+      ],
+      "grade_profile": [],
+      "source_ids": [
+        "abdn_widening_access"
+      ],
+      "notes": null
+    },
+    "notes": "Official offer-selection weighting is recorded: academic 30%, UCAT 20%, interview 50%. Exact score calculations remain unknown; offer prediction is not ready."
+  },
+  "historical_admissions": {
+    "verification_status": "official_source_verified",
+    "source_ids": [
+      "abdn_admissions_data"
+    ],
+    "cycles": [
+      {
+        "entry_year": 2026,
+        "applicant_group_id": "scotland_domiciled",
+        "applications": 955,
+        "interviews": 839,
+        "offers": 643,
+        "places": 298,
+        "lowest_interviewed_ucat": 1700,
+        "average_interviewed_ucat": 1960,
+        "interview_score_cutoff": null,
+        "source_ids": [
+          "abdn_admissions_data"
+        ],
+        "notes": "Official admissions data page. Entrants listed as TBC at time of access."
+      },
+      {
+        "entry_year": 2026,
+        "applicant_group_id": "rest_of_uk",
+        "applications": 222,
+        "interviews": 164,
+        "offers": 133,
+        "places": null,
+        "lowest_interviewed_ucat": 1720,
+        "average_interviewed_ucat": 1990,
+        "interview_score_cutoff": null,
+        "source_ids": [
+          "abdn_admissions_data"
+        ],
+        "notes": "Official admissions data page. No separate places value was clearly represented for this row in the parsed page text; entrants listed as TBC."
+      },
+      {
+        "entry_year": null,
+        "applicant_group_id": "international_fee",
+        "applications": null,
+        "interviews": null,
+        "interviews_range": {
+          "min": 60,
+          "max": 70
+        },
+        "offers": null,
+        "offers_range": {
+          "min": 19,
+          "max": 22
+        },
+        "places": 19,
+        "post_interview_offer_rate_percent_range": {
+          "min": 70,
+          "max": 72
+        },
+        "lowest_interviewed_ucat": null,
+        "lowest_interviewed_ucat_range": {
+          "min": 1790,
+          "max": 1980
+        },
+        "average_interviewed_ucat": null,
+        "average_interviewed_ucat_range": {
+          "min": 2025,
+          "max": 2100
+        },
+        "interview_score_cutoff": null,
+        "source_ids": [
+          "abdn_verified_international_admissions_evidence"
+        ],
+        "notes": "Verified international cohort evidence on the /2700 UCAT scale; no entry cycle was supplied."
+      }
+    ],
+    "notes": "Official historical/current admissions statistics are stored for competitiveness context only. Do not treat these data as the official academic or UCAT scoring formula."
+  },
+  "sources": [
+    {
+      "source_id": "msc_index",
+      "title": "Medical Schools Council UK medical school entry requirements index",
+      "url": "https://www.medschools.ac.uk/for-students/applying-to-medical-school/entry-requirements/?pg=3",
+      "source_type": "official_course_page",
+      "published_date": null,
+      "accessed_date": "2026-06-19",
+      "applies_to_sections": [
+        "university",
+        "course"
+      ],
+      "confidence": "Low",
+      "notes": "Course card from MSC index for courses starting Autumn 2026."
+    },
+    {
+      "source_id": "msc_aberdeen_course_page",
+      "title": "University of Aberdeen - MBChB Medicine (A100)",
+      "url": "https://www.medschools.ac.uk/courses/university-of-aberdeen-a100/",
+      "source_type": "official_course_page",
+      "published_date": null,
+      "accessed_date": "2026-06-19",
+      "applies_to_sections": [
+        "university",
+        "course"
+      ],
+      "confidence": "Low",
+      "notes": "Detailed rules originally not extracted from this source."
+    },
+    {
+      "source_id": "abdn_course_page",
+      "title": "University of Aberdeen - Medicine MBChB undergraduate degree page",
+      "url": "https://www.abdn.ac.uk/study/undergraduate/degree-programmes/796/A100/medicine-5-years/",
+      "source_type": "official_course_page",
+      "published_date": null,
+      "accessed_date": "2026-06-23",
+      "applies_to_sections": [
+        "course",
+        "stage_1_eligibility",
+        "english_language"
+      ],
+      "confidence": "High",
+      "notes": "Official Aberdeen course page used for course facts, entry requirements summary and English language requirements."
+    },
+    {
+      "source_id": "abdn_entrance_requirements",
+      "title": "University of Aberdeen Medicine Entrance Requirements",
+      "url": "https://www.abdn.ac.uk/smmsn/undergraduate/medicine/entrance-requirements/",
+      "source_type": "official_admissions_policy",
+      "published_date": null,
+      "accessed_date": "2026-06-23",
+      "applies_to_sections": [
+        "stage_1_eligibility",
+        "stage_2_interview_selection"
+      ],
+      "confidence": "High",
+      "notes": "Official overview of Aberdeen medicine admissions assessment."
+    },
+    {
+      "source_id": "abdn_uk_requirements",
+      "title": "University of Aberdeen Medicine UK Requirements",
+      "url": "https://www.abdn.ac.uk/smmsn/undergraduate/medicine/entrance-requirements/academic-requirements/uk-requirements/",
+      "source_type": "official_admissions_policy",
+      "published_date": null,
+      "accessed_date": "2026-06-23",
+      "applies_to_sections": [
+        "stage_1_eligibility"
+      ],
+      "confidence": "High",
+      "notes": "Official UK academic requirements page."
+    },
+    {
+      "source_id": "abdn_ucat",
+      "title": "University of Aberdeen Medicine UCAT",
+      "url": "https://www.abdn.ac.uk/smmsn/undergraduate/medicine/entrance-requirements/ucat/",
+      "source_type": "official_admissions_policy",
+      "published_date": null,
+      "accessed_date": "2026-06-23",
+      "applies_to_sections": [
+        "stage_1_eligibility",
+        "stage_2_interview_selection"
+      ],
+      "confidence": "High",
+      "notes": "Official Aberdeen UCAT policy page."
+    },
+    {
+      "source_id": "abdn_widening_access",
+      "title": "University of Aberdeen Medicine Widening Access",
+      "url": "https://www.abdn.ac.uk/smmsn/undergraduate/medicine/widening-access/",
+      "source_type": "official_admissions_policy",
+      "published_date": null,
+      "accessed_date": "2026-06-23",
+      "applies_to_sections": [
+        "contextual_admissions",
+        "stage_1_eligibility",
+        "stage_2_interview_selection"
+      ],
+      "confidence": "High",
+      "notes": "Official Aberdeen widening access policy for medicine."
+    },
+    {
+      "source_id": "abdn_extenuating_circumstances",
+      "title": "University of Aberdeen Medicine Extenuating Circumstances",
+      "url": "https://www.abdn.ac.uk/smmsn/undergraduate/medicine/entrance-requirements/extenuating-circumstances/",
+      "source_type": "official_admissions_policy",
+      "published_date": null,
+      "accessed_date": "2026-06-23",
+      "applies_to_sections": [
+        "stage_1_eligibility"
+      ],
+      "confidence": "High",
+      "notes": "Official Aberdeen medicine extenuating circumstances and resit-related policy."
+    },
+    {
+      "source_id": "abdn_admissions_data",
+      "title": "University of Aberdeen Medicine Admissions Data",
+      "url": "https://www.abdn.ac.uk/smmsn/undergraduate/medicine/admissions-data/",
+      "source_type": "official_admissions_statistics",
+      "published_date": null,
+      "accessed_date": "2026-06-24",
+      "applies_to_sections": [
+        "historical_admissions"
+      ],
+      "confidence": "High",
+      "notes": "Official Aberdeen admissions statistics page. Use for historical competitiveness context only, not as the official academic or UCAT scoring formula."
+    },
+    {
+      "source_id": "abdn_verified_international_admissions_evidence",
+      "title": "Aberdeen A100 verified international admissions evidence",
+      "url": null,
+      "source_type": "verified_admissions_evidence",
+      "published_date": null,
+      "accessed_date": "2026-07-02",
+      "applies_to_sections": [
+        "stage_1_eligibility",
+        "stage_2_interview_selection",
+        "ranking_pools",
+        "historical_admissions"
+      ],
+      "confidence": "High",
+      "notes": "Verified evidence supplied for international selection, historical UCAT guidance and cohort volumes. No source URL or entry cycle was supplied."
+    }
+  ],
+  "validation": {
+    "source_status": "official_source_verified",
+    "last_verified": "2026-06-23",
+    "confidence_level": "Medium",
+    "completion_status": "production_ready_for_supported_scope_with_documented_gaps",
+    "section_completion_status": {
+      "stage_1_eligibility": "partial",
+      "stage_2_interview_selection": "partial",
+      "contextual_admissions": "partial",
+      "ranking_pools": "documented_gap_non_blocking",
+      "quotas": "documented_gap_non_blocking",
+      "offer_selection": "documented_gap_non_blocking",
+      "historical_admissions": "documented_gap_non_blocking",
+      "sources": "partial"
+    },
+    "known_unknowns": [
+      "SJT gate/scoring policy is not explicitly stated in the reviewed Aberdeen source.",
+      "BTEC, Access to HE, graduate, mature, EU and international academic routes need separate extraction before prediction for those groups.",
+      "Exact academic scoring formula and UCAT conversion formula are unknown.",
+      "SJT gate/scoring policy remains unknown/not explicitly stated.",
+      "Full Stage 2 interview selection execution is not yet implemented.",
+      "Offer selection formula is not yet extracted. Historical admissions data is available for competitiveness context only.",
+      "Foundation Apprenticeship handling needs a controlled model before it can be evaluated."
+    ],
+    "review_notes": "Stage 1 UK school-leaver academic requirements, UCAT, resit policy, English language requirements and widening access academic adjustments are official-source backed. Official pre-interview weightings, FOI UCAT conversion evidence and applicant-group historical interview data support medium-confidence interview guidance; offer prediction remains unavailable."
+  },
+  "engine_notes": {
+    "eligibility": true,
+    "interview_prediction": true,
+    "historical_guidance": true,
+    "international_prediction": true,
+    "contextual_logic": false,
+    "result_card": true,
+    "regression": true,
+    "research_completeness": "complete_for_supported_scope_with_documented_gaps",
+    "manual_review_required": true,
+    "eligibility_ready": true,
+    "interview_prediction_ready": true,
+    "prediction_confidence": "medium",
+    "result_card_ready": true,
+    "offer_prediction_scope": "out_of_scope",
+    "interview_band_config_ready": true,
+    "metadata_activation_ready": true,
+    "activation_ready": true,
+    "production_ready": true,
+    "blocking_missing_fields": [],
+    "non_blocking_warnings": [
+      "Documented evidence or automation gap retained as non-blocking for activation-ready production scope: stage_2_interview_selection.calculation.academic_score_component",
+      "Documented evidence or automation gap retained as non-blocking for activation-ready production scope: ranking_pools",
+      "Documented evidence or automation gap retained as non-blocking for activation-ready production scope: quotas",
+      "Documented evidence or automation gap retained as non-blocking for activation-ready production scope: offer_selection.interview_scoring",
+      "Documented evidence or automation gap retained as non-blocking for activation-ready production scope: offer_selection.offer_threshold",
+      "Documented evidence or automation gap retained as non-blocking for activation-ready production scope: offer_selection.tie_breakers",
+      "Known unknown retained as non-blocking for activation-ready production scope: SJT gate/scoring policy is not explicitly stated in the reviewed Aberdeen source.",
+      "Known unknown retained as non-blocking for activation-ready production scope: BTEC, Access to HE, graduate, mature, EU and international academic routes need separate extraction before prediction for those groups.",
+      "Known unknown retained as non-blocking for activation-ready production scope: Exact academic scoring formula and UCAT conversion formula are unknown.",
+      "Known unknown retained as non-blocking for activation-ready production scope: SJT gate/scoring policy remains unknown/not explicitly stated.",
+      "Known unknown retained as non-blocking for activation-ready production scope: Full Stage 2 interview selection execution is not yet implemented.",
+      "Known unknown retained as non-blocking for activation-ready production scope: Offer selection formula is not yet extracted. Historical admissions data is available for competitiveness context only.",
+      "Known unknown retained as non-blocking for activation-ready production scope: Foundation Apprenticeship handling needs a controlled model before it can be evaluated."
+    ],
+    "engine_assumptions": [],
+    "do_not_infer": [
+      "Do not infer missing subject requirements.",
+      "Do not treat historical admissions data as the official scoring formula unless explicitly modelled as an estimated historical prediction.",
+      "Do not treat aliases as canonical subject IDs.",
+      "Do not apply contextual adjustments unless represented as structured rules."
+    ],
+    "prediction_scope": "interview_guidance_from_official_weighting_foi_conversion_and_historical_applicant_group_data",
+    "interview_prediction_basis": [
+      "official_pre_interview_academic_and_ucat_weighting",
+      "foi_verified_ucat_conversion",
+      "official_historical_lowest_and_average_interviewed_ucat_by_applicant_group",
+      "research_model_clearly_labelled_non_official"
+    ]
+  }
+}

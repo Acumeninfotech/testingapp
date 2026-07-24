@@ -1,0 +1,2122 @@
+{
+  "schema_version": "1.0.0",
+  "profile_id": "st-andrews-a100",
+  "profile_status": "completed_for_approved_restricted_execution_scope",
+  "verification_status": "official_source_verified_with_remaining_eligibility_exceptions",
+  "last_updated": "2026-07-02",
+  "university": {
+    "name": "University of St Andrews",
+    "slug": "st-andrews",
+    "country": "United Kingdom",
+    "nation": "Scotland",
+    "institution_type": null,
+    "website_url": "https://www.st-andrews.ac.uk/"
+  },
+  "course": {
+    "name": "Medicine BSc (Hons)",
+    "ucas_code": "A100",
+    "entry_route": "standard_entry",
+    "qualification_awarded": "BSc (Hons) Medicine",
+    "duration_years": 6,
+    "campus": "St Andrews",
+    "location": "St Andrews, Scotland, followed by clinical training at a partner medical school in Scotland or England",
+    "entry_year": 2027,
+    "fee_statuses": [
+      "home",
+      "rest_of_uk",
+      "international"
+    ],
+    "is_gateway_or_foundation": false,
+    "is_graduate_entry": false,
+    "notes": "Students study for three years at St Andrews and must obtain the BSc (Hons) Medicine before progressing for three years at a partner medical school leading to an MBChB or MBBS. UK applicants apply to the Scotland, England or No Preference route. Overseas A100 students progress to Manchester. Detailed live rules were reviewed on 2026-06-29, but the main course page remained headed 2026 entry; applicability to 2027 requires confirmation."
+  },
+  "medical_school": {
+    "name": "School of Medicine",
+    "st_andrews_study_years": 3,
+    "partner_medical_school_years": 3,
+    "final_partner_awards": [
+      "MBChB",
+      "MBBS"
+    ],
+    "partner_medical_schools": [
+      "University of Aberdeen",
+      "University of Dundee",
+      "University of Edinburgh",
+      "University of Glasgow",
+      "Queen Mary University of London (Barts)",
+      "University of Manchester"
+    ],
+    "application_routes": [
+      {
+        "route_id": "scotland_route",
+        "campus_code": "S",
+        "eligible_fee_scope": "UK applicants",
+        "destinations": [
+          "University of Aberdeen",
+          "University of Dundee",
+          "University of Edinburgh",
+          "University of Glasgow"
+        ]
+      },
+      {
+        "route_id": "england_route",
+        "campus_code": "R",
+        "eligible_fee_scope": "UK applicants",
+        "destinations": [
+          "University of Manchester",
+          "Queen Mary University of London (Barts)"
+        ]
+      },
+      {
+        "route_id": "no_preference_route",
+        "campus_code": "N",
+        "eligible_fee_scope": "UK applicants",
+        "allocation": "The offer states whether the applicant is allocated to the England or Scotland route."
+      },
+      {
+        "route_id": "overseas_manchester_progression",
+        "campus_code": null,
+        "eligible_fee_scope": "Overseas fee applicants",
+        "destinations": [
+          "University of Manchester"
+        ]
+      }
+    ],
+    "source_ids": [
+      "standrews_a100_course_page",
+      "standrews_course_pathways",
+      "standrews_partner_medical_schools"
+    ]
+  },
+  "applicant_pools": [
+    {
+      "pool_id": "home_fee_applicants",
+      "name": "Home-fee applicants",
+      "status": "supported_for_eligibility_and_guidance",
+      "applies_to_group_ids": [
+        "home_fee"
+      ],
+      "selection_relevance": "Applicant cohort descriptor only; no additional ranking pool, scoring rule or admissions decision is inferred.",
+      "notes": "Added to expose the production applicant-pool contract where the current profile already supports Home-fee eligibility or guidance but does not publish a separate Home ranking pool."
+    },
+    {
+      "pool_id": "international_applicants",
+      "name": "International applicants",
+      "status": "supported_for_eligibility_and_guidance",
+      "applies_to_group_ids": [
+        "international_fee"
+      ],
+      "selection_relevance": "Applicant cohort descriptor only; no additional ranking pool, scoring rule or admissions decision is inferred.",
+      "notes": "Added to expose the production applicant-pool contract without changing the existing international eligibility or selection model."
+    },
+    {
+      "pool_id": "contextual_applicants",
+      "name": "Contextual applicants",
+      "status": "supported_with_documented_limits",
+      "applies_to_group_ids": [
+        "contextual"
+      ],
+      "selection_relevance": "Applicant cohort descriptor only; no additional ranking pool, scoring rule or admissions decision is inferred.",
+      "notes": "Contextual handling remains governed by contextual_admissions and documented evidence gaps."
+    },
+    {
+      "pool_id": "graduate_applicants",
+      "name": "Graduate applicants to A100",
+      "status": "supported_with_documented_limits",
+      "applies_to_group_ids": [
+        "graduate_applicant"
+      ],
+      "selection_relevance": "Applicant cohort descriptor only; no additional ranking pool, scoring rule or admissions decision is inferred.",
+      "notes": "Graduate handling remains governed by the existing eligibility, stage_2 and manual-review rules."
+    }
+  ],
+  "applies_to_group_ids": [
+    "england_domiciled",
+    "scotland_domiciled",
+    "wales_domiciled",
+    "northern_ireland_domiciled",
+    "home_fee",
+    "international_fee",
+    "rest_of_uk",
+    "contextual",
+    "widening_participation",
+    "care_experienced",
+    "graduate_applicant",
+    "school_leaver",
+    "resit_applicant"
+  ],
+  "stage_1_eligibility": {
+    "verification_status": "official_source_verified_with_remaining_eligibility_exceptions",
+    "source_ids": [
+      "standrews_uk_qualifications",
+      "standrews_academic_requirements",
+      "standrews_ucat_policy",
+      "standrews_selection_process",
+      "standrews_personal_statement_reference",
+      "standrews_medicine_entry_requirements"
+    ],
+    "overall_policy": {
+      "status": "official_rules_mapped_execution_incomplete",
+      "description": "Applicants must meet the applicable academic and non-academic hurdles and complete UCAT in the correct cycle before being ranked for interview by UCAT Global Score.",
+      "not_eligible_if": [
+        "The applicable academic requirements are not met.",
+        "UCAT is not completed in the appropriate application cycle.",
+        "The required positive reference or relevant medically related caring or health experience hurdle is not met.",
+        "The applicant is a current or previous medicine student elsewhere.",
+        "The applicant is seeking deferred entry or transfer.",
+        "The applicant presents a qualification route explicitly listed as not accepted."
+      ],
+      "source_ids": [
+        "standrews_academic_requirements",
+        "standrews_ucat_policy",
+        "standrews_selection_process",
+        "standrews_personal_statement_reference"
+      ]
+    },
+    "gcse": {
+      "status": "official_source_verified_execution_partial",
+      "source_ids": [
+        "standrews_uk_qualifications"
+      ],
+      "minimum_count": 5,
+      "minimum_grade_for_count": "A/7",
+      "counted_subject_limit": null,
+      "mandatory_subject_ids": [],
+      "grade_requirements": [],
+      "conditional_grade_requirements": [
+        {
+          "requirement_id": "gcse_or_as_biology_if_absent_at_a_level",
+          "applies_to_group_ids": [
+            "school_leaver"
+          ],
+          "subject_ids": [
+            "biology",
+            "human_biology"
+          ],
+          "minimum_grade": "5/B",
+          "qualification_levels": [
+            "gcse",
+            "as_level"
+          ],
+          "condition": "Required if Biology or Human Biology is not one of the three A-level subjects.",
+          "execution_status": "metadata_only_current_engine_cannot_apply_cross_qualification_condition",
+          "source_ids": [
+            "standrews_uk_qualifications"
+          ]
+        },
+        {
+          "requirement_id": "gcse_or_as_mathematics_if_absent_at_a_level",
+          "applies_to_group_ids": [
+            "school_leaver"
+          ],
+          "subject_ids": [
+            "mathematics"
+          ],
+          "minimum_grade": "5/B",
+          "qualification_levels": [
+            "gcse",
+            "as_level"
+          ],
+          "condition": "Required if Mathematics is not one of the three A-level subjects.",
+          "execution_status": "metadata_only_current_engine_cannot_apply_cross_qualification_condition",
+          "source_ids": [
+            "standrews_uk_qualifications"
+          ]
+        },
+        {
+          "requirement_id": "gcse_or_as_english_if_absent_at_a_level",
+          "applies_to_group_ids": [
+            "school_leaver"
+          ],
+          "subject_ids": [
+            "english_language",
+            "english_literature"
+          ],
+          "minimum_grade": "5/B",
+          "qualification_levels": [
+            "gcse",
+            "as_level"
+          ],
+          "condition": "English Language or Literature is required if neither is one of the three A-level subjects.",
+          "execution_status": "metadata_only_current_engine_cannot_apply_cross_qualification_condition",
+          "source_ids": [
+            "standrews_uk_qualifications"
+          ]
+        }
+      ],
+      "accepted_equivalencies": [
+        {
+          "equivalency_id": "human_biology_for_biology",
+          "value": "Human Biology is accepted in place of Biology.",
+          "source_ids": [
+            "standrews_uk_qualifications"
+          ]
+        },
+        {
+          "equivalency_id": "ccea_c_star_for_grade_5",
+          "value": "CCEA GCSE grade C* is accepted as equivalent to numerical grade 5.",
+          "source_ids": [
+            "standrews_uk_qualifications"
+          ]
+        }
+      ],
+      "sitting_policy": "At least five GCSEs at grade A/7 must normally be taken at one sitting.",
+      "achieved_or_predicted": "achieved_or_predicted",
+      "achieved_a_level_exception": "Applicants with achieved A-levels may be considered with fewer than five GCSEs at grade A/7.",
+      "science_equivalence_restriction": "Dual Award or Combined Science GCSE is not accepted instead of GCSE Biology.",
+      "execution_status": "aggregate_grade_count_one_sitting_conditions_and_achieved_a_level_exception_not_fully_executable",
+      "notes": "The current engine's minimum_count check counts supplied GCSEs, not five GCSEs at A/7 in one sitting. This section must not independently produce a complete eligibility decision."
+    },
+    "post_16": {
+      "status": "official_source_verified_execution_route_limited",
+      "source_ids": [
+        "standrews_uk_qualifications",
+        "standrews_academic_requirements"
+      ],
+      "accepted_qualification_types": [
+        "a_level",
+        "scottish_highers",
+        "advanced_highers",
+        "international_baccalaureate",
+        "degree",
+        "st_andrews_international_foundation_medicine",
+        "other_officially_accepted_equivalent"
+      ],
+      "a_level": {
+        "status": "official_source_verified_execution_partial",
+        "source_ids": [
+          "standrews_uk_qualifications"
+        ],
+        "grade_requirements": [
+          {
+            "requirement_id": "a_level_standard_entry",
+            "applies_to_group_ids": [
+              "school_leaver"
+            ],
+            "grade_profile": [
+              "A",
+              "A",
+              "A"
+            ],
+            "required_subject_ids": [
+              "chemistry"
+            ],
+            "one_of_subject_groups": [
+              {
+                "group_id": "a_level_second_required_science_or_mathematics",
+                "minimum_required": 1,
+                "subject_ids": [
+                  "biology",
+                  "human_biology",
+                  "mathematics",
+                  "physics"
+                ],
+                "notes": "One of Biology, Human Biology, Mathematics or Physics is required alongside Chemistry."
+              }
+            ],
+            "decision_outcome_if_not_met": "not_eligible",
+            "source_ids": [
+              "standrews_uk_qualifications"
+            ],
+            "notes": "Standard A-level requirement. Conditional GCSE/AS, sitting and timing rules are stored separately and are not fully executable."
+          },
+          {
+            "requirement_id": "a_level_minimum_contextual_entry",
+            "applies_to_group_ids": [
+              "contextual"
+            ],
+            "grade_profile": [
+              "A",
+              "A",
+              "B"
+            ],
+            "required_subject_ids": [
+              "chemistry"
+            ],
+            "one_of_subject_groups": [
+              {
+                "group_id": "a_level_contextual_second_required_science_or_mathematics",
+                "minimum_required": 1,
+                "subject_ids": [
+                  "biology",
+                  "human_biology",
+                  "mathematics",
+                  "physics"
+                ],
+                "notes": "One of Biology, Human Biology, Mathematics or Physics is required alongside Chemistry."
+              }
+            ],
+            "decision_outcome_if_not_met": "not_eligible",
+            "execution_status": "metadata_only_contextual_criteria_not_safely_executable",
+            "source_ids": [
+              "standrews_uk_qualifications"
+            ],
+            "notes": "Published minimum entry requirement for qualifying contextual applicants; it is not evidence of a guaranteed reduced final offer."
+          }
+        ],
+        "standard_offer": {
+          "grade_profile": [
+            "A",
+            "A",
+            "A"
+          ],
+          "source_ids": [
+            "standrews_uk_qualifications"
+          ],
+          "notes": "Chemistry and one of Biology/Human Biology, Mathematics or Physics are required."
+        },
+        "contextual_offer": {
+          "applies_to_group_ids": [
+            "contextual"
+          ],
+          "grade_profile": [
+            "A",
+            "A",
+            "B"
+          ],
+          "source_ids": [
+            "standrews_uk_qualifications"
+          ],
+          "notes": "This is the published minimum entry grade profile, not a confirmed reduced final-offer policy."
+        },
+        "required_subject_ids": [
+          "chemistry"
+        ],
+        "one_of_subject_groups": [
+          {
+            "group_id": "a_level_second_required_science_or_mathematics",
+            "minimum_required": 1,
+            "subject_ids": [
+              "biology",
+              "human_biology",
+              "mathematics",
+              "physics"
+            ],
+            "notes": "One required alongside Chemistry."
+          }
+        ],
+        "excluded_subject_ids": [
+          "general_studies",
+          "global_perspectives_and_research"
+        ],
+        "excluded_subject_names": [
+          "General Studies",
+          "Critical Thinking",
+          "Global Perspectives and Research"
+        ],
+        "third_subject_rules": {
+          "only_one_mathematics_rule": "Only one of Mathematics and Further Mathematics is considered.",
+          "fourth_a_level_advantage": false,
+          "grade_compensation": false
+        },
+        "timing_and_sitting_rules": [
+          "A-levels must be studied over two years and completed in Year 13.",
+          "All three required A-levels must be taken at the same examination sitting.",
+          "An early or later sitting of one A-level does not count toward the required three."
+        ],
+        "predicted_grades_accepted": true,
+        "execution_status": "core_grade_and_subject_profile_executable_other_rules_metadata_only",
+        "notes": "The current engine can evaluate the core AAA, Chemistry and second-subject requirement. It does not enforce exclusions, timing, sitting, Mathematics/Further Mathematics interaction or conditional GCSE/AS rules."
+      },
+      "ib": {
+        "status": "official_source_verified_not_executable",
+        "source_ids": [
+          "standrews_uk_qualifications"
+        ],
+        "total_points": 38,
+        "hl_points": "6,6,6",
+        "standard_level_points": "6,6,6",
+        "grade_requirements": [
+          {
+            "requirement_id": "ib_standard_entry",
+            "applies_to_group_ids": [
+              "school_leaver"
+            ],
+            "total_points": 38,
+            "hl_points": "6,6,6",
+            "sl_points": "6,6,6",
+            "required_hl_subject_ids": [
+              "chemistry"
+            ],
+            "one_of_hl_subject_groups": [
+              {
+                "group_id": "ib_second_required_hl_science_or_mathematics",
+                "minimum_required": 1,
+                "subject_ids": [
+                  "biology",
+                  "mathematics",
+                  "physics"
+                ]
+              }
+            ],
+            "decision_outcome_if_not_met": "not_eligible",
+            "source_ids": [
+              "standrews_uk_qualifications"
+            ]
+          },
+          {
+            "requirement_id": "ib_minimum_contextual_entry",
+            "applies_to_group_ids": [
+              "contextual"
+            ],
+            "total_points": 36,
+            "hl_points": "6,6,5",
+            "sl_points": "6,6,5",
+            "required_hl_subject_ids": [
+              "chemistry"
+            ],
+            "one_of_hl_subject_groups": [
+              {
+                "group_id": "ib_contextual_second_required_hl_science_or_mathematics",
+                "minimum_required": 1,
+                "subject_ids": [
+                  "biology",
+                  "mathematics",
+                  "physics"
+                ]
+              }
+            ],
+            "decision_outcome_if_not_met": "not_eligible",
+            "source_ids": [
+              "standrews_uk_qualifications"
+            ]
+          }
+        ],
+        "required_hl_subject_ids": [
+          "chemistry"
+        ],
+        "one_of_hl_subject_groups": [
+          {
+            "group_id": "ib_second_required_hl_science_or_mathematics",
+            "minimum_required": 1,
+            "subject_ids": [
+              "biology",
+              "mathematics",
+              "physics"
+            ]
+          }
+        ],
+        "conditional_standard_level_rule": "Where not passed at HL, SL Biology, Mathematics and English are required.",
+        "accepted_mathematics_variants": [
+          "Mathematics: Analysis and Approaches",
+          "Mathematics: Applications and Interpretation"
+        ],
+        "excluded_mathematics_variant": "Standard Level Mathematics Studies",
+        "additional_academic_record_rule": "Applicants are expected to offer at least five A grades at GCSE or equivalent at one sitting. Applicants with achieved school-leaving qualifications may be considered with fewer.",
+        "science_hours_review": "The hours of science studied in the final two school years are assessed.",
+        "execution_status": "metadata_only_current_engine_does_not_evaluate_complete_ib_route",
+        "notes": "Conditional SL subjects, science hours and the complete HL/SL grade profile are not executable."
+      },
+      "scottish": {
+        "status": "official_source_verified_not_executable",
+        "source_ids": [
+          "standrews_uk_qualifications"
+        ],
+        "higher_offer": {
+          "grade_profile": [
+            "A",
+            "A",
+            "A",
+            "A",
+            "B"
+          ],
+          "source_ids": [
+            "standrews_uk_qualifications"
+          ],
+          "notes": "AAAAB in S5."
+        },
+        "advanced_higher_offer": {
+          "grade_profile": [
+            "B",
+            "B",
+            "B"
+          ],
+          "source_ids": [
+            "standrews_uk_qualifications"
+          ],
+          "notes": "Predicted at least BBB in S6 Highers, Advanced Highers or a mixture."
+        },
+        "grade_requirements": [
+          {
+            "requirement_id": "scottish_standard_entry",
+            "applies_to_group_ids": [
+              "scotland_domiciled",
+              "school_leaver"
+            ],
+            "qualification_level": "scottish_highers_and_advanced_highers",
+            "grade_profile": [
+              "AAAAB in S5",
+              "predicted BBB in S6"
+            ],
+            "required_subject_ids": [
+              "chemistry"
+            ],
+            "one_of_subject_groups": [
+              {
+                "group_id": "scottish_second_required_science_or_mathematics",
+                "minimum_required": 1,
+                "subject_ids": [
+                  "biology",
+                  "human_biology",
+                  "mathematics",
+                  "physics"
+                ]
+              }
+            ],
+            "decision_outcome_if_not_met": "not_eligible",
+            "source_ids": [
+              "standrews_uk_qualifications"
+            ]
+          },
+          {
+            "requirement_id": "scottish_minimum_contextual_entry",
+            "applies_to_group_ids": [
+              "scotland_domiciled",
+              "contextual"
+            ],
+            "qualification_level": "scottish_highers_and_advanced_highers",
+            "grade_profile": [
+              "AAABB in S5",
+              "predicted BB in S6"
+            ],
+            "required_subject_ids": [
+              "chemistry"
+            ],
+            "one_of_subject_groups": [
+              {
+                "group_id": "scottish_contextual_second_required_science_or_mathematics",
+                "minimum_required": 1,
+                "subject_ids": [
+                  "biology",
+                  "human_biology",
+                  "mathematics",
+                  "physics"
+                ]
+              }
+            ],
+            "decision_outcome_if_not_met": "not_eligible",
+            "source_ids": [
+              "standrews_uk_qualifications"
+            ]
+          }
+        ],
+        "conditional_national_5_requirements": [
+          {
+            "subject_ids": [
+              "biology",
+              "human_biology"
+            ],
+            "minimum_grade": "B",
+            "condition": "Required at National 5 if Biology or Human Biology is not passed or predicted at Higher."
+          },
+          {
+            "subject_ids": [
+              "mathematics"
+            ],
+            "minimum_grade": "B",
+            "condition": "Required at National 5 if Mathematics is not passed or predicted at Higher."
+          },
+          {
+            "subject_ids": [
+              "english_language"
+            ],
+            "minimum_grade": "B",
+            "condition": "Required at National 5 if English is not passed or predicted at Higher."
+          }
+        ],
+        "timing_and_sitting_rules": [
+          "Higher qualifications should normally be obtained at one sitting in S5.",
+          "An exception may be considered where a school cannot present pupils for five Highers at one sitting.",
+          "Two science subjects, including Chemistry, must be sat in the same year, either S5 or S6.",
+          "Offers are conditional on the S6 programme of study.",
+          "Highers taken earlier than S5 and a sixth Higher in S5 give no advantage.",
+          "An A at Higher or Advanced Higher does not compensate for a C in another subject."
+        ],
+        "national_5_restrictions": [
+          "Lifeskills Maths and Applications of Maths do not meet the National 5 Mathematics requirement.",
+          "Higher ESOL may meet the National 5 English requirement where National 5 English is not offered.",
+          "National 5 ESOL does not meet the National 5 English requirement."
+        ],
+        "execution_status": "metadata_only_current_engine_does_not_evaluate_s5_s6_and_conditional_national_5_rules",
+        "notes": "The current engine must not return a full Scottish-route eligibility decision."
+      },
+      "btec": {
+        "status": "not_accepted",
+        "source_ids": [
+          "standrews_uk_qualifications"
+        ],
+        "accepted_subject_ids": [],
+        "accepted_combinations": [],
+        "decision_outcome_if_not_met": "not_eligible",
+        "notes": "BTEC qualifications are listed as not accepted."
+      },
+      "access_to_he": {
+        "status": "not_accepted",
+        "source_ids": [
+          "standrews_uk_qualifications"
+        ],
+        "total_credits": null,
+        "distinction_credits": null,
+        "merit_credits": null,
+        "subject_credit_requirements": [],
+        "decision_outcome_if_not_met": "not_eligible",
+        "notes": "Access to Medicine and Access to Science qualifications are listed as not accepted."
+      },
+      "degree": {
+        "status": "official_source_verified_not_executable",
+        "source_ids": [
+          "standrews_academic_requirements"
+        ],
+        "applies_to_group_ids": [
+          "graduate_applicant"
+        ],
+        "minimum_classification": "upper_second_class_honours",
+        "accepted_degree_subject_ids": [
+          "science"
+        ],
+        "degree_recency_years": 3,
+        "school_level_prerequisites": [
+          "Grade B Chemistry at Higher, A-level, Advanced Higher or equivalent.",
+          "Grade B Biology, English and Mathematics at GCSE or equivalent."
+        ],
+        "phd_exception": "An older qualifying degree may be considered only where the applicant progressed directly to a PhD and the PhD is under three years old at programme entry.",
+        "lower_second_rule": "A lower second-class Honours degree is not rescued by a later first/upper-second Honours, Masters or PhD.",
+        "gpa_equivalence": "GPA 3.5 is considered equivalent to an upper second-class Honours degree.",
+        "possible_module_equivalence": "Twenty credits of pure undergraduate Chemistry, Biology or Mathematics at high grades may be considered case by case.",
+        "module_equivalence_restrictions": [
+          "Mixed-science modules such as Biochemistry are not accepted as pure Chemistry or Biology equivalence.",
+          "Mathematics module content must be sufficiently broad."
+        ],
+        "subject_resits": "Chemistry, Biology, Mathematics and English may be re-sat to achieve the graduate prerequisites.",
+        "supporting_documents": [
+          "An academic tutor reference addressing academic performance and suitability for Medicine.",
+          "A predicted degree classification where the degree is incomplete.",
+          "A university academic transcript submitted at application."
+        ],
+        "decision_outcome_if_not_met": "not_eligible",
+        "execution_status": "metadata_only_current_engine_does_not_evaluate_graduate_route",
+        "notes": "A100 remains a six-year programme with no advanced standing."
+      },
+      "other_qualification_policies": {
+        "not_accepted": [
+          "HNC",
+          "HND",
+          "BTEC",
+          "SQA National Certificate",
+          "Advanced Diploma",
+          "Access to Medicine",
+          "Access to Science",
+          "Scottish Foundation Apprenticeship",
+          "Foundation programmes other than the University of St Andrews International Foundation programme for Medicine"
+        ],
+        "deferred_entry": "not_considered",
+        "transfers": "not_considered",
+        "repeat_applications": "After an unsuccessful A100, A10C or A990 application, one further application in a different year is permitted if requirements are met.",
+        "first_year_undergraduate_non_medicine": "May be considered in the first semester of first year if Medicine entry requirements were met before university and the applicant applies by 15 October with that year's UCAT. Second-year applicants are not considered.",
+        "previous_medicine_student": "not_considered",
+        "execution_status": "metadata_only"
+      },
+      "notes": "Only the core standard A-level grade and subject profile is directly executable. Other official routes and exceptions remain documentary until supported."
+    },
+    "admissions_tests": {
+      "source_ids": [
+        "standrews_ucat_policy",
+        "standrews_selection_process",
+        "standrews_verified_research_update_2026_06_29"
+      ],
+      "ucat": {
+        "required": true,
+        "source_ids": [
+          "standrews_ucat_policy",
+          "standrews_verified_research_update_2026_06_29",
+          "standrews_verified_international_contextual_update_2026_07_02"
+        ],
+        "minimum_total_score": null,
+        "maximum_total_score": 2700,
+        "minimum_subsection_scores": [],
+        "score_used_for_ranking": "ucat_global_score",
+        "score_definition": {
+          "official_name": "UCAT Global Score",
+          "formula": "Verbal Reasoning + Decision Making + Quantitative Reasoning",
+          "included_subtests": [
+            "Verbal Reasoning",
+            "Decision Making",
+            "Quantitative Reasoning"
+          ],
+          "sjt_included": false,
+          "current_scale": {
+            "min": 0,
+            "max": 2700
+          }
+        },
+        "validity_window": "appropriate_current_application_testing_cycle",
+        "exemptions": [],
+        "decision_outcome_if_not_met": "not_eligible",
+        "notes": "Repeat applicants must retake UCAT for each application. No exemption is offered for significant or unforeseen medical or personal issues. The engine consumes a supplied total score and does not recompute the three-subtest sum."
+      },
+      "sjt": {
+        "used": false,
+        "source_ids": [
+          "standrews_ucat_policy",
+          "standrews_selection_process",
+          "standrews_verified_research_update_2026_06_29"
+        ],
+        "used_as_gate": false,
+        "accepted_bands": [
+          1,
+          2,
+          3,
+          4
+        ],
+        "excluded_bands": [],
+        "scoring": {
+          "used_in_score": false,
+          "points_by_band": {}
+        },
+        "decision_outcome_if_excluded": "not_eligible",
+        "current_interview_score_contribution": "not_stated",
+        "notes": "SJT is excluded from pre-interview UCAT Global Score ranking and no automatic Band 4 rejection is stated. Historical archived wording about interview-score contribution is not implemented."
+      },
+      "other_tests": []
+    },
+    "resits": {
+      "policy": "route_specific_with_case_by_case_exceptions",
+      "source_ids": [
+        "standrews_academic_requirements"
+      ],
+      "allowed": null,
+      "advanced_level_resits_allowed": false,
+      "gcse_subject_resits_allowed": true,
+      "school_level_qualification_recency_years": 3,
+      "conditions": [
+        "Applicants retaking advanced-level study to meet Medicine requirements are not normally considered.",
+        "Fully documented extenuating circumstances with borderline achieved grades may be considered case by case.",
+        "For the documented extenuating-circumstances exception, borderline is typically one grade below the entry requirement.",
+        "Applicants changing direction may be considered case by case if they complete the same level, number and duration as in school; resits are not accepted under this route.",
+        "GCSE or equivalent resits are allowed to meet a specific subject requirement.",
+        "School-level qualifications must normally have been achieved within three years before programme entry."
+      ],
+      "maximum_resits": null,
+      "applies_to_group_ids": [
+        "resit_applicant"
+      ],
+      "decision_outcome_if_not_allowed": "not_eligible",
+      "execution_status": "metadata_only_global_allowed_flag_intentionally_null",
+      "notes": "A single binary resit gate would incorrectly reject allowed GCSE resits or ignore case-by-case exceptions."
+    },
+    "english_language": {
+      "source_ids": [
+        "standrews_academic_requirements"
+      ],
+      "applies_to_group_ids": [
+        "international_fee"
+      ],
+      "accepted_tests": [
+        {
+          "test": "IELTS Academic",
+          "overall_score": null,
+          "minimum_component_score": 7,
+          "sitting_policy": "all four components at one sitting",
+          "validity": "recommended_two_year_validity"
+        }
+      ],
+      "exemptions": [
+        "The final four consecutive years of secondary education in an English-medium school may be considered case by case."
+      ],
+      "decision_outcome_if_not_met": "not_eligible",
+      "execution_status": "metadata_only",
+      "notes": "Applies to applicants using English as an additional language."
+    },
+    "age_or_professional_checks": {
+      "source_ids": [
+        "standrews_medicine_entry_requirements"
+      ],
+      "minimum_age": null,
+      "fitness_to_practise_required": true,
+      "dbs_required": null,
+      "occupational_health_required": true,
+      "police_or_pvg_check_required": true,
+      "decision_outcome_if_not_met": "not_eligible",
+      "enhanced_disclosure_required": null,
+      "completion_point": "pre_entry_and_on_arrival_as_applicable",
+      "notes": "Entrants must pass criminal-record screening and join the Protecting Vulnerable Groups scheme. Occupational-health screening includes infection and immunisation review."
+    },
+    "non_academic": {
+      "source_ids": [
+        "standrews_selection_process",
+        "standrews_personal_statement_reference",
+        "standrews_medicine_entry_requirements"
+      ],
+      "personal_statement": {
+        "scored": false,
+        "expectations": [
+          "Motivation for Medicine and suitability for the profession.",
+          "Empathy, communication, listening, leadership and teamwork.",
+          "Commitment to study, resilience, perseverance and intellectual potential.",
+          "Insight and reflection from medically related experience."
+        ]
+      },
+      "reference_policy": {
+        "required_hurdle": true,
+        "school_or_gap_year": "A school reference is expected.",
+        "current_university_applicant": "A university academic reference is required.",
+        "not_accepted": [
+          "Family reference",
+          "Close-friend reference",
+          "Employer reference"
+        ],
+        "predicted_grades_required_when_incomplete": true
+      },
+      "work_experience": {
+        "required_hurdle": true,
+        "policy": "Paid or unpaid work or shadowing in a caring or health environment is required.",
+        "virtual_experience": "Considered in addition to in-person experience."
+      },
+      "application_integrity": {
+        "required_hurdle": true,
+        "policy": "Applications containing false, purposefully misleading, fraudulent or plagiarised information are not considered.",
+        "execution_status": "metadata_only_manual_hurdle",
+        "source_ids": [
+          "standrews_medicine_entry_requirements"
+        ]
+      },
+      "decision_outcome_if_not_met": "not_eligible",
+      "execution_status": "metadata_only_manual_hurdles",
+      "notes": "The current engine cannot represent verified, failed and unverified reference or work-experience hurdles. Passing automated academic checks is not complete St Andrews eligibility."
+    }
+  },
+  "stage_2_interview_selection": {
+    "verification_status": "official_pre_interview_formula_verified",
+    "source_ids": [
+      "standrews_ucat_policy",
+      "standrews_selection_process",
+      "standrews_verified_research_update_2026_06_29",
+      "standrews_verified_international_contextual_update_2026_07_02"
+    ],
+    "primary_model": "ucat_ranking",
+    "selection_model_label": "UCAT_GLOBAL_SCORE_RANKING_AFTER_ACADEMIC_AND_NON_ACADEMIC_HURDLES",
+    "modifiers": [
+      "contextual_adjustment",
+      "widening_participation_scheme",
+      "tie_breaker"
+    ],
+    "ranking_factors": [
+      {
+        "factor_id": "ucat_global_score",
+        "factor_type": "ucat",
+        "role": "sole_pre_interview_ranking_metric_after_hurdles",
+        "weight_percent": 100,
+        "points_available": 2700,
+        "source_field": "stage_1_eligibility.admissions_tests.ucat.total_score",
+        "source_ids": [
+          "standrews_ucat_policy",
+          "standrews_verified_research_update_2026_06_29"
+        ],
+        "notes": "UCAT Global Score is VR plus DM plus QR. SJT is excluded."
+      }
+    ],
+    "calculation": {
+      "verification_status": "official_pre_interview_formula_verified",
+      "source_ids": [
+        "standrews_ucat_policy",
+        "standrews_selection_process",
+        "standrews_verified_research_update_2026_06_29"
+      ],
+      "score_components": [
+        {
+          "component_id": "ucat_global_score_rank",
+          "factor_id": "ucat_global_score",
+          "input_field": "ucat_total_score",
+          "calculation_method": "rank_descending_by_raw_ucat_global_score_after_hurdles",
+          "scale": {
+            "min": 0,
+            "max": 2700
+          },
+          "weight_percent": 100,
+          "rounding": null,
+          "notes": "This is the executable method for non-contextual applicants. Exact ranking pools and live rank boundary remain unknown.",
+          "source_ids": [
+            "standrews_ucat_policy",
+            "standrews_verified_research_update_2026_06_29"
+          ]
+        }
+      ],
+      "total_score": {
+        "calculation_method": "ucat_global_score_ranking_only",
+        "components": [
+          "ucat_global_score_rank"
+        ],
+        "scale": {
+          "min": 0,
+          "max": 2700
+        },
+        "notes": "The application is not scored and academic attainment is a hurdle rather than a weighted competitive score.",
+        "source_ids": [
+          "standrews_ucat_policy",
+          "standrews_selection_process"
+        ]
+      },
+      "notes": "The current engine supports raw UCAT total as a ranking metric, but it does not perform actual cohort ranking or capacity allocation."
+    },
+    "international_selection": {
+      "applies_to_group_ids": [
+        "international_fee"
+      ],
+      "model": "hurdle_then_rank",
+      "mandatory_hurdles": [
+        "academic_requirements",
+        "reference_requirements",
+        "required_work_experience"
+      ],
+      "hurdles_are_pass_fail_only": true,
+      "ranking_metric": "ucat_global_score",
+      "ranking_direction": "highest_first",
+      "weighted_formula_used": false,
+      "approximate_top_ranked_invited": true,
+      "fixed_published_ucat_cutoff": null,
+      "published_interview_score_threshold": null,
+      "fee_status_management": {
+        "categories": [
+          "home",
+          "rest_of_uk",
+          "overseas"
+        ],
+        "entrant_numbers_managed_against": [
+          "Scottish Government targets",
+          "Scottish Funding Council targets"
+        ],
+        "separate_international_ranking_pool_explicitly_published": false,
+        "notes": "Admissions are managed by fee status. This supports international-specific historical guidance but does not establish an explicitly published separate international ranking pool."
+      },
+      "selection_sequence": [
+        "Pass academic, reference and required work-experience hurdles.",
+        "Rank qualifying applicants by UCAT Global Score only.",
+        "Invite approximately the top-ranked applicants.",
+        "Rank offers by MMI score only, using higher UCAT Global Score to separate equal interview scores."
+      ],
+      "source_ids": [
+        "standrews_ucat_policy",
+        "standrews_selection_process",
+        "standrews_verified_international_contextual_update_2026_07_02"
+      ]
+    },
+    "thresholds": [
+      {
+        "threshold_id": "current_cycle_interview_rank_boundary",
+        "applies_to_group_ids": [
+          "home_fee",
+          "rest_of_uk",
+          "international_fee"
+        ],
+        "metric": "ucat_global_score_rank",
+        "operator": "ranked_boundary_unknown",
+        "value": null,
+        "approximate_interview_invitations": 650,
+        "decision_outcome_if_not_met": "unknown",
+        "source_ids": [
+          "standrews_ucat_policy",
+          "standrews_selection_process"
+        ],
+        "notes": "Approximately the top 650 applicants are invited after hurdles. This is not a fixed score threshold."
+      }
+    ],
+    "selection_adjustments": [
+      {
+        "adjustment_id": "widening_participation_ucat_uplift",
+        "modifier_id": "widening_participation_scheme",
+        "applies_to_group_ids": [
+          "widening_participation"
+        ],
+        "formula": "adjusted_ucat_score = global_ucat_score * 1.10",
+        "multiplier": 1.1,
+        "applied_to": "ucat_global_score",
+        "applied_before": "interview_ranking",
+        "sjt_affected": false,
+        "official_ucat_result_changed": false,
+        "rounding_policy": "unknown",
+        "cap_policy": "unknown",
+        "execution_status": "executable_for_interview_ranking_only",
+        "source_ids": [
+          "standrews_ucat_policy",
+          "standrews_verified_research_update_2026_06_29"
+        ],
+        "notes": "The 10% uplift changes only the score used for interview ranking. It does not change the official UCAT result, academic eligibility, interview score or offer ranking. Rounding and cap treatment remain unpublished."
+      }
+    ],
+    "tie_breakers": [],
+    "interview_format": {
+      "format": "multiple_mini_interview",
+      "usual_station_count": 4,
+      "usual_minutes_per_station": 6,
+      "approximate_interview_count": 650,
+      "delivery_2026": {
+        "home_funded": "in_person_at_st_andrews",
+        "other_fee_status": "online"
+      },
+      "delivery_2027": "unknown",
+      "assessed_domains": [
+        "Understanding of Medicine as a career",
+        "Realities of working in a caring profession",
+        "Communication and interpersonal skills",
+        "Role play",
+        "Critical thinking",
+        "Reflection",
+        "Ethical discussion"
+      ],
+      "source_ids": [
+        "standrews_selection_process"
+      ],
+      "notes": "Station count and duration describe the usual format. Delivery is confirmed only for 2026 entry."
+    },
+    "output_band_policy": {
+      "bands": [
+        "not_eligible",
+        "interview_likely",
+        "realistic",
+        "ambitious",
+        "high_risk",
+        "insufficient_evidence"
+      ],
+      "basis": "Historical Normalised Prediction Methodology v1.0 using separately labelled ApplySmart-derived 2700-scale historical values.",
+      "configuration_file": "data/interview-band-configs/st-andrews-a100.json",
+      "methodology_id": "historical_normalised_prediction_methodology_v1_0",
+      "confidence": "low",
+      "execution_scope": "Non-contextual Scottish/Home and Rest of UK standard A-level school leavers, plus non-contextual international school leavers using verified historical international guidance, after confirmation of non-executable hurdles.",
+      "notes": "Guidance bands are historical competitiveness guidance, not official St Andrews cut-offs, current-cycle thresholds or probabilities. Contextual/WP applicants receive the verified ranking-only uplift but no interview band because no contextual interview threshold is published."
+    },
+    "notes": "Official pre-interview selection is hurdle screening followed by UCAT Global Score ranking. Exact pool mechanics, current rank boundary and deterministic likelihood thresholds are unavailable."
+  },
+  "contextual_admissions": {
+    "verification_status": "official_source_verified_with_remaining_eligibility_exceptions",
+    "source_ids": [
+      "standrews_uk_qualifications",
+      "standrews_ucat_policy",
+      "standrews_academic_entry_explained",
+      "standrews_verified_international_contextual_update_2026_07_02"
+    ],
+    "available": true,
+    "applies_to_group_ids": [
+      "contextual",
+      "widening_participation",
+      "care_experienced"
+    ],
+    "criteria": [
+      {
+        "criterion_id": "academic_minimum_deprivation",
+        "scope": "minimum_academic_entry",
+        "criterion": "Residence in the lowest 40% most deprived areas of the UK."
+      },
+      {
+        "criterion_id": "academic_minimum_looked_after",
+        "scope": "minimum_academic_entry",
+        "criterion": "Looked-after status resulting from a local authority order."
+      },
+      {
+        "criterion_id": "academic_minimum_young_carer",
+        "scope": "minimum_academic_entry",
+        "criterion": "Registered young-carer status."
+      },
+      {
+        "criterion_id": "academic_minimum_estranged",
+        "scope": "minimum_academic_entry",
+        "criterion": "Estranged status."
+      },
+      {
+        "criterion_id": "academic_minimum_refugee",
+        "scope": "minimum_academic_entry",
+        "criterion": "Refugee status."
+      },
+      {
+        "criterion_id": "ucat_uplift_deprivation",
+        "scope": "ucat_uplift",
+        "criterion": "Residence in the lowest 40% most deprived areas of Scotland."
+      },
+      {
+        "criterion_id": "ucat_uplift_looked_after",
+        "scope": "ucat_uplift",
+        "criterion": "Looked-after or previously looked-after status resulting from a local authority order."
+      },
+      {
+        "criterion_id": "ucat_uplift_estranged",
+        "scope": "ucat_uplift",
+        "criterion": "Estranged status."
+      },
+      {
+        "criterion_id": "ucat_uplift_refugee",
+        "scope": "ucat_uplift",
+        "criterion": "Refugee status."
+      }
+    ],
+    "adjustments": [
+      {
+        "adjustment_id": "minimum_academic_entry_grades",
+        "type": "academic_requirement_adjustment",
+        "effect": "Eligible applicants may be considered using published minimum entry grades rather than standard entry grades.",
+        "guaranteed_offer": false,
+        "execution_status": "metadata_only"
+      },
+      {
+        "adjustment_id": "ten_percent_ucat_global_score_uplift",
+        "type": "ucat_ranking_score_adjustment",
+        "formula": "adjusted_ucat_score = global_ucat_score * 1.10",
+        "multiplier": 1.1,
+        "applied_to": "interview_ranking_score_only",
+        "does_not_change": [
+          "official_ucat_result",
+          "academic_eligibility",
+          "interview_score",
+          "offer_ranking"
+        ],
+        "rounding_policy": "unknown",
+        "cap_policy": "unknown",
+        "execution_status": "executable_for_interview_ranking_only"
+      }
+    ],
+    "ranking_pool": {
+      "separately_published_contextual_pool": false,
+      "implementation": "apply_adjusted_ucat_within_existing_ranking_process"
+    },
+    "interview_threshold": {
+      "separate_contextual_threshold_published": false,
+      "value": null
+    },
+    "verified_missing_evidence": [
+      "contextual_interview_ucat_threshold",
+      "contextual_interview_stage_historical_data",
+      "officially_published_contextual_ranking_pool"
+    ],
+    "guaranteed_interview_rules": [],
+    "notes": "The academic minimum-entry and UCAT-uplift criteria are intentionally stored separately because their geography and membership differ. Young carers are named for academic minimum entry but not for the UCAT uplift. No guaranteed interview, guaranteed offer or distinct reduced final-offer policy is evidenced."
+  },
+  "ranking_pools": [],
+  "quotas": [
+    {
+      "quota_id": "st_andrews_a100_places_2027_entry_verified",
+      "name": "Verified Home/International places (2027 entry)",
+      "home_places": 145,
+      "international_places": 0,
+      "quota_type": "verified_current_places",
+      "source_ids": [
+        "applysmart_admissions_team_verified_2026"
+      ],
+      "notes": "Home/International place figures verified by the ApplySmart admissions research team for 2027 entry."
+    }
+  ],
+  "offer_selection": {
+    "verification_status": "official_source_verified_with_remaining_unpublished_offer_fields",
+    "source_ids": [
+      "standrews_selection_process",
+      "standrews_course_pathways",
+      "standrews_verified_research_update_2026_06_29"
+    ],
+    "interview_format": "multiple_mini_interview",
+    "interview_scoring": {
+      "score_used": true,
+      "minimum_score": null,
+      "station_scores": [],
+      "exact_numerical_rubric_public": false,
+      "maximum_score_public": false,
+      "sjt_used_post_interview": null,
+      "decision_outcome_if_not_met": "unknown",
+      "source_ids": [
+        "standrews_selection_process"
+      ],
+      "notes": "The station scoring scale, aggregation method, minimum standard and offer threshold are not published. Current SJT contribution to interview scoring is not stated."
+    },
+    "offer_model": {
+      "model_id": "interview_score_and_applied_route",
+      "primary_basis": "interview_score",
+      "route_factor": true,
+      "execution_status": "metadata_only_route_aware_offer_ranking_not_supported"
+    },
+    "international_offer_model": {
+      "applies_to_group_ids": [
+        "international_fee"
+      ],
+      "primary_basis": "mmi_score_only",
+      "academic_score_weight_after_interview": 0,
+      "ucat_score_weight_after_interview": 0,
+      "tie_breaker": "higher_ucat_global_score",
+      "published_interview_score_threshold": null,
+      "execution_status": "metadata_only_no_post_interview_ranking_pipeline",
+      "source_ids": [
+        "standrews_selection_process",
+        "standrews_verified_international_contextual_update_2026_07_02"
+      ]
+    },
+    "ranking_factors": [
+      {
+        "factor_id": "interview_score",
+        "factor_type": "interview",
+        "role": "primary_offer_basis",
+        "source_ids": [
+          "standrews_selection_process"
+        ]
+      },
+      {
+        "factor_id": "applied_route",
+        "factor_type": "application_route",
+        "role": "offer_ranking_or_capacity_factor",
+        "source_ids": [
+          "standrews_selection_process",
+          "standrews_course_pathways"
+        ],
+        "notes": "The exact route-aware ranking or quota method is unpublished."
+      }
+    ],
+    "tie_breakers": [
+      {
+        "order": 1,
+        "condition": "identical_interview_scores",
+        "method": "higher_ucat_global_score",
+        "metric_definition": "Verbal Reasoning plus Decision Making plus Quantitative Reasoning; SJT excluded.",
+        "fully_published": true,
+        "execution_status": "metadata_only_no_post_interview_tie_break_pipeline",
+        "source_ids": [
+          "standrews_selection_process",
+          "standrews_verified_research_update_2026_06_29"
+        ]
+      }
+    ],
+    "waiting_list_policy": {
+      "status": "unknown"
+    },
+    "standard_offer": {
+      "grade_profile": [],
+      "source_ids": [
+        "standrews_uk_qualifications"
+      ],
+      "notes": "Qualification-specific entry requirements are stored under Stage 1. Published minimum entry grades are not treated as a confirmed reduced final offer."
+    },
+    "contextual_offer": {
+      "applies_to_group_ids": [
+        "contextual"
+      ],
+      "grade_profile": [],
+      "source_ids": [
+        "standrews_uk_qualifications"
+      ],
+      "notes": "No distinct reduced final-offer policy is evidenced."
+    },
+    "notes": "Final offers use interview score and the route applied to. Equal interview scores are separated using UCAT Global Score. Exact interview scoring, route capacities, route thresholds and further tie-breakers remain unknown; final-offer prediction is unavailable."
+  },
+  "historical_admissions": {
+    "verification_status": "official_source_verified",
+    "source_ids": [
+      "standrews_admissions_data"
+    ],
+    "data_scope": "Official A100 applications, interviews, offers, accepts, entrants and UCAT statistics by fee-status group for entry cycles 2021/2 to 2025/6.",
+    "international_historical_guidance_2700": {
+      "guidance_only": true,
+      "official_fixed_cutoff": false,
+      "lowest_invited": [
+        {
+          "entry_cycle": "2021/22",
+          "score": 1913
+        },
+        {
+          "entry_cycle": "2022/23",
+          "score": 1920
+        },
+        {
+          "entry_cycle": "2023/24",
+          "score": 1958
+        },
+        {
+          "entry_cycle": "2024/25",
+          "score": 1665
+        },
+        {
+          "entry_cycle": "2025/26",
+          "score": 1995
+        }
+      ],
+      "bands": [
+        {
+          "maximum": 1909,
+          "band": "high_risk",
+          "recommendation": "Consider stronger alternatives"
+        },
+        {
+          "minimum": 1910,
+          "maximum": 1949,
+          "band": "ambitious",
+          "recommendation": "Possible but ambitious"
+        },
+        {
+          "minimum": 1950,
+          "maximum": 1994,
+          "band": "realistic",
+          "recommendation": "Good chance \u2013 recommend applying"
+        },
+        {
+          "minimum": 1995,
+          "band": "interview_likely",
+          "recommendation": "Strong choice"
+        }
+      ],
+      "result_card_disclaimer": "These are historical international competitiveness bands and not official St Andrews UCAT cut-offs or a current interview threshold.",
+      "source_ids": [
+        "standrews_verified_international_contextual_update_2026_07_02"
+      ]
+    },
+    "contextual_offer_counts": [
+      {
+        "entry_cycle": "2021/22",
+        "home": 15,
+        "rest_of_uk": 21
+      },
+      {
+        "entry_cycle": "2022/23",
+        "home": 26,
+        "rest_of_uk": 26
+      },
+      {
+        "entry_cycle": "2023/24",
+        "home": 88,
+        "rest_of_uk": 48
+      },
+      {
+        "entry_cycle": "2024/25",
+        "home": 95,
+        "rest_of_uk": 66
+      },
+      {
+        "entry_cycle": "2025/26",
+        "home": 61,
+        "rest_of_uk": 20
+      }
+    ],
+    "contextual_interview_stage_data": {
+      "published": false,
+      "threshold": null,
+      "historical_ucat_values": []
+    },
+    "cycles": [
+      {
+        "entry_cycle": "2021/2",
+        "applicant_group_id": "home_fee",
+        "applications": 493,
+        "interviews": 249,
+        "offers": 225,
+        "contextual_offers_reported": 15,
+        "accepts": 99,
+        "entrants": 83,
+        "lowest_interviewed_ucat": 2300,
+        "mean_interviewed_ucat": 2776,
+        "median_interviewed_ucat": 2750,
+        "lowest_offer_ucat": 2350,
+        "mean_offer_ucat": 2784,
+        "median_offer_ucat": 2750,
+        "ucat_score_scale": "legacy_3600",
+        "current_scale_comparable": false,
+        "source_ids": [
+          "standrews_admissions_data"
+        ]
+      },
+      {
+        "entry_cycle": "2022/3",
+        "applicant_group_id": "home_fee",
+        "applications": 661,
+        "interviews": 347,
+        "offers": 306,
+        "contextual_offers_reported": 26,
+        "accepts": 107,
+        "entrants": 95,
+        "lowest_interviewed_ucat": 2330,
+        "mean_interviewed_ucat": 2724,
+        "median_interviewed_ucat": 2700,
+        "lowest_offer_ucat": 2330,
+        "mean_offer_ucat": 2726,
+        "median_offer_ucat": 2700,
+        "ucat_score_scale": "legacy_3600",
+        "current_scale_comparable": false,
+        "source_ids": [
+          "standrews_admissions_data"
+        ]
+      },
+      {
+        "entry_cycle": "2023/4",
+        "applicant_group_id": "home_fee",
+        "applications": 551,
+        "interviews": 334,
+        "offers": 270,
+        "contextual_offers_reported": 88,
+        "accepts": 136,
+        "entrants": 91,
+        "lowest_interviewed_ucat": 2260,
+        "mean_interviewed_ucat": 2720,
+        "median_interviewed_ucat": 2684,
+        "lowest_offer_ucat": 2260,
+        "mean_offer_ucat": 2728,
+        "median_offer_ucat": 2690,
+        "ucat_score_scale": "legacy_3600",
+        "current_scale_comparable": false,
+        "source_ids": [
+          "standrews_admissions_data"
+        ]
+      },
+      {
+        "entry_cycle": "2024/5",
+        "applicant_group_id": "home_fee",
+        "applications": 528,
+        "interviews": 366,
+        "offers": 304,
+        "contextual_offers_reported": 95,
+        "accepts": 158,
+        "entrants": 85,
+        "lowest_interviewed_ucat": 2390,
+        "mean_interviewed_ucat": 2698,
+        "median_interviewed_ucat": 2670,
+        "lowest_offer_ucat": 2390,
+        "mean_offer_ucat": 2705,
+        "median_offer_ucat": 2670,
+        "ucat_score_scale": "legacy_3600",
+        "current_scale_comparable": false,
+        "source_ids": [
+          "standrews_admissions_data"
+        ]
+      },
+      {
+        "entry_cycle": "2025/6",
+        "applicant_group_id": "home_fee",
+        "applications": 417,
+        "interviews": 298,
+        "offers": 216,
+        "contextual_offers_reported": 61,
+        "accepts": 90,
+        "entrants": 51,
+        "lowest_interviewed_ucat": 2230,
+        "mean_interviewed_ucat": 2701,
+        "median_interviewed_ucat": 2687,
+        "lowest_offer_ucat": 2290,
+        "mean_offer_ucat": 2736,
+        "median_offer_ucat": 2734,
+        "ucat_score_scale": "legacy_3600",
+        "current_scale_comparable": false,
+        "source_ids": [
+          "standrews_admissions_data"
+        ]
+      },
+      {
+        "entry_cycle": "2021/2",
+        "applicant_group_id": "rest_of_uk",
+        "applications": 463,
+        "interviews": 161,
+        "offers": 105,
+        "contextual_offers_reported": 21,
+        "accepts": 62,
+        "entrants": 54,
+        "lowest_interviewed_ucat": 2550,
+        "mean_interviewed_ucat": 2916,
+        "median_interviewed_ucat": 2920,
+        "lowest_offer_ucat": 2550,
+        "mean_offer_ucat": 2940,
+        "median_offer_ucat": 2920,
+        "ucat_score_scale": "legacy_3600",
+        "current_scale_comparable": false,
+        "source_ids": [
+          "standrews_admissions_data"
+        ]
+      },
+      {
+        "entry_cycle": "2022/3",
+        "applicant_group_id": "rest_of_uk",
+        "applications": 562,
+        "interviews": 146,
+        "offers": 95,
+        "contextual_offers_reported": 26,
+        "accepts": 56,
+        "entrants": 50,
+        "lowest_interviewed_ucat": 2620,
+        "mean_interviewed_ucat": 2907,
+        "median_interviewed_ucat": 2905,
+        "lowest_offer_ucat": 2620,
+        "mean_offer_ucat": 2918,
+        "median_offer_ucat": 2930,
+        "ucat_score_scale": "legacy_3600",
+        "current_scale_comparable": false,
+        "source_ids": [
+          "standrews_admissions_data"
+        ]
+      },
+      {
+        "entry_cycle": "2023/4",
+        "applicant_group_id": "rest_of_uk",
+        "applications": 450,
+        "interviews": 148,
+        "offers": 109,
+        "contextual_offers_reported": 48,
+        "accepts": 78,
+        "entrants": 58,
+        "lowest_interviewed_ucat": 2570,
+        "mean_interviewed_ucat": 2877,
+        "median_interviewed_ucat": 2860,
+        "lowest_offer_ucat": 2580,
+        "mean_offer_ucat": 2892,
+        "median_offer_ucat": 2880,
+        "ucat_score_scale": "legacy_3600",
+        "current_scale_comparable": false,
+        "source_ids": [
+          "standrews_admissions_data"
+        ]
+      },
+      {
+        "entry_cycle": "2024/5",
+        "applicant_group_id": "rest_of_uk",
+        "applications": 456,
+        "interviews": 162,
+        "offers": 123,
+        "contextual_offers_reported": 66,
+        "accepts": 101,
+        "entrants": 64,
+        "lowest_interviewed_ucat": 2770,
+        "mean_interviewed_ucat": 2981,
+        "median_interviewed_ucat": 2960,
+        "lowest_offer_ucat": 2770,
+        "mean_offer_ucat": 2997,
+        "median_offer_ucat": 2981,
+        "ucat_score_scale": "legacy_3600",
+        "current_scale_comparable": false,
+        "source_ids": [
+          "standrews_admissions_data"
+        ]
+      },
+      {
+        "entry_cycle": "2025/6",
+        "applicant_group_id": "rest_of_uk",
+        "applications": 335,
+        "interviews": 142,
+        "offers": 90,
+        "contextual_offers_reported": 20,
+        "accepts": 75,
+        "entrants": 47,
+        "lowest_interviewed_ucat": 2400,
+        "mean_interviewed_ucat": 2905,
+        "median_interviewed_ucat": 2870,
+        "lowest_offer_ucat": 2690,
+        "mean_offer_ucat": 2923,
+        "median_offer_ucat": 2870,
+        "ucat_score_scale": "legacy_3600",
+        "current_scale_comparable": false,
+        "source_ids": [
+          "standrews_admissions_data"
+        ]
+      },
+      {
+        "entry_cycle": "2021/2",
+        "applicant_group_id": "international_fee",
+        "applications": 191,
+        "interviews": 64,
+        "offers": 48,
+        "contextual_offers_reported": null,
+        "accepts": 37,
+        "entrants": 24,
+        "lowest_interviewed_ucat": 2550,
+        "mean_interviewed_ucat": 2726,
+        "median_interviewed_ucat": 2700,
+        "lowest_offer_ucat": 2550,
+        "mean_offer_ucat": 2711,
+        "median_offer_ucat": 2695,
+        "ucat_score_scale": "legacy_3600",
+        "current_scale_comparable": false,
+        "source_ids": [
+          "standrews_admissions_data"
+        ]
+      },
+      {
+        "entry_cycle": "2022/3",
+        "applicant_group_id": "international_fee",
+        "applications": 260,
+        "interviews": 78,
+        "offers": 37,
+        "contextual_offers_reported": null,
+        "accepts": 28,
+        "entrants": 20,
+        "lowest_interviewed_ucat": 2560,
+        "mean_interviewed_ucat": 2773,
+        "median_interviewed_ucat": 2750,
+        "lowest_offer_ucat": 2560,
+        "mean_offer_ucat": 2776,
+        "median_offer_ucat": 2760,
+        "ucat_score_scale": "legacy_3600",
+        "current_scale_comparable": false,
+        "source_ids": [
+          "standrews_admissions_data"
+        ]
+      },
+      {
+        "entry_cycle": "2023/4",
+        "applicant_group_id": "international_fee",
+        "applications": 296,
+        "interviews": 70,
+        "offers": 44,
+        "contextual_offers_reported": null,
+        "accepts": 30,
+        "entrants": 21,
+        "lowest_interviewed_ucat": 2610,
+        "mean_interviewed_ucat": 2867,
+        "median_interviewed_ucat": 2815,
+        "lowest_offer_ucat": 2700,
+        "mean_offer_ucat": 2900,
+        "median_offer_ucat": 2850,
+        "ucat_score_scale": "legacy_3600",
+        "current_scale_comparable": false,
+        "source_ids": [
+          "standrews_admissions_data"
+        ]
+      },
+      {
+        "entry_cycle": "2024/5",
+        "applicant_group_id": "international_fee",
+        "applications": 284,
+        "interviews": 91,
+        "offers": 71,
+        "contextual_offers_reported": null,
+        "accepts": 54,
+        "entrants": 31,
+        "lowest_interviewed_ucat": 2220,
+        "mean_interviewed_ucat": 2823,
+        "median_interviewed_ucat": 2790,
+        "lowest_offer_ucat": 2220,
+        "mean_offer_ucat": 2837,
+        "median_offer_ucat": 2800,
+        "ucat_score_scale": "legacy_3600",
+        "current_scale_comparable": false,
+        "source_ids": [
+          "standrews_admissions_data"
+        ]
+      },
+      {
+        "entry_cycle": "2025/6",
+        "applicant_group_id": "international_fee",
+        "applications": 303,
+        "interviews": 123,
+        "offers": 105,
+        "contextual_offers_reported": null,
+        "accepts": 76,
+        "entrants": 33,
+        "lowest_interviewed_ucat": 2660,
+        "mean_interviewed_ucat": 2833,
+        "median_interviewed_ucat": 2800,
+        "lowest_offer_ucat": 2660,
+        "mean_offer_ucat": 2837,
+        "median_offer_ucat": 2800,
+        "ucat_score_scale": "legacy_3600",
+        "current_scale_comparable": false,
+        "source_ids": [
+          "standrews_admissions_data"
+        ]
+      }
+    ],
+    "route_outcomes": [
+      {
+        "entry_cycle": "2021/2",
+        "population": "uk_a100_home_plus_ruk",
+        "england_route": {
+          "offers": 138,
+          "accepts": 82,
+          "entrants": 71
+        },
+        "scotland_route": {
+          "offers": 192,
+          "accepts": 79,
+          "entrants": 66
+        }
+      },
+      {
+        "entry_cycle": "2022/3",
+        "population": "uk_a100_home_plus_ruk",
+        "england_route": {
+          "offers": 102,
+          "accepts": 62,
+          "entrants": 54
+        },
+        "scotland_route": {
+          "offers": 299,
+          "accepts": 101,
+          "entrants": 91
+        }
+      },
+      {
+        "entry_cycle": "2023/4",
+        "population": "uk_a100_home_plus_ruk",
+        "england_route": {
+          "offers": 96,
+          "accepts": 62,
+          "entrants": 44
+        },
+        "scotland_route": {
+          "offers": 283,
+          "accepts": 152,
+          "entrants": 105
+        }
+      },
+      {
+        "entry_cycle": "2024/5",
+        "population": "uk_a100_home_plus_ruk",
+        "england_route": {
+          "offers": 106,
+          "accepts": 84,
+          "entrants": 45
+        },
+        "scotland_route": {
+          "offers": 321,
+          "accepts": 175,
+          "entrants": 102
+        }
+      },
+      {
+        "entry_cycle": "2025/6",
+        "population": "uk_a100_home_plus_ruk",
+        "england_route": {
+          "offers": 99,
+          "accepts": 81,
+          "entrants": 49
+        },
+        "scotland_route": {
+          "offers": 207,
+          "accepts": 84,
+          "entrants": 49
+        }
+      }
+    ],
+    "historical_data_policy": {
+      "official_ucat_scale": 3600,
+      "current_scale_comparable": false,
+      "derived_2700_values_included": false,
+      "contextual_score_note": "The University states that admissions tables use an adjusted UCAT score for contextual reasons where applicable.",
+      "do_not_infer": [
+        "Do not treat the lowest interviewed score as a published cutoff.",
+        "Do not infer current 2700-scale thresholds from these legacy values.",
+        "Do not reverse the contextual uplift from aggregate historical tables.",
+        "Do not infer exact ranking pools from separately reported statistics."
+      ]
+    },
+    "notes": "All UCAT values in this profile are official legacy 3600-scale context and are explicitly not comparable with the current 2700 scale. ApplySmart-derived 2700 conversions remain research-only."
+  },
+  "sources": [
+    {
+      "source_id": "standrews_a100_course_page",
+      "title": "Medicine A100 BSc (Hons) 2026 entry",
+      "url": "https://www.st-andrews.ac.uk/subjects/medicine/medicine-bsc-a100/",
+      "source_type": "official_course_page",
+      "published_date": null,
+      "accessed_date": "2026-06-29",
+      "applies_to_sections": [
+        "course",
+        "medical_school"
+      ],
+      "confidence": "high_for_course_identity_medium_for_2027_cycle",
+      "evidence_classification": "official_current",
+      "notes": "The page describes A100 and points applicants to September 2027 entry, but its heading remains 2026 entry."
+    },
+    {
+      "source_id": "standrews_course_pathways",
+      "title": "Course pathways",
+      "url": "https://www.st-andrews.ac.uk/subjects/medicine/medicine-bsc-a100/course-pathways/",
+      "source_type": "official_course_pathway_page",
+      "published_date": null,
+      "accessed_date": "2026-06-29",
+      "applies_to_sections": [
+        "course",
+        "medical_school",
+        "offer_selection"
+      ],
+      "confidence": "high",
+      "evidence_classification": "official_current",
+      "notes": "Defines Scotland, England and No Preference routes and overseas progression."
+    },
+    {
+      "source_id": "standrews_partner_medical_schools",
+      "title": "Partner medical schools",
+      "url": "https://www.st-andrews.ac.uk/subjects/medicine/medicine-bsc-a100/partner-medical-schools/",
+      "source_type": "official_course_pathway_page",
+      "published_date": null,
+      "accessed_date": "2026-06-29",
+      "applies_to_sections": [
+        "medical_school"
+      ],
+      "confidence": "high",
+      "evidence_classification": "official_current",
+      "notes": "Names the six partner medical schools and explains progression."
+    },
+    {
+      "source_id": "standrews_uk_qualifications",
+      "title": "UK qualifications",
+      "url": "https://www.st-andrews.ac.uk/subjects/medicine/entry-requirements/academic-requirements/uk-qualifications/",
+      "source_type": "official_entry_requirements_page",
+      "published_date": null,
+      "accessed_date": "2026-06-29",
+      "applies_to_sections": [
+        "stage_1_eligibility",
+        "contextual_admissions",
+        "offer_selection"
+      ],
+      "confidence": "high_subject_to_2027_cycle_confirmation",
+      "evidence_classification": "official_current",
+      "notes": "Primary source for A-level, GCSE, Scottish, National 5, IB, contextual minimum-grade and excluded-qualification rules."
+    },
+    {
+      "source_id": "standrews_academic_requirements",
+      "title": "Academic requirements",
+      "url": "https://www.st-andrews.ac.uk/subjects/medicine/entry-requirements/academic-requirements/",
+      "source_type": "official_entry_requirements_page",
+      "published_date": null,
+      "accessed_date": "2026-06-29",
+      "applies_to_sections": [
+        "stage_1_eligibility"
+      ],
+      "confidence": "high_subject_to_2027_cycle_confirmation",
+      "evidence_classification": "official_current",
+      "notes": "Primary source for graduate, resit, recency, deferred-entry, repeat-application, transfer and English-language rules."
+    },
+    {
+      "source_id": "standrews_ucat_policy",
+      "title": "University Clinical Aptitude Test",
+      "url": "https://www.st-andrews.ac.uk/subjects/medicine/entry-requirements/ucat/",
+      "source_type": "official_admissions_test_policy",
+      "published_date": null,
+      "accessed_date": "2026-06-29",
+      "applies_to_sections": [
+        "stage_1_eligibility",
+        "stage_2_interview_selection",
+        "contextual_admissions"
+      ],
+      "confidence": "high_with_pool_rounding_and_cap_gaps",
+      "evidence_classification": "official_current",
+      "notes": "Defines UCAT requirement, Global Score ranking, entrant-target context, scale warning and 10% WP uplift."
+    },
+    {
+      "source_id": "standrews_selection_process",
+      "title": "How students are selected",
+      "url": "https://www.st-andrews.ac.uk/subjects/medicine/selection/",
+      "source_type": "official_selection_policy",
+      "published_date": null,
+      "accessed_date": "2026-06-29",
+      "applies_to_sections": [
+        "stage_1_eligibility",
+        "stage_2_interview_selection",
+        "offer_selection"
+      ],
+      "confidence": "high_for_method_low_for_unpublished_calculation_details",
+      "evidence_classification": "official_current",
+      "notes": "Defines hurdle model, approximately 650 interviews, MMI format, offer basis and UCAT tie-break."
+    },
+    {
+      "source_id": "standrews_personal_statement_reference",
+      "title": "Personal statement and reference",
+      "url": "https://www.st-andrews.ac.uk/subjects/medicine/entry-requirements/personal-statement-reference/",
+      "source_type": "official_entry_requirements_page",
+      "published_date": null,
+      "accessed_date": "2026-06-29",
+      "applies_to_sections": [
+        "stage_1_eligibility"
+      ],
+      "confidence": "high",
+      "evidence_classification": "official_current",
+      "notes": "Defines personal qualities, mandatory caring or health experience and reference expectations."
+    },
+    {
+      "source_id": "standrews_medicine_entry_requirements",
+      "title": "Medicine entry requirements",
+      "url": "https://www.st-andrews.ac.uk/subjects/medicine/medicine-bsc-a100/entry-requirements",
+      "source_type": "official_entry_requirements_page",
+      "published_date": null,
+      "accessed_date": "2026-06-29",
+      "applies_to_sections": [
+        "stage_1_eligibility"
+      ],
+      "confidence": "high",
+      "evidence_classification": "official_current",
+      "notes": "Defines fitness-to-practise, criminal-record, occupational-health and application-integrity conditions."
+    },
+    {
+      "source_id": "standrews_admissions_data",
+      "title": "Admissions Data",
+      "url": "https://www.st-andrews.ac.uk/medicine/prospective/admissions-data/",
+      "source_type": "official_historical_admissions_data",
+      "published_date": null,
+      "accessed_date": "2026-06-29",
+      "applies_to_sections": [
+        "historical_admissions"
+      ],
+      "confidence": "high_for_reported_history_not_predictive_for_current_scale",
+      "evidence_classification": "official_historical",
+      "notes": "Publishes applications, interviews, offers, accepts, entrants, route outcomes and legacy UCAT values."
+    },
+    {
+      "source_id": "standrews_academic_entry_explained",
+      "title": "Academic entry explained",
+      "url": "https://www.st-andrews.ac.uk/subjects/entry/academic-entry-explained/",
+      "source_type": "official_contextual_entry_policy",
+      "published_date": null,
+      "accessed_date": "2026-06-29",
+      "applies_to_sections": [
+        "contextual_admissions"
+      ],
+      "confidence": "high",
+      "evidence_classification": "official_current",
+      "notes": "Explains standard, minimum and Gateway entry grades."
+    },
+    {
+      "source_id": "standrews_verified_research_update_2026_06_29",
+      "title": "Verified St Andrews A100 UCAT, SJT and historical conversion research update",
+      "url": null,
+      "source_type": "verified_research_handoff",
+      "published_date": null,
+      "accessed_date": "2026-06-29",
+      "applies_to_sections": [
+        "stage_1_eligibility",
+        "stage_2_interview_selection",
+        "offer_selection"
+      ],
+      "confidence": "high_for_supplied_current_policy",
+      "evidence_classification": "verified_research_handoff",
+      "notes": "Supports the current Global Score definition, pre-interview SJT treatment, WP multiplier and UCAT tie-break. Derived 2700 historical values from this handoff are intentionally excluded from production."
+    },
+    {
+      "source_id": "standrews_verified_international_contextual_update_2026_07_02",
+      "title": "Verified St Andrews A100 international and contextual admissions evidence",
+      "url": null,
+      "source_type": "verified_official_evidence_handoff",
+      "published_date": null,
+      "accessed_date": "2026-07-02",
+      "applies_to_sections": [
+        "stage_2_interview_selection",
+        "contextual_admissions",
+        "offer_selection",
+        "historical_admissions"
+      ],
+      "confidence": "high_for_supplied_official_policy_and_historical_values",
+      "evidence_classification": "verified_official_evidence_handoff",
+      "notes": "Supports the international hurdle-then-rank process, historical 2700-scale lowest-invited guidance, MMI-only international offer ranking with UCAT tie-break, fee-status management caveat, WP criteria and ranking-only 10% UCAT uplift, contextual offer counts and verified contextual evidence gaps."
+    },
+    {
+      "source_id": "applysmart_historical_normalised_prediction_methodology_v1_0",
+      "title": "Historical Normalised Prediction Methodology v1.0",
+      "url": null,
+      "source_type": "approved_internal_prediction_methodology",
+      "published_date": "2026-06-29",
+      "accessed_date": "2026-06-29",
+      "applies_to_sections": [
+        "stage_2_interview_selection"
+      ],
+      "confidence": "approved_low_confidence_prediction_methodology",
+      "evidence_classification": "derived_for_prediction",
+      "notes": "Governs the separately labelled use of normalised historical UCAT evidence in the restricted St Andrews interview-band configuration. It is not official University evidence."
+    }
+  ],
+  "validation": {
+    "source_status": "official_source_verified_with_remaining_eligibility_exceptions",
+    "last_verified": "2026-07-02",
+    "confidence_level": "Low for prediction; high for mapped official rules",
+    "completion_status": "production_ready_for_supported_scope_with_documented_gaps",
+    "section_completion_status": {
+      "course_identity": "complete",
+      "stage_1_eligibility": "official_rules_complete_for_published_routes_execution_gap_non_blocking",
+      "stage_2_interview_selection": "official_method_complete_with_verified_international_historical_guidance",
+      "contextual_admissions": "official_ranking_uplift_complete_contextual_threshold_and_interview_history_unpublished",
+      "ranking_pools": "unknown_not_inferred",
+      "quotas": "unknown_not_inferred",
+      "offer_selection": "official_broad_method_complete_exact_scoring_and_route_mechanics_unknown",
+      "historical_admissions": "complete_official_legacy_context",
+      "sources": "reviewed"
+    },
+    "known_unknowns": [
+      "Whether every live detailed rule applies unchanged to September 2027 entry.",
+      "WP UCAT uplift rounding and cap policy.",
+      "Whether SJT contributes to interview scoring under the current policy.",
+      "Exact Home, RUK, Overseas and route ranking-pool mechanics; fee-status management does not explicitly publish a separate international pool.",
+      "A separately published contextual ranking pool.",
+      "A contextual interview UCAT threshold or contextual interview-stage historical UCAT data.",
+      "Current official 2700-scale interviewed UCAT distributions.",
+      "Live interview rank boundary.",
+      "MMI scoring scale, aggregation and minimum standard.",
+      "Route-specific offer ranking, capacities and thresholds.",
+      "Any tie-break stages after UCAT Global Score.",
+      "Definition of historical contextual-offer counts.",
+      "2027 interview delivery and planned intake."
+    ],
+    "review_notes": "The canonical profile preserves Home rules, adds verified international historical guidance without creating a fixed cut-off or asserting an explicitly published separate international pool, and applies the official 10% contextual uplift only to interview ranking. Contextual interview thresholds, contextual interview-stage history and a separately published contextual pool remain explicit evidence gaps."
+  },
+  "engine_notes": {
+    "eligibility": true,
+    "interview_prediction": true,
+    "historical_guidance": true,
+    "international_prediction": true,
+    "contextual_logic": false,
+    "result_card": true,
+    "regression": true,
+    "research_completeness": "complete_for_supported_scope_with_documented_gaps",
+    "manual_review_required": true,
+    "eligibility_ready": true,
+    "interview_prediction_ready": true,
+    "prediction_confidence": "low",
+    "result_card_ready": true,
+    "offer_prediction_scope": "out_of_scope",
+    "interview_band_config_ready": true,
+    "metadata_activation_ready": true,
+    "activation_ready": true,
+    "production_ready": true,
+    "blocking_missing_fields": [],
+    "non_blocking_warnings": [
+      "Documented evidence or automation gap retained as non-blocking for activation-ready production scope: target_cycle_confirmation",
+      "Documented evidence or automation gap retained as non-blocking for activation-ready production scope: conditional_cross_qualification_rule_execution",
+      "Documented evidence or automation gap retained as non-blocking for activation-ready production scope: qualification_timing_and_sitting_execution",
+      "Documented evidence or automation gap retained as non-blocking for activation-ready production scope: manual_non_academic_hurdle_status",
+      "Documented evidence or automation gap retained as non-blocking for activation-ready production scope: ranking_pool_mechanics",
+      "Documented evidence or automation gap retained as non-blocking for activation-ready production scope: contextual_interview_ucat_threshold",
+      "Documented evidence or automation gap retained as non-blocking for activation-ready production scope: contextual_interview_stage_historical_data",
+      "Documented evidence or automation gap retained as non-blocking for activation-ready production scope: officially_published_contextual_ranking_pool",
+      "Documented evidence or automation gap retained as non-blocking for activation-ready production scope: wp_uplift_rounding_and_cap",
+      "Documented evidence or automation gap retained as non-blocking for activation-ready production scope: complete_scottish_ib_and_graduate_route_execution",
+      "Documented evidence or automation gap retained as non-blocking for activation-ready production scope: interview_scoring",
+      "Documented evidence or automation gap retained as non-blocking for activation-ready production scope: route_aware_offer_ranking",
+      "Known unknown retained as non-blocking for activation-ready production scope: Whether every live detailed rule applies unchanged to September 2027 entry.",
+      "Known unknown retained as non-blocking for activation-ready production scope: WP UCAT uplift rounding and cap policy.",
+      "Known unknown retained as non-blocking for activation-ready production scope: Whether SJT contributes to interview scoring under the current policy.",
+      "Known unknown retained as non-blocking for activation-ready production scope: Exact Home, RUK, Overseas and route ranking-pool mechanics; fee-status management does not explicitly publish a separate international pool.",
+      "Known unknown retained as non-blocking for activation-ready production scope: A separately published contextual ranking pool.",
+      "Known unknown retained as non-blocking for activation-ready production scope: A contextual interview UCAT threshold or contextual interview-stage historical UCAT data.",
+      "Known unknown retained as non-blocking for activation-ready production scope: Current official 2700-scale interviewed UCAT distributions.",
+      "Known unknown retained as non-blocking for activation-ready production scope: Live interview rank boundary.",
+      "Known unknown retained as non-blocking for activation-ready production scope: MMI scoring scale, aggregation and minimum standard.",
+      "Known unknown retained as non-blocking for activation-ready production scope: Route-specific offer ranking, capacities and thresholds.",
+      "Known unknown retained as non-blocking for activation-ready production scope: Any tie-break stages after UCAT Global Score.",
+      "Known unknown retained as non-blocking for activation-ready production scope: Definition of historical contextual-offer counts.",
+      "Known unknown retained as non-blocking for activation-ready production scope: 2027 interview delivery and planned intake."
+    ],
+    "engine_assumptions": [],
+    "do_not_infer": [
+      "Do not describe passing implemented academic checks as complete St Andrews eligibility.",
+      "Do not apply an automatic SJT Band 4 rejection or use SJT for pre-interview ranking.",
+      "Do not model SJT as part of interview scoring without current official confirmation.",
+      "Apply the 10% WP UCAT uplift only to interview ranking and do not use it to alter eligibility, the official UCAT result, interview score or offer ranking.",
+      "Do not infer separate ranking pools from separately reported fee-status statistics.",
+      "Do not infer a separate contextual ranking pool or contextual interview threshold.",
+      "Do not treat the lowest historical interviewed UCAT score as a cutoff.",
+      "Do not present legacy 3600-scale values as comparable with the current 2700 scale.",
+      "Do not copy ApplySmart-derived 2700 conversions into official production history.",
+      "Do not merge academic minimum-entry criteria with the non-identical UCAT-uplift criteria.",
+      "Do not describe minimum entry grades as a guaranteed reduced offer.",
+      "Do not enable Scottish, IB, graduate, contextual/WP or international eligibility prediction beyond the existing implemented and manually confirmed hurdle scope."
+    ],
+    "approved_activation_scope": "Existing non-contextual Scottish/Home and Rest of UK scope plus non-contextual international historical interview guidance; contextual applicants receive the verified ranking-only UCAT uplift without a contextual interview band.",
+    "blocking_missing_fields_scope": "These fields limit broader route execution, fully automated eligibility or",
+    "prediction_scope": "Restricted low-confidence guidance for existing Home/RUK cohorts and non-contextual international school leavers using UCAT Global Score after manually confirmed hurdles. Contextual ranking uses the verified 10% uplift but has no inferred threshold.",
+    "eligibility_rules_partly_implementable": true,
+    "official_pre_interview_model_available": true,
+    "historical_ucat_guidance_ready": true,
+    "course_specific_notes": [
+      "St Andrews awards BSc (Hons) Medicine after three years; the final MBChB or MBBS is awarded by a partner medical school.",
+      "Fee status, contextual status and application route are distinct dimensions.",
+      "Official selection is academic and non-academic hurdle screening followed by UCAT Global Score ranking.",
+      "UCAT Global Score is Verbal Reasoning plus Decision Making plus Quantitative Reasoning, maximum 2700.",
+      "SJT is excluded from pre-interview ranking.",
+      "Official but non-executable rules remain visible as metadata.",
+      "The restricted low-confidence interview-band configuration is registered under Historical Normalised Prediction Methodology v1.0.",
+      "The profile is result-card ready for the approved restricted scope; broader routes remain unavailable until their evidence and execution gaps are resolved."
+    ]
+  }
+}

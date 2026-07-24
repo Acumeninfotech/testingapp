@@ -1,0 +1,245 @@
+{
+  "schema_version": "1.0.0",
+  "profile_id": "edge-hill-a100-research",
+  "course_profile_id": "edge-hill-a100",
+  "research_status": "complete_for_supported_scope_with_documented_gaps",
+  "file_purpose": "Research and implementation mapping for Edge Hill University MBChB Medicine A100 2027 entry.",
+  "official_rules_source": "data/universities/edge-hill-a100.json",
+  "created_at": "2026-07-16",
+  "last_updated": "2026-07-16",
+  "research_scope": {
+    "implemented": [
+      "academic eligibility",
+      "UCAT and SJT eligibility",
+      "Home-pool interview prediction guidance",
+      "historical UCAT competitiveness guidance",
+      "decision transparency",
+      "evidence confidence",
+      "decision timeline",
+      "result-card presentation"
+    ],
+    "excluded": [
+      "offer prediction",
+      "probability of receiving an offer",
+      "MMI performance prediction",
+      "post-interview ranking",
+      "offer tie-break logic",
+      "A110 Medicine with Foundation Year"
+    ],
+    "applicant_pool": {
+      "home": true,
+      "international": false,
+      "ranking_pool": "home",
+      "notes": "Edge Hill A100 does not accept International applicants and has no International places."
+    },
+    "contextual_policy": {
+      "contextual_logic": false,
+      "notes": "No contextual adjustment applies to standard A100. A110 Foundation Year is separate and is not implemented here."
+    }
+  },
+  "evidence_classification_policy": {
+    "academic_rules": "official_source_verified",
+    "interview_methodology": "official_and_research_team_verified",
+    "historical_ucat": "foi_verified_historical_guidance",
+    "prediction_confidence": "low",
+    "limitations": [
+      "Edge Hill does not publish a fixed future UCAT interview threshold.",
+      "The effective threshold can vary each year.",
+      "Applicant competition and interview capacity affect the score required.",
+      "Historical UCAT scores provide guidance only.",
+      "Meeting or exceeding a historical threshold does not guarantee an interview.",
+      "Falling below a previous threshold does not prove that an interview is impossible in a later cycle."
+    ]
+  },
+  "metadata": {
+    "university_name": "Edge Hill University",
+    "course_name": "MBChB Medicine",
+    "ucas_code": "A100",
+    "entry_year": 2027,
+    "academic_model": "eligibility_gate",
+    "academic_ranking": false,
+    "prediction_model": "historical_ucat_threshold_guidance",
+    "ranking_model": "ucat_only",
+    "official_fixed_cutoff": false,
+    "historical_thresholds_used": true,
+    "science_practical_endorsement": {
+      "enforced": false,
+      "evidence_position": "No current official Edge Hill A100 requirement is stated. ApplySmart does not infer a requirement from third-party sources."
+    },
+    "resits": {
+      "gcse_resits_accepted": true,
+      "a_level_resits_accepted": true,
+      "mitigating_circumstances_required": false,
+      "maximum_resits_stated": false,
+      "notes": "Applicants must still meet the full minimum entry requirements. Mitigating circumstances cannot replace required grades."
+    }
+  },
+  "applicant_groups": {
+    "home": {
+      "accepted": true,
+      "ranking_pool": "home_a100"
+    },
+    "international": {
+      "accepted": false,
+      "international_prediction": false,
+      "notes": "Existing unsupported/ineligible handling is used. No International UCAT threshold is created."
+    }
+  },
+  "academic_requirements": {
+    "gcse": {
+      "minimum_count": 5,
+      "minimum_grade": "6/B",
+      "required": [
+        "English Language",
+        "Mathematics",
+        "Biology and Chemistry or Double Award Science 6-6/B-B"
+      ],
+      "selection_role": "eligibility_only"
+    },
+    "a_level": {
+      "standard": "AAA including Biology and Chemistry plus one other subject",
+      "alternative": "If A* is achieved in Biology or Chemistry, the third subject can be grade B.",
+      "excluded_subjects": [
+        "General Studies",
+        "Critical Reasoning",
+        "Citizenship",
+        "Key Skills"
+      ],
+      "predicted_and_achieved_grades_accepted": true,
+      "selection_role": "eligibility_only"
+    },
+    "ib": {
+      "total_points": 36,
+      "hl": "HL 6 in Biology, HL 6 in Chemistry and one other HL subject",
+      "sl": "Three SL subjects with 5+ points each"
+    },
+    "scottish": {
+      "highers": "AAAAB including Biology and Chemistry",
+      "advanced_highers": "AAA including Biology and Chemistry"
+    },
+    "graduate": {
+      "route": "A100 only",
+      "degree": "2:1 or higher in a science-related degree including Psychology",
+      "degree_recency": "Awarded within two years of application",
+      "a_level_requirement": "ABB including Biology and Chemistry",
+      "automation_status": "manual_review_required"
+    }
+  },
+  "ucat_and_sjt": {
+    "ucat_required": true,
+    "ranking_metric": "total_ucat_score",
+    "fixed_cutoff_published": false,
+    "sjt": {
+      "band_4_rejected": true,
+      "accepted_bands": [
+        1,
+        2,
+        3
+      ],
+      "used_in_score": false
+    },
+    "scale_policy": {
+      "current_scale": 2700,
+      "legacy_scale": 3600,
+      "conversion_used_for_prediction": true,
+      "formula": "legacy_score * 0.75",
+      "preserve_exact_decimals": true
+    }
+  },
+  "historical_ucat_thresholds": [
+    {
+      "entry_year": 2025,
+      "original_scale": 2700,
+      "original_score": null,
+      "converted_current_2700_score": 1920,
+      "use": "historical_guidance_only"
+    },
+    {
+      "entry_year": 2024,
+      "original_scale": 3600,
+      "original_score": 2600,
+      "converted_current_2700_score": 1950,
+      "use": "historical_guidance_only"
+    },
+    {
+      "entry_year": 2023,
+      "original_scale": 3600,
+      "original_score": 2610,
+      "converted_current_2700_score": 1957.5,
+      "use": "historical_guidance_only"
+    },
+    {
+      "entry_year": 2022,
+      "original_scale": 3600,
+      "original_score": 2600,
+      "converted_current_2700_score": 1950,
+      "use": "historical_guidance_only"
+    },
+    {
+      "entry_year": 2021,
+      "original_scale": 3600,
+      "original_score": 2440,
+      "converted_current_2700_score": 1830,
+      "use": "historical_guidance_only"
+    }
+  ],
+  "interview_methodology": {
+    "type": "ucat_ranking",
+    "academic_screening": true,
+    "academic_weighting": "eligibility_only",
+    "ranking_metric": "total_ucat_score",
+    "sjt_policy": "band_4_rejected",
+    "interview_selection": "highest_ranked_eligible_applicants",
+    "official_fixed_cutoff": false
+  },
+  "implementation_mapping": {
+    "architecture_change_required": false,
+    "production_json": "data/universities/edge-hill-a100.json",
+    "interview_band_config": "data/interview-band-configs/edge-hill-a100.json",
+    "result_card_example": "data/examples/edge-hill-a100-result-card.example.json",
+    "fixture": "data/fixtures/interview-band-classification/edge-hill-a100.json",
+    "dedicated_test": "scripts/test-edge-hill-a100-readiness.js"
+  },
+  "evidence_gaps": [
+    {
+      "gap_id": "current_2027_ucat_threshold",
+      "status": "non_blocking",
+      "notes": "No fixed future UCAT cut-off is published."
+    },
+    {
+      "gap_id": "interview_capacity_2027",
+      "status": "non_blocking",
+      "notes": "Interview capacity affects the live threshold and is not fixed in the supplied evidence."
+    },
+    {
+      "gap_id": "graduate_degree_subject_recency_execution",
+      "status": "manual_review",
+      "notes": "Graduate applicants require degree subject, recency and ABB Biology/Chemistry verification."
+    },
+    {
+      "gap_id": "mmi_operational_detail",
+      "status": "out_of_scope",
+      "notes": "MMI performance and post-interview ranking are outside ApplySmart scope."
+    }
+  ],
+  "readiness": {
+    "eligibility": true,
+    "interview_prediction": true,
+    "historical_guidance": true,
+    "international_prediction": false,
+    "contextual_logic": false,
+    "result_card": true,
+    "regression": true,
+    "research_completeness": "complete_for_supported_scope_with_documented_gaps",
+    "manual_review_required": true,
+    "eligibility_ready": true,
+    "interview_prediction_ready": true,
+    "offer_prediction_scope": "out_of_scope",
+    "prediction_confidence": "low",
+    "result_card_ready": true,
+    "interview_band_config_ready": true,
+    "metadata_activation_ready": true,
+    "activation_ready": true,
+    "production_ready_candidate": true
+  }
+}

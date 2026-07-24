@@ -1,0 +1,443 @@
+{
+  "schema_version": "1.0.0",
+  "template_version": "1.0.0",
+  "result_id": "east-anglia-a100-home-standard-example",
+  "generated_at": "2026-07-16",
+  "result_mode": "example_eligibility_and_historical_interview_guidance",
+  "production_state": {
+    "profile_active": true,
+    "metadata_activation_enabled": true,
+    "result_card_output_enabled": true,
+    "note": "This example reflects UEA A100 interview guidance for the declared supported scope."
+  },
+  "course_identity": {
+    "profile_id": "east-anglia-a100",
+    "university_name": "University of East Anglia",
+    "course_name": "MBBS Medicine",
+    "ucas_code": "A100",
+    "entry_route": "standard_entry",
+    "qualification_awarded": "MBBS",
+    "duration_years": 5,
+    "location": "Norwich, England",
+    "source_ids": [
+      "uea_research_doc"
+    ]
+  },
+  "applicant_context": {
+    "applies_to_group_ids": [
+      "england_domiciled",
+      "rest_of_uk",
+      "home_fee",
+      "school_leaver"
+    ],
+    "applicant_summary": "Home standard A-level school-leaver with six GCSEs at grade 7/A or above including Mathematics and two sciences, English Language grade 5/B, AAA including Biology and Chemistry, passed science practical endorsements, and UCAT 2200/2700 with SJT Band 3.",
+    "fee_cohort": "home",
+    "entry_route": "standard_entry",
+    "contextual": false,
+    "graduate": false,
+    "source_ids": []
+  },
+  "readiness": {
+    "eligibility": true,
+    "interview_prediction": true,
+    "historical_guidance": true,
+    "international_prediction": false,
+    "contextual_logic": false,
+    "result_card": true,
+    "regression": true,
+    "research_completeness": "complete_for_supported_scope_with_documented_gaps",
+    "manual_review_required": true,
+    "eligibility_ready": true,
+    "interview_prediction_ready": true,
+    "prediction_confidence": "low",
+    "result_card_ready": true,
+    "offer_prediction_scope": "out_of_scope"
+  },
+  "eligibility": {
+    "status": "eligible",
+    "summary": "The represented Home standard school-leaver meets UEA's supported GCSE, A-level, practical-endorsement and UCAT requirements.",
+    "stage_1_checks": [
+      {
+        "check_id": "gcse_threshold",
+        "label": "GCSE threshold",
+        "status": "pass",
+        "requirement": "At least six GCSE subjects at grade 7/A or above, including Mathematics and two sciences or Double Science; English Language at grade 5/B or above.",
+        "applicant_value": "Six GCSE subjects at grade 7 or above including Mathematics, Biology, Chemistry and Physics; English Language grade 5.",
+        "decision_outcome": "eligible",
+        "source_ids": [
+          "uea_research_doc"
+        ]
+      },
+      {
+        "check_id": "a_level_threshold",
+        "label": "A-level threshold and subjects",
+        "status": "pass",
+        "requirement": "AAA including Biology or Chemistry; General Studies and Critical Thinking are not accepted.",
+        "applicant_value": "AAA in Biology, Chemistry and Mathematics.",
+        "decision_outcome": "eligible",
+        "source_ids": [
+          "uea_research_doc"
+        ]
+      },
+      {
+        "check_id": "science_practical_endorsements",
+        "label": "Science practical endorsements",
+        "status": "pass",
+        "requirement": "Pass the practical endorsement for applicable English science A-levels.",
+        "applicant_value": "Biology and Chemistry practical endorsements are passed.",
+        "decision_outcome": "eligible",
+        "source_ids": [
+          "uea_research_doc"
+        ]
+      },
+      {
+        "check_id": "ucat_and_sjt",
+        "label": "UCAT and SJT",
+        "status": "pass",
+        "requirement": "UCAT is required. No fixed UCAT cut-off is published. SJT is not implemented as a pre-interview rejection gate.",
+        "applicant_value": "UCAT 2200/2700 with SJT Band 3.",
+        "decision_outcome": "eligible",
+        "source_ids": [
+          "uea_research_doc"
+        ]
+      }
+    ],
+    "blocking_reasons": [],
+    "warnings": [
+      "UEA does not publish a fixed current-year UCAT cut-off.",
+      "Home guidance is an ApplySmart historical-normalised estimate, not an official threshold or guarantee.",
+      "The anomalous 2020 row and unverified 2025 /2700 values are excluded from runtime guidance."
+    ],
+    "source_ids": [
+      "uea_research_doc"
+    ]
+  },
+  "stage_1_requirements": {
+    "verification_status": "official_source_verified_for_represented_route",
+    "verified_requirements": [
+      {
+        "requirement_id": "gcse_gate",
+        "label": "GCSE eligibility gate",
+        "value": "Six GCSEs at grade 7/A or above including Mathematics and two sciences or Double Science; English Language at grade 5/B or above.",
+        "applies_to_group_ids": [
+          "school_leaver"
+        ],
+        "source_ids": [
+          "uea_research_doc"
+        ]
+      },
+      {
+        "requirement_id": "a_level_gate",
+        "label": "A-level eligibility gate",
+        "value": "AAA including Biology or Chemistry, with passed practical endorsements where applicable.",
+        "applies_to_group_ids": [
+          "school_leaver"
+        ],
+        "source_ids": [
+          "uea_research_doc"
+        ]
+      },
+      {
+        "requirement_id": "ucat_required",
+        "label": "UCAT required",
+        "value": "Eligible applicants are ranked by UCAT cognitive total for interview selection when oversubscribed.",
+        "applies_to_group_ids": [],
+        "source_ids": [
+          "uea_research_doc"
+        ]
+      }
+    ],
+    "unknown_requirements": [
+      "Country-specific international qualification equivalencies are not itemised.",
+      "Scottish National 5 grade checking requires manual review in the current generic runtime."
+    ],
+    "source_ids": [
+      "uea_research_doc"
+    ]
+  },
+  "stage_2_selection": {
+    "verification_status": "official_ucat_ranking_with_applysmart_home_historical_guidance",
+    "primary_model": "academic_gate_then_ucat_ranking",
+    "summary": "Academic eligibility was checked before UCAT-ranking guidance was applied. No academic score, GCSE score, SJT gate or contextual A100 adjustment was used.",
+    "represented_ranking_input": {
+      "score": 2200,
+      "max": 2700,
+      "metric": "ucat_total"
+    },
+    "ranking_factors": [
+      {
+        "factor_id": "ucat_cognitive_total",
+        "label": "UCAT cognitive total",
+        "weight_percent": 100,
+        "calculation_status": "known",
+        "notes": "Sole ranking input for interview selection after threshold eligibility.",
+        "source_ids": [
+          "uea_research_doc"
+        ]
+      }
+    ],
+    "selection_adjustments": [],
+    "unknown_calculation_areas": [
+      "Future-cycle Home and International UCAT rank positions.",
+      "International-only historical UCAT statistics.",
+      "Interview-score distributions and offer-stage outcomes, which are out of scope."
+    ],
+    "source_ids": [
+      "uea_research_doc"
+    ]
+  },
+  "historical_context": {
+    "use": "guidance_only",
+    "fixed_current_cutoff": false,
+    "not_deterministic": true,
+    "warning": "Historical pre-2025 UCAT values are on the former 3600 scale and are not directly comparable with current 2700-scale UCAT scores without the documented ApplySmart normalisation step.",
+    "represented_pool": {
+      "pool_id": "home_a100",
+      "cycles_used": "2019 and 2021-2024 entry",
+      "reference": "median of non-anomalous Home interview-average UCAT values after /3600 to /2700 normalisation",
+      "reference_value": 2076.75,
+      "score_scale": 2700,
+      "evidence_classification": "applysmart_derived_historical_guidance"
+    },
+    "excluded_from_runtime": [
+      "2020 official-source anomaly including 1390 and inverted low/high relationship.",
+      "2025 values reported as 2739 average interviewed and 2758 average offer on a 2700-point scale."
+    ]
+  },
+  "prediction": {
+    "available": true,
+    "capability": "interview_guidance",
+    "prediction_type": "applysmart_historical_normalised_home_ucat_guidance",
+    "prediction_status": "home_guidance_available",
+    "result_band": "realistic",
+    "guidance_pool_id": "home_a100",
+    "score": 2200,
+    "score_scale": {
+      "min": 0,
+      "max": 2700
+    },
+    "ranking_metric": "ucat_total",
+    "band_basis": "UCAT 2200/2700 falls within the ApplySmart historical-normalised Home realistic band of 2077-2226. Interview thresholds may change each admissions cycle depending on applicant competition and interview capacity. Historical figures are guidance only, not a current cut-off, and do not guarantee an interview.",
+    "historical_comparison": "applysmart_historical_normalised_home_guidance",
+    "missing_data_reasons": [],
+    "cannot_predict_explanation": null,
+    "source_ids": [
+      "uea_research_doc"
+    ]
+  },
+  "missing_data": {
+    "international_specific_historical_ucat": "not_published_in_supplied_evidence",
+    "country_specific_international_equivalences": "not_itemised",
+    "future_cycle_rank_positions": "not_published_before_dynamic_ranking",
+    "twenty_twenty_five_ucat_values": "reported_above_2700_scale_and_excluded_pending_validation",
+    "post_interview_outcomes": "out_of_scope"
+  },
+  "confidence": {
+    "level": "low",
+    "summary": "Official eligibility and UCAT-ranking rules are clear, but Home interview guidance is derived from historical FOI data with documented anomaly exclusions and no International-specific historical UCAT statistics.",
+    "stage_confidence": {
+      "stage_1": "medium",
+      "stage_2": "medium",
+      "historical_guidance": "low"
+    },
+    "source_ids": [
+      "uea_research_doc"
+    ]
+  },
+  "evidence_confidence": {
+    "level": "Medium",
+    "summary": "The recommendation is supported by core admissions evidence, with some historical or route-specific limits.",
+    "reasons": [
+      "Official eligibility rules are available.",
+      "The university selection approach is implemented.",
+      "Historical interview guidance is available, but some evidence is historical, FOI-derived or has documented gaps."
+    ]
+  },
+  "evidence": {
+    "source_ids": [
+      "uea_research_doc"
+    ],
+    "sources": [
+      {
+        "source_id": "uea_research_doc",
+        "title": "UEA A100 Research Document supplied for ApplySmart production implementation",
+        "url": null,
+        "source_type": "approved_research_document",
+        "confidence": "high",
+        "accessed_date": "2026-07-16"
+      }
+    ]
+  },
+  "display": {
+    "headline": "Realistic choice based on your UCAT",
+    "subheadline": "Eligible Home A100 applicant",
+    "primary_user_facing_recommendation": "Realistic choice based on your UCAT",
+    "recommendation_display_state": "standard",
+    "primary_explanation": "The supported entry requirements are met, and UCAT 2200/2700 is within UEA's ApplySmart historical-normalised Home realistic guidance band.",
+    "historical_guidance_caveat": "Interview thresholds may change each admissions cycle depending on applicant competition and interview capacity. Historical figures are guidance only, not a current cut-off, and do not guarantee an interview."
+  },
+  "decision_timeline": [
+    {
+      "step": 1,
+      "title": "Applicant details checked",
+      "status": "Complete",
+      "summary": "Your applicant type, qualifications and UCAT details were checked."
+    },
+    {
+      "step": 2,
+      "title": "Eligibility assessed",
+      "status": "Eligible",
+      "summary": "You meet the published entry requirements covered by ApplySmart."
+    },
+    {
+      "step": 3,
+      "title": "Selection model applied",
+      "status": "Complete",
+      "summary": "Academic eligibility was checked before UCAT-ranking guidance was applied. No academic score, GCSE score, SJT gate or contextual A100 adjustment was used."
+    },
+    {
+      "step": 4,
+      "title": "Historical guidance compared",
+      "status": "Complete",
+      "summary": "Your UCAT was compared with interview information from previous admissions cycles. Interview thresholds may change each admissions cycle depending on applicant competition and interview capacity. Historical figures are guidance only, not a current cut-off, and do not guarantee an interview."
+    },
+    {
+      "step": 5,
+      "title": "Interview recommendation produced",
+      "status": "Good chance",
+      "summary": "Realistic choice based on your UCAT. Treat this as guidance for university choice, not a promised interview."
+    }
+  ],
+  "decision_transparency": {
+    "decision_path": [
+      {
+        "stage": "Eligibility",
+        "status": "Met",
+        "summary": "The represented Home standard school-leaver meets UEA's supported GCSE, A-level, practical-endorsement and UCAT requirements.",
+        "checks": [
+          {
+            "label": "GCSE threshold",
+            "status": "Met",
+            "summary": "Six GCSEs at grade 7/A or above are present, including Mathematics and two sciences; English Language meets the 5/B threshold."
+          },
+          {
+            "label": "A-level threshold and subjects",
+            "status": "Met",
+            "summary": "AAA including Biology or Chemistry."
+          },
+          {
+            "label": "Science practical endorsements",
+            "status": "Met",
+            "summary": "Biology and Chemistry practical endorsements are passed."
+          },
+          {
+            "label": "UCAT and SJT",
+            "status": "Met",
+            "summary": "UCAT is present. SJT Band 3 is not rejected."
+          }
+        ]
+      },
+      {
+        "stage": "Selection model",
+        "status": "Assessed",
+        "summary": "UEA ranks eligible A100 applicants by UCAT cognitive total when interview capacity is oversubscribed.",
+        "checks": [
+          {
+            "label": "Applicant pool",
+            "status": "Used",
+            "summary": "Home A100 applicants"
+          },
+          {
+            "label": "Academic screen",
+            "status": "Met",
+            "summary": "The GCSE and A-level minimum requirements are met; academics are not scored after this gate."
+          },
+          {
+            "label": "UCAT ranking",
+            "status": "Counted",
+            "summary": "UCAT 2200/2700 is compared with ApplySmart historical-normalised Home guidance. This is not a fixed cut-off."
+          },
+          {
+            "label": "Contextual status",
+            "status": "Not used",
+            "summary": "UEA A100 has no contextual academic reduction, UCAT uplift or contextual interview threshold."
+          },
+          {
+            "label": "SJT",
+            "status": "Not used as gate",
+            "summary": "The supplied official evidence does not verify automatic SJT Band 4 rejection, and Band 3 applicants were interviewed."
+          }
+        ]
+      },
+      {
+        "stage": "Historical guidance",
+        "status": "Guidance available",
+        "summary": "Home historical guidance is guidance only, derived from non-anomalous FOI values and not a guarantee of an interview.",
+        "checks": [
+          {
+            "label": "Home pool reference",
+            "status": "Historical",
+            "summary": "Median reference 2076.75/2700 from non-anomalous Home interview-average UCAT values after documented normalisation."
+          },
+          {
+            "label": "Excluded evidence",
+            "status": "Excluded from runtime",
+            "summary": "The 2020 official anomaly and unverified 2025 values above the stated /2700 scale are preserved in research metadata but not used in prediction bands."
+          },
+          {
+            "label": "Important limitation",
+            "status": "Guidance only",
+            "summary": "Interview thresholds may change each admissions cycle depending on applicant competition and interview capacity. Historical figures are guidance only, not a current cut-off, and do not guarantee an interview."
+          }
+        ]
+      },
+      {
+        "stage": "Recommendation",
+        "status": "Guidance only",
+        "summary": "Realistic choice based on your UCAT. Treat this as guidance for university choice, not a promised interview.",
+        "checks": []
+      }
+    ],
+    "key_reasons": [
+      "The supported entry requirements are met.",
+      "UEA uses UCAT ranking after threshold eligibility and does not score GCSEs.",
+      "UCAT 2200/2700 is within the ApplySmart historical-normalised Home realistic guidance band.",
+      "No contextual A100 adjustment or SJT rejection gate was applied."
+    ],
+    "evidence_used": [
+      "Official admissions policy",
+      "University selection methodology",
+      "UCAT policy",
+      "Historical interview data",
+      "FOI evidence",
+      "Contextual admissions policy"
+    ],
+    "evidence_confidence": {
+      "level": "Medium",
+      "summary": "The recommendation is supported by core admissions evidence, with some historical or route-specific limits.",
+      "reasons": [
+        "Official eligibility rules are available.",
+        "The university selection approach is implemented.",
+        "Historical interview guidance is available, but some evidence is historical, FOI-derived or has documented gaps."
+      ]
+    },
+    "warnings": [],
+    "manual_review_reason": null,
+    "insufficient_evidence_reason": null,
+    "insufficient_evidence_reason_code": null
+  },
+  "engine_notes": {
+    "offer_prediction_scope": "out_of_scope",
+    "score_breakdown": "not_applicable_no_scoring_model",
+    "do_not_display": [
+      "offer_probability",
+      "academic_score",
+      "gcse_score",
+      "sjt_score",
+      "mmi_prediction",
+      "waiting_list_prediction"
+    ],
+    "generated_from_profile_id": "east-anglia-a100",
+    "implementation_scope": "interview guidance only"
+  }
+}

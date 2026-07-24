@@ -1,0 +1,2234 @@
+{
+  "schema_version": "1.0.0",
+  "course_profile_id": "king-s-college-london-a100",
+  "confidence": "low",
+  "evidence": {
+    "classification": "official_and_foi_historical_percentile_guidance_current_formula_unverified",
+    "summary": "KCL checks eligibility, then shortlists using UCAT, GCSE, SJT and contextual information. The exact points formula is FOI-confirmed for 2022 only and has not been confirmed for current cycles, so ApplySmart uses domicile-routed historical UCAT-percentile guidance with hidden compensation context and no offer prediction.",
+    "source_ids": [
+      "S1",
+      "S2",
+      "S6",
+      "S7",
+      "S8",
+      "S9"
+    ]
+  },
+  "eligibility": {
+    "scope": "Automatic classifier supports A-level, IB, Scottish, verified Access to HE and verified international-equivalence routes with complete UCAT evidence. Graduate and incomplete contextual/GCSE evidence require manual review.",
+    "international_english_language_required": true,
+    "qualification_routes": {
+      "supported": [
+        "a_level",
+        "international_baccalaureate",
+        "scottish",
+        "access_to_medicine",
+        "international_qualification"
+      ],
+      "manual_review": [
+        "graduate"
+      ],
+      "explicitly_blocked": [
+        "btec",
+        "foundation",
+        "t_level",
+        "unknown"
+      ]
+    },
+    "allow_guidance_with_manual_review_reasons": [],
+    "conditional_manual_review": [
+      {
+        "condition_id": "kcl_sjt_band_4_review",
+        "match": {},
+        "eligibility_manual_review_reasons": [
+          "kcl_sjt_band_4_major_negative"
+        ]
+      },
+      {
+        "condition_id": "kcl_contextual_review",
+        "match": {
+          "any_group_ids": [
+            "contextual",
+            "widening_participation"
+          ]
+        }
+      },
+      {
+        "condition_id": "kcl_resit_review",
+        "match": {
+          "all_group_ids": [
+            "resit_applicant"
+          ]
+        }
+      }
+    ],
+    "manual_review_applicant_groups": [],
+    "gcse": {
+      "minimum_count": null,
+      "use_exact_subject_list": false,
+      "required_subjects": [
+        {
+          "subject_id": "english_language",
+          "minimum_grade": "6/B"
+        },
+        {
+          "subject_id": "mathematics",
+          "minimum_grade": "6/B"
+        }
+      ]
+    },
+    "a_level": {
+      "science_practical_endorsement": {
+        "required": true,
+        "subject_ids": [
+          "biology",
+          "chemistry"
+        ]
+      },
+      "routes": [
+        {
+          "route_id": "kcl_a_level_astar_aa_biology_chemistry_a",
+          "excluded_group_ids": [
+            "graduate_applicant"
+          ],
+          "grade_profile": [
+            "A*",
+            "A",
+            "A"
+          ],
+          "required_subject_ids": [
+            "biology",
+            "chemistry"
+          ],
+          "subject_grade_requirements": [
+            {
+              "subject_id": "biology",
+              "minimum_grade": "A"
+            },
+            {
+              "subject_id": "chemistry",
+              "minimum_grade": "A"
+            }
+          ],
+          "excluded_subject_ids": [
+            "general_studies",
+            "thinking_skills",
+            "global_perspectives_and_research"
+          ]
+        }
+      ]
+    },
+    "international_baccalaureate": {
+      "routes": [
+        {
+          "route_id": "kcl_ib_38_19hl_biology_chemistry_6",
+          "total_points": 38,
+          "minimum_hl_points": 19,
+          "hl_grade_profile": [
+            "6",
+            "6",
+            "5"
+          ],
+          "required_hl_subject_ids": [
+            "biology",
+            "chemistry"
+          ],
+          "required_hl_subject_grade_options": [
+            {
+              "grade_requirements": [
+                {
+                  "subject_id": "biology",
+                  "minimum_grade": "6"
+                },
+                {
+                  "subject_id": "chemistry",
+                  "minimum_grade": "6"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    "scottish": {
+      "national_5": {
+        "minimum_count": 0,
+        "required_subject_ids": []
+      },
+      "post_16_routes": [
+        {
+          "route_id": "kcl_scottish_higher_aab_advanced_higher_aa_biology_chemistry",
+          "qualification_level": "advanced_higher",
+          "grade_profile": [
+            "A",
+            "A"
+          ],
+          "higher_grade_profile": [
+            "A",
+            "A",
+            "B"
+          ],
+          "required_subject_ids": [
+            "biology",
+            "chemistry"
+          ]
+        }
+      ]
+    },
+    "access_to_medicine": {
+      "verified_pathway_required": true
+    },
+    "international_qualification": {
+      "unverified_outcome": "manual_review",
+      "manual_review_reason": "international_qualification_requires_manual_review"
+    },
+    "graduate": {
+      "gcse_required": true,
+      "minimum_classification": "2_1",
+      "postgraduate_compensation_allowed": false
+    },
+    "ucat": {
+      "required_test_year": 2026
+    },
+    "sjt": {
+      "used_as_gate": false,
+      "accepted_bands": [
+        1,
+        2,
+        3,
+        4
+      ],
+      "rejected_bands": []
+    },
+    "resits": {
+      "resits_accepted": true,
+      "applicant_form_required": false
+    },
+    "do_not_infer": [
+      "Do not present a UCAT score as a KCL cut-off.",
+      "Do not claim the 2022 FOI formula is confirmed for the current cycle.",
+      "Do not convert a current 2700-scale applicant UCAT score to the historical 3600 scale.",
+      "Do not expose exact shortlisting-point calculations on public result cards.",
+      "Do not make contextual offers for A100.",
+      "Do not predict offers or post-interview outcomes."
+    ]
+  },
+  "score_model": {
+    "type": "ranking_metric",
+    "basis": "UCAT national percentile, estimated from official UCAT Consortium decile anchors, routed against KCL historical domicile-specific UCAT distributions. Current /2700 scores are not back-converted to /3600.",
+    "metric": "ucat_national_percentile",
+    "scale": {
+      "min": 0,
+      "max": 100
+    },
+    "executable": true,
+    "historical_guidance_only": true,
+    "exact_shortlisting_score_execution": false,
+    "public_score_exposure": false,
+    "percentile_estimator": {
+      "method": "linear_interpolation_between_official_decile_anchors",
+      "rounding_places": 2,
+      "current_2700_anchors": [
+        {
+          "score": 900,
+          "percentile": 0
+        },
+        {
+          "score": 1580,
+          "percentile": 10
+        },
+        {
+          "score": 1680,
+          "percentile": 20
+        },
+        {
+          "score": 1760,
+          "percentile": 30
+        },
+        {
+          "score": 1820,
+          "percentile": 40
+        },
+        {
+          "score": 1880,
+          "percentile": 50
+        },
+        {
+          "score": 1950,
+          "percentile": 60
+        },
+        {
+          "score": 2010,
+          "percentile": 70
+        },
+        {
+          "score": 2100,
+          "percentile": 80
+        },
+        {
+          "score": 2220,
+          "percentile": 90
+        },
+        {
+          "score": 2700,
+          "percentile": 100
+        }
+      ],
+      "historical_3600_anchors": [
+        {
+          "score": 1200,
+          "percentile": 0
+        },
+        {
+          "score": 2140,
+          "percentile": 10
+        },
+        {
+          "score": 2260,
+          "percentile": 20
+        },
+        {
+          "score": 2360,
+          "percentile": 30
+        },
+        {
+          "score": 2440,
+          "percentile": 40
+        },
+        {
+          "score": 2520,
+          "percentile": 50
+        },
+        {
+          "score": 2590,
+          "percentile": 60
+        },
+        {
+          "score": 2680,
+          "percentile": 70
+        },
+        {
+          "score": 2780,
+          "percentile": 80
+        },
+        {
+          "score": 2920,
+          "percentile": 90
+        },
+        {
+          "score": 3600,
+          "percentile": 100
+        }
+      ],
+      "official_conversion_formula_exists": false,
+      "conversion_role": "historical_display_only"
+    },
+    "presentation": {
+      "hide_score_breakdown": true,
+      "hide_selection_score_details": true,
+      "pool_label": "KCL A100 applicants",
+      "selection_summary": "King's College London assesses applicants using academic eligibility together with UCAT performance, GCSE attainment, Situational Judgement Test performance and contextual information during interview shortlisting. Your prediction has been assessed against this published selection approach and available historical admissions evidence.",
+      "timeline_selection_summary": "Academic and UCAT evidence were checked before KCL-specific historical UCAT-percentile guidance was applied; exact KCL shortlisting points are not displayed.",
+      "historical_summary": "Your UCAT performance compares favourably with applicants who have historically been invited to interview at King's College London. Interview thresholds can vary between admissions cycles depending on applicant competition and interview capacity, but your profile falls within a historically competitive range for interview consideration.",
+      "trust_statement": "Interview decisions vary each year depending on the applicant pool, available interview capacity and university selection decisions. ApplySmart provides an evidence-based interview prediction, not a guarantee of interview.",
+      "band_headlines": {
+        "interview_likely": "Strong interview outlook",
+        "realistic": "Competitive historical profile",
+        "ambitious": "Uncertain historical profile",
+        "high_risk": "Higher-risk historical profile"
+      },
+      "band_recommendations": {
+        "interview_likely": "Strong choice",
+        "realistic": "Realistic choice",
+        "ambitious": "Possible but ambitious",
+        "high_risk": "Consider stronger alternatives"
+      },
+      "band_explanations": {
+        "interview_likely": "Your academic profile meets King's College London's entry requirements, and your UCAT performance is above the range seen in applicants historically invited to interview. Based on King's published selection approach and available admissions evidence, your application is assessed as a Strong Choice for interview consideration.",
+        "realistic": "Your UCAT percentile sits in a historically competitive KCL A100 range. GCSE, SJT and contextual factors can materially change the final shortlisting position.",
+        "ambitious": "Your UCAT percentile sits below the recent KCL interviewee mean range. A strong GCSE/contextual profile may still matter, so this remains advisory rather than deterministic.",
+        "high_risk": "Your UCAT percentile is in the lower historical KCL interview range or below it. This does not create an official rejection, but it should be treated as higher risk."
+      },
+      "evidence_used": [
+        "Official admissions policy",
+        "University selection methodology",
+        "UCAT policy",
+        "Historical interview data",
+        "FOI evidence",
+        "Contextual admissions policy",
+        "International admissions policy"
+      ]
+    },
+    "kcl_runtime_policy": {
+      "corrected_pipeline": [
+        {
+          "stage": 1,
+          "name": "eligibility",
+          "behaviour": "Hard gate on A*AA with A in Biology and Chemistry or equivalent, GCSE 6/B in English Language and Maths, age requirement, UCAT sat in-year",
+          "evidence": "officially_published"
+        },
+        {
+          "stage": 2,
+          "name": "shortlisting_score",
+          "behaviour": "Additive points model: UCAT pool percentile * 100, plus SJT 10/5/0/0, plus GCSE A* 0-40 context-adjusted, plus WP 0-20",
+          "evidence": "foi_confirmed_2022_entry_only"
+        },
+        {
+          "stage": 3,
+          "name": "interview_prediction",
+          "behaviour": "Rank against historical interviewee distributions by domicile, weighted toward recent cycles",
+          "evidence": "derived_from_official_statistics"
+        },
+        {
+          "stage": 4,
+          "name": "interview",
+          "behaviour": "MMI, 7 stations, online",
+          "evidence": "officially_published"
+        },
+        {
+          "stage": 5,
+          "name": "offer",
+          "behaviour": "Interview performance alone",
+          "evidence": "officially_published"
+        }
+      ],
+      "brief_corrections": [
+        {
+          "id": "C1",
+          "severity": "high",
+          "brief_claim": "Runtime should not use GCSE score + UCAT score unless official evidence proves KCL numerically combines them.",
+          "finding": "That evidence exists. FOI 666.22 discloses a points model in which GCSE A* count contributes up to 40 points alongside a UCAT component of up to 100.",
+          "action": "Enable the combined academic-plus-UCAT shortlisting model for this university."
+        },
+        {
+          "id": "C2",
+          "severity": "high",
+          "brief_claim": "Standard ApplySmart conversion is new = old / 3600 * 2700.",
+          "finding": "No official conversion exists. The UCAT Consortium states pre-2025 and post-2025 scores are not directly comparable and publishes deciles instead. The linear method diverges from a percentile-anchored mapping by up to 29 points in the range where KCL decisions cluster.",
+          "action": "Replace with the percentile-anchored mapping and label it as derived."
+        },
+        {
+          "id": "C3",
+          "severity": "medium",
+          "brief_claim": "Extract UCAT quartiles, medians, deciles and distributions from the KCL PDF.",
+          "finding": "KCL publishes only lowest, mean, highest and SJT band range. No median, quartile or decile data exists in the source.",
+          "action": "Mark these fields not_found rather than estimating them."
+        },
+        {
+          "id": "C4",
+          "severity": "medium",
+          "brief_claim": "UCAT ranking is the sole basis for interview selection.",
+          "finding": "UCAT is roughly 59% of the disclosed points model, not 100%. GCSE A* count and WP status together account for the remaining 35%.",
+          "action": "Weight components per the disclosed model."
+        },
+        {
+          "id": "C5",
+          "severity": "low",
+          "brief_claim": "Interview band configuration keyed on converted UCAT scores.",
+          "finding": "The disclosed formula keys on percentile rank within the KCL applicant pool, which is scale-invariant. Conversion is needed only for applicant-facing historical guidance, not for the ranking step.",
+          "action": "Store national percentile as the primary runtime key."
+        }
+      ],
+      "interview_bands": {
+        "basis": "Historical distributions plus the FOI-disclosed 2022 methodology. Not cut-offs.",
+        "output_label": "UCAT position only",
+        "output_label_rule": "These bands must be labelled UCAT position only unless the compensation matrix is applied. They are not an overall interview prediction.",
+        "warning": "UCAT was roughly 59% of the disclosed 2022 points model. GCSE A* count, SJT band and widening-participation status account for the remainder and can outweigh a UCAT band difference.",
+        "combined_bands_deprecated": true,
+        "combined_bands_deprecated_note": "The single shared band set in v1 is withdrawn. Routing is now mandatory.",
+        "routes": {
+          "home": {
+            "domicile": "uk",
+            "calibration_anchors": {
+              "applicant_mean_2024": 2759,
+              "interviewee_mean_2024": 3007,
+              "interviewee_mean_2021_2023": [
+                2922,
+                2935,
+                2985
+              ],
+              "interviewee_min_2024": 2340,
+              "offer_holder_mean_2024": 3005
+            },
+            "scale_note": "Old-scale values are the published KCL figures. New-scale and national percentile values are ApplySmart-derived via the percentile-anchored mapping. Pool percentile intervals come from the estimator above.",
+            "bands": [
+              {
+                "band": "very_strong",
+                "old_min": 3100,
+                "nat_pct_min": 92.65,
+                "pool_pct_min": [
+                  86.9,
+                  90.4
+                ],
+                "new_min_display_only": 2347
+              },
+              {
+                "band": "strong",
+                "old_min": 3007,
+                "nat_pct_min": 91.28,
+                "pool_pct_min": [
+                  79.2,
+                  82.8
+                ],
+                "old_max": 3099,
+                "nat_pct_max": 92.63,
+                "pool_pct_max": [
+                  86.8,
+                  90.3
+                ],
+                "new_min_display_only": 2281,
+                "new_max_display_only": 2346
+              },
+              {
+                "band": "competitive",
+                "old_min": 2920,
+                "nat_pct_min": 90,
+                "pool_pct_min": [
+                  70.2,
+                  73.1
+                ],
+                "old_max": 3006,
+                "nat_pct_max": 91.26,
+                "pool_pct_max": [
+                  79.2,
+                  82.7
+                ],
+                "new_min_display_only": 2220,
+                "new_max_display_only": 2281
+              },
+              {
+                "band": "borderline",
+                "old_min": 2760,
+                "nat_pct_min": 78,
+                "pool_pct_min": [
+                  50.1,
+                  50.2
+                ],
+                "old_max": 2919,
+                "nat_pct_max": 89.93,
+                "pool_pct_max": [
+                  70,
+                  72.9
+                ],
+                "new_min_display_only": 2082,
+                "new_max_display_only": 2219
+              },
+              {
+                "band": "high_risk",
+                "old_min": 2340,
+                "nat_pct_min": 28,
+                "pool_pct_min": [
+                  5.5,
+                  8.4
+                ],
+                "old_max": 2759,
+                "nat_pct_max": 77.9,
+                "pool_pct_max": [
+                  50,
+                  50
+                ],
+                "new_min_display_only": 1744,
+                "new_max_display_only": 2081
+              },
+              {
+                "band": "very_high_risk",
+                "old_max": 2339,
+                "nat_pct_max": 27.9,
+                "pool_pct_max": [
+                  5.4,
+                  8.4
+                ],
+                "new_max_display_only": 1743
+              }
+            ]
+          },
+          "international": {
+            "domicile": "non_uk",
+            "calibration_anchors": {
+              "applicant_mean_2024": 2701,
+              "interviewee_mean_2024": 3078,
+              "interviewee_mean_2020": 2911,
+              "interviewee_min_2024": 2720,
+              "offer_holder_mean_2022": 3110,
+              "offer_holder_mean_2024": 3078
+            },
+            "scale_note": "Old-scale values are the published KCL figures. New-scale and national percentile values are ApplySmart-derived via the percentile-anchored mapping. Pool percentile intervals come from the estimator above.",
+            "bands": [
+              {
+                "band": "very_strong",
+                "old_min": 3110,
+                "nat_pct_min": 92.79,
+                "pool_pct_min": [
+                  91.1,
+                  94
+                ],
+                "new_min_display_only": 2354
+              },
+              {
+                "band": "strong",
+                "old_min": 3078,
+                "nat_pct_min": 92.32,
+                "pool_pct_min": [
+                  89.2,
+                  92.4
+                ],
+                "old_max": 3109,
+                "nat_pct_max": 92.78,
+                "pool_pct_max": [
+                  91,
+                  93.9
+                ],
+                "new_min_display_only": 2332,
+                "new_max_display_only": 2353
+              },
+              {
+                "band": "competitive",
+                "old_min": 2911,
+                "nat_pct_min": 89.36,
+                "pool_pct_min": [
+                  75.5,
+                  78.8
+                ],
+                "old_max": 3077,
+                "nat_pct_max": 92.31,
+                "pool_pct_max": [
+                  89.2,
+                  92.3
+                ],
+                "new_min_display_only": 2212,
+                "new_max_display_only": 2331
+              },
+              {
+                "band": "borderline",
+                "old_min": 2720,
+                "nat_pct_min": 74,
+                "pool_pct_min": [
+                  52.5,
+                  52.9
+                ],
+                "old_max": 2910,
+                "nat_pct_max": 89.29,
+                "pool_pct_max": [
+                  75.4,
+                  78.6
+                ],
+                "new_min_display_only": 2046,
+                "new_max_display_only": 2211
+              },
+              {
+                "band": "high_risk",
+                "old_min": 2220,
+                "nat_pct_min": 16.67,
+                "pool_pct_min": [
+                  3.4,
+                  5.7
+                ],
+                "old_max": 2719,
+                "nat_pct_max": 73.9,
+                "pool_pct_max": [
+                  52.4,
+                  52.7
+                ],
+                "new_min_display_only": 1647,
+                "new_max_display_only": 2045
+              },
+              {
+                "band": "very_high_risk",
+                "old_max": 2219,
+                "nat_pct_max": 16.58,
+                "pool_pct_max": [
+                  3.3,
+                  5.7
+                ],
+                "new_max_display_only": 1646
+              }
+            ]
+          }
+        },
+        "routing_rule": "Route on domicile as KCL defines it: region of domicile, not fee status.",
+        "domicile_gap_evidence": "In 2024 the UK interviewee minimum was 2340 and the non-UK minimum 2720, a 380-point gap on the 3600 scale.",
+        "routing": {
+          "primary_key": "national_percentile",
+          "interval_semantics": "half_open",
+          "membership_rule": "A band matches when nat_pct >= nat_pct_min AND nat_pct < the nat_pct_min of the band immediately above. The top band is unbounded above.",
+          "boundary_precedence": "higher_band_on_inclusive_minimum",
+          "precision": "National percentile boundaries are stored to 2 decimal places. Do not round to 1dp for comparison.",
+          "current_applicants": {
+            "input": "UCAT total on the 2700 scale",
+            "method": "Map the score to a national percentile using the official UCAT Consortium decile table for the year the applicant sat the test. This is a direct lookup, not a scale conversion.",
+            "decile_source_for_2026_entry": "UCAT Consortium Test Statistics 2025 (S9). Switch to the 2026 table once published, expected mid-September.",
+            "prohibited": "Do not convert the applicant's 2700-scale score to the 3600 scale in order to match old-scale band boundaries."
+          },
+          "historical_audit": {
+            "input": "Published KCL figures on the 3600 scale",
+            "method": "Match directly against old_min and old_max, which are unambiguous integers."
+          },
+          "converted_scores_role": "display_only",
+          "converted_scores_note": "The new_min_display_only and new_max_display_only fields exist so applicants can see a familiar current-scale figure. They must never be used for routing. Rounding to integer made adjacent bands share the value 2281 on the home route, and rounding percentiles to 1dp made them share 91.3. Both collisions disappear once routing runs on 2dp percentile with half-open intervals.",
+          "caveat": "Band percentile anchors were derived from KCL's 2020-2024 cohort behaviour against the 2024 national decile table. Comparing a current applicant's percentile against them is a historical comparison, which is what this model is. Percentile remains the most stable representation available across test changes."
+        }
+      },
+      "tie_break_rules": {
+        "published": false,
+        "runtime_behaviour": "Widen the predicted band rather than invent an ordering.",
+        "encoded": true,
+        "fixture_covered": true
+      },
+      "edge_cases": [
+        "WP-flagged applications were manually reviewed before rejection in 2022. Unmodellable; disclose as upside risk for flagged applicants.",
+        "Graduate applicants use the same A100 route but are not separately reported in the statistics. Lower prediction confidence.",
+        "Applicants educated abroad without GCSEs cannot have a GCSE points component computed. Degrade gracefully rather than scoring zero.",
+        "Personal statement, reference and A-level grades are listed shortlisting inputs but carry no points in the disclosed formula. Model as unscored."
+      ],
+      "transparency_copy_requirements": [
+        "KCL publishes no UCAT cut-off; figures shown are historical distributions, not thresholds.",
+        "The points formula shown is from 2022 entry; KCL has since declined to confirm the current one.",
+        "UCAT ranking is against other KCL applicants, not the national cohort, so any percentile shown is an estimate.",
+        "Any /2700 figure derived from a pre-2025 cycle is an ApplySmart estimate anchored on official decile tables, not an official conversion.",
+        "No contextual offers are made on A100; eligible applicants should consider A101.",
+        "Offers are decided at interview, so a strong shortlisting score does not predict an offer."
+      ],
+      "compensation_matrix": {
+        "status": "deterministic_ordinal_lookup_derived_from_disclosed_2022_weights",
+        "purpose": "Combine UCAT position with the other disclosed ranking components so the output is not a UCAT-only band mislabelled as an interview prediction.",
+        "component_weights_source": "2022-entry FOI formula component maxima: UCAT 100, GCSE 40, WP 20, SJT 10",
+        "non_ucat_maximum_as_ucat_percentile_equivalent": 70,
+        "non_ucat_maximum_note": "Because the UCAT component is percentile x 100, one non-UCAT point is worth one pool-percentile point. The full 70 non-UCAT points are therefore worth 70 pool-percentile points of UCAT.",
+        "inputs": [
+          "ucat_band",
+          "gcse_strength",
+          "sjt_band",
+          "contextual_category",
+          "domicile",
+          "evidence_completeness",
+          "applicant_route"
+        ],
+        "gcse_strength_scale": [
+          {
+            "level": "very_strong",
+            "definition": "8 or more top-grade GCSEs after normalisation",
+            "historical_points": 40
+          },
+          {
+            "level": "strong",
+            "definition": "7 top grades",
+            "historical_points": 30
+          },
+          {
+            "level": "moderate",
+            "definition": "6 top grades",
+            "historical_points": 20
+          },
+          {
+            "level": "limited",
+            "definition": "5 top grades",
+            "historical_points": 10
+          },
+          {
+            "level": "minimal",
+            "definition": "fewer than 5 top grades",
+            "historical_points": 0
+          },
+          {
+            "level": "not_computable",
+            "definition": "No GCSE record, or international qualifications without a published mapping",
+            "historical_points": null
+          }
+        ],
+        "output_classes": [
+          "Very competitive historical profile",
+          "Competitive historical profile",
+          "Uncertain / balanced profile",
+          "Higher-risk historical profile",
+          "Manual review required"
+        ],
+        "escalation_rules": [
+          "Any component returning not_computable escalates to Manual review required.",
+          "contextual_category of unknown escalates to Manual review required rather than defaulting to no adjustment.",
+          "school_quintile of unknown escalates to a dual-outcome range showing adjusted and unadjusted results.",
+          "SJT Band 4 escalates to Manual review required in addition to its prediction effect.",
+          "Graduate route escalates to Manual review required.",
+          "International applicant without GCSE record escalates to Manual review required."
+        ],
+        "no_numeric_probability": true,
+        "calibration": {
+          "unit": "band_step",
+          "derivation": "The disclosed formula makes one non-UCAT point worth one pool-percentile point, because the UCAT component is pool percentile x 100. In the decision-relevant upper region of the home band route, one UCAT band spans roughly 8 to 10 pool-percentile points. Ten formula points therefore equal approximately one band step.",
+          "domain_of_validity": "Calibrated on the competitive-to-very_strong region. Bands widen sharply below borderline (high_risk spans about 45 pool-percentile points), so the modifier understates compensation at the bottom of the range. Treat outputs below the borderline band as directional only.",
+          "ordinal_not_probabilistic": true,
+          "ordinal_note": "This produces a ranked classification, not a probability. Published data does not support a numeric interview probability.",
+          "index_range": [
+            -2.5,
+            9.5
+          ],
+          "clamping": "none",
+          "clamping_note": "The index is deliberately unclamped. Clamping at the UCAT band maximum would compress strong contextual profiles into the same class as uncontextualised ones, erasing the largest lever in the disclosed model.",
+          "index_range_derivation": {
+            "minimum": "very_high_risk 0.0 + minimal GCSE -2.0 + SJT Band 3 or 4 -0.5 + WP none 0.0 = -2.5",
+            "maximum": "very_strong 5.0 + very_strong GCSE 2.0 + SJT Band 1 0.5 + WP strong upper 2.0 = 9.5",
+            "note": "Negative values are legitimate because clamping is disabled. They fall in the Higher-risk class."
+          }
+        },
+        "modifiers": {
+          "ucat_band_base": {
+            "very_strong": 5,
+            "strong": 4,
+            "competitive": 3,
+            "borderline": 2,
+            "high_risk": 1,
+            "very_high_risk": 0
+          },
+          "gcse_strength": {
+            "values": {
+              "very_strong": 2,
+              "strong": 1,
+              "moderate": 0,
+              "limited": -1,
+              "minimal": -2
+            },
+            "baseline": "moderate (6 top grades, 20 historical points)"
+          },
+          "sjt_band": {
+            "values": {
+              "1": 0.5,
+              "2": 0,
+              "3": -0.5,
+              "4": -0.5
+            },
+            "baseline": "Band 2, the modal band among KCL applicants in four of five published cycles"
+          },
+          "wp_category": {
+            "values": {
+              "none_identified": [
+                0,
+                0
+              ],
+              "possible": [
+                0.5,
+                1.5
+              ],
+              "strong": [
+                1,
+                2
+              ],
+              "unknown": [
+                0,
+                2
+              ]
+            },
+            "note": "WP is a range, never a point value. Compute the index at both ends."
+          }
+        },
+        "formula": "index = ucat_band_base + gcse_modifier + sjt_modifier + wp_modifier_range",
+        "output_thresholds": [
+          {
+            "min_index": 6,
+            "class": "Very competitive historical profile"
+          },
+          {
+            "min_index": 4,
+            "class": "Competitive historical profile"
+          },
+          {
+            "min_index": 2.5,
+            "class": "Uncertain / balanced profile"
+          },
+          {
+            "min_index": null,
+            "class": "Higher-risk historical profile",
+            "note": "below 2.5"
+          }
+        ],
+        "range_handling": {
+          "rule": "Where WP, GCSE normalisation or school quintile produce a range, compute the index at both ends.",
+          "if_same_class": "Return the single class.",
+          "if_classes_differ": "Return the class range and set ambiguity_disclosed true.",
+          "if_any_input_not_computable": "Return Manual review required, overriding the computed class."
+        },
+        "override_precedence": [
+          "1. Any not_computable input -> Manual review required",
+          "2. Any unknown contextual or school-quintile input -> Manual review required",
+          "3. SJT Band 4 -> Manual review required in addition to its modifier",
+          "4. Graduate route -> Manual review required",
+          "5. International applicant without GCSE record -> Manual review required",
+          "6. Otherwise -> computed class"
+        ],
+        "validation_against_worked_examples": {
+          "results": [
+            {
+              "worked_example": "A",
+              "index_low": 5,
+              "index_high": 5,
+              "class_low": "Competitive historical profile",
+              "class_high": "Competitive historical profile",
+              "formula_percentage_2022": 62.9
+            },
+            {
+              "worked_example": "B",
+              "index_low": 7.5,
+              "index_high": 8.5,
+              "class_low": "Very competitive historical profile",
+              "class_high": "Very competitive historical profile",
+              "formula_percentage_2022": 83.5
+            },
+            {
+              "worked_example": "C",
+              "index_low": 2.5,
+              "index_high": 2.5,
+              "class_low": "Uncertain / balanced profile",
+              "class_high": "Uncertain / balanced profile",
+              "formula_percentage_2022": 50
+            }
+          ],
+          "monotonicity_check": "The index ordering C < A < B matches the 2022 formula percentage ordering 50.0 < 62.9 < 83.5.",
+          "conclusion": "The ordinal lookup reproduces the ranking the disclosed formula produces on the three documented profiles."
+        },
+        "enumerated_lookup_no_wp": {
+          "note": "Full enumeration for wp_category = none_identified and all inputs computable. Apply WP modifiers and override precedence on top.",
+          "rows": [
+            {
+              "ucat_band": "very_strong",
+              "gcse_strength": "very_strong",
+              "sjt_band": 1,
+              "index": 7.5,
+              "class": "Very competitive historical profile"
+            },
+            {
+              "ucat_band": "very_strong",
+              "gcse_strength": "very_strong",
+              "sjt_band": 2,
+              "index": 7,
+              "class": "Very competitive historical profile"
+            },
+            {
+              "ucat_band": "very_strong",
+              "gcse_strength": "very_strong",
+              "sjt_band": 3,
+              "index": 6.5,
+              "class": "Very competitive historical profile"
+            },
+            {
+              "ucat_band": "very_strong",
+              "gcse_strength": "very_strong",
+              "sjt_band": 4,
+              "index": 6.5,
+              "class": "Very competitive historical profile"
+            },
+            {
+              "ucat_band": "very_strong",
+              "gcse_strength": "strong",
+              "sjt_band": 1,
+              "index": 6.5,
+              "class": "Very competitive historical profile"
+            },
+            {
+              "ucat_band": "very_strong",
+              "gcse_strength": "strong",
+              "sjt_band": 2,
+              "index": 6,
+              "class": "Very competitive historical profile"
+            },
+            {
+              "ucat_band": "very_strong",
+              "gcse_strength": "strong",
+              "sjt_band": 3,
+              "index": 5.5,
+              "class": "Competitive historical profile"
+            },
+            {
+              "ucat_band": "very_strong",
+              "gcse_strength": "strong",
+              "sjt_band": 4,
+              "index": 5.5,
+              "class": "Competitive historical profile"
+            },
+            {
+              "ucat_band": "very_strong",
+              "gcse_strength": "moderate",
+              "sjt_band": 1,
+              "index": 5.5,
+              "class": "Competitive historical profile"
+            },
+            {
+              "ucat_band": "very_strong",
+              "gcse_strength": "moderate",
+              "sjt_band": 2,
+              "index": 5,
+              "class": "Competitive historical profile"
+            },
+            {
+              "ucat_band": "very_strong",
+              "gcse_strength": "moderate",
+              "sjt_band": 3,
+              "index": 4.5,
+              "class": "Competitive historical profile"
+            },
+            {
+              "ucat_band": "very_strong",
+              "gcse_strength": "moderate",
+              "sjt_band": 4,
+              "index": 4.5,
+              "class": "Competitive historical profile"
+            },
+            {
+              "ucat_band": "very_strong",
+              "gcse_strength": "limited",
+              "sjt_band": 1,
+              "index": 4.5,
+              "class": "Competitive historical profile"
+            },
+            {
+              "ucat_band": "very_strong",
+              "gcse_strength": "limited",
+              "sjt_band": 2,
+              "index": 4,
+              "class": "Competitive historical profile"
+            },
+            {
+              "ucat_band": "very_strong",
+              "gcse_strength": "limited",
+              "sjt_band": 3,
+              "index": 3.5,
+              "class": "Uncertain / balanced profile"
+            },
+            {
+              "ucat_band": "very_strong",
+              "gcse_strength": "limited",
+              "sjt_band": 4,
+              "index": 3.5,
+              "class": "Uncertain / balanced profile"
+            },
+            {
+              "ucat_band": "very_strong",
+              "gcse_strength": "minimal",
+              "sjt_band": 1,
+              "index": 3.5,
+              "class": "Uncertain / balanced profile"
+            },
+            {
+              "ucat_band": "very_strong",
+              "gcse_strength": "minimal",
+              "sjt_band": 2,
+              "index": 3,
+              "class": "Uncertain / balanced profile"
+            },
+            {
+              "ucat_band": "very_strong",
+              "gcse_strength": "minimal",
+              "sjt_band": 3,
+              "index": 2.5,
+              "class": "Uncertain / balanced profile"
+            },
+            {
+              "ucat_band": "very_strong",
+              "gcse_strength": "minimal",
+              "sjt_band": 4,
+              "index": 2.5,
+              "class": "Uncertain / balanced profile"
+            },
+            {
+              "ucat_band": "strong",
+              "gcse_strength": "very_strong",
+              "sjt_band": 1,
+              "index": 6.5,
+              "class": "Very competitive historical profile"
+            },
+            {
+              "ucat_band": "strong",
+              "gcse_strength": "very_strong",
+              "sjt_band": 2,
+              "index": 6,
+              "class": "Very competitive historical profile"
+            },
+            {
+              "ucat_band": "strong",
+              "gcse_strength": "very_strong",
+              "sjt_band": 3,
+              "index": 5.5,
+              "class": "Competitive historical profile"
+            },
+            {
+              "ucat_band": "strong",
+              "gcse_strength": "very_strong",
+              "sjt_band": 4,
+              "index": 5.5,
+              "class": "Competitive historical profile"
+            },
+            {
+              "ucat_band": "strong",
+              "gcse_strength": "strong",
+              "sjt_band": 1,
+              "index": 5.5,
+              "class": "Competitive historical profile"
+            },
+            {
+              "ucat_band": "strong",
+              "gcse_strength": "strong",
+              "sjt_band": 2,
+              "index": 5,
+              "class": "Competitive historical profile"
+            },
+            {
+              "ucat_band": "strong",
+              "gcse_strength": "strong",
+              "sjt_band": 3,
+              "index": 4.5,
+              "class": "Competitive historical profile"
+            },
+            {
+              "ucat_band": "strong",
+              "gcse_strength": "strong",
+              "sjt_band": 4,
+              "index": 4.5,
+              "class": "Competitive historical profile"
+            },
+            {
+              "ucat_band": "strong",
+              "gcse_strength": "moderate",
+              "sjt_band": 1,
+              "index": 4.5,
+              "class": "Competitive historical profile"
+            },
+            {
+              "ucat_band": "strong",
+              "gcse_strength": "moderate",
+              "sjt_band": 2,
+              "index": 4,
+              "class": "Competitive historical profile"
+            },
+            {
+              "ucat_band": "strong",
+              "gcse_strength": "moderate",
+              "sjt_band": 3,
+              "index": 3.5,
+              "class": "Uncertain / balanced profile"
+            },
+            {
+              "ucat_band": "strong",
+              "gcse_strength": "moderate",
+              "sjt_band": 4,
+              "index": 3.5,
+              "class": "Uncertain / balanced profile"
+            },
+            {
+              "ucat_band": "strong",
+              "gcse_strength": "limited",
+              "sjt_band": 1,
+              "index": 3.5,
+              "class": "Uncertain / balanced profile"
+            },
+            {
+              "ucat_band": "strong",
+              "gcse_strength": "limited",
+              "sjt_band": 2,
+              "index": 3,
+              "class": "Uncertain / balanced profile"
+            },
+            {
+              "ucat_band": "strong",
+              "gcse_strength": "limited",
+              "sjt_band": 3,
+              "index": 2.5,
+              "class": "Uncertain / balanced profile"
+            },
+            {
+              "ucat_band": "strong",
+              "gcse_strength": "limited",
+              "sjt_band": 4,
+              "index": 2.5,
+              "class": "Uncertain / balanced profile"
+            },
+            {
+              "ucat_band": "strong",
+              "gcse_strength": "minimal",
+              "sjt_band": 1,
+              "index": 2.5,
+              "class": "Uncertain / balanced profile"
+            },
+            {
+              "ucat_band": "strong",
+              "gcse_strength": "minimal",
+              "sjt_band": 2,
+              "index": 2,
+              "class": "Higher-risk historical profile"
+            },
+            {
+              "ucat_band": "strong",
+              "gcse_strength": "minimal",
+              "sjt_band": 3,
+              "index": 1.5,
+              "class": "Higher-risk historical profile"
+            },
+            {
+              "ucat_band": "strong",
+              "gcse_strength": "minimal",
+              "sjt_band": 4,
+              "index": 1.5,
+              "class": "Higher-risk historical profile"
+            },
+            {
+              "ucat_band": "competitive",
+              "gcse_strength": "very_strong",
+              "sjt_band": 1,
+              "index": 5.5,
+              "class": "Competitive historical profile"
+            },
+            {
+              "ucat_band": "competitive",
+              "gcse_strength": "very_strong",
+              "sjt_band": 2,
+              "index": 5,
+              "class": "Competitive historical profile"
+            },
+            {
+              "ucat_band": "competitive",
+              "gcse_strength": "very_strong",
+              "sjt_band": 3,
+              "index": 4.5,
+              "class": "Competitive historical profile"
+            },
+            {
+              "ucat_band": "competitive",
+              "gcse_strength": "very_strong",
+              "sjt_band": 4,
+              "index": 4.5,
+              "class": "Competitive historical profile"
+            },
+            {
+              "ucat_band": "competitive",
+              "gcse_strength": "strong",
+              "sjt_band": 1,
+              "index": 4.5,
+              "class": "Competitive historical profile"
+            },
+            {
+              "ucat_band": "competitive",
+              "gcse_strength": "strong",
+              "sjt_band": 2,
+              "index": 4,
+              "class": "Competitive historical profile"
+            },
+            {
+              "ucat_band": "competitive",
+              "gcse_strength": "strong",
+              "sjt_band": 3,
+              "index": 3.5,
+              "class": "Uncertain / balanced profile"
+            },
+            {
+              "ucat_band": "competitive",
+              "gcse_strength": "strong",
+              "sjt_band": 4,
+              "index": 3.5,
+              "class": "Uncertain / balanced profile"
+            },
+            {
+              "ucat_band": "competitive",
+              "gcse_strength": "moderate",
+              "sjt_band": 1,
+              "index": 3.5,
+              "class": "Uncertain / balanced profile"
+            },
+            {
+              "ucat_band": "competitive",
+              "gcse_strength": "moderate",
+              "sjt_band": 2,
+              "index": 3,
+              "class": "Uncertain / balanced profile"
+            },
+            {
+              "ucat_band": "competitive",
+              "gcse_strength": "moderate",
+              "sjt_band": 3,
+              "index": 2.5,
+              "class": "Uncertain / balanced profile"
+            },
+            {
+              "ucat_band": "competitive",
+              "gcse_strength": "moderate",
+              "sjt_band": 4,
+              "index": 2.5,
+              "class": "Uncertain / balanced profile"
+            },
+            {
+              "ucat_band": "competitive",
+              "gcse_strength": "limited",
+              "sjt_band": 1,
+              "index": 2.5,
+              "class": "Uncertain / balanced profile"
+            },
+            {
+              "ucat_band": "competitive",
+              "gcse_strength": "limited",
+              "sjt_band": 2,
+              "index": 2,
+              "class": "Higher-risk historical profile"
+            },
+            {
+              "ucat_band": "competitive",
+              "gcse_strength": "limited",
+              "sjt_band": 3,
+              "index": 1.5,
+              "class": "Higher-risk historical profile"
+            },
+            {
+              "ucat_band": "competitive",
+              "gcse_strength": "limited",
+              "sjt_band": 4,
+              "index": 1.5,
+              "class": "Higher-risk historical profile"
+            },
+            {
+              "ucat_band": "competitive",
+              "gcse_strength": "minimal",
+              "sjt_band": 1,
+              "index": 1.5,
+              "class": "Higher-risk historical profile"
+            },
+            {
+              "ucat_band": "competitive",
+              "gcse_strength": "minimal",
+              "sjt_band": 2,
+              "index": 1,
+              "class": "Higher-risk historical profile"
+            },
+            {
+              "ucat_band": "competitive",
+              "gcse_strength": "minimal",
+              "sjt_band": 3,
+              "index": 0.5,
+              "class": "Higher-risk historical profile"
+            },
+            {
+              "ucat_band": "competitive",
+              "gcse_strength": "minimal",
+              "sjt_band": 4,
+              "index": 0.5,
+              "class": "Higher-risk historical profile"
+            },
+            {
+              "ucat_band": "borderline",
+              "gcse_strength": "very_strong",
+              "sjt_band": 1,
+              "index": 4.5,
+              "class": "Competitive historical profile"
+            },
+            {
+              "ucat_band": "borderline",
+              "gcse_strength": "very_strong",
+              "sjt_band": 2,
+              "index": 4,
+              "class": "Competitive historical profile"
+            },
+            {
+              "ucat_band": "borderline",
+              "gcse_strength": "very_strong",
+              "sjt_band": 3,
+              "index": 3.5,
+              "class": "Uncertain / balanced profile"
+            },
+            {
+              "ucat_band": "borderline",
+              "gcse_strength": "very_strong",
+              "sjt_band": 4,
+              "index": 3.5,
+              "class": "Uncertain / balanced profile"
+            },
+            {
+              "ucat_band": "borderline",
+              "gcse_strength": "strong",
+              "sjt_band": 1,
+              "index": 3.5,
+              "class": "Uncertain / balanced profile"
+            },
+            {
+              "ucat_band": "borderline",
+              "gcse_strength": "strong",
+              "sjt_band": 2,
+              "index": 3,
+              "class": "Uncertain / balanced profile"
+            },
+            {
+              "ucat_band": "borderline",
+              "gcse_strength": "strong",
+              "sjt_band": 3,
+              "index": 2.5,
+              "class": "Uncertain / balanced profile"
+            },
+            {
+              "ucat_band": "borderline",
+              "gcse_strength": "strong",
+              "sjt_band": 4,
+              "index": 2.5,
+              "class": "Uncertain / balanced profile"
+            },
+            {
+              "ucat_band": "borderline",
+              "gcse_strength": "moderate",
+              "sjt_band": 1,
+              "index": 2.5,
+              "class": "Uncertain / balanced profile"
+            },
+            {
+              "ucat_band": "borderline",
+              "gcse_strength": "moderate",
+              "sjt_band": 2,
+              "index": 2,
+              "class": "Higher-risk historical profile"
+            },
+            {
+              "ucat_band": "borderline",
+              "gcse_strength": "moderate",
+              "sjt_band": 3,
+              "index": 1.5,
+              "class": "Higher-risk historical profile"
+            },
+            {
+              "ucat_band": "borderline",
+              "gcse_strength": "moderate",
+              "sjt_band": 4,
+              "index": 1.5,
+              "class": "Higher-risk historical profile"
+            },
+            {
+              "ucat_band": "borderline",
+              "gcse_strength": "limited",
+              "sjt_band": 1,
+              "index": 1.5,
+              "class": "Higher-risk historical profile"
+            },
+            {
+              "ucat_band": "borderline",
+              "gcse_strength": "limited",
+              "sjt_band": 2,
+              "index": 1,
+              "class": "Higher-risk historical profile"
+            },
+            {
+              "ucat_band": "borderline",
+              "gcse_strength": "limited",
+              "sjt_band": 3,
+              "index": 0.5,
+              "class": "Higher-risk historical profile"
+            },
+            {
+              "ucat_band": "borderline",
+              "gcse_strength": "limited",
+              "sjt_band": 4,
+              "index": 0.5,
+              "class": "Higher-risk historical profile"
+            },
+            {
+              "ucat_band": "borderline",
+              "gcse_strength": "minimal",
+              "sjt_band": 1,
+              "index": 0.5,
+              "class": "Higher-risk historical profile"
+            },
+            {
+              "ucat_band": "borderline",
+              "gcse_strength": "minimal",
+              "sjt_band": 2,
+              "index": 0,
+              "class": "Higher-risk historical profile"
+            },
+            {
+              "ucat_band": "borderline",
+              "gcse_strength": "minimal",
+              "sjt_band": 3,
+              "index": -0.5,
+              "class": "Higher-risk historical profile"
+            },
+            {
+              "ucat_band": "borderline",
+              "gcse_strength": "minimal",
+              "sjt_band": 4,
+              "index": -0.5,
+              "class": "Higher-risk historical profile"
+            },
+            {
+              "ucat_band": "high_risk",
+              "gcse_strength": "very_strong",
+              "sjt_band": 1,
+              "index": 3.5,
+              "class": "Uncertain / balanced profile"
+            },
+            {
+              "ucat_band": "high_risk",
+              "gcse_strength": "very_strong",
+              "sjt_band": 2,
+              "index": 3,
+              "class": "Uncertain / balanced profile"
+            },
+            {
+              "ucat_band": "high_risk",
+              "gcse_strength": "very_strong",
+              "sjt_band": 3,
+              "index": 2.5,
+              "class": "Uncertain / balanced profile"
+            },
+            {
+              "ucat_band": "high_risk",
+              "gcse_strength": "very_strong",
+              "sjt_band": 4,
+              "index": 2.5,
+              "class": "Uncertain / balanced profile"
+            },
+            {
+              "ucat_band": "high_risk",
+              "gcse_strength": "strong",
+              "sjt_band": 1,
+              "index": 2.5,
+              "class": "Uncertain / balanced profile"
+            },
+            {
+              "ucat_band": "high_risk",
+              "gcse_strength": "strong",
+              "sjt_band": 2,
+              "index": 2,
+              "class": "Higher-risk historical profile"
+            },
+            {
+              "ucat_band": "high_risk",
+              "gcse_strength": "strong",
+              "sjt_band": 3,
+              "index": 1.5,
+              "class": "Higher-risk historical profile"
+            },
+            {
+              "ucat_band": "high_risk",
+              "gcse_strength": "strong",
+              "sjt_band": 4,
+              "index": 1.5,
+              "class": "Higher-risk historical profile"
+            },
+            {
+              "ucat_band": "high_risk",
+              "gcse_strength": "moderate",
+              "sjt_band": 1,
+              "index": 1.5,
+              "class": "Higher-risk historical profile"
+            },
+            {
+              "ucat_band": "high_risk",
+              "gcse_strength": "moderate",
+              "sjt_band": 2,
+              "index": 1,
+              "class": "Higher-risk historical profile"
+            },
+            {
+              "ucat_band": "high_risk",
+              "gcse_strength": "moderate",
+              "sjt_band": 3,
+              "index": 0.5,
+              "class": "Higher-risk historical profile"
+            },
+            {
+              "ucat_band": "high_risk",
+              "gcse_strength": "moderate",
+              "sjt_band": 4,
+              "index": 0.5,
+              "class": "Higher-risk historical profile"
+            },
+            {
+              "ucat_band": "high_risk",
+              "gcse_strength": "limited",
+              "sjt_band": 1,
+              "index": 0.5,
+              "class": "Higher-risk historical profile"
+            },
+            {
+              "ucat_band": "high_risk",
+              "gcse_strength": "limited",
+              "sjt_band": 2,
+              "index": 0,
+              "class": "Higher-risk historical profile"
+            },
+            {
+              "ucat_band": "high_risk",
+              "gcse_strength": "limited",
+              "sjt_band": 3,
+              "index": -0.5,
+              "class": "Higher-risk historical profile"
+            },
+            {
+              "ucat_band": "high_risk",
+              "gcse_strength": "limited",
+              "sjt_band": 4,
+              "index": -0.5,
+              "class": "Higher-risk historical profile"
+            },
+            {
+              "ucat_band": "high_risk",
+              "gcse_strength": "minimal",
+              "sjt_band": 1,
+              "index": -0.5,
+              "class": "Higher-risk historical profile"
+            },
+            {
+              "ucat_band": "high_risk",
+              "gcse_strength": "minimal",
+              "sjt_band": 2,
+              "index": -1,
+              "class": "Higher-risk historical profile"
+            },
+            {
+              "ucat_band": "high_risk",
+              "gcse_strength": "minimal",
+              "sjt_band": 3,
+              "index": -1.5,
+              "class": "Higher-risk historical profile"
+            },
+            {
+              "ucat_band": "high_risk",
+              "gcse_strength": "minimal",
+              "sjt_band": 4,
+              "index": -1.5,
+              "class": "Higher-risk historical profile"
+            },
+            {
+              "ucat_band": "very_high_risk",
+              "gcse_strength": "very_strong",
+              "sjt_band": 1,
+              "index": 2.5,
+              "class": "Uncertain / balanced profile"
+            },
+            {
+              "ucat_band": "very_high_risk",
+              "gcse_strength": "very_strong",
+              "sjt_band": 2,
+              "index": 2,
+              "class": "Higher-risk historical profile"
+            },
+            {
+              "ucat_band": "very_high_risk",
+              "gcse_strength": "very_strong",
+              "sjt_band": 3,
+              "index": 1.5,
+              "class": "Higher-risk historical profile"
+            },
+            {
+              "ucat_band": "very_high_risk",
+              "gcse_strength": "very_strong",
+              "sjt_band": 4,
+              "index": 1.5,
+              "class": "Higher-risk historical profile"
+            },
+            {
+              "ucat_band": "very_high_risk",
+              "gcse_strength": "strong",
+              "sjt_band": 1,
+              "index": 1.5,
+              "class": "Higher-risk historical profile"
+            },
+            {
+              "ucat_band": "very_high_risk",
+              "gcse_strength": "strong",
+              "sjt_band": 2,
+              "index": 1,
+              "class": "Higher-risk historical profile"
+            },
+            {
+              "ucat_band": "very_high_risk",
+              "gcse_strength": "strong",
+              "sjt_band": 3,
+              "index": 0.5,
+              "class": "Higher-risk historical profile"
+            },
+            {
+              "ucat_band": "very_high_risk",
+              "gcse_strength": "strong",
+              "sjt_band": 4,
+              "index": 0.5,
+              "class": "Higher-risk historical profile"
+            },
+            {
+              "ucat_band": "very_high_risk",
+              "gcse_strength": "moderate",
+              "sjt_band": 1,
+              "index": 0.5,
+              "class": "Higher-risk historical profile"
+            },
+            {
+              "ucat_band": "very_high_risk",
+              "gcse_strength": "moderate",
+              "sjt_band": 2,
+              "index": 0,
+              "class": "Higher-risk historical profile"
+            },
+            {
+              "ucat_band": "very_high_risk",
+              "gcse_strength": "moderate",
+              "sjt_band": 3,
+              "index": -0.5,
+              "class": "Higher-risk historical profile"
+            },
+            {
+              "ucat_band": "very_high_risk",
+              "gcse_strength": "moderate",
+              "sjt_band": 4,
+              "index": -0.5,
+              "class": "Higher-risk historical profile"
+            },
+            {
+              "ucat_band": "very_high_risk",
+              "gcse_strength": "limited",
+              "sjt_band": 1,
+              "index": -0.5,
+              "class": "Higher-risk historical profile"
+            },
+            {
+              "ucat_band": "very_high_risk",
+              "gcse_strength": "limited",
+              "sjt_band": 2,
+              "index": -1,
+              "class": "Higher-risk historical profile"
+            },
+            {
+              "ucat_band": "very_high_risk",
+              "gcse_strength": "limited",
+              "sjt_band": 3,
+              "index": -1.5,
+              "class": "Higher-risk historical profile"
+            },
+            {
+              "ucat_band": "very_high_risk",
+              "gcse_strength": "limited",
+              "sjt_band": 4,
+              "index": -1.5,
+              "class": "Higher-risk historical profile"
+            },
+            {
+              "ucat_band": "very_high_risk",
+              "gcse_strength": "minimal",
+              "sjt_band": 1,
+              "index": -1.5,
+              "class": "Higher-risk historical profile"
+            },
+            {
+              "ucat_band": "very_high_risk",
+              "gcse_strength": "minimal",
+              "sjt_band": 2,
+              "index": -2,
+              "class": "Higher-risk historical profile"
+            },
+            {
+              "ucat_band": "very_high_risk",
+              "gcse_strength": "minimal",
+              "sjt_band": 3,
+              "index": -2.5,
+              "class": "Higher-risk historical profile"
+            },
+            {
+              "ucat_band": "very_high_risk",
+              "gcse_strength": "minimal",
+              "sjt_band": 4,
+              "index": -2.5,
+              "class": "Higher-risk historical profile"
+            }
+          ]
+        }
+      },
+      "route_confidence": {
+        "home_school_leaver": "low",
+        "home_graduate": {
+          "confidence": "very_low",
+          "manual_review": true,
+          "reason": "Graduates apply through A100 but are not separately reported in the published statistics."
+        },
+        "international": {
+          "confidence": "very_low",
+          "manual_review": false,
+          "reason": "Separately calibrated bands now exist, but sample sizes are small: 90 to 186 interviews per cycle."
+        },
+        "contextual": {
+          "confidence": "very_low",
+          "manual_review": true
+        }
+      },
+      "ucat_scale_conversion": {
+        "official_conversion_exists": false,
+        "official_position": {
+          "consortium_statement_2024_page": "In 2025 Abstract Reasoning was removed from the UCAT; scores from 2024 are not directly comparable with those from 2025 onwards.",
+          "consortium_statement_2025_page": "In 2025 Abstract Reasoning was removed from the UCAT; scores from 2025 are not directly comparable with those from before 2025.",
+          "consortium_general_statement": "Mean scores can shift between testing years so direct comparison is not always possible; decile distribution information is provided instead.",
+          "source_refs": [
+            "S8",
+            "S9",
+            "S10"
+          ]
+        },
+        "rejected_method": {
+          "formula": "new = old / 3600 * 2700",
+          "status": "rejected",
+          "reason": "Not published by the UCAT Consortium or any university, and not mathematically sound: Abstract Reasoning was removed rather than rescaled, so the remaining three subtests do not shrink proportionally. Diverges from the percentile-anchored mapping by up to 29 points in the 2900-3110 range where all KCL interviewee and offer-holder means sit."
+        },
+        "adopted_method": {
+          "name": "percentile_anchored_mapping",
+          "status": "derived_from_official_data",
+          "description": "Map an old-scale score to its national percentile using the official 2024 decile table, then read the score at that same percentile from the official 2025 decile table. Linear interpolation between decile anchors; linear extrapolation to the scale floor and ceiling outside them.",
+          "confidence": "medium",
+          "limitation": "Above the 9th decile the mapping is extrapolated between the 9th-decile anchor and the scale maximum, so precision degrades at the top of the range where KCL applicants cluster."
+        },
+        "official_decile_anchors": {
+          "2024_scale_3600": {
+            "1st": 2140,
+            "2nd": 2260,
+            "3rd": 2360,
+            "4th": 2440,
+            "5th": 2520,
+            "6th": 2590,
+            "7th": 2680,
+            "8th": 2780,
+            "9th": 2920,
+            "mean": 2523,
+            "candidates": 37913,
+            "source_ref": "S8"
+          },
+          "2025_scale_2700": {
+            "1st": 1580,
+            "2nd": 1680,
+            "3rd": 1760,
+            "4th": 1820,
+            "5th": 1880,
+            "6th": 1950,
+            "7th": 2010,
+            "8th": 2100,
+            "9th": 2220,
+            "mean": 1891,
+            "candidates": 41354,
+            "source_ref": "S9"
+          }
+        },
+        "sjt_band_distribution_shift": {
+          "2024": {
+            "Band 1": 0.13,
+            "Band 2": 0.36,
+            "Band 3": 0.38,
+            "Band 4": 0.13
+          },
+          "2025": {
+            "Band 1": 0.21,
+            "Band 2": 0.39,
+            "Band 3": 0.29,
+            "Band 4": 0.1
+          },
+          "note": "An SJT band from 2024 does not carry the same rarity as the same band in 2025. Band 1 became substantially more common."
+        },
+        "conversion_table": [
+          {
+            "old_3600": 2340,
+            "national_percentile": 28,
+            "percentile_equivalent_2700": 1744,
+            "linear_x075": 1755,
+            "divergence": -11
+          },
+          {
+            "old_3600": 2400,
+            "national_percentile": 35,
+            "percentile_equivalent_2700": 1790,
+            "linear_x075": 1800,
+            "divergence": -10
+          },
+          {
+            "old_3600": 2420,
+            "national_percentile": 37.5,
+            "percentile_equivalent_2700": 1805,
+            "linear_x075": 1815,
+            "divergence": -10
+          },
+          {
+            "old_3600": 2470,
+            "national_percentile": 43.8,
+            "percentile_equivalent_2700": 1842,
+            "linear_x075": 1852,
+            "divergence": -10
+          },
+          {
+            "old_3600": 2607,
+            "national_percentile": 61.9,
+            "percentile_equivalent_2700": 1961,
+            "linear_x075": 1955,
+            "divergence": 6
+          },
+          {
+            "old_3600": 2650,
+            "national_percentile": 66.7,
+            "percentile_equivalent_2700": 1990,
+            "linear_x075": 1988,
+            "divergence": 2
+          },
+          {
+            "old_3600": 2700,
+            "national_percentile": 72,
+            "percentile_equivalent_2700": 2028,
+            "linear_x075": 2025,
+            "divergence": 3
+          },
+          {
+            "old_3600": 2744,
+            "national_percentile": 76.4,
+            "percentile_equivalent_2700": 2068,
+            "linear_x075": 2058,
+            "divergence": 10
+          },
+          {
+            "old_3600": 2800,
+            "national_percentile": 81.4,
+            "percentile_equivalent_2700": 2117,
+            "linear_x075": 2100,
+            "divergence": 17
+          },
+          {
+            "old_3600": 2810,
+            "national_percentile": 82.1,
+            "percentile_equivalent_2700": 2126,
+            "linear_x075": 2108,
+            "divergence": 18
+          },
+          {
+            "old_3600": 2900,
+            "national_percentile": 88.6,
+            "percentile_equivalent_2700": 2203,
+            "linear_x075": 2175,
+            "divergence": 28
+          },
+          {
+            "old_3600": 2932,
+            "national_percentile": 90.2,
+            "percentile_equivalent_2700": 2228,
+            "linear_x075": 2199,
+            "divergence": 29
+          },
+          {
+            "old_3600": 2948,
+            "national_percentile": 90.4,
+            "percentile_equivalent_2700": 2240,
+            "linear_x075": 2211,
+            "divergence": 29
+          },
+          {
+            "old_3600": 2955,
+            "national_percentile": 90.5,
+            "percentile_equivalent_2700": 2245,
+            "linear_x075": 2216,
+            "divergence": 29
+          },
+          {
+            "old_3600": 2994,
+            "national_percentile": 91.1,
+            "percentile_equivalent_2700": 2272,
+            "linear_x075": 2246,
+            "divergence": 26
+          },
+          {
+            "old_3600": 2997,
+            "national_percentile": 91.1,
+            "percentile_equivalent_2700": 2274,
+            "linear_x075": 2248,
+            "divergence": 26
+          },
+          {
+            "old_3600": 3005,
+            "national_percentile": 91.2,
+            "percentile_equivalent_2700": 2280,
+            "linear_x075": 2254,
+            "divergence": 26
+          },
+          {
+            "old_3600": 3007,
+            "national_percentile": 91.3,
+            "percentile_equivalent_2700": 2281,
+            "linear_x075": 2255,
+            "divergence": 26
+          },
+          {
+            "old_3600": 3019,
+            "national_percentile": 91.5,
+            "percentile_equivalent_2700": 2290,
+            "linear_x075": 2264,
+            "divergence": 26
+          },
+          {
+            "old_3600": 3020,
+            "national_percentile": 91.5,
+            "percentile_equivalent_2700": 2291,
+            "linear_x075": 2265,
+            "divergence": 26
+          },
+          {
+            "old_3600": 3078,
+            "national_percentile": 92.3,
+            "percentile_equivalent_2700": 2332,
+            "linear_x075": 2308,
+            "divergence": 24
+          },
+          {
+            "old_3600": 3101,
+            "national_percentile": 92.7,
+            "percentile_equivalent_2700": 2348,
+            "linear_x075": 2326,
+            "divergence": 22
+          },
+          {
+            "old_3600": 3110,
+            "national_percentile": 92.8,
+            "percentile_equivalent_2700": 2354,
+            "linear_x075": 2332,
+            "divergence": 22
+          },
+          {
+            "old_3600": 3260,
+            "national_percentile": 95,
+            "percentile_equivalent_2700": 2460,
+            "linear_x075": 2445,
+            "divergence": 15
+          },
+          {
+            "old_3600": 3300,
+            "national_percentile": 95.6,
+            "percentile_equivalent_2700": 2488,
+            "linear_x075": 2475,
+            "divergence": 13
+          },
+          {
+            "old_3600": 3380,
+            "national_percentile": 96.8,
+            "percentile_equivalent_2700": 2545,
+            "linear_x075": 2535,
+            "divergence": 10
+          },
+          {
+            "old_3600": 3420,
+            "national_percentile": 97.4,
+            "percentile_equivalent_2700": 2573,
+            "linear_x075": 2565,
+            "divergence": 8
+          },
+          {
+            "old_3600": 3480,
+            "national_percentile": 98.2,
+            "percentile_equivalent_2700": 2615,
+            "linear_x075": 2610,
+            "divergence": 5
+          },
+          {
+            "old_3600": 3510,
+            "national_percentile": 98.7,
+            "percentile_equivalent_2700": 2636,
+            "linear_x075": 2632,
+            "divergence": 4
+          }
+        ],
+        "storage_rule": "Retain the original published score for traceability, the percentile-equivalent for the runtime engine, and the national percentile as the primary key. Percentile is the only representation that survives further changes to the test.",
+        "runtime_integration": {
+          "authoritative_source_at_runtime": "shared_canonical_conversion_service",
+          "this_record_role": "evidence_and_audit_only",
+          "embedded_table_is_authoritative": false,
+          "required_checks": [
+            "Reference the canonical data/ucat-conversions.json rather than the table embedded here",
+            "Preserve original historical /3600 values unmodified",
+            "Label every converted /2700 value as derived",
+            "Never convert an applicant's current /2700 score",
+            "Never let a stored derived value override a calculated conversion"
+          ],
+          "blocking_precondition": {
+            "check": "Confirm the canonical service uses a percentile-anchored mapping and not a linear old/3600*2700 conversion.",
+            "reason": "If the shared service is linear, routing KCL through it reintroduces the error this record exists to correct. The divergence reaches 29 points in the 2900-3110 range where every KCL interviewee and offer-holder mean sits.",
+            "action_if_linear": "Fix the canonical service first. Do not route KCL through it and do not fork a KCL-specific engine.",
+            "status": "unverified_from_this_workspace"
+          }
+        }
+      }
+    },
+    "prediction_mode": {
+      "mode": "historical_disclosed_formula",
+      "exact_score_execution": {
+        "enabled": false,
+        "reason": "The 2022-entry formula keys on percentile rank within the KCL applicant pool, which is not published and cannot be known before the cycle closes. Executing a precise 170-point score would present an estimate as an official calculation.",
+        "may_be_enabled_if": "The pool_percentile_estimator below is accepted as an ApplySmart-derived approximation AND the result card states the pool percentile is estimated AND the output is an interval rather than a point value."
+      },
+      "prohibited_phrasings": [
+        "KCL's current scoring formula",
+        "your official KCL score",
+        "the formula KCL will use for 2027 entry",
+        "your interview threshold",
+        "your interview probability is X%"
+      ],
+      "permitted_phrasing": "Historical official methodology disclosed under FOI and used as the best available predictive model. KCL has not confirmed that it remains in use.",
+      "numeric_probability_output": false,
+      "output_status": "advisory",
+      "split_rationale": "The recommended rename is adopted because it correctly describes provenance: this is an official methodology disclosed under FOI, not general advice. The word advisory carried a second meaning in v2.1 - that the output is not authoritative - so that meaning is preserved in output_status rather than lost in the rename.",
+      "wording_scope_note": "Recommendation adopted for internal and evidence fields. Applicant-facing result-card copy stays conservative: best available predictive model reads as an endorsement of currency to a lay reader, which is the one inference the s.43(2) refusal makes unsafe."
+    },
+    "readiness": {
+      "production_ready": true,
+      "activation_ready": true,
+      "metadata_activation_ready": true,
+      "eligibility_ready": true,
+      "interview_prediction_ready": true,
+      "interview_prediction_scope": "historical_advisory_only",
+      "interview_band_config_ready": true,
+      "result_card_ready": true,
+      "historical_guidance": true,
+      "contextual_logic": "categorical_only",
+      "international_prediction": true,
+      "international_prediction_note": "Changed from the readiness report's blanket true: enabled only because a separately calibrated international band route now exists. Do not enable against combined bands.",
+      "manual_review_required": false,
+      "prediction_confidence": {
+        "model": "computed_per_profile",
+        "default": "low",
+        "by_evidence_completeness": {
+          "all_inputs_computable": "medium",
+          "pool_percentile_estimated_only": "medium_low",
+          "any_manual_review_trigger_present": "low"
+        },
+        "headline_for_display": "medium_low",
+        "uplift_conditions": [
+          "Rises to medium across all profiles once KCL confirms the current shortlisting methodology",
+          "Rises to medium once the school GCSE attainment quintile source, measure and year are confirmed",
+          "Rises to medium-high if KCL publishes applicant-pool UCAT percentile or decile data"
+        ],
+        "partial_adoption_rationale": "Evidence confidence is raised to high as recommended - the sourcing is official throughout. Prediction confidence is not raised to a flat medium, because formula currency is not the only open variable. The pool percentile is roughly 59 percent of the disclosed model and is not published, so it is estimated as an interval from two normal fits. The GCSE numerical-to-A-star mapping is unknown and handled by dual-variant computation. The school quintile adjustment is inactive pending source confirmation. Three of the model's four inputs therefore cannot be computed exactly. A profile with every input computable does reach medium, which is why confidence is now computed per profile rather than fixed."
+      },
+      "offer_prediction_scope": "out_of_scope",
+      "prediction_mode": "historical_disclosed_formula",
+      "current_formula_verified": false,
+      "exact_shortlisting_score_execution": "disabled_by_default",
+      "readiness_report_inconsistencies_flagged": [
+        "Resolved in v2: international_prediction and contextual_logic were internally inconsistent in the original report.",
+        "Resolved in v2.2: manual_review_required contradicted the override precedence list."
+      ],
+      "manual_review_possible": true,
+      "manual_review_triggers": [
+        "unknown school quintile",
+        "international academic equivalence",
+        "graduate route",
+        "unknown widening-participation status",
+        "incomplete or not-computable GCSE record",
+        "SJT Band 4"
+      ],
+      "manual_review_note": "Recommendation adopted in full. The v2.1 value contradicted this record's own override precedence list, which names six triggers rather than applying review universally.",
+      "evidence_confidence": "high",
+      "contextual_logic_rationale": "Not raised to true. Widening-participation scoring remains categorical because KCL disclosed only the 20-point maximum and not its allocation, and the school quintile adjustment is inactive pending source confirmation. Setting true would assert a numerical contextual capability this record does not have. If the schema requires a boolean, false is more accurate than true.",
+      "output_status": "advisory",
+      "prediction_mode_note": "Single canonical value. readiness.prediction_mode and prediction_mode.mode must not diverge."
+    }
+  },
+  "guidance_pools": [
+    {
+      "pool_id": "kcl_home_historical_percentile_guidance",
+      "priority": 20,
+      "applicant_match": {
+        "all_group_ids": [
+          "home_fee"
+        ],
+        "excluded_group_ids": [
+          "international_fee",
+          "graduate_applicant"
+        ]
+      },
+      "metric": "ucat_national_percentile",
+      "pool_specific_output": false,
+      "comparison_guidance": {
+        "comparison_type": "historical_range",
+        "label": "UK-domicile/Home routed KCL historical UCAT-percentile guidance.",
+        "caveat": "Historical KCL figures are not current cut-offs and do not guarantee an interview.",
+        "evidence_confidence": "medium"
+      },
+      "band_rules": [
+        {
+          "band": "interview_likely",
+          "operator": "greater_than_or_equal",
+          "value": 92.65
+        },
+        {
+          "band": "interview_likely",
+          "operator": "between_inclusive",
+          "min": 91.28,
+          "max": 92.64
+        },
+        {
+          "band": "realistic",
+          "operator": "between_inclusive",
+          "min": 90,
+          "max": 91.27
+        },
+        {
+          "band": "ambitious",
+          "operator": "between_inclusive",
+          "min": 78,
+          "max": 89.99
+        },
+        {
+          "band": "high_risk",
+          "operator": "between_inclusive",
+          "min": 28,
+          "max": 77.99
+        },
+        {
+          "band": "high_risk",
+          "operator": "less_than_or_equal",
+          "value": 27.9
+        }
+      ]
+    },
+    {
+      "pool_id": "kcl_international_historical_percentile_guidance",
+      "priority": 20,
+      "applicant_match": {
+        "all_group_ids": [
+          "international_fee"
+        ],
+        "excluded_group_ids": [
+          "home_fee",
+          "graduate_applicant"
+        ]
+      },
+      "metric": "ucat_national_percentile",
+      "pool_specific_output": false,
+      "comparison_guidance": {
+        "comparison_type": "historical_range",
+        "label": "Non-UK/international routed KCL historical UCAT-percentile guidance.",
+        "caveat": "Historical KCL figures are not current cut-offs and do not guarantee an interview.",
+        "evidence_confidence": "medium"
+      },
+      "band_rules": [
+        {
+          "band": "interview_likely",
+          "operator": "greater_than_or_equal",
+          "value": 92.79
+        },
+        {
+          "band": "interview_likely",
+          "operator": "between_inclusive",
+          "min": 92.32,
+          "max": 92.78
+        },
+        {
+          "band": "realistic",
+          "operator": "between_inclusive",
+          "min": 89.36,
+          "max": 92.31
+        },
+        {
+          "band": "ambitious",
+          "operator": "between_inclusive",
+          "min": 74,
+          "max": 89.35
+        },
+        {
+          "band": "high_risk",
+          "operator": "between_inclusive",
+          "min": 16.67,
+          "max": 73.99
+        },
+        {
+          "band": "high_risk",
+          "operator": "less_than_or_equal",
+          "value": 16.58
+        }
+      ]
+    }
+  ]
+}

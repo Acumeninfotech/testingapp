@@ -1,0 +1,318 @@
+{
+  "schema_version": "1.0.0",
+  "template_version": "1.0.0",
+  "result_id": "lancashire-a100-home-eligible-to-apply-example",
+  "generated_at": "2026-07-19",
+  "result_mode": "example_eligibility_only",
+  "course_identity": {
+    "profile_id": "lancashire-a100",
+    "university_name": "University of Lancashire",
+    "course_name": "Medicine and Surgery, MBBS",
+    "ucas_code": "A100",
+    "entry_route": "standard_entry",
+    "qualification_awarded": "MBBS",
+    "duration_years": 5,
+    "location": "Preston, England",
+    "source_ids": [
+      "lancashire_course_page_2026",
+      "ucas_lancashire_a100_2026"
+    ]
+  },
+  "applicant_context": {
+    "applies_to_group_ids": [
+      "england_domiciled",
+      "rest_of_uk",
+      "home_fee",
+      "school_leaver"
+    ],
+    "applicant_summary": "Home A-level school-leaver meeting Lancashire's represented GCSE, A-level and UCAT guidance checks.",
+    "fee_cohort": "home",
+    "entry_route": "standard_entry",
+    "qualification_route": "a_level",
+    "contextual": false,
+    "graduate": false,
+    "source_ids": []
+  },
+  "readiness": {
+    "assessment_mode": "eligibility_only",
+    "eligibility": true,
+    "interview_prediction": false,
+    "assessment_available": true,
+    "interview_prediction_available": false,
+    "historical_guidance": false,
+    "international_prediction": false,
+    "contextual_logic": false,
+    "result_card": true,
+    "regression": true,
+    "research_completeness": "complete_for_supported_scope_with_documented_gaps",
+    "manual_review_required": true,
+    "eligibility_ready": true,
+    "eligibility_only_ready": true,
+    "interview_prediction_ready": false,
+    "offer_prediction_scope": "out_of_scope",
+    "prediction_confidence": "low",
+    "result_card_ready": true,
+    "interview_band_config_ready": true,
+    "metadata_activation_ready": true,
+    "activation_ready": true,
+    "production_ready": true,
+    "prediction_methodology": "eligibility_only",
+    "blocking_missing_fields": [
+      "official_ucat_cutoff",
+      "ucat_weighting",
+      "academic_scoring_formula",
+      "personal_statement_reference_weighting",
+      "sjt_policy",
+      "interview_shortlisting_threshold",
+      "resolved_ielts_requirement"
+    ],
+    "engine_assumptions": [
+      "All UK applicants use the existing Home applicant group.",
+      "1750 is ApplySmart working historical guidance only, not an official University of Lancashire cut-off.",
+      "International applicants do not require UCAT.",
+      "IELTS is recorded as an unresolved official-source discrepancy and is not enforced automatically."
+    ],
+    "do_not_infer": [
+      "Do not label 1750 as an official UCAT minimum.",
+      "Do not produce interview-likelihood bands.",
+      "Do not estimate interview probability.",
+      "Do not infer SJT use or weighting.",
+      "Do not predict offers."
+    ]
+  },
+  "eligibility": {
+    "status": "eligible",
+    "summary": "The represented applicant meets Lancashire's supported measurable application requirements.",
+    "stage_1_checks": [
+      {
+        "check_id": "gcse_english_maths",
+        "label": "GCSE English and Maths",
+        "status": "pass",
+        "requirement": "GCSE English Language and Mathematics at Grade 5/B or equivalent.",
+        "applicant_value": "English Language grade 6 and Mathematics grade 6.",
+        "decision_outcome": "eligible",
+        "source_ids": [
+          "ucas_lancashire_a100_2026"
+        ]
+      },
+      {
+        "check_id": "a_level_gate",
+        "label": "A-level requirements",
+        "status": "pass",
+        "requirement": "AAA including Chemistry plus one further science subject.",
+        "applicant_value": "AAA including Chemistry and Biology.",
+        "decision_outcome": "eligible",
+        "source_ids": [
+          "ucas_lancashire_a100_2026"
+        ]
+      },
+      {
+        "check_id": "ucat_guidance",
+        "label": "UCAT guidance",
+        "status": "pass",
+        "requirement": "ApplySmart working historical guidance threshold for Home applicants: 1750. This is not an official University of Lancashire cut-off.",
+        "applicant_value": "UCAT 1800.",
+        "decision_outcome": "eligible",
+        "source_ids": [
+          "third_party_lancashire_ucat_context"
+        ]
+      }
+    ],
+    "blocking_reasons": [],
+    "warnings": [
+      "Lancashire also reviews qualitative selection components that ApplySmart cannot objectively score.",
+      "The 1750 UCAT value is ApplySmart working historical guidance only, not an official cut-off."
+    ],
+    "source_ids": [
+      "lancashire_course_page_2026",
+      "ucas_lancashire_a100_2026"
+    ]
+  },
+  "stage_2_selection": {
+    "summary": "Lancashire checks measurable academic requirements and UCAT for UK applicants, then also reviews an academic score, personal reflective statement, academic reference and selection panel review. ApplySmart does not estimate interview likelihood.",
+    "presentation": {
+      "timeline_selection_summary": "Measurable academic requirements and applicable UCAT guidance were checked. Lancashire's qualitative and unpublished selection components were not converted into an interview prediction.",
+      "recommendation_summary": "You meet the supported measurable application requirements. ApplySmart does not estimate Lancashire interview selection.",
+      "eligible_to_apply_explanation": "The University of Lancashire also assesses your academic score, personal reflective statement, academic reference and selection panel review when selecting applicants for interview. These elements cannot be fully and objectively assessed by ApplySmart. We can therefore confirm whether you meet the measurable application requirements, but we do not estimate your likelihood of receiving an interview."
+    }
+  },
+  "prediction": {
+    "available": true,
+    "result_band": "eligible_to_apply",
+    "prediction_type": "eligibility_only",
+    "assessment": {
+      "type": "eligibility_only",
+      "available": true
+    },
+    "interview_prediction": {
+      "available": false,
+      "unavailable_reason": "ApplySmart does not estimate interview likelihood for this eligibility-only course."
+    },
+    "guidance_pool_id": "home_a100_ucat_guidance_gate"
+  },
+  "confidence": {
+    "level": "low",
+    "summary": "Measurable eligibility rules are supported by official admissions evidence; interview likelihood is not predicted.",
+    "stage_confidence": {
+      "academic_eligibility": "high",
+      "ucat_guidance": "low",
+      "selection_process": "medium",
+      "interview_prediction": "low"
+    },
+    "source_ids": [
+      "lancashire_course_page_2026",
+      "ucas_lancashire_a100_2026"
+    ]
+  },
+  "evidence_confidence": {
+    "level": "Medium",
+    "summary": "The academic eligibility assessment is supported by official admissions evidence; interview likelihood is not predicted.",
+    "reasons": [
+      "Official eligibility rules are available.",
+      "The public result is limited to eligibility because the university does not publish an executable interview-prediction threshold."
+    ]
+  },
+  "display": {
+    "primary_user_facing_recommendation": "Eligible to Apply",
+    "recommendation_display_state": "eligibility_only",
+    "primary_explanation": "The University of Lancashire also assesses your academic score, personal reflective statement, academic reference and selection panel review when selecting applicants for interview. These elements cannot be fully and objectively assessed by ApplySmart. We can therefore confirm whether you meet the measurable application requirements, but we do not estimate your likelihood of receiving an interview.",
+    "historical_guidance_caveat": null
+  },
+  "decision_timeline": [
+    {
+      "step": 1,
+      "title": "Applicant details checked",
+      "status": "Complete",
+      "summary": "Your applicant type and qualifications were checked."
+    },
+    {
+      "step": 2,
+      "title": "Eligibility assessed",
+      "status": "Eligible",
+      "summary": "You meet the published entry requirements covered by ApplySmart."
+    },
+    {
+      "step": 3,
+      "title": "Selection model applied",
+      "status": "Not predicted",
+      "summary": "Measurable academic requirements and applicable UCAT guidance were checked. Lancashire's qualitative and unpublished selection components were not converted into an interview prediction."
+    },
+    {
+      "step": 4,
+      "title": "Historical guidance compared",
+      "status": "Not used",
+      "summary": "Historical interview comparison is not used for this eligibility-only result because ApplySmart is not predicting interview likelihood."
+    },
+    {
+      "step": 5,
+      "title": "Interview recommendation produced",
+      "status": "Eligible to apply",
+      "summary": "You meet the supported measurable application requirements. ApplySmart does not estimate Lancashire interview selection."
+    }
+  ],
+  "decision_transparency": {
+    "decision_path": [
+      {
+        "stage": "Eligibility",
+        "status": "Met",
+        "summary": "The supported entry requirements are met.",
+        "checks": [
+          {
+            "label": "GCSE English and Maths",
+            "status": "Met",
+            "summary": "GCSE English Language and Mathematics at Grade 5/B or equivalent. Applicant information: English Language grade 6 and Mathematics grade 6."
+          },
+          {
+            "label": "A-level requirements",
+            "status": "Met",
+            "summary": "AAA including Chemistry plus one further science subject. Applicant information: AAA including Chemistry and Biology."
+          },
+          {
+            "label": "UCAT guidance",
+            "status": "Met",
+            "summary": "ApplySmart working historical guidance threshold for Home applicants: 1750. This is not an official University of Lancashire cut-off. Applicant information: UCAT 1800."
+          }
+        ]
+      },
+      {
+        "stage": "Selection model",
+        "status": "Not predicted",
+        "summary": "Lancashire checks measurable academic requirements and UCAT for UK applicants, then also reviews an academic score, personal reflective statement, academic reference and selection panel review. ApplySmart does not estimate interview likelihood.",
+        "checks": [
+          {
+            "label": "Applicant pool",
+            "status": "Used",
+            "summary": "Home, Rest of UK applicants"
+          },
+          {
+            "label": "Selection approach",
+            "status": "Not predicted",
+            "summary": "Lancashire checks measurable academic requirements and UCAT for UK applicants, then also reviews an academic score, personal reflective statement, academic reference and selection panel review. ApplySmart does not estimate interview likelihood."
+          },
+          {
+            "label": "Interview prediction",
+            "status": "Unavailable",
+            "summary": "ApplySmart does not estimate interview likelihood for this course."
+          }
+        ]
+      },
+      {
+        "stage": "Historical guidance",
+        "status": "Not used",
+        "summary": "Historical interview comparison is not used for this eligibility-only result because ApplySmart is not predicting interview likelihood.",
+        "checks": [
+          {
+            "label": "Historical comparison",
+            "status": "Not used",
+            "summary": "Historical interview comparison is not used for this eligibility-only result because ApplySmart is not predicting interview likelihood."
+          }
+        ]
+      },
+      {
+        "stage": "Recommendation",
+        "status": "Eligible to apply",
+        "summary": "You meet the supported measurable application requirements. ApplySmart does not estimate Lancashire interview selection.",
+        "checks": [
+          {
+            "label": "Recommendation",
+            "status": "Eligible to apply",
+            "summary": "Eligible to Apply"
+          }
+        ]
+      }
+    ],
+    "key_reasons": [
+      "Entry requirements met",
+      "Lancashire uses qualitative and unpublished selection components that ApplySmart cannot objectively assess.",
+      "Interview prediction is unavailable."
+    ],
+    "warnings": [],
+    "manual_review_reason": null,
+    "insufficient_evidence_reason": null,
+    "evidence_used": [
+      "Official admissions policy",
+      "University selection process",
+      "Fee information",
+      "Documented prediction limitation"
+    ],
+    "evidence_confidence": {
+      "level": "Medium",
+      "summary": "The academic eligibility assessment is supported by official admissions evidence; interview likelihood is not predicted.",
+      "reasons": [
+        "Official eligibility rules are available.",
+        "The public result is limited to eligibility because the university does not publish an executable interview-prediction threshold."
+      ]
+    }
+  },
+  "engine_notes": {
+    "generated_from_profile_id": "lancashire-a100",
+    "assessment_mode": "eligibility_only",
+    "offer_prediction_scope": "out_of_scope",
+    "ucat_1750_basis": "ApplySmart working historical guidance only, not an official university cut-off."
+  },
+  "primary_user_facing_recommendation": "Eligible to Apply",
+  "recommendation_display_state": "eligibility_only",
+  "primary_explanation": "The University of Lancashire also assesses your academic score, personal reflective statement, academic reference and selection panel review when selecting applicants for interview. These elements cannot be fully and objectively assessed by ApplySmart. We can therefore confirm whether you meet the measurable application requirements, but we do not estimate your likelihood of receiving an interview.",
+  "historical_guidance_caveat": null,
+  "interview_outcome": null
+}

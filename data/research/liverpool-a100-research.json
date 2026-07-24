@@ -1,0 +1,1484 @@
+{
+  "schema_version": "1.0.0",
+  "profile_id": "liverpool-a100-research",
+  "course_profile_id": "liverpool-a100",
+  "research_status": "complete_production_handoff_implemented",
+  "file_purpose": "Completed research and evidence profile for Liverpool A100. It records verified official eligibility routes, ranking pools, FOI-verified E2025 historical thresholds, official candidate-decile guidance and the offer-prediction blockers. It is not the production admissions rules file.",
+  "official_rules_source": "data/universities/liverpool-a100.json",
+  "created_at": "2026-06-27",
+  "last_updated": "2026-06-30",
+  "research_scope": {
+    "entry_cycle": 2027,
+    "application_year": 2026,
+    "scope": "completed_official_and_foi_evidence_production_handoff",
+    "production_json_updated": true,
+    "result_card_logic_implemented": true,
+    "example_result_card_created": true,
+    "third_party_admissions_websites_used": false,
+    "notes": "University of Liverpool sources are primary. Medical Schools Council links already present in the seed profile are retained as background/discovery sources only."
+  },
+  "evidence_classification_policy": null,
+  "metadata": {
+    "university": "University of Liverpool",
+    "medical_school": "School of Medicine",
+    "course_name": "Medicine and Surgery MBChB",
+    "ucas_code": "A100",
+    "entry_year": 2027,
+    "start_date": "2027-09-27",
+    "duration_years": 5,
+    "study_mode": "full_time",
+    "entry_route": "standard_entry_five_year",
+    "verification_status": "official_and_foi_evidence_complete",
+    "prediction_readiness": "production_ready_eligibility_and_interview_guidance_offer_blocked",
+    "prediction_scope": "three_non_graduate_historical_ucat_guidance_pools_and_graduate_gamsat_ranking_pool",
+    "source_ids": [
+      "liverpool_course_page_2027",
+      "liverpool_admissions_information_2027",
+      "liverpool_a100_departmental_supplement_2027"
+    ]
+  },
+  "readiness": {
+    "eligibility": true,
+    "interview_prediction": true,
+    "historical_guidance": true,
+    "international_prediction": true,
+    "contextual_logic": true,
+    "result_card": true,
+    "regression": true,
+    "research_completeness": "complete_for_supported_scope",
+    "manual_review_required": false,
+    "eligibility_ready": true,
+    "interview_prediction_ready": true,
+    "prediction_confidence": "medium",
+    "result_card_ready": true,
+    "offer_prediction_scope": "out_of_scope",
+    "course_profile_evidence_ready": true,
+    "applicant_group_evidence_ready": true,
+    "minimum_academic_evidence_ready_for_listed_routes": true,
+    "ucat_selection_evidence_ready": true,
+    "interview_selection_evidence_ready": true,
+    "official_selection_formula_available": false,
+    "historical_guidance_available": true,
+    "historical_statistics_ready": "partial_ranges_and_thresholds",
+    "production_ready": true,
+    "prediction_model_ready": true,
+    "prediction_model_scope": "foi_verified_historical_guidance_for_three_ucat_pools_and_explicit_insufficient_evidence_for_graduate_gamsat",
+    "summary": "Research is complete and implemented for A-level, IB, Scottish, approved Access to Medicine, Liverpool-verified international-equivalence, graduate GAMSAT and route-specific resit handling. The incompletely specified mature-applicant exception is explicitly blocked. Separate Home, Contextual, International and Graduate ranking pools are executable. Non-graduate bands use only FOI-verified E2025 historical cut-offs; official candidate deciles remain non-executable context.",
+    "blocking_reasons": [
+      "The 2027 UCAT cut-offs are dynamic and not known before the applicant pool is ranked.",
+      "No exact formula converts UCAT rank into an interview probability.",
+      "The live 2027 pool distributions and rank boundaries are not available.",
+      "The MMI station structure and raw scale are known, but the annual norm-referenced pass mark and offer threshold are not published.",
+      "The official offer hierarchy is stored, but the borderline factors have no published numeric weights.",
+      "Contextual UCAT lowering is guidance only and contextual interview flexibility is not numerically defined in advance.",
+      "Historical applications, interviews, offers and places are available only as approximate ranges rather than a complete exact multi-cycle dataset.",
+      "The stored FOI evidence confirms E2025 cut-offs only; it does not supply full applicant, interview, offer or score distributions."
+    ]
+  },
+  "official_evidence_summary": {
+    "course_profile": {
+      "university": "University of Liverpool",
+      "medical_school": "School of Medicine",
+      "course_name": "Medicine and Surgery MBChB",
+      "ucas_code": "A100",
+      "duration_years": 5,
+      "study_mode": "full_time",
+      "location": "Main site, Liverpool",
+      "start_date": "2027-09-27",
+      "application_deadline": "2026-10-15",
+      "estimated_places_2027": {
+        "total": 315,
+        "home": 292,
+        "international_eu": 23,
+        "status": "estimated_or_current_cap",
+        "notes": "The departmental supplement estimates 315 A100 places for 2027, including 23 international places, and describes the current cap as 292 Home plus 23 International/EU places."
+      },
+      "accepted_applicant_types": [
+        "school_leavers",
+        "graduates",
+        "non_traditional_qualifications",
+        "home_fee",
+        "international"
+      ],
+      "minimum_age": "Accepted applicants must be 18 by 1 October in the year of entry.",
+      "source_ids": [
+        "liverpool_course_page_2027",
+        "liverpool_admissions_information_2027",
+        "liverpool_a100_departmental_supplement_2027"
+      ],
+      "evidence_classification": "official_current_cycle"
+    },
+    "applicant_groups": [
+      {
+        "group_id": "home_fee",
+        "name": "Home fee applicants",
+        "official_treatment": "Home non-graduate applicants are separated into Home standard and Home contextual/widening-access UCAT pools with no cross-pool competition. The current A100 cap is stated as 292 Home places.",
+        "subgroups_named_in_selection_process": [
+          "school_leavers",
+          "graduates"
+        ],
+        "source_ids": [
+          "liverpool_a100_departmental_supplement_2027",
+          "liverpool_research_team_verified_update_2026"
+        ],
+        "evidence_classification": "official_verified"
+      },
+      {
+        "group_id": "scotland_home",
+        "name": "Scotland-domiciled Home applicants",
+        "official_treatment": "Scotland-domiciled Home applicants use the Home standard pool or, where eligible, the separate Home contextual pool. Scottish domicile does not create a separate pool.",
+        "separate_cutoff": false,
+        "separate_quota": false,
+        "source_ids": [
+          "liverpool_a100_departmental_supplement_2027",
+          "liverpool_scottish_guidelines_2027",
+          "liverpool_research_team_verified_update_2026"
+        ],
+        "evidence_classification": "official_verified"
+      },
+      {
+        "group_id": "rest_of_uk",
+        "name": "Rest of UK applicants",
+        "official_treatment": "Rest of UK Home applicants use the Home standard pool or, where eligible, the separate Home contextual pool. Rest of UK domicile does not create a separate pool.",
+        "separate_cutoff": false,
+        "separate_quota": false,
+        "source_ids": [
+          "liverpool_a100_departmental_supplement_2027",
+          "liverpool_research_team_verified_update_2026"
+        ],
+        "evidence_classification": "official_verified"
+      },
+      {
+        "group_id": "international_eu",
+        "name": "International/EU applicants",
+        "official_treatment": "International/EU applicants are screened in a separate fee-status pool. The current cap is 23 places. Non-graduate applicants use UCAT and may offer any SJT band. International graduates are eligible for A100 and use GAMSAT.",
+        "interview_delivery": "Equivalent online MMI is expected for international applicants, although the admissions team decides the delivery format.",
+        "source_ids": [
+          "liverpool_a100_departmental_supplement_2027",
+          "liverpool_international_guidelines_2027",
+          "liverpool_admissions_faq_2027"
+        ],
+        "evidence_classification": "official_current_cycle"
+      },
+      {
+        "group_id": "graduate_a100",
+        "name": "Graduate applicants to A100",
+        "official_treatment": "Graduates may apply to the five-year A100 route. Home graduates may apply to A100 and A101; international graduates are eligible for A100 only. Graduate A100 applicants use GAMSAT rather than UCAT.",
+        "definition": "An applicant already awarded an undergraduate degree or in the final year with the degree award pending.",
+        "expected_interviews_2027": 120,
+        "source_ids": [
+          "liverpool_a100_departmental_supplement_2027",
+          "liverpool_graduate_a100_guidelines_2027",
+          "liverpool_admissions_faq_2027"
+        ],
+        "evidence_classification": "official_current_cycle"
+      },
+      {
+        "group_id": "contextual_widening_access",
+        "name": "Contextual and widening-access applicants",
+        "official_treatment": "Eligible Home non-graduate applicants use a separate contextual UCAT pool after the 12-point GCSE screen. Home SJT Band 4 remains unsuccessful. UCAT lowering is guidance only, and contextual adjustment does not apply to GAMSAT. Up to 50 reduced contextual offers are intended for eligible competitive applicants.",
+        "excluded_groups": [
+          "graduate_applicants",
+          "mature_applicants"
+        ],
+        "source_ids": [
+          "liverpool_contextual_data_2027",
+          "liverpool_a100_departmental_supplement_2027",
+          "liverpool_admissions_faq_2027",
+          "liverpool_research_team_verified_update_2026"
+        ],
+        "evidence_classification": "official_verified"
+      }
+    ],
+    "minimum_academic_requirements": {
+      "gcse": {
+        "standard_requirement": "Normally nine GCSEs in separate subject areas attained by the end of Year 11.",
+        "required_core_subjects": [
+          "English Language",
+          "Mathematics",
+          "Biology",
+          "Chemistry"
+        ],
+        "accepted_science_alternatives": [
+          "Core and Additional Science",
+          "combined science",
+          "dual science",
+          "triple science"
+        ],
+        "minimum_core_grade": "6/B",
+        "minimum_points": 15,
+        "counted_subject_limit": 9,
+        "point_table": [
+          {
+            "qualification_or_grade": "GCSE A*/A/7/8/9",
+            "points": 2
+          },
+          {
+            "qualification_or_grade": "GCSE B/6",
+            "points": 1
+          },
+          {
+            "qualification_or_grade": "BTEC non-science Level 2 or OCR award at Distinction*/Distinction",
+            "points": 2
+          },
+          {
+            "qualification_or_grade": "BTEC non-science Level 2 or OCR award at Merit",
+            "points": 1
+          }
+        ],
+        "scoring_rules": [
+          "No more than two points are awarded in one subject area.",
+          "Only one of Mathematics and Further Mathematics contributes.",
+          "Dual Award GCSEs normally contribute at most two points, except Dual Science can contribute up to four points.",
+          "Triple Science can contribute up to six points.",
+          "Short-course GCSEs receive at most half the points of a full GCSE, while two short courses may replace one full GCSE.",
+          "No more than two Level 2 BTEC qualifications or OCR awards count within the nine GCSEs/equivalents.",
+          "BTEC/OCR awards cannot replace English Language, Mathematics or the required sciences, leaving a minimum of seven full GCSEs."
+        ],
+        "mature_or_limited_gcse_route": "The departmental supplement says some mature adults returning to education may be required to offer at least five GCSEs at grade 6/B because of other achievements. Applicants with limited/no GCSEs must provide school transcripts or alternatives for individual assessment.",
+        "predicted_grades_use": "Predicted school-level grades are not used for non-graduate selection.",
+        "borderline_use": "Preference may be given to a higher GCSE score for borderline non-graduate decisions.",
+        "source_ids": [
+          "liverpool_a100_departmental_supplement_2027",
+          "liverpool_a_level_guidelines_2027",
+          "liverpool_ib_guidelines_2027"
+        ],
+        "evidence_classification": "official_current_cycle"
+      },
+      "national_5": {
+        "route_specific_guideline_wording": "The Scottish guideline requires National 5/Intermediate 2 in Biology, Chemistry, English Language, Mathematics and at least three other subjects by the end of S4.",
+        "physics_required": false,
+        "minimum_grade": "not_separately_specified",
+        "production_rule": "Require seven subjects including Biology, Chemistry, English Language and Mathematics by the end of S4. Do not require Physics and do not invent a grade threshold.",
+        "source_ids": [
+          "liverpool_scottish_guidelines_2027",
+          "liverpool_course_page_2027"
+        ],
+        "evidence_classification": "official_verified"
+      },
+      "a_level": {
+        "standard_offer": "AAA",
+        "alternative_offer": "A*AB",
+        "required_subjects_standard": "Chemistry plus one of Biology, Physics or Mathematics, plus a third academic subject.",
+        "alternative_offer_subject_rule": "For A*AB, the A* and A must be in Chemistry and one of Biology, Physics or Mathematics; the third academic subject must be grade B.",
+        "sitting_policy": "Three A levels taken in one sitting after a two-year period of study.",
+        "accepted_third_subject_substitution": "Advanced Welsh Baccalaureate Skills Challenge Certificate.",
+        "excluded_or_not_counted": [
+          "General Studies",
+          "Critical Thinking",
+          "Level 3 BTEC"
+        ],
+        "mathematics_rule": "Only one of Mathematics and Further Mathematics is considered.",
+        "unit_grades_used": false,
+        "source_ids": [
+          "liverpool_course_page_2027",
+          "liverpool_a100_departmental_supplement_2027",
+          "liverpool_a_level_guidelines_2027"
+        ],
+        "evidence_classification": "official_current_cycle"
+      },
+      "scottish_higher": {
+        "standard": "AAAAB in five Highers taken at one sitting after one year of study.",
+        "required_subjects": "Chemistry plus one of Biology, Physics or Mathematics.",
+        "source_ids": [
+          "liverpool_scottish_guidelines_2027",
+          "liverpool_course_page_2027"
+        ],
+        "evidence_classification": "official_current_cycle"
+      },
+      "advanced_higher": {
+        "standard": "AA",
+        "required_subjects": "Chemistry plus one of Biology, Physics or Mathematics.",
+        "source_ids": [
+          "liverpool_scottish_guidelines_2027",
+          "liverpool_course_page_2027"
+        ],
+        "evidence_classification": "official_current_cycle"
+      },
+      "international_baccalaureate": {
+        "total_points": 36,
+        "option_1": "Higher Level 6,6,6, including Chemistry and one of Biology, Physics or Mathematics, plus a third academic subject; Standard Level 5,5,5 in subjects not offered at Higher Level.",
+        "option_2": "Higher Level 7,6,5, with grades 7 and 6 in Chemistry and one of Biology, Physics or Mathematics in either order, plus grade 5 in a third academic subject; Standard Level 5,5,5 in subjects not offered at Higher Level.",
+        "gcse_or_equivalent_requirement": "The published IB route also applies the standard GCSE/equivalent core-subject and point requirements.",
+        "achieved_ib_gcse_flexibility": "Applicants with at least 12 GCSE points may be considered if they have already achieved 36 IB points in the specified subject pattern.",
+        "source_ids": [
+          "liverpool_ib_guidelines_2027",
+          "liverpool_course_page_2027"
+        ],
+        "evidence_classification": "official_current_cycle"
+      },
+      "access_to_medicine": {
+        "accepted_scope": "Liverpool-approved Access to Medicine and MSC Access to HE Medicine pathways",
+        "routing_rule": "Require explicit confirmation that the provider is approved by Liverpool and that provider-specific requirements are met.",
+        "unverified_outcome": "not_eligible",
+        "ucat_required": true,
+        "evidence_classification": "official_current_cycle"
+      },
+      "international_qualification_routing": {
+        "routing_rule": "Route only qualifications whose equivalence and minimum requirements have been verified by Liverpool.",
+        "required_evidence": [
+          "equivalence_status_verified",
+          "verified_by_institution",
+          "requirements_met"
+        ],
+        "unverified_outcome": "not_eligible",
+        "evidence_classification": "official_current_cycle"
+      },
+      "graduate_a100": {
+        "option_1": "Minimum 2:1 Honours degree or integrated Master's degree in any subject, achieved or predicted for an applicant in or about to enter the final year.",
+        "option_2": "Minimum 2:2 undergraduate degree or integrated Master's degree in any subject plus an achieved or predicted postgraduate Master's or PhD.",
+        "admissions_test": "GAMSAT; UCAT is not accepted for graduate A100 applicants.",
+        "gamsat_minimum": "At least 50 in every sub-component. Applicants meeting the component minimum are ranked by overall GAMSAT score.",
+        "overall_score_guidance": "Overall 55 has been competitive or minimum guidance, but is not a fixed current-cycle cut-off.",
+        "tie_guidance": "Academic classification or degree quality may be considered for tied overall GAMSAT scores. No exact tie-break formula is published.",
+        "contextual_ucat_adjustment_applies": false,
+        "accepted_gamsat_sittings_for_2027": [
+          "March 2025",
+          "September 2025",
+          "March 2026",
+          "September 2026"
+        ],
+        "source_ids": [
+          "liverpool_graduate_a100_guidelines_2027",
+          "liverpool_a100_departmental_supplement_2027",
+          "liverpool_admissions_faq_2027",
+          "liverpool_research_team_verified_update_2026"
+        ],
+        "evidence_classification": "official_verified"
+      },
+      "resits": {
+        "gcse": "Core GCSE resits may be considered where the applicant otherwise has the required points from the remaining GCSE subjects taken by the end of Year 11. Individual circumstances may be considered case by case.",
+        "a_level": "Resit applications are normally considered only where at least ABB was achieved at first sitting. Resit applicants must complete the applicant online form; any offer is usually higher than AAA, with A*AA given as an example.",
+        "scottish": "Resit candidates may be considered. First-time applicants using resits are normally expected to have achieved at least BB at Advanced Higher at first sitting. A resit offer may be higher than the standard requirement, with AA at Advanced Higher and the required science grades stated in the guideline.",
+        "ib": "Resit candidates may be considered if the GCSE criteria are met. The IB guideline states that first-time resit applicants normally need at least 34 points at first sitting, with circumstances declared through the reference and applicant online form; a higher-than-typical offer may apply.",
+        "extenuating_circumstances": "Applicants must provide details and evidence through the applicant online form and academic reference. Consideration is individual and does not guarantee success.",
+        "repeat_application_limit": "After an unsuccessful A100 application, only one further consecutive application may normally be made.",
+        "source_ids": [
+          "liverpool_a_level_guidelines_2027",
+          "liverpool_scottish_guidelines_2027",
+          "liverpool_ib_guidelines_2027",
+          "liverpool_admissions_faq_2027",
+          "liverpool_further_notes_2027"
+        ],
+        "evidence_classification": "official_current_cycle"
+      }
+    },
+    "ucat_policy": {
+      "applies_to": "All non-graduate A100 applicants.",
+      "required": true,
+      "test_cycle": "UCAT must be taken in 2026 for an application submitted in 2026 for 2027 entry.",
+      "selection_model": "Applicants first pass the academic screen and relevant admission-test filter. Eligible non-graduates are then ranked from highest to lowest by UCAT cognitive total only within their separate A100 applicant pool, and interview invitations are issued by rank until that pool's capacity is filled.",
+      "score_scale": {
+        "minimum": 0,
+        "maximum": 2700,
+        "applies_from_test_year": 2025,
+        "cognitive_subtests": [
+          "Verbal Reasoning",
+          "Decision Making",
+          "Quantitative Reasoning"
+        ],
+        "abstract_reasoning_included": false
+      },
+      "academic_inputs_added_to_ranking_score": false,
+      "sjt_added_to_ranking_score": false,
+      "current_cycle_cutoff_2027": "unknown",
+      "cutoff_methodology": "The cut-off varies annually with the applicant pool, performance and available interviews.",
+      "home_sjt_policy": "Home applicants must have SJT Band 1, 2 or 3 for the application to be processed. Band 4 is unsuccessful.",
+      "international_eu_sjt_policy": "International/EU applicants may offer any of Bands 1 to 4. The SJT component is not used to assess International/EU applications.",
+      "scotland_and_rest_of_uk_sjt_policy": "No separate domicile rule is published; applicants assessed in the Home fee pool are subject to the Home SJT rule.",
+      "graduate_policy": "Not applicable to graduate A100 selection because graduates use GAMSAT and UCAT is not accepted.",
+      "contextual_adjustment": "Eligible Home contextual non-graduate applicants rank in a separate pool. A lower UCAT threshold may apply; an approximate lowering of 80 to 100 points and guidance around 1730+ are historical guidance only, not deterministic current-cycle logic.",
+      "mitigating_circumstances": "Applicants unable to sit UCAT because of a significant issue must contact the School before UCAT testing closes and provide evidence. No automatic exemption or alternative score is published.",
+      "source_ids": [
+        "liverpool_a100_departmental_supplement_2027",
+        "liverpool_admissions_information_2027",
+        "liverpool_admissions_faq_2027",
+        "liverpool_contextual_data_2027",
+        "liverpool_research_team_verified_update_2026"
+      ],
+      "evidence_classification": "official_verified"
+    },
+    "interview_selection": {
+      "process": [
+        {
+          "stage": 1,
+          "description": "Apply the route-specific academic screen."
+        },
+        {
+          "stage": 2,
+          "description": "Apply the relevant admissions-test filter, including Home SJT Band 4 rejection and the GAMSAT section minimum for graduates."
+        },
+        {
+          "stage": 3,
+          "description": "Rank eligible applicants from highest to lowest by UCAT cognitive total for non-graduates or total GAMSAT score for graduates within the relevant separate pool."
+        },
+        {
+          "stage": 4,
+          "description": "Invite applicants by rank until the relevant pool's interview capacity is filled."
+        }
+      ],
+      "ucat_ranked": true,
+      "academic_treatment": "Academic requirements are an eligibility screen before UCAT ranking. GCSE points above the applicable minimum, A-level predictions, personal statements, references and work experience are not scored in routine non-graduate pre-interview ranking.",
+      "predicted_school_grades_used": false,
+      "predicted_degree_classification_used": true,
+      "personal_statement_and_reference": "Required but not routinely used to decide interview invitations. Experience described in the personal statement may inform interview assessment; references may support extenuating-circumstance claims.",
+      "separate_cohorts": [
+        "home_standard_non_graduate",
+        "home_contextual_widening_access_non_graduate",
+        "international_non_graduate",
+        "graduate_a100_gamsat"
+      ],
+      "expected_interviews_2027": {
+        "home_non_graduate_range": [
+          1800,
+          1900
+        ],
+        "graduates": 120,
+        "international_eu": 120,
+        "status": "approximate_planning_figures"
+      },
+      "source_ids": [
+        "liverpool_a100_departmental_supplement_2027",
+        "liverpool_admissions_faq_2027",
+        "liverpool_admissions_process_2027",
+        "liverpool_research_team_verified_update_2026"
+      ],
+      "evidence_classification": "official_verified"
+    },
+    "interview_format": {
+      "format": "Multiple Mini Interview",
+      "values_framework": [
+        "Values Based Recruitment",
+        "Selecting for Excellence"
+      ],
+      "home_delivery": "On-campus face-to-face MMI expected.",
+      "international_delivery": "Equivalent online MMI expected.",
+      "delivery_decision": "The admissions team decides the interview format; applicants do not choose.",
+      "expected_timing": "January to February 2027, with dates subject to confirmation.",
+      "cross_format_comparison": "A percentage interview score is generated so applicants interviewed in different formats can be compared within the relevant fee-status cohort.",
+      "same_assessment_criteria_across_groups": "The departmental supplement says the structure and assessment criteria are likely to be the same for all A100 applicants.",
+      "station_count": 7,
+      "station_duration_minutes": 6,
+      "reading_time": "Additional reading time applies; exact duration is not supplied in the new evidence.",
+      "station_score_scale": {
+        "minimum": 0,
+        "maximum": 5
+      },
+      "station_weighting": "equal",
+      "lowest_station_dropped": false,
+      "assessed_domains": [
+        "motivation",
+        "ethics",
+        "communication",
+        "empathy",
+        "teamwork",
+        "NHS values"
+      ],
+      "scoring_rubric": "Seven equally weighted stations, each scored 0 to 5. No lowest-station score is dropped. Detailed behavioural anchors are not supplied.",
+      "minimum_interview_score": "unpublished_norm_referenced_annually",
+      "source_ids": [
+        "liverpool_a100_departmental_supplement_2027",
+        "liverpool_admissions_process_2027",
+        "liverpool_admissions_faq_2027",
+        "liverpool_research_team_verified_update_2026"
+      ],
+      "evidence_classification": "official_verified"
+    },
+    "offer_selection": {
+      "usual_model": "Post-interview offers are routinely ranked by MMI score only. UCAT, GCSE score and predicted grades are not routinely reused. Borderline decisions may consider contextual data and the full application profile.",
+      "interview_score_used": true,
+      "interview_score_scale": "percentage",
+      "ranking_pool": "Applicants are compared within the relevant fee-status cohort, and offer numbers in Home and International pools are managed separately.",
+      "ucat_use_after_interview": "UCAT is not routinely reused in post-interview ranking.",
+      "academic_use_after_interview": "GCSE score and predicted grades are not routinely reused in post-interview ranking.",
+      "contextual_use_after_interview": "Contextual information and other relevant academic or non-academic information may be considered, but contextual status does not guarantee priority over another applicant with a similar interview score.",
+      "approximate_home_offers": 600,
+      "home_places": 292,
+      "tie_breakers": {
+        "published": true,
+        "official_hierarchy": [
+          "overall MMI score ranking",
+          "borderline combination of academic achievement or potential, admissions-test performance, interview score and contextual information",
+          "other relevant academic or non-academic information and recorded interviewer concerns"
+        ],
+        "known_factors_for_borderline_decisions": [
+          "academic achievement or potential",
+          "admissions-test performance",
+          "interview score",
+          "contextual information",
+          "other relevant academic or non-academic information",
+          "interviewer concerns outside the stated marking criteria"
+        ],
+        "weights": "unknown",
+        "order": "official_hierarchy_stored",
+        "deterministic_formula": "unknown"
+      },
+      "interview_cutoff_2027": {
+        "home": "unknown",
+        "international_eu": "unknown",
+        "graduate": "unknown"
+      },
+      "source_ids": [
+        "liverpool_a100_departmental_supplement_2027",
+        "liverpool_further_notes_2027",
+        "liverpool_research_team_verified_update_2026"
+      ],
+      "evidence_classification": "official_verified"
+    },
+    "contextual_widening_access": {
+      "applies_to": "Eligible Home non-graduate applicants only.",
+      "does_not_apply_to": [
+        "graduate applicants",
+        "mature applicants"
+      ],
+      "selection_stage_flexibility": [
+        "GCSE performance",
+        "UCAT performance",
+        "interview performance",
+        "offer conditions"
+      ],
+      "minimum_gcse_points": 12,
+      "fixed_core_minimums_stated_in_contextual_policy": [
+        "English Language grade 6/B",
+        "Mathematics grade 6/B"
+      ],
+      "other_core_subject_flexibility": "unknown",
+      "verified_eligibility_indicators": [
+        "Index of Multiple Deprivation decile 1 or 2",
+        "POLAR4 or POLAR5 quintile 1 or 2",
+        "first generation in higher education",
+        "care-experienced",
+        "estranged",
+        "household income below £25,000",
+        "Liverpool Scholars",
+        "Realising Opportunities"
+      ],
+      "adjustment_method": "Eligible contextual applicants are ranked in a separate Home contextual pool. The GCSE threshold is 12 points. A lower UCAT threshold may apply, but the approximate 80 to 100 point lowering and 1730+ value are guidance only. Contextual adjustment does not remove the Home SJT Band 4 rejection and does not apply to GAMSAT.",
+      "ucat_adjustment_guidance": {
+        "approximate_lowering_points": {
+          "min": 80,
+          "max": 100
+        },
+        "approximate_guidance_score": 1730,
+        "score_scale_max": 2700,
+        "deterministic": false,
+        "evidence_classification": "historical_guidance"
+      },
+      "interview_adjustment_numeric_value": "unpublished",
+      "intended_reduced_contextual_offers_2027": 50,
+      "under_represented_groups_for_reduced_contextual_offers": [
+        "UK Home applicants from postcode areas in Index of Multiple Deprivation deciles 1 or 2",
+        "UK care-experienced applicants who have spent any time in local-authority care and meet the nationally used eligibility criteria"
+      ],
+      "reduced_offer": "Up to two A-level grades below the standard University of Liverpool offer.",
+      "guarantee": false,
+      "named_programmes_with_additional_consideration": [
+        "Liverpool Scholars",
+        "Liverpool Pathways to Medicine",
+        "approved Access Course or MSC Access to HE Medicine applicants"
+      ],
+      "liverpool_scholars_faq_guidance": "The FAQ states a usual 12-point GCSE minimum and a likely ABB offer, with the A grade in Chemistry, Biology, Physics or Mathematics, if successful at interview.",
+      "liverpool_pathways_faq_guidance": "The FAQ states a usual 12-point GCSE minimum and a likely AAB offer, with at least one A in Chemistry, Biology, Physics or Mathematics, if successful at interview.",
+      "source_ids": [
+        "liverpool_contextual_data_2027",
+        "liverpool_a100_departmental_supplement_2027",
+        "liverpool_admissions_faq_2027",
+        "liverpool_pathways_guidelines_2027",
+        "liverpool_research_team_verified_update_2026"
+      ],
+      "evidence_classification": "official_verified"
+    },
+    "historical_admissions_and_ucat": {
+      "complete_multi_cycle_dataset_available": false,
+      "a100_annual_applications_guidance": {
+        "home": {
+          "min": 2200,
+          "max": 2500
+        },
+        "international": {
+          "min": 400,
+          "max": 500
+        },
+        "evidence_classification": "historical_guidance"
+      },
+      "a100_annual_interviews_guidance": {
+        "home": {
+          "min": 1800,
+          "max": 1900
+        },
+        "international": {
+          "approximate": 120
+        },
+        "evidence_classification": "historical_guidance"
+      },
+      "a100_annual_offers_guidance": {
+        "home": {
+          "min": 580,
+          "max": 620
+        },
+        "international": {
+          "min": 45,
+          "max": 50
+        },
+        "approximate_offers_per_confirmed_place": 2,
+        "evidence_classification": "historical_guidance"
+      },
+      "foi_2025_ucat_cutoffs": {
+        "home_standard": 1935,
+        "home_contextual": 1733,
+        "international": 2108,
+        "score_scale": "post-2025 three-cognitive-subtest UCAT total out of 2700",
+        "evidence_classification": "foi_verified",
+        "notes": "Historical confidence-band context only; these values must not be applied as current-cycle deterministic cut-offs."
+      },
+      "e2026_guidance_only": {
+        "home_score_range": "1810-1920",
+        "home_contextual_guidance": "approximately 1730+",
+        "international_score_range": "1980-2170",
+        "score_scale": "post-2025 three-cognitive-subtest UCAT total out of 2700",
+        "evidence_classification": "historical_guidance",
+        "notes": "Estimate and guidance only. Liverpool does not pre-publish a fixed live cut-off because pool performance changes annually."
+      },
+      "pre_2025_ucat_history": {
+        "score_scale": "four-cognitive-subtest UCAT total out of 3600",
+        "e2024": {
+          "home_standard_approximate": 2300,
+          "home_contextual_approximate": 2260,
+          "international_approximate": 2770
+        },
+        "e2023": {
+          "home_standard_approximate": 2400,
+          "home_contextual_approximate": 2310,
+          "international_approximate": 2810
+        },
+        "evidence_classification": "historical_guidance",
+        "notes": "The /3600 values are not directly comparable with post-2025 /2700 scores and must not be converted into current cut-offs."
+      },
+      "exact_applications_by_group": "unknown",
+      "exact_interviews_by_group": "unknown",
+      "exact_offers_by_group": "unknown",
+      "enrolments_by_group": "unknown",
+      "historical_interview_scores": "unknown",
+      "historical_offer_cutoffs": "unknown",
+      "source_ids": [
+        "liverpool_a100_departmental_supplement_2027",
+        "liverpool_admissions_faq_2027",
+        "liverpool_research_team_verified_update_2026",
+        "liverpool_foi_2025_cutoffs_verified_update",
+        "liverpool_priority_2_historical_evidence_handoff_2026"
+      ],
+      "evidence_classification": "historical_guidance"
+    }
+  },
+  "historical_admissions_stats": [
+    {
+      "entry_year": 2026,
+      "route": "A100",
+      "applicant_group_id": "home_fee",
+      "applications_range_approximate": {
+        "min": 2200,
+        "max": 2500
+      },
+      "interviews_range_approximate": {
+        "min": 1800,
+        "max": 1900
+      },
+      "offers_range_approximate": {
+        "min": 580,
+        "max": 620
+      },
+      "places": 292,
+      "places_evidence_classification": "official_verified",
+      "source_ids": [
+        "liverpool_a100_departmental_supplement_2027",
+        "liverpool_priority_2_historical_evidence_handoff_2026"
+      ],
+      "evidence_classification": "historical_guidance",
+      "notes": "Home applications, interviews and offers are approximate historical guidance. The 292 Home places figure is explicitly official E2026 intake evidence."
+    },
+    {
+      "entry_year": 2026,
+      "route": "A100",
+      "applicant_group_id": "international_fee",
+      "applications_range_approximate": {
+        "min": 400,
+        "max": 500
+      },
+      "interviews_approximate": 120,
+      "offers_range_approximate": {
+        "min": 45,
+        "max": 50
+      },
+      "places": 23,
+      "places_evidence_classification": "official_verified",
+      "source_ids": [
+        "liverpool_a100_departmental_supplement_2027",
+        "liverpool_priority_2_historical_evidence_handoff_2026"
+      ],
+      "evidence_classification": "historical_guidance",
+      "notes": "International applications, interviews and offers are approximate historical guidance. The 23 International places figure is explicitly official E2026 intake evidence."
+    },
+    {
+      "entry_year": 2026,
+      "route": "A100",
+      "applicant_group_id": "all_a100",
+      "places": 315,
+      "deferred_or_reserved_places_approximate": 40,
+      "approximate_offers_per_confirmed_place": 2,
+      "source_ids": [
+        "liverpool_a100_departmental_supplement_2027",
+        "liverpool_priority_2_historical_evidence_handoff_2026"
+      ],
+      "evidence_classification": "historical_guidance",
+      "notes": "The total 315 places figure is official E2026 intake evidence. Deferred/reserved places and offer conversion are approximate context only."
+    }
+  ],
+  "historical_ucat_data": [
+    {
+      "entry_year": 2023,
+      "score_scale": "pre-2025 four-cognitive-subtest UCAT total out of 3600",
+      "cutoffs_approximate": {
+        "home_standard_non_graduate": 2400,
+        "home_contextual_non_graduate": 2310,
+        "international_non_graduate": 2810
+      },
+      "sjt_policy": "Home Band 4 rejected",
+      "source_ids": [
+        "liverpool_priority_2_historical_evidence_handoff_2026"
+      ],
+      "evidence_classification": "historical_guidance",
+      "notes": "Approximate historical guidance only. The /3600 scores are not directly comparable with post-2025 /2700 scores."
+    },
+    {
+      "entry_year": 2024,
+      "score_scale": "pre-2025 four-cognitive-subtest UCAT total out of 3600",
+      "cutoffs_approximate": {
+        "home_standard_non_graduate": 2300,
+        "home_contextual_non_graduate": 2260,
+        "international_non_graduate": 2770
+      },
+      "sjt_policy": "Home Band 4 rejected",
+      "source_ids": [
+        "liverpool_priority_2_historical_evidence_handoff_2026"
+      ],
+      "evidence_classification": "historical_guidance",
+      "notes": "Approximate historical guidance only. The /3600 scores are not directly comparable with post-2025 /2700 scores."
+    },
+    {
+      "entry_year": 2025,
+      "score_scale": "post-2025 three-cognitive-subtest UCAT total out of 2700",
+      "cutoffs_by_group": {
+        "home_standard_non_graduate": 1935,
+        "home_contextual_non_graduate": 1733,
+        "international_non_graduate": 2108
+      },
+      "sjt_policy": "Home Band 4 rejected",
+      "source_ids": [
+        "liverpool_foi_2025_cutoffs_verified_update"
+      ],
+      "evidence_classification": "foi_verified",
+      "notes": "FOI-confirmed historical cut-off supplied by the research team. Confidence-band context only; not a fixed current-cycle threshold."
+    },
+    {
+      "entry_year": 2026,
+      "score_scale": "post-2025 three-cognitive-subtest UCAT total out of 2700",
+      "guidance_by_group": {
+        "home_standard_non_graduate": {
+          "min": 1810,
+          "max": 1920
+        },
+        "home_contextual_non_graduate_approximate_minimum": 1730,
+        "international_non_graduate": {
+          "min": 1980,
+          "max": 2170
+        }
+      },
+      "sjt_policy": "Home Band 4 rejected",
+      "source_ids": [
+        "liverpool_priority_2_historical_evidence_handoff_2026"
+      ],
+      "evidence_classification": "historical_guidance",
+      "notes": "Estimate and guidance only. The live cut-off is unknown and these ranges must not be used as deterministic pass/fail logic."
+    }
+  ],
+  "historical_gamsat_data": {
+    "route_scope": "graduate A100 guidance only",
+    "official_minimum_each_section": 50,
+    "overall_55_guidance": "Minimum or competitive guidance where officially supported; not a fixed current-cycle cut-off.",
+    "ranking_metric": "total GAMSAT score",
+    "contextual_adjustment_applies": false,
+    "competitive_overall_ranges_approximate": [
+      {
+        "entry_year": 2024,
+        "min": 56,
+        "max": 58
+      },
+      {
+        "entry_year": 2025,
+        "min": 57,
+        "max": 59
+      },
+      {
+        "entry_year": 2026,
+        "min": 58,
+        "max": 60
+      }
+    ],
+    "tie_break_guidance": "unpublished_unknown",
+    "source_ids": [
+      "liverpool_graduate_a100_guidelines_2027",
+      "liverpool_priority_2_historical_evidence_handoff_2026"
+    ],
+    "evidence_classification": "historical_guidance",
+    "notes": "No Section III, Section I or Section II tie-break order is implemented because the supplied evidence does not explicitly confirm it."
+  },
+  "related_route_context": {
+    "evidence_classification": "related_route_context",
+    "a101": {
+      "applications_per_year_approximate": {
+        "min": 500,
+        "max": 600
+      },
+      "interviews_approximate": {
+        "min": 120,
+        "max": 150
+      },
+      "offers_approximate": {
+        "min": 55,
+        "max": 60
+      },
+      "official_e2026_intake": {
+        "home": 33,
+        "international": 0,
+        "omfs_reserved": 3,
+        "total": 33
+      }
+    },
+    "a104": {
+      "applications_per_year_approximate": 400,
+      "interviews_approximate": 90,
+      "offers_approximate": {
+        "min": 45,
+        "max": 50
+      },
+      "official_e2026_intake": {
+        "home": 30,
+        "international": 0,
+        "total": 30
+      }
+    },
+    "all_medicine_official_e2026_intake": {
+      "home": 355,
+      "international": 23,
+      "total": 378
+    },
+    "source_ids": [
+      "liverpool_priority_2_historical_evidence_handoff_2026"
+    ],
+    "notes": "A101 and A104 values are retained for research context only and must never enter A100 eligibility, interview guidance or offer logic."
+  },
+  "reserve_list_context": {
+    "stage": "offer_selection",
+    "ranking_position": "Candidates are described as ranked below the offer threshold.",
+    "movement_reasons": [
+      "An offer holder declines.",
+      "An offer holder fails to meet conditions.",
+      "An offer holder withdraws."
+    ],
+    "approximate_operating_window": "March to August before term starts",
+    "fixed_size": false,
+    "home_candidate_range_research_guidance": {
+      "min": 150,
+      "max": 200
+    },
+    "contact_policy": "Applicants are contacted only if a place becomes available.",
+    "closure": "The reserve list closes before enrolment.",
+    "source_ids": [
+      "liverpool_priority_2_historical_evidence_handoff_2026"
+    ],
+    "evidence_classification": "historical_guidance",
+    "prediction_use": "context_only_offer_prediction_disabled",
+    "notes": "No official current-cycle reserve-list size, ranking formula, movement rate or candidate-level offer probability is available."
+  },
+  "interview_guidance_model": {
+    "status": "ready_for_guidance_confidence_bands",
+    "scope": "A100 non-graduate applicants in the Home standard, Home contextual and International pools",
+    "prediction_type": "historical_and_threshold_guidance_not_deterministic_cutoff",
+    "confidence_level": "medium",
+    "hard_rejection_rules": [
+      "The applicable minimum academic requirements are not met.",
+      "A Home applicant has SJT Band 4.",
+      "The required admissions test is not supplied."
+    ],
+    "ranking_score": {
+      "metric": "UCAT cognitive total",
+      "scale": {
+        "min": 0,
+        "max": 2700
+      },
+      "sort_order": "descending",
+      "academic_points_added": false,
+      "sjt_points_added": false,
+      "source_ids": [
+        "liverpool_research_team_verified_update_2026"
+      ],
+      "evidence_classification": "official_verified"
+    },
+    "pool_guidance": [
+      {
+        "pool_id": "home_standard_non_graduate",
+        "official_candidate_deciles": {
+          "min": 4,
+          "max": 6,
+          "executable": false
+        },
+        "historical_cutoffs": [
+          {
+            "entry_year": 2025,
+            "value": 1935,
+            "evidence_classification": "foi_verified"
+          }
+        ]
+      },
+      {
+        "pool_id": "home_contextual_non_graduate",
+        "historical_cutoffs": [
+          {
+            "entry_year": 2025,
+            "value": 1733,
+            "evidence_classification": "foi_verified"
+          }
+        ]
+      },
+      {
+        "pool_id": "international_non_graduate",
+        "official_candidate_deciles": {
+          "min": 7,
+          "max": 9,
+          "executable": false
+        },
+        "historical_cutoffs": [
+          {
+            "entry_year": 2025,
+            "value": 2108,
+            "evidence_classification": "foi_verified"
+          }
+        ]
+      },
+      {
+        "pool_id": "graduate_gamsat",
+        "minimum_each_section": 50,
+        "ranking_metric": "overall_gamsat",
+        "historical_band_boundary": null,
+        "output": "eligible_but_insufficient_evidence"
+      }
+    ],
+    "output_bands": [
+      {
+        "band": "interview_realistic",
+        "definition": "UCAT is at or above the applicable FOI-verified E2025 historical cutoff.",
+        "evidence_classification": "foi_verified_historical_guidance"
+      },
+      {
+        "band": "interview_ambitious",
+        "definition": "UCAT is below the applicable FOI-verified E2025 historical cutoff without crossing an official hard rejection rule.",
+        "evidence_classification": "foi_verified_historical_guidance"
+      },
+      {
+        "band": "eligible_but_insufficient_evidence",
+        "definition": "The applicant route or pool is not fully represented, or the available evidence cannot safely distinguish a guidance band.",
+        "evidence_classification": "unpublished_unknown"
+      }
+    ],
+    "safeguards": [
+      "Guidance bands do not guarantee or rule out an interview.",
+      "Historical and guidance values are not current-cycle deterministic cut-offs.",
+      "No interview probability percentage is calculated.",
+      "No final-offer prediction is enabled."
+    ],
+    "source_ids": [
+      "liverpool_research_team_verified_update_2026",
+      "liverpool_foi_2025_cutoffs_verified_update",
+      "liverpool_priority_2_historical_evidence_handoff_2026",
+      "liverpool_a100_departmental_supplement_2027"
+    ]
+  },
+  "official_formula_status": {
+    "status": "partially_known",
+    "academic_calculation_known": "minimum_rules_and_gcse_points_known_but_no_weighted_academic_formula",
+    "ucat_calculation_known": "overall_raw_score_ranking_known_live_cutoff_unknown",
+    "gamsat_calculation_known": "minimum_components_and_overall_ranking_known_live_cutoff_unknown",
+    "sjt_calculation_known": true,
+    "interview_calculation_known": "seven_equal_stations_scored_zero_to_five_known_annual_pass_mark_unknown",
+    "offer_ranking_known": "routine_mmi_score_only_ranking_known_current_offer_threshold_and_borderline_method_unknown",
+    "official_formula_prediction_available": false,
+    "guidance_confidence_band_prediction_available": true,
+    "known_components": [
+      "Applicants pass the academic screen and admissions-test filter before ranking.",
+      "Eligible non-graduate applicants are ranked from highest to lowest by UCAT cognitive total only within separate pools.",
+      "Home UCAT applicants require SJT Band 1-3; International/EU SJT is not used.",
+      "Graduate A100 applicants need at least 50 in each GAMSAT component and are ranked by overall score.",
+      "The MMI has seven equally weighted six-minute stations scored from zero to five with no lowest-station drop.",
+      "Offers are routinely ranked by MMI score only within the relevant cohort."
+    ],
+    "unknown_components": [
+      "Live 2027 UCAT and GAMSAT interview thresholds.",
+      "Exact contextual adjustment to GCSE, UCAT and interview performance.",
+      "Detailed MMI behavioural anchors, annual norm-referenced pass mark and current offer threshold.",
+      "Exact weighting or order of factors in borderline offer decisions.",
+      "Deterministic tie-break rules."
+    ],
+    "source_ids": [
+      "liverpool_a100_departmental_supplement_2027",
+      "liverpool_contextual_data_2027",
+      "liverpool_admissions_faq_2027",
+      "liverpool_research_team_verified_update_2026"
+    ]
+  },
+  "research_gaps": [
+    {
+      "gap_id": "scotland_ruk_pool_distinction",
+      "status": "resolved",
+      "description": "Scottish-domiciled and Rest of UK standard applicants compete in the Home standard pool; there is no separate cross-pool competition by UK domicile.",
+      "prediction_impact": "Use the appropriate Home standard or Home contextual pool rather than separate Scotland and Rest of UK pools."
+    },
+    {
+      "gap_id": "national_5_physics_conflict",
+      "status": "resolved",
+      "description": "Physics is not mandatory. The implemented rule follows the verified seven-subject requirement with Biology, Chemistry, English Language and Mathematics.",
+      "prediction_impact": "Scottish eligibility is executable."
+    },
+    {
+      "gap_id": "national_5_minimum_grade",
+      "status": "resolved_no_numeric_rule",
+      "description": "The official route does not state a separate National 5 minimum grade.",
+      "prediction_impact": "The engine checks required subject presence and does not invent a grade threshold."
+    },
+    {
+      "gap_id": "live_2027_ucat_cutoffs",
+      "status": "dynamic_unknown",
+      "description": "Home standard, Home contextual and International UCAT cut-offs are determined from live applicant pools. FOI-verified E2025 cut-offs are the only numeric historical boundaries used by the guidance model.",
+      "prediction_impact": "Guidance confidence bands are supported, but deterministic interview pass/fail is not."
+    },
+    {
+      "gap_id": "contextual_adjustment_values",
+      "status": "dynamic_unknown",
+      "description": "Liverpool may accept reduced GCSE, UCAT or interview performance, but the UCAT and interview flexibility is determined annually and no numeric adjustment is published.",
+      "prediction_impact": "No deterministic contextual interview or offer model."
+    },
+    {
+      "gap_id": "interview_scoring_rubric",
+      "status": "partially_resolved",
+      "description": "Seven equally weighted six-minute MMI stations scored zero to five are verified, with no lowest-station drop. Detailed behavioural anchors and the annual norm-referenced pass mark remain unpublished.",
+      "prediction_impact": "A supplied raw station profile can be aggregated, but deterministic interview-pass and offer prediction remain unavailable."
+    },
+    {
+      "gap_id": "post_interview_borderline_formula",
+      "status": "not_published",
+      "description": "The normal interview-score ranking is known, but the weights and ordering of academics, admission test, interview, context and other information in borderline decisions are unknown.",
+      "prediction_impact": "Final offer prediction is not deterministic."
+    },
+    {
+      "gap_id": "tie_break_sequence",
+      "status": "resolved_official_non_numeric_hierarchy",
+      "description": "The official MMI-first and borderline-review hierarchy is stored. Numeric weights within the borderline combination are not published.",
+      "prediction_impact": "The hierarchy is displayable, but offer prediction remains disabled because no annual boundary or numeric weights are published."
+    },
+    {
+      "gap_id": "complete_historical_admissions_dataset",
+      "status": "partially_resolved_with_approximate_ranges",
+      "description": "Approximate A100 application, interview and offer ranges plus official E2026 place counts are stored, but no validated exact multi-cycle table or score distributions by applicant group are available.",
+      "prediction_impact": "Historical guidance has broader context but cannot be calibrated into probability percentages."
+    },
+    {
+      "gap_id": "reserve_list_official_method",
+      "status": "historical_guidance_only",
+      "description": "Operating-window, movement-reason and approximate Home candidate context is stored, but official current-cycle size, ranking formula and movement statistics are unavailable.",
+      "prediction_impact": "Reserve-list context cannot support offer prediction."
+    },
+    {
+      "gap_id": "foi_evidence",
+      "status": "partial",
+      "description": "Research-team supplied FOI-verified E2025 UCAT cut-offs are stored for Home standard, Home contextual and International applicants. The underlying response does not provide full formulas or distributions in this handoff.",
+      "prediction_impact": "The cut-offs support historical confidence context, while formulas, tie-breakers and distributions remain unresolved."
+    }
+  ],
+  "sources": [
+    {
+      "source_id": "liverpool_course_page_2027",
+      "title": "University of Liverpool - Medicine and Surgery MBChB, September 2027 entry",
+      "url": "https://www.liverpool.ac.uk/courses/medicine-and-surgery-mbchb/2027",
+      "source_type": "official_course_page",
+      "published_or_reviewed_date": "2026-05-21",
+      "accessed_date": "2026-06-27",
+      "confidence": "High",
+      "used_for": [
+        "course_identity",
+        "ucas_code",
+        "duration",
+        "start_date",
+        "a_level_requirements",
+        "gcse_requirements",
+        "scottish_requirements",
+        "ib_requirements",
+        "ucat_and_gamsat_route"
+      ],
+      "evidence_classification": "official_current_cycle",
+      "notes": "First-party 2027 course page. Qualification details are supplemented by route-specific School of Medicine guidance."
+    },
+    {
+      "source_id": "liverpool_admissions_information_2027",
+      "title": "University of Liverpool School of Medicine - Admissions information",
+      "url": "https://www.liverpool.ac.uk/medicine/study-with-us/undergraduate/admissions-information/",
+      "source_type": "official_school_admissions_page",
+      "accessed_date": "2026-06-27",
+      "confidence": "High",
+      "used_for": [
+        "course_profile",
+        "applicant_types",
+        "home_and_international_eligibility",
+        "admissions_tests",
+        "official_document_index"
+      ],
+      "evidence_classification": "official_current_cycle",
+      "notes": "Primary School of Medicine admissions hub for 2027 entry."
+    },
+    {
+      "source_id": "liverpool_a100_departmental_supplement_2027",
+      "title": "University of Liverpool A100 Departmental Supplement to the Admissions Policy, Entry 2027",
+      "url": "https://www.liverpool.ac.uk/media/livacuk/schoolofmedicine/admissions/A100%2CDepartmental%2CSupplement%2CE2027.pdf",
+      "source_type": "official_school_admissions_policy",
+      "published_or_reviewed_date": "2026-06-17",
+      "accessed_date": "2026-06-27",
+      "confidence": "High",
+      "used_for": [
+        "applicant_groups",
+        "places_and_interview_capacity",
+        "academic_requirements",
+        "ucat_and_gamsat_selection",
+        "sjt_policy",
+        "interview_shortlisting",
+        "interview_format",
+        "offer_selection",
+        "borderline_factors",
+        "historical_2026_ucat_cutoffs",
+        "historical_application_context"
+      ],
+      "evidence_classification": "official_current_cycle",
+      "notes": "Primary official source for the four-stage 2027 A100 admissions process."
+    },
+    {
+      "source_id": "liverpool_a_level_guidelines_2027",
+      "title": "University of Liverpool A100 guidelines for non-graduate applicants offering GCSEs and science-based A levels, Entry 2027",
+      "url": "https://www.liverpool.ac.uk/media/livacuk/schoolofmedicine/admissions/A100%2CA%2CLevel%2Capplicants%2CE2027%2C.pdf",
+      "source_type": "official_qualification_guideline",
+      "published_or_reviewed_date": "2026-05-28",
+      "accessed_date": "2026-06-27",
+      "confidence": "High",
+      "used_for": [
+        "gcse_requirements_and_scoring",
+        "a_level_requirements",
+        "a_level_resits",
+        "required_subjects"
+      ],
+      "evidence_classification": "official_current_cycle"
+    },
+    {
+      "source_id": "liverpool_scottish_guidelines_2027",
+      "title": "University of Liverpool A100 guidelines for non-graduate applicants offering Scottish Qualifications Authority qualifications, Entry 2027",
+      "url": "https://www.liverpool.ac.uk/media/livacuk/schoolofmedicine/admissions/Guidelines%2Cfor%2Capplicants%2Coffering%2CScottish%2CQuals%2CE2027%2C.pdf",
+      "source_type": "official_qualification_guideline",
+      "published_or_reviewed_date": "2026-05-28",
+      "accessed_date": "2026-06-27",
+      "confidence": "High",
+      "used_for": [
+        "national_5_requirements",
+        "scottish_higher_requirements",
+        "advanced_higher_requirements",
+        "scottish_resits",
+        "required_subjects"
+      ],
+      "evidence_classification": "official_current_cycle",
+      "notes": "Supports the implemented National 5 rule: Physics is not mandatory."
+    },
+    {
+      "source_id": "liverpool_ib_guidelines_2027",
+      "title": "University of Liverpool A100 guidelines for non-graduate International Baccalaureate applicants, Entry 2027",
+      "url": "https://www.liverpool.ac.uk/media/livacuk/schoolofmedicine/admissions/Guidelines%2CInternational%2CBaccalaureate%2Capplicants%2CE2027%2C.pdf",
+      "source_type": "official_qualification_guideline",
+      "published_or_reviewed_date": "2026-05-28",
+      "accessed_date": "2026-06-27",
+      "confidence": "High",
+      "used_for": [
+        "ib_requirements",
+        "gcse_requirements_for_ib_applicants",
+        "ib_resits",
+        "required_subjects"
+      ],
+      "evidence_classification": "official_current_cycle"
+    },
+    {
+      "source_id": "liverpool_graduate_a100_guidelines_2027",
+      "title": "University of Liverpool A100 guidelines for applicants offering an honours degree, Entry 2027",
+      "url": "https://www.liverpool.ac.uk/media/livacuk/schoolofmedicine/admissions/Grad%2CA100%2Capplicants%2CE2027.pdf",
+      "source_type": "official_qualification_guideline",
+      "published_or_reviewed_date": "2026-05-28",
+      "accessed_date": "2026-06-27",
+      "confidence": "High",
+      "used_for": [
+        "graduate_a100_policy",
+        "degree_requirements",
+        "gamsat_requirements",
+        "international_graduate_eligibility"
+      ],
+      "evidence_classification": "official_current_cycle"
+    },
+    {
+      "source_id": "liverpool_international_guidelines_2027",
+      "title": "University of Liverpool School of Medicine A100 guidelines for international applicants, Entry 2027",
+      "url": "https://www.liverpool.ac.uk/media/livacuk/schoolofmedicine/admissions/International%2CGuidelines%2CE2027%2C.pdf",
+      "source_type": "official_qualification_guideline",
+      "published_or_reviewed_date": "2026-05-29",
+      "accessed_date": "2026-06-27",
+      "confidence": "High",
+      "used_for": [
+        "international_applicant_group",
+        "international_admissions_tests",
+        "country_specific_qualification_routes",
+        "english_language"
+      ],
+      "evidence_classification": "official_current_cycle",
+      "notes": "Country-specific qualification tables are available in the source but are not reproduced in full in this A100 evidence summary."
+    },
+    {
+      "source_id": "liverpool_contextual_data_2027",
+      "title": "University of Liverpool School of Medicine - Contextual Data, Entry 2027",
+      "url": "https://www.liverpool.ac.uk/media/livacuk/schoolofmedicine/admissions/Contextual%2CData%2CE2027.pdf",
+      "source_type": "official_school_contextual_policy",
+      "published_or_reviewed_date": "2026-05-29",
+      "accessed_date": "2026-06-27",
+      "confidence": "High",
+      "used_for": [
+        "contextual_eligibility",
+        "contextual_gcse_requirement",
+        "contextual_selection_flexibility",
+        "reduced_contextual_offers",
+        "excluded_applicant_groups"
+      ],
+      "evidence_classification": "official_current_cycle"
+    },
+    {
+      "source_id": "liverpool_admissions_faq_2027",
+      "title": "Liverpool Admissions Team Frequently Asked Questions, Entry 2027",
+      "url": "https://www.liverpool.ac.uk/media/livacuk/schoolofmedicine/admissions/E2027%2CSOM%2CAdmissions%2CFrequently%2CAsked%2CQuestions%2C.pdf",
+      "source_type": "official_school_admissions_faq",
+      "published_or_reviewed_date": "2026-05-29",
+      "accessed_date": "2026-06-27",
+      "confidence": "High",
+      "used_for": [
+        "ucat_guidance_ranges",
+        "sjt_policy",
+        "graduate_gamsat_policy",
+        "interview_planning",
+        "resits",
+        "scholars_and_pathways_guidance"
+      ],
+      "evidence_classification": "official_current_cycle"
+    },
+    {
+      "source_id": "liverpool_admissions_process_2027",
+      "title": "University of Liverpool School of Medicine - Admissions process",
+      "url": "https://www.liverpool.ac.uk/medicine/study-with-us/undergraduate/admissions-process/",
+      "source_type": "official_school_admissions_page",
+      "accessed_date": "2026-06-27",
+      "confidence": "High",
+      "used_for": [
+        "personal_statement_policy",
+        "interview_format",
+        "interview_delivery",
+        "interview_timing"
+      ],
+      "evidence_classification": "official_current_cycle"
+    },
+    {
+      "source_id": "liverpool_further_notes_2027",
+      "title": "University of Liverpool School of Medicine - Further Notes for Applicants to Medicine Programmes, Entry 2027",
+      "url": "https://www.liverpool.ac.uk/media/livacuk/schoolofmedicine/admissions/Further%2CNotes%2CE2027.pdf",
+      "source_type": "official_school_admissions_guidance",
+      "published_or_reviewed_date": "2026-05-29",
+      "accessed_date": "2026-06-27",
+      "confidence": "High",
+      "used_for": [
+        "admissions_tests",
+        "core_subjects",
+        "graduate_definition",
+        "repeat_application_limit",
+        "competitive_selection_summary"
+      ],
+      "evidence_classification": "official_current_cycle"
+    },
+    {
+      "source_id": "liverpool_pathways_guidelines_2027",
+      "title": "University of Liverpool A100 guidelines for Liverpool Pathways students, Entry 2027",
+      "url": "https://www.liverpool.ac.uk/media/livacuk/schoolofmedicine/admissions/Guidelines%2Cfor%2CLiverpool%2CPathways%2Cstudents%2C2027.pdf",
+      "source_type": "official_widening_participation_guideline",
+      "accessed_date": "2026-06-27",
+      "confidence": "High",
+      "used_for": [
+        "pathways_gcse_requirements",
+        "pathways_offer_guidance",
+        "contextual_widening_access"
+      ],
+      "evidence_classification": "official_current_cycle"
+    },
+    {
+      "source_id": "liverpool_research_team_verified_update_2026",
+      "title": "Liverpool A100 research-team verified evidence update",
+      "url": null,
+      "source_type": "research_team_verified_evidence_handoff",
+      "received_date": "2026-06-27",
+      "confidence": "High_for_supplied_verified_facts",
+      "used_for": [
+        "academic_screen_first_sequence",
+        "ucat_2700_scale_and_cognitive_subtests",
+        "separate_applicant_pools",
+        "non_graduate_ucat_only_ranking",
+        "contextual_eligibility_and_guidance",
+        "mmi_station_structure",
+        "mmi_score_scale",
+        "mmi_domains",
+        "post_interview_mmi_only_ranking",
+        "approximate_home_offer_volume"
+      ],
+      "evidence_classification": "official_verified",
+      "notes": "User-supplied research-team handoff states these facts are verified. No public URL or underlying document identifier was included in the handoff."
+    },
+    {
+      "source_id": "liverpool_foi_2025_cutoffs_verified_update",
+      "title": "Liverpool A100 E2025 UCAT cut-offs - research-team FOI-verified update",
+      "url": null,
+      "source_type": "foi_verified_research_update",
+      "received_date": "2026-06-27",
+      "confidence": "High_for_reported_E2025_cutoffs",
+      "used_for": [
+        "home_standard_E2025_ucat_cutoff",
+        "home_contextual_E2025_ucat_cutoff",
+        "international_E2025_ucat_cutoff",
+        "historical_guidance_bands"
+      ],
+      "evidence_classification": "foi_verified",
+      "notes": "The research-team handoff reports FOI-confirmed E2025 cut-offs of 1935 Home, 1733 contextual and 2108 International on the /2700 scale. The underlying FOI response identifier or URL was not supplied."
+    },
+    {
+      "source_id": "liverpool_priority_2_historical_evidence_handoff_2026",
+      "title": "Liverpool A100 Priority 2 admissions statistics and historical guidance handoff",
+      "url": null,
+      "source_type": "research_context_evidence_handoff",
+      "received_date": "2026-06-27",
+      "confidence": "Medium_for_historical_guidance",
+      "used_for": [
+        "a100_applications_interviews_offers_context",
+        "official_E2026_intake_context",
+        "historical_ucat_guidance",
+        "historical_gamsat_guidance",
+        "reserve_list_context",
+        "related_route_context"
+      ],
+      "evidence_classification": "historical_guidance",
+      "notes": "User-supplied research context collated from Liverpool supplements, FAQs and FOI evidence. Only explicitly identified official intake values and FOI-confirmed E2025 cut-offs receive stronger classifications; estimates, ranges, related-route values and reserve-list information remain context only."
+    },
+    {
+      "source_id": "msc_liverpool_a100_background",
+      "title": "Medical Schools Council - University of Liverpool MBChB Medicine A100",
+      "url": "https://www.medschools.ac.uk/courses/mbchb-medicine-a100-7/",
+      "source_type": "discovery_background",
+      "accessed_date": "2026-06-19",
+      "confidence": "Low_for_rule_implementation",
+      "used_for": [
+        "background_only"
+      ],
+      "evidence_classification": "background_only",
+      "notes": "Already present in the seed production profile. Not used as primary evidence for this research file."
+    }
+  ],
+  "foi_sources": [
+    {
+      "source_id": "liverpool_foi_2025_cutoffs_verified_update",
+      "title": "Liverpool A100 E2025 UCAT cut-offs - research-team FOI-verified update",
+      "url": null,
+      "received_date": "2026-06-27",
+      "evidence_classification": "foi_verified",
+      "verified_values": {
+        "entry_cycle": "E2025",
+        "score_scale_max": 2700,
+        "home_standard": 1935,
+        "home_contextual": 1733,
+        "international": 2108
+      },
+      "notes": "Historical confidence-band evidence only. The underlying FOI response identifier or URL should be added if supplied later."
+    }
+  ],
+  "source_audit": {
+    "official_university_sources_count": 13,
+    "official_sources_primary": true,
+    "foi_sources_count": 1,
+    "research_team_verified_handoff_sources_count": 2,
+    "third_party_admissions_sources_count": 0,
+    "background_sources_count": 1,
+    "background_source_ids": [
+      "msc_liverpool_a100_background"
+    ],
+    "evidence_quality": {
+      "course_identity": "high",
+      "minimum_academic_requirements": "high_all_implemented_routes",
+      "applicant_groups": "high_for_verified_a100_pools",
+      "ucat_and_sjt": "high_for_method_low_for_future_threshold",
+      "interview_selection": "high_for_sequence_medium_for_guidance_probability",
+      "interview_format": "high_for_structure_low_for_pass_mark",
+      "offer_selection": "high_for_routine_mmi_only_ranking_low_for_threshold",
+      "historical_admissions": "medium_for_approximate_ranges_low_for_exact_multi_cycle_dataset",
+      "foi_evidence": "partial_E2025_cutoffs_only"
+    },
+    "notes": [
+      "Official sources establish policy but do not provide all calculations needed for deterministic prediction.",
+      "Prospective UCAT score ranges are guidance, not official fixed cut-offs.",
+      "FOI-verified E2025 cut-offs are historical confidence context only.",
+      "E2026 UCAT ranges and E2023-E2024 /3600 values are stored as historical guidance only.",
+      "Approximate admissions volumes, GAMSAT ranges, reserve-list context and related-route figures are not deterministic A100 logic.",
+      "MSC remains discovery/background only and does not override University of Liverpool evidence."
+    ]
+  },
+  "production_handoff_status": {
+    "ready_to_update_production_json": true,
+    "production_json_changed_in_this_step": true,
+    "result_card_logic_changed_in_this_step": true,
+    "example_result_card_created_in_this_step": true,
+    "handoff_complete": true,
+    "reason": "The completed evidence handoff has been implemented in production data, route-aware engines, ranking pools, result-card example and regression coverage. Final-offer prediction remains disabled."
+  },
+  "engine_notes": {
+    "official_rules_source": "data/universities/liverpool-a100.json",
+    "research_source": "data/research/liverpool-a100-research.json",
+    "eligibility_ready": true,
+    "interview_prediction_ready": true,
+    "prediction_scope": "historical_guidance_for_three_ucat_pools_and_explicit_insufficient_evidence_for_graduate_gamsat",
+    "prediction_confidence": "medium",
+    "do_not_infer": [
+      "Do not treat E2025 FOI cut-offs as 2027 cut-offs.",
+      "Do not create numeric interview bands other than the FOI-verified E2025 historical cutoffs.",
+      "Do not compare E2023 or E2024 /3600 UCAT values directly with post-2025 /2700 scores.",
+      "Do not convert approximate admissions volumes, GAMSAT ranges, related-route figures or reserve-list context into deterministic A100 prediction inputs.",
+      "Do not infer a separate Scotland or Rest of UK pool from the existence of Scottish qualification guidance.",
+      "Do not require National 5 Physics or invent a National 5 grade threshold.",
+      "Do not score predicted school-level grades for non-graduate applicants.",
+      "Do not treat minimum academics as a weighted scoring formula, although higher GCSE performance may be used in borderline decisions.",
+      "Do not model contextual UCAT or interview adjustments without cycle-specific values.",
+      "Do not add academic or SJT points to the non-graduate UCAT ranking score.",
+      "Do not routinely reuse UCAT, GCSE score or predicted grades in post-interview ranking.",
+      "Do not convert the official offer hierarchy into numeric weights or a deterministic offer prediction.",
+      "Do not convert guidance bands into interview probability percentages.",
+      "Do not use A101 or A104 rules for A100 applicant handling."
+    ],
+    "offer_prediction_scope": "out_of_scope"
+  }
+}

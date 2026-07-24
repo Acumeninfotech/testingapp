@@ -1,0 +1,649 @@
+{
+  "schema_version": "1.0.0",
+  "profile_id": "buckingham-71a8",
+  "profile_status": "production_ready_eligibility_only",
+  "verification_status": "official_source_verified_with_documented_gaps",
+  "last_updated": "2026-07-18",
+  "university": {
+    "name": "University of Buckingham",
+    "slug": "buckingham",
+    "country": "United Kingdom",
+    "nation": "England",
+    "institution_type": "University",
+    "institution_funding_type": "independent_private",
+    "website_url": "https://www.buckingham.ac.uk/"
+  },
+  "course": {
+    "name": "MB ChB Medicine",
+    "ucas_code": "71A8",
+    "entry_route": "standard_entry",
+    "qualification_awarded": "MB ChB",
+    "duration_years": 4.5,
+    "campus": "Buckingham",
+    "location": "Buckingham, England",
+    "entry_year": 2027,
+    "intake_month": "January",
+    "application_channels": [
+      "ucas",
+      "direct"
+    ],
+    "fee_statuses": [
+      "home",
+      "international"
+    ],
+    "is_gateway_or_foundation": false,
+    "is_graduate_entry": false,
+    "notes": "Standard undergraduate MB ChB Medicine route using UCAS course code 71A8. The course starts in January and is not an A100 profile. UCAS verifies institution code B90. Buckingham states it does not have a Graduate Entry Medicine programme; graduates may apply to this same MB ChB route with a cognate degree."
+  },
+  "medical_school": {
+    "name": "University of Buckingham School of UG Medicine",
+    "source_ids": [
+      "buckingham_course_page_2027"
+    ]
+  },
+  "applicant_pools": [
+    {
+      "pool_id": "home_71a8",
+      "applies_to_group_ids": [
+        "home_fee",
+        "england_domiciled",
+        "scotland_domiciled",
+        "wales_domiciled",
+        "northern_ireland_domiciled",
+        "rest_of_uk"
+      ],
+      "selection_relevance": "Home applicants who pass academic screening progress to Buckingham's staged MMA/MMI process where published numeric progression thresholds are unavailable."
+    },
+    {
+      "pool_id": "international_71a8",
+      "applies_to_group_ids": [
+        "international_fee"
+      ],
+      "selection_relevance": "International applicants are accepted and use the same published academic screening plus staged MMA/MMI process. ApplySmart does not infer a separate academic or interview threshold."
+    }
+  ],
+  "applies_to_group_ids": [
+    "england_domiciled",
+    "scotland_domiciled",
+    "wales_domiciled",
+    "northern_ireland_domiciled",
+    "home_fee",
+    "international_fee",
+    "rest_of_uk",
+    "school_leaver",
+    "graduate_applicant",
+    "resit_applicant",
+    "mature_applicant"
+  ],
+  "stage_1_eligibility": {
+    "verification_status": "official_source_verified_with_documented_gaps",
+    "source_ids": [
+      "buckingham_course_page_2027",
+      "buckingham_entry_requirements_pdf_2026_27"
+    ],
+    "overall_policy": {
+      "status": "official_rules_mapped_with_manual_review_boundaries",
+      "description": "Buckingham carries out academic screening first. ApplySmart checks the published GCSE English/Maths, A-level, IB, BTEC exclusion, graduate degree and IELTS requirements that fit the current input model.",
+      "not_eligible_if": [
+        "The applicable A-level, IB or graduate academic minimum is not met.",
+        "Required GCSE English Language or Mathematics evidence is below the published minimum.",
+        "BTEC is used as the level 3 route.",
+        "International English-language evidence is required and does not meet the represented IELTS Academic/UKVI minimum."
+      ],
+      "source_ids": [
+        "buckingham_course_page_2027",
+        "buckingham_entry_requirements_pdf_2026_27"
+      ]
+    },
+    "gcse": {
+      "status": "official_source_verified",
+      "source_ids": [
+        "buckingham_course_page_2027"
+      ],
+      "minimum_count": null,
+      "mandatory_subject_ids": [
+        "english_language",
+        "mathematics"
+      ],
+      "grade_requirements": [
+        {
+          "requirement_id": "gcse_english_language_grade_4",
+          "subject_id": "english_language",
+          "minimum_grade": "4/C",
+          "qualification_level": "gcse_or_equivalent",
+          "decision_outcome_if_not_met": "not_eligible"
+        },
+        {
+          "requirement_id": "gcse_mathematics_grade_4",
+          "subject_id": "mathematics",
+          "minimum_grade": "4/C",
+          "qualification_level": "gcse_or_equivalent",
+          "decision_outcome_if_not_met": "not_eligible"
+        }
+      ],
+      "achieved_or_predicted": "achieved",
+      "selection_role": "eligibility_only",
+      "notes": "Buckingham also states applicants without A-level Biology or Chemistry should have studied the missing subject to GCSE level or equivalent at grade B. The current generic evaluator cannot apply that conditional GCSE science rule safely, so the condition is documented as a manual-review boundary in engine notes and research."
+    },
+    "post_16": {
+      "status": "official_source_verified_with_documented_gaps",
+      "source_ids": [
+        "buckingham_course_page_2027",
+        "buckingham_entry_requirements_pdf_2026_27"
+      ],
+      "accepted_qualification_types": [
+        "a_level",
+        "international_baccalaureate",
+        "scottish_advanced_highers",
+        "degree",
+        "international_qualification"
+      ],
+      "blocked_routes": [
+        {
+          "route_id": "btec",
+          "status": "blocked",
+          "decision_outcome_if_excluded": "not_eligible",
+          "notes": "Buckingham states that BTECs are not accepted as sufficient for this course."
+        }
+      ],
+      "a_level": {
+        "status": "official_source_verified",
+        "standard_offer": {
+          "grade_profile": [
+            "A",
+            "B",
+            "B"
+          ],
+          "notes": "Minimum ABB including Chemistry or Biology. General Studies is not accepted."
+        },
+        "grade_requirements": [
+          {
+            "requirement_id": "buckingham_abb_chemistry_or_biology",
+            "grade_profile": [
+              "A",
+              "B",
+              "B"
+            ],
+            "one_of_subject_groups": [
+              {
+                "group_id": "chemistry_or_biology",
+                "minimum_required": 1,
+                "subject_ids": [
+                  "chemistry",
+                  "biology"
+                ]
+              }
+            ],
+            "excluded_subject_ids": [
+              "general_studies"
+            ],
+            "decision_outcome_if_not_met": "not_eligible"
+          }
+        ],
+        "excluded_subject_ids": [
+          "general_studies"
+        ],
+        "science_practical_endorsement_required": null,
+        "predicted_grades_accepted": true,
+        "achieved_grades_accepted": true,
+        "selection_role": "eligibility_only",
+        "notes": "Predicted grades are accepted for ordinary A-level applicants because Buckingham accepts applicants likely to obtain the grades before course start. Resit applicants have separate conditions."
+      },
+      "ib": {
+        "status": "official_source_verified",
+        "grade_requirements": [
+          {
+            "route_id": "buckingham_ib_34_hl6_hl5_biology_chemistry",
+            "total_points": 34,
+            "required_hl_subject_ids": [
+              "biology",
+              "chemistry"
+            ],
+            "required_hl_subject_grade_options": [
+              {
+                "grade_requirements": [
+                  {
+                    "subject_id": "biology",
+                    "minimum_grade": "6"
+                  },
+                  {
+                    "subject_id": "chemistry",
+                    "minimum_grade": "5"
+                  }
+                ]
+              },
+              {
+                "grade_requirements": [
+                  {
+                    "subject_id": "biology",
+                    "minimum_grade": "5"
+                  },
+                  {
+                    "subject_id": "chemistry",
+                    "minimum_grade": "6"
+                  }
+                ]
+              }
+            ],
+            "notes": "Official 2026/27 PDF and UCAS list 34 total points. The live course page body states 32, so ApplySmart uses the more recent course-linked entry requirements PDF and UCAS value and records the discrepancy."
+          }
+        ],
+        "selection_role": "eligibility_only"
+      },
+      "scottish": {
+        "status": "official_source_verified_manual_review",
+        "route_implemented": false,
+        "notes": "The official PDF states S5 AABBB plus two Advanced Highers including Chemistry and one from Biology or Maths at BB. The shared Scottish evaluator cannot safely represent this combined S5 plus Advanced Higher condition, so Scottish applicants require review."
+      },
+      "btec": {
+        "status": "not_accepted_as_level_3_entry_route",
+        "accepted_combinations": [],
+        "notes": "Buckingham states BTECs are not sufficient."
+      },
+      "access_to_he": {
+        "status": "not_published_for_direct_mbchb_entry",
+        "notes": "No Access to HE route was identified in the official MB ChB sources."
+      },
+      "degree": {
+        "status": "official_source_verified",
+        "minimum_classification": "2_1",
+        "degree_requirement": {
+          "accepted_classifications": [
+            "2_1",
+            "first"
+          ],
+          "subject_requirement": "Subject cognate to Medicine.",
+          "achieved_or_predicted": true
+        },
+        "selection_role": "eligibility_only",
+        "notes": "Buckingham does not publish a separate Graduate Entry Medicine course; graduates use this route and need a cognate Bachelor's degree at 2:1 or above."
+      },
+      "notes": "Country-specific international qualifications are published separately, but ApplySmart does not auto-evaluate country-specific equivalence in this profile."
+    },
+    "admissions_tests": {
+      "ucat": {
+        "required": false,
+        "minimum_total_score": null,
+        "maximum_total_score": null,
+        "excluded_group_ids": [],
+        "notes": "No official Buckingham course source identifies UCAT, BMAT or GAMSAT as a requirement for 71A8."
+      },
+      "sjt": {
+        "used_as_gate": false,
+        "accepted_bands": [
+          1,
+          2,
+          3,
+          4
+        ],
+        "excluded_bands": [],
+        "scoring": {
+          "used_in_score": false
+        },
+        "notes": "UCAT SJT is not used because UCAT is not required."
+      },
+      "other_tests": [
+        {
+          "test_id": "multiple_mini_assessment",
+          "name": "Digital Multiple Mini Assessment",
+          "required": true,
+          "stage": "post_academic_screen_pre_mmi",
+          "notes": "Only applicants who meet the academic threshold progress to the MMA."
+        }
+      ]
+    },
+    "resits": {
+      "policy": "allowed_with_route_specific_conditions",
+      "allowed": true,
+      "maximum_resits": null,
+      "notes": "A-level resit applicants who attained BBB at first attempt and have significant mitigation can apply with a resit. Applicants with lower first-attempt grades and significant mitigation can apply after attaining ABB; predicted grades are not considered for such applicants."
+    },
+    "english_language": {
+      "required_for_group": true,
+      "applies_to_group_ids": [
+        "international_fee"
+      ],
+      "accepted_tests": [
+        {
+          "test": "IELTS Academic",
+          "overall_minimum": 7,
+          "minimum_each_component": 6.5
+        },
+        {
+          "test": "IELTS UKVI",
+          "overall_minimum": 7,
+          "minimum_each_component": 6.5
+        }
+      ],
+      "exemptions": [
+        "UK Bachelor degree",
+        "national of specified majority/native English-speaking countries listed by Buckingham"
+      ],
+      "notes": "Cambridge English Advanced is accepted by Buckingham but requires manual review in ApplySmart."
+    },
+    "age_or_professional_checks": {
+      "minimum_age": 18,
+      "age_reference": "point of registration unless the Dean grants an exemption",
+      "dbs_required": true,
+      "occupational_health_required": true,
+      "fitness_to_practise_required": true,
+      "notes": "Age rule is from Buckingham's general undergraduate application page. Professional checks are retained as informational prerequisites and are not used for interview prediction."
+    }
+  },
+  "stage_2_interview_selection": {
+    "verification_status": "official_source_verified_with_documented_gaps",
+    "source_ids": [
+      "buckingham_course_page_2027"
+    ],
+    "primary_model": "holistic_review",
+    "modifiers": [],
+    "ranking_factors": [
+      {
+        "factor": "academic_screening",
+        "role": "eligibility_gate",
+        "weight_percent": null,
+        "points_available": null,
+        "source_ids": [
+          "buckingham_course_page_2027"
+        ],
+        "notes": "Academic screening is the first stage."
+      },
+      {
+        "factor": "multiple_mini_assessment",
+        "role": "post_academic_screen_assessment",
+        "weight_percent": null,
+        "points_available": null,
+        "source_ids": [
+          "buckingham_course_page_2027"
+        ],
+        "notes": "The digital MMA assesses attributes linked to Good Medical Practice. Published scoring/cut-off evidence is unavailable."
+      },
+      {
+        "factor": "multiple_mini_interview",
+        "role": "final_interview_stage",
+        "weight_percent": null,
+        "points_available": null,
+        "source_ids": [
+          "buckingham_course_page_2027"
+        ],
+        "notes": "Applicants satisfactory at MMA may progress to MMI. ApplySmart does not predict MMI performance."
+      }
+    ],
+    "calculation": {
+      "verification_status": "official_source_verified_with_documented_gaps",
+      "source_ids": [
+        "buckingham_course_page_2027"
+      ],
+      "score_components": [],
+      "total_score": {
+        "calculation_method": "not_published",
+        "components": [],
+        "scale": null,
+        "notes": "Buckingham does not publish a numeric pre-interview ranking formula or progression threshold.",
+        "source_ids": [
+          "buckingham_course_page_2027"
+        ]
+      },
+      "notes": "No ApplySmart interview prediction score is calculated."
+    },
+    "thresholds": [],
+    "selection_adjustments": [],
+    "tie_breakers": [],
+    "output_band_policy": "eligibility_only_eligible_to_apply_not_eligible",
+    "notes": "Eligible applicants receive an eligibility-only result. Buckingham's MMA/MMI progression evidence is not sufficient for ApplySmart interview prediction."
+  },
+  "contextual_admissions": {
+    "verification_status": "official_source_verified_with_documented_gaps",
+    "source_ids": [
+      "buckingham_course_page_2027"
+    ],
+    "available": false,
+    "applies_to_group_ids": [],
+    "criteria": [],
+    "adjustments": [],
+    "guaranteed_interview_rules": [],
+    "notes": "No Buckingham-specific contextual adjustment for 71A8 was identified in official sources."
+  },
+  "ranking_pools": [
+    {
+      "pool_id": "home_71a8",
+      "name": "Home 71A8 applicants",
+      "applies_to_group_ids": [
+        "home_fee"
+      ],
+      "fee_statuses": [
+        "home"
+      ],
+      "ranking_model": null,
+      "ranking_factors": [
+        "academic_screening",
+        "digital_mma",
+        "mmi"
+      ],
+      "places_available": null,
+      "source_ids": [
+        "buckingham_course_page_2027"
+      ],
+      "notes": "No separate Home threshold or progression rate is published."
+    },
+    {
+      "pool_id": "international_71a8",
+      "name": "International 71A8 applicants",
+      "applies_to_group_ids": [
+        "international_fee"
+      ],
+      "fee_statuses": [
+        "international"
+      ],
+      "ranking_model": null,
+      "ranking_factors": [
+        "academic_screening",
+        "digital_mma",
+        "mmi"
+      ],
+      "places_available": null,
+      "source_ids": [
+        "buckingham_course_page_2027",
+        "ucas_buckingham_71a8"
+      ],
+      "notes": "No separate International threshold, cap or progression rate is published."
+    }
+  ],
+  "quotas": [],
+  "offer_selection": {
+    "verification_status": "official_source_verified_with_documented_gaps",
+    "source_ids": [
+      "buckingham_course_page_2027"
+    ],
+    "interview_format": "Multiple Mini Interview after digital Multiple Mini Assessment",
+    "interview_scoring": "not_published",
+    "offer_model": "out_of_scope",
+    "ranking_factors": [],
+    "tie_breakers": [],
+    "waiting_list_policy": null,
+    "standard_offer": {
+      "a_level": "ABB including Chemistry or Biology"
+    },
+    "contextual_offer": null,
+    "notes": "Offer prediction is out of scope. Buckingham states exceptionally high MMA performers may receive an offer at that stage; ApplySmart does not model this."
+  },
+  "historical_admissions": {
+    "verification_status": "official_source_verified_with_documented_gaps",
+    "source_ids": [
+      "buckingham_course_page_2027",
+      "ucas_buckingham_71a8"
+    ],
+    "cycles": [],
+    "notes": "No official historical MMA/MMI progression cut-offs, interview invitation thresholds or progression rates were found."
+  },
+  "fee_information": {
+    "currency": "GBP",
+    "entry_cycle": "2027-01",
+    "home": {
+      "accepted": true,
+      "first_year": 41500,
+      "course_total": 186750,
+      "source_ids": [
+        "buckingham_course_page_2027"
+      ]
+    },
+    "international": {
+      "accepted": true,
+      "first_year": 47000,
+      "course_total": 211500,
+      "source_ids": [
+        "buckingham_course_page_2027"
+      ]
+    },
+    "deposit": 10000,
+    "deposit_refundable_if_conditions_not_met": true,
+    "fees_subject_to_change": true,
+    "fee_increase_wording": "Where courses exceed one year, Buckingham reserves the right to increase fees annually in line with inflation linked to RPI.",
+    "additional_costs": "Course fees do not include books, equipment, writing-up fees or other ancillary charges. Stethoscope and some travel costs may apply.",
+    "eligibility_effect": "informational_only",
+    "source_ids": [
+      "buckingham_course_page_2027",
+      "buckingham_uk_fee_illustration_2027"
+    ]
+  },
+  "sources": [
+    {
+      "source_id": "buckingham_course_page_2027",
+      "title": "MB ChB Medicine (4.5-year degree)",
+      "url": "https://www.buckingham.ac.uk/courses/undergraduate/mb-chb-medicine-4.5-year-degree/",
+      "source_type": "official_course_page",
+      "published_date": null,
+      "accessed_date": "2026-07-18",
+      "applies_to_sections": [
+        "course_identity",
+        "entry_requirements",
+        "selection_process",
+        "fees",
+        "application_channel"
+      ],
+      "confidence": "high",
+      "evidence_classification": "official",
+      "notes": "Verifies 2027 course overview, January duration, 71A8 code, ABB A-level, 32-point page-text IB discrepancy, English language, staged academic screen/MMA/MMI selection, fee table, deposit wording and direct application route."
+    },
+    {
+      "source_id": "buckingham_entry_requirements_pdf_2026_27",
+      "title": "Medicine 2026/27 Entry Requirements",
+      "url": "https://www.buckingham.ac.uk/wp-content/uploads/2025/10/Med-2627-Entry-Requirements.pdf",
+      "source_type": "official_entry_requirements_pdf",
+      "published_date": "2025-10",
+      "accessed_date": "2026-07-18",
+      "applies_to_sections": [
+        "a_level",
+        "ib",
+        "scottish",
+        "resits",
+        "international_qualifications"
+      ],
+      "confidence": "high",
+      "evidence_classification": "official",
+      "notes": "Verifies ABB including Chemistry or Biology, General Studies exclusion, resit conditions, Scottish requirements, 34-point IB route, UK Science degree 2:1 and country-specific equivalence table."
+    },
+    {
+      "source_id": "ucas_buckingham_71a8",
+      "title": "Medicine, University of Buckingham",
+      "url": "https://www.ucas.com/explore/courses/2e6f7565-7172-baa3-7908-ef0b6e9df6f1/medicine?studyYear=2025",
+      "source_type": "official_ucas_listing",
+      "published_date": null,
+      "accessed_date": "2026-07-18",
+      "applies_to_sections": [
+        "course_identity",
+        "institution_code",
+        "entry_requirements",
+        "international_applicants"
+      ],
+      "confidence": "high",
+      "evidence_classification": "official",
+      "notes": "Verifies UCAS course code 71A8, institution code B90, MB ChB 4.5 years, January start, Year 1 point of entry, 15 October UCAS deadline and International-applicant information."
+    },
+    {
+      "source_id": "buckingham_undergraduate_apply",
+      "title": "How to apply - undergraduate study",
+      "url": "https://www.buckingham.ac.uk/admissions/applyonline/how-to-apply-undergraduate-study/",
+      "source_type": "official_admissions_page",
+      "published_date": null,
+      "accessed_date": "2026-07-18",
+      "applies_to_sections": [
+        "application_channels",
+        "institution_code",
+        "age_requirement"
+      ],
+      "confidence": "high",
+      "evidence_classification": "official",
+      "notes": "Verifies UCAS and direct application routes, UCAS institution code B90, direct-application deadline guidance and age-at-registration rule."
+    },
+    {
+      "source_id": "buckingham_uk_fee_illustration_2027",
+      "title": "January 2027 entry MB ChB Tuition Fee Illustration - UK applicants",
+      "url": "https://www.buckingham.ac.uk/wp-content/uploads/2014/05/MB-ChB-Fee-Illustration-UK-.pdf",
+      "source_type": "official_fee_pdf",
+      "published_date": null,
+      "accessed_date": "2026-07-18",
+      "applies_to_sections": [
+        "fees"
+      ],
+      "confidence": "medium",
+      "evidence_classification": "official",
+      "notes": "Shows payment schedule using 40000 average annual tuition and a 180000 illustrative total for UK applicants. The current course page fee table is treated as authoritative for first-year and total fee figures."
+    }
+  ],
+  "validation": {
+    "source_status": "official_source_verified_with_documented_gaps",
+    "last_verified": "2026-07-18",
+    "confidence_level": "Low",
+    "completion_status": "production_ready_eligibility_only_interview_prediction_not_ready",
+    "known_unknowns": [
+      "Buckingham does not publish MMA scoring thresholds, MMI progression rates or interview invitation cut-offs.",
+      "The live course page body states IB 32 while the current course-linked PDF and UCAS list IB 34.",
+      "Conditional GCSE science rule for applicants taking only Chemistry or only Biology at A-level is not executable in the generic evaluator.",
+      "Country-specific international qualification equivalence table is documented but not auto-evaluated.",
+      "Scottish S5 plus Advanced Higher rule is documented but not executable in the current generic Scottish evaluator."
+    ],
+    "review_notes": "Safe for production eligibility-only assessment. Interview prediction remains disabled because the MMA/MMI methodology is not published."
+  },
+  "engine_notes": {
+    "assessment_mode": "eligibility_only",
+    "eligibility": true,
+    "interview_prediction": false,
+    "assessment_available": true,
+    "interview_prediction_available": false,
+    "historical_guidance": false,
+    "international_prediction": false,
+    "contextual_logic": false,
+    "result_card": true,
+    "regression": true,
+    "research_completeness": "complete_for_supported_scope_with_documented_gaps",
+    "manual_review_required": true,
+    "eligibility_ready": true,
+    "eligibility_only_ready": true,
+    "interview_prediction_ready": false,
+    "offer_prediction_scope": "out_of_scope",
+    "prediction_confidence": "low",
+    "result_card_ready": true,
+    "interview_band_config_ready": true,
+    "metadata_activation_ready": true,
+    "activation_ready": true,
+    "production_ready": true,
+    "prediction_methodology": "eligibility_only",
+    "blocking_missing_fields": [
+      "published_mma_scoring_or_threshold",
+      "published_mmi_progression_rate",
+      "published_interview_invitation_threshold"
+    ],
+    "engine_assumptions": [
+      "71A8 is represented by course.entry_route = standard_entry, not by an A100 course-code assumption.",
+      "Fees are informational only and do not affect eligibility or interview guidance.",
+      "UCAT is not required or scored for Buckingham 71A8 unless future official evidence changes."
+    ],
+    "do_not_infer": [
+      "Do not infer UCAT ranking.",
+      "Do not infer Home/International threshold differences.",
+      "Do not infer a numerical MMA or MMI cut-off.",
+      "Do not relabel Buckingham 71A8 as A100."
+    ]
+  }
+}

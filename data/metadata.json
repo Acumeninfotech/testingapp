@@ -1,0 +1,74 @@
+{
+  "schema_version": "1.0.0",
+  "dataset_name": "Apply Smart™ UK Medical School Admissions Dataset",
+  "dataset_version": "2027.6.0",
+  "entry_cycle": "2027 Entry",
+  "generated_at": "2026-06-19",
+  "last_updated": "2026-07-13",
+  "maintainer": {
+    "organisation": "MediBrain UK",
+    "product": "Apply Smart™"
+  },
+  "supported_courses": [
+    "A100",
+    "A101",
+    "Gateway/Foundation"
+  ],
+  "supported_applicant_groups": [
+    "Home",
+    "Scottish",
+    "Rest of UK",
+    "International",
+    "Graduate",
+    "Contextual",
+    "Widening Participation"
+  ],
+  "shared_files": [
+    "index.json",
+    "applicant-groups.json",
+    "subject-catalog.json",
+    "rankings.json",
+    "ucat-deciles.json",
+    "grade-conversions.json",
+    "selection-models.json"
+  ],
+  "source_priority": [
+    "Official University Admissions Policy",
+    "Official University Entry Requirements",
+    "Official Selection Policy",
+    "Official UCAT Consortium",
+    "Medical Schools Council",
+    "UCAS",
+    "Freedom of Information Responses",
+    "Official Open Day Presentations"
+  ],
+  "validation_policy": {
+    "production_ready_when": [
+      "Eligibility logic is ready for the supported scope",
+      "Interview prediction is ready and clearly evidence-labelled",
+      "Historical guidance is available",
+      "International applicant logic is implemented or explicitly routed to review",
+      "Contextual logic is implemented or explicitly routed to review",
+      "The result card is ready",
+      "Regression coverage passes",
+      "Research evidence is sufficient for the supported interview-prediction scope"
+    ],
+    "capabilities": {
+      "eligibility_ready": "Minimum eligibility can be evaluated for the supported applicant route.",
+      "interview_prediction_ready": "Official selection evidence and official/FOI historical evidence support labelled interview guidance; a live annual cutoff is not required.",
+      "offer_prediction_scope": "out_of_scope",
+      "prediction_confidence_values": [
+        "high",
+        "medium",
+        "low"
+      ]
+    }
+  },
+  "notes": [
+    "ApplySmart is an eligibility and interview-prediction engine; offer prediction is outside the product scope.",
+    "Each course has its own JSON file.",
+    "Each course JSON acts as a complete admissions rule engine.",
+    "Shared data is stored separately to avoid duplication.",
+    "University rankings are for display only and do not affect interview prediction."
+  ]
+}

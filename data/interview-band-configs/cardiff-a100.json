@@ -1,0 +1,182 @@
+{
+  "schema_version": "1.0.0",
+  "course_profile_id": "cardiff-a100",
+  "confidence": "high",
+  "evidence": {
+    "classification": "official_pre_interview_formula_with_separate_international_historical_guidance",
+    "summary": "Official unchanged 28-point pre-interview formula; international applicants are ranked separately, while UCAT bands provide historical guidance rather than a fixed cutoff.",
+    "source_ids": [
+      "cardiff_course_2026",
+      "cardiff_medicine_admissions_info",
+      "cardiff_medicine_policy_2026",
+      "cardiff_official_foi_update_2026",
+      "cardiff_verified_international_admissions_evidence"
+    ]
+  },
+  "eligibility": {
+    "gcse": {
+      "minimum_count": 8,
+      "use_exact_subject_list": true,
+      "required_subjects": [
+        {
+          "subject_id": "english_language",
+          "minimum_grade": "6"
+        },
+        {
+          "subject_id": "mathematics",
+          "minimum_grade": "6"
+        },
+        {
+          "subject_id": "biology",
+          "minimum_grade": "7"
+        },
+        {
+          "subject_id": "chemistry",
+          "minimum_grade": "7"
+        }
+      ]
+    },
+    "a_level": {
+      "routes": [
+        {
+          "grade_profile": [
+            "A",
+            "A",
+            "A"
+          ],
+          "required_subject_ids": [
+            "biology",
+            "chemistry"
+          ],
+          "one_of_subject_groups": []
+        }
+      ]
+    }
+  },
+  "score_model": {
+    "type": "component_sum",
+    "basis": "Official Cardiff pre-interview score",
+    "scale": {
+      "min": 0,
+      "max": 28
+    },
+    "components": [
+      {
+        "component_id": "gcse_score",
+        "type": "gcse_mandatory_then_best",
+        "subject_count": 8,
+        "mandatory_subject_ids": [
+          "english_language",
+          "mathematics",
+          "biology",
+          "chemistry"
+        ],
+        "bands": [
+          {
+            "minimum_grade": "8",
+            "points": 3
+          },
+          {
+            "minimum_grade": "7",
+            "points": 2
+          },
+          {
+            "minimum_grade": "6",
+            "points": 1
+          }
+        ],
+        "max": 24
+      },
+      {
+        "component_id": "ucat_decile_score",
+        "type": "ucat_national_decile_lookup",
+        "points_by_decile": {
+          "1": 1,
+          "2": 1,
+          "3": 1,
+          "4": 2,
+          "5": 2,
+          "6": 2,
+          "7": 3,
+          "8": 3,
+          "9": 3,
+          "10": 3
+        },
+        "output_max": 3
+      }
+    ]
+  },
+  "guidance_pools": [
+    {
+      "pool_id": "international",
+      "priority": 100,
+      "applicant_match": {
+        "all_group_ids": [
+          "international_fee"
+        ]
+      },
+      "metric": "ucat_total",
+      "band_rules": [
+        {
+          "band": "interview_likely",
+          "operator": "greater_than",
+          "value": 2100
+        },
+        {
+          "band": "realistic",
+          "operator": "between_inclusive",
+          "min": 2080,
+          "max": 2100
+        },
+        {
+          "band": "ambitious",
+          "operator": "between_inclusive",
+          "min": 2050,
+          "max": 2079
+        },
+        {
+          "band": "high_risk",
+          "operator": "less_than",
+          "value": 2050
+        }
+      ]
+    },
+    {
+      "pool_id": "home_non_contextual",
+      "priority": 10,
+      "applicant_match": {
+        "all_group_ids": [
+          "home_fee"
+        ],
+        "excluded_group_ids": [
+          "contextual"
+        ]
+      },
+      "metric": "selection_score",
+      "band_rules": [
+        {
+          "band": "interview_likely",
+          "operator": "greater_than_or_equal",
+          "value": 26
+        },
+        {
+          "band": "realistic",
+          "operator": "between_inclusive",
+          "min": 24,
+          "max": 25
+        },
+        {
+          "band": "ambitious",
+          "operator": "between_inclusive",
+          "min": 22,
+          "max": 23
+        },
+        {
+          "band": "high_risk",
+          "operator": "less_than",
+          "value": 22
+        }
+      ]
+    }
+  ]
+}

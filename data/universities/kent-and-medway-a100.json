@@ -1,0 +1,902 @@
+{
+  "schema_version": "1.0.0",
+  "template_version": "1.0.0",
+  "profile_id": "kent-and-medway-a100",
+  "profile_status": "production_active",
+  "verification_status": "official_and_foi_verified_exact_scoring_undisclosed",
+  "last_updated": "2026-07-23",
+  "university": {
+    "name": "Kent & Medway Medical School",
+    "slug": "kent-and-medway",
+    "country": "United Kingdom",
+    "nation": "England",
+    "institution_type": "Medical school",
+    "institution_funding_type": "OfS funded for Home places",
+    "website_url": "https://kmms.ac.uk/"
+  },
+  "course": {
+    "name": "BM BS Medicine (A100)",
+    "ucas_code": "A100",
+    "entry_route": "standard_entry",
+    "qualification_awarded": "BM BS",
+    "duration_years": 5,
+    "campus": "Canterbury",
+    "location": "Canterbury, England",
+    "entry_year": 2026,
+    "intake_month": "September",
+    "application_channels": [
+      "UCAS"
+    ],
+    "fee_statuses": [
+      "home",
+      "international"
+    ],
+    "is_gateway_or_foundation": false,
+    "is_graduate_entry": false,
+    "notes": "Standard-entry A100 route. KMMS sorts applicants into Groups A-E before Stage 1/2; graduates applying to A100 are handled through Group D rather than a separate A101 course."
+  },
+  "medical_school": {
+    "provider": "Jointly delivered by Canterbury Christ Church University and the University of Kent",
+    "home_places_ofs_mfl": 109,
+    "international_places": "No fixed published cap found"
+  },
+  "applies_to_group_ids": [
+    "home_fee",
+    "international_fee",
+    "school_leaver",
+    "graduate_applicant",
+    "contextual"
+  ],
+  "applicant_pools": [
+    {
+      "pool_id": "kmms_group_a",
+      "label": "Group A",
+      "definition": "Pre-A-level or pre-IB applicants with English or Welsh school performance data.",
+      "academic_input": "achieved_gcse",
+      "predicted_grades_used": false,
+      "stage2b": "GCSE attainment contextualised against school GCSE performance data, including Attainment 8 where available.",
+      "manual_review_if": [
+        "school performance data not held by ApplySmart",
+        "school has no usable contextualisation data and applicant must be rerouted to Group C"
+      ]
+    },
+    {
+      "pool_id": "kmms_group_b",
+      "label": "Group B",
+      "definition": "Post-A-level or post-IB applicants, including gap-year applicants and applicable final-year degree applicants.",
+      "academic_input": "achieved_a_level_or_achieved_ib",
+      "predicted_grades_used": false,
+      "stage2b": "Achieved post-16 attainment contextualised against school performance, including percentage achieving AAB+ where available."
+    },
+    {
+      "pool_id": "kmms_group_c",
+      "label": "Group C",
+      "definition": "Applicants whose school data cannot be contextualised in the Group A/B manner, including Scottish, Northern Irish, home-educated, Access to HE Medicine, Home-fee international-secondary and no-usable-school-data applicants.",
+      "academic_input": "relevant_achieved_qualification",
+      "predicted_grades_used": false,
+      "stage2b": "Separate scoring and possible CASPer/manual review."
+    },
+    {
+      "pool_id": "kmms_group_d",
+      "label": "Group D",
+      "definition": "Graduates with a relevant achieved degree.",
+      "academic_input": "achieved_degree",
+      "predicted_grades_used": false,
+      "stage2b": "Graduate scoring and possible CASPer/manual review."
+    },
+    {
+      "pool_id": "kmms_group_e",
+      "label": "Group E",
+      "definition": "International overseas-fee applicants.",
+      "academic_input": "achieved_international_or_degree_equivalent",
+      "predicted_grades_used": false,
+      "stage2b": "International applicants are scored separately from Home applicants and may have remote MMI/CASPer handling."
+    }
+  ],
+  "stage_1_eligibility": {
+    "verification_status": "official_and_foi_verified_exact_scoring_undisclosed",
+    "source_ids": [
+      "kmms_entry_requirements_2026",
+      "kmms_admissions_policy_2024",
+      "kent_foi_2024_ucat_thresholds"
+    ],
+    "overall_policy": {
+      "status": "verified",
+      "description": "Stage 1 is a strict academic threshold using the appropriate achieved qualification for the resolved applicant group. Predicted grades are not used at any stage.",
+      "not_eligible_if": [
+        "Minimum GCSE, achieved A-level/IB, Access, Scottish, degree or verified international-equivalence requirements are not met for the applicable group.",
+        "UCAT SJT Band 4.",
+        "Graduate route SJT Band 3 or Band 4.",
+        "Current-cycle UCAT is missing."
+      ],
+      "source_ids": [
+        "kmms_entry_requirements_2026",
+        "kmms_admissions_policy_2024"
+      ],
+      "predicted_grades_policy": "ignored_for_kmms_academic_and_interview_selection"
+    },
+    "gcse": {
+      "status": "official_source_verified",
+      "source_ids": [
+        "kmms_entry_requirements_2026",
+        "kmms_admissions_policy_2024"
+      ],
+      "minimum_count": 5,
+      "counted_subject_limit": null,
+      "mandatory_subject_ids": [
+        "english_language",
+        "mathematics",
+        "science"
+      ],
+      "grade_requirements": [
+        {
+          "requirement_id": "kmms_gcse_english_language_6",
+          "subject_id": "english_language",
+          "minimum_grade": "6/B",
+          "qualification_level": "gcse",
+          "decision_outcome_if_not_met": "not_eligible",
+          "source_ids": [
+            "kmms_entry_requirements_2026"
+          ]
+        },
+        {
+          "requirement_id": "kmms_gcse_maths_6",
+          "subject_id": "mathematics",
+          "minimum_grade": "6/B",
+          "qualification_level": "gcse",
+          "decision_outcome_if_not_met": "not_eligible",
+          "source_ids": [
+            "kmms_entry_requirements_2026"
+          ]
+        }
+      ],
+      "science_requirement": {
+        "requirement_type": "any_of",
+        "accepted_options": [
+          {
+            "option_id": "triple_science_666",
+            "counts_as_gcse_subjects": 3,
+            "grade_requirements": [
+              {
+                "subject_id": "biology",
+                "minimum_grade": "6/B"
+              },
+              {
+                "subject_id": "chemistry",
+                "minimum_grade": "6/B"
+              },
+              {
+                "subject_id": "physics",
+                "minimum_grade": "6/B"
+              }
+            ]
+          },
+          {
+            "option_id": "double_science_66_plus_one_other",
+            "counts_as_gcse_subjects": 3,
+            "subject_id": "combined_science",
+            "minimum_grade_profile": [
+              "6",
+              "6"
+            ]
+          }
+        ]
+      },
+      "accepted_equivalencies": [
+        "Double Science at 66 plus one other GCSE at grade 6/B or above where accepted by KMMS."
+      ],
+      "sitting_policy": "not separately scored in ApplySmart for KMMS",
+      "achieved_or_predicted": "achieved_only",
+      "notes": "Group A uses achieved GCSEs as the academic assessment input and must not require achieved A-levels."
+    },
+    "post_16": {
+      "status": "official_source_verified",
+      "source_ids": [
+        "kmms_entry_requirements_2026",
+        "kmms_admissions_policy_2024"
+      ],
+      "accepted_qualification_types": [
+        "a_level",
+        "international_baccalaureate",
+        "scottish_highers",
+        "advanced_highers",
+        "access_to_he_medicine",
+        "degree",
+        "verified_international_equivalence"
+      ],
+      "a_level": {
+        "status": "official_source_verified",
+        "source_ids": [
+          "kmms_entry_requirements_2026"
+        ],
+        "grade_requirements": [
+          {
+            "requirement_id": "kmms_group_b_aab_science",
+            "grade_profile": [
+              "A",
+              "A",
+              "B"
+            ],
+            "required_subject_ids": [],
+            "decision_outcome_if_not_met": "not_eligible",
+            "source_ids": [
+              "kmms_entry_requirements_2026"
+            ],
+            "notes": "Achieved AAB minimum for Group B. Must include Chemistry and/or Biology; if not both, the second science may be Physics, Maths, Psychology or Computer Science."
+          }
+        ],
+        "standard_offer": {
+          "grade_profile": [
+            "A",
+            "A",
+            "B"
+          ],
+          "source_ids": [
+            "kmms_entry_requirements_2026"
+          ],
+          "notes": "Group B achieved minimum. Group A offers may be AAA or AAB by school average; offer prediction is out of scope."
+        },
+        "contextual_offer": {
+          "applies_to_group_ids": [
+            "contextual"
+          ],
+          "grade_profile": [
+            "A",
+            "B",
+            "B"
+          ],
+          "source_ids": [
+            "kmms_admissions_policy_2024"
+          ],
+          "notes": "Discounted offer only; not used for interview prediction."
+        },
+        "required_subject_ids": [],
+        "one_of_subject_groups": [],
+        "subject_combination_rule": {
+          "offer_subject_count": 3,
+          "primary_subject_condition": {
+            "options": [
+              {
+                "option_id": "biology_present",
+                "subject_ids": [
+                  "biology"
+                ],
+                "minimum_required": 1
+              },
+              {
+                "option_id": "chemistry_present",
+                "subject_ids": [
+                  "chemistry"
+                ],
+                "minimum_required": 1
+              }
+            ]
+          },
+          "second_subject_group": {
+            "minimum_required": 1,
+            "subject_ids": [
+              "biology",
+              "chemistry",
+              "physics",
+              "mathematics",
+              "psychology",
+              "computer_science"
+            ]
+          },
+          "subjects_must_be_distinct": true,
+          "minimum_subjects": 2
+        },
+        "excluded_subject_ids": [
+          "general_studies"
+        ],
+        "third_subject_rules": "Chemistry and/or Biology required; if not both Biology and Chemistry are offered, the second science may be Physics, Maths, Psychology or Computer Science. General Studies and Critical Thinking are not accepted.",
+        "predicted_grades_accepted": false,
+        "notes": "Predicted A-level grades are collected for general ApplySmart compatibility only and are ignored by KMMS academic and interview-selection logic."
+      },
+      "ib": {
+        "status": "official_source_verified",
+        "source_ids": [
+          "kmms_entry_requirements_2026"
+        ],
+        "total_points": 34,
+        "hl_points": null,
+        "grade_requirements": [
+          {
+            "requirement_id": "kmms_ib_34_hl_science_66",
+            "total_points": 34,
+            "required_hl_subject_ids": [],
+            "decision_outcome_if_not_met": "not_eligible",
+            "source_ids": [
+              "kmms_entry_requirements_2026"
+            ],
+            "notes": "Requires Chemistry or Biology at HL grade 6 plus a further HL science at grade 6."
+          }
+        ],
+        "required_hl_subject_ids": [],
+        "one_of_hl_subject_groups": [],
+        "notes": "Achieved IB only for Group B/post-IB applicants."
+      },
+      "scottish": {
+        "status": "official_source_verified_with_documented_gaps",
+        "source_ids": [
+          "msc_kmms_course_page"
+        ],
+        "higher_offer": {
+          "grade_profile": [
+            "A",
+            "A",
+            "A",
+            "A",
+            "B"
+          ],
+          "source_ids": [
+            "msc_kmms_course_page"
+          ],
+          "notes": "Scottish applicants are generally Group C because KMMS cannot contextualise them in the English/Welsh school-data format."
+        },
+        "advanced_higher_offer": {
+          "grade_profile": [
+            "A",
+            "A",
+            "B"
+          ],
+          "source_ids": [
+            "msc_kmms_course_page"
+          ],
+          "notes": "Advanced Higher AAB listed by MSC."
+        },
+        "grade_requirements": [],
+        "required_subject_ids": [],
+        "one_of_subject_groups": [],
+        "notes": "Group C route; CASPer/manual-review handling preserved where ApplySmart lacks subjective scoring data."
+      },
+      "access_to_he": {
+        "status": "official_source_verified",
+        "source_ids": [
+          "kmms_entry_requirements_2026"
+        ],
+        "total_credits": 45,
+        "distinction_credits": 30,
+        "merit_credits": 15,
+        "subject_credit_requirements": [
+          {
+            "subject_id": "science",
+            "minimum_credits": 15,
+            "minimum_grade": "12 Distinction credits in Chemistry/Biology content",
+            "decision_outcome_if_not_met": "not_eligible",
+            "source_ids": [
+              "kmms_entry_requirements_2026"
+            ]
+          }
+        ],
+        "notes": "Accepted only for QAA Medicine-compliant Access routes and not within 3 years of sitting A-levels; provider verification is manual review."
+      },
+      "degree": {
+        "status": "official_source_verified",
+        "source_ids": [
+          "kmms_entry_requirements_2026"
+        ],
+        "applies_to_group_ids": [
+          "graduate_applicant"
+        ],
+        "minimum_classification": "2_1",
+        "accepted_degree_subject_ids": [
+          "biology",
+          "psychology"
+        ],
+        "decision_outcome_if_not_met": "not_eligible",
+        "notes": "Acceptable subjects include biosciences/biomedical/psychology and named health-profession degrees. Subject acceptability remains manual review unless already verified."
+      },
+      "notes": "Only achieved qualifications are used for KMMS interview selection."
+    },
+    "admissions_tests": {
+      "source_ids": [
+        "kmms_entry_requirements_2026",
+        "kent_foi_2024_ucat_thresholds",
+        "ucat_consortium_2025"
+      ],
+      "ucat": {
+        "required": true,
+        "minimum_total_score": null,
+        "minimum_subsection_scores": [],
+        "score_used_for_ranking": false,
+        "validity_window": "current admissions cycle",
+        "official_2026_threshold_2700": null,
+        "official_2026_threshold_status": "awaiting_official_publication",
+        "decision_outcome_if_not_met": "not_eligible",
+        "notes": "UCAT cognitive total is an official pass/fail Stage 2a gate. The 2026-entry threshold on the 900-2700 scale is not published and must not be derived from historical 3600-scale figures."
+      },
+      "sjt": {
+        "used": true,
+        "used_as_gate": true,
+        "accepted_bands": [
+          1,
+          2,
+          3
+        ],
+        "excluded_bands": [
+          4
+        ],
+        "group_policies": [
+          {
+            "policy_id": "kmms_school_leaver_sjt_band_3_or_better",
+            "any_group_ids": [
+              "school_leaver"
+            ],
+            "excluded_bands": [
+              4
+            ],
+            "used_as_gate": true,
+            "notes": "Groups A/B/C school-leaver and Group E school-leaver routes require Band 3 or better."
+          },
+          {
+            "policy_id": "kmms_graduate_sjt_band_2_or_better",
+            "any_group_ids": [
+              "graduate_applicant"
+            ],
+            "excluded_bands": [
+              3,
+              4
+            ],
+            "used_as_gate": true,
+            "notes": "Group D and graduate-route applicants require Band 2 or better."
+          }
+        ],
+        "scoring": {
+          "used_for_points": false
+        },
+        "graduate_sjt_remains_required": true,
+        "notes": "Band 4 is an automatic rejection; graduates need Band 2 or better."
+      }
+    },
+    "resits": {
+      "allowed": null,
+      "maximum_resits": null,
+      "notes": "No additional executable resit scoring is represented for KMMS beyond the achieved qualification requirements."
+    },
+    "english_language": {
+      "required_for_group": true,
+      "accepted_tests": [
+        {
+          "test": "ielts_academic",
+          "overall_minimum": 7,
+          "minimum_each_component": 7,
+          "source_ids": [
+            "kmms_entry_requirements_2026"
+          ]
+        }
+      ],
+      "exemptions": [],
+      "notes": "Applies where required, especially Group E/international equivalence routes."
+    },
+    "age_or_professional_checks": {
+      "minimum_age": null,
+      "fitness_to_practise_required": true,
+      "dbs_required": true,
+      "occupational_health_required": true,
+      "notes": "Professional checks are not interview-prediction scoring inputs."
+    }
+  },
+  "stage_2_interview_selection": {
+    "verification_status": "official_and_foi_verified_exact_scoring_undisclosed",
+    "source_ids": [
+      "kmms_entry_requirements_2026",
+      "kmms_admissions_policy_2024",
+      "kent_foi_2024_ucat_thresholds"
+    ],
+    "primary_model": "ucat_cutoff",
+    "modifiers": [
+      "contextual_adjustment",
+      "sjt_exclusion",
+      "home_international_separate_ranking"
+    ],
+    "ranking_factors": [
+      {
+        "factor_id": "academic_contextual_ranking",
+        "role": "ranking_metric",
+        "weight_percent": null,
+        "points_available": null,
+        "notes": "Groups A/B are ranked by contextualised academic attainment relative to school averages; ApplySmart does not hold the required school-performance data."
+      },
+      {
+        "factor_id": "ucat_cognitive_threshold",
+        "role": "threshold_gate",
+        "weight_percent": null,
+        "points_available": null,
+        "notes": "UCAT is pass/fail only and is not ranked above the threshold."
+      }
+    ],
+    "calculation": {
+      "verification_status": "official_and_foi_verified_exact_scoring_undisclosed",
+      "source_ids": [
+        "kmms_admissions_policy_2024"
+      ],
+      "score_components": [],
+      "total_score": {
+        "calculation_method": "not_published_and_not_recreated",
+        "components": [],
+        "scale": null,
+        "source_ids": [
+          "kmms_admissions_policy_2024"
+        ],
+        "notes": "KMMS states it does not use percentage weighting. Group C/D/E scoring and CASPer/MMI scoring are not public and are not modelled."
+      },
+      "notes": "No academic+UCAT formula exists for KMMS."
+    },
+    "thresholds": [
+      {
+        "threshold_id": "official_2026_ucat_threshold_2700",
+        "metric": "ucat_total",
+        "value": null,
+        "scale": 2700,
+        "status": "awaiting_official_publication",
+        "decision_outcome_if_unavailable": "prediction_unavailable",
+        "source_ids": [
+          "kmms_entry_requirements_2026",
+          "ucat_consortium_2025"
+        ]
+      }
+    ],
+    "selection_adjustments": [
+      {
+        "modifier_id": "contextual_adjustment",
+        "verification_status": "official_source_verified",
+        "source_ids": [
+          "kmms_admissions_policy_2024"
+        ],
+        "notes": "KMMS contextualises everyone in Groups A/B, using school-average GCSE or AAB+ performance data."
+      }
+    ],
+    "tie_breakers": [],
+    "output_band_policy": "official_prediction_unavailable_plus_applysmart_advisory_guidance",
+    "international_selection": {
+      "ranked_separately_from_home": true,
+      "mmi_format": "remote_reduced_stations_possible",
+      "casper_required": true,
+      "notes": "Do not pool Home and international applicants."
+    },
+    "notes": "Official KMMS runtime prediction remains unavailable while the 2026 UCAT threshold is null. ApplySmart advisory UCAT guidance is stored separately and cannot pass or reject an applicant."
+  },
+  "contextual_admissions": {
+    "verification_status": "official_source_verified",
+    "source_ids": [
+      "kmms_admissions_policy_2024"
+    ],
+    "available": true,
+    "applies_to_group_ids": [
+      "home_fee",
+      "school_leaver",
+      "contextual"
+    ],
+    "criteria": [
+      "KMPF or University of Kent/Canterbury Christ Church partner school or college",
+      "University of Kent or Canterbury Christ Church outreach activity",
+      "Currently in care or care-experienced within the last 6 years"
+    ],
+    "adjustments": [
+      "ABB discounted contextual offer where eligible",
+      "Contextualised academic ranking for Groups A/B"
+    ],
+    "guaranteed_interview_rules": [],
+    "notes": "Contextual offer adjustment is an offer-stage policy and does not create offer prediction."
+  },
+  "ranking_pools": [
+    {
+      "pool_id": "kmms_home_groups_a_b",
+      "name": "KMMS Home Groups A/B contextual ranking",
+      "applies_to_group_ids": [
+        "home_fee",
+        "school_leaver"
+      ],
+      "fee_statuses": [
+        "home"
+      ],
+      "ranking_model": "academic_ranking",
+      "ranking_factors": [
+        "contextualised achieved GCSE or achieved post-16 attainment"
+      ],
+      "places_available": 109,
+      "source_ids": [
+        "kmms_admissions_policy_2024",
+        "ofs_mfl"
+      ],
+      "notes": "Contextual school-performance data is not held by ApplySmart; official ranking outcome is manual review."
+    },
+    {
+      "pool_id": "kmms_groups_c_d_e",
+      "name": "KMMS Group C/D/E separate scoring",
+      "applies_to_group_ids": [
+        "home_fee",
+        "international_fee",
+        "graduate_applicant"
+      ],
+      "fee_statuses": [
+        "home",
+        "international"
+      ],
+      "ranking_model": "holistic_review",
+      "ranking_factors": [
+        "separate scoring",
+        "CASPer where required",
+        "manual review where subjective inputs are unavailable"
+      ],
+      "places_available": null,
+      "source_ids": [
+        "kmms_admissions_policy_2024"
+      ],
+      "notes": "Exact scoring formula is not published."
+    }
+  ],
+  "quotas": [
+    {
+      "quota_id": "kent_and_medway_a100_places_2027_entry_verified",
+      "name": "Verified Home/International places (2027 entry)",
+      "home_places": 109,
+      "quota_type": "verified_current_places",
+      "source_ids": [
+        "applysmart_admissions_team_verified_2026"
+      ],
+      "notes": "Home/International place figures verified by the ApplySmart admissions research team for 2027 entry."
+    },
+    {
+      "quota_id": "home_ofs_mfl_109",
+      "source_ids": [
+        "ofs_mfl"
+      ],
+      "notes": "OfS Maximum Fundable Limit for medical Home places is 109 for 2025-26 onward unless changed."
+    }
+  ],
+  "offer_selection": {
+    "verification_status": "official_source_verified_with_documented_gaps",
+    "source_ids": [
+      "kmms_entry_requirements_2026",
+      "kmms_admissions_policy_2024"
+    ],
+    "interview_format": "MMI: approximately six 7-minute stations plus a 40-45 minute group station for Home applicants; international MMIs may be remote with fewer short stations.",
+    "interview_scoring": "Competency-based MMI scoring; exact numeric scoring and offer threshold are not published.",
+    "offer_model": "Offers made by MMI performance in batches; offer prediction is out of scope.",
+    "ranking_factors": [
+      "MMI performance",
+      "positive-only borderline personal statement/reference review"
+    ],
+    "tie_breakers": [],
+    "waiting_list_policy": "Offer, waiting list or reject after MMI; exact waiting-list thresholds are not modelled.",
+    "standard_offer": {
+      "a_level": "AAB for Group B minimum; Group A offer may be AAA or AAB by school average",
+      "ib": "34",
+      "degree": "2:1 where applicable"
+    },
+    "contextual_offer": {
+      "a_level": "ABB where KMMS contextual-offer criteria are met"
+    },
+    "notes": "No offer prediction has been introduced."
+  },
+  "historical_admissions": {
+    "verification_status": "official_and_foi_verified_exact_scoring_undisclosed",
+    "source_ids": [
+      "kent_foi_2023_home_statistics",
+      "kent_foi_2024_ucat_thresholds",
+      "kent_foi_2024_2023_statistics"
+    ],
+    "cycles": [
+      {
+        "entry_year": 2021,
+        "school_leaver_ucat_threshold_3600": 2470,
+        "graduate_ucat_threshold_3600": 2500,
+        "school_leaver_sjt_min_band": 3,
+        "graduate_sjt_min_band": 2
+      },
+      {
+        "entry_year": 2022,
+        "school_leaver_ucat_threshold_3600": 2470,
+        "graduate_ucat_threshold_3600": 2500,
+        "school_leaver_sjt_min_band": 3,
+        "graduate_sjt_min_band": 2
+      },
+      {
+        "entry_year": 2023,
+        "school_leaver_ucat_threshold_3600": 2500,
+        "graduate_ucat_threshold_3600": 2500,
+        "school_leaver_sjt_min_band": 3,
+        "graduate_sjt_min_band": 2,
+        "home_applicants": 1623,
+        "home_interviews": 404,
+        "home_offers": 176,
+        "international_applicants": 113,
+        "international_interviews": 32,
+        "international_offers": 14
+      }
+    ],
+    "notes": "Historical UCAT figures are retained on the old 1200-3600 scale and must not be converted into the official runtime threshold."
+  },
+  "fee_information": {
+    "currency": "GBP",
+    "entry_cycle": "2026",
+    "home": {
+      "places": 109
+    },
+    "international": {
+      "places": "No fixed published cap found"
+    },
+    "fees_subject_to_change": true,
+    "eligibility_effect": "informational_only"
+  },
+  "sources": [
+    {
+      "source_id": "kmms_entry_requirements_2026",
+      "title": "KMMS Entry Requirements 2026",
+      "url": "https://kmms.ac.uk/entry-requirements-2026/",
+      "source_type": "official_course_page",
+      "published_date": "2026",
+      "accessed_date": "2026-07-23",
+      "applies_to_sections": [
+        "stage_1_eligibility",
+        "stage_2_interview_selection",
+        "offer_selection"
+      ],
+      "confidence": "high",
+      "notes": "Canonical user-supplied research source."
+    },
+    {
+      "source_id": "kmms_admissions_policy_2024",
+      "title": "KMMS Admissions Policy 2024",
+      "url": "https://kmms.ac.uk/wp-content/uploads/sites/51/2024/12/KMMS-Admissions-policy-2024.pdf",
+      "source_type": "official_policy",
+      "published_date": "2024-09",
+      "accessed_date": "2026-07-23",
+      "applies_to_sections": [
+        "stage_1_eligibility",
+        "stage_2_interview_selection",
+        "contextual_admissions",
+        "offer_selection"
+      ],
+      "confidence": "high",
+      "notes": "Canonical user-supplied research source."
+    },
+    {
+      "source_id": "ucat_consortium_2025",
+      "title": "UCAT Consortium UCAT 2025",
+      "url": "https://www.ucat.ac.uk/about-ucat/ucat-2025/",
+      "source_type": "official_test_provider",
+      "published_date": "2025",
+      "accessed_date": "2026-07-23",
+      "applies_to_sections": [
+        "stage_1_eligibility",
+        "stage_2_interview_selection"
+      ],
+      "confidence": "high",
+      "notes": "Confirms current 900-2700 cognitive total scale."
+    },
+    {
+      "source_id": "kent_foi_2024_ucat_thresholds",
+      "title": "University of Kent FOI: UCAT Thresholds Medicine A100",
+      "url": "https://www.whatdotheyknow.com/request/ucat_thresholds_medicine_a100_17",
+      "source_type": "foi",
+      "published_date": "2024-05-16",
+      "accessed_date": "2026-07-23",
+      "applies_to_sections": [
+        "historical_admissions",
+        "stage_2_interview_selection"
+      ],
+      "confidence": "high",
+      "notes": "Historical 2021-2023 3600-scale thresholds only."
+    },
+    {
+      "source_id": "kent_foi_2023_home_statistics",
+      "title": "University of Kent FOI: A100 statistics 2020-2023",
+      "url": "https://www.whatdotheyknow.com/request/a100_statistics_2020_2023",
+      "source_type": "foi",
+      "published_date": "2023-09-26",
+      "accessed_date": "2026-07-23",
+      "applies_to_sections": [
+        "historical_admissions"
+      ],
+      "confidence": "high",
+      "notes": "Home applicant/interview/offer counts and average UCAT figures."
+    },
+    {
+      "source_id": "kent_foi_2024_2023_statistics",
+      "title": "University of Kent FOI: 2024 A100 Medicine Admissions Statistics",
+      "url": "https://www.whatdotheyknow.com/request/2024_a100_medicine_admissions_st_3",
+      "source_type": "foi",
+      "published_date": "2024-10-14",
+      "accessed_date": "2026-07-23",
+      "applies_to_sections": [
+        "historical_admissions"
+      ],
+      "confidence": "high",
+      "notes": "2023 Home and International counts."
+    },
+    {
+      "source_id": "ofs_mfl",
+      "title": "Office for Students Medical and Dental Maximum Fundable Limits",
+      "url": "https://www.officeforstudents.org.uk/for-providers/finance-and-funding/medicine-and-dentistry-funding/medical-and-dental-maximum-fundable-limits/",
+      "source_type": "official_regulator",
+      "published_date": "2025",
+      "accessed_date": "2026-07-23",
+      "applies_to_sections": [
+        "quotas",
+        "historical_admissions"
+      ],
+      "confidence": "high",
+      "notes": "Home medical MFL 109."
+    },
+    {
+      "source_id": "msc_kmms_course_page",
+      "title": "Medical Schools Council BM BS Medicine A100",
+      "url": "https://www.medschools.ac.uk/courses/kent-and-medway-medical-school-medicine-a100/",
+      "source_type": "official_index",
+      "published_date": "2026",
+      "accessed_date": "2026-07-23",
+      "applies_to_sections": [
+        "stage_1_eligibility"
+      ],
+      "confidence": "medium",
+      "notes": "Scottish qualification summary; treated as indicative where cycle labels are unclear."
+    }
+  ],
+  "validation": {
+    "source_status": "official_and_foi_verified_exact_scoring_undisclosed",
+    "last_verified": "2026-07-23",
+    "confidence_level": "High",
+    "completion_status": "complete_for_supported_scope_with_documented_gaps",
+    "known_unknowns": [
+      "Official 2026 UCAT threshold on the 2700 scale is not published.",
+      "ApplySmart does not hold school-performance data required for Group A/B contextual ranking.",
+      "Exact Group C/D/E scoring and MMI offer thresholds are not published."
+    ],
+    "sources": [
+      {
+        "title": "Official KMMS A100 Admissions Research Document",
+        "url": "/Users/faizan/Downloads/KMMS_A100_Admissions_Reference_2026entry.md",
+        "source_type": "approved_user_supplied_research",
+        "accessed_date": "2026-07-23",
+        "notes": "Treat as university-specific source of truth."
+      },
+      {
+        "title": "Approved KMMS ApplySmart Configuration",
+        "url": "/Users/faizan/Downloads/kmms-applysmart-config-2.json",
+        "source_type": "approved_user_supplied_config",
+        "accessed_date": "2026-07-23",
+        "notes": "Advisory threshold-equivalence source; one Group A fixture corrected to use achieved GCSEs rather than requiring achieved A-levels."
+      }
+    ],
+    "review_notes": "Production profile replaces the previous MSC seed. Current official 2026 2700-scale UCAT threshold remains unavailable, so official runtime interview prediction is unavailable while advisory guidance is separate."
+  },
+  "engine_notes": {
+    "eligibility": true,
+    "interview_prediction": true,
+    "historical_guidance": true,
+    "international_prediction": true,
+    "contextual_logic": true,
+    "result_card": true,
+    "regression": true,
+    "research_completeness": "complete_for_supported_scope_with_documented_gaps",
+    "activation_ready": true,
+    "production_ready": true,
+    "eligibility_ready": true,
+    "interview_prediction_ready": true,
+    "interview_band_ready": true,
+    "result_card_ready": true,
+    "decision_transparency_ready": true,
+    "evidence_confidence_ready": true,
+    "decision_timeline_ready": true,
+    "regression_passed": true,
+    "prediction_confidence": "low",
+    "evidence_confidence": "high",
+    "manual_review_required": false,
+    "blocking_missing_fields": [],
+    "engine_assumptions": [],
+    "do_not_infer": [
+      "Do not infer a 2026 2700-scale UCAT threshold.",
+      "Do not use predicted grades for KMMS.",
+      "Do not rank KMMS applicants by UCAT above threshold.",
+      "Do not introduce offer prediction."
+    ],
+    "offer_prediction_scope": "out_of_scope",
+    "shared_engine_change": "Generic opt-in a_level.predicted_grades_policy=ignore plus allow_unachieved_with_gcse_gate support, required so KMMS Group A applicants are not failed or scored using predicted A-levels.",
+    "predicted_grades_policy": "Predicted grades may be collected but are ignored for KMMS academic eligibility, interview selection and advisory guidance.",
+    "official_2026_threshold_2700": null,
+    "production_scope": "KMMS BM BS Medicine A100 only"
+  }
+}

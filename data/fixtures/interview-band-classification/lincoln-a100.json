@@ -1,0 +1,298 @@
+{
+  "schema_version": "1.0.0",
+  "course_profile_id": "lincoln-a100",
+  "base_applicant": {
+    "profile_id": "lincoln-base-year13",
+    "application_year": 2026,
+    "applicant_identity": {
+      "domicile": "England",
+      "fee_status": "Home",
+      "applicant_type": "school_leaver",
+      "contextual": false,
+      "contextual_flags": {}
+    },
+    "qualification_route": "a_level",
+    "qualification_status": "predicted",
+    "course_target": {
+      "ucas_code": "A100"
+    },
+    "gcse_profile": {
+      "total_gcse_count": 8,
+      "subjects": {
+        "english_language": "7",
+        "mathematics": "7",
+        "biology": "9",
+        "chemistry": "9"
+      },
+      "additional_subjects": [
+        {
+          "subject_id": "physics",
+          "grade": "8"
+        },
+        {
+          "subject_id": "english_literature",
+          "grade": "8"
+        },
+        {
+          "subject_id": "psychology",
+          "grade": "7"
+        },
+        {
+          "subject_id": "human_biology",
+          "grade": "7"
+        }
+      ]
+    },
+    "a_level_profile": {
+      "qualification_status": "predicted",
+      "subjects": [
+        {
+          "subject_id": "biology",
+          "predicted_grade": "A"
+        },
+        {
+          "subject_id": "chemistry",
+          "predicted_grade": "A"
+        },
+        {
+          "subject_id": "mathematics",
+          "predicted_grade": "A"
+        }
+      ]
+    },
+    "admissions_tests": {
+      "ucat": {
+        "total_score": 2050,
+        "score_scale": 2700,
+        "sjt_band": 2,
+        "test_year": 2026
+      }
+    }
+  },
+  "scenarios": [
+    {
+      "scenario_id": "model_a_year13_strong_score",
+      "overrides": {
+        "admissions_tests": {
+          "ucat": {
+            "total_score": 2310,
+            "score_scale": 2700,
+            "sjt_band": 1,
+            "test_year": 2026
+          }
+        }
+      },
+      "expected": {
+        "eligibility_status": "eligible",
+        "interview_band": "interview_likely",
+        "guidance_pool_id": "model_a_provisional_official_score_guidance",
+        "score": 54,
+        "score_max": 60
+      }
+    },
+    {
+      "scenario_id": "model_a_year13_realistic_zone_score",
+      "overrides": {},
+      "expected": {
+        "eligibility_status": "eligible",
+        "interview_band": "ambitious",
+        "public_recommendation": "Realistic Choice",
+        "guidance_pool_id": "model_a_provisional_official_score_guidance",
+        "score": 46,
+        "score_max": 60
+      }
+    },
+    {
+      "scenario_id": "model_a_year13_high_risk_score",
+      "overrides": {
+        "admissions_tests": {
+          "ucat": {
+            "total_score": 2050,
+            "score_scale": 2700,
+            "sjt_band": 3,
+            "test_year": 2026
+          }
+        }
+      },
+      "expected": {
+        "eligibility_status": "eligible",
+        "interview_band": "high_risk",
+        "guidance_pool_id": "model_a_provisional_official_score_guidance",
+        "score": 41,
+        "score_max": 60
+      }
+    },
+    {
+      "scenario_id": "model_a_contextual_cap_12",
+      "overrides": {
+        "admissions_tests": {
+          "ucat": {
+            "total_score": 2310,
+            "score_scale": 2700,
+            "sjt_band": 1,
+            "test_year": 2026
+          }
+        },
+        "applicant_group_ids": [
+          "lincoln_mem2_q1",
+          "lincoln_ucat_bursary",
+          "lincolnshire_residence"
+        ],
+        "applicant_identity": {
+          "contextual": true,
+          "contextual_flags": {
+            "mem2_q1": true,
+            "ucat_bursary": true,
+            "lincolnshire_residence": true
+          }
+        }
+      },
+      "expected": {
+        "eligibility_status": "eligible",
+        "interview_band": "interview_likely",
+        "guidance_pool_id": "model_a_provisional_official_score_guidance",
+        "score": 60,
+        "score_max": 60,
+        "contextual_component": 12,
+        "uncapped_score": 66,
+        "cap_applied": true
+      }
+    },
+    {
+      "scenario_id": "model_b_post_a_level_doubled_ucat_only",
+      "overrides": {
+        "qualification_status": "achieved",
+        "a_level_profile": {
+          "qualification_status": "achieved",
+          "subjects": [
+            {
+              "subject_id": "biology",
+              "achieved_grade": "A"
+            },
+            {
+              "subject_id": "chemistry",
+              "achieved_grade": "A"
+            },
+            {
+              "subject_id": "mathematics",
+              "achieved_grade": "A"
+            }
+          ]
+        }
+      },
+      "expected": {
+        "eligibility_status": "eligible",
+        "interview_band": "high_risk",
+        "guidance_pool_id": "model_b_provisional_official_score_guidance",
+        "score": 44,
+        "score_max": 60
+      }
+    },
+    {
+      "scenario_id": "model_b_graduate_doubled_ucat_only",
+      "overrides": {
+        "profile_id": "lincoln-graduate",
+        "applicant_identity": {
+          "graduate": true,
+          "applicant_type": "graduate"
+        },
+        "applicant_group_ids": [
+          "graduate_applicant"
+        ],
+        "qualification_route": "graduate",
+        "qualification_status": "achieved",
+        "graduate_profile": {
+          "is_graduate": true,
+          "degree_classification": "2_1",
+          "degree_subject_relevance_verified": true
+        }
+      },
+      "expected": {
+        "eligibility_status": "eligible",
+        "interview_band": "high_risk",
+        "guidance_pool_id": "model_b_provisional_official_score_guidance",
+        "score": 44,
+        "score_max": 60
+      }
+    },
+    {
+      "scenario_id": "sjt_band_4_rejected",
+      "overrides": {
+        "admissions_tests": {
+          "ucat": {
+            "total_score": 2300,
+            "score_scale": 2700,
+            "sjt_band": 4,
+            "test_year": 2026
+          }
+        }
+      },
+      "expected": {
+        "eligibility_status": "not_eligible",
+        "interview_band": "not_eligible",
+        "guidance_pool_id": null,
+        "score": null,
+        "score_max": null,
+        "failure": "disqualifying_sjt_rule"
+      }
+    },
+    {
+      "scenario_id": "international_blocked",
+      "overrides": {
+        "applicant_identity": {
+          "domicile": "International",
+          "fee_status": "International",
+          "applicant_type": "school_leaver"
+        }
+      },
+      "expected": {
+        "eligibility_status": "not_eligible",
+        "interview_band": "not_eligible",
+        "guidance_pool_id": null,
+        "score": null,
+        "score_max": null,
+        "failure": "applicant_group_explicitly_blocked:international_fee"
+      }
+    },
+    {
+      "scenario_id": "gcse_science_requirement_rejected",
+      "overrides": {
+        "gcse_profile": {
+          "total_gcse_count": 8,
+          "subjects": {
+            "english_language": "7",
+            "mathematics": "7",
+            "biology": "9",
+            "chemistry": null
+          },
+          "additional_subjects": [
+            {
+              "subject_id": "physics",
+              "grade": "8"
+            },
+            {
+              "subject_id": "english_literature",
+              "grade": "8"
+            },
+            {
+              "subject_id": "psychology",
+              "grade": "7"
+            },
+            {
+              "subject_id": "human_biology",
+              "grade": "7"
+            }
+          ]
+        }
+      },
+      "expected": {
+        "eligibility_status": "not_eligible",
+        "interview_band": "not_eligible",
+        "guidance_pool_id": null,
+        "score": null,
+        "score_max": null,
+        "failure": "gcse_science_alternative_not_met"
+      }
+    }
+  ]
+}

@@ -1,0 +1,169 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://applysmart.local/schemas/research.schema.json",
+  "title": "ApplySmart Completed University Research Profile",
+  "type": "object",
+  "additionalProperties": true,
+  "required": [
+    "schema_version",
+    "profile_id",
+    "course_profile_id",
+    "research_status",
+    "file_purpose",
+    "official_rules_source",
+    "created_at",
+    "last_updated",
+    "research_scope",
+    "evidence_classification_policy",
+    "metadata",
+    "readiness"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "1.0.0"
+    },
+    "profile_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "course_profile_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "research_status": {
+      "type": "string",
+      "minLength": 1
+    },
+    "file_purpose": {
+      "type": "string",
+      "minLength": 1
+    },
+    "official_rules_source": {
+      "type": "string",
+      "pattern": "^data/universities/.+\\.json$"
+    },
+    "created_at": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "last_updated": {
+      "type": "string",
+      "minLength": 1
+    },
+    "research_scope": {
+      "type": [
+        "object",
+        "null"
+      ]
+    },
+    "evidence_classification_policy": {
+      "type": [
+        "object",
+        "null"
+      ]
+    },
+    "metadata": {
+      "type": [
+        "object",
+        "null"
+      ]
+    },
+    "readiness": {
+      "$ref": "#/$defs/readiness"
+    }
+  },
+  "$defs": {
+    "readiness": {
+      "type": "object",
+      "additionalProperties": true,
+      "not": {
+        "anyOf": [
+          {
+            "required": [
+              "offer_prediction"
+            ]
+          },
+          {
+            "required": [
+              "offer_prediction_ready"
+            ]
+          },
+          {
+            "required": [
+              "offer_prediction_enabled"
+            ]
+          }
+        ]
+      },
+      "required": [
+        "eligibility",
+        "interview_prediction",
+        "historical_guidance",
+        "international_prediction",
+        "contextual_logic",
+        "result_card",
+        "regression",
+        "research_completeness",
+        "manual_review_required",
+        "eligibility_ready",
+        "interview_prediction_ready",
+        "offer_prediction_scope",
+        "prediction_confidence",
+        "result_card_ready"
+      ],
+      "properties": {
+        "eligibility": {
+          "type": "boolean"
+        },
+        "interview_prediction": {
+          "type": "boolean"
+        },
+        "historical_guidance": {
+          "type": "boolean"
+        },
+        "international_prediction": {
+          "type": "boolean"
+        },
+        "contextual_logic": {
+          "type": "boolean"
+        },
+        "result_card": {
+          "type": "boolean"
+        },
+        "regression": {
+          "type": "boolean"
+        },
+        "research_completeness": {
+          "enum": [
+            "complete_for_supported_scope",
+            "complete_for_supported_scope_with_documented_gaps"
+          ]
+        },
+        "manual_review_required": {
+          "type": "boolean"
+        },
+        "eligibility_ready": {
+          "type": "boolean"
+        },
+        "interview_prediction_ready": {
+          "type": "boolean"
+        },
+        "offer_prediction_scope": {
+          "const": "out_of_scope"
+        },
+        "prediction_confidence": {
+          "enum": [
+            "high",
+            "medium",
+            "low"
+          ]
+        },
+        "result_card_ready": {
+          "type": "boolean"
+        }
+      }
+    }
+  }
+}

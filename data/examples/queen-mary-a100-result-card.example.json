@@ -1,0 +1,474 @@
+{
+  "schema_version": "1.0.0",
+  "template_version": "1.0.0",
+  "result_id": "queen-mary-a100-home-standard-applysmart-estimate-example",
+  "generated_at": "2026-07-07",
+  "result_mode": "example_eligibility_with_applysmart_predictive_interview_estimate",
+  "production_state": {
+    "profile_active": true,
+    "metadata_activation_enabled": true,
+    "result_card_output_enabled": true,
+    "note": "This example reflects the activated QMUL A100 supported scope. Interview guidance is an ApplySmart predictive estimate, not an official QMUL threshold or guarantee of interview."
+  },
+  "course_identity": {
+    "profile_id": "queen-mary-a100",
+    "university_name": "Queen Mary University of London",
+    "course_name": "MBBS Medicine",
+    "ucas_code": "A100",
+    "entry_route": "standard_entry",
+    "qualification_awarded": "MBBS",
+    "duration_years": 5,
+    "location": "London, England",
+    "source_ids": [
+      "qmul_a100_selection_criteria",
+      "qmul_a100_entry_requirements"
+    ]
+  },
+  "applicant_context": {
+    "applies_to_group_ids": [
+      "england_domiciled",
+      "home_fee",
+      "school_leaver"
+    ],
+    "applicant_summary": "Home standard A-level school-leaver with six GCSEs meeting 777666, A*AA in Biology, Chemistry and Mathematics, UCAT 2200/2700 and SJT Band 2.",
+    "fee_cohort": "home",
+    "entry_route": "standard_entry",
+    "qualification_route": "a_level",
+    "contextual": false,
+    "graduate": false,
+    "source_ids": []
+  },
+  "readiness": {
+    "eligibility": true,
+    "interview_prediction": true,
+    "historical_guidance": true,
+    "international_prediction": false,
+    "contextual_logic": false,
+    "result_card": true,
+    "regression": true,
+    "research_completeness": "complete_for_supported_scope_with_documented_gaps",
+    "manual_review_required": true,
+    "eligibility_ready": true,
+    "interview_prediction_ready": true,
+    "prediction_confidence": "medium",
+    "result_card_ready": true,
+    "offer_prediction_scope": "out_of_scope"
+  },
+  "eligibility": {
+    "status": "eligible",
+    "summary": "The represented Home standard school-leaver meets QMUL's supported GCSE, A-level, UCAT and SJT eligibility checks.",
+    "stage_1_checks": [
+      {
+        "check_id": "gcse_profile",
+        "label": "GCSE profile",
+        "status": "pass",
+        "requirement": "Six GCSEs at 777666 / AAABBB, including Biology, Chemistry, Mathematics and English evidence.",
+        "applicant_value": "Six represented GCSEs meet 777666, including Biology, Chemistry, Mathematics and English Language grade 7.",
+        "decision_outcome": "eligible",
+        "source_ids": [
+          "qmul_a100_entry_requirements"
+        ]
+      },
+      {
+        "check_id": "a_level_threshold",
+        "label": "A-level threshold and subjects",
+        "status": "pass",
+        "requirement": "A*AA including Chemistry or Biology plus one further science.",
+        "applicant_value": "A*AA in Biology, Chemistry and Mathematics.",
+        "decision_outcome": "eligible",
+        "source_ids": [
+          "qmul_a100_entry_requirements"
+        ]
+      },
+      {
+        "check_id": "ucat_fourth_decile",
+        "label": "UCAT 4th-decile gate",
+        "status": "pass",
+        "requirement": "UCAT at or above the official 4th-decile boundary for the relevant test year.",
+        "applicant_value": "UCAT 2200/2700 is above the shared 2025 4th-decile boundary of 1820.",
+        "decision_outcome": "eligible",
+        "source_ids": [
+          "qmul_a100_selection_criteria"
+        ]
+      },
+      {
+        "check_id": "sjt_gate",
+        "label": "SJT gate",
+        "status": "pass",
+        "requirement": "SJT Bands 1-3 are accepted; Band 4 is an automatic rejection.",
+        "applicant_value": "SJT Band 2.",
+        "decision_outcome": "eligible",
+        "source_ids": [
+          "qmul_a100_selection_criteria"
+        ]
+      }
+    ],
+    "blocking_reasons": [],
+    "warnings": [
+      "The 1820 UCAT boundary is the current shared official 2025 4th-decile boundary and must be reviewed annually.",
+      "Eligibility does not imply an interview. ApplySmart's interview guidance is a predictive estimate based on QMUL's published selection methodology and historical admissions data."
+    ],
+    "source_ids": [
+      "qmul_a100_selection_criteria",
+      "qmul_a100_entry_requirements"
+    ]
+  },
+  "stage_1_requirements": {
+    "verification_status": "official_source_verified_for_represented_route",
+    "verified_requirements": [
+      {
+        "requirement_id": "gcse_gate",
+        "label": "GCSE eligibility gate",
+        "value": "Six GCSEs at 777666 / AAABBB with Biology, Chemistry, English Language or English Literature, and Mathematics.",
+        "applies_to_group_ids": [
+          "school_leaver"
+        ],
+        "source_ids": [
+          "qmul_a100_entry_requirements"
+        ]
+      },
+      {
+        "requirement_id": "a_level_gate",
+        "label": "A-level eligibility gate",
+        "value": "A*AA with Chemistry or Biology plus a second science.",
+        "applies_to_group_ids": [
+          "school_leaver"
+        ],
+        "source_ids": [
+          "qmul_a100_entry_requirements"
+        ]
+      },
+      {
+        "requirement_id": "ucat_sjt_gate",
+        "label": "UCAT and SJT gate",
+        "value": "UCAT at or above the 4th decile and SJT Band 1, 2 or 3.",
+        "applies_to_group_ids": [],
+        "source_ids": [
+          "qmul_a100_selection_criteria"
+        ]
+      }
+    ],
+    "unknown_requirements": [
+      "Exact UCAT/Tariff weighting",
+      "Validated current 2700-scale interview cut-offs"
+    ],
+    "source_ids": [
+      "qmul_a100_selection_criteria",
+      "qmul_a100_entry_requirements"
+    ]
+  },
+  "stage_2_selection": {
+    "verification_status": "official_method_unpublished_weighting",
+    "primary_model": "academic_plus_ucat_weighting",
+    "summary": "QMUL ranks eligible applicants using a weighted score involving UCAT and UCAS Tariff. ApplySmart uses QMUL's published methodology and historical admissions data to estimate interview competitiveness; this is not official threshold guidance because the exact weighting and current-cycle official thresholds are not published.",
+    "represented_ranking_input": {
+      "score": 2200,
+      "max": 2700,
+      "metric": "ucat_total"
+    },
+    "ranking_factors": [
+      {
+        "factor_id": "ucat_total",
+        "label": "UCAT total",
+        "weight_percent": null,
+        "calculation_status": "known_factor_unpublished_weight",
+        "notes": "UCAT contributes to Stage 2 ranking, but no exact weight is published.",
+        "source_ids": [
+          "qmul_a100_selection_criteria"
+        ]
+      },
+      {
+        "factor_id": "ucas_tariff",
+        "label": "UCAS Tariff",
+        "weight_percent": null,
+        "calculation_status": "known_factor_unpublished_weight",
+        "notes": "UCAS Tariff contributes for school-leavers, but no exact weight is published.",
+        "source_ids": [
+          "qmul_a100_selection_criteria"
+        ]
+      }
+    ],
+    "selection_adjustments": [],
+    "unknown_calculation_areas": [
+      "Exact UCAT/Tariff weighting.",
+      "Current 2700-scale Home and Overseas interview cut-offs.",
+      "Tie-breakers at the interview-shortlisting boundary."
+    ],
+    "source_ids": [
+      "qmul_a100_selection_criteria",
+      "qmul_medicine_dentistry_admissions_statistics",
+      "qmul_current_2700_cutoff"
+    ]
+  },
+  "historical_context": {
+    "use": "applysmart_predictive_guidance",
+    "fixed_current_cutoff": false,
+    "not_deterministic": true,
+    "warning": "QMUL's published 2023-2025 interview cut-offs are old 3600-scale values. ApplySmart normalises them to estimate interview competitiveness, but this is not an official current 2700-scale threshold.",
+    "represented_pool": {
+      "pool_id": "qmul_home_standard_school_leaver_guidance",
+      "score_scale": 3600,
+      "published_cutpoint_range": "2620-2720",
+      "entry_cycles": [
+        "2023",
+        "2024",
+        "2025"
+      ]
+    },
+    "legacy_3600_data": {
+      "conversion_used": true,
+      "reason": "Engineering Standard 11 permits clearly labelled ApplySmart predictive modelling when official eligibility, official selection methodology and historical admissions data exist but the exact formula or current official threshold is unpublished; this is not official threshold guidance."
+    }
+  },
+  "prediction": {
+    "available": true,
+    "capability": "interview_guidance",
+    "prediction_type": "applysmart_historical_normalised_predictive_estimate",
+    "prediction_status": "applysmart_estimate_available",
+    "result_band": "interview_likely",
+    "guidance_pool_id": "qmul_home_standard_school_leaver_guidance",
+    "score": 2200,
+    "score_scale": {
+      "min": 900,
+      "max": 2700
+    },
+    "band_basis": "Based on the university's published selection methodology and historical admissions data, ApplySmart estimates that this profile would have been historically competitive for interview. This is an ApplySmart predictive estimate, not an official university threshold or guarantee of interview.",
+    "historical_comparison": "applysmart_normalised_old_scale_guidance",
+    "missing_data_reasons": [],
+    "cannot_predict_explanation": null,
+    "official_vs_applysmart_modelling": {
+      "official_university_evidence": [
+        "Published eligibility gates",
+        "Published selection methodology",
+        "Published Home and Overseas applicant pools"
+      ],
+      "historical_admissions_evidence": [
+        "Official 2023-2025 old-scale interview UCAT cut-offs by fee status; not official current thresholds"
+      ],
+      "applysmart_predictive_modelling": [
+        "Normalised 2700-scale competitiveness estimate",
+        "No hidden UCAT/Tariff weighting inferred as fact"
+      ]
+    },
+    "source_ids": [
+      "qmul_a100_selection_criteria",
+      "qmul_medicine_dentistry_admissions_statistics",
+      "qmul_current_2700_cutoff"
+    ]
+  },
+  "missing_data": {
+    "current_2700_scale_cutoffs": "not_published",
+    "exact_ucat_tariff_weighting": "not_published",
+    "contextual_numeric_adjustment": "not_published_for_general_a100_use",
+    "graduate_a100_weighting": "not_published",
+    "country_specific_international_equivalencies": "not_fully_encoded"
+  },
+  "confidence": {
+    "level": "medium",
+    "summary": "Eligibility evidence is strong for the represented route. Interview guidance is a labelled ApplySmart estimate using official methodology and historical admissions data; it is not official threshold guidance because current-cycle official thresholds and exact weighting are unpublished.",
+    "stage_confidence": {
+      "stage_1": "high",
+      "stage_2": "medium",
+      "historical_guidance": "medium"
+    },
+    "source_ids": [
+      "qmul_a100_selection_criteria",
+      "qmul_a100_entry_requirements",
+      "qmul_medicine_dentistry_admissions_statistics"
+    ]
+  },
+  "evidence_confidence": {
+    "level": "Medium",
+    "summary": "The recommendation is supported by core admissions evidence, with some historical or route-specific limits.",
+    "reasons": [
+      "Official eligibility rules are available.",
+      "The university selection approach is implemented.",
+      "Historical interview guidance is available, but some evidence is historical, FOI-derived or has documented gaps."
+    ]
+  },
+  "evidence": {
+    "source_ids": [
+      "qmul_a100_selection_criteria",
+      "qmul_a100_entry_requirements",
+      "qmul_medicine_dentistry_admissions_statistics",
+      "qmul_current_2700_cutoff"
+    ],
+    "sources": [
+      {
+        "source_id": "qmul_a100_selection_criteria",
+        "title": "QMUL A100 selection criteria",
+        "url": "https://www.qmul.ac.uk/fmd/study/undergraduate/courses/a100/selection-criteria/",
+        "source_type": "official",
+        "confidence": "high",
+        "accessed_date": null
+      },
+      {
+        "source_id": "qmul_a100_entry_requirements",
+        "title": "QMUL A100 entry requirements",
+        "url": "https://www.qmul.ac.uk/fmd/study/undergraduate/courses/a100/entry-requirements/",
+        "source_type": "official",
+        "confidence": "high",
+        "accessed_date": null
+      },
+      {
+        "source_id": "qmul_medicine_dentistry_admissions_statistics",
+        "title": "QMUL admissions statistics for Medicine and Dentistry",
+        "url": "https://www.qmul.ac.uk/fmd/study/undergraduate/courses/admissions-statistics-for-medicine--dentistry/",
+        "source_type": "official",
+        "confidence": "high",
+        "accessed_date": null
+      }
+    ]
+  },
+  "display": {
+    "headline": "Strong choice based on ApplySmart estimate",
+    "subheadline": "Eligible Home A100 applicant; historically competitive interview guidance",
+    "primary_user_facing_recommendation": "Strong choice",
+    "recommendation_display_state": "standard",
+    "primary_explanation": "Based on the university's published selection methodology and historical admissions data, ApplySmart estimates that this profile would have been historically competitive for interview. This is an ApplySmart predictive estimate, not an official university threshold or guarantee of interview.",
+    "historical_guidance_caveat": "Interview thresholds may change each admissions cycle depending on applicant competition and interview capacity. Historical figures are guidance only, not a current cut-off, and do not guarantee an interview."
+  },
+  "decision_timeline": [
+    {
+      "step": 1,
+      "title": "Applicant details checked",
+      "status": "Complete",
+      "summary": "Your applicant type, qualifications and UCAT details were checked."
+    },
+    {
+      "step": 2,
+      "title": "Eligibility assessed",
+      "status": "Eligible",
+      "summary": "You meet the published entry requirements covered by ApplySmart."
+    },
+    {
+      "step": 3,
+      "title": "Selection model applied",
+      "status": "Complete",
+      "summary": "A historical-normalised UCAT estimate was applied against Queen Mary's published interview UCAT cut-offs as rough context only, since exact UCAT/Tariff weighting is unpublished."
+    },
+    {
+      "step": 4,
+      "title": "Historical guidance compared",
+      "status": "Complete",
+      "summary": "Your result was compared with interview information from previous admissions cycles. Interview thresholds may change each admissions cycle depending on applicant competition and interview capacity. Historical figures are guidance only, not a current cut-off, and do not guarantee an interview."
+    },
+    {
+      "step": 5,
+      "title": "Interview recommendation produced",
+      "status": "Strong choice",
+      "summary": "Strong choice. Treat this as guidance for university choice, not a promised interview."
+    }
+  ],
+  "decision_transparency": {
+    "decision_path": [
+      {
+        "stage": "Eligibility",
+        "status": "Met",
+        "summary": "The represented Home standard school-leaver meets QMUL's supported GCSE, A-level, UCAT and SJT eligibility checks.",
+        "checks": [
+          {
+            "label": "GCSE profile",
+            "status": "Met",
+            "summary": "Six GCSEs at 777666 / AAABBB, including Biology, Chemistry, Mathematics and English evidence. Applicant information: Six represented GCSEs meet 777666, including Biology, Chemistry, Mathematics and English Language grade 7."
+          },
+          {
+            "label": "A-level threshold and subjects",
+            "status": "Met",
+            "summary": "A*AA including Chemistry or Biology plus one further science. Applicant information: A*AA in Biology, Chemistry and Mathematics."
+          },
+          {
+            "label": "UCAT 4th-decile gate",
+            "status": "Met",
+            "summary": "UCAT at or above the official 4th-decile boundary for the relevant test year. Applicant information: UCAT 2200/2700 is above the shared 2025 4th-decile boundary of 1820."
+          },
+          {
+            "label": "SJT gate",
+            "status": "Met",
+            "summary": "SJT Bands 1-3 are accepted; Band 4 is an automatic rejection. Applicant information: SJT Band 2."
+          }
+        ]
+      },
+      {
+        "stage": "Selection model",
+        "status": "Assessed",
+        "summary": "QMUL ranks eligible applicants using a weighted score involving UCAT and UCAS Tariff. ApplySmart uses QMUL's published methodology and historical admissions data to estimate interview competitiveness; this is not official threshold guidance because the exact weighting and current-cycle official thresholds are not published.",
+        "checks": [
+          {
+            "label": "Applicant pool",
+            "status": "Used",
+            "summary": "The applicant group matching the supplied fee status and entry route"
+          },
+          {
+            "label": "Selection approach",
+            "status": "Assessed",
+            "summary": "QMUL ranks eligible applicants using a weighted score involving UCAT and UCAS Tariff. ApplySmart uses QMUL's published methodology and historical admissions data to estimate interview competitiveness; this is not official threshold guidance because the exact weighting and current-cycle official thresholds are not published."
+          }
+        ]
+      },
+      {
+        "stage": "Historical guidance",
+        "status": "Guidance available",
+        "summary": "The applicant's result is above the historical interview range used for this applicant group. Interview thresholds may change each admissions cycle depending on applicant competition and interview capacity. Historical figures are guidance only, not a current cut-off, and do not guarantee an interview.",
+        "checks": [
+          {
+            "label": "Applicant pool",
+            "status": "Used",
+            "summary": "The applicant group matching the supplied fee status and entry route"
+          },
+          {
+            "label": "Important limitation",
+            "status": "Guidance only",
+            "summary": "Interview thresholds may change each admissions cycle depending on applicant competition and interview capacity. Historical figures are guidance only, not a current cut-off, and do not guarantee an interview."
+          }
+        ]
+      },
+      {
+        "stage": "Recommendation",
+        "status": "Guidance only",
+        "summary": "Strong choice. Treat this as guidance for university choice, not a promised interview.",
+        "checks": []
+      }
+    ],
+    "key_reasons": [
+      "The represented Home standard school-leaver meets QMUL's supported GCSE, A-level, UCAT and SJT eligibility checks.",
+      "The result uses The applicant group matching the supplied fee status and entry route.",
+      "The recommendation is based on historical interview guidance."
+    ],
+    "evidence_used": [
+      "Official admissions policy",
+      "University selection methodology",
+      "UCAT policy",
+      "Historical interview data"
+    ],
+    "evidence_confidence": {
+      "level": "Medium",
+      "summary": "The recommendation is supported by core admissions evidence, with some historical or route-specific limits.",
+      "reasons": [
+        "Official eligibility rules are available.",
+        "The university selection approach is implemented.",
+        "Historical interview guidance is available, but some evidence is historical, FOI-derived or has documented gaps."
+      ]
+    },
+    "manual_review_reason": null,
+    "insufficient_evidence_reason": null,
+    "warnings": []
+  },
+  "engine_notes": {
+    "generated_from_profile_id": "queen-mary-a100",
+    "eligibility_ready": true,
+    "interview_prediction_ready": true,
+    "offer_prediction_scope": "out_of_scope",
+    "prediction_confidence": "medium",
+    "engine_version": "ApplySmart Engine v1.0",
+    "assumptions": [
+      "The shared 2025 UCAT 4th-decile boundary is used for the deterministic minimum gate and must be reviewed annually.",
+      "ApplySmart-normalised 2700-scale guidance bands are predictive estimates derived from official historical old-scale cut-offs and are not official QMUL thresholds."
+    ],
+    "do_not_display": [
+      "ApplySmart estimates as official QMUL thresholds",
+      "Converted old-scale UCAT thresholds as deterministic current cut-offs",
+      "Offer-stage FOI cut-offs as prediction"
+    ]
+  }
+}
