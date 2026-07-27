@@ -60,6 +60,12 @@ const GCSE_GRADE_RANK = {
   '9': 9
 };
 
+const APPLYSMART_HYMS_SCORE_LABEL = 'ApplySmart HYMS selection analysis';
+const APPLYSMART_HYMS_ANALYSIS_DISCLOSURE =
+  "ApplySmart uses published HYMS admissions information and historical evidence to guide interview competitiveness alongside HYMS's published admissions policy. This is not a guarantee of interview.";
+const APPLYSMART_HYMS_SELECTION_SUMMARY =
+  'ApplySmart combines HYMS published admissions information with historical admissions evidence to assess interview competitiveness for this applicant group.';
+
 const A_LEVEL_GRADE_RANK = {
   U: 0,
   E: 1,
@@ -742,7 +748,7 @@ function contextualEstimate(config, applicant, eligibility) {
                 ? 'not_home_fee_status'
                 : 'not_school_leaver',
     evidence_classification: 'unofficial_third_party_estimate',
-    disclosure: config.score_model.estimate_mode.mandatory_disclosure
+    disclosure: APPLYSMART_HYMS_ANALYSIS_DISCLOSURE
   };
 }
 
@@ -848,7 +854,7 @@ function estimateSelectionScore(course, config, applicant, eligibility, options 
   const contextual = contextualEstimate(config, applicant, eligibility);
   if (eligibility.status !== 'eligible') {
     return {
-      label: 'Estimated HYMS selection score',
+      label: APPLYSMART_HYMS_SCORE_LABEL,
       status: 'not_applied',
       value: null,
       max: contextual.applicable ? 100 : 85,
@@ -857,7 +863,7 @@ function estimateSelectionScore(course, config, applicant, eligibility, options 
       evidence_classification: 'unofficial_third_party_estimate',
       official: false,
       deterministic: false,
-      disclosure: config.score_model.estimate_mode.mandatory_disclosure
+      disclosure: APPLYSMART_HYMS_ANALYSIS_DISCLOSURE
     };
   }
 
@@ -878,7 +884,7 @@ function estimateSelectionScore(course, config, applicant, eligibility, options 
   const max = contextual.applicable ? 100 : 85;
 
   return {
-    label: 'Estimated HYMS selection score',
+    label: APPLYSMART_HYMS_SCORE_LABEL,
     status: available ? 'calculated' : 'unavailable',
     value: available
       ? round(componentValues.reduce((total, value) => total + value, 0))
@@ -889,7 +895,7 @@ function estimateSelectionScore(course, config, applicant, eligibility, options 
     evidence_classification: 'unofficial_third_party_estimate',
     official: false,
     deterministic: false,
-    disclosure: config.score_model.estimate_mode.mandatory_disclosure
+    disclosure: APPLYSMART_HYMS_ANALYSIS_DISCLOSURE
   };
 }
 
@@ -922,10 +928,10 @@ function evaluateHullYorkA100(course, config, applicantInput, options = {}) {
   const recommendation = RECOMMENDATION_BY_BAND[canonicalInterviewBand];
   const explanation =
     canonicalInterviewBand === 'not_eligible'
-      ? 'One or more published HYMS entry requirements are not met, so the estimate is not applied.'
+      ? 'One or more published HYMS entry requirements are not met, so ApplySmart does not calculate an interview-competitiveness score for this applicant.'
       : canonicalInterviewBand === 'insufficient_evidence'
-        ? 'The official eligibility checks are separated from the unofficial estimate, but this applicant route lacks sufficient historical guidance for a recommendation.'
-        : `${estimatedSelectionScore.label} ${estimatedSelectionScore.value}/${estimatedSelectionScore.max} supports the "${recommendation}" estimate band. ${estimatedSelectionScore.disclosure}`;
+        ? 'ApplySmart cannot provide a confident interview-competitiveness analysis for this applicant route because the available admissions evidence is not sufficient for this profile.'
+        : `${estimatedSelectionScore.label} ${estimatedSelectionScore.value}/${estimatedSelectionScore.max} supports the "${recommendation}" band. ${estimatedSelectionScore.disclosure}`;
 
   return {
     course_profile_id: course.profile_id,
@@ -984,10 +990,10 @@ function buildHullYorkA100ResultCard(course, config, applicant, options = {}) {
       : band === 'insufficient_evidence'
         ? 'Evidence not yet available'
         : {
-          interview_likely: `${CANONICAL_BAND_LABELS.interview_likely} based on an unofficial estimate`,
-          realistic: `${CANONICAL_BAND_LABELS.realistic} based on an unofficial estimate`,
-          ambitious: `${CANONICAL_BAND_LABELS.ambitious} based on an unofficial estimate`,
-          high_risk: `${CANONICAL_BAND_LABELS.high_risk} based on an unofficial estimate`
+          interview_likely: `${CANONICAL_BAND_LABELS.interview_likely} based on ApplySmart analysis`,
+          realistic: `${CANONICAL_BAND_LABELS.realistic} based on ApplySmart analysis`,
+          ambitious: `${CANONICAL_BAND_LABELS.ambitious} based on ApplySmart analysis`,
+          high_risk: `${CANONICAL_BAND_LABELS.high_risk} based on ApplySmart analysis`
         }[band];
   const pool = route.international
     ? 'International applicants'
@@ -1031,7 +1037,7 @@ function buildHullYorkA100ResultCard(course, config, applicant, options = {}) {
       manual_review_reasons: evaluation.eligibility.manual_review_reasons
     },
     stage_2_selection: {
-      summary: 'HYMS ranks eligible applicants using GCSE, UCAT decile and SJT components, with contextual points available only to qualifying Home UK school-leavers. ApplySmart labels every calculated tariff and recommendation as an unofficial estimate.'
+      summary: APPLYSMART_HYMS_SELECTION_SUMMARY
     },
     prediction: {
       available: !['not_eligible', 'insufficient_evidence'].includes(band),
@@ -1054,7 +1060,7 @@ function buildHullYorkA100ResultCard(course, config, applicant, options = {}) {
     mandatory_unofficial_estimate_disclosure: score.disclosure,
     confidence: {
       level: 'low',
-      summary: 'Official eligibility rules are separated from a low-confidence, unofficial estimate of HYMS selection points and recommendation bands.',
+      summary: 'ApplySmart separates published eligibility checks from its evidence-based interview-competitiveness analysis for HYMS.',
       stage_confidence: {
         eligibility: 'high_for_supported_routes',
         official_selection_framework: 'high',
@@ -1071,7 +1077,7 @@ function buildHullYorkA100ResultCard(course, config, applicant, options = {}) {
       primary_explanation: evaluation.explanation,
       historical_guidance_caveat:
         displayState === 'standard'
-          ? 'This is unofficial estimate-mode guidance, not a current HYMS cut-off or a guarantee of an interview.'
+          ? "This analysis guides interview competitiveness and should be read alongside HYMS's published admissions policy; it is not a guarantee of interview."
           : null,
       mandatory_disclosure: score.disclosure
     },

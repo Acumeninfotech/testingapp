@@ -16,27 +16,27 @@ const STANDARD_RECOMMENDATIONS = {
   very_strong_interview_potential: {
     headline: 'Very strong choice based on your selection score',
     recommendation: CANONICAL_BAND_LABELS.very_strong_interview_potential,
-    explanation: 'Your selection score is well above the historical interview range available to ApplySmart.'
+    explanation: "ApplySmart's evidence-based analysis places this selection score well above the historical interview benchmark available for this applicant group."
   },
   interview_likely: {
     headline: 'Strong choice based on your selection score',
     recommendation: CANONICAL_BAND_LABELS.interview_likely,
-    explanation: 'Your selection score is above the historical interview range available to ApplySmart.'
+    explanation: "ApplySmart's evidence-based analysis places this selection score above the historical interview benchmark available for this applicant group."
   },
   realistic: {
     headline: 'Realistic choice based on your selection score',
     recommendation: CANONICAL_BAND_LABELS.realistic,
-    explanation: 'Your selection score is within the historical interview range available to ApplySmart.'
+    explanation: "ApplySmart's evidence-based analysis places this selection score in line with the historical interview benchmark available for this applicant group."
   },
   ambitious: {
     headline: 'Ambitious choice based on your selection score',
     recommendation: CANONICAL_BAND_LABELS.ambitious,
-    explanation: 'Your selection score is slightly below the historical interview range available to ApplySmart.'
+    explanation: "ApplySmart's evidence-based analysis places this selection score slightly below the historical interview benchmark available for this applicant group."
   },
   high_risk: {
     headline: 'High risk based on your selection score',
     recommendation: CANONICAL_BAND_LABELS.high_risk,
-    explanation: 'Your selection score is below the historical interview range available to ApplySmart.'
+    explanation: "ApplySmart's evidence-based analysis places this selection score below the historical interview benchmark available for this applicant group."
   }
 };
 
@@ -69,7 +69,7 @@ const UCAT_RANKING_RECOMMENDATIONS = {
 };
 
 const HISTORICAL_GUIDANCE_CAVEAT =
-  'Interview thresholds may change each admissions cycle depending on applicant competition and interview capacity. Historical figures are guidance only, not a current cut-off, and do not guarantee an interview.';
+  'Historical admissions data provides a benchmark only; it is not a current cut-off or a guarantee of interview.';
 
 const OFFICIAL_UNAVAILABLE_TRUST_STATEMENT =
   'ApplySmart does not alter university requirements or present unofficial information as an official rule. Predictions are generated only after applying the published university criteria and analysing the available admissions evidence.';
@@ -157,7 +157,7 @@ const UNIVERSITY_EXPLANATIONS = {
   'cambridge-a100': {
     pool: 'Cambridge A100 applicants',
     selectionSummary:
-      'Cambridge reviews applicants holistically by college. ApplySmart checks the published academic and UCAT requirements, then uses hidden modelled guidance from historical UCAT competitiveness, GCSE profile context and recognised contextual information.',
+      'Cambridge reviews applicants holistically by college. ApplySmart checks the published academic and UCAT requirements, then uses historical admissions data, GCSE profile context and recognised contextual information to support interview benchmark analysis.',
     evidence: EVIDENCE.contextual
   },
   'dundee-a100': {
@@ -199,13 +199,13 @@ const UNIVERSITY_EXPLANATIONS = {
   'leeds-a100': {
     pool: 'Home A100 applicants',
     selectionSummary:
-      'Leeds considers academic performance and UCAT together. ApplySmart applies Leeds-specific historical Home UCAT guidance while keeping internal academic calculations hidden.',
+      'Leeds considers academic performance and UCAT together. ApplySmart uses Leeds-specific historical admissions data to support interview benchmark analysis.',
     evidence: EVIDENCE.contextual
   },
   'queen-mary-a100': {
     pool: 'Home and Overseas applicants ranked separately',
     selectionSummary:
-      "Queen Mary's exact UCAT/Tariff weighting and current-cycle thresholds are unpublished; ApplySmart uses a historical-normalised UCAT estimate against published interview UCAT cut-offs as rough context only.",
+      "Queen Mary's exact UCAT/Tariff weighting and current-cycle thresholds are unpublished; ApplySmart uses historical admissions data to support UCAT interview benchmark analysis.",
     evidence: [...EVIDENCE.standard, 'FOI evidence']
   },
   'liverpool-a100': {
@@ -239,7 +239,7 @@ const UNIVERSITY_EXPLANATIONS = {
     evidence: EVIDENCE.contextual
   },
   'st-andrews-a100': {
-    pool: 'International applicants for historical guidance',
+    pool: 'International applicants with historical admissions data',
     selectionSummary:
       'St Andrews checks academic, reference and relevant-experience hurdles first, then ranks eligible applicants by UCAT Global Score.',
     evidence: [...EVIDENCE.contextual, 'International admissions policy']
@@ -274,11 +274,11 @@ const TIMELINE_SELECTION_SUMMARIES = {
   'leicester-a100':
     'A 48-point GCSE score and a 48-point UCAT score were combined into a 96-point pre-interview total for predicted and achieved A-level/IB applicants.',
   'leeds-a100':
-    'Published entry requirements were checked before academics and UCAT were considered together using Leeds-specific historical Home guidance.',
+    'Published entry requirements were checked before academics and UCAT were considered together using Leeds-specific historical admissions data.',
   'queen-mary-a100':
-    "A historical-normalised UCAT estimate was applied against Queen Mary's published interview UCAT cut-offs as rough context only, since exact UCAT/Tariff weighting is unpublished.",
+    "Historical admissions data was used to support Queen Mary's UCAT interview benchmark analysis, since exact UCAT/Tariff weighting is unpublished.",
   'liverpool-a100':
-    'Academic and SJT checks were applied before the applicant pool and historical UCAT guidance were considered.',
+    'Academic and SJT checks were applied before the applicant pool and historical admissions data were considered.',
   'lancaster-a100':
     'Academic requirements and the SJT filter were checked before UCAT ranking within the relevant Lancaster applicant pool.',
   'manchester-a100':
@@ -606,6 +606,83 @@ function formatAdmissionsNumber(value) {
   return Number(value).toLocaleString('en-GB');
 }
 
+function formatMetricDisplayValue(value) {
+  if (!Number.isFinite(value)) {
+    return null;
+  }
+  return Number(value.toFixed(3)).toString();
+}
+
+function formatMetricDifference(value) {
+  if (!Number.isFinite(value)) {
+    return null;
+  }
+  const formatted = formatMetricDisplayValue(value);
+  return value > 0 ? `+${formatted}` : formatted;
+}
+
+function humaniseMetricKey(value) {
+  const normalised = String(value || '')
+    .replace(/[_-]+/g, ' ')
+    .replace(/\s+/g, ' ')
+    .trim();
+  return normalised ? normalised.charAt(0).toUpperCase() + normalised.slice(1) : '';
+}
+
+function historicalMetricSubject(figures = {}) {
+  const text = [
+    figures.metric,
+    figures.metric_type,
+    ...Object.keys(figures || {})
+  ].join(' ').toLowerCase();
+
+  if (text.includes('gamsat')) return 'GAMSAT';
+  if (text.includes('ucat') || text.includes('score')) return 'UCAT';
+  return null;
+}
+
+function historicalMetricLabel(figures = {}, entryYear = null) {
+  const metric = figures.metric || figures.metric_type || null;
+  if (!metric) {
+    return null;
+  }
+
+  const subject = historicalMetricSubject(figures);
+  const year = Number.isFinite(entryYear) ? ` (${entryYear})` : '';
+  return [humaniseMetricKey(metric), subject].filter(Boolean).join(' ') + year;
+}
+
+function historicalMetricValue(figures = {}) {
+  const explicitDisplay =
+    figures.display_score_2700 ??
+    figures.display_value ??
+    figures.display_score ??
+    null;
+  if (Number.isFinite(explicitDisplay)) {
+    return explicitDisplay;
+  }
+
+  const convertedOrSafe = safeUcatCutoff(figures);
+  if (Number.isFinite(convertedOrSafe)) {
+    return convertedOrSafe;
+  }
+
+  const metric = String(figures.metric || figures.metric_type || '').toLowerCase();
+  const metricCandidates = Object.entries(figures || [])
+    .filter(([key, value]) => (
+      Number.isFinite(value) &&
+      key !== 'entry_year' &&
+      key !== 'original_score' &&
+      key !== 'original_scale' &&
+      key !== 'score_scale' &&
+      key !== 'ucat_scale' &&
+      key !== 'ucat_score_scale' &&
+      key.toLowerCase().includes(metric)
+    ));
+
+  return metricCandidates[0]?.[1] ?? null;
+}
+
 function joinAdmissionsParts(parts, summaryStyle = null) {
   if (summaryStyle !== 'recent_admissions_sentence' || parts.length < 2) {
     return parts.join(', ');
@@ -628,6 +705,8 @@ function historicalCycleCheck(entryYear, groupLabel, figures, options = {}) {
   const rawUcatScale = figures.score_scale ?? figures.ucat_scale ?? figures.ucat_score_scale;
   const combinedScore = figures.minimum_combined_score ?? figures.combined_cutoff ?? null;
   const combinedScale = figures.combined_score_scale ?? figures.score_out_of ?? null;
+  const metricLabel = historicalMetricLabel(figures);
+  const metricValue = historicalMetricValue(figures);
 
   if (options.summaryStyle === 'recent_admissions_sentence') {
     if (Number.isFinite(applications)) parts.push(`approximately ${formatAdmissionsNumber(applications)} applicants`);
@@ -639,13 +718,18 @@ function historicalCycleCheck(entryYear, groupLabel, figures, options = {}) {
     if (Number.isFinite(offers)) parts.push(`~${offers} offers`);
   }
   if (Number.isFinite(places)) parts.push(`~${places} places`);
-  if (Number.isFinite(ucatCutoff)) parts.push(`UCAT interview threshold ~${ucatCutoff} (2700 scale)`);
+  if (metricLabel && Number.isFinite(metricValue)) {
+    parts.push(`${metricLabel} ${formatMetricDisplayValue(metricValue)} (2700 scale)`);
+  } else if (Number.isFinite(ucatCutoff)) {
+    parts.push(`UCAT interview threshold ~${ucatCutoff} (2700 scale)`);
+  }
   const originalScaleDisplayAllowed =
     figures.display_original_scale === true ||
     String(figures.use || '').includes('display_only_original_scale') ||
     String(figures.display_policy || '').includes('display_only_original_scale');
   if (
     originalScaleDisplayAllowed &&
+    !metricLabel &&
     !Number.isFinite(ucatCutoff) &&
     Number.isFinite(rawUcatCutoff)
   ) {
@@ -746,6 +830,50 @@ function historicalAdmissionsChecks(historicalAdmissions, groupIds = []) {
   return [];
 }
 
+function applicantUcatForComparison(options = {}, ucatComparison = null) {
+  const applicantUcat =
+    ucatComparison?.applicant_ucat ??
+    options.applicantContext?.admissions_tests?.ucat?.total_score;
+  return Number.isFinite(applicantUcat) ? applicantUcat : null;
+}
+
+function historicalAdmissionComparisonMetrics(historicalAdmissions, groupIds = [], options = {}, ucatComparison = null) {
+  if (!historicalAdmissions) {
+    return [];
+  }
+
+  const cycles = historicalAdmissions.cycles;
+  if (!Array.isArray(cycles) || cycles.length === 0) {
+    return [];
+  }
+
+  const years = cycles.map(extractCycleYear).filter(Number.isFinite);
+  const mostRecentYear = years.length > 0 ? Math.max(...years) : null;
+  if (mostRecentYear === null) {
+    return [];
+  }
+
+  const applicantUcat = applicantUcatForComparison(options, ucatComparison);
+  return filterHistoricalEntriesForApplicant(
+    cycles.filter((c) => extractCycleYear(c) === mostRecentYear),
+    groupIds
+  )
+    .map((entry) => {
+      const label = historicalMetricLabel(entry, mostRecentYear);
+      const value = historicalMetricValue(entry);
+      if (!label || !Number.isFinite(value)) {
+        return null;
+      }
+      return {
+        label,
+        value: formatMetricDisplayValue(value),
+        difference: Number.isFinite(applicantUcat) ? formatMetricDifference(applicantUcat - value) : null
+      };
+    })
+    .filter(Boolean)
+    .slice(0, 6);
+}
+
 // Human labels for the score_model component_id values used across
 // data/interview-band-configs/*.json (see interview-band-classifier.js's
 // calculateScore/calculateComponent). Matched by substring against the
@@ -790,24 +918,25 @@ function scoreComponentCheck(label, component) {
   return check(label, 'Counted', `${formatScorePoints(component.value)}${maxText}.`);
 }
 
-// The Hull York contextual component is 0/15 whenever the applicant is
-// contextual-eligible (Home school-leaver) but supplied none of the
-// qualifying flags (POLAR quintile, free school meals, etc.) - that is a
-// real, honest result, not a missing value, so it needs its own wording
-// instead of the generic "Not available" / "Counted" phrasing.
+// Hull York contextual points are shown as applied/not applied in the public
+// score breakdown so the card stays applicant-facing instead of explaining
+// the internal scoring scale.
 function contextualScoreComponentCheck(component) {
   if (!component || !component.applicable) {
     return null;
   }
-  const maxText = Number.isFinite(component.max) ? ` out of ${component.max}` : '';
   if (component.value === 0) {
     return check(
-      'Contextual score',
-      'Counted',
-      `0${maxText}. No qualifying contextual criteria (e.g. POLAR quintile, free school meals) were entered for this applicant.`
+      'Contextual points',
+      'Not applied',
+      'Not applied based on the information provided.'
     );
   }
-  return scoreComponentCheck('Contextual score', component);
+  return check(
+    'Contextual points',
+    'Applied',
+    'Applied based on the information provided.'
+  );
 }
 
 // Builds a generic score breakdown from whichever already-computed engine
@@ -845,17 +974,12 @@ function buildScoreBreakdown(options = {}) {
       scoreComponentCheck('SJT score', components.sjt),
       contextualScoreComponentCheck(components.contextual)
     ].filter(Boolean);
-    const contextualNote = components.contextual?.applicable
-      ? ' The maximum is 100 because this applicant qualifies for contextual consideration (Home, school-leaver); it includes up to 15 contextual points.'
-      : Number.isFinite(score.max) && score.max < 100
-        ? ' The maximum is 85 because this applicant is not eligible for HYMS contextual points (contextual points only apply to Home school-leaver applicants).'
-        : '';
     return {
       name: score.label || 'Estimated selection score',
       value: Number.isFinite(score.value) ? score.value : null,
       max: Number.isFinite(score.max) ? score.max : null,
       status: score.status,
-      explanation: score.disclosure ? `${score.disclosure}${contextualNote}` : (contextualNote || null),
+      explanation: score.disclosure || null,
       unofficial: score.official === false,
       checks
     };
@@ -1283,13 +1407,21 @@ function selectionScoreThresholdComparison(options = {}) {
     pool.comparison_guidance?.caveat,
     pool.comparison_guidance?.comparison_type
   ].filter(Boolean).join(' ');
-  const provisional = /provisional|strategic benchmark/i.test(guidanceText);
+  const suppliedLabel = typeof pool.comparison_guidance?.label === 'string'
+    ? pool.comparison_guidance.label.trim()
+    : '';
+  const suppliedCategory = comparisonCategoryFromLabel(suppliedLabel);
+  const provisional = suppliedCategory === 'advisory' ||
+    /provisional|strategic benchmark|modelled|advisory|applysmart-derived/i.test(guidanceText);
 
   return {
     score,
     threshold,
     difference: score - threshold,
-    provisional
+    provisional,
+    comparison_label: suppliedLabel || null,
+    comparison_category: suppliedCategory,
+    comparison_caveat: pool.comparison_guidance?.caveat || null
   };
 }
 
@@ -1297,7 +1429,30 @@ function formatScorePoints(value) {
   return Number(value.toFixed(2)).toString();
 }
 
-function comparisonLabelForUcat(comparison = {}) {
+function comparisonCategoryFromLabel(label = '') {
+  const text = String(label || '').toLowerCase();
+  if (/advisory|modelled|modeled|applysmart|guidance zone|historical-equivalent/.test(text)) {
+    return 'advisory';
+  }
+  if (/\b(published|official)\b/.test(text) && !/\bunpublished\b/.test(text) && /threshold|minimum/.test(text)) {
+    return 'published_threshold';
+  }
+  if (/observed|interviewed-score|lowest interviewed|average interviewed|interview scores/.test(text)) {
+    return 'observed_data';
+  }
+  return null;
+}
+
+function publicComparisonLabel(label = '') {
+  const trimmed = String(label || '').trim();
+  const text = trimmed.toLowerCase();
+  if (/applysmart/.test(text) && /advisory/.test(text) && /historical-equivalent/.test(text) && /ucat/.test(text)) {
+    return 'ApplySmart advisory UCAT range based on historical admissions evidence';
+  }
+  return trimmed;
+}
+
+function ucatComparisonLabel(comparison = {}) {
   if (comparison.comparison_type === 'official_minimum') {
     return {
       comparison_label: 'Published UCAT minimum',
@@ -1305,25 +1460,90 @@ function comparisonLabelForUcat(comparison = {}) {
       difference_word: 'minimum'
     };
   }
-  if (comparison.comparison_type === 'current_guidance') {
+
+  const suppliedLabel = typeof comparison.benchmark_label === 'string'
+    ? comparison.benchmark_label.trim()
+    : '';
+  const displayLabel = publicComparisonLabel(suppliedLabel);
+  const suppliedCategory = ucatComparisonCategory(comparison);
+
+  if (suppliedCategory === 'published_threshold' && comparison.comparison_type === 'historical_range') {
     return {
-      comparison_label: 'ApplySmart advisory guide',
+      comparison_label: `ApplySmart band range above ${displayLabel}`,
       comparison_label_type: 'applysmart_advisory_guide',
-      difference_word: 'guide'
+      difference_word: 'benchmark'
     };
   }
+
+  if (suppliedCategory === 'published_threshold') {
+    return {
+      comparison_label: displayLabel,
+      comparison_label_type: 'published_interview_threshold',
+      difference_word: 'threshold'
+    };
+  }
+
+  if (suppliedCategory === 'advisory' || comparison.comparison_type === 'current_guidance') {
+    return {
+      comparison_label: displayLabel || 'ApplySmart advisory benchmark',
+      comparison_label_type: 'applysmart_advisory_guide',
+      difference_word: 'benchmark'
+    };
+  }
+
+  if (suppliedCategory === 'observed_data') {
+    return {
+      comparison_label: displayLabel || 'Historical interview data',
+      comparison_label_type: 'recent_interview_benchmark',
+      difference_word: 'data'
+    };
+  }
+
   if (comparison.comparison_type === 'historical_average') {
     return {
-      comparison_label: 'Recent interview benchmark',
+      comparison_label: displayLabel || 'Recent interview benchmark',
       comparison_label_type: 'recent_interview_benchmark',
       difference_word: 'benchmark'
     };
   }
+
   return {
-    comparison_label: 'Historical interview guide',
+    comparison_label: displayLabel || 'Historical interview benchmark',
     comparison_label_type: 'historical_interview_guide',
-    difference_word: 'guide'
+    difference_word: 'benchmark'
   };
+}
+
+function comparisonLabelForUcat(comparison = {}) {
+  return ucatComparisonLabel(comparison);
+}
+
+function ucatComparisonCategory(comparison = {}) {
+  return comparisonCategoryFromLabel([
+    comparison.benchmark_label,
+    comparison.caveat,
+    comparison.comparison_type
+  ].filter(Boolean).join(' '));
+}
+
+function ucatComparisonDisplayName(comparison = {}) {
+  const label = ucatComparisonLabel(comparison).comparison_label;
+  const category = ucatComparisonCategory(comparison);
+  if (category === 'published_threshold' || category === 'advisory') {
+    return label;
+  }
+  if (category === 'observed_data') {
+    return Number.isFinite(comparison.benchmark_max)
+      ? 'historical interviewed-score range'
+      : 'historical interview data';
+  }
+  if (comparison.comparison_type === 'historical_average') {
+    return 'recent interviewed-score benchmark';
+  }
+  if (comparison.comparison_type === 'historical_range') {
+    return 'historical interview benchmark range';
+  }
+  return 'historical interview benchmark';
 }
 
 function differenceDirection(difference) {
@@ -1399,14 +1619,33 @@ function buildScoreSelectionMetric(scoreBreakdown, selectionScoreComparison) {
     return null;
   }
 
-  const type = Number.isFinite(scoreBreakdown.max) && scoreBreakdown.max > 10
+  const scoreName = String(scoreBreakdown.name || '').toLowerCase();
+  const type = /\bpoints?\b/.test(scoreName) && !/selection score/.test(scoreName)
     ? 'points'
     : 'selection_score';
   const label = type === 'points' ? 'Points score' : 'Selection score';
   const hasComparison = Number.isFinite(selectionScoreComparison?.threshold);
-  const comparisonLabel = selectionScoreComparison?.provisional
-    ? 'ApplySmart advisory guide'
-    : 'Historical interview guide';
+  const suppliedComparisonLabel = selectionScoreComparison?.comparison_label;
+  const comparisonLabel = suppliedComparisonLabel ||
+    (selectionScoreComparison?.provisional
+      ? 'ApplySmart advisory benchmark'
+      : type === 'points'
+        ? 'Historical points guide'
+        : 'Historical selection score');
+  const comparisonLabelType =
+    selectionScoreComparison?.comparison_category === 'published_threshold'
+      ? 'published_interview_threshold'
+      : selectionScoreComparison?.provisional
+        ? 'applysmart_advisory_guide'
+        : 'historical_interview_guide';
+  const comparisonWord =
+    comparisonLabelType === 'published_interview_threshold'
+      ? 'threshold'
+      : comparisonLabelType === 'applysmart_advisory_guide'
+        ? 'benchmark'
+        : type === 'points'
+          ? 'guide'
+          : 'benchmark';
 
   return {
     type,
@@ -1415,24 +1654,16 @@ function buildScoreSelectionMetric(scoreBreakdown, selectionScoreComparison) {
     comparison_value: hasComparison ? selectionScoreComparison.threshold : null,
     comparison_max_value: null,
     comparison_label: hasComparison ? comparisonLabel : null,
-    comparison_label_type: hasComparison
-      ? selectionScoreComparison.provisional
-        ? 'applysmart_advisory_guide'
-        : 'historical_interview_guide'
-      : null,
+    comparison_label_type: hasComparison ? comparisonLabelType : null,
     comparison_context: scoreBreakdown.name || null,
     difference: hasComparison ? selectionScoreComparison.difference : null,
     difference_direction: hasComparison ? differenceDirection(selectionScoreComparison.difference) : null,
-    difference_word: hasComparison
-      ? selectionScoreComparison.provisional
-        ? 'guide'
-        : 'guide'
-      : null,
+    difference_word: hasComparison ? comparisonWord : null,
     maximum_value: Number.isFinite(scoreBreakdown.max) ? scoreBreakdown.max : null,
     display_mode: 'score',
     display_eligibility: true,
     entry_year: null,
-    caveat: hasComparison ? HISTORICAL_GUIDANCE_CAVEAT : null
+    caveat: hasComparison ? selectionScoreComparison.comparison_caveat || HISTORICAL_GUIDANCE_CAVEAT : null
   };
 }
 
@@ -1573,6 +1804,102 @@ function buildCompactStatus({ state, selectionMetric, insufficientEvidenceReason
   };
 }
 
+function comparisonMetricLabelFromSelectionMetric(metric) {
+  if (!metric || typeof metric.comparison_label !== 'string' || !metric.comparison_label.trim()) {
+    return null;
+  }
+
+  if (metric.comparison_label_type === 'historical_interview_guide') {
+    const context = `${metric.comparison_context || ''} ${metric.label || ''}`.toLowerCase();
+    if (context.includes('selection score')) {
+      return 'Historical selection score';
+    }
+    if (context.includes('point') || metric.type === 'points') {
+      return 'Historical points guide';
+    }
+  }
+
+  return metric.comparison_label.trim();
+}
+
+function comparisonMetricValueFromSelectionMetric(metric) {
+  if (!metric || !Number.isFinite(metric.comparison_value)) {
+    return null;
+  }
+
+  const value = formatMetricDisplayValue(metric.comparison_value);
+  if (!Number.isFinite(metric.comparison_max_value)) {
+    return value;
+  }
+
+  return `${value}-${formatMetricDisplayValue(metric.comparison_max_value)}`;
+}
+
+function selectionComparisonMetrics(selectionMetric) {
+  if (!selectionMetric || !Number.isFinite(selectionMetric.comparison_value)) {
+    return [];
+  }
+
+  const label = comparisonMetricLabelFromSelectionMetric(selectionMetric);
+  const value = comparisonMetricValueFromSelectionMetric(selectionMetric);
+  if (!label || !value) {
+    return [];
+  }
+
+  return [
+    {
+      label,
+      value,
+      difference: formatMetricDifference(selectionMetric.difference)
+    }
+  ];
+}
+
+function buildComparisonMetrics({ state, selectionMetric, ucatComparison, options = {} }) {
+  if (state !== 'standard') {
+    return [];
+  }
+
+  const historicalAdmissionsMetrics = historicalAdmissionComparisonMetrics(
+    options.historicalAdmissions,
+    options.applicantGroupIds,
+    options,
+    ucatComparison
+  );
+  if (historicalAdmissionsMetrics.length > 0) {
+    return historicalAdmissionsMetrics;
+  }
+
+  return selectionComparisonMetrics(selectionMetric);
+}
+
+function buildComparisonMetricsTitle({ state, comparisonMetrics, options = {} }) {
+  if (state !== 'standard' || !Array.isArray(comparisonMetrics) || comparisonMetrics.length === 0) {
+    return null;
+  }
+
+  const cycles = options.historicalAdmissions?.cycles;
+  if (!Array.isArray(cycles) || cycles.length === 0) {
+    return null;
+  }
+
+  const years = cycles.map(extractCycleYear).filter(Number.isFinite);
+  const mostRecentYear = years.length > 0 ? Math.max(...years) : null;
+  if (mostRecentYear === null) {
+    return null;
+  }
+
+  const mostRecentEntries = filterHistoricalEntriesForApplicant(
+    cycles.filter((c) => extractCycleYear(c) === mostRecentYear),
+    options.applicantGroupIds
+  );
+  const hasInterviewMetric = mostRecentEntries.some((entry) =>
+    String(entry.metric || entry.metric_type || '').toLowerCase().includes('interview')
+  );
+
+  return hasInterviewMetric ? `Historical Interview Data (${mostRecentYear})` : null;
+}
+
 function selectionScoreThresholdText(comparison) {
   if (!comparison) {
     return null;
@@ -1580,13 +1907,14 @@ function selectionScoreThresholdText(comparison) {
 
   const difference = comparison.difference;
   const formattedThreshold = formatScorePoints(comparison.threshold);
-  const benchmarkName = comparison.provisional
-    ? 'ApplySmart advisory guide'
-    : 'historical interview guide';
+  const benchmarkName = comparison.comparison_label ||
+    (comparison.provisional
+      ? 'ApplySmart advisory benchmark'
+      : 'historical selection score');
   if (difference < 0) {
     const suffix = comparison.provisional
-      ? 'This result uses strategic guidance only, not an official cutoff.'
-      : 'This result does not mean the guide was met.';
+      ? 'This result uses ApplySmart advisory modelling, not an official cut-off.'
+      : 'This result does not mean the comparison point was met.';
     return `Your selection score is ${formatScorePoints(Math.abs(difference))} points below the ${benchmarkName} of ${formattedThreshold} for this applicant pool. ${suffix}`;
   }
   if (difference > 0) {
@@ -1611,6 +1939,27 @@ function selectionScoreThresholdSummary(options = {}) {
   return options.selectionScoreText || selectionScoreThresholdText(options.selectionScoreComparison);
 }
 
+function calculatedScoreExplanation(context = {}) {
+  if (context.estimated_selection_score) {
+    return null;
+  }
+  const score = context.official_score || null;
+  if (score && Number.isFinite(score.value)) {
+    const label = score.label || score.name || 'selection score';
+    return `ApplySmart has calculated this ${lowerInitial(label)} using the available admissions evidence for this applicant group.`;
+  }
+  if (
+    context.score_model?.type === 'component_sum' &&
+    Number.isFinite(context.ranking?.value)
+  ) {
+    return 'ApplySmart has calculated this selection score using the available admissions evidence for this applicant group.';
+  }
+  if (!score || !Number.isFinite(score.value)) {
+    return null;
+  }
+  return null;
+}
+
 function selectionScoreThresholdComparisonCheck(comparison) {
   if (!comparison) {
     return null;
@@ -1631,13 +1980,13 @@ function selectionScoreThresholdComparisonCheck(comparison) {
 function historicalSummary(card, state, options = {}) {
   const presentation = configuredPresentation(card, options);
   if (state === 'eligibility_only') {
-    return 'Historical interview comparison is not used for this eligibility-only result because ApplySmart is not predicting interview likelihood.';
+    return 'Historical admissions data is not used for this eligibility-only result because ApplySmart is not predicting interview likelihood.';
   }
   if (state === 'not_eligible') {
-    return `Historical interview information is not applied because the entry requirements are not met. ${HISTORICAL_GUIDANCE_CAVEAT}`;
+    return `Historical admissions data is not applied because the entry requirements are not met. ${HISTORICAL_GUIDANCE_CAVEAT}`;
   }
   if (state === 'manual_review') {
-    return `Historical interview information is held back until the review is complete. ${HISTORICAL_GUIDANCE_CAVEAT}`;
+    return `Historical admissions data is held back until the review is complete. ${HISTORICAL_GUIDANCE_CAVEAT}`;
   }
   if (state === 'insufficient_evidence') {
     const reasonCode = options.insufficientEvidenceReasonCode ||
@@ -1651,9 +2000,9 @@ function historicalSummary(card, state, options = {}) {
       return reasonSummary;
     }
     if (isApplicantInformationReasonCode(reasonCode)) {
-      return `Historical interview information was not compared because a required applicant scoring input is missing. ${HISTORICAL_GUIDANCE_CAVEAT}`;
+      return `Historical admissions data was not compared because a required applicant scoring input is missing. ${HISTORICAL_GUIDANCE_CAVEAT}`;
     }
-    return `There is not enough verified historical interview information for this applicant route. ${HISTORICAL_GUIDANCE_CAVEAT}`;
+    return `There is not enough verified historical admissions data for this applicant route. ${HISTORICAL_GUIDANCE_CAVEAT}`;
   }
   if (presentation.historical_summary) {
     return presentation.historical_summary;
@@ -1671,25 +2020,11 @@ function historicalSummary(card, state, options = {}) {
   if (selectionScoreText) {
     return `${selectionScoreText} ${HISTORICAL_GUIDANCE_CAVEAT}`;
   }
-  if (['current_guidance', 'historical_range'].includes(options.ucatComparison?.comparison_type)) {
-    const suffix = options.ucatComparison.comparison_type === 'current_guidance'
-      ? ' Historical UCAT records are shown separately in their original scale where applicable.'
-      : ` ${HISTORICAL_GUIDANCE_CAVEAT}`;
-    return `${ucatComparisonAssessmentText(options.ucatComparison)}${suffix}`;
+  if (['current_guidance', 'historical_range', 'historical_threshold', 'historical_average'].includes(options.ucatComparison?.comparison_type)) {
+    return `${ucatComparisonAssessmentText(options.ucatComparison)} ${options.ucatComparison.caveat || HISTORICAL_GUIDANCE_CAVEAT}`;
   }
 
-  const band = card.prediction?.result_band;
-  const position = {
-    interview_likely: 'above',
-    realistic: 'within',
-    ambitious: 'slightly below',
-    high_risk: 'below'
-  }[band] || 'against';
-
-  const isUcatRanking = card.prediction?.ranking_metric === 'ucat_total';
-  const subject = isUcatRanking ? 'UCAT' : 'result';
-
-  return `The applicant's ${subject} is ${position} the historical interview range used for this applicant group. ${HISTORICAL_GUIDANCE_CAVEAT}`;
+  return `The result was assessed using the available admissions evidence for this applicant group. ${HISTORICAL_GUIDANCE_CAVEAT}`;
 }
 
 function recommendationSummary(card, state, options = {}) {
@@ -1982,7 +2317,9 @@ function deriveHistoricalBenchmark(guidancePool = {}, scoreModel = {}) {
     return {
       comparison_type: 'historical_range',
       benchmark_min: realisticRange.min,
-      benchmark_max: realisticRange.max
+      benchmark_max: realisticRange.max,
+      benchmark_label: pool.comparison_guidance?.label || null,
+      caveat: pool.comparison_guidance?.caveat || null
     };
   }
 
@@ -2090,6 +2427,7 @@ function ucatComparisonAssessmentText(comparison) {
   if (!comparison || !Number.isFinite(ucat)) {
     return 'UCAT ranking: Eligible applicants are ranked by UCAT. No reliable numerical historical comparison is available.';
   }
+  const comparisonName = ucatComparisonDisplayName(comparison);
 
   if (comparison.comparison_type === 'official_minimum') {
     return `UCAT minimum: ${comparison.position === 'below' ? 'Not met' : 'Met'} - your score is ${ucat} and the published minimum is ${comparison.benchmark_min}.`;
@@ -2098,29 +2436,25 @@ function ucatComparisonAssessmentText(comparison) {
     const difference = comparison.difference_from_benchmark;
     if (Number.isFinite(difference)) {
       const direction = difference >= 0 ? 'above' : 'below';
-      return `UCAT: ${ucat} - ${Math.abs(difference)} points ${direction} the previous interview threshold of ${comparison.benchmark_min}.`;
+      return `UCAT: ${ucat} - ${Math.abs(difference)} points ${direction} the ${comparisonName} of ${comparison.benchmark_min}.`;
     }
-    return `UCAT: ${ucat} - compared with the previous interview threshold of ${comparison.benchmark_min}.`;
+    return `UCAT: ${ucat} - compared with the ${comparisonName} of ${comparison.benchmark_min}.`;
   }
   if (comparison.comparison_type === 'current_guidance') {
-    const label = comparison.benchmark_label || 'current-format guidance';
     const difference = comparison.difference_from_benchmark;
     if (Number.isFinite(difference)) {
       const direction = difference >= 0 ? 'above' : 'below';
-      return `UCAT: ${ucat}/2700 - ${Math.abs(difference)} points ${direction} ${label} of ${comparison.benchmark_min}/2700. ${comparison.caveat || HISTORICAL_GUIDANCE_CAVEAT}`;
+      return `UCAT: ${ucat}/2700 - ${Math.abs(difference)} points ${direction} the ${comparisonName} of ${comparison.benchmark_min}/2700.`;
     }
-    return `UCAT: ${ucat}/2700 - compared with ${label} of ${comparison.benchmark_min}/2700. ${comparison.caveat || HISTORICAL_GUIDANCE_CAVEAT}`;
+    return `UCAT: ${ucat}/2700 - compared with the ${comparisonName} of ${comparison.benchmark_min}/2700.`;
   }
   if (comparison.comparison_type === 'historical_range') {
     const positionText = { above: 'above', within: 'within', below: 'below' }[comparison.position] || 'compared with';
-    const encouragement = comparison.position === 'above'
-      ? ' This is encouraging historical guidance only and does not confirm an interview.'
-      : '';
-    return `UCAT: ${ucat} - ${positionText} the historical reference range of ${comparison.benchmark_min}-${comparison.benchmark_max}.${encouragement}`;
+    return `UCAT: ${ucat} - ${positionText} the ${comparisonName} of ${comparison.benchmark_min}-${comparison.benchmark_max}.`;
   }
   if (comparison.comparison_type === 'historical_average') {
     const direction = comparison.position === 'below' ? 'below' : 'above';
-    return `UCAT: ${ucat} - ${direction} the historical average interviewed score of ${comparison.benchmark_min}.`;
+    return `UCAT: ${ucat} - ${direction} the ${comparisonName} of ${comparison.benchmark_min}.`;
   }
 
   return 'UCAT ranking: Eligible applicants are ranked by UCAT. No reliable numerical historical comparison is available.';
@@ -2136,13 +2470,7 @@ function ucatComparisonRecommendationText(comparison) {
       : 'You meet the published UCAT minimum.';
   }
 
-  const comparator = comparison.comparison_type === 'historical_range'
-    ? 'historical interview range'
-    : comparison.comparison_type === 'current_guidance'
-      ? (comparison.benchmark_label || 'current-format guidance')
-    : comparison.comparison_type === 'historical_average'
-      ? 'historical average interviewed score'
-      : 'previous interview threshold';
+  const comparator = ucatComparisonDisplayName(comparison);
   const position = { above: 'above', within: 'within', below: 'below' }[comparison.position] || 'against';
   return `You meet the academic requirements. Your UCAT is ${position} the ${comparator} for applicants in your group.`;
 }
@@ -2173,26 +2501,26 @@ function officialPredictionUnavailableHeadline(interviewBand) {
 function officialPredictionUnavailableExplanation(context = {}) {
   const comparison = context.ucat_comparison;
   const institution = officialPredictionInstitutionName(context);
-  const currentCycle = context.entry_year || context.course_identity?.entry_year || 2026;
   const eligibilitySentence =
     `Based on the official ${institution} entry requirements and the applicant information provided, you meet the supported entry requirements.`;
   const analysisSentence =
-    `ApplySmart has analysed your profile against the available ${institution} selection information and historical interview evidence.`;
+    `ApplySmart has analysed your profile against ${institution}'s available selection information and admissions evidence.`;
   const limitationSentence =
-    `${institution} has not published an exact ${currentCycle} interview cut-off on the current UCAT scale. This prediction is based on official university information and available historical evidence. Final interview decisions remain with ${institution} and may vary according to applicant competition, contextual information and other selection factors.`;
+    `Use this as interview competitiveness guidance alongside ${institution}'s published admissions policy; it is not a guarantee of interview.`;
 
   if (comparison?.comparison_type === 'historical_range' && Number.isFinite(comparison.applicant_ucat)) {
-    const rangeText = Number.isFinite(comparison.benchmark_min) && Number.isFinite(comparison.benchmark_max)
-      ? `the available historical reference range of ${comparison.benchmark_min}-${comparison.benchmark_max}`
-      : 'the available historical reference range';
+    const comparisonName = ucatComparisonDisplayName(comparison);
+    const benchmarkText = Number.isFinite(comparison.benchmark_min) && Number.isFinite(comparison.benchmark_max)
+      ? `the ${comparisonName} of ${comparison.benchmark_min}-${comparison.benchmark_max}`
+      : `the ${comparisonName}`;
     const position = { above: 'above', within: 'within', below: 'below' }[comparison.position] || 'against';
     const interpretation =
       comparison.position === 'above'
-        ? 'indicating a competitive profile and strong interview potential'
+        ? 'indicating a competitive applicant profile'
         : comparison.position === 'within'
-          ? 'indicating a competitive profile when considered alongside the full published criteria'
-          : 'indicating that this remains a more cautious ApplySmart prediction';
-    return `${eligibilitySentence} ${analysisSentence} Your UCAT score of ${comparison.applicant_ucat} is ${position} ${rangeText}, ${interpretation}. ${limitationSentence}`;
+          ? 'indicating a competitive applicant profile when considered alongside the full published criteria'
+          : 'indicating a more cautious ApplySmart recommendation';
+    return `${eligibilitySentence} ${analysisSentence} Your UCAT score of ${comparison.applicant_ucat} is ${position} ${benchmarkText}, ${interpretation}. ${limitationSentence}`;
   }
 
   if (comparison) {
@@ -2204,8 +2532,7 @@ function officialPredictionUnavailableExplanation(context = {}) {
 
 function officialPredictionUnavailableSelectionSummary(context = {}) {
   const institution = officialPredictionInstitutionName(context);
-  const currentCycle = context.entry_year || context.course_identity?.entry_year || 2026;
-  return `ApplySmart analysis uses the official ${institution} eligibility criteria and available historical evidence. ${institution} has not published an exact ${currentCycle} interview cut-off on the current UCAT scale, so this is not an official university decision or interview guarantee.`;
+  return `ApplySmart analysis uses the official ${institution} eligibility criteria and available admissions evidence to support interview competitiveness guidance. This is not a university decision or a guarantee of interview.`;
 }
 
 function isUcatRankingContext(context = {}) {
@@ -2366,7 +2693,7 @@ function buildDecisionTimeline(card, options = {}) {
       : selectionScoreThresholdText(selectionScoreComparison) ||
         existingSelectionScoreThresholdText(card);
   const ucatComparisonText =
-    ['current_guidance', 'historical_range'].includes(options.ucatComparison?.comparison_type)
+    ['current_guidance', 'historical_range', 'historical_threshold', 'historical_average'].includes(options.ucatComparison?.comparison_type)
       ? ucatComparisonAssessmentText(options.ucatComparison)
       : null;
   const historicalPresentationSummary =
@@ -2441,18 +2768,18 @@ function buildDecisionTimeline(card, options = {}) {
           ? historicalPresentationSummary
             ? historicalPresentationSummary
             : selectionScoreText
-            ? `${selectionScoreText} It was compared with interview information from previous admissions cycles. ${HISTORICAL_GUIDANCE_CAVEAT}`
+            ? `${selectionScoreText} It was compared with historical admissions data. ${HISTORICAL_GUIDANCE_CAVEAT}`
             : ucatComparisonText
-              ? `${ucatComparisonText} ${HISTORICAL_GUIDANCE_CAVEAT}`
-              : `${card.prediction?.ranking_metric === 'ucat_total' ? 'Your UCAT' : 'Your result'} was compared with interview information from previous admissions cycles. ${HISTORICAL_GUIDANCE_CAVEAT}`
-	          : state === 'insufficient_evidence'
-	            ? insufficientHistoricalSummary ||
-              (applicantInformationGap
-                ? `Information from previous admissions cycles was not compared because a required applicant scoring input is missing. ${HISTORICAL_GUIDANCE_CAVEAT}`
-                : `There is not enough verified interview information from previous admissions cycles for this applicant route. ${HISTORICAL_GUIDANCE_CAVEAT}`)
-            : state === 'manual_review'
-              ? `Information from previous admissions cycles was not compared while adviser review is required. ${HISTORICAL_GUIDANCE_CAVEAT}`
-              : `Information from previous admissions cycles was not compared because the entry requirements are not met. ${HISTORICAL_GUIDANCE_CAVEAT}`
+              ? `${ucatComparisonText} ${options.ucatComparison?.caveat || HISTORICAL_GUIDANCE_CAVEAT}`
+              : `${card.prediction?.ranking_metric === 'ucat_total' ? 'Your UCAT' : 'Your result'} was compared with historical admissions data. ${HISTORICAL_GUIDANCE_CAVEAT}`
+		          : state === 'insufficient_evidence'
+		            ? insufficientHistoricalSummary ||
+	              (applicantInformationGap
+	                ? `Historical admissions data was not compared because a required applicant scoring input is missing. ${HISTORICAL_GUIDANCE_CAVEAT}`
+	                : `There is not enough verified historical admissions data for this applicant route. ${HISTORICAL_GUIDANCE_CAVEAT}`)
+	            : state === 'manual_review'
+	              ? `Historical admissions data was not compared while adviser review is required. ${HISTORICAL_GUIDANCE_CAVEAT}`
+	              : `Historical admissions data was not compared because the entry requirements are not met. ${HISTORICAL_GUIDANCE_CAVEAT}`
     },
     {
       step: 5,
@@ -2598,6 +2925,17 @@ function buildDecisionTransparency(card, options = {}) {
     insufficientEvidenceReasonCode,
     predictionAvailable: card.prediction?.available !== false
   });
+  const comparisonMetrics = buildComparisonMetrics({
+    state,
+    selectionMetric,
+    ucatComparison,
+    options
+  });
+  const comparisonMetricsTitle = buildComparisonMetricsTitle({
+    state,
+    comparisonMetrics,
+    options
+  });
 
   return {
     decision_path: [
@@ -2719,6 +3057,8 @@ function buildDecisionTransparency(card, options = {}) {
     insufficient_evidence_reason: insufficientEvidenceReason,
     insufficient_evidence_reason_code: insufficientEvidenceReasonCode,
     compact_status: compactStatus,
+    comparison_metrics_title: comparisonMetricsTitle,
+    comparison_metrics: comparisonMetrics,
     selection_metric: selectionMetric,
     score_breakdown: scoreBreakdown,
     ucat_comparison: ucatComparison
@@ -2891,7 +3231,7 @@ function presentResultCard({
 	            ...transparencyContext,
 	            ucat_comparison: ucatComparison
 	          })
-	          : selectionScoreText || recommendation.explanation),
+	          : selectionScoreText || calculatedScoreExplanation(transparencyContext) || recommendation.explanation),
         trust_statement: presentation.trust_statement || (officialPredictionUnavailable
           ? OFFICIAL_UNAVAILABLE_TRUST_STATEMENT
           : null),

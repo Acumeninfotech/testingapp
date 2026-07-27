@@ -77,6 +77,8 @@ export interface UcatComparison {
   applicant_ucat: number | null;
   benchmark_min: number | null;
   benchmark_max: number | null;
+  benchmark_label?: string | null;
+  caveat?: string | null;
   difference_from_benchmark: number | null;
   position: 'above' | 'within' | 'below' | null;
   applicant_pool: string | null;
@@ -129,6 +131,12 @@ export interface CompactStatus {
   tone: 'positive' | 'neutral' | 'warning' | 'negative';
 }
 
+export interface ComparisonMetric {
+  label: string;
+  value: string;
+  difference?: string | null;
+}
+
 export interface DecisionTransparency {
   decision_path?: DecisionPathStage[];
   key_reasons?: string[];
@@ -155,6 +163,8 @@ export interface DecisionTransparency {
   ucat_comparison?: UcatComparison | null;
   selection_metric?: SelectionMetric | null;
   compact_status?: CompactStatus | null;
+  comparison_metrics_title?: string | null;
+  comparison_metrics?: ComparisonMetric[];
   [key: string]: unknown;
 }
 

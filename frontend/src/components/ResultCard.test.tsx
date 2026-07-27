@@ -133,7 +133,7 @@ describe('ResultCard', () => {
     expect(screen.getByText('Academic requirements:')).toBeInTheDocument();
     expect(screen.getByText('Met')).toBeInTheDocument();
     expect(screen.getByText('UCAT comparison:')).toBeInTheDocument();
-    expect(screen.getByText('Above the historical interview range')).toBeInTheDocument();
+    expect(screen.getByText('Above the historical interview benchmark')).toBeInTheDocument();
     expect(screen.getByText(selectionApproach)).toBeInTheDocument();
     expect(screen.getByText(historicalContext)).toBeInTheDocument();
     expect(screen.getByText('Recent admissions data:')).toBeInTheDocument();
@@ -217,18 +217,25 @@ describe('ResultCard', () => {
       applicant_value: 2420,
       comparison_value: 2240,
       comparison_max_value: 2269,
-      comparison_label: 'Historical interview guide',
+      comparison_label: 'Historical interview benchmark',
       difference: 180,
       difference_direction: 'above',
       display_mode: 'comparison',
     });
+    expect(result.result_card.decision_transparency?.comparison_metrics).toEqual([
+      {
+        label: 'Historical interview benchmark',
+        value: '2240-2269',
+        difference: '+180',
+      },
+    ]);
 
     render(<ResultCard result={result} />);
     expect(screen.getAllByText('UCAT comparison').length).toBeGreaterThan(0);
     expect(screen.getAllByText('2420 / 2700').length).toBeGreaterThan(0);
-    expect(screen.getByText('2240 (range 2240-2269)')).toBeInTheDocument();
-    expect(screen.getByText('Historical interview guide')).toBeInTheDocument();
-    expect(screen.getByText('+180 above guide')).toBeInTheDocument();
+    expect(screen.getByText('2240-2269')).toBeInTheDocument();
+    expect(screen.getByText('Historical interview benchmark')).toBeInTheDocument();
+    expect(screen.getByText('+180')).toBeInTheDocument();
   });
 
   it('exposes Birmingham as a selection score without hard-coded React thresholds', () => {
@@ -246,7 +253,7 @@ describe('ResultCard', () => {
       maximum_value: 10,
       comparison_value: 7.236,
       difference: 1.2640000000000002,
-      comparison_label: 'Historical interview guide',
+      comparison_label: 'Historical selection score',
       display_mode: 'score',
     });
   });
@@ -412,7 +419,7 @@ describe('ResultCard', () => {
           primary_user_facing_recommendation: 'Strong Choice',
           recommendation_display_state: 'standard',
           primary_explanation:
-            'Based on the official KMMS entry requirements and the applicant information provided, you meet the supported entry requirements. ApplySmart has analysed your profile against the available KMMS selection information and historical interview evidence. Your UCAT score of 2550 is above the available historical reference range of 1855-1864, indicating a competitive profile and strong interview potential. KMMS has not published an exact 2026 interview cut-off on the current UCAT scale. This prediction is based on official university information and available historical evidence. Final interview decisions remain with KMMS and may vary according to applicant competition, contextual information and other selection factors.',
+            "Based on the official KMMS entry requirements and the applicant information provided, you meet the supported entry requirements. ApplySmart has analysed your profile against KMMS's available selection information and historical admissions data. Your UCAT score of 2550 is above the historical interview benchmark of 1855-1864, indicating a competitive applicant profile. Use this as interview competitiveness guidance alongside KMMS's published admissions policy; it is not a guarantee of interview.",
           trust_statement:
             'ApplySmart does not alter university requirements or present unofficial information as an official rule. Predictions are generated only after applying the published university criteria and analysing the available admissions evidence.',
           prediction: {
@@ -436,7 +443,7 @@ describe('ResultCard', () => {
                 stage: 'Historical guidance',
                 status: 'Guidance available',
                 summary:
-                  'UCAT: 2550 - above the historical reference range of 1855-1864. This is encouraging historical guidance only and does not confirm an interview.',
+                  'UCAT: 2550 - above the historical interview benchmark of 1855-1864. Historical admissions data provides a benchmark only; it is not a current cut-off or a guarantee of interview.',
                 checks: [],
               },
             ],
@@ -466,17 +473,17 @@ describe('ResultCard', () => {
     expect(screen.queryByText('Competitive Interview Potential')).not.toBeInTheDocument();
     expect(screen.queryByText('Developing Interview Potential')).not.toBeInTheDocument();
     expect(screen.queryByText('Limited Interview Potential')).not.toBeInTheDocument();
-    expect(screen.getByText(/UCAT score of 2550 is above the available historical reference range of 1855-1864/i)).toBeInTheDocument();
-    expect(screen.getByText(/not published an exact 2026 interview cut-off on the current UCAT scale/i)).toBeInTheDocument();
+    expect(screen.getByText(/UCAT score of 2550 is above the historical interview benchmark of 1855-1864/i)).toBeInTheDocument();
+    expect(screen.getByText(/not a guarantee of interview/i)).toBeInTheDocument();
     expect(screen.getByText(/not alter university requirements or present unofficial information as an official rule/i)).toBeInTheDocument();
     expect(screen.queryByText('Verify')).not.toBeInTheDocument();
     expect(screen.queryByRole('status')).not.toBeInTheDocument();
     expect(screen.getByText('Entry requirements met')).toBeInTheDocument();
     expect(screen.getByText('Your UCAT')).toBeInTheDocument();
     expect(screen.getByText('2550')).toBeInTheDocument();
-    expect(screen.getByText('Historical range')).toBeInTheDocument();
+    expect(screen.getByText('Historical benchmark')).toBeInTheDocument();
     expect(screen.getByText('1855-1864')).toBeInTheDocument();
-    expect(screen.getByText('Above historical range')).toBeInTheDocument();
+    expect(screen.getByText('Above historical benchmark')).toBeInTheDocument();
     expect(screen.queryByText('Fees')).not.toBeInTheDocument();
   });
 
@@ -515,13 +522,13 @@ describe('ResultCard', () => {
                 stage: 'Historical guidance',
                 status: 'Guidance available',
                 summary:
-                  'Interview thresholds may change each admissions cycle depending on applicant competition and interview capacity. Historical figures are guidance only, not a current cut-off, and do not guarantee an interview.',
+                  'Historical admissions data provides a benchmark only; it is not a current cut-off or a guarantee of interview.',
                 checks: [
                   {
                     label: 'Important limitation',
                     status: 'Guidance only',
                     summary:
-                      'Interview thresholds may change each admissions cycle depending on applicant competition and interview capacity. Historical figures are guidance only, not a current cut-off, and do not guarantee an interview.',
+                      'Historical admissions data provides a benchmark only; it is not a current cut-off or a guarantee of interview.',
                   },
                 ],
               },
@@ -536,7 +543,7 @@ describe('ResultCard', () => {
     expect(screen.queryByText(/Low-confidence prediction/i)).not.toBeInTheDocument();
     expect(screen.queryByText(/Prediction reliability/i)).not.toBeInTheDocument();
     expect(screen.queryByText(/Internal confidence summary/i)).not.toBeInTheDocument();
-    expect(screen.getByText(/applicant competition and interview capacity/i)).toBeInTheDocument();
+    expect(screen.getByText(/Historical admissions data provides a benchmark only/i)).toBeInTheDocument();
   });
 
   it('throws for a standard result missing prediction.result_band', () => {
@@ -783,7 +790,7 @@ describe('ResultCard', () => {
                 summary: 'Ranks by UCAT total.',
                 checks: [
                   { label: 'UCAT total entered', status: 'Used for ranking', summary: '2420 out of 2700.' },
-                  { label: 'UCAT', status: 'Above', summary: 'UCAT: 2420 - 485 points above the previous interview threshold of 1935.' },
+                  { label: 'UCAT', status: 'Above', summary: 'UCAT: 2420 - 485 points above the historical interview benchmark of 1935.' },
                   { label: 'SJT requirement', status: 'Met', summary: 'Met - Bands 1-3 are accepted.' },
                   {
                     label: 'Selection approach',
@@ -797,7 +804,7 @@ describe('ResultCard', () => {
                 status: 'Guidance available',
                 summary: 'Historical information is guidance only.',
                 checks: [
-                  { label: 'UCAT comparison', status: 'Compared', summary: 'UCAT: 2420 - 485 points above the previous interview threshold of 1935.' },
+                  { label: 'UCAT comparison', status: 'Compared', summary: 'UCAT: 2420 - 485 points above the historical interview benchmark of 1935.' },
                 ],
               },
             ],
@@ -878,6 +885,78 @@ describe('ResultCard', () => {
     expect(screen.queryByText(/stage 2 interview selection/i)).not.toBeInTheDocument();
     expect(screen.queryByText(/activation-ready/i)).not.toBeInTheDocument();
     expect(document.querySelector('.result-card-warning-list')).not.toBeInTheDocument();
+  });
+
+  it('renders structured historical comparison metrics without hardcoded comparison labels', () => {
+    render(
+      <ResultCard
+        result={makeResult({
+          decision_transparency: {
+            comparison_metrics_title: 'Historical Interview Data (2025)',
+            comparison_metrics: [
+              {
+                label: 'Lowest interviewed UCAT (2025)',
+                value: '1680',
+                difference: '+720',
+              },
+              {
+                label: 'Average interviewed UCAT (2025)',
+                value: '1995',
+                difference: '+405',
+              },
+            ],
+            decision_path: [
+              {
+                stage: 'Historical guidance',
+                status: 'Guidance available',
+                summary: 'Historical interview statistics are available for this applicant pool.',
+                checks: [
+                  {
+                    label: 'Home (2025)',
+                    status: 'Historical',
+                    summary: 'Legacy text that should not be shown.',
+                  },
+                ],
+              },
+            ],
+          },
+        })}
+      />,
+    );
+
+    expect(screen.getByText('Historical Interview Data (2025)')).toBeInTheDocument();
+    expect(screen.queryByText('Historical Context')).not.toBeInTheDocument();
+    expect(screen.getByText('Lowest interviewed UCAT (2025)')).toBeInTheDocument();
+    expect(screen.getByText('Average interviewed UCAT (2025)')).toBeInTheDocument();
+    expect(screen.getByText('1680')).toBeInTheDocument();
+    expect(screen.getByText('+720')).toBeInTheDocument();
+    expect(screen.getByText('1995')).toBeInTheDocument();
+    expect(screen.getByText('+405')).toBeInTheDocument();
+    expect(screen.queryByText(/Legacy text that should not be shown/)).not.toBeInTheDocument();
+    expect(screen.queryByText(/UCAT interview threshold/i)).not.toBeInTheDocument();
+  });
+
+  it('omits historical context when the structured comparison metric list is empty', () => {
+    render(
+      <ResultCard
+        result={makeResult({
+          decision_transparency: {
+            comparison_metrics: [],
+            decision_path: [
+              {
+                stage: 'Historical guidance',
+                status: 'Not applied',
+                summary: 'No historical comparison is available.',
+                checks: [],
+              },
+            ],
+          },
+        })}
+      />,
+    );
+
+    expect(screen.queryByText('Historical Context')).not.toBeInTheDocument();
+    expect(screen.queryByText(/No historical comparison is available/)).not.toBeInTheDocument();
   });
 
   it('shows SJT only when it causes rejection (Band 4 excluded)', () => {

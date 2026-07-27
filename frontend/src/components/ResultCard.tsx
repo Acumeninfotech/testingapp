@@ -1,4 +1,11 @@
-import type { DecisionPathCheck, PredictionResult, SelectionMetric, UcatComparison } from '../api/types';
+import type {
+  ComparisonMetric,
+  DecisionPathCheck,
+  PredictionResult,
+  SelectionMetric,
+  UcatComparison,
+} from '../api/types';
+import { Fragment } from 'react';
 import { presentResult } from '../lib/resultPresenter';
 
 function isOfficialPredictionUnavailable(card: PredictionResult['result_card']): boolean {
@@ -71,6 +78,19 @@ function findCheck(checks: DecisionPathCheck[], pattern: RegExp): DecisionPathCh
 
 function uniqueStrings(values: string[]): string[] {
   return Array.from(new Set(values.filter(Boolean)));
+}
+
+function isRenderableComparisonMetric(metric: unknown): metric is ComparisonMetric {
+  if (!metric || typeof metric !== 'object') {
+    return false;
+  }
+  const candidate = metric as Partial<ComparisonMetric>;
+  return (
+    typeof candidate.label === 'string' &&
+    candidate.label.trim().length > 0 &&
+    typeof candidate.value === 'string' &&
+    candidate.value.trim().length > 0
+  );
 }
 
 function formatBenchmark(comparison: UcatComparison): string | null {
@@ -168,24 +188,29 @@ function positionLabel(comparison: UcatComparison): string {
   if (comparison.comparison_type === 'ranking_only') {
     return 'Ranking only';
   }
+  const comparisonText = `${comparison.benchmark_label || ''} ${comparison.caveat || ''}`.toLowerCase();
+  const label = /advisory|modelled|modeled|applysmart|historical-equivalent/.test(comparisonText) ||
+    (comparison.comparison_type === 'historical_range' && /\b(published|official)\b/.test(comparisonText) && !/\bunpublished\b/.test(comparisonText) && /threshold|minimum/.test(comparisonText))
+    ? 'ApplySmart advisory benchmark'
+    : /\b(published|official)\b/.test(comparisonText) && !/\bunpublished\b/.test(comparisonText) && /threshold|minimum/.test(comparisonText)
+    ? 'published threshold'
+      : /observed|interviewed-score|lowest interviewed|average interviewed|interview scores/.test(comparisonText)
+        ? 'historical interview data'
+        : 'historical benchmark';
   return {
-    above: comparison.comparison_type === 'historical_threshold'
-      ? 'Above previous interview threshold'
-      : 'Above historical range',
-    within: 'Within range',
-    below: comparison.comparison_type === 'historical_threshold'
-      ? 'Below previous interview threshold'
-      : 'Below historical range',
+    above: `Above ${label}`,
+    within: `Within ${label}`,
+    below: `Below ${label}`,
   }[comparison.position || 'within'];
 }
 
 function kingsUcatComparisonSummary(card: PredictionResult['result_card']): string {
   const band = card.prediction?.result_band;
-  if (band === 'interview_likely') return 'Above the historical interview range';
-  if (band === 'realistic') return 'Within a historically competitive range';
-  if (band === 'ambitious') return 'Below the strongest historical interview range';
-  if (band === 'high_risk') return 'Below the historical interview range';
-  return 'Assessed against the historical interview range';
+  if (band === 'interview_likely') return 'Above the historical interview benchmark';
+  if (band === 'realistic') return 'Within the historical interview benchmark';
+  if (band === 'ambitious') return 'Below the strongest historical interview benchmark';
+  if (band === 'high_risk') return 'Below the historical interview benchmark';
+  return 'Assessed against the historical interview benchmark';
 }
 
 export function ResultCard({ result }: { result: PredictionResult }) {
@@ -218,6 +243,10 @@ export function ResultCard({ result }: { result: PredictionResult }) {
   const historicalChecks = historicalStage?.checks || [];
   const ucatComparison = transparency?.ucat_comparison || null;
   const selectionMetric = transparency?.selection_metric || null;
+  const hasStructuredComparisonMetrics = Array.isArray(transparency?.comparison_metrics);
+  const comparisonMetrics = hasStructuredComparisonMetrics
+    ? (transparency?.comparison_metrics || []).filter(isRenderableComparisonMetric)
+    : [];
   const isUcatRankingCard = Boolean(ucatComparison);
   const parentFacingHistoricalChecks = historicalChecks.filter(
     (c) =>
@@ -276,6 +305,13 @@ export function ResultCard({ result }: { result: PredictionResult }) {
   const sjtSummary = formatSjtSummary(sjtCheck, card, sjtRejected);
   const visibleFeeInformation = profileId === 'lincoln-a100' ? undefined : feeInformation;
   const isKingsA100 = profileId === 'king-s-college-london-a100';
+  const showHistoricalSection = Boolean(
+    historicalStage && (hasStructuredComparisonMetrics ? comparisonMetrics.length > 0 : true),
+  );
+  const historicalSectionTitle =
+    typeof transparency?.comparison_metrics_title === 'string' && transparency.comparison_metrics_title.trim()
+      ? transparency.comparison_metrics_title.trim()
+      : 'Historical Context';
 
   return (
     <article className={`result-card result-card--${variant}`}>
@@ -456,11 +492,25 @@ export function ResultCard({ result }: { result: PredictionResult }) {
         </section>
       )}
 
-      {historicalStage && (
+      {showHistoricalSection && (
         <section className="result-card-section result-card-historical">
-          <h4>Historical Context</h4>
-          <p className="result-card-section-summary">{historicalStage.summary}</p>
-          {selectionMetric?.comparison_value !== null && selectionMetric?.comparison_value !== undefined ? (
+          <h4>{historicalSectionTitle}</h4>
+          <p className="result-card-section-summary">{historicalStage?.summary}</p>
+          {hasStructuredComparisonMetrics ? (
+            <dl className="result-card-detail-list result-card-comparison-list">
+              {comparisonMetrics.map((metric, i) => (
+                <Fragment key={`${metric.label}-${i}`}>
+                  <dt>{metric.label}</dt>
+                  <dd>
+                    <span>{metric.value}</span>
+                    {metric.difference && (
+                      <span className="result-card-comparison-difference">{metric.difference}</span>
+                    )}
+                  </dd>
+                </Fragment>
+              ))}
+            </dl>
+          ) : selectionMetric?.comparison_value !== null && selectionMetric?.comparison_value !== undefined ? (
             <dl className="result-card-detail-list result-card-comparison-list">
               <dt>{selectionMetric.label}</dt>
               <dd>
@@ -506,14 +556,17 @@ export function ResultCard({ result }: { result: PredictionResult }) {
             <dl className="result-card-detail-list result-card-comparison-list">
               <dt>Your UCAT</dt>
               <dd>{ucatComparison.applicant_ucat ?? 'Not available'}</dd>
-              {ucatComparison.comparison_type === 'historical_range' ? (
+              {ucatComparison.comparison_type !== 'ranking_only' ? (
                 <>
-                  <dt>Historical range</dt>
-                  <dd>{formatBenchmark(ucatComparison)}</dd>
-                </>
-              ) : ucatComparison.comparison_type !== 'ranking_only' ? (
-                <>
-                  <dt>Historical benchmark</dt>
+                  <dt>
+                    {positionLabel(ucatComparison).includes('published threshold')
+                      ? 'Published threshold'
+                      : positionLabel(ucatComparison).includes('advisory')
+                        ? 'ApplySmart advisory benchmark'
+                        : positionLabel(ucatComparison).includes('historical interview data')
+                          ? 'Historical interview data'
+                          : 'Historical benchmark'}
+                  </dt>
                   <dd>{formatBenchmark(ucatComparison)}</dd>
                 </>
               ) : null}
@@ -527,7 +580,7 @@ export function ResultCard({ result }: { result: PredictionResult }) {
               <dd>{positionLabel(ucatComparison)}</dd>
             </dl>
           ) : null}
-          {parentFacingHistoricalChecks.length > 0 && (
+          {!hasStructuredComparisonMetrics && parentFacingHistoricalChecks.length > 0 && (
             <ul className="result-card-check-list">
               {parentFacingHistoricalChecks.slice(0, 4).map((c, i) => (
                 <li key={i} className="result-card-check">

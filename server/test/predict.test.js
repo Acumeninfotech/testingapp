@@ -39,7 +39,7 @@ const FORBIDDEN_CONFIDENCE_AND_REVIEW_PATTERNS = [
   /Manual review required/i
 ];
 const NEUTRAL_HISTORICAL_LIMITATION =
-  /Interview thresholds may change each admissions cycle depending on applicant competition and interview capacity\. Historical figures are guidance only, not a current cut-off, and do not guarantee an interview\./i;
+  /Historical admissions data provides a benchmark only; it is not a current cut-off or a guarantee of interview\./i;
 
 function collectApplicantFacingCardText(card) {
   const text = [
@@ -442,6 +442,64 @@ async function main() {
     assert.ok(scoringModelBreakdownsSeen > 0, 'expected at least one scoring-model university to reach a standard result and show a score_breakdown');
     console.log(`PASS: score_breakdown renders the real calculated score for scoring-model universities [${readyScoringIds.join(', ')}]`);
 
+    if (readyEntries.some((u) => u.id === 'hull-york-a100')) {
+      const hymsApplicant = JSON.parse(JSON.stringify(topTierApplicant));
+      hymsApplicant.applicant_identity.date_of_birth = '2008-09-01';
+      const hymsResponse = await requestJson(server, 'POST', '/api/predict', {
+        universityIds: ['hull-york-a100'],
+        studentProfile: hymsApplicant
+      });
+      assert.strictEqual(hymsResponse.status, 200);
+      const hymsCard = hymsResponse.json.results[0].result_card;
+      assert.strictEqual(hymsCard.recommendation_display_state, 'standard');
+      const applicantFacingText = collectApplicantFacingCardText(hymsCard);
+      assert.match(
+        applicantFacingText,
+        /ApplySmart's evidence-based analysis places this selection score above the historical interview benchmark available for this applicant group/i
+      );
+      assert.match(
+        applicantFacingText,
+        /ApplySmart uses published HYMS admissions information and historical evidence to guide interview competitiveness alongside HYMS's published admissions policy/i
+      );
+      assert.strictEqual(
+        hymsCard.decision_transparency.score_breakdown.explanation,
+        "ApplySmart uses published HYMS admissions information and historical evidence to guide interview competitiveness alongside HYMS's published admissions policy. This is not a guarantee of interview."
+      );
+      assert.match(
+        applicantFacingText,
+        /Contextual points\nNot applied\nNot applied based on the information provided/i
+      );
+      assert.doesNotMatch(
+        hymsCard.decision_transparency.score_breakdown.explanation,
+        /Contextual points/i,
+        'HYMS score note should not repeat contextual-point information already shown in the dedicated row'
+      );
+      for (const pattern of [
+        /Freedom of Information/i,
+        /\bFOI\b/i,
+        /third-party/i,
+        /unofficial/i,
+        /directional/i,
+        /formally declined/i,
+        /exact points formula/i,
+        /The maximum is (100|85)/i,
+        /qualifies for contextual consideration/i,
+        /up to 15 contextual points/i
+      ]) {
+        assert.doesNotMatch(
+          applicantFacingText,
+          pattern,
+          `HYMS applicant-facing text should not expose internal modelling limitations matching ${pattern}: ${applicantFacingText}`
+        );
+      }
+      assert.strictEqual(
+        hymsCard.decision_transparency.score_breakdown.value,
+        84.98,
+        'HYMS content-only copy change must not alter the calculated score'
+      );
+      console.log('PASS: Hull York standard result uses applicant-facing ApplySmart analysis wording without internal modelling-limit disclosures');
+    }
+
     if (readyEntries.some((u) => u.id === 'exeter-a100')) {
       const categoryScenarioIds = [
         'exeter_predicted_non_contextual_category_maximum',
@@ -631,7 +689,7 @@ async function main() {
       );
       assert.strictEqual(
         birminghamCard.historical_guidance_caveat,
-        'Interview thresholds may change each admissions cycle depending on applicant competition and interview capacity. Historical figures are guidance only, not a current cut-off, and do not guarantee an interview.',
+        'Historical admissions data provides a benchmark only; it is not a current cut-off or a guarantee of interview.',
         'expected the historical-guidance-only caveat to remain present for the Strong Choice band'
       );
 
@@ -650,7 +708,7 @@ async function main() {
       assert.strictEqual(contextualCheck?.summary, '0 out of 1.5.', 'expected 0/1.5 contextual uplift for a non-contextual applicant');
       assert.strictEqual(
         thresholdCheck?.summary,
-        'Your selection score is 1.26 points above the historical interview guide of 7.24 for this applicant pool.',
+        'Your selection score is 1.26 points above the historical selection score of 7.24 for this applicant pool.',
         'expected cleanly rounded floating-point-free selection-score guide text'
       );
       assert.ok(
@@ -811,10 +869,10 @@ async function main() {
         'Strong Choice',
         'official-prediction-unavailable cards must retain the canonical band label (Strong Choice), not an alternate "Interview Potential" wording family'
       );
-      assert.match(kmmsCard.primary_explanation, /UCAT score of 2550 is above the available historical reference range of 1855-1864/i);
-      assert.match(kmmsCard.primary_explanation, /competitive profile and strong interview potential/i);
-      assert.match(kmmsCard.primary_explanation, /not published an exact 2026 interview cut-off on the current UCAT scale/i);
-      assert.match(kmmsCard.primary_explanation, /not an official university decision|Final interview decisions remain with KMMS/i);
+      assert.match(kmmsCard.primary_explanation, /UCAT score of 2550 is above the ApplySmart advisory UCAT range based on historical admissions evidence of 1855-1864/i);
+      assert.match(kmmsCard.primary_explanation, /competitive applicant profile/i);
+      assert.match(kmmsCard.primary_explanation, /available selection information and admissions evidence/i);
+      assert.match(kmmsCard.primary_explanation, /not a guarantee of interview/i);
       assert.match(kmmsCard.trust_statement, /does not alter university requirements/i);
       assert.strictEqual(kmmsCard.prediction?.prediction_status, 'prediction_unavailable');
       assert.strictEqual(kmmsCard.prediction?.official_prediction?.available, false);
@@ -928,8 +986,8 @@ async function main() {
         if (result.universityId === 'king-s-college-london-a100') {
           assert.match(
             historicalText,
-            /historically competitive range for interview consideration/i,
-            'King’s College London A100 must show the parent-friendly historical interview range context'
+            /historically competitive range for interview consideration|historical interview benchmark/i,
+            'King’s College London A100 must show parent-friendly historical benchmark context'
           );
           assert.match(
             card.trust_statement || '',
