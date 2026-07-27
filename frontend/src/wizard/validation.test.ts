@@ -1,6 +1,7 @@
 import { describe, expect, it } from 'vitest';
 import { createEmptyProfile } from './profileTypes';
 import {
+  expectedUcatTestYear,
   hasErrors,
   requiresEnglishLanguageEvidence,
   validateAccessToHeStep,
@@ -103,6 +104,22 @@ describe('validateGcseStep', () => {
     ];
     expect(hasErrors(validateGcseStep(profile))).toBe(false);
   });
+
+  it('allows a 10th and 11th GCSE via additional subjects', () => {
+    const profile = createEmptyProfile();
+    for (const key of Object.keys(profile.gcse_profile.subjects) as (keyof typeof profile.gcse_profile.subjects)[]) {
+      profile.gcse_profile.subjects[key] = '9';
+    }
+    profile.gcse_profile.additional_subjects = [
+      { subject_id: 'history', grade: '9' },
+      { subject_id: 'geography', grade: '9' },
+      { subject_id: 'french', grade: '9' },
+      { subject_id: 'computer_science', grade: '9' },
+      { subject_id: 'psychology', grade: '9' },
+      { subject_id: 'music', grade: '9' },
+    ];
+    expect(hasErrors(validateGcseStep(profile))).toBe(false);
+  });
 });
 
 describe('validateALevelStep', () => {
@@ -195,7 +212,8 @@ describe('validateUcatStep', () => {
     };
     profile.admissions_tests.ucat.total_score = 2500;
     profile.admissions_tests.ucat.sjt_band = 2;
-    profile.admissions_tests.ucat.test_year = 2027;
+    profile.admissions_tests.ucat.test_year = 2026;
+    profile.course_target.application_year = 2027;
     expect(validateUcatStep(profile).total_score).toBeTruthy();
   });
 
@@ -224,6 +242,58 @@ describe('validateUcatStep', () => {
     profile.admissions_tests.ucat.sjt_band = 2;
     profile.admissions_tests.ucat.test_year = 2027;
     expect(hasErrors(validateUcatStep(profile))).toBe(false);
+  });
+
+  it('passes when entry year 2027 is paired with UCAT year 2026', () => {
+    const profile = createEmptyProfile();
+    profile.course_target.application_year = 2027;
+    profile.admissions_tests.ucat.taken = true;
+    profile.admissions_tests.ucat.subtests = {
+      verbal_reasoning: 850,
+      decision_making: 850,
+      quantitative_reasoning: 850,
+    };
+    profile.admissions_tests.ucat.total_score = 2550;
+    profile.admissions_tests.ucat.sjt_band = 1;
+    profile.admissions_tests.ucat.test_year = 2026;
+    expect(hasErrors(validateUcatStep(profile))).toBe(false);
+  });
+
+  it('shows a clear inline error when entry year 2027 is paired with UCAT year 2027', () => {
+    const profile = createEmptyProfile();
+    profile.course_target.application_year = 2027;
+    profile.admissions_tests.ucat.taken = true;
+    profile.admissions_tests.ucat.subtests = {
+      verbal_reasoning: 850,
+      decision_making: 850,
+      quantitative_reasoning: 850,
+    };
+    profile.admissions_tests.ucat.total_score = 2550;
+    profile.admissions_tests.ucat.sjt_band = 1;
+    profile.admissions_tests.ucat.test_year = 2027;
+    const errors = validateUcatStep(profile);
+    expect(errors.test_year).toBeTruthy();
+    expect(errors.test_year).toMatch(/2026/);
+  });
+
+  it('does not cross-validate against the UCAT year when no entry year has been entered yet', () => {
+    const profile = createEmptyProfile();
+    profile.admissions_tests.ucat.taken = true;
+    profile.admissions_tests.ucat.subtests = {
+      verbal_reasoning: 700,
+      decision_making: 700,
+      quantitative_reasoning: 700,
+    };
+    profile.admissions_tests.ucat.total_score = 2100;
+    profile.admissions_tests.ucat.sjt_band = 2;
+    profile.admissions_tests.ucat.test_year = 2019;
+    expect(hasErrors(validateUcatStep(profile))).toBe(false);
+  });
+});
+
+describe('expectedUcatTestYear', () => {
+  it('returns entry year minus 1', () => {
+    expect(expectedUcatTestYear(2027)).toBe(2026);
   });
 });
 

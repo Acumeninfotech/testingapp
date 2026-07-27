@@ -12,6 +12,11 @@ const SJT_BAND_OPTIONS = [
 
 export function UcatStep({ profile, updateProfile, errors }: StepProps) {
   const ucat = profile.admissions_tests.ucat;
+  const applicationYear = profile.course_target.application_year;
+  const testYearHint =
+    typeof applicationYear === 'number'
+      ? `Enter the year the UCAT was taken. For ${applicationYear} medicine entry, this will normally be ${applicationYear - 1}.`
+      : 'Enter the year the UCAT was taken. UCAT is normally sat the year before medicine entry (e.g. for 2027 entry, this will normally be 2026).';
 
   return (
     <div className="step-grid">
@@ -126,7 +131,7 @@ export function UcatStep({ profile, updateProfile, errors }: StepProps) {
             type="number"
             value={ucat.test_year}
             error={errors.test_year}
-            hint="Many universities require the UCAT to be taken in the same year you apply."
+            hint={testYearHint}
             onChange={(value) =>
               updateProfile((prev) => ({
                 ...prev,

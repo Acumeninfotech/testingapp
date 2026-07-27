@@ -273,7 +273,7 @@ assert.strictEqual(
 );
 
 const academicBoundaryCases = [
-  [22, 'weak', 'high_risk', 'Higher Risk'],
+  [22, 'weak', 'high_risk', 'High Risk'],
   [23, 'moderate', 'realistic', 'Realistic Choice'],
   [25, 'moderate', 'realistic', 'Realistic Choice'],
   [26, 'strong', 'interview_likely', 'Strong Choice'],
@@ -301,7 +301,7 @@ for (const [academicScore, expectedAcademicBand, expectedBand, expectedPublicLab
 }
 
 const ucatBoundaryCases = [
-  [1899, 'below_recent_range', 'high_risk', 'Higher Risk'],
+  [1899, 'below_recent_range', 'high_risk', 'High Risk'],
   [1900, 'borderline', 'realistic', 'Realistic Choice'],
   [1929, 'borderline', 'realistic', 'Realistic Choice'],
   [1930, 'historically_competitive', 'interview_likely', 'Strong Choice'],

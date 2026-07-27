@@ -1,27 +1,41 @@
+// The single authoritative canonical band -> public label mapping. Every
+// other map in this file (headlines, official-prediction-unavailable
+// wording, decision-timeline status text) derives its short label from
+// this so the same band always shows the same public wording everywhere.
+// Internal canonical band IDs (the object keys) must never be renamed or
+// shown to users - only the values here are public-facing.
+const CANONICAL_BAND_LABELS = {
+  very_strong_interview_potential: 'Very Strong Choice',
+  interview_likely: 'Strong Choice',
+  realistic: 'Realistic Choice',
+  ambitious: 'Ambitious Choice',
+  high_risk: 'High Risk'
+};
+
 const STANDARD_RECOMMENDATIONS = {
   very_strong_interview_potential: {
     headline: 'Very strong choice based on your selection score',
-    recommendation: 'Very Strong Choice',
+    recommendation: CANONICAL_BAND_LABELS.very_strong_interview_potential,
     explanation: 'Your selection score is well above the historical interview range available to ApplySmart.'
   },
   interview_likely: {
     headline: 'Strong choice based on your selection score',
-    recommendation: 'Strong choice',
+    recommendation: CANONICAL_BAND_LABELS.interview_likely,
     explanation: 'Your selection score is above the historical interview range available to ApplySmart.'
   },
   realistic: {
     headline: 'Realistic choice based on your selection score',
-    recommendation: 'Realistic choice',
+    recommendation: CANONICAL_BAND_LABELS.realistic,
     explanation: 'Your selection score is within the historical interview range available to ApplySmart.'
   },
   ambitious: {
     headline: 'Ambitious choice based on your selection score',
-    recommendation: 'Ambitious choice',
+    recommendation: CANONICAL_BAND_LABELS.ambitious,
     explanation: 'Your selection score is slightly below the historical interview range available to ApplySmart.'
   },
   high_risk: {
-    headline: 'Ambitious choice based on your selection score',
-    recommendation: 'Ambitious choice',
+    headline: 'High risk based on your selection score',
+    recommendation: CANONICAL_BAND_LABELS.high_risk,
     explanation: 'Your selection score is below the historical interview range available to ApplySmart.'
   }
 };
@@ -29,27 +43,27 @@ const STANDARD_RECOMMENDATIONS = {
 const UCAT_RANKING_RECOMMENDATIONS = {
   very_strong_interview_potential: {
     headline: 'Very strong choice based on your UCAT',
-    recommendation: 'Very Strong Choice',
+    recommendation: CANONICAL_BAND_LABELS.very_strong_interview_potential,
     position: 'above'
   },
   interview_likely: {
     headline: 'Strong choice based on your UCAT',
-    recommendation: 'Strong choice',
+    recommendation: CANONICAL_BAND_LABELS.interview_likely,
     position: 'above'
   },
   realistic: {
     headline: 'Realistic choice based on your UCAT',
-    recommendation: 'Realistic choice',
+    recommendation: CANONICAL_BAND_LABELS.realistic,
     position: 'within'
   },
   ambitious: {
     headline: 'Ambitious choice based on your UCAT',
-    recommendation: 'Ambitious choice',
+    recommendation: CANONICAL_BAND_LABELS.ambitious,
     position: 'slightly below'
   },
   high_risk: {
-    headline: 'Ambitious choice based on your UCAT',
-    recommendation: 'Ambitious choice',
+    headline: 'High risk based on your UCAT',
+    recommendation: CANONICAL_BAND_LABELS.high_risk,
     position: 'below'
   }
 };
@@ -277,18 +291,38 @@ const TIMELINE_SELECTION_SUMMARIES = {
     'Academic, reference and experience hurdles were checked before UCAT ranking.'
 };
 
+function mergePresentations(...presentations) {
+  return presentations.reduce((merged, presentation) => {
+    if (!presentation || typeof presentation !== 'object') {
+      return merged;
+    }
+    return { ...merged, ...presentation };
+  }, {});
+}
+
 function configuredPresentation(card = {}, options = {}) {
-  const presentation =
-    options.guidancePool?.presentation ||
-    options.scoreModel?.presentation ||
-    card.stage_2_selection?.presentation ||
-    {};
-  return presentation && typeof presentation === 'object' ? presentation : {};
+  return mergePresentations(
+    card.stage_2_selection?.presentation,
+    options.scoreModel?.presentation,
+    options.guidancePool?.presentation
+  );
 }
 
 function hideSelectionScoreDetails(presentation = {}) {
   return presentation.hide_selection_score_details === true ||
     presentation.hide_score_breakdown === true;
+}
+
+function reasonScopedPresentationValue(presentation = {}, field, reasonCode) {
+  const values = presentation[field];
+  if (!reasonCode || !values || typeof values !== 'object') {
+    return null;
+  }
+  return values[reasonCode] || null;
+}
+
+function isApplicantInformationReasonCode(reasonCode) {
+  return Boolean(reasonCode) && reasonCode !== 'university_methodology_gap';
 }
 
 function check(label, status, summary) {
@@ -1109,6 +1143,11 @@ function buildEvidenceConfidence(card, options = {}) {
   const manualReview = isManualReview(card, options);
   const insufficientEvidence =
     !manualReview && isInsufficientEvidence(card);
+  const insufficientEvidenceReasonCode =
+    options.insufficientEvidenceReasonCode ||
+    card.decision_transparency?.insufficient_evidence_reason_code ||
+    null;
+  const applicantInformationGap = isApplicantInformationReasonCode(insufficientEvidenceReasonCode);
   const readiness = options.readiness || card.readiness || card.engine_notes || {};
   const route = applicantRouteFlags(card, options);
   const routeEvidenceGap =
@@ -1164,11 +1203,13 @@ function buildEvidenceConfidence(card, options = {}) {
       level: 'Limited',
       summary: 'The available evidence is not sufficient for confident guidance on this applicant route.',
       reasons: [
-        'Official eligibility information is used where it is available.',
-        routeEvidenceGap
-          ? 'This applicant route has an evidence gap that needs individual review.'
-          : 'Verified historical interview information is incomplete for this applicant route.'
-      ]
+	        'Official eligibility information is used where it is available.',
+	        applicantInformationGap
+          ? 'A required applicant scoring input is missing, so ApplySmart cannot calculate the selection score for this route.'
+          : routeEvidenceGap
+	          ? 'This applicant route has an evidence gap that needs individual review.'
+	          : 'Verified historical interview information is incomplete for this applicant route.'
+	      ]
     };
   }
 
@@ -1256,6 +1297,282 @@ function formatScorePoints(value) {
   return Number(value.toFixed(2)).toString();
 }
 
+function comparisonLabelForUcat(comparison = {}) {
+  if (comparison.comparison_type === 'official_minimum') {
+    return {
+      comparison_label: 'Published UCAT minimum',
+      comparison_label_type: 'published_ucat_minimum',
+      difference_word: 'minimum'
+    };
+  }
+  if (comparison.comparison_type === 'current_guidance') {
+    return {
+      comparison_label: 'ApplySmart advisory guide',
+      comparison_label_type: 'applysmart_advisory_guide',
+      difference_word: 'guide'
+    };
+  }
+  if (comparison.comparison_type === 'historical_average') {
+    return {
+      comparison_label: 'Recent interview benchmark',
+      comparison_label_type: 'recent_interview_benchmark',
+      difference_word: 'benchmark'
+    };
+  }
+  return {
+    comparison_label: 'Historical interview guide',
+    comparison_label_type: 'historical_interview_guide',
+    difference_word: 'guide'
+  };
+}
+
+function differenceDirection(difference) {
+  if (!Number.isFinite(difference)) {
+    return null;
+  }
+  if (difference > 0) return 'above';
+  if (difference < 0) return 'below';
+  return 'at';
+}
+
+function buildUcatSelectionMetric(ucatComparison, options = {}) {
+  if (!ucatComparison || typeof ucatComparison !== 'object') {
+    return null;
+  }
+
+  if (!Number.isFinite(ucatComparison.applicant_ucat)) {
+    return null;
+  }
+
+  const maximum = Number.isFinite(options.bandMetric?.scale?.max)
+    ? options.bandMetric.scale.max
+    : options.applicantContext?.admissions_tests?.ucat?.score_scale ?? 2700;
+
+  if (!Number.isFinite(ucatComparison.benchmark_min)) {
+    return {
+      type: 'ucat',
+      label: 'UCAT ranking',
+      applicant_value: ucatComparison.applicant_ucat,
+      comparison_value: null,
+      comparison_max_value: null,
+      comparison_label: null,
+      comparison_label_type: null,
+      comparison_context: null,
+      difference: null,
+      difference_direction: null,
+      difference_word: null,
+      maximum_value: Number.isFinite(maximum) ? maximum : null,
+      display_mode: 'score',
+      display_eligibility: true,
+      entry_year: null,
+      caveat: null
+    };
+  }
+
+  const label = comparisonLabelForUcat(ucatComparison);
+  const difference = ucatComparison.applicant_ucat - ucatComparison.benchmark_min;
+
+  return {
+    type: 'ucat',
+    label: 'UCAT comparison',
+    applicant_value: ucatComparison.applicant_ucat,
+    comparison_value: ucatComparison.benchmark_min,
+    comparison_max_value: Number.isFinite(ucatComparison.benchmark_max)
+      ? ucatComparison.benchmark_max
+      : null,
+    comparison_label: label.comparison_label,
+    comparison_label_type: label.comparison_label_type,
+    comparison_context: ucatComparison.benchmark_label || null,
+    difference,
+    difference_direction: differenceDirection(difference),
+    difference_word: label.difference_word,
+    maximum_value: Number.isFinite(maximum) ? maximum : null,
+    display_mode: 'comparison',
+    display_eligibility: true,
+    entry_year: null,
+    caveat: ucatComparison.caveat || HISTORICAL_GUIDANCE_CAVEAT
+  };
+}
+
+function buildScoreSelectionMetric(scoreBreakdown, selectionScoreComparison) {
+  if (!scoreBreakdown || !Number.isFinite(scoreBreakdown.value)) {
+    return null;
+  }
+
+  const type = Number.isFinite(scoreBreakdown.max) && scoreBreakdown.max > 10
+    ? 'points'
+    : 'selection_score';
+  const label = type === 'points' ? 'Points score' : 'Selection score';
+  const hasComparison = Number.isFinite(selectionScoreComparison?.threshold);
+  const comparisonLabel = selectionScoreComparison?.provisional
+    ? 'ApplySmart advisory guide'
+    : 'Historical interview guide';
+
+  return {
+    type,
+    label,
+    applicant_value: scoreBreakdown.value,
+    comparison_value: hasComparison ? selectionScoreComparison.threshold : null,
+    comparison_max_value: null,
+    comparison_label: hasComparison ? comparisonLabel : null,
+    comparison_label_type: hasComparison
+      ? selectionScoreComparison.provisional
+        ? 'applysmart_advisory_guide'
+        : 'historical_interview_guide'
+      : null,
+    comparison_context: scoreBreakdown.name || null,
+    difference: hasComparison ? selectionScoreComparison.difference : null,
+    difference_direction: hasComparison ? differenceDirection(selectionScoreComparison.difference) : null,
+    difference_word: hasComparison
+      ? selectionScoreComparison.provisional
+        ? 'guide'
+        : 'guide'
+      : null,
+    maximum_value: Number.isFinite(scoreBreakdown.max) ? scoreBreakdown.max : null,
+    display_mode: 'score',
+    display_eligibility: true,
+    entry_year: null,
+    caveat: hasComparison ? HISTORICAL_GUIDANCE_CAVEAT : null
+  };
+}
+
+function buildEligibilitySelectionMetric(state) {
+  if (state !== 'eligibility_only') {
+    return null;
+  }
+  return {
+    type: 'eligibility',
+    label: 'Eligibility',
+    applicant_value: null,
+    comparison_value: null,
+    comparison_max_value: null,
+    comparison_label: null,
+    comparison_label_type: null,
+    comparison_context: null,
+    difference: null,
+    difference_direction: null,
+    difference_word: null,
+    maximum_value: null,
+    display_mode: 'eligibility',
+    display_eligibility: true,
+    entry_year: null,
+    value_label: 'Eligibility requirements met',
+    caveat: null
+  };
+}
+
+function buildSelectionMetric({ state, scoreBreakdown, selectionScoreComparison, ucatComparison, options }) {
+  if (state === 'manual_review' || state === 'insufficient_evidence' || state === 'not_eligible') {
+    return null;
+  }
+  if (state === 'eligibility_only') {
+    return buildEligibilitySelectionMetric(state);
+  }
+
+  return buildScoreSelectionMetric(scoreBreakdown, selectionScoreComparison) ||
+    buildUcatSelectionMetric(ucatComparison, options) ||
+    buildEligibilitySelectionMetric(state);
+}
+
+function lowerInitial(value) {
+  if (typeof value !== 'string' || value.length === 0) {
+    return value;
+  }
+  return value.charAt(0).toLowerCase() + value.slice(1);
+}
+
+function buildCompactStatus({ state, selectionMetric, insufficientEvidenceReasonCode, predictionAvailable = true }) {
+  if (state === 'not_eligible') {
+    return {
+      label: 'Entry requirements not met',
+      type: 'eligibility',
+      tone: 'negative'
+    };
+  }
+
+  if (state === 'manual_review') {
+    return {
+      label: 'Needs adviser review',
+      type: 'manual_review',
+      tone: 'warning'
+    };
+  }
+
+  if (state === 'insufficient_evidence') {
+    const applicantInformationGap =
+      isApplicantInformationReasonCode(insufficientEvidenceReasonCode) ||
+      !insufficientEvidenceReasonCode;
+    return {
+      label: applicantInformationGap ? 'Information needed' : 'Prediction unavailable',
+      type: applicantInformationGap ? 'information_needed' : 'prediction_unavailable',
+      tone: applicantInformationGap ? 'warning' : 'neutral'
+    };
+  }
+
+  if (
+    selectionMetric &&
+    Number.isFinite(selectionMetric.comparison_value) &&
+    ['above', 'below', 'at'].includes(selectionMetric.difference_direction) &&
+    typeof selectionMetric.comparison_label === 'string' &&
+    selectionMetric.comparison_label.trim()
+  ) {
+    const comparisonLabel = selectionMetric.comparison_label.trim();
+    if (selectionMetric.difference_direction === 'below') {
+      return {
+        label: `Below ${lowerInitial(comparisonLabel)}`,
+        type: 'selection_comparison',
+        tone: 'negative'
+      };
+    }
+    return {
+      label: `${comparisonLabel} ${selectionMetric.difference_direction === 'at' ? 'met' : 'exceeded'}`,
+      type: 'selection_comparison',
+      tone: 'positive'
+    };
+  }
+
+  if (selectionMetric?.type === 'eligibility' || state === 'eligibility_only') {
+    return {
+      label: 'Eligibility requirements met',
+      type: 'eligibility',
+      tone: 'positive'
+    };
+  }
+
+  if (selectionMetric?.type === 'ucat') {
+    return {
+      label: 'UCAT ranking assessed',
+      type: 'selection_metric',
+      tone: 'neutral'
+    };
+  }
+
+  if (selectionMetric?.type === 'selection_score' || selectionMetric?.type === 'points') {
+    const label = typeof selectionMetric.label === 'string' && selectionMetric.label.trim()
+      ? selectionMetric.label.trim()
+      : 'Selection score';
+    return {
+      label: `${label} calculated`,
+      type: 'selection_metric',
+      tone: 'neutral'
+    };
+  }
+
+  if (predictionAvailable) {
+    return {
+      label: 'Selection approach assessed',
+      type: 'selection_metric',
+      tone: 'neutral'
+    };
+  }
+
+  return {
+    label: 'Prediction unavailable',
+    type: 'prediction_unavailable',
+    tone: 'neutral'
+  };
+}
+
 function selectionScoreThresholdText(comparison) {
   if (!comparison) {
     return null;
@@ -1264,12 +1581,12 @@ function selectionScoreThresholdText(comparison) {
   const difference = comparison.difference;
   const formattedThreshold = formatScorePoints(comparison.threshold);
   const benchmarkName = comparison.provisional
-    ? 'provisional competitive benchmark'
-    : 'recent interview threshold';
+    ? 'ApplySmart advisory guide'
+    : 'historical interview guide';
   if (difference < 0) {
     const suffix = comparison.provisional
       ? 'This result uses strategic guidance only, not an official cutoff.'
-      : 'This result does not mean the threshold was met.';
+      : 'This result does not mean the guide was met.';
     return `Your selection score is ${formatScorePoints(Math.abs(difference))} points below the ${benchmarkName} of ${formattedThreshold} for this applicant pool. ${suffix}`;
   }
   if (difference > 0) {
@@ -1284,7 +1601,8 @@ function existingSelectionScoreThresholdText(card) {
   );
   const thresholdCheck = selectionStage?.checks?.find((entry) =>
     entry.label === 'Selection score threshold' ||
-    entry.label === 'Selection score benchmark'
+    entry.label === 'Selection score benchmark' ||
+    entry.label === 'Selection score guide'
   );
   return thresholdCheck?.summary || null;
 }
@@ -1299,12 +1617,12 @@ function selectionScoreThresholdComparisonCheck(comparison) {
   }
 
   const status = comparison.difference < 0
-    ? 'Below threshold'
+    ? 'Below guide'
     : comparison.difference > 0
-      ? 'Above threshold'
-      : 'Threshold met';
+      ? 'Above guide'
+      : 'At guide';
   return check(
-    comparison.provisional ? 'Selection score benchmark' : 'Selection score threshold',
+    comparison.provisional ? 'Selection score benchmark' : 'Selection score guide',
     status,
     selectionScoreThresholdText(comparison)
   );
@@ -1322,6 +1640,19 @@ function historicalSummary(card, state, options = {}) {
     return `Historical interview information is held back until the review is complete. ${HISTORICAL_GUIDANCE_CAVEAT}`;
   }
   if (state === 'insufficient_evidence') {
+    const reasonCode = options.insufficientEvidenceReasonCode ||
+      card.decision_transparency?.insufficient_evidence_reason_code;
+    const reasonSummary = reasonScopedPresentationValue(
+      presentation,
+      'insufficient_evidence_historical_summaries',
+      reasonCode
+    );
+    if (reasonSummary) {
+      return reasonSummary;
+    }
+    if (isApplicantInformationReasonCode(reasonCode)) {
+      return `Historical interview information was not compared because a required applicant scoring input is missing. ${HISTORICAL_GUIDANCE_CAVEAT}`;
+    }
     return `There is not enough verified historical interview information for this applicant route. ${HISTORICAL_GUIDANCE_CAVEAT}`;
   }
   if (presentation.historical_summary) {
@@ -1374,6 +1705,19 @@ function recommendationSummary(card, state, options = {}) {
     return 'An adviser must review the missing or unconfirmed information before interview guidance can be shown.';
   }
   if (state === 'insufficient_evidence') {
+    const reasonCode = options.insufficientEvidenceReasonCode ||
+      card.decision_transparency?.insufficient_evidence_reason_code;
+    const reasonSummary = reasonScopedPresentationValue(
+      configuredPresentation(card, options),
+      'insufficient_evidence_recommendation_summaries',
+      reasonCode
+    );
+    if (reasonSummary) {
+      return reasonSummary;
+    }
+    if (isApplicantInformationReasonCode(reasonCode)) {
+      return 'No interview recommendation is shown because a required applicant scoring input is missing.';
+    }
     return 'No confident recommendation is shown because the available evidence is insufficient.';
   }
 
@@ -1816,14 +2160,14 @@ function officialPredictionInstitutionName(context = {}) {
   return context.course_identity?.university_name || context.university_name || 'the university';
 }
 
+// When the official university prediction is unavailable, the headline
+// must still show the canonical public label for the calculated band (see
+// CANONICAL_BAND_LABELS) - the fact that this is ApplySmart advisory
+// guidance rather than an official prediction is conveyed separately via
+// primary_explanation/trust_statement, never by swapping in an alternate
+// "Interview Potential" wording family for the label itself.
 function officialPredictionUnavailableHeadline(interviewBand) {
-  return {
-    very_strong_interview_potential: 'Very Strong Interview Potential',
-    interview_likely: 'Strong Interview Potential',
-    realistic: 'Competitive Interview Potential',
-    ambitious: 'Developing Interview Potential',
-    high_risk: 'Limited Interview Potential'
-  }[interviewBand] || 'ApplySmart Analysis Available';
+  return CANONICAL_BAND_LABELS[interviewBand] || 'ApplySmart Analysis Available';
 }
 
 function officialPredictionUnavailableExplanation(context = {}) {
@@ -2009,14 +2353,10 @@ function buildDecisionTimeline(card, options = {}) {
     (officialPredictionReason ? `Official prediction unavailable. ${officialPredictionReason}` : null) ||
     'The university selection approach was applied after the eligibility checks.';
   const hideSelectionDetails = hideSelectionScoreDetails(presentation);
-  const finalStatus = {
-    eligible_to_apply: 'Eligible to apply',
-    very_strong_interview_potential: 'Very Strong Choice',
-    interview_likely: 'Strong choice',
-    realistic: 'Good chance',
-    ambitious: 'Possible but ambitious',
-    high_risk: 'Possible but ambitious'
-  }[card.prediction?.result_band] || 'Insufficient evidence';
+  const finalStatus =
+    card.prediction?.result_band === 'eligible_to_apply'
+      ? 'Eligible to apply'
+      : CANONICAL_BAND_LABELS[card.prediction?.result_band] || 'Insufficient evidence';
   const selectionScoreComparison = hideSelectionDetails
     ? null
     : options.selectionScoreComparison || selectionScoreThresholdComparison(options);
@@ -2034,6 +2374,15 @@ function buildDecisionTimeline(card, options = {}) {
     (profileId === 'king-s-college-london-a100'
       ? card.decision_transparency?.decision_path?.find((stage) => stage.stage === 'Historical guidance')?.summary
       : null);
+  const insufficientEvidenceReasonCode = options.insufficientEvidenceReasonCode ||
+    card.decision_transparency?.insufficient_evidence_reason_code ||
+    null;
+  const applicantInformationGap = isApplicantInformationReasonCode(insufficientEvidenceReasonCode);
+  const insufficientHistoricalSummary = reasonScopedPresentationValue(
+    presentation,
+    'insufficient_evidence_timeline_historical_summaries',
+    insufficientEvidenceReasonCode
+  );
 
   return [
     {
@@ -2096,8 +2445,11 @@ function buildDecisionTimeline(card, options = {}) {
             : ucatComparisonText
               ? `${ucatComparisonText} ${HISTORICAL_GUIDANCE_CAVEAT}`
               : `${card.prediction?.ranking_metric === 'ucat_total' ? 'Your UCAT' : 'Your result'} was compared with interview information from previous admissions cycles. ${HISTORICAL_GUIDANCE_CAVEAT}`
-          : state === 'insufficient_evidence'
-            ? `There is not enough verified interview information from previous admissions cycles for this applicant route. ${HISTORICAL_GUIDANCE_CAVEAT}`
+	          : state === 'insufficient_evidence'
+	            ? insufficientHistoricalSummary ||
+              (applicantInformationGap
+                ? `Information from previous admissions cycles was not compared because a required applicant scoring input is missing. ${HISTORICAL_GUIDANCE_CAVEAT}`
+                : `There is not enough verified interview information from previous admissions cycles for this applicant route. ${HISTORICAL_GUIDANCE_CAVEAT}`)
             : state === 'manual_review'
               ? `Information from previous admissions cycles was not compared while adviser review is required. ${HISTORICAL_GUIDANCE_CAVEAT}`
               : `Information from previous admissions cycles was not compared because the entry requirements are not met. ${HISTORICAL_GUIDANCE_CAVEAT}`
@@ -2115,7 +2467,13 @@ function buildDecisionTimeline(card, options = {}) {
             : state === 'insufficient_evidence'
               ? 'Insufficient evidence'
               : finalStatus,
-      summary: recommendationSummary(card, state, { selectionScoreComparison, selectionScoreText })
+      summary: recommendationSummary(card, state, {
+        selectionScoreComparison,
+        selectionScoreText,
+        insufficientEvidenceReasonCode,
+        guidancePool: options.guidancePool,
+        scoreModel: options.scoreModel
+      })
     }
   ];
 }
@@ -2161,10 +2519,17 @@ function buildDecisionTransparency(card, options = {}) {
   const insufficientEvidenceReason =
     state === 'insufficient_evidence'
       ? options.insufficientEvidenceReason ||
+        reasonScopedPresentationValue(
+          presentation,
+          'insufficient_evidence_reason_messages',
+          insufficientEvidenceReasonCode
+        ) ||
         card.prediction?.cannot_predict_explanation ||
         (card.prediction?.missing_data_reasons || [])[0] ||
         (insufficientEvidenceReasonCode === 'university_methodology_gap'
           ? 'This university has not published a complete scoring or ranking methodology that ApplySmart can apply to this specific applicant route.'
+            : isApplicantInformationReasonCode(insufficientEvidenceReasonCode)
+              ? 'ApplySmart needs more applicant information before it can calculate this selection score.'
           : 'Verified historical interview information is not available for this applicant group.')
       : null;
   const officialPrediction = options.officialPrediction || card.prediction?.official_prediction || null;
@@ -2220,6 +2585,19 @@ function buildDecisionTransparency(card, options = {}) {
       : [])
   ];
   const evidenceConfidence = buildEvidenceConfidence(card, options);
+  const selectionMetric = buildSelectionMetric({
+    state,
+    scoreBreakdown,
+    selectionScoreComparison,
+    ucatComparison,
+    options
+  });
+  const compactStatus = buildCompactStatus({
+    state,
+    selectionMetric,
+    insufficientEvidenceReasonCode,
+    predictionAvailable: card.prediction?.available !== false
+  });
 
   return {
     decision_path: [
@@ -2340,6 +2718,8 @@ function buildDecisionTransparency(card, options = {}) {
     manual_review_reason: manualReviewReason,
     insufficient_evidence_reason: insufficientEvidenceReason,
     insufficient_evidence_reason_code: insufficientEvidenceReasonCode,
+    compact_status: compactStatus,
+    selection_metric: selectionMetric,
     score_breakdown: scoreBreakdown,
     ucat_comparison: ucatComparison
   };
@@ -2355,10 +2735,10 @@ function presentResultCard({
   transparencyContext = {}
 }) {
   let display;
-  const presentation =
-    transparencyContext.guidance_pool?.presentation ||
-    transparencyContext.score_model?.presentation ||
-    {};
+  const presentation = mergePresentations(
+    transparencyContext.score_model?.presentation,
+    transparencyContext.guidance_pool?.presentation
+  );
   const guaranteedInterview = transparencyContext.interview_outcome === 'guaranteed_interview';
   const resultBand = guaranteedInterview && !interviewBand ? 'interview_likely' : interviewBand;
   const eligibilityOnly =
@@ -2393,6 +2773,17 @@ function presentResultCard({
   );
   const officialPrediction = transparencyContext.official_prediction || null;
   const officialPredictionUnavailable = officialPrediction?.available === false;
+  const reasonScopedInsufficientRecommendation = reasonScopedPresentationValue(
+    presentation,
+    'insufficient_evidence_recommendations',
+    insufficientEvidenceReasonCode
+  );
+  const reasonScopedInsufficientExplanation = insufficientEvidenceReason ||
+    reasonScopedPresentationValue(
+      presentation,
+      'insufficient_evidence_reason_messages',
+      insufficientEvidenceReasonCode
+    );
 
   if (guaranteedInterview) {
     // A guaranteed-interview override (e.g. Birmingham UKWPMED) means every
@@ -2440,9 +2831,12 @@ function presentResultCard({
   ) {
     display = {
       primary_user_facing_recommendation:
-        presentation.insufficient_evidence_recommendation || 'Evidence not yet available',
+        reasonScopedInsufficientRecommendation ||
+        presentation.insufficient_evidence_recommendation ||
+        'Evidence not yet available',
       recommendation_display_state: 'insufficient_evidence',
       primary_explanation:
+        reasonScopedInsufficientExplanation ||
         presentation.insufficient_evidence_explanation ||
         'Your academic profile meets the published requirements. ApplySmart cannot fully position this application because verified historical interview data for this applicant group is currently limited.',
       historical_guidance_caveat: null
@@ -2618,6 +3012,7 @@ function presentResultCard({
 
 module.exports = {
   HISTORICAL_GUIDANCE_CAVEAT,
+  CANONICAL_BAND_LABELS,
   buildEvidenceConfidence,
   buildDecisionTimeline,
   buildDecisionTransparency,

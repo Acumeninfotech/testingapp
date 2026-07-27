@@ -150,7 +150,8 @@ function evaluateGenericUniversity(studentProfile, university) {
       guaranteedInterviewExplanation: classification.guaranteed_interview_explanation,
       officialPrediction: classification.official_prediction,
       warnings: classification.warnings,
-      applicantGroupIds: classification.applicant_group_ids
+      applicantGroupIds: classification.applicant_group_ids,
+      insufficientEvidenceReasonCode: classification.insufficient_evidence_reason_code
     }
   );
 }
@@ -214,7 +215,7 @@ function makeResultCard(studentProfile, university, eligibilityStatus, band, man
     insufficientEvidenceReasonCode: insufficientEvidenceReasonCodeFromWarnings(scoreContext.warnings, {
       eligibilityStatus,
       guidancePoolId: scoreContext.guidancePoolId ?? null
-    }),
+    }) || scoreContext.insufficientEvidenceReasonCode || null,
     transparencyContext: {
       course_identity: {
         profile_id: university.id

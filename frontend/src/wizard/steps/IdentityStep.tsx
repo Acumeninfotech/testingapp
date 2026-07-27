@@ -3,9 +3,9 @@ import { TextField } from '../components/TextField';
 import type { StepProps } from './StepProps';
 
 const APPLICANT_TYPE_OPTIONS = [
-  { value: 'school_leaver', label: 'School or college leaver' },
-  { value: 'mature_standard', label: 'Mature applicant (non-graduate)' },
-  { value: 'mature_graduate', label: 'Graduate applicant' },
+  { value: 'school_leaver', label: 'Standard Entry' },
+  { value: 'mature_standard', label: 'Mature applicant (non-graduate)', disabled: true },
+  { value: 'mature_graduate', label: 'Graduate applicant', disabled: true },
 ];
 
 const FEE_STATUS_OPTIONS = [
@@ -74,6 +74,7 @@ export function IdentityStep({ profile, updateProfile, errors }: StepProps) {
         id="date_of_birth"
         label="Date of birth"
         type="date"
+        hint="We use this to check age-related entry requirements for certain courses (e.g. Medicine)."
         value={identity.date_of_birth}
         error={errors.date_of_birth}
         onChange={(value) =>

@@ -2783,6 +2783,18 @@ function getBirminghamNamedGcsePoints(scoringModel, grade) {
   return 0;
 }
 
+function missingBirminghamScoringInput(reasonCode, label) {
+  return {
+    status: 'unavailable',
+    basis: 'Birmingham Home application score',
+    value: null,
+    max: 10,
+    components: {},
+    reason: reasonCode,
+    missing_scoring_inputs: [label]
+  };
+}
+
 function calculateBirminghamHomeRanking(course, applicant, contextual, context = {}) {
   const scoringModel = course.stage_1_eligibility?.gcse?.scoring_model || {};
   const gcseGrades = getGcseGrades(applicant);
@@ -2795,15 +2807,18 @@ function calculateBirminghamHomeRanking(course, applicant, contextual, context =
     chemistry: gcseGrades.chemistry ?? dualAwardGrades[1]
   };
 
-  if (Object.values(namedGrades).some((grade) => grade === undefined || grade === null)) {
-    return {
-      status: 'unavailable',
-      basis: 'Birmingham Home application score',
-      value: null,
-      max: 10,
-      components: {},
-      reason: 'incomplete_gcse_scoring_inputs'
-    };
+  const namedInputChecks = [
+    ['english_language', 'missing_birmingham_english_language_grade', 'English Language'],
+    ['english_literature', 'missing_birmingham_english_literature_grade', 'English Literature'],
+    ['mathematics', 'missing_birmingham_mathematics_grade', 'Mathematics'],
+    ['biology', 'missing_birmingham_biology_grade', 'Biology or Dual Award Science'],
+    ['chemistry', 'missing_birmingham_chemistry_grade', 'Chemistry or Dual Award Science']
+  ];
+  for (const [subjectId, reasonCode, label] of namedInputChecks) {
+    const grade = namedGrades[subjectId];
+    if (grade === undefined || grade === null || grade === '') {
+      return missingBirminghamScoringInput(reasonCode, label);
+    }
   }
 
   const namedRawPoints = Object.values(namedGrades).reduce((total, grade) => {
@@ -2829,9 +2844,15 @@ function calculateBirminghamHomeRanking(course, applicant, contextual, context =
         : (scoringModel.free_choice_subject_points?.below_8 ?? 0);
     })
     .sort((a, b) => b - a)
-    .slice(0, scoringModel.free_choice_subject_count || 0)
-    .reduce((total, points) => total + points, 0);
-  const gcseRawPoints = namedRawPoints + freeChoicePoints;
+    .slice(0, scoringModel.free_choice_subject_count || 0);
+  if (freeChoicePoints.length < (scoringModel.free_choice_subject_count || 0)) {
+    return missingBirminghamScoringInput(
+      'missing_birmingham_additional_gcse_scoring_grades',
+      'Two additional GCSE subjects'
+    );
+  }
+  const freeChoiceRawPoints = freeChoicePoints.reduce((total, points) => total + points, 0);
+  const gcseRawPoints = namedRawPoints + freeChoiceRawPoints;
   const gcseValue = gcseRawPoints * scoringModel.scale_multiplier;
 
   const decileResult = resolveUcatDecile(
@@ -3023,6 +3044,10 @@ function classifyBirminghamInterviewBand(course, config, applicant, eligibility,
         }
       : bandMetric,
     canonical_interview_band: band,
+    insufficient_evidence_reason_code:
+      band === 'insufficient_evidence' && ranking?.status === 'unavailable'
+        ? ranking.reason || null
+        : null,
     warnings: [...guidanceWarnings, ...routeWarnings],
     manual_review_required: isInternational,
     non_executable_checks: isInternational

@@ -36,7 +36,7 @@ describe('toStudentProfile GCSE mapping', () => {
     expect((gcse.top_9_gcse_grades as string[]).length).toBe(9);
   });
 
-  it('caps top_9_gcse_grades at 9 even if more are somehow present', () => {
+  it('caps top_9_gcse_grades at MAX_GCSE_COUNT (11) even if more are somehow present', () => {
     const profile = fillCoreGcses(createEmptyProfile());
     profile.gcse_profile.additional_subjects = [
       { subject_id: 'history', grade: '9' },
@@ -44,10 +44,60 @@ describe('toStudentProfile GCSE mapping', () => {
       { subject_id: 'french', grade: '7' },
       { subject_id: 'computer_science', grade: '9' },
       { subject_id: 'music', grade: '6' },
+      { subject_id: 'psychology', grade: '9' },
+      { subject_id: 'spanish', grade: '8' },
+      { subject_id: 'art_and_design', grade: '9' },
     ];
     const studentProfile = toStudentProfile(profile);
     const gcse = studentProfile.gcse_profile as Record<string, unknown>;
-    expect((gcse.top_9_gcse_grades as string[]).length).toBe(9);
+    expect((gcse.top_9_gcse_grades as string[]).length).toBe(11);
+  });
+
+  it('accepts a full 10-GCSE profile and includes every subject, matching the Birmingham reference applicant', () => {
+    const profile = createEmptyProfile();
+    profile.gcse_profile.subjects = {
+      english_language: '9',
+      english_literature: '9',
+      mathematics: '9',
+      biology: '9',
+      chemistry: '9',
+      physics: '9',
+    };
+    profile.gcse_profile.additional_subjects = [
+      { subject_id: 'history', grade: '9' },
+      { subject_id: 'computer_science', grade: '9' },
+      { subject_id: 'french', grade: '9' },
+      { subject_id: 'geography', grade: '9' },
+    ];
+    const studentProfile = toStudentProfile(profile);
+    const gcse = studentProfile.gcse_profile as {
+      subjects: Record<string, unknown>;
+      additional_subjects: { subject_id: string; grade: string }[];
+      total_gcse_count: number;
+      top_9_gcse_grades: string[];
+    };
+    expect(gcse.total_gcse_count).toBe(10);
+    expect(gcse.subjects.english_literature).toBe('9');
+    expect(gcse.additional_subjects.some((subject) => subject.subject_id === 'english_literature')).toBe(false);
+    expect(gcse.top_9_gcse_grades).toHaveLength(10);
+    expect(gcse.top_9_gcse_grades.every((grade) => grade === '9')).toBe(true);
+  });
+
+  it('canonicalises legacy additional English Literature rows into gcse_profile.subjects.english_literature', () => {
+    const profile = fillCoreGcses(createEmptyProfile());
+    profile.gcse_profile.additional_subjects = [
+      { subject_id: 'english_literature', grade: '8' },
+      { subject_id: 'history', grade: '7' },
+    ];
+    const studentProfile = toStudentProfile(profile);
+    const gcse = studentProfile.gcse_profile as {
+      subjects: Record<string, unknown>;
+      additional_subjects: { subject_id: string; grade: string }[];
+      total_gcse_count: number;
+    };
+    expect(gcse.subjects.english_literature).toBe('8');
+    expect(gcse.additional_subjects).toEqual([{ subject_id: 'history', grade: '7' }]);
+    expect(gcse.total_gcse_count).toBe(7);
   });
 
   it('maps combined science mode to a combined_science subject grade and excludes separate sciences', () => {

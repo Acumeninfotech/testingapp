@@ -217,7 +217,7 @@ const [completeApiResult] = predict({
 });
 const completeCard = completeApiResult.result_card;
 assert.strictEqual(completeCard.recommendation_display_state, 'standard');
-assert.strictEqual(completeCard.primary_user_facing_recommendation, 'Strong Interview Potential');
+assert.strictEqual(completeCard.primary_user_facing_recommendation, 'Strong Choice');
 assert.match(
   completeCard.primary_explanation,
   /UCAT score of 2550 is above the available historical reference range of 1855-1864/i

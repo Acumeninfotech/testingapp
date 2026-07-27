@@ -1,59 +1,5 @@
-import type { DecisionPathCheck, PredictionResult, UcatComparison } from '../api/types';
-
-type CardVariant = 'safe' | 'realistic' | 'ambitious' | 'not-eligible' | 'manual-review';
-
-const PUBLIC_STATUS_LABELS = new Set([
-  'Very Strong Choice',
-  'Strong Choice',
-  'Realistic Choice',
-  'High Risk',
-]);
-
-// result_band and recommendation_display_state are produced by the prediction
-// engine (assets/js/engine/result-card-presenter.js) and are not modified here.
-function variantFor(card: PredictionResult['result_card']): { variant: CardVariant; label: string } {
-  const displayState = card.recommendation_display_state;
-  const band = card.prediction?.result_band;
-  const officialPredictionUnavailable = isOfficialPredictionUnavailable(card);
-  const publicLabel = PUBLIC_STATUS_LABELS.has(card.primary_user_facing_recommendation)
-    ? card.primary_user_facing_recommendation
-    : null;
-
-  if (displayState === 'not_eligible' || band === 'not_eligible') {
-    return { variant: 'not-eligible', label: 'Not suitable' };
-  }
-  if (displayState === 'manual_review') {
-    return { variant: 'manual-review', label: 'Verify' };
-  }
-  if (displayState === 'insufficient_evidence' || band === 'insufficient_evidence') {
-    return { variant: 'manual-review', label: 'Verify' };
-  }
-  if (officialPredictionUnavailable) {
-    return { variant: 'realistic', label: 'ApplySmart Analysis' };
-  }
-  if (displayState === 'eligibility_only' || band === 'eligible_to_apply') {
-    return { variant: 'safe', label: 'Eligible' };
-  }
-  if (displayState === 'standard' && !band) {
-    throw new Error('Result card contract violation: standard result_card is missing prediction.result_band.');
-  }
-  if (card.interview_outcome === 'guaranteed_interview') {
-    return { variant: 'safe', label: 'Guaranteed' };
-  }
-  if (band === 'interview_likely') {
-    return { variant: 'safe', label: publicLabel || 'Strong choice' };
-  }
-  if (band === 'very_strong_interview_potential') {
-    return { variant: 'safe', label: publicLabel || 'Very Strong Choice' };
-  }
-  if (band === 'realistic') {
-    return { variant: 'realistic', label: publicLabel || 'Realistic choice' };
-  }
-  if (band === 'ambitious' || band === 'high_risk') {
-    return { variant: 'ambitious', label: publicLabel || 'Ambitious choice' };
-  }
-  return { variant: 'manual-review', label: 'Verify' };
-}
+import type { DecisionPathCheck, PredictionResult, SelectionMetric, UcatComparison } from '../api/types';
+import { presentResult } from '../lib/resultPresenter';
 
 function isOfficialPredictionUnavailable(card: PredictionResult['result_card']): boolean {
   const officialPrediction = card.prediction?.official_prediction as
@@ -63,6 +9,34 @@ function isOfficialPredictionUnavailable(card: PredictionResult['result_card']):
     officialPrediction?.available === false ||
     card.prediction?.prediction_status === 'prediction_unavailable'
   );
+}
+
+// A manual-review/insufficient-evidence card reaching the frontend with no
+// specific reason (transparency.manual_review_reason or a matched
+// insufficient_evidence_reason_code) means the engine failed to attach the
+// structured reason it's expected to always provide for these states - a
+// contract/configuration defect, not a normal outcome. Never silently show
+// the old generic "needs a closer look" copy as if it were expected
+// behaviour: fail loudly in dev/test so the defect is caught before
+// shipping, and in production show a safe message that still names the
+// affected university/assessment while logging the gap for investigation.
+function unresolvedResultNotice(
+  card: PredictionResult['result_card'],
+  universityName: string,
+): string {
+  if (import.meta.env.DEV || import.meta.env.MODE === 'test') {
+    throw new Error(
+      `Result card contract violation: "${universityName}" reached recommendation_display_state ` +
+        `"${card.recommendation_display_state}" with no specific manual_review_reason or ` +
+        'insufficient_evidence_reason_code. The engine must always attach a structured reason for this state.',
+    );
+  }
+  // eslint-disable-next-line no-console
+  console.error(
+    'Result card missing a specific manual-review/insufficient-evidence reason.',
+    { universityName, recommendationDisplayState: card.recommendation_display_state },
+  );
+  return `ApplySmart could not confirm a specific reason for this result. This is not a rejection - please check back later or contact ${universityName} directly. (Reference: missing structured reason)`;
 }
 
 // Labels that only exist to describe how the engine computed a result, not
@@ -113,6 +87,40 @@ function formatDifference(value: number | null): string | null {
     return null;
   }
   return value > 0 ? `+${value}` : String(value);
+}
+
+function formatMetricNumber(value: number): string {
+  return Number(value.toFixed(3)).toString();
+}
+
+function formatSelectionMetricValue(value: number | null, max: number | null): string {
+  if (!Number.isFinite(value)) {
+    return 'Not available';
+  }
+  const formattedValue = formatMetricNumber(Number(value));
+  return Number.isFinite(max) ? `${formattedValue} / ${formatMetricNumber(Number(max))}` : formattedValue;
+}
+
+function formatSelectionMetricDifference(metric: SelectionMetric): string | null {
+  if (!Number.isFinite(metric.difference) || !metric.difference_direction) {
+    return null;
+  }
+  const word = metric.difference_word || 'guide';
+  if (metric.difference_direction === 'at') {
+    return `At ${word}`;
+  }
+  const amount = metric.difference_direction === 'above'
+    ? `+${formatMetricNumber(Number(metric.difference))}`
+    : formatMetricNumber(Math.abs(Number(metric.difference)));
+  return `${amount} ${metric.difference_direction} ${word}`;
+}
+
+function formatSelectionMetricComparison(metric: SelectionMetric): string {
+  const comparison = formatSelectionMetricValue(metric.comparison_value, null);
+  if (!metric.comparison_max_value) {
+    return comparison;
+  }
+  return `${comparison} (range ${comparison}-${formatMetricNumber(Number(metric.comparison_max_value))})`;
 }
 
 function formatScoreValue(value: number | null, max: number | null): string {
@@ -182,7 +190,7 @@ function kingsUcatComparisonSummary(card: PredictionResult['result_card']): stri
 
 export function ResultCard({ result }: { result: PredictionResult }) {
   const card = result.result_card;
-  const { variant, label } = variantFor(card);
+  const { variant, label } = presentResult(card);
   const officialPredictionUnavailable = isOfficialPredictionUnavailable(card);
   const courseIdentity = card.course_identity as { profile_id?: string } | undefined;
   const profileId = String(courseIdentity?.profile_id || result.universityId || '');
@@ -209,6 +217,7 @@ export function ResultCard({ result }: { result: PredictionResult }) {
   const scoreChecks = scoreBreakdown?.checks || [];
   const historicalChecks = historicalStage?.checks || [];
   const ucatComparison = transparency?.ucat_comparison || null;
+  const selectionMetric = transparency?.selection_metric || null;
   const isUcatRankingCard = Boolean(ucatComparison);
   const parentFacingHistoricalChecks = historicalChecks.filter(
     (c) =>
@@ -248,7 +257,7 @@ export function ResultCard({ result }: { result: PredictionResult }) {
   ].filter((c) => isGenuineWarningCheck(c) && isParentFacingCheck(c.label));
   const warningSummaries = uniqueStrings(genuineWarnings.map((w) => w.summary));
 
-  const isVerifyOrNotSuitable = variant === 'manual-review' || variant === 'not-eligible';
+  const isUnresolvedOrNotSuitable = variant === 'manual-review' || variant === 'not-eligible';
 
   const parentFacingSelectionChecks = selectionChecks.filter(
     (c) =>
@@ -287,19 +296,19 @@ export function ResultCard({ result }: { result: PredictionResult }) {
         </section>
       )}
 
-      {isVerifyOrNotSuitable && (
+      {isUnresolvedOrNotSuitable && (
         <p className="result-card-notice" role="status">
           {card.recommendation_display_state === 'insufficient_evidence' &&
           transparency?.insufficient_evidence_reason_code === 'university_methodology_gap'
             ? `${transparency?.insufficient_evidence_reason || 'This university has not published a complete scoring or ranking methodology that ApplySmart can apply to this specific applicant route.'} This is not a rejection.`
             : card.recommendation_display_state === 'insufficient_evidence' &&
-                transparency?.insufficient_evidence_reason_code === 'applicant_evidence_gap'
-              ? `${transparency?.insufficient_evidence_reason || 'ApplySmart needs more of your information to fully assess this application.'} This is not a rejection.`
+                transparency?.insufficient_evidence_reason
+              ? `${transparency.insufficient_evidence_reason} This is not a rejection.`
               : transparency?.manual_review_reason
                 ? `${transparency.manual_review_reason} This is not a rejection.`
                 : variant === 'not-eligible'
                   ? card.primary_explanation
-                  : 'This result needs a closer look: either some information is missing or verified historical data isn’t available yet for your applicant group. It is not a rejection.'}
+                  : unresolvedResultNotice(card, result.university)}
         </p>
       )}
 
@@ -402,6 +411,17 @@ export function ResultCard({ result }: { result: PredictionResult }) {
               <dd>{ucatEnteredCheck.summary}</dd>
             </>
           )}
+          {selectionMetric && selectionMetric.display_mode !== 'eligibility' && (
+            <>
+              <dt>{selectionMetric.label}</dt>
+              <dd>
+                {formatSelectionMetricValue(
+                  selectionMetric.applicant_value,
+                  selectionMetric.maximum_value,
+                )}
+              </dd>
+            </>
+          )}
           {!isUcatRankingCard && sjtCheck && (
             <>
               <dt>SJT</dt>
@@ -440,7 +460,49 @@ export function ResultCard({ result }: { result: PredictionResult }) {
         <section className="result-card-section result-card-historical">
           <h4>Historical Context</h4>
           <p className="result-card-section-summary">{historicalStage.summary}</p>
-          {ucatComparison && (
+          {selectionMetric?.comparison_value !== null && selectionMetric?.comparison_value !== undefined ? (
+            <dl className="result-card-detail-list result-card-comparison-list">
+              <dt>{selectionMetric.label}</dt>
+              <dd>
+                {formatSelectionMetricValue(
+                  selectionMetric.applicant_value,
+                  selectionMetric.maximum_value,
+                )}
+              </dd>
+              <dt>Comparison value</dt>
+              <dd>{formatSelectionMetricComparison(selectionMetric)}</dd>
+              {selectionMetric.comparison_label && (
+                <>
+                  <dt>Comparison type</dt>
+                  <dd>{selectionMetric.comparison_label}</dd>
+                </>
+              )}
+              {selectionMetric.comparison_context && (
+                <>
+                  <dt>Context</dt>
+                  <dd>{selectionMetric.comparison_context}</dd>
+                </>
+              )}
+              {selectionMetric.entry_year && (
+                <>
+                  <dt>Entry year</dt>
+                  <dd>{selectionMetric.entry_year}</dd>
+                </>
+              )}
+              {formatSelectionMetricDifference(selectionMetric) && (
+                <>
+                  <dt>Difference</dt>
+                  <dd>{formatSelectionMetricDifference(selectionMetric)}</dd>
+                </>
+              )}
+              {selectionMetric.caveat && (
+                <>
+                  <dt>Caveat</dt>
+                  <dd>{selectionMetric.caveat}</dd>
+                </>
+              )}
+            </dl>
+          ) : ucatComparison ? (
             <dl className="result-card-detail-list result-card-comparison-list">
               <dt>Your UCAT</dt>
               <dd>{ucatComparison.applicant_ucat ?? 'Not available'}</dd>
@@ -464,7 +526,7 @@ export function ResultCard({ result }: { result: PredictionResult }) {
               <dt>Position</dt>
               <dd>{positionLabel(ucatComparison)}</dd>
             </dl>
-          )}
+          ) : null}
           {parentFacingHistoricalChecks.length > 0 && (
             <ul className="result-card-check-list">
               {parentFacingHistoricalChecks.slice(0, 4).map((c, i) => (

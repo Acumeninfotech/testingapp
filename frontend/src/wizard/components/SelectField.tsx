@@ -3,6 +3,7 @@ import { FormField } from './FormField';
 interface Option {
   value: string;
   label: string;
+  disabled?: boolean;
 }
 
 interface SelectFieldProps {
@@ -27,7 +28,7 @@ export function SelectField({ id, label, value, options, onChange, error, hint, 
       >
         <option value="">{placeholder ?? 'Select…'}</option>
         {options.map((option) => (
-          <option key={option.value} value={option.value}>
+          <option key={option.value} value={option.value} disabled={option.disabled}>
             {option.label}
           </option>
         ))}

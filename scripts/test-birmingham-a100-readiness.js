@@ -1136,7 +1136,7 @@ assert.ok(
 // Approved home_standard band change: score >= 7.236 (the official 2025-entry
 // historical minimum application score for standard Home applicants invited
 // to interview) now classifies as the canonical 'interview_likely' band
-// ('Strong Interview Potential'), not 'realistic'. Below 7.236 is unchanged
+// ('Strong Choice'), not 'realistic'. Below 7.236 is unchanged
 // ('high_risk'). Only home_standard's band_rules were touched; 7.236 itself
 // is an external published statistic and is not reproducible as an exact
 // applicant score through Birmingham's own GCSE (0.1875 increments) + UCAT
@@ -1148,13 +1148,13 @@ assert.ok(homeStandardPool, 'expected a home_standard guidance pool in the Birmi
 const homeStandardStrongRule = homeStandardPool.band_rules.find((rule) => rule.band === 'interview_likely');
 assert.ok(
   homeStandardStrongRule,
-  'expected home_standard to define an interview_likely band rule for the approved Strong Interview Potential change'
+  'expected home_standard to define an interview_likely band rule for the approved Strong Choice change'
 );
 assert.strictEqual(homeStandardStrongRule.operator, 'greater_than_or_equal');
 assert.strictEqual(
   homeStandardStrongRule.value,
   7.236,
-  'the approved Strong Interview Potential boundary must remain Birmingham’s official 2025-entry historical minimum application score'
+  'the approved Strong Choice boundary must remain Birmingham’s official 2025-entry historical minimum application score'
 );
 const homeStandardHighRiskRule = homeStandardPool.band_rules.find((rule) => rule.band === 'high_risk');
 assert.ok(homeStandardHighRiskRule, 'expected home_standard to retain its existing high_risk band rule');
@@ -1163,7 +1163,7 @@ assert.strictEqual(homeStandardHighRiskRule.value, 7.236, 'the below-threshold b
 assert.strictEqual(
   homeStandardPool.band_rules.some((rule) => rule.band === 'realistic'),
   false,
-  'home_standard must no longer have a realistic band now that 7.236+ is Strong Interview Potential'
+  'home_standard must no longer have a realistic band now that 7.236+ is Strong Choice'
 );
 
 // 7.235 (just below 7.236): must retain the existing below-threshold outcome.
@@ -1180,7 +1180,7 @@ assert.strictEqual(
   '7.235 (below 7.236) must retain the existing below-threshold/high-risk outcome'
 );
 
-// 8.5 (at/above 7.236): must classify as Strong Interview Potential (interview_likely).
+// 8.5 (at/above 7.236): must classify as Strong Choice (interview_likely).
 const strongApplicantResult = classifyInterviewBand(
   profile,
   config,
@@ -1191,10 +1191,10 @@ assert.strictEqual(strongApplicantResult.ranking.value, 8.5, 'boundary fixture m
 assert.strictEqual(
   strongApplicantResult.canonical_interview_band,
   'interview_likely',
-  '8.5 (>= 7.236) must classify as Strong Interview Potential (interview_likely)'
+  '8.5 (>= 7.236) must classify as Strong Choice (interview_likely)'
 );
 
-console.log('PASS: Birmingham home_standard 7.236 boundary (7.235 -> high_risk unchanged, 8.5 -> interview_likely/Strong Interview Potential) and rule definition verified');
+console.log('PASS: Birmingham home_standard 7.236 boundary (7.235 -> high_risk unchanged, 8.5 -> interview_likely/Strong Choice) and rule definition verified');
 
 console.log(
   `Birmingham A100 readiness regression: PASS ` +

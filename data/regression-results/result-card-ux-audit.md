@@ -1,5 +1,16 @@
 # ApplySmart result-card UX audit
 
+> **Superseded.** This document reflects Phase 1B wording ("Needs adviser
+> review", "Good chance based on historical data", etc.), which predates the
+> canonical public-label audit. The approved canonical wording is now:
+> `very_strong_interview_potential` → Very Strong Choice,
+> `interview_likely` → Strong Choice, `realistic` → Realistic Choice,
+> `ambitious` → Ambitious Choice, `high_risk` → High Risk. See
+> `assets/js/engine/result-card-presenter.js`'s `CANONICAL_BAND_LABELS` and
+> `frontend/src/lib/resultPresenter.ts` for the current source of truth. The
+> wording table and regression counts below are historical and must not be
+> used to validate current output.
+
 ## Status
 
 Phase 1B precedence and wording checks pass across the 165 completed university-profile combinations.

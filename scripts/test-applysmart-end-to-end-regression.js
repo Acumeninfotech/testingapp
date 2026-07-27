@@ -15,21 +15,25 @@ const {
 const {
   normaliseApplicantProfile
 } = require('../assets/js/engine/applicant-profile-normaliser');
+const {
+  CANONICAL_BAND_LABELS
+} = require('../assets/js/engine/result-card-presenter');
 
 const rootDir = path.resolve(__dirname, '..');
 const examplesDir = path.join(rootDir, 'data', 'examples');
 const universitiesDir = path.join(rootDir, 'data', 'universities');
 const configsDir = path.join(rootDir, 'data', 'interview-band-configs');
 
+// Reuses the same canonical band -> public label map as the engine
+// (assets/js/engine/result-card-presenter.js) so this regression script's
+// expectations can't independently drift from the approved public wording.
+// eligible_to_apply/insufficient_evidence/not_eligible are display states,
+// not scored bands, so they keep their own distinct wording here.
 const RECOMMENDATION_BY_BAND = {
-  very_strong_interview_potential: 'Very Strong Choice',
-  interview_likely: 'Strong choice',
-  realistic: 'Good chance – recommend applying',
-  ambitious: 'Possible but ambitious',
-  high_risk: 'Consider stronger alternatives',
+  ...CANONICAL_BAND_LABELS,
   eligible_to_apply: 'Eligible to Apply',
-  insufficient_evidence: 'Consider stronger alternatives',
-  not_eligible: 'Consider stronger alternatives'
+  insufficient_evidence: 'Evidence not yet available',
+  not_eligible: 'Not suitable'
 };
 
 const HISTORICAL_ASSESSMENT_BY_BAND = {
@@ -44,223 +48,223 @@ const EXPECTED_RESULTS = {
   'aberdeen-a100': {
     eligibility: 'Eligible',
     production_band: 'interview_likely',
-    recommendation: 'Strong choice',
+    recommendation: "Strong Choice",
     historical_assessment: 'Above historical interview range'
   },
   'anglia-ruskin-a100': {
     eligibility: 'Eligible',
     production_band: 'interview_likely',
-    recommendation: 'Strong choice',
+    recommendation: "Strong Choice",
     historical_assessment: 'Above historical interview range'
   },
   'aston-a100': {
     eligibility: 'Not Eligible',
     production_band: 'not_eligible',
-    recommendation: 'Consider stronger alternatives',
+    recommendation: "Not suitable",
     historical_assessment: null
   },
   'birmingham-a100': {
     eligibility: 'Eligible',
     production_band: 'high_risk',
-    recommendation: 'Consider stronger alternatives',
+    recommendation: "High Risk",
     historical_assessment: 'Well below historical interview range'
   },
   'bristol-a100': {
     eligibility: 'Eligible',
     production_band: 'high_risk',
-    recommendation: 'Consider stronger alternatives',
+    recommendation: "High Risk",
     historical_assessment: 'Well below historical interview range'
   },
   'brunel-university-of-london-a100': {
     eligibility: 'Eligible',
     production_band: 'interview_likely',
-    recommendation: 'Strong choice',
+    recommendation: "Strong Choice",
     historical_assessment: 'Above historical interview range'
   },
   'cambridge-a100': {
     eligibility: 'Not Eligible',
     production_band: 'not_eligible',
-    recommendation: 'Consider stronger alternatives',
+    recommendation: "Not suitable",
     historical_assessment: null
   },
   'cardiff-a100': {
     eligibility: 'Eligible',
     production_band: 'high_risk',
-    recommendation: 'Consider stronger alternatives',
+    recommendation: "High Risk",
     historical_assessment: 'Well below historical interview range'
   },
   'dundee-a100': {
     eligibility: 'Eligible',
     production_band: 'interview_likely',
-    recommendation: 'Strong choice',
+    recommendation: "Strong Choice",
     historical_assessment: 'Above historical interview range'
   },
   'edinburgh-a100': {
     eligibility: 'Eligible',
     production_band: 'realistic',
-    recommendation: 'Good chance – recommend applying',
+    recommendation: "Realistic Choice",
     historical_assessment: 'Within historical interview range'
   },
   'east-anglia-a100': {
     eligibility: 'Eligible',
     production_band: 'realistic',
-    recommendation: 'Good chance – recommend applying',
+    recommendation: "Realistic Choice",
     historical_assessment: 'Within historical interview range'
   },
   'edge-hill-a100': {
     eligibility: 'Eligible',
     production_band: 'interview_likely',
-    recommendation: 'Strong choice',
+    recommendation: "Strong Choice",
     historical_assessment: 'Above historical interview range'
   },
   'exeter-a100': {
     eligibility: 'Not Eligible',
     production_band: 'not_eligible',
-    recommendation: 'Consider stronger alternatives',
+    recommendation: "Not suitable",
     historical_assessment: null
   },
   'glasgow-a100': {
     eligibility: 'Eligible',
     production_band: 'interview_likely',
-    recommendation: 'Strong choice',
+    recommendation: "Strong Choice",
     historical_assessment: 'Above historical interview range'
   },
   'hull-york-a100': {
     eligibility: 'Eligible',
     production_band: 'ambitious',
-    recommendation: 'Possible but ambitious',
+    recommendation: "Ambitious Choice",
     historical_assessment: 'Slightly below historical interview range'
   },
   'imperial-college-london-a100': {
     eligibility: 'Not Eligible',
     production_band: 'not_eligible',
-    recommendation: 'Consider stronger alternatives',
+    recommendation: "Not suitable",
     historical_assessment: null
   },
   'keele-a100': {
     eligibility: 'Not Eligible',
     production_band: 'not_eligible',
-    recommendation: 'Consider stronger alternatives',
+    recommendation: "Not suitable",
     historical_assessment: null
   },
   'kent-and-medway-a100': {
     eligibility: 'Eligible',
     production_band: 'interview_likely',
-    recommendation: 'Strong Interview Potential',
+    recommendation: "Strong Choice",
     historical_assessment: 'Above historical interview range'
   },
   'king-s-college-london-a100': {
     eligibility: 'Not Eligible',
     production_band: 'not_eligible',
-    recommendation: 'Consider stronger alternatives',
+    recommendation: "Not suitable",
     historical_assessment: null
   },
   'lancashire-a100': {
     eligibility: 'Eligible',
     production_band: 'eligible_to_apply',
-    recommendation: 'Eligible to Apply',
+    recommendation: "Eligible to Apply",
     historical_assessment: null
   },
   'lancaster-a100': {
     eligibility: 'Eligible',
     production_band: 'very_strong_interview_potential',
-    recommendation: 'Very Strong Choice',
+    recommendation: "Very Strong Choice",
     historical_assessment: 'Well above historical interview range'
   },
   'leeds-a100': {
     eligibility: 'Eligible',
     production_band: 'realistic',
-    recommendation: 'Realistic Choice',
+    recommendation: "Realistic Choice",
     historical_assessment: 'Within historical interview range'
   },
   'leicester-a100': {
     eligibility: 'Eligible',
     production_band: 'ambitious',
-    recommendation: 'Possible but ambitious',
+    recommendation: "Ambitious Choice",
     historical_assessment: 'Slightly below historical interview range'
   },
   'lincoln-a100': {
     eligibility: 'Eligible',
     production_band: 'high_risk',
-    recommendation: 'Consider stronger alternatives',
+    recommendation: "High Risk",
     historical_assessment: 'Well below historical interview range'
   },
   'liverpool-a100': {
     eligibility: 'Eligible',
     production_band: 'very_strong_interview_potential',
-    recommendation: 'Very Strong Choice',
+    recommendation: "Very Strong Choice",
     historical_assessment: 'Well above historical interview range'
   },
   'manchester-a100': {
     eligibility: 'Eligible',
     production_band: 'interview_likely',
-    recommendation: 'Strong choice',
+    recommendation: "Strong Choice",
     historical_assessment: 'Above historical interview range'
   },
   'newcastle-a100': {
     eligibility: 'Eligible',
     production_band: 'realistic',
-    recommendation: 'Good chance – recommend applying',
+    recommendation: "Realistic Choice",
     historical_assessment: 'Within historical interview range'
   },
   'nottingham-a100': {
     eligibility: 'Eligible',
     production_band: 'ambitious',
-    recommendation: 'Possible but ambitious',
+    recommendation: "Ambitious Choice",
     historical_assessment: 'Slightly below historical interview range'
   },
   'oxford-a100': {
     eligibility: 'Not Eligible',
     production_band: 'not_eligible',
-    recommendation: 'Consider stronger alternatives',
+    recommendation: "Not suitable",
     historical_assessment: null
   },
   'plymouth-a100': {
     eligibility: 'Not Eligible',
     production_band: 'not_eligible',
-    recommendation: 'Consider stronger alternatives',
+    recommendation: "Not suitable",
     historical_assessment: null
   },
   'queen-mary-a100': {
     eligibility: 'Not Eligible',
     production_band: 'not_eligible',
-    recommendation: 'Consider stronger alternatives',
+    recommendation: "Not suitable",
     historical_assessment: null
   },
   'queen-s-belfast-a100': {
     eligibility: 'Not Eligible',
     production_band: 'not_eligible',
-    recommendation: 'Consider stronger alternatives',
+    recommendation: "Not suitable",
     historical_assessment: null
   },
   'sheffield-a100': {
     eligibility: 'Eligible',
     production_band: 'interview_likely',
-    recommendation: 'Strong choice',
+    recommendation: "Strong Choice",
     historical_assessment: 'Above historical interview range'
   },
   'southampton-a100': {
     eligibility: 'Eligible',
     production_band: 'interview_likely',
-    recommendation: 'Strong choice',
+    recommendation: "Strong Choice",
     historical_assessment: 'Above historical interview range'
   },
   'st-andrews-a100': {
     eligibility: 'Eligible',
     production_band: 'interview_likely',
-    recommendation: 'Strong choice',
+    recommendation: "Strong Choice",
     historical_assessment: 'Above historical interview range'
   },
   'sunderland-a100': {
     eligibility: 'Eligible',
     production_band: 'realistic',
-    recommendation: 'Good chance – recommend applying',
+    recommendation: "Realistic Choice",
     historical_assessment: 'Within historical interview range'
   },
   'ucl-a100': {
     eligibility: 'Not Eligible',
     production_band: 'not_eligible',
-    recommendation: 'Consider stronger alternatives',
+    recommendation: "Not suitable",
     historical_assessment: null
   }
 };
@@ -508,12 +512,12 @@ function summarize(results) {
     eligible: results.filter((result) => result.eligibility === 'Eligible').length,
     not_eligible: results.filter((result) => result.eligibility === 'Not Eligible').length,
     very_strong_choices: count('Very Strong Choice'),
-    strong_choices: count('Strong choice'),
+    strong_choices: count('Strong Choice'),
+    realistic_choices: count('Realistic Choice'),
+    ambitious_choices: count('Ambitious Choice'),
+    high_risks: count('High Risk'),
     eligible_to_apply: count('Eligible to Apply'),
-    good_chance_recommend_applying: count('Good chance – recommend applying'),
-    possible_but_ambitious: count('Possible but ambitious'),
-    realistic_choice: count('Realistic Choice'),
-    consider_stronger_alternatives: count('Consider stronger alternatives')
+    not_suitable: count('Not suitable')
   };
 }
 
@@ -542,12 +546,12 @@ function printResults(results, totals) {
   console.log(`Eligible: ${totals.eligible}`);
   console.log(`Not eligible: ${totals.not_eligible}`);
   console.log(`Very Strong Choice: ${totals.very_strong_choices}`);
-  console.log(`Strong choice: ${totals.strong_choices}`);
+  console.log(`Strong Choice: ${totals.strong_choices}`);
+  console.log(`Realistic Choice: ${totals.realistic_choices}`);
+  console.log(`Ambitious Choice: ${totals.ambitious_choices}`);
+  console.log(`High Risk: ${totals.high_risks}`);
   console.log(`Eligible to Apply: ${totals.eligible_to_apply}`);
-  console.log(`Good chance – recommend applying: ${totals.good_chance_recommend_applying}`);
-  console.log(`Possible but ambitious: ${totals.possible_but_ambitious}`);
-  console.log(`Realistic Choice: ${totals.realistic_choice}`);
-  console.log(`Consider stronger alternatives: ${totals.consider_stronger_alternatives}`);
+  console.log(`Not suitable: ${totals.not_suitable}`);
 }
 
 const applicant = loadApplicant();
@@ -589,12 +593,12 @@ assert.deepStrictEqual(totals, {
   eligible: 26,
   not_eligible: 11,
   very_strong_choices: 2,
-  strong_choices: 10,
+  strong_choices: 11,
+  realistic_choices: 5,
+  ambitious_choices: 3,
+  high_risks: 4,
   eligible_to_apply: 1,
-  good_chance_recommend_applying: 4,
-  possible_but_ambitious: 3,
-  realistic_choice: 1,
-  consider_stronger_alternatives: 15
+  not_suitable: 11
 });
 
 printResults(results, totals);

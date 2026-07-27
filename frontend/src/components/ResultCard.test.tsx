@@ -1,7 +1,13 @@
 import { render, screen } from '@testing-library/react';
+import { createRequire } from 'node:module';
 import { describe, expect, it } from 'vitest';
 import { ResultCard } from './ResultCard';
 import type { PredictionResult } from '../api/types';
+
+const require = createRequire(import.meta.url);
+const { predict } = require('../../../server/src/predict') as {
+  predict: (request: { universityIds: string[]; studentProfile: Record<string, unknown> }) => PredictionResult[];
+};
 
 function makeResult(
   overrides: Partial<PredictionResult['result_card']>,
@@ -22,9 +28,9 @@ function makeResult(
 }
 
 describe('ResultCard', () => {
-  it('labels a strong interview_likely band as Strong choice', () => {
+  it('labels a strong interview_likely band as Strong Choice', () => {
     render(<ResultCard result={makeResult({ prediction: { result_band: 'interview_likely' } })} />);
-    expect(screen.getByText('Strong choice')).toBeInTheDocument();
+    expect(screen.getByText('Strong Choice')).toBeInTheDocument();
   });
 
   it('labels a very_strong_interview_potential band as Very Strong Choice, not Verify', () => {
@@ -38,14 +44,14 @@ describe('ResultCard', () => {
     ).not.toBeInTheDocument();
   });
 
-  it('labels a realistic band as Realistic choice', () => {
+  it('labels a realistic band as Realistic Choice', () => {
     render(<ResultCard result={makeResult({ prediction: { result_band: 'realistic' } })} />);
-    expect(screen.getByText('Realistic choice')).toBeInTheDocument();
+    expect(screen.getByText('Realistic Choice')).toBeInTheDocument();
   });
 
-  it('labels an ambitious band as Ambitious choice', () => {
+  it('labels an ambitious band as Ambitious Choice', () => {
     render(<ResultCard result={makeResult({ prediction: { result_band: 'ambitious' } })} />);
-    expect(screen.getByText('Ambitious choice')).toBeInTheDocument();
+    expect(screen.getByText('Ambitious Choice')).toBeInTheDocument();
   });
 
   it('uses a configured public choice label for the status badge', () => {
@@ -58,12 +64,13 @@ describe('ResultCard', () => {
       />,
     );
     expect(document.querySelector('.result-card-status')).toHaveTextContent('Realistic Choice');
-    expect(screen.queryByText('Ambitious choice')).not.toBeInTheDocument();
+    expect(screen.queryByText('Ambitious Choice')).not.toBeInTheDocument();
   });
 
-  it('labels a high_risk band as Ambitious choice (cautionary, not alarming)', () => {
+  it('labels a high_risk band as High Risk, distinct from Ambitious Choice', () => {
     render(<ResultCard result={makeResult({ prediction: { result_band: 'high_risk' } })} />);
-    expect(screen.getByText('Ambitious choice')).toBeInTheDocument();
+    expect(screen.getByText('High Risk')).toBeInTheDocument();
+    expect(screen.queryByText('Ambitious Choice')).not.toBeInTheDocument();
   });
 
   it('renders the King’s A100 public wording without stale formula caveats', () => {
@@ -131,7 +138,7 @@ describe('ResultCard', () => {
     expect(screen.getByText(historicalContext)).toBeInTheDocument();
     expect(screen.getByText('Recent admissions data:')).toBeInTheDocument();
     expect(screen.getByText('approximately 2,810 applicants, 982 interviewed and 762 offers.')).toBeInTheDocument();
-    expect(document.querySelector('.result-card-status')).toHaveTextContent('Strong choice');
+    expect(document.querySelector('.result-card-status')).toHaveTextContent('Strong Choice');
     expect(document.body).not.toHaveTextContent('2022 formula');
     expect(document.body).not.toHaveTextContent('not confirmed for current cycles');
   });
@@ -145,31 +152,264 @@ describe('ResultCard', () => {
     expect(screen.getByText('Not suitable')).toBeInTheDocument();
   });
 
-  it('shows a Verify notice, not a rejection, for manual_review state', () => {
-    render(
-      <ResultCard
-        result={makeResult({ recommendation_display_state: 'manual_review' })}
-      />,
-    );
-    expect(screen.getByText('Verify')).toBeInTheDocument();
-    expect(screen.getByRole('status')).toHaveTextContent('not a rejection');
-  });
-
-  it('shows insufficient evidence as a Verify-style notice', () => {
-    render(
-      <ResultCard
-        result={makeResult({ recommendation_display_state: 'insufficient_evidence' })}
-      />,
-    );
-    expect(screen.getByText('Verify')).toBeInTheDocument();
-    expect(screen.getByRole('status')).toBeInTheDocument();
-  });
-
-  it('labels official-prediction-unavailable advisory guidance without Verify or empty fees', () => {
+  it('shows a Needs Review notice, not a rejection, for manual_review state with a specific reason', () => {
     render(
       <ResultCard
         result={makeResult({
-          primary_user_facing_recommendation: 'Strong Interview Potential',
+          recommendation_display_state: 'manual_review',
+          decision_transparency: {
+            manual_review_reason:
+              'This applicant group needs manual review because ApplySmart cannot automatically evaluate this university’s published process for it yet.',
+          },
+        })}
+      />,
+    );
+    expect(screen.getByText('Needs Review')).toBeInTheDocument();
+    expect(screen.queryByText('Verify')).not.toBeInTheDocument();
+    expect(screen.getByRole('status')).toHaveTextContent('not a rejection');
+  });
+
+  it('shows Prediction Unavailable for insufficient_evidence with a university_methodology_gap reason code', () => {
+    render(
+      <ResultCard
+        result={makeResult({
+          recommendation_display_state: 'insufficient_evidence',
+          decision_transparency: {
+            insufficient_evidence_reason_code: 'university_methodology_gap',
+            insufficient_evidence_reason: 'This university has not published a complete scoring or ranking methodology that ApplySmart can apply to this specific applicant route.',
+          },
+        })}
+      />,
+    );
+    expect(screen.getByText('Prediction Unavailable')).toBeInTheDocument();
+    expect(screen.queryByText('Verify')).not.toBeInTheDocument();
+    expect(screen.getByRole('status')).toBeInTheDocument();
+  });
+
+  it('shows Information Needed for insufficient_evidence with an applicant_evidence_gap reason code', () => {
+    render(
+      <ResultCard
+        result={makeResult({
+          recommendation_display_state: 'insufficient_evidence',
+          decision_transparency: {
+            insufficient_evidence_reason_code: 'applicant_evidence_gap',
+            insufficient_evidence_reason: 'ApplySmart needs more of your information to fully assess this application.',
+          },
+        })}
+      />,
+    );
+    expect(screen.getByText('Information Needed')).toBeInTheDocument();
+    expect(screen.queryByText('Verify')).not.toBeInTheDocument();
+    expect(screen.getByRole('status')).toBeInTheDocument();
+  });
+
+  it('renders the structured Bristol UCAT comparison in expanded details', () => {
+    const [result] = predict({
+      universityIds: ['bristol-a100'],
+      studentProfile: {
+        ...require('../../../data/regression-profiles/16_top_tier_applicant.json'),
+      },
+    });
+
+    expect(result.result_card.decision_transparency?.selection_metric).toMatchObject({
+      type: 'ucat',
+      label: 'UCAT comparison',
+      applicant_value: 2420,
+      comparison_value: 2240,
+      comparison_max_value: 2269,
+      comparison_label: 'Historical interview guide',
+      difference: 180,
+      difference_direction: 'above',
+      display_mode: 'comparison',
+    });
+
+    render(<ResultCard result={result} />);
+    expect(screen.getAllByText('UCAT comparison').length).toBeGreaterThan(0);
+    expect(screen.getAllByText('2420 / 2700').length).toBeGreaterThan(0);
+    expect(screen.getByText('2240 (range 2240-2269)')).toBeInTheDocument();
+    expect(screen.getByText('Historical interview guide')).toBeInTheDocument();
+    expect(screen.getByText('+180 above guide')).toBeInTheDocument();
+  });
+
+  it('exposes Birmingham as a selection score without hard-coded React thresholds', () => {
+    const [result] = predict({
+      universityIds: ['birmingham-a100'],
+      studentProfile: {
+        ...require('../../../data/regression-profiles/16_top_tier_applicant.json'),
+      },
+    });
+
+    expect(result.result_card.decision_transparency?.selection_metric).toMatchObject({
+      type: 'selection_score',
+      label: 'Selection score',
+      applicant_value: 8.5,
+      maximum_value: 10,
+      comparison_value: 7.236,
+      difference: 1.2640000000000002,
+      comparison_label: 'Historical interview guide',
+      display_mode: 'score',
+    });
+  });
+
+  it('does not expose a hidden Cambridge model score as a selection metric', () => {
+    const [result] = predict({
+      universityIds: ['cambridge-a100'],
+      studentProfile: {
+        ...require('../../../data/regression-profiles/16_top_tier_applicant.json'),
+      },
+    });
+
+    expect(result.result_card.recommendation_display_state).toBe('standard');
+    expect(result.result_card.decision_transparency?.selection_metric).toBeNull();
+    expect(result.result_card.decision_transparency?.score_breakdown).toBeFalsy();
+  });
+
+  it('exposes Buckingham as eligibility-only without an invented comparison score', () => {
+    const [result] = predict({
+      universityIds: ['buckingham-71a8'],
+      studentProfile: {
+        ...require('../../../data/regression-profiles/16_top_tier_applicant.json'),
+      },
+    });
+
+    expect(result.result_card.decision_transparency?.selection_metric).toMatchObject({
+      type: 'eligibility',
+      display_mode: 'eligibility',
+      value_label: 'Eligibility requirements met',
+      applicant_value: null,
+      comparison_value: null,
+      difference: null,
+    });
+  });
+
+  it('renders the Birmingham missing-English-Literature explanation from a browser-shaped request', () => {
+    const [result] = predict({
+      universityIds: ['birmingham-a100'],
+      studentProfile: {
+        profile_id: 'browser_missing_english_literature',
+        qualification_route: 'a_level',
+        applicant_identity: {
+          applicant_type: 'school_leaver',
+          fee_status: 'rest_of_uk_roi_fee_rate',
+          domicile: 'england',
+          contextual: false,
+          contextual_flags: {
+            care_experienced: false,
+            refugee_or_asylum_seeker: false,
+            free_school_meals: false,
+            first_generation_higher_education: false,
+            school_contextual_indicator: false,
+            ucat_bursary: false,
+          },
+          graduate: false,
+          resit: { has_resits: false, subjects_resat: [] },
+        },
+        course_target: {
+          discipline: 'medicine',
+          ucas_code: 'A100',
+          course_route: 'standard',
+          entry_route: 'standard_medicine_a100',
+        },
+        application_year: 2027,
+        gcse_profile: {
+          subjects: {
+            english_language: '9',
+            mathematics: '9',
+            biology: '9',
+            chemistry: '9',
+            physics: '9',
+            combined_science: null,
+          },
+          additional_subjects: [
+            { subject_id: 'history', grade: '9' },
+            { subject_id: 'computer_science', grade: '9' },
+            { subject_id: 'french', grade: '9' },
+            { subject_id: 'geography', grade: '9' },
+          ],
+          total_gcse_count: 9,
+          top_9_gcse_grades: ['9', '9', '9', '9', '9', '9', '9', '9', '9'],
+        },
+        a_level_profile: {
+          subjects: [
+            {
+              subject_id: 'chemistry',
+              predicted_grade: 'A',
+              achieved_grade: null,
+              sitting_status: 'first_sitting',
+              practical_endorsement: 'pass',
+            },
+            {
+              subject_id: 'biology',
+              predicted_grade: 'A',
+              achieved_grade: null,
+              sitting_status: 'first_sitting',
+              practical_endorsement: 'pass',
+            },
+            {
+              subject_id: 'mathematics',
+              predicted_grade: 'A',
+              achieved_grade: null,
+              sitting_status: 'first_sitting',
+              practical_endorsement: null,
+            },
+          ],
+          sitting_status: 'first_sitting',
+          completed_in_one_sitting: true,
+        },
+        admissions_tests: {
+          ucat: {
+            taken: true,
+            total_score: 2550,
+            score_scale: 2700,
+            subtests: {
+              verbal_reasoning: 850,
+              decision_making: 850,
+              quantitative_reasoning: 850,
+            },
+            sjt_band: 1,
+            test_year: 2026,
+          },
+        },
+        graduate_profile: { is_graduate: false },
+      },
+    });
+
+    render(<ResultCard result={result} />);
+
+    expect(screen.getByText('Information Needed')).toBeInTheDocument();
+    expect(screen.getAllByText(/Birmingham includes English Literature in its seven-subject GCSE selection score/i).length).toBeGreaterThan(0);
+    expect(screen.getByText(/Entry requirements:/i).parentElement).toHaveTextContent('Met');
+    expect(screen.queryByText(/Verified historical interview information is not available/i)).not.toBeInTheDocument();
+    expect(screen.queryByText(/verified historical interview data for this applicant group is currently limited/i)).not.toBeInTheDocument();
+    expect(screen.queryByText(/university_methodology_gap/i)).not.toBeInTheDocument();
+    expect(screen.queryByText(/manual review/i)).not.toBeInTheDocument();
+    expect(screen.queryByLabelText(/Total selection score/i)).not.toBeInTheDocument();
+  });
+
+  it('shows Information Needed for insufficient_evidence with a null (applicant-data-gap) reason code', () => {
+    render(
+      <ResultCard
+        result={makeResult({
+          recommendation_display_state: 'insufficient_evidence',
+          decision_transparency: {
+            insufficient_evidence_reason_code: null,
+            insufficient_evidence_reason: 'Verified historical interview information is not available for this applicant group.',
+          },
+        })}
+      />,
+    );
+    expect(screen.getByText('Information Needed')).toBeInTheDocument();
+  });
+
+  it('labels official-prediction-unavailable advisory guidance with the canonical band label, not an alternate "Interview Potential" wording, and without Verify or empty fees', () => {
+    render(
+      <ResultCard
+        result={makeResult({
+          // Post-fix, officialPredictionUnavailableHeadline() returns the
+          // canonical band label itself (see CANONICAL_BAND_LABELS in
+          // assets/js/engine/result-card-presenter.js), never a "Strong
+          // Interview Potential"-style alternate wording.
+          primary_user_facing_recommendation: 'Strong Choice',
           recommendation_display_state: 'standard',
           primary_explanation:
             'Based on the official KMMS entry requirements and the applicant information provided, you meet the supported entry requirements. ApplySmart has analysed your profile against the available KMMS selection information and historical interview evidence. Your UCAT score of 2550 is above the available historical reference range of 1855-1864, indicating a competitive profile and strong interview potential. KMMS has not published an exact 2026 interview cut-off on the current UCAT scale. This prediction is based on official university information and available historical evidence. Final interview decisions remain with KMMS and may vary according to applicant competition, contextual information and other selection factors.',
@@ -220,8 +460,12 @@ describe('ResultCard', () => {
       />,
     );
 
-    expect(screen.getByText('ApplySmart Analysis')).toBeInTheDocument();
-    expect(screen.getByText('Strong Interview Potential')).toBeInTheDocument();
+    expect(document.querySelector('.result-card-status')).toHaveTextContent('Strong Choice');
+    expect(screen.getAllByText('Strong Choice').length).toBeGreaterThan(0);
+    expect(screen.queryByText('Strong Interview Potential')).not.toBeInTheDocument();
+    expect(screen.queryByText('Competitive Interview Potential')).not.toBeInTheDocument();
+    expect(screen.queryByText('Developing Interview Potential')).not.toBeInTheDocument();
+    expect(screen.queryByText('Limited Interview Potential')).not.toBeInTheDocument();
     expect(screen.getByText(/UCAT score of 2550 is above the available historical reference range of 1855-1864/i)).toBeInTheDocument();
     expect(screen.getByText(/not published an exact 2026 interview cut-off on the current UCAT scale/i)).toBeInTheDocument();
     expect(screen.getByText(/not alter university requirements or present unofficial information as an official rule/i)).toBeInTheDocument();
@@ -305,6 +549,45 @@ describe('ResultCard', () => {
         />,
       ),
     ).toThrow(/missing prediction\.result_band/);
+  });
+
+  it('throws for an unrecognised result_band instead of silently showing Verify', () => {
+    expect(() =>
+      render(
+        <ResultCard result={makeResult({ prediction: { result_band: 'not_a_real_band' } })} />,
+      ),
+    ).toThrow(/unrecognised prediction\.result_band/);
+  });
+
+  it('throws (in dev/test) rather than showing the generic "needs a closer look" fallback for a manual_review card with no specific reason', () => {
+    expect(() =>
+      render(
+        <ResultCard
+          result={makeResult({
+            recommendation_display_state: 'manual_review',
+            decision_transparency: {},
+          })}
+        />,
+      ),
+    ).toThrow(/no specific manual_review_reason or insufficient_evidence_reason_code/);
+  });
+
+  it('shows the specific manual_review_reason instead of a generic fallback when the engine provides one', () => {
+    render(
+      <ResultCard
+        result={makeResult({
+          recommendation_display_state: 'manual_review',
+          decision_transparency: {
+            manual_review_reason:
+              'Your international qualification equivalence needs adviser review before eligibility can be confirmed.',
+          },
+        })}
+      />,
+    );
+    expect(
+      screen.getAllByText(/Your international qualification equivalence needs adviser review/).length,
+    ).toBeGreaterThan(0);
+    expect(screen.queryByText(/This result needs a closer look/)).not.toBeInTheDocument();
   });
 
   it('does not show the Verify notice for a standard eligible result', () => {

@@ -1,7 +1,7 @@
 import { useMemo, useState } from 'react';
 import { submitPrediction } from '../api/client';
 import type { PredictionResult } from '../api/types';
-import { ResultCard } from '../components/ResultCard';
+import { ResultsPage } from '../components/ResultsPage';
 import { WizardShell } from '../wizard/components/WizardShell';
 import { getWizardSteps } from '../wizard/steps';
 import { toStudentProfile } from '../wizard/toStudentProfile';
@@ -68,28 +68,7 @@ export function WizardPage() {
   };
 
   if (submitState === 'success') {
-    return (
-      <section>
-        <div className="page-header">
-          <h1>Your results</h1>
-          <p>
-            Here&rsquo;s how your profile compares against each university you selected. Results
-            marked for review aren&rsquo;t a rejection &mdash; they mean an adviser needs to check
-            something ApplySmart can&rsquo;t confirm automatically.
-          </p>
-        </div>
-        <div className="result-card-list" data-testid="result-card-list">
-          {results.map((result) => (
-            <ResultCard key={result.universityId} result={result} />
-          ))}
-        </div>
-        <div className="results-actions">
-          <button type="button" className="btn" onClick={startOver}>
-            Start a new profile
-          </button>
-        </div>
-      </section>
-    );
+    return <ResultsPage results={results} onStartOver={startOver} />;
   }
 
   return (

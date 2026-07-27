@@ -268,6 +268,16 @@ export function validateALevelStep(profile: WizardProfile): ValidationErrors {
   return errors;
 }
 
+// UCAT is always sat the year before medicine entry (e.g. 2027 entry ->
+// UCAT taken in 2026) - see CURRENT_MEDICINE_ENTRY_YEAR/CURRENT_UCAT_TEST_YEAR
+// and expectedUcatTestYear() in assets/js/engine/applicant-profile-normaliser.js,
+// which the engine enforces server-side regardless of what the frontend
+// sends. This mirrors that same rule so the applicant sees the error before
+// submitting, rather than only after the API rejects it as not_eligible.
+export function expectedUcatTestYear(applicationYear: number): number {
+  return applicationYear - 1;
+}
+
 export function validateUcatStep(profile: WizardProfile): ValidationErrors {
   const errors: ValidationErrors = {};
   const ucat = profile.admissions_tests.ucat;
@@ -308,10 +318,17 @@ export function validateUcatStep(profile: WizardProfile): ValidationErrors {
     errors.sjt_band = 'Select your SJT band.';
   }
 
+  const applicationYear = profile.course_target.application_year;
+
   if (ucat.test_year === '') {
     errors.test_year = 'Enter the year you took (or will take) the UCAT.';
   } else if (typeof ucat.test_year === 'number' && (ucat.test_year < 2015 || ucat.test_year > 2035)) {
     errors.test_year = 'Enter a realistic UCAT test year.';
+  } else if (typeof ucat.test_year === 'number' && typeof applicationYear === 'number') {
+    const expected = expectedUcatTestYear(applicationYear);
+    if (ucat.test_year !== expected) {
+      errors.test_year = `For ${applicationYear} medicine entry, the UCAT should normally have been taken in ${expected}. Enter ${expected}, or check your entry year on the previous step.`;
+    }
   }
 
   return errors;

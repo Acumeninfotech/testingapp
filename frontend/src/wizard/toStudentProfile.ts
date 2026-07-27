@@ -1,5 +1,5 @@
 import type { StudentProfile } from '../api/types';
-import type { IbSubject, ScottishSubject, WizardProfile } from './profileTypes';
+import { MAX_GCSE_COUNT, type IbSubject, type ScottishSubject, type WizardProfile } from './profileTypes';
 
 const APPLICANT_TYPE_LABEL: Record<string, string> = {
   school_leaver: 'school_leaver',
@@ -25,6 +25,10 @@ function subjectList(subjects: (ScottishSubject | IbSubject)[]) {
 export function toStudentProfile(profile: WizardProfile): StudentProfile {
   const gcse = profile.gcse_profile;
   const route = profile.course_target.qualification_route;
+  const legacyEnglishLiteratureGrade = gcse.additional_subjects.find(
+    (subject) => subject.subject_id === 'english_literature' && subject.grade !== '',
+  )?.grade;
+  const englishLiteratureGrade = gcse.subjects.english_literature || legacyEnglishLiteratureGrade || '';
 
   // Combine core + science + additional GCSEs into the flat grade list the
   // engine's GCSE-count and points-scoring checks read (getCountableGcseGrades,
@@ -34,11 +38,23 @@ export function toStudentProfile(profile: WizardProfile): StudentProfile {
       ? [gcse.subjects.biology, gcse.subjects.chemistry, gcse.subjects.physics]
       : [gcse.combined_science_grade, gcse.combined_science_grade];
   const additionalGrades = gcse.additional_subjects
+    .filter((s) => s.subject_id !== 'english_literature')
     .filter((s) => s.subject_id !== '' && s.grade !== '')
     .map((s) => s.grade);
-  const allGcseGrades = [gcse.subjects.english_language, gcse.subjects.mathematics, ...scienceGrades, ...additionalGrades]
+  const allGcseGrades = [
+    gcse.subjects.english_language,
+    englishLiteratureGrade,
+    gcse.subjects.mathematics,
+    ...scienceGrades,
+    ...additionalGrades,
+  ]
     .filter((g) => g !== '');
-  const top9GcseGrades = [...allGcseGrades].sort().reverse().slice(0, 9);
+  // Field name is fixed by the engine's studentProfile contract
+  // (top_9_gcse_grades - see interview-band-classifier.js:642,905-908,2011)
+  // but its length is not hardcoded there; it is sliced to MAX_GCSE_COUNT so
+  // no entered GCSE is silently dropped before reaching the engine. Each
+  // university's own best_subject_count still decides how many are scored.
+  const top9GcseGrades = [...allGcseGrades].sort().reverse().slice(0, MAX_GCSE_COUNT);
 
   const aLevelSubjects = profile.a_level_profile.subjects
     .filter((s) => s.subject_id !== '')
@@ -82,11 +98,13 @@ export function toStudentProfile(profile: WizardProfile): StudentProfile {
     gcse_profile: {
       subjects: {
         ...gcse.subjects,
+        english_literature: englishLiteratureGrade || undefined,
         combined_science: gcse.science_mode === 'combined_science' && gcse.combined_science_grade
           ? `${gcse.combined_science_grade}/${gcse.combined_science_grade}`
           : null,
       },
       additional_subjects: gcse.additional_subjects
+        .filter((s) => s.subject_id !== 'english_literature')
         .filter((s) => s.subject_id !== '' && s.grade !== '')
         .map((s) => ({ subject_id: s.subject_id, grade: s.grade })),
       total_gcse_count: allGcseGrades.length,

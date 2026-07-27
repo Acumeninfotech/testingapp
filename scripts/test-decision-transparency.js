@@ -307,8 +307,8 @@ function assertUcatRankingApiCard(entry, options = {}) {
   assert.strictEqual(card.prediction.ranking_metric, 'ucat_total', `${entry.id} must identify UCAT as the ranking metric.`);
   assert.match(
     card.primary_user_facing_recommendation,
-    /choice based on your UCAT/i,
-    `${entry.id} must use UCAT-specific recommendation heading.`
+    /choice based on your UCAT|high risk based on your UCAT/i,
+    `${entry.id} must use a UCAT-specific recommendation heading.`
   );
   assert.match(
     card.primary_explanation,

@@ -615,7 +615,13 @@ async function main() {
       );
       assert.strictEqual(
         birminghamCard.primary_user_facing_recommendation,
-        'Strong Interview Potential'
+        'Strong choice based on your selection score',
+        'expected the canonical interview_likely headline, not Birmingham-configured "Strong Interview Potential" wording (removed - the approved public wording is Strong Choice)'
+      );
+      assert.strictEqual(
+        birminghamCard.internal_recommendation,
+        'Strong Choice',
+        'expected the canonical CANONICAL_BAND_LABELS.interview_likely short label'
       );
       assert.ok(
         /above Birmingham's published 2025-entry historical minimum application score for standard Home applicants invited to interview/i.test(
@@ -626,7 +632,7 @@ async function main() {
       assert.strictEqual(
         birminghamCard.historical_guidance_caveat,
         'Interview thresholds may change each admissions cycle depending on applicant competition and interview capacity. Historical figures are guidance only, not a current cut-off, and do not guarantee an interview.',
-        'expected the historical-guidance-only caveat to remain present for Strong Interview Potential'
+        'expected the historical-guidance-only caveat to remain present for the Strong Choice band'
       );
 
       const selectionChecks = (birminghamCard.decision_transparency?.decision_path || [])
@@ -634,21 +640,24 @@ async function main() {
       const gcseCheck = selectionChecks.find((c) => c.label === 'GCSE score');
       const ucatCheck = selectionChecks.find((c) => c.label === 'UCAT score');
       const contextualCheck = selectionChecks.find((c) => c.label === 'Contextual uplift');
-      const thresholdCheck = selectionChecks.find((c) => c.label === 'Selection score threshold');
+      const thresholdCheck = selectionChecks.find((c) => c.label === 'Selection score guide');
+      const scoreBreakdown = birminghamCard.decision_transparency?.score_breakdown;
 
+      assert.strictEqual(scoreBreakdown?.value, 8.5, 'expected Birmingham score_breakdown.value to be 8.5');
+      assert.strictEqual(scoreBreakdown?.max, 10, 'expected Birmingham score_breakdown.max to be 10');
       assert.strictEqual(gcseCheck?.summary, '4.5 out of 4.5.', 'expected Birmingham GCSE component to be 4.5/4.5');
       assert.strictEqual(ucatCheck?.summary, '4 out of 4.', 'expected UCAT 2550 to map to decile 10 -> 4/4 points');
       assert.strictEqual(contextualCheck?.summary, '0 out of 1.5.', 'expected 0/1.5 contextual uplift for a non-contextual applicant');
       assert.strictEqual(
         thresholdCheck?.summary,
-        'Your selection score is 1.26 points above the recent interview threshold of 7.24 for this applicant pool.',
-        'expected cleanly rounded floating-point-free selection-score threshold text'
+        'Your selection score is 1.26 points above the historical interview guide of 7.24 for this applicant pool.',
+        'expected cleanly rounded floating-point-free selection-score guide text'
       );
       assert.ok(
         !/\d+\.\d{3,}/.test(thresholdCheck?.summary || ''),
-        `expected no raw floating-point precision in the selection-score threshold text, got: ${thresholdCheck?.summary}`
+        `expected no raw floating-point precision in the selection-score guide text, got: ${thresholdCheck?.summary}`
       );
-      console.log('PASS: Birmingham home_standard score 8.5 (>= 7.236) resolves to Strong Interview Potential (interview_likely), with unchanged scoring, eligibility and threshold value');
+      console.log('PASS: Birmingham home_standard score 8.5 (>= 7.236) resolves to the canonical Strong Choice (interview_likely) wording, with unchanged scoring, eligibility and threshold value');
 
       // The static Birmingham example card is documentation, not live-code-
       // generating, but it has previously drifted from real engine output.
@@ -671,6 +680,74 @@ async function main() {
         `expected no raw floating-point precision in the static example's secondary_explanation, got: ${birminghamExample.display.secondary_explanation}`
       );
       console.log('PASS: static Birmingham example card headline/band/wording match real runtime output');
+
+      const missingEnglishLiteratureProfile = JSON.parse(JSON.stringify(birminghamProfile));
+      delete missingEnglishLiteratureProfile.gcse_profile.subjects.english_literature;
+      const missingEnglishLiteratureResponse = await requestJson(server, 'POST', '/api/predict', {
+        universityIds: ['birmingham-a100'],
+        studentProfile: missingEnglishLiteratureProfile
+      });
+      assert.strictEqual(missingEnglishLiteratureResponse.status, 200);
+      const missingEnglishLiteratureCard = missingEnglishLiteratureResponse.json.results[0].result_card;
+      assert.strictEqual(missingEnglishLiteratureCard.recommendation_display_state, 'insufficient_evidence');
+      assert.strictEqual(missingEnglishLiteratureCard.primary_user_facing_recommendation, 'Information needed');
+      assert.strictEqual(missingEnglishLiteratureCard.prediction?.result_band, 'insufficient_evidence');
+      assert.strictEqual(missingEnglishLiteratureCard.prediction?.available, false);
+      assert.strictEqual(missingEnglishLiteratureCard.prediction?.interview_prediction?.available, false);
+      assert.strictEqual(
+        missingEnglishLiteratureCard.decision_transparency?.insufficient_evidence_reason_code,
+        'missing_birmingham_english_literature_grade'
+      );
+      assert.strictEqual(
+        missingEnglishLiteratureCard.decision_transparency?.score_breakdown,
+        null,
+        'missing English Literature must not produce a substituted or partial Birmingham score'
+      );
+      assert.match(
+        missingEnglishLiteratureCard.primary_explanation || '',
+        /Birmingham includes English Literature in its seven-subject GCSE selection score/i
+      );
+      assert.doesNotMatch(
+        collectApplicantFacingCardText(missingEnglishLiteratureCard),
+        /Verified historical interview information is not available|verified historical interview data for this applicant group is currently limited|not enough verified historical interview information/i,
+        'missing English Literature must not be explained as missing historical interview information'
+      );
+      const missingLitEligibility = missingEnglishLiteratureCard.decision_transparency?.decision_path?.find((stage) => stage.stage === 'Eligibility');
+      assert.strictEqual(missingLitEligibility?.status, 'Met', 'missing English Literature must not fail Birmingham entry eligibility');
+      console.log('PASS: Birmingham missing English Literature is applicant information needed, not a historical-data gap or manual review');
+
+      const missingAdditionalGcseProfile = JSON.parse(JSON.stringify(birminghamProfile));
+      delete missingAdditionalGcseProfile.gcse_profile.subjects.physics;
+      missingAdditionalGcseProfile.gcse_profile.additional_subjects = [
+        { subject_id: 'history', grade: '9' }
+      ];
+      missingAdditionalGcseProfile.gcse_profile.total_gcse_count = 6;
+      missingAdditionalGcseProfile.gcse_profile.top_9_gcse_grades = ['9','9','9','9','9','9'];
+      const missingAdditionalGcseResponse = await requestJson(server, 'POST', '/api/predict', {
+        universityIds: ['birmingham-a100'],
+        studentProfile: missingAdditionalGcseProfile
+      });
+      assert.strictEqual(missingAdditionalGcseResponse.status, 200);
+      const missingAdditionalGcseCard = missingAdditionalGcseResponse.json.results[0].result_card;
+      assert.strictEqual(missingAdditionalGcseCard.recommendation_display_state, 'insufficient_evidence');
+      assert.strictEqual(
+        missingAdditionalGcseCard.decision_transparency?.insufficient_evidence_reason_code,
+        'missing_birmingham_additional_gcse_scoring_grades'
+      );
+      assert.strictEqual(
+        missingAdditionalGcseCard.decision_transparency?.score_breakdown,
+        null,
+        'missing free-choice GCSE scoring inputs must not produce a partial Birmingham score'
+      );
+      assert.match(
+        missingAdditionalGcseCard.primary_explanation || '',
+        /Fewer than two additional GCSE grades were provided/i
+      );
+      assert.doesNotMatch(
+        collectApplicantFacingCardText(missingAdditionalGcseCard),
+        /Verified historical interview information is not available|verified historical interview data for this applicant group is currently limited|not enough verified historical interview information/i
+      );
+      console.log('PASS: Birmingham missing additional GCSE scoring inputs use applicant-input reason messaging without score substitution');
     }
 
     // Capability-gap reason code: an eligible applicant whose route matches
@@ -729,7 +806,11 @@ async function main() {
       assert.strictEqual(kmmsResponse.status, 200);
       const kmmsCard = kmmsResponse.json.results[0].result_card;
       assert.strictEqual(kmmsCard.recommendation_display_state, 'standard');
-      assert.strictEqual(kmmsCard.primary_user_facing_recommendation, 'Strong Interview Potential');
+      assert.strictEqual(
+        kmmsCard.primary_user_facing_recommendation,
+        'Strong Choice',
+        'official-prediction-unavailable cards must retain the canonical band label (Strong Choice), not an alternate "Interview Potential" wording family'
+      );
       assert.match(kmmsCard.primary_explanation, /UCAT score of 2550 is above the available historical reference range of 1855-1864/i);
       assert.match(kmmsCard.primary_explanation, /competitive profile and strong interview potential/i);
       assert.match(kmmsCard.primary_explanation, /not published an exact 2026 interview cut-off on the current UCAT scale/i);

@@ -20,10 +20,15 @@
       "Bash(node scripts/test-evidence-confidence.js)",
       "Bash(node scripts/run-regression-profiles.js)",
       "Bash(grep -n \"addFailure\\(state, \\\\`\\\\|addFailure\\(state, [a-z_]*:\" assets/js/engine/eligibility-evaluator.js)",
-      "Bash(python3 -c ' *)"
+      "Bash(python3 -c ' *)",
+      "Bash(node scripts/test-cambridge-a100-readiness.js)",
+      "Bash(echo \"EXIT: $?\")",
+      "Bash(node scripts/test-leeds-a100-readiness.js)",
+      "Bash(node screenshot2.mjs)"
     ],
     "additionalDirectories": [
-      "/private/tmp"
+      "/private/tmp",
+      "/Users/faizan/.npm/_npx/e41f203b7505f1fb"
     ]
   }
 }

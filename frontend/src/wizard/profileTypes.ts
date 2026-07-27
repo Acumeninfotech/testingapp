@@ -154,10 +154,17 @@ export interface CourseTarget {
 export const GCSE_CORE_SUBJECT_IDS = ['english_language', 'mathematics'] as const;
 export type GcseCoreSubjectId = (typeof GCSE_CORE_SUBJECT_IDS)[number];
 
+export const GCSE_OPTIONAL_SCORING_SUBJECT_IDS = ['english_literature'] as const;
+export type GcseOptionalScoringSubjectId = (typeof GCSE_OPTIONAL_SCORING_SUBJECT_IDS)[number];
+
 export const GCSE_SEPARATE_SCIENCE_SUBJECT_IDS = ['biology', 'chemistry', 'physics'] as const;
 export type GcseSeparateScienceSubjectId = (typeof GCSE_SEPARATE_SCIENCE_SUBJECT_IDS)[number];
 
-export type GcseSubjectId = GcseCoreSubjectId | GcseSeparateScienceSubjectId | 'combined_science';
+export type GcseSubjectId =
+  | GcseCoreSubjectId
+  | GcseOptionalScoringSubjectId
+  | GcseSeparateScienceSubjectId
+  | 'combined_science';
 
 // Kept for callers that need the full fixed-field id list (core + separate
 // sciences); combined_science is a separate, mode-gated field.
@@ -174,12 +181,17 @@ export interface GcseAdditionalSubject {
 }
 
 // Many universities score the best 8 or 9 GCSEs (best_subject_count in
-// stage_1_eligibility.gcse.points_scoring), so additional GCSEs beyond the
-// core/science subjects are collected up to this total.
-export const MAX_GCSE_COUNT = 9;
+// stage_1_eligibility.gcse.points_scoring, currently up to 9 across all
+// configured universities - see data/universities/*.json), but real UK
+// applicants commonly hold 10 or 11 GCSEs and must be able to enter their
+// full profile. Each university's own best_subject_count/counted_subject_limit
+// still decides how many of the entered subjects are actually scored, so
+// raising this collection cap does not change any university's scoring rules.
+export const MAX_GCSE_COUNT = 11;
 
 export interface GcseProfile {
-  subjects: Record<GcseCoreSubjectId | GcseSeparateScienceSubjectId, GcseGrade>;
+  subjects: Record<GcseCoreSubjectId | GcseSeparateScienceSubjectId, GcseGrade> &
+    Partial<Record<GcseOptionalScoringSubjectId, GcseGrade>>;
   science_mode: GcseScienceMode;
   combined_science_grade: GcseGrade;
   additional_subjects: GcseAdditionalSubject[];
@@ -267,6 +279,7 @@ export function createEmptyProfile(): WizardProfile {
     gcse_profile: {
       subjects: {
         english_language: '',
+        english_literature: '',
         mathematics: '',
         biology: '',
         chemistry: '',

@@ -1,8 +1,11 @@
 import {
   GCSE_CORE_SUBJECT_IDS,
+  GCSE_OPTIONAL_SCORING_SUBJECT_IDS,
   GCSE_SEPARATE_SCIENCE_SUBJECT_IDS,
   MAX_GCSE_COUNT,
   type GcseCoreSubjectId,
+  type GcseGrade,
+  type GcseOptionalScoringSubjectId,
   type GcseScienceMode,
   type GcseSeparateScienceSubjectId,
 } from '../profileTypes';
@@ -14,6 +17,10 @@ const GRADE_OPTIONS = ['9', '8', '7', '6', '5', '4', '3', '2', '1', 'U'].map((g)
 const CORE_SUBJECT_LABELS: Record<GcseCoreSubjectId, string> = {
   english_language: 'English Language',
   mathematics: 'Mathematics',
+};
+
+const OPTIONAL_SCORING_SUBJECT_LABELS: Record<GcseOptionalScoringSubjectId, string> = {
+  english_literature: 'English Literature',
 };
 
 const SCIENCE_SUBJECT_LABELS: Record<GcseSeparateScienceSubjectId, string> = {
@@ -28,7 +35,6 @@ const SCIENCE_MODE_OPTIONS: { value: GcseScienceMode; label: string }[] = [
 ];
 
 const ADDITIONAL_SUBJECT_OPTIONS = [
-  { value: 'english_literature', label: 'English Literature' },
   { value: 'further_mathematics', label: 'Further Mathematics' },
   { value: 'psychology', label: 'Psychology' },
   { value: 'human_biology', label: 'Human Biology' },
@@ -52,7 +58,8 @@ export function GcseStep({ profile, updateProfile, errors }: StepProps) {
   const coreCount =
     GCSE_CORE_SUBJECT_IDS.length +
     (science_mode === 'separate_sciences' ? GCSE_SEPARATE_SCIENCE_SUBJECT_IDS.length : 1);
-  const totalCount = coreCount + additional_subjects.filter((s) => s.subject_id !== '').length;
+  const optionalScoringCount = GCSE_OPTIONAL_SCORING_SUBJECT_IDS.filter((subjectId) => subjects[subjectId]).length;
+  const totalCount = coreCount + optionalScoringCount + additional_subjects.filter((s) => s.subject_id !== '').length;
   const canAddMore = totalCount < MAX_GCSE_COUNT;
 
   return (
@@ -76,7 +83,27 @@ export function GcseStep({ profile, updateProfile, errors }: StepProps) {
               ...prev,
               gcse_profile: {
                 ...prev.gcse_profile,
-                subjects: { ...prev.gcse_profile.subjects, [subjectId]: value },
+                subjects: { ...prev.gcse_profile.subjects, [subjectId]: value as GcseGrade },
+              },
+            }))
+          }
+        />
+      ))}
+
+      {GCSE_OPTIONAL_SCORING_SUBJECT_IDS.map((subjectId) => (
+        <SelectField
+          key={subjectId}
+          id={`gcse_${subjectId}`}
+          label={OPTIONAL_SCORING_SUBJECT_LABELS[subjectId]}
+          value={subjects[subjectId] || ''}
+          options={GRADE_OPTIONS}
+          hint="Optional for entry requirements, but Birmingham uses it in the Home applicant GCSE selection score if you apply there."
+          onChange={(value) =>
+            updateProfile((prev) => ({
+              ...prev,
+              gcse_profile: {
+                ...prev.gcse_profile,
+                subjects: { ...prev.gcse_profile.subjects, [subjectId]: value as GcseGrade },
               },
             }))
           }

@@ -91,6 +91,44 @@ export interface UcatComparison {
   } | null;
 }
 
+export interface SelectionMetric {
+  type: 'ucat' | 'selection_score' | 'points' | 'eligibility';
+  label: string;
+  applicant_value: number | null;
+  comparison_value: number | null;
+  comparison_max_value: number | null;
+  comparison_label: string | null;
+  comparison_label_type:
+    | 'published_ucat_minimum'
+    | 'published_interview_threshold'
+    | 'historical_interview_guide'
+    | 'recent_interview_benchmark'
+    | 'applysmart_advisory_guide'
+    | null;
+  comparison_context: string | null;
+  difference: number | null;
+  difference_direction: 'above' | 'below' | 'at' | null;
+  difference_word: string | null;
+  maximum_value: number | null;
+  display_mode: 'comparison' | 'score' | 'eligibility';
+  display_eligibility: boolean;
+  entry_year?: number | string | null;
+  value_label?: string | null;
+  caveat?: string | null;
+}
+
+export interface CompactStatus {
+  label: string;
+  type:
+    | 'selection_comparison'
+    | 'selection_metric'
+    | 'eligibility'
+    | 'manual_review'
+    | 'information_needed'
+    | 'prediction_unavailable';
+  tone: 'positive' | 'neutral' | 'warning' | 'negative';
+}
+
 export interface DecisionTransparency {
   decision_path?: DecisionPathStage[];
   key_reasons?: string[];
@@ -103,9 +141,20 @@ export interface DecisionTransparency {
   // applicant's route ('university_methodology_gap') from a generic
   // evidence gap. Null/absent for older universities and other display
   // states.
-  insufficient_evidence_reason_code?: 'university_methodology_gap' | 'applicant_evidence_gap' | null;
+  insufficient_evidence_reason_code?:
+    | 'university_methodology_gap'
+    | 'applicant_evidence_gap'
+    | 'missing_birmingham_english_language_grade'
+    | 'missing_birmingham_english_literature_grade'
+    | 'missing_birmingham_mathematics_grade'
+    | 'missing_birmingham_biology_grade'
+    | 'missing_birmingham_chemistry_grade'
+    | 'missing_birmingham_additional_gcse_scoring_grades'
+    | null;
   score_breakdown?: ScoreBreakdown | null;
   ucat_comparison?: UcatComparison | null;
+  selection_metric?: SelectionMetric | null;
+  compact_status?: CompactStatus | null;
   [key: string]: unknown;
 }
 

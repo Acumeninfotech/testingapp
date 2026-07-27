@@ -12,7 +12,8 @@ const {
   evaluateHullYorkA100
 } = require('../assets/js/engine/hull-york-a100-consumer');
 const {
-  presentResultCard
+  presentResultCard,
+  CANONICAL_BAND_LABELS
 } = require('../assets/js/engine/result-card-presenter');
 const { isProductionReady } = require('../server/src/universities');
 
@@ -24,12 +25,11 @@ const matrixPath = path.join(resultsDir, 'regression-matrix.json');
 const summaryPath = path.join(resultsDir, 'regression-summary.json');
 const indexPath = path.join(dataDir, 'index.json');
 
+// Reuses the engine's own canonical band -> public label map (see
+// assets/js/engine/result-card-presenter.js) so this regression matrix can't
+// independently drift from the approved public wording.
 const RECOMMENDATION_BY_BAND = {
-  very_strong_interview_potential: 'Very Strong Choice',
-  interview_likely: 'Strong choice',
-  realistic: 'Good chance – recommend applying',
-  ambitious: 'Possible but ambitious',
-  high_risk: 'Consider stronger alternatives',
+  ...CANONICAL_BAND_LABELS,
   eligible_to_apply: 'Eligible to Apply',
   insufficient_evidence: null,
   not_eligible: null
@@ -419,21 +419,11 @@ function buildSummary(profiles, matrix) {
       eligible: rows.filter((row) => row.eligibility === 'Eligible').length,
       not_eligible: rows.filter((row) => row.eligibility === 'Not Eligible').length,
       very_strong_choice: recommendationCount('Very Strong Choice'),
-      strong_choice: recommendationCount('Strong choice'),
-      leeds_strong_choice: recommendationCount('Strong Choice'),
-      strong_interview_potential: recommendationCount('Strong Interview Potential'),
-      eligible_to_apply: recommendationCount('Eligible to Apply'),
-      good_chance_recommend_applying: recommendationCount(
-        'Good chance – recommend applying'
-      ),
+      strong_choice: recommendationCount('Strong Choice'),
       realistic_choice: recommendationCount('Realistic Choice'),
-      possible_but_ambitious: recommendationCount('Possible but ambitious'),
-      advisory_guidance_only: recommendationCount('Advisory guidance only'),
-      higher_risk: recommendationCount('Higher Risk'),
-      limited_interview_potential: recommendationCount('Limited Interview Potential'),
-      consider_stronger_alternatives: recommendationCount(
-        'Consider stronger alternatives'
-      ),
+      ambitious_choice: recommendationCount('Ambitious Choice'),
+      high_risk: recommendationCount('High Risk'),
+      eligible_to_apply: recommendationCount('Eligible to Apply'),
       needs_adviser_review: rows.filter((row) => {
         return row.result_card.recommendation_display_state === 'manual_review';
       }).length,
@@ -477,16 +467,10 @@ function validateResults(profiles, universities, matrix, summary) {
     const recommendationTotal =
       row.very_strong_choice +
       row.strong_choice +
-      row.leeds_strong_choice +
-      row.strong_interview_potential +
-      row.eligible_to_apply +
-      row.good_chance_recommend_applying +
       row.realistic_choice +
-      row.possible_but_ambitious +
-      row.advisory_guidance_only +
-      row.higher_risk +
-      row.limited_interview_potential +
-      row.consider_stronger_alternatives +
+      row.ambitious_choice +
+      row.high_risk +
+      row.eligible_to_apply +
       row.needs_adviser_review +
       row.evidence_not_yet_available +
       row.entry_requirements_not_met;

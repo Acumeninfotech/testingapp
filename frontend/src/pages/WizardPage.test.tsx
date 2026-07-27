@@ -137,7 +137,7 @@ describe('WizardPage submit flow', () => {
     typeValue('ucat_quantitative_reasoning', '700');
     typeValue('ucat_total_score', '2100');
     selectValue('sjt_band', '2');
-    typeValue('ucat_test_year', '2027');
+    typeValue('ucat_test_year', '2026');
     clickContinue();
 
     // Step 6: contextual (optional, skip)
@@ -206,7 +206,7 @@ describe('WizardPage submit flow', () => {
     typeValue('ucat_quantitative_reasoning', '700');
     typeValue('ucat_total_score', '2100');
     selectValue('sjt_band', '2');
-    typeValue('ucat_test_year', '2027');
+    typeValue('ucat_test_year', '2026');
     clickContinue();
 
     clickContinue(); // contextual, skip
@@ -278,7 +278,7 @@ describe('WizardPage submit flow', () => {
     typeValue('ucat_quantitative_reasoning', '700');
     typeValue('ucat_total_score', '2100');
     selectValue('sjt_band', '2');
-    typeValue('ucat_test_year', '2027');
+    typeValue('ucat_test_year', '2026');
     clickContinue();
 
     expect(screen.getByRole('heading', { name: 'English language evidence' })).toBeInTheDocument();
@@ -346,7 +346,7 @@ describe('WizardPage submit flow', () => {
     typeValue('ucat_quantitative_reasoning', '700');
     typeValue('ucat_total_score', '2100');
     selectValue('sjt_band', '2');
-    typeValue('ucat_test_year', '2027');
+    typeValue('ucat_test_year', '2026');
     clickContinue();
     clickContinue();
     await waitFor(() => {
@@ -359,5 +359,155 @@ describe('WizardPage submit flow', () => {
     await waitFor(() => {
       expect(screen.getByRole('alert')).toBeInTheDocument();
     });
+  });
+
+  it('pre-fills the UCAT test year as entry year minus 1 once an entry year is entered', () => {
+    render(<WizardPage />);
+
+    selectValue('applicant_type', 'school_leaver');
+    selectValue('fee_status', 'home');
+    selectValue('domicile', 'england');
+    typeValue('date_of_birth', '2005-01-01');
+    clickContinue();
+
+    typeValue('application_year', '2027');
+    clickContinue();
+
+    selectValue('gcse_english_language', '7');
+    selectValue('gcse_mathematics', '8');
+    selectValue('gcse_biology', '9');
+    selectValue('gcse_chemistry', '9');
+    selectValue('gcse_physics', '8');
+    clickContinue();
+
+    selectValue('subject_0_id', 'chemistry');
+    selectValue('subject_0_predicted', 'A');
+    selectValue('subject_0_practical', 'pass');
+    selectValue('subject_1_id', 'biology');
+    selectValue('subject_1_predicted', 'A');
+    selectValue('subject_1_practical', 'pass');
+    selectValue('subject_2_id', 'mathematics');
+    selectValue('subject_2_predicted', 'A');
+    selectValue('completed_in_one_sitting', 'yes');
+    clickContinue();
+
+    fireEvent.click(screen.getByLabelText(/I have taken the UCAT/i));
+    expect((document.getElementById('ucat_test_year') as HTMLInputElement).value).toBe('2026');
+  });
+
+  it('blocks submission with a clear inline error when the UCAT year does not match entry year minus 1', () => {
+    render(<WizardPage />);
+
+    selectValue('applicant_type', 'school_leaver');
+    selectValue('fee_status', 'home');
+    selectValue('domicile', 'england');
+    typeValue('date_of_birth', '2005-01-01');
+    clickContinue();
+
+    typeValue('application_year', '2027');
+    clickContinue();
+
+    selectValue('gcse_english_language', '7');
+    selectValue('gcse_mathematics', '8');
+    selectValue('gcse_biology', '9');
+    selectValue('gcse_chemistry', '9');
+    selectValue('gcse_physics', '8');
+    clickContinue();
+
+    selectValue('subject_0_id', 'chemistry');
+    selectValue('subject_0_predicted', 'A');
+    selectValue('subject_0_practical', 'pass');
+    selectValue('subject_1_id', 'biology');
+    selectValue('subject_1_predicted', 'A');
+    selectValue('subject_1_practical', 'pass');
+    selectValue('subject_2_id', 'mathematics');
+    selectValue('subject_2_predicted', 'A');
+    selectValue('completed_in_one_sitting', 'yes');
+    clickContinue();
+
+    fireEvent.click(screen.getByLabelText(/I have taken the UCAT/i));
+    typeValue('ucat_verbal_reasoning', '700');
+    typeValue('ucat_decision_making', '700');
+    typeValue('ucat_quantitative_reasoning', '700');
+    typeValue('ucat_total_score', '2100');
+    selectValue('sjt_band', '2');
+    typeValue('ucat_test_year', '2027'); // inconsistent with entry year 2027 (should be 2026)
+    clickContinue();
+
+    // Submission is blocked: still on the UCAT step (step 5 of 8), with an inline error.
+    expect(screen.getByTestId('wizard-progress')).toHaveTextContent('Step 5 of 8');
+    expect(screen.getByRole('alert')).toHaveTextContent(/2026/);
+  });
+
+  it('allows entering 10 GCSEs and includes all of them in the submitted profile', async () => {
+    const submitSpy = vi.spyOn(apiClient, 'submitPrediction').mockResolvedValue({ results: mockResults });
+
+    render(<WizardPage />);
+
+    selectValue('applicant_type', 'school_leaver');
+    selectValue('fee_status', 'rest_of_uk');
+    selectValue('domicile', 'england');
+    typeValue('date_of_birth', '2008-01-01');
+    clickContinue();
+
+    typeValue('application_year', '2027');
+    clickContinue();
+
+    selectValue('gcse_english_language', '9');
+    selectValue('gcse_english_literature', '9');
+    selectValue('gcse_mathematics', '9');
+    selectValue('gcse_biology', '9');
+    selectValue('gcse_chemistry', '9');
+    selectValue('gcse_physics', '9');
+    const additionalSubjects = ['further_mathematics', 'psychology', 'geography', 'history'];
+    for (let i = 0; i < additionalSubjects.length; i++) {
+      fireEvent.click(screen.getByRole('button', { name: /add another gcse/i }));
+      selectValue(`additional_gcse_${i}_subject`, additionalSubjects[i]);
+      selectValue(`additional_gcse_${i}_grade`, '9');
+    }
+    clickContinue();
+
+    selectValue('subject_0_id', 'chemistry');
+    selectValue('subject_0_predicted', 'A');
+    selectValue('subject_0_practical', 'pass');
+    selectValue('subject_1_id', 'biology');
+    selectValue('subject_1_predicted', 'A');
+    selectValue('subject_1_practical', 'pass');
+    selectValue('subject_2_id', 'mathematics');
+    selectValue('subject_2_predicted', 'A');
+    selectValue('completed_in_one_sitting', 'yes');
+    clickContinue();
+
+    fireEvent.click(screen.getByLabelText(/I have taken the UCAT/i));
+    typeValue('ucat_verbal_reasoning', '850');
+    typeValue('ucat_decision_making', '850');
+    typeValue('ucat_quantitative_reasoning', '850');
+    typeValue('ucat_total_score', '2550');
+    selectValue('sjt_band', '1');
+    clickContinue();
+
+    clickContinue(); // contextual, skip
+
+    await waitFor(() => {
+      expect(screen.getByTestId('university-grid')).toBeInTheDocument();
+    });
+    fireEvent.click(screen.getByLabelText(/Select Keele University/i));
+    clickContinue();
+
+    clickContinue(); // review -> submit
+
+    await waitFor(() => {
+      expect(screen.getByTestId('result-card-list')).toBeInTheDocument();
+    });
+
+    const submittedProfile = submitSpy.mock.calls[0][0].studentProfile as Record<string, unknown>;
+    const gcse = submittedProfile.gcse_profile as {
+      subjects: Record<string, unknown>;
+      total_gcse_count: number;
+      top_9_gcse_grades: string[];
+    };
+    expect(gcse.total_gcse_count).toBe(10);
+    expect(gcse.subjects.english_literature).toBe('9');
+    expect(gcse.top_9_gcse_grades).toHaveLength(10);
   });
 });

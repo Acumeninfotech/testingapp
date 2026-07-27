@@ -38,7 +38,8 @@ const {
 const {
   buildDecisionTimeline,
   buildDecisionTransparency,
-  buildEvidenceConfidence
+  buildEvidenceConfidence,
+  CANONICAL_BAND_LABELS
 } = require('./result-card-presenter');
 
 const GCSE_GRADE_RANK = {
@@ -87,11 +88,18 @@ const EXCLUDED_A_LEVEL_SUBJECTS = new Set([
   'general_studies'
 ]);
 
+// Mirrors the shared CANONICAL_BAND_LABELS from result-card-presenter.js so
+// this consumer's estimate-band recommendation never drifts from the public
+// wording used everywhere else. very_strong_interview_potential is never
+// reachable from home_recommendation_bands/international_guidance config
+// here, but is included so an unrecognised band never silently falls
+// through to undefined.
 const RECOMMENDATION_BY_BAND = {
-  interview_likely: 'Strong choice',
-  realistic: 'Good chance – recommend applying',
-  ambitious: 'Possible but ambitious',
-  high_risk: 'Consider stronger alternatives',
+  very_strong_interview_potential: CANONICAL_BAND_LABELS.very_strong_interview_potential,
+  interview_likely: CANONICAL_BAND_LABELS.interview_likely,
+  realistic: CANONICAL_BAND_LABELS.realistic,
+  ambitious: CANONICAL_BAND_LABELS.ambitious,
+  high_risk: CANONICAL_BAND_LABELS.high_risk,
   insufficient_evidence: null,
   not_eligible: null
 };
@@ -976,10 +984,10 @@ function buildHullYorkA100ResultCard(course, config, applicant, options = {}) {
       : band === 'insufficient_evidence'
         ? 'Evidence not yet available'
         : {
-          interview_likely: 'Strong choice based on an unofficial estimate',
-          realistic: 'Good chance based on an unofficial estimate',
-          ambitious: 'Possible, but ambitious based on an unofficial estimate',
-          high_risk: 'Consider stronger alternatives based on an unofficial estimate'
+          interview_likely: `${CANONICAL_BAND_LABELS.interview_likely} based on an unofficial estimate`,
+          realistic: `${CANONICAL_BAND_LABELS.realistic} based on an unofficial estimate`,
+          ambitious: `${CANONICAL_BAND_LABELS.ambitious} based on an unofficial estimate`,
+          high_risk: `${CANONICAL_BAND_LABELS.high_risk} based on an unofficial estimate`
         }[band];
   const pool = route.international
     ? 'International applicants'
