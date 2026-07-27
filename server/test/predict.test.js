@@ -4,6 +4,13 @@ const assert = require('assert');
 const http = require('http');
 const { createApp } = require('../src/app');
 const { loadIndex, isProductionReady, INDEX_PATH } = require('../src/universities');
+const {
+  classifyInterviewBand,
+  deriveApplicantGroupIds: deriveClassifierApplicantGroupIds
+} = require('../../assets/js/engine/interview-band-classifier');
+const {
+  deriveApplicantGroupIds: deriveEligibilityApplicantGroupIds
+} = require('../../assets/js/engine/eligibility-evaluator');
 
 const path = require('path');
 const rootDir = path.resolve(__dirname, '..', '..');
@@ -118,6 +125,12 @@ const GCSE_COUNT_SENSITIVE_UNIVERSITY_IDS = [
   'nottingham-a100',
   'queen-mary-a100'
 ];
+const SCOTTISH_MEDICAL_SCHOOL_IDS = [
+  'aberdeen-a100',
+  'dundee-a100',
+  'edinburgh-a100',
+  'glasgow-a100'
+];
 
 function requestJson(server, method, urlPath, body) {
   return new Promise((resolve, reject) => {
@@ -184,6 +197,36 @@ function merge(base, overrides) {
     }
   }
   return result;
+}
+
+function routingProfile({ feeStatus, domicile }) {
+  return merge(topTierApplicant, {
+    profile_id: `routing_${feeStatus}_${domicile}`,
+    qualification_route: 'a_level',
+    applicant_identity: {
+      applicant_type: 'school_leaver',
+      fee_status: feeStatus,
+      domicile,
+      contextual: false,
+      contextual_flags: {},
+      graduate: false,
+      resit: { has_resits: false, subjects_resat: [] }
+    },
+    course_target: {
+      discipline: 'medicine',
+      ucas_code: 'A100',
+      course_route: 'standard',
+      entry_route: 'standard_medicine_a100'
+    },
+    application_year: 2027
+  });
+}
+
+function loadCourseAndConfig(id) {
+  return {
+    course: require(path.join(rootDir, 'data', 'universities', `${id}.json`)),
+    config: require(path.join(rootDir, 'data', 'interview-band-configs', `${id}.json`))
+  };
 }
 
 async function main() {
@@ -958,6 +1001,135 @@ async function main() {
       { label: 'Scottish-Home', profile: scottishHomeApplicant, mustInclude: /\bHome\b/, mustExclude: /International/ }
     ];
     const allReadyIds = readyEntries.map((u) => u.id);
+    const readyScottishIds = SCOTTISH_MEDICAL_SCHOOL_IDS.filter((id) => allReadyIds.includes(id));
+    assert.deepStrictEqual(
+      readyScottishIds,
+      SCOTTISH_MEDICAL_SCHOOL_IDS,
+      'expected all four Scottish medical schools to be readiness-bundle ready for routing regression coverage'
+    );
+
+    const rukScotlandProfile = routingProfile({
+      feeStatus: 'rest_of_uk_roi_fee_rate',
+      domicile: 'scotland'
+    });
+    const rukEnglandProfile = routingProfile({
+      feeStatus: 'rest_of_uk_roi_fee_rate',
+      domicile: 'england'
+    });
+    const scottishHomeProfileForRouting = routingProfile({
+      feeStatus: 'home_fee',
+      domicile: 'scotland'
+    });
+    const internationalScotlandProfile = routingProfile({
+      feeStatus: 'international_fee',
+      domicile: 'scotland'
+    });
+
+    for (const deriveGroups of [deriveClassifierApplicantGroupIds, deriveEligibilityApplicantGroupIds]) {
+      const groups = new Set(deriveGroups(rukScotlandProfile));
+      assert.ok(groups.has('rest_of_uk'), 'RUK/ROI fee + Scotland domicile must include rest_of_uk');
+      assert.ok(groups.has('home_fee'), 'RUK/ROI fee + Scotland domicile must include home_fee');
+      assert.ok(groups.has('scotland_domiciled'), 'RUK/ROI fee + Scotland domicile must preserve scotland_domiciled');
+      assert.ok(groups.has('school_leaver'), 'RUK/ROI fee + Scotland domicile must include school_leaver where applicable');
+    }
+
+    const rukScotlandResponse = await requestJson(server, 'POST', '/api/predict', {
+      universityIds: readyScottishIds,
+      studentProfile: rukScotlandProfile
+    });
+    assert.strictEqual(rukScotlandResponse.status, 200);
+
+    const rukEnglandResponse = await requestJson(server, 'POST', '/api/predict', {
+      universityIds: readyScottishIds,
+      studentProfile: rukEnglandProfile
+    });
+    assert.strictEqual(rukEnglandResponse.status, 200);
+
+    const scottishHomeResponse = await requestJson(server, 'POST', '/api/predict', {
+      universityIds: readyScottishIds,
+      studentProfile: scottishHomeProfileForRouting
+    });
+    assert.strictEqual(scottishHomeResponse.status, 200);
+
+    const internationalScotlandResponse = await requestJson(server, 'POST', '/api/predict', {
+      universityIds: readyScottishIds,
+      studentProfile: internationalScotlandProfile
+    });
+    assert.strictEqual(internationalScotlandResponse.status, 200);
+
+    for (const id of readyScottishIds) {
+      const { course, config } = loadCourseAndConfig(id);
+      const rukScotlandClassification = classifyInterviewBand(course, config, rukScotlandProfile);
+      const rukEnglandClassification = classifyInterviewBand(course, config, rukEnglandProfile);
+      const scottishHomeClassification = classifyInterviewBand(course, config, scottishHomeProfileForRouting);
+      const internationalScotlandClassification = classifyInterviewBand(course, config, internationalScotlandProfile);
+      const rukScotlandCard = rukScotlandResponse.json.results.find((result) => result.universityId === id).result_card;
+      const rukEnglandCard = rukEnglandResponse.json.results.find((result) => result.universityId === id).result_card;
+      const scottishHomeCard = scottishHomeResponse.json.results.find((result) => result.universityId === id).result_card;
+      const internationalScotlandCard = internationalScotlandResponse.json.results.find((result) => result.universityId === id).result_card;
+
+      assert.deepStrictEqual(
+        rukScotlandClassification.guidance_pool_id,
+        'home_rest_of_uk_school_leaver',
+        `${id} must route RUK/ROI fee + Scotland domicile into the existing RUK guidance pool`
+      );
+      assert.strictEqual(
+        rukScotlandClassification.guidance_pool_id,
+        rukEnglandClassification.guidance_pool_id,
+        `${id} RUK/ROI Scotland and RUK/ROI England should use the same guidance pool`
+      );
+      assert.strictEqual(
+        rukScotlandClassification.canonical_interview_band,
+        rukEnglandClassification.canonical_interview_band,
+        `${id} RUK/ROI Scotland and RUK/ROI England should produce the same band for the same academic profile`
+      );
+      assert.strictEqual(
+        rukScotlandClassification.ranking?.value,
+        rukEnglandClassification.ranking?.value,
+        `${id} RUK/ROI routing fix must not alter the calculated ranking value`
+      );
+      assert.strictEqual(rukScotlandCard.prediction.available, true, `${id} RUK/ROI Scotland prediction should be available`);
+      assert.strictEqual(rukScotlandCard.recommendation_display_state, 'standard');
+      assert.notStrictEqual(rukScotlandCard.prediction.result_band, 'insufficient_evidence');
+      assert.strictEqual(
+        rukScotlandCard.decision_transparency?.insufficient_evidence_reason_code ?? null,
+        null,
+        `${id} RUK/ROI Scotland must not be classified as university_methodology_gap`
+      );
+      assert.match(
+        applicantPoolSummary(rukScotlandCard),
+        /Rest of UK \/ ROI applicants/,
+        `${id} RUK/ROI Scotland applicant-pool wording must reflect the selected RUK/ROI fee route`
+      );
+
+      assert.strictEqual(
+        rukEnglandCard.prediction.result_band,
+        rukEnglandClassification.canonical_interview_band,
+        `${id} RUK/ROI England existing prediction behaviour should remain aligned with classifier output`
+      );
+
+      assert.ok(
+        !scottishHomeClassification.applicant_group_ids.includes('rest_of_uk'),
+        `${id} Scottish/Home fee + Scotland domicile must not inherit rest_of_uk`
+      );
+      assert.strictEqual(
+        scottishHomeClassification.guidance_pool_id,
+        null,
+        `${id} Scottish/Home fee + Scotland domicile must not inherit the RUK guidance pool`
+      );
+      assert.strictEqual(scottishHomeCard.prediction.available, false);
+      assert.strictEqual(scottishHomeCard.prediction.result_band, 'insufficient_evidence');
+
+      assert.strictEqual(
+        internationalScotlandClassification.guidance_pool_id,
+        'international',
+        `${id} International fee + Scotland domicile must keep the international pool`
+      );
+      assert.strictEqual(internationalScotlandCard.prediction.available, true);
+      assert.match(applicantPoolSummary(internationalScotlandCard), /International/);
+    }
+    console.log('PASS: Scottish-school routing respects explicit RUK/ROI fee status, preserves unsupported Scottish/Home, and leaves international routing unchanged');
+
     const bandContractResponse = await requestJson(server, 'POST', '/api/predict', {
       universityIds: allReadyIds,
       studentProfile: topTierApplicant

@@ -12,6 +12,10 @@ const CANONICAL_BAND_LABELS = {
   high_risk: 'High Risk'
 };
 
+const {
+  isRestOfUkFeeStatus
+} = require('./applicant-group-normalisation');
+
 const STANDARD_RECOMMENDATIONS = {
   very_strong_interview_potential: {
     headline: 'Very strong choice based on your selection score',
@@ -503,19 +507,27 @@ function titleCaseGroupLabel(groupId) {
 // the headline distinction; domicile, contextual/WP and graduate status are
 // appended when present, since they are also real evaluated applicant-group
 // facts, not invented text.
-function humanApplicantPoolLabel(groupIds) {
+function humanApplicantPoolLabel(groupIds, applicantContext = {}) {
   const groups = new Set(groupIds || []);
   if (groups.size === 0) {
     return null;
   }
+  const explicitRestOfUkFeeStatus = isRestOfUkFeeStatus(
+    applicantContext?.applicant_identity?.fee_status ||
+    applicantContext?.fee_status
+  );
 
   const feeLabel = groups.has('international_fee')
     ? 'International'
-    : groups.has('home_fee')
-      ? 'Home'
+    : explicitRestOfUkFeeStatus && groups.has('rest_of_uk')
+      ? 'Rest of UK / ROI'
+      : groups.has('home_fee')
+        ? 'Home'
       : null;
 
-  const domicileLabel = groups.has('scotland_domiciled')
+  const domicileLabel = explicitRestOfUkFeeStatus && groups.has('rest_of_uk')
+    ? null
+    : groups.has('scotland_domiciled')
     ? 'Scotland-domiciled'
     : groups.has('rest_of_uk')
       ? 'Rest of UK'
@@ -2404,7 +2416,7 @@ function buildUcatComparison(options = {}) {
     difference_from_benchmark: differenceFromBenchmark,
     position,
     applicant_pool: options.applicantPool ||
-      humanApplicantPoolLabel(options.applicantGroupIds) ||
+      humanApplicantPoolLabel(options.applicantGroupIds, options.applicantContext) ||
       null,
     sjt_policy: sjt.sjt_policy,
     sjt_outcome: sjt.sjt_outcome,
@@ -2825,7 +2837,7 @@ function buildDecisionTransparency(card, options = {}) {
   const pool = options.interviewOutcome === 'guaranteed_interview'
     ? 'Guaranteed-interview verified applicants'
     : options.applicantPool ||
-      humanApplicantPoolLabel(options.applicantGroupIds) ||
+      humanApplicantPoolLabel(options.applicantGroupIds, options.applicantContext) ||
       presentation.pool_label ||
       university.pool ||
       'The applicant group matching the supplied fee status and entry route';

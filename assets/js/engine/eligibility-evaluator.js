@@ -58,6 +58,9 @@ const {
   evaluateGraduateCompensatoryPolicy,
   getGraduateCompensatoryPolicy
 } = require('./graduate-compensatory-policy');
+const {
+  feeStatusApplicantGroupIds
+} = require('./applicant-group-normalisation');
 
 function normaliseId(value) {
   return String(value ?? '')
@@ -225,31 +228,8 @@ function deriveApplicantGroupIds(applicant) {
   const domicile = normaliseId(identity.domicile);
   const applicantType = normaliseId(identity.applicant_type);
 
-  // Matched by substring (not just exact equality) so fee-status values
-  // that legitimately embed "home" or "rest_of_uk" as a qualifier - e.g.
-  // "scottish_home", "rest_of_uk_roi_fee_rate" - are still recognised as
-  // Home. An exact-equality-only check here previously left Scottish-Home
-  // applicants (fee_status: "scottish_home") with no home_fee group at all,
-  // so their applicant-pool label and any home_fee-gated pool matching
-  // silently fell through as neither Home nor International.
-  if (
-    feeStatus === 'home' ||
-    feeStatus === 'home_fee' ||
-    feeStatus === 'ruk' ||
-    feeStatus === 'rest_of_uk' ||
-    feeStatus.includes('home') ||
-    feeStatus.includes('rest_of_uk')
-  ) {
-    groups.add('home_fee');
-  }
-  if (
-    feeStatus === 'international' ||
-    feeStatus === 'international_fee' ||
-    feeStatus === 'overseas' ||
-    feeStatus.includes('international') ||
-    feeStatus.includes('overseas')
-  ) {
-    groups.add('international_fee');
+  for (const groupId of feeStatusApplicantGroupIds(feeStatus)) {
+    groups.add(groupId);
   }
 
   const domicileGroups = {

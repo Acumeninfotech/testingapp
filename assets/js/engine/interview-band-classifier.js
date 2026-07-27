@@ -19,6 +19,9 @@ const {
 const {
   resolveBandRuleForComparison
 } = require('./ucat-conversion-service');
+const {
+  feeStatusApplicantGroupIds
+} = require('./applicant-group-normalisation');
 
 const CANONICAL_BANDS = new Set([
   'not_eligible',
@@ -249,7 +252,6 @@ function deriveApplicantGroupIds(applicant) {
   const identity = applicant.applicant_identity || {};
   const groups = new Set(applicant.applicant_group_ids || []);
   const domicile = String(identity.domicile || '').toLowerCase();
-  const feeStatus = String(identity.fee_status || '').toLowerCase();
   const applicantType = String(identity.applicant_type || '').toLowerCase();
 
   const domicileGroups = {
@@ -263,17 +265,8 @@ function deriveApplicantGroupIds(applicant) {
     groups.add(groupId);
   }
 
-  if (
-    feeStatus === 'home' ||
-    feeStatus === 'ruk' ||
-    feeStatus.includes('home') ||
-    feeStatus.includes('rest_of_uk')
-  ) {
-    groups.add('home_fee');
-  }
-
-  if (feeStatus.includes('international') || feeStatus.includes('overseas')) {
-    groups.add('international_fee');
+  for (const groupId of feeStatusApplicantGroupIds(identity.fee_status)) {
+    groups.add(groupId);
   }
 
   const contextualFlags = identity.contextual_flags || {};
