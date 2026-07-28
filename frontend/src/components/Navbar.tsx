@@ -4,7 +4,7 @@ import './Navbar.css';
 const NAV_LINKS = [
   { to: '/', label: 'Home', end: true },
   { to: '/assessment', label: 'Start Assessment' },
-  { to: '/assessment/universities', label: 'Browse Universities' },
+  { to: '/assessment/universities', label: 'University Explorer' },
 ];
 
 export function Navbar() {

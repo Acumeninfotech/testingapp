@@ -17,6 +17,37 @@ export interface University {
   home_places?: number | null;
   international_places?: number | null;
   places_approximate?: boolean;
+  academic_requirements?: {
+    gcse: string;
+    a_level: string;
+    scottish: string;
+    ib: string;
+  };
+  contextual_support?: {
+    available: boolean;
+    a_level?: string | null;
+    gcse?: string | null;
+    scottish?: string | null;
+    ib?: string | null;
+    criteria_summary?: string | null;
+    note?: string | null;
+  } | null;
+  interview_format?: string;
+  sjt_policy?: {
+    role: string;
+    accepted_bands_text?: string | null;
+    rejected_bands_text?: string | null;
+    summary: string;
+  };
+  selection_style?: {
+    key: string;
+    label: string;
+    summary: string;
+  };
+  supported_route_tags?: string[];
+  has_contextual_admissions?: boolean;
+  has_graduate_entry?: boolean;
+  has_gateway_course?: boolean;
 }
 
 export interface UniversitiesResponse {

@@ -149,7 +149,7 @@ export function LandingPage() {
                 Start Your Assessment
               </Link>
               <Link to="/assessment/universities" className="btn-gold-outline">
-                Browse Universities
+                University Explorer
               </Link>
             </div>
             <div className="ls-hero-stats">
@@ -332,7 +332,7 @@ export function LandingPage() {
               Start Your Assessment
             </Link>
             <Link to="/assessment/universities" className="btn-gold-outline">
-              Browse Universities
+              University Explorer
             </Link>
           </div>
         </div>

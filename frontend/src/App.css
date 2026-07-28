@@ -32,7 +32,8 @@ main {
   text-align: left;
 }
 
-main:has(.results-page) {
+main:has(.results-page),
+main:has(.university-explorer) {
   max-width: 1360px;
 }
 
@@ -308,11 +309,334 @@ main:has(.results-page) {
 
 /* ---------- University cards ---------- */
 
+.university-explorer {
+  max-width: 1320px;
+  margin: 0 auto;
+}
+
+.university-explorer-panel {
+  position: relative;
+  overflow: hidden;
+  padding: 1.35rem;
+  margin-bottom: 1.25rem;
+  border: 1px solid color-mix(in srgb, var(--border) 78%, var(--gold) 22%);
+  border-radius: var(--radius-lg);
+  background:
+    linear-gradient(135deg, color-mix(in srgb, var(--surface) 92%, var(--green-pale) 8%), var(--surface) 58%),
+    var(--surface);
+  box-shadow: 0 14px 34px -28px rgba(15, 45, 31, 0.45);
+}
+
+.university-explorer-header {
+  max-width: 760px;
+  margin-bottom: 1rem;
+}
+
+.university-explorer-kicker {
+  margin-bottom: 0.25rem;
+  color: var(--gold-dark);
+  font-size: 0.78rem;
+  font-weight: 850;
+  letter-spacing: 0;
+  text-transform: uppercase;
+}
+
+.university-explorer-header h1 {
+  max-width: 760px;
+  margin-bottom: 0.55rem;
+  font-size: clamp(2rem, 4vw, 3.1rem);
+  line-height: 1.04;
+}
+
+.university-explorer-header p:last-child {
+  max-width: 720px;
+  color: var(--text-muted);
+  font-size: 1rem;
+  line-height: 1.65;
+}
+
+.university-explorer-stats {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 0.65rem;
+  margin: 1rem 0 1.1rem;
+}
+
+.university-explorer-stats div {
+  min-width: 0;
+  padding: 0.75rem 0.85rem;
+  border: 1px solid color-mix(in srgb, var(--border) 82%, var(--gold) 18%);
+  border-radius: var(--radius-sm);
+  background: color-mix(in srgb, var(--surface) 88%, var(--ivory-2) 12%);
+}
+
+.university-explorer-stats strong,
+.university-explorer-stats span {
+  display: block;
+}
+
+.university-explorer-stats strong {
+  margin-bottom: 0.1rem;
+  color: var(--green-deep);
+  font-size: 0.95rem;
+  font-weight: 850;
+  line-height: 1.2;
+}
+
+.university-explorer-stats span {
+  color: var(--text-muted);
+  font-size: 0.78rem;
+  font-weight: 750;
+  line-height: 1.25;
+}
+
+.university-explorer-controls {
+  display: grid;
+  gap: 0.85rem;
+  width: 100%;
+}
+
+.university-explorer-controls label,
+.university-advanced-grid label {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  min-width: 0;
+}
+
+.university-explorer-search {
+  width: 100%;
+}
+
+.university-explorer-search > span:first-child,
+.university-advanced-grid label > span {
+  font-size: 0.75rem;
+  font-weight: 750;
+  color: var(--text-muted);
+}
+
+.university-explorer-search-field {
+  position: relative;
+  display: block;
+}
+
+.university-explorer-search-field svg {
+  position: absolute;
+  top: 50%;
+  left: 0.95rem;
+  width: 1.05rem;
+  height: 1.05rem;
+  fill: none;
+  stroke: var(--text-muted);
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-width: 2;
+  transform: translateY(-50%);
+  pointer-events: none;
+}
+
+.university-explorer-search-field input,
+.university-advanced-grid select {
+  width: 100%;
+  min-width: 0;
+  box-sizing: border-box;
+  padding: 0.72rem 0.82rem;
+  border: 1.5px solid var(--border-strong);
+  border-radius: var(--radius-sm);
+  background: var(--surface);
+  color: var(--text);
+  font: inherit;
+  font-size: 0.88rem;
+}
+
+.university-explorer-search-field input {
+  min-height: 3.2rem;
+  padding-left: 2.7rem;
+  font-size: 0.98rem;
+}
+
+.university-explorer-search-field input:focus,
+.university-advanced-grid select:focus {
+  outline: 2px solid var(--focus-ring);
+  outline-offset: 2px;
+}
+
+.university-quick-filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.45rem;
+  min-width: 0;
+}
+
+.university-quick-chip {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.35rem;
+  min-height: 2.25rem;
+  max-width: 100%;
+  padding: 0.48rem 0.7rem;
+  border: 1px solid color-mix(in srgb, var(--border-strong) 84%, var(--green-mid) 16%);
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--surface) 92%, var(--green-pale) 8%);
+  color: var(--green-deep);
+  font: inherit;
+  font-size: 0.82rem;
+  font-weight: 750;
+  line-height: 1.2;
+  cursor: pointer;
+  transition: border-color 0.15s ease, background-color 0.15s ease, transform 0.15s ease;
+}
+
+.university-quick-chip:hover {
+  border-color: var(--gold-dark);
+  transform: translateY(-1px);
+}
+
+.university-quick-chip--active {
+  border-color: var(--gold-dark);
+  background: color-mix(in srgb, var(--gold-light) 28%, var(--surface) 72%);
+  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--gold-dark) 35%, transparent);
+}
+
+.university-quick-chip-state {
+  padding: 0.1rem 0.28rem;
+  border-radius: 999px;
+  background: var(--green-deep);
+  color: var(--surface);
+  font-size: 0.66rem;
+  font-weight: 850;
+}
+
+.university-advanced {
+  border-top: 1px solid var(--border);
+  padding-top: 0.15rem;
+}
+
+.university-advanced--active {
+  border-top-color: color-mix(in srgb, var(--gold-dark) 40%, var(--border));
+}
+
+.university-advanced-toggle {
+  display: inline-flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.6rem;
+  width: 100%;
+  min-height: 2.7rem;
+  padding: 0.45rem 0;
+  border: none;
+  background: transparent;
+  color: var(--green-deep);
+  font: inherit;
+  font-size: 0.9rem;
+  font-weight: 850;
+  text-align: left;
+  cursor: pointer;
+}
+
+.university-advanced-count {
+  flex: 0 0 auto;
+  padding: 0.18rem 0.48rem;
+  border: 1px solid color-mix(in srgb, var(--gold-dark) 40%, var(--border));
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--gold-light) 22%, var(--surface) 78%);
+  color: var(--green-deep);
+  font-size: 0.72rem;
+  font-weight: 850;
+}
+
+.university-advanced-grid {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(9.5rem, 1fr));
+  gap: 0.75rem;
+  padding-top: 0.45rem;
+}
+
+.university-explorer-summary {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 0.8rem;
+  flex-wrap: wrap;
+  padding: 0.72rem 0.8rem;
+  border: 1px solid color-mix(in srgb, var(--border) 74%, var(--gold) 26%);
+  border-radius: var(--radius-sm);
+  background: color-mix(in srgb, var(--ivory-2) 42%, var(--surface) 58%);
+  color: var(--text-muted);
+  font-size: 0.9rem;
+  font-weight: 650;
+}
+
+.university-active-filter-list {
+  display: flex;
+  flex: 1 1 auto;
+  flex-wrap: wrap;
+  gap: 0.35rem;
+  min-width: 0;
+}
+
+.university-active-filter-list span {
+  display: inline-flex;
+  max-width: 100%;
+  padding: 0.16rem 0.45rem;
+  border-radius: 999px;
+  background: var(--surface);
+  color: var(--green-deep);
+  font-size: 0.78rem;
+  line-height: 1.4;
+}
+
+.university-explorer-note {
+  margin-top: 0.85rem;
+  padding: 0.72rem 0.85rem;
+  border-left: 3px solid var(--gold);
+  border-radius: var(--radius-sm);
+  background: color-mix(in srgb, var(--surface) 72%, var(--green-pale) 28%);
+  color: var(--text-muted);
+  font-size: 0.84rem;
+  line-height: 1.55;
+}
+
+.university-explorer-empty {
+  padding: 1.5rem;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  background: var(--surface);
+  box-shadow: var(--shadow-sm);
+}
+
+.university-explorer-empty h2 {
+  margin: 0 0 0.45rem;
+  font-size: 1.2rem;
+  color: var(--text-h);
+}
+
+.university-explorer-empty p {
+  margin: 0 0 1rem;
+  color: var(--text-muted);
+}
+
 .university-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(290px, 1fr));
   gap: 1.25rem;
   margin-top: 0.5rem;
+}
+
+.university-load-more {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.75rem;
+  margin-top: 1.35rem;
+  color: var(--text-muted);
+  font-size: 0.9rem;
+  font-weight: 700;
+}
+
+.university-load-more-button {
+  min-height: 2.75rem;
 }
 
 .university-card {
@@ -466,10 +790,851 @@ main:has(.results-page) {
   border-color: rgba(201, 152, 42, 0.3);
 }
 
+.badge-selection {
+  background: var(--green-pale);
+  color: var(--green-deep);
+  border-color: rgba(45, 106, 74, 0.25);
+}
+
+.badge-ready {
+  background: #eef8f2;
+  color: var(--success);
+  border-color: rgba(45, 132, 76, 0.25);
+}
+
 .badge-review {
   background: var(--warning-bg);
   color: var(--warning);
   border-color: var(--warning-border);
+}
+
+.university-card-selection-summary {
+  margin: 0.85rem 0 0;
+  color: var(--text-muted);
+  font-size: 0.88rem;
+  line-height: 1.5;
+}
+
+.university-card-route-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  margin-top: 0.85rem;
+}
+
+.university-card-route-tags span {
+  padding: 0.25rem 0.55rem;
+  border-radius: var(--radius-sm);
+  background: var(--neutral-bg);
+  color: var(--text-muted);
+  font-size: 0.72rem;
+  font-weight: 700;
+}
+
+.university-card-actions {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.55rem;
+  margin-top: 1rem;
+}
+
+.university-card-details-btn,
+.university-card-compare-btn {
+  width: 100%;
+  padding: 0.65rem 0.85rem;
+  border-radius: var(--radius-sm);
+  border: 1.5px solid var(--border-strong);
+  background: var(--surface);
+  color: var(--green-deep);
+  font-weight: 750;
+  cursor: pointer;
+  transition: border-color 0.15s ease, background-color 0.15s ease;
+}
+
+.university-card-details-btn:hover,
+.university-card-compare-btn:hover:not(:disabled) {
+  border-color: var(--gold-dark);
+  background: var(--green-pale);
+}
+
+.university-card-compare-btn--active {
+  border-color: var(--gold-dark);
+  background: var(--gold-light);
+}
+
+.university-card-compare-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.university-compare-tray {
+  position: sticky;
+  bottom: 1.1rem;
+  z-index: 30;
+  display: grid;
+  grid-template-columns: auto minmax(150px, 1fr) auto;
+  align-items: center;
+  gap: 0.85rem;
+  width: min(940px, calc(100% - 2rem));
+  margin: 1.4rem auto 0;
+  padding: 0.8rem;
+  border: 1px solid color-mix(in srgb, var(--border) 78%, var(--gold) 22%);
+  border-radius: 22px;
+  background:
+    linear-gradient(135deg, color-mix(in srgb, var(--surface) 94%, var(--ivory-2) 6%), var(--surface)),
+    var(--surface);
+  box-shadow:
+    0 18px 48px -26px rgba(15, 45, 31, 0.58),
+    0 4px 14px -10px rgba(15, 45, 31, 0.35);
+  color: var(--text);
+}
+
+.university-compare-tray-head {
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
+  min-width: 0;
+}
+
+.university-compare-tray-icon {
+  display: grid;
+  flex: 0 0 auto;
+  place-items: center;
+  width: 2.4rem;
+  height: 2.4rem;
+  border-radius: 14px;
+  background: color-mix(in srgb, var(--gold-light) 38%, var(--surface) 62%);
+  color: var(--green-deep);
+  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--gold-dark) 35%, transparent);
+}
+
+.university-compare-tray-icon svg {
+  width: 1.18rem;
+  height: 1.18rem;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2;
+  stroke-linecap: round;
+}
+
+.university-compare-tray-head p,
+.university-compare-tray-limit {
+  margin: 0;
+  color: var(--text-muted);
+  font-size: 0.76rem;
+  font-weight: 760;
+}
+
+.university-compare-tray-head strong {
+  display: block;
+  margin-top: 0.08rem;
+  color: var(--green-deep);
+  font-size: 0.98rem;
+  line-height: 1.15;
+}
+
+.university-compare-tray-progress {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 0.5rem;
+  color: var(--text-muted);
+  font-size: 0.78rem;
+  font-weight: 760;
+  white-space: nowrap;
+}
+
+.university-compare-tray-dots {
+  display: inline-flex;
+  gap: 0.2rem;
+}
+
+.university-compare-tray-dot {
+  width: 0.42rem;
+  height: 0.42rem;
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--border-strong) 75%, var(--surface) 25%);
+}
+
+.university-compare-tray-dot--filled {
+  background: var(--gold-dark);
+}
+
+.university-compare-tray-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.45rem;
+  min-width: 0;
+}
+
+.university-compare-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  max-width: 12rem;
+  padding: 0.28rem 0.35rem 0.28rem 0.3rem;
+  border: 1px solid color-mix(in srgb, var(--border-strong) 80%, var(--gold) 20%);
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--surface) 86%, var(--green-pale) 14%);
+  color: var(--green-deep);
+  font-size: 0.78rem;
+  font-weight: 780;
+}
+
+.university-compare-chip-code {
+  display: inline-grid;
+  place-items: center;
+  min-width: 1.55rem;
+  height: 1.55rem;
+  border-radius: 999px;
+  background: var(--green-deep);
+  color: var(--gold-light);
+  font-size: 0.66rem;
+  letter-spacing: 0;
+}
+
+.university-compare-chip-name {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.university-compare-chip button {
+  display: inline-grid;
+  place-items: center;
+  width: 1.35rem;
+  height: 1.35rem;
+  border: 0;
+  border-radius: 999px;
+  background: transparent;
+  color: var(--text-muted);
+  cursor: pointer;
+  font-size: 1rem;
+  line-height: 1;
+}
+
+.university-compare-chip button:hover,
+.university-compare-chip button:focus-visible {
+  background: color-mix(in srgb, var(--gold-light) 28%, var(--surface) 72%);
+  color: var(--green-deep);
+}
+
+.university-compare-tray-limit {
+  grid-column: 1 / -1;
+  padding-left: 3.1rem;
+}
+
+.university-compare-tray-actions {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 0.55rem;
+  white-space: nowrap;
+}
+
+.university-compare-primary,
+.university-compare-clear {
+  border-radius: 999px;
+  font-weight: 820;
+  cursor: pointer;
+  transition: transform 0.18s ease, box-shadow 0.18s ease, border-color 0.18s ease, background-color 0.18s ease;
+}
+
+.university-compare-primary {
+  min-height: 2.5rem;
+  padding: 0.68rem 1.25rem;
+  border: 1px solid var(--gold-dark);
+  background: linear-gradient(135deg, var(--gold-light), var(--gold-dark));
+  color: var(--green-deep);
+  box-shadow: 0 12px 24px -14px rgba(154, 111, 16, 0.9);
+}
+
+.university-compare-primary:hover:not(:disabled) {
+  transform: translateY(-1px);
+  box-shadow: 0 16px 28px -14px rgba(154, 111, 16, 0.95);
+}
+
+.university-compare-primary:disabled {
+  max-width: 15rem;
+  border-color: var(--border-strong);
+  background: color-mix(in srgb, var(--surface) 88%, var(--neutral-bg) 12%);
+  color: var(--text-muted);
+  box-shadow: none;
+  cursor: not-allowed;
+  white-space: normal;
+}
+
+.university-compare-clear {
+  min-height: 2.35rem;
+  padding: 0.52rem 0.72rem;
+  border: 1px solid transparent;
+  background: transparent;
+  color: var(--green-deep);
+}
+
+.university-compare-clear:hover,
+.university-compare-clear:focus-visible {
+  border-color: color-mix(in srgb, var(--gold-dark) 36%, transparent);
+  background: color-mix(in srgb, var(--gold-light) 16%, var(--surface) 84%);
+}
+
+.university-compare-primary:focus-visible,
+.university-compare-clear:focus-visible,
+.university-compare-chip button:focus-visible {
+  outline: 3px solid color-mix(in srgb, var(--focus-ring) 48%, transparent);
+  outline-offset: 2px;
+}
+
+.university-detail-layer,
+.university-compare-layer {
+  position: fixed;
+  inset: 0;
+  z-index: 60;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.university-detail-backdrop,
+.university-compare-backdrop {
+  position: absolute;
+  inset: 0;
+  border: 0;
+  padding: 0;
+  background: rgba(15, 45, 31, 0.34);
+  cursor: pointer;
+}
+
+.university-detail-drawer,
+.university-compare-drawer {
+  position: relative;
+  z-index: 1;
+  width: min(440px, calc(100vw - 1.5rem));
+  max-height: calc(100vh - 1.5rem);
+  margin: 0.75rem;
+  overflow-y: auto;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  background: var(--surface);
+  box-shadow: 0 24px 70px -28px rgba(15, 45, 31, 0.55);
+}
+
+.university-compare-drawer {
+  width: min(1180px, calc(100vw - 1.5rem));
+  background:
+    linear-gradient(180deg, color-mix(in srgb, var(--surface) 88%, var(--neutral-bg) 12%), var(--surface) 46%),
+    var(--surface);
+}
+
+.university-detail-head,
+.university-compare-head {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 1.25rem;
+  border-bottom: 1px solid var(--border);
+}
+
+.university-detail-kicker {
+  margin: 0 0 0.35rem;
+  color: var(--text-muted);
+  font-size: 0.78rem;
+  font-weight: 800;
+}
+
+.university-detail-head h2 {
+  margin: 0;
+  color: var(--text-h);
+  font-size: 1.35rem;
+  line-height: 1.25;
+}
+
+.university-detail-close {
+  width: 2rem;
+  height: 2rem;
+  flex-shrink: 0;
+  border: 1px solid var(--border);
+  border-radius: 50%;
+  background: var(--neutral-bg);
+  color: var(--text);
+  font-size: 1.4rem;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.university-detail-section {
+  padding: 1.1rem 1.25rem;
+  border-bottom: 1px solid var(--border);
+}
+
+.university-detail-section:last-child {
+  border-bottom: 0;
+}
+
+.university-detail-section h3 {
+  margin: 0 0 0.7rem;
+  color: var(--text-h);
+  font-size: 0.95rem;
+}
+
+.university-detail-section p {
+  margin: 0;
+  color: var(--text-muted);
+  line-height: 1.55;
+}
+
+.university-detail-lede {
+  margin-bottom: 0.55rem !important;
+}
+
+.university-detail-context-note {
+  margin-top: 0.75rem !important;
+  font-size: 0.86rem;
+}
+
+.university-detail-facts {
+  display: grid;
+  gap: 0.75rem;
+  margin: 0;
+}
+
+.university-detail-facts div {
+  display: grid;
+  grid-template-columns: 6.5rem minmax(0, 1fr);
+  gap: 0.75rem;
+}
+
+.university-detail-facts dt {
+  color: var(--text-muted);
+  font-size: 0.78rem;
+  font-weight: 800;
+}
+
+.university-detail-facts dd {
+  margin: 0;
+  color: var(--text);
+  font-size: 0.9rem;
+  line-height: 1.45;
+}
+
+.university-detail-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.45rem;
+}
+
+.university-detail-tags span {
+  padding: 0.35rem 0.65rem;
+  border-radius: var(--radius-sm);
+  background: var(--green-pale);
+  color: var(--green-deep);
+  font-size: 0.78rem;
+  font-weight: 750;
+}
+
+.university-detail-notes {
+  margin: 0;
+  padding-left: 1.1rem;
+  color: var(--text-muted);
+  line-height: 1.55;
+  font-size: 0.9rem;
+}
+
+.university-detail-notes li + li {
+  margin-top: 0.45rem;
+}
+
+.university-compare-workspace {
+  padding: 1.25rem;
+}
+
+.university-compare-summary-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 0.75rem;
+  margin-bottom: 1.1rem;
+}
+
+.university-compare-summary-grid div {
+  min-width: 0;
+  padding: 0.9rem 1rem;
+  border: 1px solid color-mix(in srgb, var(--border) 76%, var(--gold) 24%);
+  border-radius: 14px;
+  background: color-mix(in srgb, var(--surface) 88%, var(--green-pale) 12%);
+  box-shadow: 0 12px 26px -24px rgba(15, 45, 31, 0.45);
+}
+
+.university-compare-summary-grid span {
+  display: block;
+  color: var(--green-deep);
+  font-family: var(--serif);
+  font-size: clamp(1rem, 1.6vw, 1.25rem);
+  font-weight: 800;
+  line-height: 1.15;
+}
+
+.university-compare-summary-grid p {
+  margin: 0.3rem 0 0;
+  color: var(--text-muted);
+  font-size: 0.78rem;
+  font-weight: 750;
+}
+
+.university-compare-controls {
+  position: sticky;
+  top: 0;
+  z-index: 5;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  margin: 0 -0.15rem 1rem;
+  padding: 0.35rem 0.15rem 0.75rem;
+  background: linear-gradient(180deg, var(--surface) 74%, color-mix(in srgb, var(--surface) 0%, transparent));
+}
+
+.university-compare-nav {
+  display: flex;
+  gap: 0.4rem;
+  overflow-x: auto;
+  padding-bottom: 0.1rem;
+  scrollbar-width: thin;
+}
+
+.university-compare-nav-button {
+  flex: 0 0 auto;
+  border: 1px solid color-mix(in srgb, var(--border-strong) 72%, var(--green-mid) 28%);
+  border-radius: 999px;
+  background: var(--surface);
+  color: var(--text-muted);
+  cursor: pointer;
+  font: inherit;
+  font-size: 0.8rem;
+  font-weight: 800;
+  padding: 0.45rem 0.7rem;
+  transition: border-color 0.18s ease, background 0.18s ease, color 0.18s ease, transform 0.18s ease;
+}
+
+.university-compare-nav-button:hover,
+.university-compare-nav-button:focus-visible,
+.university-compare-nav-button--active {
+  border-color: var(--gold-dark);
+  background: color-mix(in srgb, var(--gold-light) 22%, var(--surface) 78%);
+  color: var(--green-deep);
+}
+
+.university-compare-difference-control {
+  flex: 0 0 auto;
+  display: grid;
+  justify-items: end;
+  gap: 0.35rem;
+  max-width: min(23rem, 42vw);
+}
+
+.university-compare-difference-control p {
+  margin: 0;
+  color: var(--text-muted);
+  font-size: 0.74rem;
+  font-weight: 700;
+  line-height: 1.35;
+  text-align: right;
+}
+
+.university-compare-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  min-height: 2.25rem;
+  padding: 0.35rem 0.65rem;
+  border: 1px solid color-mix(in srgb, var(--border) 78%, var(--gold) 22%);
+  border-radius: 999px;
+  background: var(--surface);
+  color: var(--green-deep);
+  cursor: pointer;
+  font-size: 0.78rem;
+  font-weight: 850;
+  white-space: nowrap;
+}
+
+.university-compare-toggle input {
+  width: 1rem;
+  height: 1rem;
+  accent-color: var(--gold-dark);
+}
+
+.university-compare-header-cards {
+  position: sticky;
+  top: 3.25rem;
+  z-index: 4;
+  display: grid;
+  grid-template-columns: 11rem repeat(var(--compare-count, 4), minmax(12.5rem, 1fr));
+  gap: 0.75rem;
+  align-items: stretch;
+  margin-bottom: 1rem;
+  padding: 0.55rem 0;
+  background: linear-gradient(180deg, var(--surface) 78%, color-mix(in srgb, var(--surface) 0%, transparent));
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: thin;
+}
+
+.university-compare-feature-spacer {
+  min-width: 11rem;
+}
+
+.university-compare-university-card {
+  min-width: 12.5rem;
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  grid-template-rows: 1fr auto;
+  gap: 0.7rem;
+  align-content: start;
+  padding: 0.85rem;
+  border: 1px solid color-mix(in srgb, var(--border) 70%, var(--gold) 30%);
+  border-radius: 16px;
+  background: var(--surface);
+  box-shadow: 0 16px 38px -30px rgba(15, 45, 31, 0.65);
+}
+
+.university-compare-university-code {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.35rem;
+  height: 2.35rem;
+  border-radius: 50%;
+  background: var(--green-deep);
+  color: var(--gold-light);
+  font-family: var(--serif);
+  font-size: 0.95rem;
+  font-weight: 850;
+}
+
+.university-compare-university-card h3 {
+  margin: 0;
+  color: var(--text-h);
+  font-size: 0.96rem;
+  line-height: 1.22;
+  min-height: 2.35rem;
+}
+
+.university-compare-university-card p {
+  margin: 0.3rem 0 0.5rem;
+  color: var(--text-muted);
+  font-size: 0.78rem;
+  line-height: 1.35;
+}
+
+.university-compare-card-badge,
+.university-compare-value-badge {
+  display: inline-flex;
+  align-items: center;
+  width: fit-content;
+  max-width: 100%;
+  padding: 0.28rem 0.48rem;
+  border: 1px solid color-mix(in srgb, var(--gold-dark) 30%, var(--border));
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--gold-light) 18%, var(--surface) 82%);
+  color: var(--green-deep);
+  font-size: 0.72rem;
+  font-weight: 850;
+  line-height: 1.2;
+}
+
+.university-compare-value-badge--green {
+  border-color: color-mix(in srgb, var(--green-mid) 34%, var(--border));
+  background: var(--green-pale);
+}
+
+.university-compare-value-badge--muted {
+  border-color: var(--border);
+  background: var(--neutral-bg);
+  color: var(--text-muted);
+}
+
+.university-compare-university-card button {
+  grid-column: 1 / -1;
+  justify-self: start;
+  margin-top: 0.15rem;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: var(--brand-dark);
+  cursor: pointer;
+  font: inherit;
+  font-size: 0.74rem;
+  font-weight: 850;
+  text-decoration: underline;
+  text-underline-offset: 0.16rem;
+}
+
+.university-compare-university-card button:hover,
+.university-compare-university-card button:focus-visible {
+  color: var(--gold-dark);
+}
+
+.university-compare-sections {
+  display: grid;
+  gap: 0.9rem;
+}
+
+.university-compare-section {
+  border: 1px solid color-mix(in srgb, var(--border) 82%, var(--green-mid) 18%);
+  border-radius: 16px;
+  background: var(--surface);
+  box-shadow: 0 14px 34px -32px rgba(15, 45, 31, 0.55);
+  overflow: clip;
+  scroll-margin-top: 9rem;
+}
+
+.university-compare-section summary {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  cursor: pointer;
+  list-style: none;
+  padding: 1rem 1.1rem;
+}
+
+.university-compare-section summary::-webkit-details-marker {
+  display: none;
+}
+
+.university-compare-section summary span {
+  display: grid;
+  gap: 0.25rem;
+  color: var(--text-h);
+  font-family: var(--serif);
+  font-size: 1.1rem;
+  font-weight: 850;
+}
+
+.university-compare-section summary small {
+  max-width: 36rem;
+  color: var(--text-muted);
+  font-family: var(--sans);
+  font-size: 0.76rem;
+  font-weight: 700;
+  line-height: 1.45;
+}
+
+.university-compare-section summary em {
+  color: var(--text-muted);
+  font-size: 0.76rem;
+  font-style: normal;
+  font-weight: 800;
+}
+
+.university-compare-section summary::after {
+  content: "+";
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.75rem;
+  height: 1.75rem;
+  flex: 0 0 auto;
+  border: 1px solid var(--border);
+  border-radius: 50%;
+  background: var(--neutral-bg);
+  color: var(--green-deep);
+  font-weight: 850;
+}
+
+.university-compare-section[open] summary::after {
+  content: "-";
+}
+
+.university-compare-table-wrap {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+.university-compare-table {
+  width: 100%;
+  min-width: calc(11rem + (12.5rem * var(--compare-count, 4)));
+  border-collapse: separate;
+  border-spacing: 0;
+  table-layout: fixed;
+  font-size: 0.88rem;
+}
+
+.university-compare-table th,
+.university-compare-table td {
+  padding: 1rem;
+  border-top: 1px solid var(--border);
+  vertical-align: top;
+  text-align: left;
+  background: var(--surface);
+}
+
+.university-compare-table thead {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+}
+
+.university-compare-table tbody th {
+  position: sticky;
+  left: 0;
+  z-index: 2;
+  width: 11rem;
+  background: linear-gradient(90deg, var(--surface) 84%, color-mix(in srgb, var(--surface) 0%, transparent));
+  color: var(--text-h);
+  font-weight: 850;
+}
+
+.university-compare-table tbody th > span:last-child {
+  display: inline;
+  line-height: 1.35;
+}
+
+.university-compare-table td {
+  color: var(--text);
+  line-height: 1.55;
+}
+
+.university-compare-cell--different {
+  background: color-mix(in srgb, var(--gold-light) 10%, var(--surface) 90%) !important;
+  box-shadow: inset 3px 0 0 color-mix(in srgb, var(--gold-dark) 46%, transparent);
+}
+
+.university-compare-status {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  color: var(--text);
+  font-weight: 800;
+}
+
+.university-compare-status span {
+  width: 0.58rem;
+  height: 0.58rem;
+  border-radius: 50%;
+  background: var(--border-strong);
+}
+
+.university-compare-status--green span {
+  background: var(--green-mid);
+}
+
+.university-compare-status--muted {
+  color: var(--text-muted);
+}
+
+.university-compare-empty-section {
+  margin: 0;
+  padding: 0 1.1rem 1rem;
+  color: var(--text-muted);
+  line-height: 1.5;
+}
+
+.university-compare-mobile-list {
+  display: none;
 }
 
 .university-card-selectable {
@@ -1805,8 +2970,51 @@ main:has(.results-page) {
 }
 
 @media (prefers-reduced-motion: no-preference) {
+  .university-compare-section,
+  .university-compare-university-card,
+  .university-compare-mobile-feature {
+    transition: border-color 0.18s ease, box-shadow 0.18s ease, transform 0.18s ease;
+  }
+
+  .university-compare-cell--different,
+  .university-compare-mobile-value--different {
+    transition: background 0.18s ease, box-shadow 0.18s ease;
+  }
+
+  .university-compare-tray {
+    animation: compare-tray-in 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .university-compare-chip,
+  .university-compare-university-card,
+  .university-compare-mobile-feature {
+    animation: compare-chip-in 0.16s ease;
+  }
+
   .university-result-details {
     animation: results-details-in 0.18s ease;
+  }
+}
+
+@keyframes compare-tray-in {
+  from {
+    opacity: 0;
+    transform: translateY(0.45rem) scale(0.985);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes compare-chip-in {
+  from {
+    opacity: 0;
+    transform: scale(0.96);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
   }
 }
 
@@ -1832,12 +3040,297 @@ main:has(.results-page) {
 }
 
 @media (max-width: 1024px) {
+  .university-explorer-stats {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .university-advanced-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
   .university-results-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .university-compare-summary-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .university-compare-controls {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .university-compare-difference-control {
+    justify-items: start;
+    max-width: none;
+  }
+
+  .university-compare-difference-control p {
+    text-align: left;
+  }
+
+  .university-compare-header-cards {
+    top: 6.5rem;
   }
 }
 
 @media (max-width: 640px) {
+  .university-explorer-panel {
+    padding: 1rem;
+  }
+
+  .university-explorer-header h1 {
+    font-size: 2rem;
+  }
+
+  .university-explorer-stats {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0.5rem;
+  }
+
+  .university-explorer-stats div {
+    padding: 0.65rem;
+  }
+
+  .university-quick-filters {
+    gap: 0.4rem;
+  }
+
+  .university-quick-chip {
+    flex: 1 1 calc(50% - 0.4rem);
+    min-width: 0;
+    white-space: normal;
+  }
+
+  .university-advanced-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .university-explorer-summary {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .university-grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .university-detail-layer {
+    align-items: flex-end;
+  }
+
+  .university-detail-drawer,
+  .university-compare-drawer {
+    width: 100%;
+    max-height: calc(100vh - 0.75rem);
+    margin: 0;
+    border-radius: var(--radius-lg) var(--radius-lg) 0 0;
+  }
+
+  .university-compare-drawer {
+    background: var(--surface);
+  }
+
+  .university-detail-head,
+  .university-compare-head,
+  .university-detail-section {
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+
+  .university-compare-workspace {
+    padding: 1rem;
+  }
+
+  .university-compare-summary-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0.55rem;
+  }
+
+  .university-compare-summary-grid div {
+    padding: 0.75rem;
+  }
+
+  .university-compare-summary-grid span {
+    font-size: 1rem;
+  }
+
+  .university-compare-controls {
+    position: static;
+    gap: 0.65rem;
+    margin-bottom: 0.85rem;
+    padding-bottom: 0;
+  }
+
+  .university-compare-nav {
+    margin-inline: -0.1rem;
+    padding-bottom: 0.2rem;
+  }
+
+  .university-compare-nav-button {
+    padding: 0.42rem 0.62rem;
+  }
+
+  .university-compare-toggle {
+    justify-content: space-between;
+    width: 100%;
+    border-radius: 12px;
+    padding: 0.55rem 0.7rem;
+  }
+
+  .university-compare-difference-control {
+    width: 100%;
+  }
+
+  .university-compare-header-cards {
+    position: static;
+    display: flex;
+    gap: 0.65rem;
+    margin-inline: -1rem;
+    margin-bottom: 0.85rem;
+    padding: 0.15rem 1rem 0.55rem;
+  }
+
+  .university-compare-feature-spacer {
+    display: none;
+  }
+
+  .university-compare-university-card {
+    flex: 0 0 15rem;
+    min-width: 15rem;
+    padding: 0.75rem;
+    border-radius: 14px;
+  }
+
+  .university-compare-section {
+    border-radius: 14px;
+    scroll-margin-top: 1rem;
+  }
+
+  .university-compare-section summary {
+    padding: 0.9rem;
+  }
+
+  .university-compare-section summary span {
+    font-size: 1rem;
+  }
+
+  .university-compare-table-wrap {
+    display: none;
+  }
+
+  .university-compare-mobile-list {
+    display: grid;
+    gap: 0.75rem;
+    padding: 0 0.9rem 0.9rem;
+  }
+
+  .university-compare-mobile-feature {
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    background: color-mix(in srgb, var(--surface) 92%, var(--neutral-bg) 8%);
+    overflow: hidden;
+  }
+
+  .university-compare-mobile-feature h4 {
+    margin: 0;
+    padding: 0.75rem;
+    border-bottom: 1px solid var(--border);
+    color: var(--text-h);
+    font-size: 0.92rem;
+  }
+
+  .university-compare-mobile-feature > div {
+    display: grid;
+  }
+
+  .university-compare-mobile-value {
+    display: grid;
+    gap: 0.35rem;
+    padding: 0.75rem;
+    border-bottom: 1px solid var(--border);
+    color: var(--text);
+    line-height: 1.48;
+  }
+
+  .university-compare-mobile-value:last-child {
+    border-bottom: 0;
+  }
+
+  .university-compare-mobile-value strong {
+    color: var(--green-deep);
+    font-size: 0.78rem;
+  }
+
+  .university-compare-mobile-value--different {
+    background: color-mix(in srgb, var(--gold-light) 15%, var(--surface) 85%);
+    box-shadow: inset 3px 0 0 color-mix(in srgb, var(--gold-dark) 58%, transparent);
+  }
+
+  .university-compare-empty-section {
+    padding: 0 0.9rem 0.9rem;
+  }
+
+  .university-detail-facts div {
+    grid-template-columns: 1fr;
+    gap: 0.25rem;
+  }
+
+  .university-card-actions {
+    grid-template-columns: 1fr;
+  }
+
+  .university-compare-tray {
+    position: fixed;
+    left: max(0.75rem, env(safe-area-inset-left));
+    right: max(0.75rem, env(safe-area-inset-right));
+    bottom: max(0.75rem, env(safe-area-inset-bottom));
+    grid-template-columns: 1fr;
+    width: auto;
+    max-height: calc(100svh - 1.5rem);
+    overflow: auto;
+    margin: 0;
+    padding: 0.75rem;
+    border-radius: 18px;
+  }
+
+  .university-compare-tray-head,
+  .university-compare-tray-progress {
+    justify-content: space-between;
+  }
+
+  .university-compare-tray-chips {
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    padding-bottom: 0.15rem;
+    scrollbar-width: thin;
+  }
+
+  .university-compare-chip {
+    flex: 0 0 auto;
+    max-width: 11rem;
+  }
+
+  .university-compare-tray-limit {
+    padding-left: 0;
+  }
+
+  .university-compare-tray-actions {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    align-items: center;
+  }
+
+  .university-compare-primary {
+    width: 100%;
+    min-width: 0;
+  }
+
+  .university-compare-primary:disabled {
+    max-width: none;
+  }
+
   .university-results-grid {
     grid-template-columns: 1fr;
   }

@@ -80,6 +80,30 @@ async function main() {
       assert.strictEqual(typeof uni.id, 'string');
       assert.strictEqual(typeof uni.university_name, 'string');
       assert.strictEqual(typeof uni.course_code, 'string');
+      assert.strictEqual(typeof uni.selection_style?.key, 'string');
+      assert.strictEqual(typeof uni.selection_style?.label, 'string');
+      assert.strictEqual(typeof uni.selection_style?.summary, 'string');
+      assert.strictEqual(typeof uni.sjt_policy?.role, 'string');
+      assert.strictEqual(typeof uni.sjt_policy?.summary, 'string');
+      assert.strictEqual(typeof uni.academic_requirements?.gcse, 'string');
+      assert.strictEqual(typeof uni.academic_requirements?.a_level, 'string');
+      assert.strictEqual(typeof uni.academic_requirements?.scottish, 'string');
+      assert.strictEqual(typeof uni.academic_requirements?.ib, 'string');
+      if (uni.contextual_support) {
+        assert.strictEqual(typeof uni.contextual_support.available, 'boolean');
+        assert.ok(
+          uni.contextual_support.a_level === null || typeof uni.contextual_support.a_level === 'string',
+          `${uni.id} contextual A-level support must be string or null`
+        );
+        assert.ok(
+          uni.contextual_support.ib === null || typeof uni.contextual_support.ib === 'string',
+          `${uni.id} contextual IB support must be string or null`
+        );
+      }
+      assert.strictEqual(typeof uni.interview_format, 'string');
+      assert.notStrictEqual(uni.interview_format, 'Interview', `${uni.id} must not expose a generic interview format`);
+      assert.notStrictEqual(uni.interview_format, 'Not Modelled', `${uni.id} must not expose implementation wording for interview format`);
+      assert.ok(Array.isArray(uni.supported_route_tags));
       assert.ok(
         !Object.prototype.hasOwnProperty.call(uni, 'prediction_confidence'),
         `${uni.id} must not expose internal prediction_confidence on the student-facing universities API`
@@ -89,7 +113,18 @@ async function main() {
         `${uni.id} must not expose university-level manual_review_required on the student-facing universities API`
       );
     }
-    console.log('PASS: each returned university has expected public shape with no internal confidence/manual-review metadata');
+    console.log('PASS: each returned university has expected public explorer shape with no internal confidence/manual-review metadata');
+
+    const contextualOfferProfile = response.json.universities.find((u) => u.contextual_support?.a_level);
+    assert.ok(contextualOfferProfile, 'expected at least one ready university to expose contextual A-level support');
+    console.log('PASS: contextual academic support is exposed for universities with encoded contextual offers');
+
+    const hullYork = response.json.universities.find((u) => u.id === 'hull-york-a100');
+    assert.ok(hullYork.interview_format.includes('Home applicants: Five-station in-person MMI (Multiple Mini Interviews)'));
+    assert.ok(hullYork.interview_format.includes('International applicants: Six-station online MMI (Multiple Mini Interviews)'));
+    const leeds = response.json.universities.find((u) => u.id === 'leeds-a100');
+    assert.strictEqual(leeds.interview_format, 'Published interview format not specified.');
+    console.log('PASS: public interview format wording is student-facing and avoids generic/internal values');
 
     const readyIndexEntries = loadIndex().universities.filter(isProductionReady);
     assert.ok(

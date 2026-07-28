@@ -56,7 +56,7 @@ export function Footer() {
                 <Link to="/assessment">Start Assessment</Link>
               </li>
               <li>
-                <Link to="/assessment/universities">Browse Universities</Link>
+                <Link to="/assessment/universities">University Explorer</Link>
               </li>
             </ul>
           </div>

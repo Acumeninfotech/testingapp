@@ -6,6 +6,10 @@ interface UniversityCardProps {
   selectable?: boolean;
   selected?: boolean;
   onToggle?: (id: string) => void;
+  onOpenDetails?: (university: University) => void;
+  compareSelected?: boolean;
+  compareDisabled?: boolean;
+  onToggleCompare?: (university: University) => void;
 }
 
 function initials(name: string) {
@@ -18,7 +22,27 @@ function badgeCode(university: University) {
   return UNIVERSITY_CODES[university.id] ?? initials(university.university_name);
 }
 
-export function UniversityCard({ university, selectable, selected, onToggle }: UniversityCardProps) {
+const ROUTE_TAG_LABELS: Record<string, string> = {
+  contextual: 'Contextual support',
+  graduate: 'Graduate route',
+  gateway: 'Gateway route',
+  international: 'International route',
+};
+
+export function UniversityCard({
+  university,
+  selectable,
+  selected,
+  onToggle,
+  onOpenDetails,
+  compareSelected,
+  compareDisabled,
+  onToggleCompare,
+}: UniversityCardProps) {
+  const selectionLabel = university.selection_style?.label;
+  const selectionSummary = university.selection_style?.summary;
+  const routeTags = university.supported_route_tags || [];
+
   const content = (
     <>
       {selectable && (
@@ -105,6 +129,10 @@ export function UniversityCard({ university, selectable, selected, onToggle }: U
       </div>
 
       <div className="university-card-badges">
+        {selectionLabel && <span className="badge badge-selection">{selectionLabel}</span>}
+        {university.interview_prediction_available === true && (
+          <span className="badge badge-ready">Interview prediction ready</span>
+        )}
         {university.fee_status.map((status) => (
           <span
             key={status}
@@ -122,6 +150,43 @@ export function UniversityCard({ university, selectable, selected, onToggle }: U
           <span className="badge">Independent/private medical school</span>
         )}
       </div>
+
+      {selectionSummary && (
+        <p className="university-card-selection-summary">{selectionSummary}</p>
+      )}
+
+      {routeTags.length > 0 && (
+        <div className="university-card-route-tags" aria-label="Supported routes and considerations">
+          {routeTags.map((tag) => (
+            <span key={tag}>{ROUTE_TAG_LABELS[tag] || tag.replace(/_/g, ' ')}</span>
+          ))}
+        </div>
+      )}
+
+      {(onOpenDetails || onToggleCompare) && !selectable && (
+        <div className="university-card-actions">
+          {onOpenDetails && (
+            <button
+              type="button"
+              className="university-card-details-btn"
+              onClick={() => onOpenDetails(university)}
+            >
+              View details
+            </button>
+          )}
+          {onToggleCompare && (
+            <button
+              type="button"
+              className={`university-card-compare-btn${compareSelected ? ' university-card-compare-btn--active' : ''}`}
+              disabled={compareDisabled && !compareSelected}
+              aria-pressed={Boolean(compareSelected)}
+              onClick={() => onToggleCompare(university)}
+            >
+              {compareSelected ? 'Selected' : 'Compare'}
+            </button>
+          )}
+        </div>
+      )}
     </>
   );
 
