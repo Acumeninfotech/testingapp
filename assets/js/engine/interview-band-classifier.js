@@ -1784,7 +1784,14 @@ function calculateAcademicProfileMatrix(component, applicant) {
   }
 
   if (!Number.isFinite(gcsePoints) || !Number.isFinite(aLevelPoints)) {
-    return { value: null, max: component.max, reason: 'academic_matrix_band_unavailable' };
+    const reason =
+      !Number.isFinite(gcsePoints) &&
+      gcseGrades.length === 5 &&
+      component.gcse.subject_count === 8
+        ? component.gcse.insufficient_five_subject_evidence_reason_code ||
+          'academic_matrix_band_unavailable'
+        : 'academic_matrix_band_unavailable';
+    return { value: null, max: component.max, reason };
   }
 
   const unboundedValue = gcsePoints + aLevelPoints;
@@ -2453,6 +2460,17 @@ function calculatePoolRanking(config, pool, applicant, context) {
   };
 }
 
+function unavailableRankingReason(ranking) {
+  if (!ranking || ranking.status !== 'unavailable') {
+    return null;
+  }
+  if (ranking.reason) {
+    return ranking.reason;
+  }
+  return Object.values(ranking.components || {})
+    .find((component) => component?.reason)?.reason || null;
+}
+
 function getMetricValue(metric, score, applicant) {
   if (metric === 'selection_score') {
     return score?.value;
@@ -3039,7 +3057,7 @@ function classifyBirminghamInterviewBand(course, config, applicant, eligibility,
     canonical_interview_band: band,
     insufficient_evidence_reason_code:
       band === 'insufficient_evidence' && ranking?.status === 'unavailable'
-        ? ranking.reason || null
+        ? unavailableRankingReason(ranking)
         : null,
     warnings: [...guidanceWarnings, ...routeWarnings],
     manual_review_required: isInternational,
@@ -3209,6 +3227,10 @@ function classifyInterviewBand(course, config, applicantInput, options = {}) {
         }
       : bandMetric,
     canonical_interview_band: band,
+    insufficient_evidence_reason_code:
+      band === 'insufficient_evidence' && ranking?.status === 'unavailable'
+        ? unavailableRankingReason(ranking)
+        : null,
     official_prediction: officialPredictionLimitation(classificationConfig),
     ...(manualReviewRequired ? { manual_review_required: true } : {}),
     explanation: makeExplanation(band, bandMetric, classificationConfig, resolvedEligibility)

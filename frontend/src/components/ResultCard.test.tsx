@@ -393,6 +393,40 @@ describe('ResultCard', () => {
     expect(screen.queryByLabelText(/Total selection score/i)).not.toBeInTheDocument();
   });
 
+  it('shows Edinburgh 5-GCSE historical-evidence wording as prediction unavailable, not information needed', () => {
+    const studentProfile = {
+      ...require('../../../data/regression-profiles/16_top_tier_applicant.json'),
+      gcse_profile: {
+        subjects: {
+          english_language: '9',
+          mathematics: '9',
+          biology: '9',
+          chemistry: '9',
+          physics: '9',
+          combined_science: null,
+        },
+        additional_subjects: [],
+        total_gcse_count: 5,
+        top_9_gcse_grades: ['9', '9', '9', '9', '9'],
+      },
+    };
+    const [result] = predict({
+      universityIds: ['edinburgh-a100'],
+      studentProfile,
+    });
+
+    render(<ResultCard result={result} />);
+
+    expect(screen.getByText('Prediction Unavailable')).toBeInTheDocument();
+    expect(screen.getByText('Interview prediction unavailable')).toBeInTheDocument();
+    expect(screen.queryByText('Information Needed')).not.toBeInTheDocument();
+    expect(screen.queryByText(/Evidence not yet available/i)).not.toBeInTheDocument();
+    expect(screen.getAllByText(/meet Edinburgh's published academic entry requirements/i).length).toBeGreaterThan(0);
+    expect(screen.getAllByText(/applicants presenting 5 GCSEs/i).length).toBeGreaterThan(0);
+    expect(screen.getAllByText(/not a rejection/i).length).toBeGreaterThan(0);
+    expect(screen.getByText(/Entry requirements:/i).parentElement).toHaveTextContent('Met');
+  });
+
   it('shows Information Needed for insufficient_evidence with a null (applicant-data-gap) reason code', () => {
     render(
       <ResultCard

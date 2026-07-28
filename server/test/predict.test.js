@@ -817,6 +817,55 @@ async function main() {
       assert.strictEqual(missingLitEligibility?.status, 'Met', 'missing English Literature must not fail Birmingham entry eligibility');
       console.log('PASS: Birmingham missing English Literature is applicant information needed, not a historical-data gap or manual review');
 
+      const edinburghFiveGcseProfile = JSON.parse(JSON.stringify(topTierApplicant));
+      edinburghFiveGcseProfile.gcse_profile.subjects = {
+        english_language: '9',
+        mathematics: '9',
+        biology: '9',
+        chemistry: '9',
+        physics: '9',
+        combined_science: null
+      };
+      edinburghFiveGcseProfile.gcse_profile.additional_subjects = [];
+      edinburghFiveGcseProfile.gcse_profile.total_gcse_count = 5;
+      edinburghFiveGcseProfile.gcse_profile.top_9_gcse_grades = ['9', '9', '9', '9', '9'];
+      const edinburghFiveGcseResponse = await requestJson(server, 'POST', '/api/predict', {
+        universityIds: ['edinburgh-a100'],
+        studentProfile: edinburghFiveGcseProfile
+      });
+      assert.strictEqual(edinburghFiveGcseResponse.status, 200);
+      const edinburghFiveGcseCard = edinburghFiveGcseResponse.json.results[0].result_card;
+      assert.strictEqual(edinburghFiveGcseCard.recommendation_display_state, 'insufficient_evidence');
+      assert.strictEqual(edinburghFiveGcseCard.primary_user_facing_recommendation, 'Interview prediction unavailable');
+      assert.strictEqual(edinburghFiveGcseCard.prediction?.result_band, 'insufficient_evidence');
+      assert.strictEqual(
+        edinburghFiveGcseCard.decision_transparency?.insufficient_evidence_reason_code,
+        'edinburgh_five_gcse_historical_evidence_gap'
+      );
+      assert.match(
+        edinburghFiveGcseCard.primary_explanation || '',
+        /meet Edinburgh's published academic entry requirements/i
+      );
+      assert.match(
+        edinburghFiveGcseCard.primary_explanation || '',
+        /cannot provide an interview competitiveness assessment/i
+      );
+      assert.match(
+        edinburghFiveGcseCard.primary_explanation || '',
+        /verified historical admissions evidence is currently insufficient for applicants presenting 5 GCSEs/i
+      );
+      assert.match(
+        edinburghFiveGcseCard.primary_explanation || '',
+        /not a rejection and does not mean you are ineligible/i
+      );
+      assert.doesNotMatch(
+        collectApplicantFacingCardText(edinburghFiveGcseCard),
+        /Evidence not yet available|more information|needs more|Information needed/i
+      );
+      const edinburghFiveGcseEligibility = edinburghFiveGcseCard.decision_transparency?.decision_path?.find((stage) => stage.stage === 'Eligibility');
+      assert.strictEqual(edinburghFiveGcseEligibility?.status, 'Met');
+      console.log('PASS: Edinburgh 5-GCSE insufficient-evidence wording says eligibility is met and prediction is unavailable due to historical evidence');
+
       const missingAdditionalGcseProfile = JSON.parse(JSON.stringify(birminghamProfile));
       delete missingAdditionalGcseProfile.gcse_profile.subjects.physics;
       missingAdditionalGcseProfile.gcse_profile.additional_subjects = [

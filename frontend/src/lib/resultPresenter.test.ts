@@ -75,6 +75,17 @@ describe('presentResult canonical band -> public label mapping', () => {
     expect(result.label).toBe('Prediction Unavailable');
   });
 
+  it('labels insufficient_evidence with a historical evidence gap reason code as Prediction Unavailable', () => {
+    const result = presentResult(
+      card({
+        recommendation_display_state: 'insufficient_evidence',
+        decision_transparency: { insufficient_evidence_reason_code: 'edinburgh_five_gcse_historical_evidence_gap' },
+      }),
+    );
+    expect(result.category).toBe('manual_review');
+    expect(result.label).toBe('Prediction Unavailable');
+  });
+
   it('labels insufficient_evidence with no reason code as Information Needed', () => {
     const result = presentResult(card({ recommendation_display_state: 'insufficient_evidence' }));
     expect(result.category).toBe('manual_review');

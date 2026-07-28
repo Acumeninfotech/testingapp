@@ -18,6 +18,10 @@ function isOfficialPredictionUnavailable(card: PredictionResult['result_card']):
   );
 }
 
+function isHistoricalEvidenceGap(reasonCode?: string | null): boolean {
+  return /historical_evidence_gap/.test(reasonCode ?? '');
+}
+
 // A manual-review/insufficient-evidence card reaching the frontend with no
 // specific reason (transparency.manual_review_reason or a matched
 // insufficient_evidence_reason_code) means the engine failed to attach the
@@ -337,6 +341,10 @@ export function ResultCard({ result }: { result: PredictionResult }) {
           {card.recommendation_display_state === 'insufficient_evidence' &&
           transparency?.insufficient_evidence_reason_code === 'university_methodology_gap'
             ? `${transparency?.insufficient_evidence_reason || 'This university has not published a complete scoring or ranking methodology that ApplySmart can apply to this specific applicant route.'} This is not a rejection.`
+            : card.recommendation_display_state === 'insufficient_evidence' &&
+                isHistoricalEvidenceGap(transparency?.insufficient_evidence_reason_code) &&
+                transparency?.insufficient_evidence_reason
+              ? transparency.insufficient_evidence_reason
             : card.recommendation_display_state === 'insufficient_evidence' &&
                 transparency?.insufficient_evidence_reason
               ? `${transparency.insufficient_evidence_reason} This is not a rejection.`

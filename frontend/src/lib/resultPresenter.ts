@@ -83,6 +83,10 @@ export const UNRESOLVED_LABELS = {
   predictionUnavailable: 'Prediction Unavailable',
 } as const;
 
+function isPredictionUnavailableReasonCode(reasonCode?: string | null): boolean {
+  return reasonCode === 'university_methodology_gap' || /historical_evidence_gap/.test(reasonCode ?? '');
+}
+
 function isOfficialPredictionUnavailable(card: PredictionResult['result_card']): boolean {
   const officialPrediction = card.prediction?.official_prediction as
     | { available?: boolean; prediction_status?: string }
@@ -155,11 +159,13 @@ export function presentResult(card: PredictionResult['result_card']): ResultPres
     // 'university_methodology_gap' means eligibility/evidence is known but
     // ApplySmart cannot produce a reliable interview prediction for this
     // applicant group (the university's own methodology has a gap, not the
-    // applicant's data) - the eligibility result stays visible elsewhere on
-    // the card. Any other/no reason code means required applicant
+    // applicant's data). '*historical_evidence_gap' reason codes mean the
+    // applicant meets eligibility, but verified historical admissions
+    // evidence is insufficient for interview competitiveness guidance. Any
+    // other/no reason code means required applicant
     // information itself is what's missing.
     const label =
-      reasonCode === 'university_methodology_gap'
+      isPredictionUnavailableReasonCode(reasonCode)
         ? UNRESOLVED_LABELS.predictionUnavailable
         : UNRESOLVED_LABELS.informationNeeded;
     return {

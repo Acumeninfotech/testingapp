@@ -326,7 +326,9 @@ function reasonScopedPresentationValue(presentation = {}, field, reasonCode) {
 }
 
 function isApplicantInformationReasonCode(reasonCode) {
-  return Boolean(reasonCode) && reasonCode !== 'university_methodology_gap';
+  return Boolean(reasonCode) &&
+    reasonCode !== 'university_methodology_gap' &&
+    !/historical_evidence_gap/.test(String(reasonCode));
 }
 
 function check(label, status, summary) {
@@ -3336,7 +3338,8 @@ function presentResultCard({
     guidancePool: transparencyContext.guidance_pool,
     ucatComparison,
     officialPrediction,
-    warnings: transparencyContext.warnings
+    warnings: transparencyContext.warnings,
+    insufficientEvidenceReasonCode
   };
   const evidenceConfidence = buildEvidenceConfidence(
     transparencyCard,
