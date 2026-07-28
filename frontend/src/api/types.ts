@@ -147,11 +147,13 @@ export interface DecisionTransparency {
   // Distinguishes an insufficient_evidence result caused by the university's
   // own methodology having a gap ApplySmart can't execute for this
   // applicant's route ('university_methodology_gap') from a generic
-  // evidence gap. Null/absent for older universities and other display
-  // states.
+  // evidence gap. Historical-evidence gap codes mean eligibility is met, but
+  // verified admissions history is insufficient for interview prediction.
+  // Null/absent for older universities and other display states.
   insufficient_evidence_reason_code?:
     | 'university_methodology_gap'
     | 'applicant_evidence_gap'
+    | 'edinburgh_five_gcse_historical_evidence_gap'
     | 'missing_birmingham_english_language_grade'
     | 'missing_birmingham_english_literature_grade'
     | 'missing_birmingham_mathematics_grade'
