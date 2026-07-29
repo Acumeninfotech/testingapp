@@ -79,6 +79,20 @@ describe('WizardPage navigation', () => {
     expect(screen.getByTestId('wizard-progress')).toHaveTextContent('Step 1 of 8');
   });
 
+  it('shows the course start year as fixed 2027 on the route step', () => {
+    render(<WizardPage />);
+
+    selectValue('applicant_type', 'school_leaver');
+    selectValue('fee_status', 'home');
+    selectValue('domicile', 'england');
+    typeValue('date_of_birth', '2005-01-01');
+    clickContinue();
+
+    const applicationYear = screen.getByLabelText(/Which year do you plan to start your course/i);
+    expect(applicationYear).toHaveValue('2027');
+    expect(applicationYear).toHaveAttribute('readonly');
+  });
+
   it('persists progress to localStorage between renders', async () => {
     const { unmount } = render(<WizardPage />);
     selectValue('applicant_type', 'mature_graduate');
@@ -135,7 +149,7 @@ describe('WizardPage submit flow', () => {
     typeValue('ucat_verbal_reasoning', '700');
     typeValue('ucat_decision_making', '700');
     typeValue('ucat_quantitative_reasoning', '700');
-    typeValue('ucat_total_score', '2100');
+    expect(screen.getByLabelText('Total score')).toHaveValue('2100');
     selectValue('sjt_band', '2');
     typeValue('ucat_test_year', '2026');
     clickContinue();
@@ -204,7 +218,7 @@ describe('WizardPage submit flow', () => {
     typeValue('ucat_verbal_reasoning', '700');
     typeValue('ucat_decision_making', '700');
     typeValue('ucat_quantitative_reasoning', '700');
-    typeValue('ucat_total_score', '2100');
+    expect(screen.getByLabelText('Total score')).toHaveValue('2100');
     selectValue('sjt_band', '2');
     typeValue('ucat_test_year', '2026');
     clickContinue();
@@ -276,7 +290,7 @@ describe('WizardPage submit flow', () => {
     typeValue('ucat_verbal_reasoning', '700');
     typeValue('ucat_decision_making', '700');
     typeValue('ucat_quantitative_reasoning', '700');
-    typeValue('ucat_total_score', '2100');
+    expect(screen.getByLabelText('Total score')).toHaveValue('2100');
     selectValue('sjt_band', '2');
     typeValue('ucat_test_year', '2026');
     clickContinue();
@@ -344,7 +358,7 @@ describe('WizardPage submit flow', () => {
     typeValue('ucat_verbal_reasoning', '700');
     typeValue('ucat_decision_making', '700');
     typeValue('ucat_quantitative_reasoning', '700');
-    typeValue('ucat_total_score', '2100');
+    expect(screen.getByLabelText('Total score')).toHaveValue('2100');
     selectValue('sjt_band', '2');
     typeValue('ucat_test_year', '2026');
     clickContinue();
@@ -429,7 +443,7 @@ describe('WizardPage submit flow', () => {
     typeValue('ucat_verbal_reasoning', '700');
     typeValue('ucat_decision_making', '700');
     typeValue('ucat_quantitative_reasoning', '700');
-    typeValue('ucat_total_score', '2100');
+    expect(screen.getByLabelText('Total score')).toHaveValue('2100');
     selectValue('sjt_band', '2');
     typeValue('ucat_test_year', '2027'); // inconsistent with entry year 2027 (should be 2026)
     clickContinue();
@@ -482,7 +496,7 @@ describe('WizardPage submit flow', () => {
     typeValue('ucat_verbal_reasoning', '850');
     typeValue('ucat_decision_making', '850');
     typeValue('ucat_quantitative_reasoning', '850');
-    typeValue('ucat_total_score', '2550');
+    expect(screen.getByLabelText('Total score')).toHaveValue('2550');
     selectValue('sjt_band', '1');
     clickContinue();
 

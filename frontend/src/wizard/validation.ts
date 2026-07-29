@@ -2,6 +2,11 @@ import { A_LEVEL_SCIENCE_SUBJECTS, GCSE_CORE_SUBJECT_IDS, GCSE_SEPARATE_SCIENCE_
 
 export type ValidationErrors = Record<string, string>;
 
+const UCAT_SUBTEST_MIN = 300;
+const UCAT_SUBTEST_MAX = 900;
+const UCAT_TOTAL_MIN = 900;
+const UCAT_TOTAL_MAX = 2700;
+
 export function validateIdentityStep(profile: WizardProfile): ValidationErrors {
   const errors: ValidationErrors = {};
   const identity = profile.applicant_identity;
@@ -292,22 +297,21 @@ export function validateUcatStep(profile: WizardProfile): ValidationErrors {
     errors.subtests = 'Enter all three UCAT cognitive subtest scores.';
   } else {
     for (const [key, value] of Object.entries({ verbal_reasoning, decision_making, quantitative_reasoning })) {
-      if (typeof value === 'number' && (value < 300 || value > 900)) {
-        errors[key] = 'UCAT subtest scores are usually between 300 and 900.';
+      if (typeof value !== 'number' || !Number.isInteger(value)) {
+        errors[key] = 'Enter a whole-number UCAT subtest score.';
+      } else if (value < UCAT_SUBTEST_MIN || value > UCAT_SUBTEST_MAX) {
+        errors[key] = 'UCAT subtest scores should be between 300 and 900.';
       }
     }
   }
 
   if (ucat.total_score === '') {
-    errors.total_score = 'Enter your UCAT total score.';
-  } else if (typeof ucat.total_score === 'number' && (ucat.total_score < 900 || ucat.total_score > 2700)) {
+    errors.total_score = 'UCAT total score will be calculated once all three subtest scores are entered.';
+  } else if (typeof ucat.total_score !== 'number' || !Number.isInteger(ucat.total_score)) {
+    errors.total_score = 'UCAT total score must be a whole number.';
+  } else if (ucat.total_score < UCAT_TOTAL_MIN || ucat.total_score > UCAT_TOTAL_MAX) {
     errors.total_score = 'UCAT total score should be between 900 and 2700.';
-  } else if (
-    typeof ucat.total_score === 'number' &&
-    verbal_reasoning !== '' &&
-    decision_making !== '' &&
-    quantitative_reasoning !== ''
-  ) {
+  } else if (verbal_reasoning !== '' && decision_making !== '' && quantitative_reasoning !== '') {
     const sum = Number(verbal_reasoning) + Number(decision_making) + Number(quantitative_reasoning);
     if (sum !== ucat.total_score) {
       errors.total_score = `Your subtest scores add up to ${sum}, which doesn't match your total score.`;

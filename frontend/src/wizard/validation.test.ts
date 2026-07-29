@@ -217,6 +217,41 @@ describe('validateUcatStep', () => {
     expect(validateUcatStep(profile).total_score).toBeTruthy();
   });
 
+  it('requires UCAT subtest scores to be whole numbers between 300 and 900', () => {
+    const profile = createEmptyProfile();
+    profile.admissions_tests.ucat.taken = true;
+    profile.admissions_tests.ucat.subtests = {
+      verbal_reasoning: 299,
+      decision_making: 901,
+      quantitative_reasoning: Number.NaN,
+    };
+    profile.admissions_tests.ucat.total_score = 2100;
+    profile.admissions_tests.ucat.sjt_band = 2;
+    profile.admissions_tests.ucat.test_year = 2026;
+
+    const errors = validateUcatStep(profile);
+    expect(errors.verbal_reasoning).toMatch(/300 and 900/);
+    expect(errors.decision_making).toMatch(/300 and 900/);
+    expect(errors.quantitative_reasoning).toMatch(/whole-number/);
+  });
+
+  it('validates the internally calculated UCAT total score range defensively', () => {
+    const profile = createEmptyProfile();
+    profile.admissions_tests.ucat.taken = true;
+    profile.admissions_tests.ucat.subtests = {
+      verbal_reasoning: 300,
+      decision_making: 300,
+      quantitative_reasoning: 300,
+    };
+    profile.admissions_tests.ucat.total_score = 899;
+    profile.admissions_tests.ucat.sjt_band = 2;
+    profile.admissions_tests.ucat.test_year = 2026;
+    expect(validateUcatStep(profile).total_score).toMatch(/between 900 and 2700/);
+
+    profile.admissions_tests.ucat.total_score = 2701;
+    expect(validateUcatStep(profile).total_score).toMatch(/between 900 and 2700/);
+  });
+
   it('requires a UCAT test year', () => {
     const profile = createEmptyProfile();
     profile.admissions_tests.ucat.taken = true;
@@ -227,6 +262,7 @@ describe('validateUcatStep', () => {
     };
     profile.admissions_tests.ucat.total_score = 2100;
     profile.admissions_tests.ucat.sjt_band = 2;
+    profile.admissions_tests.ucat.test_year = '';
     expect(validateUcatStep(profile).test_year).toBeTruthy();
   });
 
@@ -240,7 +276,7 @@ describe('validateUcatStep', () => {
     };
     profile.admissions_tests.ucat.total_score = 2100;
     profile.admissions_tests.ucat.sjt_band = 2;
-    profile.admissions_tests.ucat.test_year = 2027;
+    profile.admissions_tests.ucat.test_year = 2026;
     expect(hasErrors(validateUcatStep(profile))).toBe(false);
   });
 
@@ -278,6 +314,7 @@ describe('validateUcatStep', () => {
 
   it('does not cross-validate against the UCAT year when no entry year has been entered yet', () => {
     const profile = createEmptyProfile();
+    profile.course_target.application_year = '';
     profile.admissions_tests.ucat.taken = true;
     profile.admissions_tests.ucat.subtests = {
       verbal_reasoning: 700,

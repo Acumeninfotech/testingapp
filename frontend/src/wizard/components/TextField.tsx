@@ -10,9 +10,25 @@ interface TextFieldProps {
   type?: 'text' | 'number' | 'date';
   min?: number;
   max?: number;
+  readOnly?: boolean;
+  inputMode?: 'decimal' | 'email' | 'none' | 'numeric' | 'search' | 'tel' | 'text' | 'url';
+  pattern?: string;
 }
 
-export function TextField({ id, label, value, onChange, error, hint, type = 'text', min, max }: TextFieldProps) {
+export function TextField({
+  id,
+  label,
+  value,
+  onChange,
+  error,
+  hint,
+  type = 'text',
+  min,
+  max,
+  readOnly,
+  inputMode,
+  pattern,
+}: TextFieldProps) {
   return (
     <FormField label={label} htmlFor={id} error={error} hint={hint}>
       <input
@@ -21,6 +37,9 @@ export function TextField({ id, label, value, onChange, error, hint, type = 'tex
         value={value}
         min={min}
         max={max}
+        readOnly={readOnly}
+        inputMode={inputMode}
+        pattern={pattern}
         aria-invalid={Boolean(error)}
         onChange={(event) => onChange(event.target.value)}
       />

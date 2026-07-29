@@ -273,7 +273,7 @@ export function createEmptyProfile(): WizardProfile {
       discipline: 'medicine',
       ucas_code: 'A100',
       entry_route: 'standard_medicine_a100',
-      application_year: '',
+      application_year: 2027,
       qualification_route: 'a_level',
     },
     gcse_profile: {
@@ -350,7 +350,7 @@ export function createEmptyProfile(): WizardProfile {
           quantitative_reasoning: '',
         },
         sjt_band: 0,
-        test_year: '',
+        test_year: 2026,
       },
       gamsat: {
         taken: false,
