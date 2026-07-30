@@ -1,0 +1,397 @@
+{
+  "schema_version": "1.0.0",
+  "template_version": "1.0.0",
+  "result_id": "city-st-george-s-of-london-a100-home-standard-example",
+  "generated_at": "2026-07-29",
+  "result_mode": "example_eligibility_and_historical_interview_guidance",
+  "production_state": {
+    "profile_active": true,
+    "metadata_activation_enabled": true,
+    "result_card_output_enabled": true,
+    "note": "City St George's A100 example uses low-confidence guidance and the university warning."
+  },
+  "course_identity": {
+    "profile_id": "city-st-george-s-of-london-a100",
+    "university_name": "City St George's, University of London",
+    "course_name": "Medicine MBBS",
+    "ucas_code": "A100",
+    "entry_route": "standard_entry",
+    "qualification_awarded": "MBBS (Bachelor of Medicine, Bachelor of Surgery)",
+    "duration_years": 5,
+    "location": "Tooting, London, England",
+    "source_ids": [
+      "city_st_georges_a100_course_page_2026"
+    ]
+  },
+  "applicant_context": {
+    "applies_to_group_ids": [
+      "england_domiciled",
+      "rest_of_uk",
+      "home_fee",
+      "school_leaver"
+    ],
+    "applicant_summary": "Home standard A-level school-leaver meeting City St George's GCSE and AAA Biology/Chemistry gates; UCAT 1910/2700 with every cognitive section at or above 500; SJT Band 4 recorded but excluded from ApplySmart band computation.",
+    "fee_cohort": "home",
+    "entry_route": "standard_entry",
+    "contextual": false,
+    "graduate": false,
+    "source_ids": []
+  },
+  "readiness": {
+    "eligibility": true,
+    "interview_prediction": true,
+    "historical_guidance": true,
+    "international_prediction": true,
+    "contextual_logic": true,
+    "result_card": true,
+    "regression": true,
+    "research_completeness": "complete_for_supported_scope_with_documented_gaps",
+    "manual_review_required": true,
+    "eligibility_ready": true,
+    "interview_prediction_ready": true,
+    "offer_prediction_scope": "out_of_scope",
+    "prediction_confidence": "low",
+    "result_card_ready": true
+  },
+  "eligibility": {
+    "status": "eligible",
+    "summary": "The represented Home A-level school-leaver meets City St George's supported GCSE, A-level, same-sitting, UCAT section and UCAT evidence gates.",
+    "stage_1_checks": [
+      {
+        "check_id": "academic_threshold",
+        "label": "Academic threshold",
+        "status": "pass",
+        "requirement": "AAA including Chemistry and Biology or Human Biology, plus five GCSEs at 6/B or above including English Language, Maths and Science.",
+        "applicant_value": "AAA with Biology and Chemistry; five GCSE subjects at grade 6.",
+        "decision_outcome": "eligible",
+        "source_ids": [
+          "city_st_georges_a100_course_page_2026"
+        ]
+      },
+      {
+        "check_id": "ucat_section_minimum",
+        "label": "UCAT section minimum",
+        "status": "pass",
+        "requirement": "At least 500 in every UCAT cognitive section.",
+        "applicant_value": "All three cognitive sections are at least 500.",
+        "decision_outcome": "eligible",
+        "source_ids": [
+          "city_st_georges_a100_course_page_2026"
+        ]
+      },
+      {
+        "check_id": "sjt_recorded_not_modelled",
+        "label": "SJT recorded",
+        "status": "pass",
+        "requirement": "SJT Banding is considered by the university, but the exact mechanism is unpublished.",
+        "applicant_value": "SJT Band 4 recorded and excluded from ApplySmart prediction.",
+        "decision_outcome": "eligible",
+        "source_ids": [
+          "city_st_georges_a100_course_page_2026"
+        ]
+      }
+    ],
+    "blocking_reasons": [],
+    "warnings": [
+      "It is not possible to predict what the UCAT thresholds will be in any individual year, nor to use data from previous years to predict subsequent years' thresholds. The number and quality of applications can vary year-on-year and the selection process is reviewed annually and may be subject to change.",
+      "\"SGUL states SJT Banding is considered in 2026-entry decisions, but has not published how. Your SJT Band 1-4 is recorded but NOT included in this prediction.\""
+    ],
+    "source_ids": [
+      "city_st_georges_a100_course_page_2026",
+      "city_st_georges_admissions_statistics"
+    ]
+  },
+  "stage_2_selection": {
+    "verification_status": "official_verified_guidance_thresholds_only",
+    "primary_model": "academic_gate_then_pool_specific_ucat_ranking",
+    "summary": "City St George's checks academic eligibility and every UCAT cognitive section first, then ranks eligible applicants by raw UCAT total within separate Home/Overseas and graduate/non-graduate pools. SJT is recorded but excluded from ApplySmart band computation because the university has not published the exact mechanism.",
+    "represented_ranking_input": {
+      "score": 1910,
+      "max": 2700,
+      "metric": "ucat_total"
+    },
+    "ranking_factors": [
+      {
+        "factor_id": "academic_threshold",
+        "factor": "academic_threshold",
+        "role": "eligibility_gate",
+        "weight_percent": 0,
+        "notes": "No academic points formula is published."
+      },
+      {
+        "factor_id": "ucat_total",
+        "factor": "ucat_total",
+        "role": "ranking_metric",
+        "weight_percent": 100,
+        "notes": "Eligible applicants are ranked by raw UCAT total within pool."
+      },
+      {
+        "factor_id": "sjt_band",
+        "factor": "sjt_band",
+        "role": "captured_not_modelled",
+        "weight_percent": null,
+        "notes": "SJT mechanism unpublished; recorded and excluded from band computation."
+      }
+    ],
+    "selection_adjustments": [],
+    "unknown_calculation_areas": [
+      "Exact SJT mechanism.",
+      "Future-cycle UCAT threshold.",
+      "Post-interview offer formula."
+    ],
+    "presentation": {
+      "selection_summary": "City St George's checks academic eligibility and every UCAT cognitive section first, then ranks eligible applicants by raw UCAT total within separate Home/Overseas and graduate/non-graduate pools. SJT is recorded but excluded from ApplySmart band computation because the university has not published the exact mechanism.",
+      "trust_statement": "City St George's says UCAT thresholds cannot be predicted for a future cycle. ApplySmart keeps this as guidance only and never treats it as an interview guarantee.",
+      "evidence_used": [
+        "Official admissions policy",
+        "University selection methodology",
+        "UCAT policy",
+        "Historical interview data",
+        "Contextual admissions policy",
+        "International admissions policy"
+      ],
+      "ucat_band_headlines": {
+        "very_strong_interview_potential": "Very strong choice based on your UCAT",
+        "interview_likely": "Strong choice based on your UCAT",
+        "realistic": "Realistic choice based on your UCAT",
+        "ambitious": "Ambitious choice based on your UCAT",
+        "high_risk": "High risk based on your UCAT"
+      },
+      "historical_summary": "City St George's historical guidance compares this UCAT result with previous admissions cycles. It is guidance only, not a current cut-off and not a guarantee of an interview."
+    }
+  },
+  "prediction": {
+    "available": false,
+    "result_band": "interview_likely",
+    "source_interview_band_id": "B",
+    "result_card_id": "STRONG_CHOICE",
+    "score": 1910,
+    "score_scale": 2700,
+    "guidance_pool_id": "home_non_graduate",
+    "confidence_level": "low",
+    "prediction_type": "applysmart_low_confidence_historical_guidance",
+    "official_prediction": {
+      "available": false,
+      "status": "prediction_unavailable",
+      "reason_code": "future_cycle_threshold_not_predictable_by_university_warning",
+      "explanation": "City St George's states UCAT thresholds cannot be predicted for an individual year. ApplySmart shows low-confidence historical guidance only, not an official threshold or interview guarantee.",
+      "source_ids": [
+        "city_st_georges_admissions_statistics"
+      ]
+    },
+    "applysmart_advisory_guidance": {
+      "available": true,
+      "result_band": "interview_likely",
+      "guidance_only": true,
+      "university_warning_verbatim": "It is not possible to predict what the UCAT thresholds will be in any individual year, nor to use data from previous years to predict subsequent years' thresholds. The number and quality of applications can vary year-on-year and the selection process is reviewed annually and may be subject to change."
+    }
+  },
+  "confidence": {
+    "level": "low",
+    "summary": "Low confidence because only one current-scale City St George's UCAT cut-off cycle is available and the university warns that future thresholds cannot be predicted.",
+    "stage_confidence": {
+      "eligibility": "high",
+      "interview_guidance": "low",
+      "sjt_mechanism": "limited",
+      "contextual_interview_effect": "limited"
+    },
+    "source_ids": [
+      "city_st_georges_a100_course_page_2026",
+      "city_st_georges_admissions_statistics"
+    ]
+  },
+  "evidence_confidence": {
+    "level": "Medium",
+    "summary": "Official eligibility evidence is available, but the official interview prediction is unavailable from public current-cycle data.",
+    "reasons": [
+      "Official eligibility rules are available.",
+      "City St George's states UCAT thresholds cannot be predicted for an individual year. ApplySmart shows low-confidence historical guidance only, not an official threshold or interview guarantee."
+    ]
+  },
+  "display": {
+    "primary_user_facing_recommendation": "Strong Choice",
+    "recommendation_display_state": "standard",
+    "primary_explanation": "Based on the official the university entry requirements and the applicant information provided, you meet the supported entry requirements. ApplySmart has analysed your profile against the university's available selection information and admissions evidence. Your UCAT score of 1910 is above the ApplySmart band range above 2026 published current-scale UCAT reference range of 1811-1909, indicating a competitive applicant profile. Use this as interview competitiveness guidance alongside the university's published admissions policy; it is not a guarantee of interview.",
+    "historical_guidance_caveat": "Historical admissions data provides a benchmark only; it is not a current cut-off or a guarantee of interview.",
+    "trust_statement": "City St George's says UCAT thresholds cannot be predicted for a future cycle. ApplySmart keeps this as guidance only and never treats it as an interview guarantee."
+  },
+  "contextual_metadata": {
+    "contextual_status": "none",
+    "eligible_for_contextual_offer": false,
+    "eligible_for_pre_application_support": false,
+    "eligible_for_post_application_support": false,
+    "contextual_eligibility_unconfirmed": false
+  },
+  "sjt_handling": {
+    "sjt_band": 4,
+    "sjt_excluded_from_prediction": true,
+    "message": "\"SGUL states SJT Banding is considered in 2026-entry decisions, but has not published how. Your SJT Band 1-4 is recorded but NOT included in this prediction.\"",
+    "band_4_penalty_applied": false
+  },
+  "engine_notes": {
+    "engine_version": "ApplySmart Engine v1.0",
+    "production_ready": true,
+    "activation_ready": true,
+    "eligibility_ready": true,
+    "interview_prediction_ready": true,
+    "result_card_ready": true,
+    "interview_band_ready": true,
+    "decision_transparency_ready": true,
+    "evidence_confidence_ready": true,
+    "decision_timeline_ready": true,
+    "metadata_activation_ready": true,
+    "offer_prediction_scope": "out_of_scope",
+    "architecture_change_required": true,
+    "architecture_change_summary": "Generic UCAT subsection minimum enforcement added; activates only when a course declares minimum_subsection_scores.",
+    "approved_activation_scope": "A100 Home/Overseas and non-graduate/graduate pools using academic gates, UCAT section gate, and low-confidence historical UCAT guidance on the current 2700 scale.",
+    "notes": "No academic scoring formula, SJT weighting, contextual UCAT adjustment, interview guarantee or offer prediction is implemented.",
+    "university_warning_verbatim": "It is not possible to predict what the UCAT thresholds will be in any individual year, nor to use data from previous years to predict subsequent years' thresholds. The number and quality of applications can vary year-on-year and the selection process is reviewed annually and may be subject to change."
+  },
+  "stage_2_selection_output": {
+    "source_interview_band_id": "B",
+    "canonical_interview_band": "interview_likely",
+    "guidance_pool_id": "home_non_graduate"
+  },
+  "decision_transparency": {
+    "decision_path": [
+      {
+        "stage": "Eligibility",
+        "status": "Met",
+        "summary": "The represented Home A-level school-leaver meets City St George's supported GCSE, A-level, same-sitting, UCAT section and UCAT evidence gates.",
+        "checks": [
+          {
+            "label": "Academic threshold",
+            "status": "Met",
+            "summary": "AAA including Chemistry and Biology or Human Biology, plus five GCSEs at 6/B or above including English Language, Maths and Science. Applicant information: AAA with Biology and Chemistry; five GCSE subjects at grade 6."
+          },
+          {
+            "label": "UCAT section minimum",
+            "status": "Met",
+            "summary": "At least 500 in every UCAT cognitive section. Applicant information: All three cognitive sections are at least 500."
+          },
+          {
+            "label": "SJT recorded",
+            "status": "Met",
+            "summary": "SJT Banding is considered by the university, but the exact mechanism is unpublished. Applicant information: SJT Band 4 recorded and excluded from ApplySmart prediction."
+          }
+        ]
+      },
+      {
+        "stage": "Selection model",
+        "status": "Assessed",
+        "summary": "City St George's checks academic eligibility and every UCAT cognitive section first, then ranks eligible applicants by raw UCAT total within separate Home/Overseas and graduate/non-graduate pools. SJT is recorded but excluded from ApplySmart band computation because the university has not published the exact mechanism.",
+        "checks": [
+          {
+            "label": "Applicant pool",
+            "status": "Used",
+            "summary": "Home, Overseas, graduate and non-graduate applicants in separate UCAT-ranking pools"
+          },
+          {
+            "label": "Selection approach",
+            "status": "Assessed",
+            "summary": "City St George's checks academic eligibility and every UCAT cognitive section first, then ranks eligible applicants by raw UCAT total within separate Home/Overseas and graduate/non-graduate pools. SJT is recorded but excluded from ApplySmart band computation because the university has not published the exact mechanism."
+          }
+        ]
+      },
+      {
+        "stage": "Historical guidance",
+        "status": "Guidance available",
+        "summary": "City St George's historical guidance compares this UCAT result with previous admissions cycles. It is guidance only, not a current cut-off and not a guarantee of an interview.",
+        "checks": [
+          {
+            "label": "Applicant pool",
+            "status": "Used",
+            "summary": "Home, Overseas, graduate and non-graduate applicants in separate UCAT-ranking pools"
+          },
+          {
+            "label": "Important limitation",
+            "status": "Guidance only",
+            "summary": "Historical admissions data provides a benchmark only; it is not a current cut-off or a guarantee of interview."
+          }
+        ]
+      },
+      {
+        "stage": "Recommendation",
+        "status": "Guidance only",
+        "summary": "Strong Choice. Treat this as guidance for university choice, not a promised interview.",
+        "checks": []
+      }
+    ],
+    "key_reasons": [
+      "The represented Home A-level school-leaver meets City St George's supported GCSE, A-level, same-sitting, UCAT section and UCAT evidence gates.",
+      "City St George's states UCAT thresholds cannot be predicted for an individual year. ApplySmart shows low-confidence historical guidance only, not an official threshold or interview guarantee.",
+      "The result uses Home, Overseas, graduate and non-graduate applicants in separate UCAT-ranking pools.",
+      "City St George's checks academic eligibility and every UCAT cognitive section first, then ranks eligible applicants by raw UCAT total within separate Home/Overseas and graduate/non-graduate pools. SJT is recorded but excluded from ApplySmart band computation because the university has not published the exact mechanism."
+    ],
+    "evidence_used": [
+      "Official admissions policy",
+      "University selection methodology",
+      "UCAT policy",
+      "Historical interview data",
+      "Contextual admissions policy",
+      "International admissions policy"
+    ],
+    "evidence_confidence": {
+      "level": "Medium",
+      "summary": "Official eligibility evidence is available, but the official interview prediction is unavailable from public current-cycle data.",
+      "reasons": [
+        "Official eligibility rules are available.",
+        "City St George's states UCAT thresholds cannot be predicted for an individual year. ApplySmart shows low-confidence historical guidance only, not an official threshold or interview guarantee."
+      ]
+    },
+    "warnings": [],
+    "official_prediction": {
+      "available": false,
+      "prediction_status": "prediction_unavailable",
+      "reason_code": "future_cycle_threshold_not_predictable_by_university_warning",
+      "explanation": "City St George's states UCAT thresholds cannot be predicted for an individual year. ApplySmart shows low-confidence historical guidance only, not an official threshold or interview guarantee.",
+      "source_ids": [
+        "city_st_georges_admissions_statistics"
+      ]
+    },
+    "manual_review_reason": null,
+    "insufficient_evidence_reason": null,
+    "insufficient_evidence_reason_code": null,
+    "compact_status": {
+      "label": "Prediction unavailable",
+      "type": "prediction_unavailable",
+      "tone": "neutral"
+    },
+    "comparison_metrics_title": null,
+    "comparison_metrics": [],
+    "selection_metric": null,
+    "ucat_comparison": null
+  },
+  "decision_timeline": [
+    {
+      "step": 1,
+      "title": "Applicant details checked",
+      "status": "Complete",
+      "summary": "Your applicant type, qualifications and UCAT details were checked."
+    },
+    {
+      "step": 2,
+      "title": "Eligibility assessed",
+      "status": "Eligible",
+      "summary": "You meet the published entry requirements covered by ApplySmart."
+    },
+    {
+      "step": 3,
+      "title": "Selection model applied",
+      "status": "Complete",
+      "summary": "Academic eligibility and every UCAT cognitive-section minimum were checked before raw UCAT-total ranking in the relevant City St George's fee-status and graduate-status pool; SJT was recorded but not modelled."
+    },
+    {
+      "step": 4,
+      "title": "Historical guidance compared",
+      "status": "Complete",
+      "summary": "City St George's historical guidance compares this UCAT result with previous admissions cycles. It is guidance only, not a current cut-off and not a guarantee of an interview."
+    },
+    {
+      "step": 5,
+      "title": "Interview recommendation produced",
+      "status": "Strong Choice",
+      "summary": "Strong Choice. Treat this as guidance for university choice, not a promised interview."
+    }
+  ]
+}

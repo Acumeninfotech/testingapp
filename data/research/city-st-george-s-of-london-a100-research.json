@@ -1,0 +1,1242 @@
+{
+  "schema_version": "1.0.0",
+  "profile_id": "city-st-george-s-of-london-a100-research",
+  "course_profile_id": "city-st-george-s-of-london-a100",
+  "research_status": "complete_for_supported_scope_with_documented_gaps",
+  "file_purpose": "Completed City St George's A100 implementation research profile generated from the authoritative master JSON.",
+  "official_rules_source": "data/universities/city-st-george-s-of-london-a100.json",
+  "created_at": "2026-07-29",
+  "last_updated": "2026-07-29",
+  "research_scope": {
+    "university": "City St George's, University of London",
+    "course": "Medicine MBBS",
+    "ucas_code": "A100",
+    "application_cycle": "2026 entry (2026/27 academic year)",
+    "source_of_truth": "/Users/faizan/Desktop/medical university research/University-data-list/City St George's/used-this /citystgeorges_a100_complete_master.json"
+  },
+  "evidence_classification_policy": {
+    "policy": "official evidence only; unresolved fields remain documented gaps",
+    "no_inference_rules": [
+      "Do not invent an academic points formula.",
+      "Do not invent an SJT weighting or Band 4 rejection.",
+      "Do not invent a contextual UCAT cutoff, guaranteed interview or contextual ranking uplift.",
+      "Enforce academic eligibility and every UCAT cognitive section minimum of 500 before band computation.",
+      "Route applicants into exactly one of four fee-status/graduate pools without silent defaults.",
+      "Treat offer prediction as out of scope."
+    ]
+  },
+  "metadata": {
+    "architecture_change_required": true,
+    "architecture_change": "generic_ucat_subsection_minimum_gate",
+    "academic_model": "threshold_only",
+    "ucat_model": "threshold_plus_pool_specific_raw_total_ranking",
+    "sjt_model": "captured_excluded_pending_published_mechanism",
+    "contextual_model": "metadata_only_no_ucat_adjustment",
+    "offer_prediction_scope": "out_of_scope",
+    "prediction_confidence": "low",
+    "current_scale_reference_cycle": 2026,
+    "source_master_generated_date": "2026-07-29"
+  },
+  "readiness": {
+    "eligibility": true,
+    "interview_prediction": true,
+    "historical_guidance": true,
+    "international_prediction": true,
+    "contextual_logic": true,
+    "result_card": true,
+    "regression": true,
+    "research_completeness": "complete_for_supported_scope_with_documented_gaps",
+    "manual_review_required": true,
+    "eligibility_ready": true,
+    "interview_prediction_ready": true,
+    "offer_prediction_scope": "out_of_scope",
+    "prediction_confidence": "low",
+    "result_card_ready": true
+  },
+  "course_identity": {
+    "name": "Medicine MBBS",
+    "ucas_code": "A100",
+    "entry_route": "standard_entry",
+    "qualification_awarded": "MBBS (Bachelor of Medicine, Bachelor of Surgery)",
+    "duration_years": 5,
+    "campus": "Tooting",
+    "location": "Tooting, London, England",
+    "entry_year": 2026,
+    "intake_month": "September",
+    "application_channels": [
+      "UCAS"
+    ],
+    "fee_statuses": [
+      "home",
+      "international"
+    ],
+    "is_gateway_or_foundation": false,
+    "is_graduate_entry": false,
+    "notes": "5 years full-time; 6 years including an optional intercalated/placement year. Excludes A101 Graduate Entry Medicine (4-year GEM), Foundation Year, ScotGEM."
+  },
+  "approved_applysmart_json": {
+    "stage_1_summary": "Academic requirements are threshold-only; every UCAT cognitive section must be at least 500 before pool-specific UCAT ranking is meaningful.",
+    "stage_2_summary": "The university does not publish the mathematical interview selection formula for A100. The published mechanism is: academic threshold (pass/fail on predicted/achieved grades and GCSEs) followed by UCAT-score ranking to fill available interview places, applied separately within Home/Overseas and Non-graduate/Graduate categories because of overseas (~9%) and graduate (~25%) number-control caps.",
+    "interview_band_config_file": "data/interview-band-configs/city-st-george-s-of-london-a100.json",
+    "result_card_example_file": "data/examples/city-st-george-s-of-london-a100-result-card.example.json"
+  },
+  "evidence_gaps": [
+    {
+      "gap_id": "city_st_georges_gap_1",
+      "status": "documented_genuine_evidence_gap",
+      "description": "Medicine-specific MMI format details (number of stations, duration, precise scoring rubric) -- general Selection Process page covers Nursing/Radiography/SLT/Healthcare Science in detail but does not include a dedicated Medicine A100 subsection in the content retrieved.",
+      "implementation_effect": "Recorded as metadata or manual-review limitation; no rule invented."
+    },
+    {
+      "gap_id": "city_st_georges_gap_2",
+      "status": "documented_genuine_evidence_gap",
+      "description": "Exact SJT band cut-off or scoring mechanism for 2026 entry.",
+      "implementation_effect": "SJT is captured but excluded from band computation."
+    },
+    {
+      "gap_id": "city_st_georges_gap_3",
+      "status": "documented_genuine_evidence_gap",
+      "description": "Official UCAT Consortium conversion table/ratio between the pre-2025 (3600) and current (2700) scales -- no official methodology published; only unofficial third-party approximations exist (explicitly not used here).",
+      "implementation_effect": "Recorded as metadata or manual-review limitation; no rule invented."
+    },
+    {
+      "gap_id": "city_st_georges_gap_4",
+      "status": "documented_genuine_evidence_gap",
+      "description": "Any FOI-derived exact interview-invitation formula, interview-to-offer conversion rate, or historical UCAT cut-offs beyond what the university has proactively published -- no matching FOI response located on WhatDoTheyKnow.com providing a numeric formula for A100; several open/historical FOI threads exist on the topic (see Sources) but none supplies a published mathematical formula. New FOI request recommended if this level of detail is required.",
+      "implementation_effect": "Recorded as metadata or manual-review limitation; no rule invented."
+    },
+    {
+      "gap_id": "city_st_georges_gap_5",
+      "status": "documented_genuine_evidence_gap",
+      "description": "Precise reconciliation of the University's own Home places figure (165, 2025/6) versus the OfS anticipated-home MFL figure (261) -- flagged as a discrepancy, not resolved from public sources.",
+      "implementation_effect": "Recorded as metadata or manual-review limitation; no rule invented."
+    },
+    {
+      "gap_id": "city_st_georges_gap_6",
+      "status": "documented_genuine_evidence_gap",
+      "description": "International qualification grade equivalencies on a per-country basis (page exists but was not itemised in this pass).",
+      "implementation_effect": "Recorded as metadata or manual-review limitation; no rule invented."
+    },
+    {
+      "gap_id": "city_st_georges_gap_7",
+      "status": "documented_genuine_evidence_gap",
+      "description": "No separate contextual UCAT cut-off, guaranteed interview rule, interview-ranking uplift, or alternative interview-selection pool is published for A100. ApplySmart must not invent one.",
+      "implementation_effect": "Contextual metadata is surfaced without altering UCAT bands."
+    }
+  ],
+  "implementation_mapping": {
+    "production_profile": "data/universities/city-st-george-s-of-london-a100.json",
+    "research_profile": "data/research/city-st-george-s-of-london-a100-research.json",
+    "interview_band_config": "data/interview-band-configs/city-st-george-s-of-london-a100.json",
+    "fixture": "data/fixtures/interview-band-classification/city-st-george-s-of-london-a100.json",
+    "result_card": "data/examples/city-st-george-s-of-london-a100-result-card.example.json",
+    "readiness_test": "scripts/test-city-st-george-s-of-london-a100-readiness.js"
+  },
+  "authoritative_master_json": {
+    "document_type": "applysmart_complete_university_research_and_interview_prediction_spec",
+    "schema_version": "1.0",
+    "generated_date": "2026-07-29",
+    "implementation_target": "City St George's, University of London — Medicine MBBS A100",
+    "instructions_for_codex": {
+      "scope": "Use this single JSON as the consolidated evidence and implementation specification for eligibility, interview prediction, contextual handling, SJT handling, applicant-pool routing, result-card transparency and regression tests.",
+      "non_negotiable_rules": [
+        "Do not invent an academic points formula.",
+        "Do not invent an SJT weighting or Band 4 rejection.",
+        "Do not invent a contextual UCAT cutoff, guaranteed interview or contextual ranking uplift.",
+        "Enforce academic eligibility and every UCAT cognitive section minimum of 500 before band computation.",
+        "Route applicants into exactly one of four fee-status/graduate pools without silent defaults.",
+        "Treat offer prediction as out of scope."
+      ]
+    },
+    "research_and_applysmart_data": {
+      "university": {
+        "name": "City St George's, University of London",
+        "former_name": "St George's, University of London",
+        "merger_note": "On 1 August 2024, City, University of London and St George's, University of London merged to form City St George's, University of London. The medicine programme continues to be delivered at the Tooting campus (the former St George's site).",
+        "campus": "Tooting",
+        "institution_type": "UK public university medical school",
+        "source": {
+          "url": "https://www.citystgeorges.ac.uk/prospective-students/courses/undergraduate/medicine/2026",
+          "accessed": "2026-07-29"
+        }
+      },
+      "course": {
+        "course_name": "Medicine MBBS",
+        "ucas_code": "A100",
+        "duration_years": 5,
+        "duration_note": "5 years full-time; 6 years including an optional intercalated/placement year",
+        "qualification_awarded": "MBBS (Bachelor of Medicine, Bachelor of Surgery)",
+        "application_cycle": "2026 entry (2026/27 academic year)",
+        "excludes": [
+          "A101 Graduate Entry Medicine (4-year GEM)",
+          "Foundation Year",
+          "ScotGEM"
+        ],
+        "source": {
+          "url": "https://www.citystgeorges.ac.uk/prospective-students/courses/undergraduate/medicine/2026",
+          "accessed": "2026-07-29"
+        }
+      },
+      "intake_numbers": {
+        "home_places_university_published": {
+          "2021_2": 184,
+          "2022_3": 165,
+          "2023_4": 165,
+          "2024_5": 165,
+          "2025_6": 165
+        },
+        "overseas_places_university_published": {
+          "2021_2": 19,
+          "2022_3": 19,
+          "2023_4": 19,
+          "2024_5": 19,
+          "2025_6": 19
+        },
+        "places_source": {
+          "url": "https://www.citystgeorges.ac.uk/about/schools/health-sciences/about/admissions-statistics",
+          "source_type": "University official page (admissions statistics)",
+          "accessed": "2026-07-29",
+          "note": "Table covers 5-year MBBS standard entry only; separate table for 4-year Graduate Entry MBBS (A101, out of scope for this report) shows 70-71 places/year."
+        },
+        "ofs_maximum_fundable_limit": {
+          "provider": "City St George's, University of London",
+          "applies_from_entry_cohort": "2025-26 (also applies 2026-27 and beyond unless government directs a change)",
+          "total_mfl_home_and_overseas_medical": 280,
+          "anticipated_home": 261,
+          "anticipated_overseas": 19,
+          "source": {
+            "url": "https://www.officeforstudents.org.uk/for-providers/finance-and-funding/medicine-and-dentistry-funding/medical-and-dental-maximum-fundable-limits/",
+            "source_type": "Office for Students (OfS) official page",
+            "accessed": "2026-07-29"
+          },
+          "discrepancy_flag": "OfS 'anticipated home' figure (261) does not match the sum of the university's own published Home A100 places (165 for 2025/6) plus its published Home A101 Graduate Entry places (71 for 2025/6) = 236. The OfS MFL is a single combined medical-place ceiling for the whole provider covering all undergraduate medical entry routes/cohorts (including deferred entrants counted differently), so it is not a like-for-like figure with the university's own per-cycle A100-only table. Both figures are cited; the gap has not been independently resolved from published sources and would require an FOI request or direct clarification from the university's admissions/planning office to reconcile precisely."
+        }
+      },
+      "application_statistics": {
+        "scope": "Medicine MBBS 5-year standard entry (A100), main cycle. Figures are split Home/Overseas and Standard Entry/Deferred Entry as published; not merged.",
+        "applicants": {
+          "2021_2": {
+            "home_standard": 2571,
+            "home_deferred": 32,
+            "overseas_standard": 413,
+            "overseas_deferred": 8
+          },
+          "2022_3": {
+            "home_standard": 2259,
+            "home_deferred": 28,
+            "overseas_standard": 299,
+            "overseas_deferred": 9
+          },
+          "2023_4": {
+            "home_standard": 1274,
+            "home_deferred": 17,
+            "overseas_standard": 233,
+            "overseas_deferred": 5
+          },
+          "2024_5": {
+            "home_standard": 1371,
+            "home_deferred": 17,
+            "overseas_standard": 298,
+            "overseas_deferred": 11
+          },
+          "2025_6": {
+            "home_standard": 1279,
+            "home_deferred": 14,
+            "overseas_standard": 318,
+            "overseas_deferred": 18
+          }
+        },
+        "interviews": {
+          "2021_2": {
+            "home_standard": 752,
+            "home_deferred": 12,
+            "overseas_standard": 88,
+            "overseas_deferred": 3
+          },
+          "2022_3": {
+            "home_standard": 671,
+            "home_deferred": 7,
+            "overseas_standard": 115,
+            "overseas_deferred": 10
+          },
+          "2023_4": {
+            "home_standard": 669,
+            "home_deferred": 3,
+            "overseas_standard": 122,
+            "overseas_deferred": 5
+          },
+          "2024_5": {
+            "home_standard": 677,
+            "home_deferred": 9,
+            "overseas_standard": 146,
+            "overseas_deferred": 6
+          },
+          "2025_6": {
+            "home_standard": 773,
+            "home_deferred": 9,
+            "overseas_standard": 121,
+            "overseas_deferred": 9
+          }
+        },
+        "conditional_offers": {
+          "2021_2": {
+            "home_standard": 332,
+            "home_deferred": 6,
+            "overseas_standard": 23,
+            "overseas_deferred": 0
+          },
+          "2022_3": {
+            "home_standard": 264,
+            "home_deferred": 140,
+            "overseas_standard": 32,
+            "overseas_deferred": 31
+          },
+          "2023_4": {
+            "home_standard": 237,
+            "home_deferred": 181,
+            "overseas_standard": 30,
+            "overseas_deferred": 31
+          },
+          "2024_5": {
+            "home_standard": 247,
+            "home_deferred": 176,
+            "overseas_standard": 25,
+            "overseas_deferred": 33
+          },
+          "2025_6": {
+            "home_standard": 369,
+            "home_deferred": 207,
+            "overseas_standard": 27,
+            "overseas_deferred": 36
+          }
+        },
+        "waiting_list": {
+          "2021_2": {
+            "home": 147,
+            "overseas": 40
+          },
+          "2022_3": {
+            "home": 138,
+            "overseas": 26
+          },
+          "2023_4": {
+            "home": 180,
+            "overseas": 30
+          },
+          "2024_5": {
+            "home": 174,
+            "overseas": 31
+          },
+          "2025_6": {
+            "home": 205,
+            "overseas": 35
+          }
+        },
+        "total_enrollers": {
+          "2021_2": {
+            "home_standard": 135,
+            "home_deferred": 49,
+            "overseas_standard": 16,
+            "overseas_deferred": 3
+          },
+          "2022_3": {
+            "home_standard": 112,
+            "home_deferred": 56,
+            "overseas_standard": 18,
+            "overseas_deferred": 2
+          },
+          "2023_4": {
+            "home_standard": 124,
+            "home_deferred": 55,
+            "overseas_standard": 14,
+            "overseas_deferred": 6
+          },
+          "2024_5": {
+            "home_standard": 122,
+            "home_deferred": 37,
+            "overseas_standard": 15,
+            "overseas_deferred": 6
+          },
+          "2025_6": {
+            "home_standard": 143,
+            "home_deferred": 19,
+            "overseas_standard": 17,
+            "overseas_deferred": 4
+          },
+          "note": "Deferred-entry enrollers applied in a previous cycle but enrolled in the stated entry year."
+        },
+        "ratios_calculated": {
+          "note": "Not published directly by the university; calculated here from the published applicant/interview/offer figures above (Home Standard Entry only, main cycle). Marked as derived, not official.",
+          "2025_6": {
+            "applicant_to_interview_ratio": "1279:773 (approx. 1.65:1)",
+            "applicant_to_offer_ratio": "1279:369 (approx. 3.47:1)"
+          }
+        },
+        "source": {
+          "url": "https://www.citystgeorges.ac.uk/about/schools/health-sciences/about/admissions-statistics",
+          "source_type": "University official page (admissions statistics)",
+          "accessed": "2026-07-29"
+        }
+      },
+      "academic_requirements": {
+        "a_level": {
+          "grades": "AAA",
+          "subjects_required": "Chemistry and Biology or Human Biology",
+          "offer_range_note": "Minimum stated requirement is AAA; offers may range AAA-A*AA.",
+          "timing_rule": "A Levels must be completed within one sitting across a maximum of two years (third year permitted only via a successful Extenuating Circumstances application).",
+          "confidence": "officially_published"
+        },
+        "international_baccalaureate": {
+          "discrepancy_flag": true,
+          "figure_1": {
+            "overall_points": 35,
+            "higher_level_points": 18,
+            "location_on_page": "Key information summary box",
+            "detail": "35 points overall with 18 points at Higher Level, including a minimum grade 6 in Biology and Chemistry."
+          },
+          "figure_2": {
+            "overall_points": 36,
+            "location_on_page": "Detailed IB section",
+            "detail": "Award: Full Award Diploma. Scores: Overall score of 36. Subjects: 18 points at Higher Level, including a minimum grade 6 in Biology and Chemistry."
+          },
+          "note": "The university's own 2026 course page states two different IB overall-point totals (35 vs 36) in two different sections of the same page. Both are cited verbatim below; this is flagged as an unresolved source discrepancy rather than silently picking one.",
+          "standard_level_requirement": "Minimum score of 5 in Maths and English at Standard Level if grade 6(B) not already achieved at GCSE/IGCSE. Mathematics: analysis & approaches or applications & interpretations accepted. English A (language & literature) or B (language) accepted.",
+          "confidence": "officially_published_with_internal_inconsistency"
+        },
+        "gcse": {
+          "grades": "Five subjects graded 6 (B) or above",
+          "subjects_required": "English Language, Maths, and Science (Double or Triple Award)",
+          "resits_accepted": true,
+          "adult_literacy_numeracy_functional_skills_accepted": false,
+          "confidence": "officially_published"
+        },
+        "other_accepted_qualifications": {
+          "access_diploma": "Full Access to Medicine diploma, 60 credits at level 3 (45 graded, 15 ungraded); 39 credits at Distinction and 6 at Merit; all Chemistry/Biology credits at Distinction; plus GCSE English Language and Maths at grade 6(B)+.",
+          "cambridge_pre_u": "D3, D3, D3 in three principal subjects including Biology and Chemistry, plus the standard GCSE requirement.",
+          "scottish_highers": "Highers: AAA including Chemistry and Biology. Advanced Highers: AA including Chemistry and Biology. Plus National 5 English Language and Maths at grade B.",
+          "university_degree_ug": "2:1 Honours in any subject/discipline (2:2 requires a completed Masters to be eligible); GCSE/A-level requirements waived.",
+          "university_degree_pg": "Pass, plus an undergraduate degree at 2:2 Honours or higher in any subject.",
+          "confidence": "officially_published"
+        },
+        "recency_rule": "For non-graduate applicants, all qualifications except GCSEs must have been completed within the previous five years, including the year of application.",
+        "source": {
+          "url": "https://www.citystgeorges.ac.uk/prospective-students/courses/undergraduate/medicine/2026",
+          "source_type": "University official page",
+          "accessed": "2026-07-29",
+          "cycle": "2026 entry"
+        }
+      },
+      "contextual_admissions": {
+        "offered": true,
+        "policy_scope": {
+          "campus": "Tooting",
+          "eligible_applicant_scope": [
+            "Resident in the United Kingdom",
+            "Undergraduate applicant who does not already hold a degree",
+            "Applying for an eligible undergraduate programme leading to an award"
+          ],
+          "a100_eligible": true,
+          "graduate_applicants_eligible": false,
+          "international_applicants_eligible": false,
+          "review_cycle": "Policy is reviewed annually and may change by admissions cycle."
+        },
+        "schemes": {
+          "pre_application_support": {
+            "eligible_groups": [
+              "group_1",
+              "group_2",
+              "group_3"
+            ],
+            "support_examples": [
+              "Travel bursaries to attend Tooting campus open days",
+              "Invitations to widening participation activities, including Insight to General Practice where relevant"
+            ],
+            "group_1_additional_support": [
+              "Bespoke advice regarding available support",
+              "Tailored visit days to the University"
+            ],
+            "access_method": "Applicant must notify the Widening Participation team using the published webform. Proof is not required for access to pre-application support."
+          },
+          "contextual_offer": {
+            "eligible_groups": [
+              "group_1",
+              "group_2"
+            ],
+            "group_3_eligible": false,
+            "adjustment": {
+              "maximum_reduction": "Two grades below the standard conditional offer",
+              "a_level_example": {
+                "standard": "AAA",
+                "contextual": "ABB"
+              },
+              "eligible_qualification_types": [
+                "A Level",
+                "International Baccalaureate",
+                "Scottish Highers"
+              ],
+              "application_method": "Reduction is applied across two subjects and to the highest-grade requirements, rather than reducing one subject by two grades.",
+              "ib_note": "IB contextual offers may reduce the overall total by up to two points, with relevant Higher Level adjustments.",
+              "other_requirements_unchanged": [
+                "Minimum GCSE requirements",
+                "Course-specific subject requirements",
+                "Fitness to Practise and other non-academic requirements",
+                "Interview or assessment requirements",
+                "UCAT and other course-specific aptitude-test requirements"
+              ]
+            },
+            "identification_process": "Eligibility is identified using information from UCAS and the Contextual Admissions declaration completed in the Tooting applicant portal.",
+            "evidence_may_be_required": true,
+            "clearing_grade_adjustment_available": false
+          },
+          "post_application_support": {
+            "eligible_groups": [
+              "group_1",
+              "group_2",
+              "group_3"
+            ],
+            "pre_offer_support": [
+              "Travel bursary to attend a Tooting campus interview day",
+              "Live or pre-recorded Preparing for your interview at Tooting webinar"
+            ],
+            "post_offer_support": [
+              "Travel bursary to attend a Tooting campus offer-holder day",
+              "Fitness to Practise bursary for eligible Conditional Firm offer holders"
+            ],
+            "fitness_to_practise_bursary": {
+              "amount_gbp": 85,
+              "possible_uses": [
+                "UK DBS Check or Update Service",
+                "Overseas Criminal Record Check where applicable",
+                "Occupational Health Check",
+                "Vaccination costs"
+              ]
+            },
+            "identification_process": "Eligibility is identified using the applicant's Contextual Admissions declaration and UCAS information. Some support may require evidence."
+          }
+        },
+        "criteria_groups": {
+          "group_1": {
+            "minimum_criteria_required": 1,
+            "eligible_for_contextual_offer": true,
+            "eligible_for_pre_application_support": true,
+            "eligible_for_post_application_support": true,
+            "criteria": [
+              "Care-experienced student or care leaver",
+              "Student aged 14-25 with unpaid care responsibilities",
+              "Refugee or asylum seeker",
+              "Estranged student aged 14-25"
+            ]
+          },
+          "group_2": {
+            "minimum_criteria_required": 2,
+            "eligible_for_contextual_offer": true,
+            "eligible_for_pre_application_support": true,
+            "eligible_for_post_application_support": true,
+            "criteria": [
+              "Attends an English school with an average A Level grade of C- or below",
+              "Attends an English school in the bottom 40% for progression to Higher Education",
+              "Lives in a POLAR4 quintile 1 or 2 area",
+              "Lives in an IMD decile 1 or 2 area",
+              "Has been in receipt of free school meals"
+            ]
+          },
+          "group_3": {
+            "minimum_criteria_required": 1,
+            "eligible_for_contextual_offer": false,
+            "eligible_for_pre_application_support": true,
+            "eligible_for_post_application_support": true,
+            "criteria": [
+              "Service child",
+              "Applicant from a Gypsy, Roma or Traveller community",
+              "Mature non-graduate applicant aged 21 or over on entry to Higher Education"
+            ]
+          }
+        },
+        "applysmart_interpretation": {
+          "contextual_status_enum": [
+            "none",
+            "group_1",
+            "group_2",
+            "group_3",
+            "unknown"
+          ],
+          "important_distinction": "Groups 1 and 2 are contextual-offer groups. Group 3 receives support only and is not eligible for a contextual offer.",
+          "interview_selection_effect_published": false,
+          "published_effect": "The policy publishes a reduced conditional offer and support arrangements, but does not publish a separate UCAT cut-off, guaranteed interview, added interview-ranking points, or alternative interview-selection pool for contextual applicants.",
+          "safe_prediction_rule": {
+            "group_1": "Use the standard UCAT interview-prediction bands if all normal academic, UCAT-section and pool gates are met. Attach contextual-offer/support information separately. Do not invent a lower UCAT threshold.",
+            "group_2": "Use the standard UCAT interview-prediction bands if all normal academic, UCAT-section and pool gates are met. Attach contextual-offer/support information separately. Do not invent a lower UCAT threshold.",
+            "group_3": "Use the standard UCAT interview-prediction bands. Attach pre- and post-application support information; do not label the applicant as eligible for a contextual offer.",
+            "none": "Use the standard UCAT interview-prediction bands.",
+            "unknown": "Prediction may proceed using the standard UCAT bands because no separate contextual interview-ranking method is published, but return contextual_status = unknown and prompt the applicant to check eligibility for contextual support and/or a reduced offer."
+          },
+          "reason_not_to_disable_prediction": "The official policy confirms that contextual status changes the conditional offer and support available, while all applicants must still meet course-specific UCAT and interview requirements. No alternative interview-ranking method or contextual UCAT threshold is published."
+        },
+        "source": {
+          "url": "https://www.citystgeorges.ac.uk/about/governance/policies/contextual-admissions",
+          "source_type": "University official contextual admissions policy",
+          "accessed": "2026-07-29"
+        }
+      },
+      "international_applicants": {
+        "english_language_requirement": {
+          "test": "IELTS",
+          "minimum_overall": 7,
+          "minimum_writing": 7,
+          "minimum_other_components": 6.5
+        },
+        "qualifications_pathway": "See university's general International Qualifications for Undergraduate study page (not itemised per-country in this pass).",
+        "same_selection_process_as_home": "UCAT and interview process appear to apply to Overseas applicants on the same structure, but are ranked and cut off separately by category (see UCAT section) because of overseas number controls.",
+        "overseas_number_control": "Government/OfS overseas place cap of approximately 9% of the cohort (university's own description, accurate for 2021-2025 cycles, may change).",
+        "graduate_quota_cap": "Approximately 25% cap on graduate (i.e., applicants who already hold a degree) students among enrollers, accurate for 2021-2025 cycles, may change.",
+        "fee_2026_27": {
+          "home_gbp": 9790,
+          "international_gbp": 46000
+        },
+        "source": {
+          "url": "https://www.citystgeorges.ac.uk/prospective-students/courses/undergraduate/medicine/2026",
+          "accessed": "2026-07-29"
+        }
+      },
+      "ucat_requirements": {
+        "required": true,
+        "role": "threshold_plus_ranking",
+        "role_detail": "UCAT is used as a pass/fail section threshold (minimum 500 in each of the three cognitive sections) plus an annually-recalculated overall cut-off score used to rank and select applicants for interview. There is NO published combined academic-score + UCAT weighted formula for A100.",
+        "section_threshold": "Minimum 500 in each individual cognitive section (Verbal Reasoning, Decision Making, Quantitative Reasoning).",
+        "overall_threshold": "Recalculated every year based on the strength of that year's applicant pool; not fixed in advance and not predictable from prior years (university's own caveat).",
+        "extenuating_circumstances_considered": false,
+        "ranking_mechanism": "Each applicant who meets the academic entry criteria is ranked by UCAT score; interview places are allocated to the highest UCAT scorers within each category (Home/Overseas x Non-graduate/Graduate) until interview capacity is filled, because of separate overseas (~9%) and graduate (~25%) number-control caps.",
+        "clearing_cutoff_may_differ": true,
+        "combined_formula_published": false,
+        "combined_formula_statement": "The university does not publish a mathematical interview-selection formula combining academic score and UCAT score. Selection to interview for A100 is: (1) meet academic threshold (pass/fail, e.g. predicted/achieved AAA + GCSE profile) -> (2) rank purely by UCAT total score within applicant category -> (3) invite to interview until places fill.",
+        "sjt_used_in_2026_decision_making": true,
+        "sjt_role": "For 2026 entry, City St George's states it will consider SJT Banding scores in decision-making, but does not publish an exact band cut-off or the precise mechanism (pass/fail band vs. scored input) in the sources reviewed.",
+        "source": {
+          "url": "https://www.citystgeorges.ac.uk/prospective-students/courses/undergraduate/medicine/2026",
+          "source_type": "University official page",
+          "accessed": "2026-07-29",
+          "cycle": "2026 entry"
+        }
+      },
+      "ucat_historical_thresholds": {
+        "scale_note": "Per university publication and UCAT Consortium test-format history: cycles 2016-2025 are on the pre-2025 four-subtest scale (1200-3600, later effectively out of ~3600 after a section change in 2017); cycle 2026 is the first year on the new three-subtest scale (900-2700, Abstract Reasoning removed). The University's own table already reflects this scale change (2026 values are far lower in absolute terms, consistent with the smaller 2700 maximum).",
+        "figures_as_originally_published": {
+          "2016": {
+            "scale": "old (~3600)",
+            "non_grad_home": 2600,
+            "non_grad_overseas": null,
+            "grad_home": "not accepted in main cycle",
+            "grad_overseas": "not accepted in main cycle"
+          },
+          "2017": {
+            "scale": "old (~3600, one subtest removed mid-year)",
+            "non_grad_home": 1890,
+            "note": "UCAT removed a section in 2017",
+            "grad_home": "not accepted in main cycle",
+            "grad_overseas": "not accepted in main cycle"
+          },
+          "2018": {
+            "scale": "old (~3600)",
+            "non_grad_home": 2590,
+            "grad_home": "not accepted in main cycle",
+            "grad_overseas": "not accepted in main cycle"
+          },
+          "2019": {
+            "scale": "old (~3600)",
+            "non_grad_home": 2490,
+            "grad_home": "not accepted in main cycle",
+            "grad_overseas": "not accepted in main cycle"
+          },
+          "2020": {
+            "scale": "old (~3600)",
+            "non_grad_home": "2480 (clearing 2540)",
+            "non_grad_overseas": "2480 (clearing 2540)",
+            "grad_home": "not accepted in main cycle",
+            "grad_overseas": "not accepted in main cycle"
+          },
+          "2021": {
+            "scale": "old (~3600)",
+            "non_grad_home": 2620,
+            "non_grad_overseas": "2710 (clearing 2620)",
+            "grad_home": "2800 (clearing 2620)",
+            "grad_overseas": "2830 (clearing 2620)"
+          },
+          "2022": {
+            "scale": "old (~3600)",
+            "non_grad_home": 2710,
+            "non_grad_overseas": 2710,
+            "grad_home": 2810,
+            "grad_overseas": 2810
+          },
+          "2023": {
+            "scale": "old (~3600)",
+            "non_grad_home": 2630,
+            "non_grad_overseas": 2630,
+            "grad_home": 2690,
+            "grad_overseas": 2690
+          },
+          "2024": {
+            "scale": "old (~3600)",
+            "non_grad_home": 2690,
+            "non_grad_overseas": 2700,
+            "grad_home": 2690,
+            "grad_overseas": 2700
+          },
+          "2025": {
+            "scale": "old (~3600)",
+            "non_grad_home": "2600 (clearing 2550)",
+            "non_grad_overseas": "2750 (clearing 2550)",
+            "grad_home": "2600 (clearing 2550)",
+            "grad_overseas": "2770 (clearing 2550)"
+          },
+          "2026": {
+            "scale": "new (900-2700)",
+            "non_grad_home": 1880,
+            "non_grad_overseas": 1640,
+            "grad_home": 1880,
+            "grad_overseas": 1630
+          }
+        },
+        "converted_to_current_2700_scale": {
+          "status": "not_performed",
+          "reason": "No official UCAT Consortium-published conversion table or methodology for converting pre-2025 (four-subtest, ~1200-3600) scores to the post-2025 (three-subtest, 900-2700) scale was located. UCAT Consortium's own published materials (ucat.ac.uk) describe the new 900-2700 scoring structure but do not publish an official historical conversion table; third-party tutoring companies publish unofficial 'percentile-matching' or 'same-cohort re-scoring' conversions, but these are explicitly not endorsed by the UCAT Consortium and vary between providers (e.g. some warn that a flat multiplier such as x0.75 is inaccurate by 20-25 points). Per the sourcing rules governing this report, no conversion ratio has been invented or applied. The 2016-2025 figures above are presented on their originally-published (old) scale only, alongside the 2026 figure which is already on the new scale, exactly as the university published them.",
+          "consortium_page_reviewed": "https://www.ucat.ac.uk/about-ucat/test-format-and-scoring/"
+        },
+        "source": {
+          "url": "https://www.citystgeorges.ac.uk/about/schools/health-sciences/about/admissions-statistics",
+          "source_type": "University official page (admissions statistics)",
+          "accessed": "2026-07-29"
+        }
+      },
+      "sjt_policy": {
+        "used_in_selection": true,
+        "band_cutoff_published": false,
+        "pass_fail_or_scored": "not specified in sources reviewed",
+        "band4_automatic_rejection_published": false,
+        "note": "University states only that SJT Banding will be 'considered in our decision making' for 2026 entry; no further mechanism, band threshold, or scoring detail is published.",
+        "source": {
+          "url": "https://www.citystgeorges.ac.uk/prospective-students/courses/undergraduate/medicine/2026",
+          "accessed": "2026-07-29"
+        }
+      },
+      "tie_break_rules": {
+        "published": false,
+        "note": "Not found in official sources reviewed for this pass."
+      },
+      "interview_selection_methodology": {
+        "formula_exists": false,
+        "official_statement": "The university does not publish the mathematical interview selection formula for A100. The published mechanism is: academic threshold (pass/fail on predicted/achieved grades and GCSEs) followed by UCAT-score ranking to fill available interview places, applied separately within Home/Overseas and Non-graduate/Graduate categories because of overseas (~9%) and graduate (~25%) number-control caps.",
+        "contextual_route_differs": "No separate contextual UCAT cut-off, guaranteed interview, added ranking points, or alternative interview-selection pool is published. Contextual groups 1 and 2 may receive reduced conditional offers; group 3 receives support only. Standard UCAT prediction bands should therefore remain in use unless future official evidence publishes a different interview-selection method.",
+        "international_route_differs": true,
+        "international_route_detail": "Overseas applicants are ranked and cut off separately from Home applicants (separate UCAT thresholds published each year), due to the ~9% overseas place cap.",
+        "interview_to_place_ratio_2025_6_home_standard": "773 interviews : 165 home places (approx. 4.7 interviews per place, main-cycle Home Standard Entry only)",
+        "source": {
+          "url": "https://www.citystgeorges.ac.uk/about/schools/health-sciences/about/admissions-statistics",
+          "accessed": "2026-07-29"
+        }
+      },
+      "interview_process": {
+        "format": "Multiple Mini Interview (MMI)",
+        "modality": "Not fully specified for Medicine A100 specifically in the general Selection Process page reviewed; comparable Tooting-campus programmes (e.g. Healthcare Science) use in-person MMIs at the Tooting campus with six ~5-minute stations. The Medicine course page refers applicants to the general 'Selection process' / MMI Guidance page and notes the process 'may change for those applying during the 2026 application cycle.'",
+        "scoring_criteria_published": false,
+        "personal_statement_used": false,
+        "personal_statement_note": "Not stated as used in the sources reviewed; UCAT and academic threshold plus MMI performance drive selection. Work experience/insight is required in principle but explicitly relaxed in stated requirements (post-Covid relaxation still noted on the 2026 page).",
+        "additional_requirements": [
+          "Occupational health check and mandatory vaccinations before starting",
+          "Enhanced DBS check for offer-holders",
+          "Internal Disclosure Form (criminal record, education/employment history) requested at interview stage"
+        ],
+        "source": {
+          "url": "https://www.citystgeorges.ac.uk/prospective-students/courses/undergraduate/medicine/2026",
+          "accessed": "2026-07-29"
+        }
+      },
+      "offer_decision_process": {
+        "formula_published": false,
+        "statement": "No published formula combining interview score with academic/UCAT score for final offer decisions was located. UCAT results 'may be used to rank a post-interview waiting list' (university's own wording).",
+        "source": {
+          "url": "https://www.citystgeorges.ac.uk/prospective-students/courses/undergraduate/medicine/2026",
+          "accessed": "2026-07-29"
+        }
+      },
+      "applysmart_academic_scoring": {
+        "status": "not_applicable_threshold_only",
+        "note": "Because City St George's does not convert academic performance into a numeric ranking score for A100 (it is a pass/fail threshold: AAA/IB 35-36/GCSE profile), there is no 'maximum academic points' figure to encode. ApplySmart should model this university as a two-gate system: (1) academic threshold boolean, (2) UCAT-score ranking, not a weighted-points formula."
+      },
+      "applysmart_ucat_scoring": {
+        "status": "threshold_plus_rank_no_points_conversion",
+        "section_minimum": 500,
+        "overall_cutoff_type": "annually variable, not fixed, not predictable",
+        "note": "UCAT is not converted into a 'points out of X' academic-equivalent scale by the university; raw UCAT total (out of 2700 from 2026 onward) is used directly for ranking."
+      },
+      "applysmart_interview_weighting": {
+        "status": "not_published"
+      },
+      "applysmart_interview_formula": {
+        "status": "not_published",
+        "worked_example_possible": false,
+        "worked_example_note": "A mandatory worked example cannot be produced because City St George's does not publish a mathematical combination of academic score, UCAT score, and interview score for A100. Producing a worked example would require inventing a formula the university does not publish, which is explicitly excluded by the sourcing rules governing this report."
+      },
+      "evidence_table": [
+        {
+          "field": "A100 UCAS code, duration, entry requirements (A-level/GCSE/IB/etc.)",
+          "status": "officially_published",
+          "source_url": "https://www.citystgeorges.ac.uk/prospective-students/courses/undergraduate/medicine/2026",
+          "accessed": "2026-07-29"
+        },
+        {
+          "field": "Historic places, applicant/interview/offer/waitlist/enroller statistics 2021/2-2025/6",
+          "status": "officially_published",
+          "source_url": "https://www.citystgeorges.ac.uk/about/schools/health-sciences/about/admissions-statistics",
+          "accessed": "2026-07-29"
+        },
+        {
+          "field": "Historic UCAT thresholds 2016-2026 (as originally published, uncoverted)",
+          "status": "officially_published",
+          "source_url": "https://www.citystgeorges.ac.uk/about/schools/health-sciences/about/admissions-statistics",
+          "accessed": "2026-07-29"
+        },
+        {
+          "field": "OfS Medical Maximum Fundable Limit for City St George's (2025-26 entry cohort onward)",
+          "status": "officially_published",
+          "source_url": "https://www.officeforstudents.org.uk/for-providers/finance-and-funding/medicine-and-dentistry-funding/medical-and-dental-maximum-fundable-limits/",
+          "accessed": "2026-07-29"
+        },
+        {
+          "field": "UCAT current test format and 900-2700 scoring structure",
+          "status": "officially_published",
+          "source_url": "https://www.ucat.ac.uk/about-ucat/test-format-and-scoring/",
+          "accessed": "2026-07-29"
+        },
+        {
+          "field": "Official UCAT Consortium old-to-new scale conversion methodology",
+          "status": "not_published_by_consortium",
+          "source_url": "https://www.ucat.ac.uk/about-ucat/test-format-and-scoring/",
+          "accessed": "2026-07-29"
+        },
+        {
+          "field": "Interview selection formula (combined academic+UCAT weighting)",
+          "status": "not_published_by_university",
+          "source_url": "https://www.citystgeorges.ac.uk/prospective-students/courses/undergraduate/medicine/2026",
+          "accessed": "2026-07-29"
+        },
+        {
+          "field": "Contextual admissions detailed eligibility criteria/quota",
+          "status": "officially_published",
+          "source_url": "https://www.citystgeorges.ac.uk/about/governance/policies/contextual-admissions",
+          "accessed": "2026-07-29"
+        },
+        {
+          "field": "General MMI/selection process guidance",
+          "status": "officially_published_general_not_medicine_specific",
+          "source_url": "https://www.citystgeorges.ac.uk/about/schools/health-sciences/about/selection-process",
+          "accessed": "2026-07-29"
+        }
+      ],
+      "not_found_or_unverifiable": [
+        "Medicine-specific MMI format details (number of stations, duration, precise scoring rubric) -- general Selection Process page covers Nursing/Radiography/SLT/Healthcare Science in detail but does not include a dedicated Medicine A100 subsection in the content retrieved.",
+        "Exact SJT band cut-off or scoring mechanism for 2026 entry.",
+        "Official UCAT Consortium conversion table/ratio between the pre-2025 (3600) and current (2700) scales -- no official methodology published; only unofficial third-party approximations exist (explicitly not used here).",
+        "Any FOI-derived exact interview-invitation formula, interview-to-offer conversion rate, or historical UCAT cut-offs beyond what the university has proactively published -- no matching FOI response located on WhatDoTheyKnow.com providing a numeric formula for A100; several open/historical FOI threads exist on the topic (see Sources) but none supplies a published mathematical formula. New FOI request recommended if this level of detail is required.",
+        "Precise reconciliation of the University's own Home places figure (165, 2025/6) versus the OfS anticipated-home MFL figure (261) -- flagged as a discrepancy, not resolved from public sources.",
+        "International qualification grade equivalencies on a per-country basis (page exists but was not itemised in this pass).",
+        "No separate contextual UCAT cut-off, guaranteed interview rule, interview-ranking uplift, or alternative interview-selection pool is published for A100. ApplySmart must not invent one."
+      ],
+      "confidence_levels": {
+        "definition": "officially_published = stated directly on a university/OfS/UCAT Consortium official page as of the access date. derived = calculated by this report from officially published figures. not_found = no official source located in this research pass."
+      }
+    },
+    "interview_prediction_bands": {
+      "config_type": "interview_prediction_bands",
+      "university": "City St George's, University of London",
+      "course": "Medicine MBBS (A100, 5-year standard entry)",
+      "applies_to_cycle": "2026 entry onward (scale-dependent — see scale_note)",
+      "status": "APPLYSMART-DERIVED ESTIMATE — NOT AN OFFICIAL UNIVERSITY OR UCAT CONSORTIUM PRODUCT",
+      "university_warning_verbatim": "It is not possible to predict what the UCAT thresholds will be in any individual year, nor to use data from previous years to predict subsequent years' thresholds. The number and quality of applications can vary year-on-year and the selection process is reviewed annually and may be subject to change.",
+      "warning_source": {
+        "url": "https://www.citystgeorges.ac.uk/about/schools/health-sciences/about/admissions-statistics",
+        "accessed": "2026-07-29"
+      },
+      "methodology": {
+        "description": "Interview-prediction bands are NOT published by the university. This config builds a heuristic banding tool by measuring an applicant's raw UCAT total against the single most recent officially published cut-off for their category (2026 entry, the only cycle so far on the current 900-2700 scale), with band widths set from the observed year-on-year VOLATILITY of the university's own historical cut-offs (see volatility_context). Because SGUL explicitly states prior-year cut-offs cannot predict future ones, every band below is a probability-style heuristic, not a guarantee, and should be surfaced to users with the university_warning_verbatim text attached at all times.",
+        "gate_conditions_before_banding_applies": [
+          "Academic threshold must be met (pass/fail per Section 4 of the main report) — banding is meaningless if this gate fails, since academically-ineligible applicants are not ranked at all.",
+          "All three UCAT section scores must be >= 500 — this is a hard per-section gate independent of the overall-score banding below.",
+          "Applicant must be correctly assigned to one of the four ranking categories (Home Non-Grad / Home Grad / Overseas Non-Grad / Overseas Grad), since each is ranked and cut off separately."
+        ],
+        "scale_note": "Bands below are expressed on the CURRENT UCAT scale (900-2700, three cognitive subtests: Verbal Reasoning, Decision Making, Quantitative Reasoning), which has applied since the test sat in 2025 (i.e. for 2026 entry onward). Do NOT compare a score on this scale against any pre-2026 published SGUL cut-off (2016-2025 figures were on the old ~3600 scale) — see the main report's Section 10 on why no official conversion exists between the two scales."
+      },
+      "volatility_context": {
+        "description": "Year-on-year change in SGUL's own published overall UCAT cut-offs, old scale (2020-2025, Home Non-Graduate main-cycle figure), used only to size band widths — NOT itself a prediction.",
+        "series_home_non_grad_old_scale": [
+          {
+            "cycle": 2020,
+            "cutoff": 2480
+          },
+          {
+            "cycle": 2021,
+            "cutoff": 2620
+          },
+          {
+            "cycle": 2022,
+            "cutoff": 2710
+          },
+          {
+            "cycle": 2023,
+            "cutoff": 2630
+          },
+          {
+            "cycle": 2024,
+            "cutoff": 2690
+          },
+          {
+            "cycle": 2025,
+            "cutoff": 2600
+          }
+        ],
+        "observed_year_on_year_swings": [
+          140,
+          90,
+          -80,
+          60,
+          -90
+        ],
+        "max_observed_swing_points": 140,
+        "min_observed_swing_points": 60,
+        "average_absolute_swing_points": 92,
+        "interpretation": "On the old ~3600-point scale, SGUL's Home Non-Graduate cut-off moved by 60-140 points (roughly 1.7%-3.9% of the scale) from one cycle to the next. This report scales that same PERCENTAGE volatility onto the current 2700-point scale (since no official points-based conversion exists) to size the bands below, rather than reusing the old raw point-swings directly.",
+        "scaled_swing_estimate_2700_basis": {
+          "average_absolute_swing_points_derived": 69,
+          "max_observed_swing_points_derived": 105,
+          "calculation_note": "average_absolute_swing_points (92) / 3600 * 2700 ≈ 69; max_observed_swing_points (140) / 3600 * 2700 ≈ 105. This is an ApplySmart-derived scaling for band-width purposes only, explicitly NOT an official UCAT Consortium or university conversion of actual score meaning (see main report Section 10)."
+        },
+        "source": {
+          "url": "https://www.citystgeorges.ac.uk/about/schools/health-sciences/about/admissions-statistics",
+          "accessed": "2026-07-29"
+        }
+      },
+      "bands": {
+        "band_definitions": [
+          {
+            "band_id": "A",
+            "label": "Very likely to clear the UCAT cut-off",
+            "condition": "ucat_total_score >= reference_cutoff + 105",
+            "description": "At least ~105 points (the largest observed year-on-year swing, rescaled to the 2700 basis) above the most recent published category cut-off. Historically, a margin this size has exceeded every observed year-on-year cut-off movement.",
+            "predicted_likelihood_label": "Very likely",
+            "not_a_guarantee_note": "Interview places are still filled by ranking, not by clearing an absolute score — a very strong applicant pool in a given cycle could still push the actual cut-off above this band. Always pair with the university_warning_verbatim text."
+          },
+          {
+            "band_id": "B",
+            "label": "Likely to clear the UCAT cut-off",
+            "condition": "reference_cutoff + 30 <= ucat_total_score < reference_cutoff + 105",
+            "description": "Above the reference cut-off by more than the average observed swing (~69, rounded to 30 as a conservative lower band edge) but less than the maximum observed swing.",
+            "predicted_likelihood_label": "Likely"
+          },
+          {
+            "band_id": "C",
+            "label": "Borderline — within typical year-on-year cut-off movement",
+            "condition": "reference_cutoff - 69 <= ucat_total_score < reference_cutoff + 30",
+            "description": "Within one average historical swing (±69 points) of the reference cut-off in either direction. Whether this applicant would have been invited is genuinely uncertain and highly dependent on that cycle's applicant pool strength.",
+            "predicted_likelihood_label": "Borderline / genuinely uncertain"
+          },
+          {
+            "band_id": "D",
+            "label": "Below typical year-on-year cut-off movement",
+            "condition": "reference_cutoff - 105 <= ucat_total_score < reference_cutoff - 69",
+            "description": "Below the reference cut-off by more than one average swing but within the maximum observed swing. Would need a materially weaker applicant pool than any seen in the historical data to clear.",
+            "predicted_likelihood_label": "Unlikely"
+          },
+          {
+            "band_id": "E",
+            "label": "Well below typical year-on-year cut-off movement",
+            "condition": "ucat_total_score < reference_cutoff - 105",
+            "description": "More than the largest observed historical swing below the reference cut-off.",
+            "predicted_likelihood_label": "Very unlikely under the current process"
+          }
+        ],
+        "reference_cutoffs_2026_entry_current_scale": {
+          "home_non_graduate": 1880,
+          "home_graduate": 1880,
+          "overseas_non_graduate": 1640,
+          "overseas_graduate": 1630,
+          "note": "These are the ONLY published cut-offs on the current 900-2700 scale (2026 entry, the first cycle on this scale). Because there is only one data point per category on this scale, band widths are necessarily borrowed from old-scale volatility (see volatility_context) rather than calculated from multiple current-scale years. Confidence in these bands should be treated as LOW until at least 2-3 more cycles of current-scale data are published.",
+          "source": {
+            "url": "https://www.citystgeorges.ac.uk/about/schools/health-sciences/about/admissions-statistics",
+            "accessed": "2026-07-29",
+            "cycle": "2026 entry"
+          }
+        }
+      },
+      "computed_band_ranges_by_category": {
+        "home_non_graduate": {
+          "reference_cutoff": 1880,
+          "band_A_min": 1985,
+          "band_B_range": [
+            1910,
+            1984
+          ],
+          "band_C_range": [
+            1811,
+            1909
+          ],
+          "band_D_range": [
+            1775,
+            1810
+          ],
+          "band_E_max": 1774
+        },
+        "home_graduate": {
+          "reference_cutoff": 1880,
+          "band_A_min": 1985,
+          "band_B_range": [
+            1910,
+            1984
+          ],
+          "band_C_range": [
+            1811,
+            1909
+          ],
+          "band_D_range": [
+            1775,
+            1810
+          ],
+          "band_E_max": 1774
+        },
+        "overseas_non_graduate": {
+          "reference_cutoff": 1640,
+          "band_A_min": 1745,
+          "band_B_range": [
+            1670,
+            1744
+          ],
+          "band_C_range": [
+            1571,
+            1669
+          ],
+          "band_D_range": [
+            1535,
+            1570
+          ],
+          "band_E_max": 1534
+        },
+        "overseas_graduate": {
+          "reference_cutoff": 1630,
+          "band_A_min": 1735,
+          "band_B_range": [
+            1660,
+            1734
+          ],
+          "band_C_range": [
+            1561,
+            1659
+          ],
+          "band_D_range": [
+            1525,
+            1560
+          ],
+          "band_E_max": 1524
+        }
+      },
+      "sjt_interaction": {
+        "note": "For 2026 entry, SGUL states SJT Banding (the UCAT Consortium's own Band 1-4 scale, separate from the 900-2700 cognitive total) is 'considered in decision making,' but the mechanism is not published. This interview_prediction_bands config therefore does NOT adjust its A-E bands for SJT performance. If SJT is later confirmed to gate or shift the cut-off, this config will need a documented multiplier or override rule at that time — do not invent one now.",
+        "sjt_scale_reference": "UCAT Consortium SJT bands run 1 (highest) to 4 (lowest), reported separately from the 900-2700 cognitive total.",
+        "source": {
+          "url": "https://www.citystgeorges.ac.uk/prospective-students/courses/undergraduate/medicine/2026",
+          "accessed": "2026-07-29"
+        }
+      },
+      "applysmart_usage_notes": [
+        "Always display the university_warning_verbatim text alongside any band output shown to a user — this is a heuristic, not a university-endorsed prediction.",
+        "Do not let this config be used to compare a pre-2026 UCAT score (old ~3600 scale) directly against these bands — route old-scale scores through a clearly-labelled 'legacy scale, not comparable' message instead of silently converting.",
+        "Re-run computed_band_ranges_by_category once the 2027-entry cut-off is published, and recompute volatility_context on TWO current-scale data points at that stage rather than continuing to borrow the old-scale swing estimate.",
+        "This config predicts INTERVIEW INVITATION likelihood only (Stage 1 ranking). It says nothing about eventual OFFER likelihood, since no published post-interview scoring formula exists (see main report Section 15)."
+      ],
+      "confidence_level": "LOW — based on a single current-scale data point per category and a cross-scale volatility estimate; treat as an illustrative heuristic pending further published cycles.",
+      "contextual_interaction": {
+        "official_policy_summary": "Groups 1 and 2 may receive a reduced conditional offer and pre/post-application support. Group 3 receives pre/post-application support but no contextual offer.",
+        "prediction_effect": "No separate contextual UCAT threshold or interview-ranking method is published. The same category-specific UCAT reference bands are used for contextual and non-contextual applicants.",
+        "required_output_metadata": [
+          "contextual_status",
+          "eligible_for_contextual_offer",
+          "eligible_for_pre_application_support",
+          "eligible_for_post_application_support"
+        ],
+        "prohibited_behaviour": [
+          "Do not lower the UCAT reference cutoff for contextual applicants",
+          "Do not guarantee an interview",
+          "Do not add contextual ranking points",
+          "Do not suppress a standard UCAT prediction solely because the applicant is in contextual group 1, 2 or 3"
+        ],
+        "source": {
+          "url": "https://www.citystgeorges.ac.uk/about/governance/policies/contextual-admissions",
+          "source_type": "University official contextual admissions policy",
+          "accessed": "2026-07-29"
+        }
+      }
+    },
+    "interview_prediction_engine_spec": {
+      "config_type": "interview_prediction_engine_spec",
+      "companion_to": "citystgeorges_a100_interview_prediction_bands.json",
+      "university": "City St George's, University of London",
+      "course": "Medicine MBBS (A100, 5-year standard entry)",
+      "purpose": "Defines SJT handling, official contextual-group handling, four-pool routing, and mandatory academic and UCAT-section gates before band computation.",
+      "1_sjt_handling": {
+        "mode": "EXPLICITLY_EXCLUDED_PENDING_DATA",
+        "rationale": "The university confirms SJT Banding 'will be considered in decision making' for 2026 entry, but publishes no band cut-off, no pass/fail rule, and no statement of whether it gates, re-ranks, or tie-breaks. Silently omitting it (as the original banding config did) is indistinguishable from a bug. Silently modelling it would require an invented weighting. The only defensible engine behaviour is to CAPTURE the value, EXCLUDE it from the score/band computation, and SURFACE that exclusion to the caller every time.",
+        "engine_contract": {
+          "input_field_required": "sjt_band (integer 1-4, from UCAT Consortium result)",
+          "field_is_required_not_optional": true,
+          "reason_required_even_if_unused": "So the exclusion can be logged and surfaced per-applicant, and so the field is already wired in when/if SGUL publishes a real mechanism.",
+          "processing_rule": "sjt_band is stored on the prediction result object verbatim. It MUST NOT be added to, subtracted from, or used to filter/gate ucat_total_score, reference_cutoff, or any band boundary in this version.",
+          "output_flag_required": "sjt_excluded_from_prediction: true (hard-coded, always present on every prediction result for this university/course)",
+          "output_message_required": "\"SGUL states SJT Banding is considered in 2026-entry decisions, but has not published how. Your SJT Band 1-4 is recorded but NOT included in this prediction.\""
+        },
+        "special_case_sjt_band_4": {
+          "handling": "No special handling applied. Do NOT auto-flag or auto-downgrade a Band 4 (\"atypical\") result, because no published SGUL policy on Band 4 consequences exists (confirmed absent in main report Section 8).",
+          "engine_contract_addition": "If sjt_band == 4, still return the standard band_A-E result plus the standard exclusion message above — no additional warning text, no score penalty, no separate path."
+        },
+        "future_activation": {
+          "trigger_to_revisit": "Official SGUL publication (course page, admissions policy PDF, or FOI response) stating the exact SJT mechanism for a given cycle.",
+          "until_then": "sjt_handling.mode must remain EXPLICITLY_EXCLUDED_PENDING_DATA. Do not switch to a modelled mode without a cited official source recorded in a new sjt_mechanism_source field."
+        }
+      },
+      "2_contextual_applicant_routing": {
+        "mode": "STANDARD_PREDICTION_WITH_CONTEXTUAL_METADATA",
+        "rationale": "The official contextual policy confirms that groups 1 and 2 may receive a reduced conditional offer and pre/post-application support, while group 3 receives support only. It does not publish a lower UCAT cut-off, guaranteed interview, ranking uplift, or separate contextual interview pool. Therefore contextual status must be captured and surfaced, but must not disable or alter the standard UCAT interview prediction.",
+        "input_field_required": "contextual_status",
+        "allowed_values": [
+          "none",
+          "group_1",
+          "group_2",
+          "group_3",
+          "unknown"
+        ],
+        "routing_logic": {
+          "group_1": {
+            "prediction": "Proceed through standard academic, UCAT-section, pool and band gates.",
+            "eligible_for_contextual_offer": true,
+            "eligible_for_pre_application_support": true,
+            "eligible_for_post_application_support": true
+          },
+          "group_2": {
+            "prediction": "Proceed through standard academic, UCAT-section, pool and band gates.",
+            "eligible_for_contextual_offer": true,
+            "eligible_for_pre_application_support": true,
+            "eligible_for_post_application_support": true
+          },
+          "group_3": {
+            "prediction": "Proceed through standard academic, UCAT-section, pool and band gates.",
+            "eligible_for_contextual_offer": false,
+            "eligible_for_pre_application_support": true,
+            "eligible_for_post_application_support": true
+          },
+          "none": {
+            "prediction": "Proceed through standard academic, UCAT-section, pool and band gates.",
+            "eligible_for_contextual_offer": false,
+            "eligible_for_pre_application_support": false,
+            "eligible_for_post_application_support": false
+          },
+          "unknown": {
+            "prediction": "Proceed through standard academic, UCAT-section, pool and band gates because no separate contextual interview-ranking method is published.",
+            "contextual_eligibility_unconfirmed": true,
+            "user_message": "Your UCAT prediction uses City St George's standard published applicant-pool evidence. Check whether you qualify for contextual support or a reduced offer separately."
+          }
+        },
+        "explicit_non_goals": [
+          "Do not apply a lower contextual UCAT cutoff",
+          "Do not add contextual interview-ranking points",
+          "Do not guarantee an interview",
+          "Do not disable prediction solely because the applicant is contextual"
+        ],
+        "source": {
+          "url": "https://www.citystgeorges.ac.uk/about/governance/policies/contextual-admissions",
+          "source_type": "University official contextual admissions policy",
+          "accessed": "2026-07-29"
+        }
+      },
+      "3_pool_routing_and_gate_enforcement": {
+        "purpose": "Guarantees the engine cannot reach band computation without first (a) correctly classifying the applicant into exactly one of the four published pools, and (b) enforcing the three per-section UCAT minimums and the academic threshold, in that order, every time.",
+        "required_input_fields": [
+          "academic_threshold_met (boolean) — computed upstream from Section 4 criteria (A-level/IB/GCSE/etc.), NOT by this engine",
+          "fee_status (enum: 'home' | 'overseas')",
+          "applicant_type (enum: 'non_graduate' | 'graduate')",
+          "ucat_vr_score (int, 300-900)",
+          "ucat_dm_score (int, 300-900)",
+          "ucat_qr_score (int, 300-900)",
+          "sjt_band (int, 1-4) — see section 1",
+          "contextual_status (enum: 'none' | 'group_1' | 'group_2' | 'group_3' | 'unknown') — see section 2"
+        ],
+        "mandatory_gate_sequence": [
+          {
+            "step": 1,
+            "gate": "contextual_metadata_classification",
+            "logic": "Validate contextual_status and attach the applicable contextual-offer/support metadata. Do not change UCAT band boundaries or stop prediction solely because of contextual status.",
+            "on_invalid": "Return prediction_status = 'NEEDS_INPUT', reason = 'invalid_contextual_status'."
+          },
+          {
+            "step": 2,
+            "gate": "academic_threshold_met == true",
+            "on_fail": "STOP. Return prediction_status = 'NOT_APPLICABLE', reason = 'academic_threshold_not_met', user_message = \"UCAT banding is only meaningful once the academic entry threshold is met — SGUL does not rank applicants who don't clear this gate.\" Do not compute or return any band."
+          },
+          {
+            "step": 3,
+            "gate": "section_minimums: ucat_vr_score >= 500 AND ucat_dm_score >= 500 AND ucat_qr_score >= 500",
+            "on_fail": "STOP. Return prediction_status = 'NOT_APPLICABLE', reason = 'ucat_section_minimum_not_met', failing_sections = [list each section below 500], user_message = \"SGUL requires a minimum of 500 in every UCAT section (Verbal Reasoning, Decision Making, Quantitative Reasoning). At least one section is below this, so this applicant is not eligible for ranking regardless of overall score.\" Do not compute or return any band even if the overall total would otherwise land in Band A."
+          },
+          {
+            "step": 4,
+            "gate": "pool_classification",
+            "logic": "pool = CONCAT(fee_status, '_', applicant_type), mapped to exactly one of: 'home_non_graduate' | 'home_graduate' | 'overseas_non_graduate' | 'overseas_graduate'",
+            "on_fail": "STOP if fee_status or applicant_type is missing/invalid. Return prediction_status = 'NEEDS_INPUT', reason = 'pool_classification_incomplete'. Never default to a pool silently (e.g. never assume 'home_non_graduate' as a fallback default)."
+          },
+          {
+            "step": 5,
+            "gate": "band_computation",
+            "logic": "ucat_total_score = ucat_vr_score + ucat_dm_score + ucat_qr_score. Look up computed_band_ranges_by_category[pool] from citystgeorges_a100_interview_prediction_bands.json. Assign band_id per the A-E ranges. Attach sjt_excluded_from_prediction = true and the section-1 message. Attach confidence_level = 'LOW' and the university_warning_verbatim text from the companion config, unconditionally."
+          }
+        ],
+        "self_test_requirements": {
+          "description": "Before this engine is considered implemented correctly, it must pass test cases confirming gate order and pool coverage — not just band-boundary arithmetic.",
+          "required_test_cases": [
+            "All four pools individually produce correct band_A-E boundaries matching computed_band_ranges_by_category.",
+            "An applicant with academic_threshold_met = false receives 'NOT_APPLICABLE' / academic_threshold_not_met regardless of how high their UCAT score is.",
+            "An applicant with any single section score of 499 receives 'NOT_APPLICABLE' / ucat_section_minimum_not_met even if their overall total would be Band A.",
+            "An applicant with all three sections exactly at 500 is NOT rejected by the section-minimum gate (boundary-inclusive check).",
+            "Missing or invalid fee_status/applicant_type returns NEEDS_INPUT and never silently defaults to a pool.",
+            "sjt_band is present and echoed back on every successful prediction, with sjt_excluded_from_prediction = true and never influences band_id.",
+            "A sjt_band = 4 applicant who otherwise clears all gates receives an ordinary Band A-E result with no extra penalty or warning beyond the standard exclusion message.",
+            "contextual_status = group_1 produces the same UCAT band as an otherwise identical non-contextual applicant and attaches contextual-offer plus pre/post-support metadata.",
+            "contextual_status = group_2 produces the same UCAT band as an otherwise identical non-contextual applicant and attaches contextual-offer plus pre/post-support metadata.",
+            "contextual_status = group_3 produces the same UCAT band as an otherwise identical non-contextual applicant, sets eligible_for_contextual_offer = false, and attaches pre/post-support metadata.",
+            "contextual_status = unknown does not alter the band and surfaces contextual_eligibility_unconfirmed = true.",
+            "No contextual group changes reference_cutoff or any A-E boundary."
+          ]
+        }
+      },
+      "engine_output_schema": {
+        "prediction_status": "enum: 'OK' | 'UNAVAILABLE' | 'NEEDS_INPUT' | 'NOT_APPLICABLE'",
+        "band_id": "enum: 'A'|'B'|'C'|'D'|'E'|null (null unless prediction_status == 'OK')",
+        "predicted_likelihood_label": "string|null",
+        "pool": "enum: 'home_non_graduate'|'home_graduate'|'overseas_non_graduate'|'overseas_graduate'|null",
+        "reference_cutoff": "int|null",
+        "ucat_total_score": "int|null (still returned even on NOT_APPLICABLE, for transparency)",
+        "gate_failures": "array of strings, empty if none",
+        "sjt_band": "int 1-4|null",
+        "sjt_excluded_from_prediction": "boolean, always true when a band is present",
+        "confidence_level": "string, always 'LOW' when a band is present",
+        "university_warning_verbatim": "string, always attached when a band is present",
+        "user_message": "string, human-readable explanation of the status",
+        "contextual_status": "enum: 'none'|'group_1'|'group_2'|'group_3'|'unknown'",
+        "eligible_for_contextual_offer": "boolean",
+        "eligible_for_pre_application_support": "boolean",
+        "eligible_for_post_application_support": "boolean",
+        "contextual_eligibility_unconfirmed": "boolean"
+      },
+      "open_items_still_not_encoded": [
+        "Exact SJT mechanism — engine explicitly excludes SJT from band computation pending a cited official rule.",
+        "No separate contextual interview-ranking mechanism is published; standard UCAT bands remain in use and no contextual cutoff adjustment is invented.",
+        "Post-interview offer prediction is out of scope because no published offer formula exists."
+      ]
+    }
+  }
+}

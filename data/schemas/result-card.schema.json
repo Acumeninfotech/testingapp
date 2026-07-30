@@ -202,6 +202,13 @@
         "null"
       ]
     },
+    "selection_approach_display": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "minLength": 1
+    },
     "decision_timeline": {
       "$ref": "#/$defs/decision_timeline"
     },
@@ -358,6 +365,11 @@
                 },
                 "status": {
                   "enum": [
+                    "Very Strong Choice",
+                    "Strong Choice",
+                    "Realistic Choice",
+                    "Ambitious Choice",
+                    "High Risk",
                     "Strong choice",
                     "Good chance",
                     "Possible but ambitious",
@@ -516,6 +528,13 @@
             "null"
           ]
         },
+        "selection_approach_display": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "minLength": 1
+        },
         "insufficient_evidence_reason_code": {
           "type": [
             "string",
@@ -554,6 +573,26 @@
               }
             }
           }
+        },
+        "compact_status": {
+          "type": "object",
+          "additionalProperties": true
+        },
+        "comparison_metrics_title": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "comparison_metrics": {
+          "type": "array"
+        },
+        "selection_metric": {
+          "type": [
+            "object",
+            "null"
+          ],
+          "additionalProperties": true
         },
         "score_breakdown": {
           "$ref": "#/$defs/score_breakdown"

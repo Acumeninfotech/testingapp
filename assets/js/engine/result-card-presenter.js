@@ -146,6 +146,12 @@ const UNIVERSITY_EXPLANATIONS = {
       'Birmingham combines scored GCSEs, UCAT and verified contextual information for interview guidance.',
     evidence: EVIDENCE.contextual
   },
+  'brighton-and-sussex-a100': {
+    pool: 'Home and Overseas applicants, with a separate adjusted-offer and care-leaver route',
+    selectionSummary:
+      'BSMS checks academic thresholds and the SJT Band 4 gate before applying the published 2026 UCAT threshold for the relevant fee-status pool; confirmed adjusted-offer applicants and eligible care leavers bypass the UCAT threshold.',
+    evidence: EVIDENCE.contextual
+  },
   'cardiff-a100': {
     pool: 'International applicants',
     selectionSummary:
@@ -157,6 +163,12 @@ const UNIVERSITY_EXPLANATIONS = {
     selectionSummary:
       'Brunel checks academic eligibility and the SJT Band 4 gate first, then ranks eligible Home applicants by total UCAT score. No academic score is created.',
     evidence: [...EVIDENCE.standard, 'FOI evidence']
+  },
+  'city-st-george-s-of-london-a100': {
+    pool: 'Home, Overseas, graduate and non-graduate applicants in separate UCAT-ranking pools',
+    selectionSummary:
+      "City St George's checks academic eligibility and every UCAT cognitive section first, then ranks eligible applicants by raw UCAT total within separate Home/Overseas and graduate/non-graduate pools. SJT is recorded but excluded from ApplySmart band computation because the university has not published the exact mechanism.",
+    evidence: [...EVIDENCE.contextual, 'International admissions policy']
   },
   'cambridge-a100': {
     pool: 'Cambridge A100 applicants',
@@ -259,10 +271,14 @@ const TIMELINE_SELECTION_SUMMARIES = {
     'Points from six selected GCSEs and the UCAT cognitive total were combined.',
   'birmingham-a100':
     'The score-based interview guidance combined scored GCSEs, UCAT and verified contextual information.',
+  'brighton-and-sussex-a100':
+    'Academic requirements were treated as threshold-only, the SJT gate was checked, then the relevant BSMS 2026 UCAT threshold or published bypass route was applied.',
   'cardiff-a100':
     'The 28-point score was applied, with the raw UCAT cognitive total available to separate tied scores.',
   'brunel-university-of-london-a100':
     'Academic eligibility and the SJT Band 4 gate were checked before Brunel Home-pool UCAT ranking guidance was applied. No academic score was created.',
+  'city-st-george-s-of-london-a100':
+    "Academic eligibility and every UCAT cognitive-section minimum were checked before raw UCAT-total ranking in the relevant City St George's fee-status and graduate-status pool; SJT was recorded but not modelled.",
   'cambridge-a100':
     'Published academic and UCAT requirements were checked before Cambridge-specific holistic interview guidance was applied with internal thresholds hidden.',
   'dundee-a100':
@@ -365,6 +381,7 @@ const FAILURE_REASON_LABELS = {
   ielts_academic_requirements_not_met: 'Your English language test scores do not meet the published minimum.',
   international_english_language_requirement_not_met: 'Your English language test scores do not meet the published minimum.',
   minimum_ucat_total_not_met: 'Your UCAT total score does not meet the published minimum.',
+  ucat_section_minimum_not_met: 'One or more UCAT section scores is below the published minimum.',
   required_admissions_test_missing: 'A required admissions test score is missing.',
   minimum_gamsat_component_not_met: 'Your GAMSAT scores do not meet the published minimum.',
   graduate_standard_route_not_met: 'The standard graduate academic route is not fully met.',
@@ -932,9 +949,8 @@ function scoreComponentCheck(label, component) {
   return check(label, 'Counted', `${formatScorePoints(component.value)}${maxText}.`);
 }
 
-// Hull York contextual points are shown as applied/not applied in the public
-// score breakdown so the card stays applicant-facing instead of explaining
-// the internal scoring scale.
+// Hull York contextual points are shown as not applied when unavailable, but
+// keep the approved numeric score row when contextual points are counted.
 function contextualScoreComponentCheck(component) {
   if (!component || !component.applicable) {
     return null;
@@ -946,11 +962,7 @@ function contextualScoreComponentCheck(component) {
       'Not applied based on the information provided.'
     );
   }
-  return check(
-    'Contextual points',
-    'Applied',
-    'Applied based on the information provided.'
-  );
+  return scoreComponentCheck('Contextual score', component);
 }
 
 // Builds a generic score breakdown from whichever already-computed engine
@@ -1154,6 +1166,41 @@ function studentFacingText(value) {
     .replace(/\boffer[- ]?(prediction|probability|likelihood|chance)\b/gi, 'post-interview assessment');
 }
 
+function optionalDisplayText(value) {
+  if (typeof value !== 'string') return null;
+  const compact = value.replace(/\s+/g, ' ').trim();
+  return compact || null;
+}
+
+function selectionApproachForContext(value, context = {}) {
+  const simple = optionalDisplayText(value);
+  if (simple) return simple;
+  if (!value || typeof value !== 'object') return null;
+
+  const selectionRouteId = optionalDisplayText(context.selection_route_id);
+  const bySelectionRoute = value.by_selection_route;
+  if (selectionRouteId && bySelectionRoute && typeof bySelectionRoute === 'object') {
+    const routeText = optionalDisplayText(bySelectionRoute[selectionRouteId]);
+    if (routeText) return routeText;
+  }
+
+  const poolIds = [
+    context.guidance_pool_id,
+    context.guidance_pool?.pool_id
+  ]
+    .map(optionalDisplayText)
+    .filter(Boolean);
+  const byApplicantPool = value.by_applicant_pool;
+  if (byApplicantPool && typeof byApplicantPool === 'object') {
+    for (const poolId of poolIds) {
+      const poolText = optionalDisplayText(byApplicantPool[poolId]);
+      if (poolText) return poolText;
+    }
+  }
+
+  return optionalDisplayText(value.default);
+}
+
 function studentFacingEligibilityChecks(card, options = {}) {
   const checks = card.eligibility?.stage_1_checks || [];
 
@@ -1332,6 +1379,26 @@ function buildEvidenceConfidence(card, options = {}) {
       reasons: [
         'Official eligibility rules are available.',
         'The public result is limited to eligibility because the university does not publish an executable interview-prediction threshold.'
+      ]
+    };
+  }
+
+  const explicitEvidenceConfidence =
+    readiness.evidence_confidence ||
+    card.engine_notes?.evidence_confidence ||
+    card.metadata?.evidence_confidence;
+  const profileId = card.course_identity?.profile_id || card.course_profile_id;
+  if (
+    profileId === 'brighton-and-sussex-a100' &&
+    String(explicitEvidenceConfidence || '').toLowerCase() === 'high'
+  ) {
+    return {
+      level: 'High',
+      summary: 'The underlying admissions rules are supported by high-confidence evidence for this applicant route.',
+      reasons: [
+        'Official eligibility rules are available.',
+        'The university selection approach is implemented.',
+        'Evidence confidence is tracked separately from forward prediction confidence.'
       ]
     };
   }
@@ -1543,6 +1610,9 @@ function ucatComparisonCategory(comparison = {}) {
 function ucatComparisonDisplayName(comparison = {}) {
   const label = ucatComparisonLabel(comparison).comparison_label;
   const category = ucatComparisonCategory(comparison);
+  if (comparison.comparison_type === 'current_guidance' && comparison.benchmark_label) {
+    return label;
+  }
   if (category === 'published_threshold' || category === 'advisory') {
     return label;
   }
@@ -1944,6 +2014,7 @@ function existingSelectionScoreThresholdText(card) {
   const thresholdCheck = selectionStage?.checks?.find((entry) =>
     entry.label === 'Selection score threshold' ||
     entry.label === 'Selection score benchmark' ||
+    entry.label === 'Historical selection score guide' ||
     entry.label === 'Selection score guide'
   );
   return thresholdCheck?.summary || null;
@@ -1974,7 +2045,7 @@ function calculatedScoreExplanation(context = {}) {
   return null;
 }
 
-function selectionScoreThresholdComparisonCheck(comparison) {
+function selectionScoreThresholdComparisonCheck(comparison, options = {}) {
   if (!comparison) {
     return null;
   }
@@ -1984,8 +2055,13 @@ function selectionScoreThresholdComparisonCheck(comparison) {
     : comparison.difference > 0
       ? 'Above guide'
       : 'At guide';
+  const label = options.profileId === 'newcastle-a100'
+    ? 'Historical selection score guide'
+    : comparison.provisional
+      ? 'Selection score benchmark'
+      : 'Selection score guide';
   return check(
-    comparison.provisional ? 'Selection score benchmark' : 'Selection score guide',
+    label,
     status,
     selectionScoreThresholdText(comparison)
   );
@@ -2685,6 +2761,7 @@ function buildDecisionTimeline(card, options = {}) {
     ? officialPredictionUnavailableSelectionSummary(card)
     : null;
   const selectionSummary =
+    options.selectionApproachDisplay ||
     presentation.timeline_selection_summary ||
     TIMELINE_SELECTION_SUMMARIES[profileId] ||
     presentation.selection_summary ||
@@ -2693,6 +2770,9 @@ function buildDecisionTimeline(card, options = {}) {
     officialPredictionSelectionSummary ||
     (officialPredictionReason ? `Official prediction unavailable. ${officialPredictionReason}` : null) ||
     'The university selection approach was applied after the eligibility checks.';
+  const existingSelectionTimelineSummary = card.decision_timeline
+    ?.find((step) => step.step === 3 && step.title === 'Selection model applied')
+    ?.summary;
   const hideSelectionDetails = hideSelectionScoreDetails(presentation);
   const finalStatus =
     card.prediction?.result_band === 'eligible_to_apply'
@@ -2715,6 +2795,9 @@ function buildDecisionTimeline(card, options = {}) {
     (profileId === 'king-s-college-london-a100'
       ? card.decision_transparency?.decision_path?.find((stage) => stage.stage === 'Historical guidance')?.summary
       : null);
+  const existingHistoricalTimelineSummary = card.decision_timeline
+    ?.find((step) => step.step === 4 && step.title === 'Historical guidance compared')
+    ?.summary;
   const insufficientEvidenceReasonCode = options.insufficientEvidenceReasonCode ||
     card.decision_transparency?.insufficient_evidence_reason_code ||
     null;
@@ -2757,7 +2840,7 @@ function buildDecisionTimeline(card, options = {}) {
         state === 'eligibility_only'
           ? selectionSummary
           : state === 'standard'
-          ? selectionSummary
+          ? existingSelectionTimelineSummary || selectionSummary
           : state === 'manual_review'
             ? 'The selection approach needs adviser review before it can be completed.'
             : state === 'insufficient_evidence'
@@ -2777,10 +2860,11 @@ function buildDecisionTimeline(card, options = {}) {
             : 'Not applied',
       summary:
         state === 'eligibility_only'
-          ? historicalSummary(card, state, { selectionScoreComparison, ucatComparison: options.ucatComparison })
+          ? existingHistoricalTimelineSummary ||
+            historicalSummary(card, state, { selectionScoreComparison, ucatComparison: options.ucatComparison })
           : state === 'standard'
-          ? historicalPresentationSummary
-            ? historicalPresentationSummary
+          ? (existingHistoricalTimelineSummary || historicalPresentationSummary)
+            ? (existingHistoricalTimelineSummary || historicalPresentationSummary)
             : selectionScoreText
             ? `${selectionScoreText} It was compared with historical admissions data. ${HISTORICAL_GUIDANCE_CAVEAT}`
             : ucatComparisonText
@@ -2880,6 +2964,7 @@ function buildDecisionTransparency(card, options = {}) {
         'Official interview prediction is unavailable because the university has not published enough current-cycle information for ApplySmart to reproduce it.'
       : null;
   const selectionSummary =
+    options.selectionApproachDisplay ||
     presentation.selection_summary ||
     university.selectionSummary ||
     card.stage_2_selection?.summary ||
@@ -2922,7 +3007,7 @@ function buildDecisionTransparency(card, options = {}) {
             ? buildRankingEvidence({ ...options, selectionSummary, ucatComparison })
             : [check('Selection approach', 'Assessed', selectionSummary)]),
     ...(selectionScoreComparison && state === 'standard'
-      ? [selectionScoreThresholdComparisonCheck(selectionScoreComparison)]
+      ? [selectionScoreThresholdComparisonCheck(selectionScoreComparison, { profileId })]
       : [])
   ];
   const evidenceConfidence = buildEvidenceConfidence(card, options);
@@ -3073,6 +3158,7 @@ function buildDecisionTransparency(card, options = {}) {
     compact_status: compactStatus,
     comparison_metrics_title: comparisonMetricsTitle,
     comparison_metrics: comparisonMetrics,
+    selection_approach_display: options.selectionApproachDisplay || null,
     selection_metric: selectionMetric,
     score_breakdown: scoreBreakdown,
     ucat_comparison: ucatComparison
@@ -3089,6 +3175,10 @@ function presentResultCard({
   transparencyContext = {}
 }) {
   let display;
+  const selectionApproachDisplay = selectionApproachForContext(
+    transparencyContext.selection_approach_display,
+    transparencyContext
+  );
   const presentation = mergePresentations(
     transparencyContext.score_model?.presentation,
     transparencyContext.guidance_pool?.presentation
@@ -3339,7 +3429,8 @@ function presentResultCard({
     ucatComparison,
     officialPrediction,
     warnings: transparencyContext.warnings,
-    insufficientEvidenceReasonCode
+    insufficientEvidenceReasonCode,
+    selectionApproachDisplay
   };
   const evidenceConfidence = buildEvidenceConfidence(
     transparencyCard,
@@ -3350,6 +3441,7 @@ function presentResultCard({
   return {
     ...display,
     fee_information: feeInformation,
+    selection_approach_display: selectionApproachDisplay,
     trust_statement: display.trust_statement || null,
     prediction,
     interview_outcome: transparencyContext.interview_outcome || null,

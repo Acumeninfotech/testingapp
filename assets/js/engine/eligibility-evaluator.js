@@ -304,6 +304,60 @@ function resolveUcatMinimumTotalScore(ucat, groupIds) {
   return groupRule?.minimum_total_score ?? ucat?.minimum_total_score ?? null;
 }
 
+function finiteScore(value) {
+  if (value === null || value === undefined || value === '') {
+    return null;
+  }
+  const score = Number(value);
+  return Number.isFinite(score) ? score : null;
+}
+
+function ucatSubtestScore(evidence, subsection) {
+  const subtests = evidence?.subtests || evidence?.section_scores || {};
+  return finiteScore(evidence?.[subsection] ?? subtests[subsection]);
+}
+
+function evaluateUcatSubsectionMinimums(ucat = {}, evidence = {}) {
+  const requirements = ucat.minimum_subsection_scores || ucat.section_minimums || [];
+  const defaultSections = ucat.cognitive_subtest_ids || [
+    'verbal_reasoning',
+    'decision_making',
+    'quantitative_reasoning'
+  ];
+  const checks = [];
+
+  for (const requirement of requirements) {
+    const subsection = normaliseId(
+      requirement.subsection || requirement.section || requirement.subtest
+    );
+    const minimum = Number(requirement.minimum_score ?? requirement.minimum);
+    if (!Number.isFinite(minimum)) {
+      continue;
+    }
+
+    const sections = ['each_cognitive_section', 'each_cognitive_subtest', 'each_subcomponent']
+      .includes(subsection)
+      ? defaultSections
+      : [subsection];
+
+    for (const section of sections) {
+      const score = ucatSubtestScore(evidence, section);
+      checks.push({
+        section,
+        minimum,
+        score,
+        passed: Number.isFinite(score) && score >= minimum
+      });
+    }
+  }
+
+  return {
+    checks,
+    passed: checks.every((check) => check.passed),
+    failing_sections: checks.filter((check) => !check.passed).map((check) => check.section)
+  };
+}
+
 function subjectGradeRequirementsMeet(subjectGrades, requirements, level) {
   return (requirements || []).every((requirement) => {
     return gradeMeets(
@@ -1402,6 +1456,16 @@ function evaluateAdmissionsTests(course, applicant, state) {
     )
   ) {
     addFailure(state, 'minimum_ucat_total_not_met');
+  }
+  const ucatSubsectionMinimums = evaluateUcatSubsectionMinimums(ucat, evidence);
+  if (ucatApplies && ucatSubsectionMinimums.checks.length > 0) {
+    addCheck(state, 'ucat_section_minimums', ucatSubsectionMinimums.passed, {
+      sections: ucatSubsectionMinimums.checks,
+      failing_sections: ucatSubsectionMinimums.failing_sections
+    });
+    if (!ucatSubsectionMinimums.passed) {
+      addFailure(state, 'ucat_section_minimum_not_met');
+    }
   }
   if (
     ucatApplies &&

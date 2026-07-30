@@ -21,6 +21,8 @@ const internationalApplicant = require(path.join(rootDir, 'data', 'regression-pr
 const scottishHomeApplicant = require(path.join(rootDir, 'data', 'regression-profiles', '13_scottish_home_applicant.json'));
 const exeterFixture = require(path.join(rootDir, 'data', 'fixtures', 'interview-band-classification', 'exeter-a100.json'));
 const kmmsFixture = require(path.join(rootDir, 'data', 'fixtures', 'interview-band-classification', 'kent-and-medway-a100.json'));
+const keeleCourse = require(path.join(rootDir, 'data', 'universities', 'keele-a100.json'));
+const keeleConfig = require(path.join(rootDir, 'data', 'interview-band-configs', 'keele-a100.json'));
 
 const FORBIDDEN_APPLICANT_FACING_PATTERNS = [
   /activation-ready/i,
@@ -429,6 +431,62 @@ async function main() {
       `PASS: top-tier applicant is not rejected on GCSE count by any of [${readyGcseSensitiveIds.join(', ')}]`
     );
 
+    if (readyEntries.some((u) => u.id === 'aston-a100')) {
+      const astonHomeResponse = await requestJson(server, 'POST', '/api/predict', {
+        universityIds: ['aston-a100'],
+        studentProfile: topTierApplicant
+      });
+      assert.strictEqual(astonHomeResponse.status, 200);
+      const astonHomeCard = astonHomeResponse.json.results[0].result_card;
+      const astonHomeSelectionStage = astonHomeCard.decision_transparency?.decision_path?.find(
+        (stage) => stage.stage === 'Selection model'
+      );
+      assert.strictEqual(
+        astonHomeCard.selection_approach_display,
+        'Home applicants are assessed using a selection score combining GCSE performance and UCAT.'
+      );
+      assert.strictEqual(
+        astonHomeSelectionStage?.summary,
+        'Home applicants are assessed using a selection score combining GCSE performance and UCAT.'
+      );
+      assert.ok(
+        astonHomeCard.decision_transparency?.score_breakdown,
+        'Aston Home route should still show the calculated selection score.'
+      );
+
+      const astonInternationalApplicant = JSON.parse(JSON.stringify(topTierApplicant));
+      astonInternationalApplicant.applicant_identity.fee_status = 'international_fee';
+      astonInternationalApplicant.applicant_identity.domicile = 'international';
+      astonInternationalApplicant.applicant_identity.contextual = false;
+      const astonInternationalResponse = await requestJson(server, 'POST', '/api/predict', {
+        universityIds: ['aston-a100'],
+        studentProfile: astonInternationalApplicant
+      });
+      assert.strictEqual(astonInternationalResponse.status, 200);
+      const astonInternationalCard = astonInternationalResponse.json.results[0].result_card;
+      const astonInternationalSelectionStage = astonInternationalCard.decision_transparency?.decision_path?.find(
+        (stage) => stage.stage === 'Selection model'
+      );
+      assert.strictEqual(
+        astonInternationalCard.selection_approach_display,
+        'International applicants who meet the academic requirements are ranked using their UCAT score.'
+      );
+      assert.strictEqual(
+        astonInternationalSelectionStage?.summary,
+        'International applicants who meet the academic requirements are ranked using their UCAT score.'
+      );
+      assert.strictEqual(
+        astonInternationalCard.decision_transparency?.score_breakdown ?? null,
+        null,
+        'Aston International route must not show the Home/WP combined selection score.'
+      );
+      assert.ok(
+        astonInternationalCard.decision_transparency?.ucat_comparison,
+        'Aston International route should still show UCAT ranking evidence.'
+      );
+      console.log('PASS: Aston route-specific selection_approach_display follows the engine-resolved applicant pool');
+    }
+
     // Score-breakdown regression: universities whose interview-band config
     // defines a real component_sum score model (or a bespoke consumer that
     // computes one, e.g. Nottingham/Hull York) must show a score_breakdown
@@ -520,9 +578,6 @@ async function main() {
       for (const pattern of [
         /Freedom of Information/i,
         /\bFOI\b/i,
-        /third-party/i,
-        /unofficial/i,
-        /directional/i,
         /formally declined/i,
         /exact points formula/i,
         /The maximum is (100|85)/i,
@@ -639,6 +694,34 @@ async function main() {
       );
     }
     console.log('PASS: leicester-a100 and queen-mary-a100 show real selection-model summaries, not the generic fallback');
+
+    if (readyEntries.some((u) => u.id === 'birmingham-a100')) {
+      const metadataResponse = await requestJson(server, 'POST', '/api/predict', {
+        universityIds: ['birmingham-a100'],
+        studentProfile: topTierApplicant
+      });
+      assert.strictEqual(metadataResponse.status, 200);
+      const card = metadataResponse.json.results[0].result_card;
+      const metadataSelectionApproach =
+        "Applicants are assessed using the university's published selection score, which combines GCSE performance and UCAT.";
+      const metadataSelectionStage = card.decision_transparency?.decision_path?.find(
+        (stage) => stage.stage === 'Selection model'
+      );
+      const metadataSelectionCheck = metadataSelectionStage?.checks?.find(
+        (check) => check.label === 'Selection approach'
+      );
+      assert.strictEqual(card.selection_approach_display, metadataSelectionApproach);
+      assert.strictEqual(card.decision_transparency?.selection_approach_display, metadataSelectionApproach);
+      assert.strictEqual(metadataSelectionStage?.summary, metadataSelectionApproach);
+      if (metadataSelectionCheck) {
+        assert.strictEqual(metadataSelectionCheck.summary, metadataSelectionApproach);
+      }
+      assert.ok(
+        !/Birmingham combines scored GCSEs/i.test(metadataSelectionStage?.summary || ''),
+        `expected metadata wording instead of presenter fallback, got: ${metadataSelectionStage?.summary}`
+      );
+      console.log('PASS: prediction API propagates university metadata selection_approach_display into result cards');
+    }
 
     // Birmingham's UKWPMED guaranteed-interview override is computed by the
     // classifier (classification.interview_outcome === 'guaranteed_interview')
@@ -921,18 +1004,172 @@ async function main() {
     }
 
     if (readyEntries.some((u) => u.id === 'keele-a100')) {
+      const classifyKeele = (applicant) => classifyInterviewBand(keeleCourse, keeleConfig, applicant);
+      const assertSelectionRouteIsInternal = (card) => {
+        assert.ok(!Object.prototype.hasOwnProperty.call(card, 'selection_route_id'));
+        assert.ok(!Object.prototype.hasOwnProperty.call(card.decision_transparency || {}, 'selection_route_id'));
+      };
       const keeleHomeResponse = await requestJson(server, 'POST', '/api/predict', {
         universityIds: ['keele-a100'],
         studentProfile: topTierApplicant
       });
       assert.strictEqual(keeleHomeResponse.status, 200);
       const keeleCard = keeleHomeResponse.json.results[0].result_card;
+      assert.strictEqual(
+        classifyKeele(topTierApplicant).selection_route_id,
+        'keele_home_a100_shortlisting_score'
+      );
+      assertSelectionRouteIsInternal(keeleCard);
+      assert.strictEqual(
+        keeleCard.selection_approach_display,
+        "Home applicants are shortlisted using Keele's 25-point score, combining a UCAT, SJT and bonus-point component with Keele's personal-statement score."
+      );
       assert.strictEqual(keeleCard.recommendation_display_state, 'insufficient_evidence');
       assert.strictEqual(
         keeleCard.decision_transparency?.insufficient_evidence_reason_code,
         'university_methodology_gap'
       );
-      console.log('PASS: Keele Home applicant is labelled university_methodology_gap, not a generic evidence gap');
+
+      const keeleContextualApplicant = merge(topTierApplicant, {
+        applicant_identity: {
+          contextual: true,
+          widening_participation: true,
+          contextual_flags: {
+            free_school_meals: true
+          }
+        }
+      });
+      const keeleContextualResponse = await requestJson(server, 'POST', '/api/predict', {
+        universityIds: ['keele-a100'],
+        studentProfile: keeleContextualApplicant
+      });
+      assert.strictEqual(keeleContextualResponse.status, 200);
+      const keeleContextualCard = keeleContextualResponse.json.results[0].result_card;
+      assert.strictEqual(
+        classifyKeele(keeleContextualApplicant).selection_route_id,
+        'keele_home_contextual_shortlisting_score'
+      );
+      assertSelectionRouteIsInternal(keeleContextualCard);
+      assert.strictEqual(
+        keeleContextualCard.selection_approach_display,
+        "Contextual Home applicants are shortlisted using Keele's 25-point score, including the published contextual point adjustment where verified."
+      );
+      assert.notStrictEqual(
+        keeleContextualCard.selection_approach_display,
+        'Verified Home Steps2Medicine or UKWPMED applicants receive a guaranteed interview after meeting Keele\'s minimum GCSE, UCAT and SJT requirements.'
+      );
+
+      const keeleInternationalApplicant = merge(topTierApplicant, {
+        applicant_identity: {
+          fee_status: 'International',
+          domicile: 'International',
+          contextual: false,
+          widening_participation: false,
+          english_language_exempt: true
+        }
+      });
+      const keeleInternationalResponse = await requestJson(server, 'POST', '/api/predict', {
+        universityIds: ['keele-a100'],
+        studentProfile: keeleInternationalApplicant
+      });
+      assert.strictEqual(keeleInternationalResponse.status, 200);
+      const keeleInternationalCard = keeleInternationalResponse.json.results[0].result_card;
+      assert.strictEqual(
+        classifyKeele(keeleInternationalApplicant).selection_route_id,
+        'keele_international_ucat_ranked'
+      );
+      assertSelectionRouteIsInternal(keeleInternationalCard);
+      assert.strictEqual(
+        keeleInternationalCard.selection_approach_display,
+        'International applicants who meet the academic, UCAT and SJT requirements are ranked by UCAT total.'
+      );
+      assert.ok(
+        keeleInternationalCard.decision_transparency?.ucat_comparison,
+        'Keele International route should still use UCAT ranking evidence.'
+      );
+
+      const keeleVerifiedProgrammeApplicant = merge(keeleContextualApplicant, {
+        widening_participation_programme: {
+          programme: 'steps2medicine_or_ukwpmed',
+          verified: true,
+          home_fee_status: true
+        }
+      });
+      const keeleVerifiedProgrammeResponse = await requestJson(server, 'POST', '/api/predict', {
+        universityIds: ['keele-a100'],
+        studentProfile: keeleVerifiedProgrammeApplicant
+      });
+      assert.strictEqual(keeleVerifiedProgrammeResponse.status, 200);
+      const keeleVerifiedProgrammeCard = keeleVerifiedProgrammeResponse.json.results[0].result_card;
+      assert.strictEqual(
+        classifyKeele(keeleVerifiedProgrammeApplicant).selection_route_id,
+        'keele_steps2medicine_ukwpmed_guaranteed_interview'
+      );
+      assertSelectionRouteIsInternal(keeleVerifiedProgrammeCard);
+      assert.strictEqual(
+        keeleVerifiedProgrammeCard.interview_outcome,
+        'guaranteed_interview'
+      );
+      assert.strictEqual(
+        keeleVerifiedProgrammeCard.selection_approach_display,
+        "Verified Home Steps2Medicine or UKWPMED applicants receive a guaranteed interview after meeting Keele's minimum GCSE, UCAT and SJT requirements."
+      );
+
+      const keeleUnverifiedProgrammeApplicant = merge(keeleContextualApplicant, {
+        widening_participation_programme: {
+          programme: 'steps2medicine_or_ukwpmed',
+          verified: false,
+          home_fee_status: true
+        }
+      });
+      const keeleUnverifiedProgrammeResponse = await requestJson(server, 'POST', '/api/predict', {
+        universityIds: ['keele-a100'],
+        studentProfile: keeleUnverifiedProgrammeApplicant
+      });
+      assert.strictEqual(keeleUnverifiedProgrammeResponse.status, 200);
+      const keeleUnverifiedProgrammeCard = keeleUnverifiedProgrammeResponse.json.results[0].result_card;
+      assert.strictEqual(
+        classifyKeele(keeleUnverifiedProgrammeApplicant).selection_route_id,
+        'keele_home_contextual_shortlisting_score'
+      );
+      assertSelectionRouteIsInternal(keeleUnverifiedProgrammeCard);
+      assert.notStrictEqual(
+        keeleUnverifiedProgrammeCard.interview_outcome,
+        'guaranteed_interview'
+      );
+      assert.strictEqual(
+        keeleUnverifiedProgrammeCard.selection_approach_display,
+        "Contextual Home applicants are shortlisted using Keele's 25-point score, including the published contextual point adjustment where verified."
+      );
+
+      const keeleNonContextualUnverifiedProgrammeApplicant = merge(topTierApplicant, {
+        widening_participation_programme: {
+          programme: 'steps2medicine_or_ukwpmed',
+          verified: false,
+          home_fee_status: true
+        }
+      });
+      const keeleNonContextualUnverifiedProgrammeResponse = await requestJson(server, 'POST', '/api/predict', {
+        universityIds: ['keele-a100'],
+        studentProfile: keeleNonContextualUnverifiedProgrammeApplicant
+      });
+      assert.strictEqual(keeleNonContextualUnverifiedProgrammeResponse.status, 200);
+      const keeleNonContextualUnverifiedProgrammeCard =
+        keeleNonContextualUnverifiedProgrammeResponse.json.results[0].result_card;
+      assert.strictEqual(
+        classifyKeele(keeleNonContextualUnverifiedProgrammeApplicant).selection_route_id,
+        'keele_home_a100_shortlisting_score'
+      );
+      assertSelectionRouteIsInternal(keeleNonContextualUnverifiedProgrammeCard);
+      assert.notStrictEqual(
+        keeleNonContextualUnverifiedProgrammeCard.interview_outcome,
+        'guaranteed_interview'
+      );
+      assert.strictEqual(
+        keeleNonContextualUnverifiedProgrammeCard.selection_approach_display,
+        "Home applicants are shortlisted using Keele's 25-point score, combining a UCAT, SJT and bonus-point component with Keele's personal-statement score."
+      );
+      console.log('PASS: Keele selection_route_id remains internal while resolving route-specific selection_approach_display without changing route outcomes');
     }
 
     if (readyEntries.some((u) => u.id === 'kent-and-medway-a100')) {

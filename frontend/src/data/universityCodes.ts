@@ -40,5 +40,6 @@ export const UNIVERSITY_CODES: Record<string, string> = {
   'ucl-a100': 'UC',
   'queen-s-belfast-a100': 'QB',
   'kent-and-medway-a100': 'KM',
-  'king-s-college-london-a100': 'KC'
+  'king-s-college-london-a100': 'KC',
+  'city-st-george-s-of-london-a100': 'CS'
 };

@@ -1,98 +1,303 @@
 {
   "schema_version": "1.0.0",
   "profile_id": "city-st-george-s-of-london-a100",
-  "profile_status": "msc_course_index_seed",
+  "profile_status": "production_ready",
+  "verification_status": "official_source_verified_with_documented_gaps",
+  "last_updated": "2026-07-29",
   "university": {
-    "name": "City St George's University of London",
+    "name": "City St George's, University of London",
     "slug": "city-st-george-s-of-london",
     "country": "United Kingdom",
-    "institution_type": "Unknown"
+    "nation": "England",
+    "institution_type": "UK public university medical school",
+    "institution_funding_type": "public",
+    "website_url": "https://www.citystgeorges.ac.uk/"
   },
   "course": {
-    "name": "MBBS Medicine (A100)",
+    "name": "Medicine MBBS",
     "ucas_code": "A100",
-    "route_type": "standard_entry",
-    "qualification_awarded": "MBBS Medicine",
-    "campus": "London",
-    "location": "London, England",
-    "duration_years": 5
+    "entry_route": "standard_entry",
+    "qualification_awarded": "MBBS (Bachelor of Medicine, Bachelor of Surgery)",
+    "duration_years": 5,
+    "campus": "Tooting",
+    "location": "Tooting, London, England",
+    "entry_year": 2026,
+    "intake_month": "September",
+    "application_channels": [
+      "UCAS"
+    ],
+    "fee_statuses": [
+      "home",
+      "international"
+    ],
+    "is_gateway_or_foundation": false,
+    "is_graduate_entry": false,
+    "notes": "5 years full-time; 6 years including an optional intercalated/placement year. Excludes A101 Graduate Entry Medicine (4-year GEM), Foundation Year, ScotGEM."
   },
-  "applicant_group": {
-    "fee_status": "home",
-    "domicile": "any",
-    "education_route": "school_leaver",
-    "contextual_group": "optional"
+  "selection_approach_display": {
+    "default": "City St George's checks academic and UCAT section requirements, then ranks eligible applicants by UCAT total within separate fee-status and graduate-status pools.",
+    "by_applicant_pool": {
+      "home_non_graduate": "Home non-graduate applicants who meet the academic and UCAT section requirements are ranked by UCAT total.",
+      "home_graduate": "Home graduate applicants who meet the academic and UCAT section requirements are ranked by UCAT total.",
+      "overseas_non_graduate": "International non-graduate applicants who meet the academic and UCAT section requirements are ranked by UCAT total.",
+      "overseas_graduate": "International graduate applicants who meet the academic and UCAT section requirements are ranked by UCAT total."
+    }
   },
+  "applies_to_group_ids": [
+    "home_fee",
+    "international_fee",
+    "school_leaver",
+    "graduate_applicant",
+    "contextual"
+  ],
   "stage_1_eligibility": {
+    "verification_status": "official_source_verified_with_documented_gaps",
+    "source_ids": [
+      "city_st_georges_a100_course_page_2026",
+      "city_st_georges_contextual_admissions_policy"
+    ],
+    "overall_policy": "Academic requirements are threshold-only; every UCAT cognitive section must be at least 500 before pool-specific UCAT ranking is meaningful.",
     "gcse": {
-      "status": "unknown",
-      "minimum_count": null,
-      "counted_subject_limit": null,
-      "mandatory_subjects": [],
-      "accepted_equivalencies": [],
-      "sitting_policy": "unknown",
-      "achieved_or_predicted": "unknown",
-      "notes": "Seeded from MSC course index only. Detailed GCSE rules need course-page review."
+      "status": "official_source_verified",
+      "minimum_count": 5,
+      "minimum_count_at_or_above_grade": {
+        "requirement_id": "five_gcse_at_grade_6_or_b",
+        "count": 5,
+        "minimum_grade": "6/B"
+      },
+      "grade_requirements": [
+        {
+          "requirement_id": "gcse_english_language_6",
+          "subject_id": "english_language",
+          "minimum_grade": "6/B"
+        },
+        {
+          "requirement_id": "gcse_mathematics_6",
+          "subject_id": "mathematics",
+          "minimum_grade": "6/B"
+        }
+      ],
+      "science_requirement": {
+        "requirement_id": "gcse_science_grade_6",
+        "requirement_type": "any_of",
+        "accepted_options": [
+          {
+            "option_id": "triple_science_biology_chemistry_physics",
+            "grade_requirements": [
+              {
+                "subject_id": "biology",
+                "minimum_grade": "6/B"
+              },
+              {
+                "subject_id": "chemistry",
+                "minimum_grade": "6/B"
+              },
+              {
+                "subject_id": "physics",
+                "minimum_grade": "6/B"
+              }
+            ]
+          },
+          {
+            "option_id": "double_award_science_66",
+            "grade_requirements": [
+              {
+                "subject_id": "combined_science",
+                "minimum_grade_profile": [
+                  "6",
+                  "6"
+                ],
+                "accepted_equivalent_profile": [
+                  "B",
+                  "B"
+                ]
+              }
+            ],
+            "counts_as_gcse_subjects": 2
+          }
+        ]
+      },
+      "resits_accepted": true,
+      "scored_after_eligibility": false,
+      "source_ids": [
+        "city_st_georges_a100_course_page_2026"
+      ],
+      "notes": "Five subjects graded 6 (B) or above; English Language, Maths, and Science (Double or Triple Award)."
     },
     "post_16": {
       "accepted_qualifications": [
         "a_level",
-        "ib",
-        "scottish_highers",
-        "advanced_highers",
-        "btec",
+        "international_baccalaureate",
+        "scottish",
         "access_to_he",
-        "degree",
-        "other"
+        "graduate"
       ],
+      "same_sitting": {
+        "required": true,
+        "qualification_routes": [
+          "a_level"
+        ],
+        "maximum_years": 2,
+        "manual_review_if_missing": true,
+        "notes": "A Levels must be completed within one sitting across a maximum of two years (third year permitted only via a successful Extenuating Circumstances application)."
+      },
       "a_level": {
-        "status": "unknown",
-        "standard_offer": null,
-        "contextual_offer": null,
-        "required_subjects": [],
-        "excluded_subjects": [],
-        "third_subject_rules": "",
-        "predicted_grades_accepted": true,
-        "notes": "Needs detailed course-page review."
+        "status": "official_source_verified",
+        "standard_offer": {
+          "grade_profile": [
+            "A",
+            "A",
+            "A"
+          ],
+          "notes": "Minimum stated requirement is AAA; offers may range AAA-A*AA."
+        },
+        "grade_requirements": [
+          {
+            "requirement_id": "city_st_georges_a_level_aaa_biology_chemistry",
+            "applies_to_group_ids": [
+              "school_leaver"
+            ],
+            "excluded_group_ids": [
+              "graduate_applicant"
+            ],
+            "grade_profile": [
+              "A",
+              "A",
+              "A"
+            ],
+            "required_subject_ids": [
+              "chemistry",
+              "biology"
+            ]
+          }
+        ],
+        "achieved_grades_scored": false,
+        "predicted_grades_scored": false,
+        "source_ids": [
+          "city_st_georges_a100_course_page_2026"
+        ],
+        "notes": "AAA including Chemistry and Biology or Human Biology."
       },
       "ib": {
-        "status": "unknown",
-        "total_points": null,
-        "hl_points": null,
-        "required_hl_subjects": [],
-        "notes": ""
+        "status": "official_source_verified_with_internal_inconsistency_manual_review",
+        "grade_requirements": [
+          {
+            "requirement_id": "city_st_georges_ib_36_18hl_biology_chemistry",
+            "total_points": 36,
+            "hl_grade_profile": [
+              "6",
+              "6",
+              "6"
+            ],
+            "required_hl_subject_grade_options": [
+              {
+                "grade_requirements": [
+                  {
+                    "subject_id": "biology",
+                    "minimum_grade": "6"
+                  },
+                  {
+                    "subject_id": "chemistry",
+                    "minimum_grade": "6"
+                  }
+                ]
+              }
+            ],
+            "notes": "Detailed IB section states 36 overall; summary box states 35. Manual review preserves this discrepancy."
+          }
+        ],
+        "contextual_route_implemented": false,
+        "source_ids": [
+          "city_st_georges_a100_course_page_2026"
+        ],
+        "notes": "The university's own 2026 course page states two different IB overall-point totals (35 vs 36) in two different sections of the same page. Both are cited verbatim below; this is flagged as an unresolved source discrepancy rather than silently picking one."
       },
       "scottish": {
-        "status": "unknown",
-        "higher_offer": null,
-        "advanced_higher_offer": null,
-        "required_subjects": [],
-        "notes": ""
-      },
-      "btec": {
-        "status": "unknown",
-        "accepted_subjects": [],
-        "accepted_combinations": "",
-        "notes": ""
+        "status": "official_source_verified_manual_review",
+        "higher_offer": "AAA including Chemistry and Biology",
+        "advanced_higher_offer": "AA including Chemistry and Biology",
+        "execution_status": "manual_review_required_engine_v1_cannot_jointly_assess_higher_and_advanced_higher_profiles",
+        "source_ids": [
+          "city_st_georges_a100_course_page_2026"
+        ],
+        "notes": "Highers: AAA including Chemistry and Biology. Advanced Highers: AA including Chemistry and Biology. Plus National 5 English Language and Maths at grade B."
       },
       "access_to_he": {
-        "status": "unknown",
-        "total_credits": null,
-        "distinction_credits": null,
-        "merit_credits": null,
-        "subject_credits": [],
-        "notes": ""
+        "status": "official_source_verified_manual_review",
+        "total_credits": 60,
+        "level_3_credits": 45,
+        "distinction_credits": 39,
+        "merit_credits": 6,
+        "execution_status": "manual_review_required_route_specific_credit_subjects",
+        "source_ids": [
+          "city_st_georges_a100_course_page_2026"
+        ],
+        "notes": "Full Access to Medicine diploma, 60 credits at level 3 (45 graded, 15 ungraded); 39 credits at Distinction and 6 at Merit; all Chemistry/Biology credits at Distinction; plus GCSE English Language and Maths at grade 6(B)+."
       },
-      "notes": "Qualification acceptance must be verified against official course details."
+      "degree": {
+        "status": "official_source_verified",
+        "applies_to_group_ids": [
+          "graduate_applicant"
+        ],
+        "minimum_classification": "2_1",
+        "gcse_required": false,
+        "waive_a_level_requirements": true,
+        "postgraduate_compensation_allowed": true,
+        "degree_requirement": {
+          "accepted_classifications": [
+            "2_1",
+            "first"
+          ],
+          "accepted_degree_subject_ids": [],
+          "achieved_or_predicted": true,
+          "notes": "2:1 Honours in any subject/discipline (2:2 requires a completed Masters to be eligible); GCSE/A-level requirements waived."
+        },
+        "source_ids": [
+          "city_st_georges_a100_course_page_2026"
+        ],
+        "notes": "2:1 Honours in any subject; 2:2 requires completed Masters. GCSE/A-level requirements waived."
+      },
+      "recency_rule": "For non-graduate applicants, all qualifications except GCSEs must have been completed within the previous five years, including the year of application.",
+      "notes": "A-level and 2:1 graduate routes are executable; IB, Scottish, Access and 2:2-plus-Masters evidence require manual review."
     },
-    "admissions_test": {
-      "test": "unknown",
-      "required": false,
-      "minimum_total_score": null,
-      "minimum_subsections": [],
-      "validity_window": "current admissions cycle",
-      "exemptions": [],
+    "admissions_tests": {
+      "source_ids": [
+        "city_st_georges_a100_course_page_2026",
+        "city_st_georges_admissions_statistics"
+      ],
+      "ucat": {
+        "required": true,
+        "minimum_total_score": null,
+        "fixed_minimum_total_score_applies": false,
+        "minimum_subsection_scores": [
+          {
+            "subsection": "each_cognitive_section",
+            "minimum_score": 500
+          }
+        ],
+        "score_used_for_ranking": true,
+        "ranking_score": "Raw UCAT cognitive total after every section is at least 500.",
+        "score_scale": {
+          "min": 900,
+          "max": 2700,
+          "applies_from_test_year": 2025
+        },
+        "cognitive_subtest_ids": [
+          "verbal_reasoning",
+          "decision_making",
+          "quantitative_reasoning"
+        ],
+        "abstract_reasoning_included": false,
+        "academic_points_added_to_ranking_score": false,
+        "sjt_points_added_to_ranking_score": false,
+        "ranking_order": "descending",
+        "validity_window": "current admissions cycle",
+        "exemptions": [],
+        "decision_outcome_if_not_met": "not_eligible",
+        "notes": "UCAT is used as a pass/fail section threshold (minimum 500 in each of the three cognitive sections) plus an annually-recalculated overall cut-off score used to rank and select applicants for interview. There is NO published combined academic-score + UCAT weighted formula for A100."
+      },
       "sjt": {
+        "used": true,
         "used_as_gate": false,
         "accepted_bands": [
           1,
@@ -100,83 +305,796 @@
           3,
           4
         ],
-        "band_4_policy": "unknown",
-        "notes": "UCAT/SJT policy needs course-page review."
+        "excluded_bands": [],
+        "scoring": {
+          "used_in_score": false,
+          "points_by_band": {}
+        },
+        "decision_outcome_if_excluded": "unknown",
+        "source_ids": [
+          "city_st_georges_a100_course_page_2026"
+        ],
+        "notes": "University states only that SJT Banding will be 'considered in our decision making' for 2026 entry; no further mechanism, band threshold, or scoring detail is published."
       },
-      "notes": "Do not use for scoring until verified."
+      "other_tests": []
     },
     "resits": {
-      "policy": "unknown",
-      "conditions": "",
-      "maximum_resits": null
-    },
-    "contextual": {
-      "available": false,
-      "criteria": [],
-      "adjustments": [],
-      "notes": ""
+      "policy": "gcse_resits_accepted_a_level_extenuating_circumstances_review",
+      "allowed": true,
+      "source_ids": [
+        "city_st_georges_a100_course_page_2026"
+      ],
+      "notes": "GCSE resits are accepted; A-level timing exceptions require accepted extenuating circumstances."
     },
     "english_language": {
-      "required_for_group": false,
-      "accepted_tests": [],
-      "exemptions": [],
-      "notes": "May apply to international applicants; verify."
+      "required_for_group_ids": [
+        "international_fee"
+      ],
+      "accepted_tests": [
+        {
+          "test": "IELTS Academic",
+          "overall_minimum": 7,
+          "writing_minimum": 7,
+          "reading_minimum": 6.5,
+          "listening_minimum": 6.5,
+          "speaking_minimum": 6.5
+        }
+      ],
+      "source_ids": [
+        "city_st_georges_a100_course_page_2026"
+      ],
+      "notes": "International English-language evidence required unless exempt."
     },
-    "age_or_degree": {
-      "minimum_age": null,
-      "degree_required": false,
-      "degree_classification": null,
-      "accepted_degree_subjects": [],
-      "notes": ""
-    },
-    "non_academic": {
-      "work_experience": "unknown",
-      "personal_statement": "unknown",
-      "reference_policy": "unknown",
-      "fitness_to_practise_required": true,
-      "dbs_required": true,
+    "age_or_professional_checks": {
       "occupational_health_required": true,
-      "notes": "Professional checks usually apply; exact timing/wording needs verification."
+      "dbs_required": true,
+      "fitness_to_practise_required": true,
+      "source_ids": [
+        "city_st_georges_a100_course_page_2026"
+      ],
+      "notes": "Professional checks are offer/enrolment-stage metadata only."
     }
   },
   "stage_2_interview_selection": {
-    "primary_method": "unknown",
+    "verification_status": "official_verified_guidance_thresholds_only",
+    "source_ids": [
+      "city_st_georges_a100_course_page_2026",
+      "city_st_georges_admissions_statistics"
+    ],
+    "primary_model": "ucat_ranking",
+    "modifiers": [
+      "home_international_separate_ranking",
+      "separate_applicant_pool"
+    ],
     "ranking_factors": [
       {
-        "factor": "other",
-        "role": "review_factor",
-        "weight_percent": null,
-        "points_available": null,
-        "notes": "Primary ranking factor needs official admissions policy review."
-      }
-    ],
-    "thresholds": [],
-    "modifiers": [],
-    "tie_breakers": [],
-    "quotas_or_pools": [],
-    "output_band_policy": "strong_reasonable_risky_not_eligible",
-    "notes": "Seed profile. Stage 2 method should be verified before production scoring."
-  },
-  "validation": {
-    "source_status": "official",
-    "last_verified": "2026-06-19",
-    "confidence_level": "Low",
-    "sources": [
-      {
-        "title": "Medical Schools Council UK medical school entry requirements index",
-        "url": "https://www.medschools.ac.uk/for-students/applying-to-medical-school/entry-requirements/?pg=1",
-        "source_type": "official_course_page",
-        "accessed_date": "2026-06-19",
-        "notes": "Course card from MSC index for courses starting Autumn 2026."
+        "factor_id": "academic_threshold",
+        "factor": "academic_threshold",
+        "role": "eligibility_gate",
+        "weight_percent": 0,
+        "notes": "No academic points formula is published."
       },
       {
-        "title": "City St George's University of London - MBBS Medicine (A100)",
-        "url": "https://www.medschools.ac.uk/courses/city-st-georges-medicine-a100/",
-        "source_type": "official_course_page",
-        "accessed_date": "2026-06-19",
-        "notes": "Detailed rules not yet extracted."
+        "factor_id": "ucat_total",
+        "factor": "ucat_total",
+        "role": "ranking_metric",
+        "weight_percent": 100,
+        "notes": "Eligible applicants are ranked by raw UCAT total within pool."
+      },
+      {
+        "factor_id": "sjt_band",
+        "factor": "sjt_band",
+        "role": "captured_not_modelled",
+        "weight_percent": null,
+        "notes": "SJT mechanism unpublished; recorded and excluded from band computation."
       }
     ],
-    "review_notes": "Generated from MSC index. Complete Stage 1 and Stage 2 fields by reviewing each course page and university admissions policy."
+    "calculation": {
+      "verification_status": "official_source_verified_with_documented_gaps",
+      "source_ids": [
+        "city_st_georges_a100_course_page_2026",
+        "city_st_georges_admissions_statistics"
+      ],
+      "score_components": [
+        {
+          "component_id": "ucat_cognitive_total",
+          "factor_id": "ucat_total",
+          "input_field": "admissions_tests.ucat.total_score",
+          "calculation_method": "raw_total_after_academic_and_ucat_section_gates",
+          "scale": {
+            "min": 900,
+            "max": 2700
+          },
+          "weight_percent": 100,
+          "rounding": "none",
+          "notes": "No UCAT points conversion or academic weighting is applied.",
+          "source_ids": [
+            "city_st_georges_a100_course_page_2026",
+            "city_st_georges_admissions_statistics"
+          ]
+        }
+      ],
+      "total_score": {
+        "calculation_method": "raw_ucat_total_only",
+        "components": [
+          "ucat_cognitive_total"
+        ],
+        "scale": {
+          "min": 900,
+          "max": 2700
+        },
+        "notes": "Reference cut-offs are historical, not current-cycle guarantees.",
+        "source_ids": [
+          "city_st_georges_admissions_statistics"
+        ]
+      },
+      "notes": "No combined academic + UCAT formula is published."
+    },
+    "thresholds": [
+      {
+        "threshold_id": "ucat_section_minimum",
+        "type": "hard_gate",
+        "value": 500,
+        "applies_to": "each cognitive UCAT section",
+        "source_ids": [
+          "city_st_georges_a100_course_page_2026"
+        ]
+      },
+      {
+        "threshold_id": "home_non_graduate_2026_current_scale",
+        "type": "historical_reference_cutoff",
+        "value": 1880,
+        "pool_id": "home_non_graduate",
+        "source_ids": [
+          "city_st_georges_admissions_statistics"
+        ]
+      },
+      {
+        "threshold_id": "home_graduate_2026_current_scale",
+        "type": "historical_reference_cutoff",
+        "value": 1880,
+        "pool_id": "home_graduate",
+        "source_ids": [
+          "city_st_georges_admissions_statistics"
+        ]
+      },
+      {
+        "threshold_id": "overseas_non_graduate_2026_current_scale",
+        "type": "historical_reference_cutoff",
+        "value": 1640,
+        "pool_id": "overseas_non_graduate",
+        "source_ids": [
+          "city_st_georges_admissions_statistics"
+        ]
+      },
+      {
+        "threshold_id": "overseas_graduate_2026_current_scale",
+        "type": "historical_reference_cutoff",
+        "value": 1630,
+        "pool_id": "overseas_graduate",
+        "source_ids": [
+          "city_st_georges_admissions_statistics"
+        ]
+      }
+    ],
+    "selection_adjustments": [],
+    "tie_breakers": [],
+    "output_band_policy": "applysmart_derived_low_confidence_guidance_not_official_cutoff",
+    "notes": "The university does not publish the mathematical interview selection formula for A100. The published mechanism is: academic threshold (pass/fail on predicted/achieved grades and GCSEs) followed by UCAT-score ranking to fill available interview places, applied separately within Home/Overseas and Non-graduate/Graduate categories because of overseas (~9%) and graduate (~25%) number-control caps."
+  },
+  "contextual_admissions": {
+    "verification_status": "official_source_verified",
+    "source_ids": [
+      "city_st_georges_contextual_admissions_policy"
+    ],
+    "available": true,
+    "applies_to_group_ids": [
+      "contextual"
+    ],
+    "criteria": {
+      "group_1": {
+        "minimum_criteria_required": 1,
+        "eligible_for_contextual_offer": true,
+        "eligible_for_pre_application_support": true,
+        "eligible_for_post_application_support": true,
+        "criteria": [
+          "Care-experienced student or care leaver",
+          "Student aged 14-25 with unpaid care responsibilities",
+          "Refugee or asylum seeker",
+          "Estranged student aged 14-25"
+        ]
+      },
+      "group_2": {
+        "minimum_criteria_required": 2,
+        "eligible_for_contextual_offer": true,
+        "eligible_for_pre_application_support": true,
+        "eligible_for_post_application_support": true,
+        "criteria": [
+          "Attends an English school with an average A Level grade of C- or below",
+          "Attends an English school in the bottom 40% for progression to Higher Education",
+          "Lives in a POLAR4 quintile 1 or 2 area",
+          "Lives in an IMD decile 1 or 2 area",
+          "Has been in receipt of free school meals"
+        ]
+      },
+      "group_3": {
+        "minimum_criteria_required": 1,
+        "eligible_for_contextual_offer": false,
+        "eligible_for_pre_application_support": true,
+        "eligible_for_post_application_support": true,
+        "criteria": [
+          "Service child",
+          "Applicant from a Gypsy, Roma or Traveller community",
+          "Mature non-graduate applicant aged 21 or over on entry to Higher Education"
+        ]
+      }
+    },
+    "adjustments": [
+      {
+        "adjustment_id": "contextual_offer_groups_1_2",
+        "applies_to_group_ids": [
+          "contextual"
+        ],
+        "type": "conditional_offer_reduction_metadata_only",
+        "eligible_groups": [
+          "group_1",
+          "group_2"
+        ],
+        "notes": "No interview-ranking adjustment is published."
+      },
+      {
+        "adjustment_id": "support_group_3",
+        "applies_to_group_ids": [
+          "contextual"
+        ],
+        "type": "support_only_metadata",
+        "eligible_groups": [
+          "group_3"
+        ],
+        "notes": "Group 3 support only; no contextual offer."
+      }
+    ],
+    "guaranteed_interview_rules": [],
+    "notes": "The policy publishes a reduced conditional offer and support arrangements, but does not publish a separate UCAT cut-off, guaranteed interview, added interview-ranking points, or alternative interview-selection pool for contextual applicants."
+  },
+  "ranking_pools": [
+    {
+      "pool_id": "home_non_graduate",
+      "name": "Home non-graduate applicants",
+      "applies_to_group_ids": [
+        "home_fee",
+        "school_leaver"
+      ],
+      "fee_statuses": [
+        "home"
+      ],
+      "ranking_model": "ucat_ranking",
+      "ranking_factors": [
+        "ucat_total"
+      ],
+      "places_available": 165,
+      "source_ids": [
+        "city_st_georges_admissions_statistics"
+      ],
+      "notes": "Reference-only places figure; not a probability input."
+    },
+    {
+      "pool_id": "home_graduate",
+      "name": "Home graduate applicants",
+      "applies_to_group_ids": [
+        "home_fee",
+        "graduate_applicant"
+      ],
+      "fee_statuses": [
+        "home"
+      ],
+      "ranking_model": "ucat_ranking",
+      "ranking_factors": [
+        "ucat_total"
+      ],
+      "places_available": null,
+      "source_ids": [
+        "city_st_georges_admissions_statistics"
+      ],
+      "notes": "Graduate applicants ranked separately; exact A100 graduate places not published."
+    },
+    {
+      "pool_id": "overseas_non_graduate",
+      "name": "Overseas non-graduate applicants",
+      "applies_to_group_ids": [
+        "international_fee",
+        "school_leaver"
+      ],
+      "fee_statuses": [
+        "international"
+      ],
+      "ranking_model": "ucat_ranking",
+      "ranking_factors": [
+        "ucat_total"
+      ],
+      "places_available": 19,
+      "source_ids": [
+        "city_st_georges_admissions_statistics"
+      ],
+      "notes": "Reference-only places figure; not a probability input."
+    },
+    {
+      "pool_id": "overseas_graduate",
+      "name": "Overseas graduate applicants",
+      "applies_to_group_ids": [
+        "international_fee",
+        "graduate_applicant"
+      ],
+      "fee_statuses": [
+        "international"
+      ],
+      "ranking_model": "ucat_ranking",
+      "ranking_factors": [
+        "ucat_total"
+      ],
+      "places_available": null,
+      "source_ids": [
+        "city_st_georges_admissions_statistics"
+      ],
+      "notes": "Overseas graduate applicants ranked separately."
+    }
+  ],
+  "quotas": [
+    {
+      "quota_id": "published_a100_home_places_2025_6",
+      "places": 165,
+      "applies_to_group_ids": [
+        "home_fee"
+      ],
+      "source_ids": [
+        "city_st_georges_admissions_statistics"
+      ],
+      "notes": "University-published A100 Home places for 2025/6; reference only."
+    },
+    {
+      "quota_id": "published_a100_overseas_places_2025_6",
+      "places": 19,
+      "applies_to_group_ids": [
+        "international_fee"
+      ],
+      "source_ids": [
+        "city_st_georges_admissions_statistics"
+      ],
+      "notes": "University-published A100 Overseas places for 2025/6; reference only."
+    },
+    {
+      "quota_id": "ofs_provider_mfl",
+      "value": 280,
+      "source_ids": [
+        "ofs_medical_dental_mfl"
+      ],
+      "reference_only": true,
+      "notes": "OfS 'anticipated home' figure (261) does not match the sum of the university's own published Home A100 places (165 for 2025/6) plus its published Home A101 Graduate Entry places (71 for 2025/6) = 236. The OfS MFL is a single combined medical-place ceiling for the whole provider covering all undergraduate medical entry routes/cohorts (including deferred entrants counted differently), so it is not a like-for-like figure with the university's own per-cycle A100-only table. Both figures are cited; the gap has not been independently resolved from published sources and would require an FOI request or direct clarification from the university's admissions/planning office to reconcile precisely."
+    }
+  ],
+  "offer_selection": {
+    "verification_status": "official_source_verified_with_remaining_unpublished_offer_fields",
+    "source_ids": [
+      "city_st_georges_a100_course_page_2026"
+    ],
+    "interview_format": "Multiple Mini Interview (MMI)",
+    "interview_scoring": "not_published",
+    "offer_model": "post_interview_formula_not_published_offer_prediction_out_of_scope",
+    "ranking_factors": [],
+    "tie_breakers": [],
+    "waiting_list_policy": "UCAT may be used to rank a post-interview waiting list; exact mechanism not published.",
+    "standard_offer": "AAA",
+    "contextual_offer": "ABB for eligible contextual groups, with other course-specific requirements unchanged.",
+    "notes": "No published formula combining interview score with academic/UCAT score for final offer decisions was located. UCAT results 'may be used to rank a post-interview waiting list' (university's own wording)."
+  },
+  "historical_admissions": {
+    "verification_status": "official_source_verified_with_documented_gaps",
+    "source_ids": [
+      "city_st_georges_admissions_statistics"
+    ],
+    "cycles": {
+      "scope": "Medicine MBBS 5-year standard entry (A100), main cycle. Figures are split Home/Overseas and Standard Entry/Deferred Entry as published; not merged.",
+      "applicants": {
+        "2021_2": {
+          "home_standard": 2571,
+          "home_deferred": 32,
+          "overseas_standard": 413,
+          "overseas_deferred": 8
+        },
+        "2022_3": {
+          "home_standard": 2259,
+          "home_deferred": 28,
+          "overseas_standard": 299,
+          "overseas_deferred": 9
+        },
+        "2023_4": {
+          "home_standard": 1274,
+          "home_deferred": 17,
+          "overseas_standard": 233,
+          "overseas_deferred": 5
+        },
+        "2024_5": {
+          "home_standard": 1371,
+          "home_deferred": 17,
+          "overseas_standard": 298,
+          "overseas_deferred": 11
+        },
+        "2025_6": {
+          "home_standard": 1279,
+          "home_deferred": 14,
+          "overseas_standard": 318,
+          "overseas_deferred": 18
+        }
+      },
+      "interviews": {
+        "2021_2": {
+          "home_standard": 752,
+          "home_deferred": 12,
+          "overseas_standard": 88,
+          "overseas_deferred": 3
+        },
+        "2022_3": {
+          "home_standard": 671,
+          "home_deferred": 7,
+          "overseas_standard": 115,
+          "overseas_deferred": 10
+        },
+        "2023_4": {
+          "home_standard": 669,
+          "home_deferred": 3,
+          "overseas_standard": 122,
+          "overseas_deferred": 5
+        },
+        "2024_5": {
+          "home_standard": 677,
+          "home_deferred": 9,
+          "overseas_standard": 146,
+          "overseas_deferred": 6
+        },
+        "2025_6": {
+          "home_standard": 773,
+          "home_deferred": 9,
+          "overseas_standard": 121,
+          "overseas_deferred": 9
+        }
+      },
+      "conditional_offers": {
+        "2021_2": {
+          "home_standard": 332,
+          "home_deferred": 6,
+          "overseas_standard": 23,
+          "overseas_deferred": 0
+        },
+        "2022_3": {
+          "home_standard": 264,
+          "home_deferred": 140,
+          "overseas_standard": 32,
+          "overseas_deferred": 31
+        },
+        "2023_4": {
+          "home_standard": 237,
+          "home_deferred": 181,
+          "overseas_standard": 30,
+          "overseas_deferred": 31
+        },
+        "2024_5": {
+          "home_standard": 247,
+          "home_deferred": 176,
+          "overseas_standard": 25,
+          "overseas_deferred": 33
+        },
+        "2025_6": {
+          "home_standard": 369,
+          "home_deferred": 207,
+          "overseas_standard": 27,
+          "overseas_deferred": 36
+        }
+      },
+      "waiting_list": {
+        "2021_2": {
+          "home": 147,
+          "overseas": 40
+        },
+        "2022_3": {
+          "home": 138,
+          "overseas": 26
+        },
+        "2023_4": {
+          "home": 180,
+          "overseas": 30
+        },
+        "2024_5": {
+          "home": 174,
+          "overseas": 31
+        },
+        "2025_6": {
+          "home": 205,
+          "overseas": 35
+        }
+      },
+      "total_enrollers": {
+        "2021_2": {
+          "home_standard": 135,
+          "home_deferred": 49,
+          "overseas_standard": 16,
+          "overseas_deferred": 3
+        },
+        "2022_3": {
+          "home_standard": 112,
+          "home_deferred": 56,
+          "overseas_standard": 18,
+          "overseas_deferred": 2
+        },
+        "2023_4": {
+          "home_standard": 124,
+          "home_deferred": 55,
+          "overseas_standard": 14,
+          "overseas_deferred": 6
+        },
+        "2024_5": {
+          "home_standard": 122,
+          "home_deferred": 37,
+          "overseas_standard": 15,
+          "overseas_deferred": 6
+        },
+        "2025_6": {
+          "home_standard": 143,
+          "home_deferred": 19,
+          "overseas_standard": 17,
+          "overseas_deferred": 4
+        },
+        "note": "Deferred-entry enrollers applied in a previous cycle but enrolled in the stated entry year."
+      },
+      "ratios_calculated": {
+        "note": "Not published directly by the university; calculated here from the published applicant/interview/offer figures above (Home Standard Entry only, main cycle). Marked as derived, not official.",
+        "2025_6": {
+          "applicant_to_interview_ratio": "1279:773 (approx. 1.65:1)",
+          "applicant_to_offer_ratio": "1279:369 (approx. 3.47:1)"
+        }
+      },
+      "source": {
+        "url": "https://www.citystgeorges.ac.uk/about/schools/health-sciences/about/admissions-statistics",
+        "source_type": "University official page (admissions statistics)",
+        "accessed": "2026-07-29"
+      }
+    },
+    "ucat_thresholds_as_published": {
+      "2016": {
+        "scale": "old (~3600)",
+        "non_grad_home": 2600,
+        "non_grad_overseas": null,
+        "grad_home": "not accepted in main cycle",
+        "grad_overseas": "not accepted in main cycle"
+      },
+      "2017": {
+        "scale": "old (~3600, one subtest removed mid-year)",
+        "non_grad_home": 1890,
+        "note": "UCAT removed a section in 2017",
+        "grad_home": "not accepted in main cycle",
+        "grad_overseas": "not accepted in main cycle"
+      },
+      "2018": {
+        "scale": "old (~3600)",
+        "non_grad_home": 2590,
+        "grad_home": "not accepted in main cycle",
+        "grad_overseas": "not accepted in main cycle"
+      },
+      "2019": {
+        "scale": "old (~3600)",
+        "non_grad_home": 2490,
+        "grad_home": "not accepted in main cycle",
+        "grad_overseas": "not accepted in main cycle"
+      },
+      "2020": {
+        "scale": "old (~3600)",
+        "non_grad_home": "2480 (clearing 2540)",
+        "non_grad_overseas": "2480 (clearing 2540)",
+        "grad_home": "not accepted in main cycle",
+        "grad_overseas": "not accepted in main cycle"
+      },
+      "2021": {
+        "scale": "old (~3600)",
+        "non_grad_home": 2620,
+        "non_grad_overseas": "2710 (clearing 2620)",
+        "grad_home": "2800 (clearing 2620)",
+        "grad_overseas": "2830 (clearing 2620)"
+      },
+      "2022": {
+        "scale": "old (~3600)",
+        "non_grad_home": 2710,
+        "non_grad_overseas": 2710,
+        "grad_home": 2810,
+        "grad_overseas": 2810
+      },
+      "2023": {
+        "scale": "old (~3600)",
+        "non_grad_home": 2630,
+        "non_grad_overseas": 2630,
+        "grad_home": 2690,
+        "grad_overseas": 2690
+      },
+      "2024": {
+        "scale": "old (~3600)",
+        "non_grad_home": 2690,
+        "non_grad_overseas": 2700,
+        "grad_home": 2690,
+        "grad_overseas": 2700
+      },
+      "2025": {
+        "scale": "old (~3600)",
+        "non_grad_home": "2600 (clearing 2550)",
+        "non_grad_overseas": "2750 (clearing 2550)",
+        "grad_home": "2600 (clearing 2550)",
+        "grad_overseas": "2770 (clearing 2550)"
+      },
+      "2026": {
+        "scale": "new (900-2700)",
+        "non_grad_home": 1880,
+        "non_grad_overseas": 1640,
+        "grad_home": 1880,
+        "grad_overseas": 1630
+      }
+    },
+    "current_scale_reference_cutoffs_2026": {
+      "home_non_graduate": 1880,
+      "home_graduate": 1880,
+      "overseas_non_graduate": 1640,
+      "overseas_graduate": 1630,
+      "note": "These are the ONLY published cut-offs on the current 900-2700 scale (2026 entry, the first cycle on this scale). Because there is only one data point per category on this scale, band widths are necessarily borrowed from old-scale volatility (see volatility_context) rather than calculated from multiple current-scale years. Confidence in these bands should be treated as LOW until at least 2-3 more cycles of current-scale data are published.",
+      "source": {
+        "url": "https://www.citystgeorges.ac.uk/about/schools/health-sciences/about/admissions-statistics",
+        "accessed": "2026-07-29",
+        "cycle": "2026 entry"
+      }
+    },
+    "notes": "No official UCAT Consortium-published conversion table or methodology for converting pre-2025 (four-subtest, ~1200-3600) scores to the post-2025 (three-subtest, 900-2700) scale was located. UCAT Consortium's own published materials (ucat.ac.uk) describe the new 900-2700 scoring structure but do not publish an official historical conversion table; third-party tutoring companies publish unofficial 'percentile-matching' or 'same-cohort re-scoring' conversions, but these are explicitly not endorsed by the UCAT Consortium and vary between providers (e.g. some warn that a flat multiplier such as x0.75 is inaccurate by 20-25 points). Per the sourcing rules governing this report, no conversion ratio has been invented or applied. The 2016-2025 figures above are presented on their originally-published (old) scale only, alongside the 2026 figure which is already on the new scale, exactly as the university published them."
+  },
+  "fee_information": {
+    "currency": "GBP",
+    "entry_cycle": "2026/27",
+    "home": {
+      "first_year": 9790,
+      "course_total": null
+    },
+    "international": {
+      "first_year": 46000,
+      "course_total": null
+    },
+    "fees_subject_to_change": true,
+    "eligibility_effect": "informational_only",
+    "source_ids": [
+      "city_st_georges_a100_course_page_2026"
+    ]
+  },
+  "sources": [
+    {
+      "source_id": "city_st_georges_a100_course_page_2026",
+      "title": "City St George's, University of London - Medicine MBBS 2026",
+      "url": "https://www.citystgeorges.ac.uk/prospective-students/courses/undergraduate/medicine/2026",
+      "source_type": "official_course_page",
+      "published_date": null,
+      "accessed_date": "2026-07-29",
+      "applies_to_sections": [
+        "course_identity",
+        "academic_requirements",
+        "ucat_requirements",
+        "sjt_policy",
+        "interview_process",
+        "fee_information"
+      ],
+      "confidence": "high",
+      "notes": "Official course page for 2026 entry."
+    },
+    {
+      "source_id": "city_st_georges_admissions_statistics",
+      "title": "City St George's admissions statistics",
+      "url": "https://www.citystgeorges.ac.uk/about/schools/health-sciences/about/admissions-statistics",
+      "source_type": "official_admissions_statistics",
+      "published_date": null,
+      "accessed_date": "2026-07-29",
+      "applies_to_sections": [
+        "historical_admissions",
+        "ucat_historical_thresholds",
+        "interview_prediction_bands",
+        "intake_numbers"
+      ],
+      "confidence": "high",
+      "notes": "Official A100 admissions statistics and UCAT cut-offs."
+    },
+    {
+      "source_id": "city_st_georges_contextual_admissions_policy",
+      "title": "City St George's contextual admissions policy",
+      "url": "https://www.citystgeorges.ac.uk/about/governance/policies/contextual-admissions",
+      "source_type": "official_contextual_policy",
+      "published_date": null,
+      "accessed_date": "2026-07-29",
+      "applies_to_sections": [
+        "contextual_admissions",
+        "decision_transparency"
+      ],
+      "confidence": "high",
+      "notes": "Contextual offer/support policy; no interview-ranking uplift published."
+    },
+    {
+      "source_id": "ucat_test_format_and_scoring",
+      "title": "UCAT test format and scoring",
+      "url": "https://www.ucat.ac.uk/about-ucat/test-format-and-scoring/",
+      "source_type": "official_ucat_consortium_page",
+      "published_date": null,
+      "accessed_date": "2026-07-29",
+      "applies_to_sections": [
+        "ucat_scale"
+      ],
+      "confidence": "high",
+      "notes": "Current UCAT cognitive scale evidence; no official old-to-new conversion encoded."
+    },
+    {
+      "source_id": "ofs_medical_dental_mfl",
+      "title": "Office for Students medical and dental maximum fundable limits",
+      "url": "https://www.officeforstudents.org.uk/for-providers/finance-and-funding/medicine-and-dentistry-funding/medical-and-dental-maximum-fundable-limits/",
+      "source_type": "official_regulator_page",
+      "published_date": null,
+      "accessed_date": "2026-07-29",
+      "applies_to_sections": [
+        "quotas"
+      ],
+      "confidence": "medium",
+      "notes": "Provider-level MFL reference only."
+    }
+  ],
+  "validation": {
+    "source_status": "official_source_verified_with_documented_gaps",
+    "last_verified": "2026-07-29",
+    "confidence_level": "Low",
+    "completion_status": "complete_for_supported_scope_with_documented_gaps",
+    "known_unknowns": [
+      "Medicine-specific MMI format details (number of stations, duration, precise scoring rubric) -- general Selection Process page covers Nursing/Radiography/SLT/Healthcare Science in detail but does not include a dedicated Medicine A100 subsection in the content retrieved.",
+      "Exact SJT band cut-off or scoring mechanism for 2026 entry.",
+      "Official UCAT Consortium conversion table/ratio between the pre-2025 (3600) and current (2700) scales -- no official methodology published; only unofficial third-party approximations exist (explicitly not used here).",
+      "Any FOI-derived exact interview-invitation formula, interview-to-offer conversion rate, or historical UCAT cut-offs beyond what the university has proactively published -- no matching FOI response located on WhatDoTheyKnow.com providing a numeric formula for A100; several open/historical FOI threads exist on the topic (see Sources) but none supplies a published mathematical formula. New FOI request recommended if this level of detail is required.",
+      "Precise reconciliation of the University's own Home places figure (165, 2025/6) versus the OfS anticipated-home MFL figure (261) -- flagged as a discrepancy, not resolved from public sources.",
+      "International qualification grade equivalencies on a per-country basis (page exists but was not itemised in this pass).",
+      "No separate contextual UCAT cut-off, guaranteed interview rule, interview-ranking uplift, or alternative interview-selection pool is published for A100. ApplySmart must not invent one."
+    ],
+    "review_notes": "Implemented from the authoritative City St George's A100 Complete Master JSON. Evidence gaps are preserved and not filled by inference."
+  },
+  "engine_notes": {
+    "engine_version": "ApplySmart Engine v1.0",
+    "production_ready": true,
+    "activation_ready": true,
+    "eligibility_ready": true,
+    "interview_prediction_ready": true,
+    "result_card_ready": true,
+    "interview_band_ready": true,
+    "decision_transparency_ready": true,
+    "evidence_confidence_ready": true,
+    "decision_timeline_ready": true,
+    "metadata_activation_ready": true,
+    "offer_prediction_scope": "out_of_scope",
+    "architecture_change_required": true,
+    "architecture_change_summary": "Generic UCAT subsection minimum enforcement added; activates only when a course declares minimum_subsection_scores.",
+    "approved_activation_scope": "A100 Home/Overseas and non-graduate/graduate pools using academic gates, UCAT section gate, and low-confidence historical UCAT guidance on the current 2700 scale.",
+    "notes": "No academic scoring formula, SJT weighting, contextual UCAT adjustment, interview guarantee or offer prediction is implemented.",
+    "eligibility": true,
+    "interview_prediction": true,
+    "historical_guidance": true,
+    "international_prediction": true,
+    "contextual_logic": true,
+    "result_card": true,
+    "regression": true,
+    "research_completeness": "complete_for_supported_scope_with_documented_gaps",
+    "manual_review_required": true,
+    "prediction_confidence": "low",
+    "blocking_missing_fields": [],
+    "engine_assumptions": [
+      "Academic requirements are threshold-only; no academic points formula is implemented.",
+      "UCAT subsection minimums are official hard gates when declared in the course profile.",
+      "SJT is recorded and surfaced but excluded from band computation pending an official mechanism."
+    ],
+    "do_not_infer": [
+      "Do not invent a contextual UCAT threshold or ranking uplift.",
+      "Do not invent SJT weighting or Band 4 rejection.",
+      "Do not implement offer prediction."
+    ]
   }
 }

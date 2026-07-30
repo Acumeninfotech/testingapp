@@ -1,6 +1,8 @@
 #!/usr/bin/env node
 
 const assert = require('assert');
+const fs = require('fs');
+const path = require('path');
 const { presentResultCard } = require('../../assets/js/engine/result-card-presenter');
 
 function present(overrides = {}) {
@@ -139,12 +141,226 @@ function assertCompactStatus(card, expected) {
 }
 
 {
+  const metadataSelectionApproach =
+    'Applicants are assessed using the university metadata sentence.';
+  const legacySelectionSummary = 'Legacy generated selection summary should not render.';
+  const card = present({
+    transparencyContext: {
+      selection_approach_display: metadataSelectionApproach,
+      score_model: {
+        type: 'component_sum',
+        presentation: {
+          selection_summary: legacySelectionSummary
+        }
+      },
+      guidance_pool: { metric: 'selection_score' }
+    }
+  });
+  const selectionStage = card.decision_transparency.decision_path.find(
+    (stage) => stage.stage === 'Selection model'
+  );
+  const selectionCheck = selectionStage.checks.find((check) => check.label === 'Selection approach');
+  assert.strictEqual(card.selection_approach_display, metadataSelectionApproach);
+  assert.strictEqual(card.decision_transparency.selection_approach_display, metadataSelectionApproach);
+  assert.strictEqual(selectionStage.summary, metadataSelectionApproach);
+  assert.strictEqual(selectionCheck.summary, metadataSelectionApproach);
+  assert.notStrictEqual(selectionStage.summary, legacySelectionSummary);
+}
+
+{
+  const fallbackSelectionSummary = 'Fallback presentation selection summary.';
+  const card = present({
+    transparencyContext: {
+      score_model: {
+        type: 'component_sum',
+        presentation: {
+          selection_summary: fallbackSelectionSummary
+        }
+      },
+      guidance_pool: { metric: 'selection_score' }
+    }
+  });
+  const selectionStage = card.decision_transparency.decision_path.find(
+    (stage) => stage.stage === 'Selection model'
+  );
+  assert.strictEqual(card.selection_approach_display, null);
+  assert.strictEqual(card.decision_transparency.selection_approach_display, null);
+  assert.strictEqual(selectionStage.summary, fallbackSelectionSummary);
+}
+
+{
+  const defaultSelectionApproach = 'Applicants are assessed using the default metadata sentence.';
+  const fallbackSelectionSummary = 'Fallback presentation selection summary.';
+  const card = present({
+    transparencyContext: {
+      guidance_pool_id: 'unlisted_pool',
+      selection_approach_display: {
+        default: defaultSelectionApproach,
+        by_applicant_pool: {
+          international: 'International applicants who meet the academic requirements are ranked using their UCAT score.'
+        }
+      },
+      score_model: {
+        type: 'component_sum',
+        presentation: {
+          selection_summary: fallbackSelectionSummary
+        }
+      },
+      guidance_pool: { pool_id: 'unlisted_pool', metric: 'selection_score' }
+    }
+  });
+  const selectionStage = card.decision_transparency.decision_path.find(
+    (stage) => stage.stage === 'Selection model'
+  );
+  assert.strictEqual(card.selection_approach_display, defaultSelectionApproach);
+  assert.strictEqual(selectionStage.summary, defaultSelectionApproach);
+}
+
+{
+  const homeSelectionApproach =
+    'Home applicants are assessed using a selection score combining GCSE performance and UCAT.';
+  const internationalSelectionApproach =
+    'International applicants who meet the academic requirements are ranked using their UCAT score.';
+  const fallbackSelectionSummary = 'Fallback presentation selection summary.';
+  const card = present({
+    transparencyContext: {
+      guidance_pool_id: 'international',
+      selection_approach_display: {
+        by_applicant_pool: {
+          home_non_wp: homeSelectionApproach,
+          international: internationalSelectionApproach
+        }
+      },
+      score_model: {
+        type: 'component_sum',
+        presentation: {
+          selection_summary: fallbackSelectionSummary
+        }
+      },
+      guidance_pool: { pool_id: 'international', metric: 'ucat_total' }
+    }
+  });
+  const selectionStage = card.decision_transparency.decision_path.find(
+    (stage) => stage.stage === 'Selection model'
+  );
+  assert.strictEqual(card.selection_approach_display, internationalSelectionApproach);
+  assert.strictEqual(selectionStage.summary, internationalSelectionApproach);
+  assert.notStrictEqual(selectionStage.summary, fallbackSelectionSummary);
+}
+
+{
+  const fallbackSelectionSummary = 'Fallback presentation selection summary.';
+  const card = present({
+    transparencyContext: {
+      guidance_pool_id: 'unknown_pool',
+      selection_approach_display: {
+        by_applicant_pool: {
+          international: 'International applicants who meet the academic requirements are ranked using their UCAT score.'
+        }
+      },
+      score_model: {
+        type: 'component_sum',
+        presentation: {
+          selection_summary: fallbackSelectionSummary
+        }
+      },
+      guidance_pool: { pool_id: 'unknown_pool', metric: 'selection_score' }
+    }
+  });
+  const selectionStage = card.decision_transparency.decision_path.find(
+    (stage) => stage.stage === 'Selection model'
+  );
+  assert.strictEqual(card.selection_approach_display, null);
+  assert.strictEqual(selectionStage.summary, fallbackSelectionSummary);
+}
+
+{
+  const routeSelectionApproach = 'Applicants are assessed using the resolved route sentence.';
+  const poolSelectionApproach = 'Applicants are assessed using the matched pool sentence.';
+  const card = present({
+    transparencyContext: {
+      selection_route_id: 'route_a',
+      guidance_pool_id: 'pool_a',
+      selection_approach_display: {
+        by_selection_route: {
+          route_a: routeSelectionApproach
+        },
+        by_applicant_pool: {
+          pool_a: poolSelectionApproach
+        }
+      },
+      score_model: { type: 'component_sum' },
+      guidance_pool: { pool_id: 'pool_a', metric: 'selection_score' }
+    }
+  });
+  const selectionStage = card.decision_transparency.decision_path.find(
+    (stage) => stage.stage === 'Selection model'
+  );
+  assert.ok(!Object.prototype.hasOwnProperty.call(card, 'selection_route_id'));
+  assert.ok(!Object.prototype.hasOwnProperty.call(card.decision_transparency, 'selection_route_id'));
+  assert.strictEqual(card.selection_approach_display, routeSelectionApproach);
+  assert.strictEqual(selectionStage.summary, routeSelectionApproach);
+}
+
+{
+  const poolSelectionApproach = 'Applicants are assessed using the matched pool sentence.';
+  const fallbackSelectionSummary = 'Fallback presentation selection summary.';
+  const card = present({
+    transparencyContext: {
+      selection_route_id: 'unmatched_route',
+      guidance_pool_id: 'pool_a',
+      selection_approach_display: {
+        by_selection_route: {
+          route_b: 'Applicants are assessed using another route sentence.'
+        },
+        by_applicant_pool: {
+          pool_a: poolSelectionApproach
+        }
+      },
+      score_model: {
+        type: 'component_sum',
+        presentation: {
+          selection_summary: fallbackSelectionSummary
+        }
+      },
+      guidance_pool: { pool_id: 'pool_a', metric: 'selection_score' }
+    }
+  });
+  const selectionStage = card.decision_transparency.decision_path.find(
+    (stage) => stage.stage === 'Selection model'
+  );
+  assert.strictEqual(card.selection_approach_display, poolSelectionApproach);
+  assert.strictEqual(selectionStage.summary, poolSelectionApproach);
+  assert.notStrictEqual(selectionStage.summary, fallbackSelectionSummary);
+}
+
+{
   const card = scoreCard({ score: 33.5, threshold: 33.5 });
   assertCompactStatus(card, {
     label: 'Historical selection score met',
     type: 'selection_comparison',
     tone: 'positive'
   });
+}
+
+{
+  const schemaPath = path.join(__dirname, '../../data/schemas/course.schema.json');
+  const schema = JSON.parse(fs.readFileSync(schemaPath, 'utf8'));
+  const structuredMetadataSchema = schema.properties.selection_approach_display.anyOf
+    .find((candidate) => candidate.type === 'object');
+  const bySelectionRoute =
+    structuredMetadataSchema.properties.by_selection_route;
+  assert.strictEqual(structuredMetadataSchema.additionalProperties, false);
+  assert.deepStrictEqual(bySelectionRoute.additionalProperties, {
+    type: 'string',
+    minLength: 1
+  });
+  assert.ok(
+    structuredMetadataSchema.anyOf.some((candidate) =>
+      candidate.required?.includes('by_selection_route')
+    ),
+    'course schema must accept structured metadata with by_selection_route and no default'
+  );
 }
 
 {

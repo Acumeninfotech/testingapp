@@ -1,182 +1,890 @@
 {
   "schema_version": "1.0.0",
   "profile_id": "brighton-and-sussex-a100",
-  "profile_status": "msc_course_index_seed",
+  "profile_status": "activated_for_scoped_eligibility_and_interview_guidance",
+  "verification_status": "official_source_verified_with_documented_gaps",
+  "last_updated": "2026-07-29",
+  "selection_approach_display": "Applicants who meet the academic requirements are assessed using their UCAT score.",
   "university": {
     "name": "Brighton and Sussex Medical School",
     "slug": "brighton-and-sussex",
     "country": "United Kingdom",
-    "institution_type": "Unknown"
+    "nation": "England",
+    "institution_type": "Medical School",
+    "website_url": "https://www.bsms.ac.uk/"
   },
   "course": {
-    "name": "BM BS Medicine (A100)",
+    "name": "BM BS Medicine",
     "ucas_code": "A100",
-    "route_type": "standard_entry",
-    "qualification_awarded": "BM BS Medicine",
+    "entry_route": "standard_entry",
+    "qualification_awarded": "BM BS",
+    "duration_years": 5,
     "campus": "Brighton and Hove",
     "location": "Brighton and Hove, England",
-    "duration_years": 5
+    "entry_year": 2027,
+    "fee_statuses": [
+      "home",
+      "international"
+    ],
+    "is_gateway_or_foundation": false,
+    "is_graduate_entry": false,
+    "notes": "Production activation covers only BSMS A100 Medicine. Offer prediction is out of scope."
   },
-  "applicant_group": {
-    "fee_status": "home",
-    "domicile": "any",
-    "education_route": "school_leaver",
-    "contextual_group": "optional"
+  "medical_school": {
+    "name": "Brighton and Sussex Medical School",
+    "parent_institutions": [
+      "University of Brighton",
+      "University of Sussex"
+    ]
   },
+  "applicant_pools": [
+    {
+      "pool_id": "home_standard",
+      "applies_to_group_ids": [
+        "home_fee"
+      ],
+      "excluded_group_ids": [
+        "international_fee",
+        "bsms_adjusted_offer_confirmed",
+        "care_experienced"
+      ],
+      "selection_relevance": "Standard Home applicants use the published 2026 Home UCAT threshold rule."
+    },
+    {
+      "pool_id": "home_adjusted_offer",
+      "applies_to_group_ids": [
+        "home_fee",
+        "contextual",
+        "bsms_adjusted_offer_confirmed"
+      ],
+      "excluded_group_ids": [
+        "international_fee"
+      ],
+      "selection_relevance": "Confirmed adjusted-offer applicants bypass the UCAT threshold when academic and SJT requirements are met."
+    },
+    {
+      "pool_id": "care_leaver",
+      "applies_to_group_ids": [
+        "home_fee",
+        "care_experienced"
+      ],
+      "excluded_group_ids": [
+        "international_fee"
+      ],
+      "selection_relevance": "Eligible care leavers have a distinct interview route subject to academic requirements and the SJT gate."
+    },
+    {
+      "pool_id": "overseas",
+      "applies_to_group_ids": [
+        "international_fee"
+      ],
+      "selection_relevance": "Overseas applicants use the separate published 2026 Overseas UCAT threshold rule."
+    }
+  ],
+  "applies_to_group_ids": [
+    "england_domiciled",
+    "scotland_domiciled",
+    "wales_domiciled",
+    "northern_ireland_domiciled",
+    "home_fee",
+    "international_fee",
+    "rest_of_uk",
+    "contextual",
+    "widening_participation",
+    "care_experienced",
+    "graduate_applicant",
+    "school_leaver",
+    "resit_applicant",
+    "deferred_entry"
+  ],
   "stage_1_eligibility": {
+    "verification_status": "official_source_verified_with_documented_gaps",
+    "source_ids": [
+      "bsms_v5_research_doc",
+      "bsms_v5_applysmart_json",
+      "bsms_applying_to_bsms_2026",
+      "bsms_entry_requirements",
+      "bsms_admissions_process",
+      "bsms_international_entry_requirements"
+    ],
+    "overall_policy": {
+      "status": "official_rules_mapped",
+      "description": "Academic requirements are threshold-only. No academic points or combined academic/UCAT score are created.",
+      "evaluation_order": [
+        "Academic eligibility check",
+        "SJT check",
+        "Care-leaver route",
+        "Adjusted-offer route",
+        "Fee-status cohort routing",
+        "UCAT interview-band classification"
+      ],
+      "not_eligible_if": [
+        "Applicable academic requirements are not met.",
+        "SJT Band 4 is supplied.",
+        "UCAT is outside the supported 0-2700 range."
+      ]
+    },
     "gcse": {
-      "status": "unknown",
+      "status": "official_source_verified",
+      "source_ids": [
+        "bsms_v5_research_doc",
+        "bsms_v5_applysmart_json",
+        "bsms_applying_to_bsms_2026",
+        "bsms_entry_requirements",
+        "bsms_admissions_process",
+        "bsms_international_entry_requirements"
+      ],
       "minimum_count": null,
       "counted_subject_limit": null,
-      "mandatory_subjects": [],
-      "accepted_equivalencies": [],
-      "sitting_policy": "unknown",
-      "achieved_or_predicted": "unknown",
-      "notes": "Seeded from MSC course index only. Detailed GCSE rules need course-page review."
+      "mandatory_subject_ids": [
+        "english_language",
+        "mathematics"
+      ],
+      "grade_requirements": [
+        {
+          "requirement_id": "gcse_english_standard",
+          "subject_id": "english_language",
+          "minimum_grade": "6/B",
+          "excluded_group_ids": [
+            "bsms_adjusted_offer_confirmed",
+            "care_experienced"
+          ],
+          "qualification_level": "gcse_or_igcse",
+          "decision_outcome_if_not_met": "not_eligible",
+          "source_ids": [
+            "bsms_v5_research_doc",
+            "bsms_v5_applysmart_json",
+            "bsms_applying_to_bsms_2026",
+            "bsms_entry_requirements",
+            "bsms_admissions_process",
+            "bsms_international_entry_requirements"
+          ]
+        },
+        {
+          "requirement_id": "gcse_maths_standard",
+          "subject_id": "mathematics",
+          "minimum_grade": "6/B",
+          "excluded_group_ids": [
+            "bsms_adjusted_offer_confirmed",
+            "care_experienced"
+          ],
+          "qualification_level": "gcse_or_igcse",
+          "decision_outcome_if_not_met": "not_eligible",
+          "source_ids": [
+            "bsms_v5_research_doc",
+            "bsms_v5_applysmart_json",
+            "bsms_applying_to_bsms_2026",
+            "bsms_entry_requirements",
+            "bsms_admissions_process",
+            "bsms_international_entry_requirements"
+          ]
+        },
+        {
+          "requirement_id": "gcse_english_adjusted_or_care",
+          "subject_id": "english_language",
+          "minimum_grade": "5/C",
+          "any_group_ids": [
+            "bsms_adjusted_offer_confirmed",
+            "care_experienced"
+          ],
+          "qualification_level": "gcse_or_igcse",
+          "decision_outcome_if_not_met": "not_eligible",
+          "source_ids": [
+            "bsms_v5_research_doc",
+            "bsms_v5_applysmart_json",
+            "bsms_applying_to_bsms_2026",
+            "bsms_entry_requirements",
+            "bsms_admissions_process",
+            "bsms_international_entry_requirements"
+          ]
+        },
+        {
+          "requirement_id": "gcse_maths_adjusted_or_care",
+          "subject_id": "mathematics",
+          "minimum_grade": "5/C",
+          "any_group_ids": [
+            "bsms_adjusted_offer_confirmed",
+            "care_experienced"
+          ],
+          "qualification_level": "gcse_or_igcse",
+          "decision_outcome_if_not_met": "not_eligible",
+          "source_ids": [
+            "bsms_v5_research_doc",
+            "bsms_v5_applysmart_json",
+            "bsms_applying_to_bsms_2026",
+            "bsms_entry_requirements",
+            "bsms_admissions_process",
+            "bsms_international_entry_requirements"
+          ]
+        }
+      ],
+      "accepted_equivalencies": [
+        "IGCSE",
+        "National 5 equivalent for Scottish applicants",
+        "recognised international equivalent"
+      ],
+      "sitting_policy": "Qualification recency is normally within 10 years of course start.",
+      "achieved_or_predicted": "achieved_or_predicted",
+      "selection_role": "eligibility_only",
+      "scored_after_eligibility": false,
+      "notes": "Only GCSE English and Maths are checked for this profile. Unknown equivalency requires manual review."
     },
     "post_16": {
+      "status": "official_source_verified_with_documented_gaps",
+      "source_ids": [
+        "bsms_v5_research_doc",
+        "bsms_v5_applysmart_json",
+        "bsms_applying_to_bsms_2026",
+        "bsms_entry_requirements",
+        "bsms_admissions_process",
+        "bsms_international_entry_requirements"
+      ],
       "accepted_qualifications": [
         "a_level",
-        "ib",
-        "scottish_highers",
-        "advanced_highers",
-        "btec",
-        "access_to_he",
-        "degree",
-        "other"
+        "international_baccalaureate",
+        "scottish",
+        "graduate",
+        "international_qualification"
       ],
       "a_level": {
-        "status": "unknown",
-        "standard_offer": null,
-        "contextual_offer": null,
-        "required_subjects": [],
-        "excluded_subjects": [],
-        "third_subject_rules": "",
+        "status": "official_source_verified",
+        "standard_offer": {
+          "grade_profile": [
+            "A",
+            "A",
+            "A"
+          ],
+          "source_ids": [
+            "bsms_v5_research_doc",
+            "bsms_v5_applysmart_json",
+            "bsms_applying_to_bsms_2026",
+            "bsms_entry_requirements",
+            "bsms_admissions_process",
+            "bsms_international_entry_requirements"
+          ]
+        },
+        "contextual_offer": {
+          "grade_profile": [
+            "A",
+            "A",
+            "B"
+          ],
+          "source_ids": [
+            "bsms_v5_research_doc",
+            "bsms_v5_applysmart_json",
+            "bsms_applying_to_bsms_2026",
+            "bsms_entry_requirements",
+            "bsms_admissions_process",
+            "bsms_international_entry_requirements"
+          ]
+        },
+        "required_subject_ids": [
+          "biology",
+          "chemistry"
+        ],
+        "excluded_subject_ids": [
+          "general_studies",
+          "thinking_skills"
+        ],
+        "excluded_subject_names": [
+          "General Studies",
+          "Critical Thinking"
+        ],
         "predicted_grades_accepted": true,
-        "notes": "Needs detailed course-page review."
+        "predicted_grades_scored": false,
+        "achieved_grades_scored": false,
+        "notes": "2026-entry standard route: AAA including Biology and Chemistry. Adjusted-offer route: AAB including Biology and Chemistry."
       },
-      "ib": {
-        "status": "unknown",
-        "total_points": null,
-        "hl_points": null,
-        "required_hl_subjects": [],
-        "notes": ""
+      "international_baccalaureate": {
+        "status": "official_source_verified",
+        "standard_total_points": 36,
+        "adjusted_total_points": 35,
+        "required_hl_subject_ids": [
+          "biology",
+          "chemistry"
+        ],
+        "notes": "Standard IB route requires 36 points with Biology and Chemistry at grade 6 Higher Level; adjusted route requires 35 points."
       },
       "scottish": {
-        "status": "unknown",
-        "higher_offer": null,
-        "advanced_higher_offer": null,
-        "required_subjects": [],
-        "notes": ""
+        "status": "official_source_verified",
+        "advanced_higher_offer": {
+          "grade_profile": [
+            "A",
+            "A",
+            "A"
+          ],
+          "required_subject_ids": [
+            "biology",
+            "chemistry"
+          ]
+        },
+        "notes": "Advanced Highers accepted when Biology and Chemistry requirements are met."
       },
-      "btec": {
-        "status": "unknown",
-        "accepted_subjects": [],
-        "accepted_combinations": "",
-        "notes": ""
+      "graduate": {
+        "status": "supported_threshold_route",
+        "minimum_classification": "2_1",
+        "gcse_required": true,
+        "notes": "Graduates are supported through A100 threshold handling where degree classification and GCSE evidence are supplied."
       },
-      "access_to_he": {
-        "status": "unknown",
-        "total_credits": null,
-        "distinction_credits": null,
-        "merit_credits": null,
-        "subject_credits": [],
-        "notes": ""
+      "international_qualification": {
+        "status": "manual_review_for_equivalency",
+        "notes": "Unknown international qualification equivalency requires manual review."
       },
-      "notes": "Qualification acceptance must be verified against official course details."
+      "notes": "All academic handling is threshold-only."
     },
-    "admissions_test": {
-      "test": "unknown",
-      "required": false,
-      "minimum_total_score": null,
-      "minimum_subsections": [],
-      "validity_window": "current admissions cycle",
-      "exemptions": [],
+    "admissions_tests": {
+      "ucat": {
+        "test": "UCAT",
+        "required": true,
+        "minimum_total_score": null,
+        "score_scale": 2700,
+        "validity_window": "current admissions cycle",
+        "role": "ranking_metric_after_academic_and_sjt_gates",
+        "notes": "UCAT is not required for confirmed adjusted-offer or eligible care-leaver bypass routes once academic and SJT gates pass."
+      },
       "sjt": {
-        "used_as_gate": false,
+        "used_as_gate": true,
         "accepted_bands": [
           1,
           2,
-          3,
+          3
+        ],
+        "excluded_bands": [
           4
         ],
-        "band_4_policy": "unknown",
-        "notes": "UCAT/SJT policy needs course-page review."
-      },
-      "notes": "Do not use for scoring until verified."
+        "band_4_policy": "automatic_rejection_all_cohorts",
+        "scoring": {
+          "used_in_score": false
+        },
+        "notes": "Band 4 rejects every cohort, including adjusted-offer and care-leaver applicants."
+      }
     },
     "resits": {
-      "policy": "unknown",
-      "conditions": "",
+      "allowed": true,
+      "policy": "Ordinarily only one dropped grade tolerated; route-specific evidence may require review.",
       "maximum_resits": null
     },
-    "contextual": {
-      "available": false,
-      "criteria": [],
-      "adjustments": [],
-      "notes": ""
-    },
     "english_language": {
-      "required_for_group": false,
-      "accepted_tests": [],
-      "exemptions": [],
-      "notes": "May apply to international applicants; verify."
+      "required_for_group": true,
+      "accepted_tests": [
+        {
+          "test": "IELTS Academic",
+          "overall_minimum": 7,
+          "minimum_each_component": 7
+        }
+      ],
+      "exemptions": [
+        "GCSE English or recognised equivalent"
+      ],
+      "notes": "International English equivalency is review-only unless explicit evidence is supplied."
     },
-    "age_or_degree": {
+    "age_or_professional_checks": {
       "minimum_age": null,
-      "degree_required": false,
-      "degree_classification": null,
-      "accepted_degree_subjects": [],
-      "notes": ""
-    },
-    "non_academic": {
-      "work_experience": "unknown",
-      "personal_statement": "unknown",
-      "reference_policy": "unknown",
       "fitness_to_practise_required": true,
       "dbs_required": true,
-      "occupational_health_required": true,
-      "notes": "Professional checks usually apply; exact timing/wording needs verification."
+      "occupational_health_required": true
     }
   },
   "stage_2_interview_selection": {
-    "primary_method": "unknown",
+    "verification_status": "official_source_verified_with_documented_gaps",
+    "source_ids": [
+      "bsms_v5_research_doc",
+      "bsms_v5_applysmart_json",
+      "bsms_applying_to_bsms_2026",
+      "bsms_entry_requirements",
+      "bsms_admissions_process",
+      "bsms_international_entry_requirements"
+    ],
+    "primary_model": "ucat_ranking",
+    "modifiers": [
+      "sjt_band_4_exclusion",
+      "home_international_separate_ranking",
+      "contextual_guaranteed_interview_override",
+      "guaranteed_interview"
+    ],
     "ranking_factors": [
       {
-        "factor": "other",
-        "role": "review_factor",
+        "factor_id": "academic_threshold",
+        "role": "eligibility_gate",
         "weight_percent": null,
         "points_available": null,
-        "notes": "Primary ranking factor needs official admissions policy review."
-      }
-    ],
-    "thresholds": [],
-    "modifiers": [],
-    "tie_breakers": [],
-    "quotas_or_pools": [],
-    "output_band_policy": "strong_reasonable_risky_not_eligible",
-    "notes": "Seed profile. Stage 2 method should be verified before production scoring."
-  },
-  "validation": {
-    "source_status": "official",
-    "last_verified": "2026-06-19",
-    "confidence_level": "Low",
-    "sources": [
-      {
-        "title": "Medical Schools Council UK medical school entry requirements index",
-        "url": "https://www.medschools.ac.uk/for-students/applying-to-medical-school/entry-requirements/?pg=1",
-        "source_type": "official_course_page",
-        "accessed_date": "2026-06-19",
-        "notes": "Course card from MSC index for courses starting Autumn 2026."
+        "notes": "Academic requirements are not scored."
       },
       {
-        "title": "Brighton and Sussex Medical School - BM BS Medicine (A100)",
-        "url": "https://www.medschools.ac.uk/courses/brighton-and-sussex-medicine-a100/",
-        "source_type": "official_course_page",
-        "accessed_date": "2026-06-19",
-        "notes": "Detailed rules not yet extracted."
+        "factor_id": "ucat_total",
+        "role": "ranking_metric",
+        "weight_percent": 100,
+        "points_available": 2700,
+        "notes": "Eligible standard applicants are ranked by total UCAT within fee-status pool."
+      },
+      {
+        "factor_id": "sjt",
+        "role": "hard_gate",
+        "weight_percent": null,
+        "points_available": null,
+        "notes": "Band 4 rejects all cohorts."
       }
     ],
-    "review_notes": "Generated from MSC index. Complete Stage 1 and Stage 2 fields by reviewing each course page and university admissions policy."
+    "calculation": {
+      "verification_status": "official_source_verified",
+      "source_ids": [
+        "bsms_v5_research_doc",
+        "bsms_v5_applysmart_json",
+        "bsms_applying_to_bsms_2026",
+        "bsms_entry_requirements",
+        "bsms_admissions_process",
+        "bsms_international_entry_requirements"
+      ],
+      "score_components": [
+        {
+          "component_id": "ucat_total",
+          "factor_id": "ucat_total",
+          "input_field": "admissions_tests.ucat.total_score",
+          "calculation_method": "direct_total_score_out_of_2700",
+          "scale": {
+            "min": 0,
+            "max": 2700
+          },
+          "weight_percent": 100,
+          "rounding": "none",
+          "notes": "No academic or SJT points are added.",
+          "source_ids": [
+            "bsms_v5_research_doc",
+            "bsms_v5_applysmart_json",
+            "bsms_applying_to_bsms_2026",
+            "bsms_entry_requirements",
+            "bsms_admissions_process",
+            "bsms_international_entry_requirements"
+          ]
+        }
+      ],
+      "total_score": {
+        "calculation_method": "ucat_total_only_after_threshold_gates",
+        "components": [
+          "ucat_total"
+        ],
+        "scale": {
+          "min": 0,
+          "max": 2700
+        },
+        "notes": "Only standard Home and Overseas routes use UCAT banding.",
+        "source_ids": [
+          "bsms_v5_research_doc",
+          "bsms_v5_applysmart_json",
+          "bsms_applying_to_bsms_2026",
+          "bsms_entry_requirements",
+          "bsms_admissions_process",
+          "bsms_international_entry_requirements"
+        ]
+      },
+      "notes": "Adjusted-offer and care-leaver routes bypass UCAT threshold classification after academic and SJT gates."
+    },
+    "thresholds": [
+      {
+        "threshold_id": "home_standard_2026",
+        "cohort": "home_standard",
+        "value": 1990,
+        "rule": "above_1990_or_exact_1990_with_sjt_band_1",
+        "source_ids": [
+          "bsms_v5_research_doc",
+          "bsms_v5_applysmart_json",
+          "bsms_applying_to_bsms_2026",
+          "bsms_entry_requirements",
+          "bsms_admissions_process",
+          "bsms_international_entry_requirements"
+        ]
+      },
+      {
+        "threshold_id": "overseas_2026",
+        "cohort": "overseas",
+        "value": 1980,
+        "rule": "strictly_above_1980",
+        "source_ids": [
+          "bsms_v5_research_doc",
+          "bsms_v5_applysmart_json",
+          "bsms_applying_to_bsms_2026",
+          "bsms_entry_requirements",
+          "bsms_admissions_process",
+          "bsms_international_entry_requirements"
+        ]
+      },
+      {
+        "threshold_id": "home_adjusted_offer_2026",
+        "cohort": "home_adjusted_offer",
+        "value": null,
+        "rule": "no_ucat_threshold",
+        "source_ids": [
+          "bsms_v5_research_doc",
+          "bsms_v5_applysmart_json",
+          "bsms_applying_to_bsms_2026",
+          "bsms_entry_requirements",
+          "bsms_admissions_process",
+          "bsms_international_entry_requirements"
+        ]
+      }
+    ],
+    "selection_adjustments": [
+      {
+        "modifier_id": "contextual_guaranteed_interview_override",
+        "applies_to_group_ids": [
+          "home_fee",
+          "contextual"
+        ],
+        "notes": "Confirmed adjusted-offer applicants with academic requirements met and SJT Band 1-3 were invited regardless of UCAT score."
+      },
+      {
+        "modifier_id": "guaranteed_interview",
+        "applies_to_group_ids": [
+          "home_fee",
+          "care_experienced"
+        ],
+        "notes": "Eligible care leavers have a separate interview route subject to academic and SJT gates."
+      }
+    ],
+    "tie_breakers": [
+      {
+        "tie_breaker_id": "home_exact_1990_sjt_band_1_only",
+        "notes": "At exactly 1990, only SJT Band 1 meets the published Home rule.",
+        "source_ids": [
+          "bsms_v5_research_doc",
+          "bsms_v5_applysmart_json",
+          "bsms_applying_to_bsms_2026",
+          "bsms_entry_requirements",
+          "bsms_admissions_process",
+          "bsms_international_entry_requirements"
+        ]
+      }
+    ],
+    "output_band_policy": "bsms_source_bands_mapped_to_applysmart_result_cards",
+    "notes": "Derived ApplySmart bands above the official cut-offs are not published by BSMS and must be labelled as derived."
+  },
+  "contextual_admissions": {
+    "verification_status": "official_source_verified",
+    "source_ids": [
+      "bsms_v5_research_doc",
+      "bsms_v5_applysmart_json",
+      "bsms_applying_to_bsms_2026",
+      "bsms_entry_requirements",
+      "bsms_admissions_process",
+      "bsms_international_entry_requirements"
+    ],
+    "available": true,
+    "applies_to_group_ids": [
+      "home_fee",
+      "contextual",
+      "widening_participation",
+      "care_experienced"
+    ],
+    "criteria": [
+      "At least one criterion from three different adjusted-offer sections for the general adjusted-offer route.",
+      "Care leaver: 3+ months in local authority care during secondary and/or post-16 education."
+    ],
+    "adjustments": [
+      "Adjusted academic threshold: AAB at A-level, 35 IB points, GCSE English and Maths grade 5/C.",
+      "2026-entry adjusted-offer applicants meeting academic and SJT requirements had no UCAT threshold."
+    ],
+    "guaranteed_interview_rules": [
+      {
+        "rule_id": "bsms_adjusted_offer_interview_route",
+        "route": "ADJUSTED_OFFER_INTERVIEW_ROUTE",
+        "source_ids": [
+          "bsms_v5_research_doc",
+          "bsms_v5_applysmart_json",
+          "bsms_applying_to_bsms_2026",
+          "bsms_entry_requirements",
+          "bsms_admissions_process",
+          "bsms_international_entry_requirements"
+        ]
+      },
+      {
+        "rule_id": "bsms_care_leaver_interview_route",
+        "route": "CARE_LEAVER_INTERVIEW_ROUTE",
+        "source_ids": [
+          "bsms_v5_research_doc",
+          "bsms_v5_applysmart_json",
+          "bsms_applying_to_bsms_2026",
+          "bsms_entry_requirements",
+          "bsms_admissions_process",
+          "bsms_international_entry_requirements"
+        ]
+      }
+    ],
+    "notes": "Care-leaver routing remains separate from the general adjusted-offer route."
+  },
+  "ranking_pools": [
+    {
+      "pool_id": "home_standard",
+      "name": "Home standard",
+      "applies_to_group_ids": [
+        "home_fee"
+      ],
+      "fee_statuses": [
+        "home"
+      ],
+      "ranking_model": "ucat_ranking",
+      "ranking_factors": [
+        "ucat_total"
+      ],
+      "places_available": 197,
+      "source_ids": [
+        "bsms_v5_research_doc",
+        "bsms_v5_applysmart_json",
+        "bsms_applying_to_bsms_2026",
+        "bsms_entry_requirements",
+        "bsms_admissions_process",
+        "bsms_international_entry_requirements"
+      ],
+      "notes": "Published 2026 threshold: above 1990, or exactly 1990 with SJT Band 1."
+    },
+    {
+      "pool_id": "overseas",
+      "name": "Overseas",
+      "applies_to_group_ids": [
+        "international_fee"
+      ],
+      "fee_statuses": [
+        "international"
+      ],
+      "ranking_model": "ucat_ranking",
+      "ranking_factors": [
+        "ucat_total"
+      ],
+      "places_available": 10,
+      "source_ids": [
+        "bsms_v5_research_doc",
+        "bsms_v5_applysmart_json",
+        "bsms_applying_to_bsms_2026",
+        "bsms_entry_requirements",
+        "bsms_admissions_process",
+        "bsms_international_entry_requirements"
+      ],
+      "notes": "Published 2026 threshold: strictly above 1980."
+    }
+  ],
+  "quotas": [
+    {
+      "quota_id": "adjusted_offer_interview_aim",
+      "source_ids": [
+        "bsms_v5_research_doc",
+        "bsms_v5_applysmart_json",
+        "bsms_applying_to_bsms_2026",
+        "bsms_entry_requirements",
+        "bsms_admissions_process",
+        "bsms_international_entry_requirements"
+      ],
+      "notes": "BSMS aims to reserve 30% of interviews for adjusted-offer applicants, but the operative 2026 rule invited all eligible adjusted-offer applicants meeting academic and SJT requirements."
+    }
+  ],
+  "offer_selection": {
+    "verification_status": "official_source_verified_with_documented_gaps",
+    "source_ids": [
+      "bsms_v5_research_doc",
+      "bsms_v5_applysmart_json",
+      "bsms_applying_to_bsms_2026",
+      "bsms_entry_requirements",
+      "bsms_admissions_process",
+      "bsms_international_entry_requirements"
+    ],
+    "interview_format": "Multiple Mini Interview, 5 stations of 10 minutes, in person or online.",
+    "interview_scoring": "MMI station-level scoring criteria are unpublished.",
+    "offer_model": "Admissions Review Group considers interview outcomes; UCAT may be used as a final discriminator but mechanism is unpublished.",
+    "ranking_factors": [
+      "mmi_performance"
+    ],
+    "tie_breakers": [
+      "post_interview_ucat_discriminator_unpublished"
+    ],
+    "waiting_list_policy": "not_published_in_supplied_scope",
+    "standard_offer": "AAA or applicable cycle-specific offer.",
+    "contextual_offer": "AAB adjusted offer where eligible.",
+    "notes": "Offer prediction remains out of scope."
+  },
+  "historical_admissions": {
+    "verification_status": "official_source_verified_with_documented_gaps",
+    "source_ids": [
+      "bsms_v5_research_doc",
+      "bsms_v5_applysmart_json",
+      "bsms_applying_to_bsms_2026",
+      "bsms_entry_requirements",
+      "bsms_admissions_process",
+      "bsms_international_entry_requirements"
+    ],
+    "cycles": [
+      {
+        "entry_year": 2026,
+        "score_scale": 2700,
+        "home_standard_threshold": 1990,
+        "overseas_threshold": 1980,
+        "home_adjusted_offer_threshold": null,
+        "applications": 1618,
+        "interviews": 824,
+        "offers": 670,
+        "places": 208,
+        "notes": "Index-page statistics dated 2026-05-13 are preferred over superseded FAQ figures."
+      }
+    ],
+    "notes": "Only one UCAT-era threshold cycle is available; no historical trend line is shown."
+  },
+  "fee_information": {
+    "currency": "GBP",
+    "entry_cycle": "2027 entry",
+    "home": {
+      "first_year": null,
+      "course_total": null
+    },
+    "international": {
+      "first_year": null,
+      "course_total": null
+    },
+    "deposit": 5000,
+    "fees_subject_to_change": true,
+    "eligibility_effect": "informational_only",
+    "source_ids": [
+      "bsms_v5_research_doc",
+      "bsms_v5_applysmart_json",
+      "bsms_applying_to_bsms_2026",
+      "bsms_entry_requirements",
+      "bsms_admissions_process",
+      "bsms_international_entry_requirements"
+    ]
+  },
+  "sources": [
+    {
+      "source_id": "bsms_v5_research_doc",
+      "title": "BSMS A100 Interview Selection Research Report & ApplySmart Configuration, v5.0",
+      "url": "/Users/faizan/Desktop/medical university research/University-data-list/BSMS/use This/BSMS_A100_Interview_Selection_Report_v5.docx",
+      "source_type": "user_supplied_authoritative_research",
+      "published_date": "2026-07-23",
+      "accessed_date": "2026-07-29",
+      "applies_to_sections": [
+        "all"
+      ],
+      "confidence": "high",
+      "evidence_classification": "approved_canonical_specification",
+      "notes": "User designated this v5 report as canonical for BSMS A100 implementation."
+    },
+    {
+      "source_id": "bsms_v5_applysmart_json",
+      "title": "BSMS A100 ApplySmart JSON, v5.0",
+      "url": "/Users/faizan/Desktop/medical university research/University-data-list/BSMS/use This/bsms_a100_applysmart.json",
+      "source_type": "user_supplied_authoritative_structured_spec",
+      "published_date": "2026-07-23",
+      "accessed_date": "2026-07-29",
+      "applies_to_sections": [
+        "all"
+      ],
+      "confidence": "high",
+      "evidence_classification": "approved_canonical_specification",
+      "notes": "Structured canonical BSMS v5 admissions and result-card mapping."
+    },
+    {
+      "source_id": "bsms_applying_to_bsms_2026",
+      "title": "Applying to BSMS",
+      "url": "https://www.bsms.ac.uk/undergraduate/applying-to-bsms/index.aspx",
+      "source_type": "official_university_page",
+      "published_date": null,
+      "accessed_date": "2026-07-23",
+      "applies_to_sections": [
+        "ucat_thresholds",
+        "sjt_policy",
+        "application_statistics"
+      ],
+      "confidence": "high",
+      "evidence_classification": "official_published_threshold",
+      "notes": "Primary official source for 2026-entry UCAT thresholds and SJT Band 4 rejection."
+    },
+    {
+      "source_id": "bsms_entry_requirements",
+      "title": "BSMS Entry Requirements",
+      "url": "https://www.bsms.ac.uk/undergraduate/applying-to-bsms/entry-requirements.aspx",
+      "source_type": "official_university_page",
+      "published_date": null,
+      "accessed_date": "2026-07-23",
+      "applies_to_sections": [
+        "academic_requirements",
+        "contextual_admissions"
+      ],
+      "confidence": "high",
+      "evidence_classification": "official",
+      "notes": "Official academic, GCSE and adjusted-offer requirements."
+    },
+    {
+      "source_id": "bsms_admissions_process",
+      "title": "BSMS Admissions Process",
+      "url": "https://www.bsms.ac.uk/undergraduate/applying-to-bsms/admissions-process.aspx",
+      "source_type": "official_university_page",
+      "published_date": null,
+      "accessed_date": "2026-07-23",
+      "applies_to_sections": [
+        "interview_process",
+        "offer_selection"
+      ],
+      "confidence": "high",
+      "evidence_classification": "official",
+      "notes": "Official interview format and post-interview process; offer prediction remains out of scope."
+    },
+    {
+      "source_id": "bsms_international_entry_requirements",
+      "title": "BSMS International Entry Requirements",
+      "url": "https://www.bsms.ac.uk/undergraduate/international-students/international-entry-requirements.aspx",
+      "source_type": "official_university_page",
+      "published_date": null,
+      "accessed_date": "2026-07-23",
+      "applies_to_sections": [
+        "international_applicants",
+        "english_language"
+      ],
+      "confidence": "high",
+      "evidence_classification": "official",
+      "notes": "Country equivalency must be confirmed for unlisted international qualifications."
+    }
+  ],
+  "validation": {
+    "source_status": "official_source_verified_with_documented_gaps",
+    "last_verified": "2026-07-29",
+    "confidence_level": "High evidence, medium prediction",
+    "completion_status": "production_activated_for_supported_scope",
+    "known_unknowns": [
+      "2025-entry UCAT threshold not located.",
+      "2027-entry UCAT threshold not yet published.",
+      "Tie-break rule for identical UCAT scores above the threshold is unpublished.",
+      "Post-interview UCAT discriminator mechanism is unpublished.",
+      "MMI station-level scoring criteria are unpublished."
+    ],
+    "review_notes": "BSMS v5 canonical inputs implemented without changing approved thresholds, bands, routing or result-card mapping."
+  },
+  "engine_notes": {
+    "eligibility": true,
+    "interview_prediction": true,
+    "historical_guidance": false,
+    "international_prediction": true,
+    "contextual_logic": true,
+    "result_card": true,
+    "regression": true,
+    "research_completeness": "complete_for_supported_scope_with_documented_gaps",
+    "manual_review_required": true,
+    "eligibility_ready": true,
+    "interview_prediction_ready": true,
+    "prediction_confidence": "medium",
+    "result_card_ready": true,
+    "offer_prediction_scope": "out_of_scope",
+    "interview_band_config_ready": true,
+    "metadata_activation_ready": true,
+    "production_ready_candidate": true,
+    "production_activation_should_remain_blocked": false,
+    "activation_block_reason": null,
+    "evidence_confidence": "high",
+    "blocking_missing_fields": [],
+    "engine_assumptions": [
+      "Prediction confidence is represented as medium in repository enums, corresponding to canonical moderate.",
+      "Evidence confidence remains separate and high.",
+      "Derived ApplySmart bands above the official threshold are not presented as BSMS-published bands."
+    ],
+    "do_not_infer": [
+      "Do not create academic points or a combined academic/UCAT score.",
+      "Do not require UCAT for confirmed adjusted-offer or eligible care-leaver routes.",
+      "Do not route Overseas exactly 1980 to manual review.",
+      "Do not provide offer prediction."
+    ]
   }
 }

@@ -60,7 +60,7 @@ const GCSE_GRADE_RANK = {
   '9': 9
 };
 
-const APPLYSMART_HYMS_SCORE_LABEL = 'ApplySmart HYMS selection analysis';
+const APPLYSMART_HYMS_SCORE_LABEL = 'Estimated HYMS selection score';
 const APPLYSMART_HYMS_ANALYSIS_DISCLOSURE =
   "ApplySmart uses published HYMS admissions information and historical evidence to guide interview competitiveness alongside HYMS's published admissions policy. This is not a guarantee of interview.";
 const APPLYSMART_HYMS_SELECTION_SUMMARY =

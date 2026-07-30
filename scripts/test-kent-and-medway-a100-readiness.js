@@ -220,16 +220,16 @@ assert.strictEqual(completeCard.recommendation_display_state, 'standard');
 assert.strictEqual(completeCard.primary_user_facing_recommendation, 'Strong Choice');
 assert.match(
   completeCard.primary_explanation,
-  /UCAT score of 2550 is above the available historical reference range of 1855-1864/i
+  /UCAT score of 2550 is above the ApplySmart advisory UCAT range based on historical admissions evidence of 1855-1864/i
 );
-assert.match(completeCard.primary_explanation, /competitive profile and strong interview potential/i);
+assert.match(completeCard.primary_explanation, /competitive applicant profile/i);
 assert.match(
   completeCard.primary_explanation,
-  /not published an exact 2026 interview cut-off on the current UCAT scale/i
+  /available selection information and admissions evidence/i
 );
 assert.match(
   completeCard.primary_explanation,
-  /Final interview decisions remain with KMMS/i
+  /not a guarantee of interview/i
 );
 assert.match(completeCard.trust_statement, /does not alter university requirements/i);
 assert.strictEqual(completeCard.prediction.prediction_status, 'prediction_unavailable');

@@ -65,6 +65,58 @@
         "null"
       ]
     },
+    "selection_approach_display": {
+      "anyOf": [
+        {
+          "type": "string",
+          "minLength": 1
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "default": {
+              "type": "string",
+              "minLength": 1
+            },
+            "by_applicant_pool": {
+              "type": "object",
+              "additionalProperties": {
+                "type": "string",
+                "minLength": 1
+              },
+              "minProperties": 1
+            },
+            "by_selection_route": {
+              "type": "object",
+              "additionalProperties": {
+                "type": "string",
+                "minLength": 1
+              },
+              "minProperties": 1
+            }
+          },
+          "anyOf": [
+            {
+              "required": [
+                "default"
+              ]
+            },
+            {
+              "required": [
+                "by_applicant_pool"
+              ]
+            },
+            {
+              "required": [
+                "by_selection_route"
+              ]
+            }
+          ]
+        }
+      ],
+      "description": "Optional applicant-facing sentence describing the university's published selection approach. Presentation wording only; admissions logic remains in structured eligibility and selection sections."
+    },
     "university": {
       "$ref": "#/$defs/university"
     },

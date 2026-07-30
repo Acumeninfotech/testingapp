@@ -313,6 +313,26 @@ function deriveApplicantGroupIds(applicant) {
   return [...groups];
 }
 
+function deriveConfiguredApplicantGroupIds(applicant, config, initialGroupIds = null) {
+  const groups = new Set(initialGroupIds || deriveApplicantGroupIds(applicant));
+  const rules = config?.eligibility?.derived_applicant_groups || [];
+
+  for (const rule of rules) {
+    const groupId = rule?.group_id;
+    if (!groupId) {
+      continue;
+    }
+    if (
+      groupRuleApplies(rule.match || rule, [...groups]) &&
+      overrideEvidenceMatches(rule, applicant)
+    ) {
+      groups.add(groupId);
+    }
+  }
+
+  return [...groups];
+}
+
 function groupRuleApplies(rule, groupIds) {
   const groups = new Set(groupIds);
   const all = rule?.all_group_ids || rule?.applies_to_group_ids || [];
@@ -417,6 +437,60 @@ function resolveUcatMinimumTotalScore(ucat, groupIds) {
     });
 
   return groupRule?.minimum_total_score ?? ucat?.minimum_total_score ?? null;
+}
+
+function finiteScore(value) {
+  if (value === null || value === undefined || value === '') {
+    return null;
+  }
+  const score = Number(value);
+  return Number.isFinite(score) ? score : null;
+}
+
+function ucatSubtestScore(evidence, subsection) {
+  const subtests = evidence?.subtests || evidence?.section_scores || {};
+  return finiteScore(evidence?.[subsection] ?? subtests[subsection]);
+}
+
+function evaluateUcatSubsectionMinimums(ucat = {}, evidence = {}) {
+  const requirements = ucat.minimum_subsection_scores || ucat.section_minimums || [];
+  const defaultSections = ucat.cognitive_subtest_ids || [
+    'verbal_reasoning',
+    'decision_making',
+    'quantitative_reasoning'
+  ];
+  const checks = [];
+
+  for (const requirement of requirements) {
+    const subsection = normaliseId(
+      requirement.subsection || requirement.section || requirement.subtest
+    );
+    const minimum = Number(requirement.minimum_score ?? requirement.minimum);
+    if (!Number.isFinite(minimum)) {
+      continue;
+    }
+
+    const sections = ['each_cognitive_section', 'each_cognitive_subtest', 'each_subcomponent']
+      .includes(subsection)
+      ? defaultSections
+      : [subsection];
+
+    for (const section of sections) {
+      const score = ucatSubtestScore(evidence, section);
+      checks.push({
+        section,
+        minimum,
+        score,
+        passed: Number.isFinite(score) && score >= minimum
+      });
+    }
+  }
+
+  return {
+    checks,
+    passed: checks.every((check) => check.passed),
+    failing_sections: checks.filter((check) => !check.passed).map((check) => check.section)
+  };
 }
 
 function sameSittingRequirement(course, config) {
@@ -738,6 +812,12 @@ function evaluateAcademicEligibility(course, config, applicant, groupIds) {
   const exactGcseCount = Object.keys(gcseGrades).length;
   const creditedGcseCount = countGcseSubjects(gcseRules, gcseGrades);
   const reportedGcseCount = applicant.gcse_profile?.total_gcse_count;
+  const missingAcademicEvidenceOutcome =
+    configEligibility.academic_evidence?.missing_outcome ||
+    configEligibility.missing_academic_evidence_outcome;
+  const missingAcademicEvidenceReason =
+    configEligibility.academic_evidence?.manual_review_reason ||
+    'missing_academic_evidence_requires_manual_review';
   const gcseCount = gcseConfig.use_exact_subject_list === true
     ? creditedGcseCount
     : (reportedGcseCount ?? creditedGcseCount);
@@ -749,6 +829,13 @@ function evaluateAcademicEligibility(course, config, applicant, groupIds) {
   const addManualReview = (reason) => {
     if (!manualReviewReasons.includes(reason)) {
       manualReviewReasons.push(reason);
+    }
+  };
+  const handleMissingAcademicEvidence = (fallbackFailure) => {
+    if (missingAcademicEvidenceOutcome === 'manual_review') {
+      addManualReview(missingAcademicEvidenceReason);
+    } else {
+      addFailure(fallbackFailure);
     }
   };
   if (explicitlyBlockedRoutes.includes(qualificationRoute)) {
@@ -859,7 +946,7 @@ function evaluateAcademicEligibility(course, config, applicant, groupIds) {
         continue;
       }
       if (gcseGrades[subjectId] === undefined) {
-        addFailure(`required_gcse_subject_missing:${subjectId}`);
+        handleMissingAcademicEvidence(`required_gcse_subject_missing:${subjectId}`);
       }
     }
     for (const rule of requiredSubjects) {
@@ -957,6 +1044,7 @@ function evaluateAcademicEligibility(course, config, applicant, groupIds) {
       }
     }
     const noAchievedALevels = Object.keys(aLevelGrades).length === 0;
+    const missingALevelEvidence = noAchievedALevels && declaredSubjectIds.length === 0;
     const allowPreCompletionGcseOnly =
       aLevelConfig.allow_unachieved_with_gcse_gate === true &&
       ignorePredictedGrades &&
@@ -1031,6 +1119,8 @@ function evaluateAcademicEligibility(course, config, applicant, groupIds) {
           exception.manual_review_reason ||
           'contextual_a_level_gate_exception_requires_manual_review'
         );
+      } else if (missingALevelEvidence && missingAcademicEvidenceOutcome === 'manual_review') {
+        addManualReview(missingAcademicEvidenceReason);
       } else {
         addFailure('a_level_requirements_not_met');
       }
@@ -1041,7 +1131,7 @@ function evaluateAcademicEligibility(course, config, applicant, groupIds) {
         `a_level_route_requires_manual_review:${manualReviewRoute.route_id || 'matched_route'}`
       );
     }
-    if (!subjectCombinationPassed && !aLevelGateExceptionApplied) {
+    if (!subjectCombinationPassed && !aLevelGateExceptionApplied && !missingALevelEvidence) {
       addFailure('a_level_subject_combination_not_met');
     }
 
@@ -1359,6 +1449,12 @@ function evaluateHardFilters(course, config, applicant, groupIds) {
   const courseCode = String(course.course?.ucas_code || '').toUpperCase();
   const academicManualReview = Boolean(academic.manual_review_reasons?.length);
   const ageAssessment = evaluateExplicitMinimumAge(course, applicant);
+  const manualReviewRules = config.eligibility?.manual_review_if || [];
+  const addManualReviewReason = (reason) => {
+    if (!academic.manual_review_reasons.includes(reason)) {
+      academic.manual_review_reasons.push(reason);
+    }
+  };
 
   if (
     targetCourseCode &&
@@ -1375,8 +1471,36 @@ function evaluateHardFilters(course, config, applicant, groupIds) {
   const ucatApplies = !usesGamsat &&
     (!Array.isArray(ucat.excluded_group_ids) ||
       !ucat.excluded_group_ids.some((groupId) => groupIds.includes(groupId)));
-  if (ucat.required === true && ucatApplies && !Number.isFinite(ucatTotal)) {
-    failures.push('required_admissions_test_missing:ucat');
+  const missingUcatAllowedByOverride = Boolean(
+    !Number.isFinite(ucatTotal) &&
+    resolveGuaranteedInterviewOverride(config, applicant, groupIds)
+  );
+  if (
+    ucat.required === true &&
+    ucatApplies &&
+    !Number.isFinite(ucatTotal) &&
+    !missingUcatAllowedByOverride
+  ) {
+    if (config.eligibility?.ucat?.missing_outcome === 'manual_review') {
+      addManualReviewReason('required_admissions_test_missing:ucat');
+    } else {
+      failures.push('required_admissions_test_missing:ucat');
+    }
+  }
+  if (
+    ucatApplies &&
+    Number.isFinite(ucatTotal) &&
+    (
+      ucatTotal < (config.eligibility?.ucat?.score_min ?? 0) ||
+      ucatTotal > (
+        config.eligibility?.ucat?.score_max ??
+        ucat.score_scale ??
+        applicant.admissions_tests?.ucat?.score_scale ??
+        2700
+      )
+    )
+  ) {
+    addManualReviewReason('ucat_total_outside_supported_range');
   }
 
   const minimumUcatTotalScore = resolveUcatMinimumTotalScore(ucat, groupIds);
@@ -1386,6 +1510,17 @@ function evaluateHardFilters(course, config, applicant, groupIds) {
     (!Number.isFinite(ucatTotal) || ucatTotal < minimumUcatTotalScore)
   ) {
     failures.push('minimum_ucat_total_not_met');
+  }
+  const ucatSubsectionMinimums = evaluateUcatSubsectionMinimums(
+    ucat,
+    applicant.admissions_tests?.ucat || {}
+  );
+  if (
+    ucatApplies &&
+    ucatSubsectionMinimums.checks.length > 0 &&
+    !ucatSubsectionMinimums.passed
+  ) {
+    failures.push('ucat_section_minimum_not_met');
   }
 
   if (
@@ -1418,7 +1553,11 @@ function evaluateHardFilters(course, config, applicant, groupIds) {
     sjt.graduate_sjt_remains_required === true ||
     config.eligibility?.sjt?.graduate_sjt_remains_required === true;
   if (sjtApplies && sjtUsedAsGate === true && !Number.isFinite(sjtBand)) {
-    failures.push('required_admissions_test_component_missing:sjt');
+    if (config.eligibility?.sjt?.missing_outcome === 'manual_review') {
+      addManualReviewReason('required_admissions_test_component_missing:sjt');
+    } else {
+      failures.push('required_admissions_test_component_missing:sjt');
+    }
   } else if (
     sjtApplies &&
     (
@@ -1430,6 +1569,30 @@ function evaluateHardFilters(course, config, applicant, groupIds) {
     excludedBands.includes(sjtBand)
   ) {
     failures.push('disqualifying_sjt_rule');
+  }
+
+  for (const rule of manualReviewRules) {
+    if (!groupRuleApplies(rule.match || rule, groupIds)) {
+      continue;
+    }
+    if (rule.when === 'fee_status_unresolved') {
+      const hasFeeStatus = groupIds.includes('home_fee') || groupIds.includes('international_fee');
+      if (!hasFeeStatus) {
+        addManualReviewReason(rule.reason || 'fee_status_requires_manual_review');
+      }
+    }
+    if (rule.when === 'missing_or_unknown_evidence') {
+      const value = getValueAtPath(applicant, rule.applicant_evidence_path);
+      if (value === undefined || value === null || value === '' || value === 'unknown') {
+        addManualReviewReason(rule.reason || 'applicant_evidence_requires_manual_review');
+      }
+    }
+    if (rule.when === 'unknown_evidence') {
+      const value = getValueAtPath(applicant, rule.applicant_evidence_path);
+      if (value === 'unknown') {
+        addManualReviewReason(rule.reason || 'applicant_evidence_requires_manual_review');
+      }
+    }
   }
 
   if (usesGamsat && !academicManualReview) {
@@ -2611,8 +2774,32 @@ function resolveUcatNationalPercentile(applicant, estimator = {}) {
     : null;
 }
 
-function findMatchingBandRule(value, rules = []) {
+function bandRuleConditionMatches(rule, applicant, groupIds = []) {
+  if (!rule || typeof rule !== 'object') {
+    return false;
+  }
+
+  if (rule.match && !groupRuleApplies(rule.match, groupIds)) {
+    return false;
+  }
+
+  const sjtBand = applicant?.admissions_tests?.ucat?.sjt_band;
+  if (Array.isArray(rule.sjt_bands) && !rule.sjt_bands.includes(sjtBand)) {
+    return false;
+  }
+
+  if (Array.isArray(rule.excluded_sjt_bands) && rule.excluded_sjt_bands.includes(sjtBand)) {
+    return false;
+  }
+
+  return true;
+}
+
+function findMatchingBandRule(value, rules = [], applicant = null, groupIds = []) {
   for (const rule of rules || []) {
+    if (applicant && !bandRuleConditionMatches(rule, applicant, groupIds)) {
+      continue;
+    }
     const resolved = resolveBandRuleForComparison(rule);
     if (ruleMatches(value, resolved.comparison_rule)) {
       return resolved;
@@ -2640,6 +2827,35 @@ function selectGuidancePool(config, groupIds, applicant = null) {
         (!applicant || matchQualificationStatus(match, applicant));
     })
     .sort((a, b) => (b.priority || 0) - (a.priority || 0))[0] || null;
+}
+
+function resolveKeeleSelectionRouteId({ course, groupIds, resolvedEligibility, guaranteedOverride, guidancePool }) {
+  if (course?.profile_id !== 'keele-a100') {
+    return null;
+  }
+
+  if (guaranteedOverride) {
+    return 'keele_steps2medicine_ukwpmed_guaranteed_interview';
+  }
+
+  if (guidancePool?.pool_id === 'international_ucat_ranked_guidance') {
+    return 'keele_international_ucat_ranked';
+  }
+
+  if (resolvedEligibility?.status !== 'eligible') {
+    return null;
+  }
+
+  const groups = new Set(groupIds || []);
+  if (!groups.has('home_fee')) {
+    return null;
+  }
+
+  if (groups.has('contextual') || groups.has('widening_participation')) {
+    return 'keele_home_contextual_shortlisting_score';
+  }
+
+  return 'keele_home_a100_shortlisting_score';
 }
 
 function shouldContinueAfterManualReview(config, eligibility) {
@@ -2702,6 +2918,21 @@ function officialPredictionLimitation(config) {
     explanation: limitation.explanation || limitation.summary || null,
     source_ids: limitation.source_ids || []
   };
+}
+
+function scoreModelWarnings(config, applicant) {
+  const warnings = [...(config.score_model?.guidance_policy?.labels || [])];
+  const baselineYear = Number(config.score_model?.baseline_cycle_year);
+  const applicationYear = Number(applicant.application_year);
+  if (
+    Number.isInteger(baselineYear) &&
+    Number.isInteger(applicationYear) &&
+    applicationYear > baselineYear &&
+    config.score_model?.future_cycle_policy?.drift_warning
+  ) {
+    warnings.push(config.score_model.future_cycle_policy.drift_warning);
+  }
+  return [...new Set(warnings)];
 }
 
 function applyManualReviewBandCaps(config, eligibility, band) {
@@ -3026,7 +3257,12 @@ function classifyBirminghamInterviewBand(course, config, applicant, eligibility,
   const bandMetric = pool
     ? { metric: pool.metric, value: metricValue, scale: metricScale }
     : null;
-  const matchedRuleResult = findMatchingBandRule(metricValue, pool?.band_rules || []);
+  const matchedRuleResult = findMatchingBandRule(
+    metricValue,
+    pool?.band_rules || [],
+    applicant,
+    eligibility.applicant_group_ids || []
+  );
   const matchedRule = matchedRuleResult?.rule;
   const band = matchedRule?.band || 'insufficient_evidence';
   const isInternational = pool?.pool_id === 'international';
@@ -3097,7 +3333,7 @@ function classifyInterviewBand(course, config, applicantInput, options = {}) {
     : null;
   const groupIds = birmingham
     ? eligibility.applicant_group_ids
-    : deriveApplicantGroupIds(applicant);
+    : deriveConfiguredApplicantGroupIds(applicant, classificationConfig);
   const resolvedEligibility = birmingham
     ? eligibility
     : evaluateHardFilters(course, classificationConfig, applicant, groupIds);
@@ -3160,13 +3396,25 @@ function classifyInterviewBand(course, config, applicantInput, options = {}) {
     groupIds
   );
   if (guaranteedOverride) {
+    const selectionRouteId = resolveKeeleSelectionRouteId({
+      course,
+      groupIds,
+      resolvedEligibility,
+      guaranteedOverride,
+      guidancePool: null
+    });
     return {
       ...base,
       ranking: null,
       guidance_pool_id: null,
+      selection_route_id: selectionRouteId,
       band_metric: null,
       canonical_interview_band: null,
-      interview_outcome: 'guaranteed_interview',
+      source_interview_band_id:
+        guaranteedOverride.source_band_id || guaranteedOverride.band_id || null,
+      result_card_id: guaranteedOverride.result_card_id || null,
+      interview_outcome:
+        guaranteedOverride.interview_outcome || guaranteedOverride.outcome || 'guaranteed_interview',
       guaranteed_interview_explanation:
         guaranteedOverride.applicant_facing_explanation || null,
       explanation: 'Eligible verified programme completer: guaranteed interview applies after all implemented minimum criteria pass. Ordinary UCAT guidance banding was not applied.'
@@ -3180,6 +3428,13 @@ function classifyInterviewBand(course, config, applicantInput, options = {}) {
     groupIds
   };
   const pool = selectGuidancePool(classificationConfig, groupIds, applicant);
+  const selectionRouteId = resolveKeeleSelectionRouteId({
+    course,
+    groupIds,
+    resolvedEligibility,
+    guaranteedOverride: null,
+    guidancePool: pool
+  });
   const ranking = calculatePoolRanking(classificationConfig, pool, applicant, context);
   const metricValue = pool ? getMetricValue(pool.metric, ranking, applicant) : null;
   const metricScale = pool
@@ -3188,7 +3443,12 @@ function classifyInterviewBand(course, config, applicantInput, options = {}) {
   const bandMetric = pool
     ? { metric: pool.metric, value: metricValue, scale: metricScale }
     : null;
-  const matchedRuleResult = findMatchingBandRule(metricValue, pool?.band_rules || []);
+  const matchedRuleResult = findMatchingBandRule(
+    metricValue,
+    pool?.band_rules || [],
+    applicant,
+    groupIds
+  );
   const matchedRule = matchedRuleResult?.rule;
   const uncappedBand = matchedRule?.band || 'insufficient_evidence';
   const band = applyManualReviewBandCaps(
@@ -3213,6 +3473,7 @@ function classifyInterviewBand(course, config, applicantInput, options = {}) {
     ranking,
     guidance_pool_id: pool?.pool_id || null,
     guidance_pool: pool || null,
+    selection_route_id: selectionRouteId,
     band_metric: matchedRuleResult?.conversion
       ? {
           ...bandMetric,
@@ -3227,11 +3488,14 @@ function classifyInterviewBand(course, config, applicantInput, options = {}) {
         }
       : bandMetric,
     canonical_interview_band: band,
+    source_interview_band_id: matchedRule?.source_band_id || matchedRule?.band_id || null,
+    result_card_id: matchedRule?.result_card_id || null,
     insufficient_evidence_reason_code:
       band === 'insufficient_evidence' && ranking?.status === 'unavailable'
         ? unavailableRankingReason(ranking)
         : null,
     official_prediction: officialPredictionLimitation(classificationConfig),
+    warnings: scoreModelWarnings(classificationConfig, applicant),
     ...(manualReviewRequired ? { manual_review_required: true } : {}),
     explanation: makeExplanation(band, bandMetric, classificationConfig, resolvedEligibility)
   };

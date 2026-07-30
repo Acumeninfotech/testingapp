@@ -143,6 +143,94 @@ describe('ResultCard', () => {
     expect(document.body).not.toHaveTextContent('not confirmed for current cycles');
   });
 
+  it('renders metadata selection approach wording instead of legacy fallback wording', () => {
+    const metadataSelectionApproach =
+      'Applicants are assessed using the university metadata sentence.';
+    const legacySelectionApproach = 'Legacy generated selection approach should not appear.';
+
+    render(
+      <ResultCard
+        result={makeResult({
+          selection_approach_display: metadataSelectionApproach,
+          decision_transparency: {
+            selection_approach_display: metadataSelectionApproach,
+            decision_path: [
+              {
+                stage: 'Eligibility',
+                status: 'Met',
+                summary: 'Published academic gates are met.',
+                checks: [],
+              },
+              {
+                stage: 'Selection model',
+                status: 'Assessed',
+                summary: legacySelectionApproach,
+                checks: [
+                  {
+                    label: 'Selection approach',
+                    status: 'Assessed',
+                    summary: legacySelectionApproach,
+                  },
+                ],
+              },
+              {
+                stage: 'Historical guidance',
+                status: 'Guidance available',
+                summary: 'Historical guidance is available.',
+                checks: [],
+              },
+            ],
+          },
+        })}
+      />,
+    );
+
+    expect(screen.getByText('Selection approach')).toBeInTheDocument();
+    expect(screen.getByText(metadataSelectionApproach)).toBeInTheDocument();
+    expect(screen.queryByText(legacySelectionApproach)).not.toBeInTheDocument();
+  });
+
+  it('uses existing selection approach fallback when metadata wording is absent', () => {
+    const fallbackSelectionApproach = 'Existing generated selection approach.';
+
+    render(
+      <ResultCard
+        result={makeResult({
+          decision_transparency: {
+            decision_path: [
+              {
+                stage: 'Eligibility',
+                status: 'Met',
+                summary: 'Published academic gates are met.',
+                checks: [],
+              },
+              {
+                stage: 'Selection model',
+                status: 'Assessed',
+                summary: fallbackSelectionApproach,
+                checks: [
+                  {
+                    label: 'Selection approach',
+                    status: 'Assessed',
+                    summary: fallbackSelectionApproach,
+                  },
+                ],
+              },
+              {
+                stage: 'Historical guidance',
+                status: 'Guidance available',
+                summary: 'Historical guidance is available.',
+                checks: [],
+              },
+            ],
+          },
+        })}
+      />,
+    );
+
+    expect(screen.getByText(fallbackSelectionApproach)).toBeInTheDocument();
+  });
+
   it('labels a not_eligible display state as Not suitable', () => {
     render(
       <ResultCard
@@ -521,6 +609,36 @@ describe('ResultCard', () => {
     expect(screen.queryByText('Fees')).not.toBeInTheDocument();
   });
 
+  it('renders BSMS with simplified applicant-facing wording and no fees section', () => {
+    const [result] = predict({
+      universityIds: ['brighton-and-sussex-a100'],
+      studentProfile: {
+        ...require('../../../data/regression-profiles/16_top_tier_applicant.json'),
+      },
+    });
+
+    render(<ResultCard result={result} />);
+
+    expect(screen.getByText('Very strong choice based on your UCAT')).toBeInTheDocument();
+    expect(
+      screen.getByText('You meet the academic requirements. Your UCAT is above the published Home threshold.'),
+    ).toBeInTheDocument();
+    expect(document.body).toHaveTextContent('UCAT: 2420 — above the published Home threshold (2010–2049).');
+    expect(screen.getByText('Home threshold')).toBeInTheDocument();
+    expect(screen.getByText('2010–2049')).toBeInTheDocument();
+
+    expect(document.body).not.toHaveTextContent('BSMS 2026 Home standard threshold');
+    expect(document.body).not.toHaveTextContent('confirmed adjusted-offer applicants');
+    expect(document.body).not.toHaveTextContent('ApplySmart-derived');
+    expect(document.body).not.toHaveTextContent('The threshold is official for 2026 entry');
+    expect(screen.getByText('Selection approach')).toBeInTheDocument();
+    expect(
+      screen.getByText('Applicants who meet the academic requirements are assessed using their UCAT score.'),
+    ).toBeInTheDocument();
+    expect(screen.queryByText('Fees')).not.toBeInTheDocument();
+    expect(screen.queryByText('Fee status')).not.toBeInTheDocument();
+  });
+
   it('does not show evidence confidence text on the public card', () => {
     render(
       <ResultCard
@@ -857,6 +975,104 @@ describe('ResultCard', () => {
     expect(screen.getByText('Historical benchmark')).toBeInTheDocument();
     expect(screen.getByText('Difference')).toBeInTheDocument();
     expect(screen.getByText('+485')).toBeInTheDocument();
+  });
+
+  it("renders City St George's with cleaner applicant-facing wording and no fees", () => {
+    render(
+      <ResultCard
+        result={makeResult(
+          {
+            course_identity: { profile_id: 'city-st-george-s-of-london-a100' },
+            primary_user_facing_recommendation: 'Strong Choice',
+            primary_explanation:
+              'Your UCAT score of 1910 is above the ApplySmart band range above 2026 published current-scale UCAT reference range of 1811-1909.',
+            trust_statement:
+              "City St George's says UCAT thresholds cannot be predicted for a future cycle. ApplySmart keeps this as guidance only.",
+            prediction: {
+              result_band: 'interview_likely',
+              guidance_pool_id: 'home_non_graduate',
+            },
+            decision_transparency: {
+              ucat_comparison: {
+                comparison_type: 'historical_range',
+                applicant_ucat: 1910,
+                benchmark_min: 1811,
+                benchmark_max: 1909,
+                benchmark_label: '2026 published current-scale UCAT reference range',
+                caveat: 'ApplySmart band range above published current-scale UCAT reference range.',
+                difference_from_benchmark: 1,
+                position: 'above',
+                applicant_pool: 'Home non-graduate applicants',
+                sjt_policy: 'SJT recorded.',
+                sjt_outcome: 'ignored',
+                sjt_summary: 'SJT recorded but not modelled.',
+                applicant_sjt_band: 4,
+                official_ucat_minimum: null,
+              },
+              decision_path: [
+                {
+                  stage: 'Eligibility',
+                  status: 'Met',
+                  summary: 'Entry requirements met.',
+                  checks: [],
+                },
+                {
+                  stage: 'Selection model',
+                  status: 'Assessed',
+                  summary:
+                    "City St George's checks academic eligibility and every UCAT cognitive section first, then ranks eligible applicants by raw UCAT total within separate Home/Overseas and graduate/non-graduate pools.",
+                  checks: [
+                    {
+                      label: 'Applicant pool',
+                      status: 'Used',
+                      summary:
+                        'Home, Overseas, graduate and non-graduate applicants in separate UCAT-ranking pools',
+                    },
+                    {
+                      label: 'UCAT',
+                      status: 'Above',
+                      summary:
+                        'UCAT: 1910 - above the ApplySmart band range above 2026 published current-scale UCAT reference range of 1811-1909.',
+                    },
+                    {
+                      label: 'Selection approach',
+                      status: 'Assessed',
+                      summary:
+                        "City St George's checks academic eligibility and every UCAT cognitive section first, then ranks eligible applicants by raw UCAT total.",
+                    },
+                  ],
+                },
+                {
+                  stage: 'Historical guidance',
+                  status: 'Guidance available',
+                  summary:
+                    "City St George's historical guidance compares this UCAT result with previous admissions cycles. It is guidance only, not a current cut-off and not a guarantee of an interview.",
+                  checks: [],
+                },
+              ],
+            },
+            fee_information: {
+              fee_status: 'home',
+              currency: 'GBP',
+              first_year: 9250,
+            },
+          },
+          {
+            universityId: 'city-st-george-s-of-london-a100',
+            university: "City St George's, University of London",
+          },
+        )}
+      />,
+    );
+
+    expect(screen.getByText(/You meet the entry requirements we can check/)).toBeInTheDocument();
+    expect(screen.getByText(/UCAT: 1910 — above the published UCAT reference range \(1811–1909\)\./)).toBeInTheDocument();
+    expect(screen.getByText('Home non-graduate applicants')).toBeInTheDocument();
+    expect(screen.getByText(/checks entry requirements first, then uses UCAT/)).toBeInTheDocument();
+    expect(screen.queryByText('Fees')).not.toBeInTheDocument();
+    expect(screen.queryByText(/ApplySmart band range/)).not.toBeInTheDocument();
+    expect(screen.queryByText(/2026 published current-scale/)).not.toBeInTheDocument();
+    expect(screen.queryByText(/future cycle/)).not.toBeInTheDocument();
   });
 
   it('shows applicant pool, academic status and historical context from decision transparency', () => {

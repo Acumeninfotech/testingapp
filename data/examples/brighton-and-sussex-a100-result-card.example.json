@@ -1,0 +1,443 @@
+{
+  "schema_version": "1.0.0",
+  "template_version": "1.0.0",
+  "result_id": "brighton-and-sussex-a100-home-standard-example",
+  "generated_at": "2026-07-29",
+  "result_mode": "example_eligibility_and_interview_prediction",
+  "production_state": {
+    "profile_active": true,
+    "metadata_activation_enabled": true,
+    "result_card_output_enabled": true,
+    "note": "BSMS A100 activated for interview prediction only."
+  },
+  "course_identity": {
+    "profile_id": "brighton-and-sussex-a100",
+    "university_name": "Brighton and Sussex Medical School",
+    "course_name": "BM BS Medicine",
+    "ucas_code": "A100",
+    "entry_route": "standard_entry",
+    "qualification_awarded": "BM BS",
+    "duration_years": 5,
+    "location": "Brighton and Hove, England",
+    "source_ids": [
+      "bsms_v5_research_doc",
+      "bsms_v5_applysmart_json",
+      "bsms_applying_to_bsms_2026",
+      "bsms_entry_requirements",
+      "bsms_admissions_process",
+      "bsms_international_entry_requirements"
+    ]
+  },
+  "applicant_context": {
+    "applies_to_group_ids": [
+      "england_domiciled",
+      "rest_of_uk",
+      "home_fee",
+      "school_leaver"
+    ],
+    "applicant_summary": "Home standard A-level applicant meeting AAA, GCSE English and Maths grade 6, UCAT 2100/2700 and SJT Band 1.",
+    "fee_cohort": "home",
+    "entry_route": "standard_entry",
+    "contextual": false,
+    "graduate": false,
+    "source_ids": []
+  },
+  "readiness": {
+    "eligibility": true,
+    "interview_prediction": true,
+    "historical_guidance": false,
+    "international_prediction": true,
+    "contextual_logic": true,
+    "result_card": true,
+    "regression": true,
+    "research_completeness": "complete_for_supported_scope_with_documented_gaps",
+    "manual_review_required": true,
+    "eligibility_ready": true,
+    "interview_prediction_ready": true,
+    "prediction_confidence": "medium",
+    "result_card_ready": true,
+    "offer_prediction_scope": "out_of_scope",
+    "interview_band_config_ready": true,
+    "metadata_activation_ready": true,
+    "production_ready_candidate": true,
+    "production_activation_should_remain_blocked": false,
+    "activation_block_reason": null
+  },
+  "eligibility": {
+    "status": "eligible",
+    "summary": "The represented applicant meets BSMS academic requirements and has SJT Band 1.",
+    "stage_1_checks": [
+      {
+        "check_id": "academic_threshold",
+        "label": "Academic threshold",
+        "status": "pass",
+        "requirement": "AAA including Biology and Chemistry; GCSE English and Maths grade 6/B.",
+        "applicant_value": "AAA including Biology and Chemistry; English and Maths grade 6.",
+        "decision_outcome": "eligible",
+        "source_ids": [
+          "bsms_v5_research_doc",
+          "bsms_v5_applysmart_json",
+          "bsms_applying_to_bsms_2026",
+          "bsms_entry_requirements",
+          "bsms_admissions_process",
+          "bsms_international_entry_requirements"
+        ]
+      },
+      {
+        "check_id": "sjt_gate",
+        "label": "SJT gate",
+        "status": "pass",
+        "requirement": "SJT Band 1, 2 or 3; Band 4 rejects every cohort.",
+        "applicant_value": "SJT Band 1.",
+        "decision_outcome": "eligible",
+        "source_ids": [
+          "bsms_v5_research_doc",
+          "bsms_v5_applysmart_json",
+          "bsms_applying_to_bsms_2026",
+          "bsms_entry_requirements",
+          "bsms_admissions_process",
+          "bsms_international_entry_requirements"
+        ]
+      }
+    ],
+    "blocking_reasons": [],
+    "warnings": [
+      "Only the 2026-entry UCAT threshold is currently published."
+    ],
+    "source_ids": [
+      "bsms_v5_research_doc",
+      "bsms_v5_applysmart_json",
+      "bsms_applying_to_bsms_2026",
+      "bsms_entry_requirements",
+      "bsms_admissions_process",
+      "bsms_international_entry_requirements"
+    ]
+  },
+  "stage_1_requirements": {
+    "verification_status": "official_source_verified",
+    "verified_requirements": [
+      {
+        "requirement_id": "academic_threshold_only",
+        "label": "Academic threshold",
+        "value": "Threshold-only; no academic points.",
+        "applies_to_group_ids": [
+          "school_leaver"
+        ],
+        "source_ids": [
+          "bsms_v5_research_doc",
+          "bsms_v5_applysmart_json",
+          "bsms_applying_to_bsms_2026",
+          "bsms_entry_requirements",
+          "bsms_admissions_process",
+          "bsms_international_entry_requirements"
+        ]
+      },
+      {
+        "requirement_id": "sjt_gate",
+        "label": "SJT gate",
+        "value": "Bands 1-3 accepted; Band 4 rejected.",
+        "applies_to_group_ids": [],
+        "source_ids": [
+          "bsms_v5_research_doc",
+          "bsms_v5_applysmart_json",
+          "bsms_applying_to_bsms_2026",
+          "bsms_entry_requirements",
+          "bsms_admissions_process",
+          "bsms_international_entry_requirements"
+        ]
+      }
+    ],
+    "unknown_requirements": [
+      "Unknown GCSE or international equivalency requires manual review."
+    ],
+    "source_ids": [
+      "bsms_v5_research_doc",
+      "bsms_v5_applysmart_json",
+      "bsms_applying_to_bsms_2026",
+      "bsms_entry_requirements",
+      "bsms_admissions_process",
+      "bsms_international_entry_requirements"
+    ]
+  },
+  "stage_2_selection": {
+    "verification_status": "official_source_verified_with_derived_applysmart_bands",
+    "primary_model": "academic_gate_sjt_gate_then_pool_specific_ucat_threshold",
+    "summary": "BSMS applies academic and SJT gates, then routes to care-leaver, adjusted-offer, Home standard or Overseas rules. The represented Home standard applicant is compared with the official 2026 Home threshold of 1990.",
+    "represented_ranking_input": {
+      "score": 2100,
+      "max": 2700,
+      "metric": "ucat_total"
+    },
+    "ranking_factors": [
+      {
+        "factor_id": "ucat_total",
+        "label": "UCAT total",
+        "weight_percent": 100,
+        "calculation_status": "known",
+        "notes": "Standard route only; adjusted-offer and care-leaver routes bypass the UCAT threshold.",
+        "source_ids": [
+          "bsms_v5_research_doc",
+          "bsms_v5_applysmart_json",
+          "bsms_applying_to_bsms_2026",
+          "bsms_entry_requirements",
+          "bsms_admissions_process",
+          "bsms_international_entry_requirements"
+        ]
+      }
+    ],
+    "selection_adjustments": [],
+    "unknown_calculation_areas": [
+      "2025-entry UCAT threshold not located.",
+      "2027-entry UCAT threshold not yet published.",
+      "Tie-break rule for identical UCAT scores above the threshold is unpublished.",
+      "Post-interview UCAT discriminator mechanism is unpublished.",
+      "MMI station-level scoring criteria are unpublished."
+    ],
+    "presentation": {
+      "hide_selection_score_details": false,
+      "public_threshold_label": "official BSMS 2026 Home threshold",
+      "derived_band_notice": "The named ApplySmart bands are derived and are not published by BSMS."
+    },
+    "source_ids": [
+      "bsms_v5_research_doc",
+      "bsms_v5_applysmart_json",
+      "bsms_applying_to_bsms_2026",
+      "bsms_entry_requirements",
+      "bsms_admissions_process",
+      "bsms_international_entry_requirements"
+    ]
+  },
+  "historical_context": {
+    "use": "current_2026_threshold_baseline_with_drift_warning",
+    "fixed_current_cutoff": true,
+    "not_deterministic": false,
+    "warning": "For target cycles after 2026, this uses the official 2026 threshold with a drift warning and moderate prediction confidence.",
+    "represented_pool": {
+      "pool_id": "home_standard",
+      "cycle": "2026 entry",
+      "score_scale": 2700,
+      "published_cutpoint": 1990,
+      "evidence_classification": "official_published_threshold"
+    }
+  },
+  "prediction": {
+    "available": true,
+    "capability": "interview_prediction",
+    "prediction_type": "official_threshold_with_derived_applysmart_band",
+    "prediction_status": "available",
+    "result_band": "interview_likely",
+    "source_interview_band_id": "HS_A_SECURE",
+    "result_card_id": "VERY_STRONG_INTERVIEW_POTENTIAL",
+    "guidance_pool_id": "home_standard",
+    "score": 2100,
+    "score_scale": {
+      "min": 0,
+      "max": 2700
+    },
+    "band_basis": "UCAT 2100 is 110 points above the official 2026 Home standard threshold of 1990. HS_A_SECURE is an ApplySmart-derived band, not a BSMS-published label.",
+    "missing_data_reasons": [],
+    "cannot_predict_explanation": null,
+    "source_ids": [
+      "bsms_v5_research_doc",
+      "bsms_v5_applysmart_json",
+      "bsms_applying_to_bsms_2026",
+      "bsms_entry_requirements",
+      "bsms_admissions_process",
+      "bsms_international_entry_requirements"
+    ]
+  },
+  "missing_data": {
+    "future_cycle_thresholds": "2027-entry UCAT thresholds not yet published.",
+    "post_interview_discriminator": "UCAT may be used after interview, but mechanism is unpublished.",
+    "mmi_station_scoring": "Unpublished and out of scope."
+  },
+  "confidence": {
+    "level": "medium",
+    "summary": "Prediction confidence is moderate because only one UCAT-era threshold cycle is available; evidence confidence is high because the operative rules are official.",
+    "stage_confidence": {
+      "stage_1": "high",
+      "stage_2": "medium",
+      "evidence": "high"
+    },
+    "source_ids": [
+      "bsms_v5_research_doc",
+      "bsms_v5_applysmart_json",
+      "bsms_applying_to_bsms_2026",
+      "bsms_entry_requirements",
+      "bsms_admissions_process",
+      "bsms_international_entry_requirements"
+    ]
+  },
+  "evidence_confidence": {
+    "level": "High",
+    "summary": "The underlying admissions rules are supported by high-confidence evidence for this applicant route.",
+    "reasons": [
+      "Official eligibility rules are available.",
+      "The university selection approach is implemented.",
+      "Evidence confidence is tracked separately from forward prediction confidence."
+    ]
+  },
+  "display": {
+    "primary_user_facing_recommendation": "Very Strong Choice",
+    "recommendation_display_state": "standard",
+    "primary_explanation": "The applicant meets BSMS academic and SJT requirements, and their UCAT is above the official 2026 Home standard threshold. ApplySmart labels this as a very strong interview-position band; that band label is derived by ApplySmart and is not published by BSMS.",
+    "historical_guidance_caveat": "For cycles after 2026, ApplySmart still provides the prediction using the 2026 baseline with a drift warning and moderate confidence."
+  },
+  "engine_notes": {
+    "eligibility": true,
+    "interview_prediction": true,
+    "historical_guidance": false,
+    "international_prediction": true,
+    "contextual_logic": true,
+    "result_card": true,
+    "regression": true,
+    "research_completeness": "complete_for_supported_scope_with_documented_gaps",
+    "manual_review_required": true,
+    "eligibility_ready": true,
+    "interview_prediction_ready": true,
+    "prediction_confidence": "medium",
+    "result_card_ready": true,
+    "offer_prediction_scope": "out_of_scope",
+    "interview_band_config_ready": true,
+    "metadata_activation_ready": true,
+    "production_ready_candidate": true,
+    "production_activation_should_remain_blocked": false,
+    "activation_block_reason": null,
+    "evidence_confidence": "high",
+    "source_interview_band_id": "HS_A_SECURE",
+    "result_card_id": "VERY_STRONG_INTERVIEW_POTENTIAL",
+    "do_not_infer": [
+      "Do not create academic points or a combined academic/UCAT score.",
+      "Do not require UCAT for confirmed adjusted-offer or eligible care-leaver routes.",
+      "Do not route Overseas exactly 1980 to manual review.",
+      "Do not provide offer prediction."
+    ]
+  },
+  "decision_timeline": [
+    {
+      "step": 1,
+      "title": "Applicant details checked",
+      "status": "Complete",
+      "summary": "Your applicant type, qualifications and UCAT details were checked."
+    },
+    {
+      "step": 2,
+      "title": "Eligibility assessed",
+      "status": "Eligible",
+      "summary": "You meet the published entry requirements covered by ApplySmart."
+    },
+    {
+      "step": 3,
+      "title": "Selection model applied",
+      "status": "Complete",
+      "summary": "Academic requirements were treated as threshold-only, the SJT gate was checked, then the relevant BSMS 2026 UCAT threshold or published bypass route was applied."
+    },
+    {
+      "step": 4,
+      "title": "Historical guidance compared",
+      "status": "Complete",
+      "summary": "Your result was compared with interview information from previous admissions cycles. Historical admissions data is guidance only; it provides a benchmark, not a current cut-off and not a guarantee of an interview."
+    },
+    {
+      "step": 5,
+      "title": "Interview recommendation produced",
+      "status": "Strong Choice",
+      "summary": "Very Strong Choice. Treat this as guidance for university choice, not a promised interview."
+    }
+  ],
+  "decision_transparency": {
+    "decision_path": [
+      {
+        "stage": "Eligibility",
+        "status": "Met",
+        "summary": "The represented applicant meets BSMS academic requirements and has SJT Band 1.",
+        "checks": [
+          {
+            "label": "Academic threshold",
+            "status": "Met",
+            "summary": "AAA including Biology and Chemistry; GCSE English and Maths grade 6/B. Applicant information: AAA including Biology and Chemistry; English and Maths grade 6."
+          },
+          {
+            "label": "SJT gate",
+            "status": "Met",
+            "summary": "SJT Band 1, 2 or 3; Band 4 rejects every cohort. Applicant information: SJT Band 1."
+          }
+        ]
+      },
+      {
+        "stage": "Selection model",
+        "status": "Assessed",
+        "summary": "BSMS checks academic thresholds and the SJT Band 4 gate before applying the published 2026 UCAT threshold for the relevant fee-status pool; confirmed adjusted-offer applicants and eligible care leavers bypass the UCAT threshold.",
+        "checks": [
+          {
+            "label": "Applicant pool",
+            "status": "Used",
+            "summary": "Home and Overseas applicants, with a separate adjusted-offer and care-leaver route"
+          },
+          {
+            "label": "Selection approach",
+            "status": "Assessed",
+            "summary": "BSMS checks academic thresholds and the SJT Band 4 gate before applying the published 2026 UCAT threshold for the relevant fee-status pool; confirmed adjusted-offer applicants and eligible care leavers bypass the UCAT threshold."
+          }
+        ]
+      },
+      {
+        "stage": "Historical guidance",
+        "status": "Guidance available",
+        "summary": "The result was assessed using the available admissions evidence for this applicant group. Historical admissions data is guidance only; it provides a benchmark, not a current cut-off or a guarantee of interview.",
+        "checks": [
+          {
+            "label": "Applicant pool",
+            "status": "Used",
+            "summary": "Home and Overseas applicants, with a separate adjusted-offer and care-leaver route"
+          },
+          {
+            "label": "Important limitation",
+            "status": "Guidance only",
+            "summary": "Historical admissions data is guidance only; it provides a benchmark, not a current cut-off or a guarantee of interview."
+          }
+        ]
+      },
+      {
+        "stage": "Recommendation",
+        "status": "Guidance only",
+        "summary": "Very Strong Choice. Treat this as guidance for university choice, not a promised interview.",
+        "checks": []
+      }
+    ],
+    "key_reasons": [
+      "The represented applicant meets BSMS academic requirements and has SJT Band 1.",
+      "The result uses Home and Overseas applicants, with a separate adjusted-offer and care-leaver route.",
+      "BSMS checks academic thresholds and the SJT Band 4 gate before applying the published 2026 UCAT threshold for the relevant fee-status pool; confirmed adjusted-offer applicants and eligible care leavers bypass the UCAT threshold."
+    ],
+    "evidence_used": [
+      "Official admissions policy",
+      "University selection methodology",
+      "UCAT policy",
+      "Historical interview data",
+      "Contextual admissions policy"
+    ],
+    "evidence_confidence": {
+      "level": "High",
+      "summary": "The underlying admissions rules are supported by high-confidence evidence for this applicant route.",
+      "reasons": [
+        "Official eligibility rules are available.",
+        "The university selection approach is implemented.",
+        "Evidence confidence is tracked separately from forward prediction confidence."
+      ]
+    },
+    "warnings": [],
+    "manual_review_reason": null,
+    "insufficient_evidence_reason": null,
+    "insufficient_evidence_reason_code": null,
+    "compact_status": {
+      "label": "Selection approach assessed",
+      "type": "selection_metric",
+      "tone": "neutral"
+    },
+    "comparison_metrics_title": null,
+    "comparison_metrics": [],
+    "selection_metric": null,
+    "ucat_comparison": null
+  }
+}

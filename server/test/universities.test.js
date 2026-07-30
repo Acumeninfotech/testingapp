@@ -115,6 +115,13 @@ async function main() {
     }
     console.log('PASS: each returned university has expected public explorer shape with no internal confidence/manual-review metadata');
 
+    const birmingham = response.json.universities.find((u) => u.id === 'birmingham-a100');
+    assert.strictEqual(
+      birmingham.selection_approach_display,
+      "Applicants are assessed using the university's published selection score, which combines GCSE performance and UCAT."
+    );
+    console.log('PASS: /api/universities exposes metadata selection_approach_display where configured');
+
     const contextualOfferProfile = response.json.universities.find((u) => u.contextual_support?.a_level);
     assert.ok(contextualOfferProfile, 'expected at least one ready university to expose contextual A-level support');
     console.log('PASS: contextual academic support is exposed for universities with encoded contextual offers');

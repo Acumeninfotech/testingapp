@@ -200,10 +200,11 @@ function extractFromApplicantPools(pools) {
 
 function extractPlaceCounts(profile) {
   const fromQuotas = extractFromQuotas(profile.quotas);
-  const fromPools = extractFromApplicantPools(profile.applicant_pools);
+  const fromApplicantPools = extractFromApplicantPools(profile.applicant_pools);
+  const fromRankingPools = extractFromApplicantPools(profile.ranking_pools);
 
-  const homePlaces = fromQuotas.homePlaces ?? fromPools.homePlaces;
-  const internationalPlaces = fromQuotas.internationalPlaces ?? fromPools.internationalPlaces;
+  const homePlaces = fromQuotas.homePlaces ?? fromApplicantPools.homePlaces ?? fromRankingPools.homePlaces;
+  const internationalPlaces = fromQuotas.internationalPlaces ?? fromApplicantPools.internationalPlaces ?? fromRankingPools.internationalPlaces;
 
   if (homePlaces === null && internationalPlaces === null) return {};
 
@@ -243,6 +244,18 @@ function sentenceLimit(text, maxLength = 260) {
   const compact = text.replace(/\s+/g, ' ').trim();
   if (!compact) return null;
   return compact.length > maxLength ? `${compact.slice(0, maxLength - 1).trim()}...` : compact;
+}
+
+function optionalDisplayText(text) {
+  if (typeof text !== 'string') return null;
+  const compact = text.replace(/\s+/g, ' ').trim();
+  return compact || null;
+}
+
+function selectionApproachListDisplay(value) {
+  if (typeof value === 'string') return optionalDisplayText(value);
+  if (!value || typeof value !== 'object') return null;
+  return optionalDisplayText(value.default);
 }
 
 function humanize(value) {
@@ -506,6 +519,21 @@ function contextualIbRequirement(post16, contextualAdmissions) {
     null;
 }
 
+function contextualCriteriaItems(criteria) {
+  if (Array.isArray(criteria)) return criteria;
+  if (!criteria || typeof criteria !== 'object') return [];
+
+  return Object.entries(criteria).flatMap(([groupId, group]) => {
+    const groupCriteria = Array.isArray(group?.criteria) ? group.criteria : [];
+    return groupCriteria.map((criterion) => {
+      if (criterion && typeof criterion === 'object') return criterion;
+      return {
+        description: `${humanize(groupId)}: ${criterion}`
+      };
+    });
+  });
+}
+
 function publicContextualSupport(profile) {
   const contextualAdmissions = profile.contextual_admissions;
   if (!contextualAdmissions) return null;
@@ -518,7 +546,7 @@ function publicContextualSupport(profile) {
     const qualification = String(adjustment.qualification || '').toLowerCase();
     return qualification.includes('scottish') || qualification.includes('higher');
   });
-  const criteria = (contextualAdmissions.criteria || [])
+  const criteria = contextualCriteriaItems(contextualAdmissions.criteria)
     .map((criterion) => sentenceLimit(criterion.description, 120))
     .filter(Boolean);
 
@@ -587,6 +615,9 @@ function publicInterviewFormatText(value) {
   if (!compact) return null;
 
   const lower = compact.toLowerCase();
+  if (/^multiple mini interviews?\s*\(mmi\)$/.test(lower)) {
+    return 'MMI (Multiple Mini Interviews)';
+  }
   if (lower === 'not_modelled' || lower === 'not modelled' || lower === 'not published') {
     return 'Published interview format not specified.';
   }
@@ -615,6 +646,7 @@ function readCourseDetails(university, indexPath) {
     return {
       location: profile.course?.location || null,
       duration_years: profile.course?.duration_years ?? null,
+      selection_approach_display: selectionApproachListDisplay(profile.selection_approach_display),
       sjt_policy: publicSjtPolicy(profile, config),
       academic_requirements: publicAcademicRequirements(profile),
       contextual_support: publicContextualSupport(profile),
@@ -661,10 +693,12 @@ function publicSjtPolicy(profile, config) {
   const acceptedText = bandListText(acceptedBands);
   const rejectedText = bandListText(rejectedBands);
   const scoring = policy.scoring || {};
+  const hasPointsByBand = (value) =>
+    value && typeof value === 'object' && Object.keys(value).length > 0;
   const usedInScore =
     scoring.used_in_score === true ||
-    scoring.points_by_band ||
-    policy.points_by_band ||
+    hasPointsByBand(scoring.points_by_band) ||
+    hasPointsByBand(policy.points_by_band) ||
     policy.used_for_interview_selection === true;
   const usedAsGate =
     policy.used_as_gate === true ||

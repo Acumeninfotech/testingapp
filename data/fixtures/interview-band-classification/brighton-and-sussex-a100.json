@@ -1,0 +1,1121 @@
+{
+  "schema_version": "1.0.0",
+  "course_profile_id": "brighton-and-sussex-a100",
+  "base_applicant": {
+    "profile_id": "bsms_a100_base_home_standard",
+    "label": "BSMS A100 Home standard A-level applicant",
+    "applicant_identity": {
+      "applicant_type": "standard_school_leaver",
+      "fee_status": "Home",
+      "domicile": "England",
+      "contextual": false,
+      "widening_participation": false,
+      "contextual_flags": {
+        "care_experienced": false
+      },
+      "graduate": false,
+      "resit": {
+        "has_resits": false
+      }
+    },
+    "course_target": {
+      "discipline": "medicine",
+      "ucas_code": "A100",
+      "course_route": "standard",
+      "entry_route": "standard_entry"
+    },
+    "qualification_route": "a_level",
+    "gcse_profile": {
+      "subjects": {
+        "english_language": "6",
+        "mathematics": "6"
+      },
+      "total_gcse_count": 2
+    },
+    "a_level_profile": {
+      "subjects": [
+        {
+          "subject_id": "biology",
+          "predicted_grade": "A"
+        },
+        {
+          "subject_id": "chemistry",
+          "predicted_grade": "A"
+        },
+        {
+          "subject_id": "mathematics",
+          "predicted_grade": "A"
+        }
+      ]
+    },
+    "admissions_tests": {
+      "ucat": {
+        "total_score": 2100,
+        "score_scale": 2700,
+        "sjt_band": 1,
+        "test_year": 2026
+      }
+    },
+    "application_year": 2026,
+    "widening_participation": {
+      "bsms_adjusted_offer": {
+        "status": "not_eligible",
+        "evidence_confirmed": true
+      },
+      "bsms_care_leaver": {
+        "status": "not_eligible",
+        "evidence_confirmed": true
+      }
+    },
+    "graduate_profile": {
+      "is_graduate": false,
+      "degree_classification": null
+    }
+  },
+  "scenarios": [
+    {
+      "scenario_id": "home_standard_ucat_2700_sjt_1",
+      "overrides": {
+        "admissions_tests": {
+          "ucat": {
+            "total_score": 2700,
+            "sjt_band": 1
+          }
+        }
+      },
+      "expected": {
+        "eligibility_status": "eligible",
+        "guidance_pool_id": "home_standard",
+        "source_band_id": "HS_A_SECURE",
+        "result_card_id": "VERY_STRONG_INTERVIEW_POTENTIAL"
+      }
+    },
+    {
+      "scenario_id": "home_standard_ucat_2100_sjt_2",
+      "overrides": {
+        "admissions_tests": {
+          "ucat": {
+            "total_score": 2100,
+            "sjt_band": 2
+          }
+        }
+      },
+      "expected": {
+        "eligibility_status": "eligible",
+        "guidance_pool_id": "home_standard",
+        "source_band_id": "HS_A_SECURE",
+        "result_card_id": "VERY_STRONG_INTERVIEW_POTENTIAL"
+      }
+    },
+    {
+      "scenario_id": "home_standard_ucat_2099_sjt_3",
+      "overrides": {
+        "admissions_tests": {
+          "ucat": {
+            "total_score": 2099,
+            "sjt_band": 3
+          }
+        }
+      },
+      "expected": {
+        "eligibility_status": "eligible",
+        "guidance_pool_id": "home_standard",
+        "source_band_id": "HS_B_STRONG",
+        "result_card_id": "VERY_STRONG_INTERVIEW_POTENTIAL"
+      }
+    },
+    {
+      "scenario_id": "home_standard_ucat_2050_sjt_1",
+      "overrides": {
+        "admissions_tests": {
+          "ucat": {
+            "total_score": 2050,
+            "sjt_band": 1
+          }
+        }
+      },
+      "expected": {
+        "eligibility_status": "eligible",
+        "guidance_pool_id": "home_standard",
+        "source_band_id": "HS_B_STRONG",
+        "result_card_id": "VERY_STRONG_INTERVIEW_POTENTIAL"
+      }
+    },
+    {
+      "scenario_id": "home_standard_ucat_2049_sjt_2",
+      "overrides": {
+        "admissions_tests": {
+          "ucat": {
+            "total_score": 2049,
+            "sjt_band": 2
+          }
+        }
+      },
+      "expected": {
+        "eligibility_status": "eligible",
+        "guidance_pool_id": "home_standard",
+        "source_band_id": "HS_C_COMFORTABLE",
+        "result_card_id": "REALISTIC_INTERVIEW_CHANCE"
+      }
+    },
+    {
+      "scenario_id": "home_standard_ucat_2010_sjt_3",
+      "overrides": {
+        "admissions_tests": {
+          "ucat": {
+            "total_score": 2010,
+            "sjt_band": 3
+          }
+        }
+      },
+      "expected": {
+        "eligibility_status": "eligible",
+        "guidance_pool_id": "home_standard",
+        "source_band_id": "HS_C_COMFORTABLE",
+        "result_card_id": "REALISTIC_INTERVIEW_CHANCE"
+      }
+    },
+    {
+      "scenario_id": "home_standard_ucat_2009_sjt_1",
+      "overrides": {
+        "admissions_tests": {
+          "ucat": {
+            "total_score": 2009,
+            "sjt_band": 1
+          }
+        }
+      },
+      "expected": {
+        "eligibility_status": "eligible",
+        "guidance_pool_id": "home_standard",
+        "source_band_id": "HS_D_MARGINAL",
+        "result_card_id": "BORDERLINE"
+      }
+    },
+    {
+      "scenario_id": "home_standard_ucat_1991_sjt_2",
+      "overrides": {
+        "admissions_tests": {
+          "ucat": {
+            "total_score": 1991,
+            "sjt_band": 2
+          }
+        }
+      },
+      "expected": {
+        "eligibility_status": "eligible",
+        "guidance_pool_id": "home_standard",
+        "source_band_id": "HS_D_MARGINAL",
+        "result_card_id": "BORDERLINE"
+      }
+    },
+    {
+      "scenario_id": "home_standard_ucat_1990_sjt_1",
+      "overrides": {
+        "admissions_tests": {
+          "ucat": {
+            "total_score": 1990,
+            "sjt_band": 1
+          }
+        }
+      },
+      "expected": {
+        "eligibility_status": "eligible",
+        "guidance_pool_id": "home_standard",
+        "source_band_id": "HS_E_BOUNDARY_PASS",
+        "result_card_id": "BORDERLINE"
+      }
+    },
+    {
+      "scenario_id": "home_standard_ucat_1990_sjt_2",
+      "overrides": {
+        "admissions_tests": {
+          "ucat": {
+            "total_score": 1990,
+            "sjt_band": 2
+          }
+        }
+      },
+      "expected": {
+        "eligibility_status": "eligible",
+        "guidance_pool_id": "home_standard",
+        "source_band_id": "HS_E_BOUNDARY_FAIL",
+        "result_card_id": "BELOW_PREVIOUS_THRESHOLD"
+      }
+    },
+    {
+      "scenario_id": "home_standard_ucat_1990_sjt_3",
+      "overrides": {
+        "admissions_tests": {
+          "ucat": {
+            "total_score": 1990,
+            "sjt_band": 3
+          }
+        }
+      },
+      "expected": {
+        "eligibility_status": "eligible",
+        "guidance_pool_id": "home_standard",
+        "source_band_id": "HS_E_BOUNDARY_FAIL",
+        "result_card_id": "BELOW_PREVIOUS_THRESHOLD"
+      }
+    },
+    {
+      "scenario_id": "home_standard_ucat_1989_sjt_1",
+      "overrides": {
+        "admissions_tests": {
+          "ucat": {
+            "total_score": 1989,
+            "sjt_band": 1
+          }
+        }
+      },
+      "expected": {
+        "eligibility_status": "eligible",
+        "guidance_pool_id": "home_standard",
+        "source_band_id": "HS_F_BELOW",
+        "result_card_id": "BELOW_PREVIOUS_THRESHOLD"
+      }
+    },
+    {
+      "scenario_id": "home_standard_ucat_0_sjt_2",
+      "overrides": {
+        "admissions_tests": {
+          "ucat": {
+            "total_score": 0,
+            "sjt_band": 2
+          }
+        }
+      },
+      "expected": {
+        "eligibility_status": "eligible",
+        "guidance_pool_id": "home_standard",
+        "source_band_id": "HS_F_BELOW",
+        "result_card_id": "BELOW_PREVIOUS_THRESHOLD"
+      }
+    },
+    {
+      "scenario_id": "home_sjt_band_4_high_ucat",
+      "overrides": {
+        "admissions_tests": {
+          "ucat": {
+            "total_score": 2700,
+            "sjt_band": 4
+          }
+        }
+      },
+      "expected": {
+        "eligibility_status": "not_eligible",
+        "failure": "disqualifying_sjt_rule"
+      }
+    },
+    {
+      "scenario_id": "overseas_ucat_2700_sjt_1",
+      "overrides": {
+        "applicant_identity": {
+          "applicant_type": "international_standard_school_leaver",
+          "fee_status": "International",
+          "domicile": "International",
+          "english_language_exempt": true
+        },
+        "admissions_tests": {
+          "ucat": {
+            "total_score": 2700,
+            "sjt_band": 1
+          }
+        }
+      },
+      "expected": {
+        "eligibility_status": "eligible",
+        "guidance_pool_id": "overseas",
+        "source_band_id": "OS_A_SECURE",
+        "result_card_id": "VERY_STRONG_INTERVIEW_POTENTIAL"
+      }
+    },
+    {
+      "scenario_id": "overseas_ucat_2090_sjt_2",
+      "overrides": {
+        "applicant_identity": {
+          "applicant_type": "international_standard_school_leaver",
+          "fee_status": "International",
+          "domicile": "International",
+          "english_language_exempt": true
+        },
+        "admissions_tests": {
+          "ucat": {
+            "total_score": 2090,
+            "sjt_band": 2
+          }
+        }
+      },
+      "expected": {
+        "eligibility_status": "eligible",
+        "guidance_pool_id": "overseas",
+        "source_band_id": "OS_A_SECURE",
+        "result_card_id": "VERY_STRONG_INTERVIEW_POTENTIAL"
+      }
+    },
+    {
+      "scenario_id": "overseas_ucat_2089_sjt_3",
+      "overrides": {
+        "applicant_identity": {
+          "applicant_type": "international_standard_school_leaver",
+          "fee_status": "International",
+          "domicile": "International",
+          "english_language_exempt": true
+        },
+        "admissions_tests": {
+          "ucat": {
+            "total_score": 2089,
+            "sjt_band": 3
+          }
+        }
+      },
+      "expected": {
+        "eligibility_status": "eligible",
+        "guidance_pool_id": "overseas",
+        "source_band_id": "OS_B_STRONG",
+        "result_card_id": "VERY_STRONG_INTERVIEW_POTENTIAL"
+      }
+    },
+    {
+      "scenario_id": "overseas_ucat_2040_sjt_1",
+      "overrides": {
+        "applicant_identity": {
+          "applicant_type": "international_standard_school_leaver",
+          "fee_status": "International",
+          "domicile": "International",
+          "english_language_exempt": true
+        },
+        "admissions_tests": {
+          "ucat": {
+            "total_score": 2040,
+            "sjt_band": 1
+          }
+        }
+      },
+      "expected": {
+        "eligibility_status": "eligible",
+        "guidance_pool_id": "overseas",
+        "source_band_id": "OS_B_STRONG",
+        "result_card_id": "VERY_STRONG_INTERVIEW_POTENTIAL"
+      }
+    },
+    {
+      "scenario_id": "overseas_ucat_2039_sjt_2",
+      "overrides": {
+        "applicant_identity": {
+          "applicant_type": "international_standard_school_leaver",
+          "fee_status": "International",
+          "domicile": "International",
+          "english_language_exempt": true
+        },
+        "admissions_tests": {
+          "ucat": {
+            "total_score": 2039,
+            "sjt_band": 2
+          }
+        }
+      },
+      "expected": {
+        "eligibility_status": "eligible",
+        "guidance_pool_id": "overseas",
+        "source_band_id": "OS_C_COMFORTABLE",
+        "result_card_id": "REALISTIC_INTERVIEW_CHANCE"
+      }
+    },
+    {
+      "scenario_id": "overseas_ucat_2000_sjt_3",
+      "overrides": {
+        "applicant_identity": {
+          "applicant_type": "international_standard_school_leaver",
+          "fee_status": "International",
+          "domicile": "International",
+          "english_language_exempt": true
+        },
+        "admissions_tests": {
+          "ucat": {
+            "total_score": 2000,
+            "sjt_band": 3
+          }
+        }
+      },
+      "expected": {
+        "eligibility_status": "eligible",
+        "guidance_pool_id": "overseas",
+        "source_band_id": "OS_C_COMFORTABLE",
+        "result_card_id": "REALISTIC_INTERVIEW_CHANCE"
+      }
+    },
+    {
+      "scenario_id": "overseas_ucat_1999_sjt_1",
+      "overrides": {
+        "applicant_identity": {
+          "applicant_type": "international_standard_school_leaver",
+          "fee_status": "International",
+          "domicile": "International",
+          "english_language_exempt": true
+        },
+        "admissions_tests": {
+          "ucat": {
+            "total_score": 1999,
+            "sjt_band": 1
+          }
+        }
+      },
+      "expected": {
+        "eligibility_status": "eligible",
+        "guidance_pool_id": "overseas",
+        "source_band_id": "OS_D_MARGINAL",
+        "result_card_id": "BORDERLINE"
+      }
+    },
+    {
+      "scenario_id": "overseas_ucat_1981_sjt_2",
+      "overrides": {
+        "applicant_identity": {
+          "applicant_type": "international_standard_school_leaver",
+          "fee_status": "International",
+          "domicile": "International",
+          "english_language_exempt": true
+        },
+        "admissions_tests": {
+          "ucat": {
+            "total_score": 1981,
+            "sjt_band": 2
+          }
+        }
+      },
+      "expected": {
+        "eligibility_status": "eligible",
+        "guidance_pool_id": "overseas",
+        "source_band_id": "OS_D_MARGINAL",
+        "result_card_id": "BORDERLINE"
+      }
+    },
+    {
+      "scenario_id": "overseas_ucat_1980_sjt_3",
+      "overrides": {
+        "applicant_identity": {
+          "applicant_type": "international_standard_school_leaver",
+          "fee_status": "International",
+          "domicile": "International",
+          "english_language_exempt": true
+        },
+        "admissions_tests": {
+          "ucat": {
+            "total_score": 1980,
+            "sjt_band": 3
+          }
+        }
+      },
+      "expected": {
+        "eligibility_status": "eligible",
+        "guidance_pool_id": "overseas",
+        "source_band_id": "OS_E_BOUNDARY_FAIL",
+        "result_card_id": "BELOW_PREVIOUS_THRESHOLD"
+      }
+    },
+    {
+      "scenario_id": "overseas_ucat_1979_sjt_1",
+      "overrides": {
+        "applicant_identity": {
+          "applicant_type": "international_standard_school_leaver",
+          "fee_status": "International",
+          "domicile": "International",
+          "english_language_exempt": true
+        },
+        "admissions_tests": {
+          "ucat": {
+            "total_score": 1979,
+            "sjt_band": 1
+          }
+        }
+      },
+      "expected": {
+        "eligibility_status": "eligible",
+        "guidance_pool_id": "overseas",
+        "source_band_id": "OS_F_BELOW",
+        "result_card_id": "BELOW_PREVIOUS_THRESHOLD"
+      }
+    },
+    {
+      "scenario_id": "overseas_ucat_0_sjt_2",
+      "overrides": {
+        "applicant_identity": {
+          "applicant_type": "international_standard_school_leaver",
+          "fee_status": "International",
+          "domicile": "International",
+          "english_language_exempt": true
+        },
+        "admissions_tests": {
+          "ucat": {
+            "total_score": 0,
+            "sjt_band": 2
+          }
+        }
+      },
+      "expected": {
+        "eligibility_status": "eligible",
+        "guidance_pool_id": "overseas",
+        "source_band_id": "OS_F_BELOW",
+        "result_card_id": "BELOW_PREVIOUS_THRESHOLD"
+      }
+    },
+    {
+      "scenario_id": "overseas_sjt_band_4_high_ucat",
+      "overrides": {
+        "applicant_identity": {
+          "applicant_type": "international_standard_school_leaver",
+          "fee_status": "International",
+          "domicile": "International",
+          "english_language_exempt": true
+        },
+        "admissions_tests": {
+          "ucat": {
+            "total_score": 2700,
+            "sjt_band": 4
+          }
+        }
+      },
+      "expected": {
+        "eligibility_status": "not_eligible",
+        "failure": "disqualifying_sjt_rule"
+      }
+    },
+    {
+      "scenario_id": "adjusted_offer_low_ucat_sjt_3",
+      "overrides": {
+        "applicant_group_ids": [
+          "bsms_adjusted_offer_confirmed"
+        ],
+        "applicant_identity": {
+          "contextual": true,
+          "widening_participation": true
+        },
+        "gcse_profile": {
+          "subjects": {
+            "english_language": "5",
+            "mathematics": "5"
+          },
+          "total_gcse_count": 2
+        },
+        "a_level_profile": {
+          "subjects": [
+            {
+              "subject_id": "biology",
+              "predicted_grade": "A"
+            },
+            {
+              "subject_id": "chemistry",
+              "predicted_grade": "A"
+            },
+            {
+              "subject_id": "mathematics",
+              "predicted_grade": "B"
+            }
+          ]
+        },
+        "admissions_tests": {
+          "ucat": {
+            "total_score": 1720,
+            "sjt_band": 3
+          }
+        },
+        "widening_participation": {
+          "bsms_adjusted_offer": {
+            "status": "eligible",
+            "evidence_confirmed": true
+          }
+        }
+      },
+      "expected": {
+        "eligibility_status": "eligible",
+        "guidance_pool_id": null,
+        "source_band_id": "HA_GUARANTEED",
+        "result_card_id": "ADJUSTED_OFFER_INTERVIEW_ROUTE",
+        "interview_outcome": "adjusted_offer_interview_route"
+      }
+    },
+    {
+      "scenario_id": "adjusted_offer_no_ucat",
+      "overrides": {
+        "applicant_group_ids": [
+          "bsms_adjusted_offer_confirmed"
+        ],
+        "applicant_identity": {
+          "contextual": true,
+          "widening_participation": true
+        },
+        "gcse_profile": {
+          "subjects": {
+            "english_language": "5",
+            "mathematics": "5"
+          },
+          "total_gcse_count": 2
+        },
+        "a_level_profile": {
+          "subjects": [
+            {
+              "subject_id": "biology",
+              "predicted_grade": "A"
+            },
+            {
+              "subject_id": "chemistry",
+              "predicted_grade": "A"
+            },
+            {
+              "subject_id": "mathematics",
+              "predicted_grade": "B"
+            }
+          ]
+        },
+        "admissions_tests": {
+          "ucat": {
+            "total_score": null,
+            "sjt_band": 2
+          }
+        },
+        "widening_participation": {
+          "bsms_adjusted_offer": {
+            "status": "eligible",
+            "evidence_confirmed": true
+          }
+        }
+      },
+      "expected": {
+        "eligibility_status": "eligible",
+        "guidance_pool_id": null,
+        "source_band_id": "HA_GUARANTEED",
+        "result_card_id": "ADJUSTED_OFFER_INTERVIEW_ROUTE",
+        "interview_outcome": "adjusted_offer_interview_route",
+        "no_unresolved_ucat_placeholder": true
+      }
+    },
+    {
+      "scenario_id": "adjusted_offer_sjt_band_4_override",
+      "overrides": {
+        "applicant_group_ids": [
+          "bsms_adjusted_offer_confirmed"
+        ],
+        "applicant_identity": {
+          "contextual": true,
+          "widening_participation": true
+        },
+        "admissions_tests": {
+          "ucat": {
+            "total_score": 2700,
+            "sjt_band": 4
+          }
+        },
+        "widening_participation": {
+          "bsms_adjusted_offer": {
+            "status": "eligible",
+            "evidence_confirmed": true
+          }
+        }
+      },
+      "expected": {
+        "eligibility_status": "not_eligible",
+        "failure": "disqualifying_sjt_rule"
+      }
+    },
+    {
+      "scenario_id": "adjusted_offer_academic_failure",
+      "overrides": {
+        "applicant_group_ids": [
+          "bsms_adjusted_offer_confirmed"
+        ],
+        "applicant_identity": {
+          "contextual": true,
+          "widening_participation": true
+        },
+        "gcse_profile": {
+          "subjects": {
+            "english_language": "4",
+            "mathematics": "5"
+          },
+          "total_gcse_count": 2
+        },
+        "a_level_profile": {
+          "subjects": [
+            {
+              "subject_id": "biology",
+              "predicted_grade": "B"
+            },
+            {
+              "subject_id": "chemistry",
+              "predicted_grade": "B"
+            },
+            {
+              "subject_id": "mathematics",
+              "predicted_grade": "B"
+            }
+          ]
+        },
+        "admissions_tests": {
+          "ucat": {
+            "total_score": 2200,
+            "sjt_band": 1
+          }
+        },
+        "widening_participation": {
+          "bsms_adjusted_offer": {
+            "status": "eligible",
+            "evidence_confirmed": true
+          }
+        }
+      },
+      "expected": {
+        "eligibility_status": "not_eligible",
+        "failure": "minimum_gcse_grade_not_met:english_language"
+      }
+    },
+    {
+      "scenario_id": "care_leaver_no_ucat",
+      "overrides": {
+        "applicant_identity": {
+          "contextual_flags": {
+            "care_experienced": true
+          }
+        },
+        "gcse_profile": {
+          "subjects": {
+            "english_language": "5",
+            "mathematics": "5"
+          },
+          "total_gcse_count": 2
+        },
+        "a_level_profile": {
+          "subjects": [
+            {
+              "subject_id": "biology",
+              "predicted_grade": "A"
+            },
+            {
+              "subject_id": "chemistry",
+              "predicted_grade": "A"
+            },
+            {
+              "subject_id": "mathematics",
+              "predicted_grade": "B"
+            }
+          ]
+        },
+        "admissions_tests": {
+          "ucat": {
+            "total_score": null,
+            "sjt_band": 1
+          }
+        },
+        "widening_participation": {
+          "bsms_care_leaver": {
+            "status": "eligible",
+            "evidence_confirmed": true
+          }
+        }
+      },
+      "expected": {
+        "eligibility_status": "eligible",
+        "guidance_pool_id": null,
+        "source_band_id": "CARE_LEAVER",
+        "result_card_id": "CARE_LEAVER_INTERVIEW_ROUTE",
+        "interview_outcome": "care_leaver_interview_route"
+      }
+    },
+    {
+      "scenario_id": "care_leaver_academic_failure",
+      "overrides": {
+        "applicant_identity": {
+          "contextual_flags": {
+            "care_experienced": true
+          }
+        },
+        "gcse_profile": {
+          "subjects": {
+            "english_language": "4",
+            "mathematics": "5"
+          },
+          "total_gcse_count": 2
+        },
+        "admissions_tests": {
+          "ucat": {
+            "sjt_band": 1
+          }
+        },
+        "widening_participation": {
+          "bsms_care_leaver": {
+            "status": "eligible",
+            "evidence_confirmed": true
+          }
+        }
+      },
+      "expected": {
+        "eligibility_status": "not_eligible",
+        "failure": "minimum_gcse_grade_not_met:english_language"
+      }
+    },
+    {
+      "scenario_id": "care_leaver_sjt_band_4_override",
+      "overrides": {
+        "applicant_identity": {
+          "contextual_flags": {
+            "care_experienced": true
+          }
+        },
+        "admissions_tests": {
+          "ucat": {
+            "total_score": 2700,
+            "sjt_band": 4
+          }
+        },
+        "widening_participation": {
+          "bsms_care_leaver": {
+            "status": "eligible",
+            "evidence_confirmed": true
+          }
+        }
+      },
+      "expected": {
+        "eligibility_status": "not_eligible",
+        "failure": "disqualifying_sjt_rule"
+      }
+    },
+    {
+      "scenario_id": "missing_sjt_manual_review",
+      "overrides": {
+        "admissions_tests": {
+          "ucat": {
+            "total_score": 2100,
+            "sjt_band": null
+          }
+        }
+      },
+      "expected": {
+        "eligibility_status": "manual_review",
+        "manual_review_required": true,
+        "manual_review_reason": "required_admissions_test_component_missing:sjt"
+      }
+    },
+    {
+      "scenario_id": "missing_fee_status_manual_review",
+      "overrides": {
+        "applicant_identity": {
+          "fee_status": null,
+          "domicile": null
+        }
+      },
+      "expected": {
+        "eligibility_status": "manual_review",
+        "manual_review_required": true,
+        "manual_review_reason": "fee_status_requires_manual_review"
+      }
+    },
+    {
+      "scenario_id": "unknown_adjusted_offer_status_manual_review",
+      "overrides": {
+        "widening_participation": {
+          "bsms_adjusted_offer": {
+            "status": "unknown",
+            "evidence_confirmed": false
+          }
+        }
+      },
+      "expected": {
+        "eligibility_status": "manual_review",
+        "manual_review_required": true,
+        "manual_review_reason": "adjusted_offer_eligibility_requires_manual_review"
+      }
+    },
+    {
+      "scenario_id": "missing_ucat_standard_home_manual_review",
+      "overrides": {
+        "admissions_tests": {
+          "ucat": {
+            "total_score": null,
+            "sjt_band": 1
+          }
+        }
+      },
+      "expected": {
+        "eligibility_status": "manual_review",
+        "manual_review_required": true,
+        "manual_review_reason": "required_admissions_test_missing:ucat"
+      }
+    },
+    {
+      "scenario_id": "invalid_ucat_below_zero_manual_review",
+      "overrides": {
+        "admissions_tests": {
+          "ucat": {
+            "total_score": -1,
+            "sjt_band": 1
+          }
+        }
+      },
+      "expected": {
+        "eligibility_status": "manual_review",
+        "manual_review_required": true,
+        "manual_review_reason": "ucat_total_outside_supported_range"
+      }
+    },
+    {
+      "scenario_id": "invalid_ucat_above_2700_manual_review",
+      "overrides": {
+        "admissions_tests": {
+          "ucat": {
+            "total_score": 2701,
+            "sjt_band": 1
+          }
+        }
+      },
+      "expected": {
+        "eligibility_status": "manual_review",
+        "manual_review_required": true,
+        "manual_review_reason": "ucat_total_outside_supported_range"
+      }
+    },
+    {
+      "scenario_id": "future_cycle_drift_warning",
+      "overrides": {
+        "application_year": 2027,
+        "admissions_tests": {
+          "ucat": {
+            "total_score": 2100,
+            "sjt_band": 1,
+            "test_year": 2026
+          }
+        }
+      },
+      "expected": {
+        "eligibility_status": "eligible",
+        "source_band_id": "HS_A_SECURE",
+        "warning": "bsms_future_cycle_uses_2026_baseline_with_drift_warning"
+      }
+    },
+    {
+      "scenario_id": "ib_standard_supported",
+      "overrides": {
+        "qualification_route": "international_baccalaureate",
+        "ib_profile": {
+          "total_points": 36,
+          "higher_level_subjects": [
+            {
+              "subject_id": "biology",
+              "grade": "6"
+            },
+            {
+              "subject_id": "chemistry",
+              "grade": "6"
+            },
+            {
+              "subject_id": "mathematics",
+              "grade": "6"
+            }
+          ]
+        },
+        "a_level_profile": null
+      },
+      "expected": {
+        "eligibility_status": "eligible",
+        "source_band_id": "HS_A_SECURE"
+      }
+    },
+    {
+      "scenario_id": "scottish_supported",
+      "overrides": {
+        "qualification_route": "scottish",
+        "scottish_profile": {
+          "national_5_subjects": [
+            {
+              "subject_id": "english_language",
+              "grade": "A"
+            },
+            {
+              "subject_id": "mathematics",
+              "grade": "A"
+            }
+          ],
+          "advanced_higher_subjects": [
+            {
+              "subject_id": "biology",
+              "grade": "A"
+            },
+            {
+              "subject_id": "chemistry",
+              "grade": "A"
+            },
+            {
+              "subject_id": "physics",
+              "grade": "A"
+            }
+          ]
+        },
+        "a_level_profile": null
+      },
+      "expected": {
+        "eligibility_status": "eligible",
+        "source_band_id": "HS_A_SECURE"
+      }
+    },
+    {
+      "scenario_id": "graduate_supported",
+      "overrides": {
+        "qualification_route": "graduate",
+        "applicant_identity": {
+          "graduate": true
+        },
+        "a_level_profile": null,
+        "graduate_profile": {
+          "is_graduate": true,
+          "degree_classification": "2_1"
+        }
+      },
+      "expected": {
+        "eligibility_status": "eligible",
+        "source_band_id": "HS_A_SECURE"
+      }
+    },
+    {
+      "scenario_id": "international_qualification_equivalency_manual_review",
+      "overrides": {
+        "qualification_route": "international_qualification",
+        "a_level_profile": null,
+        "international_qualification": {
+          "equivalence_status": "unknown"
+        }
+      },
+      "expected": {
+        "eligibility_status": "manual_review",
+        "manual_review_required": true,
+        "manual_review_reason": "qualification_route_requires_manual_review:international_qualification"
+      }
+    }
+  ],
+  "approved_band_to_result_card_map": {
+    "HA_GUARANTEED": "ADJUSTED_OFFER_INTERVIEW_ROUTE",
+    "CARE_LEAVER": "CARE_LEAVER_INTERVIEW_ROUTE",
+    "HS_A_SECURE": "VERY_STRONG_INTERVIEW_POTENTIAL",
+    "HS_B_STRONG": "VERY_STRONG_INTERVIEW_POTENTIAL",
+    "HS_C_COMFORTABLE": "REALISTIC_INTERVIEW_CHANCE",
+    "HS_D_MARGINAL": "BORDERLINE",
+    "HS_E_BOUNDARY_PASS": "BORDERLINE",
+    "HS_E_BOUNDARY_FAIL": "BELOW_PREVIOUS_THRESHOLD",
+    "HS_F_BELOW": "BELOW_PREVIOUS_THRESHOLD",
+    "HS_SJT_FAIL": "NOT_ELIGIBLE",
+    "OS_A_SECURE": "VERY_STRONG_INTERVIEW_POTENTIAL",
+    "OS_B_STRONG": "VERY_STRONG_INTERVIEW_POTENTIAL",
+    "OS_C_COMFORTABLE": "REALISTIC_INTERVIEW_CHANCE",
+    "OS_D_MARGINAL": "BORDERLINE",
+    "OS_E_BOUNDARY_FAIL": "BELOW_PREVIOUS_THRESHOLD",
+    "OS_F_BELOW": "BELOW_PREVIOUS_THRESHOLD",
+    "OS_SJT_FAIL": "NOT_ELIGIBLE",
+    "HA_SJT_FAIL": "NOT_ELIGIBLE",
+    "HA_ACADEMIC_FAIL": "NOT_ELIGIBLE"
+  },
+  "public_transparency_requirements": {
+    "distinguish_official_thresholds_from_derived_bands": true,
+    "do_not_expose_internal_calibration": true,
+    "offer_prediction_ready": false
+  }
+}

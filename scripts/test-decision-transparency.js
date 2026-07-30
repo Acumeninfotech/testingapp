@@ -178,6 +178,7 @@ const universityRequirements = {
   'birmingham-a100': /Contextual points require verified applicant evidence/i,
   'cambridge-a100': /holistically by college.*hidden modelled guidance/i,
   'cardiff-a100': /24 points out of 24.*3 points out of 3.*0 points out of 1.*27 out of 28.*raw UCAT/s,
+  'city-st-george-s-of-london-a100': /academic eligibility.*UCAT cognitive section.*raw UCAT total.*SJT is recorded but excluded/i,
   'dundee-a100': /academic attainment and UCAT national-decile performance/i,
   'edinburgh-a100': /20 points.*14 points.*6 points.*total out of 40/s,
   'edge-hill-a100': /UCAT total is the ranking metric.*No academic score is created/s,
@@ -384,8 +385,10 @@ const ucatRankingEntries = index.universities
 assert.deepStrictEqual(
   ucatRankingEntries.map((entry) => entry.id),
   [
+    'brighton-and-sussex-a100',
     'bristol-a100',
     'brunel-university-of-london-a100',
+    'city-st-george-s-of-london-a100',
     'east-anglia-a100',
     'edge-hill-a100',
     'glasgow-a100',

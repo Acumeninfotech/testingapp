@@ -361,7 +361,8 @@ assert.deepStrictEqual(
   'SJT Band 4 applicant should fail before scoring.'
 );
 
-assert.strictEqual(profile.quotas[0].offer_allocation.ranked_within_fee_cohorts, true);
+const feeCohortQuota = profile.quotas.find((quota) => quota.offer_allocation);
+assert.strictEqual(feeCohortQuota.offer_allocation.ranked_within_fee_cohorts, true);
 assert.strictEqual(profile.offer_selection.offer_model.final_score.scale.max, 100);
 assert.strictEqual(profile.offer_selection.offer_model.ranking.ranked_within_fee_cohorts, true);
 assert.match(card.prediction.band_basis, /historical international UCAT competitiveness guidance/i);

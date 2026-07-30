@@ -146,6 +146,7 @@ function evaluateGenericUniversity(studentProfile, university) {
       guidancePool: classification.guidance_pool,
       scoreModel: university.config?.score_model,
       guidancePoolId: classification.guidance_pool_id,
+      selectionRouteId: classification.selection_route_id,
       interviewOutcome: classification.interview_outcome,
       guaranteedInterviewExplanation: classification.guaranteed_interview_explanation,
       officialPrediction: classification.official_prediction,
@@ -233,6 +234,7 @@ function makeResultCard(studentProfile, university, eligibilityStatus, band, man
       stage_1_eligibility: university.course.stage_1_eligibility || null,
       historical_admissions: university.course.historical_admissions || null,
       fee_information: university.course.fee_information || null,
+      selection_approach_display: university.course.selection_approach_display || null,
       // Already-computed engine score/ranking output (generic component_sum
       // ranking, the Nottingham consumer's official_score, or the Hull York
       // consumer's unofficial estimated_selection_score) so result cards can
@@ -250,6 +252,7 @@ function makeResultCard(studentProfile, university, eligibilityStatus, band, man
       // 'graduate_numerical_guidance_boundary_not_published') - forwarded
       // as-is so the presenter can show them without recomputing.
       guidance_pool_id: scoreContext.guidancePoolId || null,
+      selection_route_id: scoreContext.selectionRouteId || null,
       interview_outcome: scoreContext.interviewOutcome || null,
       guaranteed_interview_explanation:
         scoreContext.guaranteedInterviewExplanation || null,

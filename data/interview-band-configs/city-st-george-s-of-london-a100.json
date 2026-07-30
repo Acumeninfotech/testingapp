@@ -1,0 +1,565 @@
+{
+  "schema_version": "1.0.0",
+  "course_profile_id": "city-st-george-s-of-london-a100",
+  "confidence": "low",
+  "evidence": {
+    "classification": "official_eligibility_and_2026_current_scale_cutoffs_with_applysmart_derived_low_confidence_bands",
+    "summary": "City St George's publishes academic and UCAT section gates and 2026 current-scale pool-specific UCAT cut-offs. ApplySmart derives low-confidence guidance bands; these are not official thresholds or guarantees.",
+    "source_ids": [
+      "city_st_georges_a100_course_page_2026",
+      "city_st_georges_admissions_statistics",
+      "city_st_georges_contextual_admissions_policy"
+    ]
+  },
+  "eligibility": {
+    "scope": "Automatic handling supports A-level school-leavers and 2:1 graduates with complete UCAT subsection, UCAT total, SJT and fee-status evidence.",
+    "international_english_language_required": true,
+    "qualification_routes": {
+      "supported": [
+        "a_level",
+        "graduate"
+      ],
+      "explicitly_blocked": [
+        "international_qualification",
+        "unknown"
+      ],
+      "manual_review": [
+        "international_baccalaureate",
+        "scottish",
+        "access_to_he",
+        "btec"
+      ]
+    },
+    "gcse": {
+      "minimum_count": 5,
+      "use_exact_subject_list": false,
+      "required_subjects": [
+        {
+          "subject_id": "english_language",
+          "minimum_grade": "6/B"
+        },
+        {
+          "subject_id": "mathematics",
+          "minimum_grade": "6/B"
+        }
+      ]
+    },
+    "a_level": {
+      "routes": [
+        {
+          "route_id": "city_st_georges_a_level_aaa_biology_chemistry",
+          "applies_to_group_ids": [
+            "school_leaver"
+          ],
+          "excluded_group_ids": [
+            "graduate_applicant"
+          ],
+          "grade_profile": [
+            "A",
+            "A",
+            "A"
+          ],
+          "required_subject_ids": [
+            "chemistry",
+            "biology"
+          ]
+        }
+      ]
+    },
+    "graduate": {
+      "gcse_required": false,
+      "waive_a_level_requirements": true,
+      "minimum_classification": "2_1",
+      "postgraduate_compensation_allowed": true
+    },
+    "ucat": {
+      "required": true,
+      "score_min": 900,
+      "score_max": 2700,
+      "section_minimum": 500,
+      "section_minimums": [
+        {
+          "subsection": "each_cognitive_section",
+          "minimum_score": 500
+        }
+      ]
+    },
+    "sjt": {
+      "required": true,
+      "used_in_prediction": false,
+      "excluded_from_prediction": true,
+      "accepted_bands": [
+        1,
+        2,
+        3,
+        4
+      ],
+      "rejected_bands": [],
+      "missing_outcome": "manual_review",
+      "user_message": "\"SGUL states SJT Banding is considered in 2026-entry decisions, but has not published how. Your SJT Band 1-4 is recorded but NOT included in this prediction.\""
+    },
+    "contextual_policy": {
+      "allowed_statuses": [
+        "none",
+        "group_1",
+        "group_2",
+        "group_3",
+        "unknown"
+      ],
+      "prediction_effect": "standard_bands_with_contextual_metadata_only",
+      "groups": {
+        "group_1": {
+          "prediction": "Proceed through standard academic, UCAT-section, pool and band gates.",
+          "eligible_for_contextual_offer": true,
+          "eligible_for_pre_application_support": true,
+          "eligible_for_post_application_support": true
+        },
+        "group_2": {
+          "prediction": "Proceed through standard academic, UCAT-section, pool and band gates.",
+          "eligible_for_contextual_offer": true,
+          "eligible_for_pre_application_support": true,
+          "eligible_for_post_application_support": true
+        },
+        "group_3": {
+          "prediction": "Proceed through standard academic, UCAT-section, pool and band gates.",
+          "eligible_for_contextual_offer": false,
+          "eligible_for_pre_application_support": true,
+          "eligible_for_post_application_support": true
+        },
+        "none": {
+          "prediction": "Proceed through standard academic, UCAT-section, pool and band gates.",
+          "eligible_for_contextual_offer": false,
+          "eligible_for_pre_application_support": false,
+          "eligible_for_post_application_support": false
+        },
+        "unknown": {
+          "prediction": "Proceed through standard academic, UCAT-section, pool and band gates because no separate contextual interview-ranking method is published.",
+          "contextual_eligibility_unconfirmed": true,
+          "user_message": "Your UCAT prediction uses City St George's standard published applicant-pool evidence. Check whether you qualify for contextual support or a reduced offer separately."
+        }
+      }
+    },
+    "manual_review_routes": [
+      "IB unresolved 35/36 overall-points discrepancy",
+      "Scottish route",
+      "Access route",
+      "international qualification equivalence",
+      "2:2 plus Masters graduate route evidence"
+    ],
+    "do_not_infer": [
+      "Do not invent an academic points formula.",
+      "Do not invent an SJT weighting or Band 4 rejection.",
+      "Do not invent a contextual UCAT cutoff, guaranteed interview or contextual ranking uplift.",
+      "Enforce academic eligibility and every UCAT cognitive section minimum of 500 before band computation.",
+      "Route applicants into exactly one of four fee-status/graduate pools without silent defaults.",
+      "Treat offer prediction as out of scope."
+    ],
+    "manual_review_if": [
+      {
+        "when": "missing_or_unknown_evidence",
+        "applicant_evidence_path": "admissions_tests.ucat.sjt_band",
+        "reason": "sjt_band_required_for_city_st_georges_exclusion_notice"
+      }
+    ]
+  },
+  "score_model": {
+    "type": "ranking_metric",
+    "basis": "Interview-prediction bands are NOT published by the university. This config builds a heuristic banding tool by measuring an applicant's raw UCAT total against the single most recent officially published cut-off for their category (2026 entry, the only cycle so far on the current 900-2700 scale), with band widths set from the observed year-on-year VOLATILITY of the university's own historical cut-offs (see volatility_context). Because SGUL explicitly states prior-year cut-offs cannot predict future ones, every band below is a probability-style heuristic, not a guarantee, and should be surfaced to users with the university_warning_verbatim text attached at all times.",
+    "metric": "ucat_total",
+    "scale": {
+      "min": 900,
+      "max": 2700
+    },
+    "executable": true,
+    "historical_guidance_only": true,
+    "applysmart_derived_estimate": true,
+    "current_scale_only": true,
+    "baseline_cycle_year": 2026,
+    "reference_cutoffs_2026_entry_current_scale": {
+      "home_non_graduate": 1880,
+      "home_graduate": 1880,
+      "overseas_non_graduate": 1640,
+      "overseas_graduate": 1630,
+      "note": "These are the ONLY published cut-offs on the current 900-2700 scale (2026 entry, the first cycle on this scale). Because there is only one data point per category on this scale, band widths are necessarily borrowed from old-scale volatility (see volatility_context) rather than calculated from multiple current-scale years. Confidence in these bands should be treated as LOW until at least 2-3 more cycles of current-scale data are published.",
+      "source": {
+        "url": "https://www.citystgeorges.ac.uk/about/schools/health-sciences/about/admissions-statistics",
+        "accessed": "2026-07-29",
+        "cycle": "2026 entry"
+      }
+    },
+    "computed_band_ranges_by_category": {
+      "home_non_graduate": {
+        "reference_cutoff": 1880,
+        "band_A_min": 1985,
+        "band_B_range": [
+          1910,
+          1984
+        ],
+        "band_C_range": [
+          1811,
+          1909
+        ],
+        "band_D_range": [
+          1775,
+          1810
+        ],
+        "band_E_max": 1774
+      },
+      "home_graduate": {
+        "reference_cutoff": 1880,
+        "band_A_min": 1985,
+        "band_B_range": [
+          1910,
+          1984
+        ],
+        "band_C_range": [
+          1811,
+          1909
+        ],
+        "band_D_range": [
+          1775,
+          1810
+        ],
+        "band_E_max": 1774
+      },
+      "overseas_non_graduate": {
+        "reference_cutoff": 1640,
+        "band_A_min": 1745,
+        "band_B_range": [
+          1670,
+          1744
+        ],
+        "band_C_range": [
+          1571,
+          1669
+        ],
+        "band_D_range": [
+          1535,
+          1570
+        ],
+        "band_E_max": 1534
+      },
+      "overseas_graduate": {
+        "reference_cutoff": 1630,
+        "band_A_min": 1735,
+        "band_B_range": [
+          1660,
+          1734
+        ],
+        "band_C_range": [
+          1561,
+          1659
+        ],
+        "band_D_range": [
+          1525,
+          1560
+        ],
+        "band_E_max": 1524
+      }
+    },
+    "university_warning_verbatim": "It is not possible to predict what the UCAT thresholds will be in any individual year, nor to use data from previous years to predict subsequent years' thresholds. The number and quality of applications can vary year-on-year and the selection process is reviewed annually and may be subject to change.",
+    "sjt_handling": {
+      "mode": "EXPLICITLY_EXCLUDED_PENDING_DATA",
+      "sjt_excluded_from_prediction": true,
+      "message": "\"SGUL states SJT Banding is considered in 2026-entry decisions, but has not published how. Your SJT Band 1-4 is recorded but NOT included in this prediction.\""
+    },
+    "contextual_handling": {
+      "official_policy_summary": "Groups 1 and 2 may receive a reduced conditional offer and pre/post-application support. Group 3 receives pre/post-application support but no contextual offer.",
+      "prediction_effect": "No separate contextual UCAT threshold or interview-ranking method is published. The same category-specific UCAT reference bands are used for contextual and non-contextual applicants.",
+      "required_output_metadata": [
+        "contextual_status",
+        "eligible_for_contextual_offer",
+        "eligible_for_pre_application_support",
+        "eligible_for_post_application_support"
+      ],
+      "prohibited_behaviour": [
+        "Do not lower the UCAT reference cutoff for contextual applicants",
+        "Do not guarantee an interview",
+        "Do not add contextual ranking points",
+        "Do not suppress a standard UCAT prediction solely because the applicant is in contextual group 1, 2 or 3"
+      ],
+      "source": {
+        "url": "https://www.citystgeorges.ac.uk/about/governance/policies/contextual-admissions",
+        "source_type": "University official contextual admissions policy",
+        "accessed": "2026-07-29"
+      }
+    },
+    "guidance_policy": {
+      "labels": [
+        "applysmart_derived_low_confidence_guidance_not_official_city_st_georges_threshold",
+        "sjt_captured_but_excluded_from_prediction_pending_published_mechanism",
+        "contextual_status_does_not_change_ucat_reference_cutoff"
+      ]
+    },
+    "presentation": {
+      "selection_summary": "City St George's checks academic eligibility and every UCAT cognitive section first, then ranks eligible applicants by raw UCAT total within separate Home/Overseas and graduate/non-graduate pools. SJT is recorded but excluded from ApplySmart band computation because the university has not published the exact mechanism.",
+      "trust_statement": "City St George's says UCAT thresholds cannot be predicted for a future cycle. ApplySmart keeps this as guidance only and never treats it as an interview guarantee.",
+      "evidence_used": [
+        "Official admissions policy",
+        "University selection methodology",
+        "UCAT policy",
+        "Historical interview data",
+        "Contextual admissions policy",
+        "International admissions policy"
+      ],
+      "ucat_band_headlines": {
+        "very_strong_interview_potential": "Very strong choice based on your UCAT",
+        "interview_likely": "Strong choice based on your UCAT",
+        "realistic": "Realistic choice based on your UCAT",
+        "ambitious": "Ambitious choice based on your UCAT",
+        "high_risk": "High risk based on your UCAT"
+      },
+      "historical_summary": "City St George's historical guidance compares this UCAT result with previous admissions cycles. It is guidance only, not a current cut-off and not a guarantee of an interview."
+    }
+  },
+  "guidance_pools": [
+    {
+      "pool_id": "home_non_graduate",
+      "priority": 50,
+      "applicant_match": {
+        "all_group_ids": [
+          "home_fee",
+          "school_leaver"
+        ],
+        "excluded_group_ids": [
+          "international_fee",
+          "graduate_applicant"
+        ]
+      },
+      "metric": "ucat_total",
+      "pool_specific_output": true,
+      "comparison_guidance": {
+        "comparison_type": "historical_range",
+        "label": "2026 published current-scale UCAT reference range",
+        "caveat": "It is not possible to predict what the UCAT thresholds will be in any individual year, nor to use data from previous years to predict subsequent years' thresholds. The number and quality of applications can vary year-on-year and the selection process is reviewed annually and may be subject to change.",
+        "evidence_confidence": "low"
+      },
+      "band_rules": [
+        {
+          "band": "very_strong_interview_potential",
+          "source_band_id": "A",
+          "result_card_id": "VERY_STRONG_INTERVIEW_POTENTIAL",
+          "operator": "greater_than_or_equal",
+          "value": 1985
+        },
+        {
+          "band": "interview_likely",
+          "source_band_id": "B",
+          "result_card_id": "STRONG_CHOICE",
+          "operator": "between_inclusive",
+          "min": 1910,
+          "max": 1984
+        },
+        {
+          "band": "realistic",
+          "source_band_id": "C",
+          "result_card_id": "REALISTIC_CHOICE",
+          "operator": "between_inclusive",
+          "min": 1811,
+          "max": 1909
+        },
+        {
+          "band": "ambitious",
+          "source_band_id": "D",
+          "result_card_id": "AMBITIOUS_CHOICE",
+          "operator": "between_inclusive",
+          "min": 1775,
+          "max": 1810
+        },
+        {
+          "band": "high_risk",
+          "source_band_id": "E",
+          "result_card_id": "HIGH_RISK",
+          "operator": "less_than_or_equal",
+          "value": 1774
+        }
+      ]
+    },
+    {
+      "pool_id": "home_graduate",
+      "priority": 49,
+      "applicant_match": {
+        "all_group_ids": [
+          "home_fee",
+          "graduate_applicant"
+        ],
+        "excluded_group_ids": [
+          "international_fee",
+          "school_leaver"
+        ]
+      },
+      "metric": "ucat_total",
+      "pool_specific_output": true,
+      "comparison_guidance": {
+        "comparison_type": "historical_range",
+        "label": "2026 published current-scale UCAT reference range",
+        "caveat": "It is not possible to predict what the UCAT thresholds will be in any individual year, nor to use data from previous years to predict subsequent years' thresholds. The number and quality of applications can vary year-on-year and the selection process is reviewed annually and may be subject to change.",
+        "evidence_confidence": "low"
+      },
+      "band_rules": [
+        {
+          "band": "very_strong_interview_potential",
+          "source_band_id": "A",
+          "result_card_id": "VERY_STRONG_INTERVIEW_POTENTIAL",
+          "operator": "greater_than_or_equal",
+          "value": 1985
+        },
+        {
+          "band": "interview_likely",
+          "source_band_id": "B",
+          "result_card_id": "STRONG_CHOICE",
+          "operator": "between_inclusive",
+          "min": 1910,
+          "max": 1984
+        },
+        {
+          "band": "realistic",
+          "source_band_id": "C",
+          "result_card_id": "REALISTIC_CHOICE",
+          "operator": "between_inclusive",
+          "min": 1811,
+          "max": 1909
+        },
+        {
+          "band": "ambitious",
+          "source_band_id": "D",
+          "result_card_id": "AMBITIOUS_CHOICE",
+          "operator": "between_inclusive",
+          "min": 1775,
+          "max": 1810
+        },
+        {
+          "band": "high_risk",
+          "source_band_id": "E",
+          "result_card_id": "HIGH_RISK",
+          "operator": "less_than_or_equal",
+          "value": 1774
+        }
+      ]
+    },
+    {
+      "pool_id": "overseas_non_graduate",
+      "priority": 48,
+      "applicant_match": {
+        "all_group_ids": [
+          "international_fee",
+          "school_leaver"
+        ],
+        "excluded_group_ids": [
+          "home_fee",
+          "graduate_applicant"
+        ]
+      },
+      "metric": "ucat_total",
+      "pool_specific_output": true,
+      "comparison_guidance": {
+        "comparison_type": "historical_range",
+        "label": "2026 published current-scale UCAT reference range",
+        "caveat": "It is not possible to predict what the UCAT thresholds will be in any individual year, nor to use data from previous years to predict subsequent years' thresholds. The number and quality of applications can vary year-on-year and the selection process is reviewed annually and may be subject to change.",
+        "evidence_confidence": "low"
+      },
+      "band_rules": [
+        {
+          "band": "very_strong_interview_potential",
+          "source_band_id": "A",
+          "result_card_id": "VERY_STRONG_INTERVIEW_POTENTIAL",
+          "operator": "greater_than_or_equal",
+          "value": 1745
+        },
+        {
+          "band": "interview_likely",
+          "source_band_id": "B",
+          "result_card_id": "STRONG_CHOICE",
+          "operator": "between_inclusive",
+          "min": 1670,
+          "max": 1744
+        },
+        {
+          "band": "realistic",
+          "source_band_id": "C",
+          "result_card_id": "REALISTIC_CHOICE",
+          "operator": "between_inclusive",
+          "min": 1571,
+          "max": 1669
+        },
+        {
+          "band": "ambitious",
+          "source_band_id": "D",
+          "result_card_id": "AMBITIOUS_CHOICE",
+          "operator": "between_inclusive",
+          "min": 1535,
+          "max": 1570
+        },
+        {
+          "band": "high_risk",
+          "source_band_id": "E",
+          "result_card_id": "HIGH_RISK",
+          "operator": "less_than_or_equal",
+          "value": 1534
+        }
+      ]
+    },
+    {
+      "pool_id": "overseas_graduate",
+      "priority": 47,
+      "applicant_match": {
+        "all_group_ids": [
+          "international_fee",
+          "graduate_applicant"
+        ],
+        "excluded_group_ids": [
+          "home_fee",
+          "school_leaver"
+        ]
+      },
+      "metric": "ucat_total",
+      "pool_specific_output": true,
+      "comparison_guidance": {
+        "comparison_type": "historical_range",
+        "label": "2026 published current-scale UCAT reference range",
+        "caveat": "It is not possible to predict what the UCAT thresholds will be in any individual year, nor to use data from previous years to predict subsequent years' thresholds. The number and quality of applications can vary year-on-year and the selection process is reviewed annually and may be subject to change.",
+        "evidence_confidence": "low"
+      },
+      "band_rules": [
+        {
+          "band": "very_strong_interview_potential",
+          "source_band_id": "A",
+          "result_card_id": "VERY_STRONG_INTERVIEW_POTENTIAL",
+          "operator": "greater_than_or_equal",
+          "value": 1735
+        },
+        {
+          "band": "interview_likely",
+          "source_band_id": "B",
+          "result_card_id": "STRONG_CHOICE",
+          "operator": "between_inclusive",
+          "min": 1660,
+          "max": 1734
+        },
+        {
+          "band": "realistic",
+          "source_band_id": "C",
+          "result_card_id": "REALISTIC_CHOICE",
+          "operator": "between_inclusive",
+          "min": 1561,
+          "max": 1659
+        },
+        {
+          "band": "ambitious",
+          "source_band_id": "D",
+          "result_card_id": "AMBITIOUS_CHOICE",
+          "operator": "between_inclusive",
+          "min": 1525,
+          "max": 1560
+        },
+        {
+          "band": "high_risk",
+          "source_band_id": "E",
+          "result_card_id": "HIGH_RISK",
+          "operator": "less_than_or_equal",
+          "value": 1524
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,265 @@
+{
+  "schema_version": "1.0.0",
+  "profile_id": "brighton-and-sussex-a100-research",
+  "course_profile_id": "brighton-and-sussex-a100",
+  "research_status": "complete_for_supported_scope_with_documented_gaps",
+  "file_purpose": "Research and evidence profile for Brighton and Sussex Medical School A100. Executable rules live in data/universities/brighton-and-sussex-a100.json and data/interview-band-configs/brighton-and-sussex-a100.json.",
+  "official_rules_source": "data/universities/brighton-and-sussex-a100.json",
+  "created_at": "2026-07-29",
+  "last_updated": "2026-07-29",
+  "research_scope": {
+    "target_entry_year": 2027,
+    "baseline_threshold_cycle": "2026 entry",
+    "primary_course": "A100",
+    "implemented_only": [
+      "Brighton and Sussex Medical School A100 Medicine"
+    ],
+    "excluded_related_courses": [],
+    "evidence_intake_basis": "User-approved BSMS v5 research document and v5 ApplySmart JSON supplied 2026-07-29",
+    "production_json_updated": true,
+    "index_updated": true,
+    "examples_updated": true,
+    "regression_scripts_updated": true
+  },
+  "evidence_classification_policy": {
+    "official_bsms_thresholds_and_policies": "Home standard 1990 rule, Overseas above-1980 rule, SJT Band 4 rejection, academic thresholds, adjusted-offer and care-leaver policies.",
+    "applysmart_derived_bands": "Risk bands above official thresholds used for presentation; not published by BSMS.",
+    "known_evidence_gaps": "Missing trend, 2025 threshold, 2027 threshold, exact post-interview discriminator and MMI station scoring criteria.",
+    "confidence_separation": "Evidence confidence is high; forward prediction confidence is moderate."
+  },
+  "metadata": {
+    "production_ready": true,
+    "activation_ready": true,
+    "interview_prediction_ready": true,
+    "offer_prediction_ready": false,
+    "historical_guidance": false,
+    "contextual_logic": true,
+    "international_prediction": true,
+    "manual_review_required": "conditional",
+    "prediction_confidence": "moderate",
+    "evidence_confidence": "high",
+    "research_completeness": "complete_for_supported_scope_with_documented_gaps"
+  },
+  "readiness": {
+    "eligibility": true,
+    "interview_prediction": true,
+    "historical_guidance": false,
+    "international_prediction": true,
+    "contextual_logic": true,
+    "result_card": true,
+    "regression": true,
+    "research_completeness": "complete_for_supported_scope_with_documented_gaps",
+    "manual_review_required": true,
+    "eligibility_ready": true,
+    "interview_prediction_ready": true,
+    "prediction_confidence": "medium",
+    "result_card_ready": true,
+    "offer_prediction_scope": "out_of_scope",
+    "interview_band_config_ready": true,
+    "metadata_activation_ready": true,
+    "production_ready_candidate": true,
+    "production_activation_should_remain_blocked": false,
+    "activation_block_reason": null
+  },
+  "course_identity": {
+    "university": "Brighton and Sussex Medical School",
+    "course_name": "BM BS Medicine",
+    "ucas_code": "A100",
+    "entry_route": "standard_entry",
+    "source_ids": [
+      "bsms_v5_research_doc",
+      "bsms_v5_applysmart_json",
+      "bsms_applying_to_bsms_2026",
+      "bsms_entry_requirements",
+      "bsms_admissions_process",
+      "bsms_international_entry_requirements"
+    ]
+  },
+  "selection_model": {
+    "academic_requirements_role": "threshold_only",
+    "no_academic_points": true,
+    "no_combined_academic_ucat_score": true,
+    "ucat_scale": 2700,
+    "sjt_policy": "Band 1-3 accepted; Band 4 hard rejection all cohorts.",
+    "evaluation_order": [
+      "Academic eligibility check",
+      "SJT check",
+      "Care-leaver route",
+      "Adjusted-offer route",
+      "Fee-status cohort routing",
+      "UCAT interview-band classification"
+    ]
+  },
+  "ucat_thresholds_2026_entry": {
+    "home_standard": {
+      "threshold": 1990,
+      "rule": "above 1990, or exactly 1990 with SJT Band 1"
+    },
+    "overseas": {
+      "threshold": 1980,
+      "rule": "strictly above 1980"
+    },
+    "home_adjusted_offer": {
+      "threshold": null,
+      "rule": "no UCAT threshold for confirmed eligible adjusted-offer applicants"
+    }
+  },
+  "band_to_result_card_map": {
+    "HA_GUARANTEED": "ADJUSTED_OFFER_INTERVIEW_ROUTE",
+    "CARE_LEAVER": "CARE_LEAVER_INTERVIEW_ROUTE",
+    "HS_A_SECURE": "VERY_STRONG_INTERVIEW_POTENTIAL",
+    "HS_B_STRONG": "VERY_STRONG_INTERVIEW_POTENTIAL",
+    "HS_C_COMFORTABLE": "REALISTIC_INTERVIEW_CHANCE",
+    "HS_D_MARGINAL": "BORDERLINE",
+    "HS_E_BOUNDARY_PASS": "BORDERLINE",
+    "HS_E_BOUNDARY_FAIL": "BELOW_PREVIOUS_THRESHOLD",
+    "HS_F_BELOW": "BELOW_PREVIOUS_THRESHOLD",
+    "HS_SJT_FAIL": "NOT_ELIGIBLE",
+    "OS_A_SECURE": "VERY_STRONG_INTERVIEW_POTENTIAL",
+    "OS_B_STRONG": "VERY_STRONG_INTERVIEW_POTENTIAL",
+    "OS_C_COMFORTABLE": "REALISTIC_INTERVIEW_CHANCE",
+    "OS_D_MARGINAL": "BORDERLINE",
+    "OS_E_BOUNDARY_FAIL": "BELOW_PREVIOUS_THRESHOLD",
+    "OS_F_BELOW": "BELOW_PREVIOUS_THRESHOLD",
+    "OS_SJT_FAIL": "NOT_ELIGIBLE",
+    "HA_SJT_FAIL": "NOT_ELIGIBLE",
+    "HA_ACADEMIC_FAIL": "NOT_ELIGIBLE"
+  },
+  "public_transparency": {
+    "official_bsms_thresholds_and_policies": [
+      "Home standard: above 1990, or exactly 1990 with SJT Band 1.",
+      "Overseas: strictly above 1980.",
+      "SJT Band 4 rejects all cohorts.",
+      "Confirmed adjusted-offer route has no UCAT threshold for 2026 entry.",
+      "Eligible care leavers use a separate interview route."
+    ],
+    "applysmart_derived_bands": [
+      "HS_A_SECURE through HS_D_MARGINAL and OS_A_SECURE through OS_D_MARGINAL express distance above the official thresholds."
+    ],
+    "known_evidence_gaps": [
+      "2025-entry UCAT threshold not located.",
+      "2027-entry UCAT threshold not yet published.",
+      "Tie-break rule for identical UCAT scores above the threshold is unpublished.",
+      "Post-interview UCAT discriminator mechanism is unpublished.",
+      "MMI station-level scoring criteria are unpublished."
+    ]
+  },
+  "evidence_gaps": [
+    {
+      "gap_id": "bsms_gap_1",
+      "description": "2025-entry UCAT threshold not located.",
+      "blocks_interview_prediction": false
+    },
+    {
+      "gap_id": "bsms_gap_2",
+      "description": "2027-entry UCAT threshold not yet published.",
+      "blocks_interview_prediction": false
+    },
+    {
+      "gap_id": "bsms_gap_3",
+      "description": "Tie-break rule for identical UCAT scores above the threshold is unpublished.",
+      "blocks_interview_prediction": false
+    },
+    {
+      "gap_id": "bsms_gap_4",
+      "description": "Post-interview UCAT discriminator mechanism is unpublished.",
+      "blocks_interview_prediction": false
+    },
+    {
+      "gap_id": "bsms_gap_5",
+      "description": "MMI station-level scoring criteria are unpublished.",
+      "blocks_interview_prediction": false
+    }
+  ],
+  "sources": [
+    {
+      "source_id": "bsms_v5_research_doc",
+      "title": "BSMS A100 Interview Selection Research Report & ApplySmart Configuration, v5.0",
+      "url": "/Users/faizan/Desktop/medical university research/University-data-list/BSMS/use This/BSMS_A100_Interview_Selection_Report_v5.docx",
+      "source_type": "user_supplied_authoritative_research",
+      "published_date": "2026-07-23",
+      "accessed_date": "2026-07-29",
+      "applies_to_sections": [
+        "all"
+      ],
+      "confidence": "high",
+      "evidence_classification": "approved_canonical_specification",
+      "notes": "User designated this v5 report as canonical for BSMS A100 implementation."
+    },
+    {
+      "source_id": "bsms_v5_applysmart_json",
+      "title": "BSMS A100 ApplySmart JSON, v5.0",
+      "url": "/Users/faizan/Desktop/medical university research/University-data-list/BSMS/use This/bsms_a100_applysmart.json",
+      "source_type": "user_supplied_authoritative_structured_spec",
+      "published_date": "2026-07-23",
+      "accessed_date": "2026-07-29",
+      "applies_to_sections": [
+        "all"
+      ],
+      "confidence": "high",
+      "evidence_classification": "approved_canonical_specification",
+      "notes": "Structured canonical BSMS v5 admissions and result-card mapping."
+    },
+    {
+      "source_id": "bsms_applying_to_bsms_2026",
+      "title": "Applying to BSMS",
+      "url": "https://www.bsms.ac.uk/undergraduate/applying-to-bsms/index.aspx",
+      "source_type": "official_university_page",
+      "published_date": null,
+      "accessed_date": "2026-07-23",
+      "applies_to_sections": [
+        "ucat_thresholds",
+        "sjt_policy",
+        "application_statistics"
+      ],
+      "confidence": "high",
+      "evidence_classification": "official_published_threshold",
+      "notes": "Primary official source for 2026-entry UCAT thresholds and SJT Band 4 rejection."
+    },
+    {
+      "source_id": "bsms_entry_requirements",
+      "title": "BSMS Entry Requirements",
+      "url": "https://www.bsms.ac.uk/undergraduate/applying-to-bsms/entry-requirements.aspx",
+      "source_type": "official_university_page",
+      "published_date": null,
+      "accessed_date": "2026-07-23",
+      "applies_to_sections": [
+        "academic_requirements",
+        "contextual_admissions"
+      ],
+      "confidence": "high",
+      "evidence_classification": "official",
+      "notes": "Official academic, GCSE and adjusted-offer requirements."
+    },
+    {
+      "source_id": "bsms_admissions_process",
+      "title": "BSMS Admissions Process",
+      "url": "https://www.bsms.ac.uk/undergraduate/applying-to-bsms/admissions-process.aspx",
+      "source_type": "official_university_page",
+      "published_date": null,
+      "accessed_date": "2026-07-23",
+      "applies_to_sections": [
+        "interview_process",
+        "offer_selection"
+      ],
+      "confidence": "high",
+      "evidence_classification": "official",
+      "notes": "Official interview format and post-interview process; offer prediction remains out of scope."
+    },
+    {
+      "source_id": "bsms_international_entry_requirements",
+      "title": "BSMS International Entry Requirements",
+      "url": "https://www.bsms.ac.uk/undergraduate/international-students/international-entry-requirements.aspx",
+      "source_type": "official_university_page",
+      "published_date": null,
+      "accessed_date": "2026-07-23",
+      "applies_to_sections": [
+        "international_applicants",
+        "english_language"
+      ],
+      "confidence": "high",
+      "evidence_classification": "official",
+      "notes": "Country equivalency must be confirmed for unlisted international qualifications."
+    }
+  ]
+}

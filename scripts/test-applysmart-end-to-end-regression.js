@@ -69,6 +69,12 @@ const EXPECTED_RESULTS = {
     recommendation: "High Risk",
     historical_assessment: 'Well below historical interview range'
   },
+  'brighton-and-sussex-a100': {
+    eligibility: 'Eligible',
+    production_band: 'very_strong_interview_potential',
+    recommendation: "Very Strong Choice",
+    historical_assessment: 'Well above historical interview range'
+  },
   'bristol-a100': {
     eligibility: 'Eligible',
     production_band: 'high_risk',
@@ -92,6 +98,12 @@ const EXPECTED_RESULTS = {
     production_band: 'high_risk',
     recommendation: "High Risk",
     historical_assessment: 'Well below historical interview range'
+  },
+  'city-st-george-s-of-london-a100': {
+    eligibility: 'Not Eligible',
+    production_band: 'insufficient_evidence',
+    recommendation: 'Evidence not yet available',
+    historical_assessment: null
   },
   'dundee-a100': {
     eligibility: 'Eligible',
@@ -589,10 +601,10 @@ for (const result of results) {
 
 const totals = summarize(results);
 assert.deepStrictEqual(totals, {
-  total_universities_analysed: 37,
-  eligible: 26,
-  not_eligible: 11,
-  very_strong_choices: 2,
+  total_universities_analysed: 39,
+  eligible: 27,
+  not_eligible: 12,
+  very_strong_choices: 3,
   strong_choices: 11,
   realistic_choices: 5,
   ambitious_choices: 3,

@@ -1,0 +1,559 @@
+{
+  "schema_version": "1.0.0",
+  "course_profile_id": "brighton-and-sussex-a100",
+  "confidence": "medium",
+  "evidence": {
+    "classification": "official_published_2026_thresholds_with_derived_applysmart_bands",
+    "summary": "BSMS publishes 2026-entry UCAT thresholds and the SJT Band 4 rejection rule. ApplySmart uses derived bands around the official thresholds while preserving official adjusted-offer and care-leaver bypass routing.",
+    "source_ids": [
+      "bsms_v5_research_doc",
+      "bsms_v5_applysmart_json",
+      "bsms_applying_to_bsms_2026",
+      "bsms_entry_requirements",
+      "bsms_admissions_process",
+      "bsms_international_entry_requirements"
+    ]
+  },
+  "eligibility": {
+    "scope": "Automatic handling applies to complete A-level, IB, Scottish, graduate and fee-status-resolved profiles. Missing or unknown equivalency evidence routes to manual review.",
+    "qualification_routes": {
+      "supported": [
+        "a_level",
+        "international_baccalaureate",
+        "scottish",
+        "graduate"
+      ],
+      "manual_review": [
+        "international_qualification",
+        "unknown"
+      ],
+      "explicitly_blocked": [
+        "btec",
+        "t_level",
+        "access_to_he",
+        "foundation"
+      ]
+    },
+    "academic_evidence": {
+      "missing_outcome": "manual_review",
+      "manual_review_reason": "missing_academic_evidence_requires_manual_review"
+    },
+    "derived_applicant_groups": [
+      {
+        "group_id": "care_experienced",
+        "match": {
+          "all_group_ids": [
+            "home_fee"
+          ]
+        },
+        "applicant_evidence_path": "widening_participation.bsms_care_leaver",
+        "required_evidence": {
+          "status": "eligible",
+          "evidence_confirmed": true
+        }
+      },
+      {
+        "group_id": "bsms_adjusted_offer_confirmed",
+        "match": {
+          "all_group_ids": [
+            "home_fee"
+          ],
+          "excluded_group_ids": [
+            "international_fee"
+          ]
+        },
+        "applicant_evidence_path": "widening_participation.bsms_adjusted_offer",
+        "required_evidence": {
+          "status": "eligible",
+          "evidence_confirmed": true
+        }
+      }
+    ],
+    "gcse": {
+      "minimum_count": null,
+      "use_exact_subject_list": false
+    },
+    "a_level": {
+      "routes": [
+        {
+          "route_id": "bsms_adjusted_or_care_a_level_aab",
+          "any_group_ids": [
+            "bsms_adjusted_offer_confirmed",
+            "care_experienced"
+          ],
+          "grade_profile": [
+            "A",
+            "A",
+            "B"
+          ],
+          "required_subject_ids": [
+            "biology",
+            "chemistry"
+          ],
+          "excluded_subject_ids": [
+            "general_studies",
+            "thinking_skills"
+          ]
+        },
+        {
+          "route_id": "bsms_standard_a_level_aaa",
+          "excluded_group_ids": [
+            "bsms_adjusted_offer_confirmed",
+            "care_experienced"
+          ],
+          "grade_profile": [
+            "A",
+            "A",
+            "A"
+          ],
+          "required_subject_ids": [
+            "biology",
+            "chemistry"
+          ],
+          "excluded_subject_ids": [
+            "general_studies",
+            "thinking_skills"
+          ]
+        }
+      ]
+    },
+    "international_baccalaureate": {
+      "routes": [
+        {
+          "route_id": "bsms_adjusted_or_care_ib_35",
+          "any_group_ids": [
+            "bsms_adjusted_offer_confirmed",
+            "care_experienced"
+          ],
+          "total_points": 35,
+          "hl_grade_profile": [
+            "6",
+            "6"
+          ],
+          "required_hl_subject_ids": [
+            "biology",
+            "chemistry"
+          ]
+        },
+        {
+          "route_id": "bsms_standard_ib_36",
+          "excluded_group_ids": [
+            "bsms_adjusted_offer_confirmed",
+            "care_experienced"
+          ],
+          "total_points": 36,
+          "hl_grade_profile": [
+            "6",
+            "6"
+          ],
+          "required_hl_subject_ids": [
+            "biology",
+            "chemistry"
+          ]
+        }
+      ]
+    },
+    "scottish": {
+      "national_5": {
+        "minimum_count": 2,
+        "required_subject_ids": [
+          "english_language",
+          "mathematics"
+        ]
+      },
+      "post_16_routes": [
+        {
+          "route_id": "bsms_scottish_advanced_higher_aaa",
+          "qualification_level": "advanced_higher",
+          "grade_profile": [
+            "A",
+            "A",
+            "A"
+          ],
+          "required_subject_ids": [
+            "biology",
+            "chemistry"
+          ]
+        }
+      ]
+    },
+    "graduate": {
+      "gcse_required": true,
+      "minimum_classification": "2_1",
+      "postgraduate_compensation_allowed": true
+    },
+    "ucat": {
+      "score_min": 0,
+      "score_max": 2700,
+      "missing_outcome": "manual_review",
+      "minimum_basis": "UCAT is required only for standard Home and Overseas UCAT threshold routes."
+    },
+    "sjt": {
+      "used_as_gate": true,
+      "accepted_bands": [
+        1,
+        2,
+        3
+      ],
+      "rejected_bands": [
+        4
+      ],
+      "missing_outcome": "manual_review"
+    },
+    "map_override": {
+      "apply_ucat_guidance_band": false,
+      "outcome": "guaranteed_interview",
+      "any_conditions": [
+        {
+          "condition_id": "bsms_care_leaver_route",
+          "source_band_id": "CARE_LEAVER",
+          "result_card_id": "CARE_LEAVER_INTERVIEW_ROUTE",
+          "interview_outcome": "care_leaver_interview_route",
+          "match": {
+            "all_group_ids": [
+              "home_fee",
+              "care_experienced"
+            ]
+          },
+          "applicant_evidence_path": "widening_participation.bsms_care_leaver",
+          "required_evidence": {
+            "status": "eligible",
+            "evidence_confirmed": true
+          },
+          "applicant_facing_explanation": "BSMS publishes a separate interview route for eligible care leavers who meet academic requirements. UCAT does not determine this route."
+        },
+        {
+          "condition_id": "bsms_adjusted_offer_route",
+          "source_band_id": "HA_GUARANTEED",
+          "result_card_id": "ADJUSTED_OFFER_INTERVIEW_ROUTE",
+          "interview_outcome": "adjusted_offer_interview_route",
+          "match": {
+            "all_group_ids": [
+              "home_fee",
+              "bsms_adjusted_offer_confirmed"
+            ]
+          },
+          "applicant_evidence_path": "widening_participation.bsms_adjusted_offer",
+          "required_evidence": {
+            "status": "eligible",
+            "evidence_confirmed": true
+          },
+          "applicant_facing_explanation": "BSMS publishes that adjusted-offer-eligible Home applicants who met academic requirements and SJT Band 1-3 were invited for 2026 entry regardless of UCAT score."
+        }
+      ]
+    },
+    "manual_review_if": [
+      {
+        "when": "fee_status_unresolved",
+        "reason": "fee_status_requires_manual_review"
+      },
+      {
+        "when": "unknown_evidence",
+        "match": {
+          "all_group_ids": [
+            "home_fee"
+          ],
+          "excluded_group_ids": [
+            "care_experienced",
+            "bsms_adjusted_offer_confirmed"
+          ]
+        },
+        "applicant_evidence_path": "widening_participation.bsms_adjusted_offer.status",
+        "reason": "adjusted_offer_eligibility_requires_manual_review"
+      }
+    ],
+    "result_card_map": {
+      "HA_GUARANTEED": "ADJUSTED_OFFER_INTERVIEW_ROUTE",
+      "CARE_LEAVER": "CARE_LEAVER_INTERVIEW_ROUTE",
+      "HS_A_SECURE": "VERY_STRONG_INTERVIEW_POTENTIAL",
+      "HS_B_STRONG": "VERY_STRONG_INTERVIEW_POTENTIAL",
+      "HS_C_COMFORTABLE": "REALISTIC_INTERVIEW_CHANCE",
+      "HS_D_MARGINAL": "BORDERLINE",
+      "HS_E_BOUNDARY_PASS": "BORDERLINE",
+      "HS_E_BOUNDARY_FAIL": "BELOW_PREVIOUS_THRESHOLD",
+      "HS_F_BELOW": "BELOW_PREVIOUS_THRESHOLD",
+      "HS_SJT_FAIL": "NOT_ELIGIBLE",
+      "OS_A_SECURE": "VERY_STRONG_INTERVIEW_POTENTIAL",
+      "OS_B_STRONG": "VERY_STRONG_INTERVIEW_POTENTIAL",
+      "OS_C_COMFORTABLE": "REALISTIC_INTERVIEW_CHANCE",
+      "OS_D_MARGINAL": "BORDERLINE",
+      "OS_E_BOUNDARY_FAIL": "BELOW_PREVIOUS_THRESHOLD",
+      "OS_F_BELOW": "BELOW_PREVIOUS_THRESHOLD",
+      "OS_SJT_FAIL": "NOT_ELIGIBLE",
+      "HA_SJT_FAIL": "NOT_ELIGIBLE",
+      "HA_ACADEMIC_FAIL": "NOT_ELIGIBLE"
+    },
+    "evidence_confidence": "high",
+    "prediction_confidence": "moderate",
+    "manual_review_cases": [
+      "missing SJT",
+      "missing fee status",
+      "unknown adjusted-offer eligibility for a Home applicant",
+      "unknown GCSE equivalency",
+      "unknown international qualification equivalency",
+      "missing UCAT for a standard Home or Overseas applicant",
+      "missing academic evidence",
+      "UCAT outside 0-2700"
+    ]
+  },
+  "score_model": {
+    "type": "ranking_metric",
+    "basis": "UCAT total out of 2700 after academic eligibility and SJT gates. No academic points or combined score are created.",
+    "metric": "ucat_total",
+    "pool_specific_output": true,
+    "scale": {
+      "min": 0,
+      "max": 2700
+    },
+    "baseline_cycle": "2026 entry",
+    "baseline_cycle_year": 2026,
+    "historical_guidance_only": false,
+    "official_thresholds": {
+      "home_standard": 1990,
+      "overseas": 1980,
+      "home_adjusted_offer": null
+    },
+    "future_cycle_policy": {
+      "drift_warning": "bsms_future_cycle_uses_2026_baseline_with_drift_warning",
+      "cap_prediction_confidence_at": "moderate"
+    },
+    "guidance_policy": {
+      "labels": [
+        "bsms_single_ucat_cycle_drift_warning"
+      ]
+    },
+    "result_cards": {
+      "adjusted_offer_base": "Do not render the optional UCAT explanation unless UCAT is present.",
+      "adjusted_offer_with_ucat": "UCAT does not affect the adjusted-offer route when present."
+    }
+  },
+  "guidance_pools": [
+    {
+      "pool_id": "home_standard",
+      "priority": 50,
+      "applicant_match": {
+        "all_group_ids": [
+          "home_fee"
+        ],
+        "excluded_group_ids": [
+          "international_fee",
+          "bsms_adjusted_offer_confirmed",
+          "care_experienced"
+        ]
+      },
+      "metric": "ucat_total",
+      "pool_specific_output": true,
+      "comparison_guidance": {
+        "comparison_type": "current_guidance",
+        "label": "BSMS 2026 Home standard threshold",
+        "caveat": "The threshold is official for 2026 entry; bands above it are ApplySmart-derived and not published by BSMS.",
+        "evidence_confidence": "high"
+      },
+      "band_rules": [
+        {
+          "source_band_id": "HS_A_SECURE",
+          "result_card_id": "VERY_STRONG_INTERVIEW_POTENTIAL",
+          "band": "very_strong_interview_potential",
+          "operator": "between_inclusive",
+          "min": 2100,
+          "max": 2700,
+          "sjt_bands": [
+            1,
+            2,
+            3
+          ]
+        },
+        {
+          "source_band_id": "HS_B_STRONG",
+          "result_card_id": "VERY_STRONG_INTERVIEW_POTENTIAL",
+          "band": "very_strong_interview_potential",
+          "operator": "between_inclusive",
+          "min": 2050,
+          "max": 2099,
+          "sjt_bands": [
+            1,
+            2,
+            3
+          ]
+        },
+        {
+          "source_band_id": "HS_C_COMFORTABLE",
+          "result_card_id": "REALISTIC_INTERVIEW_CHANCE",
+          "band": "realistic",
+          "operator": "between_inclusive",
+          "min": 2010,
+          "max": 2049,
+          "sjt_bands": [
+            1,
+            2,
+            3
+          ]
+        },
+        {
+          "source_band_id": "HS_D_MARGINAL",
+          "result_card_id": "BORDERLINE",
+          "band": "ambitious",
+          "operator": "between_inclusive",
+          "min": 1991,
+          "max": 2009,
+          "sjt_bands": [
+            1,
+            2,
+            3
+          ]
+        },
+        {
+          "source_band_id": "HS_E_BOUNDARY_PASS",
+          "result_card_id": "BORDERLINE",
+          "band": "ambitious",
+          "operator": "between_inclusive",
+          "min": 1990,
+          "max": 1990,
+          "sjt_bands": [
+            1
+          ]
+        },
+        {
+          "source_band_id": "HS_E_BOUNDARY_FAIL",
+          "result_card_id": "BELOW_PREVIOUS_THRESHOLD",
+          "band": "high_risk",
+          "operator": "between_inclusive",
+          "min": 1990,
+          "max": 1990,
+          "sjt_bands": [
+            2,
+            3
+          ]
+        },
+        {
+          "source_band_id": "HS_F_BELOW",
+          "result_card_id": "BELOW_PREVIOUS_THRESHOLD",
+          "band": "high_risk",
+          "operator": "between_inclusive",
+          "min": 0,
+          "max": 1989,
+          "sjt_bands": [
+            1,
+            2,
+            3
+          ]
+        }
+      ],
+      "historical_cutoff": {
+        "entry_cycle": "2026 entry",
+        "value": 1990,
+        "evidence_classification": "official_published_threshold"
+      },
+      "presentation": {
+        "public_threshold_label": "official BSMS 2026 Home standard threshold",
+        "derived_band_notice": "Bands above the official threshold are ApplySmart-derived, not BSMS-published."
+      }
+    },
+    {
+      "pool_id": "overseas",
+      "priority": 40,
+      "applicant_match": {
+        "all_group_ids": [
+          "international_fee"
+        ]
+      },
+      "metric": "ucat_total",
+      "pool_specific_output": true,
+      "comparison_guidance": {
+        "comparison_type": "current_guidance",
+        "label": "BSMS 2026 Overseas threshold",
+        "caveat": "The published Overseas rule is strictly above 1980; exactly 1980 is below the rule.",
+        "evidence_confidence": "high"
+      },
+      "band_rules": [
+        {
+          "source_band_id": "OS_A_SECURE",
+          "result_card_id": "VERY_STRONG_INTERVIEW_POTENTIAL",
+          "band": "very_strong_interview_potential",
+          "operator": "between_inclusive",
+          "min": 2090,
+          "max": 2700,
+          "sjt_bands": [
+            1,
+            2,
+            3
+          ]
+        },
+        {
+          "source_band_id": "OS_B_STRONG",
+          "result_card_id": "VERY_STRONG_INTERVIEW_POTENTIAL",
+          "band": "very_strong_interview_potential",
+          "operator": "between_inclusive",
+          "min": 2040,
+          "max": 2089,
+          "sjt_bands": [
+            1,
+            2,
+            3
+          ]
+        },
+        {
+          "source_band_id": "OS_C_COMFORTABLE",
+          "result_card_id": "REALISTIC_INTERVIEW_CHANCE",
+          "band": "realistic",
+          "operator": "between_inclusive",
+          "min": 2000,
+          "max": 2039,
+          "sjt_bands": [
+            1,
+            2,
+            3
+          ]
+        },
+        {
+          "source_band_id": "OS_D_MARGINAL",
+          "result_card_id": "BORDERLINE",
+          "band": "ambitious",
+          "operator": "between_inclusive",
+          "min": 1981,
+          "max": 1999,
+          "sjt_bands": [
+            1,
+            2,
+            3
+          ]
+        },
+        {
+          "source_band_id": "OS_E_BOUNDARY_FAIL",
+          "result_card_id": "BELOW_PREVIOUS_THRESHOLD",
+          "band": "high_risk",
+          "operator": "between_inclusive",
+          "min": 1980,
+          "max": 1980,
+          "sjt_bands": [
+            1,
+            2,
+            3
+          ]
+        },
+        {
+          "source_band_id": "OS_F_BELOW",
+          "result_card_id": "BELOW_PREVIOUS_THRESHOLD",
+          "band": "high_risk",
+          "operator": "between_inclusive",
+          "min": 0,
+          "max": 1979,
+          "sjt_bands": [
+            1,
+            2,
+            3
+          ]
+        }
+      ],
+      "historical_cutoff": {
+        "entry_cycle": "2026 entry",
+        "value": 1980,
+        "evidence_classification": "official_published_threshold"
+      },
+      "presentation": {
+        "public_threshold_label": "official BSMS 2026 Overseas threshold",
+        "derived_band_notice": "Exactly 1980 does not meet the published Overseas rule."
+      }
+    }
+  ]
+}

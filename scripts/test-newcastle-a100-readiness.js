@@ -258,8 +258,7 @@ const homeCard = makeResultCard(course, config, homeApplicant, homeResult);
 assert.strictEqual(homeCard.prediction.result_band, homeResult.canonical_interview_band);
 assert.ok(
   homeCard.decision_transparency.decision_path.some((stage) => {
-    return JSON.stringify(stage).includes('70/100') ||
-      JSON.stringify(stage).includes('Selection score threshold');
+    return JSON.stringify(stage).includes('Historical selection score guide');
   }),
   'Home result card must include scored /100 selection evidence.'
 );

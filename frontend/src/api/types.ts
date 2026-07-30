@@ -48,6 +48,7 @@ export interface University {
   has_contextual_admissions?: boolean;
   has_graduate_entry?: boolean;
   has_gateway_course?: boolean;
+  selection_approach_display?: string | null;
 }
 
 export interface UniversitiesResponse {
@@ -198,6 +199,7 @@ export interface DecisionTransparency {
   compact_status?: CompactStatus | null;
   comparison_metrics_title?: string | null;
   comparison_metrics?: ComparisonMetric[];
+  selection_approach_display?: string | null;
   [key: string]: unknown;
 }
 
@@ -207,6 +209,7 @@ export interface ResultCard {
   primary_explanation: string;
   trust_statement?: string | null;
   historical_guidance_caveat?: string | null;
+  selection_approach_display?: string | null;
   // Set to 'guaranteed_interview' when every published guaranteed-interview
   // condition for this applicant's route has been verified as met (e.g.
   // Birmingham UKWPMED) - categorically different from a scored/ranked

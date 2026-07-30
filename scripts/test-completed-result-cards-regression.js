@@ -85,8 +85,10 @@ const historicalGuidanceDisplay = presentResultCard({
   interviewBand: 'realistic'
 });
 assert.strictEqual(historicalGuidanceDisplay.recommendation_display_state, 'standard');
-assert.match(historicalGuidanceDisplay.historical_guidance_caveat, /guidance/i);
-assert.match(historicalGuidanceDisplay.historical_guidance_caveat, /not .*guarantee/i);
+assert.strictEqual(
+  historicalGuidanceDisplay.historical_guidance_caveat,
+  'Historical admissions data provides a benchmark only; it is not a current cut-off or a guarantee of interview.'
+);
 assert.strictEqual(historicalGuidanceDisplay.offer_prediction, undefined);
 
 assert.ok(Array.isArray(ALL_STUDENT_PROFILES), 'Student profile template must expose sample_profiles.');
@@ -2663,7 +2665,7 @@ function assertHullYorkResultCardRegression(card, profile, interviewBandConfig) 
   );
   assert.match(cardText, /Estimated HYMS selection score/);
   assert.doesNotMatch(cardText, /Confirmed HYMS selection score/i);
-  assert.match(cardText, /unofficial, third-party scoring assumptions/i);
+  assert.match(cardText, /published HYMS admissions information/i);
   assert.strictEqual(card.engine_notes.generic_classifier_used, false);
 }
 

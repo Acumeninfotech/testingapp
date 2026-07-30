@@ -65,7 +65,7 @@ assert.strictEqual(
 );
 assert.match(
   config.score_model.estimate_mode.mandatory_disclosure,
-  /unofficial, third-party scoring assumptions/i
+  /published HYMS admissions information/i
 );
 
 for (const scenario of fixture.scenarios) {
@@ -142,8 +142,8 @@ const generatedText = JSON.stringify(generatedCard);
 
 assert.match(generatedText, /Estimated HYMS selection score/);
 assert.doesNotMatch(generatedText, /Confirmed HYMS selection score/i);
-assert.match(generatedText, /unofficial, third-party scoring assumptions/i);
-assert.match(generatedText, /directional, not exact/i);
+assert.match(generatedText, /published HYMS admissions information/i);
+assert.match(generatedText, /not a guarantee of interview/i);
 assert.strictEqual(
   generatedCard.estimated_selection_score.contextual.points,
   15
@@ -169,7 +169,7 @@ const storedCard = readJson(
 const storedText = JSON.stringify(storedCard);
 assert.match(storedText, /Estimated HYMS selection score/);
 assert.doesNotMatch(storedText, /Confirmed HYMS selection score/i);
-assert.match(storedText, /unofficial, third-party scoring assumptions/i);
+assert.match(storedText, /published HYMS admissions information/i);
 assert.strictEqual(storedCard.prediction.result_band, 'interview_likely');
 assert.strictEqual(storedCard.prediction.score, 85.48);
 assert.strictEqual(storedCard.prediction.score_scale.max, 100);
