@@ -22,6 +22,7 @@ export const UNIVERSITY_CODES: Record<string, string> = {
   'keele-a100': 'KE',
   'anglia-ruskin-a100': 'AR',
   'bristol-a100': 'BR',
+  'brighton-and-sussex-a100': 'BS',
   'exeter-a100': 'EX',
   'newcastle-a100': 'NC',
   'southampton-a100': 'SO',
