@@ -123,21 +123,28 @@ function assertCompactStatus(card, expected) {
 {
   const card = scoreCard({ score: 35, threshold: 33.5 });
   assertCompactStatus(card, {
-    label: 'Historical selection score exceeded',
-    type: 'selection_comparison',
+    label: 'You meet the academic requirements.',
+    type: 'academic_status',
     tone: 'positive'
   });
   assert.strictEqual(card.decision_transparency.selection_metric.applicant_value, 35);
   assert.strictEqual(card.decision_transparency.selection_metric.maximum_value, 36);
   assert.deepStrictEqual(card.decision_transparency.comparison_metrics, [
     {
-      label: 'Historical selection score',
+      label: 'historical score guide',
       value: '33.5',
       difference: '+1.5'
     }
   ]);
-  assert.match(card.primary_explanation, /1\.5 points above/);
-  assert.match(card.primary_explanation, /33\.5/);
+  assert.strictEqual(
+    card.primary_explanation,
+    "Based on ApplySmart's assessment, your selection score appears competitive for this applicant group."
+  );
+  const historicalStage = card.decision_transparency.decision_path.find(
+    (stage) => stage.stage === 'Historical guidance'
+  );
+  assert.match(historicalStage.summary, /1\.5 points above/);
+  assert.match(historicalStage.summary, /33\.5/);
 }
 
 {
@@ -337,8 +344,8 @@ function assertCompactStatus(card, expected) {
 {
   const card = scoreCard({ score: 33.5, threshold: 33.5 });
   assertCompactStatus(card, {
-    label: 'Historical selection score met',
-    type: 'selection_comparison',
+    label: 'You meet the academic requirements.',
+    type: 'academic_status',
     tone: 'positive'
   });
 }
@@ -366,9 +373,9 @@ function assertCompactStatus(card, expected) {
 {
   const card = scoreCard({ score: 32, threshold: 33.5 });
   assertCompactStatus(card, {
-    label: 'Below historical selection score',
-    type: 'selection_comparison',
-    tone: 'negative'
+    label: 'You meet the academic requirements.',
+    type: 'academic_status',
+    tone: 'positive'
   });
 }
 
@@ -382,8 +389,8 @@ function assertCompactStatus(card, expected) {
     }
   });
   assertCompactStatus(card, {
-    label: 'ApplySmart strategic benchmark exceeded',
-    type: 'selection_comparison',
+    label: 'You meet the academic requirements.',
+    type: 'academic_status',
     tone: 'positive'
   });
 }
@@ -391,9 +398,9 @@ function assertCompactStatus(card, expected) {
 {
   const card = scoreOnlyCard({ score: 8.5, max: 10 });
   assertCompactStatus(card, {
-    label: 'Selection score calculated',
-    type: 'selection_metric',
-    tone: 'neutral'
+    label: 'You meet the academic requirements.',
+    type: 'academic_status',
+    tone: 'positive'
   });
   assert.deepStrictEqual(card.decision_transparency.comparison_metrics, []);
 }
@@ -402,16 +409,16 @@ function assertCompactStatus(card, expected) {
   const card = ucatHistoricalAdmissionsCard();
   assert.strictEqual(
     card.decision_transparency.comparison_metrics_title,
-    'Historical Interview Data (2025)'
+    'Historical Interview Data'
   );
   assert.deepStrictEqual(card.decision_transparency.comparison_metrics, [
     {
-      label: 'Lowest interviewed UCAT (2025)',
+      label: 'Lowest interviewed UCAT',
       value: '1680',
       difference: '+720'
     },
     {
-      label: 'Average interviewed UCAT (2025)',
+      label: 'Average interviewed UCAT',
       value: '1995',
       difference: '+405'
     }
@@ -440,9 +447,9 @@ function assertCompactStatus(card, expected) {
     }
   });
   assertCompactStatus(card, {
-    label: 'UCAT ranking assessed',
-    type: 'selection_metric',
-    tone: 'neutral'
+    label: 'You meet the academic requirements.',
+    type: 'academic_status',
+    tone: 'positive'
   });
 }
 
@@ -458,8 +465,8 @@ function assertCompactStatus(card, expected) {
   });
   const historicalStage = card.decision_transparency.decision_path
     .find((stage) => stage.stage === 'Historical guidance');
-  assert.match(card.primary_explanation, /Your UCAT is above the historical interview benchmark range/i);
-  assert.match(historicalStage.summary, /UCAT: 2550 - above the historical interview benchmark range of 1855-1864\./i);
+  assert.match(card.primary_explanation, /UCAT score appears competitive for this applicant group/i);
+  assert.match(historicalStage.summary, /UCAT: 2550 - above the historical interview range of 1855-1864\./i);
   assert.doesNotMatch(historicalStage.summary, /historical reference range|encouraging historical guidance/i);
 }
 
@@ -475,7 +482,7 @@ function assertCompactStatus(card, expected) {
   });
   const historicalStage = card.decision_transparency.decision_path
     .find((stage) => stage.stage === 'Historical guidance');
-  assert.match(historicalStage.summary, /485 points above the historical interview benchmark of 1935/i);
+  assert.match(historicalStage.summary, /485 points above the historical interview range of 1935/i);
   assert.doesNotMatch(historicalStage.summary, /previous interview threshold|Historical figures are guidance only/i);
 }
 
@@ -504,7 +511,7 @@ function assertCompactStatus(card, expected) {
   });
   const historicalStage = card.decision_transparency.decision_path
     .find((stage) => stage.stage === 'Historical guidance');
-  assert.match(historicalStage.summary, /320 points above the ApplySmart advisory Home competitive benchmark of 2100\/2700/i);
+  assert.match(historicalStage.summary, /320 points above the historical interview range of 2100\/2700/i);
   assert.doesNotMatch(historicalStage.summary, /historical interview benchmark|historical reference range/i);
 }
 
@@ -518,8 +525,8 @@ function assertCompactStatus(card, expected) {
     }
   });
   assertCompactStatus(card, {
-    label: 'Eligibility requirements met',
-    type: 'eligibility',
+    label: 'You meet the academic requirements.',
+    type: 'academic_status',
     tone: 'positive'
   });
 }
@@ -530,8 +537,8 @@ function assertCompactStatus(card, expected) {
     interviewBand: 'not_eligible'
   });
   assertCompactStatus(card, {
-    label: 'Entry requirements not met',
-    type: 'eligibility',
+    label: 'You do not currently meet the academic requirements.',
+    type: 'academic_status',
     tone: 'negative'
   });
 }
@@ -543,8 +550,8 @@ function assertCompactStatus(card, expected) {
     insufficientEvidenceReasonCode: 'applicant_evidence_gap'
   });
   assertCompactStatus(card, {
-    label: 'Information needed',
-    type: 'information_needed',
+    label: 'ApplySmart needs more information to assess the academic requirements.',
+    type: 'academic_status',
     tone: 'warning'
   });
 }
@@ -556,9 +563,9 @@ function assertCompactStatus(card, expected) {
     insufficientEvidenceReasonCode: 'university_methodology_gap'
   });
   assertCompactStatus(card, {
-    label: 'Prediction unavailable',
-    type: 'prediction_unavailable',
-    tone: 'neutral'
+    label: 'ApplySmart needs more information to assess the academic requirements.',
+    type: 'academic_status',
+    tone: 'warning'
   });
 }
 

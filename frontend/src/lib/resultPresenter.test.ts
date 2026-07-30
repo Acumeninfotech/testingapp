@@ -1,5 +1,16 @@
 import { describe, expect, it } from 'vitest';
-import { CATEGORY_LABELS, CATEGORY_PRIORITY, presentResult, strongestPopulatedCategory, type ResultCategory } from './resultPresenter';
+import {
+  CATEGORY_LABELS,
+  CATEGORY_PRIORITY,
+  FILTER_GROUP_LABELS,
+  FILTER_GROUP_PRIORITY,
+  RESULT_CATEGORY_FILTER_GROUP,
+  filterGroupForCategory,
+  presentResult,
+  strongestPopulatedCategory,
+  strongestPopulatedFilterGroup,
+  type ResultCategory,
+} from './resultPresenter';
 import type { PredictionResult } from '../api/types';
 
 function card(overrides: Partial<PredictionResult['result_card']>): PredictionResult['result_card'] {
@@ -168,6 +179,40 @@ describe('CATEGORY_PRIORITY approved group order', () => {
   });
 });
 
+describe('Result filter groups', () => {
+  it('uses the simplified six-chip filter grouping without changing Result Card categories', () => {
+    expect(FILTER_GROUP_PRIORITY).toEqual([
+      'recommended',
+      'consider',
+      'high_risk',
+      'information_needed',
+      'not_eligible',
+    ]);
+    expect(FILTER_GROUP_LABELS).toEqual({
+      recommended: '⭐ Recommended',
+      consider: '🟡 Consider',
+      high_risk: '⚠️ High Risk',
+      information_needed: 'ℹ️ Information Needed',
+      not_eligible: '❌ Not Eligible',
+    });
+  });
+
+  it('maps internal recommendation categories to one filter group from the central mapping', () => {
+    expect(RESULT_CATEGORY_FILTER_GROUP).toEqual({
+      very_strong: 'recommended',
+      strong: 'recommended',
+      realistic: 'consider',
+      ambitious: 'consider',
+      high_risk: 'high_risk',
+      eligible_to_apply: 'information_needed',
+      manual_review: 'information_needed',
+      not_eligible: 'not_eligible',
+    });
+    expect(filterGroupForCategory('very_strong')).toBe('recommended');
+    expect(filterGroupForCategory('eligible_to_apply')).toBe('information_needed');
+  });
+});
+
 describe('strongestPopulatedCategory', () => {
   it('picks very_strong when populated, ahead of everything else', () => {
     const counts: Partial<Record<ResultCategory, number>> = { very_strong: 1, strong: 5, not_eligible: 2 };
@@ -186,5 +231,15 @@ describe('strongestPopulatedCategory', () => {
 
   it('falls back to "all" when nothing is populated', () => {
     expect(strongestPopulatedCategory({})).toBe('all');
+  });
+});
+
+describe('strongestPopulatedFilterGroup', () => {
+  it('starts with the strongest populated simplified filter group', () => {
+    expect(strongestPopulatedFilterGroup({ recommended: 0, consider: 3, high_risk: 1 })).toBe('consider');
+  });
+
+  it('falls back to "all" when no simplified filter group is populated', () => {
+    expect(strongestPopulatedFilterGroup({})).toBe('all');
   });
 });

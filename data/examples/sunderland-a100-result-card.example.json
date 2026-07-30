@@ -260,10 +260,10 @@
     ]
   },
   "display": {
-    "headline": "Realistic Choice",
-    "primary_user_facing_recommendation": "Realistic Choice",
+    "headline": "Possible choice for your application",
+    "primary_user_facing_recommendation": "Possible choice for your application",
     "recommendation_display_state": "standard",
-    "primary_explanation": "Your academic profile and UCAT meet Sunderland's published interview eligibility requirements and are historically competitive. Based on the information ApplySmart can assess, Sunderland is a realistic university choice for your application. Sunderland also uses an assessed Interview Selection Tool (IST), based on work or caregiving experience and reflective responses, to shortlist applicants for interview. As the university does not publish the IST scoring methodology and ApplySmart cannot evaluate your IST submission, your final interview competitiveness will also depend on the quality of this assessment.",
+    "primary_explanation": "Based on ApplySmart's assessment, your academic profile may be competitive for this applicant group.",
     "historical_guidance_caveat": "Interview thresholds may change each admissions cycle depending on applicant competition and interview capacity. Historical figures are guidance only, not a current cut-off, and do not guarantee an interview."
   },
   "decision_timeline": [
@@ -295,7 +295,7 @@
       "step": 5,
       "title": "Interview recommendation produced",
       "status": "Realistic Choice",
-      "summary": "Realistic Choice. Treat this as guidance for university choice, not a promised interview."
+      "summary": "Based on ApplySmart's assessment, your academic profile may be competitive for this applicant group. Treat this as guidance for university choice, not a promised interview."
     }
   ],
   "decision_transparency": {
@@ -303,68 +303,91 @@
       {
         "stage": "Eligibility",
         "status": "Met",
-        "summary": "The represented applicant meets the academic, UCAT and SJT gates ApplySmart can check.",
+        "summary": "The represented applicant meets Sunderland's supported Home A100 academic, UCAT and SJT eligibility gates.",
         "checks": [
+          {
+            "label": "Applicant pool",
+            "status": "Met",
+            "summary": "A100 accepts Home applicants only. Applicant information: Home fee status."
+          },
           {
             "label": "Academic gate",
             "status": "Met",
-            "summary": "GCSE and A-level requirements are threshold-only."
+            "summary": "GCSE and A-level requirements are checked as eligibility gates and are not numerically scored. Applicant information: Five grade 7 GCSEs including English Language, Mathematics and separate sciences; AAA in Biology, Chemistry and Mathematics."
           },
           {
-            "label": "UCAT and SJT gate",
+            "label": "UCAT gate",
             "status": "Met",
-            "summary": "UCAT top-eight-deciles gate met and SJT Band 2 accepted."
+            "summary": "Applicant must be within the top eight national UCAT deciles. Applicant information: UCAT 1800/2700 meets the represented current national-decile gate."
+          },
+          {
+            "label": "SJT gate",
+            "status": "Met",
+            "summary": "SJT Bands 1-3 are accepted; Band 4 is rejected. Applicant information: Band 2."
           }
         ]
       },
       {
         "stage": "Selection model",
         "status": "Assessed",
-        "summary": "Sunderland shortlisting also depends on the assessed IST. The numeric scoring formula is unpublished.",
+        "summary": "Sunderland shortlisting is not determined by UCAT alone. Applicants who clear academic, UCAT and SJT gates are shortlisted using the assessed Interview Selection Tool.",
         "checks": [
           {
             "label": "Applicant pool",
             "status": "Used",
-            "summary": "Home A100 applicants"
+            "summary": "The applicant group matching the supplied fee status and entry route"
           },
           {
-            "label": "IST score",
-            "status": "Not available",
-            "summary": "ApplySmart does not collect or calculate Sunderland's IST score."
+            "label": "UCAT total entered",
+            "status": "Used for ranking",
+            "summary": "1800 out of 2700."
+          },
+          {
+            "label": "SJT band",
+            "status": "On file",
+            "summary": "Band 2."
+          },
+          {
+            "label": "Selection approach",
+            "status": "Ranking/cut-off based",
+            "summary": "Sunderland shortlisting is not determined by UCAT alone. Applicants who clear academic, UCAT and SJT gates are shortlisted using the assessed Interview Selection Tool."
           }
         ]
       },
       {
         "stage": "Historical guidance",
         "status": "Guidance available",
-        "summary": "Sunderland's adjusted historical UCAT values are guidance only, not current cut-offs, and do not guarantee an interview.",
+        "summary": "The result was assessed using the available admissions evidence for this applicant group. Historical admissions data provides a benchmark only; it is not a current cut-off or a guarantee of interview.",
         "checks": [
           {
-            "label": "Historical UCAT values",
-            "status": "Display only",
-            "summary": "2020-2024 adjusted values are not used as a guaranteed threshold."
+            "label": "Applicant pool",
+            "status": "Used",
+            "summary": "The applicant group matching the supplied fee status and entry route"
+          },
+          {
+            "label": "Important limitation",
+            "status": "Guidance only",
+            "summary": "Historical admissions data provides a benchmark only; it is not a current cut-off or a guarantee of interview."
           }
         ]
       },
       {
         "stage": "Recommendation",
         "status": "Guidance only",
-        "summary": "Realistic Choice is shown as application-suitability guidance; Sunderland's assessed IST remains a material unscored shortlisting factor.",
+        "summary": "Based on ApplySmart's assessment, your academic profile may be competitive for this applicant group. Treat this as guidance for university choice, not a promised interview.",
         "checks": []
       }
     ],
     "key_reasons": [
-      "Eligibility gates are met.",
-      "Sunderland's IST remains a material shortlisting component.",
-      "The IST formula and cut-score are unpublished.",
-      "Realistic Choice is application-suitability guidance only."
+      "The represented applicant meets Sunderland's supported Home A100 academic, UCAT and SJT eligibility gates.",
+      "The result uses The applicant group matching the supplied fee status and entry route.",
+      "Sunderland shortlisting is not determined by UCAT alone. Applicants who clear academic, UCAT and SJT gates are shortlisted using the assessed Interview Selection Tool."
     ],
     "evidence_used": [
       "Official admissions policy",
+      "University selection methodology",
       "UCAT policy",
-      "Historical interview data",
-      "FOI evidence",
-      "Contextual admissions policy"
+      "Historical interview data"
     ],
     "evidence_confidence": {
       "level": "Medium",
@@ -378,7 +401,18 @@
     "warnings": [],
     "manual_review_reason": null,
     "insufficient_evidence_reason": null,
-    "insufficient_evidence_reason_code": null
+    "insufficient_evidence_reason_code": null,
+    "compact_status": {
+      "label": "You meet the academic requirements.",
+      "type": "academic_status",
+      "tone": "positive"
+    },
+    "comparison_metrics_title": null,
+    "comparison_metrics": [],
+    "selection_approach_display": null,
+    "selection_metric": null,
+    "score_breakdown": null,
+    "ucat_comparison": null
   },
   "engine_notes": {
     "generated_from_profile_id": "sunderland-a100",
@@ -386,5 +420,10 @@
     "result_card_ready": true,
     "activation_ready": true,
     "production_ready": true
-  }
+  },
+  "primary_user_facing_recommendation": "Possible choice for your application",
+  "primary_explanation": "Based on ApplySmart's assessment, your academic profile may be competitive for this applicant group.",
+  "recommendation_display_state": "standard",
+  "trust_statement": null,
+  "historical_guidance_caveat": "Historical admissions data provides a benchmark only; it is not a current cut-off or a guarantee of interview."
 }

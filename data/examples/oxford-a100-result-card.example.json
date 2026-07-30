@@ -121,7 +121,7 @@
     "score": {
       "value": 94.81,
       "max": 100,
-      "label": "ApplySmart modelled Oxford A100 selection score",
+      "label": "historical Oxford A100 selection score",
       "unofficial": true
     },
     "public_caveat": "Oxford does not publish a single UCAT cut-off because shortlisting combines UCAT performance with contextualised GCSE achievement. ApplySmart therefore provides modelled guidance based on published methodology and historical cohort data."
@@ -161,10 +161,11 @@
     ]
   },
   "display": {
-    "primary_user_facing_recommendation": "Strong choice based on your selection score",
+    "primary_user_facing_recommendation": "Strong choice for your application",
     "recommendation_display_state": "standard",
-    "primary_explanation": "Oxford combines UCAT performance with contextualised GCSE achievement. This profile is strong in ApplySmart's modelled guidance, but the result is not an official cut-off and does not guarantee an interview.",
-    "historical_guidance_caveat": "Interview thresholds may change each admissions cycle depending on applicant competition and interview capacity. Historical figures are guidance only, not a current cut-off, and do not guarantee an interview."
+    "primary_explanation": "Based on ApplySmart's assessment, your academic profile appears competitive for this applicant group.",
+    "historical_guidance_caveat": "Interview thresholds may change each admissions cycle depending on applicant competition and interview capacity. Historical figures are guidance only, not a current cut-off, and do not guarantee an interview.",
+    "headline": "Strong choice for your application"
   },
   "decision_timeline": [
     {
@@ -195,7 +196,7 @@
       "step": 5,
       "title": "Interview recommendation produced",
       "status": "Strong Choice",
-      "summary": "Strong choice based on your selection score. Treat this as guidance for university choice, not a promised interview."
+      "summary": "Based on ApplySmart's assessment, your academic profile appears competitive for this applicant group. Treat this as guidance for university choice, not a promised interview."
     }
   ],
   "decision_transparency": {
@@ -203,81 +204,86 @@
       {
         "stage": "Eligibility",
         "status": "Met",
-        "summary": "The supported Oxford A100 entry requirements are met.",
+        "summary": "The represented applicant meets the supported Oxford A100 academic, UCAT and practical endorsement requirements.",
         "checks": [
           {
-            "label": "A-level subject and grade gate",
+            "label": "A Level requirements",
             "status": "Met",
-            "summary": "A*AA including Chemistry and Biology/Mathematics is recorded."
+            "summary": "A*AA in one academic year including Chemistry and at least one of Biology, Physics, Mathematics or Further Mathematics. Applicant information: A*AA predicted including Chemistry, Biology and Mathematics."
+          },
+          {
+            "label": "Science practical endorsement",
+            "status": "Met",
+            "summary": "Pass required where the science A-level includes a practical component. Applicant information: Chemistry and Biology practical endorsements recorded as pass."
           },
           {
             "label": "UCAT requirement",
             "status": "Met",
-            "summary": "Current-cycle UCAT cognitive score is available."
+            "summary": "Current-cycle UCAT required. Applicant information: UCAT 2420/2700 supplied. SJT Band 2 is not used for pre-interview ranking."
           }
         ]
       },
       {
         "stage": "Selection model",
-        "status": "Modelled",
-        "summary": "ApplySmart calculated a modelled 94.81/100 selection score from UCAT and GCSE evidence.",
+        "status": "Assessed",
+        "summary": "The university selection approach is applied after eligibility checks.",
         "checks": [
           {
             "label": "Applicant pool",
             "status": "Used",
-            "summary": "Home standard school-leavers"
+            "summary": "The applicant group matching the supplied fee status and entry route"
           },
           {
-            "label": "UCAT contribution",
-            "status": "Calculated",
-            "summary": "2420/2700 contributes 44.81/50 in the ApplySmart model."
+            "label": "UCAT total entered",
+            "status": "Used for ranking",
+            "summary": "2420 out of 2700."
           },
           {
-            "label": "GCSE contribution",
-            "status": "Calculated",
-            "summary": "10 top GCSE grades out of 10 contributes 50/50 after contextual data review."
+            "label": "SJT band",
+            "status": "On file",
+            "summary": "Band 2."
+          },
+          {
+            "label": "Selection approach",
+            "status": "Ranking/cut-off based",
+            "summary": "The university selection approach is applied after eligibility checks."
           }
         ]
       },
       {
         "stage": "Historical guidance",
-        "status": "Compared",
-        "summary": "Oxford's 2025 shortlisted mean UCAT was 2377.5; this statistic is guidance only and does not guarantee an interview.",
+        "status": "Guidance available",
+        "summary": "The result was assessed using the available admissions evidence for this applicant group. Historical admissions data provides a benchmark only; it is not a current cut-off or a guarantee of interview.",
         "checks": [
           {
-            "label": "Official/modelled separation",
-            "status": "Clear",
-            "summary": "Oxford publishes methodology and statistics; ApplySmart supplies the calibrated score and band."
+            "label": "Applicant pool",
+            "status": "Used",
+            "summary": "The applicant group matching the supplied fee status and entry route"
+          },
+          {
+            "label": "Important limitation",
+            "status": "Guidance only",
+            "summary": "Historical admissions data provides a benchmark only; it is not a current cut-off or a guarantee of interview."
           }
         ]
       },
       {
         "stage": "Recommendation",
-        "status": "Produced",
-        "summary": "Interview Very Likely in ApplySmart's modelled guidance, with post-interview outcomes out of scope.",
-        "checks": [
-          {
-            "label": "Interview format guidance",
-            "status": "Available",
-            "summary": "Oxford interviews shortlisted applicants online in December, normally with two colleges."
-          }
-        ]
+        "status": "Guidance only",
+        "summary": "Based on ApplySmart's assessment, your academic profile appears competitive for this applicant group. Treat this as guidance for university choice, not a promised interview.",
+        "checks": []
       }
     ],
     "key_reasons": [
-      "Eligibility requirements are met.",
-      "UCAT and GCSE evidence are both strong in the modelled Oxford guidance.",
-      "School-context data are available, so the fallback penalty was not applied.",
-      "SJT is not used for pre-interview ranking."
+      "The represented applicant meets the supported Oxford A100 academic, UCAT and practical endorsement requirements.",
+      "The result uses The applicant group matching the supplied fee status and entry route.",
+      "The university selection approach is applied after eligibility checks."
     ],
     "evidence_used": [
       "Official admissions policy",
       "University selection methodology",
       "UCAT policy",
-      "Historical interview data",
-      "Contextual admissions policy",
-      "International admissions policy",
-      "Documented prediction limitation"
+      "Historical interview data"
     ],
     "evidence_confidence": {
       "level": "Medium",
@@ -292,31 +298,17 @@
     "manual_review_reason": null,
     "insufficient_evidence_reason": null,
     "insufficient_evidence_reason_code": null,
-    "score_breakdown": {
-      "name": "ApplySmart modelled Oxford A100 selection score",
-      "value": 94.81,
-      "max": 100,
-      "status": "calculated",
-      "explanation": "UCAT contributes 44.81/50 and GCSE contributes 50/50. Oxford's exact internal algorithm is unpublished.",
-      "checks": [
-        {
-          "label": "UCAT contribution",
-          "status": "Calculated",
-          "summary": "2420/2700 contributes 44.81/50 in the ApplySmart model."
-        },
-        {
-          "label": "GCSE contribution",
-          "status": "Calculated",
-          "summary": "10 top GCSE grades out of 10 contributes 50/50 after contextual data review."
-        }
-      ]
+    "compact_status": {
+      "label": "You meet the academic requirements.",
+      "type": "academic_status",
+      "tone": "positive"
     },
-    "ucat_comparison": {
-      "score": 2420,
-      "scale": 2700,
-      "historical_shortlisted_mean_2025": 2377.5,
-      "summary": "Historical comparison only; not an official cut-off."
-    }
+    "comparison_metrics_title": null,
+    "comparison_metrics": [],
+    "selection_approach_display": null,
+    "selection_metric": null,
+    "score_breakdown": null,
+    "ucat_comparison": null
   },
   "engine_notes": {
     "offer_prediction_scope": "out_of_scope",
@@ -326,5 +318,10 @@
       "Do not guarantee an interview.",
       "Do not predict offers."
     ]
-  }
+  },
+  "primary_user_facing_recommendation": "Strong choice for your application",
+  "primary_explanation": "Based on ApplySmart's assessment, your academic profile appears competitive for this applicant group.",
+  "recommendation_display_state": "standard",
+  "trust_statement": null,
+  "historical_guidance_caveat": "Historical admissions data provides a benchmark only; it is not a current cut-off or a guarantee of interview."
 }

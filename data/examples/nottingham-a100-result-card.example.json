@@ -218,7 +218,7 @@
         "check_id": "ucat_current_application_cycle",
         "status": "pass",
         "requirement": "UCAT taken in the application year.",
-        "applicant_value": "UCAT taken in 2026 for the represented 2026 application year.",
+        "applicant_value": "UCAT recorded for this application.",
         "source_ids": [
           "nottingham_undergraduate_selection_process_2026",
           "nottingham_admissions_policy_2026_v1_3"
@@ -310,11 +310,11 @@
     "foi_executable": false
   },
   "display": {
-    "headline": "Nottingham A100 — guidance-only historical positioning",
+    "headline": "Possible choice for your application",
     "subheadline": "Eligibility requirements shown as met; official pre-interview score 66/82",
-    "primary_user_facing_recommendation": "Good chance based on historical data",
+    "primary_user_facing_recommendation": "Possible choice for your application",
     "recommendation_display_state": "standard",
-    "primary_explanation": "Your score is within the historical interview range available to ApplySmart.",
+    "primary_explanation": "Based on ApplySmart's assessment, your academic profile may be competitive for this applicant group.",
     "historical_guidance_caveat": "Interview thresholds may change each admissions cycle depending on applicant competition and interview capacity. Historical figures are guidance only, not a current cut-off, and do not guarantee an interview.",
     "show_eligibility": true,
     "show_official_score_breakdown": true,
@@ -354,7 +354,7 @@
       "step": 5,
       "title": "Interview recommendation produced",
       "status": "Realistic Choice",
-      "summary": "Good chance based on historical data. Treat this as guidance for university choice, not a promised interview."
+      "summary": "Based on ApplySmart's assessment, your academic profile may be competitive for this applicant group. Treat this as guidance for university choice, not a promised interview."
     }
   ],
   "decision_transparency": {
@@ -374,63 +374,58 @@
       {
         "stage": "Selection model",
         "status": "Assessed",
-        "summary": "Nottingham combines points from eight GCSEs, the three UCAT cognitive sections and SJT.",
+        "summary": "The university selection approach is applied after eligibility checks.",
         "checks": [
           {
             "label": "Applicant pool",
             "status": "Used",
-            "summary": "Home standard school-leavers"
+            "summary": "The applicant group matching the supplied fee status and entry route"
           },
           {
-            "label": "GCSE contribution",
+            "label": "GCSE score",
             "status": "Counted",
-            "summary": "Eight selected GCSEs contribute 28 points out of 32."
+            "summary": "28 out of 32."
           },
           {
-            "label": "UCAT cognitive contribution",
+            "label": "UCAT cognitive score",
             "status": "Counted",
-            "summary": "UCAT cognitive sections contribute 32 points out of 40, with Verbal Reasoning points doubled."
+            "summary": "32 out of 40."
           },
           {
-            "label": "SJT contribution",
+            "label": "SJT score",
             "status": "Counted",
-            "summary": "SJT Band 2 contributes 6 points out of 10; Band 4 would prevent interview selection."
-          },
-          {
-            "label": "Combined score",
-            "status": "Calculated",
-            "summary": "The official pre-interview score is 66 out of 82."
+            "summary": "6 out of 10."
           }
         ]
       },
       {
         "stage": "Historical guidance",
         "status": "Guidance available",
-        "summary": "The applicant's result is within the historical interview range used for this applicant group. Interview thresholds may change each admissions cycle depending on applicant competition and interview capacity. Historical figures are guidance only, not a current cut-off, and do not guarantee an interview.",
+        "summary": "The result was assessed using the available admissions evidence for this applicant group. Historical admissions data provides a benchmark only; it is not a current cut-off or a guarantee of interview.",
         "checks": [
           {
             "label": "Applicant pool",
             "status": "Used",
-            "summary": "Home standard school-leavers"
+            "summary": "The applicant group matching the supplied fee status and entry route"
           },
           {
             "label": "Important limitation",
             "status": "Guidance only",
-            "summary": "Interview thresholds may change each admissions cycle depending on applicant competition and interview capacity. Historical figures are guidance only, not a current cut-off, and do not guarantee an interview."
+            "summary": "Historical admissions data provides a benchmark only; it is not a current cut-off or a guarantee of interview."
           }
         ]
       },
       {
         "stage": "Recommendation",
         "status": "Guidance only",
-        "summary": "Good chance based on historical data. Treat this as guidance for university choice, not a promised interview.",
+        "summary": "Based on ApplySmart's assessment, your academic profile may be competitive for this applicant group. Treat this as guidance for university choice, not a promised interview.",
         "checks": []
       }
     ],
     "key_reasons": [
-      "The supported Nottingham entry requirements are met.",
-      "GCSE, UCAT cognitive and SJT points produce 66 out of 82.",
-      "The score is within the available historical interview range, with low confidence for a future cycle."
+      "The represented applicant passes every supported eligibility check used by the Nottingham consumer. Eligibility does not establish an interview or post-interview decision.",
+      "The result uses The applicant group matching the supplied fee status and entry route.",
+      "Official Nottingham pre-interview score is 66 out of 82."
     ],
     "evidence_used": [
       "Official admissions policy",
@@ -447,15 +442,42 @@
         "Historical interview guidance is available, but some evidence is historical, FOI-derived or has documented gaps."
       ]
     },
+    "warnings": [],
     "manual_review_reason": null,
     "insufficient_evidence_reason": null,
-    "warnings": [],
+    "insufficient_evidence_reason_code": null,
+    "compact_status": {
+      "label": "You meet the academic requirements.",
+      "type": "academic_status",
+      "tone": "positive"
+    },
+    "comparison_metrics_title": null,
+    "comparison_metrics": [],
+    "selection_approach_display": null,
+    "selection_metric": {
+      "type": "selection_score",
+      "label": "Selection score",
+      "applicant_value": 66,
+      "comparison_value": null,
+      "comparison_max_value": null,
+      "comparison_label": null,
+      "comparison_label_type": null,
+      "comparison_context": "Official Nottingham pre-interview score",
+      "difference": null,
+      "difference_direction": null,
+      "difference_word": null,
+      "maximum_value": 82,
+      "display_mode": "score",
+      "display_eligibility": true,
+      "entry_year": null,
+      "caveat": null
+    },
     "score_breakdown": {
       "name": "Official Nottingham pre-interview score",
       "value": 66,
       "max": 82,
       "status": "calculated",
-      "explanation": "GCSE points /32 + UCAT cognitive points /40 + SJT points /10",
+      "explanation": null,
       "checks": [
         {
           "label": "GCSE score",
@@ -473,7 +495,8 @@
           "summary": "6 out of 10."
         }
       ]
-    }
+    },
+    "ucat_comparison": null
   },
   "engine_notes": {
     "example_only": true,
@@ -751,5 +774,10 @@
       "eligible_for_82_point_historical_positioning": false,
       "message": "Applicants using Nottingham's official no-GCSE /50 scale are excluded from the /82 historical-positioning example."
     }
-  }
+  },
+  "primary_user_facing_recommendation": "Possible choice for your application",
+  "primary_explanation": "Based on ApplySmart's assessment, your academic profile may be competitive for this applicant group.",
+  "recommendation_display_state": "standard",
+  "trust_statement": null,
+  "historical_guidance_caveat": "Historical admissions data provides a benchmark only; it is not a current cut-off or a guarantee of interview."
 }

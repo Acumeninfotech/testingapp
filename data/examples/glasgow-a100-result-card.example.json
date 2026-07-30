@@ -80,7 +80,7 @@
       "SJT is officially not considered, so Band 4 is not an exclusion in this Glasgow card.",
       "Applicants meeting academic eligibility are ranked for interview by UCAT cognitive score only.",
       "International applicants compete only against other international applicants and receive no contextual uplift.",
-      "No fixed 2027 UCAT cutoff is stored.",
+      "No fixed UCAT cutoff is stored.",
       "UCAT 2075 falls in the historical 2050–2099 international guidance band: Good chance – recommend applying.",
       "Final offer ranking is interview-only; UCAT and academic scores do not carry forward.",
       "Historical UCAT and interview-score data are context only, not deterministic cutoffs."
@@ -127,7 +127,7 @@
     "blocking_reasons": [],
     "warnings": [
       "Eligibility pass is evaluated separately from interview guidance.",
-      "No fixed 2027 UCAT cutoff is stored.",
+      "No fixed UCAT cutoff is stored.",
       "International applicants are ranked separately.",
       "Historical international UCAT values must not be used as current cutoffs."
     ],
@@ -447,7 +447,7 @@
     "offer_probability": null,
     "missing_data_reasons": [
       "Current-cycle UCAT thresholds by applicant group are unknown.",
-      "No fixed 2027 UCAT cutoff is published.",
+      "No fixed UCAT cutoff is published.",
       "The exact numerical interview rubric, maximum score and fixed pass mark are undisclosed.",
       "The annual cohort-scaling calculation is undisclosed.",
       "The complete tie-break sequence beyond attribute-consistency review is undisclosed.",
@@ -503,11 +503,11 @@
     ]
   },
   "display": {
-    "headline": "Glasgow A100",
+    "headline": "Possible choice for your application",
     "subheadline": "Medicine MBChB, Standard Entry, 5 years",
-    "primary_user_facing_recommendation": "Good chance based on historical data",
+    "primary_user_facing_recommendation": "Possible choice for your application",
     "recommendation_display_state": "standard",
-    "primary_explanation": "Your score is within the historical interview range available to ApplySmart.",
+    "primary_explanation": "Based on ApplySmart's assessment, your academic profile may be competitive for this applicant group.",
     "historical_guidance_caveat": "Interview thresholds may change each admissions cycle depending on applicant competition and interview capacity. Historical figures are guidance only, not a current cut-off, and do not guarantee an interview."
   },
   "decision_timeline": [
@@ -539,7 +539,7 @@
       "step": 5,
       "title": "Interview recommendation produced",
       "status": "Realistic Choice",
-      "summary": "Good chance based on historical data. Treat this as guidance for university choice, not a promised interview."
+      "summary": "Based on ApplySmart's assessment, your academic profile may be competitive for this applicant group. Treat this as guidance for university choice, not a promised interview."
     }
   ],
   "decision_transparency": {
@@ -569,65 +569,54 @@
       {
         "stage": "Selection model",
         "status": "Assessed",
-        "summary": "Glasgow ranks eligible applicants by UCAT cognitive total only within the applicable fee-status group.",
+        "summary": "Eligible international applicants are ranked separately from highest to lowest by UCAT cognitive total only. Historical invited scores provide guidance, not a fixed Glasgow UCAT cut-off.",
         "checks": [
           {
             "label": "Applicant pool",
             "status": "Used",
-            "summary": "International fee-status applicants ranked separately"
+            "summary": "The applicant group matching the supplied fee status and entry route"
           },
           {
-            "label": "UCAT ranking",
-            "status": "Counted",
-            "summary": "UCAT 2075 out of 2700 is the sole ranking score after eligibility checks."
-          },
-          {
-            "label": "SJT",
-            "status": "Ignored",
-            "summary": "SJT Band 4 is not considered for pre-interview ranking."
-          },
-          {
-            "label": "Fee-status handling",
-            "status": "Applied",
-            "summary": "International applicants are handled separately from Home applicants."
+            "label": "Selection approach",
+            "status": "Ranking/cut-off based",
+            "summary": "Eligible international applicants are ranked separately from highest to lowest by UCAT cognitive total only. Historical invited scores provide guidance, not a fixed Glasgow UCAT cut-off."
           }
         ]
       },
       {
         "stage": "Historical guidance",
         "status": "Guidance available",
-        "summary": "The applicant's result is within the historical interview range used for this applicant group. Interview thresholds may change each admissions cycle depending on applicant competition and interview capacity. Historical figures are guidance only, not a current cut-off, and do not guarantee an interview.",
+        "summary": "The result was assessed using the available admissions evidence for this applicant group. Historical admissions data provides a benchmark only; it is not a current cut-off or a guarantee of interview.",
         "checks": [
           {
             "label": "Applicant pool",
             "status": "Used",
-            "summary": "International fee-status applicants ranked separately"
+            "summary": "The applicant group matching the supplied fee status and entry route"
           },
           {
             "label": "Important limitation",
             "status": "Guidance only",
-            "summary": "Interview thresholds may change each admissions cycle depending on applicant competition and interview capacity. Historical figures are guidance only, not a current cut-off, and do not guarantee an interview."
+            "summary": "Historical admissions data provides a benchmark only; it is not a current cut-off or a guarantee of interview."
           }
         ]
       },
       {
         "stage": "Recommendation",
         "status": "Guidance only",
-        "summary": "Good chance based on historical data. Treat this as guidance for university choice, not a promised interview.",
+        "summary": "Based on ApplySmart's assessment, your academic profile may be competitive for this applicant group. Treat this as guidance for university choice, not a promised interview.",
         "checks": []
       }
     ],
     "key_reasons": [
-      "The supported academic and UCAT requirements are met.",
-      "UCAT 2075 is used for ranking and SJT is ignored.",
-      "The score is within the available international historical interview range."
+      "The primary display scenario is an eligible international A-level applicant with UCAT 2075. Medium-confidence historical interview guidance is available.",
+      "The result uses The applicant group matching the supplied fee status and entry route.",
+      "Eligible international applicants are ranked separately from highest to lowest by UCAT cognitive total only. Historical invited scores provide guidance, not a fixed Glasgow UCAT cut-off."
     ],
     "evidence_used": [
       "Official admissions policy",
       "University selection methodology",
       "UCAT policy",
-      "Historical interview data",
-      "International admissions policy"
+      "Historical interview data"
     ],
     "evidence_confidence": {
       "level": "Medium",
@@ -638,9 +627,21 @@
         "Historical interview guidance is available, but some evidence is historical, FOI-derived or has documented gaps."
       ]
     },
+    "warnings": [],
     "manual_review_reason": null,
     "insufficient_evidence_reason": null,
-    "warnings": []
+    "insufficient_evidence_reason_code": null,
+    "compact_status": {
+      "label": "You meet the academic requirements.",
+      "type": "academic_status",
+      "tone": "positive"
+    },
+    "comparison_metrics_title": null,
+    "comparison_metrics": [],
+    "selection_approach_display": null,
+    "selection_metric": null,
+    "score_breakdown": null,
+    "ucat_comparison": null
   },
   "engine_notes": {
     "generated_from_profile_id": "glasgow-a100",
@@ -975,5 +976,10 @@
         "glasgow_ucat_2027"
       ]
     }
-  ]
+  ],
+  "primary_user_facing_recommendation": "Possible choice for your application",
+  "primary_explanation": "Based on ApplySmart's assessment, your academic profile may be competitive for this applicant group.",
+  "recommendation_display_state": "standard",
+  "trust_statement": null,
+  "historical_guidance_caveat": "Historical admissions data provides a benchmark only; it is not a current cut-off or a guarantee of interview."
 }

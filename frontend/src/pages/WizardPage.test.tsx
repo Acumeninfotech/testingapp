@@ -173,7 +173,7 @@ describe('WizardPage submit flow', () => {
     });
 
     expect(screen.getByText('Keele University')).toBeInTheDocument();
-    expect(screen.getByText('Good chance – recommend applying')).toBeInTheDocument();
+    expect(screen.getByText('Possible choice for your application')).toBeInTheDocument();
     expect(submitSpy).toHaveBeenCalledWith(
       expect.objectContaining({ universityIds: ['keele-a100'] })
     );

@@ -209,7 +209,7 @@
       "max": 2700
     },
     "ranking_metric": "ucat_total",
-    "band_basis": "UCAT 2200/2700 is materially above the current-format Home competitive guidance value of 2100/2700 and above the available converted historical Home threshold range. Southampton ranks dynamically after applications close, so this is not a fixed cut-off or guarantee.",
+    "band_basis": "UCAT 2200/2700 is materially above the Home competitive guidance value of 2100/2700 and above the available converted historical Home threshold range. Southampton ranks dynamically after applications close, so this is not a fixed cut-off or guarantee.",
     "historical_comparison": "not_directly_comparable_legacy_3600_values_display_only",
     "missing_data_reasons": [],
     "cannot_predict_explanation": null,
@@ -260,11 +260,11 @@
     ]
   },
   "display": {
-    "headline": "Strong choice based on your UCAT",
+    "headline": "Strong choice for your application",
     "subheadline": "Eligible Home A100 applicant",
-    "primary_user_facing_recommendation": "Strong choice based on your UCAT",
+    "primary_user_facing_recommendation": "Strong choice for your application",
     "recommendation_display_state": "standard",
-    "primary_explanation": "Your UCAT is materially above Southampton's available Home competitive guidance and the available historical interview range. Southampton ranks applicants after applications close, so this is not a guaranteed interview.",
+    "primary_explanation": "Based on ApplySmart's assessment, your UCAT score appears competitive for this applicant group.",
     "historical_guidance_caveat": "Interview thresholds may change each admissions cycle depending on applicant competition and interview capacity. Historical figures are guidance only, not a current cut-off, and do not guarantee an interview."
   },
   "decision_timeline": [
@@ -296,7 +296,7 @@
       "step": 5,
       "title": "Interview recommendation produced",
       "status": "Strong Choice",
-      "summary": "Strong choice based on your UCAT. Treat this as guidance for university choice, not a promised interview."
+      "summary": "Based on ApplySmart's assessment, your academic profile appears competitive for this applicant group. Treat this as guidance for university choice, not a promised interview."
     }
   ],
   "decision_transparency": {
@@ -309,88 +309,91 @@
           {
             "label": "GCSE threshold",
             "status": "Met",
-            "summary": "7 GCSEs at grade 6/B or above, including English Language, Mathematics and Sciences."
+            "summary": "7 GCSEs at grade 6/B or above, including English Language, Mathematics and Sciences. Applicant information: 7 GCSEs at grade 6 or above including English Language, Mathematics, Biology and Chemistry."
           },
           {
             "label": "A-level threshold and subjects",
             "status": "Met",
-            "summary": "AAA including Biology and one accepted second science."
+            "summary": "AAA including Biology and one of Chemistry, Physics, Psychology, Sociology, Environmental Studies or Geography. Applicant information: AAA in Biology, Chemistry and Mathematics."
           },
           {
             "label": "Science practical endorsements",
             "status": "Met",
-            "summary": "Biology and Chemistry practical endorsements are passed."
+            "summary": "Pass the practical endorsement for separately endorsed science A-levels. Applicant information: Biology and Chemistry practical endorsements are passed."
           },
           {
             "label": "UCAT and SJT",
             "status": "Met",
-            "summary": "UCAT is present. SJT Band 4 is not used by Southampton."
+            "summary": "UCAT is required and SJT is not used. Applicant information: UCAT 2200/2700 with SJT Band 4."
           }
         ]
       },
       {
         "stage": "Selection model",
         "status": "Assessed",
-        "summary": "Southampton checks academic eligibility before ranking eligible applicants by UCAT cognitive total within separate Home and International pools.",
+        "summary": "Academic eligibility was checked before UCAT-only ranking within the relevant Southampton Home or International pool.",
         "checks": [
           {
             "label": "Applicant pool",
             "status": "Used",
-            "summary": "Home A100 applicants"
+            "summary": "The applicant group matching the supplied fee status and entry route"
           },
           {
-            "label": "Academic screen",
-            "status": "Met",
-            "summary": "The GCSE and A-level minimum requirements are met; grades are not scored after this gate."
+            "label": "UCAT",
+            "status": "Ranking only",
+            "summary": "UCAT ranking: Eligible applicants are ranked by UCAT. No reliable numerical historical comparison is available."
           },
           {
-            "label": "UCAT ranking",
-            "status": "Counted",
-            "summary": "UCAT 2200/2700 is materially above current-format Home competitive guidance of 2100/2700 and above the ApplySmart-modelled Strong boundary. This is not a fixed cut-off or guarantee."
+            "label": "SJT requirement",
+            "status": "Ignored",
+            "summary": "SJT is not used for interview selection."
           },
           {
-            "label": "SJT",
-            "status": "Not used",
-            "summary": "SJT is neither scored nor filtered."
+            "label": "Selection approach",
+            "status": "Ranking/cut-off based",
+            "summary": "Academic eligibility was checked before UCAT-only ranking within the relevant Southampton Home or International pool."
           }
         ]
       },
       {
         "stage": "Historical guidance",
         "status": "Guidance available",
-        "summary": "Historical interview information is guidance only and is not a guarantee of an interview.",
+        "summary": "The result was assessed using the available admissions evidence for this applicant group. Historical admissions data provides a benchmark only; it is not a current cut-off or a guarantee of interview.",
         "checks": [
           {
-            "label": "Home pool (2024)",
-            "status": "Historical",
-            "summary": "807 interviewed, 394 offers, 2024 Home lowest interviewed UCAT 2610/3600 (display only; not directly comparable with current 2700-scale UCAT scores)."
+            "label": "Applicant pool",
+            "status": "Used",
+            "summary": "The applicant group matching the supplied fee status and entry route"
+          },
+          {
+            "label": "UCAT comparison",
+            "status": "Compared",
+            "summary": "UCAT ranking: Eligible applicants are ranked by UCAT. No reliable numerical historical comparison is available."
           },
           {
             "label": "Important limitation",
             "status": "Guidance only",
-            "summary": "Interview thresholds may change each admissions cycle depending on applicant competition and interview capacity. Historical figures are guidance only, not a current cut-off, and do not guarantee an interview."
+            "summary": "Historical admissions data provides a benchmark only; it is not a current cut-off or a guarantee of interview."
           }
         ]
       },
       {
         "stage": "Recommendation",
         "status": "Guidance only",
-        "summary": "Strong choice based on your UCAT. Treat this as guidance for university choice, not a promised interview.",
+        "summary": "Based on ApplySmart's assessment, your academic profile appears competitive for this applicant group. Treat this as guidance for university choice, not a promised interview.",
         "checks": []
       }
     ],
     "key_reasons": [
-      "The supported entry requirements are met.",
-      "Southampton uses UCAT cognitive total only for interview ranking after academic eligibility.",
-      "UCAT 2200/2700 is materially above Southampton's available Home competitive guidance and the available historical interview range."
+      "The represented Home standard school-leaver meets Southampton's supported GCSE, A-level, practical-endorsement and UCAT requirements.",
+      "The result uses The applicant group matching the supplied fee status and entry route.",
+      "You meet the academic requirements. Eligible applicants are ranked by UCAT. No reliable numerical historical comparison is available."
     ],
     "evidence_used": [
       "Official admissions policy",
       "University selection methodology",
       "UCAT policy",
-      "Historical interview data",
-      "International admissions policy",
-      "FOI evidence"
+      "Historical interview data"
     ],
     "evidence_confidence": {
       "level": "Medium",
@@ -404,7 +407,33 @@
     "warnings": [],
     "manual_review_reason": null,
     "insufficient_evidence_reason": null,
-    "insufficient_evidence_reason_code": null
+    "insufficient_evidence_reason_code": null,
+    "compact_status": {
+      "label": "You meet the academic requirements.",
+      "type": "academic_status",
+      "tone": "positive"
+    },
+    "comparison_metrics_title": null,
+    "comparison_metrics": [],
+    "selection_approach_display": null,
+    "selection_metric": null,
+    "score_breakdown": null,
+    "ucat_comparison": {
+      "comparison_type": "ranking_only",
+      "applicant_ucat": null,
+      "benchmark_min": null,
+      "benchmark_max": null,
+      "benchmark_label": null,
+      "caveat": null,
+      "difference_from_benchmark": null,
+      "position": null,
+      "applicant_pool": null,
+      "sjt_policy": "SJT is not used for interview selection.",
+      "sjt_outcome": "ignored",
+      "sjt_summary": "SJT is not used for interview selection.",
+      "applicant_sjt_band": null,
+      "official_ucat_minimum": null
+    }
   },
   "engine_notes": {
     "offer_prediction_scope": "out_of_scope",
@@ -417,5 +446,10 @@
       "sjt_score"
     ],
     "implementation_scope": "interview guidance only"
-  }
+  },
+  "primary_user_facing_recommendation": "Strong choice for your application",
+  "primary_explanation": "Based on ApplySmart's assessment, your UCAT score appears competitive for this applicant group.",
+  "recommendation_display_state": "standard",
+  "trust_statement": null,
+  "historical_guidance_caveat": "Historical admissions data provides a benchmark only; it is not a current cut-off or a guarantee of interview."
 }

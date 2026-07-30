@@ -12,33 +12,46 @@ const CANONICAL_BAND_LABELS = {
   high_risk: 'High Risk'
 };
 
+const STANDARD_RECOMMENDATION_HEADLINES = {
+  very_strong_interview_potential: 'Very strong choice for your application',
+  interview_likely: 'Strong choice for your application',
+  realistic: 'Possible choice for your application',
+  ambitious: 'More cautious choice for your application',
+  high_risk: 'More cautious choice for your application',
+  eligible_to_apply: 'Entry requirements met',
+  not_eligible: 'Not currently eligible',
+  manual_review: 'More information is required',
+  insufficient_evidence: 'More information is required',
+  guaranteed_interview: 'Interview guaranteed under the published criteria'
+};
+
 const {
   isRestOfUkFeeStatus
 } = require('./applicant-group-normalisation');
 
 const STANDARD_RECOMMENDATIONS = {
   very_strong_interview_potential: {
-    headline: 'Very strong choice based on your selection score',
+    headline: STANDARD_RECOMMENDATION_HEADLINES.very_strong_interview_potential,
     recommendation: CANONICAL_BAND_LABELS.very_strong_interview_potential,
     explanation: "ApplySmart's evidence-based analysis places this selection score well above the historical interview benchmark available for this applicant group."
   },
   interview_likely: {
-    headline: 'Strong choice based on your selection score',
+    headline: STANDARD_RECOMMENDATION_HEADLINES.interview_likely,
     recommendation: CANONICAL_BAND_LABELS.interview_likely,
     explanation: "ApplySmart's evidence-based analysis places this selection score above the historical interview benchmark available for this applicant group."
   },
   realistic: {
-    headline: 'Realistic choice based on your selection score',
+    headline: STANDARD_RECOMMENDATION_HEADLINES.realistic,
     recommendation: CANONICAL_BAND_LABELS.realistic,
     explanation: "ApplySmart's evidence-based analysis places this selection score in line with the historical interview benchmark available for this applicant group."
   },
   ambitious: {
-    headline: 'Ambitious choice based on your selection score',
+    headline: STANDARD_RECOMMENDATION_HEADLINES.ambitious,
     recommendation: CANONICAL_BAND_LABELS.ambitious,
     explanation: "ApplySmart's evidence-based analysis places this selection score slightly below the historical interview benchmark available for this applicant group."
   },
   high_risk: {
-    headline: 'High risk based on your selection score',
+    headline: STANDARD_RECOMMENDATION_HEADLINES.high_risk,
     recommendation: CANONICAL_BAND_LABELS.high_risk,
     explanation: "ApplySmart's evidence-based analysis places this selection score below the historical interview benchmark available for this applicant group."
   }
@@ -46,27 +59,27 @@ const STANDARD_RECOMMENDATIONS = {
 
 const UCAT_RANKING_RECOMMENDATIONS = {
   very_strong_interview_potential: {
-    headline: 'Very strong choice based on your UCAT',
+    headline: STANDARD_RECOMMENDATION_HEADLINES.very_strong_interview_potential,
     recommendation: CANONICAL_BAND_LABELS.very_strong_interview_potential,
     position: 'above'
   },
   interview_likely: {
-    headline: 'Strong choice based on your UCAT',
+    headline: STANDARD_RECOMMENDATION_HEADLINES.interview_likely,
     recommendation: CANONICAL_BAND_LABELS.interview_likely,
     position: 'above'
   },
   realistic: {
-    headline: 'Realistic choice based on your UCAT',
+    headline: STANDARD_RECOMMENDATION_HEADLINES.realistic,
     recommendation: CANONICAL_BAND_LABELS.realistic,
     position: 'within'
   },
   ambitious: {
-    headline: 'Ambitious choice based on your UCAT',
+    headline: STANDARD_RECOMMENDATION_HEADLINES.ambitious,
     recommendation: CANONICAL_BAND_LABELS.ambitious,
     position: 'slightly below'
   },
   high_risk: {
-    headline: 'High risk based on your UCAT',
+    headline: STANDARD_RECOMMENDATION_HEADLINES.high_risk,
     recommendation: CANONICAL_BAND_LABELS.high_risk,
     position: 'below'
   }
@@ -74,6 +87,9 @@ const UCAT_RANKING_RECOMMENDATIONS = {
 
 const HISTORICAL_GUIDANCE_CAVEAT =
   'Historical admissions data provides a benchmark only; it is not a current cut-off or a guarantee of interview.';
+
+const ELIGIBILITY_ONLY_SELECTION_SUMMARY =
+  'This result confirms eligibility only. It does not include an interview competitiveness prediction.';
 
 const OFFICIAL_UNAVAILABLE_TRUST_STATEMENT =
   'ApplySmart does not alter university requirements or present unofficial information as an official rule. Predictions are generated only after applying the published university criteria and analysing the available admissions evidence.';
@@ -113,202 +129,6 @@ const EVIDENCE = {
     'Fee information',
     'Documented prediction limitation'
   ]
-};
-
-// Per-university static facts only (applicant pool label + a plain-language
-// description of the selection approach + evidence-source labels). None of
-// this varies per applicant. Per-applicant numbers (actual score, actual
-// UCAT total, etc.) are never hand-authored here - they come from
-// buildScoreBreakdown/buildRankingEvidence, which read the real engine
-// output for the specific applicant being scored.
-const UNIVERSITY_EXPLANATIONS = {
-  'aberdeen-a100': {
-    pool: 'International applicants',
-    selectionSummary:
-      'Academic attainment and UCAT are combined for the implemented pre-interview score.',
-    evidence: EVIDENCE.foiInternational
-  },
-  'anglia-ruskin-a100': {
-    pool: 'Home A100 applicants',
-    selectionSummary:
-      'Anglia Ruskin checks academic thresholds and the SJT filter before ranking eligible applicants by UCAT cognitive score after any documented percentage uplifts.',
-    evidence: EVIDENCE.contextual
-  },
-  'aston-a100': {
-    pool: 'Home non-widening-participation school-leavers',
-    selectionSummary:
-      'Aston combines points from six selected GCSEs and the UCAT cognitive total.',
-    evidence: [...EVIDENCE.standard, 'FOI evidence']
-  },
-  'birmingham-a100': {
-    pool: 'Home standard school-leavers',
-    selectionSummary:
-      'Birmingham combines scored GCSEs, UCAT and verified contextual information for interview guidance.',
-    evidence: EVIDENCE.contextual
-  },
-  'brighton-and-sussex-a100': {
-    pool: 'Home and Overseas applicants, with a separate adjusted-offer and care-leaver route',
-    selectionSummary:
-      'BSMS checks academic thresholds and the SJT Band 4 gate before applying the published 2026 UCAT threshold for the relevant fee-status pool; confirmed adjusted-offer applicants and eligible care leavers bypass the UCAT threshold.',
-    evidence: EVIDENCE.contextual
-  },
-  'cardiff-a100': {
-    pool: 'International applicants',
-    selectionSummary:
-      'Cardiff uses a 28-point score and then the raw UCAT cognitive total to separate tied scores where needed.',
-    evidence: EVIDENCE.foiInternational
-  },
-  'brunel-university-of-london-a100': {
-    pool: 'Home A100 applicants',
-    selectionSummary:
-      'Brunel checks academic eligibility and the SJT Band 4 gate first, then ranks eligible Home applicants by total UCAT score. No academic score is created.',
-    evidence: [...EVIDENCE.standard, 'FOI evidence']
-  },
-  'city-st-george-s-of-london-a100': {
-    pool: 'Home, Overseas, graduate and non-graduate applicants in separate UCAT-ranking pools',
-    selectionSummary:
-      "City St George's checks academic eligibility and every UCAT cognitive section first, then ranks eligible applicants by raw UCAT total within separate Home/Overseas and graduate/non-graduate pools. SJT is recorded but excluded from ApplySmart band computation because the university has not published the exact mechanism.",
-    evidence: [...EVIDENCE.contextual, 'International admissions policy']
-  },
-  'cambridge-a100': {
-    pool: 'Cambridge A100 applicants',
-    selectionSummary:
-      'Cambridge reviews applicants holistically by college. ApplySmart checks the published academic and UCAT requirements, then uses historical admissions data, GCSE profile context and recognised contextual information to support interview benchmark analysis.',
-    evidence: EVIDENCE.contextual
-  },
-  'dundee-a100': {
-    pool: 'International standard-entry applicants',
-    selectionSummary:
-      'The implemented Dundee approach combines academic attainment and UCAT national-decile performance.',
-    evidence: EVIDENCE.foiInternational
-  },
-  'edinburgh-a100': {
-    pool: 'International applicants ranked separately',
-    selectionSummary:
-      'Edinburgh ranks applicants by a pre-interview total out of 40, combining academic, UCAT cognitive and SJT scores.',
-    evidence: EVIDENCE.international
-  },
-  'exeter-a100': {
-    pool: 'Home and International applicants ranked separately',
-    selectionSummary:
-      'Exeter ranks direct school-leaver applicants using the official Exeter Score, combining grade-profile points, UCAT national-decile points and verified achieved-grade or contextual/WP uplifts.',
-    evidence: EVIDENCE.contextual
-  },
-  'glasgow-a100': {
-    pool: 'International fee-status applicants ranked separately',
-    selectionSummary:
-      'Glasgow ranks eligible applicants by UCAT cognitive total only within the applicable fee-status group.',
-    evidence: EVIDENCE.international
-  },
-  'keele-a100': {
-    pool: 'International applicants ranked separately',
-    selectionSummary:
-      "Keele checks GCSE, academic, UCAT and SJT gates before using UCAT total for International interview guidance; Home applicants need Keele's own /25 shortlisting score.",
-    evidence: EVIDENCE.international
-  },
-  'leicester-a100': {
-    pool: 'Predicted and achieved A-level/IB applicants',
-    selectionSummary:
-      'Leicester combines a 48-point GCSE score with a 48-point UCAT score for a 96-point pre-interview total for predicted and achieved A-level/IB applicants; Graduate and Access to Medicine applicants use separate routes not covered by this score.',
-    evidence: EVIDENCE.standard
-  },
-  'leeds-a100': {
-    pool: 'Home A100 applicants',
-    selectionSummary:
-      'Leeds considers academic performance and UCAT together. ApplySmart uses Leeds-specific historical admissions data to support interview benchmark analysis.',
-    evidence: EVIDENCE.contextual
-  },
-  'queen-mary-a100': {
-    pool: 'Home and Overseas applicants ranked separately',
-    selectionSummary:
-      "Queen Mary's exact UCAT/Tariff weighting and current-cycle thresholds are unpublished; ApplySmart uses historical admissions data to support UCAT interview benchmark analysis.",
-    evidence: [...EVIDENCE.standard, 'FOI evidence']
-  },
-  'liverpool-a100': {
-    pool: 'Home standard non-contextual school-leavers',
-    selectionSummary:
-      'Liverpool applies academic and Home SJT checks, then ranks this applicant pool by UCAT cognitive total.',
-    evidence: [...EVIDENCE.contextual, 'FOI evidence']
-  },
-  'lancaster-a100': {
-    pool: 'Home standard school-leavers',
-    selectionSummary:
-      'Lancaster checks academic requirements and the SJT filter before ranking eligible applicants by UCAT cognitive total within the relevant applicant pool.',
-    evidence: EVIDENCE.contextual
-  },
-  'manchester-a100': {
-    pool: 'International applicants ranked separately',
-    selectionSummary:
-      'Manchester first applies the academic and SJT gates, then ranks eligible applicants by UCAT cognitive total.',
-    evidence: EVIDENCE.foiInternational
-  },
-  'nottingham-a100': {
-    pool: 'Home standard school-leavers',
-    selectionSummary:
-      'Nottingham combines points from eight GCSEs, the three UCAT cognitive sections and SJT.',
-    evidence: EVIDENCE.standard
-  },
-  'sheffield-a100': {
-    pool: 'Home A100 applicants',
-    selectionSummary:
-      'Sheffield checks academic eligibility and the UCAT minimum before ranking most eligible applicants by UCAT cognitive total within separate Home and International pools.',
-    evidence: EVIDENCE.contextual
-  },
-  'st-andrews-a100': {
-    pool: 'International applicants with historical admissions data',
-    selectionSummary:
-      'St Andrews checks academic, reference and relevant-experience hurdles first, then ranks eligible applicants by UCAT Global Score.',
-    evidence: [...EVIDENCE.contextual, 'International admissions policy']
-  }
-};
-
-const TIMELINE_SELECTION_SUMMARIES = {
-  'aberdeen-a100':
-    'Academic attainment and UCAT were combined in the implemented pre-interview score.',
-  'anglia-ruskin-a100':
-    'Academic thresholds and the SJT filter were checked before adjusted-UCAT interview guidance was applied.',
-  'aston-a100':
-    'Points from six selected GCSEs and the UCAT cognitive total were combined.',
-  'birmingham-a100':
-    'The score-based interview guidance combined scored GCSEs, UCAT and verified contextual information.',
-  'brighton-and-sussex-a100':
-    'Academic requirements were treated as threshold-only, the SJT gate was checked, then the relevant BSMS 2026 UCAT threshold or published bypass route was applied.',
-  'cardiff-a100':
-    'The 28-point score was applied, with the raw UCAT cognitive total available to separate tied scores.',
-  'brunel-university-of-london-a100':
-    'Academic eligibility and the SJT Band 4 gate were checked before Brunel Home-pool UCAT ranking guidance was applied. No academic score was created.',
-  'city-st-george-s-of-london-a100':
-    "Academic eligibility and every UCAT cognitive-section minimum were checked before raw UCAT-total ranking in the relevant City St George's fee-status and graduate-status pool; SJT was recorded but not modelled.",
-  'cambridge-a100':
-    'Published academic and UCAT requirements were checked before Cambridge-specific holistic interview guidance was applied with internal thresholds hidden.',
-  'dundee-a100':
-    'Academic attainment and UCAT national-decile performance were combined.',
-  'edinburgh-a100':
-    'Academic, UCAT cognitive and SJT components were considered in the pre-interview total.',
-  'exeter-a100':
-    'The official Exeter Score was applied, combining grade-profile points, UCAT national-decile points and verified achieved-grade or contextual/WP uplifts.',
-  'glasgow-a100':
-    'UCAT-based ranking was applied within the relevant fee-status applicant group.',
-  'keele-a100':
-    "Academic, UCAT and SJT gates were checked before UCAT-ranked International guidance was applied; Home /25 guidance is withheld without Keele's personal-statement score.",
-  'leicester-a100':
-    'A 48-point GCSE score and a 48-point UCAT score were combined into a 96-point pre-interview total for predicted and achieved A-level/IB applicants.',
-  'leeds-a100':
-    'Published entry requirements were checked before academics and UCAT were considered together using Leeds-specific historical admissions data.',
-  'queen-mary-a100':
-    "Historical admissions data was used to support Queen Mary's UCAT interview benchmark analysis, since exact UCAT/Tariff weighting is unpublished.",
-  'liverpool-a100':
-    'Academic and SJT checks were applied before the applicant pool and historical admissions data were considered.',
-  'lancaster-a100':
-    'Academic requirements and the SJT filter were checked before UCAT ranking within the relevant Lancaster applicant pool.',
-  'manchester-a100':
-    'The SJT Band 1–2 gate was checked before UCAT ranking within the relevant applicant group.',
-  'nottingham-a100':
-    'Points from eight GCSEs, the UCAT cognitive sections and SJT were combined.',
-  'sheffield-a100':
-    'Academic eligibility and the UCAT minimum were checked before UCAT ranking within the relevant Sheffield applicant pool.',
-  'st-andrews-a100':
-    'Academic, reference and experience hurdles were checked before UCAT ranking.'
 };
 
 function mergePresentations(...presentations) {
@@ -672,15 +492,14 @@ function historicalMetricSubject(figures = {}) {
   return null;
 }
 
-function historicalMetricLabel(figures = {}, entryYear = null) {
+function historicalMetricLabel(figures = {}) {
   const metric = figures.metric || figures.metric_type || null;
   if (!metric) {
     return null;
   }
 
   const subject = historicalMetricSubject(figures);
-  const year = Number.isFinite(entryYear) ? ` (${entryYear})` : '';
-  return [humaniseMetricKey(metric), subject].filter(Boolean).join(' ') + year;
+  return [humaniseMetricKey(metric), subject].filter(Boolean).join(' ');
 }
 
 function historicalMetricValue(figures = {}) {
@@ -777,7 +596,7 @@ function historicalCycleCheck(entryYear, groupLabel, figures, options = {}) {
   }
 
   return check(
-    options.label || `${groupLabel} (${entryYear})`,
+    options.label || groupLabel,
     'Historical',
     joinAdmissionsParts(parts, options.summaryStyle) + '.'
   );
@@ -1383,26 +1202,6 @@ function buildEvidenceConfidence(card, options = {}) {
     };
   }
 
-  const explicitEvidenceConfidence =
-    readiness.evidence_confidence ||
-    card.engine_notes?.evidence_confidence ||
-    card.metadata?.evidence_confidence;
-  const profileId = card.course_identity?.profile_id || card.course_profile_id;
-  if (
-    profileId === 'brighton-and-sussex-a100' &&
-    String(explicitEvidenceConfidence || '').toLowerCase() === 'high'
-  ) {
-    return {
-      level: 'High',
-      summary: 'The underlying admissions rules are supported by high-confidence evidence for this applicant route.',
-      reasons: [
-        'Official eligibility rules are available.',
-        'The university selection approach is implemented.',
-        'Evidence confidence is tracked separately from forward prediction confidence.'
-      ]
-    };
-  }
-
   if (insufficientEvidence || routeEvidenceGap || coreEvidenceUnavailable) {
     return {
       level: 'Limited',
@@ -1500,9 +1299,13 @@ function selectionScoreThresholdComparison(options = {}) {
     threshold,
     difference: score - threshold,
     provisional,
-    comparison_label: suppliedLabel || null,
+    comparison_label: publicSelectionScoreComparisonPhrase({
+      comparison_label: suppliedLabel,
+      comparison_caveat: pool.comparison_guidance?.caveat || null,
+      comparison_category: suppliedCategory
+    }),
     comparison_category: suppliedCategory,
-    comparison_caveat: pool.comparison_guidance?.caveat || null
+    comparison_caveat: HISTORICAL_GUIDANCE_CAVEAT
   };
 }
 
@@ -1512,11 +1315,14 @@ function formatScorePoints(value) {
 
 function comparisonCategoryFromLabel(label = '') {
   const text = String(label || '').toLowerCase();
-  if (/advisory|modelled|modeled|applysmart|guidance zone|historical-equivalent/.test(text)) {
-    return 'advisory';
+  if (/\b(published|official)\b/.test(text) && !/\bunpublished\b/.test(text) && /reference range/.test(text)) {
+    return 'published_reference_range';
   }
   if (/\b(published|official)\b/.test(text) && !/\bunpublished\b/.test(text) && /threshold|minimum/.test(text)) {
     return 'published_threshold';
+  }
+  if (/advisory|modelled|modeled|applysmart|guidance zone|historical-equivalent/.test(text)) {
+    return 'advisory';
   }
   if (/observed|interviewed-score|lowest interviewed|average interviewed|interview scores/.test(text)) {
     return 'observed_data';
@@ -1524,41 +1330,234 @@ function comparisonCategoryFromLabel(label = '') {
   return null;
 }
 
-function publicComparisonLabel(label = '') {
-  const trimmed = String(label || '').trim();
-  const text = trimmed.toLowerCase();
-  if (/applysmart/.test(text) && /advisory/.test(text) && /historical-equivalent/.test(text) && /ucat/.test(text)) {
-    return 'ApplySmart advisory UCAT range based on historical admissions evidence';
+function publicThresholdGroup(text = '') {
+  if (/contextual|widening participation|wp\b|ukwpmed/.test(text)) return 'contextual';
+  if (/overseas|international|non-uk/.test(text)) return 'Overseas';
+  if (/\bhome\b|uk-domicile/.test(text)) return 'Home';
+  const accessRoute = text.match(/\b([a-z\s-]*access[a-z\s-]*)\s+(?:interview\s+|ucat\s+)?(?:threshold|minimum)\b/);
+  if (accessRoute) {
+    return titleCaseGroupLabel(accessRoute[1]);
   }
-  return trimmed;
+  return null;
+}
+
+function publicUcatComparisonPhrase(comparison = {}) {
+  const comparisonType = comparison.comparison_type || '';
+  const labelText = String(comparison.benchmark_label || '').toLowerCase();
+  const text = [
+    comparison.benchmark_label,
+    comparison.caveat,
+    comparisonType
+  ].filter(Boolean).join(' ').toLowerCase();
+  const published =
+    /\b(published|official)\b/.test(text) &&
+    !/\b(unpublished|not official|no official)\b/.test(text);
+  const advisory = /advisory|modelled|modeled|applysmart|historical-equivalent|working/.test(text);
+
+  if (comparisonType === 'official_minimum') {
+    return 'published UCAT minimum';
+  }
+  if (/historical ucat range|ucat range/.test(labelText) && !/interview/.test(labelText)) {
+    return 'historical UCAT range';
+  }
+  if (advisory && /ucat/.test(labelText) && !/threshold|minimum|reference range/.test(labelText)) {
+    return 'historical UCAT range';
+  }
+  if (published && /threshold|minimum/.test(labelText)) {
+    const group = publicThresholdGroup(text);
+    return group ? `published ${group} threshold` : 'published UCAT threshold';
+  }
+  if (published && /reference range/.test(labelText)) {
+    return 'published UCAT reference range';
+  }
+  if (published && /threshold|minimum/.test(text)) {
+    const group = publicThresholdGroup(text);
+    return group ? `published ${group} threshold` : 'published UCAT threshold';
+  }
+  if (advisory && /score|point/.test(text) && !/ucat/.test(text)) {
+    return 'historical score guide';
+  }
+  if (comparisonType === 'historical_average') {
+    return 'historical UCAT range';
+  }
+  if (/ucat/.test(text) && !/interview/.test(text)) {
+    return 'historical UCAT range';
+  }
+  return 'historical interview range';
+}
+
+function publicSelectionScoreComparisonPhrase(comparison = {}) {
+  const text = [
+    comparison.comparison_label,
+    comparison.comparison_caveat,
+    comparison.comparison_category
+  ].filter(Boolean).join(' ').toLowerCase();
+  const published =
+    /\b(published|official)\b/.test(text) &&
+    !/\b(unpublished|not official|no official)\b/.test(text);
+  const advisory = /advisory|modelled|modeled|applysmart|provisional|strategic benchmark|working/.test(text);
+
+  if (published && /threshold|minimum/.test(text)) {
+    const group = publicThresholdGroup(text);
+    return group ? `published ${group} threshold` : 'published score threshold';
+  }
+  if (advisory || /score|point/.test(text)) {
+    return 'historical score guide';
+  }
+  return 'historical score guide';
+}
+
+function publicComparisonCaveat(comparison = {}) {
+  const phrase = publicUcatComparisonPhrase(comparison);
+  if (phrase.startsWith('published')) {
+    return 'Published thresholds and reference ranges can change between cycles and do not guarantee an interview.';
+  }
+  return HISTORICAL_GUIDANCE_CAVEAT;
+}
+
+function standardUcatComparisonSentence(comparison) {
+  if (!comparison || comparison.position === null) {
+    return 'Your UCAT score was assessed for this applicant group.';
+  }
+  const comparator = publicUcatComparisonPhrase(comparison);
+  const position = { above: 'above', within: 'within', below: 'below' }[comparison.position] || 'against';
+  return `Your UCAT score is ${position} the ${comparator} for this applicant group.`;
+}
+
+function standardSelectionScoreComparisonSentence(comparison) {
+  if (!comparison || !Number.isFinite(comparison.difference)) {
+    return null;
+  }
+  const comparator = comparison.comparison_label || publicSelectionScoreComparisonPhrase(comparison);
+  const position = comparison.difference < 0 ? 'below' : comparison.difference > 0 ? 'above' : 'at';
+  return `Your selection score is ${position} the ${comparator} for this applicant group.`;
+}
+
+function recommendationBandGroup(interviewBand) {
+  return {
+    very_strong_interview_potential: 'very_strong',
+    interview_likely: 'strong',
+    realistic: 'realistic',
+    ambitious: 'cautious',
+    high_risk: 'cautious'
+  }[interviewBand] || 'realistic';
+}
+
+function scoreModelUsesAcademicAndUcat(context = {}) {
+  const scoreModel = context.score_model || {};
+  const componentText = Array.isArray(scoreModel.components)
+    ? scoreModel.components
+      .map((component) => [
+        component.component_id,
+        component.type,
+        component.label,
+        component.name
+      ].filter(Boolean).join(' '))
+      .join(' ')
+    : '';
+  const text = [
+    scoreModel.label,
+    scoreModel.basis,
+    scoreModel.name,
+    componentText
+  ].filter(Boolean).join(' ').toLowerCase();
+
+  return /ucat/.test(text) && /(academic|gcse|a[ -]?level|qualification|contextual)/.test(text);
+}
+
+function recommendationAssessmentBasis({ ucatComparison, selectionScoreComparison, context = {} } = {}) {
+  if (ucatComparison && ucatComparison.comparison_type !== 'ranking_only') {
+    const label = publicUcatComparisonPhrase(ucatComparison);
+    if (label.startsWith('published')) {
+      return 'published_ucat_reference';
+    }
+    if (label === 'historical UCAT range') {
+      return 'historical_ucat_range';
+    }
+    return 'historical_interview_range';
+  }
+
+  if (selectionScoreComparison) {
+    return scoreModelUsesAcademicAndUcat(context) ? 'academic_ucat' : 'selection_score';
+  }
+
+  if (isUcatRankingContext(context)) {
+    return 'ucat_ranking';
+  }
+
+  if (context.score_model?.type === 'component_sum' || Number.isFinite(context.ranking?.value)) {
+    return scoreModelUsesAcademicAndUcat(context) ? 'academic_ucat' : 'selection_score';
+  }
+
+  return 'academic_profile';
+}
+
+function standardRecommendationExplanation(interviewBand, options = {}) {
+  const basis = recommendationAssessmentBasis(options);
+  const bandGroup = recommendationBandGroup(interviewBand);
+  const competitivenessExplanation = (subject, verb = 'appears') => ({
+    very_strong: `Based on ApplySmart's assessment, your ${subject} ${verb} highly competitive for this applicant group.`,
+    strong: `Based on ApplySmart's assessment, your ${subject} ${verb} competitive for this applicant group.`,
+    realistic: `Based on ApplySmart's assessment, your ${subject} may be competitive for this applicant group.`,
+    cautious: `Based on ApplySmart's assessment, your ${subject} may be less competitive for this applicant group.`
+  }[bandGroup]);
+
+  if (
+    basis === 'ucat_ranking' ||
+    basis === 'published_ucat_reference' ||
+    basis === 'historical_ucat_range' ||
+    basis === 'historical_interview_range'
+  ) {
+    return competitivenessExplanation('UCAT score');
+  }
+
+  if (basis === 'academic_ucat') {
+    return competitivenessExplanation('academic profile and UCAT', 'appear');
+  }
+
+  if (basis === 'selection_score') {
+    return competitivenessExplanation('selection score');
+  }
+
+  return competitivenessExplanation('academic profile');
+}
+
+function academicStatusSummary(state, eligibilityStatus) {
+  if (state === 'not_eligible' || eligibilityStatus === 'not_eligible') {
+    return 'You do not currently meet the academic requirements.';
+  }
+  if (
+    state === 'manual_review' ||
+    eligibilityStatus === 'manual_review' ||
+    eligibilityStatus === 'insufficient_evidence'
+  ) {
+    return 'ApplySmart needs more information to assess the academic requirements.';
+  }
+  return 'You meet the academic requirements.';
 }
 
 function ucatComparisonLabel(comparison = {}) {
   if (comparison.comparison_type === 'official_minimum') {
     return {
-      comparison_label: 'Published UCAT minimum',
+      comparison_label: publicUcatComparisonPhrase(comparison),
       comparison_label_type: 'published_ucat_minimum',
       difference_word: 'minimum'
     };
   }
 
-  const suppliedLabel = typeof comparison.benchmark_label === 'string'
-    ? comparison.benchmark_label.trim()
-    : '';
-  const displayLabel = publicComparisonLabel(suppliedLabel);
   const suppliedCategory = ucatComparisonCategory(comparison);
 
-  if (suppliedCategory === 'published_threshold' && comparison.comparison_type === 'historical_range') {
+  if (suppliedCategory === 'published_reference_range') {
     return {
-      comparison_label: `ApplySmart band range above ${displayLabel}`,
-      comparison_label_type: 'applysmart_advisory_guide',
-      difference_word: 'benchmark'
+      comparison_label: publicUcatComparisonPhrase(comparison),
+      comparison_label_type: 'published_interview_threshold',
+      difference_word: 'range'
     };
   }
 
   if (suppliedCategory === 'published_threshold') {
     return {
-      comparison_label: displayLabel,
+      comparison_label: publicUcatComparisonPhrase(comparison),
       comparison_label_type: 'published_interview_threshold',
       difference_word: 'threshold'
     };
@@ -1566,32 +1565,32 @@ function ucatComparisonLabel(comparison = {}) {
 
   if (suppliedCategory === 'advisory' || comparison.comparison_type === 'current_guidance') {
     return {
-      comparison_label: displayLabel || 'ApplySmart advisory benchmark',
-      comparison_label_type: 'applysmart_advisory_guide',
-      difference_word: 'benchmark'
+      comparison_label: publicUcatComparisonPhrase(comparison),
+      comparison_label_type: 'historical_interview_guide',
+      difference_word: 'range'
     };
   }
 
   if (suppliedCategory === 'observed_data') {
     return {
-      comparison_label: displayLabel || 'Historical interview data',
+      comparison_label: publicUcatComparisonPhrase(comparison),
       comparison_label_type: 'recent_interview_benchmark',
-      difference_word: 'data'
+      difference_word: 'range'
     };
   }
 
   if (comparison.comparison_type === 'historical_average') {
     return {
-      comparison_label: displayLabel || 'Recent interview benchmark',
+      comparison_label: publicUcatComparisonPhrase(comparison),
       comparison_label_type: 'recent_interview_benchmark',
-      difference_word: 'benchmark'
+      difference_word: 'range'
     };
   }
 
   return {
-    comparison_label: displayLabel || 'Historical interview benchmark',
+    comparison_label: publicUcatComparisonPhrase(comparison),
     comparison_label_type: 'historical_interview_guide',
-    difference_word: 'benchmark'
+    difference_word: 'range'
   };
 }
 
@@ -1608,26 +1607,7 @@ function ucatComparisonCategory(comparison = {}) {
 }
 
 function ucatComparisonDisplayName(comparison = {}) {
-  const label = ucatComparisonLabel(comparison).comparison_label;
-  const category = ucatComparisonCategory(comparison);
-  if (comparison.comparison_type === 'current_guidance' && comparison.benchmark_label) {
-    return label;
-  }
-  if (category === 'published_threshold' || category === 'advisory') {
-    return label;
-  }
-  if (category === 'observed_data') {
-    return Number.isFinite(comparison.benchmark_max)
-      ? 'historical interviewed-score range'
-      : 'historical interview data';
-  }
-  if (comparison.comparison_type === 'historical_average') {
-    return 'recent interviewed-score benchmark';
-  }
-  if (comparison.comparison_type === 'historical_range') {
-    return 'historical interview benchmark range';
-  }
-  return 'historical interview benchmark';
+  return ucatComparisonLabel(comparison).comparison_label;
 }
 
 function differenceDirection(difference) {
@@ -1686,7 +1666,7 @@ function buildUcatSelectionMetric(ucatComparison, options = {}) {
       : null,
     comparison_label: label.comparison_label,
     comparison_label_type: label.comparison_label_type,
-    comparison_context: ucatComparison.benchmark_label || null,
+    comparison_context: null,
     difference,
     difference_direction: differenceDirection(difference),
     difference_word: label.difference_word,
@@ -1694,7 +1674,7 @@ function buildUcatSelectionMetric(ucatComparison, options = {}) {
     display_mode: 'comparison',
     display_eligibility: true,
     entry_year: null,
-    caveat: ucatComparison.caveat || HISTORICAL_GUIDANCE_CAVEAT
+    caveat: publicComparisonCaveat(ucatComparison)
   };
 }
 
@@ -1796,111 +1776,41 @@ function lowerInitial(value) {
   return value.charAt(0).toLowerCase() + value.slice(1);
 }
 
-function buildCompactStatus({ state, selectionMetric, insufficientEvidenceReasonCode, predictionAvailable = true }) {
+function buildCompactStatus({ state, eligibilityStatus }) {
   if (state === 'not_eligible') {
     return {
-      label: 'Entry requirements not met',
-      type: 'eligibility',
+      label: academicStatusSummary(state, eligibilityStatus),
+      type: 'academic_status',
       tone: 'negative'
     };
   }
 
   if (state === 'manual_review') {
     return {
-      label: 'Needs adviser review',
-      type: 'manual_review',
+      label: academicStatusSummary(state, eligibilityStatus),
+      type: 'academic_status',
       tone: 'warning'
     };
   }
 
-  if (state === 'insufficient_evidence') {
-    const applicantInformationGap =
-      isApplicantInformationReasonCode(insufficientEvidenceReasonCode) ||
-      !insufficientEvidenceReasonCode;
+  if (state === 'insufficient_evidence' || eligibilityStatus === 'insufficient_evidence') {
     return {
-      label: applicantInformationGap ? 'Information needed' : 'Prediction unavailable',
-      type: applicantInformationGap ? 'information_needed' : 'prediction_unavailable',
-      tone: applicantInformationGap ? 'warning' : 'neutral'
-    };
-  }
-
-  if (
-    selectionMetric &&
-    Number.isFinite(selectionMetric.comparison_value) &&
-    ['above', 'below', 'at'].includes(selectionMetric.difference_direction) &&
-    typeof selectionMetric.comparison_label === 'string' &&
-    selectionMetric.comparison_label.trim()
-  ) {
-    const comparisonLabel = selectionMetric.comparison_label.trim();
-    if (selectionMetric.difference_direction === 'below') {
-      return {
-        label: `Below ${lowerInitial(comparisonLabel)}`,
-        type: 'selection_comparison',
-        tone: 'negative'
-      };
-    }
-    return {
-      label: `${comparisonLabel} ${selectionMetric.difference_direction === 'at' ? 'met' : 'exceeded'}`,
-      type: 'selection_comparison',
-      tone: 'positive'
-    };
-  }
-
-  if (selectionMetric?.type === 'eligibility' || state === 'eligibility_only') {
-    return {
-      label: 'Eligibility requirements met',
-      type: 'eligibility',
-      tone: 'positive'
-    };
-  }
-
-  if (selectionMetric?.type === 'ucat') {
-    return {
-      label: 'UCAT ranking assessed',
-      type: 'selection_metric',
-      tone: 'neutral'
-    };
-  }
-
-  if (selectionMetric?.type === 'selection_score' || selectionMetric?.type === 'points') {
-    const label = typeof selectionMetric.label === 'string' && selectionMetric.label.trim()
-      ? selectionMetric.label.trim()
-      : 'Selection score';
-    return {
-      label: `${label} calculated`,
-      type: 'selection_metric',
-      tone: 'neutral'
-    };
-  }
-
-  if (predictionAvailable) {
-    return {
-      label: 'Selection approach assessed',
-      type: 'selection_metric',
-      tone: 'neutral'
+      label: academicStatusSummary(state, eligibilityStatus),
+      type: 'academic_status',
+      tone: 'warning'
     };
   }
 
   return {
-    label: 'Prediction unavailable',
-    type: 'prediction_unavailable',
-    tone: 'neutral'
+    label: academicStatusSummary(state, eligibilityStatus),
+    type: 'academic_status',
+    tone: 'positive'
   };
 }
 
 function comparisonMetricLabelFromSelectionMetric(metric) {
   if (!metric || typeof metric.comparison_label !== 'string' || !metric.comparison_label.trim()) {
     return null;
-  }
-
-  if (metric.comparison_label_type === 'historical_interview_guide') {
-    const context = `${metric.comparison_context || ''} ${metric.label || ''}`.toLowerCase();
-    if (context.includes('selection score')) {
-      return 'Historical selection score';
-    }
-    if (context.includes('point') || metric.type === 'points') {
-      return 'Historical points guide';
-    }
   }
 
   return metric.comparison_label.trim();
@@ -1981,7 +1891,7 @@ function buildComparisonMetricsTitle({ state, comparisonMetrics, options = {} })
     String(entry.metric || entry.metric_type || '').toLowerCase().includes('interview')
   );
 
-  return hasInterviewMetric ? `Historical Interview Data (${mostRecentYear})` : null;
+  return hasInterviewMetric ? 'Historical Interview Data' : null;
 }
 
 function selectionScoreThresholdText(comparison) {
@@ -2045,7 +1955,7 @@ function calculatedScoreExplanation(context = {}) {
   return null;
 }
 
-function selectionScoreThresholdComparisonCheck(comparison, options = {}) {
+function selectionScoreThresholdComparisonCheck(comparison) {
   if (!comparison) {
     return null;
   }
@@ -2055,11 +1965,9 @@ function selectionScoreThresholdComparisonCheck(comparison, options = {}) {
     : comparison.difference > 0
       ? 'Above guide'
       : 'At guide';
-  const label = options.profileId === 'newcastle-a100'
-    ? 'Historical selection score guide'
-    : comparison.provisional
-      ? 'Selection score benchmark'
-      : 'Selection score guide';
+  const label = comparison.provisional
+    ? 'Selection score benchmark'
+    : 'Selection score guide';
   return check(
     label,
     status,
@@ -2097,21 +2005,12 @@ function historicalSummary(card, state, options = {}) {
   if (presentation.historical_summary) {
     return presentation.historical_summary;
   }
-  if (getProfileId(card) === 'king-s-college-london-a100') {
-    const existingHistoricalSummary = card.decision_transparency?.decision_path?.find((stage) =>
-      stage.stage === 'Historical guidance'
-    )?.summary;
-    if (existingHistoricalSummary) {
-      return existingHistoricalSummary;
-    }
-  }
-
   const selectionScoreText = selectionScoreThresholdSummary(options);
   if (selectionScoreText) {
     return `${selectionScoreText} ${HISTORICAL_GUIDANCE_CAVEAT}`;
   }
   if (['current_guidance', 'historical_range', 'historical_threshold', 'historical_average'].includes(options.ucatComparison?.comparison_type)) {
-    return `${ucatComparisonAssessmentText(options.ucatComparison)} ${options.ucatComparison.caveat || HISTORICAL_GUIDANCE_CAVEAT}`;
+    return `${ucatComparisonAssessmentText(options.ucatComparison)} ${publicComparisonCaveat(options.ucatComparison)}`;
   }
 
   return `The result was assessed using the available admissions evidence for this applicant group. ${HISTORICAL_GUIDANCE_CAVEAT}`;
@@ -2119,9 +2018,7 @@ function historicalSummary(card, state, options = {}) {
 
 function recommendationSummary(card, state, options = {}) {
   if (state === 'eligibility_only') {
-    const presentation = configuredPresentation(card, options);
-    return presentation.recommendation_summary ||
-      'You meet the supported academic requirements. ApplySmart does not predict Buckingham MMA or MMI progression.';
+    return 'You meet the supported academic requirements. ApplySmart does not estimate interview progression for this course.';
   }
   if (state === 'not_eligible') {
     return 'The interview recommendation is not applied because the supported entry requirements are not met.';
@@ -2146,12 +2043,12 @@ function recommendationSummary(card, state, options = {}) {
     return 'No confident recommendation is shown because the available evidence is insufficient.';
   }
 
-  const selectionScoreText = selectionScoreThresholdSummary(options);
-  if (selectionScoreText) {
-    return `${selectionScoreText} Treat this as guidance for university choice, not a promised interview.`;
-  }
-
-  return `${card.display?.primary_user_facing_recommendation || 'Interview guidance available'}. Treat this as guidance for university choice, not a promised interview.`;
+  const explanation = standardRecommendationExplanation(card.prediction?.result_band, {
+    ucatComparison: options.ucatComparison,
+    selectionScoreComparison: options.selectionScoreComparison,
+    context: options.context || options.applicantContext
+  });
+  return `${explanation} Treat this as guidance for university choice, not a promised interview.`;
 }
 
 function hasBuilderOptions(options = {}) {
@@ -2483,14 +2380,20 @@ function buildUcatComparison(options = {}) {
     options.applicantGroupIds,
     options.applicantContext
   );
+  const publicBenchmarkLabel = comparison.comparison_type === 'ranking_only'
+    ? null
+    : publicUcatComparisonPhrase(comparison);
+  const publicCaveat = comparison.comparison_type === 'ranking_only'
+    ? null
+    : publicComparisonCaveat(comparison);
 
   return {
     comparison_type: comparison.comparison_type,
     applicant_ucat: Number.isFinite(applicantUcat) ? applicantUcat : null,
     benchmark_min: comparison.benchmark_min,
     benchmark_max: comparison.benchmark_max,
-    benchmark_label: comparison.benchmark_label || null,
-    caveat: comparison.caveat || null,
+    benchmark_label: publicBenchmarkLabel,
+    caveat: publicCaveat,
     difference_from_benchmark: differenceFromBenchmark,
     position,
     applicant_pool: options.applicantPool ||
@@ -2560,64 +2463,11 @@ function ucatComparisonRecommendationText(comparison) {
       : 'You meet the published UCAT minimum.';
   }
 
-  const comparator = ucatComparisonDisplayName(comparison);
-  const position = { above: 'above', within: 'within', below: 'below' }[comparison.position] || 'against';
-  return `You meet the academic requirements. Your UCAT is ${position} the ${comparator} for applicants in your group.`;
+  return standardUcatComparisonSentence(comparison);
 }
 
 function officialPredictionInstitutionName(context = {}) {
-  const profileId =
-    context.course_identity?.profile_id ||
-    context.profile_id ||
-    context.course_profile_id ||
-    context.score_model?.course_profile_id ||
-    '';
-  if (profileId === 'kent-and-medway-a100') {
-    return 'KMMS';
-  }
   return context.course_identity?.university_name || context.university_name || 'the university';
-}
-
-// When the official university prediction is unavailable, the headline
-// must still show the canonical public label for the calculated band (see
-// CANONICAL_BAND_LABELS) - the fact that this is ApplySmart advisory
-// guidance rather than an official prediction is conveyed separately via
-// primary_explanation/trust_statement, never by swapping in an alternate
-// "Interview Potential" wording family for the label itself.
-function officialPredictionUnavailableHeadline(interviewBand) {
-  return CANONICAL_BAND_LABELS[interviewBand] || 'ApplySmart Analysis Available';
-}
-
-function officialPredictionUnavailableExplanation(context = {}) {
-  const comparison = context.ucat_comparison;
-  const institution = officialPredictionInstitutionName(context);
-  const eligibilitySentence =
-    `Based on the official ${institution} entry requirements and the applicant information provided, you meet the supported entry requirements.`;
-  const analysisSentence =
-    `ApplySmart has analysed your profile against ${institution}'s available selection information and admissions evidence.`;
-  const limitationSentence =
-    `Use this as interview competitiveness guidance alongside ${institution}'s published admissions policy; it is not a guarantee of interview.`;
-
-  if (comparison?.comparison_type === 'historical_range' && Number.isFinite(comparison.applicant_ucat)) {
-    const comparisonName = ucatComparisonDisplayName(comparison);
-    const benchmarkText = Number.isFinite(comparison.benchmark_min) && Number.isFinite(comparison.benchmark_max)
-      ? `the ${comparisonName} of ${comparison.benchmark_min}-${comparison.benchmark_max}`
-      : `the ${comparisonName}`;
-    const position = { above: 'above', within: 'within', below: 'below' }[comparison.position] || 'against';
-    const interpretation =
-      comparison.position === 'above'
-        ? 'indicating a competitive applicant profile'
-        : comparison.position === 'within'
-          ? 'indicating a competitive applicant profile when considered alongside the full published criteria'
-          : 'indicating a more cautious ApplySmart recommendation';
-    return `${eligibilitySentence} ${analysisSentence} Your UCAT score of ${comparison.applicant_ucat} is ${position} ${benchmarkText}, ${interpretation}. ${limitationSentence}`;
-  }
-
-  if (comparison) {
-    return `${eligibilitySentence} ${analysisSentence} ${ucatComparisonRecommendationText(comparison)} ${limitationSentence}`;
-  }
-
-  return `${eligibilitySentence} ${analysisSentence} ${limitationSentence}`;
 }
 
 function officialPredictionUnavailableSelectionSummary(context = {}) {
@@ -2636,20 +2486,6 @@ function isUcatRankingContext(context = {}) {
       !rankingHasComponents
     )
   );
-}
-
-function ucatRankingExplanation(interviewBand, context = {}) {
-  const recommendation = UCAT_RANKING_RECOMMENDATIONS[interviewBand];
-  const comparisonText = ucatComparisonRecommendationText(context.ucat_comparison);
-  const configuredExplanation =
-    context.guidance_pool?.presentation?.ucat_band_explanations?.[interviewBand] ||
-    context.score_model?.presentation?.ucat_band_explanations?.[interviewBand];
-
-  if (!recommendation) {
-    return configuredExplanation || comparisonText;
-  }
-
-  return configuredExplanation || comparisonText;
 }
 
 function completedCardScoreBreakdown(card, transparency) {
@@ -2729,8 +2565,6 @@ function decisionState(card, options = {}) {
 
 function buildDecisionTimeline(card, options = {}) {
   const state = decisionState(card, options);
-  const profileId = getProfileId(card);
-  const university = UNIVERSITY_EXPLANATIONS[profileId] || {};
   const presentation = configuredPresentation(card, options);
   const eligibilityStatus =
     state === 'not_eligible'
@@ -2763,9 +2597,7 @@ function buildDecisionTimeline(card, options = {}) {
   const selectionSummary =
     options.selectionApproachDisplay ||
     presentation.timeline_selection_summary ||
-    TIMELINE_SELECTION_SUMMARIES[profileId] ||
     presentation.selection_summary ||
-    university.selectionSummary ||
     studentFacingText(card.stage_2_selection?.summary) ||
     officialPredictionSelectionSummary ||
     (officialPredictionReason ? `Official prediction unavailable. ${officialPredictionReason}` : null) ||
@@ -2790,14 +2622,13 @@ function buildDecisionTimeline(card, options = {}) {
     ['current_guidance', 'historical_range', 'historical_threshold', 'historical_average'].includes(options.ucatComparison?.comparison_type)
       ? ucatComparisonAssessmentText(options.ucatComparison)
       : null;
-  const historicalPresentationSummary =
-    presentation.historical_summary ||
-    (profileId === 'king-s-college-london-a100'
-      ? card.decision_transparency?.decision_path?.find((stage) => stage.stage === 'Historical guidance')?.summary
-      : null);
+  const historicalPresentationSummary = presentation.historical_summary || null;
   const existingHistoricalTimelineSummary = card.decision_timeline
     ?.find((step) => step.step === 4 && step.title === 'Historical guidance compared')
     ?.summary;
+  const reusableHistoricalTimelineSummary = /compares favourably/i.test(String(existingHistoricalTimelineSummary || ''))
+    ? null
+    : existingHistoricalTimelineSummary;
   const insufficientEvidenceReasonCode = options.insufficientEvidenceReasonCode ||
     card.decision_transparency?.insufficient_evidence_reason_code ||
     null;
@@ -2838,7 +2669,7 @@ function buildDecisionTimeline(card, options = {}) {
               : 'Not applied',
       summary:
         state === 'eligibility_only'
-          ? selectionSummary
+          ? ELIGIBILITY_ONLY_SELECTION_SUMMARY
           : state === 'standard'
           ? existingSelectionTimelineSummary || selectionSummary
           : state === 'manual_review'
@@ -2860,11 +2691,10 @@ function buildDecisionTimeline(card, options = {}) {
             : 'Not applied',
       summary:
         state === 'eligibility_only'
-          ? existingHistoricalTimelineSummary ||
-            historicalSummary(card, state, { selectionScoreComparison, ucatComparison: options.ucatComparison })
+          ? historicalSummary(card, state, { selectionScoreComparison, ucatComparison: options.ucatComparison })
           : state === 'standard'
-          ? (existingHistoricalTimelineSummary || historicalPresentationSummary)
-            ? (existingHistoricalTimelineSummary || historicalPresentationSummary)
+          ? (reusableHistoricalTimelineSummary || historicalPresentationSummary)
+            ? (reusableHistoricalTimelineSummary || historicalPresentationSummary)
             : selectionScoreText
             ? `${selectionScoreText} It was compared with historical admissions data. ${HISTORICAL_GUIDANCE_CAVEAT}`
             : ucatComparisonText
@@ -2911,21 +2741,14 @@ function buildDecisionTransparency(card, options = {}) {
     }
   }
 
-  const profileId = getProfileId(card);
-  const university = UNIVERSITY_EXPLANATIONS[profileId] || {};
   const presentation = configuredPresentation(card, options);
   const state = decisionState(card, options);
   const notEligible = state === 'not_eligible';
-  // A guaranteed-interview override (e.g. Birmingham UKWPMED) resolves to a
-  // distinct guidance pool from the university's default static pool label -
-  // showing the default label here would misleadingly suggest the standard
-  // scored pool applied when it didn't.
   const pool = options.interviewOutcome === 'guaranteed_interview'
     ? 'Guaranteed-interview verified applicants'
     : options.applicantPool ||
       humanApplicantPoolLabel(options.applicantGroupIds, options.applicantContext) ||
       presentation.pool_label ||
-      university.pool ||
       'The applicant group matching the supplied fee status and entry route';
   const eligibilitySummary = studentFacingText(
     options.eligibilitySummary ||
@@ -2966,7 +2789,6 @@ function buildDecisionTransparency(card, options = {}) {
   const selectionSummary =
     options.selectionApproachDisplay ||
     presentation.selection_summary ||
-    university.selectionSummary ||
     card.stage_2_selection?.summary ||
     'The university selection approach is applied after eligibility checks.';
   const guaranteedInterview = options.interviewOutcome === 'guaranteed_interview';
@@ -2994,8 +2816,8 @@ function buildDecisionTransparency(card, options = {}) {
       )]
         : state === 'eligibility_only'
           ? [
-            check('Selection approach', 'Not predicted', selectionSummary),
-            check('Interview prediction', 'Unavailable', 'ApplySmart does not estimate digital MMA or MMI progression for this course.')
+            check('Selection approach', 'Not predicted', ELIGIBILITY_ONLY_SELECTION_SUMMARY),
+            check('Interview prediction', 'Unavailable', ELIGIBILITY_ONLY_SELECTION_SUMMARY)
           ]
         : state !== 'standard'
           ? [check('Selection approach', 'Not applied', selectionSummary)]
@@ -3007,7 +2829,7 @@ function buildDecisionTransparency(card, options = {}) {
             ? buildRankingEvidence({ ...options, selectionSummary, ucatComparison })
             : [check('Selection approach', 'Assessed', selectionSummary)]),
     ...(selectionScoreComparison && state === 'standard'
-      ? [selectionScoreThresholdComparisonCheck(selectionScoreComparison, { profileId })]
+      ? [selectionScoreThresholdComparisonCheck(selectionScoreComparison)]
       : [])
   ];
   const evidenceConfidence = buildEvidenceConfidence(card, options);
@@ -3020,9 +2842,7 @@ function buildDecisionTransparency(card, options = {}) {
   });
   const compactStatus = buildCompactStatus({
     state,
-    selectionMetric,
-    insufficientEvidenceReasonCode,
-    predictionAvailable: card.prediction?.available !== false
+    eligibilityStatus: card.eligibility?.status
   });
   const comparisonMetrics = buildComparisonMetrics({
     state,
@@ -3059,7 +2879,7 @@ function buildDecisionTransparency(card, options = {}) {
               : 'Not applied',
         summary:
           state === 'eligibility_only'
-            ? selectionSummary
+            ? ELIGIBILITY_ONLY_SELECTION_SUMMARY
             : state === 'standard'
             ? selectionSummary
             : state === 'manual_review'
@@ -3089,7 +2909,7 @@ function buildDecisionTransparency(card, options = {}) {
             ? historicalAdmissionsChecks(options.historicalAdmissions, options.applicantGroupIds)
             : []),
           state === 'eligibility_only'
-            ? check('Interview prediction', 'Unavailable', 'No UCAT ranking, interview cut-off, MMA threshold or MMI progression estimate is applied.')
+            ? check('Interview prediction', 'Unavailable', ELIGIBILITY_ONLY_SELECTION_SUMMARY)
             : check('Important limitation', 'Guidance only', HISTORICAL_GUIDANCE_CAVEAT)
         ]
       },
@@ -3105,7 +2925,11 @@ function buildDecisionTransparency(card, options = {}) {
               : state === 'not_eligible'
                 ? 'Not eligible'
                 : 'Insufficient evidence',
-        summary: recommendationSummary(card, state, { selectionScoreComparison }),
+	        summary: recommendationSummary(card, state, {
+	          selectionScoreComparison,
+	          ucatComparison,
+	          context: options.applicantContext
+	        }),
         checks: []
       }
     ],
@@ -3118,7 +2942,7 @@ function buildDecisionTransparency(card, options = {}) {
             ? [
               eligibilitySummary,
               'UCAT is not required or ranked for this course.',
-              'Interview prediction is unavailable because the MMA/MMI progression thresholds are not published.'
+              ELIGIBILITY_ONLY_SELECTION_SUMMARY
             ]
           : state === 'insufficient_evidence'
             ? [insufficientEvidenceReason, 'A confident recommendation is not shown.']
@@ -3130,13 +2954,11 @@ function buildDecisionTransparency(card, options = {}) {
                 ? selectionScoreThresholdText(selectionScoreComparison)
                 : scoreBreakdown && Number.isFinite(scoreBreakdown.value)
                   ? `${scoreBreakdown.name} is ${scoreBreakdown.value}${Number.isFinite(scoreBreakdown.max) ? ` out of ${scoreBreakdown.max}` : ''}.`
-                : ucatComparison
-                  ? ucatComparisonRecommendationText(ucatComparison)
-                  : presentation.selection_summary ||
-                    university.selectionSummary ||
-                    'The recommendation is based on historical interview guidance.'
-            ],
-    evidence_used: options.evidenceUsed || presentation.evidence_used || university.evidence || (state === 'eligibility_only' ? EVIDENCE.eligibilityOnly : EVIDENCE.standard),
+	                : ucatComparison
+	                  ? ucatComparisonRecommendationText(ucatComparison)
+	                  : selectionSummary
+	            ],
+	    evidence_used: options.evidenceUsed || presentation.evidence_used || (state === 'eligibility_only' ? EVIDENCE.eligibilityOnly : EVIDENCE.standard),
     evidence_confidence: evidenceConfidence,
     // Public result cards only expose applicant-facing checks/reasons above.
     // Raw classifier/readiness warnings remain available at their source
@@ -3203,70 +3025,41 @@ function presentResultCard({
 	      scoreModel: transparencyContext.score_model
 	    })
     : null;
-  const selectionScoreComparison = hideSelectionScoreDetails(presentation)
-    ? null
-    : selectionScoreThresholdComparison({
-      guidancePool: transparencyContext.guidance_pool,
-      ranking: transparencyContext.ranking,
-      scoreModel: transparencyContext.score_model
-    });
-  const selectionScoreText = selectionScoreThresholdText(selectionScoreComparison);
-  const feeInformation = publicFeeInformation(
-    transparencyContext.fee_information,
-    transparencyContext.applicant_group_ids
-  );
-  const officialPrediction = transparencyContext.official_prediction || null;
-  const officialPredictionUnavailable = officialPrediction?.available === false;
-  const reasonScopedInsufficientRecommendation = reasonScopedPresentationValue(
-    presentation,
-    'insufficient_evidence_recommendations',
-    insufficientEvidenceReasonCode
-  );
-  const reasonScopedInsufficientExplanation = insufficientEvidenceReason ||
-    reasonScopedPresentationValue(
-      presentation,
-      'insufficient_evidence_reason_messages',
-      insufficientEvidenceReasonCode
-    );
-
-  if (guaranteedInterview) {
-    // A guaranteed-interview override (e.g. Birmingham UKWPMED) means every
-    // published condition for this route has already been verified as met -
-    // this is categorically different from a scored/ranked recommendation
-    // and must not fall through to the generic insufficient_evidence
-    // messaging just because interviewBand is null for this route.
+	  const selectionScoreComparison = hideSelectionScoreDetails(presentation)
+	    ? null
+	    : selectionScoreThresholdComparison({
+	      guidancePool: transparencyContext.guidance_pool,
+	      ranking: transparencyContext.ranking,
+	      scoreModel: transparencyContext.score_model
+	    });
+	  const feeInformation = publicFeeInformation(
+	    transparencyContext.fee_information,
+	    transparencyContext.applicant_group_ids
+	  );
+	  const officialPrediction = transparencyContext.official_prediction || null;
+	  const officialPredictionUnavailable = officialPrediction?.available === false;
+	  if (guaranteedInterview) {
     display = {
-      primary_user_facing_recommendation: 'Interview guaranteed under this university’s published criteria',
+      primary_user_facing_recommendation: STANDARD_RECOMMENDATION_HEADLINES.guaranteed_interview,
       recommendation_display_state: 'standard',
       primary_explanation:
-        transparencyContext.guaranteed_interview_explanation ||
-        'The applicant qualifies under a verified published guaranteed-interview policy. All mandatory academic, admissions-test and programme-specific conditions must still be satisfied. This applies to interview invitation only, not an offer.',
+        "Based on ApplySmart's assessment, this applicant group meets the published guaranteed-interview evidence available for this route.",
       historical_guidance_caveat: null
     };
   } else if (eligibilityStatus === 'not_eligible' || interviewBand === 'not_eligible') {
     display = {
-      primary_user_facing_recommendation:
-        presentation.not_eligible_recommendation
-          ? presentation.not_eligible_recommendation
-          : eligibilityOnly
-          ? 'Not Currently Eligible'
-          : 'You do not currently meet the published entry requirements',
+      primary_user_facing_recommendation: STANDARD_RECOMMENDATION_HEADLINES.not_eligible,
       recommendation_display_state: 'not_eligible',
       primary_explanation:
-        presentation.not_eligible_explanation ||
         'Based on the information entered, one or more supported entry requirements are not met.',
       historical_guidance_caveat: null
     };
   } else if (manualReviewRequired || eligibilityStatus === 'manual_review') {
     display = {
-      primary_user_facing_recommendation: eligibilityOnly
-        ? 'Eligibility Requires Review'
-        : 'Needs adviser review',
+      primary_user_facing_recommendation: STANDARD_RECOMMENDATION_HEADLINES.manual_review,
       recommendation_display_state: 'manual_review',
       primary_explanation:
-        eligibilityOnly
-          ? 'An adviser needs to review this applicant route or evidence before eligibility can be confirmed.'
-          : 'We need more information to confirm your eligibility before showing interview guidance.',
+        'ApplySmart needs additional applicant information before it can provide a complete recommendation for this applicant group.',
       historical_guidance_caveat: null
     };
   } else if (
@@ -3274,81 +3067,48 @@ function presentResultCard({
     interviewBand === 'insufficient_evidence'
   ) {
     display = {
-      primary_user_facing_recommendation:
-        reasonScopedInsufficientRecommendation ||
-        presentation.insufficient_evidence_recommendation ||
-        'Evidence not yet available',
+      primary_user_facing_recommendation: STANDARD_RECOMMENDATION_HEADLINES.insufficient_evidence,
       recommendation_display_state: 'insufficient_evidence',
       primary_explanation:
-        reasonScopedInsufficientExplanation ||
-        presentation.insufficient_evidence_explanation ||
-        'Your academic profile meets the published requirements. ApplySmart cannot fully position this application because verified historical interview data for this applicant group is currently limited.',
+        'ApplySmart needs additional applicant information before it can provide a complete recommendation for this applicant group.',
       historical_guidance_caveat: null
     };
   } else if (eligibilityOnly && eligibilityStatus === 'eligible') {
     display = {
-      primary_user_facing_recommendation:
-        presentation.eligible_to_apply_recommendation || 'Eligible to Apply',
+      primary_user_facing_recommendation: STANDARD_RECOMMENDATION_HEADLINES.eligible_to_apply,
       recommendation_display_state: 'eligibility_only',
       primary_explanation:
-        presentation.eligible_to_apply_explanation ||
-        'You meet the supported academic entry requirements. ApplySmart does not predict digital MMA or MMI progression for this course.',
+        'ApplySmart has confirmed your eligibility against the entry requirements currently supported for this applicant group.',
       historical_guidance_caveat: null
     };
 	  } else {
 	    const recommendation = ucatRanking
 	      ? UCAT_RANKING_RECOMMENDATIONS[interviewBand]
 	      : STANDARD_RECOMMENDATIONS[interviewBand];
-	    const configuredRecommendation =
-	      transparencyContext.score_model?.presentation?.band_recommendations?.[interviewBand] ||
-	      transparencyContext.guidance_pool?.presentation?.band_recommendations?.[interviewBand] ||
-	      transparencyContext.score_model?.presentation?.ucat_band_recommendations?.[interviewBand] ||
-	      transparencyContext.guidance_pool?.presentation?.ucat_band_recommendations?.[interviewBand];
-	    const configuredHeadline =
-	      transparencyContext.score_model?.presentation?.band_headlines?.[interviewBand] ||
-	      transparencyContext.guidance_pool?.presentation?.band_headlines?.[interviewBand] ||
-	      transparencyContext.score_model?.presentation?.ucat_band_headlines?.[interviewBand] ||
-	      transparencyContext.guidance_pool?.presentation?.ucat_band_headlines?.[interviewBand];
-	    const configuredExplanation =
-	      transparencyContext.score_model?.presentation?.band_explanations?.[interviewBand] ||
-	      transparencyContext.guidance_pool?.presentation?.band_explanations?.[interviewBand];
-	    const officialUnavailableContext = officialPredictionUnavailable
-	      ? {
-	        ...transparencyContext,
-	        ucat_comparison: ucatComparison
-	      }
-	      : null;
-	    const officialUnavailableHeadline = officialUnavailableContext
-	      ? officialPredictionUnavailableHeadline(interviewBand)
-	      : null;
-	    const officialUnavailableExplanation = officialUnavailableContext
-	      ? officialPredictionUnavailableExplanation(officialUnavailableContext)
-	      : null;
+	    const standardExplanation = standardRecommendationExplanation(interviewBand, {
+	      ucatComparison,
+	      selectionScoreComparison,
+	      context: transparencyContext
+	    });
 	    display = recommendation
 	      ? {
-	        primary_user_facing_recommendation:
-	          officialUnavailableHeadline || configuredHeadline || recommendation.headline,
+	        primary_user_facing_recommendation: recommendation.headline,
 	        recommendation_display_state: 'standard',
-	        internal_recommendation: configuredRecommendation || recommendation.recommendation,
-        primary_explanation: officialUnavailableExplanation || configuredExplanation || (ucatRanking
-		          ? ucatRankingExplanation(interviewBand, {
-	            ...transparencyContext,
-	            ucat_comparison: ucatComparison
-	          })
-	          : selectionScoreText || calculatedScoreExplanation(transparencyContext) || recommendation.explanation),
-        trust_statement: presentation.trust_statement || (officialPredictionUnavailable
-          ? OFFICIAL_UNAVAILABLE_TRUST_STATEMENT
-          : null),
-        historical_guidance_caveat: HISTORICAL_GUIDANCE_CAVEAT
-      }
-      : {
-        primary_user_facing_recommendation: 'Evidence not yet available',
-        recommendation_display_state: 'insufficient_evidence',
-        primary_explanation:
-          'Your academic profile meets the published requirements. ApplySmart cannot fully position this application because verified historical interview data for this applicant group is currently limited.',
-        historical_guidance_caveat: null
-      };
-  }
+	        internal_recommendation: recommendation.recommendation,
+	        primary_explanation: standardExplanation,
+	        trust_statement: presentation.trust_statement || (officialPredictionUnavailable
+	          ? OFFICIAL_UNAVAILABLE_TRUST_STATEMENT
+	          : null),
+	        historical_guidance_caveat: HISTORICAL_GUIDANCE_CAVEAT
+	      }
+	      : {
+	        primary_user_facing_recommendation: STANDARD_RECOMMENDATION_HEADLINES.insufficient_evidence,
+	        recommendation_display_state: 'insufficient_evidence',
+	        primary_explanation:
+	          'Your academic profile meets the published requirements. ApplySmart cannot fully position this application because verified historical interview data for this applicant group is currently limited.',
+	        historical_guidance_caveat: null
+	      };
+	  }
 
   const transparencyCard = {
     ...transparencyContext,

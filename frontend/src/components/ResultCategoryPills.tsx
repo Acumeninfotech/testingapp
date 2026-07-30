@@ -1,31 +1,34 @@
-import { CATEGORY_LABELS, CATEGORY_PRIORITY, type ResultCategory } from '../lib/resultPresenter';
+import {
+  FILTER_GROUP_LABELS,
+  FILTER_GROUP_PRIORITY,
+  type ResultFilterGroup,
+  type ResultFilterKey,
+} from '../lib/resultPresenter';
 
-export type PillKey = ResultCategory | 'all' | 'shortlist';
+export type PillKey = ResultFilterKey;
 
 export interface ResultCategoryPillsProps {
-  counts: Record<ResultCategory, number>;
+  counts: Record<ResultFilterGroup, number>;
   totalCount: number;
-  shortlistCount: number;
   active: PillKey;
   onChange: (key: PillKey) => void;
 }
 
-export function ResultCategoryPills({ counts, totalCount, shortlistCount, active, onChange }: ResultCategoryPillsProps) {
+export function ResultCategoryPills({ counts, totalCount, active, onChange }: ResultCategoryPillsProps) {
   return (
     <div className="result-category-pills" role="tablist" aria-label="Filter results by category">
-      {CATEGORY_PRIORITY.map((category) => {
-        const count = counts[category] || 0;
-        if (count === 0) return null;
+      {FILTER_GROUP_PRIORITY.map((group) => {
+        const count = counts[group] || 0;
         return (
           <button
-            key={category}
+            key={group}
             type="button"
             role="tab"
-            aria-selected={active === category}
-            className={`result-category-pill${active === category ? ' result-category-pill--active' : ''}`}
-            onClick={() => onChange(category)}
+            aria-selected={active === group}
+            className={`result-category-pill${active === group ? ' result-category-pill--active' : ''}`}
+            onClick={() => onChange(group)}
           >
-            {CATEGORY_LABELS[category]} ({count})
+            {FILTER_GROUP_LABELS[group]} ({count})
           </button>
         );
       })}
@@ -38,17 +41,6 @@ export function ResultCategoryPills({ counts, totalCount, shortlistCount, active
       >
         All Results ({totalCount})
       </button>
-      {shortlistCount > 0 && (
-        <button
-          type="button"
-          role="tab"
-          aria-selected={active === 'shortlist'}
-          className={`result-category-pill result-category-pill--shortlist${active === 'shortlist' ? ' result-category-pill--active' : ''}`}
-          onClick={() => onChange('shortlist')}
-        >
-          My Shortlist ({shortlistCount})
-        </button>
-      )}
     </div>
   );
 }

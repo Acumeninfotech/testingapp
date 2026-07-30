@@ -534,13 +534,13 @@
     "current_cycle_cutoff_success": null,
     "warnings": [
       "The realistic band is historical international competitiveness guidance, not an official St Andrews classification or cut-off.",
-      "No live 2027 cut-off, applicant rank or probability is calculated.",
+      "No live cut-off, applicant rank or probability is calculated.",
       "Fee-status management does not establish an explicitly published separate international ranking pool.",
       "The example depends on manual confirmation of non-executable eligibility hurdles.",
       "Contextual/WP applicants receive a ranking-only 10% UCAT uplift but have no interview band because the contextual threshold and interview-stage UCAT evidence are not published; no threshold is inferred."
     ],
     "missing_data_reasons": [
-      "The live 2027 UCAT rank boundary is unknown.",
+      "The live UCAT rank boundary is unknown.",
       "The official applicant ranking-pool structure is unpublished.",
       "Current applicant score distributions are unavailable.",
       "WP uplift rounding and cap behaviour are unknown.",
@@ -611,7 +611,7 @@
       "official_historical": "Verified international lowest-invited UCAT values on the 2700 scale and contextual offer counts.",
       "derived_for_prediction": "Historical international competitiveness bands used for low-confidence guidance.",
       "manual_execution": "Conditional qualification, timing, reference and work-experience hurdles confirmed for the representative example but not executed by the engine.",
-      "unknown": "Live rank boundary, exact pool mechanics, current-scale official statistics, MMI scoring details and executable route-aware offer method."
+      "unknown": "Live rank boundary, exact pool mechanics, official statistics, MMI scoring details and executable route-aware offer method."
     },
     "methodology_id": "historical_normalised_prediction_methodology_v1_0",
     "official_values_overwritten": false,
@@ -632,11 +632,11 @@
     ]
   },
   "display": {
-    "headline": "Realistic — low-confidence guidance",
+    "headline": "Possible choice for your application",
     "subheadline": "International historical guidance; low confidence",
-    "primary_user_facing_recommendation": "Good chance based on historical data",
+    "primary_user_facing_recommendation": "Possible choice for your application",
     "recommendation_display_state": "standard",
-    "primary_explanation": "The represented international applicant has manually confirmed the academic, reference and required work-experience hurdles and is ranked by UCAT Global Score only.",
+    "primary_explanation": "Based on ApplySmart's assessment, your academic profile may be competitive for this applicant group.",
     "historical_guidance_caveat": "Interview thresholds may change each admissions cycle depending on applicant competition and interview capacity. Historical figures are guidance only, not a current cut-off, and do not guarantee an interview.",
     "badges": [
       "Restricted eligibility scope",
@@ -679,7 +679,7 @@
       "step": 5,
       "title": "Interview recommendation produced",
       "status": "Realistic Choice",
-      "summary": "Good chance based on historical data. Treat this as guidance for university choice, not a promised interview."
+      "summary": "Based on ApplySmart's assessment, your academic profile may be competitive for this applicant group. Treat this as guidance for university choice, not a promised interview."
     }
   ],
   "decision_transparency": {
@@ -714,71 +714,64 @@
       {
         "stage": "Selection model",
         "status": "Assessed",
-        "summary": "St Andrews checks academic, reference and relevant-experience hurdles first, then ranks eligible applicants by UCAT Global Score.",
+        "summary": "International applicants who pass the academic, reference and required work-experience hurdles are ranked by UCAT Global Score only. UCAT 1970 maps to the realistic historical competitiveness band; this is not an official cut-off or current threshold.",
         "checks": [
           {
             "label": "Applicant pool",
             "status": "Used",
-            "summary": "International applicants for historical guidance"
+            "summary": "The applicant group matching the supplied fee status and entry route"
           },
           {
-            "label": "Hurdle checks",
-            "status": "Confirmed",
-            "summary": "Academic, reference and relevant medically related experience requirements are confirmed for this example."
+            "label": "UCAT total entered",
+            "status": "Used for ranking",
+            "summary": "1970 out of [object Object]."
           },
           {
-            "label": "UCAT ranking",
-            "status": "Counted",
-            "summary": "UCAT Global Score 1970 is the sole pre-interview ranking score after the hurdles."
+            "label": "SJT band",
+            "status": "On file",
+            "summary": "Band 2."
           },
           {
-            "label": "Contextual uplift",
-            "status": "Not applicable",
-            "summary": "Eligible widening-participation applicants receive a 10% UCAT uplift for ranking; this non-contextual applicant does not."
-          },
-          {
-            "label": "Published cut-off",
-            "status": "Not available",
-            "summary": "St Andrews does not publish a fixed UCAT cut-off in advance."
+            "label": "Selection approach",
+            "status": "Ranking/cut-off based",
+            "summary": "International applicants who pass the academic, reference and required work-experience hurdles are ranked by UCAT Global Score only. UCAT 1970 maps to the realistic historical competitiveness band; this is not an official cut-off or current threshold."
           }
         ]
       },
       {
         "stage": "Historical guidance",
         "status": "Guidance available",
-        "summary": "The applicant's result is within the historical interview range used for this applicant group. Interview thresholds may change each admissions cycle depending on applicant competition and interview capacity. Historical figures are guidance only, not a current cut-off, and do not guarantee an interview.",
+        "summary": "The result was assessed using the available admissions evidence for this applicant group. Historical admissions data provides a benchmark only; it is not a current cut-off or a guarantee of interview.",
         "checks": [
           {
             "label": "Applicant pool",
             "status": "Used",
-            "summary": "International applicants for historical guidance"
+            "summary": "The applicant group matching the supplied fee status and entry route"
           },
           {
             "label": "Important limitation",
             "status": "Guidance only",
-            "summary": "Interview thresholds may change each admissions cycle depending on applicant competition and interview capacity. Historical figures are guidance only, not a current cut-off, and do not guarantee an interview."
+            "summary": "Historical admissions data provides a benchmark only; it is not a current cut-off or a guarantee of interview."
           }
         ]
       },
       {
         "stage": "Recommendation",
         "status": "Guidance only",
-        "summary": "Good chance based on historical data. Treat this as guidance for university choice, not a promised interview.",
+        "summary": "Based on ApplySmart's assessment, your academic profile may be competitive for this applicant group. Treat this as guidance for university choice, not a promised interview.",
         "checks": []
       }
     ],
     "key_reasons": [
-      "The required hurdles are manually confirmed for this restricted example.",
-      "UCAT Global Score 1970 is used for ranking after the hurdles.",
-      "The score is within the available international historical interview range."
+      "The represented applicant passes the executable core A-level and UCAT-presence checks and explicitly confirms the non-executable hurdles required for this restricted example. This is not a complete automated St Andrews eligibility determination.",
+      "The result uses The applicant group matching the supplied fee status and entry route.",
+      "International applicants who pass the academic, reference and required work-experience hurdles are ranked by UCAT Global Score only. UCAT 1970 maps to the realistic historical competitiveness band; this is not an official cut-off or current threshold."
     ],
     "evidence_used": [
       "Official admissions policy",
       "University selection methodology",
       "UCAT policy",
-      "Historical interview data",
-      "Contextual admissions policy",
-      "International admissions policy"
+      "Historical interview data"
     ],
     "evidence_confidence": {
       "level": "Medium",
@@ -789,9 +782,21 @@
         "Historical interview guidance is available, but some evidence is historical, FOI-derived or has documented gaps."
       ]
     },
+    "warnings": [],
     "manual_review_reason": null,
     "insufficient_evidence_reason": null,
-    "warnings": []
+    "insufficient_evidence_reason_code": null,
+    "compact_status": {
+      "label": "You meet the academic requirements.",
+      "type": "academic_status",
+      "tone": "positive"
+    },
+    "comparison_metrics_title": null,
+    "comparison_metrics": [],
+    "selection_approach_display": null,
+    "selection_metric": null,
+    "score_breakdown": null,
+    "ucat_comparison": null
   },
   "engine_notes": {
     "generated_from_profile_id": "st-andrews-a100",
@@ -869,5 +874,10 @@
       "standrews_ucat_policy",
       "standrews_verified_international_contextual_update_2026_07_02"
     ]
-  }
+  },
+  "primary_user_facing_recommendation": "Possible choice for your application",
+  "primary_explanation": "Based on ApplySmart's assessment, your academic profile may be competitive for this applicant group.",
+  "recommendation_display_state": "standard",
+  "trust_statement": null,
+  "historical_guidance_caveat": "Historical admissions data provides a benchmark only; it is not a current cut-off or a guarantee of interview."
 }

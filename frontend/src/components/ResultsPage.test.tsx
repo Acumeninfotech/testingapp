@@ -84,29 +84,28 @@ describe('ResultsPage', () => {
     window.sessionStorage.clear();
   });
 
-  it('shows correct category counts on the pills, with Ambitious Choice and High Risk as separate pills', () => {
+  it('shows exactly six simplified filter chips with aggregated counts', () => {
     render(<ResultsPage results={RESULTS} onStartOver={() => {}} />);
-    expect(screen.getByRole('tab', { name: 'Very Strong Choice (1)' })).toBeInTheDocument();
-    expect(screen.getByRole('tab', { name: 'Strong Choice (1)' })).toBeInTheDocument();
-    expect(screen.getByRole('tab', { name: 'Realistic Choice (1)' })).toBeInTheDocument();
-    expect(screen.getByRole('tab', { name: 'Ambitious Choice (1)' })).toBeInTheDocument();
-    expect(screen.getByRole('tab', { name: 'High Risk (1)' })).toBeInTheDocument();
-    expect(screen.getByRole('tab', { name: 'Eligibility Only (1)' })).toBeInTheDocument();
-    expect(screen.getByRole('tab', { name: 'Missing Information (1)' })).toBeInTheDocument();
-    expect(screen.getByRole('tab', { name: 'Not Eligible (1)' })).toBeInTheDocument();
+    expect(screen.getAllByRole('tab')).toHaveLength(6);
+    expect(screen.getByRole('tab', { name: '⭐ Recommended (2)' })).toBeInTheDocument();
+    expect(screen.getByRole('tab', { name: '🟡 Consider (2)' })).toBeInTheDocument();
+    expect(screen.getByRole('tab', { name: '⚠️ High Risk (1)' })).toBeInTheDocument();
+    expect(screen.getByRole('tab', { name: 'ℹ️ Information Needed (2)' })).toBeInTheDocument();
+    expect(screen.getByRole('tab', { name: '❌ Not Eligible (1)' })).toBeInTheDocument();
     expect(screen.getByRole('tab', { name: 'All Results (8)' })).toBeInTheDocument();
   });
 
-  it('initially selects the strongest populated category (Very Strong Choice)', () => {
+  it('initially selects the strongest populated filter group (Recommended)', () => {
     render(<ResultsPage results={RESULTS} onStartOver={() => {}} />);
-    expect(screen.getByRole('tab', { name: 'Very Strong Choice (1)' })).toHaveAttribute('aria-selected', 'true');
+    expect(screen.getByRole('tab', { name: '⭐ Recommended (2)' })).toHaveAttribute('aria-selected', 'true');
     expect(screen.getByText('University of Bristol')).toBeInTheDocument();
-    expect(screen.queryByText('Keele University')).not.toBeInTheDocument();
+    expect(screen.getByText('Keele University')).toBeInTheDocument();
+    expect(screen.queryByText('University of Exeter')).not.toBeInTheDocument();
   });
 
   it('filters results when a category pill is clicked', () => {
     render(<ResultsPage results={RESULTS} onStartOver={() => {}} />);
-    fireEvent.click(screen.getByRole('tab', { name: 'Not Eligible (1)' }));
+    fireEvent.click(screen.getByRole('tab', { name: '❌ Not Eligible (1)' }));
     expect(screen.getByText('Reject University')).toBeInTheDocument();
     expect(screen.queryByText('University of Bristol')).not.toBeInTheDocument();
   });
@@ -143,7 +142,7 @@ describe('ResultsPage', () => {
     render(<ResultsPage results={RESULTS} onStartOver={() => {}} />);
     fireEvent.click(screen.getByRole('tab', { name: 'All Results (8)' }));
     fireEvent.change(screen.getByLabelText('Search universities'), { target: { value: 'keele' } });
-    fireEvent.click(screen.getByRole('tab', { name: 'Very Strong Choice (1)' }));
+    fireEvent.click(screen.getByRole('tab', { name: '🟡 Consider (2)' }));
     expect(screen.queryByText('Keele University')).not.toBeInTheDocument();
     expect(screen.getByText('No universities match your current filters.')).toBeInTheDocument();
   });
@@ -168,7 +167,7 @@ describe('ResultsPage', () => {
     expect(headings).toEqual(sorted);
   });
 
-  it('best-match sort uses the approved category priority order: Very Strong Choice, Strong Choice, Realistic Choice, Ambitious Choice, High Risk, Eligibility Only, Missing Information, Not Eligible', () => {
+  it('best-match sort keeps the underlying recommendation priority order inside simplified filter groups', () => {
     render(<ResultsPage results={RESULTS} onStartOver={() => {}} />);
     fireEvent.click(screen.getByRole('tab', { name: 'All Results (8)' }));
     fireEvent.click(screen.getByRole('button', { name: 'Load More Universities' }));
@@ -200,8 +199,8 @@ describe('ResultsPage', () => {
     expect(screen.getAllByRole('heading', { level: 3 })).toHaveLength(6);
 
     fireEvent.click(screen.getByRole('button', { name: 'Load More Universities' }));
-    fireEvent.click(screen.getByRole('tab', { name: 'Strong Choice (1)' }));
-    expect(screen.getAllByRole('heading', { level: 3 })).toHaveLength(1);
+    fireEvent.click(screen.getByRole('tab', { name: '⭐ Recommended (2)' }));
+    expect(screen.getAllByRole('heading', { level: 3 })).toHaveLength(2);
     expect(screen.queryByRole('button', { name: 'Load More Universities' })).not.toBeInTheDocument();
   });
 
@@ -213,7 +212,7 @@ describe('ResultsPage', () => {
 
   it('expands and collapses a card when its details toggle is clicked', () => {
     render(<ResultsPage results={RESULTS} onStartOver={() => {}} />);
-    const toggle = screen.getByText('View details');
+    const toggle = screen.getAllByText('View details')[0];
     fireEvent.click(toggle);
     expect(screen.getByText('Hide details')).toBeInTheDocument();
     expect(screen.getByText('Checks')).toBeInTheDocument();
@@ -232,7 +231,7 @@ describe('ResultsPage', () => {
 
   it('adds and removes a university from the shortlist', () => {
     render(<ResultsPage results={RESULTS} onStartOver={() => {}} />);
-    const addButton = screen.getByText('Add to shortlist');
+    const addButton = screen.getAllByText('Add to shortlist')[0];
     fireEvent.click(addButton);
     expect(screen.getByText('Remove from shortlist')).toBeInTheDocument();
     expect(screen.getByText('1 / 4')).toBeInTheDocument();
@@ -256,14 +255,15 @@ describe('ResultsPage', () => {
     expect(screen.getByText('4 / 4')).toBeInTheDocument();
   });
 
-  it('shows a shortlist-only view via the My Shortlist pill', () => {
+  it('keeps shortlist actions available without adding an extra filter chip', () => {
     render(<ResultsPage results={RESULTS} onStartOver={() => {}} />);
     fireEvent.click(screen.getByRole('tab', { name: 'All Results (8)' }));
     const bristolCard = screen.getByText('University of Bristol').closest('.university-result-card');
     fireEvent.click(within(bristolCard as HTMLElement).getByText('Add to shortlist'));
-    fireEvent.click(screen.getByRole('tab', { name: 'My Shortlist (1)' }));
+    expect(screen.queryByRole('tab', { name: /My Shortlist/i })).not.toBeInTheDocument();
+    expect(screen.getAllByRole('tab')).toHaveLength(6);
     expect(screen.getByText('University of Bristol')).toBeInTheDocument();
-    expect(screen.queryByText('Keele University')).not.toBeInTheDocument();
+    expect(within(bristolCard as HTMLElement).getByText('Remove from shortlist')).toBeInTheDocument();
   });
 
   it('keeps shortlisted state after loading more results and filtering', () => {
@@ -279,9 +279,9 @@ describe('ResultsPage', () => {
     const filteredReviewCard = screen.getByText('Review University').closest('.university-result-card');
     expect(within(filteredReviewCard as HTMLElement).getByText('Remove from shortlist')).toBeInTheDocument();
 
-    fireEvent.click(screen.getByRole('tab', { name: 'My Shortlist (1)' }));
+    fireEvent.click(screen.getByRole('tab', { name: 'All Results (8)' }));
     expect(screen.getByText('Review University')).toBeInTheDocument();
-    expect(screen.queryByText('University of Bristol')).not.toBeInTheDocument();
+    expect(within(screen.getByText('Review University').closest('.university-result-card') as HTMLElement).getByText('Remove from shortlist')).toBeInTheDocument();
   });
 
   it('does not fall through Very Strong to a Verify/manual-review label', () => {
@@ -291,32 +291,34 @@ describe('ResultsPage', () => {
     expect(within(bristolCard as HTMLElement).queryByText('Verify')).not.toBeInTheDocument();
   });
 
-  it('keeps ambitious and high_risk universities in separate groups, each with its own approved label', () => {
+  it('groups Realistic and Ambitious under Consider while keeping High Risk separate', () => {
     render(<ResultsPage results={RESULTS} onStartOver={() => {}} />);
-    fireEvent.click(screen.getByRole('tab', { name: 'Ambitious Choice (1)' }));
+    fireEvent.click(screen.getByRole('tab', { name: '🟡 Consider (2)' }));
+    expect(screen.getByText('University of Exeter')).toBeInTheDocument();
     expect(screen.getByText('University of Lincoln')).toBeInTheDocument();
     expect(screen.queryByText('Aston University')).not.toBeInTheDocument();
     const lincolnCard = screen.getByText('University of Lincoln').closest('.university-result-card');
     expect(within(lincolnCard as HTMLElement).getByText('Ambitious Choice')).toBeInTheDocument();
 
-    fireEvent.click(screen.getByRole('tab', { name: 'High Risk (1)' }));
+    fireEvent.click(screen.getByRole('tab', { name: '⚠️ High Risk (1)' }));
     expect(screen.getByText('Aston University')).toBeInTheDocument();
     expect(screen.queryByText('University of Lincoln')).not.toBeInTheDocument();
     const astonCard = screen.getByText('Aston University').closest('.university-result-card');
     expect(within(astonCard as HTMLElement).getByText('High Risk')).toBeInTheDocument();
   });
 
-  it('keeps eligibility-only universities out of the standard interview-tier categories', () => {
+  it('groups eligibility-only and unresolved universities under Information Needed without changing card badges', () => {
     render(<ResultsPage results={RESULTS} onStartOver={() => {}} />);
-    fireEvent.click(screen.getByRole('tab', { name: 'Eligibility Only (1)' }));
+    fireEvent.click(screen.getByRole('tab', { name: 'ℹ️ Information Needed (2)' }));
     expect(screen.getByText('University of Buckingham')).toBeInTheDocument();
+    expect(screen.getByText('Review University')).toBeInTheDocument();
     const buckinghamCard = screen.getByText('University of Buckingham').closest('.university-result-card');
     expect(within(buckinghamCard as HTMLElement).getByText('Eligible to Apply')).toBeInTheDocument();
   });
 
   it('keeps manual-review results clearly identified', () => {
     render(<ResultsPage results={RESULTS} onStartOver={() => {}} />);
-    fireEvent.click(screen.getByRole('tab', { name: 'Missing Information (1)' }));
+    fireEvent.click(screen.getByRole('tab', { name: 'ℹ️ Information Needed (2)' }));
     const reviewCard = screen.getByText('Review University').closest('.university-result-card');
     expect(within(reviewCard as HTMLElement).getByText('Needs Review')).toBeInTheDocument();
   });
@@ -325,7 +327,11 @@ describe('ResultsPage', () => {
     render(<ResultsPage results={RESULTS} onStartOver={() => {}} />);
     fireEvent.click(screen.getAllByText('View details')[0]);
     expect(screen.getByText('Checks')).toBeInTheDocument();
-    expect(screen.getAllByText('Example explanation for this university.').length).toBeGreaterThan(0);
+    expect(
+      screen.getAllByText(
+        "Based on ApplySmart's assessment, your academic profile appears highly competitive for this applicant group.",
+      ).length,
+    ).toBeGreaterThan(0);
   });
 
   it('shows a UCAT comparison when the applicant is above the guide', () => {
@@ -351,16 +357,14 @@ describe('ResultsPage', () => {
     expect(screen.getByText('above guide')).toBeInTheDocument();
   });
 
-  it('does not truncate Aston compact summary text at decimal score differences', () => {
-    const astonSummary =
-      'Your selection score is 1.5 points above the historical interview guide of 33.5 for this applicant pool.';
-
+  it('keeps decimal score differences visible without showing duplicate comparison labels in the top section', () => {
     render(
       <ResultsPage
         results={[
           makeResult('aston-a100', 'Aston University', {
             primary_user_facing_recommendation: 'Strong choice based on your selection score',
-            primary_explanation: `${astonSummary} Interview thresholds may change each admissions cycle.`,
+            primary_explanation:
+              'Your selection score is 1.5 points above the historical interview guide of 33.5 for this applicant pool. Interview thresholds may change each admissions cycle.',
             prediction: { result_band: 'interview_likely' },
             decision_transparency: {
               compact_status: {
@@ -387,9 +391,16 @@ describe('ResultsPage', () => {
       />,
     );
 
-    expect(screen.getByText(astonSummary)).toBeInTheDocument();
-    expect(screen.getByText('Historical interview guide exceeded')).toBeInTheDocument();
+    expect(screen.getByText('Strong choice for your application')).toBeInTheDocument();
+    expect(
+      screen.getByText(
+        "Based on ApplySmart's assessment, your selection score appears competitive for this applicant group.",
+      ),
+    ).toBeInTheDocument();
+    expect(screen.queryByText('Historical interview guide exceeded')).not.toBeInTheDocument();
     expect(screen.queryByText('Your selection score is 1.')).not.toBeInTheDocument();
+    expect(screen.getByText('+1.5')).toBeInTheDocument();
+    expect(screen.getByText('above guide')).toBeInTheDocument();
     expect(screen.getByText('35 / 36')).toBeInTheDocument();
   });
 
@@ -415,7 +426,7 @@ describe('ResultsPage', () => {
       />,
     );
 
-    expect(screen.getByText('Met')).toBeInTheDocument();
+    expect(screen.getByText('You meet the academic requirements.')).toBeInTheDocument();
   });
 
   it('shows a UCAT comparison when the applicant is below the guide', () => {

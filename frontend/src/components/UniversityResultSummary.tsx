@@ -1,17 +1,11 @@
 import type { PredictionResult, SelectionMetric } from '../api/types';
-import { presentResult } from '../lib/resultPresenter';
+import {
+  presentResult,
+  resultCardAcademicStatus,
+  resultCardRecommendationExplanation,
+  resultCardRecommendationHeadline,
+} from '../lib/resultPresenter';
 import { firstCompleteSentence } from '../lib/textSummary';
-
-// A short, non-duplicative reason shown on the compact card. Falls back to
-// trimming the engine's full explanation, since not every university result
-// carries a distinct one-line summary field.
-function primaryReason(card: PredictionResult['result_card']): string {
-  const trust = typeof card.trust_statement === 'string' ? card.trust_statement.trim() : '';
-  const explanation = typeof card.primary_explanation === 'string' ? card.primary_explanation.trim() : '';
-  const source = explanation || trust;
-  if (!source) return '';
-  return firstCompleteSentence(source);
-}
 
 function keyMetric(card: PredictionResult['result_card']): SelectionMetric | null {
   const selectionMetric = card.decision_transparency?.selection_metric;
@@ -76,6 +70,15 @@ function inlineComparisonLabel(metric: SelectionMetric): string {
   return label.charAt(0).toLowerCase() + label.slice(1);
 }
 
+function inlineComparisonValue(metric: SelectionMetric): string {
+  const min = formatMetricValue(metric.comparison_value, null);
+  if (!min) return '';
+  if (!Number.isFinite(metric.comparison_max_value)) {
+    return min;
+  }
+  return `${min}-${formatMetricValue(metric.comparison_max_value, null)}`;
+}
+
 function differenceParts(metric: SelectionMetric): { value: string; label: string } | null {
   if (!Number.isFinite(metric.difference) || !metric.difference_direction) return null;
   const word = metric.difference_word || 'guide';
@@ -108,7 +111,7 @@ function SelectionMetricPanel({ metric }: { metric: SelectionMetric | null }) {
   }
 
   const primaryValue = formatMetricValue(metric.applicant_value, metric.maximum_value);
-  const comparisonValue = formatMetricValue(metric.comparison_value, null);
+  const comparisonValue = inlineComparisonValue(metric);
   const difference = differenceParts(metric);
 
   return (
@@ -144,19 +147,6 @@ function SelectionMetricPanel({ metric }: { metric: SelectionMetric | null }) {
   );
 }
 
-function eligibilityStatus(card: PredictionResult['result_card']): string {
-  const status = card.eligibility?.status;
-  if (typeof status === 'string' && status.trim()) return status;
-  const eligibilityStage = card.decision_transparency?.decision_path?.find((s) => s.stage === 'Eligibility');
-  return eligibilityStage?.status || 'Not assessed';
-}
-
-function compactStatusLabel(card: PredictionResult['result_card']): string {
-  const label = card.decision_transparency?.compact_status?.label;
-  if (typeof label === 'string' && label.trim()) return label.trim();
-  return eligibilityStatus(card);
-}
-
 export interface UniversityResultSummaryProps {
   result: PredictionResult;
   expanded: boolean;
@@ -176,9 +166,10 @@ export function UniversityResultSummary({
 }: UniversityResultSummaryProps) {
   const card = result.result_card;
   const { variant, label } = presentResult(card);
-  const reason = primaryReason(card);
   const metric = keyMetric(card);
-  const compactStatus = compactStatusLabel(card);
+  const headline = resultCardRecommendationHeadline(card);
+  const reason = firstCompleteSentence(resultCardRecommendationExplanation(card));
+  const academicStatus = resultCardAcademicStatus(card);
   const detailsId = `university-result-details-${result.universityId}`;
   const addDisabled = !shortlisted && shortlistFull;
 
@@ -189,12 +180,12 @@ export function UniversityResultSummary({
           <h3>{result.university}</h3>
           <span className="result-card-status">{label}</span>
         </div>
-        <p className="university-result-recommendation">{card.primary_user_facing_recommendation}</p>
-        <p className="university-result-eligibility">
-          <span className="university-result-eligibility-label">{compactStatus}</span>
-        </p>
+        <p className="university-result-recommendation">{headline}</p>
         <p className={`university-result-reason${reason ? '' : ' university-result-reason--empty'}`}>
           {reason}
+        </p>
+        <p className="university-result-eligibility">
+          <span className="university-result-eligibility-label">{academicStatus}</span>
         </p>
         <SelectionMetricPanel metric={metric} />
       </div>

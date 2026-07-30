@@ -8,14 +8,9 @@ export type CardVariant =
   | 'not-eligible'
   | 'manual-review';
 
-// A finer-grained public category than CardVariant, used for the results
-// dashboard's filter pills, counts and "best match" sort order. Every
-// category still maps 1:1 onto an existing CardVariant for styling, so this
-// never introduces a visual state the engine hasn't already produced.
-//
-// ambitious and high_risk are kept as separate categories (not merged) so
-// each canonical band gets its own filter pill, count and group, per the
-// approved public wording table.
+// A finer-grained public category than CardVariant, used for Result Card
+// badges and best-match sorting. Filter chips use ResultFilterGroup below so
+// the cards can keep precise labels while the Results page stays simple.
 export type ResultCategory =
   | 'very_strong'
   | 'strong'
@@ -54,6 +49,42 @@ export const CATEGORY_LABELS: Record<ResultCategory, string> = {
   not_eligible: 'Not Eligible',
 };
 
+export type ResultFilterGroup =
+  | 'recommended'
+  | 'consider'
+  | 'high_risk'
+  | 'information_needed'
+  | 'not_eligible';
+
+export type ResultFilterKey = ResultFilterGroup | 'all';
+
+export const FILTER_GROUP_PRIORITY: ResultFilterGroup[] = [
+  'recommended',
+  'consider',
+  'high_risk',
+  'information_needed',
+  'not_eligible',
+];
+
+export const FILTER_GROUP_LABELS: Record<ResultFilterGroup, string> = {
+  recommended: '⭐ Recommended',
+  consider: '🟡 Consider',
+  high_risk: '⚠️ High Risk',
+  information_needed: 'ℹ️ Information Needed',
+  not_eligible: '❌ Not Eligible',
+};
+
+export const RESULT_CATEGORY_FILTER_GROUP: Record<ResultCategory, ResultFilterGroup> = {
+  very_strong: 'recommended',
+  strong: 'recommended',
+  realistic: 'consider',
+  ambitious: 'consider',
+  high_risk: 'high_risk',
+  eligible_to_apply: 'information_needed',
+  manual_review: 'information_needed',
+  not_eligible: 'not_eligible',
+};
+
 // The single authoritative canonical band -> public label mapping on the
 // frontend. Mirrors CANONICAL_BAND_LABELS in
 // assets/js/engine/result-card-presenter.js exactly - that engine module is
@@ -66,6 +97,19 @@ const CANONICAL_BAND_LABELS: Record<string, string> = {
   realistic: 'Realistic Choice',
   ambitious: 'Ambitious Choice',
   high_risk: 'High Risk',
+};
+
+const STANDARD_RECOMMENDATION_HEADLINES: Record<string, string> = {
+  very_strong_interview_potential: 'Very strong choice for your application',
+  interview_likely: 'Strong choice for your application',
+  realistic: 'Possible choice for your application',
+  ambitious: 'More cautious choice for your application',
+  high_risk: 'More cautious choice for your application',
+  eligible_to_apply: 'Entry requirements met',
+  not_eligible: 'Not currently eligible',
+  manual_review: 'More information is required',
+  insufficient_evidence: 'More information is required',
+  guaranteed_interview: 'Interview guaranteed under the published criteria',
 };
 
 const PUBLIC_STATUS_LABELS = new Set(Object.values(CANONICAL_BAND_LABELS));
@@ -214,9 +258,236 @@ export function presentResult(card: PredictionResult['result_card']): ResultPres
   throw new Error(`Result card contract violation: unrecognised prediction.result_band "${String(band)}".`);
 }
 
+export function resultCardRecommendationHeadline(card: PredictionResult['result_card']): string {
+  if (card.interview_outcome === 'guaranteed_interview') {
+    return STANDARD_RECOMMENDATION_HEADLINES.guaranteed_interview;
+  }
+
+  const state = card.recommendation_display_state;
+  if (state === 'not_eligible' || card.prediction?.result_band === 'not_eligible') {
+    return STANDARD_RECOMMENDATION_HEADLINES.not_eligible;
+  }
+  if (state === 'manual_review') {
+    return STANDARD_RECOMMENDATION_HEADLINES.manual_review;
+  }
+  if (state === 'insufficient_evidence' || card.prediction?.result_band === 'insufficient_evidence') {
+    return STANDARD_RECOMMENDATION_HEADLINES.insufficient_evidence;
+  }
+  if (state === 'eligibility_only' || card.prediction?.result_band === 'eligible_to_apply') {
+    return STANDARD_RECOMMENDATION_HEADLINES.eligible_to_apply;
+  }
+
+  return (
+    STANDARD_RECOMMENDATION_HEADLINES[card.prediction?.result_band] ||
+    card.primary_user_facing_recommendation ||
+    'More information is required'
+  );
+}
+
+function lower(text?: string | null): string {
+  return String(text || '').toLowerCase();
+}
+
+function publicComparisonLabel(card: PredictionResult['result_card']): string | null {
+  const metricLabel = card.decision_transparency?.selection_metric?.comparison_label;
+  const ucatComparison = card.decision_transparency?.ucat_comparison;
+  const text = [
+    metricLabel,
+    ucatComparison?.benchmark_label,
+    ucatComparison?.caveat,
+    ucatComparison?.comparison_type,
+  ]
+    .filter(Boolean)
+    .join(' ')
+    .toLowerCase();
+
+  if (!text.trim()) return null;
+  if (/\bhome\b/.test(text) && /published|official/.test(text) && /threshold|minimum/.test(text)) {
+    return 'published Home threshold';
+  }
+  if (/overseas|international|non-uk/.test(text) && /published|official/.test(text) && /threshold|minimum/.test(text)) {
+    return 'published Overseas threshold';
+  }
+  if (/published|official/.test(text) && /reference range/.test(text)) {
+    return 'published UCAT reference range';
+  }
+  if (/historical ucat range|ucat range/.test(text) && !/interview/.test(text)) {
+    return 'historical UCAT range';
+  }
+  if (/score|point|selection/.test(text) && !/ucat/.test(text)) {
+    return 'historical score guide';
+  }
+  if (/ucat/.test(text) && !/interview/.test(text)) {
+    return 'historical UCAT range';
+  }
+  return 'historical interview range';
+}
+
+function recommendationBandGroup(band?: string): 'very_strong' | 'strong' | 'realistic' | 'cautious' {
+  const bandGroups: Record<string, 'very_strong' | 'strong' | 'realistic' | 'cautious'> = {
+    very_strong_interview_potential: 'very_strong',
+    interview_likely: 'strong',
+    realistic: 'realistic',
+    ambitious: 'cautious',
+    high_risk: 'cautious',
+  };
+  return bandGroups[band || ''] || 'realistic';
+}
+
+function selectionMetricText(card: PredictionResult['result_card']): string {
+  const metric = card.decision_transparency?.selection_metric;
+  const scoreBreakdown = card.decision_transparency?.score_breakdown;
+  return [
+    metric?.label,
+    metric?.comparison_label,
+    metric?.comparison_context,
+    scoreBreakdown?.name,
+    scoreBreakdown?.explanation,
+  ]
+    .filter(Boolean)
+    .join(' ')
+    .toLowerCase();
+}
+
+function metricUsesAcademicAndUcat(card: PredictionResult['result_card']): boolean {
+  const text = selectionMetricText(card);
+  return /ucat/.test(text) && /(academic|gcse|a[ -]?level|qualification|contextual)/.test(text);
+}
+
+function recommendationAssessmentBasis(
+  card: PredictionResult['result_card'],
+):
+  | 'ucat_ranking'
+  | 'published_ucat_reference'
+  | 'historical_ucat_range'
+  | 'historical_interview_range'
+  | 'academic_ucat'
+  | 'selection_score'
+  | 'academic_profile' {
+  const comparisonLabel = publicComparisonLabel(card);
+  const metricType = lower(card.decision_transparency?.selection_metric?.type);
+  const hasStructuredUcatComparison = Boolean(card.decision_transparency?.ucat_comparison);
+
+  if (comparisonLabel && (metricType === 'ucat' || hasStructuredUcatComparison)) {
+    if (comparisonLabel.startsWith('published')) return 'published_ucat_reference';
+    if (comparisonLabel === 'historical UCAT range') return 'historical_ucat_range';
+    return 'historical_interview_range';
+  }
+
+  if (metricType === 'selection_score' || metricType === 'points') {
+    return metricUsesAcademicAndUcat(card) ? 'academic_ucat' : 'selection_score';
+  }
+
+  if (metricType === 'ucat') return 'ucat_ranking';
+
+  if (metricUsesAcademicAndUcat(card)) return 'academic_ucat';
+  return 'academic_profile';
+}
+
+function standardRecommendationExplanation(card: PredictionResult['result_card']): string {
+  const bandGroup = recommendationBandGroup(card.prediction?.result_band);
+  const basis = recommendationAssessmentBasis(card);
+  const competitivenessExplanation = (subject: string, verb = 'appears'): string => ({
+    very_strong: `Based on ApplySmart's assessment, your ${subject} ${verb} highly competitive for this applicant group.`,
+    strong: `Based on ApplySmart's assessment, your ${subject} ${verb} competitive for this applicant group.`,
+    realistic: `Based on ApplySmart's assessment, your ${subject} may be competitive for this applicant group.`,
+    cautious: `Based on ApplySmart's assessment, your ${subject} may be less competitive for this applicant group.`,
+  }[bandGroup]);
+
+  if (
+    basis === 'ucat_ranking' ||
+    basis === 'published_ucat_reference' ||
+    basis === 'historical_ucat_range' ||
+    basis === 'historical_interview_range'
+  ) {
+    return competitivenessExplanation('UCAT score');
+  }
+
+  if (basis === 'academic_ucat') {
+    return competitivenessExplanation('academic profile and UCAT', 'appear');
+  }
+
+  if (basis === 'selection_score') {
+    return competitivenessExplanation('selection score');
+  }
+
+  return competitivenessExplanation('academic profile');
+}
+
+export function resultCardRecommendationExplanation(card: PredictionResult['result_card']): string {
+  const state = card.recommendation_display_state;
+  const band = card.prediction?.result_band;
+
+  if (card.interview_outcome === 'guaranteed_interview') {
+    return 'Based on ApplySmart\'s assessment, this applicant group meets the published guaranteed-interview evidence available for this route.';
+  }
+  if (state === 'not_eligible' || band === 'not_eligible') {
+    return 'Based on the information entered, one or more supported entry requirements are not met.';
+  }
+  if (state === 'manual_review') {
+    return 'ApplySmart needs additional applicant information before it can provide a complete recommendation for this applicant group.';
+  }
+  if (state === 'insufficient_evidence' || band === 'insufficient_evidence') {
+    return 'ApplySmart needs additional applicant information before it can provide a complete recommendation for this applicant group.';
+  }
+  if (state === 'eligibility_only' || band === 'eligible_to_apply') {
+    return 'ApplySmart has confirmed your eligibility against the entry requirements currently supported for this applicant group.';
+  }
+
+  return standardRecommendationExplanation(card);
+}
+
+export function resultCardAcademicStatus(card: PredictionResult['result_card']): string {
+  const state = card.recommendation_display_state;
+  const eligibilityStatus = card.eligibility?.status;
+  const eligibilityStage = card.decision_transparency?.decision_path?.find((s) => s.stage === 'Eligibility');
+  const stageStatus = eligibilityStage?.status;
+  const explicitEligibilityText = `${eligibilityStatus || ''} ${stageStatus || ''}`.toLowerCase();
+
+  if (/not[_\s-]?eligible|not met/.test(explicitEligibilityText)) {
+    return 'You do not currently meet the academic requirements.';
+  }
+  if (/manual[_\s-]?review|needs review|insufficient[_\s-]?evidence/.test(explicitEligibilityText)) {
+    return 'ApplySmart needs more information to assess the academic requirements.';
+  }
+  if (/eligible|met/.test(explicitEligibilityText)) {
+    return 'You meet the academic requirements.';
+  }
+  const statusText = `${state || ''} ${eligibilityStatus || ''} ${stageStatus || ''}`.toLowerCase();
+  if (/manual[_\s-]?review|needs review|insufficient[_\s-]?evidence/.test(statusText)) {
+    return 'ApplySmart needs more information to assess the academic requirements.';
+  }
+  return 'You meet the academic requirements.';
+}
+
 export function categoryRank(category: ResultCategory): number {
   const index = CATEGORY_PRIORITY.indexOf(category);
   return index === -1 ? CATEGORY_PRIORITY.length : index;
+}
+
+export function filterGroupForCategory(category: ResultCategory): ResultFilterGroup {
+  return RESULT_CATEGORY_FILTER_GROUP[category];
+}
+
+export function emptyFilterGroupCounts(): Record<ResultFilterGroup, number> {
+  return {
+    recommended: 0,
+    consider: 0,
+    high_risk: 0,
+    information_needed: 0,
+    not_eligible: 0,
+  };
+}
+
+export function strongestPopulatedFilterGroup(
+  counts: Partial<Record<ResultFilterGroup, number>>,
+): ResultFilterKey {
+  for (const group of FILTER_GROUP_PRIORITY) {
+    if ((counts[group] || 0) > 0) {
+      return group;
+    }
+  }
+  return 'all';
 }
 
 export function strongestPopulatedCategory(

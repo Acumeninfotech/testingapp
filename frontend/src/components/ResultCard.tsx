@@ -6,7 +6,12 @@ import type {
   UcatComparison,
 } from '../api/types';
 import { Fragment } from 'react';
-import { presentResult } from '../lib/resultPresenter';
+import {
+  presentResult,
+  resultCardAcademicStatus,
+  resultCardRecommendationExplanation,
+  resultCardRecommendationHeadline,
+} from '../lib/resultPresenter';
 
 function isOfficialPredictionUnavailable(card: PredictionResult['result_card']): boolean {
   const officialPrediction = card.prediction?.official_prediction as
@@ -106,87 +111,81 @@ function formatBenchmark(comparison: UcatComparison): string | null {
   return comparison.benchmark_min !== null ? String(comparison.benchmark_min) : null;
 }
 
-function formatBsmsBenchmark(comparison: UcatComparison): string | null {
-  if (comparison.benchmark_min === null) {
-    return null;
-  }
-  if (comparison.benchmark_max !== null) {
-    return `${comparison.benchmark_min}–${comparison.benchmark_max}`;
-  }
-  return String(comparison.benchmark_min);
-}
-
-function bsmsThresholdLabel(comparison?: UcatComparison | null): string {
-  const rawLabel = `${comparison?.benchmark_label || ''} ${comparison?.applicant_pool || ''}`.toLowerCase();
-  if (/overseas|international/.test(rawLabel)) {
-    return 'Overseas threshold';
-  }
-  return 'Home threshold';
-}
-
-function bsmsPositionText(position?: string | null): string {
-  if (position === 'below') {
-    return 'below';
-  }
-  if (position === 'within') {
-    return 'within';
-  }
-  return 'above';
-}
-
-function bsmsUcatSummary(comparison?: UcatComparison | null): string | null {
-  if (!comparison || comparison.applicant_ucat === null) {
-    return null;
-  }
-  const benchmark = formatBsmsBenchmark(comparison);
-  const threshold = bsmsThresholdLabel(comparison);
-  const benchmarkText = benchmark ? ` (${benchmark})` : '';
-  return `UCAT: ${comparison.applicant_ucat} — ${bsmsPositionText(comparison.position)} the published ${threshold}${benchmarkText}.`;
-}
-
 function simplePositionText(position: UcatComparison['position']): string {
   if (position === 'above') return 'above';
   if (position === 'below') return 'below';
   return 'within';
 }
 
-function cityUcatSummary(comparison?: UcatComparison | null): string | null {
+function publicThresholdGroup(text = ''): string | null {
+  if (/contextual|widening participation|wp\b|ukwpmed/.test(text)) return 'contextual';
+  if (/overseas|international|non-uk/.test(text)) return 'Overseas';
+  if (/\bhome\b|uk-domicile/.test(text)) return 'Home';
+  const accessRoute = text.match(/\b([a-z\s-]*access[a-z\s-]*)\s+(?:interview\s+|ucat\s+)?(?:threshold|minimum)\b/);
+  if (accessRoute) {
+    return accessRoute[1]
+      .trim()
+      .replace(/\s+/g, ' ')
+      .replace(/\b\w/g, (char) => char.toUpperCase());
+  }
+  return null;
+}
+
+function publicUcatComparisonPhrase(comparison?: UcatComparison | null): string {
+  const comparisonType = comparison?.comparison_type || '';
+  const labelText = String(comparison?.benchmark_label || '').toLowerCase();
+  const text = [
+    comparison?.benchmark_label,
+    comparison?.caveat,
+    comparisonType,
+  ].filter(Boolean).join(' ').toLowerCase();
+  const published =
+    /\b(published|official)\b/.test(text) &&
+    !/\b(unpublished|not official|no official)\b/.test(text);
+  const advisory = /advisory|modelled|modeled|applysmart|historical-equivalent|working/.test(text);
+
+  if (comparisonType === 'official_minimum') return 'published UCAT minimum';
+  if (/historical ucat range|ucat range/.test(labelText) && !/interview/.test(labelText)) {
+    return 'historical UCAT range';
+  }
+  if (advisory && /ucat/.test(labelText) && !/threshold|minimum|reference range/.test(labelText)) {
+    return 'historical UCAT range';
+  }
+  if (published && /threshold|minimum/.test(labelText)) {
+    const group = publicThresholdGroup(text);
+    return group ? `published ${group} threshold` : 'published UCAT threshold';
+  }
+  if (published && /reference range/.test(labelText)) return 'published UCAT reference range';
+  if (published && /threshold|minimum/.test(text)) {
+    const group = publicThresholdGroup(text);
+    return group ? `published ${group} threshold` : 'published UCAT threshold';
+  }
+  if (advisory && /score|point/.test(text) && !/ucat/.test(text)) return 'historical score guide';
+  if (comparisonType === 'historical_average') return 'historical UCAT range';
+  if (/ucat/.test(text) && !/interview/.test(text)) return 'historical UCAT range';
+  return 'historical interview range';
+}
+
+function publicComparisonCaveat(comparison?: UcatComparison | null): string {
+  const phrase = publicUcatComparisonPhrase(comparison);
+  if (phrase.startsWith('published')) {
+    return 'Published thresholds and reference ranges can change between cycles and do not guarantee an interview.';
+  }
+  return 'Historical admissions data provides a benchmark only; it is not a current cut-off or a guarantee of interview.';
+}
+
+function ucatComparisonSummary(comparison?: UcatComparison | null): string | null {
   if (!comparison || comparison.applicant_ucat === null) {
     return null;
   }
   const benchmark = formatBenchmark(comparison)?.replace('-', '–');
   const benchmarkText = benchmark ? ` (${benchmark})` : '';
-  return `UCAT: ${comparison.applicant_ucat} — ${simplePositionText(comparison.position)} the published UCAT reference range${benchmarkText}.`;
+  return `UCAT: ${comparison.applicant_ucat} - ${simplePositionText(comparison.position)} the ${publicUcatComparisonPhrase(comparison)}${benchmarkText}.`;
 }
 
-function cityPrimaryExplanation(
-  card: PredictionResult['result_card'],
-  comparison?: UcatComparison | null,
-): string {
-  const comparisonText = cityUcatSummary(comparison);
-  const ucatSentence = comparisonText
-    ? comparisonText.replace(/^UCAT:\s*/, 'Your UCAT is ')
-    : 'Your UCAT has been compared with the published reference range.';
-  const recommendation = card.primary_user_facing_recommendation || 'this result';
-  return `You meet the entry requirements we can check. ${ucatSentence} This is a ${recommendation.toLowerCase()} for application planning, not a guaranteed interview.`;
-}
-
-function cityApplicantPoolSummary(card: PredictionResult['result_card']): string | null {
-  const prediction = card.prediction as { guidance_pool_id?: string } | undefined;
-  return {
-    home_non_graduate: 'Home non-graduate applicants',
-    home_graduate: 'Home graduate applicants',
-    overseas_non_graduate: 'Overseas non-graduate applicants',
-    overseas_graduate: 'Overseas graduate applicants',
-  }[prediction?.guidance_pool_id || ''] || null;
-}
-
-function citySelectionApproachSummary(): string {
-  return "City St George's checks entry requirements first, then uses UCAT to compare applicants in the relevant applicant group. SJT is recorded, but the university has not published exactly how it is used.";
-}
-
-function bsmsSelectionApproachSummary(): string {
-  return 'Applicants who meet the academic requirements are assessed using their UCAT score.';
+function containsAdmissionYearOrInternalTerms(value: string | null): boolean {
+  if (!value) return false;
+  return /\b20\d{2}\b|20\d{2}-entry|future cycle|current-scale|current-format|ApplySmart band range|benchmark model|band computation/i.test(value);
 }
 
 function formatDifference(value: number | null): string | null {
@@ -275,15 +274,7 @@ function positionLabel(comparison: UcatComparison): string {
   if (comparison.comparison_type === 'ranking_only') {
     return 'Ranking only';
   }
-  const comparisonText = `${comparison.benchmark_label || ''} ${comparison.caveat || ''}`.toLowerCase();
-  const label = /advisory|modelled|modeled|applysmart|historical-equivalent/.test(comparisonText) ||
-    (comparison.comparison_type === 'historical_range' && /\b(published|official)\b/.test(comparisonText) && !/\bunpublished\b/.test(comparisonText) && /threshold|minimum/.test(comparisonText))
-    ? 'ApplySmart advisory benchmark'
-    : /\b(published|official)\b/.test(comparisonText) && !/\bunpublished\b/.test(comparisonText) && /threshold|minimum/.test(comparisonText)
-    ? 'published threshold'
-      : /observed|interviewed-score|lowest interviewed|average interviewed|interview scores/.test(comparisonText)
-        ? 'historical interview data'
-        : 'historical benchmark';
+  const label = publicUcatComparisonPhrase(comparison);
   return {
     above: `Above ${label}`,
     within: `Within ${label}`,
@@ -291,23 +282,10 @@ function positionLabel(comparison: UcatComparison): string {
   }[comparison.position || 'within'];
 }
 
-function kingsUcatComparisonSummary(card: PredictionResult['result_card']): string {
-  const band = card.prediction?.result_band;
-  if (band === 'interview_likely') return 'Above the historical interview benchmark';
-  if (band === 'realistic') return 'Within the historical interview benchmark';
-  if (band === 'ambitious') return 'Below the strongest historical interview benchmark';
-  if (band === 'high_risk') return 'Below the historical interview benchmark';
-  return 'Assessed against the historical interview benchmark';
-}
-
 export function ResultCard({ result }: { result: PredictionResult }) {
   const card = result.result_card;
   const { variant, label } = presentResult(card);
   const officialPredictionUnavailable = isOfficialPredictionUnavailable(card);
-  const courseIdentity = card.course_identity as { profile_id?: string } | undefined;
-  const profileId = String(courseIdentity?.profile_id || result.universityId || '');
-  const isBsmsA100 = profileId === 'brighton-and-sussex-a100';
-  const isCityStGeorgesA100 = profileId === 'city-st-george-s-of-london-a100';
   const transparency = card.decision_transparency;
   const feeInformation = card.fee_information as
     | {
@@ -384,6 +362,8 @@ export function ResultCard({ result }: { result: PredictionResult }) {
       c.label.toLowerCase() !== 'ucat total entered',
   );
   const academicStatus = eligibilityStage?.status || (entryRequirementsMet ? 'Met' : 'Not met');
+  const headline = resultCardRecommendationHeadline(card);
+  const topAcademicStatus = resultCardAcademicStatus(card);
   const trustStatement =
     typeof card.trust_statement === 'string' && card.trust_statement.trim().length > 0
       ? card.trust_statement
@@ -392,38 +372,24 @@ export function ResultCard({ result }: { result: PredictionResult }) {
     card.recommendation_display_state === 'manual_review' ? transparency?.manual_review_reason : null;
   const totalScoreText = scoreBreakdown ? formatScoreValue(scoreBreakdown.value, scoreBreakdown.max) : null;
   const sjtSummary = formatSjtSummary(sjtCheck, card, sjtRejected);
-  const visibleFeeInformation =
-    profileId === 'lincoln-a100' || isBsmsA100 || isCityStGeorgesA100 ? undefined : feeInformation;
-  const isKingsA100 = profileId === 'king-s-college-london-a100';
-  const bsmsSummary = bsmsUcatSummary(ucatComparison);
-  const citySummary = cityUcatSummary(ucatComparison);
-  const primaryExplanation =
-    isCityStGeorgesA100 && entryRequirementsMet
-      ? cityPrimaryExplanation(card, ucatComparison)
-      : isBsmsA100 && entryRequirementsMet && bsmsSummary
-        ? `You meet the academic requirements. Your UCAT is ${bsmsPositionText(ucatComparison?.position)} the published ${bsmsThresholdLabel(ucatComparison)}.`
-        : card.primary_explanation;
-  const visibleTrustStatement = isCityStGeorgesA100 ? null : trustStatement;
+  const visibleFeeInformation = card.recommendation_display_state === 'eligibility_only'
+    ? feeInformation
+    : undefined;
+  const ucatSummary = ucatComparisonSummary(ucatComparison);
+  const primaryExplanation = resultCardRecommendationExplanation(card);
+  const visibleTrustStatement = containsAdmissionYearOrInternalTerms(trustStatement) ? null : trustStatement;
   const metadataSelectionApproach =
     typeof card.selection_approach_display === 'string' && card.selection_approach_display.trim()
       ? card.selection_approach_display.trim()
       : null;
-  const selectionApproachSummary = metadataSelectionApproach || (isCityStGeorgesA100
-    ? citySelectionApproachSummary()
-    : isBsmsA100
-      ? bsmsSelectionApproachSummary()
-      : selectionApproachCheck?.summary || selectionStage?.summary);
-  const applicantPoolSummary = isCityStGeorgesA100
-    ? cityApplicantPoolSummary(card) || applicantPoolCheck?.summary
-    : applicantPoolCheck?.summary;
+  const selectionApproachSummary = metadataSelectionApproach || selectionApproachCheck?.summary || selectionStage?.summary;
+  const applicantPoolSummary = applicantPoolCheck?.summary;
   const historicalSummary =
-    isCityStGeorgesA100 && citySummary
-      ? citySummary
-      : isBsmsA100 && bsmsSummary
-        ? bsmsSummary
-        : historicalStage?.summary;
+    ucatSummary
+      ? `${ucatSummary} ${publicComparisonCaveat(ucatComparison)}`
+      : historicalStage?.summary;
   const showSelectionApproach = Boolean(
-    metadataSelectionApproach || isBsmsA100 || selectionApproachCheck?.summary || selectionStage?.summary,
+    metadataSelectionApproach || selectionApproachCheck?.summary || selectionStage?.summary,
   );
   const showHistoricalSection = Boolean(
     historicalStage && (hasStructuredComparisonMetrics ? comparisonMetrics.length > 0 : true),
@@ -439,8 +405,9 @@ export function ResultCard({ result }: { result: PredictionResult }) {
         <h3>{result.university}</h3>
         <span className="result-card-status">{label}</span>
       </div>
-      <p className="result-card-recommendation">{card.primary_user_facing_recommendation}</p>
+      <p className="result-card-recommendation">{headline}</p>
       <p className="result-card-explanation">{primaryExplanation}</p>
+      <p className="result-card-academic-status">{topAcademicStatus}</p>
       {visibleTrustStatement && (
         <p className="result-card-explanation result-card-trust-statement">{visibleTrustStatement}</p>
       )}
@@ -496,19 +463,11 @@ export function ResultCard({ result }: { result: PredictionResult }) {
               <span className="result-card-check-label">Entry requirements met</span>
             ) : (
               <>
-                <span className="result-card-check-label">
-                  {isKingsA100 ? 'Academic requirements:' : 'Entry requirements:'}
-                </span>{' '}
+                <span className="result-card-check-label">Entry requirements:</span>{' '}
                 <span className="result-card-check-summary">{academicStatus}</span>
               </>
             )}
           </li>
-          {isKingsA100 && entryRequirementsMet && (
-            <li className="result-card-check">
-              <span className="result-card-check-label">UCAT comparison:</span>{' '}
-              <span className="result-card-check-summary">{kingsUcatComparisonSummary(card)}</span>
-            </li>
-          )}
           {isUcatRankingCard && officialMinimumCheck && (
             <li className="result-card-check">
               <span className="result-card-check-label">UCAT minimum:</span>{' '}
@@ -519,11 +478,7 @@ export function ResultCard({ result }: { result: PredictionResult }) {
             <li className="result-card-check">
               <span className="result-card-check-label">UCAT:</span>{' '}
               <span className="result-card-check-summary">
-                {isCityStGeorgesA100 && citySummary
-                  ? citySummary.replace(/^UCAT:\s*/, '')
-                  : isBsmsA100 && bsmsSummary
-                    ? bsmsSummary.replace(/^UCAT:\s*/, '')
-                    : ucatComparisonCheck.summary}
+                {ucatSummary ? ucatSummary.replace(/^UCAT:\s*/, '') : ucatComparisonCheck.summary}
               </span>
             </li>
           )}
@@ -626,13 +581,13 @@ export function ResultCard({ result }: { result: PredictionResult }) {
         <section className="result-card-section result-card-historical">
           <h4>{historicalSectionTitle}</h4>
           <p className="result-card-section-summary">{historicalSummary}</p>
-          {isCityStGeorgesA100 && citySummary ? null : hasStructuredComparisonMetrics ? (
+          {hasStructuredComparisonMetrics ? (
             <dl className="result-card-detail-list result-card-comparison-list">
               {comparisonMetrics.map((metric, i) => (
                 <Fragment key={`${metric.label}-${i}`}>
-                  <dt>{isBsmsA100 ? bsmsThresholdLabel(ucatComparison) : metric.label}</dt>
+                  <dt>{metric.label}</dt>
                   <dd>
-                    <span>{isBsmsA100 ? metric.value.replace('-', '–') : metric.value}</span>
+                    <span>{metric.value}</span>
                     {metric.difference && (
                       <span className="result-card-comparison-difference">{metric.difference}</span>
                     )}
@@ -689,13 +644,7 @@ export function ResultCard({ result }: { result: PredictionResult }) {
               {ucatComparison.comparison_type !== 'ranking_only' ? (
                 <>
                   <dt>
-                    {positionLabel(ucatComparison).includes('published threshold')
-                      ? 'Published threshold'
-                      : positionLabel(ucatComparison).includes('advisory')
-                        ? 'ApplySmart advisory benchmark'
-                        : positionLabel(ucatComparison).includes('historical interview data')
-                          ? 'Historical interview data'
-                          : 'Historical benchmark'}
+                    {publicUcatComparisonPhrase(ucatComparison)}
                   </dt>
                   <dd>{formatBenchmark(ucatComparison)}</dd>
                 </>
@@ -710,7 +659,7 @@ export function ResultCard({ result }: { result: PredictionResult }) {
               <dd>{positionLabel(ucatComparison)}</dd>
             </dl>
           ) : null}
-          {!isCityStGeorgesA100 && !hasStructuredComparisonMetrics && parentFacingHistoricalChecks.length > 0 && (
+          {!hasStructuredComparisonMetrics && parentFacingHistoricalChecks.length > 0 && (
             <ul className="result-card-check-list">
               {parentFacingHistoricalChecks.slice(0, 4).map((c, i) => (
                 <li key={i} className="result-card-check">
@@ -743,12 +692,6 @@ export function ResultCard({ result }: { result: PredictionResult }) {
                 <dd>
                   {visibleFeeInformation.currency || 'GBP'} {visibleFeeInformation.deposit}
                 </dd>
-              </>
-            )}
-            {visibleFeeInformation.entry_cycle && (
-              <>
-                <dt>Cycle</dt>
-                <dd>{visibleFeeInformation.entry_cycle}</dd>
               </>
             )}
           </dl>

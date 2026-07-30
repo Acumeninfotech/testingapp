@@ -312,7 +312,7 @@ async function main() {
     assert.strictEqual(buckinghamCard.prediction.result_band, 'eligible_to_apply');
     assert.strictEqual(buckinghamCard.prediction.prediction_type, 'eligibility_only');
     assert.strictEqual(buckinghamCard.prediction.interview_prediction.available, false);
-    assert.strictEqual(buckinghamCard.primary_user_facing_recommendation, 'Eligible to Apply');
+    assert.strictEqual(buckinghamCard.primary_user_facing_recommendation, 'Entry requirements met');
     assert.ok(
       !['Very Strong Choice', 'Strong Choice', 'Realistic Choice', 'High Risk'].includes(
         buckinghamCard.primary_user_facing_recommendation
@@ -323,7 +323,7 @@ async function main() {
       buckinghamCard.fee_information,
       'expected the Fees section to remain present for Buckingham'
     );
-    console.log('PASS: POST /api/predict resolves buckingham-71a8 under the real A100 wizard workflow: no course mismatch, Eligible to Apply, no UCAT, no interview-strength label, Fees present');
+    console.log('PASS: POST /api/predict resolves buckingham-71a8 under the real A100 wizard workflow: no course mismatch, Entry requirements met, no UCAT, no interview-strength label, Fees present');
 
     // A genuinely incompatible course must still fail - the equivalence is
     // scoped to Buckingham only and must not weaken course matching globally.
@@ -556,7 +556,7 @@ async function main() {
       const applicantFacingText = collectApplicantFacingCardText(hymsCard);
       assert.match(
         applicantFacingText,
-        /ApplySmart's evidence-based analysis places this selection score above the historical interview benchmark available for this applicant group/i
+        /Based on ApplySmart's assessment, your academic profile appears competitive for this applicant group/i
       );
       assert.match(
         applicantFacingText,
@@ -676,9 +676,9 @@ async function main() {
     assert.ok(rankingEvidenceSeen > 0, 'expected at least one ranking-only university to reach a standard result and show ranking evidence');
     console.log(`PASS: ranking-only evidence (no invented score) renders for ranking-metric universities [${readyRankingIds.join(', ')}]`);
 
-    // leicester-a100 and queen-mary-a100 previously had no UNIVERSITY_EXPLANATIONS
-    // entry, so their cards fell through to generic pool/selection-summary text.
-    // Confirm both now show real, university-specific selection-model summaries.
+    // Selection-summary wording is metadata-driven. If no metadata sentence is
+    // supplied, the presenter uses one generic fallback instead of a
+    // university-id wording map.
     const explanationCoverageResponse = await requestJson(server, 'POST', '/api/predict', {
       universityIds: ['leicester-a100', 'queen-mary-a100'].filter((id) => readyEntries.some((u) => u.id === id)),
       studentProfile: topTierApplicant
@@ -689,11 +689,12 @@ async function main() {
         (stage) => stage.stage === 'Selection model'
       );
       assert.ok(
-        selectionStage?.summary && !/university selection approach is applied after eligibility checks/i.test(selectionStage.summary),
-        `${result.universityId} expected a real, university-specific selection summary, got: ${JSON.stringify(selectionStage?.summary)}`
+        selectionStage?.summary,
+        `${result.universityId} expected a selection summary`
       );
+      assert.doesNotMatch(selectionStage.summary, /Leicester|Queen Mary's/i);
     }
-    console.log('PASS: leicester-a100 and queen-mary-a100 show real selection-model summaries, not the generic fallback');
+    console.log('PASS: selection-model summaries are metadata-driven or use the generic fallback without university-id wording');
 
     if (readyEntries.some((u) => u.id === 'birmingham-a100')) {
       const metadataResponse = await requestJson(server, 'POST', '/api/predict', {
@@ -799,7 +800,7 @@ async function main() {
       );
       assert.strictEqual(
         birminghamCard.primary_user_facing_recommendation,
-        'Strong choice based on your selection score',
+        'Strong choice for your application',
         'expected the canonical interview_likely headline, not Birmingham-configured "Strong Interview Potential" wording (removed - the approved public wording is Strong Choice)'
       );
       assert.strictEqual(
@@ -807,11 +808,18 @@ async function main() {
         'Strong Choice',
         'expected the canonical CANONICAL_BAND_LABELS.interview_likely short label'
       );
+      assert.strictEqual(
+        birminghamCard.primary_explanation,
+        "Based on ApplySmart's assessment, your academic profile and UCAT appear competitive for this applicant group.",
+        'expected the explanation to use the standardized recommendation framework wording'
+      );
+      const birminghamHistoricalStage = (birminghamCard.decision_transparency?.decision_path || [])
+        .find((stage) => stage.stage === 'Historical guidance');
       assert.ok(
-        /above Birmingham's published 2025-entry historical minimum application score for standard Home applicants invited to interview/i.test(
-          birminghamCard.primary_explanation || ''
+        /Your selection score is 1\.26 points above the historical score guide of 7\.24/i.test(
+          birminghamHistoricalStage?.summary || ''
         ),
-        `expected the explanation to state the score is above Birmingham's historical standard Home interview minimum, got: ${birminghamCard.primary_explanation}`
+        `expected the historical summary to retain the rendered score comparison detail, got: ${birminghamHistoricalStage?.summary}`
       );
       assert.strictEqual(
         birminghamCard.historical_guidance_caveat,
@@ -834,7 +842,7 @@ async function main() {
       assert.strictEqual(contextualCheck?.summary, '0 out of 1.5.', 'expected 0/1.5 contextual uplift for a non-contextual applicant');
       assert.strictEqual(
         thresholdCheck?.summary,
-        'Your selection score is 1.26 points above the historical selection score of 7.24 for this applicant pool.',
+        'Your selection score is 1.26 points above the historical score guide of 7.24 for this applicant pool.',
         'expected cleanly rounded floating-point-free selection-score guide text'
       );
       assert.ok(
@@ -874,7 +882,7 @@ async function main() {
       assert.strictEqual(missingEnglishLiteratureResponse.status, 200);
       const missingEnglishLiteratureCard = missingEnglishLiteratureResponse.json.results[0].result_card;
       assert.strictEqual(missingEnglishLiteratureCard.recommendation_display_state, 'insufficient_evidence');
-      assert.strictEqual(missingEnglishLiteratureCard.primary_user_facing_recommendation, 'Information needed');
+      assert.strictEqual(missingEnglishLiteratureCard.primary_user_facing_recommendation, 'More information is required');
       assert.strictEqual(missingEnglishLiteratureCard.prediction?.result_band, 'insufficient_evidence');
       assert.strictEqual(missingEnglishLiteratureCard.prediction?.available, false);
       assert.strictEqual(missingEnglishLiteratureCard.prediction?.interview_prediction?.available, false);
@@ -888,7 +896,7 @@ async function main() {
         'missing English Literature must not produce a substituted or partial Birmingham score'
       );
       assert.match(
-        missingEnglishLiteratureCard.primary_explanation || '',
+        missingEnglishLiteratureCard.decision_transparency?.insufficient_evidence_reason || '',
         /Birmingham includes English Literature in its seven-subject GCSE selection score/i
       );
       assert.doesNotMatch(
@@ -919,7 +927,7 @@ async function main() {
       assert.strictEqual(edinburghFiveGcseResponse.status, 200);
       const edinburghFiveGcseCard = edinburghFiveGcseResponse.json.results[0].result_card;
       assert.strictEqual(edinburghFiveGcseCard.recommendation_display_state, 'insufficient_evidence');
-      assert.strictEqual(edinburghFiveGcseCard.primary_user_facing_recommendation, 'Interview prediction unavailable');
+      assert.strictEqual(edinburghFiveGcseCard.primary_user_facing_recommendation, 'More information is required');
       assert.strictEqual(edinburghFiveGcseCard.prediction?.result_band, 'insufficient_evidence');
       assert.strictEqual(
         edinburghFiveGcseCard.decision_transparency?.insufficient_evidence_reason_code,
@@ -927,23 +935,27 @@ async function main() {
       );
       assert.match(
         edinburghFiveGcseCard.primary_explanation || '',
+        /ApplySmart needs additional applicant information before it can provide a complete recommendation/i
+      );
+      assert.match(
+        edinburghFiveGcseCard.decision_transparency?.insufficient_evidence_reason || '',
         /meet Edinburgh's published academic entry requirements/i
       );
       assert.match(
-        edinburghFiveGcseCard.primary_explanation || '',
+        edinburghFiveGcseCard.decision_transparency?.insufficient_evidence_reason || '',
         /cannot provide an interview competitiveness assessment/i
       );
       assert.match(
-        edinburghFiveGcseCard.primary_explanation || '',
+        edinburghFiveGcseCard.decision_transparency?.insufficient_evidence_reason || '',
         /verified historical admissions evidence is currently insufficient for applicants presenting 5 GCSEs/i
       );
       assert.match(
-        edinburghFiveGcseCard.primary_explanation || '',
+        edinburghFiveGcseCard.decision_transparency?.insufficient_evidence_reason || '',
         /not a rejection and does not mean you are ineligible/i
       );
       assert.doesNotMatch(
         collectApplicantFacingCardText(edinburghFiveGcseCard),
-        /Evidence not yet available|more information|needs more|Information needed/i
+        /Evidence not yet available/i
       );
       const edinburghFiveGcseEligibility = edinburghFiveGcseCard.decision_transparency?.decision_path?.find((stage) => stage.stage === 'Eligibility');
       assert.strictEqual(edinburghFiveGcseEligibility?.status, 'Met');
@@ -973,7 +985,7 @@ async function main() {
         'missing free-choice GCSE scoring inputs must not produce a partial Birmingham score'
       );
       assert.match(
-        missingAdditionalGcseCard.primary_explanation || '',
+        missingAdditionalGcseCard.decision_transparency?.insufficient_evidence_reason || '',
         /Fewer than two additional GCSE grades were provided/i
       );
       assert.doesNotMatch(
@@ -1195,13 +1207,11 @@ async function main() {
       assert.strictEqual(kmmsCard.recommendation_display_state, 'standard');
       assert.strictEqual(
         kmmsCard.primary_user_facing_recommendation,
-        'Strong Choice',
-        'official-prediction-unavailable cards must retain the canonical band label (Strong Choice), not an alternate "Interview Potential" wording family'
+        'Strong choice for your application',
+        'official-prediction-unavailable cards must use the standard recommendation headline, not an alternate "Interview Potential" wording family'
       );
-      assert.match(kmmsCard.primary_explanation, /UCAT score of 2550 is above the ApplySmart advisory UCAT range based on historical admissions evidence of 1855-1864/i);
-      assert.match(kmmsCard.primary_explanation, /competitive applicant profile/i);
-      assert.match(kmmsCard.primary_explanation, /available selection information and admissions evidence/i);
-      assert.match(kmmsCard.primary_explanation, /not a guarantee of interview/i);
+      assert.match(kmmsCard.primary_explanation, /UCAT score appears competitive for this applicant group/i);
+      assert.doesNotMatch(kmmsCard.primary_explanation, /ApplySmart advisory|current-scale|benchmark model/i);
       assert.match(kmmsCard.trust_statement, /does not alter university requirements/i);
       assert.strictEqual(kmmsCard.prediction?.prediction_status, 'prediction_unavailable');
       assert.strictEqual(kmmsCard.prediction?.official_prediction?.available, false);

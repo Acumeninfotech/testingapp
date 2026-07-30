@@ -81,7 +81,7 @@ describe('ResultCard', () => {
     const selectionApproach =
       "King's College London assesses applicants using academic eligibility together with UCAT performance, GCSE attainment, Situational Judgement Test performance and contextual information during interview shortlisting. Your prediction has been assessed against this published selection approach and available historical admissions evidence.";
     const historicalContext =
-      "Your UCAT performance compares favourably with applicants who have historically been invited to interview at King's College London. Interview thresholds can vary between admissions cycles depending on applicant competition and interview capacity, but your profile falls within a historically competitive range for interview consideration.";
+      "Your UCAT performance appears competitive against applicants who have historically been invited to interview at King's College London. Interview thresholds can vary between admissions cycles depending on applicant competition and interview capacity, but your profile falls within a historically competitive range for interview consideration.";
 
     render(
       <ResultCard
@@ -127,13 +127,16 @@ describe('ResultCard', () => {
       />,
     );
 
-    expect(screen.getByText('Strong interview outlook')).toBeInTheDocument();
-    expect(screen.getByText(mainSummary)).toBeInTheDocument();
+    expect(screen.getByText('Strong choice for your application')).toBeInTheDocument();
+    expect(
+      screen.getByText(
+        "Based on ApplySmart's assessment, your academic profile appears competitive for this applicant group.",
+      ),
+    ).toBeInTheDocument();
     expect(screen.getByText(disclaimer)).toBeInTheDocument();
-    expect(screen.getByText('Academic requirements:')).toBeInTheDocument();
+    expect(screen.getByText('You meet the academic requirements.')).toBeInTheDocument();
+    expect(screen.getByText('Entry requirements:')).toBeInTheDocument();
     expect(screen.getByText('Met')).toBeInTheDocument();
-    expect(screen.getByText('UCAT comparison:')).toBeInTheDocument();
-    expect(screen.getByText('Above the historical interview benchmark')).toBeInTheDocument();
     expect(screen.getByText(selectionApproach)).toBeInTheDocument();
     expect(screen.getByText(historicalContext)).toBeInTheDocument();
     expect(screen.getByText('Recent admissions data:')).toBeInTheDocument();
@@ -305,14 +308,14 @@ describe('ResultCard', () => {
       applicant_value: 2420,
       comparison_value: 2240,
       comparison_max_value: 2269,
-      comparison_label: 'Historical interview benchmark',
+      comparison_label: 'historical interview range',
       difference: 180,
       difference_direction: 'above',
       display_mode: 'comparison',
     });
     expect(result.result_card.decision_transparency?.comparison_metrics).toEqual([
       {
-        label: 'Historical interview benchmark',
+        label: 'historical interview range',
         value: '2240-2269',
         difference: '+180',
       },
@@ -322,7 +325,7 @@ describe('ResultCard', () => {
     expect(screen.getAllByText('UCAT comparison').length).toBeGreaterThan(0);
     expect(screen.getAllByText('2420 / 2700').length).toBeGreaterThan(0);
     expect(screen.getByText('2240-2269')).toBeInTheDocument();
-    expect(screen.getByText('Historical interview benchmark')).toBeInTheDocument();
+    expect(screen.getByText('historical interview range')).toBeInTheDocument();
     expect(screen.getByText('+180')).toBeInTheDocument();
   });
 
@@ -341,7 +344,7 @@ describe('ResultCard', () => {
       maximum_value: 10,
       comparison_value: 7.236,
       difference: 1.2640000000000002,
-      comparison_label: 'Historical selection score',
+      comparison_label: 'historical score guide',
       display_mode: 'score',
     });
   });
@@ -506,7 +509,8 @@ describe('ResultCard', () => {
     render(<ResultCard result={result} />);
 
     expect(screen.getByText('Prediction Unavailable')).toBeInTheDocument();
-    expect(screen.getByText('Interview prediction unavailable')).toBeInTheDocument();
+    expect(screen.getByText('More information is required')).toBeInTheDocument();
+    expect(screen.getByText('You meet the academic requirements.')).toBeInTheDocument();
     expect(screen.queryByText('Information Needed')).not.toBeInTheDocument();
     expect(screen.queryByText(/Evidence not yet available/i)).not.toBeInTheDocument();
     expect(screen.getAllByText(/meet Edinburgh's published academic entry requirements/i).length).toBeGreaterThan(0);
@@ -595,17 +599,17 @@ describe('ResultCard', () => {
     expect(screen.queryByText('Competitive Interview Potential')).not.toBeInTheDocument();
     expect(screen.queryByText('Developing Interview Potential')).not.toBeInTheDocument();
     expect(screen.queryByText('Limited Interview Potential')).not.toBeInTheDocument();
-    expect(screen.getByText(/UCAT score of 2550 is above the historical interview benchmark of 1855-1864/i)).toBeInTheDocument();
-    expect(screen.getByText(/not a guarantee of interview/i)).toBeInTheDocument();
+    expect(screen.getByText(/UCAT score appears competitive for this applicant group/i)).toBeInTheDocument();
+    expect(screen.getByText(/guarantee of interview/i)).toBeInTheDocument();
     expect(screen.getByText(/not alter university requirements or present unofficial information as an official rule/i)).toBeInTheDocument();
     expect(screen.queryByText('Verify')).not.toBeInTheDocument();
     expect(screen.queryByRole('status')).not.toBeInTheDocument();
     expect(screen.getByText('Entry requirements met')).toBeInTheDocument();
     expect(screen.getByText('Your UCAT')).toBeInTheDocument();
     expect(screen.getByText('2550')).toBeInTheDocument();
-    expect(screen.getByText('Historical benchmark')).toBeInTheDocument();
+    expect(screen.getByText('historical interview range')).toBeInTheDocument();
     expect(screen.getByText('1855-1864')).toBeInTheDocument();
-    expect(screen.getByText('Above historical benchmark')).toBeInTheDocument();
+    expect(screen.getByText('Above historical interview range')).toBeInTheDocument();
     expect(screen.queryByText('Fees')).not.toBeInTheDocument();
   });
 
@@ -619,13 +623,14 @@ describe('ResultCard', () => {
 
     render(<ResultCard result={result} />);
 
-    expect(screen.getByText('Very strong choice based on your UCAT')).toBeInTheDocument();
+    expect(screen.getByText('Very strong choice for your application')).toBeInTheDocument();
     expect(
-      screen.getByText('You meet the academic requirements. Your UCAT is above the published Home threshold.'),
+      screen.getByText("Based on ApplySmart's assessment, your UCAT score appears highly competitive for this applicant group."),
     ).toBeInTheDocument();
-    expect(document.body).toHaveTextContent('UCAT: 2420 — above the published Home threshold (2010–2049).');
-    expect(screen.getByText('Home threshold')).toBeInTheDocument();
-    expect(screen.getByText('2010–2049')).toBeInTheDocument();
+    expect(screen.getByText('You meet the academic requirements.')).toBeInTheDocument();
+    expect(document.body).toHaveTextContent('UCAT: 2420 - above the published Home threshold (2010–2049).');
+    expect(screen.getByText('published Home threshold')).toBeInTheDocument();
+    expect(screen.getByText('2010-2049')).toBeInTheDocument();
 
     expect(document.body).not.toHaveTextContent('BSMS 2026 Home standard threshold');
     expect(document.body).not.toHaveTextContent('confirmed adjusted-offer applicants');
@@ -969,10 +974,9 @@ describe('ResultCard', () => {
     expect(screen.queryByText('SJT band:')).not.toBeInTheDocument();
     expect(screen.getByText(/does not publish a combined points score/)).toBeInTheDocument();
     expect(screen.getByText('UCAT:')).toBeInTheDocument();
-    expect(screen.getAllByText(/485 points above/).length).toBeGreaterThan(0);
     expect(screen.getByText('SJT:')).toBeInTheDocument();
     expect(screen.getAllByText('Met - Bands 1-3 are accepted.').length).toBeGreaterThan(0);
-    expect(screen.getByText('Historical benchmark')).toBeInTheDocument();
+    expect(screen.getByText('historical interview range')).toBeInTheDocument();
     expect(screen.getByText('Difference')).toBeInTheDocument();
     expect(screen.getByText('+485')).toBeInTheDocument();
   });
@@ -1065,10 +1069,10 @@ describe('ResultCard', () => {
       />,
     );
 
-    expect(screen.getByText(/You meet the entry requirements we can check/)).toBeInTheDocument();
-    expect(screen.getByText(/UCAT: 1910 — above the published UCAT reference range \(1811–1909\)\./)).toBeInTheDocument();
-    expect(screen.getByText('Home non-graduate applicants')).toBeInTheDocument();
-    expect(screen.getByText(/checks entry requirements first, then uses UCAT/)).toBeInTheDocument();
+    expect(screen.getByText(/UCAT score appears competitive for this applicant group/)).toBeInTheDocument();
+    expect(screen.getByText(/UCAT: 1910 - above the published UCAT reference range \(1811–1909\)\./)).toBeInTheDocument();
+    expect(screen.getByText(/Home, Overseas, graduate and non-graduate applicants/)).toBeInTheDocument();
+    expect(screen.getByText(/checks academic eligibility and every UCAT cognitive section first/)).toBeInTheDocument();
     expect(screen.queryByText('Fees')).not.toBeInTheDocument();
     expect(screen.queryByText(/ApplySmart band range/)).not.toBeInTheDocument();
     expect(screen.queryByText(/2026 published current-scale/)).not.toBeInTheDocument();

@@ -155,11 +155,12 @@
     ]
   },
   "display": {
-    "primary_user_facing_recommendation": "Ambitious choice based on your selection score",
+    "primary_user_facing_recommendation": "More cautious choice for your application",
     "recommendation_display_state": "standard",
     "internal_recommendation": "Ambitious Choice",
-    "primary_explanation": "Your Lincoln selection score is in ApplySmart's provisional ambitious zone. Lincoln has not published an official interview cutoff for its first independent admissions cycle, so use this as guidance rather than a guaranteed interview.",
-    "historical_guidance_caveat": "Lincoln's 2026 selection formula can be calculated, but no official interview threshold has yet been published for its first independent admissions cycle. This result uses the published scoring method and a provisional competitive benchmark for strategic guidance."
+    "primary_explanation": "Based on ApplySmart's assessment, your academic profile may be less competitive for this applicant group.",
+    "historical_guidance_caveat": "Lincoln's published selection formula can be calculated, but no official interview threshold has yet been published for its first independent admissions cycle. This result uses the published scoring method and a provisional competitive benchmark for strategic guidance.",
+    "headline": "More cautious choice for your application"
   },
   "decision_timeline": [
     {
@@ -190,7 +191,7 @@
       "step": 5,
       "title": "Interview recommendation produced",
       "status": "Ambitious Choice",
-      "summary": "Your selection score is 4 points below the provisional competitive benchmark of 50 for this applicant pool. This result uses strategic guidance only, not an official cutoff. Treat this as guidance for university choice, not a promised interview."
+      "summary": "Based on ApplySmart's assessment, your academic profile may be less competitive for this applicant group. Treat this as guidance for university choice, not a promised interview."
     }
   ],
   "decision_transparency": {
@@ -198,12 +199,22 @@
       {
         "stage": "Eligibility",
         "status": "Met",
-        "summary": "The supported entry requirements are met.",
+        "summary": "The represented applicant meets Lincoln A100 supported academic, UCAT and SJT gates.",
         "checks": [
           {
-            "label": "Entry requirements",
+            "label": "GCSE requirements",
             "status": "Met",
-            "summary": "The supported entry requirements have been assessed."
+            "summary": "At least six GCSEs at Grade 7+ including Biology and Chemistry or Double Science; English Language and Maths minimum Grade 6. Applicant information: Supported GCSE profile supplied."
+          },
+          {
+            "label": "A Level requirements",
+            "status": "Met",
+            "summary": "AAA including Biology. Applicant information: AAA predicted including Biology."
+          },
+          {
+            "label": "SJT gate",
+            "status": "Met",
+            "summary": "SJT Band 4 is an automatic rejection. Applicant information: SJT Band 2."
           }
         ]
       },
@@ -215,63 +226,53 @@
           {
             "label": "Applicant pool",
             "status": "Used",
-            "summary": "Home, Rest of UK applicants"
+            "summary": "The applicant group matching the supplied fee status and entry route"
           },
           {
-            "label": "GCSE score",
-            "status": "Counted",
-            "summary": "24 out of 30."
+            "label": "UCAT total entered",
+            "status": "Used for ranking",
+            "summary": "2050 out of 2700."
           },
           {
-            "label": "UCAT score",
-            "status": "Counted",
-            "summary": "12 out of 15."
+            "label": "SJT band",
+            "status": "On file",
+            "summary": "Band 2."
           },
           {
-            "label": "SJT score",
-            "status": "Counted",
-            "summary": "Band 2: 10 / 15 SJT points counted."
-          },
-          {
-            "label": "Contextual uplift",
-            "status": "Counted",
-            "summary": "0 out of 12."
-          },
-          {
-            "label": "Selection score benchmark",
-            "status": "Below threshold",
-            "summary": "Your selection score is 4 points below the provisional competitive benchmark of 50 for this applicant pool. This result uses strategic guidance only, not an official cutoff."
+            "label": "Selection approach",
+            "status": "Ranking/cut-off based",
+            "summary": "Lincoln's official pre-interview score is calculated out of 60, then compared with a provisional competitive benchmark for strategic guidance only."
           }
         ]
       },
       {
         "stage": "Historical guidance",
         "status": "Guidance available",
-        "summary": "Your selection score is 4 points below the provisional competitive benchmark of 50 for this applicant pool. This result uses strategic guidance only, not an official cutoff. Interview thresholds may change each admissions cycle depending on applicant competition and interview capacity. Historical figures are guidance only, not a current cut-off, and do not guarantee an interview.",
+        "summary": "The result was assessed using the available admissions evidence for this applicant group. Historical admissions data provides a benchmark only; it is not a current cut-off or a guarantee of interview.",
         "checks": [
           {
             "label": "Applicant pool",
             "status": "Used",
-            "summary": "Home, Rest of UK applicants"
+            "summary": "The applicant group matching the supplied fee status and entry route"
           },
           {
             "label": "Important limitation",
             "status": "Guidance only",
-            "summary": "Interview thresholds may change each admissions cycle depending on applicant competition and interview capacity. Historical figures are guidance only, not a current cut-off, and do not guarantee an interview."
+            "summary": "Historical admissions data provides a benchmark only; it is not a current cut-off or a guarantee of interview."
           }
         ]
       },
       {
         "stage": "Recommendation",
         "status": "Guidance only",
-        "summary": "Your selection score is 4 points below the provisional competitive benchmark of 50 for this applicant pool. This result uses strategic guidance only, not an official cutoff. Treat this as guidance for university choice, not a promised interview.",
+        "summary": "Based on ApplySmart's assessment, your academic profile may be less competitive for this applicant group. Treat this as guidance for university choice, not a promised interview.",
         "checks": []
       }
     ],
     "key_reasons": [
-      "The supported entry requirements are met.",
-      "The result uses Home, Rest of UK applicants.",
-      "Your selection score is 4 points below the provisional competitive benchmark of 50 for this applicant pool. This result uses strategic guidance only, not an official cutoff."
+      "The represented applicant meets Lincoln A100 supported academic, UCAT and SJT gates.",
+      "The result uses The applicant group matching the supplied fee status and entry route.",
+      "Lincoln's official pre-interview score is calculated out of 60, then compared with a provisional competitive benchmark for strategic guidance only."
     ],
     "evidence_used": [
       "Official admissions policy",
@@ -291,35 +292,16 @@
     "manual_review_reason": null,
     "insufficient_evidence_reason": null,
     "insufficient_evidence_reason_code": null,
-    "score_breakdown": {
-      "name": "Total selection score",
-      "value": 46,
-      "max": 60,
-      "status": "calculated",
-      "explanation": "Lincoln calculates an official pre-interview selection score out of 60 using the components that apply to this applicant's qualification route.",
-      "checks": [
-        {
-          "label": "GCSE score",
-          "status": "Counted",
-          "summary": "24 out of 30."
-        },
-        {
-          "label": "UCAT score",
-          "status": "Counted",
-          "summary": "12 out of 15."
-        },
-        {
-          "label": "SJT score",
-          "status": "Counted",
-          "summary": "Band 2: 10 / 15 SJT points counted."
-        },
-        {
-          "label": "Contextual uplift",
-          "status": "Counted",
-          "summary": "0 out of 12."
-        }
-      ]
+    "compact_status": {
+      "label": "You meet the academic requirements.",
+      "type": "academic_status",
+      "tone": "positive"
     },
+    "comparison_metrics_title": null,
+    "comparison_metrics": [],
+    "selection_approach_display": null,
+    "selection_metric": null,
+    "score_breakdown": null,
     "ucat_comparison": null
   },
   "engine_notes": {
@@ -400,5 +382,10 @@
   },
   "stage_2": {
     "formula": "Lincoln calculates an official pre-interview selection score out of 60 using the components that apply to this applicant's qualification route."
-  }
+  },
+  "primary_user_facing_recommendation": "More cautious choice for your application",
+  "primary_explanation": "Based on ApplySmart's assessment, your academic profile may be less competitive for this applicant group.",
+  "recommendation_display_state": "standard",
+  "trust_statement": null,
+  "historical_guidance_caveat": "Historical admissions data provides a benchmark only; it is not a current cut-off or a guarantee of interview."
 }

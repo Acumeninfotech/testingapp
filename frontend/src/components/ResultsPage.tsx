@@ -3,9 +3,10 @@ import type { PredictionResult } from '../api/types';
 import {
   CATEGORY_PRIORITY,
   categoryRank,
+  emptyFilterGroupCounts,
+  filterGroupForCategory,
   presentResult,
-  strongestPopulatedCategory,
-  type ResultCategory,
+  strongestPopulatedFilterGroup,
 } from '../lib/resultPresenter';
 import { useShortlist } from '../results/useShortlist';
 import { ResultsHeader } from './ResultsHeader';
@@ -27,28 +28,23 @@ export function ResultsPage({ results, onStartOver }: ResultsPageProps) {
   const { shortlist, isShortlisted, toggleShortlist, limitMessage, clearLimitMessage } = useShortlist();
 
   const categorised = useMemo(
-    () => results.map((result) => ({ result, category: presentResult(result.result_card).category })),
+    () =>
+      results.map((result) => {
+        const category = presentResult(result.result_card).category;
+        return { result, category, filterGroup: filterGroupForCategory(category) };
+      }),
     [results],
   );
 
   const counts = useMemo(() => {
-    const base: Record<ResultCategory, number> = {
-      very_strong: 0,
-      strong: 0,
-      realistic: 0,
-      ambitious: 0,
-      high_risk: 0,
-      eligible_to_apply: 0,
-      manual_review: 0,
-      not_eligible: 0,
-    };
-    for (const { category } of categorised) {
-      base[category] += 1;
+    const base = emptyFilterGroupCounts();
+    for (const { filterGroup } of categorised) {
+      base[filterGroup] += 1;
     }
     return base;
   }, [categorised]);
 
-  const initialCategory = useMemo(() => strongestPopulatedCategory(counts), []); // eslint-disable-line react-hooks/exhaustive-deps
+  const initialCategory = useMemo(() => strongestPopulatedFilterGroup(counts), []); // eslint-disable-line react-hooks/exhaustive-deps
   const [activeCategory, setActiveCategory] = useState<PillKey>(initialCategory);
   const [query, setQuery] = useState('');
   const [sort, setSort] = useState<SortOption>('best_match');
@@ -62,12 +58,11 @@ export function ResultsPage({ results, onStartOver }: ResultsPageProps) {
   const filtered = useMemo(() => {
     const normalisedQuery = query.trim().toLowerCase();
     return categorised
-      .filter(({ category }) =>
-        activeCategory === 'all' || activeCategory === 'shortlist' ? true : category === activeCategory,
+      .filter(({ filterGroup }) =>
+        activeCategory === 'all' ? true : filterGroup === activeCategory,
       )
-      .filter(({ result }) => (activeCategory === 'shortlist' ? isShortlisted(result.universityId) : true))
       .filter(({ result }) => (normalisedQuery ? result.university.toLowerCase().includes(normalisedQuery) : true));
-  }, [categorised, activeCategory, query, isShortlisted]);
+  }, [categorised, activeCategory, query]);
 
   const sorted = useMemo(() => {
     const items = [...filtered];
@@ -106,7 +101,6 @@ export function ResultsPage({ results, onStartOver }: ResultsPageProps) {
       <ResultCategoryPills
         counts={counts}
         totalCount={results.length}
-        shortlistCount={shortlist.length}
         active={activeCategory}
         onChange={setActiveCategory}
       />

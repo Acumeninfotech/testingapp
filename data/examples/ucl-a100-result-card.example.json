@@ -137,7 +137,7 @@
     "blocking_reasons": [],
     "warnings": [
       "UCL has one reliable published threshold year on the current 2700 UCAT scale.",
-      "The 2026-entry threshold is historical guidance, not a guaranteed future interview cut-off.",
+      "The threshold is historical guidance, not a guaranteed later interview cut-off.",
       "2025 UCAT thresholds were on the former 3600 scale and are not converted."
     ],
     "source_ids": [
@@ -222,7 +222,7 @@
     "use": "guidance_only",
     "fixed_current_cutoff": false,
     "not_deterministic": true,
-    "warning": "The 2026-entry Home threshold is historical guidance, not a current or future threshold or guarantee.",
+    "warning": "The Home threshold is historical guidance, not a current or future threshold or guarantee.",
     "represented_pool": {
       "pool_id": "home_a100",
       "cycle": "2026 entry",
@@ -248,7 +248,7 @@
       "min": 900,
       "max": 2700
     },
-    "band_basis": "UCAT 2300 is above UCL's published 2026-entry Home threshold of 2190. The band margins around that threshold are ApplySmart modelled guidance from the supplied UCL configuration, not official UCL cutoffs.",
+    "band_basis": "UCAT 2300 is above UCL's published Home threshold of 2190. The band margins around that threshold are historical guidance from the supplied UCL configuration, not official UCL cutoffs.",
     "historical_comparison": "above_2026_entry_home_threshold",
     "missing_data_reasons": [],
     "cannot_predict_explanation": null,
@@ -265,7 +265,7 @@
   },
   "confidence": {
     "level": "low",
-    "summary": "Official eligibility and selection-method evidence are strong, but current-scale UCAT threshold history is limited to one published cycle.",
+    "summary": "Official eligibility and selection-method evidence are strong, but UCAT threshold history is limited to one published cycle.",
     "stage_confidence": {
       "stage_1": "high",
       "stage_2": "high",
@@ -296,10 +296,11 @@
     ]
   },
   "display": {
-    "primary_user_facing_recommendation": "Realistic choice based on your UCAT",
+    "primary_user_facing_recommendation": "Possible choice for your application",
     "recommendation_display_state": "standard",
-    "primary_explanation": "Your UCAT is above UCL's latest published threshold for this pool. UCL ranks applicants within each cycle, so thresholds can move.",
-    "historical_guidance_caveat": "Interview thresholds may change each admissions cycle depending on applicant competition and interview capacity. Historical figures are guidance only, not a current cut-off, and do not guarantee an interview."
+    "primary_explanation": "Based on ApplySmart's assessment, your UCAT score may be competitive for this applicant group.",
+    "historical_guidance_caveat": "Interview thresholds may change each admissions cycle depending on applicant competition and interview capacity. Historical figures are guidance only, not a current cut-off, and do not guarantee an interview.",
+    "headline": "Possible choice for your application"
   },
   "decision_timeline": [
     {
@@ -330,7 +331,7 @@
       "step": 5,
       "title": "Interview recommendation produced",
       "status": "Realistic Choice",
-      "summary": "Realistic choice based on your UCAT. Treat this as guidance for university choice, not a promised interview."
+      "summary": "Based on ApplySmart's assessment, your academic profile may be competitive for this applicant group. Treat this as guidance for university choice, not a promised interview."
     }
   ],
   "decision_transparency": {
@@ -338,65 +339,90 @@
       {
         "stage": "Eligibility",
         "status": "Met",
-        "summary": "The supported entry requirements are met.",
+        "summary": "The represented applicant meets UCL's supported GCSE, A-level, same-sitting and UCAT requirements. Academic achievement above the minimum is not scored.",
         "checks": [
           {
-            "label": "Entry requirements",
+            "label": "GCSE English Language and Mathematics",
             "status": "Met",
-            "summary": "The supported entry requirements have been assessed."
+            "summary": "Grade 6/B minimum in both subjects. Applicant information: Grade 6 in English Language and Mathematics."
+          },
+          {
+            "label": "A-level threshold and subjects",
+            "status": "Met",
+            "summary": "A*AA including A*A in Biology and Chemistry in either order. Applicant information: A* Biology, A Chemistry, A Mathematics."
+          },
+          {
+            "label": "Same-sitting rule",
+            "status": "Met",
+            "summary": "Three A-levels taken concurrently within two years. Applicant information: A-level same-sitting evidence confirmed."
+          },
+          {
+            "label": "UCAT and SJT",
+            "status": "Met",
+            "summary": "UCAT is required for ranking. SJT is used only as a tiebreaker for identical UCAT totals. Applicant information: UCAT 2300 and SJT Band 2."
           }
         ]
       },
       {
         "stage": "Selection model",
         "status": "Assessed",
-        "summary": "UCL checks academic eligibility first, then ranks eligible applicants by UCAT cognitive total in separate Access UCL, Home and Overseas pools. SJT is used only as a tiebreaker and academics above the minimum are not scored.",
+        "summary": "UCL first checks academic eligibility, then ranks eligible applicants by UCAT cognitive total in separate Access UCL, Home and Overseas pools. Academics above the minimum are not scored and SJT is used only as a tiebreaker.",
         "checks": [
           {
             "label": "Applicant pool",
             "status": "Used",
-            "summary": "Home, Rest of UK applicants"
+            "summary": "The applicant group matching the supplied fee status and entry route"
+          },
+          {
+            "label": "UCAT",
+            "status": "Ranking only",
+            "summary": "UCAT ranking: Eligible applicants are ranked by UCAT. No reliable numerical historical comparison is available."
+          },
+          {
+            "label": "SJT requirement",
+            "status": "Ignored",
+            "summary": "Band 2 - not used for interview selection."
           },
           {
             "label": "Selection approach",
-            "status": "Assessed",
-            "summary": "UCL checks academic eligibility first, then ranks eligible applicants by UCAT cognitive total in separate Access UCL, Home and Overseas pools. SJT is used only as a tiebreaker and academics above the minimum are not scored."
+            "status": "Ranking/cut-off based",
+            "summary": "UCL first checks academic eligibility, then ranks eligible applicants by UCAT cognitive total in separate Access UCL, Home and Overseas pools. Academics above the minimum are not scored and SJT is used only as a tiebreaker."
           }
         ]
       },
       {
         "stage": "Historical guidance",
         "status": "Guidance available",
-        "summary": "UCAT: 2300/2700 - 110 points above latest published Home interview threshold of 2190/2700. UCL ranks applicants within each cycle. The 2026-entry Home threshold is guidance only, context only, not a current threshold, and does not guarantee an interview. Historical UCAT records are shown separately in their original scale where applicable.",
+        "summary": "The result was assessed using the available admissions evidence for this applicant group. Historical admissions data provides a benchmark only; it is not a current cut-off or a guarantee of interview.",
         "checks": [
           {
             "label": "Applicant pool",
             "status": "Used",
-            "summary": "Home, Rest of UK applicants"
+            "summary": "The applicant group matching the supplied fee status and entry route"
           },
           {
             "label": "UCAT comparison",
             "status": "Compared",
-            "summary": "UCAT: 2300/2700 - 110 points above latest published Home interview threshold of 2190/2700. UCL ranks applicants within each cycle. The 2026-entry Home threshold is guidance only, context only, not a current threshold, and does not guarantee an interview."
+            "summary": "UCAT ranking: Eligible applicants are ranked by UCAT. No reliable numerical historical comparison is available."
           },
           {
             "label": "Important limitation",
             "status": "Guidance only",
-            "summary": "Interview thresholds may change each admissions cycle depending on applicant competition and interview capacity. Historical figures are guidance only, not a current cut-off, and do not guarantee an interview."
+            "summary": "Historical admissions data provides a benchmark only; it is not a current cut-off or a guarantee of interview."
           }
         ]
       },
       {
         "stage": "Recommendation",
         "status": "Guidance only",
-        "summary": "Realistic choice based on your UCAT. Treat this as guidance for university choice, not a promised interview.",
+        "summary": "Based on ApplySmart's assessment, your academic profile may be competitive for this applicant group. Treat this as guidance for university choice, not a promised interview.",
         "checks": []
       }
     ],
     "key_reasons": [
-      "The supported entry requirements are met.",
-      "The result uses Home, Rest of UK applicants.",
-      "You meet the academic requirements. Your UCAT is above the latest published Home interview threshold for applicants in your group."
+      "The represented applicant meets UCL's supported GCSE, A-level, same-sitting and UCAT requirements. Academic achievement above the minimum is not scored.",
+      "The result uses The applicant group matching the supplied fee status and entry route.",
+      "You meet the academic requirements. Eligible applicants are ranked by UCAT. No reliable numerical historical comparison is available."
     ],
     "evidence_used": [
       "Official admissions policy",
@@ -417,17 +443,44 @@
     "manual_review_reason": null,
     "insufficient_evidence_reason": null,
     "insufficient_evidence_reason_code": null,
+    "compact_status": {
+      "label": "You meet the academic requirements.",
+      "type": "academic_status",
+      "tone": "positive"
+    },
+    "comparison_metrics_title": null,
+    "comparison_metrics": [],
+    "selection_approach_display": null,
+    "selection_metric": {
+      "type": "ucat",
+      "label": "UCAT ranking",
+      "applicant_value": 2300,
+      "comparison_value": null,
+      "comparison_max_value": null,
+      "comparison_label": null,
+      "comparison_label_type": null,
+      "comparison_context": null,
+      "difference": null,
+      "difference_direction": null,
+      "difference_word": null,
+      "maximum_value": 2700,
+      "display_mode": "score",
+      "display_eligibility": true,
+      "entry_year": null,
+      "caveat": null
+    },
+    "score_breakdown": null,
     "ucat_comparison": {
-      "comparison_type": "current_guidance",
+      "comparison_type": "ranking_only",
       "applicant_ucat": 2300,
-      "benchmark_min": 2190,
+      "benchmark_min": null,
       "benchmark_max": null,
-      "benchmark_label": "latest published Home interview threshold",
-      "caveat": "UCL ranks applicants within each cycle. The 2026-entry Home threshold is guidance only, context only, not a current threshold, and does not guarantee an interview.",
-      "difference_from_benchmark": 110,
-      "position": "above",
-      "applicant_pool": "Home, Rest of UK applicants",
-      "sjt_policy": "UCL uses SJT only as a tiebreaker for identical UCAT cognitive totals. It is not a standalone gate or score component.",
+      "benchmark_label": null,
+      "caveat": null,
+      "difference_from_benchmark": null,
+      "position": null,
+      "applicant_pool": null,
+      "sjt_policy": "Band 2 - not used for interview selection.",
       "sjt_outcome": "ignored",
       "sjt_summary": "Band 2 - not used for interview selection.",
       "applicant_sjt_band": 2,
@@ -467,5 +520,10 @@
       "Do not predict offers or post-interview outcomes."
     ],
     "generated_from_profile_id": "ucl-a100"
-  }
+  },
+  "primary_user_facing_recommendation": "Possible choice for your application",
+  "primary_explanation": "Based on ApplySmart's assessment, your UCAT score may be competitive for this applicant group.",
+  "recommendation_display_state": "standard",
+  "trust_statement": null,
+  "historical_guidance_caveat": "Historical admissions data provides a benchmark only; it is not a current cut-off or a guarantee of interview."
 }

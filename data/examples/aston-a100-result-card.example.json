@@ -200,7 +200,7 @@
         "status": "pass",
         "evidence_classification": "official",
         "requirement": "UCAT or UCATSEN must be taken in the same year as application.",
-        "applicant_value": "UCAT 2400/2700 taken in 2026 for the represented application cycle.",
+        "applicant_value": "UCAT 2400/2700 recorded for this application.",
         "decision_outcome": "eligible",
         "source_ids": [
           "aston_medical_school_faq_current",
@@ -458,7 +458,7 @@
     "deterministic": false,
     "fixed_current_cutoff": false,
     "missing_data_reasons": [
-      "The live 2027 Home non-WP ranking boundary is not published.",
+      "The live Home non-WP ranking boundary is not published.",
       "Current applicant-pool distribution and rank position are unavailable.",
       "Historical guidance does not establish a guaranteed interview.",
       "Offer-consumer support and accepted MMI scaling boundary handling are unavailable."
@@ -483,7 +483,7 @@
   },
   "confidence": {
     "level": "low",
-    "summary": "Minimum eligibility and the /36 formula are well evidenced for the represented route. The interview band is low-confidence historical guidance because no live 2027 boundary or current pool distribution is available.",
+    "summary": "Minimum eligibility and the /36 formula are well evidenced for the represented route. The interview band is low-confidence historical guidance because no live boundary or current pool distribution is available.",
     "stage_confidence": {
       "minimum_eligibility": "high",
       "gcse_academic_score": "high",
@@ -513,7 +513,7 @@
       "official": "Course identity, minimum academic requirements, UCAT requirement, SJT non-use, ranking pools and current selection process.",
       "foi": "Home/WP /36 scoring details, historical guidance and pre-interview tie-breakers.",
       "historical_guidance": "The configured band boundaries and stored annual values are context only and not live cutoffs.",
-      "unknown": "Live 2027 boundary, current pool distribution, current rank and safe executable offer boundary."
+      "unknown": "live boundary, current pool distribution, current rank and safe executable offer boundary."
     },
     "source_traceability": [
       {
@@ -592,11 +592,11 @@
     ]
   },
   "display": {
-    "headline": "Strong choice based on historical data",
+    "headline": "Strong choice for your application",
     "subheadline": "Eligible; Home non-WP pre-interview score 35/36",
-    "primary_user_facing_recommendation": "Strong choice based on historical data",
+    "primary_user_facing_recommendation": "Strong choice for your application",
     "recommendation_display_state": "standard",
-    "primary_explanation": "The represented Home non-WP applicant meets Aston's implemented GCSE, A-level and UCAT requirements. Six selected GCSEs score 24/24 and UCAT 2400 scores 11/12, producing 35/36.",
+    "primary_explanation": "Based on ApplySmart's assessment, your academic profile appears competitive for this applicant group.",
     "historical_guidance_caveat": "Interview thresholds may change each admissions cycle depending on applicant competition and interview capacity. Historical figures are guidance only, not a current cut-off, and do not guarantee an interview.",
     "badges": [
       "Minimum eligibility passed",
@@ -639,7 +639,7 @@
       "step": 5,
       "title": "Interview recommendation produced",
       "status": "Strong Choice",
-      "summary": "Strong choice based on historical data. Treat this as guidance for university choice, not a promised interview."
+      "summary": "Based on ApplySmart's assessment, your academic profile appears competitive for this applicant group. Treat this as guidance for university choice, not a promised interview."
     }
   ],
   "decision_transparency": {
@@ -667,77 +667,71 @@
           {
             "label": "UCAT requirement",
             "status": "Met",
-            "summary": "UCAT or UCATSEN must be taken in the same year as application. Applicant information: UCAT 2400/2700 taken in 2026 for the represented application cycle."
+            "summary": "UCAT or UCATSEN must be taken in the same year as application. Applicant information: UCAT 2400/2700 recorded for this application."
           }
         ]
       },
       {
         "stage": "Selection model",
         "status": "Assessed",
-        "summary": "Aston combines points from six selected GCSEs and the UCAT cognitive total.",
+        "summary": "The university selection approach is applied after eligibility checks.",
         "checks": [
           {
             "label": "Applicant pool",
             "status": "Used",
-            "summary": "Home non-widening-participation school-leavers"
+            "summary": "The applicant group matching the supplied fee status and entry route"
           },
           {
-            "label": "GCSE contribution",
-            "status": "Counted",
-            "summary": "Six selected GCSEs contribute 24 points out of 24."
+            "label": "UCAT total entered",
+            "status": "Used for ranking",
+            "summary": "2400 out of 2700."
           },
           {
-            "label": "UCAT contribution",
-            "status": "Counted",
-            "summary": "UCAT 2400 contributes 11 points out of 12."
+            "label": "SJT band",
+            "status": "On file",
+            "summary": "Band 4."
           },
           {
-            "label": "SJT",
-            "status": "Not scored",
-            "summary": "SJT Band 4 is accepted and does not add points."
-          },
-          {
-            "label": "Combined score",
-            "status": "Calculated",
-            "summary": "The pre-interview score is 35 out of 36."
+            "label": "Selection approach",
+            "status": "Ranking/cut-off based",
+            "summary": "The university selection approach is applied after eligibility checks."
           }
         ]
       },
       {
         "stage": "Historical guidance",
         "status": "Guidance available",
-        "summary": "The applicant's result is above the historical interview range used for this applicant group. Interview thresholds may change each admissions cycle depending on applicant competition and interview capacity. Historical figures are guidance only, not a current cut-off, and do not guarantee an interview.",
+        "summary": "The result was assessed using the available admissions evidence for this applicant group. Historical admissions data provides a benchmark only; it is not a current cut-off or a guarantee of interview.",
         "checks": [
           {
             "label": "Applicant pool",
             "status": "Used",
-            "summary": "Home non-widening-participation school-leavers"
+            "summary": "The applicant group matching the supplied fee status and entry route"
           },
           {
             "label": "Important limitation",
             "status": "Guidance only",
-            "summary": "Interview thresholds may change each admissions cycle depending on applicant competition and interview capacity. Historical figures are guidance only, not a current cut-off, and do not guarantee an interview."
+            "summary": "Historical admissions data provides a benchmark only; it is not a current cut-off or a guarantee of interview."
           }
         ]
       },
       {
         "stage": "Recommendation",
         "status": "Guidance only",
-        "summary": "Strong choice based on historical data. Treat this as guidance for university choice, not a promised interview.",
+        "summary": "Based on ApplySmart's assessment, your academic profile appears competitive for this applicant group. Treat this as guidance for university choice, not a promised interview.",
         "checks": []
       }
     ],
     "key_reasons": [
-      "The supported GCSE, A-level and UCAT requirements are met.",
-      "The combined GCSE and UCAT score is 35 out of 36.",
-      "This score is in a strong historical position for the applicant pool used."
+      "The represented Home non-WP A-level applicant passes the implemented minimum eligibility gates. Eligibility does not guarantee an interview or offer.",
+      "The result uses The applicant group matching the supplied fee status and entry route.",
+      "The university selection approach is applied after eligibility checks."
     ],
     "evidence_used": [
       "Official admissions policy",
       "University selection methodology",
       "UCAT policy",
-      "Historical interview data",
-      "FOI evidence"
+      "Historical interview data"
     ],
     "evidence_confidence": {
       "level": "Medium",
@@ -748,38 +742,21 @@
         "Historical interview guidance is available, but some evidence is historical, FOI-derived or has documented gaps."
       ]
     },
+    "warnings": [],
     "manual_review_reason": null,
     "insufficient_evidence_reason": null,
-    "warnings": [],
-    "score_breakdown": {
-      "name": "Selection score",
-      "value": 35,
-      "max": 36,
-      "status": "calculated",
-      "explanation": null,
-      "checks": [
-        {
-          "label": "GCSE contribution",
-          "status": "Counted",
-          "summary": "Six selected GCSEs contribute 24 points out of 24."
-        },
-        {
-          "label": "UCAT contribution",
-          "status": "Counted",
-          "summary": "UCAT 2400 contributes 11 points out of 12."
-        },
-        {
-          "label": "SJT",
-          "status": "Not scored",
-          "summary": "SJT Band 4 is accepted and does not add points."
-        },
-        {
-          "label": "Combined score",
-          "status": "Calculated",
-          "summary": "The pre-interview score is 35 out of 36."
-        }
-      ]
-    }
+    "insufficient_evidence_reason_code": null,
+    "compact_status": {
+      "label": "You meet the academic requirements.",
+      "type": "academic_status",
+      "tone": "positive"
+    },
+    "comparison_metrics_title": null,
+    "comparison_metrics": [],
+    "selection_approach_display": null,
+    "selection_metric": null,
+    "score_breakdown": null,
+    "ucat_comparison": null
   },
   "engine_notes": {
     "generated_from_profile_id": "aston-a100",
@@ -797,7 +774,7 @@
     "engine_assumptions": [],
     "do_not_infer": [
       "Do not use the MSC seed profile as executable evidence.",
-      "Do not present any 2022-2026+ historical or guidance threshold as a live current cutoff.",
+      "Do not present any 2022-historical or guidance threshold as a live current cutoff.",
       "Do not repair, recalculate or automatically derive bands from inconsistent early-cycle converted UCAT extrema.",
       "Do not invent exact UCAT points below 1650.",
       "Do not resolve the ambiguous legacy GCSE letter-grade A point value without clarification.",
@@ -811,5 +788,10 @@
       "Do not invent an MMI scaling rounding convention.",
       "Do not activate production result-card readiness, index, README or metadata from this example."
     ]
-  }
+  },
+  "primary_user_facing_recommendation": "Strong choice for your application",
+  "primary_explanation": "Based on ApplySmart's assessment, your academic profile appears competitive for this applicant group.",
+  "recommendation_display_state": "standard",
+  "trust_statement": null,
+  "historical_guidance_caveat": "Historical admissions data provides a benchmark only; it is not a current cut-off or a guarantee of interview."
 }

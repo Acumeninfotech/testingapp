@@ -232,7 +232,7 @@
       "min": 900,
       "max": 2700
     },
-    "band_basis": "Based on the university's published selection methodology and historical admissions data, ApplySmart estimates that this profile would have been historically competitive for interview. This is an ApplySmart predictive estimate, not an official university threshold or guarantee of interview.",
+    "band_basis": "Based on the university's published selection methodology and historical admissions data, evidence-based estimates that this profile would have been historically competitive for interview. This is an ApplySmart predictive estimate, not an official university threshold or guarantee of interview.",
     "historical_comparison": "applysmart_normalised_old_scale_guidance",
     "missing_data_reasons": [],
     "cannot_predict_explanation": null,
@@ -265,7 +265,7 @@
   },
   "confidence": {
     "level": "medium",
-    "summary": "Eligibility evidence is strong for the represented route. Interview guidance is a labelled ApplySmart estimate using official methodology and historical admissions data; it is not official threshold guidance because current-cycle official thresholds and exact weighting are unpublished.",
+    "summary": "Eligibility evidence is strong for the represented route. Interview guidance is a labelled evidence-based estimate using official methodology and historical admissions data; it is not official threshold guidance because current-cycle official thresholds and exact weighting are unpublished.",
     "stage_confidence": {
       "stage_1": "high",
       "stage_2": "medium",
@@ -321,11 +321,11 @@
     ]
   },
   "display": {
-    "headline": "Strong choice based on ApplySmart estimate",
+    "headline": "Strong choice for your application",
     "subheadline": "Eligible Home A100 applicant; historically competitive interview guidance",
-    "primary_user_facing_recommendation": "Strong choice",
+    "primary_user_facing_recommendation": "Strong choice for your application",
     "recommendation_display_state": "standard",
-    "primary_explanation": "Based on the university's published selection methodology and historical admissions data, ApplySmart estimates that this profile would have been historically competitive for interview. This is an ApplySmart predictive estimate, not an official university threshold or guarantee of interview.",
+    "primary_explanation": "Based on ApplySmart's assessment, your UCAT score appears competitive for this applicant group.",
     "historical_guidance_caveat": "Interview thresholds may change each admissions cycle depending on applicant competition and interview capacity. Historical figures are guidance only, not a current cut-off, and do not guarantee an interview."
   },
   "decision_timeline": [
@@ -357,7 +357,7 @@
       "step": 5,
       "title": "Interview recommendation produced",
       "status": "Strong Choice",
-      "summary": "Strong choice. Treat this as guidance for university choice, not a promised interview."
+      "summary": "Based on ApplySmart's assessment, your academic profile appears competitive for this applicant group. Treat this as guidance for university choice, not a promised interview."
     }
   ],
   "decision_transparency": {
@@ -400,8 +400,18 @@
             "summary": "The applicant group matching the supplied fee status and entry route"
           },
           {
+            "label": "UCAT",
+            "status": "Ranking only",
+            "summary": "UCAT ranking: Eligible applicants are ranked by UCAT. No reliable numerical historical comparison is available."
+          },
+          {
+            "label": "SJT requirement",
+            "status": "Ignored",
+            "summary": "SJT is not used for interview selection."
+          },
+          {
             "label": "Selection approach",
-            "status": "Assessed",
+            "status": "Ranking/cut-off based",
             "summary": "QMUL ranks eligible applicants using a weighted score involving UCAT and UCAS Tariff. ApplySmart uses QMUL's published methodology and historical admissions data to estimate interview competitiveness; this is not official threshold guidance because the exact weighting and current-cycle official thresholds are not published."
           }
         ]
@@ -409,7 +419,7 @@
       {
         "stage": "Historical guidance",
         "status": "Guidance available",
-        "summary": "The applicant's result is above the historical interview range used for this applicant group. Interview thresholds may change each admissions cycle depending on applicant competition and interview capacity. Historical figures are guidance only, not a current cut-off, and do not guarantee an interview.",
+        "summary": "The result was assessed using the available admissions evidence for this applicant group. Historical admissions data provides a benchmark only; it is not a current cut-off or a guarantee of interview.",
         "checks": [
           {
             "label": "Applicant pool",
@@ -417,23 +427,28 @@
             "summary": "The applicant group matching the supplied fee status and entry route"
           },
           {
+            "label": "UCAT comparison",
+            "status": "Compared",
+            "summary": "UCAT ranking: Eligible applicants are ranked by UCAT. No reliable numerical historical comparison is available."
+          },
+          {
             "label": "Important limitation",
             "status": "Guidance only",
-            "summary": "Interview thresholds may change each admissions cycle depending on applicant competition and interview capacity. Historical figures are guidance only, not a current cut-off, and do not guarantee an interview."
+            "summary": "Historical admissions data provides a benchmark only; it is not a current cut-off or a guarantee of interview."
           }
         ]
       },
       {
         "stage": "Recommendation",
         "status": "Guidance only",
-        "summary": "Strong choice. Treat this as guidance for university choice, not a promised interview.",
+        "summary": "Based on ApplySmart's assessment, your academic profile appears competitive for this applicant group. Treat this as guidance for university choice, not a promised interview.",
         "checks": []
       }
     ],
     "key_reasons": [
       "The represented Home standard school-leaver meets QMUL's supported GCSE, A-level, UCAT and SJT eligibility checks.",
       "The result uses The applicant group matching the supplied fee status and entry route.",
-      "The recommendation is based on historical interview guidance."
+      "You meet the academic requirements. Eligible applicants are ranked by UCAT. No reliable numerical historical comparison is available."
     ],
     "evidence_used": [
       "Official admissions policy",
@@ -450,9 +465,36 @@
         "Historical interview guidance is available, but some evidence is historical, FOI-derived or has documented gaps."
       ]
     },
+    "warnings": [],
     "manual_review_reason": null,
     "insufficient_evidence_reason": null,
-    "warnings": []
+    "insufficient_evidence_reason_code": null,
+    "compact_status": {
+      "label": "You meet the academic requirements.",
+      "type": "academic_status",
+      "tone": "positive"
+    },
+    "comparison_metrics_title": null,
+    "comparison_metrics": [],
+    "selection_approach_display": null,
+    "selection_metric": null,
+    "score_breakdown": null,
+    "ucat_comparison": {
+      "comparison_type": "ranking_only",
+      "applicant_ucat": null,
+      "benchmark_min": null,
+      "benchmark_max": null,
+      "benchmark_label": null,
+      "caveat": null,
+      "difference_from_benchmark": null,
+      "position": null,
+      "applicant_pool": null,
+      "sjt_policy": "SJT is not used for interview selection.",
+      "sjt_outcome": "ignored",
+      "sjt_summary": "SJT is not used for interview selection.",
+      "applicant_sjt_band": null,
+      "official_ucat_minimum": null
+    }
   },
   "engine_notes": {
     "generated_from_profile_id": "queen-mary-a100",
@@ -466,9 +508,14 @@
       "ApplySmart-normalised 2700-scale guidance bands are predictive estimates derived from official historical old-scale cut-offs and are not official QMUL thresholds."
     ],
     "do_not_display": [
-      "ApplySmart estimates as official QMUL thresholds",
+      "evidence-based estimates as official QMUL thresholds",
       "Converted old-scale UCAT thresholds as deterministic current cut-offs",
       "Offer-stage FOI cut-offs as prediction"
     ]
-  }
+  },
+  "primary_user_facing_recommendation": "Strong choice for your application",
+  "primary_explanation": "Based on ApplySmart's assessment, your UCAT score appears competitive for this applicant group.",
+  "recommendation_display_state": "standard",
+  "trust_statement": null,
+  "historical_guidance_caveat": "Historical admissions data provides a benchmark only; it is not a current cut-off or a guarantee of interview."
 }

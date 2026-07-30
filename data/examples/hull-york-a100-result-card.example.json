@@ -155,11 +155,11 @@
     ]
   },
   "display": {
-    "headline": "Estimated HYMS selection score",
+    "headline": "Strong choice for your application",
     "subheadline": null,
-    "primary_user_facing_recommendation": "Strong choice based on an unofficial estimate",
+    "primary_user_facing_recommendation": "Strong choice for your application",
     "recommendation_display_state": "standard",
-    "primary_explanation": "Estimated HYMS selection score 85.48/100 supports the \"Strong choice\" estimate band. ApplySmart uses published HYMS admissions information and historical evidence to guide interview competitiveness alongside HYMS's published admissions policy. This is not a guarantee of interview.",
+    "primary_explanation": "Based on ApplySmart's assessment, your academic profile appears competitive for this applicant group.",
     "historical_guidance_caveat": "This is unofficial estimate-mode guidance, not a current HYMS cut-off or a guarantee of an interview.",
     "score_label": "Estimated HYMS selection score",
     "mandatory_disclosure": "ApplySmart uses published HYMS admissions information and historical evidence to guide interview competitiveness alongside HYMS's published admissions policy. This is not a guarantee of interview."
@@ -193,7 +193,7 @@
       "step": 5,
       "title": "Interview recommendation produced",
       "status": "Strong Choice",
-      "summary": "Strong choice based on an unofficial estimate. Treat this as guidance for university choice, not a promised interview."
+      "summary": "Based on ApplySmart's assessment, your academic profile appears competitive for this applicant group. Treat this as guidance for university choice, not a promised interview."
     }
   ],
   "decision_transparency": {
@@ -236,16 +236,31 @@
             "summary": "The applicant group matching the supplied fee status and entry route"
           },
           {
-            "label": "Selection approach",
-            "status": "Assessed",
-            "summary": "HYMS ranks eligible applicants using GCSE, UCAT decile and SJT components, with contextual points available only to qualifying Home UK school-leavers. ApplySmart labels every calculated tariff and recommendation as an unofficial estimate."
+            "label": "GCSE score",
+            "status": "Counted",
+            "summary": "28.98 out of 35."
+          },
+          {
+            "label": "UCAT score",
+            "status": "Counted",
+            "summary": "31.5 out of 35."
+          },
+          {
+            "label": "SJT score",
+            "status": "Counted",
+            "summary": "10 out of 15."
+          },
+          {
+            "label": "Contextual score",
+            "status": "Counted",
+            "summary": "15 out of 15."
           }
         ]
       },
       {
         "stage": "Historical guidance",
         "status": "Guidance available",
-        "summary": "The applicant's result is above the historical interview range used for this applicant group. Interview thresholds may change each admissions cycle depending on applicant competition and interview capacity. Historical figures are guidance only, not a current cut-off, and do not guarantee an interview.",
+        "summary": "The result was assessed using the available admissions evidence for this applicant group. Historical admissions data provides a benchmark only; it is not a current cut-off or a guarantee of interview.",
         "checks": [
           {
             "label": "Applicant pool",
@@ -255,21 +270,21 @@
           {
             "label": "Important limitation",
             "status": "Guidance only",
-            "summary": "Interview thresholds may change each admissions cycle depending on applicant competition and interview capacity. Historical figures are guidance only, not a current cut-off, and do not guarantee an interview."
+            "summary": "Historical admissions data provides a benchmark only; it is not a current cut-off or a guarantee of interview."
           }
         ]
       },
       {
         "stage": "Recommendation",
         "status": "Guidance only",
-        "summary": "Strong choice based on an unofficial estimate. Treat this as guidance for university choice, not a promised interview.",
+        "summary": "Based on ApplySmart's assessment, your academic profile appears competitive for this applicant group. Treat this as guidance for university choice, not a promised interview.",
         "checks": []
       }
     ],
     "key_reasons": [
       "The applicant meets every supported official HYMS eligibility rule represented by the supplied evidence.",
       "The result uses The applicant group matching the supplied fee status and entry route.",
-      "The recommendation is based on historical interview guidance."
+      "Estimated HYMS selection score is 85.48 out of 100."
     ],
     "evidence_used": [
       "Official admissions policy",
@@ -286,15 +301,43 @@
         "Historical interview guidance is available, but some evidence is historical, FOI-derived or has documented gaps."
       ]
     },
+    "warnings": [],
     "manual_review_reason": null,
     "insufficient_evidence_reason": null,
-    "warnings": [],
+    "insufficient_evidence_reason_code": null,
+    "compact_status": {
+      "label": "You meet the academic requirements.",
+      "type": "academic_status",
+      "tone": "positive"
+    },
+    "comparison_metrics_title": null,
+    "comparison_metrics": [],
+    "selection_approach_display": null,
+    "selection_metric": {
+      "type": "selection_score",
+      "label": "Selection score",
+      "applicant_value": 85.48,
+      "comparison_value": null,
+      "comparison_max_value": null,
+      "comparison_label": null,
+      "comparison_label_type": null,
+      "comparison_context": "Estimated HYMS selection score",
+      "difference": null,
+      "difference_direction": null,
+      "difference_word": null,
+      "maximum_value": 100,
+      "display_mode": "score",
+      "display_eligibility": true,
+      "entry_year": null,
+      "caveat": null
+    },
     "score_breakdown": {
       "name": "Estimated HYMS selection score",
       "value": 85.48,
       "max": 100,
       "status": "calculated",
       "explanation": "ApplySmart uses published HYMS admissions information and historical evidence to guide interview competitiveness alongside HYMS's published admissions policy. This is not a guarantee of interview.",
+      "unofficial": true,
       "checks": [
         {
           "label": "GCSE score",
@@ -316,9 +359,9 @@
           "status": "Counted",
           "summary": "15 out of 15."
         }
-      ],
-      "unofficial": true
-    }
+      ]
+    },
+    "ucat_comparison": null
   },
   "engine_notes": {
     "generated_from_profile_id": "hull-york-a100",
@@ -394,5 +437,10 @@
     "deterministic": false,
     "disclosure": "ApplySmart uses published HYMS admissions information and historical evidence to guide interview competitiveness alongside HYMS's published admissions policy. This is not a guarantee of interview."
   },
-  "mandatory_unofficial_estimate_disclosure": "ApplySmart uses published HYMS admissions information and historical evidence to guide interview competitiveness alongside HYMS's published admissions policy. This is not a guarantee of interview."
+  "mandatory_unofficial_estimate_disclosure": "ApplySmart uses published HYMS admissions information and historical evidence to guide interview competitiveness alongside HYMS's published admissions policy. This is not a guarantee of interview.",
+  "primary_user_facing_recommendation": "Strong choice for your application",
+  "primary_explanation": "Based on ApplySmart's assessment, your academic profile appears competitive for this applicant group.",
+  "recommendation_display_state": "standard",
+  "trust_statement": null,
+  "historical_guidance_caveat": "Historical admissions data provides a benchmark only; it is not a current cut-off or a guarantee of interview."
 }
