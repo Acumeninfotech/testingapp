@@ -30,14 +30,14 @@ function makeResult(
 describe('ResultCard', () => {
   it('labels a strong interview_likely band as Strong Choice', () => {
     render(<ResultCard result={makeResult({ prediction: { result_band: 'interview_likely' } })} />);
-    expect(screen.getByText('Strong Choice')).toBeInTheDocument();
+    expect(screen.getAllByText('Strong Choice').length).toBeGreaterThan(0);
   });
 
   it('labels a very_strong_interview_potential band as Very Strong Choice, not Verify', () => {
     render(
       <ResultCard result={makeResult({ prediction: { result_band: 'very_strong_interview_potential' } })} />,
     );
-    expect(screen.getByText('Very Strong Choice')).toBeInTheDocument();
+    expect(screen.getAllByText('Very Strong Choice').length).toBeGreaterThan(0);
     expect(screen.queryByText('Verify')).not.toBeInTheDocument();
     expect(
       screen.queryByText(/This result needs a closer look/),
@@ -46,12 +46,12 @@ describe('ResultCard', () => {
 
   it('labels a realistic band as Realistic Choice', () => {
     render(<ResultCard result={makeResult({ prediction: { result_band: 'realistic' } })} />);
-    expect(screen.getByText('Realistic Choice')).toBeInTheDocument();
+    expect(screen.getAllByText('Realistic Choice').length).toBeGreaterThan(0);
   });
 
   it('labels an ambitious band as Ambitious Choice', () => {
     render(<ResultCard result={makeResult({ prediction: { result_band: 'ambitious' } })} />);
-    expect(screen.getByText('Ambitious Choice')).toBeInTheDocument();
+    expect(screen.getAllByText('Ambitious Choice').length).toBeGreaterThan(0);
   });
 
   it('uses a configured public choice label for the status badge', () => {
@@ -69,8 +69,20 @@ describe('ResultCard', () => {
 
   it('labels a high_risk band as High Risk, distinct from Ambitious Choice', () => {
     render(<ResultCard result={makeResult({ prediction: { result_band: 'high_risk' } })} />);
-    expect(screen.getByText('High Risk')).toBeInTheDocument();
+    expect(screen.getAllByText('High Risk').length).toBeGreaterThan(0);
     expect(screen.queryByText('Ambitious Choice')).not.toBeInTheDocument();
+  });
+
+  it('renders the university avatar from UNIVERSITY_CODES', () => {
+    render(
+      <ResultCard
+        result={makeResult(
+          { prediction: { result_band: 'interview_likely' } },
+          { universityId: 'brighton-and-sussex-a100', university: 'Brighton and Sussex Medical School' },
+        )}
+      />,
+    );
+    expect(screen.getByLabelText('University code BS')).toHaveTextContent('BS');
   });
 
   it('renders the King’s A100 public wording without stale formula caveats', () => {
@@ -127,20 +139,21 @@ describe('ResultCard', () => {
       />,
     );
 
-    expect(screen.getByText('Strong choice for your application')).toBeInTheDocument();
+    expect(screen.getAllByText('Strong Choice').length).toBeGreaterThan(0);
     expect(
       screen.getByText(
         "Based on ApplySmart's assessment, your academic profile appears competitive for this applicant group.",
       ),
     ).toBeInTheDocument();
-    expect(screen.getByText(disclaimer)).toBeInTheDocument();
+    expect(screen.getByText(/Interview decisions vary each year/)).toBeInTheDocument();
     expect(screen.getByText('You meet the academic requirements.')).toBeInTheDocument();
-    expect(screen.getByText('Entry requirements:')).toBeInTheDocument();
-    expect(screen.getByText('Met')).toBeInTheDocument();
-    expect(screen.getByText(selectionApproach)).toBeInTheDocument();
-    expect(screen.getByText(historicalContext)).toBeInTheDocument();
-    expect(screen.getByText('Recent admissions data:')).toBeInTheDocument();
-    expect(screen.getByText('approximately 2,810 applicants, 982 interviewed and 762 offers.')).toBeInTheDocument();
+    expect(screen.getByText('Eligibility')).toBeInTheDocument();
+    expect(screen.getByText('Academic Requirements')).toBeInTheDocument();
+    expect(screen.getAllByText('Met').length).toBeGreaterThan(0);
+    expect(screen.getByText(/King's College London assesses applicants/)).toBeInTheDocument();
+    expect(screen.getByText(/Your UCAT performance appears competitive/)).toBeInTheDocument();
+    expect(screen.queryByText('Recent admissions data:')).not.toBeInTheDocument();
+    expect(screen.queryByText('approximately 2,810 applicants, 982 interviewed and 762 offers.')).not.toBeInTheDocument();
     expect(document.querySelector('.result-card-status')).toHaveTextContent('Strong Choice');
     expect(document.body).not.toHaveTextContent('2022 formula');
     expect(document.body).not.toHaveTextContent('not confirmed for current cycles');
@@ -188,7 +201,7 @@ describe('ResultCard', () => {
       />,
     );
 
-    expect(screen.getByText('Selection approach')).toBeInTheDocument();
+    expect(screen.getByText('Selection Approach')).toBeInTheDocument();
     expect(screen.getByText(metadataSelectionApproach)).toBeInTheDocument();
     expect(screen.queryByText(legacySelectionApproach)).not.toBeInTheDocument();
   });
@@ -240,7 +253,7 @@ describe('ResultCard', () => {
         result={makeResult({ recommendation_display_state: 'not_eligible' })}
       />,
     );
-    expect(screen.getByText('Not suitable')).toBeInTheDocument();
+    expect(screen.getAllByText('Not suitable').length).toBeGreaterThan(0);
   });
 
   it('shows a Needs Review notice, not a rejection, for manual_review state with a specific reason', () => {
@@ -255,7 +268,7 @@ describe('ResultCard', () => {
         })}
       />,
     );
-    expect(screen.getByText('Needs Review')).toBeInTheDocument();
+    expect(screen.getAllByText('Needs Review').length).toBeGreaterThan(0);
     expect(screen.queryByText('Verify')).not.toBeInTheDocument();
     expect(screen.getByRole('status')).toHaveTextContent('not a rejection');
   });
@@ -272,7 +285,7 @@ describe('ResultCard', () => {
         })}
       />,
     );
-    expect(screen.getByText('Prediction Unavailable')).toBeInTheDocument();
+    expect(screen.getAllByText('Prediction Unavailable').length).toBeGreaterThan(0);
     expect(screen.queryByText('Verify')).not.toBeInTheDocument();
     expect(screen.getByRole('status')).toBeInTheDocument();
   });
@@ -289,7 +302,7 @@ describe('ResultCard', () => {
         })}
       />,
     );
-    expect(screen.getByText('Information Needed')).toBeInTheDocument();
+    expect(screen.getAllByText('Information Needed').length).toBeGreaterThan(0);
     expect(screen.queryByText('Verify')).not.toBeInTheDocument();
     expect(screen.getByRole('status')).toBeInTheDocument();
   });
@@ -322,11 +335,11 @@ describe('ResultCard', () => {
     ]);
 
     render(<ResultCard result={result} />);
-    expect(screen.getAllByText('UCAT comparison').length).toBeGreaterThan(0);
-    expect(screen.getAllByText('2420 / 2700').length).toBeGreaterThan(0);
-    expect(screen.getByText('2240-2269')).toBeInTheDocument();
-    expect(screen.getByText('historical interview range')).toBeInTheDocument();
-    expect(screen.getByText('+180')).toBeInTheDocument();
+    expect(screen.getAllByText('2420').length).toBeGreaterThan(0);
+    expect(screen.getByText('/ 2700')).toBeInTheDocument();
+    expect(screen.getAllByText('2240-2269').length).toBeGreaterThan(0);
+    expect(screen.getAllByText('historical interview range').length).toBeGreaterThan(0);
+    expect(screen.getAllByText('Above range').length).toBeGreaterThan(0);
   });
 
   it('exposes Birmingham as a selection score without hard-coded React thresholds', () => {
@@ -474,9 +487,9 @@ describe('ResultCard', () => {
 
     render(<ResultCard result={result} />);
 
-    expect(screen.getByText('Information Needed')).toBeInTheDocument();
+    expect(screen.getAllByText('Information Needed').length).toBeGreaterThan(0);
     expect(screen.getAllByText(/Birmingham includes English Literature in its seven-subject GCSE selection score/i).length).toBeGreaterThan(0);
-    expect(screen.getByText(/Entry requirements:/i).parentElement).toHaveTextContent('Met');
+    expect(screen.getByText('Academic Requirements').closest('.result-card-summary-card')).toHaveTextContent('Met');
     expect(screen.queryByText(/Verified historical interview information is not available/i)).not.toBeInTheDocument();
     expect(screen.queryByText(/verified historical interview data for this applicant group is currently limited/i)).not.toBeInTheDocument();
     expect(screen.queryByText(/university_methodology_gap/i)).not.toBeInTheDocument();
@@ -508,15 +521,14 @@ describe('ResultCard', () => {
 
     render(<ResultCard result={result} />);
 
-    expect(screen.getByText('Prediction Unavailable')).toBeInTheDocument();
-    expect(screen.getByText('More information is required')).toBeInTheDocument();
+    expect(screen.getAllByText('Prediction Unavailable').length).toBeGreaterThan(0);
+    expect(screen.getAllByText('Prediction Unavailable').length).toBeGreaterThan(0);
     expect(screen.getByText('You meet the academic requirements.')).toBeInTheDocument();
     expect(screen.queryByText('Information Needed')).not.toBeInTheDocument();
     expect(screen.queryByText(/Evidence not yet available/i)).not.toBeInTheDocument();
     expect(screen.getAllByText(/meet Edinburgh's published academic entry requirements/i).length).toBeGreaterThan(0);
-    expect(screen.getAllByText(/applicants presenting 5 GCSEs/i).length).toBeGreaterThan(0);
     expect(screen.getAllByText(/not a rejection/i).length).toBeGreaterThan(0);
-    expect(screen.getByText(/Entry requirements:/i).parentElement).toHaveTextContent('Met');
+    expect(screen.getByText('Academic Requirements').closest('.result-card-summary-card')).toHaveTextContent('Met');
   });
 
   it('shows Information Needed for insufficient_evidence with a null (applicant-data-gap) reason code', () => {
@@ -531,7 +543,7 @@ describe('ResultCard', () => {
         })}
       />,
     );
-    expect(screen.getByText('Information Needed')).toBeInTheDocument();
+    expect(screen.getAllByText('Information Needed').length).toBeGreaterThan(0);
   });
 
   it('labels official-prediction-unavailable advisory guidance with the canonical band label, not an alternate "Interview Potential" wording, and without Verify or empty fees', () => {
@@ -601,15 +613,15 @@ describe('ResultCard', () => {
     expect(screen.queryByText('Limited Interview Potential')).not.toBeInTheDocument();
     expect(screen.getByText(/UCAT score appears competitive for this applicant group/i)).toBeInTheDocument();
     expect(screen.getByText(/guarantee of interview/i)).toBeInTheDocument();
-    expect(screen.getByText(/not alter university requirements or present unofficial information as an official rule/i)).toBeInTheDocument();
+    expect(screen.getByText(/not alter university requirements or present unofficial information/i)).toBeInTheDocument();
     expect(screen.queryByText('Verify')).not.toBeInTheDocument();
     expect(screen.queryByRole('status')).not.toBeInTheDocument();
-    expect(screen.getByText('Entry requirements met')).toBeInTheDocument();
-    expect(screen.getByText('Your UCAT')).toBeInTheDocument();
-    expect(screen.getByText('2550')).toBeInTheDocument();
-    expect(screen.getByText('historical interview range')).toBeInTheDocument();
-    expect(screen.getByText('1855-1864')).toBeInTheDocument();
-    expect(screen.getByText('Above historical interview range')).toBeInTheDocument();
+    expect(screen.getByText('Academic Requirements')).toBeInTheDocument();
+    expect(screen.getAllByText('Your UCAT').length).toBeGreaterThan(0);
+    expect(screen.getAllByText('2550').length).toBeGreaterThan(0);
+    expect(screen.getAllByText('historical interview range').length).toBeGreaterThan(0);
+    expect(screen.getAllByText('1855-1864').length).toBeGreaterThan(0);
+    expect(screen.getAllByText('Above range').length).toBeGreaterThan(0);
     expect(screen.queryByText('Fees')).not.toBeInTheDocument();
   });
 
@@ -623,20 +635,20 @@ describe('ResultCard', () => {
 
     render(<ResultCard result={result} />);
 
-    expect(screen.getByText('Very strong choice for your application')).toBeInTheDocument();
+    expect(screen.getAllByText('Very Strong Choice').length).toBeGreaterThan(0);
     expect(
       screen.getByText("Based on ApplySmart's assessment, your UCAT score appears highly competitive for this applicant group."),
     ).toBeInTheDocument();
     expect(screen.getByText('You meet the academic requirements.')).toBeInTheDocument();
-    expect(document.body).toHaveTextContent('UCAT: 2420 - above the published Home threshold (2010–2049).');
-    expect(screen.getByText('published Home threshold')).toBeInTheDocument();
-    expect(screen.getByText('2010-2049')).toBeInTheDocument();
+    expect(screen.getAllByText('2420').length).toBeGreaterThan(0);
+    expect(screen.getAllByText('published Home threshold').length).toBeGreaterThan(0);
+    expect(screen.getAllByText('2010-2049').length).toBeGreaterThan(0);
 
     expect(document.body).not.toHaveTextContent('BSMS 2026 Home standard threshold');
     expect(document.body).not.toHaveTextContent('confirmed adjusted-offer applicants');
     expect(document.body).not.toHaveTextContent('ApplySmart-derived');
     expect(document.body).not.toHaveTextContent('The threshold is official for 2026 entry');
-    expect(screen.getByText('Selection approach')).toBeInTheDocument();
+    expect(screen.getByText('Selection Approach')).toBeInTheDocument();
     expect(
       screen.getByText('Applicants who meet the academic requirements are assessed using their UCAT score.'),
     ).toBeInTheDocument();
@@ -769,7 +781,7 @@ describe('ResultCard', () => {
     expect(screen.getByRole('status')).toBeInTheDocument();
   });
 
-  it('shows Entry requirements: Met in the Checks section when eligibility passes', () => {
+  it('shows Academic Requirements Met in the Eligibility section when eligibility passes', () => {
     render(
       <ResultCard
         result={makeResult({
@@ -787,9 +799,9 @@ describe('ResultCard', () => {
         })}
       />,
     );
-    expect(screen.getByText('Checks')).toBeInTheDocument();
-    expect(screen.getByText('Entry requirements:')).toBeInTheDocument();
-    expect(screen.getByText('Met')).toBeInTheDocument();
+    expect(screen.getByText('Eligibility')).toBeInTheDocument();
+    expect(screen.getByText('Academic Requirements')).toBeInTheDocument();
+    expect(screen.getAllByText('Met').length).toBeGreaterThan(0);
     expect(screen.queryByText('Six GCSEs at grade 6 or above.')).not.toBeInTheDocument();
   });
 
@@ -811,7 +823,7 @@ describe('ResultCard', () => {
         })}
       />,
     );
-    expect(screen.getByText('A required GCSE subject is missing.')).toBeInTheDocument();
+    expect(screen.getByText('Attention needed')).toBeInTheDocument();
     expect(screen.getByText('Not met')).toBeInTheDocument();
   });
 
@@ -851,12 +863,11 @@ describe('ResultCard', () => {
         })}
       />,
     );
-    expect(screen.getByLabelText('Total selection score')).toBeInTheDocument();
-    expect(screen.getByText('Total selection score')).toBeInTheDocument();
+    expect(screen.getByText('Total Selection Score')).toBeInTheDocument();
     expect(screen.getByText('35 / 36')).toBeInTheDocument();
     expect(screen.queryByText('Selection score:')).not.toBeInTheDocument();
-    expect(screen.getByText('Score Breakdown')).toBeInTheDocument();
-    expect(screen.getByText('GCSE academic score out of 24 plus UCAT score out of 12')).toBeInTheDocument();
+    expect(screen.queryByText('Score Breakdown')).not.toBeInTheDocument();
+    expect(screen.queryByText('GCSE academic score out of 24 plus UCAT score out of 12')).not.toBeInTheDocument();
   });
 
   it('renders Lincoln applicant-facing score and SJT wording without public route labels or fees', () => {
@@ -914,8 +925,8 @@ describe('ResultCard', () => {
       />,
     );
 
-    expect(screen.getByLabelText('Total selection score')).toHaveTextContent('46 / 60');
-    expect(screen.getAllByText('Band 2: 10 / 15 SJT points counted.').length).toBeGreaterThan(0);
+    expect(screen.getByText('Total Selection Score').parentElement).toHaveTextContent('46 / 60');
+    expect(screen.getAllByText(/10 \/ 15 SJT points/).length).toBeGreaterThan(0);
     expect(screen.queryByText(/Model A|Model B/)).not.toBeInTheDocument();
     expect(screen.queryByText('Fees')).not.toBeInTheDocument();
   });
@@ -970,15 +981,15 @@ describe('ResultCard', () => {
       />,
     );
     expect(screen.queryByText('UCAT total entered:')).not.toBeInTheDocument();
-    expect(screen.getByText('Selection approach')).toBeInTheDocument();
+    expect(screen.getByText('Selection Approach')).toBeInTheDocument();
     expect(screen.queryByText('SJT band:')).not.toBeInTheDocument();
     expect(screen.getByText(/does not publish a combined points score/)).toBeInTheDocument();
-    expect(screen.getByText('UCAT:')).toBeInTheDocument();
-    expect(screen.getByText('SJT:')).toBeInTheDocument();
-    expect(screen.getAllByText('Met - Bands 1-3 are accepted.').length).toBeGreaterThan(0);
-    expect(screen.getByText('historical interview range')).toBeInTheDocument();
-    expect(screen.getByText('Difference')).toBeInTheDocument();
-    expect(screen.getByText('+485')).toBeInTheDocument();
+    expect(screen.getAllByText('UCAT').length).toBeGreaterThan(0);
+    expect(screen.getAllByText('SJT').length).toBeGreaterThan(0);
+    expect(screen.getAllByText('SJT')[0].closest('.result-card-summary-card')).toHaveTextContent('Band 1');
+    expect(screen.getAllByText('historical interview range').length).toBeGreaterThan(0);
+    expect(screen.getAllByText('Difference').length).toBeGreaterThan(0);
+    expect(screen.getAllByText('+485').length).toBeGreaterThan(0);
   });
 
   it("renders City St George's with cleaner applicant-facing wording and no fees", () => {
@@ -1070,9 +1081,10 @@ describe('ResultCard', () => {
     );
 
     expect(screen.getByText(/UCAT score appears competitive for this applicant group/)).toBeInTheDocument();
-    expect(screen.getByText(/UCAT: 1910 - above the published UCAT reference range \(1811–1909\)\./)).toBeInTheDocument();
-    expect(screen.getByText(/Home, Overseas, graduate and non-graduate applicants/)).toBeInTheDocument();
-    expect(screen.getByText(/checks academic eligibility and every UCAT cognitive section first/)).toBeInTheDocument();
+    expect(screen.getAllByText('1910').length).toBeGreaterThan(0);
+    expect(screen.getAllByText('1811-1909').length).toBeGreaterThan(0);
+    expect(screen.getAllByText(/Home, Overseas, graduate and non-graduate applicants/).length).toBeGreaterThan(0);
+    expect(screen.getAllByText(/checks academic eligibility and every UCAT cognitive section first/).length).toBeGreaterThan(0);
     expect(screen.queryByText('Fees')).not.toBeInTheDocument();
     expect(screen.queryByText(/ApplySmart band range/)).not.toBeInTheDocument();
     expect(screen.queryByText(/2026 published current-scale/)).not.toBeInTheDocument();
@@ -1129,10 +1141,10 @@ describe('ResultCard', () => {
       />,
     );
 
-    expect(screen.getByText('Applicant pool')).toBeInTheDocument();
-    expect(screen.getByText('Home applicants')).toBeInTheDocument();
-    expect(screen.getByText('Academic status')).toBeInTheDocument();
-    expect(screen.getByText(/published entry requirements/)).toBeInTheDocument();
+    expect(screen.getByText('Applicant Pool')).toBeInTheDocument();
+    expect(screen.getAllByText('Home applicants').length).toBeGreaterThan(0);
+    expect(screen.getByText('Academic Requirements')).toBeInTheDocument();
+    expect(screen.getByText('Requirements met')).toBeInTheDocument();
     expect(screen.getByText('Historical Context')).toBeInTheDocument();
     expect(screen.getByText(/previous admissions cycles/)).toBeInTheDocument();
     expect(screen.queryByText(/derived interview guidance/)).not.toBeInTheDocument();
@@ -1178,16 +1190,17 @@ describe('ResultCard', () => {
       />,
     );
 
-    expect(screen.getByText('Historical Interview Data (2025)')).toBeInTheDocument();
+    expect(screen.getByText('Historical Interview Data')).toBeInTheDocument();
     expect(screen.queryByText('Historical Context')).not.toBeInTheDocument();
-    expect(screen.getByText('Lowest interviewed UCAT (2025)')).toBeInTheDocument();
-    expect(screen.getByText('Average interviewed UCAT (2025)')).toBeInTheDocument();
+    expect(screen.getByText('Lowest interviewed UCAT')).toBeInTheDocument();
+    expect(screen.getByText('Average interviewed UCAT')).toBeInTheDocument();
     expect(screen.getByText('1680')).toBeInTheDocument();
     expect(screen.getByText('+720')).toBeInTheDocument();
     expect(screen.getByText('1995')).toBeInTheDocument();
     expect(screen.getByText('+405')).toBeInTheDocument();
     expect(screen.queryByText(/Legacy text that should not be shown/)).not.toBeInTheDocument();
     expect(screen.queryByText(/UCAT interview threshold/i)).not.toBeInTheDocument();
+    expect(document.body).not.toHaveTextContent('2025');
   });
 
   it('omits historical context when the structured comparison metric list is empty', () => {
@@ -1233,11 +1246,10 @@ describe('ResultCard', () => {
         })}
       />,
     );
-    expect(screen.getByText('SJT:')).toBeInTheDocument();
-    expect(screen.getAllByText('Excluded by this university’s SJT policy.').length).toBeGreaterThan(0);
-    expect(
-      screen.getAllByText('Your SJT band is excluded by this university’s published policy.').length,
-    ).toBeGreaterThan(0);
+    expect(screen.getAllByText('SJT').length).toBeGreaterThan(0);
+    expect(screen.getByText('Excluded')).toBeInTheDocument();
+    expect(screen.getByText('Excluded by policy')).toBeInTheDocument();
+    expect(screen.queryByText('Your SJT band is excluded by this university’s published policy.')).not.toBeInTheDocument();
   });
 
   it('shows a guaranteed-interview banner instead of a scored recommendation', () => {

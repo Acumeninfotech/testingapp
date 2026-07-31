@@ -5,13 +5,14 @@ import type {
   SelectionMetric,
   UcatComparison,
 } from '../api/types';
-import { Fragment } from 'react';
+import type { CSSProperties } from 'react';
 import {
   presentResult,
   resultCardAcademicStatus,
   resultCardRecommendationExplanation,
   resultCardRecommendationHeadline,
 } from '../lib/resultPresenter';
+import { UNIVERSITY_CODES } from '../data/universityCodes';
 
 function isOfficialPredictionUnavailable(card: PredictionResult['result_card']): boolean {
   const officialPrediction = card.prediction?.official_prediction as
@@ -102,21 +103,6 @@ function isRenderableComparisonMetric(metric: unknown): metric is ComparisonMetr
   );
 }
 
-function formatBenchmark(comparison: UcatComparison): string | null {
-  if (comparison.comparison_type === 'historical_range') {
-    return comparison.benchmark_min !== null && comparison.benchmark_max !== null
-      ? `${comparison.benchmark_min}-${comparison.benchmark_max}`
-      : null;
-  }
-  return comparison.benchmark_min !== null ? String(comparison.benchmark_min) : null;
-}
-
-function simplePositionText(position: UcatComparison['position']): string {
-  if (position === 'above') return 'above';
-  if (position === 'below') return 'below';
-  return 'within';
-}
-
 function publicThresholdGroup(text = ''): string | null {
   if (/contextual|widening participation|wp\b|ukwpmed/.test(text)) return 'contextual';
   if (/overseas|international|non-uk/.test(text)) return 'Overseas';
@@ -174,15 +160,6 @@ function publicComparisonCaveat(comparison?: UcatComparison | null): string {
   return 'Historical admissions data provides a benchmark only; it is not a current cut-off or a guarantee of interview.';
 }
 
-function ucatComparisonSummary(comparison?: UcatComparison | null): string | null {
-  if (!comparison || comparison.applicant_ucat === null) {
-    return null;
-  }
-  const benchmark = formatBenchmark(comparison)?.replace('-', '–');
-  const benchmarkText = benchmark ? ` (${benchmark})` : '';
-  return `UCAT: ${comparison.applicant_ucat} - ${simplePositionText(comparison.position)} the ${publicUcatComparisonPhrase(comparison)}${benchmarkText}.`;
-}
-
 function containsAdmissionYearOrInternalTerms(value: string | null): boolean {
   if (!value) return false;
   return /\b20\d{2}\b|20\d{2}-entry|future cycle|current-scale|current-format|ApplySmart band range|benchmark model|band computation/i.test(value);
@@ -199,14 +176,6 @@ function formatMetricNumber(value: number): string {
   return Number(value.toFixed(3)).toString();
 }
 
-function formatSelectionMetricValue(value: number | null, max: number | null): string {
-  if (!Number.isFinite(value)) {
-    return 'Not available';
-  }
-  const formattedValue = formatMetricNumber(Number(value));
-  return Number.isFinite(max) ? `${formattedValue} / ${formatMetricNumber(Number(max))}` : formattedValue;
-}
-
 function formatSelectionMetricDifference(metric: SelectionMetric): string | null {
   if (!Number.isFinite(metric.difference) || !metric.difference_direction) {
     return null;
@@ -219,14 +188,6 @@ function formatSelectionMetricDifference(metric: SelectionMetric): string | null
     ? `+${formatMetricNumber(Number(metric.difference))}`
     : formatMetricNumber(Math.abs(Number(metric.difference)));
   return `${amount} ${metric.difference_direction} ${word}`;
-}
-
-function formatSelectionMetricComparison(metric: SelectionMetric): string {
-  const comparison = formatSelectionMetricValue(metric.comparison_value, null);
-  if (!metric.comparison_max_value) {
-    return comparison;
-  }
-  return `${comparison} (range ${comparison}-${formatMetricNumber(Number(metric.comparison_max_value))})`;
 }
 
 function formatScoreValue(value: number | null, max: number | null): string {
@@ -270,16 +231,316 @@ function formatSjtSummary(
   return check.summary;
 }
 
-function positionLabel(comparison: UcatComparison): string {
-  if (comparison.comparison_type === 'ranking_only') {
-    return 'Ranking only';
-  }
-  const label = publicUcatComparisonPhrase(comparison);
+function publicText(value: string | null | undefined): string {
+  return String(value || '')
+    .replace(/\(\s*20\d{2}\s*\)/g, '')
+    .replace(/\b20\d{2}[-\s]?entry\b/gi, '')
+    .replace(/\b20\d{2}\s+(?=published|official|current-scale|entry|admissions cycle)/gi, '')
+    .replace(/\(\s*\)/g, '')
+    .replace(/\s{2,}/g, ' ')
+    .replace(/\s+([.,;:])/g, '$1')
+    .trim();
+}
+
+function titleCaseLabel(value: string): string {
+  return value
+    .trim()
+    .replace(/[_-]+/g, ' ')
+    .replace(/\s+/g, ' ')
+    .replace(/\b\w/g, (char) => char.toUpperCase());
+}
+
+function compactSentence(value: string | null | undefined, fallback = ''): string {
+  const cleaned = publicText(value);
+  if (!cleaned) return fallback;
+  const [firstSentence] = cleaned.split(/(?<=[.!?])\s+/);
+  const sentence = firstSentence || cleaned;
+  return sentence.length > 145 ? `${sentence.slice(0, 142).trim()}...` : sentence;
+}
+
+function iconPath(shape: 'star' | 'shield' | 'academic' | 'bars' | 'person' | 'history' | 'info' | 'check' | 'x') {
   return {
-    above: `Above ${label}`,
-    within: `Within ${label}`,
-    below: `Below ${label}`,
-  }[comparison.position || 'within'];
+    star: 'm10 2.2 2.2 4.5 5 .7-3.6 3.5.9 5-4.5-2.4L5 15.9l.9-5-3.6-3.5 5-.7L10 2.2Z',
+    shield: 'M10 2.5 17 5v5.1c0 4-2.8 6.8-7 7.9-4.2-1.1-7-3.9-7-7.9V5l7-2.5Zm3.5 5.4-4.3 4.3-2-2-1.1 1.1 3.1 3.1 5.4-5.4-1.1-1.1Z',
+    academic: 'M10 3 18 6.7 10 10.4 2 6.7 10 3Zm-5.6 6.1L10 11.7l5.6-2.6v4.2c-1.3 1-3.2 1.7-5.6 1.7s-4.3-.7-5.6-1.7V9.1Z',
+    bars: 'M4 15.5h12v1.7H4v-1.7Zm1.2-5.4h2.1v4H5.2v-4Zm3.8-3h2.1v7H9v-7Zm3.8-3.5h2.1v10.5h-2.1V3.6Z',
+    person: 'M10 10.2a3.6 3.6 0 1 0 0-7.2 3.6 3.6 0 0 0 0 7.2Zm-6.4 7.1c.6-3.2 3-5.3 6.4-5.3s5.8 2.1 6.4 5.3H14.7c-.6-2.2-2.3-3.6-4.7-3.6s-4.1 1.4-4.7 3.6H3.6Z',
+    history: 'M10 3.1a6.9 6.9 0 1 1-6.4 9.5l1.5-.6A5.3 5.3 0 1 0 5 8.4h2.2v1.7H2.4V5.3h1.7v1.8A6.9 6.9 0 0 1 10 3.1Zm.8 3.5v3.7l2.7 1.6-.8 1.4-3.6-2.1V6.6h1.7Z',
+    info: 'M10 18a8 8 0 1 0 0-16 8 8 0 0 0 0 16Zm-.9-9.4h1.8v5.6H9.1V8.6Zm0-2.8h1.8v1.7H9.1V5.8Z',
+    check: 'M7.7 13.2 4.6 10l-1.2 1.2 4.3 4.3 8.9-9-1.2-1.2-7.7 7.9Z',
+    x: 'm5.4 4.2 4.6 4.6 4.6-4.6 1.2 1.2-4.6 4.6 4.6 4.6-1.2 1.2-4.6-4.6-4.6 4.6-1.2-1.2L8.8 10 4.2 5.4l1.2-1.2Z',
+  }[shape];
+}
+
+function ResultIcon({
+  shape,
+  className = '',
+}: {
+  shape: 'star' | 'shield' | 'academic' | 'bars' | 'person' | 'history' | 'info' | 'check' | 'x';
+  className?: string;
+}) {
+  return (
+    <svg className={`result-card-icon ${className}`} viewBox="0 0 20 20" aria-hidden="true" focusable="false">
+      <path d={iconPath(shape)} />
+    </svg>
+  );
+}
+
+function UniversityAvatar({ universityId }: { universityId: string }) {
+  const code = UNIVERSITY_CODES[universityId];
+  if (!code) return null;
+  return (
+    <span className="result-card-avatar" aria-label={`University code ${code}`}>
+      {code}
+    </span>
+  );
+}
+
+function SectionHeader({ title, subtitle, icon }: { title: string; subtitle?: string | null; icon: 'shield' | 'person' | 'history' }) {
+  return (
+    <div className="result-card-section-heading">
+      <div>
+        <ResultIcon shape={icon} />
+        <h4>{title}</h4>
+      </div>
+      {subtitle && <span>{publicText(subtitle)}</span>}
+    </div>
+  );
+}
+
+function statusTone(status: string): 'positive' | 'negative' | 'warning' | 'neutral' {
+  const normalized = status.toLowerCase();
+  if (/not met|excluded|not accepted|below|rejected/.test(normalized)) return 'negative';
+  if (/missing|review|unavailable|not applied|unknown/.test(normalized)) return 'warning';
+  if (/met|accepted|above|within|assessed|counted|used|guidance|eligible|ranking/.test(normalized)) return 'positive';
+  return 'neutral';
+}
+
+function applicantUcatContext(card: PredictionResult['result_card']): {
+  score: number | null;
+  max: number | null;
+  sjtBand: number | null;
+} {
+  const applicantContext = card.applicant_context as
+    | { admissions_tests?: { ucat?: { total_score?: number | null; score_scale?: number | null; sjt_band?: number | null } } }
+    | undefined;
+  const prediction = card.prediction as { score?: number | null; score_scale?: number | { max?: number | null } | null };
+  const scoreScale =
+    typeof prediction?.score_scale === 'object' && prediction.score_scale !== null
+      ? prediction.score_scale.max
+      : prediction?.score_scale;
+  const ucat = applicantContext?.admissions_tests?.ucat;
+  return {
+    score: Number.isFinite(ucat?.total_score) ? Number(ucat?.total_score) : Number.isFinite(prediction?.score) ? Number(prediction?.score) : null,
+    max: Number.isFinite(ucat?.score_scale) ? Number(ucat?.score_scale) : Number.isFinite(scoreScale) ? Number(scoreScale) : null,
+    sjtBand: Number.isFinite(ucat?.sjt_band) ? Number(ucat?.sjt_band) : null,
+  };
+}
+
+function reliableUcatComparison(
+  ucatComparison: UcatComparison | null,
+  selectionMetric: SelectionMetric | null,
+) {
+  if (
+    ucatComparison &&
+    ucatComparison.comparison_type !== 'ranking_only' &&
+    Number.isFinite(ucatComparison.applicant_ucat) &&
+    Number.isFinite(ucatComparison.benchmark_min)
+  ) {
+    return {
+      applicant: Number(ucatComparison.applicant_ucat),
+      max: 2700,
+      referenceMin: Number(ucatComparison.benchmark_min),
+      referenceMax: Number.isFinite(ucatComparison.benchmark_max) ? Number(ucatComparison.benchmark_max) : null,
+      label: publicUcatComparisonPhrase(ucatComparison),
+      difference: formatDifference(ucatComparison.difference_from_benchmark),
+      position: ucatComparison.position,
+      caveat: publicComparisonCaveat(ucatComparison),
+    };
+  }
+  if (
+    selectionMetric?.type === 'ucat' &&
+    Number.isFinite(selectionMetric.applicant_value) &&
+    Number.isFinite(selectionMetric.comparison_value)
+  ) {
+    return {
+      applicant: Number(selectionMetric.applicant_value),
+      max: Number.isFinite(selectionMetric.maximum_value) ? Number(selectionMetric.maximum_value) : 2700,
+      referenceMin: Number(selectionMetric.comparison_value),
+      referenceMax: Number.isFinite(selectionMetric.comparison_max_value) ? Number(selectionMetric.comparison_max_value) : null,
+      label: publicText(selectionMetric.comparison_label || 'historical UCAT reference'),
+      difference: formatSelectionMetricDifference(selectionMetric),
+      position: selectionMetric.difference_direction === 'at' ? 'within' : selectionMetric.difference_direction,
+      caveat: selectionMetric.caveat || 'Historical admissions data provides a benchmark only; it is not a current cut-off or a guarantee of interview.',
+    };
+  }
+  return null;
+}
+
+function comparisonRangeText(comparison: NonNullable<ReturnType<typeof reliableUcatComparison>>): string {
+  return comparison.referenceMax !== null
+    ? `${comparison.referenceMin}-${comparison.referenceMax}`
+    : String(comparison.referenceMin);
+}
+
+function comparisonPositionText(position: string | null | undefined): string {
+  if (position === 'above') return 'Above range';
+  if (position === 'below') return 'Below range';
+  return 'Within range';
+}
+
+function comparisonBarStyle(comparison: NonNullable<ReturnType<typeof reliableUcatComparison>>): CSSProperties {
+  const upper = comparison.referenceMax ?? comparison.referenceMin;
+  const max = Math.max(comparison.max || 2700, comparison.applicant, upper);
+  const applicantPosition = Math.min(100, Math.max(0, (comparison.applicant / max) * 100));
+  const referencePosition = Math.min(100, Math.max(0, (comparison.referenceMin / max) * 100));
+  return {
+    '--applicant-position': `${applicantPosition}%`,
+    '--reference-position': `${referencePosition}%`,
+  } as CSSProperties;
+}
+
+function conciseRequirementRows(checks: DecisionPathCheck[]) {
+  const academicChecks = checks
+    .filter((check) => {
+      const label = check.label.toLowerCase();
+      return isParentFacingCheck(check.label) && !/ucat|sjt|situational judgement|gamsat/.test(label);
+    })
+    .slice(0, 2);
+
+  if (academicChecks.length === 0) {
+    return [{ label: 'Requirements', value: 'Requirements met' }];
+  }
+
+  return academicChecks.map((check) => {
+    const label = check.label.toLowerCase();
+    const displayLabel = /gcse/.test(label)
+      ? 'GCSEs'
+      : /a[ -]?level/.test(label)
+        ? 'A-levels'
+        : /ib/.test(label)
+          ? 'IB'
+          : /scottish/.test(label)
+            ? 'Scottish'
+            : /graduate/.test(label)
+              ? 'Graduate'
+              : titleCaseLabel(check.label.replace(/\b(threshold|gate|requirement|requirements)\b/gi, '').trim() || check.label);
+    const tone = statusTone(check.status);
+    return {
+      label: displayLabel,
+      value: tone === 'positive' ? 'Requirements met' : tone === 'negative' ? 'Attention needed' : publicText(check.status),
+    };
+  });
+}
+
+function compactUcatMinimum(summary?: string | null): string | null {
+  if (!summary) return null;
+  const sectionMinimum = summary.match(/(?:at least|minimum(?: of)?)\s+(\d{3,4})/i);
+  if (sectionMinimum) return `${sectionMinimum[1]} min per section`;
+  const score = summary.match(/\b(\d{3,4})\b/);
+  return score ? score[1] : compactSentence(summary);
+}
+
+function EligibilityCard({
+  title,
+  icon,
+  status,
+  rows,
+  tone,
+}: {
+  title: string;
+  icon: 'academic' | 'bars' | 'person';
+  status: string;
+  rows: Array<{ label: string; value: string }>;
+  tone: 'positive' | 'negative' | 'warning' | 'neutral';
+}) {
+  return (
+    <div className={`result-card-summary-card result-card-summary-card--${tone}`}>
+      <div className="result-card-summary-card-head">
+        <span className="result-card-card-icon">
+          <ResultIcon shape={icon} />
+        </span>
+        <div>
+          <h5>{title}</h5>
+          <strong>{publicText(status)}</strong>
+        </div>
+      </div>
+      <dl className="result-card-summary-rows">
+        {rows.slice(0, 3).map((row, index) => (
+          <div key={`${row.label}-${index}`}>
+            <dt>{publicText(row.label)}</dt>
+            <dd>{publicText(row.value)}</dd>
+          </div>
+        ))}
+      </dl>
+    </div>
+  );
+}
+
+type FactorState = 'used' | 'eligibility' | 'not-used' | 'unknown';
+
+function factorState({
+  factor,
+  selectionText,
+  eligibilityText,
+  scoreChecks,
+  selectionMetric,
+  ucatComparison,
+}: {
+  factor: 'ucat' | 'gcse' | 'a-level' | 'interview' | 'sjt' | 'contextual' | 'ps';
+  selectionText: string;
+  eligibilityText: string;
+  scoreChecks: DecisionPathCheck[];
+  selectionMetric: SelectionMetric | null;
+  ucatComparison: UcatComparison | null;
+}): FactorState {
+  const scoredText = scoreChecks.map((check) => `${check.label} ${check.summary}`).join(' ').toLowerCase();
+  const negativePatterns: Record<typeof factor, RegExp> = {
+    ucat: /ucat.{0,50}(not used|not scored|excluded)/,
+    gcse: /(gcse.{0,60}(not scored|not used)|not scored.{0,60}gcse)/,
+    'a-level': /(a[ -]?levels?.{0,60}(not scored|not used)|not scored.{0,60}a[ -]?levels?)/,
+    interview: /(interview.{0,60}(not scored|not used)|post-interview)/,
+    sjt: /(sjt|situational judgement).{0,70}(not used|not scored|excluded from applysmart selection|ignored)/,
+    contextual: /contextual.{0,60}(not used|not applied)/,
+    ps: /(personal statement|ps).{0,60}(not used|not scored)/,
+  };
+  if (negativePatterns[factor].test(selectionText)) return 'not-used';
+
+  if (factor === 'ucat') {
+    if (selectionMetric?.type === 'ucat' || ucatComparison || /rank(?:s|ed)? by (?:raw )?ucat|ucat.{0,30}(ranking|ranked|score|sole ranking|100%)/.test(selectionText)) return 'used';
+    return /ucat/.test(eligibilityText) ? 'eligibility' : 'unknown';
+  }
+  if (factor === 'gcse') {
+    if (/gcse/.test(scoredText) || /gcse.{0,30}(score|scored|points|weighted)/.test(selectionText)) return 'used';
+    return /gcse/.test(eligibilityText) ? 'eligibility' : 'unknown';
+  }
+  if (factor === 'a-level') {
+    if (/a[ -]?level.{0,30}(score|scored|points|weighted)/.test(selectionText)) return 'used';
+    return /a[ -]?level/.test(eligibilityText) ? 'eligibility' : 'unknown';
+  }
+  if (factor === 'sjt') {
+    if (/sjt/.test(scoredText) || /(sjt|situational judgement).{0,40}(score|scored|points|counted|used in selection)/.test(selectionText)) return 'used';
+    return /(sjt|situational judgement)/.test(eligibilityText) ? 'eligibility' : 'unknown';
+  }
+  if (factor === 'contextual') {
+    if (/contextual.{0,50}(score|adjust|used|weight|points)/.test(selectionText)) return 'used';
+    return /contextual/.test(eligibilityText) ? 'eligibility' : 'unknown';
+  }
+  if (factor === 'ps') {
+    if (/(personal statement|ps).{0,40}(score|scored|used|assessed)/.test(selectionText)) return 'used';
+    return 'unknown';
+  }
+  return 'unknown';
+}
+
+function SelectionChip({ label, state }: { label: string; state: FactorState }) {
+  const icon = state === 'used' ? 'check' : state === 'not-used' ? 'x' : 'info';
+  return (
+    <span className={`result-card-factor-chip result-card-factor-chip--${state}`}>
+      <ResultIcon shape={icon} />
+      {label}
+    </span>
+  );
 }
 
 export function ResultCard({ result }: { result: PredictionResult }) {
@@ -287,19 +548,6 @@ export function ResultCard({ result }: { result: PredictionResult }) {
   const { variant, label } = presentResult(card);
   const officialPredictionUnavailable = isOfficialPredictionUnavailable(card);
   const transparency = card.decision_transparency;
-  const feeInformation = card.fee_information as
-    | {
-        fee_status?: string;
-        currency?: string;
-        entry_cycle?: string;
-        first_year?: number | null;
-        course_total?: number | null;
-        deposit?: number | null;
-        fees_subject_to_change?: boolean;
-        fee_increase_wording?: string | null;
-        eligibility_effect?: string;
-      }
-    | undefined;
   const decisionPath = transparency?.decision_path || [];
   const eligibilityStage = decisionPath.find((stage) => stage.stage === 'Eligibility');
   const selectionStage = decisionPath.find((stage) => stage.stage === 'Selection model');
@@ -314,14 +562,6 @@ export function ResultCard({ result }: { result: PredictionResult }) {
   const comparisonMetrics = hasStructuredComparisonMetrics
     ? (transparency?.comparison_metrics || []).filter(isRenderableComparisonMetric)
     : [];
-  const isUcatRankingCard = Boolean(ucatComparison);
-  const parentFacingHistoricalChecks = historicalChecks.filter(
-    (c) =>
-      c.label.trim().toLowerCase() !== 'applicant pool' &&
-      c.label.trim().toLowerCase() !== 'ucat comparison' &&
-      c.label.trim().toLowerCase() !== 'important limitation',
-  );
-
   const entryRequirementsMet = eligibilityStage
     ? !eligibilityStage.checks.some((c) => isGenuineWarningCheck(c))
     : variant !== 'not-eligible';
@@ -355,14 +595,7 @@ export function ResultCard({ result }: { result: PredictionResult }) {
 
   const isUnresolvedOrNotSuitable = variant === 'manual-review' || variant === 'not-eligible';
 
-  const parentFacingSelectionChecks = selectionChecks.filter(
-    (c) =>
-      isParentFacingCheck(c.label) &&
-      c.label.toLowerCase() !== 'sjt band' &&
-      c.label.toLowerCase() !== 'ucat total entered',
-  );
   const academicStatus = eligibilityStage?.status || (entryRequirementsMet ? 'Met' : 'Not met');
-  const headline = resultCardRecommendationHeadline(card);
   const topAcademicStatus = resultCardAcademicStatus(card);
   const trustStatement =
     typeof card.trust_statement === 'string' && card.trust_statement.trim().length > 0
@@ -370,12 +603,11 @@ export function ResultCard({ result }: { result: PredictionResult }) {
       : null;
   const manualReviewReason =
     card.recommendation_display_state === 'manual_review' ? transparency?.manual_review_reason : null;
-  const totalScoreText = scoreBreakdown ? formatScoreValue(scoreBreakdown.value, scoreBreakdown.max) : null;
+  const totalScoreText =
+    scoreBreakdown && Number.isFinite(scoreBreakdown.value)
+      ? formatScoreValue(scoreBreakdown.value, scoreBreakdown.max)
+      : null;
   const sjtSummary = formatSjtSummary(sjtCheck, card, sjtRejected);
-  const visibleFeeInformation = card.recommendation_display_state === 'eligibility_only'
-    ? feeInformation
-    : undefined;
-  const ucatSummary = ucatComparisonSummary(ucatComparison);
   const primaryExplanation = resultCardRecommendationExplanation(card);
   const visibleTrustStatement = containsAdmissionYearOrInternalTerms(trustStatement) ? null : trustStatement;
   const metadataSelectionApproach =
@@ -384,58 +616,160 @@ export function ResultCard({ result }: { result: PredictionResult }) {
       : null;
   const selectionApproachSummary = metadataSelectionApproach || selectionApproachCheck?.summary || selectionStage?.summary;
   const applicantPoolSummary = applicantPoolCheck?.summary;
-  const historicalSummary =
-    ucatSummary
-      ? `${ucatSummary} ${publicComparisonCaveat(ucatComparison)}`
-      : historicalStage?.summary;
-  const showSelectionApproach = Boolean(
-    metadataSelectionApproach || selectionApproachCheck?.summary || selectionStage?.summary,
+  const comparison = reliableUcatComparison(ucatComparison, selectionMetric);
+  const ucatContext = applicantUcatContext(card);
+  const courseIdentity = card.course_identity as
+    | { course_name?: string | null; ucas_code?: string | null; entry_route?: string | null }
+    | undefined;
+  const courseText = publicText(
+    [
+      courseIdentity?.ucas_code || null,
+      courseIdentity?.course_name || null,
+    ].filter(Boolean).join(' '),
+  ) || 'Medicine assessment';
+  const applicantPoolText = publicText(applicantPoolSummary || ucatComparison?.applicant_pool || '');
+  const summaryLineOne = compactSentence(primaryExplanation, resultCardRecommendationHeadline(card));
+  const summaryLineTwo = publicText(topAcademicStatus);
+  const advisoryLine = visibleTrustStatement ? compactSentence(visibleTrustStatement) : null;
+
+  const academicRows = conciseRequirementRows(eligibilityStage?.checks || []);
+  const ucatRows: Array<{ label: string; value: string }> = [];
+  const ucatMinimumText =
+    compactUcatMinimum(officialMinimumCheck?.summary) ||
+    compactUcatMinimum(ucatComparison?.official_ucat_minimum?.summary);
+  if (ucatMinimumText) {
+    ucatRows.push({ label: 'Minimum', value: ucatMinimumText });
+  }
+  if (comparison) {
+    ucatRows.push({ label: 'Reference', value: comparisonRangeText(comparison) });
+    ucatRows.push({ label: 'Position', value: comparisonPositionText(comparison.position) });
+  } else if (ucatComparison?.comparison_type === 'ranking_only' || ucatComparisonCheck || ucatEnteredCheck) {
+    ucatRows.push({ label: 'Ranking', value: 'Eligible applicants ranked by UCAT' });
+    ucatRows.push({ label: 'Comparison', value: 'Numerical comparison unavailable' });
+  }
+  const ucatStatus = comparison
+    ? comparisonPositionText(comparison.position)
+    : ucatComparison?.comparison_type === 'ranking_only'
+      ? 'Ranking factor'
+      : ucatEnteredCheck
+        ? 'Recorded'
+        : 'Not specified';
+
+  const sjtBand = applicantSjtBand(card) ?? ucatComparison?.applicant_sjt_band ?? ucatContext.sjtBand;
+  const sjtStatus = sjtBand ? `Band ${sjtBand}` : publicText(sjtRequirementCheck?.status || sjtCheck?.status || ucatComparison?.sjt_outcome || 'Not specified');
+  const sjtUseText =
+    sjtRejected
+      ? 'Excluded by policy'
+      : /not used|ignored/i.test(`${sjtRequirementCheck?.summary || ''} ${ucatComparison?.sjt_summary || ''} ${ucatComparison?.sjt_policy || ''}`)
+        ? 'Not used for interview selection'
+        : sjtSummary
+          ? compactSentence(sjtSummary)
+          : 'Policy not specified';
+
+  const eligibilityText = [
+    ...(eligibilityStage?.checks || []).map((check) => `${check.label} ${check.status} ${check.summary}`),
+  ].join(' ').toLowerCase();
+  const selectionText = [
+    ...selectionChecks.map((check) => `${check.label} ${check.status} ${check.summary}`),
+    ...scoreChecks.map((check) => `${check.label} ${check.status} ${check.summary}`),
+    selectionApproachSummary || '',
+    scoreBreakdown?.name || '',
+    scoreBreakdown?.explanation || '',
+  ].join(' ').toLowerCase();
+  const factors: Array<{ key: Parameters<typeof factorState>[0]['factor']; label: string }> = [
+    { key: 'ucat', label: 'UCAT' },
+    { key: 'gcse', label: 'GCSEs' },
+    { key: 'a-level', label: 'A-Levels' },
+    { key: 'sjt', label: 'SJT' },
+    { key: 'contextual', label: 'Contextual' },
+    { key: 'ps', label: 'PS' },
+  ];
+
+  const noticeText = isUnresolvedOrNotSuitable
+    ? card.recommendation_display_state === 'insufficient_evidence' &&
+      transparency?.insufficient_evidence_reason_code === 'university_methodology_gap'
+      ? `${transparency?.insufficient_evidence_reason || 'This university has not published a complete scoring or ranking methodology that ApplySmart can apply to this specific applicant route.'} This is not a rejection.`
+      : card.recommendation_display_state === 'insufficient_evidence' &&
+          isHistoricalEvidenceGap(transparency?.insufficient_evidence_reason_code) &&
+          transparency?.insufficient_evidence_reason
+        ? transparency.insufficient_evidence_reason
+        : card.recommendation_display_state === 'insufficient_evidence' &&
+            transparency?.insufficient_evidence_reason
+          ? `${transparency.insufficient_evidence_reason} This is not a rejection.`
+          : transparency?.manual_review_reason
+            ? `${transparency.manual_review_reason} This is not a rejection.`
+            : variant === 'not-eligible'
+              ? card.primary_explanation
+              : unresolvedResultNotice(card, result.university)
+    : null;
+  const compactNoticeText = compactSentence(noticeText);
+  const noticeDisplayText =
+    noticeText && /not a rejection/i.test(noticeText) && !/not a rejection/i.test(compactNoticeText)
+      ? `${compactNoticeText} This is not a rejection.`
+      : compactNoticeText;
+  const showHistoricalContext = Boolean(
+    comparison ||
+    comparisonMetrics.length > 0 ||
+    (!isUnresolvedOrNotSuitable &&
+      !comparison &&
+      historicalStage &&
+      historicalStage.status !== 'Not applied' &&
+      historicalStage.summary),
   );
-  const showHistoricalSection = Boolean(
-    historicalStage && (hasStructuredComparisonMetrics ? comparisonMetrics.length > 0 : true),
-  );
-  const historicalSectionTitle =
+  const historicalTitle =
     typeof transparency?.comparison_metrics_title === 'string' && transparency.comparison_metrics_title.trim()
-      ? transparency.comparison_metrics_title.trim()
+      ? publicText(transparency.comparison_metrics_title)
       : 'Historical Context';
 
   return (
     <article className={`result-card result-card--${variant}`}>
-      <div className="result-card-head">
-        <h3>{result.university}</h3>
-        <span className="result-card-status">{label}</span>
-      </div>
-      <p className="result-card-recommendation">{headline}</p>
-      <p className="result-card-explanation">{primaryExplanation}</p>
-      <p className="result-card-academic-status">{topAcademicStatus}</p>
-      {visibleTrustStatement && (
-        <p className="result-card-explanation result-card-trust-statement">{visibleTrustStatement}</p>
-      )}
-
-      {scoreBreakdown && (
-        <section className="result-card-total-score" aria-label="Total selection score">
-          <span className="result-card-total-score-label">Total selection score</span>
-          <strong className="result-card-total-score-value">{totalScoreText}</strong>
-        </section>
-      )}
+      <header className="result-card-head">
+        <div className="result-card-hero-main">
+          <div className="result-card-identity">
+            <UniversityAvatar universityId={result.universityId} />
+            <div>
+              <h3>{result.university}</h3>
+              <p className="result-card-meta">
+                <span>{courseText}</span>
+              </p>
+            </div>
+          </div>
+          <div className="result-card-recommendation-row">
+            <span className="result-card-recommendation-medal">
+              <ResultIcon shape="star" />
+            </span>
+            <div>
+              <p className="result-card-recommendation">{label}</p>
+              <p className="result-card-explanation">{summaryLineOne}</p>
+              {summaryLineTwo && <p className="result-card-academic-status">{summaryLineTwo}</p>}
+              {advisoryLine && <p className="result-card-advisory">{advisoryLine}</p>}
+            </div>
+          </div>
+        </div>
+        <div className="result-card-hero-side">
+          <span className="result-card-status">
+            <ResultIcon shape="star" />
+            {label}
+          </span>
+          {comparison && (
+            <aside className="result-card-ucat-summary" aria-label="UCAT summary">
+              <span>Your UCAT</span>
+              <p>
+                <strong>{comparison.applicant}</strong>
+                <em>/ {comparison.max}</em>
+              </p>
+              <div>
+                <span>{comparisonPositionText(comparison.position)}</span>
+                {comparison.difference && <strong>{publicText(comparison.difference)}</strong>}
+              </div>
+            </aside>
+          )}
+        </div>
+      </header>
 
       {isUnresolvedOrNotSuitable && (
         <p className="result-card-notice" role="status">
-          {card.recommendation_display_state === 'insufficient_evidence' &&
-          transparency?.insufficient_evidence_reason_code === 'university_methodology_gap'
-            ? `${transparency?.insufficient_evidence_reason || 'This university has not published a complete scoring or ranking methodology that ApplySmart can apply to this specific applicant route.'} This is not a rejection.`
-            : card.recommendation_display_state === 'insufficient_evidence' &&
-                isHistoricalEvidenceGap(transparency?.insufficient_evidence_reason_code) &&
-                transparency?.insufficient_evidence_reason
-              ? transparency.insufficient_evidence_reason
-            : card.recommendation_display_state === 'insufficient_evidence' &&
-                transparency?.insufficient_evidence_reason
-              ? `${transparency.insufficient_evidence_reason} This is not a rejection.`
-              : transparency?.manual_review_reason
-                ? `${transparency.manual_review_reason} This is not a rejection.`
-                : variant === 'not-eligible'
-                  ? card.primary_explanation
-                  : unresolvedResultNotice(card, result.university)}
+          {noticeDisplayText}
         </p>
       )}
 
@@ -445,266 +779,157 @@ export function ResultCard({ result }: { result: PredictionResult }) {
         </p>
       )}
 
-      {warningSummaries.length > 0 && (
+      {!isUnresolvedOrNotSuitable && warningSummaries.length > 0 && (
         <ul className="result-card-warning-list">
           {warningSummaries.map((warning, i) => (
             <li key={i} className="result-card-warning">
-              {warning}
+              {compactSentence(warning)}
             </li>
           ))}
         </ul>
       )}
 
       <section className="result-card-section result-card-checks">
-        <h4>Checks</h4>
-        <ul className="result-card-check-list">
-          <li className="result-card-check">
-            {officialPredictionUnavailable && entryRequirementsMet ? (
-              <span className="result-card-check-label">Entry requirements met</span>
-            ) : (
-              <>
-                <span className="result-card-check-label">Entry requirements:</span>{' '}
-                <span className="result-card-check-summary">{academicStatus}</span>
-              </>
-            )}
-          </li>
-          {isUcatRankingCard && officialMinimumCheck && (
-            <li className="result-card-check">
-              <span className="result-card-check-label">UCAT minimum:</span>{' '}
-              <span className="result-card-check-summary">{officialMinimumCheck.summary}</span>
-            </li>
-          )}
-          {isUcatRankingCard && ucatComparisonCheck && (
-            <li className="result-card-check">
-              <span className="result-card-check-label">UCAT:</span>{' '}
-              <span className="result-card-check-summary">
-                {ucatSummary ? ucatSummary.replace(/^UCAT:\s*/, '') : ucatComparisonCheck.summary}
-              </span>
-            </li>
-          )}
-          {!scoreBreakdown && !isUcatRankingCard && ucatEnteredCheck && (
-            <li className="result-card-check">
-              <span className="result-card-check-label">UCAT:</span>{' '}
-              <span className="result-card-check-summary">{ucatEnteredCheck.summary}</span>
-            </li>
-          )}
-          {!scoreBreakdown &&
-            !isUcatRankingCard &&
-            parentFacingSelectionChecks.map((c, i) => (
-              <li key={i} className="result-card-check">
-                <span className="result-card-check-label">{c.label}:</span>{' '}
-                <span className="result-card-check-summary">{c.summary}</span>
-              </li>
-            ))}
-          {isUcatRankingCard && sjtRequirementCheck && (
-            <li className="result-card-check">
-              <span className="result-card-check-label">SJT:</span>{' '}
-              <span className="result-card-check-summary">{sjtRequirementCheck.summary}</span>
-            </li>
-          )}
-          {!isUcatRankingCard && sjtCheck && (
-            <li className="result-card-check">
-              <span className="result-card-check-label">SJT:</span>{' '}
-              <span className="result-card-check-summary">{sjtSummary}</span>
-            </li>
-          )}
-        </ul>
+        <SectionHeader
+          title="Eligibility"
+          subtitle={entryRequirementsMet ? 'You meet the published requirements' : 'Some published requirements need attention'}
+          icon="shield"
+        />
+        <div className="result-card-summary-grid">
+          <EligibilityCard
+            title="Academic Requirements"
+            icon="academic"
+            status={officialPredictionUnavailable && entryRequirementsMet ? 'Met' : academicStatus}
+            rows={academicRows}
+            tone={statusTone(academicStatus)}
+          />
+          <EligibilityCard
+            title="UCAT"
+            icon="bars"
+            status={ucatStatus}
+            rows={ucatRows.length > 0 ? ucatRows : [{ label: 'Status', value: 'No UCAT requirement shown' }]}
+            tone={statusTone(ucatStatus)}
+          />
+          <EligibilityCard
+            title="SJT"
+            icon="person"
+            status={sjtStatus}
+            rows={[{ label: 'Use', value: sjtUseText }]}
+            tone={sjtRejected ? 'negative' : statusTone(sjtStatus)}
+          />
+        </div>
       </section>
 
       <section className="result-card-section result-card-details">
-        <h4>Selection</h4>
-        <dl className="result-card-detail-list">
-          {applicantPoolCheck && (
-            <>
-              <dt>Applicant pool</dt>
-              <dd>{applicantPoolSummary}</dd>
-            </>
-          )}
-          {!isUcatRankingCard && (
-            <>
-              <dt>Academic status</dt>
-              <dd>{eligibilityStage?.summary || academicStatus}</dd>
-            </>
-          )}
-          {!isUcatRankingCard && ucatEnteredCheck && (
-            <>
-              <dt>UCAT</dt>
-              <dd>{ucatEnteredCheck.summary}</dd>
-            </>
-          )}
-          {selectionMetric && selectionMetric.display_mode !== 'eligibility' && (
-            <>
-              <dt>{selectionMetric.label}</dt>
-              <dd>
-                {formatSelectionMetricValue(
-                  selectionMetric.applicant_value,
-                  selectionMetric.maximum_value,
-                )}
-              </dd>
-            </>
-          )}
-          {!isUcatRankingCard && sjtCheck && (
-            <>
-              <dt>SJT</dt>
-              <dd>{sjtSummary}</dd>
-            </>
-          )}
-          {showSelectionApproach && (
-            <>
-              <dt>Selection approach</dt>
-              <dd>{selectionApproachSummary}</dd>
-            </>
-          )}
-        </dl>
-      </section>
-
-      {scoreBreakdown && scoreChecks.length > 0 && (
-        <section className="result-card-section result-card-score">
-          <h4>Score Breakdown</h4>
-          <ul className="result-card-check-list">
-            {scoreChecks.map((c, i) => (
-              <li key={i} className="result-card-check">
-                <span className="result-card-check-label">{c.label}:</span>{' '}
-                <span className="result-card-check-summary">
-                  {/SJT/i.test(c.label) ? formatSjtSummary(c, card, false) : c.summary}
-                </span>
-              </li>
+        <SectionHeader title="Selection" subtitle="How applicants are ranked for interview" icon="person" />
+        <div className="result-card-selection-panel">
+          <div className="result-card-factor-row" aria-label="Selection factors">
+            {factors.map((factor) => (
+              <SelectionChip
+                key={factor.key}
+                label={factor.label}
+                state={factorState({
+                  factor: factor.key,
+                  selectionText,
+                  eligibilityText,
+                  scoreChecks,
+                  selectionMetric,
+                  ucatComparison,
+                })}
+              />
             ))}
-          </ul>
-          {scoreBreakdown.explanation && (
-            <p className="result-card-score-explanation">{scoreBreakdown.explanation}</p>
-          )}
-        </section>
-      )}
-
-      {showHistoricalSection && (
-        <section className="result-card-section result-card-historical">
-          <h4>{historicalSectionTitle}</h4>
-          <p className="result-card-section-summary">{historicalSummary}</p>
-          {hasStructuredComparisonMetrics ? (
-            <dl className="result-card-detail-list result-card-comparison-list">
-              {comparisonMetrics.map((metric, i) => (
-                <Fragment key={`${metric.label}-${i}`}>
-                  <dt>{metric.label}</dt>
-                  <dd>
-                    <span>{metric.value}</span>
-                    {metric.difference && (
-                      <span className="result-card-comparison-difference">{metric.difference}</span>
-                    )}
-                  </dd>
-                </Fragment>
-              ))}
-            </dl>
-          ) : selectionMetric?.comparison_value !== null && selectionMetric?.comparison_value !== undefined ? (
-            <dl className="result-card-detail-list result-card-comparison-list">
-              <dt>{selectionMetric.label}</dt>
-              <dd>
-                {formatSelectionMetricValue(
-                  selectionMetric.applicant_value,
-                  selectionMetric.maximum_value,
-                )}
-              </dd>
-              <dt>Comparison value</dt>
-              <dd>{formatSelectionMetricComparison(selectionMetric)}</dd>
-              {selectionMetric.comparison_label && (
-                <>
-                  <dt>Comparison type</dt>
-                  <dd>{selectionMetric.comparison_label}</dd>
-                </>
-              )}
-              {selectionMetric.comparison_context && (
-                <>
-                  <dt>Context</dt>
-                  <dd>{selectionMetric.comparison_context}</dd>
-                </>
-              )}
-              {selectionMetric.entry_year && (
-                <>
-                  <dt>Entry year</dt>
-                  <dd>{selectionMetric.entry_year}</dd>
-                </>
-              )}
-              {formatSelectionMetricDifference(selectionMetric) && (
-                <>
-                  <dt>Difference</dt>
-                  <dd>{formatSelectionMetricDifference(selectionMetric)}</dd>
-                </>
-              )}
-              {selectionMetric.caveat && (
-                <>
-                  <dt>Caveat</dt>
-                  <dd>{selectionMetric.caveat}</dd>
-                </>
-              )}
-            </dl>
-          ) : ucatComparison ? (
-            <dl className="result-card-detail-list result-card-comparison-list">
-              <dt>Your UCAT</dt>
-              <dd>{ucatComparison.applicant_ucat ?? 'Not available'}</dd>
-              {ucatComparison.comparison_type !== 'ranking_only' ? (
-                <>
-                  <dt>
-                    {publicUcatComparisonPhrase(ucatComparison)}
-                  </dt>
-                  <dd>{formatBenchmark(ucatComparison)}</dd>
-                </>
-              ) : null}
-              {ucatComparison.difference_from_benchmark !== null && (
-                <>
-                  <dt>Difference</dt>
-                  <dd>{formatDifference(ucatComparison.difference_from_benchmark)}</dd>
-                </>
-              )}
-              <dt>Position</dt>
-              <dd>{positionLabel(ucatComparison)}</dd>
-            </dl>
-          ) : null}
-          {!hasStructuredComparisonMetrics && parentFacingHistoricalChecks.length > 0 && (
-            <ul className="result-card-check-list">
-              {parentFacingHistoricalChecks.slice(0, 4).map((c, i) => (
-                <li key={i} className="result-card-check">
-                  <span className="result-card-check-label">{c.label}:</span>{' '}
-                  <span className="result-card-check-summary">{c.summary}</span>
-                </li>
-              ))}
-            </ul>
-          )}
-        </section>
-      )}
-
-      {visibleFeeInformation && (
-        <section className="result-card-section result-card-fees">
-          <h4>Fees</h4>
-          <dl className="result-card-detail-list">
-            <dt>Fee status</dt>
-            <dd>{visibleFeeInformation.fee_status || 'Not selected'}</dd>
-            <dt>First year</dt>
-            <dd>
-              {visibleFeeInformation.currency || 'GBP'} {visibleFeeInformation.first_year ?? 'Not available'}
-            </dd>
-            <dt>Course total</dt>
-            <dd>
-              {visibleFeeInformation.currency || 'GBP'} {visibleFeeInformation.course_total ?? 'Not available'}
-            </dd>
-            {visibleFeeInformation.deposit !== undefined && visibleFeeInformation.deposit !== null && (
-              <>
-                <dt>Deposit</dt>
-                <dd>
-                  {visibleFeeInformation.currency || 'GBP'} {visibleFeeInformation.deposit}
-                </dd>
-              </>
+          </div>
+          <dl className="result-card-selection-facts">
+            {applicantPoolText && (
+              <div>
+                <dt>Applicant Pool</dt>
+                <dd>{applicantPoolText}</dd>
+              </div>
+            )}
+            {selectionApproachSummary && (
+              <div>
+                <dt>Selection Approach</dt>
+                <dd>{compactSentence(selectionApproachSummary)}</dd>
+              </div>
+            )}
+            {scoreBreakdown && totalScoreText && (
+              <div>
+                <dt>Total Selection Score</dt>
+                <dd>{totalScoreText}</dd>
+              </div>
             )}
           </dl>
-          {visibleFeeInformation.fees_subject_to_change && visibleFeeInformation.fee_increase_wording && (
-            <p className="result-card-section-summary">{visibleFeeInformation.fee_increase_wording}</p>
+          {comparison ? (
+            <div className="result-card-ucat-comparison" aria-label="UCAT comparison">
+              <div className="result-card-comparison-copy">
+                <strong>{comparison.label}</strong>
+                <span>{comparisonRangeText(comparison)}</span>
+                {comparison.difference && <em>{publicText(comparison.difference)}</em>}
+              </div>
+              <div className="result-card-comparison-bar" aria-hidden="true" style={comparisonBarStyle(comparison)}>
+                <span className="result-card-reference-marker" />
+                <span className="result-card-applicant-marker" />
+              </div>
+              <div className="result-card-comparison-labels">
+                <span>{comparison.referenceMin} reference</span>
+                <strong>{comparison.applicant} you</strong>
+                <span>{comparison.max}</span>
+              </div>
+            </div>
+          ) : (
+            ucatComparison?.comparison_type === 'ranking_only' && (
+              <p className="result-card-compact-note">Reliable numerical UCAT comparison is not available for this applicant group.</p>
+            )
+          )}
+        </div>
+      </section>
+
+      {showHistoricalContext && (
+        <section className="result-card-section result-card-historical">
+          <SectionHeader title={historicalTitle} subtitle={comparison?.label} icon="history" />
+          {comparison ? (
+            <div className="result-card-historical-grid">
+              <div>
+                <span>{comparison.label}</span>
+                <strong>{comparisonRangeText(comparison)}</strong>
+              </div>
+              <div>
+                <span>Your UCAT</span>
+                <strong>{comparison.applicant}</strong>
+              </div>
+              <div>
+                <span>Difference</span>
+                <strong>{comparison.difference || 'At reference'}</strong>
+              </div>
+              <p>
+                <ResultIcon shape="info" />
+                {publicText(comparison.caveat)}
+              </p>
+            </div>
+          ) : comparisonMetrics.length > 0 ? (
+            <div className="result-card-historical-grid result-card-historical-grid--metrics">
+              {comparisonMetrics.slice(0, 3).map((metric, index) => (
+                <div key={`${metric.label}-${index}`}>
+                  <span>{publicText(metric.label)}</span>
+                  <strong>{publicText(metric.value)}</strong>
+                  {metric.difference && <em>{publicText(metric.difference)}</em>}
+                </div>
+              ))}
+              <p>
+                <ResultIcon shape="info" />
+                {publicComparisonCaveat(ucatComparison)}
+              </p>
+            </div>
+          ) : (
+            <p className="result-card-compact-note">{compactSentence(historicalStage?.summary)}</p>
           )}
         </section>
       )}
 
       {manualReviewReason && (
         <section className="result-card-section result-card-manual-review">
-          <h4>Manual Review</h4>
-          <p className="result-card-section-summary">{manualReviewReason}</p>
+          <SectionHeader title="Selection" subtitle="Manual review required" icon="person" />
+          <p className="result-card-compact-note">{compactSentence(manualReviewReason)}</p>
         </section>
       )}
     </article>

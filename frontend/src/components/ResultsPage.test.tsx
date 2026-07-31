@@ -206,7 +206,7 @@ describe('ResultsPage', () => {
 
   it('renders compact cards by default, without expanded detail sections', () => {
     render(<ResultsPage results={RESULTS} onStartOver={() => {}} />);
-    expect(screen.queryByText('Checks')).not.toBeInTheDocument();
+    expect(screen.queryByText('Eligibility')).not.toBeInTheDocument();
     expect(screen.getAllByText('View details').length).toBeGreaterThan(0);
   });
 
@@ -215,9 +215,9 @@ describe('ResultsPage', () => {
     const toggle = screen.getAllByText('View details')[0];
     fireEvent.click(toggle);
     expect(screen.getByText('Hide details')).toBeInTheDocument();
-    expect(screen.getByText('Checks')).toBeInTheDocument();
+    expect(screen.getByText('Eligibility')).toBeInTheDocument();
     fireEvent.click(screen.getByText('Hide details'));
-    expect(screen.queryByText('Checks')).not.toBeInTheDocument();
+    expect(screen.queryByText('Eligibility')).not.toBeInTheDocument();
   });
 
   it('only expands the selected card, not others', () => {
@@ -326,7 +326,7 @@ describe('ResultsPage', () => {
   it('retains full result information after expanding a card', () => {
     render(<ResultsPage results={RESULTS} onStartOver={() => {}} />);
     fireEvent.click(screen.getAllByText('View details')[0]);
-    expect(screen.getByText('Checks')).toBeInTheDocument();
+    expect(screen.getByText('Eligibility')).toBeInTheDocument();
     expect(
       screen.getAllByText(
         "Based on ApplySmart's assessment, your academic profile appears highly competitive for this applicant group.",

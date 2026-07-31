@@ -2109,62 +2109,248 @@ main:has(.university-explorer) {
 .result-card-list {
   display: flex;
   flex-direction: column;
-  gap: 1.1rem;
-  margin-top: 1.25rem;
+  gap: 1.4rem;
+  width: min(100%, 1160px);
+  margin: 1.25rem auto 0;
+}
+
+.result-card-preview {
+  min-height: 100vh;
+  padding: 16px;
+  background: #f6f8fb;
+  font-family: var(--sans);
 }
 
 .result-card {
-  border: 1px solid var(--border);
-  border-radius: var(--radius-lg);
-  padding: 1.5rem;
-  background: var(--surface);
-  box-shadow: var(--shadow-sm);
-  border-left: 5px solid var(--neutral-border);
+  --result-accent: var(--neutral);
+  --result-accent-bg: var(--neutral-bg);
+  --result-accent-border: var(--neutral-border);
+  width: min(100%, 1160px);
+  margin: 0 auto;
+  padding: clamp(1rem, 2vw, 1.4rem);
+  border: 1px solid rgba(208, 213, 221, 0.9);
+  border-radius: 8px;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.98), var(--surface));
+  box-shadow: 0 22px 54px -46px rgba(15, 23, 42, 0.58);
+  color: #0b1735;
+  font-family: var(--sans);
 }
 
 .result-card-head {
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(14rem, 18rem);
+  gap: clamp(1rem, 2.2vw, 1.6rem);
+  align-items: start;
+  min-width: 0;
+}
+
+.result-card-hero-main {
+  min-width: 0;
+}
+
+.result-card-hero-side {
+  display: grid;
+  justify-items: end;
   gap: 1rem;
-  flex-wrap: wrap;
+  min-width: 0;
+}
+
+.result-card-identity {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  gap: 1rem;
+  align-items: center;
+  min-width: 0;
+}
+
+.result-card-avatar {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 3.8rem;
+  height: 3.8rem;
+  border-radius: 999px;
+  border: 1px solid var(--result-accent-border);
+  background: radial-gradient(circle at 30% 20%, rgba(255, 255, 255, 0.9), var(--result-accent-bg));
+  color: var(--result-accent);
+  font-size: 1.18rem;
+  font-weight: 820;
+  line-height: 1;
+  letter-spacing: 0;
+  box-shadow: 0 16px 34px -28px rgba(15, 23, 42, 0.55);
 }
 
 .result-card h3 {
   margin: 0;
+  color: #07142f;
+  font-family: var(--sans);
+  font-size: clamp(1.35rem, 2vw, 1.7rem);
+  font-weight: 820;
+  line-height: 1.12;
+  letter-spacing: 0;
+}
+
+.result-card-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem 0.8rem;
+  margin: 0.32rem 0 0;
+  color: #132449;
+  font-size: 0.9rem;
+  line-height: 1.35;
+}
+
+.result-card-meta span + span::before {
+  content: '·';
+  margin-right: 0.8rem;
+  color: #5a6c95;
+}
+
+.result-card-recommendation-row {
+  display: grid;
+  grid-template-columns: 3.35rem minmax(0, 1fr);
+  gap: 0.85rem;
+  align-items: start;
+  margin-top: 0.9rem;
+}
+
+.result-card-recommendation-medal,
+.result-card-card-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 999px;
+  background: var(--result-accent-bg);
+  color: var(--result-accent);
+  border: 1px solid var(--result-accent-border);
+}
+
+.result-card-recommendation-medal {
+  width: 3.35rem;
+  height: 3.35rem;
+}
+
+.result-card-icon {
+  width: 1.15rem;
+  height: 1.15rem;
+  fill: currentColor;
 }
 
 .result-card-status {
   display: inline-flex;
   align-items: center;
-  gap: 0.4rem;
-  padding: 0.3rem 0.75rem;
+  justify-content: center;
+  gap: 0.5rem;
+  min-height: 2.25rem;
+  padding: 0.4rem 0.85rem;
   border-radius: 999px;
-  font-size: 0.8rem;
-  font-weight: 700;
+  font-size: 0.84rem;
+  font-weight: 820;
+  line-height: 1.1;
   white-space: nowrap;
-  background: var(--neutral-bg);
-  color: var(--neutral);
-  border: 1px solid var(--neutral-border);
+  background: var(--result-accent-bg);
+  color: var(--result-accent);
+  border: 1px solid var(--result-accent-border);
+}
+
+.result-card-status .result-card-icon {
+  width: 1.25rem;
+  height: 1.25rem;
 }
 
 .result-card-recommendation {
-  margin-top: 0.75rem;
-  font-weight: 650;
-  font-size: 1.05rem;
-  color: var(--text-h);
+  margin: 0;
+  color: var(--result-accent);
+  font-family: var(--sans);
+  font-size: clamp(1.65rem, 3vw, 2rem);
+  font-weight: 820;
+  line-height: 1.04;
+  letter-spacing: 0;
 }
 
 .result-card-explanation {
-  margin-top: 0.4rem;
-  color: var(--text-muted);
-  line-height: 1.55;
+  max-width: 68ch;
+  margin: 0.55rem 0 0;
+  color: #14264d;
+  font-size: 0.95rem;
+  line-height: 1.42;
+}
+
+.result-card-academic-status {
+  margin: 0.25rem 0 0;
+  color: #14264d;
+  font-size: 0.95rem;
+  line-height: 1.42;
+}
+
+.result-card-advisory {
+  margin: 0.35rem 0 0;
+  color: #5a6c95;
+  font-size: 0.9rem;
+  line-height: 1.4;
+}
+
+.result-card-ucat-summary {
+  width: 100%;
+  padding: 0.95rem 1rem;
+  border: 1px solid rgba(208, 213, 221, 0.9);
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.94);
+  box-shadow: 0 18px 44px -36px rgba(15, 23, 42, 0.58);
+}
+
+.result-card-ucat-summary > span {
+  display: block;
+  color: #07142f;
+  font-size: 0.88rem;
+  font-weight: 820;
+  line-height: 1.2;
+}
+
+.result-card-ucat-summary p {
+  display: flex;
+  align-items: baseline;
+  gap: 0.45rem;
+  margin: 0.55rem 0 0;
+}
+
+.result-card-ucat-summary p strong {
+  color: var(--result-accent);
+  font-size: clamp(1.85rem, 3.5vw, 2.25rem);
+  font-weight: 860;
+  line-height: 0.9;
+}
+
+.result-card-ucat-summary p em {
+  color: #273963;
+  font-size: 1rem;
+  font-style: normal;
+  font-weight: 720;
+}
+
+.result-card-ucat-summary div {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-top: 0.95rem;
+  padding-top: 0.85rem;
+  border-top: 1px solid var(--border);
+  color: #3b4f7a;
+  font-size: 0.88rem;
+  line-height: 1.3;
+}
+
+.result-card-ucat-summary div strong {
+  color: var(--result-accent);
+  font-size: 1rem;
+  white-space: nowrap;
 }
 
 .result-card-notice {
-  margin-top: 0.9rem;
-  padding: 0.75rem 1rem;
-  border-radius: var(--radius-sm);
+  margin: 1.2rem 0 0;
+  padding: 0.8rem 1rem;
+  border-radius: 8px;
   font-size: 0.88rem;
   line-height: 1.5;
   background: var(--warning-bg);
@@ -2179,11 +2365,11 @@ main:has(.university-explorer) {
 }
 
 .result-card-total-score {
-  margin-top: 0.95rem;
-  padding: 0.8rem 0.95rem;
-  border-radius: var(--radius-sm);
-  border: 1px solid var(--border-strong);
-  background: var(--neutral-bg);
+  margin-top: 0.8rem;
+  padding: 0.75rem 0.9rem;
+  border-radius: 8px;
+  border: 1px solid var(--border);
+  background: rgba(248, 250, 252, 0.85);
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -2215,17 +2401,48 @@ main:has(.university-explorer) {
 }
 
 .result-card-section {
-  margin-top: 1.1rem;
-  padding-top: 0.9rem;
-  border-top: 1px solid var(--border);
+  margin-top: clamp(1rem, 2.1vw, 1.35rem);
 }
 
-.result-card-section h4 {
-  margin: 0 0 0.5rem;
-  font-size: 0.85rem;
+.result-card-section-heading {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.4rem 0.75rem;
+  margin-bottom: 0.65rem;
+}
+
+.result-card-section-heading > div {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.55rem;
+}
+
+.result-card-section-heading h4 {
+  margin: 0;
+  color: #07142f;
+  font-family: var(--sans);
+  font-size: 0.82rem;
+  font-weight: 860;
+  line-height: 1.1;
   text-transform: uppercase;
   letter-spacing: 0.02em;
-  color: var(--text-muted);
+}
+
+.result-card-section-heading .result-card-icon {
+  color: var(--result-accent);
+}
+
+.result-card-section-heading > span {
+  color: #5a6c95;
+  font-size: 0.84rem;
+  line-height: 1.3;
+}
+
+.result-card-section-heading > span::before {
+  content: '·';
+  margin-right: 0.75rem;
+  color: #8a98b4;
 }
 
 .result-card-section-summary {
@@ -2242,6 +2459,78 @@ main:has(.university-explorer) {
   gap: 0.45rem 0.9rem;
   font-size: 0.88rem;
   line-height: 1.5;
+}
+
+.result-card-summary-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0.75rem;
+}
+
+.result-card-summary-card {
+  min-width: 0;
+  padding: 0.85rem;
+  border: 1px solid rgba(208, 213, 221, 0.9);
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.94);
+}
+
+.result-card-summary-card-head {
+  display: grid;
+  grid-template-columns: 2.8rem minmax(0, 1fr);
+  gap: 0.7rem;
+  align-items: start;
+}
+
+.result-card-card-icon {
+  width: 2.8rem;
+  height: 2.8rem;
+}
+
+.result-card-summary-card h5 {
+  margin: 0;
+  color: #07142f;
+  font-family: var(--sans);
+  font-size: 0.95rem;
+  font-weight: 820;
+  line-height: 1.25;
+}
+
+.result-card-summary-card strong {
+  display: inline-block;
+  margin-top: 0.25rem;
+  color: var(--result-accent);
+  font-size: 0.88rem;
+  font-weight: 820;
+  line-height: 1.2;
+}
+
+.result-card-summary-rows {
+  display: grid;
+  gap: 0.45rem;
+  margin: 0.7rem 0 0;
+}
+
+.result-card-summary-rows div {
+  display: grid;
+  grid-template-columns: minmax(4.7rem, 0.38fr) minmax(0, 1fr);
+  gap: 0.55rem;
+  align-items: start;
+}
+
+.result-card-summary-rows dt {
+  margin: 0;
+  color: #07142f;
+  font-size: 0.78rem;
+  font-weight: 820;
+  line-height: 1.35;
+}
+
+.result-card-summary-rows dd {
+  margin: 0;
+  color: #14264d;
+  font-size: 0.84rem;
+  line-height: 1.3;
 }
 
 .result-card-detail-list dt {
@@ -2347,70 +2636,262 @@ main:has(.university-explorer) {
   color: var(--danger);
 }
 
-/* Safe: strong interview likelihood */
-.result-card--safe {
-  border-left-color: var(--success);
+.result-card-selection-panel {
+  padding: 0.8rem 0.9rem;
+  border: 1px solid rgba(208, 213, 221, 0.9);
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.92);
 }
 
-.result-card--safe .result-card-status {
+.result-card-factor-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.38rem;
+}
+
+.result-card-factor-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  min-height: 1.55rem;
+  padding: 0.22rem 0.62rem;
+  border-radius: 999px;
+  border: 1px solid var(--neutral-border);
+  background: rgba(248, 250, 252, 0.7);
+  color: #667085;
+  font-size: 0.76rem;
+  font-weight: 820;
+  line-height: 1.1;
+}
+
+.result-card-factor-chip .result-card-icon {
+  width: 0.9rem;
+  height: 0.9rem;
+}
+
+.result-card-factor-chip--used {
+  border-color: var(--success-border);
   background: var(--success-bg);
   color: var(--success);
-  border-color: var(--success-border);
+}
+
+.result-card-factor-chip--eligibility {
+  border-color: rgba(191, 219, 254, 0.95);
+  background: #eff6ff;
+  color: #1d4ed8;
+}
+
+.result-card-factor-chip--not-used {
+  border-color: rgba(254, 205, 202, 0.75);
+  background: rgba(254, 243, 242, 0.72);
+  color: #b42318;
+}
+
+.result-card-selection-facts {
+  display: grid;
+  gap: 0.42rem;
+  margin: 0.65rem 0 0;
+}
+
+.result-card-selection-facts div {
+  display: grid;
+  grid-template-columns: minmax(9rem, 0.3fr) minmax(0, 1fr);
+  gap: 0.85rem;
+  align-items: baseline;
+}
+
+.result-card-selection-facts dt {
+  margin: 0;
+  color: #07142f;
+  font-size: 0.8rem;
+  font-weight: 820;
+}
+
+.result-card-selection-facts dd {
+  margin: 0;
+  color: #14264d;
+  font-size: 0.84rem;
+  line-height: 1.32;
+}
+
+.result-card-ucat-comparison {
+  margin-top: 0.9rem;
+  padding-top: 0.75rem;
+  border-top: 1px solid var(--border);
+}
+
+.result-card-comparison-copy {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 0.5rem 1rem;
+  color: #14264d;
+  font-size: 0.88rem;
+}
+
+.result-card-comparison-copy strong {
+  color: #07142f;
+  font-weight: 860;
+}
+
+.result-card-comparison-copy em {
+  color: var(--result-accent);
+  font-style: normal;
+  font-weight: 860;
+}
+
+.result-card-comparison-bar {
+  position: relative;
+  height: 0.55rem;
+  margin: 0.85rem 3.5rem 0;
+  border-radius: 999px;
+  background: linear-gradient(90deg, var(--result-accent) 0 var(--applicant-position), rgba(209, 232, 224, 0.9) var(--applicant-position) 100%);
+}
+
+.result-card-reference-marker,
+.result-card-applicant-marker {
+  position: absolute;
+  top: 50%;
+  width: 0.95rem;
+  height: 0.95rem;
+  border-radius: 999px;
+  transform: translate(-50%, -50%);
+}
+
+.result-card-reference-marker {
+  left: var(--reference-position);
+  background: #a8d8c7;
+}
+
+.result-card-applicant-marker {
+  left: var(--applicant-position);
+  background: var(--result-accent);
+  border: 2px solid var(--surface);
+  box-shadow: 0 4px 14px -6px rgba(15, 23, 42, 0.55);
+}
+
+.result-card-comparison-labels {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  margin: 0.55rem 1rem 0;
+  color: #3b4f7a;
+  font-size: 0.82rem;
+  line-height: 1.2;
+}
+
+.result-card-comparison-labels strong {
+  color: var(--result-accent);
+}
+
+.result-card-compact-note {
+  margin: 0.6rem 0 0;
+  color: #3b4f7a;
+  font-size: 0.84rem;
+  line-height: 1.35;
+}
+
+.result-card-historical-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1.2fr) minmax(0, 0.8fr) minmax(0, 0.8fr) minmax(16rem, 1fr);
+  gap: 0;
+  overflow: hidden;
+  border: 1px solid rgba(208, 213, 221, 0.9);
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.94);
+}
+
+.result-card-historical-grid div {
+  min-width: 0;
+  padding: 0.9rem 1rem;
+  border-right: 1px solid var(--border);
+}
+
+.result-card-historical-grid span {
+  display: block;
+  color: #14264d;
+  font-size: 0.82rem;
+  line-height: 1.25;
+}
+
+.result-card-historical-grid strong {
+  display: block;
+  margin-top: 0.45rem;
+  color: #07142f;
+  font-size: 1.35rem;
+  font-weight: 860;
+  line-height: 1.05;
+}
+
+.result-card-historical-grid em {
+  display: block;
+  margin-top: 0.35rem;
+  color: var(--result-accent);
+  font-style: normal;
+  font-weight: 820;
+}
+
+.result-card-historical-grid p {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.55rem;
+  margin: 0;
+  padding: 0.9rem 1rem;
+  color: #14264d;
+  font-size: 0.86rem;
+  line-height: 1.38;
+  background: rgba(239, 246, 255, 0.65);
+}
+
+.result-card-historical-grid p .result-card-icon {
+  flex: 0 0 auto;
+  color: #2563eb;
+}
+
+.result-card-historical-grid--metrics {
+  grid-template-columns: repeat(3, minmax(0, 1fr)) minmax(16rem, 1fr);
+}
+
+/* Safe: strong interview likelihood */
+.result-card--safe {
+  --result-accent: var(--success);
+  --result-accent-bg: var(--success-bg);
+  --result-accent-border: var(--success-border);
 }
 
 /* Realistic: good, within-range chance */
 .result-card--realistic {
-  border-left-color: var(--brand);
-}
-
-.result-card--realistic .result-card-status {
-  background: var(--brand-bg);
-  color: var(--brand-dark);
-  border-color: var(--brand);
+  --result-accent: var(--success);
+  --result-accent-bg: var(--success-bg);
+  --result-accent-border: var(--success-border);
 }
 
 /* Ambitious: possible but stretch */
 .result-card--ambitious {
-  border-left-color: var(--warning);
-}
-
-.result-card--ambitious .result-card-status {
-  background: var(--warning-bg);
-  color: var(--warning);
-  border-color: var(--warning-border);
+  --result-accent: var(--warning);
+  --result-accent-bg: var(--warning-bg);
+  --result-accent-border: var(--warning-border);
 }
 
 /* High Risk: more cautionary than Ambitious, still not a hard rejection */
 .result-card--high-risk {
-  border-left-color: var(--high-risk);
-}
-
-.result-card--high-risk .result-card-status {
-  background: var(--high-risk-bg);
-  color: var(--high-risk);
-  border-color: var(--high-risk-border);
+  --result-accent: var(--high-risk);
+  --result-accent-bg: var(--high-risk-bg);
+  --result-accent-border: var(--high-risk-border);
 }
 
 /* Not eligible */
 .result-card--not-eligible {
-  border-left-color: var(--danger);
-}
-
-.result-card--not-eligible .result-card-status {
-  background: var(--danger-bg);
-  color: var(--danger);
-  border-color: var(--danger-border);
+  --result-accent: var(--danger);
+  --result-accent-bg: var(--danger-bg);
+  --result-accent-border: var(--danger-border);
 }
 
 /* Manual review / insufficient evidence: neutral, informative, not alarming */
 .result-card--manual-review {
-  border-left-color: var(--neutral);
-}
-
-.result-card--manual-review .result-card-status {
-  background: var(--neutral-bg);
-  color: var(--neutral);
-  border-color: var(--neutral-border);
+  --result-accent: #2563eb;
+  --result-accent-bg: #eff6ff;
+  --result-accent-border: #bfdbfe;
 }
 
 .results-actions {
@@ -3598,7 +4079,85 @@ main:has(.university-explorer) {
   }
 
   .result-card-head {
+    grid-template-columns: 1fr;
+  }
+
+  .result-card-hero-side {
+    justify-items: start;
+  }
+
+  .result-card-avatar {
+    width: 3.4rem;
+    height: 3.4rem;
+    font-size: 1rem;
+  }
+
+  .result-card-recommendation-row {
+    grid-template-columns: 1fr;
+    gap: 0.75rem;
+  }
+
+  .result-card-recommendation-medal {
+    display: none;
+  }
+
+  .result-card-status,
+  .result-card-ucat-summary {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .result-card-meta {
     flex-direction: column;
+    gap: 0.2rem;
+  }
+
+  .result-card-meta span + span::before,
+  .result-card-section-heading > span::before {
+    content: none;
+    margin: 0;
+  }
+
+  .result-card-section-heading {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .result-card-summary-grid,
+  .result-card-historical-grid,
+  .result-card-historical-grid--metrics {
+    grid-template-columns: 1fr;
+  }
+
+  .result-card-summary-card-head {
+    grid-template-columns: 2.8rem minmax(0, 1fr);
+  }
+
+  .result-card-card-icon {
+    width: 2.8rem;
+    height: 2.8rem;
+  }
+
+  .result-card-summary-rows div,
+  .result-card-selection-facts div {
+    grid-template-columns: 1fr;
+    gap: 0.2rem;
+  }
+
+  .result-card-comparison-bar {
+    margin-left: 0.25rem;
+    margin-right: 0.25rem;
+  }
+
+  .result-card-comparison-labels {
+    margin-left: 0;
+    margin-right: 0;
+    font-size: 0.76rem;
+  }
+
+  .result-card-historical-grid div {
+    border-right: 0;
+    border-bottom: 1px solid var(--border);
   }
 
   .result-card-detail-list {
