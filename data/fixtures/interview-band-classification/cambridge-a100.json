@@ -100,6 +100,42 @@
       }
     },
     {
+      "scenario_id": "home_2050_complete_profile_keeps_ambitious_band",
+      "overrides": {
+        "admissions_tests": {
+          "ucat": {
+            "total_score": 2050,
+            "sjt_band": 2
+          }
+        }
+      },
+      "expected": {
+        "eligibility_status": "eligible",
+        "interview_band": "ambitious",
+        "score": 1,
+        "manual_review_required": false,
+        "gcse_profile_class": "strong"
+      }
+    },
+    {
+      "scenario_id": "home_2000_complete_profile_keeps_high_risk_band",
+      "overrides": {
+        "admissions_tests": {
+          "ucat": {
+            "total_score": 2000,
+            "sjt_band": 2
+          }
+        }
+      },
+      "expected": {
+        "eligibility_status": "eligible",
+        "interview_band": "high_risk",
+        "score": 0,
+        "manual_review_required": false,
+        "gcse_profile_class": "strong"
+      }
+    },
+    {
       "scenario_id": "home_2300_moderate_gcse_one_band_down",
       "overrides": {
         "gcse_profile": {

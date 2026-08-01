@@ -44,13 +44,6 @@
     ],
     "conditional_manual_review": [
       {
-        "condition_id": "cambridge_borderline_or_high_risk",
-        "band_ids": [
-          "ambitious",
-          "high_risk"
-        ]
-      },
-      {
         "condition_id": "cambridge_international_realistic_or_above",
         "match": {
           "all_group_ids": [
@@ -220,6 +213,9 @@
       "min": -2,
       "max": 5
     },
+    "gcse_profile_completeness": {
+      "minimum_results_for_competitiveness_assessment": 8
+    },
     "presentation": {
       "hide_score_breakdown": true,
       "hide_selection_score_details": true,
@@ -242,6 +238,9 @@
       "not_eligible_explanation": "Based on the information entered, one or more Cambridge A100 entry requirements covered by ApplySmart are not met.",
       "insufficient_evidence_recommendation": "Evidence not yet available",
       "insufficient_evidence_explanation": "ApplySmart needs more verified applicant information before Cambridge interview guidance can be shown.",
+      "insufficient_evidence_reason_messages": {
+        "insufficient_gcse_results": "ApplySmart needs a more complete GCSE profile before it can assess your Cambridge interview potential. This is not a rejection."
+      },
       "evidence_used": [
         "Official admissions policy",
         "University selection methodology",

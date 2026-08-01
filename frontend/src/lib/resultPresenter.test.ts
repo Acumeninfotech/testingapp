@@ -7,11 +7,16 @@ import {
   RESULT_CATEGORY_FILTER_GROUP,
   filterGroupForCategory,
   presentResult,
+  resultCardRecommendationExplanation,
   strongestPopulatedCategory,
   strongestPopulatedFilterGroup,
   type ResultCategory,
 } from './resultPresenter';
 import type { PredictionResult } from '../api/types';
+
+type CardWithOptionalPrimary = Omit<PredictionResult['result_card'], 'primary_explanation'> & {
+  primary_explanation?: string;
+};
 
 function card(overrides: Partial<PredictionResult['result_card']>): PredictionResult['result_card'] {
   return {
@@ -103,6 +108,17 @@ describe('presentResult canonical band -> public label mapping', () => {
     expect(result.label).toBe('Information Needed');
   });
 
+  it('labels insufficient_evidence with a prediction_calibration_unavailable reason code as Prediction Unavailable', () => {
+    const result = presentResult(
+      card({
+        recommendation_display_state: 'insufficient_evidence',
+        decision_transparency: { insufficient_evidence_reason_code: 'prediction_calibration_unavailable' },
+      }),
+    );
+    expect(result.category).toBe('manual_review');
+    expect(result.label).toBe('Prediction Unavailable');
+  });
+
   it('never labels any unresolved state as the generic "Verify"', () => {
     const needsReview = presentResult(card({ recommendation_display_state: 'manual_review' }));
     const predictionUnavailable = presentResult(
@@ -140,6 +156,84 @@ describe('presentResult canonical band -> public label mapping', () => {
     expect(() =>
       presentResult(card({ prediction: { result_band: 'not_a_real_band' } })),
     ).toThrow(/unrecognised prediction\.result_band/);
+  });
+});
+
+describe('resultCardRecommendationExplanation precedence', () => {
+  it('uses structured risk_explanation for standard high-risk results', () => {
+    expect(
+      resultCardRecommendationExplanation(
+        card({
+          prediction: { result_band: 'high_risk' },
+          primary_explanation: "Based on ApplySmart's assessment, your academic profile and UCAT may be less competitive for this applicant group.",
+          risk_explanation: {
+            primary_factor: 'ucat',
+            reason_code: 'ucat_historical_guidance_range',
+            contributing_factors: ['ucat'],
+            summary: "Your academic entry requirements are met, but your UCAT score falls within ApplySmart's more cautious historical guidance range for this applicant group.",
+          },
+        }),
+      ),
+    ).toBe("Your academic entry requirements are met, but your UCAT score falls within ApplySmart's more cautious historical guidance range for this applicant group.");
+  });
+
+  it('falls back to decision_transparency risk_explanation for standard high-risk results', () => {
+    expect(
+      resultCardRecommendationExplanation(
+        card({
+          prediction: { result_band: 'high_risk' },
+          primary_explanation: "Based on ApplySmart's assessment, your academic profile and UCAT may be less competitive for this applicant group.",
+          decision_transparency: {
+            risk_explanation: {
+              primary_factor: 'academic',
+              reason_code: 'academic_historical_guidance_range',
+              contributing_factors: ['academic'],
+              summary: "Your academic entry requirements are met, but your academic profile falls within ApplySmart's more cautious historical guidance range for this applicant group.",
+            },
+          },
+        }),
+      ),
+    ).toBe("Your academic entry requirements are met, but your academic profile falls within ApplySmart's more cautious historical guidance range for this applicant group.");
+  });
+
+  it('prefers card.primary_explanation for unresolved results', () => {
+    expect(
+      resultCardRecommendationExplanation(
+        card({
+          recommendation_display_state: 'insufficient_evidence',
+          primary_explanation: 'Specific backend explanation.',
+          decision_transparency: {
+            insufficient_evidence_reason: 'Transparency reason.',
+          },
+        }),
+      ),
+    ).toBe('Specific backend explanation.');
+  });
+
+  it('falls back to the relevant transparency reason when primary_explanation is absent', () => {
+    const withoutPrimary = card({
+      recommendation_display_state: 'insufficient_evidence',
+      decision_transparency: {
+        insufficient_evidence_reason: 'Transparency insufficient evidence reason.',
+      },
+    }) as CardWithOptionalPrimary;
+    delete withoutPrimary.primary_explanation;
+
+    expect(resultCardRecommendationExplanation(withoutPrimary as PredictionResult['result_card'])).toBe(
+      'Transparency insufficient evidence reason.',
+    );
+  });
+
+  it('uses generic wording only when no specific public reason exists', () => {
+    const withoutPrimary = card({
+      recommendation_display_state: 'manual_review',
+      decision_transparency: {},
+    }) as CardWithOptionalPrimary;
+    delete withoutPrimary.primary_explanation;
+
+    expect(resultCardRecommendationExplanation(withoutPrimary as PredictionResult['result_card'])).toBe(
+      'ApplySmart needs additional applicant information before it can provide a complete recommendation for this applicant group.',
+    );
   });
 });
 

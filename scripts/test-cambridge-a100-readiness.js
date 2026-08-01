@@ -4,6 +4,9 @@ const assert = require('assert');
 const fs = require('fs');
 const path = require('path');
 const {
+  evaluateCourseEligibility
+} = require('../assets/js/engine/eligibility-evaluator');
+const {
   classifyInterviewBand
 } = require('../assets/js/engine/interview-band-classifier');
 const {
@@ -11,6 +14,9 @@ const {
   humanManualReviewReason,
   insufficientEvidenceReasonCodeFromWarnings
 } = require('../assets/js/engine/result-card-presenter');
+const {
+  predict
+} = require('../server/src/predict');
 
 const rootDir = path.resolve(__dirname, '..');
 
@@ -76,10 +82,14 @@ function makeResultCard(course, config, applicant, classification) {
     interviewBand: classification.canonical_interview_band,
     manualReviewRequired: classification.manual_review_required === true,
     manualReviewReason: humanManualReviewReason(classification.eligibility.manual_review_reasons),
-    insufficientEvidenceReasonCode: insufficientEvidenceReasonCodeFromWarnings(classification.warnings, {
-      eligibilityStatus: classification.eligibility.status,
-      guidancePoolId: classification.guidance_pool_id ?? null
-    }),
+    insufficientEvidenceReasonCode:
+      classification.insufficient_evidence_reason_code ||
+      insufficientEvidenceReasonCodeFromWarnings(classification.warnings, {
+        eligibilityStatus: classification.eligibility.status,
+        guidancePoolId: classification.guidance_pool_id ?? null
+      }) ||
+      null,
+    missingInformation: classification.missing_information || null,
     transparencyContext: {
       course_identity: {
         profile_id: course.profile_id
@@ -96,9 +106,28 @@ function makeResultCard(course, config, applicant, classification) {
       guidance_pool: classification.guidance_pool || null,
       score_model: config.score_model,
       guidance_pool_id: classification.guidance_pool_id || null,
+      missing_information: classification.missing_information || null,
       warnings: classification.warnings || []
     }
   });
+}
+
+function withApiSafeUcat(totalScore, sjtBand = 2) {
+  const verbalReasoning = Math.floor(totalScore / 3);
+  const decisionMaking = Math.floor((totalScore - verbalReasoning) / 2);
+  const quantitativeReasoning = totalScore - verbalReasoning - decisionMaking;
+
+  return {
+    total_score: totalScore,
+    score_scale: 2700,
+    sjt_band: sjtBand,
+    test_year: 2026,
+    subtests: {
+      verbal_reasoning: verbalReasoning,
+      decision_making: decisionMaking,
+      quantitative_reasoning: quantitativeReasoning
+    }
+  };
 }
 
 const course = readJson('data/universities/cambridge-a100.json');
@@ -209,6 +238,253 @@ for (const scenario of fixture.scenarios) {
     );
   }
 }
+
+const completeHomeProfileScenarios = [
+  {
+    label: 'Scenario 1: UCAT 2400',
+    ucat: 2400,
+    expectedBand: 'interview_likely',
+    expectedRecommendation: 'Strong Choice'
+  },
+  {
+    label: 'Scenario 2: UCAT 2050',
+    ucat: 2050,
+    expectedBand: 'ambitious',
+    expectedRecommendation: 'Ambitious Choice'
+  },
+  {
+    label: 'Scenario 3: UCAT 2000',
+    ucat: 2000,
+    expectedBand: 'high_risk',
+    expectedRecommendation: 'High Risk'
+  }
+];
+
+for (const scenario of completeHomeProfileScenarios) {
+  const applicant = merge(fixture.base_applicant, {
+    admissions_tests: {
+      ucat: {
+        total_score: scenario.ucat,
+        sjt_band: 2
+      }
+    }
+  });
+  const classification = classifyInterviewBand(course, config, applicant);
+  const resultCard = makeResultCard(course, config, applicant, classification);
+
+  assert.strictEqual(classification.eligibility.status, 'eligible', `${scenario.label}: eligibility`);
+  assert.strictEqual(
+    classification.canonical_interview_band,
+    scenario.expectedBand,
+    `${scenario.label}: calculated band must be preserved`
+  );
+  assert.strictEqual(
+    classification.manual_review_required === true,
+    false,
+    `${scenario.label}: complete profile must not require manual review`
+  );
+  assert.strictEqual(
+    resultCard.recommendation_display_state,
+    'standard',
+    `${scenario.label}: result card must not show Information Needed`
+  );
+  assert.strictEqual(
+    resultCard.internal_recommendation,
+    scenario.expectedRecommendation,
+    `${scenario.label}: public band label`
+  );
+  assert.notStrictEqual(
+    resultCard.primary_user_facing_recommendation,
+    'More information is required',
+    `${scenario.label}: complete profile must not be converted into Information Needed`
+  );
+}
+
+const strongGcseLowUcatApplicant = merge(fixture.base_applicant, {
+  admissions_tests: {
+    ucat: withApiSafeUcat(2000, 2)
+  }
+});
+const weakGcseApplicant = merge(fixture.base_applicant, {
+  gcse_profile: {
+    subjects: {
+      english_language: '8',
+      mathematics: '8',
+      biology: '8',
+      chemistry: '8',
+      physics: '7',
+      english_literature: '7',
+      history: '6',
+      geography: '6',
+      french: '6',
+      music: '5'
+    },
+    total_gcse_count: 10
+  },
+  admissions_tests: {
+    ucat: withApiSafeUcat(2200, 2)
+  }
+});
+const incompleteGcseApplicant = clone(fixture.base_applicant);
+incompleteGcseApplicant.gcse_profile = {
+  ...(incompleteGcseApplicant.gcse_profile || {}),
+  subjects: {
+    english_language: '8',
+    mathematics: '8',
+    biology: '8',
+    chemistry: '8',
+    physics: '8'
+  },
+  total_gcse_count: 5
+};
+incompleteGcseApplicant.admissions_tests = {
+  ...(incompleteGcseApplicant.admissions_tests || {}),
+  ucat: withApiSafeUcat(2000, 2)
+};
+
+const strongClassification = classifyInterviewBand(course, config, strongGcseLowUcatApplicant);
+const strongCard = makeResultCard(course, config, strongGcseLowUcatApplicant, strongClassification);
+assert.strictEqual(strongClassification.eligibility.status, 'eligible');
+assert.strictEqual(strongClassification.canonical_interview_band, 'high_risk');
+assert.strictEqual(strongCard.recommendation_display_state, 'standard');
+assert.strictEqual(strongCard.internal_recommendation, 'High Risk');
+assert.strictEqual(strongCard.risk_explanation?.reason_code, 'ucat_historical_guidance_range');
+assert.deepStrictEqual(strongCard.risk_explanation?.contributing_factors, ['ucat']);
+
+const weakClassification = classifyInterviewBand(course, config, weakGcseApplicant);
+const weakCard = makeResultCard(course, config, weakGcseApplicant, weakClassification);
+assert.strictEqual(weakClassification.eligibility.status, 'eligible');
+assert.strictEqual(weakClassification.canonical_interview_band, 'high_risk');
+assert.strictEqual(weakCard.recommendation_display_state, 'standard');
+assert.strictEqual(weakCard.internal_recommendation, 'High Risk');
+assert.strictEqual(weakCard.risk_explanation?.reason_code, 'academic_historical_guidance_range');
+assert.deepStrictEqual(weakCard.risk_explanation?.contributing_factors, ['academic']);
+
+const incompleteClassification = classifyInterviewBand(course, config, incompleteGcseApplicant);
+const incompleteCard = makeResultCard(course, config, incompleteGcseApplicant, incompleteClassification);
+const incompleteGcseReason =
+  'ApplySmart needs a more complete GCSE profile before it can assess your Cambridge interview potential. This is not a rejection.';
+assert.strictEqual(incompleteClassification.eligibility.status, 'eligible');
+assert.strictEqual(incompleteClassification.canonical_interview_band, 'insufficient_evidence');
+assert.strictEqual(incompleteClassification.insufficient_evidence_reason_code, 'insufficient_gcse_results');
+assert.deepStrictEqual(
+  incompleteClassification.missing_information,
+  {
+    qualification_type: 'gcse',
+    provided_count: 5,
+    required_count: 8
+  }
+);
+assert.strictEqual(incompleteClassification.ranking, null);
+assert.strictEqual(incompleteCard.recommendation_display_state, 'insufficient_evidence');
+assert.strictEqual(incompleteCard.primary_explanation, incompleteGcseReason);
+assert.strictEqual(incompleteCard.information_needed_reason, incompleteGcseReason);
+assert.doesNotMatch(incompleteCard.primary_explanation, /best eight GCSEs/i);
+assert.strictEqual(incompleteCard.decision_transparency?.insufficient_evidence_reason_code, 'insufficient_gcse_results');
+assert.strictEqual(incompleteCard.decision_transparency?.information_needed_reason, incompleteGcseReason);
+assert.deepStrictEqual(
+  incompleteCard.missing_information,
+  {
+    qualification_type: 'gcse',
+    provided_count: 5,
+    required_count: 8
+  }
+);
+
+const incompleteApiResult = predict({
+  universityIds: ['cambridge-a100'],
+  studentProfile: incompleteGcseApplicant
+})[0].result_card;
+assert.strictEqual(incompleteApiResult.prediction?.result_band, 'insufficient_evidence');
+assert.strictEqual(incompleteApiResult.recommendation_display_state, 'insufficient_evidence');
+assert.strictEqual(
+  incompleteApiResult.decision_transparency?.insufficient_evidence_reason_code,
+  'insufficient_gcse_results'
+);
+assert.strictEqual(incompleteApiResult.primary_explanation, incompleteGcseReason);
+assert.strictEqual(incompleteApiResult.information_needed_reason, incompleteGcseReason);
+assert.doesNotMatch(incompleteApiResult.primary_explanation, /best eight GCSEs/i);
+
+const evaluatorStrong = evaluateCourseEligibility(course, strongGcseLowUcatApplicant);
+const evaluatorWeak = evaluateCourseEligibility(course, weakGcseApplicant);
+const evaluatorIncomplete = evaluateCourseEligibility(course, incompleteGcseApplicant);
+assert.strictEqual(evaluatorStrong.status, 'eligible');
+assert.strictEqual(evaluatorWeak.status, 'eligible');
+assert.strictEqual(evaluatorIncomplete.status, 'eligible');
+
+const internationalApplicant = merge(fixture.base_applicant, {
+  applicant_identity: {
+    applicant_type: 'international_standard_school_leaver',
+    fee_status: 'International',
+    domicile: 'International',
+    english_language_exempt: true
+  },
+  admissions_tests: {
+    ucat: withApiSafeUcat(2360, 2)
+  },
+  application_year: 2027
+});
+const ibApplicant = merge(fixture.base_applicant, {
+  qualification_route: 'international_baccalaureate',
+  a_level_profile: null,
+  ib_profile: {
+    total_points: 41,
+    higher_level_subjects: [
+      {
+        subject_id: 'chemistry',
+        higher_level_grade: '7'
+      },
+      {
+        subject_id: 'biology',
+        higher_level_grade: '7'
+      },
+      {
+        subject_id: 'mathematics',
+        higher_level_grade: '6'
+      }
+    ]
+  },
+  admissions_tests: {
+    ucat: withApiSafeUcat(2360, 2)
+  }
+});
+
+const evaluatorInternational = evaluateCourseEligibility(course, internationalApplicant);
+const classifierInternational = classifyInterviewBand(course, config, internationalApplicant);
+assert.strictEqual(evaluatorInternational.status, 'eligible');
+assert.strictEqual(classifierInternational.eligibility.status, evaluatorInternational.status);
+assert.strictEqual(classifierInternational.manual_review_required === true, true);
+const internationalApiCard = predict({
+  universityIds: ['cambridge-a100'],
+  studentProfile: internationalApplicant
+})[0].result_card;
+assert.strictEqual(internationalApiCard.recommendation_display_state, 'manual_review');
+
+const evaluatorIb = evaluateCourseEligibility(course, ibApplicant);
+const classifierIb = classifyInterviewBand(course, config, ibApplicant);
+assert.strictEqual(evaluatorIb.status, 'eligible');
+assert.strictEqual(classifierIb.eligibility.status, evaluatorIb.status);
+const ibApiCard = predict({
+  universityIds: ['cambridge-a100'],
+  studentProfile: ibApplicant
+})[0].result_card;
+assert.strictEqual(ibApiCard.recommendation_display_state, 'standard');
+
+const gcseGateConfig = merge(config, {
+  eligibility: {
+    gcse: {
+      minimum_count: 8,
+      use_exact_subject_list: true
+    }
+  }
+});
+const officialGateFailure = classifyInterviewBand(course, gcseGateConfig, incompleteGcseApplicant);
+assert.strictEqual(officialGateFailure.eligibility.status, 'not_eligible');
+assert.strictEqual(officialGateFailure.canonical_interview_band, 'not_eligible');
+assert.ok(
+  officialGateFailure.eligibility.failures.includes('minimum_gcse_count_not_met'),
+  'Official GCSE minimum-count failure must remain Not Eligible.'
+);
 
 const baseClassification = classifyInterviewBand(course, config, fixture.base_applicant);
 const baseCard = makeResultCard(course, config, fixture.base_applicant, baseClassification);

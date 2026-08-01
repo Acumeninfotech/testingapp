@@ -357,7 +357,38 @@
     "comparison_metrics": [],
     "selection_approach_display": null,
     "selection_metric": null,
-    "score_breakdown": null,
+    "score_breakdown": {
+      "name": "Exeter Score",
+      "value": 70,
+      "max": 90,
+      "status": "calculated",
+      "explanation": null,
+      "checks": [
+        {
+          "label": "Grade profile score",
+          "status": "Counted",
+          "summary": "Predicted A*AA maps to 38 base points before UCAT decile contribution."
+        },
+        {
+          "label": "UCAT decile score",
+          "status": "Counted",
+          "summary": "UCAT 2220 is mapped through the shared national UCAT decile lookup and contributes 32 points."
+        },
+        {
+          "label": "Achieved-grade uplift",
+          "status": "Counted",
+          "summary": "0/10 because the applicant is predicted, not achieved."
+        },
+        {
+          "label": "Contextual uplift",
+          "status": "Counted",
+          "summary": "0/5 because the applicant is not WP/contextual. Contextual applicants receive the +5 score uplift only; ApplySmart does not also lower the threshold."
+        }
+      ],
+      "applicable_max_score": 90,
+      "selection_score_max": 90,
+      "global_max": 105
+    },
     "ucat_comparison": null
   },
   "engine_notes": {

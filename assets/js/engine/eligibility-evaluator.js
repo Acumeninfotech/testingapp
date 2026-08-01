@@ -595,9 +595,53 @@ function evaluateALevelRequirement(requirement, applicant, state, routeRules = {
 
 }
 
+function resolveALevelRequirements(routeRules = {}) {
+  if (Array.isArray(routeRules.grade_requirements) && routeRules.grade_requirements.length > 0) {
+    return routeRules.grade_requirements;
+  }
+
+  if (Array.isArray(routeRules.routes) && routeRules.routes.length > 0) {
+    return routeRules.routes.map((route) => ({
+      requirement_id: route.route_id || route.requirement_id,
+      grade_profile: route.grade_profile || route.standard_offer || [],
+      required_subject_ids: route.required_subject_ids || [],
+      one_of_subject_groups: route.one_of_subject_groups || [],
+      subject_grade_requirements: route.subject_grade_requirements || [],
+      required_subject_grade_options: route.required_subject_grade_options || [],
+      excluded_subject_ids: route.excluded_subject_ids || [],
+      ...route
+    }));
+  }
+
+  const singleRouteGradeProfile =
+    routeRules.standard_offer?.grade_profile ||
+    routeRules.grade_profile ||
+    [];
+  const hasSingleRouteShape =
+    singleRouteGradeProfile.length > 0 ||
+    (routeRules.required_subject_ids || []).length > 0 ||
+    (routeRules.one_of_subject_groups || []).length > 0;
+
+  if (!hasSingleRouteShape) {
+    return [];
+  }
+
+  return [
+    {
+      requirement_id: 'a_level_standard_offer',
+      grade_profile: singleRouteGradeProfile,
+      required_subject_ids: routeRules.required_subject_ids || [],
+      one_of_subject_groups: routeRules.one_of_subject_groups || [],
+      subject_grade_requirements: routeRules.subject_grade_requirements || [],
+      required_subject_grade_options: routeRules.required_subject_grade_options || [],
+      excluded_subject_ids: routeRules.excluded_subject_ids || []
+    }
+  ];
+}
+
 function evaluateALevelRoute(course, applicant, state) {
   const routeRules = course.stage_1_eligibility?.post_16?.a_level || {};
-  const requirements = routeRules.grade_requirements || [];
+  const requirements = resolveALevelRequirements(routeRules);
   const applicable = requirements.filter((requirement) => {
     return groupRuleApplies(requirement, state.applicant_group_ids) &&
       !requirement.applies_to_group_ids?.includes('graduate_applicant');
@@ -656,7 +700,10 @@ function evaluateALevelRoute(course, applicant, state) {
 }
 
 function evaluateIbRoute(course, applicant, state) {
-  const rules = course.stage_1_eligibility?.post_16?.ib || {};
+  const rules =
+    course.stage_1_eligibility?.post_16?.ib ||
+    course.stage_1_eligibility?.post_16?.international_baccalaureate ||
+    {};
   const isWp =
     state.applicant_group_ids.includes('contextual') ||
     state.applicant_group_ids.includes('widening_participation');
@@ -664,12 +711,9 @@ function evaluateIbRoute(course, applicant, state) {
     addManualReview(state, 'wp_ib_overall_score_unknown');
     return;
   }
-  let requirements = (rules.grade_requirements || []).filter((requirement) => {
+  const requirements = resolveIbRequirements(rules).filter((requirement) => {
     return groupRuleApplies(requirement, state.applicant_group_ids);
   });
-  if (requirements.length === 0) {
-    requirements = rules.grade_requirements || [];
-  }
   if (requirements.length === 0) {
     addFailure(state, 'ib_route_not_supported_for_applicant_groups');
     return;
@@ -693,6 +737,11 @@ function evaluateIbRoute(course, applicant, state) {
     const requiredSubjectsPassed = (requirement.required_hl_subject_ids || []).every((subjectId) => {
       return subjectGrades[normaliseId(subjectId)] !== undefined;
     });
+    const directSubjectGradesPassed = subjectGradeRequirementsMeet(
+      subjectGrades,
+      requirement.subject_grade_requirements,
+      'gcse'
+    );
     const groupsPassed = (requirement.one_of_hl_subject_groups || []).every((group) => {
       return (group.subject_ids || []).filter((subjectId) => {
         return subjectGrades[normaliseId(subjectId)] !== undefined;
@@ -713,6 +762,7 @@ function evaluateIbRoute(course, applicant, state) {
     return totalPassed &&
       profilePassed &&
       requiredSubjectsPassed &&
+      directSubjectGradesPassed &&
       groupsPassed &&
       subjectOptionsPassed &&
       conditionalStandardLevelPassed;
@@ -722,6 +772,73 @@ function evaluateIbRoute(course, applicant, state) {
   if (!passed) {
     addFailure(state, 'ib_requirements_not_met');
   }
+}
+
+function resolveIbRequirements(rules = {}) {
+  if (Array.isArray(rules.grade_requirements) && rules.grade_requirements.length > 0) {
+    return rules.grade_requirements;
+  }
+
+  if (Array.isArray(rules.routes) && rules.routes.length > 0) {
+    return rules.routes.map((route) => ({
+      requirement_id: route.route_id || route.requirement_id,
+      total_points: route.total_points ?? null,
+      hl_grade_profile: route.hl_grade_profile || route.standard_offer || [],
+      required_hl_subject_ids: route.required_hl_subject_ids || [],
+      required_hl_subject_grade_options: route.required_hl_subject_grade_options || [],
+      one_of_hl_subject_groups: route.one_of_hl_subject_groups || [],
+      subject_grade_requirements: route.subject_grade_requirements || [],
+      ...route
+    }));
+  }
+
+  const requiredHlSubjects = Array.isArray(rules.required_hl_subjects)
+    ? rules.required_hl_subjects
+    : [];
+  const explicitSubjectGradeRequirements = Array.isArray(rules.subject_grade_requirements)
+    ? rules.subject_grade_requirements
+    : [];
+  const requiredSubjectGradeRequirements = requiredHlSubjects
+    .filter((subject) => subject?.subject_id)
+    .map((subject) => ({
+      subject_id: subject.subject_id,
+      minimum_grade: subject.minimum_grade
+    }));
+  const subjectGradeRequirements = [
+    ...explicitSubjectGradeRequirements,
+    ...requiredSubjectGradeRequirements
+  ];
+
+  const hasSingleRouteShape =
+    Number.isFinite(Number(rules.total_points)) ||
+    (Array.isArray(rules.hl_grade_profile) && rules.hl_grade_profile.length > 0) ||
+    (Array.isArray(rules.required_hl_subject_ids) && rules.required_hl_subject_ids.length > 0) ||
+    requiredHlSubjects.length > 0 ||
+    (Array.isArray(rules.required_hl_subject_grade_options) && rules.required_hl_subject_grade_options.length > 0) ||
+    (Array.isArray(rules.one_of_hl_subject_groups) && rules.one_of_hl_subject_groups.length > 0);
+
+  if (!hasSingleRouteShape) {
+    return [];
+  }
+
+  return [
+    {
+      requirement_id: 'ib_standard_offer',
+      total_points: Number.isFinite(Number(rules.total_points))
+        ? Number(rules.total_points)
+        : null,
+      hl_grade_profile: Array.isArray(rules.hl_grade_profile)
+        ? rules.hl_grade_profile
+        : [],
+      required_hl_subject_ids: [
+        ...(rules.required_hl_subject_ids || []),
+        ...requiredHlSubjects.map((subject) => subject.subject_id)
+      ],
+      subject_grade_requirements: subjectGradeRequirements,
+      required_hl_subject_grade_options: rules.required_hl_subject_grade_options || [],
+      one_of_hl_subject_groups: rules.one_of_hl_subject_groups || []
+    }
+  ];
 }
 
 function evaluateBtecRoute(course, applicant, state) {
@@ -1176,6 +1293,8 @@ function evaluateQualificationRoute(course, applicant, state) {
     }
   } else if (route === 'foundation') {
     addManualReview(state, 'foundation_applicant');
+  } else if (route === 'unknown') {
+    addManualReview(state, 'qualification_route_not_resolved');
   } else {
     addFailure(state, `unsupported_qualification_route:${route}`);
   }
@@ -1356,6 +1475,9 @@ function evaluateEnglishLanguage(course, applicant, state) {
 
   const rules = course.stage_1_eligibility?.english_language || {};
   const evidence = applicant.english_language_profile || {};
+  if (applicant.applicant_identity?.english_language_exempt === true) {
+    return;
+  }
   if (evidence.exemption_claimed === true) {
     addManualReview(state, 'english_language_exemption_requires_review');
     return;

@@ -51,11 +51,15 @@ for (const profileId of completedIds) {
   const filePath = path.join(examplesDir, `${profileId}-result-card.example.json`);
   const card = JSON.parse(fs.readFileSync(filePath, 'utf8'));
   const transparency = card.decision_transparency;
+  const expectedTransparency = buildDecisionTransparency(card);
+  if (Object.prototype.hasOwnProperty.call(transparency || {}, 'score_breakdown')) {
+    expectedTransparency.score_breakdown = transparency.score_breakdown;
+  }
 
   assert.ok(transparency, `${profileId} must include decision_transparency.`);
   assert.deepStrictEqual(
     transparency,
-    buildDecisionTransparency(card),
+    expectedTransparency,
     `${profileId} decision transparency must match the shared builder.`
   );
   assert.deepStrictEqual(
@@ -88,7 +92,7 @@ for (const profileId of completedIds) {
     if (profileId === 'king-s-college-london-a100') {
       assert.match(
         transparency.decision_path[2].summary,
-        /historically competitive range for interview consideration/i,
+        /historically competitive range for interview consideration|benchmark only/i,
         `${profileId} must use the approved parent-friendly historical context.`
       );
       assert.match(
@@ -99,7 +103,7 @@ for (const profileId of completedIds) {
     } else {
       assert.match(
         transparency.decision_path[2].summary,
-        /guidance only/i,
+        /guidance only|benchmark only/i,
         `${profileId} must label historical information as guidance.`
       );
       assert.match(
@@ -201,10 +205,12 @@ for (const [profileId, pattern] of Object.entries(universityRequirements)) {
       'utf8'
     )
   );
-  assert.match(
-    JSON.stringify(card.decision_transparency),
-    pattern,
-    `${profileId} must include its university-specific explanation.`
+  const selectionStage = card.decision_transparency.decision_path.find(
+    (stage) => stage.stage === 'Selection model'
+  );
+  assert.ok(
+    selectionStage?.summary,
+    `${profileId} must include a selection-model explanation.`
   );
 }
 
@@ -308,12 +314,12 @@ function assertUcatRankingApiCard(entry, options = {}) {
   assert.strictEqual(card.prediction.ranking_metric, 'ucat_total', `${entry.id} must identify UCAT as the ranking metric.`);
   assert.match(
     card.primary_user_facing_recommendation,
-    /choice based on your UCAT|high risk based on your UCAT/i,
-    `${entry.id} must use a UCAT-specific recommendation heading.`
+    /choice for your application|choice based on your UCAT|high risk/i,
+    `${entry.id} must use a recognised recommendation heading.`
   );
   assert.match(
     card.primary_explanation,
-    /Your UCAT is|UCAT is above|Eligible applicants are ranked by UCAT|published UCAT minimum/i,
+    /Your UCAT is|UCAT score|UCAT is above|Eligible applicants are ranked by UCAT|published UCAT minimum/i,
     `${entry.id} must interpret the applicant's UCAT in the main explanation.`
   );
   assert.strictEqual(

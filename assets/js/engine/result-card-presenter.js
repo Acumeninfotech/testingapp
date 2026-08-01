@@ -94,6 +94,12 @@ const ELIGIBILITY_ONLY_SELECTION_SUMMARY =
 const OFFICIAL_UNAVAILABLE_TRUST_STATEMENT =
   'ApplySmart does not alter university requirements or present unofficial information as an official rule. Predictions are generated only after applying the published university criteria and analysing the available admissions evidence.';
 
+const GENERIC_MANUAL_REVIEW_EXPLANATION =
+  'ApplySmart needs additional applicant information before it can provide a complete recommendation for this applicant group.';
+
+const GENERIC_INSUFFICIENT_EVIDENCE_EXPLANATION =
+  'ApplySmart needs additional applicant information before it can provide a complete recommendation for this applicant group.';
+
 const EVIDENCE = {
   standard: [
     'Official admissions policy',
@@ -161,14 +167,313 @@ function reasonScopedPresentationValue(presentation = {}, field, reasonCode) {
   return values[reasonCode] || null;
 }
 
+function firstNonEmptyString(...values) {
+  return values.find((value) => typeof value === 'string' && value.trim().length > 0) || null;
+}
+
+function smallNumberWord(value) {
+  const words = {
+    0: 'zero',
+    1: 'one',
+    2: 'two',
+    3: 'three',
+    4: 'four',
+    5: 'five',
+    6: 'six',
+    7: 'seven',
+    8: 'eight',
+    9: 'nine',
+    10: 'ten'
+  };
+  return Object.prototype.hasOwnProperty.call(words, value) ? words[value] : String(value);
+}
+
 function isApplicantInformationReasonCode(reasonCode) {
   return Boolean(reasonCode) &&
     reasonCode !== 'university_methodology_gap' &&
+    reasonCode !== 'prediction_calibration_unavailable' &&
+    reasonCode !== 'academic_matrix_band_unavailable' &&
     !/historical_evidence_gap/.test(String(reasonCode));
 }
 
 function check(label, status, summary) {
   return { label, status, summary };
+}
+
+const ACADEMIC_REQUIREMENT_LABELS = {
+  gcse: 'GCSEs',
+  a_level: 'A-levels',
+  ib: 'IB',
+  scottish: 'Scottish Highers',
+  graduate: 'Graduate Entry'
+};
+
+const ACADEMIC_REQUIREMENT_STATUS_PRIORITY = {
+  met: 1,
+  information_needed: 2,
+  not_met: 3
+};
+
+function normaliseCheckId(value) {
+  return String(value || '')
+    .trim()
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, '_')
+    .replace(/^_|_$/g, '');
+}
+
+function academicQualificationTypeForCheck(rawCheck) {
+  const checkId = normaliseCheckId(
+    rawCheck?.check_id ||
+    rawCheck?.check ||
+    rawCheck?.requirement_id
+  );
+  if (!checkId) {
+    return null;
+  }
+
+  if (
+    checkId.startsWith('gcse_') ||
+    checkId.startsWith('minimum_gcse_') ||
+    checkId.startsWith('required_gcse_') ||
+    checkId.includes('_gcse_') ||
+    checkId.endsWith('_gcse')
+  ) {
+    return 'gcse';
+  }
+  if (
+    checkId.startsWith('a_level_') ||
+    checkId.includes('_a_level_') ||
+    checkId.includes('_a_level') ||
+    checkId.includes('a_levels') ||
+    checkId.includes('alevel') ||
+    checkId === 'same_sitting_requirement'
+  ) {
+    return 'a_level';
+  }
+  if (
+    checkId.startsWith('ib_') ||
+    checkId.includes('_ib_') ||
+    checkId.startsWith('international_baccalaureate_') ||
+    checkId.includes('_international_baccalaureate_')
+  ) {
+    return 'ib';
+  }
+  if (
+    checkId.startsWith('scottish_') ||
+    checkId.includes('_scottish_') ||
+    checkId.startsWith('national_5_') ||
+    checkId.includes('_national_5_') ||
+    checkId.includes('higher_requirements') ||
+    checkId.includes('highers')
+  ) {
+    return 'scottish';
+  }
+  if (
+    checkId.startsWith('graduate_') ||
+    checkId.includes('_graduate_') ||
+    checkId.startsWith('degree_') ||
+    checkId.includes('_degree_')
+  ) {
+    return 'graduate';
+  }
+
+  return null;
+}
+
+function academicRequirementCheckId(rawCheck) {
+  return normaliseCheckId(
+    rawCheck?.check_id ||
+    rawCheck?.check ||
+    rawCheck?.requirement_id
+  );
+}
+
+function humanSubjectLabel(subjectId) {
+  return String(subjectId || '')
+    .replace(/_/g, ' ')
+    .replace(/\b\w/g, (char) => char.toUpperCase());
+}
+
+function academicRequirementLabelForCheck(rawCheck, qualificationType) {
+  const checkId = academicRequirementCheckId(rawCheck);
+  const firstSubject =
+    rawCheck?.subject_id ||
+    rawCheck?.required_subject_id ||
+    rawCheck?.applicable_subject_ids?.[0] ||
+    rawCheck?.failed_subject_ids?.[0] ||
+    rawCheck?.missing_subject_ids?.[0] ||
+    rawCheck?.unknown_subject_ids?.[0];
+
+  if (checkId === 'same_sitting_requirement') {
+    return 'Same-sitting requirement';
+  }
+  if (checkId === 'a_level_science_practical_endorsement') {
+    return 'Science practical endorsement';
+  }
+  if (checkId === 'a_level_subject_combination') {
+    return 'Required A-level subjects';
+  }
+  if (checkId === 'a_level_route' || checkId.includes('a_level')) {
+    return 'A-level grades';
+  }
+  if (checkId.includes('english_language')) {
+    return 'GCSE English Language';
+  }
+  if (checkId.includes('mathematics') || checkId.includes('maths')) {
+    return 'GCSE Mathematics';
+  }
+  if (firstSubject && qualificationType === 'gcse') {
+    return `GCSE ${humanSubjectLabel(firstSubject)}`;
+  }
+
+  return ACADEMIC_REQUIREMENT_LABELS[qualificationType];
+}
+
+function academicRequirementReasonForCheck(rawCheck, status) {
+  const checkId = academicRequirementCheckId(rawCheck);
+  if (status === 'met') {
+    if (checkId === 'same_sitting_requirement') {
+      return 'The same-sitting requirement is met.';
+    }
+    if (checkId === 'a_level_science_practical_endorsement') {
+      return 'The practical endorsement requirement is met.';
+    }
+    return 'This requirement is met.';
+  }
+
+  if (status === 'information_needed') {
+    if (checkId === 'same_sitting_requirement') {
+      return 'Required subject same-sitting information is missing.';
+    }
+    if (checkId === 'a_level_science_practical_endorsement') {
+      return 'Required practical endorsement information is missing.';
+    }
+    return 'Required subject information is missing.';
+  }
+
+  if (checkId === 'same_sitting_requirement') {
+    return 'The same-sitting requirement is not met.';
+  }
+  if (checkId === 'a_level_science_practical_endorsement') {
+    return 'The practical endorsement requirement is not met.';
+  }
+  if (checkId === 'a_level_subject_combination') {
+    return 'Required A-level subject information does not match the published requirement.';
+  }
+  if (checkId === 'a_level_route' || checkId.includes('a_level')) {
+    return 'Predicted A-level grades are below the required grades.';
+  }
+  if (checkId.includes('gcse')) {
+    return 'A required GCSE grade does not meet the published minimum.';
+  }
+
+  return 'This academic requirement is not met.';
+}
+
+function checkHasMissingInformation(rawCheck) {
+  return [
+    rawCheck?.missing_subject_ids,
+    rawCheck?.unknown_subject_ids,
+    rawCheck?.unconfirmed_subject_ids,
+    rawCheck?.missing_evidence_paths,
+    rawCheck?.unknown_evidence_paths
+  ].some((value) => Array.isArray(value) && value.length > 0);
+}
+
+function academicRequirementStatusForCheck(rawCheck, eligibilityStatus) {
+  const rawStatus = normaliseCheckId(rawCheck?.status || rawCheck?.decision_outcome);
+  if (
+    rawStatus.includes('information') ||
+    rawStatus.includes('manual') ||
+    rawStatus.includes('review') ||
+    rawStatus.includes('pending') ||
+    rawStatus.includes('missing') ||
+    rawStatus.includes('unknown') ||
+    rawStatus.includes('insufficient')
+  ) {
+    return 'information_needed';
+  }
+  if (
+    rawStatus.includes('fail') ||
+    rawStatus.includes('not_met') ||
+    rawStatus.includes('not_eligible') ||
+    rawStatus.includes('ineligible') ||
+    rawStatus.includes('rejected') ||
+    rawStatus.includes('blocked')
+  ) {
+    return 'not_met';
+  }
+  if (
+    rawStatus.includes('pass') ||
+    rawStatus.includes('met') ||
+    rawStatus.includes('eligible') ||
+    rawStatus.includes('accepted') ||
+    rawStatus.includes('confirmed') ||
+    rawStatus.includes('satisfied')
+  ) {
+    return 'met';
+  }
+
+  if (rawCheck?.passed === true) {
+    return 'met';
+  }
+  if (rawCheck?.passed === false) {
+    return checkHasMissingInformation(rawCheck) ||
+      ['manual_review', 'insufficient_evidence', 'information_needed'].includes(
+        normaliseCheckId(eligibilityStatus)
+      )
+      ? 'information_needed'
+      : 'not_met';
+  }
+
+  return null;
+}
+
+function buildAcademicRequirementChecks(rawChecks = [], eligibilityStatus = null) {
+  const rows = [];
+  const seen = new Map();
+
+  for (const rawCheck of rawChecks || []) {
+    const qualificationType = academicQualificationTypeForCheck(rawCheck);
+    if (!qualificationType) {
+      continue;
+    }
+    const status = academicRequirementStatusForCheck(rawCheck, eligibilityStatus);
+    if (!status) {
+      continue;
+    }
+    const checkId = academicRequirementCheckId(rawCheck) || qualificationType;
+    const label = academicRequirementLabelForCheck(rawCheck, qualificationType);
+    const key = `${qualificationType}:${checkId}:${label}`;
+    const row = {
+      qualification_type: qualificationType,
+      requirement_type: checkId,
+      label,
+      status,
+      reason: academicRequirementReasonForCheck(rawCheck, status)
+    };
+    if (rawCheck.required !== undefined) row.required_value = rawCheck.required;
+    if (rawCheck.actual !== undefined) row.applicant_value = rawCheck.actual;
+    if (rawCheck.required_grade !== undefined) row.required_value = rawCheck.required_grade;
+    if (rawCheck.applicant_grade !== undefined) row.applicant_value = rawCheck.applicant_grade;
+
+    const currentIndex = seen.get(key);
+    if (currentIndex !== undefined) {
+      const current = rows[currentIndex];
+      if (
+        ACADEMIC_REQUIREMENT_STATUS_PRIORITY[status] >
+        ACADEMIC_REQUIREMENT_STATUS_PRIORITY[current.status]
+      ) {
+        rows[currentIndex] = { ...current, ...row };
+      }
+      continue;
+    }
+    seen.set(key, rows.length);
+    rows.push(row);
+  }
+
+  return rows;
 }
 
 // Generic reason-code -> human label for the machine-readable failure/check
@@ -182,10 +487,13 @@ const FAILURE_REASON_LABELS = {
   minimum_gcse_count_not_met: 'You need more GCSEs at the required grade than are currently on file.',
   gcse_minimum_count_at_grade_not_met: 'You need more GCSEs at the required minimum grade than are currently on file.',
   gcse_requirement_not_met: 'One of your GCSE subject grades does not meet the published minimum.',
+  minimum_gcse_grade_not_met: 'One of your GCSE subject grades does not meet the published minimum.',
   gcse_science_alternative_not_met: 'Your GCSE science subjects do not match any of the accepted science combinations.',
   minimum_gcse_points_not_met: 'Your GCSE points score does not meet the published minimum.',
   a_level_requirements_not_met: 'Your A-level grades (predicted or achieved) do not meet the published minimum.',
+  a_level_subject_combination_not_met: 'Your A-level subjects do not match the published subject requirement.',
   a_level_practical_requirement_not_met: 'A required A-level science practical endorsement is missing or not a pass.',
+  science_practical_endorsement_not_confirmed: 'The practical endorsement requirement is not met.',
   science_practical_endorsement_evidence_missing: 'Please confirm the practical endorsement outcome for your required A-level science subject.',
   same_sitting_evidence_missing: 'Please confirm whether your required A-level qualifications were or will be completed in the same examination sitting.',
   same_sitting_evidence_not_supported_for_route: 'This qualification route needs adviser review because same-sitting evidence cannot yet be checked automatically.',
@@ -230,6 +538,18 @@ const FAILURE_REASON_LABELS = {
 function humanFailureLabel(code) {
   const [base] = String(code || '').split(':');
   return FAILURE_REASON_LABELS[base] || null;
+}
+
+function firstSpecificFailureLabel(failures) {
+  return (failures || [])
+    .map(humanFailureLabel)
+    .find(Boolean) || null;
+}
+
+function notEligiblePrimaryExplanation(failures) {
+  const specificFailure = firstSpecificFailureLabel(failures);
+  const generic = 'Based on the information entered, one or more supported entry requirements are not met.';
+  return specificFailure ? `${specificFailure} ${generic}` : generic;
 }
 
 // Distinguishes, for an insufficient_evidence result, whether the gap is on
@@ -619,11 +939,18 @@ function filterHistoricalEntriesForApplicant(entries, groupIds = []) {
 
   const matching = entries.filter((entry) => {
     const feeStatus = String(entry.fee_status || entry.applicant_group_id || '').toLowerCase();
-    const anyGroupIds = entry.any_group_ids || [];
+    const anyGroupIds = [
+      ...(entry.any_group_ids || []),
+      ...(entry.applies_to_group_ids || [])
+    ];
     if (isInternational) {
       return feeStatus.includes('international') || anyGroupIds.includes('international_fee');
     }
-    return !feeStatus.includes('international') && !anyGroupIds.includes('international_fee');
+    return (
+      feeStatus.includes('home') ||
+      anyGroupIds.includes('home_fee') ||
+      (!feeStatus.includes('international') && !anyGroupIds.includes('international_fee'))
+    );
   });
 
   return matching.length > 0 ? matching : entries;
@@ -678,6 +1005,14 @@ function historicalAdmissionsChecks(historicalAdmissions, groupIds = []) {
   }
 
   return [];
+}
+
+function hasPublicUcatHistoricalComparison(comparison) {
+  return Boolean(
+    comparison &&
+      comparison.comparison_type !== 'ranking_only' &&
+      Number.isFinite(comparison.applicant_ucat)
+  );
 }
 
 function applicantUcatForComparison(options = {}, ucatComparison = null) {
@@ -1522,6 +1857,172 @@ function standardRecommendationExplanation(interviewBand, options = {}) {
   return competitivenessExplanation('academic profile');
 }
 
+const RISK_BANDS = new Set(['ambitious', 'high_risk']);
+const CAUTIOUS_COMPONENT_BANDS = new Set([
+  'ambitious',
+  'borderline',
+  'high_risk',
+  'weak',
+  'low',
+  'below'
+]);
+const POSITIVE_ACADEMIC_CLASSES = new Set([
+  'strong',
+  'very_strong',
+  'excellent',
+  'high',
+  'competitive'
+]);
+const CAUTIOUS_ACADEMIC_CLASSES = new Set([
+  'moderate',
+  'weak',
+  'borderline',
+  'low',
+  'below',
+  'limited',
+  'high_risk'
+]);
+
+function componentCategory(componentId) {
+  const text = String(componentId || '').toLowerCase();
+  if (/ucat/.test(text)) return 'ucat';
+  if (/gcse|academic|grade|a_level|a-level|qualification/.test(text)) return 'academic';
+  if (/contextual|wp|widening|care/.test(text)) return 'contextual';
+  if (/route|resit|fee|international|graduate/.test(text)) return 'route';
+  return 'other';
+}
+
+function hasNegativeAdjustment(component = {}) {
+  return [
+    component.value,
+    component.adjustment,
+    component.applied_adjustment,
+    component.raw_adjustment
+  ].some((value) => Number.isFinite(value) && value < 0);
+}
+
+function cautiousBand(value) {
+  return CAUTIOUS_COMPONENT_BANDS.has(String(value || '').toLowerCase());
+}
+
+function cautiousAcademicClass(value) {
+  return CAUTIOUS_ACADEMIC_CLASSES.has(String(value || '').toLowerCase());
+}
+
+function positiveAcademicClass(value) {
+  return POSITIVE_ACADEMIC_CLASSES.has(String(value || '').toLowerCase());
+}
+
+function componentContributesToRisk(componentId, component = {}) {
+  if (!component || component.applicable === false) {
+    return false;
+  }
+
+  const category = componentCategory(componentId);
+  if (category === 'ucat') {
+    return cautiousBand(component.band || component.raw_band || component.profile_class);
+  }
+
+  if (category === 'academic') {
+    if (positiveAcademicClass(component.profile_class || component.band || component.raw_band)) {
+      return false;
+    }
+    return cautiousAcademicClass(component.profile_class) ||
+      cautiousBand(component.band || component.raw_band) ||
+      hasNegativeAdjustment(component);
+  }
+
+  if (category === 'contextual') {
+    return hasNegativeAdjustment(component) ||
+      cautiousBand(component.band || component.raw_band || component.outcome);
+  }
+
+  if (category === 'route') {
+    return cautiousBand(component.band || component.raw_band || component.outcome) ||
+      hasNegativeAdjustment(component);
+  }
+
+  return false;
+}
+
+function riskFactorsFromRanking(ranking = {}) {
+  const factors = new Set();
+  for (const [componentId, component] of Object.entries(ranking.components || {})) {
+    if (!componentContributesToRisk(componentId, component)) {
+      continue;
+    }
+    const category = componentCategory(componentId);
+    if (['ucat', 'academic', 'contextual', 'route'].includes(category)) {
+      factors.add(category);
+    }
+  }
+  return [...factors];
+}
+
+function buildStandardRiskExplanation(interviewBand, options = {}) {
+  if (!RISK_BANDS.has(interviewBand)) {
+    return null;
+  }
+
+  const ranking = options.ranking || options.context?.ranking || {};
+  const factors = riskFactorsFromRanking(ranking);
+  const hasUcat = factors.includes('ucat');
+  const hasAcademic = factors.includes('academic');
+  const hasContextualOrRoute = factors.includes('contextual') || factors.includes('route');
+  const base = 'Your academic entry requirements are met, but';
+
+  if (hasUcat && !hasAcademic && !hasContextualOrRoute) {
+    return {
+      primary_factor: 'ucat',
+      reason_code: 'ucat_historical_guidance_range',
+      contributing_factors: ['ucat'],
+      summary: `${base} your UCAT score falls within ApplySmart's more cautious historical guidance range for this applicant group.`
+    };
+  }
+
+  if (hasAcademic && !hasUcat && !hasContextualOrRoute) {
+    return {
+      primary_factor: 'academic',
+      reason_code: 'academic_historical_guidance_range',
+      contributing_factors: ['academic'],
+      summary: `${base} your academic profile falls within ApplySmart's more cautious historical guidance range for this applicant group.`
+    };
+  }
+
+  if (hasUcat && hasAcademic) {
+    return {
+      primary_factor: 'combined_academic_ucat',
+      reason_code: 'combined_academic_ucat_historical_guidance_range',
+      contributing_factors: factors,
+      summary: `${base} your academic profile and UCAT score fall within ApplySmart's more cautious historical guidance range for this applicant group.`
+    };
+  }
+
+  if (hasContextualOrRoute) {
+    return {
+      primary_factor: factors.includes('route') ? 'route' : 'contextual',
+      reason_code: 'contextual_or_route_historical_guidance_range',
+      contributing_factors: factors,
+      summary: `${base} a contextual or route-related factor places this profile within ApplySmart's more cautious historical guidance range for this applicant group.`
+    };
+  }
+
+  const configuredExplanation = firstNonEmptyString(
+    options.presentation?.band_explanations?.[interviewBand],
+    options.presentation?.risk_explanations?.[interviewBand]
+  );
+  if (configuredExplanation) {
+    return {
+      primary_factor: 'overall_profile',
+      reason_code: 'configured_band_explanation',
+      contributing_factors: [],
+      summary: configuredExplanation
+    };
+  }
+
+  return null;
+}
+
 function academicStatusSummary(state, eligibilityStatus) {
   if (state === 'not_eligible' || eligibilityStatus === 'not_eligible') {
     return 'You do not currently meet the academic requirements.';
@@ -1850,7 +2351,7 @@ function selectionComparisonMetrics(selectionMetric) {
 }
 
 function buildComparisonMetrics({ state, selectionMetric, ucatComparison, options = {} }) {
-  if (state !== 'standard') {
+  if (!['standard', 'not_eligible'].includes(state)) {
     return [];
   }
 
@@ -1868,7 +2369,7 @@ function buildComparisonMetrics({ state, selectionMetric, ucatComparison, option
 }
 
 function buildComparisonMetricsTitle({ state, comparisonMetrics, options = {} }) {
-  if (state !== 'standard' || !Array.isArray(comparisonMetrics) || comparisonMetrics.length === 0) {
+  if (!['standard', 'not_eligible'].includes(state) || !Array.isArray(comparisonMetrics) || comparisonMetrics.length === 0) {
     return null;
   }
 
@@ -1981,7 +2482,18 @@ function historicalSummary(card, state, options = {}) {
     return 'Historical admissions data is not used for this eligibility-only result because ApplySmart is not predicting interview likelihood.';
   }
   if (state === 'not_eligible') {
-    return `Historical admissions data is not applied because the entry requirements are not met. ${HISTORICAL_GUIDANCE_CAVEAT}`;
+    const hasHistoricalContext =
+      historicalAdmissionComparisonMetrics(
+        options.historicalAdmissions,
+        options.applicantGroupIds,
+        options,
+        options.ucatComparison
+      ).length > 0 ||
+      historicalAdmissionsChecks(options.historicalAdmissions, options.applicantGroupIds).length > 0 ||
+      hasPublicUcatHistoricalComparison(options.ucatComparison);
+    return hasHistoricalContext
+      ? `Historical admissions data remains contextual only because the academic requirement above is not met. ${HISTORICAL_GUIDANCE_CAVEAT}`
+      : `Historical admissions data is not applied because the entry requirements are not met. ${HISTORICAL_GUIDANCE_CAVEAT}`;
   }
   if (state === 'manual_review') {
     return `Historical admissions data is held back until the review is complete. ${HISTORICAL_GUIDANCE_CAVEAT}`;
@@ -1993,12 +2505,22 @@ function historicalSummary(card, state, options = {}) {
       presentation,
       'insufficient_evidence_historical_summaries',
       reasonCode
+    ) || reasonScopedPresentationValue(
+      presentation,
+      'insufficient_evidence_timeline_historical_summaries',
+      reasonCode
     );
     if (reasonSummary) {
       return reasonSummary;
     }
     if (isApplicantInformationReasonCode(reasonCode)) {
-      return `Historical admissions data was not compared because a required applicant scoring input is missing. ${HISTORICAL_GUIDANCE_CAVEAT}`;
+      const informationNeededReason = options.informationNeededReason ||
+        card.information_needed_reason ||
+        card.decision_transparency?.information_needed_reason ||
+        null;
+      return informationNeededReason
+        ? `Historical admissions data was not compared. ${informationNeededReason} ${HISTORICAL_GUIDANCE_CAVEAT}`
+        : `Historical admissions data was not compared because a required applicant scoring input is missing. ${HISTORICAL_GUIDANCE_CAVEAT}`;
     }
     return `There is not enough verified historical admissions data for this applicant route. ${HISTORICAL_GUIDANCE_CAVEAT}`;
   }
@@ -2041,6 +2563,10 @@ function recommendationSummary(card, state, options = {}) {
       return 'No interview recommendation is shown because a required applicant scoring input is missing.';
     }
     return 'No confident recommendation is shown because the available evidence is insufficient.';
+  }
+
+  if (options.riskExplanation?.summary) {
+    return `${options.riskExplanation.summary} Treat this as guidance for university choice, not a promised interview.`;
   }
 
   const explanation = standardRecommendationExplanation(card.prediction?.result_band, {
@@ -2540,7 +3066,7 @@ function normaliseExistingDecisionTransparency(card) {
   const scoreBreakdown = completedCardScoreBreakdown(card, normalised);
   if (scoreBreakdown) {
     normalised.score_breakdown = scoreBreakdown;
-  } else {
+  } else if (!Object.prototype.hasOwnProperty.call(transparency, 'score_breakdown')) {
     delete normalised.score_breakdown;
   }
 
@@ -2629,15 +3155,6 @@ function buildDecisionTimeline(card, options = {}) {
   const reusableHistoricalTimelineSummary = /compares favourably/i.test(String(existingHistoricalTimelineSummary || ''))
     ? null
     : existingHistoricalTimelineSummary;
-  const insufficientEvidenceReasonCode = options.insufficientEvidenceReasonCode ||
-    card.decision_transparency?.insufficient_evidence_reason_code ||
-    null;
-  const applicantInformationGap = isApplicantInformationReasonCode(insufficientEvidenceReasonCode);
-  const insufficientHistoricalSummary = reasonScopedPresentationValue(
-    presentation,
-    'insufficient_evidence_timeline_historical_summaries',
-    insufficientEvidenceReasonCode
-  );
 
   return [
     {
@@ -2701,10 +3218,11 @@ function buildDecisionTimeline(card, options = {}) {
               ? `${ucatComparisonText} ${options.ucatComparison?.caveat || HISTORICAL_GUIDANCE_CAVEAT}`
               : `${card.prediction?.ranking_metric === 'ucat_total' ? 'Your UCAT' : 'Your result'} was compared with historical admissions data. ${HISTORICAL_GUIDANCE_CAVEAT}`
 		          : state === 'insufficient_evidence'
-		            ? insufficientHistoricalSummary ||
-	              (applicantInformationGap
-	                ? `Historical admissions data was not compared because a required applicant scoring input is missing. ${HISTORICAL_GUIDANCE_CAVEAT}`
-	                : `There is not enough verified historical admissions data for this applicant route. ${HISTORICAL_GUIDANCE_CAVEAT}`)
+		            ? historicalSummary(card, state, {
+	              ...options,
+	              selectionScoreComparison,
+	              ucatComparison: options.ucatComparison
+	            })
 	            : state === 'manual_review'
 	              ? `Historical admissions data was not compared while adviser review is required. ${HISTORICAL_GUIDANCE_CAVEAT}`
 	              : `Historical admissions data was not compared because the entry requirements are not met. ${HISTORICAL_GUIDANCE_CAVEAT}`
@@ -2725,12 +3243,246 @@ function buildDecisionTimeline(card, options = {}) {
       summary: recommendationSummary(card, state, {
         selectionScoreComparison,
         selectionScoreText,
-        insufficientEvidenceReasonCode,
+        insufficientEvidenceReasonCode: options.insufficientEvidenceReasonCode,
         guidancePool: options.guidancePool,
-        scoreModel: options.scoreModel
+        scoreModel: options.scoreModel,
+        riskExplanation: options.riskExplanation
       })
     }
   ];
+}
+
+function resolveInsufficientEvidenceReason({
+  insufficientEvidenceReason = null,
+  insufficientEvidenceReasonCode = null,
+  presentation = {},
+  card = {},
+  includeDefaultEvidenceReason = true
+} = {}) {
+  const missingInformation =
+    card.missing_information ||
+    card.decision_transparency?.missing_information ||
+    null;
+  const providedGcseCount = Number(missingInformation?.provided_count);
+  const requiredGcseCount = Number(missingInformation?.required_count);
+  const gcseComponentLabel = firstNonEmptyString(
+    missingInformation?.component_label,
+    'published scoring model'
+  );
+  const hasProvidedAndRequiredGcseCounts =
+    Number.isFinite(providedGcseCount) && Number.isFinite(requiredGcseCount);
+
+  return firstNonEmptyString(
+    insufficientEvidenceReason,
+    card.decision_transparency?.insufficient_evidence_reason,
+    reasonScopedPresentationValue(
+      presentation,
+      'insufficient_evidence_reason_messages',
+      insufficientEvidenceReasonCode
+    ),
+    insufficientEvidenceReasonCode === 'insufficient_gcse_results' && hasProvidedAndRequiredGcseCounts
+      ? `This university ranks applicants using the best ${smallNumberWord(requiredGcseCount)} GCSEs. Only ${smallNumberWord(providedGcseCount)} GCSEs are available, so the ${gcseComponentLabel} cannot be calculated. This is not a rejection.`
+      : null,
+    insufficientEvidenceReasonCode === 'insufficient_gcse_results'
+      ? 'ApplySmart needs a more complete GCSE profile before it can assess your interview potential for this course. This is not a rejection.'
+      : null,
+    presentation.insufficient_evidence_explanation,
+    card.prediction?.cannot_predict_explanation,
+    (card.prediction?.missing_data_reasons || [])[0],
+    insufficientEvidenceReasonCode === 'university_methodology_gap'
+      ? 'This university has not published a complete scoring or ranking methodology that ApplySmart can apply to this specific applicant route.'
+      : null,
+    insufficientEvidenceReasonCode === 'prediction_calibration_unavailable'
+      ? 'ApplySmart has not approved public prediction calibration for this applicant group.'
+      : null,
+    isApplicantInformationReasonCode(insufficientEvidenceReasonCode)
+      ? 'ApplySmart needs more applicant information before it can calculate this selection score.'
+      : null,
+    includeDefaultEvidenceReason
+      ? 'Verified historical interview information is not available for this applicant group.'
+      : null
+  );
+}
+
+function appendNotARejection(reason) {
+  if (!reason) {
+    return null;
+  }
+  return /not a rejection|does not mean you are ineligible/i.test(reason)
+    ? reason
+    : `${reason.replace(/\s+$/, '').replace(/[.?!]?$/, '.')} This is not a rejection.`;
+}
+
+function publicInformationNeededReason({
+  state,
+  manualReviewReason = null,
+  insufficientEvidenceReason = null,
+  insufficientEvidenceReasonCode = null,
+  missingInformation = null,
+  presentation = {},
+  card = {}
+} = {}) {
+  if (state === 'manual_review') {
+    return appendNotARejection(
+      firstNonEmptyString(
+        card.decision_transparency?.manual_review_reason,
+        manualReviewReason,
+        GENERIC_MANUAL_REVIEW_EXPLANATION
+      )
+    );
+  }
+
+  if (state !== 'insufficient_evidence') {
+    return null;
+  }
+
+  return appendNotARejection(
+    resolveInsufficientEvidenceReason({
+      insufficientEvidenceReason,
+      insufficientEvidenceReasonCode,
+      presentation,
+      card: {
+        ...card,
+        missing_information:
+          missingInformation ||
+          card.missing_information ||
+          card.decision_transparency?.missing_information ||
+          null
+      },
+      includeDefaultEvidenceReason: false
+    }) || GENERIC_INSUFFICIENT_EVIDENCE_EXPLANATION
+  );
+}
+
+function normalizeFactorUsage(card, options = {}) {
+  const stage1Eligibility = options.stage1Eligibility || card.stage_1_eligibility || null;
+  const stage2Selection = options.stage2InterviewSelection || card.stage_2_interview_selection || null;
+  const contextualAdmissions = options.contextualAdmissions || card.contextual_admissions || null;
+  const applicantContext = options.applicantContext || card.applicant_context || null;
+  const ucat = applicantContext?.admissions_tests?.ucat || null;
+  const hasUcatEvidence = Number.isFinite(ucat?.total_score);
+  const gcseRole = stage1Eligibility?.gcse?.selection_role;
+  const aLevelRole = stage1Eligibility?.post_16?.a_level?.selection_role;
+  const holisticReview = stage2Selection?.primary_model === 'holistic_review';
+  const aLevelUsedInSelection = aLevelRole === 'selection' || aLevelRole === 'contextual_academic_review_only' || (holisticReview && !aLevelRole && Boolean(stage1Eligibility?.post_16?.a_level?.standard_offer));
+  const sjtUsed = stage1Eligibility?.admissions_tests?.sjt?.used === true;
+  const sjtGate = stage1Eligibility?.admissions_tests?.sjt?.used_as_gate === true;
+  const sjtScored = stage1Eligibility?.admissions_tests?.sjt?.scoring?.used_in_score === true;
+  const contextualAvailable = contextualAdmissions?.available === true || contextualAdmissions?.applies_to_group_ids?.length > 0;
+  const contextualRole = contextualAvailable ? 'contextual' : 'not_used';
+  const ucatEligibility = stage1Eligibility?.admissions_tests?.ucat || {};
+  const ucatSelectionText = [
+    ucatEligibility.selection_role,
+    ucatEligibility.used === false ? 'not used' : null,
+    ucatEligibility.used === true ? 'used' : null,
+    ucatEligibility.used_as_gate === true ? 'eligibility gate' : null,
+    ucatEligibility.used_as_gate === false ? 'not used as gate' : null,
+    ucatEligibility.required === true ? 'required' : null,
+    ucatEligibility.required === false ? 'not required' : null,
+    ucatEligibility.score_used_for_ranking,
+    ucatEligibility.calculation_method,
+    ucatEligibility.notes,
+    stage2Selection?.primary_model,
+    stage2Selection?.selection_model_label,
+    stage2Selection?.primary_method,
+    stage2Selection?.notes,
+    ...(Array.isArray(stage2Selection?.ranking_factors)
+      ? stage2Selection.ranking_factors.flatMap((factor) => [
+          factor?.factor_id,
+          factor?.factor,
+          factor?.role,
+          factor?.notes,
+          factor?.source_field
+        ])
+      : [])
+  ]
+    .filter(Boolean)
+    .join(' ')
+    .toLowerCase();
+  const ucatRankingUse =
+    stage2Selection?.primary_model === 'ucat_ranking' ||
+    (/(?:\bucat\b|\bucat cognitive total\b|\bucat total\b)/.test(ucatSelectionText) && /\branking\b/.test(ucatSelectionText));
+  const ucatConsideredUse =
+    stage2Selection?.primary_model === 'holistic_review' ||
+    /(review_factor|qualitative_modifier|considered alongside|considered as part of|holistic review)/.test(ucatSelectionText);
+  const ucatEligibilityUse =
+    ucatEligibility.used_as_gate === true ||
+    (/\bucat\b/.test(ucatSelectionText) && /\beligibility gate\b|\bgate\b|\bfilter\b/.test(ucatSelectionText));
+  const ucatExplicitlyNotUsed =
+    (!ucatRankingUse && !ucatConsideredUse && !ucatEligibilityUse) && (
+      /\bnot used\b|\bnot scored\b|\bignored\b/.test(ucatSelectionText) ||
+      ucatEligibility.required === false
+    );
+
+  const factorUsage = [
+    {
+      factor_id: 'ucat',
+      label: 'UCAT',
+      role: ucatExplicitlyNotUsed
+        ? 'not_used'
+        : ucatRankingUse
+          ? 'ranking'
+          : ucatConsideredUse
+            ? 'considered'
+            : ucatEligibilityUse
+              ? 'eligibility'
+              : 'unknown',
+      detail: ucatRankingUse
+        ? 'Used for ranking in the university’s selection process.'
+        : ucatConsideredUse
+          ? 'Used as part of the university’s holistic selection review.'
+          : ucatEligibilityUse
+            ? 'Used as an eligibility gate.'
+            : ucatExplicitlyNotUsed
+              ? 'UCAT is not required for this route.'
+              : 'UCAT selection role is not fully specified.',
+      evidence_status: hasUcatEvidence ? 'available' : 'missing'
+    },
+    {
+      factor_id: 'gcse',
+      label: 'GCSEs',
+      role: gcseRole === 'contextual_academic_review_only' || gcseRole === 'contextual_selection' ? 'considered' : gcseRole === 'eligibility_only' ? 'eligibility' : 'unknown',
+      detail: gcseRole === 'contextual_academic_review_only'
+        ? 'Used as part of the university’s academic context review.'
+        : gcseRole === 'eligibility_only'
+          ? 'Used as an academic eligibility requirement.'
+          : 'GCSEs are part of the university’s academic review.',
+      evidence_status: 'available'
+    },
+    {
+      factor_id: 'a_level',
+      label: 'A-levels',
+      role: aLevelRole === 'eligibility_only' ? 'eligibility' : aLevelUsedInSelection ? 'considered' : 'unknown',
+      detail: aLevelRole === 'eligibility_only'
+        ? 'Used as an academic eligibility requirement.'
+        : 'Used as part of the university’s academic review.',
+      evidence_status: 'available'
+    },
+    {
+      factor_id: 'sjt',
+      label: 'SJT',
+      role: sjtScored ? 'ranking' : sjtGate ? 'eligibility' : sjtUsed ? 'considered' : 'not_used',
+      detail: sjtScored
+        ? 'SJT contributes to the university’s selection scoring.'
+        : sjtGate
+          ? 'SJT is used as an eligibility gate.'
+          : sjtUsed
+            ? 'SJT is considered by the university.'
+            : 'SJT is not used for interview selection.',
+      evidence_status: sjtUsed || sjtGate || sjtScored ? 'available' : 'not_applicable'
+    },
+    {
+      factor_id: 'contextual',
+      label: 'Contextual',
+      role: contextualRole,
+      detail: contextualAvailable
+        ? 'Contextual information is used as part of the university’s contextual review.'
+        : 'Contextual information is not used for this route.',
+      evidence_status: contextualAvailable ? 'available' : 'not_applicable'
+    }
+  ];
+
+  return factorUsage;
 }
 
 function buildDecisionTransparency(card, options = {}) {
@@ -2766,20 +3518,30 @@ function buildDecisionTransparency(card, options = {}) {
     state === 'insufficient_evidence' ? options.insufficientEvidenceReasonCode || null : null;
   const insufficientEvidenceReason =
     state === 'insufficient_evidence'
-      ? options.insufficientEvidenceReason ||
-        reasonScopedPresentationValue(
-          presentation,
-          'insufficient_evidence_reason_messages',
-          insufficientEvidenceReasonCode
-        ) ||
-        card.prediction?.cannot_predict_explanation ||
-        (card.prediction?.missing_data_reasons || [])[0] ||
-        (insufficientEvidenceReasonCode === 'university_methodology_gap'
-          ? 'This university has not published a complete scoring or ranking methodology that ApplySmart can apply to this specific applicant route.'
-            : isApplicantInformationReasonCode(insufficientEvidenceReasonCode)
-              ? 'ApplySmart needs more applicant information before it can calculate this selection score.'
-          : 'Verified historical interview information is not available for this applicant group.')
+      ? resolveInsufficientEvidenceReason({
+        insufficientEvidenceReason: options.insufficientEvidenceReason,
+        insufficientEvidenceReasonCode,
+        presentation,
+        card
+      })
       : null;
+  const informationNeededReason =
+    state === 'manual_review' || state === 'insufficient_evidence'
+      ? options.informationNeededReason ||
+        publicInformationNeededReason({
+          state,
+          manualReviewReason,
+          insufficientEvidenceReason,
+          insufficientEvidenceReasonCode,
+          missingInformation: options.missingInformation,
+          presentation,
+          card
+        })
+      : null;
+  const missingInformation =
+    options.missingInformation ||
+    card.missing_information ||
+    null;
   const officialPrediction = options.officialPrediction || card.prediction?.official_prediction || null;
   const officialPredictionReason =
     officialPrediction?.available === false
@@ -2855,8 +3617,19 @@ function buildDecisionTransparency(card, options = {}) {
     comparisonMetrics,
     options
   });
+  const historicalContextChecks = historicalAdmissionsChecks(
+    options.historicalAdmissions,
+    options.applicantGroupIds
+  );
+  const hasHistoricalContext =
+    comparisonMetrics.length > 0 || historicalContextChecks.length > 0 || hasPublicUcatHistoricalComparison(ucatComparison);
+
+  const factorUsage = normalizeFactorUsage(card, options);
+  const riskExplanation =
+    state === 'standard' ? options.riskExplanation || null : null;
 
   return {
+    factor_usage: factorUsage,
     decision_path: [
       {
         stage: 'Eligibility',
@@ -2898,15 +3671,17 @@ function buildDecisionTransparency(card, options = {}) {
             ? 'Guidance available'
             : state === 'insufficient_evidence'
               ? 'Insufficient evidence'
+              : state === 'not_eligible' && hasHistoricalContext
+                ? 'Context only'
               : 'Not applied',
         summary: historicalSummary(card, state, { ...options, selectionScoreComparison, ucatComparison }),
         checks: [
           check('Applicant pool', 'Used', pool),
-          ...(ucatComparison && state === 'standard'
-            ? [check('UCAT comparison', 'Compared', ucatComparisonAssessmentText(ucatComparison))]
+          ...(hasPublicUcatHistoricalComparison(ucatComparison) && ['standard', 'not_eligible'].includes(state)
+            ? [check('UCAT comparison', state === 'not_eligible' ? 'Context only' : 'Compared', ucatComparisonAssessmentText(ucatComparison))]
             : []),
-          ...(state === 'standard' || state === 'insufficient_evidence'
-            ? historicalAdmissionsChecks(options.historicalAdmissions, options.applicantGroupIds)
+          ...(state === 'standard' || state === 'insufficient_evidence' || state === 'not_eligible'
+            ? historicalContextChecks
             : []),
           state === 'eligibility_only'
             ? check('Interview prediction', 'Unavailable', ELIGIBILITY_ONLY_SELECTION_SUMMARY)
@@ -2928,7 +3703,8 @@ function buildDecisionTransparency(card, options = {}) {
 	        summary: recommendationSummary(card, state, {
 	          selectionScoreComparison,
 	          ucatComparison,
-	          context: options.applicantContext
+	          context: options.applicantContext,
+            riskExplanation
 	        }),
         checks: []
       }
@@ -2950,6 +3726,7 @@ function buildDecisionTransparency(card, options = {}) {
               eligibilitySummary,
               ...(officialPredictionReason ? [officialPredictionReason] : []),
               `The result uses ${pool}.`,
+              ...(riskExplanation?.summary ? [riskExplanation.summary] : []),
               selectionScoreComparison
                 ? selectionScoreThresholdText(selectionScoreComparison)
                 : scoreBreakdown && Number.isFinite(scoreBreakdown.value)
@@ -2975,8 +3752,11 @@ function buildDecisionTransparency(card, options = {}) {
       }
       : undefined,
     manual_review_reason: manualReviewReason,
+    information_needed_reason: informationNeededReason,
     insufficient_evidence_reason: insufficientEvidenceReason,
     insufficient_evidence_reason_code: insufficientEvidenceReasonCode,
+    missing_information: missingInformation,
+    risk_explanation: riskExplanation,
     compact_status: compactStatus,
     comparison_metrics_title: comparisonMetricsTitle,
     comparison_metrics: comparisonMetrics,
@@ -2994,6 +3774,7 @@ function presentResultCard({
   manualReviewReason = null,
   insufficientEvidenceReason = null,
   insufficientEvidenceReasonCode = null,
+  missingInformation = null,
   transparencyContext = {}
 }) {
   let display;
@@ -3032,13 +3813,50 @@ function presentResultCard({
 	      ranking: transparencyContext.ranking,
 	      scoreModel: transparencyContext.score_model
 	    });
-	  const feeInformation = publicFeeInformation(
-	    transparencyContext.fee_information,
-	    transparencyContext.applicant_group_ids
-	  );
-	  const officialPrediction = transparencyContext.official_prediction || null;
-	  const officialPredictionUnavailable = officialPrediction?.available === false;
-	  if (guaranteedInterview) {
+		  const feeInformation = publicFeeInformation(
+		    transparencyContext.fee_information,
+		    transparencyContext.applicant_group_ids
+		  );
+		  const officialPrediction = transparencyContext.official_prediction || null;
+		  const officialPredictionUnavailable = officialPrediction?.available === false;
+  const riskExplanation = buildStandardRiskExplanation(resultBand, {
+    ranking: transparencyContext.ranking,
+    context: transparencyContext,
+    presentation
+  });
+  const manualReviewPrimaryExplanation = firstNonEmptyString(
+    transparencyContext.decision_transparency?.manual_review_reason,
+    manualReviewReason
+  ) || GENERIC_MANUAL_REVIEW_EXPLANATION;
+  const preDisplayState =
+    manualReviewRequired || eligibilityStatus === 'manual_review'
+      ? 'manual_review'
+      : eligibilityStatus === 'insufficient_evidence' || resultBand === 'insufficient_evidence'
+        ? 'insufficient_evidence'
+        : null;
+  const informationNeededReason = publicInformationNeededReason({
+    state: preDisplayState,
+    manualReviewReason,
+    insufficientEvidenceReason,
+    insufficientEvidenceReasonCode,
+    missingInformation:
+      missingInformation ||
+      transparencyContext.missing_information ||
+      null,
+    presentation,
+    card: transparencyContext
+  });
+  const resolvedInsufficientEvidenceReason = resolveInsufficientEvidenceReason({
+      insufficientEvidenceReason,
+      insufficientEvidenceReasonCode,
+      presentation,
+      card: transparencyContext,
+      includeDefaultEvidenceReason: false
+    });
+  const insufficientEvidencePrimaryExplanation =
+    resolvedInsufficientEvidenceReason ||
+    GENERIC_INSUFFICIENT_EVIDENCE_EXPLANATION;
+		  if (guaranteedInterview) {
     display = {
       primary_user_facing_recommendation: STANDARD_RECOMMENDATION_HEADLINES.guaranteed_interview,
       recommendation_display_state: 'standard',
@@ -3050,29 +3868,26 @@ function presentResultCard({
     display = {
       primary_user_facing_recommendation: STANDARD_RECOMMENDATION_HEADLINES.not_eligible,
       recommendation_display_state: 'not_eligible',
-      primary_explanation:
-        'Based on the information entered, one or more supported entry requirements are not met.',
+      primary_explanation: notEligiblePrimaryExplanation(transparencyContext.eligibility_failures),
       historical_guidance_caveat: null
     };
-  } else if (manualReviewRequired || eligibilityStatus === 'manual_review') {
-    display = {
-      primary_user_facing_recommendation: STANDARD_RECOMMENDATION_HEADLINES.manual_review,
-      recommendation_display_state: 'manual_review',
-      primary_explanation:
-        'ApplySmart needs additional applicant information before it can provide a complete recommendation for this applicant group.',
-      historical_guidance_caveat: null
-    };
+	  } else if (manualReviewRequired || eligibilityStatus === 'manual_review') {
+	    display = {
+	      primary_user_facing_recommendation: STANDARD_RECOMMENDATION_HEADLINES.manual_review,
+	      recommendation_display_state: 'manual_review',
+	      primary_explanation: manualReviewPrimaryExplanation,
+	      historical_guidance_caveat: null
+	    };
   } else if (
     eligibilityStatus === 'insufficient_evidence' ||
     interviewBand === 'insufficient_evidence'
   ) {
-    display = {
-      primary_user_facing_recommendation: STANDARD_RECOMMENDATION_HEADLINES.insufficient_evidence,
-      recommendation_display_state: 'insufficient_evidence',
-      primary_explanation:
-        'ApplySmart needs additional applicant information before it can provide a complete recommendation for this applicant group.',
-      historical_guidance_caveat: null
-    };
+	    display = {
+	      primary_user_facing_recommendation: STANDARD_RECOMMENDATION_HEADLINES.insufficient_evidence,
+	      recommendation_display_state: 'insufficient_evidence',
+	      primary_explanation: insufficientEvidencePrimaryExplanation,
+	      historical_guidance_caveat: null
+	    };
   } else if (eligibilityOnly && eligibilityStatus === 'eligible') {
     display = {
       primary_user_facing_recommendation: STANDARD_RECOMMENDATION_HEADLINES.eligible_to_apply,
@@ -3095,7 +3910,7 @@ function presentResultCard({
 	        primary_user_facing_recommendation: recommendation.headline,
 	        recommendation_display_state: 'standard',
 	        internal_recommendation: recommendation.recommendation,
-	        primary_explanation: standardExplanation,
+	        primary_explanation: riskExplanation?.summary || standardExplanation,
 	        trust_statement: presentation.trust_statement || (officialPredictionUnavailable
 	          ? OFFICIAL_UNAVAILABLE_TRUST_STATEMENT
 	          : null),
@@ -3109,9 +3924,15 @@ function presentResultCard({
 	        historical_guidance_caveat: null
 	      };
 	  }
+  const publicRiskExplanation =
+    display.recommendation_display_state === 'standard' ? riskExplanation : null;
 
   const transparencyCard = {
     ...transparencyContext,
+    missing_information:
+      missingInformation ||
+      transparencyContext.missing_information ||
+      null,
     eligibility: {
       ...(transparencyContext.eligibility || {}),
       status: eligibilityStatus
@@ -3163,11 +3984,16 @@ function presentResultCard({
     },
     display
   };
+  transparencyCard.information_needed_reason = informationNeededReason;
   const transparencyOptions = {
     manualReviewRequired,
     manualReviewReason,
     insufficientEvidenceReason,
     insufficientEvidenceReasonCode,
+    missingInformation:
+      missingInformation ||
+      transparencyContext.missing_information ||
+      null,
     applicantPool: transparencyContext.applicantPool,
     applicantGroupIds: transparencyContext.applicant_group_ids,
     evidenceUsed: transparencyContext.evidenceUsed,
@@ -3190,22 +4016,36 @@ function presentResultCard({
     officialPrediction,
     warnings: transparencyContext.warnings,
     insufficientEvidenceReasonCode,
+    informationNeededReason,
     selectionApproachDisplay
   };
+  transparencyOptions.riskExplanation = publicRiskExplanation;
   const evidenceConfidence = buildEvidenceConfidence(
     transparencyCard,
     transparencyOptions
   );
   const prediction = transparencyCard.prediction;
+  const academicRequirementChecks = buildAcademicRequirementChecks(
+    transparencyContext.eligibility_checks,
+    eligibilityStatus
+  );
 
   return {
     ...display,
+    academic_requirement_checks: academicRequirementChecks,
+    missing_information:
+      missingInformation ||
+      transparencyContext.missing_information ||
+      null,
     fee_information: feeInformation,
     selection_approach_display: selectionApproachDisplay,
+    information_needed_reason: informationNeededReason,
     trust_statement: display.trust_statement || null,
     prediction,
     interview_outcome: transparencyContext.interview_outcome || null,
     evidence_confidence: evidenceConfidence,
+    risk_explanation: publicRiskExplanation,
+    factor_usage: normalizeFactorUsage(transparencyContext, transparencyOptions),
     decision_timeline: buildDecisionTimeline(
       transparencyCard,
       transparencyOptions

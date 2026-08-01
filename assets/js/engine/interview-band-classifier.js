@@ -1166,6 +1166,16 @@ function evaluateAcademicEligibility(course, config, applicant, groupIds) {
       }
     }
   } else if (['international_baccalaureate', 'ib'].includes(academicRoute)) {
+    const courseIbRules =
+      course.stage_1_eligibility?.post_16?.ib ||
+      course.stage_1_eligibility?.post_16?.international_baccalaureate ||
+      {};
+    const courseIbRequirements = (courseIbRules.grade_requirements || []).filter((requirement) => {
+      return groupRuleApplies(requirement, groupIds);
+    });
+    if (Array.isArray(courseIbRules.grade_requirements) && courseIbRules.grade_requirements.length > 0 && courseIbRequirements.length === 0) {
+      addFailure('ib_route_not_supported_for_applicant_groups');
+    }
     const rules = configEligibility.international_baccalaureate || {};
     const profile = applicant.ib_profile || {};
     const hlGrades = getSubjectGrades(profile, ['higher_level_subjects', 'hl_subjects', 'subjects']);
@@ -1858,7 +1868,17 @@ function calculateGcseMandatoryThenBest(component, applicant) {
           '(sum_of_gcse_points / number_of_gcse_subjects_taken) * subject_count'
       };
     }
-    return { value: null, max: component.max, reason: 'insufficient_gcse_subjects_for_score' };
+    return {
+      value: null,
+      max: component.max,
+      reason: 'insufficient_gcse_results',
+      missing_information: {
+        qualification_type: 'gcse',
+        provided_count: selected.length,
+        required_count: component.subject_count,
+        component_label: component.public_component_label || 'GCSE scoring component'
+      }
+    };
   }
 
   const ambiguousGrades = new Set(
@@ -2426,7 +2446,12 @@ function calculateAcademicUcatCompensationMatrix(component, applicant) {
     return {
       value: null,
       max: component.max,
-      reason: 'academic_compensation_inputs_unavailable'
+      reason: gcseComponent.reason || 'academic_compensation_inputs_unavailable',
+      missing_information: gcseComponent.missing_information || null,
+      component_reasons: {
+        gcse: gcseComponent.reason || null,
+        a_level: Number.isFinite(aLevelPoints) ? null : 'a_level_compensation_input_unavailable'
+      }
     };
   }
   if (!Number.isFinite(ucatScore)) {
@@ -2632,6 +2657,112 @@ function unavailableRankingReason(ranking) {
   }
   return Object.values(ranking.components || {})
     .find((component) => component?.reason)?.reason || null;
+}
+
+function unavailableRankingMissingInformation(ranking) {
+  if (!ranking || ranking.status !== 'unavailable') {
+    return null;
+  }
+  if (ranking.missing_information) {
+    return ranking.missing_information;
+  }
+  return Object.values(ranking.components || {})
+    .find((component) => component?.missing_information)
+    ?.missing_information || null;
+}
+
+function firstNonEmptyString(...values) {
+  return values.find((value) => typeof value === 'string' && value.trim().length > 0) || null;
+}
+
+function predictionCalibrationWithheldExplicitly(config, pool) {
+  const presentation = pool?.presentation || config?.presentation || {};
+  const evidenceSummary = config?.evidence?.summary || null;
+  const reviewNotes = config?.review_notes || config?.notes || null;
+  const explicitText = firstNonEmptyString(
+    presentation.insufficient_evidence_explanation,
+    presentation.insufficient_evidence_reason,
+    pool?.insufficient_evidence_explanation,
+    pool?.selection_relevance,
+    pool?.notes,
+    evidenceSummary,
+    reviewNotes,
+    pool?.insufficient_evidence_explanation,
+    config?.insufficient_evidence_explanation
+  );
+
+  return Boolean(
+    explicitText && /calibration|withheld|withholding|public prediction is withheld|prediction is withheld/i.test(explicitText)
+  );
+}
+
+function insufficientEvidenceReasonCodeForBand({ band, ranking, pool, config }) {
+  if (band !== 'insufficient_evidence') {
+    return null;
+  }
+  if (ranking?.status === 'unavailable') {
+    return unavailableRankingReason(ranking) || (predictionCalibrationWithheldExplicitly(config, pool) ? 'prediction_calibration_unavailable' : null);
+  }
+  if (predictionCalibrationWithheldExplicitly(config, pool)) {
+    return 'prediction_calibration_unavailable';
+  }
+  return null;
+}
+
+function resolveGcseCompetitivenessCompletenessRule(config) {
+  const scoreModel = config?.score_model || {};
+  const directMinimum = Number(
+    scoreModel.gcse_profile_completeness?.minimum_results_for_competitiveness_assessment
+  );
+  if (Number.isInteger(directMinimum) && directMinimum > 0) {
+    return directMinimum;
+  }
+
+  const componentMinimum = Number(
+    (scoreModel.components || [])
+      .find((component) => component?.component_id === 'gcse_profile_modifier')
+      ?.minimum_results_for_competitiveness_assessment
+  );
+  if (Number.isInteger(componentMinimum) && componentMinimum > 0) {
+    return componentMinimum;
+  }
+
+  return null;
+}
+
+function providedGcseResultCountForCompetitiveness(applicant) {
+  const expanded = expandedGcseGrades(applicant).filter((grade) => {
+    return grade !== null && grade !== undefined && String(grade).trim() !== '';
+  });
+
+  if (expanded.length > 0) {
+    return expanded.length;
+  }
+
+  const reported = Number(applicant?.gcse_profile?.total_gcse_count);
+  return Number.isFinite(reported) ? reported : 0;
+}
+
+function resolveMissingGcseCompetitivenessInformation(config, applicant, eligibility) {
+  if (eligibility?.status !== 'eligible') {
+    return null;
+  }
+
+  const requiredCount = resolveGcseCompetitivenessCompletenessRule(config);
+  if (!Number.isInteger(requiredCount) || requiredCount <= 0) {
+    return null;
+  }
+
+  const providedCount = providedGcseResultCountForCompetitiveness(applicant);
+  if (providedCount >= requiredCount) {
+    return null;
+  }
+
+  return {
+    qualification_type: 'gcse',
+    provided_count: providedCount,
+    required_count: requiredCount
+  };
 }
 
 function getMetricValue(metric, score, applicant) {
@@ -3291,10 +3422,12 @@ function classifyBirminghamInterviewBand(course, config, applicant, eligibility,
         }
       : bandMetric,
     canonical_interview_band: band,
-    insufficient_evidence_reason_code:
-      band === 'insufficient_evidence' && ranking?.status === 'unavailable'
-        ? unavailableRankingReason(ranking)
-        : null,
+    insufficient_evidence_reason_code: insufficientEvidenceReasonCodeForBand({
+      band,
+      ranking,
+      pool,
+      config
+    }),
     warnings: [...guidanceWarnings, ...routeWarnings],
     manual_review_required: isInternational,
     non_executable_checks: isInternational
@@ -3345,6 +3478,28 @@ function classifyInterviewBand(course, config, applicantInput, options = {}) {
     evidence_basis: classificationConfig.evidence || null,
     confidence: classificationConfig.confidence
   };
+
+  const missingGcseCompetitivenessInformation = resolveMissingGcseCompetitivenessInformation(
+    classificationConfig,
+    applicant,
+    resolvedEligibility
+  );
+
+  if (missingGcseCompetitivenessInformation) {
+    return {
+      ...base,
+      ranking: null,
+      guidance_pool_id: null,
+      guidance_pool: null,
+      band_metric: null,
+      canonical_interview_band: 'insufficient_evidence',
+      insufficient_evidence_reason_code: 'insufficient_gcse_results',
+      missing_information: missingGcseCompetitivenessInformation,
+      warnings: scoreModelWarnings(classificationConfig, applicant),
+      explanation:
+        'A more complete GCSE profile is needed before interview competitiveness can be assessed. This is not a rejection.'
+    };
+  }
 
   if (birmingham) {
     return classifyBirminghamInterviewBand(
@@ -3490,10 +3645,13 @@ function classifyInterviewBand(course, config, applicantInput, options = {}) {
     canonical_interview_band: band,
     source_interview_band_id: matchedRule?.source_band_id || matchedRule?.band_id || null,
     result_card_id: matchedRule?.result_card_id || null,
-    insufficient_evidence_reason_code:
-      band === 'insufficient_evidence' && ranking?.status === 'unavailable'
-        ? unavailableRankingReason(ranking)
-        : null,
+    insufficient_evidence_reason_code: insufficientEvidenceReasonCodeForBand({
+      band,
+      ranking,
+      pool,
+      config: classificationConfig
+    }),
+    missing_information: unavailableRankingMissingInformation(ranking),
     official_prediction: officialPredictionLimitation(classificationConfig),
     warnings: scoreModelWarnings(classificationConfig, applicant),
     ...(manualReviewRequired ? { manual_review_required: true } : {}),

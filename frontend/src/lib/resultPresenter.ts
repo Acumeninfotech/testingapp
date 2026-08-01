@@ -128,7 +128,14 @@ export const UNRESOLVED_LABELS = {
 } as const;
 
 function isPredictionUnavailableReasonCode(reasonCode?: string | null): boolean {
-  return reasonCode === 'university_methodology_gap' || /historical_evidence_gap/.test(reasonCode ?? '');
+  return reasonCode === 'university_methodology_gap' ||
+    reasonCode === 'prediction_calibration_unavailable' ||
+    reasonCode === 'academic_matrix_band_unavailable' ||
+    /historical_evidence_gap/.test(reasonCode ?? '');
+}
+
+function firstNonEmptyString(...values: Array<string | null | undefined>): string | null {
+  return values.find((value) => typeof value === 'string' && value.trim().length > 0) || null;
 }
 
 function isOfficialPredictionUnavailable(card: PredictionResult['result_card']): boolean {
@@ -191,9 +198,13 @@ export function presentResult(card: PredictionResult['result_card']): ResultPres
     // A genuine university-policy/manual-assessment condition ApplySmart
     // cannot safely calculate (e.g. a qualification route needing adviser
     // review) - distinct from missing applicant data.
+    const manualReason = card.decision_transparency?.manual_review_reason || '';
+    const label = /please confirm|missing|required applicant information|more information/i.test(manualReason)
+      ? UNRESOLVED_LABELS.informationNeeded
+      : UNRESOLVED_LABELS.needsReview;
     return {
       variant: 'manual-review',
-      label: UNRESOLVED_LABELS.needsReview,
+      label,
       category: 'manual_review',
       officialPredictionUnavailable,
     };
@@ -422,16 +433,34 @@ export function resultCardRecommendationExplanation(card: PredictionResult['resu
     return 'Based on ApplySmart\'s assessment, this applicant group meets the published guaranteed-interview evidence available for this route.';
   }
   if (state === 'not_eligible' || band === 'not_eligible') {
-    return 'Based on the information entered, one or more supported entry requirements are not met.';
+    return card.primary_explanation || 'Based on the information entered, one or more supported entry requirements are not met.';
   }
   if (state === 'manual_review') {
-    return 'ApplySmart needs additional applicant information before it can provide a complete recommendation for this applicant group.';
+    return firstNonEmptyString(
+      card.primary_explanation,
+      card.decision_transparency?.manual_review_reason,
+    ) || 'ApplySmart needs additional applicant information before it can provide a complete recommendation for this applicant group.';
   }
   if (state === 'insufficient_evidence' || band === 'insufficient_evidence') {
-    return 'ApplySmart needs additional applicant information before it can provide a complete recommendation for this applicant group.';
+    return firstNonEmptyString(
+      card.primary_explanation,
+      card.decision_transparency?.insufficient_evidence_reason,
+    ) || 'ApplySmart needs additional applicant information before it can provide a complete recommendation for this applicant group.';
   }
   if (state === 'eligibility_only' || band === 'eligible_to_apply') {
     return 'ApplySmart has confirmed your eligibility against the entry requirements currently supported for this applicant group.';
+  }
+  if ((band === 'ambitious' || band === 'high_risk') && card.risk_explanation?.summary) {
+    return card.risk_explanation.summary;
+  }
+  if (
+    (band === 'ambitious' || band === 'high_risk') &&
+    card.decision_transparency?.risk_explanation &&
+    typeof card.decision_transparency.risk_explanation === 'object' &&
+    'summary' in card.decision_transparency.risk_explanation &&
+    typeof card.decision_transparency.risk_explanation.summary === 'string'
+  ) {
+    return card.decision_transparency.risk_explanation.summary;
   }
 
   return standardRecommendationExplanation(card);

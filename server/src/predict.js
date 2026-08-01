@@ -152,7 +152,8 @@ function evaluateGenericUniversity(studentProfile, university) {
       officialPrediction: classification.official_prediction,
       warnings: classification.warnings,
       applicantGroupIds: classification.applicant_group_ids,
-      insufficientEvidenceReasonCode: classification.insufficient_evidence_reason_code
+      insufficientEvidenceReasonCode: classification.insufficient_evidence_reason_code,
+      missingInformation: classification.missing_information || null
     }
   );
 }
@@ -178,7 +179,12 @@ function evaluateNottingham(studentProfile, university) {
     band,
     eligibilityStatus === 'manual_review',
     evaluation.eligibility,
-    { officialScore: evaluation.official_score, applicantGroupIds: evaluation.eligibility.applicant_group_ids }
+    {
+      officialScore: evaluation.official_score,
+      applicantGroupIds: evaluation.eligibility.applicant_group_ids,
+      insufficientEvidenceReasonCode: evaluation.insufficient_evidence_reason_code || null,
+      missingInformation: evaluation.missing_information || null
+    }
   );
 }
 
@@ -213,10 +219,14 @@ function makeResultCard(studentProfile, university, eligibilityStatus, band, man
     interviewBand: band,
     manualReviewRequired,
     manualReviewReason: humanManualReviewReason(eligibility?.manual_review_reasons),
-    insufficientEvidenceReasonCode: insufficientEvidenceReasonCodeFromWarnings(scoreContext.warnings, {
-      eligibilityStatus,
-      guidancePoolId: scoreContext.guidancePoolId ?? null
-    }) || scoreContext.insufficientEvidenceReasonCode || null,
+    insufficientEvidenceReasonCode:
+      scoreContext.insufficientEvidenceReasonCode ||
+      insufficientEvidenceReasonCodeFromWarnings(scoreContext.warnings, {
+        eligibilityStatus,
+        guidancePoolId: scoreContext.guidancePoolId ?? null
+      }) ||
+      null,
+    missingInformation: scoreContext.missingInformation || null,
     transparencyContext: {
       course_identity: {
         profile_id: university.id
@@ -232,6 +242,8 @@ function makeResultCard(studentProfile, university, eligibilityStatus, band, man
       eligibility_checks: eligibility?.checks || [],
       eligibility_failures: eligibility?.failures || [],
       stage_1_eligibility: university.course.stage_1_eligibility || null,
+      stage_2_interview_selection: university.course.stage_2_interview_selection || null,
+      contextual_admissions: university.course.contextual_admissions || null,
       historical_admissions: university.course.historical_admissions || null,
       fee_information: university.course.fee_information || null,
       selection_approach_display: university.course.selection_approach_display || null,
@@ -244,6 +256,7 @@ function makeResultCard(studentProfile, university, eligibilityStatus, band, man
       band_metric: scoreContext.bandMetric || null,
       guidance_pool: scoreContext.guidancePool || null,
       score_model: scoreContext.scoreModel || null,
+      missing_information: scoreContext.missingInformation || null,
       official_score: scoreContext.officialScore || null,
       estimated_selection_score: scoreContext.estimatedSelectionScore || null,
       // guidance_pool_id/interview_outcome/warnings are already computed by

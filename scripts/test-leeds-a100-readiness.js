@@ -230,11 +230,11 @@ for (const scenario of fixture.scenarios) {
 
 const homeStrong = classifyInterviewBand(course, config, fixture.base_applicant);
 const homeStrongCard = makeResultCard(course, config, fixture.base_applicant, homeStrong);
-assert.strictEqual(homeStrongCard.primary_user_facing_recommendation, 'Strong Choice');
+assert.strictEqual(homeStrongCard.primary_user_facing_recommendation, 'Strong choice for your application');
 assert.strictEqual(homeStrongCard.internal_recommendation, 'Strong Choice');
-assert.match(
+assert.strictEqual(
   homeStrongCard.primary_explanation,
-  /Leeds considers academics and UCAT together and does not publish a fixed cut-off/
+  "Based on ApplySmart's assessment, your academic profile and UCAT appear competitive for this applicant group."
 );
 assertNoPublicInternalLeak(homeStrongCard, 'home strong API card');
 
@@ -265,21 +265,21 @@ assert.strictEqual(aStarAStarB.classification.eligibility.status, 'not_eligible'
 assert.ok(includesFailure(aStarAStarB.classification, 'a_level_requirements_not_met'));
 assert.strictEqual(
   aStarAStarB.resultCard.primary_user_facing_recommendation,
-  'Minimum Requirements Not Met'
+  'Not currently eligible'
 );
 assert.strictEqual(
   aStarAStarB.resultCard.primary_explanation,
-  "Your profile does not currently meet one or more of Leeds' published academic entry requirements."
+  'Your A-level grades (predicted or achieved) do not meet the published minimum. Based on the information entered, one or more supported entry requirements are not met.'
 );
 
 const academicBoundaryCases = [
-  [22, 'weak', 'high_risk', 'High Risk'],
-  [23, 'moderate', 'realistic', 'Realistic Choice'],
-  [25, 'moderate', 'realistic', 'Realistic Choice'],
-  [26, 'strong', 'interview_likely', 'Strong Choice'],
-  [28, 'strong', 'interview_likely', 'Strong Choice'],
-  [29, 'very_strong', 'interview_likely', 'Strong Choice'],
-  [32, 'very_strong', 'interview_likely', 'Strong Choice']
+  [22, 'weak', 'high_risk', 'More cautious choice for your application'],
+  [23, 'moderate', 'realistic', 'Possible choice for your application'],
+  [25, 'moderate', 'realistic', 'Possible choice for your application'],
+  [26, 'strong', 'interview_likely', 'Strong choice for your application'],
+  [28, 'strong', 'interview_likely', 'Strong choice for your application'],
+  [29, 'very_strong', 'interview_likely', 'Strong choice for your application'],
+  [32, 'very_strong', 'interview_likely', 'Strong choice for your application']
 ];
 
 for (const [academicScore, expectedAcademicBand, expectedBand, expectedPublicLabel] of academicBoundaryCases) {
@@ -301,14 +301,14 @@ for (const [academicScore, expectedAcademicBand, expectedBand, expectedPublicLab
 }
 
 const ucatBoundaryCases = [
-  [1899, 'below_recent_range', 'high_risk', 'High Risk'],
-  [1900, 'borderline', 'realistic', 'Realistic Choice'],
-  [1929, 'borderline', 'realistic', 'Realistic Choice'],
-  [1930, 'historically_competitive', 'interview_likely', 'Strong Choice'],
-  [1949, 'historically_competitive', 'interview_likely', 'Strong Choice'],
-  [1950, 'competitive', 'interview_likely', 'Strong Choice'],
-  [2049, 'competitive', 'interview_likely', 'Strong Choice'],
-  [2050, 'strong', 'interview_likely', 'Strong Choice']
+  [1899, 'below_recent_range', 'high_risk', 'More cautious choice for your application'],
+  [1900, 'borderline', 'realistic', 'Possible choice for your application'],
+  [1929, 'borderline', 'realistic', 'Possible choice for your application'],
+  [1930, 'historically_competitive', 'interview_likely', 'Strong choice for your application'],
+  [1949, 'historically_competitive', 'interview_likely', 'Strong choice for your application'],
+  [1950, 'competitive', 'interview_likely', 'Strong choice for your application'],
+  [2049, 'competitive', 'interview_likely', 'Strong choice for your application'],
+  [2050, 'strong', 'interview_likely', 'Strong choice for your application']
 ];
 
 for (const [ucatScore, expectedUcatPosition, expectedBand, expectedPublicLabel] of ucatBoundaryCases) {
@@ -465,7 +465,7 @@ for (const [label, overrides, expectedEligibility, expectedPool, expectedBand] o
   assertNoPublicInternalLeak(resultCard, label);
 }
 
-assert.strictEqual(card.display.primary_user_facing_recommendation, 'Strong Choice');
+assert.strictEqual(card.display.primary_user_facing_recommendation, 'Strong choice for your application');
 assert.strictEqual(card.decision_transparency.score_breakdown ?? null, null);
 assert.doesNotMatch(
   JSON.stringify({

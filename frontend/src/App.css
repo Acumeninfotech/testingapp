@@ -2214,6 +2214,10 @@ main:has(.university-explorer) {
   margin-top: 0.9rem;
 }
 
+.result-card-assessment-summary {
+  margin-top: 0.9rem;
+}
+
 .result-card-recommendation-medal,
 .result-card-card-icon {
   display: inline-flex;
@@ -2256,6 +2260,15 @@ main:has(.university-explorer) {
 .result-card-status .result-card-icon {
   width: 1.25rem;
   height: 1.25rem;
+}
+
+.result-card-status--recommendation-badge {
+  min-width: 8.75rem;
+  min-height: 2rem;
+  padding: 0.35rem 0.7rem;
+  font-size: 0.76rem;
+  line-height: 1.1;
+  text-align: center;
 }
 
 .result-card-recommendation {
@@ -2345,6 +2358,60 @@ main:has(.university-explorer) {
   color: var(--result-accent);
   font-size: 1rem;
   white-space: nowrap;
+}
+
+.result-card-assessment-panel {
+  width: 100%;
+  padding: 0.9rem 1rem;
+  border: 1px solid rgba(208, 213, 221, 0.9);
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.94);
+  box-shadow: 0 18px 44px -36px rgba(15, 23, 42, 0.58);
+}
+
+.result-card-assessment-panel > span {
+  display: block;
+  color: #07142f;
+  font-size: 0.88rem;
+  font-weight: 820;
+  line-height: 1.2;
+}
+
+.result-card-assessment-panel dl {
+  display: grid;
+  gap: 0.48rem;
+  margin: 0.75rem 0 0;
+}
+
+.result-card-assessment-panel div {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 0.18rem;
+  align-items: baseline;
+  min-width: 0;
+}
+
+.result-card-assessment-panel dt {
+  color: #3b4f7a;
+  font-size: 0.75rem;
+  font-weight: 820;
+  line-height: 1.25;
+  overflow-wrap: anywhere;
+}
+
+.result-card-assessment-panel dd {
+  margin: 0;
+  color: #14264d;
+  font-size: 0.84rem;
+  font-weight: 720;
+  line-height: 1.28;
+  overflow-wrap: anywhere;
+}
+
+.result-card-assessment-panel .result-card-assessment-row--emphasis dd {
+  color: var(--result-accent);
+  font-size: 1rem;
+  font-weight: 860;
 }
 
 .result-card-notice {
@@ -2531,6 +2598,53 @@ main:has(.university-explorer) {
   color: #14264d;
   font-size: 0.84rem;
   line-height: 1.3;
+}
+
+.result-card-requirement-badges {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.42rem;
+  margin: 0.75rem 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.result-card-requirement-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  min-height: 1.7rem;
+  padding: 0.25rem 0.62rem;
+  border: 1px solid var(--neutral-border);
+  border-radius: 999px;
+  background: rgba(248, 250, 252, 0.78);
+  color: #3b4f7a;
+  font-size: 0.78rem;
+  font-weight: 820;
+  line-height: 1.1;
+}
+
+.result-card-requirement-badge .result-card-icon {
+  width: 0.9rem;
+  height: 0.9rem;
+}
+
+.result-card-requirement-badge--positive {
+  border-color: var(--success-border);
+  background: var(--success-bg);
+  color: var(--success);
+}
+
+.result-card-requirement-badge--negative {
+  border-color: var(--danger-border);
+  background: var(--danger-bg);
+  color: var(--danger);
+}
+
+.result-card-requirement-badge--warning {
+  border-color: var(--warning-border);
+  background: var(--warning-bg);
+  color: var(--warning);
 }
 
 .result-card-detail-list dt {
@@ -3236,6 +3350,9 @@ main:has(.university-explorer) {
 }
 
 .university-result-summary {
+  --result-accent: var(--neutral);
+  --result-accent-bg: var(--neutral-bg);
+  --result-accent-border: var(--neutral-border);
   display: flex;
   flex: 1;
   flex-direction: column;
@@ -3244,26 +3361,44 @@ main:has(.university-explorer) {
 }
 
 .university-result-summary--safe {
+  --result-accent: var(--success);
+  --result-accent-bg: var(--success-bg);
+  --result-accent-border: var(--success-border);
   border-left-color: var(--success);
 }
 
 .university-result-summary--realistic {
+  --result-accent: var(--success);
+  --result-accent-bg: var(--success-bg);
+  --result-accent-border: var(--success-border);
   border-left-color: var(--brand);
 }
 
 .university-result-summary--ambitious {
+  --result-accent: var(--warning);
+  --result-accent-bg: var(--warning-bg);
+  --result-accent-border: var(--warning-border);
   border-left-color: var(--warning);
 }
 
 .university-result-summary--high-risk {
+  --result-accent: var(--high-risk);
+  --result-accent-bg: var(--high-risk-bg);
+  --result-accent-border: var(--high-risk-border);
   border-left-color: var(--high-risk);
 }
 
 .university-result-summary--not-eligible {
+  --result-accent: var(--danger);
+  --result-accent-bg: var(--danger-bg);
+  --result-accent-border: var(--danger-border);
   border-left-color: var(--danger);
 }
 
 .university-result-summary--manual-review {
+  --result-accent: #2563eb;
+  --result-accent-bg: #eff6ff;
+  --result-accent-border: #bfdbfe;
   border-left-color: var(--neutral);
 }
 
@@ -4102,7 +4237,8 @@ main:has(.university-explorer) {
   }
 
   .result-card-status,
-  .result-card-ucat-summary {
+  .result-card-ucat-summary,
+  .result-card-assessment-panel {
     width: 100%;
     justify-content: center;
   }
@@ -4139,7 +4275,8 @@ main:has(.university-explorer) {
   }
 
   .result-card-summary-rows div,
-  .result-card-selection-facts div {
+  .result-card-selection-facts div,
+  .result-card-assessment-panel div {
     grid-template-columns: 1fr;
     gap: 0.2rem;
   }

@@ -175,6 +175,7 @@ export interface DecisionTransparency {
   evidence_used?: string[];
   warnings?: string[];
   manual_review_reason?: string | null;
+  information_needed_reason?: string | null;
   insufficient_evidence_reason?: string | null;
   // Distinguishes an insufficient_evidence result caused by the university's
   // own methodology having a gap ApplySmart can't execute for this
@@ -184,7 +185,10 @@ export interface DecisionTransparency {
   // Null/absent for older universities and other display states.
   insufficient_evidence_reason_code?:
     | 'university_methodology_gap'
+    | 'prediction_calibration_unavailable'
     | 'applicant_evidence_gap'
+    | 'academic_matrix_band_unavailable'
+    | 'academic_compensation_inputs_unavailable'
     | 'edinburgh_five_gcse_historical_evidence_gap'
     | 'missing_birmingham_english_language_grade'
     | 'missing_birmingham_english_literature_grade'
@@ -192,6 +196,7 @@ export interface DecisionTransparency {
     | 'missing_birmingham_biology_grade'
     | 'missing_birmingham_chemistry_grade'
     | 'missing_birmingham_additional_gcse_scoring_grades'
+    | 'insufficient_gcse_results'
     | null;
   score_breakdown?: ScoreBreakdown | null;
   ucat_comparison?: UcatComparison | null;
@@ -200,16 +205,51 @@ export interface DecisionTransparency {
   comparison_metrics_title?: string | null;
   comparison_metrics?: ComparisonMetric[];
   selection_approach_display?: string | null;
+  risk_explanation?: RiskExplanation | null;
   [key: string]: unknown;
+}
+
+export interface RiskExplanation {
+  primary_factor:
+    | 'ucat'
+    | 'academic'
+    | 'combined_academic_ucat'
+    | 'contextual'
+    | 'route'
+    | 'overall_profile'
+    | string;
+  reason_code: string;
+  contributing_factors?: string[];
+  summary: string;
+}
+
+export interface AcademicRequirementCheck {
+  qualification_type: 'gcse' | 'a_level' | 'ib' | 'scottish' | 'graduate' | string;
+  requirement_type?: string;
+  label: string;
+  status: 'met' | 'information_needed' | 'not_met';
+  reason?: string;
+  required_value?: string | number | boolean | null;
+  applicant_value?: string | number | boolean | null;
+}
+
+export interface FactorUsageEntry {
+  factor_id: string;
+  label: string;
+  role: 'eligibility' | 'considered' | 'ranking' | 'contextual' | 'not_used' | 'unknown';
+  detail?: string | null;
+  evidence_status?: 'available' | 'missing' | 'met' | 'not_met' | 'not_applicable' | 'unknown' | string | null;
 }
 
 export interface ResultCard {
   primary_user_facing_recommendation: string;
   recommendation_display_state: string;
   primary_explanation: string;
+  information_needed_reason?: string | null;
   trust_statement?: string | null;
   historical_guidance_caveat?: string | null;
   selection_approach_display?: string | null;
+  academic_requirement_checks?: AcademicRequirementCheck[];
   // Set to 'guaranteed_interview' when every published guaranteed-interview
   // condition for this applicant's route has been verified as met (e.g.
   // Birmingham UKWPMED) - categorically different from a scored/ranked
@@ -231,6 +271,8 @@ export interface ResultCard {
     reasons?: string[];
     [key: string]: unknown;
   };
+  risk_explanation?: RiskExplanation | null;
+  factor_usage?: FactorUsageEntry[];
   decision_transparency?: DecisionTransparency;
   decision_timeline?: { step: number; title: string; status: string; summary: string }[];
   [key: string]: unknown;

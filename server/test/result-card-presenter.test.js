@@ -4,6 +4,10 @@ const assert = require('assert');
 const fs = require('fs');
 const path = require('path');
 const { presentResultCard } = require('../../assets/js/engine/result-card-presenter');
+const { classifyInterviewBand } = require('../../assets/js/engine/interview-band-classifier');
+const cambridgeCourse = require('../../data/universities/cambridge-a100.json');
+const cambridgeConfig = require('../../data/interview-band-configs/cambridge-a100.json');
+const cambridgeFixture = require('../../data/fixtures/interview-band-classification/cambridge-a100.json');
 
 function present(overrides = {}) {
   return presentResultCard({
@@ -118,6 +122,472 @@ function ucatComparisonCard({ ucat, guidancePool, scoreModel = undefined }) {
 
 function assertCompactStatus(card, expected) {
   assert.deepStrictEqual(card.decision_transparency?.compact_status, expected);
+}
+
+function publicAcademicChecks(card) {
+  return card.academic_requirement_checks.map((check) => ({
+    qualification_type: check.qualification_type,
+    requirement_type: check.requirement_type,
+    label: check.label,
+    status: check.status
+  }));
+}
+
+function clone(value) {
+  return JSON.parse(JSON.stringify(value));
+}
+
+function makeCambridgeCard(ucatTotal) {
+  const applicant = clone(cambridgeFixture.base_applicant);
+  applicant.admissions_tests.ucat = {
+    ...applicant.admissions_tests.ucat,
+    total_score: ucatTotal,
+    score_scale: 2700,
+    sjt_band: 2
+  };
+  const classification = classifyInterviewBand(cambridgeCourse, cambridgeConfig, applicant);
+  return presentResultCard({
+    eligibilityStatus: classification.eligibility.status,
+    interviewBand: classification.canonical_interview_band,
+    manualReviewRequired: classification.manual_review_required === true,
+    insufficientEvidenceReasonCode: classification.insufficient_evidence_reason_code || null,
+    missingInformation: classification.missing_information || null,
+    transparencyContext: {
+      course_identity: { profile_id: cambridgeCourse.profile_id },
+      applicant_context: applicant,
+      applicant_group_ids: classification.applicant_group_ids || [],
+      readiness: cambridgeCourse.engine_notes,
+      eligibility_checks: classification.eligibility.checks || [],
+      eligibility_failures: classification.eligibility.failures || [],
+      stage_1_eligibility: cambridgeCourse.stage_1_eligibility || null,
+      stage_2_interview_selection: cambridgeCourse.stage_2_interview_selection || null,
+      contextual_admissions: cambridgeCourse.contextual_admissions || null,
+      historical_admissions: cambridgeCourse.historical_admissions || null,
+      selection_approach_display: cambridgeCourse.selection_approach_display || null,
+      ranking: classification.ranking || null,
+      band_metric: classification.band_metric || null,
+      guidance_pool: classification.guidance_pool || null,
+      score_model: cambridgeConfig.score_model,
+      guidance_pool_id: classification.guidance_pool_id || null,
+      missing_information: classification.missing_information || null,
+      warnings: classification.warnings || []
+    }
+  });
+}
+
+function makeCambridgeSixGcseCard() {
+  const applicant = clone(cambridgeFixture.base_applicant);
+  applicant.gcse_profile = {
+    subjects: {
+      english_language: '9',
+      mathematics: '9',
+      biology: '9',
+      chemistry: '9',
+      physics: '9',
+      history: '9'
+    },
+    additional_subjects: [],
+    total_gcse_count: 6,
+    top_9_gcse_grades: ['9', '9', '9', '9', '9', '9']
+  };
+  const classification = classifyInterviewBand(cambridgeCourse, cambridgeConfig, applicant);
+  return presentResultCard({
+    eligibilityStatus: classification.eligibility.status,
+    interviewBand: classification.canonical_interview_band,
+    manualReviewRequired: classification.manual_review_required === true,
+    insufficientEvidenceReasonCode: classification.insufficient_evidence_reason_code || null,
+    missingInformation: classification.missing_information || null,
+    transparencyContext: {
+      course_identity: { profile_id: cambridgeCourse.profile_id },
+      applicant_context: applicant,
+      applicant_group_ids: classification.applicant_group_ids || [],
+      readiness: cambridgeCourse.engine_notes,
+      eligibility_checks: classification.eligibility.checks || [],
+      eligibility_failures: classification.eligibility.failures || [],
+      stage_1_eligibility: cambridgeCourse.stage_1_eligibility || null,
+      stage_2_interview_selection: cambridgeCourse.stage_2_interview_selection || null,
+      contextual_admissions: cambridgeCourse.contextual_admissions || null,
+      historical_admissions: cambridgeCourse.historical_admissions || null,
+      selection_approach_display: cambridgeCourse.selection_approach_display || null,
+      ranking: classification.ranking || null,
+      band_metric: classification.band_metric || null,
+      guidance_pool: classification.guidance_pool || null,
+      score_model: cambridgeConfig.score_model,
+      guidance_pool_id: classification.guidance_pool_id || null,
+      missing_information: classification.missing_information || null,
+      warnings: classification.warnings || []
+    }
+  });
+}
+
+{
+  const card = present({
+    eligibilityStatus: 'eligible',
+    interviewBand: 'interview_likely',
+    transparencyContext: {
+      course_identity: { profile_id: 'cambridge-a100' },
+      selection_approach_display: cambridgeCourse.selection_approach_display?.default,
+      stage_1_eligibility: cambridgeCourse.stage_1_eligibility,
+      stage_2_interview_selection: cambridgeCourse.stage_2_interview_selection,
+      contextual_admissions: cambridgeCourse.contextual_admissions,
+      applicant_context: {
+        admissions_tests: {
+          ucat: { total_score: 2400, score_scale: 2700, sjt_band: 3 }
+        }
+      }
+    }
+  });
+  assert.deepStrictEqual(card.factor_usage.map(({ factor_id, label, role, evidence_status }) => ({ factor_id, label, role, evidence_status })), [
+    {
+      factor_id: 'ucat',
+      label: 'UCAT',
+      role: 'considered',
+      evidence_status: 'available'
+    },
+    {
+      factor_id: 'gcse',
+      label: 'GCSEs',
+      role: 'considered',
+      evidence_status: 'available'
+    },
+    {
+      factor_id: 'a_level',
+      label: 'A-levels',
+      role: 'considered',
+      evidence_status: 'available'
+    },
+    {
+      factor_id: 'sjt',
+      label: 'SJT',
+      role: 'not_used',
+      evidence_status: 'not_applicable'
+    },
+    {
+      factor_id: 'contextual',
+      label: 'Contextual',
+      role: 'contextual',
+      evidence_status: 'available'
+    }
+  ]);
+}
+
+{
+  const rankingCard = present({
+    transparencyContext: {
+      stage_1_eligibility: {
+        admissions_tests: {
+          ucat: {
+            required: false,
+            used_as_gate: false
+          }
+        }
+      },
+      stage_2_interview_selection: {
+        primary_model: 'ucat_ranking',
+        ranking_factors: [
+          {
+            factor_id: 'ucat_cognitive_total',
+            role: 'ranking_factor',
+            notes: 'UCAT total is used for ranking.'
+          }
+        ]
+      }
+    }
+  });
+  assert.strictEqual(
+    rankingCard.factor_usage.find((entry) => entry.factor_id === 'ucat')?.role,
+    'ranking'
+  );
+
+  const consideredCard = present({
+    transparencyContext: {
+      stage_1_eligibility: {
+        admissions_tests: {
+          ucat: {
+            required: false,
+            used_as_gate: false
+          }
+        }
+      },
+      stage_2_interview_selection: {
+        primary_model: 'holistic_review',
+        ranking_factors: [
+          {
+            factor_id: 'ucat_cognitive_total',
+            role: 'review_factor',
+            notes: 'UCAT total is considered alongside academic evidence.'
+          }
+        ]
+      }
+    }
+  });
+  assert.strictEqual(
+    consideredCard.factor_usage.find((entry) => entry.factor_id === 'ucat')?.role,
+    'considered'
+  );
+
+  const notUsedCard = present({
+    transparencyContext: {
+      stage_1_eligibility: {
+        admissions_tests: {
+          ucat: {
+            required: false,
+            used: false,
+            notes: 'UCAT is not used for interview selection.'
+          }
+        }
+      }
+    }
+  });
+  assert.strictEqual(
+    notUsedCard.factor_usage.find((entry) => entry.factor_id === 'ucat')?.role,
+    'not_used'
+  );
+
+  const eligibilityCard = present({
+    transparencyContext: {
+      stage_1_eligibility: {
+        admissions_tests: {
+          ucat: {
+            required: true,
+            used_as_gate: true,
+            notes: 'UCAT is an eligibility gate only.'
+          }
+        }
+      }
+    }
+  });
+  assert.strictEqual(
+    eligibilityCard.factor_usage.find((entry) => entry.factor_id === 'ucat')?.role,
+    'eligibility'
+  );
+}
+
+{
+  const card = present({
+    eligibilityStatus: 'not_eligible',
+    interviewBand: 'not_eligible',
+    transparencyContext: {
+      applicant_context: {
+        admissions_tests: {
+          ucat: { total_score: 2400, score_scale: 2700 }
+        }
+      },
+      score_model: {
+        type: 'ranking_metric',
+        metric: 'ucat_total',
+        scale: { min: 0, max: 2700 }
+      },
+      guidance_pool: {
+        metric: 'ucat_total',
+        comparison_guidance: {
+          comparison_type: 'historical_range',
+          label: 'Structured historical UCAT guide'
+        },
+        band_rules: [
+          { band: 'realistic', operator: 'between_inclusive', min: 1680, max: 1995 }
+        ]
+      }
+    }
+  });
+
+  const historicalStage = card.decision_transparency.decision_path.find((stage) => stage.stage === 'Historical guidance');
+  assert.strictEqual(historicalStage.status, 'Context only');
+  assert.match(historicalStage.summary, /contextual only/i);
+  assert.strictEqual(
+    historicalStage.checks.find((check) => check.label === 'UCAT comparison')?.status,
+    'Context only'
+  );
+}
+
+{
+  const card = present({
+    eligibilityStatus: 'not_eligible',
+    interviewBand: 'not_eligible'
+  });
+
+  const historicalStage = card.decision_transparency.decision_path.find((stage) => stage.stage === 'Historical guidance');
+  assert.strictEqual(historicalStage.status, 'Not applied');
+  assert.match(historicalStage.summary, /not applied because the entry requirements are not met/i);
+}
+
+{
+  const card = present({
+    eligibilityStatus: 'manual_review',
+    manualReviewRequired: true,
+    manualReviewReason: 'Please confirm the practical endorsement outcome for your required A-level science subject.',
+    interviewBand: 'insufficient_evidence'
+  });
+  assert.strictEqual(
+    card.primary_explanation,
+    'Please confirm the practical endorsement outcome for your required A-level science subject.'
+  );
+}
+
+{
+  const card = present({
+    eligibilityStatus: 'eligible',
+    interviewBand: 'insufficient_evidence',
+    insufficientEvidenceReasonCode: 'prediction_calibration_unavailable',
+    transparencyContext: {
+      score_model: {
+        presentation: {
+          insufficient_evidence_explanation:
+            'This applicant pool has historical observations, but public prediction calibration is not approved yet.'
+        }
+      }
+    }
+  });
+  assert.strictEqual(
+    card.primary_explanation,
+    'This applicant pool has historical observations, but public prediction calibration is not approved yet.'
+  );
+  assert.strictEqual(
+    card.decision_transparency.insufficient_evidence_reason,
+    card.primary_explanation
+  );
+}
+
+{
+  const card = present({
+    eligibilityStatus: 'eligible',
+    interviewBand: 'insufficient_evidence'
+  });
+  assert.strictEqual(
+    card.primary_explanation,
+    'ApplySmart needs additional applicant information before it can provide a complete recommendation for this applicant group.'
+  );
+}
+
+{
+  const reason =
+    'This university ranks applicants using the best eight GCSEs. Only six GCSEs are available, so the published scoring model cannot be calculated. This is not a rejection.';
+  const card = present({
+    eligibilityStatus: 'eligible',
+    interviewBand: 'insufficient_evidence',
+    insufficientEvidenceReasonCode: 'insufficient_gcse_results',
+    missingInformation: {
+      qualification_type: 'gcse',
+      provided_count: 6,
+      required_count: 8
+    },
+    transparencyContext: {
+      score_model: {
+        type: 'component_sum',
+        gcse_profile_completeness: {
+          minimum_results_for_competitiveness_assessment: 8
+        }
+      },
+      missing_information: {
+        qualification_type: 'gcse',
+        provided_count: 6,
+        required_count: 8
+      }
+    }
+  });
+  const historicalStage = card.decision_transparency.decision_path.find(
+    (stage) => stage.stage === 'Historical guidance'
+  );
+  assert.strictEqual(card.primary_explanation, reason);
+  assert.strictEqual(card.information_needed_reason, reason);
+  assert.strictEqual(card.decision_transparency.information_needed_reason, reason);
+  assert.strictEqual(card.decision_transparency.insufficient_evidence_reason, reason);
+  assert.match(historicalStage.summary, /Historical admissions data was not compared/i);
+  assert.match(historicalStage.summary, /Only six GCSEs are available/i);
+  assert.doesNotMatch(
+    `${card.primary_explanation} ${historicalStage.summary}`,
+    /ApplySmart needs additional applicant information before it can provide a complete recommendation/i
+  );
+}
+
+{
+  const reason =
+    'ApplySmart needs a more complete GCSE profile before it can assess your Cambridge interview potential. This is not a rejection.';
+  const card = makeCambridgeSixGcseCard();
+  const historicalStage = card.decision_transparency.decision_path.find(
+    (stage) => stage.stage === 'Historical guidance'
+  );
+  assert.strictEqual(card.recommendation_display_state, 'insufficient_evidence');
+  assert.strictEqual(card.primary_explanation, reason);
+  assert.strictEqual(card.information_needed_reason, reason);
+  assert.strictEqual(card.decision_transparency.information_needed_reason, reason);
+  assert.strictEqual(card.decision_transparency.insufficient_evidence_reason, reason);
+  assert.match(historicalStage.summary, /Historical admissions data was not compared/i);
+  assert.match(historicalStage.summary, /more complete GCSE profile/i);
+  assert.doesNotMatch(historicalStage.summary, /best eight GCSEs/i);
+}
+
+{
+  const card = present({
+    transparencyContext: {
+      eligibility_checks: [
+        { check: 'gcse_minimum_count', passed: true },
+        { check: 'gcse_science_alternative', passed: true },
+        { check: 'a_level_route', passed: true },
+        { check: 'a_level_subject_combination', passed: true },
+        { check: 'ucat_required', passed: true }
+      ]
+    }
+  });
+  assert.deepStrictEqual(publicAcademicChecks(card), [
+    { qualification_type: 'gcse', requirement_type: 'gcse_minimum_count', label: 'GCSEs', status: 'met' },
+    { qualification_type: 'gcse', requirement_type: 'gcse_science_alternative', label: 'GCSEs', status: 'met' },
+    { qualification_type: 'a_level', requirement_type: 'a_level_route', label: 'A-level grades', status: 'met' },
+    { qualification_type: 'a_level', requirement_type: 'a_level_subject_combination', label: 'Required A-level subjects', status: 'met' }
+  ]);
+}
+
+{
+  const card = present({
+    transparencyContext: {
+      eligibility_checks: [
+        { check_id: 'gcse_english_language_minimum', status: 'pass' },
+        { check_id: 'gcse_mathematics_minimum', status: 'pass' },
+        { check_id: 'home_standard_a_level', status: 'fail' },
+        { check_id: 'a_level_science_practical_endorsement', status: 'pass' }
+      ]
+    }
+  });
+  assert.deepStrictEqual(publicAcademicChecks(card), [
+    { qualification_type: 'gcse', requirement_type: 'gcse_english_language_minimum', label: 'GCSE English Language', status: 'met' },
+    { qualification_type: 'gcse', requirement_type: 'gcse_mathematics_minimum', label: 'GCSE Mathematics', status: 'met' },
+    { qualification_type: 'a_level', requirement_type: 'home_standard_a_level', label: 'A-level grades', status: 'not_met' },
+    { qualification_type: 'a_level', requirement_type: 'a_level_science_practical_endorsement', label: 'Science practical endorsement', status: 'met' }
+  ]);
+}
+
+{
+  const card = present({
+    eligibilityStatus: 'manual_review',
+    manualReviewRequired: true,
+    transparencyContext: {
+      eligibility_checks: [
+        { check: 'international_baccalaureate_route', passed: false, unknown_subject_ids: ['chemistry'] },
+        { check: 'sjt_policy', passed: true }
+      ]
+    }
+  });
+  assert.deepStrictEqual(publicAcademicChecks(card), [
+    { qualification_type: 'ib', requirement_type: 'international_baccalaureate_route', label: 'IB', status: 'information_needed' }
+  ]);
+}
+
+{
+  const card = present({
+    transparencyContext: {
+      eligibility_checks: [
+        { check: 'national_5_route', passed: true },
+        { check: 'scottish_post_16_route', passed: true },
+        { check: 'graduate_degree_route', passed: true },
+        { check: 'resit_pathway', passed: true }
+      ]
+    }
+  });
+  assert.deepStrictEqual(publicAcademicChecks(card), [
+    { qualification_type: 'scottish', requirement_type: 'national_5_route', label: 'Scottish Highers', status: 'met' },
+    { qualification_type: 'scottish', requirement_type: 'scottish_post_16_route', label: 'Scottish Highers', status: 'met' },
+    { qualification_type: 'graduate', requirement_type: 'graduate_degree_route', label: 'Graduate Entry', status: 'met' }
+  ]);
 }
 
 {
@@ -567,6 +1037,127 @@ function assertCompactStatus(card, expected) {
     type: 'academic_status',
     tone: 'warning'
   });
+}
+
+{
+  const card = present({
+    eligibilityStatus: 'insufficient_evidence',
+    interviewBand: 'insufficient_evidence',
+    insufficientEvidenceReasonCode: 'applicant_evidence_gap'
+  });
+  assert.strictEqual(card.recommendation_display_state, 'insufficient_evidence');
+  assert.strictEqual(card.primary_user_facing_recommendation, 'More information is required');
+}
+
+{
+  const card = makeCambridgeCard(2000);
+  assert.strictEqual(card.recommendation_display_state, 'standard');
+  assert.strictEqual(card.prediction.result_band, 'high_risk');
+  assert.strictEqual(card.risk_explanation.primary_factor, 'ucat');
+  assert.strictEqual(card.risk_explanation.reason_code, 'ucat_historical_guidance_range');
+  assert.match(card.primary_explanation, /UCAT score falls within ApplySmart's more cautious historical guidance range/i);
+  assert.doesNotMatch(card.primary_explanation, /academic profile/i);
+  assert.strictEqual(card.decision_transparency.risk_explanation.primary_factor, 'ucat');
+  assert.strictEqual(card.decision_transparency.score_breakdown, null);
+  assert.strictEqual(card.decision_transparency.selection_metric, null);
+  assert.strictEqual(card.decision_transparency.ucat_comparison, null);
+  const publicText = JSON.stringify(card);
+  assert.doesNotMatch(publicText, /\b0\/5\b/);
+  assert.doesNotMatch(publicText, /selection score is 0/i);
+}
+
+{
+  const card = present({
+    interviewBand: 'high_risk',
+    transparencyContext: {
+      ranking: {
+        status: 'calculated',
+        value: 0,
+        max: 10,
+        components: {
+          academic_profile_score: {
+            band: 'high_risk',
+            profile_class: 'weak',
+            applied_adjustment: -2
+          },
+          ucat_score: {
+            band: 'realistic'
+          }
+        }
+      },
+      score_model: {
+        type: 'component_sum',
+        presentation: {
+          hide_score_breakdown: true,
+          hide_selection_score_details: true
+        }
+      },
+      guidance_pool: { metric: 'selection_score' }
+    }
+  });
+  assert.strictEqual(card.risk_explanation.primary_factor, 'academic');
+  assert.strictEqual(card.risk_explanation.reason_code, 'academic_historical_guidance_range');
+  assert.match(card.primary_explanation, /academic profile falls within ApplySmart's more cautious historical guidance range/i);
+  assert.doesNotMatch(card.primary_explanation, /UCAT score/i);
+}
+
+{
+  const card = present({
+    interviewBand: 'high_risk',
+    transparencyContext: {
+      ranking: {
+        status: 'calculated',
+        value: 0,
+        max: 10,
+        components: {
+          academic_profile_score: {
+            band: 'high_risk',
+            profile_class: 'weak',
+            applied_adjustment: -2
+          },
+          ucat_score: {
+            band: 'high_risk'
+          }
+        }
+      },
+      score_model: {
+        type: 'component_sum',
+        presentation: {
+          hide_score_breakdown: true,
+          hide_selection_score_details: true
+        }
+      },
+      guidance_pool: { metric: 'selection_score' }
+    }
+  });
+  assert.strictEqual(card.risk_explanation.primary_factor, 'combined_academic_ucat');
+  assert.strictEqual(card.risk_explanation.reason_code, 'combined_academic_ucat_historical_guidance_range');
+  assert.match(card.primary_explanation, /academic profile and UCAT score fall within ApplySmart's more cautious historical guidance range/i);
+}
+
+{
+  const card = present({
+    eligibilityStatus: 'manual_review',
+    manualReviewRequired: true,
+    manualReviewReason: 'Please confirm the practical endorsement outcome for your required A-level science subject.',
+    interviewBand: 'insufficient_evidence',
+    transparencyContext: {
+      ranking: {
+        status: 'calculated',
+        value: 0,
+        max: 10,
+        components: {
+          ucat_score: {
+            band: 'high_risk'
+          }
+        }
+      }
+    }
+  });
+  assert.strictEqual(card.recommendation_display_state, 'manual_review');
+  assert.strictEqual(card.primary_explanation, 'Please confirm the practical endorsement outcome for your required A-level science subject.');
+  assert.strictEqual(card.risk_explanation, null);
+  assert.strictEqual(card.decision_transparency.risk_explanation, null);
 }
 
 console.log('PASS: compact_status presenter mappings are generated from structured result data');

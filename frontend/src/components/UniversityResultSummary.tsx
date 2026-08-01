@@ -178,7 +178,7 @@ export function UniversityResultSummary({
       <div className="university-result-content">
         <div className="university-result-summary-head">
           <h3>{result.university}</h3>
-          <span className="result-card-status">{label}</span>
+          <span className="result-card-status result-card-status--recommendation-badge">{label}</span>
         </div>
         <p className="university-result-recommendation">{headline}</p>
         <p className={`university-result-reason${reason ? '' : ' university-result-reason--empty'}`}>

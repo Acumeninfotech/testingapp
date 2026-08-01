@@ -253,8 +253,8 @@ for (const boundary of fixture.historical_guidance_boundaries) {
 
 const baseClassification = classifyInterviewBand(course, config, fixture.base_applicant);
 const baseResultCard = makeResultCard(course, config, fixture.base_applicant, baseClassification);
-assert.strictEqual(baseResultCard.primary_user_facing_recommendation, 'Realistic choice based on your UCAT');
-assert.match(baseResultCard.primary_explanation, /does not publish a fixed future UCAT cut-off/i);
+assert.strictEqual(baseResultCard.primary_user_facing_recommendation, 'Possible choice for your application');
+assert.match(baseResultCard.primary_explanation, /ucat score may be competitive for this applicant group/i);
 assert.match(baseResultCard.historical_guidance_caveat, /not a current cut-off/i);
 assert.strictEqual(baseResultCard.decision_transparency.score_breakdown ?? null, null);
 assert.doesNotMatch(

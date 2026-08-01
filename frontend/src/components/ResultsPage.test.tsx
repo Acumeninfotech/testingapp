@@ -1,7 +1,12 @@
 import { fireEvent, render, screen, within } from '@testing-library/react';
+import { readFileSync } from 'node:fs';
+import { dirname, resolve } from 'node:path';
+import { fileURLToPath } from 'node:url';
 import { beforeEach, describe, expect, it } from 'vitest';
 import { ResultsPage } from './ResultsPage';
 import type { PredictionResult, SelectionMetric } from '../api/types';
+
+const appCss = readFileSync(resolve(dirname(fileURLToPath(import.meta.url)), '../App.css'), 'utf8');
 
 function makeResult(
   universityId: string,
@@ -101,6 +106,40 @@ describe('ResultsPage', () => {
     expect(screen.getByText('University of Bristol')).toBeInTheDocument();
     expect(screen.getByText('Keele University')).toBeInTheDocument();
     expect(screen.queryByText('University of Exeter')).not.toBeInTheDocument();
+  });
+
+  it('applies the recommendation badge class and styles to the top-right result status', () => {
+    render(
+      <ResultsPage
+        results={[
+          makeResult('anglia-ruskin-a100', 'Anglia Ruskin University', {
+            prediction: { result_band: 'ambitious' },
+          }),
+        ]}
+        onStartOver={() => {}}
+      />,
+    );
+
+    const card = screen.getByText('Anglia Ruskin University').closest('.university-result-card');
+    const badge = card?.querySelector(
+      '.university-result-summary-head .result-card-status--recommendation-badge',
+    ) as HTMLElement | null;
+
+    expect(badge).toHaveTextContent('Ambitious Choice');
+    expect(badge).toHaveClass('result-card-status', 'result-card-status--recommendation-badge');
+
+    const statusRule = appCss.match(/\.result-card-status\s*{[^}]+}/)?.[0] || '';
+    const badgeRule = appCss.match(/\.result-card-status--recommendation-badge\s*{[^}]+}/)?.[0] || '';
+    const ambitiousRule = appCss.match(/\.university-result-summary--ambitious\s*{[^}]+}/)?.[0] || '';
+
+    expect(statusRule).toContain('background: var(--result-accent-bg)');
+    expect(statusRule).toContain('color: var(--result-accent)');
+    expect(statusRule).toContain('border: 1px solid var(--result-accent-border)');
+    expect(statusRule).toContain('border-radius: 999px');
+    expect(badgeRule).toContain('padding: 0.35rem 0.7rem');
+    expect(ambitiousRule).toContain('--result-accent: var(--warning)');
+    expect(ambitiousRule).toContain('--result-accent-bg: var(--warning-bg)');
+    expect(ambitiousRule).toContain('--result-accent-border: var(--warning-border)');
   });
 
   it('filters results when a category pill is clicked', () => {

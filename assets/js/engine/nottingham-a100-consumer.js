@@ -161,6 +161,12 @@ function countGcseGrades(subjectGrades) {
   });
 }
 
+function countScoreableGcseGrades(subjectGrades) {
+  return countGcseGrades(subjectGrades)
+    .filter((grade) => gcsePointValue(grade) !== null)
+    .length;
+}
+
 function evaluateGcseEligibility(applicant, state) {
   if (applicant.has_gcse_or_equivalent_results === false) {
     if (countGcseGrades(profileToSubjectMap(applicant.gcse_profile)).length > 0) {
@@ -621,6 +627,7 @@ function buildGcseScoringComponents(applicant) {
   }
 
   const subjects = profileToSubjectMap(applicant.gcse_profile);
+  const providedCount = countScoreableGcseGrades(subjects);
   const doubleScience = parseDoubleGrade(
     subjects.combined_science ?? subjects.double_science
   );
@@ -663,6 +670,13 @@ function buildGcseScoringComponents(applicant) {
       value: null,
       max: 32,
       counted_subjects: [],
+      reason: 'nottingham_mandatory_gcse_scoring_inputs_unavailable',
+      missing_information: {
+        qualification_type: 'gcse',
+        provided_count: providedCount,
+        required_count: 8,
+        component_label: 'published GCSE component'
+      },
       warning: 'The four mandatory GCSE scoring components are incomplete.'
     };
   }
@@ -689,6 +703,13 @@ function buildGcseScoringComponents(applicant) {
       value: null,
       max: 32,
       counted_subjects: [],
+      reason: 'insufficient_gcse_results',
+      missing_information: {
+        qualification_type: 'gcse',
+        provided_count: providedCount,
+        required_count: 8,
+        component_label: 'published GCSE component'
+      },
       warning: 'Four additional GCSE results are required to calculate the official eight-GCSE score.'
     };
   }
@@ -840,6 +861,23 @@ function buildOfficialScore(applicant, course = null) {
   };
 }
 
+function insufficientEvidenceReasonCodeFromOfficialScore(officialScore) {
+  if (officialScore?.status !== 'insufficient_input') {
+    return null;
+  }
+  return Object.values(officialScore.components || {})
+    .find((component) => component?.reason)?.reason || null;
+}
+
+function missingInformationFromOfficialScore(officialScore) {
+  if (officialScore?.status !== 'insufficient_input') {
+    return null;
+  }
+  return Object.values(officialScore.components || {})
+    .find((component) => component?.missing_information)
+    ?.missing_information || null;
+}
+
 function contextualMessage(course, applicant, applicantGroupIds) {
   const contextualClaimed =
     applicantGroupIds.includes('contextual') ||
@@ -926,6 +964,8 @@ function evaluateNottinghamA100(course, applicantInput, options = {}) {
       : 'eligibility_and_official_score_explanation_only',
     eligibility,
     official_score: officialScore,
+    insufficient_evidence_reason_code: insufficientEvidenceReasonCodeFromOfficialScore(officialScore),
+    missing_information: missingInformationFromOfficialScore(officialScore),
     contextual_policy: contextualPolicy,
     interview_guidance: historical,
     interview_band_guidance: interviewBandGuidance,

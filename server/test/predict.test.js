@@ -112,6 +112,46 @@ function assertNoApplicantFacingDiagnostics(result) {
   }
 }
 
+function parsedScoreComponentValue(summary) {
+  const text = String(summary || '');
+  if (/not applied/i.test(text)) {
+    return 0;
+  }
+  const patterns = [
+    /(?:total\s*)?(-?\d+(?:\.\d+)?)\s*\/\s*-?\d+(?:\.\d+)?/gi,
+    /(-?\d+(?:\.\d+)?)\s+out of\s+-?\d+(?:\.\d+)?/gi,
+    /worth\s+(-?\d+(?:\.\d+)?)\s+(?:of|out of)\s+-?\d+(?:\.\d+)?/gi
+  ];
+  const values = [];
+  for (const pattern of patterns) {
+    for (const match of text.matchAll(pattern)) {
+      const value = Number(match[1]);
+      if (Number.isFinite(value)) {
+        values.push(value);
+      }
+    }
+  }
+  return values.length > 0 ? values[values.length - 1] : null;
+}
+
+function assertScoreBreakdownComponentsExplainTotal(result) {
+  const breakdown = result.result_card.decision_transparency?.score_breakdown;
+  if (!breakdown || !Number.isFinite(breakdown.value) || !Array.isArray(breakdown.checks)) {
+    return;
+  }
+  const componentValues = breakdown.checks
+    .map((check) => parsedScoreComponentValue(check.summary))
+    .filter(Number.isFinite);
+  if (componentValues.length !== breakdown.checks.length) {
+    return;
+  }
+  const componentTotal = componentValues.reduce((total, value) => total + value, 0);
+  assert.ok(
+    breakdown.value <= componentTotal + 0.0001,
+    `${result.universityId} displayed total ${breakdown.value}/${breakdown.max} is greater than visible component total ${componentTotal}; missing breakdown component suspected: ${JSON.stringify(breakdown.checks)}`
+  );
+}
+
 // Universities whose stage_1_eligibility.gcse.minimum_count (or
 // minimum_count_at_or_above_grade.count) is 6 or higher — before the wizard
 // collected more than 5 GCSEs, any real applicant with more GCSEs than
@@ -224,6 +264,108 @@ function routingProfile({ feeStatus, domicile }) {
   });
 }
 
+function sixGcseAllEightNineUcat2400Applicant() {
+  return merge(topTierApplicant, {
+    profile_id: 'six_gcse_all_8_9_ucat_2400',
+    label: '6 GCSEs all grades 8 or 9, UCAT 2400',
+    gcse_profile: {
+      subjects: {
+        english_language: '9',
+        mathematics: '9',
+        biology: '9',
+        chemistry: '9',
+        physics: '8',
+        history: '8'
+      },
+      additional_subjects: [],
+      total_gcse_count: 6,
+      top_9_gcse_grades: ['9', '9', '9', '9', '8', '8']
+    },
+    admissions_tests: {
+      ucat: {
+        taken: true,
+        total_score: 2400,
+        score_scale: 2700,
+        subtests: {
+          verbal_reasoning: 800,
+          decision_making: 800,
+          quantitative_reasoning: 800
+        },
+        sjt_band: 1,
+        test_year: 2026
+      }
+    }
+  });
+}
+
+function leedsInternationalApplicant() {
+  return merge(topTierApplicant, {
+    profile_id: 'leeds_international_calibration_gap_applicant',
+    qualification_route: 'a_level',
+    applicant_identity: {
+      applicant_type: 'international',
+      fee_status: 'international',
+      domicile: 'international',
+      contextual: false,
+      contextual_flags: {},
+      graduate: false,
+      resit: { has_resits: false, subjects_resat: [] }
+    }
+  });
+}
+
+function nottinghamGraduateNoGcseApplicant() {
+  return {
+    profile_id: 'nottingham_no_gcse_graduate',
+    qualification_route: 'graduate',
+    application_year: 2027,
+    entry_year: 2027,
+    has_gcse_or_equivalent_results: false,
+    english_language_equivalence_verified: true,
+    applicant_identity: {
+      applicant_type: 'graduate',
+      fee_status: 'Home',
+      domicile: 'England',
+      graduate: true,
+      contextual: false,
+      widening_participation: false,
+      date_of_birth: '2000-06-01',
+      resit: { has_resits: false }
+    },
+    graduate_profile: {
+      is_graduate: true,
+      degree_classification: '2_1',
+      sufficient_biology_content: true,
+      mathematics_equivalence_verified: true,
+      completed_in_natural_length: true
+    },
+    admissions_tests: {
+      ucat: {
+        taken: true,
+        test_year: 2026,
+        score_scale: 2700,
+        total_score: 2420,
+        sjt_band: 1,
+        subtests: {
+          verbal_reasoning: 810,
+          decision_making: 800,
+          quantitative_reasoning: 810
+        }
+      }
+    }
+  };
+}
+
+function missingPracticalEndorsementApplicant() {
+  const applicant = clone(topTierApplicant);
+  for (const subject of applicant.a_level_profile.subjects || []) {
+    if (['biology', 'chemistry'].includes(subject.subject_id)) {
+      subject.practical_endorsement = null;
+    }
+  }
+  return applicant;
+}
+
 function loadCourseAndConfig(id) {
   return {
     course: require(path.join(rootDir, 'data', 'universities', `${id}.json`)),
@@ -260,6 +402,154 @@ async function main() {
       typeof response.json.results[0].result_card.primary_user_facing_recommendation === 'string'
     );
     console.log(`PASS: POST /api/predict returns a result card for ${genericEntry.id}`);
+
+    const academicContractEntry = readyEntries.find((u) =>
+      GCSE_COUNT_SENSITIVE_UNIVERSITY_IDS.includes(u.id)
+    );
+    assert.ok(
+      academicContractEntry,
+      'expected at least one readiness-bundle-ready university with GCSE screening'
+    );
+    const academicContractResponse = await requestJson(server, 'POST', '/api/predict', {
+      universityIds: [academicContractEntry.id],
+      studentProfile: topTierApplicant
+    });
+    assert.strictEqual(academicContractResponse.status, 200);
+    const academicChecks =
+      academicContractResponse.json.results[0].result_card.academic_requirement_checks;
+    assert.ok(Array.isArray(academicChecks), 'result_card must expose academic_requirement_checks');
+    assert.ok(
+      academicChecks.some((check) =>
+        check.qualification_type === 'gcse' &&
+        check.label === 'GCSEs' &&
+        ['met', 'information_needed', 'not_met'].includes(check.status)
+      ),
+      `expected public GCSE academic requirement check, received ${JSON.stringify(academicChecks)}`
+    );
+    assert.strictEqual(
+      new Set(academicChecks.map((check) => `${check.qualification_type}:${check.requirement_type || check.label}`)).size,
+      academicChecks.length,
+      `academic_requirement_checks must not include duplicate requirement rows: ${JSON.stringify(academicChecks)}`
+    );
+    console.log(`PASS: /api/predict exposes academic_requirement_checks for ${academicContractEntry.id}`);
+
+    const imperialEligibleApplicant = merge(topTierApplicant, {
+      a_level_profile: {
+        completed_in_one_sitting: true
+      }
+    });
+    const imperialSameSittingFailedApplicant = merge(topTierApplicant, {
+      a_level_profile: {
+        completed_in_one_sitting: false,
+        sitting_status: 'not_same_sitting',
+        subjects: [
+          { subject_id: 'chemistry', predicted_grade: 'A*', achieved_grade: null, sitting_status: 'first_sitting', practical_endorsement: 'pass' },
+          { subject_id: 'biology', predicted_grade: 'A*', achieved_grade: null, sitting_status: 'resit', practical_endorsement: 'pass' },
+          { subject_id: 'mathematics', predicted_grade: 'A', achieved_grade: null, sitting_status: 'first_sitting', practical_endorsement: null }
+        ]
+      }
+    });
+    const imperialFailedResponse = await requestJson(server, 'POST', '/api/predict', {
+      universityIds: ['imperial-college-london-a100'],
+      studentProfile: imperialSameSittingFailedApplicant
+    });
+    assert.strictEqual(imperialFailedResponse.status, 200);
+    const imperialFailedCard = imperialFailedResponse.json.results[0].result_card;
+    assert.strictEqual(imperialFailedCard.recommendation_display_state, 'not_eligible');
+    assert.strictEqual(imperialFailedCard.prediction.result_band, 'not_eligible');
+    assert.match(imperialFailedCard.primary_explanation, /same examination sitting/i);
+    assert.notStrictEqual(
+      imperialFailedCard.primary_explanation,
+      'Based on the information entered, one or more supported entry requirements are not met.'
+    );
+    assert.ok(
+      imperialFailedCard.academic_requirement_checks.some((check) =>
+        check.requirement_type === 'a_level_route' && check.status === 'met'
+      ),
+      `expected successful A-level grade check, received ${JSON.stringify(imperialFailedCard.academic_requirement_checks)}`
+    );
+    assert.ok(
+      imperialFailedCard.academic_requirement_checks.some((check) =>
+        check.requirement_type === 'same_sitting_requirement' &&
+        check.status === 'not_met' &&
+        /same-sitting/i.test(check.label) &&
+        /not met/i.test(check.reason)
+      ),
+      `expected failed same-sitting academic check, received ${JSON.stringify(imperialFailedCard.academic_requirement_checks)}`
+    );
+    assert.ok(
+      imperialFailedCard.decision_transparency?.decision_path
+        ?.find((stage) => stage.stage === 'Historical guidance')
+        ?.summary.match(/contextual only/i),
+      'Imperial not-eligible card should preserve historical context as contextual-only guidance'
+    );
+    assert.ok(
+      imperialFailedCard.decision_transparency?.decision_path
+        ?.find((stage) => stage.stage === 'Historical guidance')
+        ?.checks.some((check) => /Historical|Context only/.test(check.status)),
+      'Imperial historical evidence should remain visible when applicable'
+    );
+    assert.strictEqual(
+      imperialFailedCard.recommendation_display_state,
+      'not_eligible',
+      'historical evidence must not override the not-suitable result'
+    );
+
+    const imperialEligibleResponse = await requestJson(server, 'POST', '/api/predict', {
+      universityIds: ['imperial-college-london-a100'],
+      studentProfile: imperialEligibleApplicant
+    });
+    assert.strictEqual(imperialEligibleResponse.status, 200);
+    const imperialEligibleCard = imperialEligibleResponse.json.results[0].result_card;
+    assert.strictEqual(imperialEligibleCard.recommendation_display_state, 'standard');
+    assert.ok(
+      imperialEligibleCard.academic_requirement_checks.every((check) => check.status === 'met'),
+      `eligible Imperial profile should keep all academic checks met: ${JSON.stringify(imperialEligibleCard.academic_requirement_checks)}`
+    );
+
+    const imperialMissingInfoResponse = await requestJson(server, 'POST', '/api/predict', {
+      universityIds: ['imperial-college-london-a100'],
+      studentProfile: topTierApplicant
+    });
+    assert.strictEqual(imperialMissingInfoResponse.status, 200);
+    const imperialMissingInfoCard = imperialMissingInfoResponse.json.results[0].result_card;
+    assert.strictEqual(imperialMissingInfoCard.recommendation_display_state, 'manual_review');
+    assert.notStrictEqual(imperialMissingInfoCard.recommendation_display_state, 'not_eligible');
+    assert.ok(
+      imperialMissingInfoCard.academic_requirement_checks.some((check) =>
+        check.requirement_type === 'same_sitting_requirement' &&
+        check.status === 'information_needed'
+      ),
+      `missing same-sitting evidence should be information_needed: ${JSON.stringify(imperialMissingInfoCard.academic_requirement_checks)}`
+    );
+
+    const nonImperialFailedApplicant = merge(topTierApplicant, {
+      a_level_profile: {
+        completed_in_one_sitting: true,
+        subjects: [
+          { subject_id: 'chemistry', predicted_grade: 'B', achieved_grade: null, sitting_status: 'first_sitting', practical_endorsement: 'pass' },
+          { subject_id: 'biology', predicted_grade: 'A', achieved_grade: null, sitting_status: 'first_sitting', practical_endorsement: 'pass' },
+          { subject_id: 'mathematics', predicted_grade: 'A', achieved_grade: null, sitting_status: 'first_sitting', practical_endorsement: null }
+        ]
+      }
+    });
+    const astonFailedResponse = await requestJson(server, 'POST', '/api/predict', {
+      universityIds: ['aston-a100'],
+      studentProfile: nonImperialFailedApplicant
+    });
+    assert.strictEqual(astonFailedResponse.status, 200);
+    const astonFailedCard = astonFailedResponse.json.results[0].result_card;
+    assert.strictEqual(astonFailedCard.recommendation_display_state, 'not_eligible');
+    assert.match(astonFailedCard.primary_explanation, /A-level grades/i);
+    assert.ok(
+      astonFailedCard.academic_requirement_checks.some((check) =>
+        check.requirement_type === 'a_level_route' &&
+        check.status === 'not_met' &&
+        /A-level grades/i.test(check.label)
+      ),
+      `expected generic non-Imperial A-level failure, received ${JSON.stringify(astonFailedCard.academic_requirement_checks)}`
+    );
+    console.log('PASS: Imperial and non-Imperial not-eligible academic checks remain specific and historical context remains separate');
 
     for (const specialId of ['nottingham-a100', 'hull-york-a100']) {
       const isReady = readyEntries.some((u) => u.id === specialId);
@@ -538,10 +828,51 @@ async function main() {
       );
       assert.ok(Number.isFinite(breakdown.max), `${result.universityId} expected score_breakdown.max to be numeric`);
       assert.ok(breakdown.checks.length > 0, `${result.universityId} expected score_breakdown.checks to be non-empty`);
+      assertScoreBreakdownComponentsExplainTotal(result);
       scoringModelBreakdownsSeen += 1;
     }
     assert.ok(scoringModelBreakdownsSeen > 0, 'expected at least one scoring-model university to reach a standard result and show a score_breakdown');
     console.log(`PASS: score_breakdown renders the real calculated score for scoring-model universities [${readyScoringIds.join(', ')}]`);
+
+    if (readyEntries.some((u) => u.id === 'dundee-a100')) {
+      const dundeeRegressionApplicant = merge(topTierApplicant, {
+        applicant_identity: {
+          fee_status: 'Home',
+          domicile: 'England',
+          contextual: true,
+          widening_participation: true
+        },
+        admissions_tests: {
+          ucat: {
+            total_score: 1800,
+            subtests: {
+              verbal_reasoning: 600,
+              decision_making: 600,
+              quantitative_reasoning: 600
+            },
+            score_scale: 2700,
+            sjt_band: 2
+          }
+        }
+      });
+      const dundeeRegressionResponse = await requestJson(server, 'POST', '/api/predict', {
+        universityIds: ['dundee-a100'],
+        studentProfile: dundeeRegressionApplicant
+      });
+      assert.strictEqual(dundeeRegressionResponse.status, 200);
+      const dundeeRegressionResult = dundeeRegressionResponse.json.results[0];
+      const dundeeBreakdown = dundeeRegressionResult.result_card.decision_transparency?.score_breakdown;
+      assert.ok(dundeeBreakdown, 'Dundee 76/100 regression expected score_breakdown');
+      assert.strictEqual(dundeeBreakdown.value, 76);
+      assert.strictEqual(dundeeBreakdown.max, 100);
+      const dundeeComponentSummaries = new Map(
+        dundeeBreakdown.checks.map((check) => [check.label, check.summary])
+      );
+      assert.strictEqual(dundeeComponentSummaries.get('Academic score'), '60 out of 60.');
+      assert.strictEqual(dundeeComponentSummaries.get('UCAT score'), '16 out of 40.');
+      assertScoreBreakdownComponentsExplainTotal(dundeeRegressionResult);
+      console.log('PASS: Dundee 76/100 result-card contract exposes academic and UCAT score components');
+    }
 
     if (readyEntries.some((u) => u.id === 'hull-york-a100')) {
       const hymsApplicant = JSON.parse(JSON.stringify(topTierApplicant));
@@ -595,6 +926,7 @@ async function main() {
         84.98,
         'HYMS content-only copy change must not alter the calculated score'
       );
+      assertScoreBreakdownComponentsExplainTotal(hymsResponse.json.results[0]);
       console.log('PASS: Hull York standard result uses applicant-facing ApplySmart analysis wording without internal modelling-limit disclosures');
     }
 
@@ -633,6 +965,45 @@ async function main() {
         );
       }
       console.log('PASS: Exeter API returns category-specific applicable_max_score denominators for all four applicant categories');
+
+      const exeterGradeProfileRegressionApplicant = merge(exeterFixture.base_applicant, {
+        a_level_profile: {
+          subjects: [
+            { subject_id: 'chemistry', predicted_grade: 'A*', sitting_status: 'first_sitting', practical_endorsement: 'pass' },
+            { subject_id: 'biology', predicted_grade: 'A*', sitting_status: 'first_sitting', practical_endorsement: 'pass' },
+            { subject_id: 'mathematics', predicted_grade: 'A*', sitting_status: 'first_sitting' }
+          ]
+        },
+        admissions_tests: {
+          ucat: {
+            total_score: 1760,
+            subtests: {
+              verbal_reasoning: 590,
+              decision_making: 590,
+              quantitative_reasoning: 580
+            }
+          }
+        }
+      });
+      const exeterGradeProfileResponse = await requestJson(server, 'POST', '/api/predict', {
+        universityIds: ['exeter-a100'],
+        studentProfile: exeterGradeProfileRegressionApplicant
+      });
+      assert.strictEqual(exeterGradeProfileResponse.status, 200);
+      const exeterGradeProfileBreakdown =
+        exeterGradeProfileResponse.json.results[0].result_card.decision_transparency?.score_breakdown;
+      assert.ok(exeterGradeProfileBreakdown, 'Exeter 70/90 grade-profile regression expected score_breakdown');
+      assert.strictEqual(exeterGradeProfileBreakdown.name, 'Exeter Score');
+      assert.strictEqual(exeterGradeProfileBreakdown.value, 70);
+      assert.strictEqual(exeterGradeProfileBreakdown.max, 90);
+      const exeterComponentSummaries = new Map(
+        exeterGradeProfileBreakdown.checks.map((check) => [check.label, check.summary])
+      );
+      assert.strictEqual(exeterComponentSummaries.get('Grade profile score'), '58 out of 58.');
+      assert.strictEqual(exeterComponentSummaries.get('UCAT score'), '12 out of 32.');
+      assert.strictEqual(exeterComponentSummaries.get('Achieved-grade uplift'), '0 out of 10.');
+      assert.strictEqual(exeterComponentSummaries.get('Contextual uplift'), '0 out of 5.');
+      console.log('PASS: Exeter 70/90 result-card contract exposes grade profile, UCAT, achieved-grade and contextual components');
     }
 
     const readyRankingIds = RANKING_ONLY_UNIVERSITY_IDS.filter((id) => readyEntries.some((u) => u.id === id));
@@ -935,6 +1306,10 @@ async function main() {
       );
       assert.match(
         edinburghFiveGcseCard.primary_explanation || '',
+        /meet Edinburgh's published academic entry requirements/i
+      );
+      assert.doesNotMatch(
+        edinburghFiveGcseCard.primary_explanation || '',
         /ApplySmart needs additional applicant information before it can provide a complete recommendation/i
       );
       assert.match(
@@ -995,12 +1370,224 @@ async function main() {
       console.log('PASS: Birmingham missing additional GCSE scoring inputs use applicant-input reason messaging without score substitution');
     }
 
+    {
+      const sixGcseResponse = await requestJson(server, 'POST', '/api/predict', {
+        universityIds: ['nottingham-a100', 'leeds-a100', 'edinburgh-a100'],
+        studentProfile: sixGcseAllEightNineUcat2400Applicant()
+      });
+      assert.strictEqual(sixGcseResponse.status, 200);
+      const cardsById = Object.fromEntries(
+        sixGcseResponse.json.results.map((result) => [result.universityId, result.result_card])
+      );
+
+      const nottinghamCard = cardsById['nottingham-a100'];
+      const nottinghamReason =
+        'This university ranks applicants using the best eight GCSEs. Only six GCSEs are available, so the published GCSE component cannot be calculated. This is not a rejection.';
+      assert.strictEqual(nottinghamCard.decision_transparency?.insufficient_evidence_reason_code, 'insufficient_gcse_results');
+      assert.deepStrictEqual(nottinghamCard.missing_information, {
+        qualification_type: 'gcse',
+        provided_count: 6,
+        required_count: 8,
+        component_label: 'published GCSE component'
+      });
+      assert.strictEqual(nottinghamCard.primary_explanation, nottinghamReason);
+      assert.strictEqual(nottinghamCard.information_needed_reason, nottinghamReason);
+      assert.match(
+        nottinghamCard.decision_transparency?.decision_path?.find((stage) => stage.stage === 'Historical guidance')?.summary || '',
+        /published GCSE component cannot be calculated/i
+      );
+
+      const leedsCard = cardsById['leeds-a100'];
+      const leedsReason =
+        'This university ranks applicants using the best eight GCSEs. Only six GCSEs are available, so the GCSE scoring component cannot be calculated. This is not a rejection.';
+      assert.strictEqual(leedsCard.decision_transparency?.insufficient_evidence_reason_code, 'insufficient_gcse_results');
+      assert.deepStrictEqual(leedsCard.missing_information, {
+        qualification_type: 'gcse',
+        provided_count: 6,
+        required_count: 8,
+        component_label: 'GCSE scoring component'
+      });
+      assert.strictEqual(leedsCard.primary_explanation, leedsReason);
+      assert.strictEqual(leedsCard.information_needed_reason, leedsReason);
+      assert.match(
+        leedsCard.decision_transparency?.decision_path?.find((stage) => stage.stage === 'Historical guidance')?.summary || '',
+        /GCSE scoring component cannot be calculated/i
+      );
+
+      const edinburghCard = cardsById['edinburgh-a100'];
+      assert.strictEqual(edinburghCard.decision_transparency?.insufficient_evidence_reason_code, 'academic_matrix_band_unavailable');
+      assert.strictEqual(edinburghCard.missing_information, null);
+      assert.match(
+        edinburghCard.information_needed_reason || '',
+        /verified historical admissions evidence is currently insufficient for this applicant group/i
+      );
+      assert.doesNotMatch(
+        collectApplicantFacingCardText(edinburghCard),
+        /best eight GCSEs|Only six GCSEs|GCSE scoring component|published GCSE component/i
+      );
+      assert.match(
+        edinburghCard.decision_transparency?.decision_path?.find((stage) => stage.stage === 'Historical guidance')?.summary || '',
+        /Historical admissions evidence is currently insufficient for this Edinburgh applicant group/i
+      );
+      assert.strictEqual(
+        edinburghCard.decision_transparency?.decision_path?.find((stage) => stage.stage === 'Eligibility')?.status,
+        'Met'
+      );
+      console.log('PASS: Nottingham, Leeds and Edinburgh 6-GCSE cards expose route-specific presenter reasons without frontend inference');
+    }
+
     // Capability-gap reason code: an eligible applicant whose route matches
     // no guidance_pool (Leicester's Graduate route, Keele's Home route -
     // neither has an executable score for this pool) must be labelled
     // 'university_methodology_gap', not left with only the generic
     // insufficient_evidence text with no machine-readable reason.
-    if (readyEntries.some((u) => u.id === 'leicester-a100')) {
+    if (readyEntries.some((u) => u.id === 'leeds-a100')) {
+      const leedsInternationalResponse = await requestJson(server, 'POST', '/api/predict', {
+        universityIds: ['leeds-a100'],
+        studentProfile: leedsInternationalApplicant()
+      });
+      assert.strictEqual(leedsInternationalResponse.status, 200);
+      const leedsInternationalCard = leedsInternationalResponse.json.results[0].result_card;
+      assert.strictEqual(leedsInternationalCard.recommendation_display_state, 'insufficient_evidence');
+      assert.strictEqual(leedsInternationalCard.prediction?.result_band, 'insufficient_evidence');
+      assert.strictEqual(
+        leedsInternationalCard.decision_transparency?.insufficient_evidence_reason_code,
+        'prediction_calibration_unavailable'
+      );
+      assert.strictEqual(
+        leedsInternationalCard.primary_explanation,
+        'Leeds publishes separate historical observations for this applicant pool, but ApplySmart has not yet approved public prediction calibration for it.'
+      );
+      assert.strictEqual(
+        leedsInternationalCard.decision_transparency?.insufficient_evidence_reason,
+        leedsInternationalCard.primary_explanation
+      );
+      assert.doesNotMatch(
+        leedsInternationalCard.primary_explanation,
+        /additional applicant information|needs more applicant information|required applicant scoring input/i
+      );
+      assert.strictEqual(
+        leedsInternationalCard.decision_transparency?.decision_path?.find((stage) => stage.stage === 'Eligibility')?.status,
+        'Met'
+      );
+      console.log('PASS: Leeds International applicant is labelled as prediction calibration unavailable, not applicant information needed');
+
+      const { course: leedsCourse, config: leedsConfig } = loadCourseAndConfig('leeds-a100');
+      const noCalibrationConfig = clone(leedsConfig);
+      delete noCalibrationConfig.presentation?.insufficient_evidence_explanation;
+      delete noCalibrationConfig.presentation?.insufficient_evidence_reason;
+      delete noCalibrationConfig.evidence?.summary;
+      delete noCalibrationConfig.review_notes;
+      for (const pool of noCalibrationConfig.guidance_pools || []) {
+        delete pool.selection_relevance;
+        delete pool.notes;
+      }
+      const strippedLeedsClassification = classifyInterviewBand(
+        leedsCourse,
+        noCalibrationConfig,
+        leedsInternationalApplicant()
+      );
+      assert.strictEqual(strippedLeedsClassification.canonical_interview_band, 'insufficient_evidence');
+      assert.notStrictEqual(
+        strippedLeedsClassification.insufficient_evidence_reason_code,
+        'prediction_calibration_unavailable'
+      );
+
+      const missingEvidenceApplicant = leedsInternationalApplicant();
+      delete missingEvidenceApplicant.admissions_tests.ucat.total_score;
+      const missingEvidenceClassification = classifyInterviewBand(
+        leedsCourse,
+        noCalibrationConfig,
+        missingEvidenceApplicant
+      );
+      assert.notStrictEqual(
+        missingEvidenceClassification.insufficient_evidence_reason_code,
+        'prediction_calibration_unavailable'
+      );
+    }
+
+    if (readyEntries.some((u) => u.id === 'leeds-a100')) {
+      const leedsHomeResponse = await requestJson(server, 'POST', '/api/predict', {
+        universityIds: ['leeds-a100'],
+        studentProfile: topTierApplicant
+      });
+      assert.strictEqual(leedsHomeResponse.status, 200);
+      const leedsHomeCard = leedsHomeResponse.json.results[0].result_card;
+      assert.strictEqual(leedsHomeCard.recommendation_display_state, 'standard');
+      assert.notStrictEqual(
+        leedsHomeCard.decision_transparency?.insufficient_evidence_reason_code,
+        'prediction_calibration_unavailable'
+      );
+    }
+
+    if (readyEntries.some((u) => u.id === 'nottingham-a100')) {
+      const nottinghamNoGcseResponse = await requestJson(server, 'POST', '/api/predict', {
+        universityIds: ['nottingham-a100'],
+        studentProfile: nottinghamGraduateNoGcseApplicant()
+      });
+      assert.strictEqual(nottinghamNoGcseResponse.status, 200);
+      const nottinghamNoGcseCard = nottinghamNoGcseResponse.json.results[0].result_card;
+      assert.strictEqual(nottinghamNoGcseCard.recommendation_display_state, 'insufficient_evidence');
+      assert.strictEqual(nottinghamNoGcseCard.prediction?.result_band, 'insufficient_evidence');
+      assert.strictEqual(
+        nottinghamNoGcseCard.decision_transparency?.insufficient_evidence_reason_code,
+        'university_methodology_gap'
+      );
+      assert.strictEqual(
+        nottinghamNoGcseCard.primary_explanation,
+        'This university has not published a complete scoring or ranking methodology that ApplySmart can apply to this specific applicant route.'
+      );
+      assert.doesNotMatch(
+        nottinghamNoGcseCard.primary_explanation,
+        /additional applicant information|needs more applicant information|required applicant scoring input/i
+      );
+      console.log('PASS: Nottingham no-GCSE graduate route uses methodology-gap explanation as the primary explanation');
+    }
+
+    if (readyEntries.some((u) => u.id === 'bristol-a100')) {
+      const bristolResponse = await requestJson(server, 'POST', '/api/predict', {
+        universityIds: ['bristol-a100'],
+        studentProfile: topTierApplicant
+      });
+      assert.strictEqual(bristolResponse.status, 200);
+      const bristolCard = bristolResponse.json.results[0].result_card;
+      assert.notStrictEqual(
+        bristolCard.decision_transparency?.insufficient_evidence_reason_code,
+        'prediction_calibration_unavailable'
+      );
+    }
+
+    if (
+      readyEntries.some((u) => u.id === 'oxford-a100') &&
+      readyEntries.some((u) => u.id === 'cambridge-a100')
+    ) {
+      const practicalApplicant = missingPracticalEndorsementApplicant();
+      const practicalResponse = await requestJson(server, 'POST', '/api/predict', {
+        universityIds: ['oxford-a100', 'cambridge-a100'],
+        studentProfile: practicalApplicant
+      });
+      assert.strictEqual(practicalResponse.status, 200);
+      for (const result of practicalResponse.json.results) {
+        const card = result.result_card;
+        assert.strictEqual(card.recommendation_display_state, 'manual_review', `${result.universityId}: display state`);
+        assert.strictEqual(card.prediction?.result_band, 'insufficient_evidence', `${result.universityId}: result band`);
+        assert.match(
+          card.decision_transparency?.manual_review_reason || '',
+          /practical endorsement/i,
+          `${result.universityId}: manual review reason`
+        );
+        assert.ok(
+          card.academic_requirement_checks?.some((check) =>
+            check.requirement_type === 'a_level_science_practical_endorsement' &&
+            check.status === 'information_needed'
+          ),
+          `${result.universityId}: practical endorsement should remain information_needed`
+        );
+      }
+      console.log('PASS: Oxford and Cambridge missing practical endorsement behaviour remains manual review in this task');
+    }
+
+	    if (readyEntries.some((u) => u.id === 'leicester-a100')) {
       const leicesterGradResponse = await requestJson(server, 'POST', '/api/predict', {
         universityIds: ['leicester-a100'],
         studentProfile: graduateApplicant
