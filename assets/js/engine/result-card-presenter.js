@@ -653,6 +653,10 @@ const FAILURE_REASON_LABELS = {
 
 function humanFailureLabel(code) {
   const [base] = String(code || '').split(':');
+  if (base.endsWith('_epq_grade_required')) {
+    return FAILURE_REASON_LABELS[base] ||
+      'A predicted or achieved EPQ grade is required to assess the alternative A-level offer.';
+  }
   return FAILURE_REASON_LABELS[base] || null;
 }
 
