@@ -229,7 +229,10 @@ function makeResultCard(studentProfile, university, eligibilityStatus, band, man
     missingInformation: scoreContext.missingInformation || null,
     transparencyContext: {
       course_identity: {
-        profile_id: university.id
+        profile_id: university.id,
+        university_name: university.university,
+        course_name: university.course.course?.name || null,
+        ucas_code: university.course.course?.ucas_code || null
       },
       applicant_context: studentProfile,
       // Real evaluated applicant-group facts (fee status, domicile,
@@ -243,6 +246,8 @@ function makeResultCard(studentProfile, university, eligibilityStatus, band, man
       eligibility_failures: eligibility?.failures || [],
       academic_pathway: eligibility?.academic_pathway || null,
       academic_pathway_id: eligibility?.academic_pathway_id ?? null,
+      future_conditions: eligibility?.future_conditions || [],
+      eligibility,
       stage_1_eligibility: university.course.stage_1_eligibility || null,
       stage_2_interview_selection: university.course.stage_2_interview_selection || null,
       contextual_admissions: university.course.contextual_admissions || null,

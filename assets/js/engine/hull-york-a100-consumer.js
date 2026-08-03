@@ -15,8 +15,14 @@ const {
   buildDecisionTimeline,
   buildDecisionTransparency,
   buildEvidenceConfidence,
+  buildAcademicRequirementChecks,
+  futureConditionAdvisories,
   CANONICAL_BAND_LABELS
 } = require('./result-card-presenter');
+const {
+  evaluateEpqAlternativeOffer,
+  manualReviewReasonForEpqAlternative
+} = require('./epq-alternative-offer');
 
 const GCSE_GRADE_RANK = {
   U: 0,
@@ -299,7 +305,8 @@ function aLevelSubjectEvidence(applicant) {
   };
 }
 
-function evaluateALevel(applicant, state) {
+function evaluateALevel(course, applicant, state) {
+  const policy = course.stage_1_eligibility?.post_16?.a_level?.epq_alternative_offer;
   const evidence = aLevelSubjectEvidence(applicant);
   const gradeProfilePassed = gradeProfileMeets(
     evidence.grades,
@@ -324,13 +331,56 @@ function evaluateALevel(applicant, state) {
     excludedPassed &&
     evidence.one_sitting;
 
-  addCheck(state, 'a_level_AAA_biology_chemistry_one_sitting', passed, {
+  addCheck(state, 'a_level_standard_offer', passed, {
+    academic_pathway: 'standard',
     grade_profile_met: gradeProfilePassed,
     biology_met: biologyPassed,
     chemistry_met: chemistryPassed,
     one_sitting_met: evidence.one_sitting,
     excluded_subjects_present: evidence.excluded_present
   });
+
+  if (passed) {
+    state.academic_pathway = 'standard';
+    state.academic_pathway_id = null;
+    return;
+  }
+
+  if (policy?.enabled === true) {
+    const epqAlternative = evaluateEpqAlternativeOffer(applicant, policy);
+    addCheck(state, 'epq_alternative_offer', epqAlternative.status === 'met', {
+      status: epqAlternative.status,
+      academic_pathway: 'epq_alternative',
+      pathway_id: epqAlternative.pathway_id,
+      epq_status: epqAlternative.status,
+      a_level_requirement_met: epqAlternative.a_level_requirement_met,
+      epq_requirement_met: epqAlternative.epq_requirement_met,
+      future_conditions: epqAlternative.status === 'met'
+        ? epqAlternative.future_conditions
+        : []
+    });
+    state.academic_pathway = epqAlternative.status === 'met' ||
+      epqAlternative.status === 'information_needed'
+      ? 'epq_alternative'
+      : null;
+    state.academic_pathway_id = epqAlternative.status === 'met' ||
+      epqAlternative.status === 'information_needed'
+      ? epqAlternative.pathway_id
+      : null;
+    state.epq_alternative_result = epqAlternative;
+    state.future_conditions = epqAlternative.status === 'met'
+      ? epqAlternative.future_conditions
+      : [];
+
+    if (epqAlternative.status === 'met') {
+      return;
+    }
+    if (epqAlternative.status === 'information_needed') {
+      addManualReview(state, manualReviewReasonForEpqAlternative(epqAlternative));
+      return;
+    }
+  }
+
   if (!passed) {
     addFailure(state, 'a_level_requirements_not_met');
   }
@@ -592,7 +642,8 @@ function evaluateOfficialEligibility(course, applicantInput) {
     route_flags: flags,
     checks: [],
     failures: [],
-    manual_review_reasons: []
+    manual_review_reasons: [],
+    future_conditions: []
   };
 
   if (!flags.graduate) {
@@ -600,7 +651,7 @@ function evaluateOfficialEligibility(course, applicantInput) {
   }
 
   if (qualificationRoute === 'a_level') {
-    evaluateALevel(applicant, state);
+    evaluateALevel(course, applicant, state);
   } else if (qualificationRoute === 'graduate') {
     evaluateGraduate(applicant, state);
   } else if (qualificationRoute === 'international_baccalaureate') {
@@ -989,6 +1040,22 @@ function buildHullYorkA100ResultCard(course, config, applicant, options = {}) {
         : score.contextual.applicable
           ? 'Home UK school-leavers'
           : 'Supported HYMS A100 applicants';
+  const futureConditions = Array.isArray(evaluation.eligibility.future_conditions)
+    ? evaluation.eligibility.future_conditions
+    : [];
+  const futureAdvisories = futureConditionAdvisories(futureConditions, {
+    universityName: course.university?.name
+  });
+  const academicRequirementChecks = buildAcademicRequirementChecks(
+    evaluation.eligibility.checks,
+    evaluation.eligibility.status,
+    {
+      academic_pathway: evaluation.eligibility.academic_pathway || null,
+      academic_pathway_id: evaluation.eligibility.academic_pathway_id ?? null,
+      has_epq_alternative_offer:
+        course.stage_1_eligibility?.post_16?.a_level?.epq_alternative_offer?.enabled === true
+    }
+  );
   const card = {
     schema_version: '1.0.0',
     template_version: '0.1.0',
@@ -1019,8 +1086,17 @@ function buildHullYorkA100ResultCard(course, config, applicant, options = {}) {
       summary: evaluation.eligibility.message,
       stage_1_checks: evaluation.eligibility.checks,
       blocking_reasons: evaluation.eligibility.failures,
-      manual_review_reasons: evaluation.eligibility.manual_review_reasons
+      manual_review_reasons: evaluation.eligibility.manual_review_reasons,
+      academic_pathway: evaluation.eligibility.academic_pathway || null,
+      academic_pathway_id: evaluation.eligibility.academic_pathway_id ?? null,
+      future_conditions: futureConditions
     },
+    academic_pathway: evaluation.eligibility.academic_pathway || null,
+    academic_pathway_id: evaluation.eligibility.academic_pathway_id ?? null,
+    future_conditions: futureConditions,
+    future_condition_advisories: futureAdvisories,
+    academic_requirement_checks: academicRequirementChecks,
+    trust_statement: futureAdvisories[0] || null,
     stage_2_selection: {
       summary: APPLYSMART_HYMS_SELECTION_SUMMARY
     },

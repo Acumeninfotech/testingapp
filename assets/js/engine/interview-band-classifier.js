@@ -743,7 +743,10 @@ function evaluateALevelEpqAlternativePathway(
     pathway_id: epqAlternative.pathway_id,
     epq_status: epqAlternative.status,
     a_level_requirement_met: epqAlternative.a_level_requirement_met,
-    epq_requirement_met: epqAlternative.epq_requirement_met
+    epq_requirement_met: epqAlternative.epq_requirement_met,
+    future_conditions: epqAlternative.status === 'met'
+      ? epqAlternative.future_conditions
+      : []
   });
 
   if (epqAlternative.status === 'met') {
@@ -752,6 +755,7 @@ function evaluateALevelEpqAlternativePathway(
       academic_pathway: 'epq_alternative',
       academic_pathway_id: epqAlternative.pathway_id,
       checks,
+      future_conditions: epqAlternative.future_conditions,
       epq_alternative_result: epqAlternative
     };
   }
@@ -763,6 +767,7 @@ function evaluateALevelEpqAlternativePathway(
       academic_pathway_id: epqAlternative.pathway_id,
       checks,
       manual_review_reason: manualReviewReasonForEpqAlternative(epqAlternative),
+      future_conditions: [],
       epq_alternative_result: epqAlternative
     };
   }
@@ -772,6 +777,7 @@ function evaluateALevelEpqAlternativePathway(
     academic_pathway: null,
     academic_pathway_id: null,
     checks,
+    future_conditions: [],
     epq_alternative_result: epqAlternative
   };
 }
@@ -940,6 +946,7 @@ function evaluateAcademicEligibility(course, config, applicant, groupIds) {
   let academicPathway = null;
   let academicPathwayId = null;
   let epqAlternativeResult = null;
+  let futureConditions = [];
   const stage1 = course.stage_1_eligibility || {};
   const gcseRules = stage1.gcse || {};
   const configEligibility = config.eligibility || {};
@@ -1260,6 +1267,7 @@ function evaluateAcademicEligibility(course, config, applicant, groupIds) {
       academicPathway = epqAlternativePathway.academic_pathway;
       academicPathwayId = epqAlternativePathway.academic_pathway_id;
       epqAlternativeResult = epqAlternativePathway.epq_alternative_result;
+      futureConditions = epqAlternativePathway.future_conditions || [];
       if (epqAlternativePathway.status === 'met') {
         routePassed = true;
       } else if (epqAlternativePathway.status === 'information_needed') {
@@ -1594,6 +1602,7 @@ function evaluateAcademicEligibility(course, config, applicant, groupIds) {
       academic_pathway: academicPathway,
       academic_pathway_id: academicPathwayId
     } : {}),
+    ...(futureConditions.length > 0 ? { future_conditions: futureConditions } : {}),
     ...(epqAlternativeResult ? { epq_alternative_result: epqAlternativeResult } : {})
   };
 }

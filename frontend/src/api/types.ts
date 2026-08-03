@@ -250,6 +250,8 @@ export interface ResultCard {
   historical_guidance_caveat?: string | null;
   selection_approach_display?: string | null;
   academic_requirement_checks?: AcademicRequirementCheck[];
+  future_conditions?: string[];
+  future_condition_advisories?: string[];
   // Set to 'guaranteed_interview' when every published guaranteed-interview
   // condition for this applicant's route has been verified as met (e.g.
   // Birmingham UKWPMED) - categorically different from a scored/ranked

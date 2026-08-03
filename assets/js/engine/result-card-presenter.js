@@ -655,6 +655,18 @@ const FAILURE_REASON_LABELS = {
   age_on_1_october_requires_confirmation: 'Your age on 1 October of the entry year needs to be confirmed against this university’s published age requirement.'
 };
 
+function futureConditionAdvisories(futureConditions = [], options = {}) {
+  const universityName = options.universityName || 'this university';
+  return [...new Set(futureConditions || [])]
+    .map((condition) => {
+      if (condition === 'firm_choice_required') {
+        return `This reduced EPQ offer applies only if ${universityName} is accepted as your firm UCAS choice.`;
+      }
+      return null;
+    })
+    .filter(Boolean);
+}
+
 function humanFailureLabel(code) {
   const [base] = String(code || '').split(':');
   if (base.endsWith('_epq_grade_required')) {
@@ -4155,6 +4167,25 @@ function presentResultCard({
   const academicPathwayId = transparencyContext.academic_pathway_id ??
     transparencyContext.eligibility?.academic_pathway_id ??
     null;
+  const futureConditionsArePublic =
+    academicPathway === 'epq_alternative' &&
+    ['eligible', 'met'].includes(normaliseCheckId(eligibilityStatus));
+  const futureConditions = [
+    ...(futureConditionsArePublic && Array.isArray(transparencyContext.future_conditions)
+      ? transparencyContext.future_conditions
+      : []),
+    ...(futureConditionsArePublic && Array.isArray(transparencyContext.eligibility?.future_conditions)
+      ? transparencyContext.eligibility.future_conditions
+      : []),
+    ...(futureConditionsArePublic && Array.isArray(transparencyContext.eligibility?.epq_alternative_result?.future_conditions)
+      ? transparencyContext.eligibility.epq_alternative_result.future_conditions
+      : [])
+  ];
+  const futureConditionAdvisoryText = futureConditionAdvisories(futureConditions, {
+    universityName: transparencyContext.course_identity?.university_name ||
+      transparencyContext.course_identity?.university ||
+      null
+  });
   const academicRequirementChecks = buildAcademicRequirementChecks(
     transparencyContext.eligibility_checks,
     eligibilityStatus,
@@ -4171,6 +4202,8 @@ function presentResultCard({
     ...display,
     academic_pathway: academicPathway,
     academic_pathway_id: academicPathwayId,
+    future_conditions: [...new Set(futureConditions)],
+    future_condition_advisories: futureConditionAdvisoryText,
     academic_requirement_checks: academicRequirementChecks,
     missing_information:
       missingInformation ||
@@ -4179,7 +4212,7 @@ function presentResultCard({
     fee_information: feeInformation,
     selection_approach_display: selectionApproachDisplay,
     information_needed_reason: informationNeededReason,
-    trust_statement: display.trust_statement || null,
+    trust_statement: display.trust_statement || futureConditionAdvisoryText[0] || null,
     prediction,
     interview_outcome: transparencyContext.interview_outcome || null,
     evidence_confidence: evidenceConfidence,
@@ -4202,6 +4235,8 @@ module.exports = {
   buildEvidenceConfidence,
   buildDecisionTimeline,
   buildDecisionTransparency,
+  buildAcademicRequirementChecks,
+  futureConditionAdvisories,
   humanManualReviewReason,
   humanApplicantPoolLabel,
   insufficientEvidenceReasonCodeFromWarnings,

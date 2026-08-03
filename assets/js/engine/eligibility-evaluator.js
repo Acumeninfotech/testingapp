@@ -721,7 +721,10 @@ function evaluateALevelEpqAlternativePathway(applicant, routeRules = {}, standar
     pathway_id: epqAlternative.pathway_id,
     epq_status: epqAlternative.status,
     a_level_requirement_met: epqAlternative.a_level_requirement_met,
-    epq_requirement_met: epqAlternative.epq_requirement_met
+    epq_requirement_met: epqAlternative.epq_requirement_met,
+    future_conditions: epqAlternative.status === 'met'
+      ? epqAlternative.future_conditions
+      : []
   });
 
   if (epqAlternative.status === 'met') {
@@ -730,6 +733,7 @@ function evaluateALevelEpqAlternativePathway(applicant, routeRules = {}, standar
       academic_pathway: 'epq_alternative',
       academic_pathway_id: epqAlternative.pathway_id,
       checks,
+      future_conditions: epqAlternative.future_conditions,
       epq_alternative_result: epqAlternative
     };
   }
@@ -741,6 +745,7 @@ function evaluateALevelEpqAlternativePathway(applicant, routeRules = {}, standar
       academic_pathway_id: epqAlternative.pathway_id,
       checks,
       manual_review_reason: manualReviewReasonForEpqAlternative(epqAlternative),
+      future_conditions: [],
       epq_alternative_result: epqAlternative
     };
   }
@@ -750,6 +755,7 @@ function evaluateALevelEpqAlternativePathway(applicant, routeRules = {}, standar
     academic_pathway: null,
     academic_pathway_id: null,
     checks,
+    future_conditions: [],
     epq_alternative_result: epqAlternative
   };
 }
@@ -835,6 +841,7 @@ function evaluateALevelRoute(course, applicant, state) {
       state.academic_pathway = epqAlternativePathway.academic_pathway;
       state.academic_pathway_id = epqAlternativePathway.academic_pathway_id;
       state.epq_alternative_result = epqAlternativePathway.epq_alternative_result;
+      state.future_conditions = epqAlternativePathway.future_conditions || [];
 
       if (epqAlternativePathway.status === 'information_needed') {
         addManualReview(state, epqAlternativePathway.manual_review_reason);
@@ -852,6 +859,7 @@ function evaluateALevelRoute(course, applicant, state) {
       state.academic_pathway = epqAlternativePathway.academic_pathway;
       state.academic_pathway_id = epqAlternativePathway.academic_pathway_id;
       state.epq_alternative_result = epqAlternativePathway.epq_alternative_result;
+      state.future_conditions = epqAlternativePathway.future_conditions || [];
 
       if (epqAlternativePathway.status === 'information_needed') {
         addManualReview(state, epqAlternativePathway.manual_review_reason);

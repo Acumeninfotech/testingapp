@@ -56,7 +56,6 @@ const fixture = readJson('data/fixtures/interview-band-classification/sheffield-
 const southamptonCourse = readJson('data/universities/southampton-a100.json');
 const southamptonConfig = readJson('data/interview-band-configs/southampton-a100.json');
 const southamptonFixture = readJson('data/fixtures/interview-band-classification/southampton-a100.json');
-const hullYorkCourse = readJson('data/universities/hull-york-a100.json');
 const leicesterCourse = readJson('data/universities/leicester-a100.json');
 
 function subject(subjectId, predictedGrade, sittingStatus = 'first_sitting') {
@@ -335,11 +334,6 @@ assert.strictEqual(
   Object.prototype.hasOwnProperty.call(course.stage_1_eligibility.post_16.a_level, 'epq_alternative'),
   false,
   'Sheffield must use the canonical epq_alternative_offer field, not the legacy alias.'
-);
-assert.strictEqual(
-  Object.prototype.hasOwnProperty.call(hullYorkCourse.stage_1_eligibility.post_16.a_level, 'epq_alternative_offer'),
-  false,
-  'Hull York must not be activated in Stage 3.4.'
 );
 assert.strictEqual(
   Object.prototype.hasOwnProperty.call(leicesterCourse.stage_1_eligibility.post_16.a_level, 'epq_alternative_offer'),
