@@ -1,5 +1,11 @@
 import type { StudentProfile } from '../api/types';
-import { MAX_GCSE_COUNT, type IbSubject, type ScottishSubject, type WizardProfile } from './profileTypes';
+import {
+  MAX_GCSE_COUNT,
+  normaliseEpqQualification,
+  type IbSubject,
+  type ScottishSubject,
+  type WizardProfile,
+} from './profileTypes';
 
 const APPLICANT_TYPE_LABEL: Record<string, string> = {
   school_leaver: 'school_leaver',
@@ -66,6 +72,7 @@ export function toStudentProfile(profile: WizardProfile): StudentProfile {
       practical_endorsement:
         s.practical_endorsement === 'not_applicable' ? null : s.practical_endorsement,
     }));
+  const epq = normaliseEpqQualification(profile.a_level_profile.epq);
 
   const ucat = profile.admissions_tests.ucat;
   const gamsat = profile.admissions_tests.gamsat;
@@ -114,6 +121,7 @@ export function toStudentProfile(profile: WizardProfile): StudentProfile {
       subjects: aLevelSubjects,
       sitting_status: profile.a_level_profile.sitting_status,
       completed_in_one_sitting: profile.a_level_profile.completed_in_one_sitting,
+      epq,
     },
     scottish_profile: {
       national_5_subjects: subjectList(profile.scottish_profile.national_5_subjects),

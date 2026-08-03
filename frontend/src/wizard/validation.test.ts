@@ -122,6 +122,17 @@ describe('validateGcseStep', () => {
 });
 
 describe('validateALevelStep', () => {
+  function validALevelProfile() {
+    const profile = createEmptyProfile();
+    profile.a_level_profile.subjects = [
+      { subject_id: 'chemistry', predicted_grade: 'A', achieved_grade: '', practical_endorsement: 'pass' },
+      { subject_id: 'biology', predicted_grade: 'A', achieved_grade: '', practical_endorsement: 'pass' },
+      { subject_id: 'mathematics', predicted_grade: 'A', achieved_grade: '', practical_endorsement: 'not_applicable' },
+    ];
+    profile.a_level_profile.completed_in_one_sitting = true;
+    return profile;
+  }
+
   it('requires three subjects with grades', () => {
     const errors = validateALevelStep(createEmptyProfile());
     expect(hasErrors(errors)).toBe(true);
@@ -151,14 +162,35 @@ describe('validateALevelStep', () => {
   });
 
   it('passes for three valid non-science-conflicting subjects', () => {
-    const profile = createEmptyProfile();
-    profile.a_level_profile.subjects = [
-      { subject_id: 'chemistry', predicted_grade: 'A', achieved_grade: '', practical_endorsement: 'pass' },
-      { subject_id: 'biology', predicted_grade: 'A', achieved_grade: '', practical_endorsement: 'pass' },
-      { subject_id: 'mathematics', predicted_grade: 'A', achieved_grade: '', practical_endorsement: 'not_applicable' },
-    ];
-    profile.a_level_profile.completed_in_one_sitting = true;
+    const profile = validALevelProfile();
     expect(hasErrors(validateALevelStep(profile))).toBe(false);
+  });
+
+  it('does not require EPQ when it is not taken, planned, or absent from a legacy profile', () => {
+    const notTaken = validALevelProfile();
+    notTaken.a_level_profile.epq = { status: 'not_taken', grade: null };
+    expect(validateALevelStep(notTaken).epq_grade).toBeUndefined();
+
+    const planning = validALevelProfile();
+    planning.a_level_profile.epq = { status: 'planning', grade: null };
+    expect(validateALevelStep(planning).epq_grade).toBeUndefined();
+
+    const legacy = validALevelProfile();
+    delete legacy.a_level_profile.epq;
+    expect(validateALevelStep(legacy).epq_grade).toBeUndefined();
+  });
+
+  it('requires a grade for predicted and achieved EPQ statuses', () => {
+    const predicted = validALevelProfile();
+    predicted.a_level_profile.epq = { status: 'predicted', grade: null };
+    expect(validateALevelStep(predicted).epq_grade).toBe('Select your predicted EPQ grade.');
+
+    const achieved = validALevelProfile();
+    achieved.a_level_profile.epq = { status: 'achieved', grade: null };
+    expect(validateALevelStep(achieved).epq_grade).toBe('Select your achieved EPQ grade.');
+
+    achieved.a_level_profile.epq.grade = 'A*';
+    expect(validateALevelStep(achieved).epq_grade).toBeUndefined();
   });
 
   it('accepts Computer Science as an A-level subject without a practical endorsement', () => {

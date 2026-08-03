@@ -268,6 +268,14 @@ export function validateALevelStep(profile: WizardProfile): ValidationErrors {
       'Confirm whether your required A-level qualifications are in the same examination sitting.';
   }
 
+  const epq = profile.a_level_profile.epq;
+  if (epq?.status === 'predicted' && !epq.grade) {
+    errors.epq_grade = 'Select your predicted EPQ grade.';
+  }
+  if (epq?.status === 'achieved' && !epq.grade) {
+    errors.epq_grade = 'Select your achieved EPQ grade.';
+  }
+
   return errors;
 }
 

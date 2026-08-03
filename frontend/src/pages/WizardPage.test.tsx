@@ -63,6 +63,18 @@ function expectReviewValue(section: HTMLElement, label: string, value: string) {
   expect(within(section).getByText(label).nextElementSibling).toHaveTextContent(value);
 }
 
+function fillAlevelSubjects() {
+  selectValue('subject_0_id', 'chemistry');
+  selectValue('subject_0_predicted', 'A');
+  selectValue('subject_0_practical', 'pass');
+  selectValue('subject_1_id', 'biology');
+  selectValue('subject_1_predicted', 'A');
+  selectValue('subject_1_practical', 'pass');
+  selectValue('subject_2_id', 'mathematics');
+  selectValue('subject_2_predicted', 'A');
+  selectValue('completed_in_one_sitting', 'yes');
+}
+
 beforeEach(() => {
   window.localStorage.clear();
   vi.restoreAllMocks();
@@ -139,6 +151,57 @@ describe('WizardPage navigation', () => {
 
     expect((document.getElementById('age_at_course_start_band') as HTMLSelectElement).value).toBe('age_17');
   });
+
+  it('loads a legacy A-level profile without EPQ data using the default not-taken status', () => {
+    window.localStorage.setItem(
+      'applysmart.wizard.profile.v1',
+      JSON.stringify({
+        applicant_identity: {
+          applicant_type: 'school_leaver',
+          fee_status: 'home',
+          domicile: 'england',
+          age_at_course_start_band: 'age_18_or_over',
+        },
+        course_target: {
+          discipline: 'medicine',
+          ucas_code: 'A100',
+          entry_route: 'standard_medicine_a100',
+          application_year: 2027,
+          qualification_route: 'a_level',
+        },
+        gcse_profile: {
+          subjects: {
+            english_language: '7',
+            mathematics: '8',
+            biology: '9',
+            chemistry: '9',
+            physics: '8',
+          },
+          science_mode: 'separate_sciences',
+          combined_science_grade: '',
+          additional_subjects: [],
+        },
+        a_level_profile: {
+          subjects: [
+            { subject_id: 'chemistry', predicted_grade: 'A', achieved_grade: '', practical_endorsement: 'pass' },
+            { subject_id: 'biology', predicted_grade: 'A', achieved_grade: '', practical_endorsement: 'pass' },
+            { subject_id: 'mathematics', predicted_grade: 'A', achieved_grade: '', practical_endorsement: 'not_applicable' },
+          ],
+          sitting_status: 'first_sitting',
+          completed_in_one_sitting: true,
+        },
+      })
+    );
+
+    render(<WizardPage />);
+
+    clickContinue(); // identity
+    clickContinue(); // route
+    clickContinue(); // GCSE
+
+    expect(screen.getByRole('heading', { name: 'A-level profile' })).toBeInTheDocument();
+    expect(screen.getByLabelText('EPQ status')).toHaveValue('not_taken');
+  });
 });
 
 describe('WizardPage submit flow', () => {
@@ -164,15 +227,7 @@ describe('WizardPage submit flow', () => {
     clickContinue();
 
     // Step 4: A-level
-    selectValue('subject_0_id', 'chemistry');
-    selectValue('subject_0_predicted', 'A');
-    selectValue('subject_0_practical', 'pass');
-    selectValue('subject_1_id', 'biology');
-    selectValue('subject_1_predicted', 'A');
-    selectValue('subject_1_practical', 'pass');
-    selectValue('subject_2_id', 'mathematics');
-    selectValue('subject_2_predicted', 'A');
-    selectValue('completed_in_one_sitting', 'yes');
+    fillAlevelSubjects();
     clickContinue();
 
     // Step 5: UCAT
@@ -222,7 +277,71 @@ describe('WizardPage submit flow', () => {
     expect(identity.date_of_birth).toBeUndefined();
     const aLevelProfile = submittedProfile.a_level_profile as Record<string, unknown>;
     expect(aLevelProfile.completed_in_one_sitting).toBe(true);
+    expect(aLevelProfile.epq).toEqual({ status: 'not_taken', grade: null });
   });
+
+  it('shows selected EPQ data on review, preserves it after Back, and submits it', async () => {
+    const submitSpy = vi.spyOn(apiClient, 'submitPrediction').mockResolvedValue({ results: mockResults });
+
+    render(<WizardPage />);
+
+    fillIdentity();
+    clickContinue();
+
+    typeValue('application_year', '2027');
+    clickContinue();
+
+    selectValue('gcse_english_language', '7');
+    selectValue('gcse_mathematics', '8');
+    selectValue('gcse_biology', '9');
+    selectValue('gcse_chemistry', '9');
+    selectValue('gcse_physics', '8');
+    clickContinue();
+
+    fillAlevelSubjects();
+    selectValue('epq_status', 'predicted');
+    selectValue('epq_grade', 'A');
+    clickContinue();
+
+    fireEvent.click(screen.getByLabelText(/I have taken the UCAT/i));
+    typeValue('ucat_verbal_reasoning', '700');
+    typeValue('ucat_decision_making', '700');
+    typeValue('ucat_quantitative_reasoning', '700');
+    selectValue('sjt_band', '2');
+    typeValue('ucat_test_year', '2026');
+    clickContinue();
+
+    clickContinue(); // contextual, skip
+
+    await waitFor(() => {
+      expect(screen.getByTestId('university-grid')).toBeInTheDocument();
+    });
+    fireEvent.click(screen.getByLabelText(/Select Keele University/i));
+    clickContinue();
+
+    const expectReviewEpq = () => {
+      expect(screen.getByTestId('wizard-progress')).toHaveTextContent('Step 8 of 8');
+      expectReviewValue(reviewSection('A levels'), 'EPQ', 'Predicted grade A');
+    };
+
+    expectReviewEpq();
+
+    clickBack();
+    expect(screen.getByTestId('wizard-progress')).toHaveTextContent('Step 7 of 8');
+    clickContinue();
+
+    expectReviewEpq();
+    clickContinue();
+
+    await waitFor(() => {
+      expect(screen.getByTestId('result-card-list')).toBeInTheDocument();
+    });
+
+    const submittedProfile = submitSpy.mock.calls[0][0].studentProfile as Record<string, unknown>;
+    const aLevelProfile = submittedProfile.a_level_profile as Record<string, unknown>;
+    expect(aLevelProfile.epq).toEqual({ status: 'predicted', grade: 'A' });
+    expect(aLevelProfile.subjects).toHaveLength(3);
+  }, 10_000);
 
   it('shows completed additional GCSEs on review and keeps them after going back', async () => {
     const submitSpy = vi.spyOn(apiClient, 'submitPrediction').mockResolvedValue({ results: mockResults });

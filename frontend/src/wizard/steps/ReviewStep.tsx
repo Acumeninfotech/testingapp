@@ -1,5 +1,6 @@
 import type { ReactNode } from 'react';
 import { requiresEnglishLanguageEvidence } from '../validation';
+import { normaliseEpqQualification, type EpqQualification } from '../profileTypes';
 import type { StepProps } from './StepProps';
 
 const FRIENDLY_LABELS: Record<string, string> = {
@@ -94,6 +95,13 @@ function formatGrade(grade: string | number | null | undefined) {
   return String(grade);
 }
 
+function formatEpqSummary(epq: EpqQualification) {
+  if (epq.status === 'planning') return 'Planning to take';
+  if (epq.status === 'predicted') return `Predicted grade ${formatGrade(epq.grade)}`;
+  if (epq.status === 'achieved') return `Achieved grade ${formatGrade(epq.grade)}`;
+  return null;
+}
+
 function ReviewSection({ title, children }: { title: string; children: ReactNode }) {
   return (
     <section className="review-card">
@@ -176,6 +184,7 @@ export function ReviewStep({ profile }: StepProps) {
     ...Object.entries(gcse_profile.subjects).map(([subject_id, grade]) => ({ subject_id, grade })),
     ...additionalGcseSubjects,
   ];
+  const epqSummary = formatEpqSummary(normaliseEpqQualification(a_level_profile.epq));
 
   return (
     <div className="step-grid review-step">
@@ -230,6 +239,7 @@ export function ReviewStep({ profile }: StepProps) {
                   value={`Predicted ${formatGrade(subject.predicted_grade)}; achieved ${formatGrade(subject.achieved_grade)}`}
                 />
               ))}
+            {epqSummary && <ReviewField label="EPQ" value={epqSummary} />}
           </ReviewFieldGrid>
         </ReviewSection>
       )}

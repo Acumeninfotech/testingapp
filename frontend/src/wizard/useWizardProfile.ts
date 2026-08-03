@@ -1,5 +1,10 @@
 import { useCallback, useEffect, useState } from 'react';
-import { createEmptyProfile, type AgeAtCourseStartBand, type WizardProfile } from './profileTypes';
+import {
+  createEmptyProfile,
+  normaliseEpqQualification,
+  type AgeAtCourseStartBand,
+  type WizardProfile,
+} from './profileTypes';
 
 const STORAGE_KEY = 'applysmart.wizard.profile.v1';
 
@@ -36,6 +41,7 @@ function normaliseStoredProfile(parsed: unknown): WizardProfile {
     date_of_birth?: string;
   };
   const savedCourseTarget = (saved.course_target || {}) as Partial<WizardProfile['course_target']>;
+  const savedALevelProfile = (saved.a_level_profile || {}) as Partial<WizardProfile['a_level_profile']>;
   const ageBand =
     savedIdentity.age_at_course_start_band ||
     ageBandFromDateOfBirth(savedIdentity.date_of_birth, savedCourseTarget.application_year);
@@ -52,6 +58,11 @@ function normaliseStoredProfile(parsed: unknown): WizardProfile {
     course_target: {
       ...empty.course_target,
       ...savedCourseTarget,
+    },
+    a_level_profile: {
+      ...empty.a_level_profile,
+      ...savedALevelProfile,
+      epq: normaliseEpqQualification(savedALevelProfile.epq),
     },
   };
 }

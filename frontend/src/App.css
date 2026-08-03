@@ -2000,6 +2000,38 @@ main:has(.university-explorer) {
   box-shadow: 0 4px 10px -4px rgba(15, 45, 31, 0.5);
 }
 
+.epq-section {
+  gap: 1rem;
+}
+
+.epq-section-heading {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.epq-section-heading h3 {
+  margin: 0;
+}
+
+.epq-section-heading span {
+  flex-shrink: 0;
+  padding: 0.25rem 0.65rem;
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  background: var(--neutral-bg);
+  color: var(--text-muted);
+  font-size: 0.75rem;
+  font-weight: 800;
+}
+
+.epq-section p {
+  margin: 0;
+  color: var(--text-muted);
+  line-height: 1.55;
+}
+
 .field-row {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));

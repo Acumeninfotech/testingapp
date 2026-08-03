@@ -208,10 +208,45 @@ export interface ALevelSubject {
   practical_endorsement: PracticalEndorsement;
 }
 
+export type EpqStatus = 'not_taken' | 'planning' | 'predicted' | 'achieved';
+export type EpqGrade = 'A*' | 'A' | 'B' | 'C' | 'D' | 'E';
+
+export interface EpqQualification {
+  status: EpqStatus;
+  grade: EpqGrade | null;
+}
+
+export const DEFAULT_EPQ_QUALIFICATION: EpqQualification = {
+  status: 'not_taken',
+  grade: null,
+};
+
+const EPQ_STATUSES = ['not_taken', 'planning', 'predicted', 'achieved'] as const;
+const EPQ_GRADES = ['A*', 'A', 'B', 'C', 'D', 'E'] as const;
+
+export function normaliseEpqQualification(epq: unknown): EpqQualification {
+  if (!epq || typeof epq !== 'object') return { ...DEFAULT_EPQ_QUALIFICATION };
+
+  const candidate = epq as Partial<EpqQualification>;
+  const status = EPQ_STATUSES.includes(candidate.status as EpqStatus)
+    ? candidate.status as EpqStatus
+    : DEFAULT_EPQ_QUALIFICATION.status;
+
+  if (status === 'not_taken' || status === 'planning') {
+    return { status, grade: null };
+  }
+
+  return {
+    status,
+    grade: EPQ_GRADES.includes(candidate.grade as EpqGrade) ? candidate.grade as EpqGrade : null,
+  };
+}
+
 export interface ALevelProfile {
   subjects: ALevelSubject[];
   sitting_status: SittingStatus;
   completed_in_one_sitting: boolean | null;
+  epq?: EpqQualification;
 }
 
 export interface UcatProfile {
@@ -299,6 +334,7 @@ export function createEmptyProfile(): WizardProfile {
       ],
       sitting_status: 'first_sitting',
       completed_in_one_sitting: null,
+      epq: { ...DEFAULT_EPQ_QUALIFICATION },
     },
     scottish_profile: {
       national_5_subjects: [],
