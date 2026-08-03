@@ -131,3 +131,17 @@ describe('toStudentProfile A-level mapping', () => {
     expect(aLevel.completed_in_one_sitting).toBe(true);
   });
 });
+
+describe('toStudentProfile identity mapping', () => {
+  it('sends the age-at-course-start band and does not send date of birth', () => {
+    const profile = createEmptyProfile();
+    profile.applicant_identity.age_at_course_start_band = 'age_17';
+    profile.applicant_identity.date_of_birth = '2009-08-01';
+
+    const studentProfile = toStudentProfile(profile);
+    const identity = studentProfile.applicant_identity as Record<string, unknown>;
+
+    expect(identity.age_at_course_start_band).toBe('age_17');
+    expect(identity.date_of_birth).toBeUndefined();
+  });
+});

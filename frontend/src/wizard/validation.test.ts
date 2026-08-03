@@ -26,7 +26,7 @@ describe('validateIdentityStep', () => {
     expect(errors.applicant_type).toBeTruthy();
     expect(errors.fee_status).toBeTruthy();
     expect(errors.domicile).toBeTruthy();
-    expect(errors.date_of_birth).toBeTruthy();
+    expect(errors.age_at_course_start_band).toBeTruthy();
   });
 
   it('passes when all fields are filled correctly', () => {
@@ -34,17 +34,16 @@ describe('validateIdentityStep', () => {
     profile.applicant_identity.applicant_type = 'school_leaver';
     profile.applicant_identity.fee_status = 'home';
     profile.applicant_identity.domicile = 'england';
-    profile.applicant_identity.date_of_birth = '2005-01-01';
+    profile.applicant_identity.age_at_course_start_band = 'age_18_or_over';
     expect(hasErrors(validateIdentityStep(profile))).toBe(false);
   });
 
-  it('rejects an unparseable date of birth', () => {
+  it('rejects a missing age band', () => {
     const profile = createEmptyProfile();
     profile.applicant_identity.applicant_type = 'school_leaver';
     profile.applicant_identity.fee_status = 'home';
     profile.applicant_identity.domicile = 'england';
-    profile.applicant_identity.date_of_birth = 'not-a-date';
-    expect(validateIdentityStep(profile).date_of_birth).toBeTruthy();
+    expect(validateIdentityStep(profile).age_at_course_start_band).toBeTruthy();
   });
 });
 

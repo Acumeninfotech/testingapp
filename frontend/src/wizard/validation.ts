@@ -20,10 +20,8 @@ export function validateIdentityStep(profile: WizardProfile): ValidationErrors {
   if (!identity.domicile) {
     errors.domicile = 'Select where you are domiciled.';
   }
-  if (!identity.date_of_birth) {
-    errors.date_of_birth = 'Enter your date of birth.';
-  } else if (Number.isNaN(Date.parse(identity.date_of_birth))) {
-    errors.date_of_birth = 'Enter a valid date.';
+  if (!identity.age_at_course_start_band) {
+    errors.age_at_course_start_band = 'Select your age when starting university.';
   }
 
   return errors;

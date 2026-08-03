@@ -4,34 +4,10 @@ const {
 } = require('./eligibility-evaluator');
 const {
   ageAtDate,
+  evaluateAgeBandAgainstMinimum,
   isUcatCycleValid,
   normaliseApplicantProfile
-} = (() => {
-  const normaliser = require('./applicant-profile-normaliser');
-  return {
-    ...normaliser,
-    ageAtDate(dateOfBirth, referenceDate) {
-      if (!dateOfBirth) {
-        return null;
-      }
-      const birth = new Date(`${dateOfBirth}T00:00:00Z`);
-      if (Number.isNaN(birth.getTime()) || birth > referenceDate) {
-        return null;
-      }
-      let age = referenceDate.getUTCFullYear() - birth.getUTCFullYear();
-      if (
-        referenceDate.getUTCMonth() < birth.getUTCMonth() ||
-        (
-          referenceDate.getUTCMonth() === birth.getUTCMonth() &&
-          referenceDate.getUTCDate() < birth.getUTCDate()
-        )
-      ) {
-        age -= 1;
-      }
-      return age;
-    }
-  };
-})();
+} = require('./applicant-profile-normaliser');
 const {
   resolveUcatDecile
 } = require('./ucat-decile-service');
@@ -561,15 +537,24 @@ function evaluateAgeAndTransfer(course, applicant, state) {
     applicant.entry_year ??
     course.course?.entry_year ??
     2027;
-  const suppliedAge = applicant.applicant_identity?.age_on_1_october;
-  const age = Number.isFinite(suppliedAge)
-    ? suppliedAge
-    : ageAtDate(
-      applicant.applicant_identity?.date_of_birth,
-      new Date(Date.UTC(entryYear, 9, 1))
-    );
+  const identity = applicant.applicant_identity || {};
+  const bandAssessment = evaluateAgeBandAgainstMinimum(
+    identity.age_at_course_start_band,
+    18
+  );
+  const suppliedAge = identity.age_on_1_october;
+  const age = bandAssessment && bandAssessment.status !== 'manual_review'
+    ? bandAssessment.age
+    : Number.isFinite(suppliedAge)
+      ? suppliedAge
+      : ageAtDate(
+        identity.date_of_birth,
+        new Date(Date.UTC(entryYear, 9, 1))
+      );
 
-  if (Number.isFinite(age)) {
+  if (bandAssessment?.status === 'manual_review') {
+    addManualReview(state, 'age_on_1_october_requires_confirmation');
+  } else if (Number.isFinite(age)) {
     const passed = age >= 18;
     addCheck(state, 'minimum_age_18_on_1_october', passed, { age });
     if (!passed) {

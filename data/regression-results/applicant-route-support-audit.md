@@ -4,7 +4,7 @@ Generated from every course profile in `data/index.json`. Production-ready rows 
 
 Legend: `full` = route-specific engine evidence, automatic eligibility and a concrete interview guidance band; `partial` = route-specific eligibility/manual-review/guidance boundary is modelled but the engine withholds a complete automated recommendation; `unsupported` = route/group is explicitly unimplemented, blocked, not accepted, has no active route model, or only passed through unrelated fallback checks.
 
-Audited profiles: 87. Engine-callable profiles: 38. Non-production-ready profiles: 49. Fee statuses: home, rest_of_uk, international. Domiciles: england, scotland, wales, northern_ireland, other. Routes: a_level, international_baccalaureate, scottish, btec, access_to_he, graduate, international_qualification, irish_leaving_certificate, ukwpmed, foundation, t_level, mixed_t_level_a_level.
+Audited profiles: 87. Engine-callable profiles: 40. Non-production-ready profiles: 47. Fee statuses: home, rest_of_uk, international. Domiciles: england, scotland, wales, northern_ireland, other. Routes: a_level, international_baccalaureate, scottish, btec, access_to_he, graduate, international_qualification, irish_leaving_certificate, ukwpmed, foundation, t_level, mixed_t_level_a_level.
 
 Matrix cells: `F` = full, `P` = partial, `U` = unsupported. The CSV adds raw eligibility status, band/guidance, route-evidence flags, reason codes and warnings for each exact tuple.
 
@@ -106,27 +106,27 @@ Totals: F 0, P 0, U 180
 
 ## Brighton and Sussex Medical School (brighton-and-sussex-a100)
 
-Engine status: not_production_ready
+Engine status: production_ready
 
-Totals: F 0, P 0, U 180
+Totals: F 60, P 15, U 105
 
 | Fee status | Domicile | a_level | international_baccalaureate | scottish | btec | access_to_he | graduate | international_qualification | irish_leaving_certificate | ukwpmed | foundation | t_level | mixed_t_level_a_level |
 |---|---|---|---|---|---|---|---|---|---|---|---|---|---|
-| home | england | U | U | U | U | U | U | U | U | U | U | U | U |
-| home | scotland | U | U | U | U | U | U | U | U | U | U | U | U |
-| home | wales | U | U | U | U | U | U | U | U | U | U | U | U |
-| home | northern_ireland | U | U | U | U | U | U | U | U | U | U | U | U |
-| home | other | U | U | U | U | U | U | U | U | U | U | U | U |
-| rest_of_uk | england | U | U | U | U | U | U | U | U | U | U | U | U |
-| rest_of_uk | scotland | U | U | U | U | U | U | U | U | U | U | U | U |
-| rest_of_uk | wales | U | U | U | U | U | U | U | U | U | U | U | U |
-| rest_of_uk | northern_ireland | U | U | U | U | U | U | U | U | U | U | U | U |
-| rest_of_uk | other | U | U | U | U | U | U | U | U | U | U | U | U |
-| international | england | U | U | U | U | U | U | U | U | U | U | U | U |
-| international | scotland | U | U | U | U | U | U | U | U | U | U | U | U |
-| international | wales | U | U | U | U | U | U | U | U | U | U | U | U |
-| international | northern_ireland | U | U | U | U | U | U | U | U | U | U | U | U |
-| international | other | U | U | U | U | U | U | U | U | U | U | U | U |
+| home | england | F | F | F | U | U | F | P | U | U | U | U | U |
+| home | scotland | F | F | F | U | U | F | P | U | U | U | U | U |
+| home | wales | F | F | F | U | U | F | P | U | U | U | U | U |
+| home | northern_ireland | F | F | F | U | U | F | P | U | U | U | U | U |
+| home | other | F | F | F | U | U | F | P | U | U | U | U | U |
+| rest_of_uk | england | F | F | F | U | U | F | P | U | U | U | U | U |
+| rest_of_uk | scotland | F | F | F | U | U | F | P | U | U | U | U | U |
+| rest_of_uk | wales | F | F | F | U | U | F | P | U | U | U | U | U |
+| rest_of_uk | northern_ireland | F | F | F | U | U | F | P | U | U | U | U | U |
+| rest_of_uk | other | F | F | F | U | U | F | P | U | U | U | U | U |
+| international | england | F | F | F | U | U | F | P | U | U | U | U | U |
+| international | scotland | F | F | F | U | U | F | P | U | U | U | U | U |
+| international | wales | F | F | F | U | U | F | P | U | U | U | U | U |
+| international | northern_ireland | F | F | F | U | U | F | P | U | U | U | U | U |
+| international | other | F | F | F | U | U | F | P | U | U | U | U | U |
 
 ## Brunel University of London (brunel-university-of-london-a100)
 
@@ -200,29 +200,29 @@ Totals: F 0, P 0, U 180
 | international | northern_ireland | U | U | U | U | U | U | U | U | U | U | U | U |
 | international | other | U | U | U | U | U | U | U | U | U | U | U | U |
 
-## City St George's University of London (city-st-george-s-of-london-a100)
+## City St George's, University of London (city-st-george-s-of-london-a100)
 
-Engine status: not_production_ready
+Engine status: production_ready
 
-Totals: F 0, P 0, U 180
+Totals: F 30, P 60, U 90
 
 | Fee status | Domicile | a_level | international_baccalaureate | scottish | btec | access_to_he | graduate | international_qualification | irish_leaving_certificate | ukwpmed | foundation | t_level | mixed_t_level_a_level |
 |---|---|---|---|---|---|---|---|---|---|---|---|---|---|
-| home | england | U | U | U | U | U | U | U | U | U | U | U | U |
-| home | scotland | U | U | U | U | U | U | U | U | U | U | U | U |
-| home | wales | U | U | U | U | U | U | U | U | U | U | U | U |
-| home | northern_ireland | U | U | U | U | U | U | U | U | U | U | U | U |
-| home | other | U | U | U | U | U | U | U | U | U | U | U | U |
-| rest_of_uk | england | U | U | U | U | U | U | U | U | U | U | U | U |
-| rest_of_uk | scotland | U | U | U | U | U | U | U | U | U | U | U | U |
-| rest_of_uk | wales | U | U | U | U | U | U | U | U | U | U | U | U |
-| rest_of_uk | northern_ireland | U | U | U | U | U | U | U | U | U | U | U | U |
-| rest_of_uk | other | U | U | U | U | U | U | U | U | U | U | U | U |
-| international | england | U | U | U | U | U | U | U | U | U | U | U | U |
-| international | scotland | U | U | U | U | U | U | U | U | U | U | U | U |
-| international | wales | U | U | U | U | U | U | U | U | U | U | U | U |
-| international | northern_ireland | U | U | U | U | U | U | U | U | U | U | U | U |
-| international | other | U | U | U | U | U | U | U | U | U | U | U | U |
+| home | england | F | P | P | P | P | F | U | U | U | U | U | U |
+| home | scotland | F | P | P | P | P | F | U | U | U | U | U | U |
+| home | wales | F | P | P | P | P | F | U | U | U | U | U | U |
+| home | northern_ireland | F | P | P | P | P | F | U | U | U | U | U | U |
+| home | other | F | P | P | P | P | F | U | U | U | U | U | U |
+| rest_of_uk | england | F | P | P | P | P | F | U | U | U | U | U | U |
+| rest_of_uk | scotland | F | P | P | P | P | F | U | U | U | U | U | U |
+| rest_of_uk | wales | F | P | P | P | P | F | U | U | U | U | U | U |
+| rest_of_uk | northern_ireland | F | P | P | P | P | F | U | U | U | U | U | U |
+| rest_of_uk | other | F | P | P | P | P | F | U | U | U | U | U | U |
+| international | england | F | P | P | P | P | F | U | U | U | U | U | U |
+| international | scotland | F | P | P | P | P | F | U | U | U | U | U | U |
+| international | wales | F | P | P | P | P | F | U | U | U | U | U | U |
+| international | northern_ireland | F | P | P | P | P | F | U | U | U | U | U | U |
+| international | other | F | P | P | P | P | F | U | U | U | U | U | U |
 
 ## City St George's University of London (city-st-george-s-of-london-a101)
 
@@ -1524,20 +1524,20 @@ Totals: F 0, P 0, U 180
 
 Engine status: production_ready
 
-Totals: F 45, P 15, U 120
+Totals: F 35, P 15, U 130
 
 | Fee status | Domicile | a_level | international_baccalaureate | scottish | btec | access_to_he | graduate | international_qualification | irish_leaving_certificate | ukwpmed | foundation | t_level | mixed_t_level_a_level |
 |---|---|---|---|---|---|---|---|---|---|---|---|---|---|
-| home | england | F | F | P | U | U | U | F | U | U | U | U | U |
-| home | scotland | F | F | P | U | U | U | F | U | U | U | U | U |
-| home | wales | F | F | P | U | U | U | F | U | U | U | U | U |
-| home | northern_ireland | F | F | P | U | U | U | F | U | U | U | U | U |
-| home | other | F | F | P | U | U | U | F | U | U | U | U | U |
-| rest_of_uk | england | F | F | P | U | U | U | F | U | U | U | U | U |
-| rest_of_uk | scotland | F | F | P | U | U | U | F | U | U | U | U | U |
-| rest_of_uk | wales | F | F | P | U | U | U | F | U | U | U | U | U |
-| rest_of_uk | northern_ireland | F | F | P | U | U | U | F | U | U | U | U | U |
-| rest_of_uk | other | F | F | P | U | U | U | F | U | U | U | U | U |
+| home | england | F | U | P | U | U | U | F | U | U | U | U | U |
+| home | scotland | F | U | P | U | U | U | F | U | U | U | U | U |
+| home | wales | F | U | P | U | U | U | F | U | U | U | U | U |
+| home | northern_ireland | F | U | P | U | U | U | F | U | U | U | U | U |
+| home | other | F | U | P | U | U | U | F | U | U | U | U | U |
+| rest_of_uk | england | F | U | P | U | U | U | F | U | U | U | U | U |
+| rest_of_uk | scotland | F | U | P | U | U | U | F | U | U | U | U | U |
+| rest_of_uk | wales | F | U | P | U | U | U | F | U | U | U | U | U |
+| rest_of_uk | northern_ireland | F | U | P | U | U | U | F | U | U | U | U | U |
+| rest_of_uk | other | F | U | P | U | U | U | F | U | U | U | U | U |
 | international | england | F | F | P | U | U | U | F | U | U | U | U | U |
 | international | scotland | F | F | P | U | U | U | F | U | U | U | U | U |
 | international | wales | F | F | P | U | U | U | F | U | U | U | U | U |

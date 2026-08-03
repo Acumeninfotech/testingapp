@@ -1,20 +1,155 @@
+import type { ReactNode } from 'react';
 import { requiresEnglishLanguageEvidence } from '../validation';
 import type { StepProps } from './StepProps';
 
+const FRIENDLY_LABELS: Record<string, string> = {
+  school_leaver: 'Standard entry',
+  mature_standard: 'Standard entry',
+  mature_graduate: 'Graduate entry',
+  graduate: 'Graduate entry',
+  home: 'Home student',
+  rest_of_uk: 'Rest of UK student',
+  international: 'International student',
+  england: 'England',
+  scotland: 'Scotland',
+  wales: 'Wales',
+  northern_ireland: 'Northern Ireland',
+  other: 'Other',
+  a_level: 'A levels',
+  scottish: 'Scottish qualifications',
+  international_baccalaureate: 'International Baccalaureate',
+  btec: 'BTEC',
+  access_to_he: 'Access to HE',
+  international_qualification: 'International qualification',
+  medicine: 'Medicine',
+  standard_medicine_a100: 'Standard medicine A100',
+  first: 'First class',
+  upper_second: 'Upper second class',
+  lower_second: 'Lower second class',
+  third: 'Third class',
+  completed: 'Completed',
+  predicted: 'Predicted',
+  achieved: 'Achieved',
+  verified: 'Verified',
+  pending: 'Pending',
+  ielts_academic: 'IELTS Academic',
+  pte_academic: 'PTE Academic',
+  cambridge_advanced: 'Cambridge Advanced',
+  cambridge_proficiency: 'Cambridge Proficiency',
+  exemption_claimed: 'Exemption claimed',
+  first_sitting: 'First sitting',
+  resit: 'Resit',
+  repeat: 'Repeat',
+  pass: 'Pass',
+  fail: 'Fail',
+  not_applicable: 'Not applicable',
+  english_language: 'English Language',
+  english_literature: 'English Literature',
+  mathematics: 'Mathematics',
+  biology: 'Biology',
+  chemistry: 'Chemistry',
+  physics: 'Physics',
+  combined_science: 'Combined Science',
+  further_mathematics: 'Further Mathematics',
+  psychology: 'Psychology',
+  human_biology: 'Human Biology',
+  geography: 'Geography',
+  history: 'History',
+  religious_studies: 'Religious Studies',
+  french: 'French',
+  spanish: 'Spanish',
+  german: 'German',
+  art_and_design: 'Art and Design',
+  music: 'Music',
+  computer_science: 'Computer Science',
+  business_studies: 'Business Studies',
+  physical_education: 'Physical Education',
+  design_and_technology: 'Design and Technology',
+};
+
+function humanizeId(value: string) {
+  return value
+    .replace(/_/g, ' ')
+    .replace(/\ba\b/gi, 'A')
+    .replace(/\bib\b/gi, 'IB')
+    .replace(/\bgcse\b/gi, 'GCSE')
+    .replace(/\bucat\b/gi, 'UCAT')
+    .replace(/\bsjt\b/gi, 'SJT')
+    .replace(/\bhe\b/gi, 'HE')
+    .replace(/\w\S*/g, (word) => {
+      if (/^(A|IB|GCSE|UCAT|SJT|HE)$/.test(word)) return word;
+      return word.charAt(0).toUpperCase() + word.slice(1).toLowerCase();
+    });
+}
+
+function displayLabel(value: string | number | boolean | null | undefined) {
+  if (value === null || value === undefined || value === '') return 'Not provided';
+  if (typeof value === 'boolean') return value ? 'Yes' : 'No';
+  if (typeof value === 'number') return String(value);
+  return FRIENDLY_LABELS[value] || humanizeId(value);
+}
+
+function formatGrade(grade: string | number | null | undefined) {
+  if (grade === null || grade === undefined || grade === '') return 'Not provided';
+  return String(grade);
+}
+
+function ReviewSection({ title, children }: { title: string; children: ReactNode }) {
+  return (
+    <section className="review-card">
+      <h2>{title}</h2>
+      {children}
+    </section>
+  );
+}
+
+function ReviewField({ label, value }: { label: string; value: ReactNode }) {
+  const isMissing = value === null || value === undefined || value === '' || value === 'Not provided';
+
+  return (
+    <div className="review-field">
+      <dt>{label}</dt>
+      <dd className={isMissing ? 'review-value-muted' : undefined}>{isMissing ? 'Not provided' : value}</dd>
+    </div>
+  );
+}
+
+function ReviewFieldGrid({ children }: { children: ReactNode }) {
+  return <dl className="review-field-grid">{children}</dl>;
+}
+
+function GradeTile({ subject, grade }: { subject: string; grade: string | number | null | undefined }) {
+  const displayedGrade = formatGrade(grade);
+
+  return (
+    <div className="grade-tile">
+      <dt>{subject}</dt>
+      <dd className={displayedGrade === 'Not provided' ? 'review-value-muted' : undefined}>{displayedGrade}</dd>
+    </div>
+  );
+}
+
 function SubjectGradeSummary({ subjects }: { subjects: { subject_id: string; grade: string }[] }) {
   return (
-    <dl>
+    <ReviewFieldGrid>
       {subjects
         .filter((s) => s.subject_id)
         .map((subject) => (
-          <div key={subject.subject_id}>
-            <dt>{subject.subject_id.replace(/_/g, ' ')}</dt>
-            <dd>{subject.grade || '—'}</dd>
-          </div>
+          <ReviewField
+            key={subject.subject_id}
+            label={displayLabel(subject.subject_id)}
+            value={formatGrade(subject.grade)}
+          />
         ))}
-    </dl>
+    </ReviewFieldGrid>
   );
 }
+
+const AGE_AT_COURSE_START_LABELS = {
+  under_17: 'Under 17',
+  age_17: '17',
+  age_18_or_over: '18 or over',
+} as const;
 
 export function ReviewStep({ profile }: StepProps) {
   const {
@@ -33,161 +168,154 @@ export function ReviewStep({ profile }: StepProps) {
     university_ids,
   } = profile;
   const route = course_target.qualification_route;
+  const fixedGcseSubjectIds = new Set(Object.keys(gcse_profile.subjects));
+  const additionalGcseSubjects = gcse_profile.additional_subjects.filter(
+    (subject) => subject.subject_id && subject.grade && !fixedGcseSubjectIds.has(subject.subject_id),
+  );
+  const gcseSubjects = [
+    ...Object.entries(gcse_profile.subjects).map(([subject_id, grade]) => ({ subject_id, grade })),
+    ...additionalGcseSubjects,
+  ];
 
   return (
     <div className="step-grid review-step">
-      <p>Review your profile before submitting for a prediction.</p>
+      <div className="review-intro">
+        <p>Review your profile before submitting for a prediction.</p>
+      </div>
 
-      <section>
-        <h2>Identity</h2>
-        <dl>
-          <dt>Applicant type</dt>
-          <dd>{applicant_identity.applicant_type || '—'}</dd>
-          <dt>Fee status</dt>
-          <dd>{applicant_identity.fee_status || '—'}</dd>
-          <dt>Domicile</dt>
-          <dd>{applicant_identity.domicile || '—'}</dd>
-          <dt>Date of birth</dt>
-          <dd>{applicant_identity.date_of_birth || '—'}</dd>
-        </dl>
-      </section>
+      <ReviewSection title="Identity">
+        <ReviewFieldGrid>
+          <ReviewField label="Applicant type" value={displayLabel(applicant_identity.applicant_type)} />
+          <ReviewField label="Fee status" value={displayLabel(applicant_identity.fee_status)} />
+          <ReviewField label="Domicile" value={displayLabel(applicant_identity.domicile)} />
+          <ReviewField
+            label="Age when starting university"
+            value={
+              applicant_identity.age_at_course_start_band
+                ? AGE_AT_COURSE_START_LABELS[applicant_identity.age_at_course_start_band]
+                : 'Not provided'
+            }
+          />
+        </ReviewFieldGrid>
+      </ReviewSection>
 
-      <section>
-        <h2>Course target</h2>
-        <dl>
-          <dt>Qualification route</dt>
-          <dd>{route.replace(/_/g, ' ')}</dd>
-          <dt>Application year</dt>
-          <dd>{course_target.application_year || '—'}</dd>
-        </dl>
-      </section>
+      <ReviewSection title="Course target">
+        <ReviewFieldGrid>
+          <ReviewField label="Qualification route" value={displayLabel(route)} />
+          <ReviewField label="Application year" value={displayLabel(course_target.application_year)} />
+        </ReviewFieldGrid>
+      </ReviewSection>
 
-      <section>
-        <h2>GCSE grades</h2>
-        <dl>
-          {Object.entries(gcse_profile.subjects).map(([subject, grade]) => (
-            <div key={subject}>
-              <dt>{subject.replace(/_/g, ' ')}</dt>
-              <dd>{grade || '—'}</dd>
-            </div>
+      <ReviewSection title="GCSE grades">
+        <dl className="grade-tile-grid">
+          {gcseSubjects.map((subject, index) => (
+            <GradeTile
+              key={`${subject.subject_id}-${index}`}
+              subject={displayLabel(subject.subject_id)}
+              grade={subject.grade}
+            />
           ))}
         </dl>
-      </section>
+      </ReviewSection>
 
       {route === 'a_level' && (
-        <section>
-          <h2>A-levels</h2>
-          <dl>
+        <ReviewSection title="A levels">
+          <ReviewFieldGrid>
             {a_level_profile.subjects
               .filter((s) => s.subject_id)
               .map((subject) => (
-                <div key={subject.subject_id}>
-                  <dt>{subject.subject_id.replace(/_/g, ' ')}</dt>
-                  <dd>
-                    Predicted: {subject.predicted_grade || '—'}, Achieved: {subject.achieved_grade || '—'}
-                  </dd>
-                </div>
+                <ReviewField
+                  key={subject.subject_id}
+                  label={displayLabel(subject.subject_id)}
+                  value={`Predicted ${formatGrade(subject.predicted_grade)}; achieved ${formatGrade(subject.achieved_grade)}`}
+                />
               ))}
-          </dl>
-        </section>
+          </ReviewFieldGrid>
+        </ReviewSection>
       )}
 
       {route === 'scottish' && (
-        <section>
-          <h2>Scottish qualifications</h2>
+        <ReviewSection title="Scottish qualifications">
           <h3>Highers</h3>
           <SubjectGradeSummary subjects={scottish_profile.higher_subjects} />
           <h3>Advanced Highers</h3>
           <SubjectGradeSummary subjects={scottish_profile.advanced_higher_subjects} />
-        </section>
+        </ReviewSection>
       )}
 
       {route === 'international_baccalaureate' && (
-        <section>
-          <h2>IB profile</h2>
-          <dl>
-            <dt>Total points</dt>
-            <dd>{ib_profile.total_points || '—'}</dd>
-          </dl>
+        <ReviewSection title="IB profile">
+          <ReviewFieldGrid>
+            <ReviewField label="Total points" value={displayLabel(ib_profile.total_points)} />
+          </ReviewFieldGrid>
           <h3>Higher Level subjects</h3>
           <SubjectGradeSummary subjects={ib_profile.higher_level_subjects} />
-        </section>
+        </ReviewSection>
       )}
 
       {route === 'btec' && (
-        <section>
-          <h2>BTEC profile</h2>
-          <dl>
-            <dt>Qualification</dt>
-            <dd>{btec_profile.qualification || '—'}</dd>
-            <dt>Grade</dt>
-            <dd>{btec_profile.grade || '—'}</dd>
-          </dl>
-        </section>
+        <ReviewSection title="BTEC profile">
+          <ReviewFieldGrid>
+            <ReviewField label="Qualification" value={displayLabel(btec_profile.qualification)} />
+            <ReviewField label="Grade" value={formatGrade(btec_profile.grade)} />
+          </ReviewFieldGrid>
+        </ReviewSection>
       )}
 
       {route === 'access_to_he' && (
-        <section>
-          <h2>Access to HE profile</h2>
-          <dl>
-            <dt>Provider approved by institution</dt>
-            <dd>{access_to_he_profile.provider_approved_by_institution ? 'Yes' : 'No'}</dd>
-            <dt>Requirements met</dt>
-            <dd>{access_to_he_profile.requirements_met ? 'Yes' : 'No'}</dd>
-          </dl>
-        </section>
+        <ReviewSection title="Access to HE profile">
+          <ReviewFieldGrid>
+            <ReviewField
+              label="Provider approved by institution"
+              value={displayLabel(access_to_he_profile.provider_approved_by_institution)}
+            />
+            <ReviewField label="Requirements met" value={displayLabel(access_to_he_profile.requirements_met)} />
+          </ReviewFieldGrid>
+        </ReviewSection>
       )}
 
       {route === 'graduate' && (
-        <section>
-          <h2>Graduate profile</h2>
-          <dl>
-            <dt>Degree classification</dt>
-            <dd>{graduate_profile.degree_classification || '—'}</dd>
-            <dt>Degree status</dt>
-            <dd>{graduate_profile.degree_status || '—'}</dd>
-          </dl>
-        </section>
+        <ReviewSection title="Graduate profile">
+          <ReviewFieldGrid>
+            <ReviewField label="Degree classification" value={displayLabel(graduate_profile.degree_classification)} />
+            <ReviewField label="Degree status" value={displayLabel(graduate_profile.degree_status)} />
+          </ReviewFieldGrid>
+        </ReviewSection>
       )}
 
       {route === 'international_qualification' && (
-        <section>
-          <h2>International qualification</h2>
-          <dl>
-            <dt>Qualification</dt>
-            <dd>{international_qualification.name || '—'}</dd>
-            <dt>Equivalence status</dt>
-            <dd>{international_qualification.equivalence_status || '—'}</dd>
-          </dl>
-        </section>
+        <ReviewSection title="International qualification">
+          <ReviewFieldGrid>
+            <ReviewField label="Qualification" value={displayLabel(international_qualification.name)} />
+            <ReviewField label="Equivalence status" value={displayLabel(international_qualification.equivalence_status)} />
+          </ReviewFieldGrid>
+        </ReviewSection>
       )}
 
       {requiresEnglishLanguageEvidence(profile) && (
-        <section>
-          <h2>English language evidence</h2>
-          <dl>
-            <dt>Test</dt>
-            <dd>{english_language_profile.test ? english_language_profile.test.replace(/_/g, ' ') : '—'}</dd>
-            <dt>Overall score</dt>
-            <dd>{english_language_profile.overall || '—'}</dd>
-          </dl>
-        </section>
+        <ReviewSection title="English language evidence">
+          <ReviewFieldGrid>
+            <ReviewField label="Test" value={displayLabel(english_language_profile.test)} />
+            <ReviewField label="Overall score" value={displayLabel(english_language_profile.overall)} />
+          </ReviewFieldGrid>
+        </ReviewSection>
       )}
 
-      <section>
-        <h2>UCAT / SJT</h2>
-        <dl>
-          <dt>Total score</dt>
-          <dd>{admissions_tests.ucat.total_score || '—'}</dd>
-          <dt>SJT band</dt>
-          <dd>{admissions_tests.ucat.sjt_band || '—'}</dd>
-        </dl>
-      </section>
+      <ReviewSection title="UCAT / SJT">
+        <ReviewFieldGrid>
+          <ReviewField label="Total score" value={displayLabel(admissions_tests.ucat.total_score)} />
+          <ReviewField label="SJT band" value={admissions_tests.ucat.sjt_band ? `Band ${admissions_tests.ucat.sjt_band}` : 'Not provided'} />
+        </ReviewFieldGrid>
+      </ReviewSection>
 
-      <section>
-        <h2>Universities</h2>
-        <p data-testid="review-university-count">{university_ids.length} selected</p>
-      </section>
+      <ReviewSection title="Universities">
+        <ReviewFieldGrid>
+          <ReviewField
+            label="Selected universities"
+            value={<span data-testid="review-university-count">{university_ids.length} selected</span>}
+          />
+        </ReviewFieldGrid>
+      </ReviewSection>
     </div>
   );
 }

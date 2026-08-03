@@ -23,6 +23,7 @@ export type PracticalEndorsement = 'pass' | 'fail' | 'not_applicable';
 export type ALevelGrade = 'A*' | 'A' | 'B' | 'C' | 'D' | 'E' | 'U' | '';
 export type GcseGrade = '9' | '8' | '7' | '6' | '5' | '4' | '3' | '2' | '1' | 'U' | '';
 export type SjtBand = 1 | 2 | 3 | 4 | 0;
+export type AgeAtCourseStartBand = 'under_17' | 'age_17' | 'age_18_or_over';
 
 // Scottish route: applicant.scottish_profile.{national_5_subjects,
 // higher_subjects, advanced_higher_subjects}, letter grades A*-U
@@ -128,7 +129,8 @@ export interface ApplicantIdentity {
   applicant_type: ApplicantType | '';
   fee_status: FeeStatus | '';
   domicile: Domicile | '';
-  date_of_birth: string;
+  age_at_course_start_band: AgeAtCourseStartBand | '';
+  date_of_birth?: string;
   contextual: boolean;
   contextual_flags: ContextualFlags;
   graduate: boolean;
@@ -253,7 +255,7 @@ export function createEmptyProfile(): WizardProfile {
       applicant_type: '',
       fee_status: '',
       domicile: '',
-      date_of_birth: '',
+      age_at_course_start_band: '',
       contextual: false,
       contextual_flags: {
         care_experienced: false,

@@ -191,4 +191,77 @@ assert.deepStrictEqual(
   }
 );
 
+const age17Band = {
+  ...normalised,
+  applicant_identity: {
+    ...normalised.applicant_identity,
+    age_at_course_start_band: 'age_17'
+  }
+};
+assert.deepStrictEqual(
+  evaluateExplicitMinimumAge(course, age17Band),
+  {
+    status: 'pass',
+    minimum_age: 17,
+    age: 17,
+    blocks_prediction: false
+  }
+);
+
+const under17Band = {
+  ...normalised,
+  applicant_identity: {
+    ...normalised.applicant_identity,
+    age_at_course_start_band: 'under_17',
+    date_of_birth: '2000-01-01'
+  }
+};
+assert.deepStrictEqual(
+  evaluateExplicitMinimumAge(course, under17Band),
+  {
+    status: 'fail',
+    minimum_age: 17,
+    age: 16,
+    blocks_prediction: true
+  }
+);
+
+const age18Band = {
+  ...normalised,
+  applicant_identity: {
+    ...normalised.applicant_identity,
+    age_at_course_start_band: 'age_18_or_over'
+  }
+};
+assert.deepStrictEqual(
+  evaluateExplicitMinimumAge(course, age18Band),
+  {
+    status: 'pass',
+    minimum_age: 17,
+    age: 18,
+    blocks_prediction: false
+  }
+);
+
+const age18Course = {
+  ...course,
+  stage_1_eligibility: {
+    age_or_professional_checks: {
+      minimum_age: 18,
+      age_reference_date: '1 September in the year of entry',
+      source_ids: ['official_course_page']
+    }
+  }
+};
+assert.deepStrictEqual(
+  evaluateExplicitMinimumAge(age18Course, age17Band),
+  {
+    status: 'manual_review',
+    minimum_age: 18,
+    age: null,
+    blocks_prediction: false,
+    manual_review_reason: 'minimum_age_requires_confirmation'
+  }
+);
+
 console.log('Applicant profile normaliser: PASS');

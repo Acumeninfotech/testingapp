@@ -1476,6 +1476,11 @@ function evaluateHardFilters(course, config, applicant, groupIds) {
   }
   if (ageAssessment.blocks_prediction === true) {
     failures.push('minimum_age_requirement_not_met');
+  } else if (ageAssessment.status === 'manual_review') {
+    addManualReviewReason(
+      ageAssessment.manual_review_reason ||
+      'minimum_age_requires_confirmation'
+    );
   }
 
   const ucatApplies = !usesGamsat &&

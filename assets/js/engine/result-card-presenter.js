@@ -532,6 +532,7 @@ const FAILURE_REASON_LABELS = {
   unsupported_qualification_route: 'ApplySmart does not yet support checking this qualification route for this university.',
   initial_deferred_entry_not_accepted: 'This university does not accept deferred entry.',
   t_level_not_accepted: 'This university does not accept T-levels for this route.',
+  minimum_age_requires_confirmation: 'Your age needs to be confirmed against this university’s published age requirement.',
   age_on_1_october_requires_confirmation: 'Your age on 1 October of the entry year needs to be confirmed against this university’s published age requirement.'
 };
 

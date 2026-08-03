@@ -1729,6 +1729,18 @@ main:has(.university-explorer) {
   margin-bottom: 0.5rem;
 }
 
+.wizard-title-row {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 1.25rem;
+  margin-bottom: 1rem;
+}
+
+.wizard-title-row h1 {
+  margin-bottom: 0;
+}
+
 .wizard-step-body {
   margin-bottom: 2rem;
 }
@@ -2058,9 +2070,8 @@ main:has(.university-explorer) {
 }
 
 .wizard-nav--top {
-  padding-bottom: 1.25rem;
-  margin-bottom: 0.5rem;
-  border-bottom: 1px solid var(--border);
+  flex: 0 0 auto;
+  justify-content: flex-end;
 }
 
 .wizard-nav-back {
@@ -2076,32 +2087,120 @@ main:has(.university-explorer) {
 
 /* ---------- Review step ---------- */
 
-.review-step section {
-  border-top: 1px solid var(--border);
-  padding-top: 1.1rem;
+.review-step {
+  gap: 1rem;
 }
 
-.review-step section:first-of-type {
-  border-top: none;
-  padding-top: 0;
+.review-intro {
+  max-width: 62ch;
 }
 
-.review-step dl {
-  display: grid;
-  grid-template-columns: minmax(0, 200px) 1fr;
-  gap: 0.35rem 1rem;
-  margin: 0;
+.review-intro p {
+  color: var(--text-muted);
+  line-height: 1.65;
 }
 
-.review-step dt {
-  font-weight: 600;
-  text-transform: capitalize;
+.review-card {
+  padding: 1.25rem;
+  border: 1px solid rgba(208, 213, 221, 0.82);
+  border-radius: 18px;
+  background: var(--surface);
+  box-shadow: 0 18px 38px -34px rgba(15, 45, 31, 0.42), var(--shadow-sm);
+}
+
+.review-card h2 {
+  margin-bottom: 1rem;
+  font-size: 1.18rem;
+}
+
+.review-card h3 {
+  margin: 1.1rem 0 0.7rem;
+  font-family: var(--sans);
+  font-size: 0.82rem;
+  line-height: 1.3;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
   color: var(--text-muted);
 }
 
-.review-step dd {
-  margin: 0 0 0.5rem;
-  color: var(--text);
+.review-card h3:first-child {
+  margin-top: 0;
+}
+
+.review-field-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1rem 1.1rem;
+  margin: 0;
+}
+
+.review-field {
+  min-width: 0;
+}
+
+.review-field dt,
+.grade-tile dt {
+  margin: 0 0 0.28rem;
+  color: var(--text-muted);
+  font-size: 0.78rem;
+  font-weight: 800;
+  letter-spacing: 0.03em;
+  line-height: 1.25;
+}
+
+.review-field dd {
+  margin: 0;
+  color: var(--text-h);
+  font-size: 1.02rem;
+  font-weight: 800;
+  line-height: 1.35;
+  overflow-wrap: anywhere;
+}
+
+.review-value-muted {
+  color: var(--text-muted) !important;
+  font-weight: 600 !important;
+}
+
+.grade-tile-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.75rem;
+  margin: 0;
+}
+
+.grade-tile {
+  min-height: 5.35rem;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 0.5rem;
+  padding: 0.85rem 0.95rem;
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  background: var(--neutral-bg);
+}
+
+.grade-tile dd {
+  margin: 0;
+  color: var(--text-h);
+  font-family: var(--serif);
+  font-size: 1.85rem;
+  font-weight: 800;
+  line-height: 1;
+}
+
+@media (min-width: 760px) {
+  .grade-tile-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 380px) {
+  .grade-tile-grid {
+    grid-template-columns: 1fr;
+  }
 }
 
 /* ---------- Result cards ---------- */
@@ -4171,6 +4270,11 @@ main:has(.university-explorer) {
     font-size: 1.5rem;
   }
 
+  .wizard-title-row {
+    flex-direction: column;
+    gap: 0.9rem;
+  }
+
   .university-grid {
     grid-template-columns: 1fr;
   }
@@ -4192,7 +4296,7 @@ main:has(.university-explorer) {
     grid-template-columns: 1fr;
   }
 
-  .wizard-nav {
+  .wizard-nav--bottom {
     flex-direction: column-reverse;
     position: sticky;
     bottom: 0;
@@ -4204,13 +4308,36 @@ main:has(.university-explorer) {
     padding-right: 1.1rem;
   }
 
+  .wizard-nav--top {
+    width: 100%;
+    justify-content: stretch;
+  }
+
   .wizard-nav button,
   .wizard-nav a {
     width: 100%;
   }
 
-  .review-step dl {
+  .review-field-grid {
     grid-template-columns: 1fr;
+  }
+
+  .review-card {
+    padding: 1rem;
+    border-radius: 16px;
+  }
+
+  .grade-tile-grid {
+    gap: 0.65rem;
+  }
+
+  .grade-tile {
+    min-height: 5.1rem;
+    padding: 0.78rem 0.82rem;
+  }
+
+  .grade-tile dd {
+    font-size: 1.65rem;
   }
 
   .result-card-head {

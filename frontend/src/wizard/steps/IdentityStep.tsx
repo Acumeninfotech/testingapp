@@ -1,5 +1,4 @@
 import { SelectField } from '../components/SelectField';
-import { TextField } from '../components/TextField';
 import type { StepProps } from './StepProps';
 
 const APPLICANT_TYPE_OPTIONS = [
@@ -20,6 +19,12 @@ const DOMICILE_OPTIONS = [
   { value: 'wales', label: 'Wales' },
   { value: 'northern_ireland', label: 'Northern Ireland' },
   { value: 'other', label: 'Other / outside the UK' },
+];
+
+const AGE_AT_COURSE_START_OPTIONS = [
+  { value: 'under_17', label: 'Under 17' },
+  { value: 'age_17', label: '17' },
+  { value: 'age_18_or_over', label: '18 or over' },
 ];
 
 export function IdentityStep({ profile, updateProfile, errors }: StepProps) {
@@ -70,17 +75,20 @@ export function IdentityStep({ profile, updateProfile, errors }: StepProps) {
           }))
         }
       />
-      <TextField
-        id="date_of_birth"
-        label="Date of birth"
-        type="date"
-        hint="We use this to check age-related entry requirements for certain courses (e.g. Medicine)."
-        value={identity.date_of_birth}
-        error={errors.date_of_birth}
+      <SelectField
+        id="age_at_course_start_band"
+        label="Age when starting university"
+        value={identity.age_at_course_start_band}
+        options={AGE_AT_COURSE_START_OPTIONS}
+        error={errors.age_at_course_start_band}
         onChange={(value) =>
           updateProfile((prev) => ({
             ...prev,
-            applicant_identity: { ...prev.applicant_identity, date_of_birth: value },
+            applicant_identity: {
+              ...prev.applicant_identity,
+              age_at_course_start_band: value as typeof identity.age_at_course_start_band,
+              date_of_birth: '',
+            },
           }))
         }
       />

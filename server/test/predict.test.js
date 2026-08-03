@@ -928,6 +928,78 @@ async function main() {
       );
       assertScoreBreakdownComponentsExplainTotal(hymsResponse.json.results[0]);
       console.log('PASS: Hull York standard result uses applicant-facing ApplySmart analysis wording without internal modelling-limit disclosures');
+
+      const hymsAge17Applicant = JSON.parse(JSON.stringify(topTierApplicant));
+      hymsAge17Applicant.applicant_identity.age_at_course_start_band = 'age_17';
+      const hymsAge17Response = await requestJson(server, 'POST', '/api/predict', {
+        universityIds: ['hull-york-a100'],
+        studentProfile: hymsAge17Applicant
+      });
+      assert.strictEqual(hymsAge17Response.status, 200);
+      assert.strictEqual(
+        hymsAge17Response.json.results[0].result_card.recommendation_display_state,
+        'manual_review'
+      );
+      console.log('PASS: HYMS age-17 band routes to Information Needed for the 18-by-1-October age check');
+    }
+
+    if (readyEntries.some((u) => u.id === 'nottingham-a100')) {
+      const nottinghamAge17Applicant = JSON.parse(JSON.stringify(topTierApplicant));
+      nottinghamAge17Applicant.applicant_identity.age_at_course_start_band = 'age_17';
+      const nottinghamAge17Response = await requestJson(server, 'POST', '/api/predict', {
+        universityIds: ['nottingham-a100'],
+        studentProfile: nottinghamAge17Applicant
+      });
+      assert.strictEqual(nottinghamAge17Response.status, 200);
+      assert.notStrictEqual(
+        nottinghamAge17Response.json.results[0].result_card.recommendation_display_state,
+        'not_eligible'
+      );
+
+      const nottinghamUnder17Applicant = JSON.parse(JSON.stringify(topTierApplicant));
+      nottinghamUnder17Applicant.applicant_identity.age_at_course_start_band = 'under_17';
+      nottinghamUnder17Applicant.applicant_identity.date_of_birth = '2000-01-01';
+      const nottinghamUnder17Response = await requestJson(server, 'POST', '/api/predict', {
+        universityIds: ['nottingham-a100'],
+        studentProfile: nottinghamUnder17Applicant
+      });
+      assert.strictEqual(nottinghamUnder17Response.status, 200);
+      assert.strictEqual(
+        nottinghamUnder17Response.json.results[0].result_card.recommendation_display_state,
+        'not_eligible'
+      );
+      console.log('PASS: Nottingham age-band handling passes age 17 and prefers under-17 band over legacy DOB');
+    }
+
+    if (readyEntries.some((u) => u.id === 'cambridge-a100')) {
+      const cambridgeAge17Applicant = JSON.parse(JSON.stringify(topTierApplicant));
+      cambridgeAge17Applicant.applicant_identity.age_at_course_start_band = 'age_17';
+      const cambridgeAge17Response = await requestJson(server, 'POST', '/api/predict', {
+        universityIds: ['cambridge-a100'],
+        studentProfile: cambridgeAge17Applicant
+      });
+      assert.strictEqual(cambridgeAge17Response.status, 200);
+      assert.strictEqual(
+        cambridgeAge17Response.json.results[0].result_card.recommendation_display_state,
+        'manual_review'
+      );
+
+      const cambridgeAge18Applicant = JSON.parse(JSON.stringify(topTierApplicant));
+      cambridgeAge18Applicant.applicant_identity.age_at_course_start_band = 'age_18_or_over';
+      const cambridgeAge18Response = await requestJson(server, 'POST', '/api/predict', {
+        universityIds: ['cambridge-a100'],
+        studentProfile: cambridgeAge18Applicant
+      });
+      assert.strictEqual(cambridgeAge18Response.status, 200);
+      assert.notStrictEqual(
+        cambridgeAge18Response.json.results[0].result_card.recommendation_display_state,
+        'manual_review'
+      );
+      assert.notStrictEqual(
+        cambridgeAge18Response.json.results[0].result_card.recommendation_display_state,
+        'not_eligible'
+      );
+      console.log('PASS: Cambridge age-17 band needs age confirmation while 18-or-over satisfies the 18+ gate');
     }
 
     if (readyEntries.some((u) => u.id === 'exeter-a100')) {

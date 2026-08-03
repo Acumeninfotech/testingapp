@@ -108,7 +108,7 @@ function makeProfile({ route, feeStatus, domicile, course, entryYear }) {
       applicant_type: isGraduate ? 'mature_graduate' : 'school_leaver',
       fee_status: feeStatus,
       domicile,
-      date_of_birth: '2005-01-01',
+      age_at_course_start_band: 'age_18_or_over',
       contextual: false,
       contextual_status_confirmed: true,
       contextual_flags: {

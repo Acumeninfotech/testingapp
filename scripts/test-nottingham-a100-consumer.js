@@ -246,6 +246,21 @@ assert.ok(
   belowMinimumAge.eligibility.failures.includes('minimum_age_requirement_not_met')
 );
 
+const age17BandApplicant = clone(baseApplicant());
+age17BandApplicant.applicant_identity.age_at_course_start_band = 'age_17';
+delete age17BandApplicant.applicant_identity.date_of_birth;
+const age17Band = evaluateNottinghamA100(course, age17BandApplicant);
+assert.strictEqual(age17Band.eligibility.status, 'eligible');
+
+const under17BandApplicant = clone(baseApplicant());
+under17BandApplicant.applicant_identity.age_at_course_start_band = 'under_17';
+under17BandApplicant.applicant_identity.date_of_birth = '2000-01-01';
+const under17Band = evaluateNottinghamA100(course, under17BandApplicant);
+assert.strictEqual(under17Band.eligibility.status, 'not_eligible');
+assert.ok(
+  under17Band.eligibility.failures.includes('minimum_age_requirement_not_met')
+);
+
 assert.strictEqual(standard.interview_guidance.status, 'guidance_only_non_executable');
 assert.strictEqual(standard.interview_guidance.source_type, 'FOI');
 assert.strictEqual(

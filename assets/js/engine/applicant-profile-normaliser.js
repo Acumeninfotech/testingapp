@@ -26,6 +26,65 @@ function normaliseBooleanEvidence(value) {
   return null;
 }
 
+function normaliseAgeAtCourseStartBand(value) {
+  const normalised = normaliseId(value);
+  if (['under_17', 'under17', 'under_seventeen'].includes(normalised)) {
+    return 'under_17';
+  }
+  if (['age_17', '17', 'seventeen'].includes(normalised)) {
+    return 'age_17';
+  }
+  if ([
+    'age_18_or_over',
+    '18_or_over',
+    '18_plus',
+    'over_18',
+    'eighteen_or_over',
+    'age_18_plus'
+  ].includes(normalised)) {
+    return 'age_18_or_over';
+  }
+  return null;
+}
+
+function evaluateAgeBandAgainstMinimum(ageBand, minimumAge) {
+  const band = normaliseAgeAtCourseStartBand(ageBand);
+  if (!band || !Number.isFinite(minimumAge)) {
+    return null;
+  }
+
+  if (band === 'under_17') {
+    return {
+      status: 'fail',
+      age: 16
+    };
+  }
+  if (band === 'age_17') {
+    if (minimumAge <= 17) {
+      return {
+        status: 'pass',
+        age: 17
+      };
+    }
+    return {
+      status: 'manual_review',
+      age: null,
+      reason: 'minimum_age_requires_confirmation'
+    };
+  }
+  if (minimumAge <= 18) {
+    return {
+      status: 'pass',
+      age: 18
+    };
+  }
+  return {
+    status: 'manual_review',
+    age: null,
+    reason: 'minimum_age_requires_confirmation'
+  };
+}
+
 function normaliseALevelSameSittingEvidence(aLevelProfile, applicant) {
   if (!aLevelProfile || typeof aLevelProfile !== 'object') {
     return aLevelProfile;
@@ -102,9 +161,27 @@ function normaliseApplicantProfile(applicant, options = {}) {
 
   const admissionsTests = profile.admissions_tests || {};
   const ucat = admissionsTests.ucat || {};
+  const identity = profile.applicant_identity || {};
+  const ageBand = normaliseAgeAtCourseStartBand(identity.age_at_course_start_band);
+  const ageOnReferenceDates = ageBand === 'age_18_or_over'
+    ? {
+        age_on_1_september: 18,
+        age_on_1_october: 18
+      }
+    : ageBand === 'under_17'
+      ? {
+          age_on_1_september: 16,
+          age_on_1_october: 16
+        }
+      : {};
 
   return {
     ...profile,
+    applicant_identity: {
+      ...identity,
+      ...(ageBand ? { age_at_course_start_band: ageBand } : {}),
+      ...ageOnReferenceDates
+    },
     application_year:
       profile.application_year ?? CURRENT_MEDICINE_ENTRY_YEAR,
     admissions_tests: {
@@ -151,7 +228,13 @@ const MONTH_INDEX = {
 };
 
 function referenceDateForAge(rule, entryYear) {
-  const label = rule.age_reference_date || rule.minimum_age_date || '1 September';
+  const label =
+    rule.age_reference_date ||
+    rule.minimum_age_date ||
+    rule.minimum_age_policy ||
+    rule.course_start_reference ||
+    rule.age_date ||
+    '1 September';
   const match = String(label).match(/(\d{1,2})\s+([A-Za-z]+)/);
   const day = match ? Number(match[1]) : 1;
   const month = match ? MONTH_INDEX[match[2].toLowerCase()] : MONTH_INDEX.september;
@@ -191,8 +274,11 @@ function evaluateExplicitMinimumAge(course, applicant) {
     course?.stage_1_eligibility?.age_or_professional_checks ||
     course?.stage_1_eligibility?.age_or_degree ||
     {};
+  const minimumAge = Number.isFinite(rule.minimum_age)
+    ? rule.minimum_age
+    : rule.minimum_age_by_course_start;
   const hasOfficialRequirement =
-    Number.isFinite(rule.minimum_age) &&
+    Number.isFinite(minimumAge) &&
     Array.isArray(rule.source_ids) &&
     rule.source_ids.length > 0;
 
@@ -205,7 +291,30 @@ function evaluateExplicitMinimumAge(course, applicant) {
     };
   }
 
-  const suppliedAge = applicant?.applicant_identity?.age_on_1_september;
+  const identity = applicant?.applicant_identity || {};
+  const bandAssessment = evaluateAgeBandAgainstMinimum(
+    identity.age_at_course_start_band,
+    minimumAge
+  );
+  if (bandAssessment) {
+    if (bandAssessment.status === 'manual_review') {
+      return {
+        status: 'manual_review',
+        minimum_age: minimumAge,
+        age: null,
+        blocks_prediction: false,
+        manual_review_reason: bandAssessment.reason
+      };
+    }
+    return {
+      status: bandAssessment.status,
+      minimum_age: minimumAge,
+      age: bandAssessment.age,
+      blocks_prediction: bandAssessment.status === 'fail'
+    };
+  }
+
+  const suppliedAge = identity.age_on_1_september;
   const entryYear =
     applicant?.entry_year ??
     applicant?.application_year ??
@@ -221,16 +330,16 @@ function evaluateExplicitMinimumAge(course, applicant) {
   if (!Number.isFinite(calculatedAge)) {
     return {
       status: 'not_assessed',
-      minimum_age: rule.minimum_age,
+      minimum_age: minimumAge,
       age: null,
       blocks_prediction: false
     };
   }
 
-  const passed = calculatedAge >= rule.minimum_age;
+  const passed = calculatedAge >= minimumAge;
   return {
     status: passed ? 'pass' : 'fail',
-    minimum_age: rule.minimum_age,
+    minimum_age: minimumAge,
     age: calculatedAge,
     blocks_prediction: !passed
   };
@@ -239,9 +348,12 @@ function evaluateExplicitMinimumAge(course, applicant) {
 module.exports = {
   CURRENT_MEDICINE_ENTRY_YEAR,
   CURRENT_UCAT_TEST_YEAR,
+  ageAtDate,
   evaluateExplicitMinimumAge,
+  evaluateAgeBandAgainstMinimum,
   expectedUcatTestYear,
   isStandardUndergraduateMedicine,
   isUcatCycleValid,
+  normaliseAgeAtCourseStartBand,
   normaliseApplicantProfile
 };

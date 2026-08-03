@@ -79,7 +79,7 @@ export function toStudentProfile(profile: WizardProfile): StudentProfile {
       applicant_type: APPLICANT_TYPE_LABEL[profile.applicant_identity.applicant_type] ?? '',
       fee_status: FEE_STATUS_LABEL[profile.applicant_identity.fee_status] ?? '',
       domicile: profile.applicant_identity.domicile || null,
-      date_of_birth: profile.applicant_identity.date_of_birth || null,
+      age_at_course_start_band: profile.applicant_identity.age_at_course_start_band || null,
       contextual: profile.applicant_identity.contextual,
       contextual_flags: { ...profile.applicant_identity.contextual_flags },
       graduate: profile.applicant_identity.graduate,
