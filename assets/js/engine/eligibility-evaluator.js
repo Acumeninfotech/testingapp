@@ -595,6 +595,23 @@ function evaluateALevelRequirement(requirement, applicant, state, routeRules = {
 
 }
 
+function evaluateStandardALevelRequirement(applicant, standardRequirement, routeRules = {}) {
+  const state = {
+    checks: [],
+    failures: [],
+    manual_review_reasons: []
+  };
+
+  evaluateALevelRequirement(standardRequirement || {}, applicant, state, routeRules);
+
+  return {
+    met: state.failures.length === 0,
+    checks: state.checks,
+    failures: state.failures,
+    manual_review_reasons: state.manual_review_reasons
+  };
+}
+
 function resolveALevelRequirements(routeRules = {}) {
   if (Array.isArray(routeRules.grade_requirements) && routeRules.grade_requirements.length > 0) {
     return routeRules.grade_requirements;
@@ -1806,8 +1823,13 @@ module.exports = {
   deriveApplicantGroupIds,
   deriveQualificationRoute,
   evaluateCourseEligibility,
+  evaluateStandardALevelRequirement,
+  getALevelSubjectMap,
+  gradeRank,
   gradeMeets,
   gradeProfileMeets,
   groupRuleApplies,
+  normaliseGrade,
+  normaliseId,
   resolveUcatMinimumTotalScore
 };

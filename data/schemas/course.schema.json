@@ -403,6 +403,12 @@
         "required_hl_subject_ids": {
           "$ref": "#/$defs/subject_id_array"
         },
+        "epq_alternative": {
+          "$ref": "#/$defs/epq_alternative_offer_policy"
+        },
+        "epq_alternative_offer": {
+          "$ref": "#/$defs/epq_alternative_offer_policy"
+        },
         "decision_outcome": {
           "$ref": "#/$defs/decision_outcome"
         },
@@ -431,6 +437,102 @@
         },
         "^decision_outcome.*$": {
           "$ref": "#/$defs/decision_outcome"
+        }
+      }
+    },
+    "a_level_grade": {
+      "enum": [
+        "A*",
+        "A",
+        "B",
+        "C",
+        "D",
+        "E"
+      ]
+    },
+    "epq_alternative_offer_policy": {
+      "type": "object",
+      "additionalProperties": true,
+      "properties": {
+        "enabled": {
+          "type": "boolean"
+        },
+        "pathway_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "a_level_grades": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/a_level_grade"
+          },
+          "minItems": 1
+        },
+        "grade_profile": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/a_level_grade"
+          },
+          "minItems": 1
+        },
+        "epq_minimum_grade": {
+          "$ref": "#/$defs/a_level_grade"
+        },
+        "epq_grade": {
+          "$ref": "#/$defs/a_level_grade"
+        },
+        "subject_grade_requirements": {
+          "oneOf": [
+            {
+              "type": "object",
+              "additionalProperties": {
+                "$ref": "#/$defs/a_level_grade"
+              },
+              "propertyNames": {
+                "$ref": "#/$defs/subject_id"
+              }
+            },
+            {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "additionalProperties": true,
+                "required": [
+                  "subject_id",
+                  "minimum_grade"
+                ],
+                "properties": {
+                  "subject_id": {
+                    "$ref": "#/$defs/subject_id"
+                  },
+                  "minimum_grade": {
+                    "$ref": "#/$defs/a_level_grade"
+                  }
+                }
+              }
+            }
+          ]
+        },
+        "conditions": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "all_a_levels_same_sitting": {
+              "type": "boolean"
+            },
+            "a_level_resits_allowed": {
+              "type": "boolean"
+            },
+            "must_be_taken_alongside_a_levels": {
+              "type": "boolean"
+            },
+            "equivalent_grade_combinations_allowed": {
+              "type": "boolean"
+            },
+            "firm_choice_only": {
+              "type": "boolean"
+            }
+          }
         }
       }
     },
