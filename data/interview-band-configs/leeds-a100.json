@@ -34,6 +34,31 @@
         "unknown"
       ]
     },
+    "derived_applicant_groups": [
+      {
+        "group_ids": [
+          "contextual",
+          "widening_participation"
+        ],
+        "match": {
+          "all_group_ids": [
+            "home_fee"
+          ],
+          "excluded_group_ids": [
+            "international_fee",
+            "graduate_applicant"
+          ]
+        },
+        "any_evidence": [
+          {
+            "applicant_evidence_path": "applicant_identity.contextual_flags.access_to_leeds"
+          },
+          {
+            "applicant_evidence_path": "contextual_evidence.access_to_leeds.verified"
+          }
+        ]
+      }
+    ],
     "gcse": {
       "minimum_count": 6,
       "use_exact_subject_list": false,

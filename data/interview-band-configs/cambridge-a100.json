@@ -13,6 +13,36 @@
   "eligibility": {
     "scope": "Automatic classifier supports A-level and IB school-leaver profiles with current-cycle UCAT, science-practical and English-language evidence. Scottish, graduate and non-standard overseas qualifications require manual review.",
     "international_english_language_required": true,
+    "derived_applicant_groups": [
+      {
+        "group_ids": [
+          "contextual",
+          "widening_participation"
+        ],
+        "match": {
+          "all_group_ids": [
+            "home_fee"
+          ],
+          "excluded_group_ids": [
+            "international_fee"
+          ]
+        },
+        "any_evidence": [
+          {
+            "applicant_evidence_path": "applicant_identity.contextual_flags.free_school_meals"
+          },
+          {
+            "applicant_evidence_path": "applicant_identity.contextual_flags.care_experienced"
+          },
+          {
+            "applicant_evidence_path": "applicant_identity.contextual_flags.school_contextual_indicator"
+          },
+          {
+            "applicant_evidence_path": "applicant_identity.contextual_flags.postcode_contextual_indicator"
+          }
+        ]
+      }
+    ],
     "qualification_routes": {
       "supported": [
         "a_level",

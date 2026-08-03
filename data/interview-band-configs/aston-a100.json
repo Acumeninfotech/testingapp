@@ -24,6 +24,36 @@
       "Do not treat historical or 2026+ guidance as a fixed current cutoff.",
       "Do not use the Home/WP 36-point model for International applicants.",
       "Do not derive bands automatically from inconsistent early-cycle converted extrema."
+    ],
+    "derived_applicant_groups": [
+      {
+        "group_ids": [
+          "contextual",
+          "widening_participation"
+        ],
+        "match": {
+          "all_group_ids": [
+            "home_fee"
+          ],
+          "excluded_group_ids": [
+            "international_fee"
+          ]
+        },
+        "any_evidence": [
+          {
+            "applicant_evidence_path": "applicant_identity.contextual_flags.free_school_meals"
+          },
+          {
+            "applicant_evidence_path": "applicant_identity.contextual_flags.care_experienced"
+          },
+          {
+            "applicant_evidence_path": "applicant_identity.contextual_flags.first_generation_higher_education"
+          },
+          {
+            "applicant_evidence_path": "applicant_identity.contextual_flags.ucat_bursary"
+          }
+        ]
+      }
     ]
   },
   "score_model": {

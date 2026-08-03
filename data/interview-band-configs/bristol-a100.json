@@ -33,6 +33,53 @@
         "unknown"
       ]
     },
+    "derived_applicant_groups": [
+      {
+        "group_ids": [
+          "contextual",
+          "widening_participation"
+        ],
+        "match": {
+          "all_group_ids": [
+            "home_fee",
+            "bristol_wp_guaranteed_interview_verified"
+          ],
+          "excluded_group_ids": [
+            "international_fee"
+          ]
+        },
+        "applicant_evidence_path": "widening_participation.bristol_guaranteed_interview",
+        "required_evidence": {
+          "recognised_university_of_bristol_programme_completed": true,
+          "programme_completion_verified_by_bristol_or_partner": true,
+          "guaranteed_interview_policy_conditions_declared_met": true
+        }
+      },
+      {
+        "group_ids": [
+          "contextual"
+        ],
+        "match": {
+          "all_group_ids": [
+            "home_fee"
+          ],
+          "excluded_group_ids": [
+            "international_fee"
+          ]
+        },
+        "any_evidence": [
+          {
+            "applicant_evidence_path": "applicant_identity.contextual_flags.care_experienced"
+          },
+          {
+            "applicant_evidence_path": "applicant_identity.contextual_flags.free_school_meals"
+          },
+          {
+            "applicant_evidence_path": "applicant_identity.contextual_flags.school_contextual_indicator"
+          }
+        ]
+      }
+    ],
     "gcse": {
       "minimum_count": null,
       "use_exact_subject_list": false,

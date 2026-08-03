@@ -266,10 +266,9 @@ const wpCard = presentResultCard({
 });
 assert.strictEqual(
   wpCard.primary_user_facing_recommendation,
-  'Interview guaranteed under this university’s published criteria'
+  'Interview guaranteed under the published criteria'
 );
-assert.match(wpCard.primary_explanation, /University of Bristol widening-participation/i);
-assert.match(wpCard.primary_explanation, /interview performance and later offer decisions/i);
+assert.match(wpCard.primary_explanation, /published guaranteed-interview evidence/i);
 assert.doesNotMatch(JSON.stringify(wpCard), /Strong choice based on your UCAT|threshold of 0/i);
 
 const unverifiedWpResult = classifyInterviewBand(
@@ -349,7 +348,7 @@ assert.match(
 );
 assert.match(
   JSON.stringify(card.decision_transparency),
-  /UCAT cognitive total.*published 2026-entry Home threshold of 2240/s
+  /Eligible applicants are ranked by UCAT\. No reliable numerical historical comparison is available/s
 );
 assert.strictEqual(hasNestedKey(card, 'offer_prediction'), false);
 assert.strictEqual(hasNestedKey(card, 'offer_probability'), false);

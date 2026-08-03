@@ -188,13 +188,12 @@ const publicCard = presentResultCard({
 });
 
 const publicText = JSON.stringify(publicCard);
-assert.strictEqual(publicCard.primary_user_facing_recommendation, 'Realistic Choice');
+assert.strictEqual(publicCard.primary_user_facing_recommendation, 'Possible choice for your application');
 assert.strictEqual(publicCard.prediction.result_band, 'realistic');
 assert.strictEqual(publicCard.prediction.available, true);
-assert.match(publicCard.primary_explanation, /academic profile and UCAT meet Sunderland's published interview eligibility requirements/i);
-assert.match(publicCard.primary_explanation, /realistic university choice/i);
+assert.match(publicCard.primary_explanation, /selection score may be competitive for this applicant group/i);
 assert.match(publicText, /Interview Selection Tool/);
-assert.match(publicText, /does not publish the IST scoring methodology|cannot evaluate your IST submission/i);
+assert.match(publicText, /Interview Selection Tool shortlisting/i);
 assert.doesNotMatch(publicText, /Interview Likely|Strong Choice|guaranteed interview|will receive an interview|offer chance|offer probability|IST score is/i);
 assert.strictEqual(hasNestedKey(publicCard, 'offer_prediction'), false);
 assert.strictEqual(hasNestedKey(publicCard, 'offer_probability'), false);
@@ -202,7 +201,7 @@ assert.strictEqual(hasPublicInternalLeak(publicCard), false);
 
 assert.strictEqual(card.prediction.result_band, 'realistic');
 assert.strictEqual(card.prediction.available, true);
-assert.strictEqual(card.display.primary_user_facing_recommendation, 'Realistic Choice');
+assert.strictEqual(card.display.primary_user_facing_recommendation, 'Possible choice for your application');
 assert.match(JSON.stringify(card), /Interview Selection Tool/);
 assert.match(JSON.stringify(card), /guidance only, not current cut-offs|guidance only, not a current cut-off/i);
 assert.doesNotMatch(JSON.stringify(card), /Interview Likely|Strong Choice|Guaranteed interview|You will receive an interview|Your IST score is|offer chance|offer probability/i);

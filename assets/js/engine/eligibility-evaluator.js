@@ -59,6 +59,7 @@ const {
   getGraduateCompensatoryPolicy
 } = require('./graduate-compensatory-policy');
 const {
+  contextualFlagApplicantGroupIds,
   feeStatusApplicantGroupIds
 } = require('./applicant-group-normalisation');
 
@@ -242,14 +243,8 @@ function deriveApplicantGroupIds(applicant) {
     groups.add(groupId);
   }
 
-  if (identity.contextual === true) {
-    groups.add('contextual');
-  }
-  if (
-    identity.widening_participation === true ||
-    Object.values(identity.contextual_flags || {}).some((value) => value === true)
-  ) {
-    groups.add('widening_participation');
+  for (const groupId of contextualFlagApplicantGroupIds(identity.contextual_flags || {})) {
+    groups.add(groupId);
   }
 
   if (applicantType.includes('mature')) {
@@ -278,6 +273,55 @@ function deriveApplicantGroupIds(applicant) {
   }
   if (identity.deferred_entry === true || applicant.deferred_entry_profile?.initial_deferred_entry === true) {
     groups.add('deferred_entry');
+  }
+
+  return [...groups];
+}
+
+function birminghamSupportedPolar4Quintile(course, value) {
+  if (typeof value !== 'string') {
+    return false;
+  }
+
+  const quintile = value.trim();
+  if (!quintile) {
+    return false;
+  }
+
+  const contextualComponent = (
+    course?.stage_2_interview_selection?.calculation?.score_components || []
+  ).find((component) => component?.component_id === 'contextual_component');
+  const pointsByQuintile =
+    contextualComponent?.points_by_quintile ||
+    (course?.contextual_admissions?.adjustments || [])
+      .find((adjustment) => adjustment?.adjustment_id === 'polar4_contextual_points')
+      ?.points_by_quintile ||
+    {};
+
+  return Object.prototype.hasOwnProperty.call(pointsByQuintile, quintile) &&
+    Number.isFinite(pointsByQuintile[quintile]);
+}
+
+function applyCourseSpecificDerivedApplicantGroups(course, applicant, groupIds) {
+  const groups = new Set(groupIds);
+  const identity = applicant.applicant_identity || {};
+  const flags = identity.contextual_flags || {};
+
+  if (
+    course?.profile_id === 'birmingham-a100' &&
+    groups.has('home_fee') &&
+    !groups.has('international_fee') &&
+    !groups.has('graduate_applicant') &&
+    (
+      flags.free_school_meals === true ||
+      flags.care_experienced === true ||
+      (
+        identity.contextual_status_confirmed === true &&
+        birminghamSupportedPolar4Quintile(course, identity.polar4_quintile)
+      )
+    )
+  ) {
+    groups.add('contextual');
   }
 
   return [...groups];
@@ -1946,7 +1990,11 @@ function evaluateCourseEligibility(course, applicantInput) {
     course_profile_id: course.profile_id,
     applicant_profile_id: applicant.profile_id || null,
     qualification_route: deriveQualificationRoute(applicant),
-    applicant_group_ids: deriveApplicantGroupIds(applicant),
+    applicant_group_ids: applyCourseSpecificDerivedApplicantGroups(
+      course,
+      applicant,
+      deriveApplicantGroupIds(applicant)
+    ),
     checks: [],
     failures: [],
     manual_review_reasons: []

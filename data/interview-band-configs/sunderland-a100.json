@@ -35,6 +35,27 @@
         "unknown"
       ]
     },
+    "derived_applicant_groups": [
+      {
+        "group_id": "contextual",
+        "match": {
+          "all_group_ids": [
+            "home_fee"
+          ],
+          "excluded_group_ids": [
+            "international_fee"
+          ]
+        },
+        "any_evidence": [
+          {
+            "applicant_evidence_path": "applicant_identity.contextual_status_confirmed"
+          },
+          {
+            "applicant_evidence_path": "applicant_identity.contextual_flags.sunderland_contextual_confirmed"
+          }
+        ]
+      }
+    ],
     "gcse": {
       "minimum_count": 5,
       "use_exact_subject_list": false,

@@ -539,11 +539,11 @@ const presented = presentResultCard({
   }
 });
 assert.ok(presented.primary_user_facing_recommendation);
-assert.strictEqual(presented.primary_user_facing_recommendation, 'Strong interview outlook');
+assert.strictEqual(presented.primary_user_facing_recommendation, 'Strong choice for your application');
 assert.strictEqual(presented.prediction.result_band, 'interview_likely');
 assert.strictEqual(
   presented.primary_explanation,
-  "Your academic profile meets King's College London's entry requirements, and your UCAT performance is above the range seen in applicants historically invited to interview. Based on King's published selection approach and available admissions evidence, your application is assessed as a Strong Choice for interview consideration."
+  "Based on ApplySmart's assessment, your selection score appears competitive for this applicant group."
 );
 assert.strictEqual(
   presented.trust_statement,
@@ -591,7 +591,7 @@ for (const [label, publicCard] of [
   }
 }
 assert.strictEqual(card.prediction.result_band, 'interview_likely');
-assert.strictEqual(card.display.primary_user_facing_recommendation, 'Strong interview outlook');
+assert.strictEqual(card.display.primary_user_facing_recommendation, 'Strong choice for your application');
 assert.match(card.display.trust_statement, /not a guarantee of interview/);
 
 const indexEntry = index.universities.find((entry) => entry.id === profileId);

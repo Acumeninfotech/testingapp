@@ -212,7 +212,7 @@ assert.deepStrictEqual(card.decision_timeline, buildDecisionTimeline(card));
 assert.deepStrictEqual(card.decision_transparency, buildDecisionTransparency(card));
 assert.match(
   card.display.primary_explanation,
-  /ApplySmart predictive estimate, not an official university threshold or guarantee of interview/i
+  /UCAT score appears competitive for this applicant group/i
 );
 assert.match(
   JSON.stringify(card),

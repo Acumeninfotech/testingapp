@@ -28,6 +28,41 @@
         "unknown"
       ]
     },
+    "derived_applicant_groups": [
+      {
+        "group_id": "contextual",
+        "match": {
+          "all_group_ids": [
+            "home_fee"
+          ],
+          "excluded_group_ids": [
+            "international_fee",
+            "graduate_applicant"
+          ]
+        },
+        "minimum_evidence_matches": 2,
+        "minimum_evidence": [
+          {
+            "applicant_evidence_path": "applicant_identity.contextual_flags.care_experienced"
+          },
+          {
+            "applicant_evidence_path": "applicant_identity.contextual_flags.free_school_meals"
+          },
+          {
+            "applicant_evidence_path": "applicant_identity.contextual_flags.postcode_contextual_indicator"
+          },
+          {
+            "applicant_evidence_path": "applicant_identity.contextual_flags.school_contextual_indicator"
+          },
+          {
+            "applicant_evidence_path": "applicant_identity.contextual_flags.sustained_wp_outreach"
+          },
+          {
+            "applicant_evidence_path": "applicant_identity.contextual_flags.estranged_student"
+          }
+        ]
+      }
+    ],
     "gcse": {
       "minimum_count": 7,
       "use_exact_subject_list": false,

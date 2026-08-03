@@ -72,6 +72,40 @@
       ],
       "notes": "The result-card/consumer integration must apply this production override before ordinary historical band output."
     },
+    "derived_applicant_groups": [
+      {
+        "group_ids": [
+          "contextual",
+          "widening_participation"
+        ],
+        "match": {
+          "all_group_ids": [
+            "home_fee"
+          ],
+          "excluded_group_ids": [
+            "international_fee"
+          ]
+        },
+        "any_evidence": [
+          {
+            "applicant_evidence_path": "applicant_identity.contextual_flags.free_school_meals"
+          },
+          {
+            "applicant_evidence_path": "applicant_identity.contextual_flags.care_experienced"
+          },
+          {
+            "applicant_evidence_path": "applicant_identity.contextual_flags.first_generation_higher_education"
+          },
+          {
+            "applicant_evidence_path": "contextual_evidence.manchester_access_programme",
+            "required_evidence": {
+              "completed": true,
+              "verified": true
+            }
+          }
+        ]
+      }
+    ],
     "unsupported_and_insufficient_evidence_groups": [
       "A106 applicants presenting a prior degree where distinct UCAT treatment is not established",
       "Applicants to A101",

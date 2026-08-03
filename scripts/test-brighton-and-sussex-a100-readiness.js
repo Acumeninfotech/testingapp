@@ -367,8 +367,8 @@ const careEvidenceOnly = classify({
   }
 });
 assert.ok(
-  careEvidenceOnly.applicant_group_ids.includes('care_experienced'),
-  'Confirmed BSMS care-leaver evidence must derive the canonical care-experienced group.'
+  careEvidenceOnly.applicant_group_ids.includes('bsms_care_leaver_confirmed'),
+  'Confirmed BSMS care-leaver evidence must derive the BSMS-specific care-leaver route group.'
 );
 assert.strictEqual(careEvidenceOnly.source_interview_band_id, 'CARE_LEAVER');
 assert.strictEqual(careEvidenceOnly.result_card_id, 'CARE_LEAVER_INTERVIEW_ROUTE');

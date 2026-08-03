@@ -40,7 +40,7 @@
     },
     "derived_applicant_groups": [
       {
-        "group_id": "care_experienced",
+        "group_id": "bsms_care_leaver_confirmed",
         "match": {
           "all_group_ids": [
             "home_fee"
@@ -79,7 +79,7 @@
           "route_id": "bsms_adjusted_or_care_a_level_aab",
           "any_group_ids": [
             "bsms_adjusted_offer_confirmed",
-            "care_experienced"
+            "bsms_care_leaver_confirmed"
           ],
           "grade_profile": [
             "A",
@@ -99,7 +99,7 @@
           "route_id": "bsms_standard_a_level_aaa",
           "excluded_group_ids": [
             "bsms_adjusted_offer_confirmed",
-            "care_experienced"
+            "bsms_care_leaver_confirmed"
           ],
           "grade_profile": [
             "A",
@@ -123,7 +123,7 @@
           "route_id": "bsms_adjusted_or_care_ib_35",
           "any_group_ids": [
             "bsms_adjusted_offer_confirmed",
-            "care_experienced"
+            "bsms_care_leaver_confirmed"
           ],
           "total_points": 35,
           "hl_grade_profile": [
@@ -139,7 +139,7 @@
           "route_id": "bsms_standard_ib_36",
           "excluded_group_ids": [
             "bsms_adjusted_offer_confirmed",
-            "care_experienced"
+            "bsms_care_leaver_confirmed"
           ],
           "total_points": 36,
           "hl_grade_profile": [
@@ -212,7 +212,7 @@
           "match": {
             "all_group_ids": [
               "home_fee",
-              "care_experienced"
+              "bsms_care_leaver_confirmed"
             ]
           },
           "applicant_evidence_path": "widening_participation.bsms_care_leaver",
@@ -254,7 +254,7 @@
             "home_fee"
           ],
           "excluded_group_ids": [
-            "care_experienced",
+            "bsms_care_leaver_confirmed",
             "bsms_adjusted_offer_confirmed"
           ]
         },
@@ -338,7 +338,7 @@
         "excluded_group_ids": [
           "international_fee",
           "bsms_adjusted_offer_confirmed",
-          "care_experienced"
+          "bsms_care_leaver_confirmed"
         ]
       },
       "metric": "ucat_total",

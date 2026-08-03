@@ -184,7 +184,7 @@ function applicantForBoundary(boundary) {
       contextual,
       widening_participation: contextual,
       contextual_flags: {
-        free_school_meals: contextual
+        care_experienced: contextual
       }
     },
     admissions_tests: {
@@ -262,8 +262,10 @@ assert.match(
 );
 assert.match(
   JSON.stringify(card.decision_transparency),
-  /sole ranking score.*2026-entry Home historical threshold/s
+  /Eligible applicants are ranked by UCAT.*No reliable numerical historical comparison is available/s
 );
+assert.strictEqual(card.decision_transparency.selection_metric.type, 'ucat');
+assert.strictEqual(card.decision_transparency.ucat_comparison.comparison_type, 'ranking_only');
 assert.strictEqual(hasNestedKey(card, 'offer_prediction'), false);
 assert.strictEqual(hasNestedKey(card, 'offer_probability'), false);
 

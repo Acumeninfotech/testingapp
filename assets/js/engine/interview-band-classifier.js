@@ -24,6 +24,7 @@ const {
   resolveBandRuleForComparison
 } = require('./ucat-conversion-service');
 const {
+  contextualFlagApplicantGroupIds,
   feeStatusApplicantGroupIds
 } = require('./applicant-group-normalisation');
 
@@ -274,15 +275,8 @@ function deriveApplicantGroupIds(applicant) {
   }
 
   const contextualFlags = identity.contextual_flags || {};
-  const hasContextualFlag = Object.values(contextualFlags).some((value) => value === true);
-  const isContextualOrWp =
-    identity.contextual === true ||
-    identity.widening_participation === true ||
-    hasContextualFlag;
-
-  if (isContextualOrWp) {
-    groups.add('contextual');
-    groups.add('widening_participation');
+  for (const groupId of contextualFlagApplicantGroupIds(contextualFlags)) {
+    groups.add(groupId);
   }
 
   if (applicantType.includes('mature')) {
@@ -310,10 +304,6 @@ function deriveApplicantGroupIds(applicant) {
     groups.add('resit_applicant');
   }
 
-  if (contextualFlags.care_experienced === true) {
-    groups.add('care_experienced');
-  }
-
   return [...groups];
 }
 
@@ -322,15 +312,20 @@ function deriveConfiguredApplicantGroupIds(applicant, config, initialGroupIds = 
   const rules = config?.eligibility?.derived_applicant_groups || [];
 
   for (const rule of rules) {
-    const groupId = rule?.group_id;
-    if (!groupId) {
+    const groupIds = [
+      ...(Array.isArray(rule?.group_ids) ? rule.group_ids : []),
+      ...(rule?.group_id ? [rule.group_id] : [])
+    ];
+    if (groupIds.length === 0) {
       continue;
     }
     if (
       groupRuleApplies(rule.match || rule, [...groups]) &&
       overrideEvidenceMatches(rule, applicant)
     ) {
-      groups.add(groupId);
+      for (const groupId of groupIds) {
+        groups.add(groupId);
+      }
     }
   }
 
@@ -1870,6 +1865,23 @@ function getValueAtPath(value, path) {
 }
 
 function overrideEvidenceMatches(condition, applicant) {
+  if (Array.isArray(condition?.all_evidence)) {
+    return condition.all_evidence.every((evidenceCondition) =>
+      overrideEvidenceMatches(evidenceCondition, applicant)
+    );
+  }
+  if (Array.isArray(condition?.any_evidence)) {
+    return condition.any_evidence.some((evidenceCondition) =>
+      overrideEvidenceMatches(evidenceCondition, applicant)
+    );
+  }
+  if (Array.isArray(condition?.minimum_evidence) && Number.isFinite(Number(condition?.minimum_evidence_matches))) {
+    const requiredMatches = Number(condition.minimum_evidence_matches);
+    const matched = condition.minimum_evidence.filter((evidenceCondition) =>
+      overrideEvidenceMatches(evidenceCondition, applicant)
+    ).length;
+    return matched >= requiredMatches;
+  }
   if (!condition?.applicant_evidence_path) {
     return true;
   }

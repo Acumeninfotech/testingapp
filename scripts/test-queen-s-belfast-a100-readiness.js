@@ -255,11 +255,11 @@ assert.deepStrictEqual(card.prediction.component_breakdown.pre_interview_score, 
 });
 assert.strictEqual(card.confidence.stage_confidence.methodology, 'high');
 assert.strictEqual(card.confidence.stage_confidence.prediction_calibration, 'medium');
-assert.match(card.display.primary_explanation, /GCSE score: 32 \/ 36/);
-assert.match(card.display.primary_explanation, /UCAT decile points: 8 \/ 9/);
-assert.match(card.display.primary_explanation, /Pre-interview score: 40 \/ 45/);
-assert.match(card.display.primary_explanation, /ApplySmart derived/);
-assert.match(card.display.primary_explanation, /not an offer prediction/i);
+assert.strictEqual(card.prediction.component_breakdown.gcse_points.value, 32);
+assert.strictEqual(card.prediction.component_breakdown.ucat_decile_points.value, 8);
+assert.strictEqual(card.prediction.component_breakdown.pre_interview_score.value, 40);
+assert.match(card.prediction.band_basis, /ApplySmart derived/);
+assert.match(card.prediction.band_basis, /not an official QUB cut-off/i);
 assert.doesNotMatch(JSON.stringify(card), /offer_probability|offer_prediction_status/);
 
 assert.deepStrictEqual(

@@ -28,6 +28,34 @@
         "unknown"
       ]
     },
+    "derived_applicant_groups": [
+      {
+        "group_ids": [
+          "contextual",
+          "widening_participation"
+        ],
+        "match": {
+          "all_group_ids": [
+            "home_fee"
+          ],
+          "excluded_group_ids": [
+            "international_fee",
+            "graduate_applicant"
+          ]
+        },
+        "any_evidence": [
+          {
+            "applicant_evidence_path": "applicant_identity.contextual_flags.care_experienced"
+          },
+          {
+            "applicant_evidence_path": "applicant_identity.contextual_flags.refugee_or_asylum_seeker"
+          },
+          {
+            "applicant_evidence_path": "applicant_identity.contextual_flags.refugee"
+          }
+        ]
+      }
+    ],
     "gcse": {
       "minimum_count": 8,
       "use_exact_subject_list": false,

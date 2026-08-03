@@ -788,6 +788,18 @@ const sharedIntegrationCases = [
     expected_status: 'eligible'
   },
   {
+    case_id: 'shared_contextual_status_with_unsupported_polar4_remains_standard',
+    applicant: merge(fixture.base_applicants.home_standard, {
+      applicant_identity: {
+        contextual: true,
+        contextual_status_confirmed: true,
+        polar4_quintile: 'not_a_birmingham_quintile'
+      }
+    }),
+    expected_status: 'eligible',
+    expected_excluded_applicant_groups: ['contextual']
+  },
+  {
     case_id: 'shared_ucat_required',
     applicant: merge(fixture.base_applicants.home_standard, {
       admissions_tests: {
@@ -849,6 +861,12 @@ for (const integrationCase of sharedIntegrationCases) {
     assert.ok(
       result.failures.includes(integrationCase.expected_failure),
       `${integrationCase.case_id}: shared eligibility failure`
+    );
+  }
+  for (const groupId of integrationCase.expected_excluded_applicant_groups || []) {
+    assert.ok(
+      !result.applicant_group_ids.includes(groupId),
+      `${integrationCase.case_id}: unexpected derived applicant group ${groupId}`
     );
   }
   if (Object.hasOwn(integrationCase, 'expected_guaranteed_interview')) {

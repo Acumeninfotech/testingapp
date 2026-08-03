@@ -174,11 +174,11 @@ for (const scenario of fixture.scenarios) {
   assert.doesNotMatch(JSON.stringify(card), /North West|residency|Foundation Entry/i, `${scenario.scenario_id}: no residency warning/failure`);
 
   if (scenario.scenario_id === 'home_a_level_eligible_ucat_guidance_met') {
-    assert.strictEqual(card.primary_user_facing_recommendation, 'Eligible to Apply');
-    assert.match(card.primary_explanation, /measurable application requirements/i);
+    assert.strictEqual(card.primary_user_facing_recommendation, 'Entry requirements met');
+    assert.match(card.primary_explanation, /confirmed your eligibility against the entry requirements/i);
   }
   if (scenario.scenario_id === 'home_a_level_ucat_guidance_not_met') {
-    assert.strictEqual(card.primary_user_facing_recommendation, 'UCAT guidance threshold not met');
+    assert.strictEqual(card.primary_user_facing_recommendation, 'More information is required');
     assert.match(card.primary_explanation, /ApplySmart's working historical guidance threshold/i);
     assert.match(card.primary_explanation, /does not publish an official UCAT cut-off/i);
     assert.doesNotMatch(card.primary_explanation, /published minimum|official minimum|official cut-off of 1750/i);
@@ -202,7 +202,7 @@ assert.strictEqual(example.prediction.result_band, 'eligible_to_apply');
 assert.strictEqual(example.prediction.prediction_type, 'eligibility_only');
 assert.strictEqual(example.prediction.assessment.available, true);
 assert.strictEqual(example.prediction.interview_prediction.available, false);
-assert.match(example.display.primary_explanation, /do not estimate your likelihood of receiving an interview/i);
+assert.match(example.display.primary_explanation, /confirmed your eligibility against the entry requirements/i);
 assertNoForbiddenBands(example, 'example must not expose interview-likelihood bands');
 assert.doesNotMatch(JSON.stringify(example), /North West|residency|Foundation Entry/i, 'example must not expose residency scope exclusion');
 

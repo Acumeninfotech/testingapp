@@ -223,12 +223,10 @@ assert.deepStrictEqual(card.decision_timeline, buildDecisionTimeline(card));
 assert.deepStrictEqual(card.decision_transparency, buildDecisionTransparency(card));
 assert.match(
   JSON.stringify(card.decision_transparency),
-  /UCAT total is the ranking metric.*No academic score is created/s
+  /Eligible applicants are ranked by UCAT.*No reliable numerical historical comparison is available/s
 );
-assert.match(
-  JSON.stringify(card.decision_transparency),
-  /converted 1957\.5\/2700/s
-);
+assert.strictEqual(card.decision_transparency.selection_metric.type, 'ucat');
+assert.strictEqual(card.decision_transparency.ucat_comparison.comparison_type, 'ranking_only');
 assert.strictEqual(hasNestedKey(card, 'offer_prediction'), false);
 assert.strictEqual(hasNestedKey(card, 'offer_probability'), false);
 

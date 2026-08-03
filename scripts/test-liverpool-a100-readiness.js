@@ -70,7 +70,11 @@ const builders = {
   },
   contextual_12_points() {
     const applicant = baseApplicant();
+    applicant.applicant_group_ids = ['contextual', 'widening_participation'];
     applicant.applicant_identity.contextual = true;
+    applicant.applicant_identity.contextual_flags = {
+      first_generation_higher_education: true
+    };
     setNineGcsePoints(applicant, ['6', '6', '6', '6', '6', '7', '7', '7', '6']);
     applicant.admissions_tests.ucat.total_score = 1733;
     return applicant;
