@@ -17,6 +17,7 @@ const EPQ_GRADES = ['A*', 'A', 'B', 'C', 'D', 'E'];
  * @property {string[]} a_level_grades
  * @property {'A*'|'A'|'B'|'C'|'D'|'E'} epq_minimum_grade
  * @property {Object<string, string>=} subject_grade_requirements
+ * @property {Object[]=} required_subject_grade_options
  * @property {Object=} conditions
  */
 
@@ -123,6 +124,42 @@ function normaliseSubjectGradeRequirements(requirements) {
   }, {});
 }
 
+function normaliseSubjectGradeOptions(options) {
+  if (!Array.isArray(options)) {
+    return [];
+  }
+
+  return options.map((option, index) => {
+    const gradeRequirements = normaliseSubjectGradeRequirements(
+      option?.grade_requirements
+    );
+    return {
+      ...option,
+      option_id: String(option?.option_id || `subject_grade_option_${index + 1}`),
+      required_subject_ids: Array.isArray(option?.required_subject_ids)
+        ? option.required_subject_ids.map(normaliseId).filter(Boolean)
+        : [],
+      one_of_subject_groups: Array.isArray(option?.one_of_subject_groups)
+        ? option.one_of_subject_groups.map((group, groupIndex) => ({
+            ...group,
+            group_id: String(group?.group_id || `subject_group_${groupIndex + 1}`),
+            minimum_required: Number.isFinite(Number(group?.minimum_required))
+              ? Number(group.minimum_required)
+              : 1,
+            subject_ids: Array.isArray(group?.subject_ids)
+              ? group.subject_ids.map(normaliseId).filter(Boolean)
+              : []
+          }))
+        : [],
+      grade_requirements: gradeRequirements
+    };
+  }).filter((option) => {
+    return option.required_subject_ids.length > 0 ||
+      option.one_of_subject_groups.length > 0 ||
+      Object.keys(option.grade_requirements).length > 0;
+  });
+}
+
 function normaliseEpqAlternativeOfferPolicy(policy) {
   if (!policy || typeof policy !== 'object') {
     return null;
@@ -148,6 +185,9 @@ function normaliseEpqAlternativeOfferPolicy(policy) {
       : [],
     epq_minimum_grade: normaliseEpqGrade(epqMinimumGrade),
     subject_grade_requirements: normaliseSubjectGradeRequirements(policy.subject_grade_requirements),
+    required_subject_grade_options: normaliseSubjectGradeOptions(
+      policy.required_subject_grade_options
+    ),
     conditions: policy.conditions && typeof policy.conditions === 'object'
       ? { ...policy.conditions }
       : {}
@@ -215,6 +255,104 @@ function evaluateSubjectGradeRequirements(applicant, requirements) {
       ...missing.map((subjectId) => `subject_grade_evidence_missing:${subjectId}`),
       ...failed.map((subjectId) => `subject_minimum_grade_not_met:${subjectId}`)
     ]
+  };
+}
+
+function evaluateSubjectGradeOption(option, subjectGrades, profileComplete) {
+  const missing = [];
+  const failed = [];
+
+  for (const subjectId of option.required_subject_ids || []) {
+    if (subjectGrades[normaliseId(subjectId)] === undefined) {
+      missing.push(`required_subject:${subjectId}`);
+    }
+  }
+
+  for (const group of option.one_of_subject_groups || []) {
+    const matching = (group.subject_ids || []).filter((subjectId) => {
+      return subjectGrades[normaliseId(subjectId)] !== undefined;
+    });
+    if (matching.length < (group.minimum_required || 1)) {
+      missing.push(`subject_group:${group.group_id}`);
+    }
+  }
+
+  for (const [subjectId, minimumGrade] of Object.entries(option.grade_requirements || {})) {
+    const actualGrade = subjectGrades[normaliseId(subjectId)];
+    if (actualGrade === undefined || actualGrade === null || actualGrade === '') {
+      missing.push(`subject_grade:${subjectId}`);
+      continue;
+    }
+    if (!hasRecognisedALevelGrade(actualGrade)) {
+      missing.push(`subject_grade:${subjectId}`);
+      continue;
+    }
+    if (!gradeMeets(actualGrade, minimumGrade, 'a_level')) {
+      failed.push(`subject_minimum_grade:${subjectId}`);
+    }
+  }
+
+  const definitiveMissing = profileComplete ? missing : [];
+  const evidenceMissing = profileComplete ? [] : missing;
+
+  return {
+    met: definitiveMissing.length === 0 && evidenceMissing.length === 0 && failed.length === 0,
+    information_needed: evidenceMissing.length > 0 && failed.length === 0,
+    missing,
+    failed: [...definitiveMissing, ...failed],
+    reasons: [
+      ...evidenceMissing.map((reason) => `subject_grade_option_evidence_missing:${option.option_id}:${reason}`),
+      ...definitiveMissing.map((reason) => `subject_grade_option_not_met:${option.option_id}:${reason}`),
+      ...failed.map((reason) => `subject_grade_option_not_met:${option.option_id}:${reason}`)
+    ]
+  };
+}
+
+function evaluateSubjectGradeOptions(applicant, options, requiredGrades) {
+  if (!Array.isArray(options) || options.length === 0) {
+    return {
+      met: true,
+      information_needed: false,
+      failed: false,
+      reasons: []
+    };
+  }
+
+  const subjectGrades = getALevelSubjectMap(applicant);
+  const recognisedGrades = Object.values(subjectGrades).filter(hasRecognisedALevelGrade);
+  const profileComplete = Array.isArray(requiredGrades) &&
+    requiredGrades.length > 0 &&
+    recognisedGrades.length >= requiredGrades.length;
+  const assessments = options.map((option) => {
+    return evaluateSubjectGradeOption(option, subjectGrades, profileComplete);
+  });
+
+  if (assessments.some((assessment) => assessment.met)) {
+    return {
+      met: true,
+      information_needed: false,
+      failed: false,
+      reasons: []
+    };
+  }
+
+  const informationAssessments = assessments.filter((assessment) => {
+    return assessment.information_needed;
+  });
+  if (informationAssessments.length > 0) {
+    return {
+      met: false,
+      information_needed: true,
+      failed: false,
+      reasons: [...new Set(informationAssessments.flatMap((assessment) => assessment.reasons))]
+    };
+  }
+
+  return {
+    met: false,
+    information_needed: false,
+    failed: true,
+    reasons: [...new Set(assessments.flatMap((assessment) => assessment.reasons))]
   };
 }
 
@@ -398,7 +536,14 @@ function evaluateEpqAlternativeOffer(applicant, rawPolicy) {
     applicant,
     policy.subject_grade_requirements
   );
-  result.a_level_requirement_met = profileAssessment.met && subjectAssessment.met;
+  const subjectOptionAssessment = evaluateSubjectGradeOptions(
+    applicant,
+    policy.required_subject_grade_options,
+    policy.a_level_grades
+  );
+  result.a_level_requirement_met = profileAssessment.met &&
+    subjectAssessment.met &&
+    subjectOptionAssessment.met;
 
   if (profileAssessment.information_needed) {
     informationNeeded.push(...profileAssessment.reasons);
@@ -415,6 +560,13 @@ function evaluateEpqAlternativeOffer(applicant, rawPolicy) {
       ...subjectAssessment.failed_subject_ids.map((subjectId) => `subject_grade:${subjectId}`)
     );
     result.reasons.push(...subjectAssessment.reasons);
+  }
+
+  if (subjectOptionAssessment.information_needed) {
+    informationNeeded.push(...subjectOptionAssessment.reasons);
+  } else if (subjectOptionAssessment.failed) {
+    result.failed_conditions.push('required_subject_grade_options');
+    result.reasons.push(...subjectOptionAssessment.reasons);
   }
 
   const conditionAssessment = evaluateMandatoryConditions(
@@ -446,10 +598,36 @@ function evaluateEpqAlternativeOffer(applicant, rawPolicy) {
   };
 }
 
+function manualReviewReasonForEpqAlternative(result) {
+  const reasons = Array.isArray(result?.reasons) ? result.reasons : [];
+  if (reasons.includes('epq_alongside_a_levels_evidence_missing')) {
+    return 'epq_alongside_a_levels_evidence_missing';
+  }
+  if (reasons.includes('a_level_resit_evidence_missing')) {
+    return 'a_level_resit_evidence_missing';
+  }
+  if (reasons.includes('same_sitting_evidence_missing')) {
+    return 'same_sitting_evidence_missing';
+  }
+  if (reasons.includes('a_level_grade_evidence_missing')) {
+    return 'a_level_grade_evidence_missing';
+  }
+  if (reasons.some((reason) => reason.startsWith('subject_grade_option_evidence_missing:'))) {
+    return 'a_level_subject_combination_evidence_missing';
+  }
+  if (reasons.some((reason) => reason.startsWith('subject_grade_evidence_missing:'))) {
+    return 'a_level_subject_combination_evidence_missing';
+  }
+  return result?.pathway_id
+    ? `${result.pathway_id}_epq_grade_required`
+    : 'epq_grade_required';
+}
+
 module.exports = {
   EPQ_GRADES,
   EPQ_STATUSES: [...EPQ_STATUSES],
   evaluateEpqAlternativeOffer,
+  manualReviewReasonForEpqAlternative,
   normaliseEpqAlternativeOfferPolicy,
   normaliseEpqQualification
 };

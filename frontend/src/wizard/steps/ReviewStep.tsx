@@ -102,6 +102,13 @@ function formatEpqSummary(epq: EpqQualification) {
   return null;
 }
 
+function formatEpqTakenAlongside(epq: EpqQualification) {
+  if (epq.status !== 'predicted' && epq.status !== 'achieved') return null;
+  if (epq.taken_alongside_a_levels === true) return 'Yes';
+  if (epq.taken_alongside_a_levels === false) return 'No';
+  return 'Not sure';
+}
+
 function ReviewSection({ title, children }: { title: string; children: ReactNode }) {
   return (
     <section className="review-card">
@@ -185,6 +192,7 @@ export function ReviewStep({ profile }: StepProps) {
     ...additionalGcseSubjects,
   ];
   const epqSummary = formatEpqSummary(normaliseEpqQualification(a_level_profile.epq));
+  const epqTakenAlongside = formatEpqTakenAlongside(normaliseEpqQualification(a_level_profile.epq));
 
   return (
     <div className="step-grid review-step">
@@ -240,6 +248,9 @@ export function ReviewStep({ profile }: StepProps) {
                 />
               ))}
             {epqSummary && <ReviewField label="EPQ" value={epqSummary} />}
+            {epqTakenAlongside && (
+              <ReviewField label="Taken alongside A-levels" value={epqTakenAlongside} />
+            )}
           </ReviewFieldGrid>
         </ReviewSection>
       )}

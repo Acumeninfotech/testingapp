@@ -214,11 +214,13 @@ export type EpqGrade = 'A*' | 'A' | 'B' | 'C' | 'D' | 'E';
 export interface EpqQualification {
   status: EpqStatus;
   grade: EpqGrade | null;
+  taken_alongside_a_levels?: boolean | null;
 }
 
 export const DEFAULT_EPQ_QUALIFICATION: EpqQualification = {
   status: 'not_taken',
   grade: null,
+  taken_alongside_a_levels: null,
 };
 
 const EPQ_STATUSES = ['not_taken', 'planning', 'predicted', 'achieved'] as const;
@@ -233,12 +235,18 @@ export function normaliseEpqQualification(epq: unknown): EpqQualification {
     : DEFAULT_EPQ_QUALIFICATION.status;
 
   if (status === 'not_taken' || status === 'planning') {
-    return { status, grade: null };
+    return { status, grade: null, taken_alongside_a_levels: null };
   }
+
+  const takenAlongside =
+    typeof candidate.taken_alongside_a_levels === 'boolean'
+      ? candidate.taken_alongside_a_levels
+      : null;
 
   return {
     status,
     grade: EPQ_GRADES.includes(candidate.grade as EpqGrade) ? candidate.grade as EpqGrade : null,
+    taken_alongside_a_levels: takenAlongside,
   };
 }
 

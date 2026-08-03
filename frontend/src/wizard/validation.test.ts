@@ -193,6 +193,18 @@ describe('validateALevelStep', () => {
     expect(validateALevelStep(achieved).epq_grade).toBeUndefined();
   });
 
+  it('does not require EPQ taken-alongside confirmation for predicted or achieved EPQ', () => {
+    const profile = validALevelProfile();
+    profile.a_level_profile.epq = {
+      status: 'predicted',
+      grade: 'A',
+      taken_alongside_a_levels: null,
+    };
+
+    expect(validateALevelStep(profile).epq_taken_alongside_a_levels).toBeUndefined();
+    expect(hasErrors(validateALevelStep(profile))).toBe(false);
+  });
+
   it('accepts Computer Science as an A-level subject without a practical endorsement', () => {
     const profile = createEmptyProfile();
     profile.a_level_profile.subjects = [

@@ -236,8 +236,59 @@ assert.deepStrictEqual(
     'Only failing qualifications need to be retaken.'
   ]
 );
-assert.deepStrictEqual(aLevel.epq_alternative.grade_profile, ['A', 'A', 'B']);
-assert.strictEqual(aLevel.epq_alternative.epq_grade, 'A');
+assert.deepStrictEqual(aLevel.epq_alternative_offer, {
+  enabled: true,
+  pathway_id: 'sheffield_epq_alternative',
+  a_level_grades: ['A', 'A', 'B'],
+  epq_minimum_grade: 'A',
+  required_subject_grade_options: [
+    {
+      option_id: 'biology_mandatory_science_grade_a',
+      required_subject_ids: ['biology'],
+      grade_requirements: [
+        {
+          subject_id: 'biology',
+          minimum_grade: 'A'
+        }
+      ],
+      one_of_subject_groups: [
+        {
+          group_id: 'epq_second_science_with_biology',
+          minimum_required: 1,
+          subject_ids: ['chemistry', 'mathematics', 'physics', 'psychology', 'human_biology']
+        }
+      ]
+    },
+    {
+      option_id: 'chemistry_mandatory_science_grade_a',
+      required_subject_ids: ['chemistry'],
+      grade_requirements: [
+        {
+          subject_id: 'chemistry',
+          minimum_grade: 'A'
+        }
+      ],
+      one_of_subject_groups: [
+        {
+          group_id: 'epq_second_science_with_chemistry',
+          minimum_required: 1,
+          subject_ids: ['biology', 'human_biology', 'mathematics', 'physics', 'psychology']
+        }
+      ]
+    }
+  ],
+  conditions: {
+    a_level_resits_allowed: false,
+    must_be_taken_alongside_a_levels: true,
+    equivalent_grade_combinations_allowed: false
+  },
+  source_ids: ['sheffield_a100_policy_2027']
+});
+assert.strictEqual(
+  Object.prototype.hasOwnProperty.call(aLevel, 'epq_alternative'),
+  false,
+  'Sheffield must use the canonical epq_alternative_offer field, not the legacy alias.'
+);
 assert.strictEqual(
   course.stage_1_eligibility.post_16.ib.contextual_offer.total_points,
   34
@@ -260,7 +311,6 @@ for (const implementedRule of [
   'scottish',
   'graduate',
   'resit',
-  'epq',
   'contextual_ib',
   'environmental_science'
 ]) {
@@ -292,7 +342,7 @@ assert.match(
 );
 assert.match(
   JSON.stringify(card.decision_transparency),
-  /threshold-only.*UCAT cognitive total.*2025–26 Home historical cutpoint/s
+  /UCAT ranking.*Eligible applicants are ranked by UCAT/s
 );
 assert.strictEqual(hasNestedKey(card, 'offer_prediction'), false);
 assert.strictEqual(hasNestedKey(card, 'offer_probability'), false);

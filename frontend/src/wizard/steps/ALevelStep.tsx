@@ -33,6 +33,12 @@ const SAME_SITTING_OPTIONS = [
   { value: 'no', label: 'No' },
 ];
 
+const EPQ_TAKEN_ALONGSIDE_OPTIONS = [
+  { value: 'yes', label: 'Yes' },
+  { value: 'no', label: 'No' },
+  { value: 'not_sure', label: 'Not sure' },
+];
+
 const PRACTICAL_OPTIONS = [
   { value: 'pass', label: 'Pass' },
   { value: 'fail', label: 'Fail' },
@@ -154,6 +160,9 @@ export function ALevelStep({ profile, updateProfile, errors }: StepProps) {
                   grade: status === 'predicted' || status === 'achieved'
                     ? prev.a_level_profile.epq?.grade ?? null
                     : null,
+                  taken_alongside_a_levels: status === 'predicted' || status === 'achieved'
+                    ? prev.a_level_profile.epq?.taken_alongside_a_levels ?? null
+                    : null,
                 },
               },
             }));
@@ -174,6 +183,39 @@ export function ALevelStep({ profile, updateProfile, errors }: StepProps) {
                   epq: {
                     status: prev.a_level_profile.epq?.status ?? epq.status,
                     grade: value === '' ? null : value as typeof epq.grade,
+                    taken_alongside_a_levels:
+                      prev.a_level_profile.epq?.taken_alongside_a_levels ?? null,
+                  },
+                },
+              }))
+            }
+          />
+        )}
+        {showEpqGrade && (
+          <SelectField
+            id="epq_taken_alongside_a_levels"
+            label="Was your EPQ taken alongside your A-levels?"
+            value={
+              epq.taken_alongside_a_levels == null
+                ? 'not_sure'
+                : epq.taken_alongside_a_levels
+                  ? 'yes'
+                  : 'no'
+            }
+            options={EPQ_TAKEN_ALONGSIDE_OPTIONS}
+            onChange={(value) =>
+              updateProfile((prev) => ({
+                ...prev,
+                a_level_profile: {
+                  ...prev.a_level_profile,
+                  epq: {
+                    status: prev.a_level_profile.epq?.status ?? epq.status,
+                    grade: prev.a_level_profile.epq?.grade ?? null,
+                    taken_alongside_a_levels: value === 'yes'
+                      ? true
+                      : value === 'no'
+                        ? false
+                        : null,
                   },
                 },
               }))

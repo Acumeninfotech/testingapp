@@ -138,7 +138,7 @@ describe('toStudentProfile A-level mapping', () => {
     const studentProfile = toStudentProfile(profile);
     const aLevel = studentProfile.a_level_profile as Record<string, unknown>;
 
-    expect(aLevel.epq).toEqual({ status: 'not_taken', grade: null });
+    expect(aLevel.epq).toEqual({ status: 'not_taken', grade: null, taken_alongside_a_levels: null });
   });
 
   it('preserves predicted and achieved EPQ grades without changing A-level subjects', () => {
@@ -148,7 +148,7 @@ describe('toStudentProfile A-level mapping', () => {
       { subject_id: 'biology', predicted_grade: 'A', achieved_grade: '', practical_endorsement: 'pass' },
       { subject_id: 'mathematics', predicted_grade: 'A', achieved_grade: '', practical_endorsement: 'not_applicable' },
     ];
-    profile.a_level_profile.epq = { status: 'predicted', grade: 'A*' };
+    profile.a_level_profile.epq = { status: 'predicted', grade: 'A*', taken_alongside_a_levels: true };
 
     const studentProfile = toStudentProfile(profile);
     const aLevel = studentProfile.a_level_profile as {
@@ -156,30 +156,44 @@ describe('toStudentProfile A-level mapping', () => {
       epq: Record<string, unknown>;
     };
 
-    expect(aLevel.epq).toEqual({ status: 'predicted', grade: 'A*' });
+    expect(aLevel.epq).toEqual({ status: 'predicted', grade: 'A*', taken_alongside_a_levels: true });
     expect(aLevel.subjects).toHaveLength(3);
     expect(aLevel.subjects.map((subject) => subject.subject_id)).toEqual(['chemistry', 'biology', 'mathematics']);
 
-    profile.a_level_profile.epq = { status: 'achieved', grade: 'A' };
+    profile.a_level_profile.epq = { status: 'achieved', grade: 'A', taken_alongside_a_levels: false };
     expect((toStudentProfile(profile).a_level_profile as Record<string, unknown>).epq).toEqual({
       status: 'achieved',
       grade: 'A',
+      taken_alongside_a_levels: false,
     });
   });
 
   it('clears submitted EPQ grades for not taken and planning statuses', () => {
     const profile = createEmptyProfile();
-    profile.a_level_profile.epq = { status: 'planning', grade: 'A' };
+    profile.a_level_profile.epq = { status: 'planning', grade: 'A', taken_alongside_a_levels: true };
 
     expect((toStudentProfile(profile).a_level_profile as Record<string, unknown>).epq).toEqual({
       status: 'planning',
       grade: null,
+      taken_alongside_a_levels: null,
     });
 
-    profile.a_level_profile.epq = { status: 'not_taken', grade: 'A*' };
+    profile.a_level_profile.epq = { status: 'not_taken', grade: 'A*', taken_alongside_a_levels: false };
     expect((toStudentProfile(profile).a_level_profile as Record<string, unknown>).epq).toEqual({
       status: 'not_taken',
       grade: null,
+      taken_alongside_a_levels: null,
+    });
+  });
+
+  it('preserves unknown EPQ taken-alongside evidence as null', () => {
+    const profile = createEmptyProfile();
+    profile.a_level_profile.epq = { status: 'predicted', grade: 'A', taken_alongside_a_levels: null };
+
+    expect((toStudentProfile(profile).a_level_profile as Record<string, unknown>).epq).toEqual({
+      status: 'predicted',
+      grade: 'A',
+      taken_alongside_a_levels: null,
     });
   });
 });

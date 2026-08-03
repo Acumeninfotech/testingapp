@@ -429,15 +429,72 @@
           ],
           "notes": "Requires grade A in Chemistry or Biology."
         },
-        "epq_alternative": {
-          "grade_profile": [
+        "epq_alternative_offer": {
+          "enabled": true,
+          "pathway_id": "sheffield_epq_alternative",
+          "a_level_grades": [
             "A",
             "A",
             "B"
           ],
-          "epq_grade": "A",
-          "primary_science_grade": "A",
-          "execution_status": "manual_review_required_epq_not_read_by_generic_qualification_evaluator",
+          "epq_minimum_grade": "A",
+          "required_subject_grade_options": [
+            {
+              "option_id": "biology_mandatory_science_grade_a",
+              "required_subject_ids": [
+                "biology"
+              ],
+              "grade_requirements": [
+                {
+                  "subject_id": "biology",
+                  "minimum_grade": "A"
+                }
+              ],
+              "one_of_subject_groups": [
+                {
+                  "group_id": "epq_second_science_with_biology",
+                  "minimum_required": 1,
+                  "subject_ids": [
+                    "chemistry",
+                    "mathematics",
+                    "physics",
+                    "psychology",
+                    "human_biology"
+                  ]
+                }
+              ]
+            },
+            {
+              "option_id": "chemistry_mandatory_science_grade_a",
+              "required_subject_ids": [
+                "chemistry"
+              ],
+              "grade_requirements": [
+                {
+                  "subject_id": "chemistry",
+                  "minimum_grade": "A"
+                }
+              ],
+              "one_of_subject_groups": [
+                {
+                  "group_id": "epq_second_science_with_chemistry",
+                  "minimum_required": 1,
+                  "subject_ids": [
+                    "biology",
+                    "human_biology",
+                    "mathematics",
+                    "physics",
+                    "psychology"
+                  ]
+                }
+              ]
+            }
+          ],
+          "conditions": {
+            "a_level_resits_allowed": false,
+            "must_be_taken_alongside_a_levels": true,
+            "equivalent_grade_combinations_allowed": false
+          },
           "source_ids": [
             "sheffield_a100_policy_2027"
           ]
@@ -456,8 +513,8 @@
         "science_practical_endorsement_required": true,
         "predicted_grades_accepted": true,
         "sitting_policy": "Three A-levels must normally be studied within two years and taken in the same first sitting.",
-        "execution_status": "grade_subject_and_practical_requirements_executable_timing_epq_and_resit_conditions_manual",
-        "notes": "The ordinary AAA and verified contextual AAB routes are executable for complete school-leaver profiles."
+        "execution_status": "grade_subject_practical_and_epq_alternative_requirements_executable_timing_and_resit_conditions_manual",
+        "notes": "The ordinary AAA, verified contextual AAB and EPQ alternative AAB routes are executable for complete school-leaver profiles. Sheffield's ordinary two-year same-first-sitting condition remains outside the automatic route check."
       },
       "ib": {
         "status": "official_source_verified_execution_partial",
@@ -1153,7 +1210,6 @@
       "Scottish Higher plus Advanced Higher eligibility is source-complete and mapped but requires manual review.",
       "Graduate A100 2:1 degree plus BBB eligibility is source-complete and mapped but requires manual review.",
       "GCSE and A-level resit conditions are source-complete and mapped but require manual review.",
-      "The EPQ route is source-complete and mapped but requires manual review.",
       "The contextual IB offer is source-complete and mapped but requires manual review.",
       "Environmental Science GCSE acceptance is source-complete and mapped but requires manual review because the subject is not canonical in Engine v1.0.",
       "The A-level two-year and same-first-sitting condition is source-complete but not automatically verified.",
@@ -1184,7 +1240,6 @@
       "Documented evidence or automation gap retained as non-blocking for activation-ready production scope: environmental_science_subject_normalisation",
       "Documented evidence or automation gap retained as non-blocking for activation-ready production scope: a_level_two_year_and_same_sitting_execution",
       "Documented evidence or automation gap retained as non-blocking for activation-ready production scope: sheffield_specific_resit_execution",
-      "Documented evidence or automation gap retained as non-blocking for activation-ready production scope: epq_alternative_execution",
       "Documented evidence or automation gap retained as non-blocking for activation-ready production scope: contextual_ib_group_filtering",
       "Documented evidence or automation gap retained as non-blocking for activation-ready production scope: joint_higher_advanced_higher_execution",
       "Documented evidence or automation gap retained as non-blocking for activation-ready production scope: graduate_degree_plus_bbb_execution",

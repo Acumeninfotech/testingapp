@@ -513,6 +513,59 @@
             }
           ]
         },
+        "required_subject_grade_options": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": true,
+            "properties": {
+              "option_id": {
+                "type": "string"
+              },
+              "required_subject_ids": {
+                "$ref": "#/$defs/subject_id_array"
+              },
+              "one_of_subject_groups": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "additionalProperties": true,
+                  "properties": {
+                    "group_id": {
+                      "type": "string"
+                    },
+                    "minimum_required": {
+                      "type": "integer",
+                      "minimum": 1
+                    },
+                    "subject_ids": {
+                      "$ref": "#/$defs/subject_id_array"
+                    }
+                  }
+                }
+              },
+              "grade_requirements": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "additionalProperties": true,
+                  "required": [
+                    "subject_id",
+                    "minimum_grade"
+                  ],
+                  "properties": {
+                    "subject_id": {
+                      "$ref": "#/$defs/subject_id"
+                    },
+                    "minimum_grade": {
+                      "$ref": "#/$defs/a_level_grade"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
         "conditions": {
           "type": "object",
           "additionalProperties": false,

@@ -5,7 +5,8 @@ const {
   evaluateCourseEligibility
 } = require('./eligibility-evaluator');
 const {
-  evaluateEpqAlternativeOffer
+  evaluateEpqAlternativeOffer,
+  manualReviewReasonForEpqAlternative
 } = require('./epq-alternative-offer');
 const {
   evaluateExplicitMinimumAge,
@@ -669,7 +670,39 @@ function standardALevelRouteFromData(aLevelData = {}) {
   };
 }
 
-function evaluateALevelEpqAlternativePathway(applicant, aLevelData, aLevelGrades) {
+function gradeProfilesEquivalent(left = [], right = []) {
+  if (!Array.isArray(left) || !Array.isArray(right) || left.length !== right.length) {
+    return false;
+  }
+  const normalisedLeft = left.map((grade) => normaliseGrade(grade)).sort();
+  const normalisedRight = right.map((grade) => normaliseGrade(grade)).sort();
+  return normalisedLeft.every((grade, index) => grade === normalisedRight[index]);
+}
+
+function standardOfferRoutePassed(routes, aLevelGrades, aLevelData = {}) {
+  const standardProfile = aLevelData.standard_offer?.grade_profile || aLevelData.grade_profile || [];
+  if (!Array.isArray(standardProfile) || standardProfile.length === 0) {
+    return null;
+  }
+
+  const matchingRoutes = routes.filter((route) => {
+    return gradeProfilesEquivalent(route.grade_profile || route.standard_offer || [], standardProfile);
+  });
+  if (matchingRoutes.length === 0) {
+    return null;
+  }
+
+  return matchingRoutes.some((route) => {
+    return evaluateALevelRoute(route, aLevelGrades);
+  });
+}
+
+function evaluateALevelEpqAlternativePathway(
+  applicant,
+  aLevelData,
+  aLevelGrades,
+  standardAlreadyMet = null
+) {
   const policy = getEpqAlternativeOfferPolicy(aLevelData);
   if (!policy?.enabled) {
     return null;
@@ -680,7 +713,9 @@ function evaluateALevelEpqAlternativePathway(applicant, aLevelData, aLevelGrades
     return null;
   }
 
-  const standardPassed = evaluateALevelRoute(standardRoute, aLevelGrades);
+  const standardPassed = typeof standardAlreadyMet === 'boolean'
+    ? standardAlreadyMet
+    : evaluateALevelRoute(standardRoute, aLevelGrades);
   const checks = [
     {
       check: 'a_level_standard_offer',
@@ -721,13 +756,13 @@ function evaluateALevelEpqAlternativePathway(applicant, aLevelData, aLevelGrades
     };
   }
 
-  if (epqAlternative.status === 'information_needed' && epqAlternative.a_level_requirement_met) {
+  if (epqAlternative.status === 'information_needed') {
     return {
       status: 'information_needed',
       academic_pathway: 'epq_alternative',
       academic_pathway_id: epqAlternative.pathway_id,
       checks,
-      manual_review_reason: `${epqAlternative.pathway_id}_epq_grade_required`,
+      manual_review_reason: manualReviewReasonForEpqAlternative(epqAlternative),
       epq_alternative_result: epqAlternative
     };
   }
@@ -1216,7 +1251,8 @@ function evaluateAcademicEligibility(course, config, applicant, groupIds) {
     const epqAlternativePathway = evaluateALevelEpqAlternativePathway(
       applicant,
       aLevelData,
-      aLevelGrades
+      aLevelGrades,
+      standardOfferRoutePassed(routes, aLevelGrades, aLevelData)
     );
 
     if (epqAlternativePathway) {
@@ -1252,7 +1288,7 @@ function evaluateAcademicEligibility(course, config, applicant, groupIds) {
           'contextual_a_level_gate_exception_requires_manual_review'
         );
       } else if (epqAlternativeInformationNeeded) {
-        addManualReview(`${academicPathwayId}_epq_grade_required`);
+        addManualReview(epqAlternativePathway.manual_review_reason);
       } else if (missingALevelEvidence && missingAcademicEvidenceOutcome === 'manual_review') {
         addManualReview(missingAcademicEvidenceReason);
       } else {

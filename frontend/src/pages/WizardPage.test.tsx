@@ -277,7 +277,11 @@ describe('WizardPage submit flow', () => {
     expect(identity.date_of_birth).toBeUndefined();
     const aLevelProfile = submittedProfile.a_level_profile as Record<string, unknown>;
     expect(aLevelProfile.completed_in_one_sitting).toBe(true);
-    expect(aLevelProfile.epq).toEqual({ status: 'not_taken', grade: null });
+    expect(aLevelProfile.epq).toEqual({
+      status: 'not_taken',
+      grade: null,
+      taken_alongside_a_levels: null,
+    });
   });
 
   it('shows selected EPQ data on review, preserves it after Back, and submits it', async () => {
@@ -301,6 +305,7 @@ describe('WizardPage submit flow', () => {
     fillAlevelSubjects();
     selectValue('epq_status', 'predicted');
     selectValue('epq_grade', 'A');
+    selectValue('epq_taken_alongside_a_levels', 'yes');
     clickContinue();
 
     fireEvent.click(screen.getByLabelText(/I have taken the UCAT/i));
@@ -322,12 +327,26 @@ describe('WizardPage submit flow', () => {
     const expectReviewEpq = () => {
       expect(screen.getByTestId('wizard-progress')).toHaveTextContent('Step 8 of 8');
       expectReviewValue(reviewSection('A levels'), 'EPQ', 'Predicted grade A');
+      expectReviewValue(reviewSection('A levels'), 'Taken alongside A-levels', 'Yes');
     };
 
     expectReviewEpq();
 
     clickBack();
     expect(screen.getByTestId('wizard-progress')).toHaveTextContent('Step 7 of 8');
+    clickBack();
+    expect(screen.getByTestId('wizard-progress')).toHaveTextContent('Step 6 of 8');
+    clickBack();
+    expect(screen.getByTestId('wizard-progress')).toHaveTextContent('Step 5 of 8');
+    clickBack();
+    expect(screen.getByTestId('wizard-progress')).toHaveTextContent('Step 4 of 8');
+    expect(screen.getByLabelText('EPQ status')).toHaveValue('predicted');
+    expect(screen.getByLabelText('Predicted EPQ grade')).toHaveValue('A');
+    expect(screen.getByLabelText('Was your EPQ taken alongside your A-levels?')).toHaveValue('yes');
+
+    clickContinue();
+    clickContinue();
+    clickContinue();
     clickContinue();
 
     expectReviewEpq();
@@ -339,7 +358,11 @@ describe('WizardPage submit flow', () => {
 
     const submittedProfile = submitSpy.mock.calls[0][0].studentProfile as Record<string, unknown>;
     const aLevelProfile = submittedProfile.a_level_profile as Record<string, unknown>;
-    expect(aLevelProfile.epq).toEqual({ status: 'predicted', grade: 'A' });
+    expect(aLevelProfile.epq).toEqual({
+      status: 'predicted',
+      grade: 'A',
+      taken_alongside_a_levels: true,
+    });
     expect(aLevelProfile.subjects).toHaveLength(3);
   }, 10_000);
 

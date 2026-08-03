@@ -99,6 +99,7 @@ const policy = {
       a_level_grades: ['A', 'A', 'B'],
       epq_minimum_grade: 'A',
       subject_grade_requirements: {},
+      required_subject_grade_options: [],
       conditions: {}
     }
   );
@@ -283,6 +284,93 @@ const policy = {
   );
   assert.strictEqual(belowMinimum.status, 'not_met');
   assert.ok(belowMinimum.failed_conditions.includes('subject_grade:biology'));
+}
+
+{
+  const optionPolicy = {
+    ...policy,
+    required_subject_grade_options: [
+      {
+        option_id: 'biology_grade_a',
+        required_subject_ids: ['biology'],
+        grade_requirements: [
+          {
+            subject_id: 'biology',
+            minimum_grade: 'A'
+          }
+        ],
+        one_of_subject_groups: [
+          {
+            group_id: 'second_science_with_biology',
+            minimum_required: 1,
+            subject_ids: ['chemistry', 'mathematics', 'physics']
+          }
+        ]
+      },
+      {
+        option_id: 'chemistry_grade_a',
+        required_subject_ids: ['chemistry'],
+        grade_requirements: [
+          {
+            subject_id: 'chemistry',
+            minimum_grade: 'A'
+          }
+        ],
+        one_of_subject_groups: [
+          {
+            group_id: 'second_science_with_chemistry',
+            minimum_required: 1,
+            subject_ids: ['biology', 'mathematics', 'physics']
+          }
+        ]
+      }
+    ]
+  };
+
+  assert.strictEqual(
+    evaluateEpqAlternativeOffer(
+      applicant({
+        a_level_profile: {
+          subjects: [
+            { subject_id: 'biology', predicted_grade: 'A' },
+            { subject_id: 'mathematics', predicted_grade: 'A' },
+            { subject_id: 'physics', predicted_grade: 'B' }
+          ]
+        }
+      }),
+      optionPolicy
+    ).status,
+    'met'
+  );
+
+  const missingOptionEvidence = evaluateEpqAlternativeOffer(
+    applicant({
+      a_level_profile: {
+        subjects: [
+          { subject_id: 'biology', predicted_grade: 'A' },
+          { subject_id: 'mathematics', predicted_grade: 'A' }
+        ]
+      }
+    }),
+    optionPolicy
+  );
+  assert.strictEqual(missingOptionEvidence.status, 'information_needed');
+  assert.ok(missingOptionEvidence.reasons.includes('a_level_grade_evidence_missing'));
+
+  const failedOption = evaluateEpqAlternativeOffer(
+    applicant({
+      a_level_profile: {
+        subjects: [
+          { subject_id: 'biology', predicted_grade: 'B' },
+          { subject_id: 'mathematics', predicted_grade: 'A' },
+          { subject_id: 'physics', predicted_grade: 'A' }
+        ]
+      }
+    }),
+    optionPolicy
+  );
+  assert.strictEqual(failedOption.status, 'not_met');
+  assert.ok(failedOption.failed_conditions.includes('required_subject_grade_options'));
 }
 
 {

@@ -639,7 +639,36 @@ function standardALevelRequirementFromRouteRules(routeRules = {}) {
   };
 }
 
-function evaluateALevelEpqAlternativePathway(applicant, routeRules = {}) {
+function gradeProfilesEquivalent(left = [], right = []) {
+  if (!Array.isArray(left) || !Array.isArray(right) || left.length !== right.length) {
+    return false;
+  }
+  const normalisedLeft = left.map((grade) => normaliseGrade(grade)).sort();
+  const normalisedRight = right.map((grade) => normaliseGrade(grade)).sort();
+  return normalisedLeft.every((grade, index) => grade === normalisedRight[index]);
+}
+
+function standardOfferRoutePassed(applicableRequirements, attempts, routeRules = {}) {
+  const standardProfile = routeRules.standard_offer?.grade_profile || routeRules.grade_profile || [];
+  if (!Array.isArray(standardProfile) || standardProfile.length === 0) {
+    return null;
+  }
+
+  const matchingIndexes = applicableRequirements
+    .map((requirement, index) => ({ requirement, index }))
+    .filter(({ requirement }) => {
+      return gradeProfilesEquivalent(requirement.grade_profile || [], standardProfile);
+    });
+  if (matchingIndexes.length === 0) {
+    return null;
+  }
+
+  return matchingIndexes.some(({ index }) => {
+    return attempts[index]?.failures.length === 0;
+  });
+}
+
+function evaluateALevelEpqAlternativePathway(applicant, routeRules = {}, standardAlreadyMet = null) {
   const policy = getEpqAlternativeOfferPolicy(routeRules);
   if (!policy?.enabled) {
     return null;
@@ -650,11 +679,18 @@ function evaluateALevelEpqAlternativePathway(applicant, routeRules = {}) {
     return null;
   }
 
-  const standard = evaluateStandardALevelRequirement(
-    applicant,
-    standardRequirement,
-    routeRules
-  );
+  const standard = typeof standardAlreadyMet === 'boolean'
+    ? {
+        met: standardAlreadyMet,
+        checks: [],
+        failures: standardAlreadyMet ? [] : ['a_level_requirements_not_met'],
+        manual_review_reasons: []
+      }
+    : evaluateStandardALevelRequirement(
+        applicant,
+        standardRequirement,
+        routeRules
+      );
   const checks = [
     {
       check_id: 'a_level_standard_offer',
@@ -674,7 +710,8 @@ function evaluateALevelEpqAlternativePathway(applicant, routeRules = {}) {
   }
 
   const {
-    evaluateEpqAlternativeOffer
+    evaluateEpqAlternativeOffer,
+    manualReviewReasonForEpqAlternative
   } = require('./epq-alternative-offer');
   const epqAlternative = evaluateEpqAlternativeOffer(applicant, policy);
   checks.push({
@@ -697,13 +734,13 @@ function evaluateALevelEpqAlternativePathway(applicant, routeRules = {}) {
     };
   }
 
-  if (epqAlternative.status === 'information_needed' && epqAlternative.a_level_requirement_met) {
+  if (epqAlternative.status === 'information_needed') {
     return {
       status: 'information_needed',
       academic_pathway: 'epq_alternative',
       academic_pathway_id: epqAlternative.pathway_id,
       checks,
-      manual_review_reason: `${epqAlternative.pathway_id}_epq_grade_required`,
+      manual_review_reason: manualReviewReasonForEpqAlternative(epqAlternative),
       epq_alternative_result: epqAlternative
     };
   }
@@ -785,7 +822,12 @@ function evaluateALevelRoute(course, applicant, state) {
     return attempt;
   });
   const passed = attempts.find((attempt) => attempt.failures.length === 0);
-  const epqAlternativePathway = evaluateALevelEpqAlternativePathway(applicant, routeRules);
+  const standardPassed = standardOfferRoutePassed(applicable, attempts, routeRules);
+  const epqAlternativePathway = evaluateALevelEpqAlternativePathway(
+    applicant,
+    routeRules,
+    standardPassed
+  );
   if (passed) {
     state.checks.push(...passed.checks);
     if (epqAlternativePathway) {
