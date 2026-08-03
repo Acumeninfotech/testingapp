@@ -241,6 +241,8 @@ function makeResultCard(studentProfile, university, eligibilityStatus, band, man
       readiness: university.course.engine_notes,
       eligibility_checks: eligibility?.checks || [],
       eligibility_failures: eligibility?.failures || [],
+      academic_pathway: eligibility?.academic_pathway || null,
+      academic_pathway_id: eligibility?.academic_pathway_id ?? null,
       stage_1_eligibility: university.course.stage_1_eligibility || null,
       stage_2_interview_selection: university.course.stage_2_interview_selection || null,
       contextual_admissions: university.course.contextual_admissions || null,

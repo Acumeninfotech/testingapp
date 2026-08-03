@@ -5,6 +5,9 @@ const {
   evaluateCourseEligibility
 } = require('./eligibility-evaluator');
 const {
+  evaluateEpqAlternativeOffer
+} = require('./epq-alternative-offer');
+const {
   evaluateExplicitMinimumAge,
   isUcatCycleValid,
   normaliseApplicantProfile
@@ -637,6 +640,107 @@ function evaluateALevelRoute(route, subjectGrades) {
     excludedSubjectsPass;
 }
 
+function getEpqAlternativeOfferPolicy(aLevelData = {}) {
+  return aLevelData.epq_alternative_offer || aLevelData.epq_alternative || null;
+}
+
+function standardALevelRouteFromData(aLevelData = {}) {
+  const standardOffer = aLevelData.standard_offer || {};
+  const gradeProfile = Array.isArray(standardOffer)
+    ? standardOffer
+    : standardOffer.grade_profile;
+
+  if (!Array.isArray(gradeProfile) || gradeProfile.length === 0) {
+    return null;
+  }
+
+  return {
+    route_id: 'standard_offer',
+    grade_profile: gradeProfile,
+    required_subject_ids: standardOffer.required_subject_ids || aLevelData.required_subject_ids || [],
+    one_of_subject_groups: standardOffer.one_of_subject_groups || aLevelData.one_of_subject_groups || [],
+    subject_grade_requirements: standardOffer.subject_grade_requirements ||
+      aLevelData.subject_grade_requirements ||
+      [],
+    required_subject_grade_options: standardOffer.required_subject_grade_options ||
+      aLevelData.required_subject_grade_options ||
+      [],
+    excluded_subject_ids: standardOffer.excluded_subject_ids || aLevelData.excluded_subject_ids || []
+  };
+}
+
+function evaluateALevelEpqAlternativePathway(applicant, aLevelData, aLevelGrades) {
+  const policy = getEpqAlternativeOfferPolicy(aLevelData);
+  if (!policy?.enabled) {
+    return null;
+  }
+
+  const standardRoute = standardALevelRouteFromData(aLevelData);
+  if (!standardRoute) {
+    return null;
+  }
+
+  const standardPassed = evaluateALevelRoute(standardRoute, aLevelGrades);
+  const checks = [
+    {
+      check: 'a_level_standard_offer',
+      passed: standardPassed,
+      academic_pathway: 'standard'
+    }
+  ];
+
+  if (standardPassed) {
+    return {
+      status: 'met',
+      academic_pathway: 'standard',
+      academic_pathway_id: null,
+      checks,
+      epq_alternative_result: null
+    };
+  }
+
+  const epqAlternative = evaluateEpqAlternativeOffer(applicant, policy);
+  checks.push({
+    check: 'epq_alternative_offer',
+    status: epqAlternative.status,
+    passed: epqAlternative.status === 'met',
+    academic_pathway: 'epq_alternative',
+    pathway_id: epqAlternative.pathway_id,
+    epq_status: epqAlternative.status,
+    a_level_requirement_met: epqAlternative.a_level_requirement_met,
+    epq_requirement_met: epqAlternative.epq_requirement_met
+  });
+
+  if (epqAlternative.status === 'met') {
+    return {
+      status: 'met',
+      academic_pathway: 'epq_alternative',
+      academic_pathway_id: epqAlternative.pathway_id,
+      checks,
+      epq_alternative_result: epqAlternative
+    };
+  }
+
+  if (epqAlternative.status === 'information_needed' && epqAlternative.a_level_requirement_met) {
+    return {
+      status: 'information_needed',
+      academic_pathway: 'epq_alternative',
+      academic_pathway_id: epqAlternative.pathway_id,
+      checks,
+      manual_review_reason: `${epqAlternative.pathway_id}_epq_grade_required`,
+      epq_alternative_result: epqAlternative
+    };
+  }
+
+  return {
+    status: 'not_met',
+    academic_pathway: null,
+    academic_pathway_id: null,
+    checks,
+    epq_alternative_result: epqAlternative
+  };
+}
+
 function gradeProfileMeetsMinimum(actualValue, minimumProfile) {
   const actual = splitGradeProfile(actualValue);
   return actual.length >= minimumProfile.length &&
@@ -798,6 +902,9 @@ function evaluateAcademicEligibility(course, config, applicant, groupIds) {
   const failures = [];
   const manualReviewReasons = [];
   const checks = [];
+  let academicPathway = null;
+  let academicPathwayId = null;
+  let epqAlternativeResult = null;
   const stage1 = course.stage_1_eligibility || {};
   const gcseRules = stage1.gcse || {};
   const configEligibility = config.eligibility || {};
@@ -1091,7 +1198,7 @@ function evaluateAcademicEligibility(course, config, applicant, groupIds) {
         qualification_route: qualificationRoute
       };
     }
-    const routePassed = routes.some((route) => evaluateALevelRoute(route, aLevelGrades));
+    let routePassed = routes.some((route) => evaluateALevelRoute(route, aLevelGrades));
     const manualReviewRoute = routes.find((route) => {
       return route.manual_review_on_pass === true &&
         evaluateALevelRoute(route, aLevelGrades);
@@ -1105,6 +1212,33 @@ function evaluateAcademicEligibility(course, config, applicant, groupIds) {
       );
     });
     let aLevelGateExceptionApplied = false;
+    let epqAlternativeInformationNeeded = false;
+
+    if (routePassed) {
+      const epqAlternativePathway = evaluateALevelEpqAlternativePathway(
+        applicant,
+        aLevelData,
+        aLevelGrades
+      );
+      if (epqAlternativePathway) {
+        checks.push(...epqAlternativePathway.checks);
+        academicPathway = epqAlternativePathway.academic_pathway;
+        academicPathwayId = epqAlternativePathway.academic_pathway_id;
+        epqAlternativeResult = epqAlternativePathway.epq_alternative_result;
+        if (epqAlternativePathway.status === 'met') {
+          routePassed = true;
+        } else if (epqAlternativePathway.status === 'information_needed') {
+          routePassed = false;
+          epqAlternativeInformationNeeded = true;
+        } else if (epqAlternativePathway.status === 'not_met') {
+          routePassed = false;
+        }
+      } else {
+        academicPathway = 'standard';
+        academicPathwayId = null;
+      }
+    }
+
     checks.push({ check: 'a_level_route', passed: routePassed });
     checks.push({ check: 'a_level_subject_combination', passed: subjectCombinationPassed });
     if (!routePassed) {
@@ -1119,6 +1253,8 @@ function evaluateAcademicEligibility(course, config, applicant, groupIds) {
           exception.manual_review_reason ||
           'contextual_a_level_gate_exception_requires_manual_review'
         );
+      } else if (epqAlternativeInformationNeeded) {
+        addManualReview(`${academicPathwayId}_epq_grade_required`);
       } else if (missingALevelEvidence && missingAcademicEvidenceOutcome === 'manual_review') {
         addManualReview(missingAcademicEvidenceReason);
       } else {
@@ -1419,7 +1555,12 @@ function evaluateAcademicEligibility(course, config, applicant, groupIds) {
     manual_review_reasons: manualReviewReasons,
     checks,
     exact_gcse_count: exactGcseCount,
-    qualification_route: qualificationRoute
+    qualification_route: qualificationRoute,
+    ...(academicPathway ? {
+      academic_pathway: academicPathway,
+      academic_pathway_id: academicPathwayId
+    } : {}),
+    ...(epqAlternativeResult ? { epq_alternative_result: epqAlternativeResult } : {})
   };
 }
 

@@ -247,6 +247,7 @@ function academicQualificationTypeForCheck(rawCheck) {
     checkId.includes('_a_level') ||
     checkId.includes('a_levels') ||
     checkId.includes('alevel') ||
+    checkId.includes('epq_alternative') ||
     checkId === 'same_sitting_requirement'
   ) {
     return 'a_level';
@@ -314,6 +315,9 @@ function academicRequirementLabelForCheck(rawCheck, qualificationType) {
   if (checkId === 'a_level_subject_combination') {
     return 'Required A-level subjects';
   }
+  if (checkId === 'epq_alternative_offer') {
+    return 'A-levels + EPQ';
+  }
   if (checkId === 'a_level_route' || checkId.includes('a_level')) {
     return 'A-level grades';
   }
@@ -339,6 +343,9 @@ function academicRequirementReasonForCheck(rawCheck, status) {
     if (checkId === 'a_level_science_practical_endorsement') {
       return 'The practical endorsement requirement is met.';
     }
+    if (checkId === 'epq_alternative_offer') {
+      return 'The accepted EPQ alternative academic pathway is met.';
+    }
     return 'This requirement is met.';
   }
 
@@ -348,6 +355,9 @@ function academicRequirementReasonForCheck(rawCheck, status) {
     }
     if (checkId === 'a_level_science_practical_endorsement') {
       return 'Required practical endorsement information is missing.';
+    }
+    if (checkId === 'epq_alternative_offer') {
+      return 'A predicted or achieved EPQ grade is required to assess the alternative academic offer.';
     }
     return 'Required subject information is missing.';
   }
@@ -360,6 +370,9 @@ function academicRequirementReasonForCheck(rawCheck, status) {
   }
   if (checkId === 'a_level_subject_combination') {
     return 'Required A-level subject information does not match the published requirement.';
+  }
+  if (checkId === 'epq_alternative_offer') {
+    return 'The EPQ alternative academic pathway is not met.';
   }
   if (checkId === 'a_level_route' || checkId.includes('a_level')) {
     return 'Predicted A-level grades are below the required grades.';
@@ -430,9 +443,106 @@ function academicRequirementStatusForCheck(rawCheck, eligibilityStatus) {
   return null;
 }
 
-function buildAcademicRequirementChecks(rawChecks = [], eligibilityStatus = null) {
+function publicAcademicRequirementKey(rawCheck, qualificationType, label) {
+  const checkId = academicRequirementCheckId(rawCheck);
+  if (
+    checkId === 'same_sitting_requirement' ||
+    checkId === 'a_level_science_practical_endorsement' ||
+    checkId === 'a_level_subject_combination' ||
+    checkId === 'epq_alternative_offer'
+  ) {
+    return `${qualificationType}:${checkId}:${label}`;
+  }
+  if (!['gcse', 'a_level'].includes(qualificationType)) {
+    return `${qualificationType}:${checkId}:${label}`;
+  }
+  return `${qualificationType}:${label}`;
+}
+
+function shouldSuppressPublicAcademicRequirementCheck(rawCheck, status, context = {}) {
+  const checkId = academicRequirementCheckId(rawCheck);
+  const epqAlternativeStatus = normaliseCheckId(context.epq_alternative_status);
+  const epqAlternativePublicStatus = context.epq_alternative_public_status;
+  const hasFinalPathwayCheck =
+    context.has_epq_alternative_offer === true &&
+    Boolean(context.has_standard_offer_check || context.has_epq_alternative_check);
+  if (
+    context.has_epq_alternative_offer === true &&
+    status === 'met' &&
+    checkId === 'a_level_subject_combination'
+  ) {
+    return true;
+  }
+
+  if (hasFinalPathwayCheck && checkId === 'a_level_route') {
+    return true;
+  }
+
+  if (
+    context.has_epq_alternative_offer === true &&
+    checkId === 'epq_alternative_offer'
+  ) {
+    return context.academic_pathway === 'standard' ||
+      epqAlternativeStatus === 'not_applicable';
+  }
+
+  if (
+    context.has_epq_alternative_offer === true &&
+    ['a_level_standard_offer', 'standard_offer'].includes(checkId)
+  ) {
+    return context.academic_pathway === 'epq_alternative' ||
+      epqAlternativePublicStatus === 'information_needed' ||
+      (
+        epqAlternativePublicStatus === 'not_met' &&
+        epqAlternativeStatus !== 'not_applicable'
+      );
+  }
+
+  if (
+    status !== 'not_met' ||
+    context.academic_pathway !== 'epq_alternative' ||
+    normaliseCheckId(context.eligibilityStatus) !== 'eligible'
+  ) {
+    return false;
+  }
+
+  return rawCheck?.academic_pathway === 'standard' &&
+    ['a_level_standard_offer', 'standard_offer'].includes(checkId);
+}
+
+function hasEnabledEpqAlternativeOffer(stage1Eligibility = null) {
+  const policy = stage1Eligibility?.post_16?.a_level?.epq_alternative_offer;
+  return policy?.enabled === true;
+}
+
+function epqAlternativeCheck(rawChecks = []) {
+  return (rawChecks || []).find((rawCheck) => {
+    return academicRequirementCheckId(rawCheck) === 'epq_alternative_offer';
+  }) || null;
+}
+
+function hasAcademicCheck(rawChecks = [], checkIds = []) {
+  const ids = new Set(checkIds);
+  return (rawChecks || []).some((rawCheck) => ids.has(academicRequirementCheckId(rawCheck)));
+}
+
+function buildAcademicRequirementChecks(rawChecks = [], eligibilityStatus = null, context = {}) {
   const rows = [];
   const seen = new Map();
+  const epqCheck = epqAlternativeCheck(rawChecks);
+  const buildContext = {
+    ...context,
+    eligibilityStatus,
+    has_standard_offer_check: hasAcademicCheck(rawChecks, [
+      'a_level_standard_offer',
+      'standard_offer'
+    ]),
+    has_epq_alternative_check: Boolean(epqCheck),
+    epq_alternative_status: epqCheck?.epq_status || epqCheck?.status || null,
+    epq_alternative_public_status: epqCheck
+      ? academicRequirementStatusForCheck(epqCheck, eligibilityStatus)
+      : null
+  };
 
   for (const rawCheck of rawChecks || []) {
     const qualificationType = academicQualificationTypeForCheck(rawCheck);
@@ -443,9 +553,12 @@ function buildAcademicRequirementChecks(rawChecks = [], eligibilityStatus = null
     if (!status) {
       continue;
     }
+    if (shouldSuppressPublicAcademicRequirementCheck(rawCheck, status, buildContext)) {
+      continue;
+    }
     const checkId = academicRequirementCheckId(rawCheck) || qualificationType;
     const label = academicRequirementLabelForCheck(rawCheck, qualificationType);
-    const key = `${qualificationType}:${checkId}:${label}`;
+    const key = publicAcademicRequirementKey(rawCheck, qualificationType, label);
     const row = {
       qualification_type: qualificationType,
       requirement_type: checkId,
@@ -491,6 +604,7 @@ const FAILURE_REASON_LABELS = {
   gcse_science_alternative_not_met: 'Your GCSE science subjects do not match any of the accepted science combinations.',
   minimum_gcse_points_not_met: 'Your GCSE points score does not meet the published minimum.',
   a_level_requirements_not_met: 'Your A-level grades (predicted or achieved) do not meet the published minimum.',
+  lancaster_epq_alternative_epq_grade_required: 'A predicted or achieved EPQ grade is required to assess Lancaster’s alternative A-level offer.',
   a_level_subject_combination_not_met: 'Your A-level subjects do not match the published subject requirement.',
   a_level_practical_requirement_not_met: 'A required A-level science practical endorsement is missing or not a pass.',
   science_practical_endorsement_not_confirmed: 'The practical endorsement requirement is not met.',
@@ -4028,7 +4142,18 @@ function presentResultCard({
   const prediction = transparencyCard.prediction;
   const academicRequirementChecks = buildAcademicRequirementChecks(
     transparencyContext.eligibility_checks,
-    eligibilityStatus
+    eligibilityStatus,
+    {
+      academic_pathway: transparencyContext.academic_pathway ||
+        transparencyContext.eligibility?.academic_pathway ||
+        null,
+      academic_pathway_id: transparencyContext.academic_pathway_id ??
+        transparencyContext.eligibility?.academic_pathway_id ??
+        null,
+      has_epq_alternative_offer: hasEnabledEpqAlternativeOffer(
+        transparencyContext.stage_1_eligibility
+      )
+    }
   );
 
   return {

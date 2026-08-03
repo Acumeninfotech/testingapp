@@ -103,6 +103,12 @@ assert.deepStrictEqual(
 const aLevel = course.stage_1_eligibility.post_16.a_level;
 assert.deepStrictEqual(aLevel.stage_1_predicted_minimum.grade_profile, ['A', 'A', 'B']);
 assert.deepStrictEqual(aLevel.standard_offer.grade_profile, ['A', 'A', 'A']);
+assert.deepStrictEqual(aLevel.epq_alternative_offer, {
+  enabled: true,
+  pathway_id: 'lancaster_epq_alternative',
+  a_level_grades: ['A', 'A', 'B'],
+  epq_minimum_grade: 'B'
+});
 assert.deepStrictEqual(aLevel.contextual_offer.grade_profile, ['A', 'B', 'B']);
 assert.strictEqual(aLevel.science_practical_endorsement_required, null);
 assert.deepStrictEqual(

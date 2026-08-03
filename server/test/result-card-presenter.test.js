@@ -531,7 +531,6 @@ function makeCambridgeSixGcseCard() {
   });
   assert.deepStrictEqual(publicAcademicChecks(card), [
     { qualification_type: 'gcse', requirement_type: 'gcse_minimum_count', label: 'GCSEs', status: 'met' },
-    { qualification_type: 'gcse', requirement_type: 'gcse_science_alternative', label: 'GCSEs', status: 'met' },
     { qualification_type: 'a_level', requirement_type: 'a_level_route', label: 'A-level grades', status: 'met' },
     { qualification_type: 'a_level', requirement_type: 'a_level_subject_combination', label: 'Required A-level subjects', status: 'met' }
   ]);
