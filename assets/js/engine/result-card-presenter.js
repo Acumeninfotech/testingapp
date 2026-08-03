@@ -605,6 +605,7 @@ const FAILURE_REASON_LABELS = {
   minimum_gcse_points_not_met: 'Your GCSE points score does not meet the published minimum.',
   a_level_requirements_not_met: 'Your A-level grades (predicted or achieved) do not meet the published minimum.',
   lancaster_epq_alternative_epq_grade_required: 'A predicted or achieved EPQ grade is required to assess Lancaster’s alternative A-level offer.',
+  keele_epq_alternative_epq_grade_required: 'A predicted or achieved EPQ grade is required to assess Keele’s alternative A-level offer.',
   a_level_subject_combination_not_met: 'Your A-level subjects do not match the published subject requirement.',
   a_level_practical_requirement_not_met: 'A required A-level science practical endorsement is missing or not a pass.',
   science_practical_endorsement_not_confirmed: 'The practical endorsement requirement is not met.',
@@ -4140,16 +4141,18 @@ function presentResultCard({
     transparencyOptions
   );
   const prediction = transparencyCard.prediction;
+  const academicPathway = transparencyContext.academic_pathway ||
+    transparencyContext.eligibility?.academic_pathway ||
+    null;
+  const academicPathwayId = transparencyContext.academic_pathway_id ??
+    transparencyContext.eligibility?.academic_pathway_id ??
+    null;
   const academicRequirementChecks = buildAcademicRequirementChecks(
     transparencyContext.eligibility_checks,
     eligibilityStatus,
     {
-      academic_pathway: transparencyContext.academic_pathway ||
-        transparencyContext.eligibility?.academic_pathway ||
-        null,
-      academic_pathway_id: transparencyContext.academic_pathway_id ??
-        transparencyContext.eligibility?.academic_pathway_id ??
-        null,
+      academic_pathway: academicPathway,
+      academic_pathway_id: academicPathwayId,
       has_epq_alternative_offer: hasEnabledEpqAlternativeOffer(
         transparencyContext.stage_1_eligibility
       )
@@ -4158,6 +4161,8 @@ function presentResultCard({
 
   return {
     ...display,
+    academic_pathway: academicPathway,
+    academic_pathway_id: academicPathwayId,
     academic_requirement_checks: academicRequirementChecks,
     missing_information:
       missingInformation ||

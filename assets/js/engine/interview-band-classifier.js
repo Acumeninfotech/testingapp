@@ -1213,30 +1213,28 @@ function evaluateAcademicEligibility(course, config, applicant, groupIds) {
     });
     let aLevelGateExceptionApplied = false;
     let epqAlternativeInformationNeeded = false;
+    const epqAlternativePathway = evaluateALevelEpqAlternativePathway(
+      applicant,
+      aLevelData,
+      aLevelGrades
+    );
 
-    if (routePassed) {
-      const epqAlternativePathway = evaluateALevelEpqAlternativePathway(
-        applicant,
-        aLevelData,
-        aLevelGrades
-      );
-      if (epqAlternativePathway) {
-        checks.push(...epqAlternativePathway.checks);
-        academicPathway = epqAlternativePathway.academic_pathway;
-        academicPathwayId = epqAlternativePathway.academic_pathway_id;
-        epqAlternativeResult = epqAlternativePathway.epq_alternative_result;
-        if (epqAlternativePathway.status === 'met') {
-          routePassed = true;
-        } else if (epqAlternativePathway.status === 'information_needed') {
-          routePassed = false;
-          epqAlternativeInformationNeeded = true;
-        } else if (epqAlternativePathway.status === 'not_met') {
-          routePassed = false;
-        }
-      } else {
-        academicPathway = 'standard';
-        academicPathwayId = null;
+    if (epqAlternativePathway) {
+      checks.push(...epqAlternativePathway.checks);
+      academicPathway = epqAlternativePathway.academic_pathway;
+      academicPathwayId = epqAlternativePathway.academic_pathway_id;
+      epqAlternativeResult = epqAlternativePathway.epq_alternative_result;
+      if (epqAlternativePathway.status === 'met') {
+        routePassed = true;
+      } else if (epqAlternativePathway.status === 'information_needed') {
+        routePassed = false;
+        epqAlternativeInformationNeeded = true;
+      } else if (epqAlternativePathway.status === 'not_met') {
+        routePassed = false;
       }
+    } else if (routePassed) {
+      academicPathway = 'standard';
+      academicPathwayId = null;
     }
 
     checks.push({ check: 'a_level_route', passed: routePassed });

@@ -785,9 +785,9 @@ function evaluateALevelRoute(course, applicant, state) {
     return attempt;
   });
   const passed = attempts.find((attempt) => attempt.failures.length === 0);
+  const epqAlternativePathway = evaluateALevelEpqAlternativePathway(applicant, routeRules);
   if (passed) {
     state.checks.push(...passed.checks);
-    const epqAlternativePathway = evaluateALevelEpqAlternativePathway(applicant, routeRules);
     if (epqAlternativePathway) {
       state.checks.push(...epqAlternativePathway.checks);
       state.academic_pathway = epqAlternativePathway.academic_pathway;
@@ -805,7 +805,20 @@ function evaluateALevelRoute(course, applicant, state) {
     }
   } else {
     state.checks.push(...attempts.flatMap((attempt) => attempt.checks));
-    addFailure(state, 'a_level_requirements_not_met');
+    if (epqAlternativePathway) {
+      state.checks.push(...epqAlternativePathway.checks);
+      state.academic_pathway = epqAlternativePathway.academic_pathway;
+      state.academic_pathway_id = epqAlternativePathway.academic_pathway_id;
+      state.epq_alternative_result = epqAlternativePathway.epq_alternative_result;
+
+      if (epqAlternativePathway.status === 'information_needed') {
+        addManualReview(state, epqAlternativePathway.manual_review_reason);
+      } else if (epqAlternativePathway.status === 'not_met') {
+        addFailure(state, 'a_level_requirements_not_met');
+      }
+    } else {
+      addFailure(state, 'a_level_requirements_not_met');
+    }
   }
 
   const practicalAssessment = assessPracticalEndorsements(course, null, applicant);

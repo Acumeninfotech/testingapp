@@ -84,6 +84,25 @@ assert.deepStrictEqual(
 );
 assert.strictEqual(course.stage_1_eligibility.admissions_tests.sjt.used_as_gate, true);
 assert.deepStrictEqual(course.stage_1_eligibility.admissions_tests.sjt.excluded_bands, [4]);
+assert.deepStrictEqual(course.stage_1_eligibility.post_16.a_level.standard_offer.grade_profile, [
+  'A*',
+  'A',
+  'A'
+]);
+assert.deepStrictEqual(course.stage_1_eligibility.post_16.a_level.epq_alternative_offer, {
+  enabled: true,
+  pathway_id: 'keele_epq_alternative',
+  a_level_grades: ['A', 'A', 'A'],
+  epq_minimum_grade: 'A'
+});
+assert.strictEqual(
+  Object.prototype.hasOwnProperty.call(
+    course.stage_1_eligibility.post_16.a_level,
+    'epq_alternative'
+  ),
+  false,
+  'Keele must use the canonical epq_alternative_offer field, not the legacy alias.'
+);
 assert.strictEqual(course.contextual_admissions.notes, 'No lower UCAT threshold is applied for contextual applicants.');
 assert.match(
   course.stage_2_interview_selection.calculation.total_score.notes,

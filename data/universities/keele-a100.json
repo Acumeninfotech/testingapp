@@ -286,7 +286,17 @@
           "source_ids": [
             "keele_medicine_entry_requirements"
           ],
-          "notes": "AAA plus EPQ grade A is an accepted alternative but is not executable in the generic classifier."
+          "notes": "A*AA remains the standard A-level offer. AAA plus EPQ grade A is represented separately as the executable EPQ alternative pathway."
+        },
+        "epq_alternative_offer": {
+          "enabled": true,
+          "pathway_id": "keele_epq_alternative",
+          "a_level_grades": [
+            "A",
+            "A",
+            "A"
+          ],
+          "epq_minimum_grade": "A"
         },
         "contextual_offer": {
           "applies_to_group_ids": [
@@ -369,7 +379,7 @@
         "decision_outcome_if_not_met": "not_eligible",
         "notes": "Graduate applicants apply through A100 but require a degree plus BBB/GAMSAT route checks that are not executable as a single generic route in Engine v1.0."
       },
-      "notes": "A-level and IB school-leaver routes are represented for supported subject identifiers. Scottish, graduate, EPQ and Economics-second-subject routes are documented manual-review boundaries."
+      "notes": "A-level, EPQ-alternative and IB school-leaver routes are represented for supported subject identifiers. Scottish, graduate and Economics-second-subject routes are documented manual-review boundaries."
     },
     "admissions_tests": {
       "source_ids": [
