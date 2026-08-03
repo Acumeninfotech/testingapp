@@ -190,10 +190,10 @@ const EXPECTED_RESULTS = {
     historical_assessment: 'Within historical interview range'
   },
   'leicester-a100': {
-    eligibility: 'Eligible',
-    production_band: 'ambitious',
-    recommendation: "Ambitious Choice",
-    historical_assessment: 'Slightly below historical interview range'
+    eligibility: 'Not Eligible',
+    production_band: 'not_eligible',
+    recommendation: "Not suitable",
+    historical_assessment: null
   },
   'lincoln-a100': {
     eligibility: 'Eligible',
@@ -602,15 +602,15 @@ for (const result of results) {
 const totals = summarize(results);
 assert.deepStrictEqual(totals, {
   total_universities_analysed: 39,
-  eligible: 27,
-  not_eligible: 12,
+  eligible: 26,
+  not_eligible: 13,
   very_strong_choices: 3,
   strong_choices: 11,
   realistic_choices: 5,
-  ambitious_choices: 3,
+  ambitious_choices: 2,
   high_risks: 4,
   eligible_to_apply: 1,
-  not_suitable: 11
+  not_suitable: 12
 });
 
 printResults(results, totals);

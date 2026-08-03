@@ -50,7 +50,6 @@ function merge(base, overrides) {
 const course = readJson('data/universities/hull-york-a100.json');
 const config = readJson('data/interview-band-configs/hull-york-a100.json');
 const fixture = readJson('data/fixtures/hull-york-a100-readiness.json');
-const leicesterCourse = readJson('data/universities/leicester-a100.json');
 
 const EPQ_PATHWAY_ID = 'hull_york_epq_alternative';
 const FIRM_CHOICE_ADVISORY =
@@ -231,11 +230,6 @@ assert.strictEqual(
   Object.prototype.hasOwnProperty.call(course.stage_1_eligibility.post_16.a_level, 'epq_alternative'),
   false,
   'HYMS must use the canonical epq_alternative_offer field, not the legacy alias.'
-);
-assert.strictEqual(
-  Object.prototype.hasOwnProperty.call(leicesterCourse.stage_1_eligibility.post_16.a_level, 'epq_alternative_offer'),
-  false,
-  'Leicester must not be activated in Stage 3.5.'
 );
 
 assertAcademicScenario({

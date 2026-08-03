@@ -616,6 +616,15 @@ function getEpqAlternativeOfferPolicy(routeRules = {}) {
   return routeRules.epq_alternative_offer || routeRules.epq_alternative || null;
 }
 
+function hasDeclaredEpqProfile(applicant) {
+  const aLevelEpq = applicant?.a_level_profile?.epq;
+  const rootEpq = applicant?.epq;
+  return Boolean(
+    (aLevelEpq && typeof aLevelEpq === 'object') ||
+    (rootEpq && typeof rootEpq === 'object')
+  );
+}
+
 function standardALevelRequirementFromRouteRules(routeRules = {}) {
   const standardOffer = routeRules.standard_offer || {};
   const gradeProfile = standardOffer.grade_profile || routeRules.grade_profile || [];
@@ -707,6 +716,10 @@ function evaluateALevelEpqAlternativePathway(applicant, routeRules = {}, standar
       checks,
       epq_alternative_result: null
     };
+  }
+
+  if (!hasDeclaredEpqProfile(applicant)) {
+    return null;
   }
 
   const {
