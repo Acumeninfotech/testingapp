@@ -2778,6 +2778,85 @@ main:has(.university-explorer) {
   color: var(--warning);
 }
 
+.alternative-academic-offer {
+  margin-top: clamp(1rem, 2.1vw, 1.35rem);
+  padding: 0.9rem 1rem;
+  border: 1px solid rgba(208, 213, 221, 0.9);
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.94);
+}
+
+.alternative-academic-offer__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  margin-bottom: 0.75rem;
+}
+
+.alternative-academic-offer__header h4 {
+  margin: 0;
+  color: #07142f;
+  font-family: var(--sans);
+  font-size: 0.82rem;
+  font-weight: 860;
+  line-height: 1.1;
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+}
+
+.alternative-academic-offer__header span {
+  flex: 0 0 auto;
+  padding: 0.22rem 0.55rem;
+  border: 1px solid var(--neutral-border);
+  border-radius: 999px;
+  color: #3b4f7a;
+  font-size: 0.72rem;
+  font-weight: 820;
+  line-height: 1.1;
+}
+
+.alternative-academic-offer__options {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.75rem;
+}
+
+.alternative-academic-offer__options div {
+  min-width: 0;
+  padding: 0.75rem 0.85rem;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: rgba(248, 250, 252, 0.76);
+}
+
+.alternative-academic-offer__options span {
+  display: block;
+  color: #5a6c95;
+  font-size: 0.76rem;
+  font-weight: 820;
+  line-height: 1.25;
+}
+
+.alternative-academic-offer__options strong {
+  display: block;
+  margin-top: 0.25rem;
+  color: var(--result-accent);
+  font-size: 1rem;
+  font-weight: 860;
+  line-height: 1.2;
+}
+
+.alternative-academic-offer__conditions {
+  display: grid;
+  gap: 0.35rem;
+  margin: 0.75rem 0 0;
+  padding-left: 1.05rem;
+  color: #3b4f7a;
+  font-size: 0.82rem;
+  line-height: 1.35;
+}
+
 .result-card-detail-list dt {
   margin: 0;
   font-weight: 650;
@@ -4421,6 +4500,10 @@ main:has(.university-explorer) {
   .result-card-summary-grid,
   .result-card-historical-grid,
   .result-card-historical-grid--metrics {
+    grid-template-columns: 1fr;
+  }
+
+  .alternative-academic-offer__options {
     grid-template-columns: 1fr;
   }
 

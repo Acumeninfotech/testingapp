@@ -13,6 +13,7 @@ import {
   resultCardRecommendationHeadline,
 } from '../lib/resultPresenter';
 import { UNIVERSITY_CODES } from '../data/universityCodes';
+import { AlternativeAcademicOffer } from './AlternativeAcademicOffer';
 
 function isOfficialPredictionUnavailable(card: PredictionResult['result_card']): boolean {
   const officialPrediction = card.prediction?.official_prediction as
@@ -1083,6 +1084,8 @@ export function ResultCard({ result }: { result: PredictionResult }) {
           />
         </div>
       </section>
+
+      <AlternativeAcademicOffer offer={card.alternative_academic_offer} />
 
       <section className="result-card-section result-card-details">
         <SectionHeader title="Selection" subtitle="How applicants are ranked for interview" icon="person" />

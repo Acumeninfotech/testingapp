@@ -433,6 +433,27 @@ async function main() {
     );
     console.log(`PASS: /api/predict exposes academic_requirement_checks for ${academicContractEntry.id}`);
 
+    if (readyEntries.some((u) => u.id === 'leicester-a100')) {
+      const epqOfferResponse = await requestJson(server, 'POST', '/api/predict', {
+        universityIds: ['leicester-a100'],
+        studentProfile: topTierApplicant
+      });
+      assert.strictEqual(epqOfferResponse.status, 200);
+      assert.deepStrictEqual(
+        epqOfferResponse.json.results[0].result_card.alternative_academic_offer,
+        {
+          type: 'epq',
+          standard_offer: 'A*AA',
+          alternative_offer: 'AAA + EPQ Grade B',
+          epq_minimum_grade: 'B',
+          pathway_id: 'leicester_epq_alternative',
+          conditions: []
+        },
+        '/api/predict must forward the optional EPQ alternative academic offer summary'
+      );
+      console.log('PASS: /api/predict exposes alternative_academic_offer for EPQ-enabled universities');
+    }
+
     const imperialEligibleApplicant = merge(topTierApplicant, {
       a_level_profile: {
         completed_in_one_sitting: true

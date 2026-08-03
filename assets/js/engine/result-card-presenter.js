@@ -515,6 +515,107 @@ function hasEnabledEpqAlternativeOffer(stage1Eligibility = null) {
   return policy?.enabled === true;
 }
 
+function formatAlevelGradeProfile(grades = []) {
+  if (!Array.isArray(grades) || grades.length === 0) {
+    return null;
+  }
+  const formatted = grades
+    .map((grade) => String(grade || '').trim().toUpperCase())
+    .filter(Boolean);
+  return formatted.length === grades.length ? formatted.join('') : null;
+}
+
+function formatSubjectList(subjectIds = []) {
+  const labels = subjectIds
+    .map(humanSubjectLabel)
+    .filter(Boolean);
+  if (labels.length <= 1) {
+    return labels.join('');
+  }
+  if (labels.length === 2) {
+    return `${labels[0]} and ${labels[1]}`;
+  }
+  return `${labels.slice(0, -1).join(', ')} and ${labels[labels.length - 1]}`;
+}
+
+function epqAlternativeOfferConditions(policy = {}) {
+  const conditions = [];
+  const policyConditions = policy.conditions || {};
+  const subjectGradeRequirements = policy.subject_grade_requirements;
+
+  if (
+    subjectGradeRequirements &&
+    typeof subjectGradeRequirements === 'object' &&
+    !Array.isArray(subjectGradeRequirements)
+  ) {
+    const entries = Object.entries(subjectGradeRequirements)
+      .filter(([, grade]) => String(grade || '').trim());
+    const distinctGrades = [...new Set(entries.map(([, grade]) => String(grade).trim().toUpperCase()))];
+    if (entries.length > 0 && distinctGrades.length === 1) {
+      const subjects = formatSubjectList(entries.map(([subjectId]) => subjectId));
+      conditions.push(`${subjects} must ${entries.length === 1 ? 'be' : 'both be'} grade ${distinctGrades[0]}`);
+    }
+  }
+
+  if (
+    Array.isArray(policy.required_subject_grade_options) &&
+    policy.required_subject_grade_options.length > 0 &&
+    policy.required_subject_grade_options.every((option) => {
+      const gradeRequirements = option?.grade_requirements || [];
+      return gradeRequirements.length === 1 &&
+        String(gradeRequirements[0]?.minimum_grade || '').trim().toUpperCase() === 'A';
+    })
+  ) {
+    conditions.push('Grade A required in the applicable mandatory science');
+  }
+
+  if (policyConditions.must_be_taken_alongside_a_levels === true) {
+    conditions.push('EPQ must be taken alongside A-levels');
+  }
+
+  if (policyConditions.all_a_levels_same_sitting === true) {
+    conditions.push('A-levels must be taken in one sitting');
+  }
+
+  if (policyConditions.a_level_resits_allowed === false) {
+    conditions.push('EPQ route unavailable for A-level resits');
+  }
+
+  if (policyConditions.firm_choice_only === true) {
+    conditions.push('Reduced offer applies only when this university is the firm UCAS choice');
+  }
+
+  return [...new Set(conditions)];
+}
+
+function buildAlternativeAcademicOffer(stage1Eligibility = null) {
+  const aLevel = stage1Eligibility?.post_16?.a_level;
+  const policy = aLevel?.epq_alternative_offer;
+  if (policy?.enabled !== true) {
+    return null;
+  }
+
+  const standardGrades = aLevel?.standard_offer?.grade_profile || aLevel?.grade_profile || [];
+  const alternativeGrades = policy.a_level_grades || policy.grade_profile || [];
+  const standardOffer = formatAlevelGradeProfile(standardGrades);
+  const alternativeGradeOffer = formatAlevelGradeProfile(alternativeGrades);
+  const epqMinimumGrade = String(policy.epq_minimum_grade || policy.epq_grade || '').trim().toUpperCase();
+  const pathwayId = String(policy.pathway_id || '').trim();
+
+  if (!standardOffer || !alternativeGradeOffer || !epqMinimumGrade || !pathwayId) {
+    return null;
+  }
+
+  return {
+    type: 'epq',
+    standard_offer: standardOffer,
+    alternative_offer: `${alternativeGradeOffer} + EPQ Grade ${epqMinimumGrade}`,
+    epq_minimum_grade: epqMinimumGrade,
+    pathway_id: pathwayId,
+    conditions: epqAlternativeOfferConditions(policy)
+  };
+}
+
 function epqAlternativeCheck(rawChecks = []) {
   return (rawChecks || []).find((rawCheck) => {
     return academicRequirementCheckId(rawCheck) === 'epq_alternative_offer';
@@ -4202,6 +4303,9 @@ function presentResultCard({
     ...display,
     academic_pathway: academicPathway,
     academic_pathway_id: academicPathwayId,
+    alternative_academic_offer: buildAlternativeAcademicOffer(
+      transparencyContext.stage_1_eligibility
+    ),
     future_conditions: [...new Set(futureConditions)],
     future_condition_advisories: futureConditionAdvisoryText,
     academic_requirement_checks: academicRequirementChecks,
@@ -4236,6 +4340,8 @@ module.exports = {
   buildDecisionTimeline,
   buildDecisionTransparency,
   buildAcademicRequirementChecks,
+  buildAlternativeAcademicOffer,
+  formatAlevelGradeProfile,
   futureConditionAdvisories,
   humanManualReviewReason,
   humanApplicantPoolLabel,

@@ -98,6 +98,101 @@ describe('ResultCard', () => {
     expect(badge?.querySelector('.result-card-icon')).not.toBeInTheDocument();
   });
 
+  it('renders the reusable EPQ alternative academic offer summary', () => {
+    render(
+      <ResultCard
+        result={makeResult({
+          alternative_academic_offer: {
+            type: 'epq',
+            standard_offer: 'AAA',
+            alternative_offer: 'AAB + EPQ Grade A',
+            epq_minimum_grade: 'A',
+            pathway_id: 'sheffield_epq_alternative',
+            conditions: [
+              'Grade A required in the applicable mandatory science',
+              'EPQ must be taken alongside A-levels',
+            ],
+          },
+          academic_requirement_checks: [
+            {
+              qualification_type: 'a_level',
+              requirement_type: 'epq_alternative_offer',
+              label: 'A-levels + EPQ',
+              status: 'met',
+              reason: 'The accepted EPQ alternative academic pathway is met.',
+            },
+          ],
+        })}
+      />,
+    );
+
+    expect(screen.getByRole('heading', { name: 'Alternative Academic Offer' })).toBeInTheDocument();
+    expect(screen.getByText('Standard')).toBeInTheDocument();
+    expect(screen.getByText('AAA')).toBeInTheDocument();
+    expect(screen.getByText('EPQ Alternative')).toBeInTheDocument();
+    expect(screen.getByText('AAB + EPQ Grade A')).toBeInTheDocument();
+    expect(screen.getByText('Grade A required in the applicable mandatory science')).toBeInTheDocument();
+    expect(screen.getByText('EPQ must be taken alongside A-levels')).toBeInTheDocument();
+  });
+
+  it('omits the EPQ alternative summary for non-EPQ or malformed contracts', () => {
+    const { rerender } = render(<ResultCard result={makeResult({ alternative_academic_offer: null })} />);
+    expect(screen.queryByText('Alternative Academic Offer')).not.toBeInTheDocument();
+
+    rerender(
+      <ResultCard
+        result={makeResult({
+          alternative_academic_offer: {
+            type: 'epq',
+            standard_offer: '',
+            alternative_offer: 'AAA + EPQ Grade A',
+            epq_minimum_grade: 'A',
+            pathway_id: 'keele_epq_alternative',
+          },
+        })}
+      />,
+    );
+    expect(screen.queryByText('Alternative Academic Offer')).not.toBeInTheDocument();
+  });
+
+  it('keeps academic requirement badges unchanged when the EPQ summary is present', () => {
+    render(
+      <ResultCard
+        result={makeResult({
+          alternative_academic_offer: {
+            type: 'epq',
+            standard_offer: 'AAA',
+            alternative_offer: 'AAB + EPQ Grade B',
+            epq_minimum_grade: 'B',
+            pathway_id: 'lancaster_epq_alternative',
+            conditions: [],
+          },
+          academic_requirement_checks: [
+            {
+              qualification_type: 'gcse',
+              requirement_type: 'gcse',
+              label: 'GCSEs',
+              status: 'met',
+              reason: 'This requirement is met.',
+            },
+            {
+              qualification_type: 'a_level',
+              requirement_type: 'a_level_standard_offer',
+              label: 'A-level grades',
+              status: 'met',
+              reason: 'This requirement is met.',
+            },
+          ],
+        })}
+      />,
+    );
+
+    const academicCard = screen.getByText('Academic Requirements').closest('.result-card-summary-card');
+    expect(academicCard).toHaveTextContent('GCSEs');
+    expect(academicCard).toHaveTextContent('A-level grades');
+    expect(academicCard?.querySelectorAll('.result-card-requirement-badge')).toHaveLength(2);
+  });
+
   it('labels a high_risk band as High Risk, distinct from Ambitious Choice', () => {
     render(<ResultCard result={makeResult({ prediction: { result_band: 'high_risk' } })} />);
     expect(screen.getAllByText('High Risk').length).toBeGreaterThan(0);

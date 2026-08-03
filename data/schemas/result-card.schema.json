@@ -209,6 +209,49 @@
       ],
       "minLength": 1
     },
+    "alternative_academic_offer": {
+      "type": [
+        "object",
+        "null"
+      ],
+      "additionalProperties": false,
+      "required": [
+        "type",
+        "standard_offer",
+        "alternative_offer",
+        "epq_minimum_grade",
+        "pathway_id"
+      ],
+      "properties": {
+        "type": {
+          "const": "epq"
+        },
+        "standard_offer": {
+          "type": "string",
+          "minLength": 1
+        },
+        "alternative_offer": {
+          "type": "string",
+          "minLength": 1
+        },
+        "epq_minimum_grade": {
+          "type": "string",
+          "minLength": 1
+        },
+        "pathway_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "conditions": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          },
+          "uniqueItems": true
+        }
+      }
+    },
     "decision_timeline": {
       "$ref": "#/$defs/decision_timeline"
     },

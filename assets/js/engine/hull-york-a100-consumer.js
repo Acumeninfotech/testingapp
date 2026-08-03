@@ -16,6 +16,7 @@ const {
   buildDecisionTransparency,
   buildEvidenceConfidence,
   buildAcademicRequirementChecks,
+  buildAlternativeAcademicOffer,
   futureConditionAdvisories,
   CANONICAL_BAND_LABELS
 } = require('./result-card-presenter');
@@ -1093,6 +1094,7 @@ function buildHullYorkA100ResultCard(course, config, applicant, options = {}) {
     },
     academic_pathway: evaluation.eligibility.academic_pathway || null,
     academic_pathway_id: evaluation.eligibility.academic_pathway_id ?? null,
+    alternative_academic_offer: buildAlternativeAcademicOffer(course.stage_1_eligibility),
     future_conditions: futureConditions,
     future_condition_advisories: futureAdvisories,
     academic_requirement_checks: academicRequirementChecks,

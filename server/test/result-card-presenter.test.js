@@ -3,11 +3,20 @@
 const assert = require('assert');
 const fs = require('fs');
 const path = require('path');
-const { presentResultCard } = require('../../assets/js/engine/result-card-presenter');
+const {
+  buildAlternativeAcademicOffer,
+  presentResultCard
+} = require('../../assets/js/engine/result-card-presenter');
 const { classifyInterviewBand } = require('../../assets/js/engine/interview-band-classifier');
 const cambridgeCourse = require('../../data/universities/cambridge-a100.json');
 const cambridgeConfig = require('../../data/interview-band-configs/cambridge-a100.json');
 const cambridgeFixture = require('../../data/fixtures/interview-band-classification/cambridge-a100.json');
+const hullYorkCourse = require('../../data/universities/hull-york-a100.json');
+const keeleCourse = require('../../data/universities/keele-a100.json');
+const lancasterCourse = require('../../data/universities/lancaster-a100.json');
+const leicesterCourse = require('../../data/universities/leicester-a100.json');
+const queensBelfastCourse = require('../../data/universities/queen-s-belfast-a100.json');
+const sheffieldCourse = require('../../data/universities/sheffield-a100.json');
 
 function present(overrides = {}) {
   return presentResultCard({
@@ -135,6 +144,167 @@ function publicAcademicChecks(card) {
 
 function clone(value) {
   return JSON.parse(JSON.stringify(value));
+}
+
+function alternativeOfferFor(course) {
+  return buildAlternativeAcademicOffer(course.stage_1_eligibility);
+}
+
+{
+  const cases = [
+    {
+      name: 'Leicester',
+      course: leicesterCourse,
+      expected: {
+        type: 'epq',
+        standard_offer: 'A*AA',
+        alternative_offer: 'AAA + EPQ Grade B',
+        epq_minimum_grade: 'B',
+        pathway_id: 'leicester_epq_alternative',
+        conditions: []
+      }
+    },
+    {
+      name: 'Lancaster',
+      course: lancasterCourse,
+      expected: {
+        type: 'epq',
+        standard_offer: 'AAA',
+        alternative_offer: 'AAB + EPQ Grade B',
+        epq_minimum_grade: 'B',
+        pathway_id: 'lancaster_epq_alternative',
+        conditions: []
+      }
+    },
+    {
+      name: 'Keele',
+      course: keeleCourse,
+      expected: {
+        type: 'epq',
+        standard_offer: 'A*AA',
+        alternative_offer: 'AAA + EPQ Grade A',
+        epq_minimum_grade: 'A',
+        pathway_id: 'keele_epq_alternative',
+        conditions: []
+      }
+    },
+    {
+      name: "Queen's Belfast",
+      course: queensBelfastCourse,
+      expected: {
+        type: 'epq',
+        standard_offer: 'A*AA',
+        alternative_offer: 'AAA + EPQ Grade A',
+        epq_minimum_grade: 'A',
+        pathway_id: 'queens_belfast_epq_alternative',
+        conditions: []
+      }
+    },
+    {
+      name: 'Sheffield',
+      course: sheffieldCourse,
+      expected: {
+        type: 'epq',
+        standard_offer: 'AAA',
+        alternative_offer: 'AAB + EPQ Grade A',
+        epq_minimum_grade: 'A',
+        pathway_id: 'sheffield_epq_alternative',
+        conditions: [
+          'Grade A required in the applicable mandatory science',
+          'EPQ must be taken alongside A-levels',
+          'EPQ route unavailable for A-level resits'
+        ]
+      }
+    },
+    {
+      name: 'HYMS',
+      course: hullYorkCourse,
+      expected: {
+        type: 'epq',
+        standard_offer: 'AAA',
+        alternative_offer: 'AAB + EPQ Grade A',
+        epq_minimum_grade: 'A',
+        pathway_id: 'hull_york_epq_alternative',
+        conditions: [
+          'Biology and Chemistry must both be grade A',
+          'A-levels must be taken in one sitting',
+          'EPQ route unavailable for A-level resits',
+          'Reduced offer applies only when this university is the firm UCAS choice'
+        ]
+      }
+    }
+  ];
+
+  for (const scenario of cases) {
+    assert.deepStrictEqual(
+      alternativeOfferFor(scenario.course),
+      scenario.expected,
+      `${scenario.name} alternative academic offer summary`
+    );
+  }
+}
+
+{
+  assert.strictEqual(
+    alternativeOfferFor(cambridgeCourse),
+    null,
+    'non-EPQ universities must not expose an alternative academic offer summary'
+  );
+
+  const malformed = clone(leicesterCourse.stage_1_eligibility);
+  delete malformed.post_16.a_level.epq_alternative_offer.a_level_grades;
+  assert.strictEqual(
+    buildAlternativeAcademicOffer(malformed),
+    null,
+    'malformed EPQ metadata must not crash or expose a partial alternative offer summary'
+  );
+}
+
+{
+  for (const eligibilityStatus of ['eligible', 'manual_review', 'not_eligible']) {
+    const card = present({
+      eligibilityStatus,
+      interviewBand: eligibilityStatus === 'not_eligible' ? 'not_eligible' : 'realistic',
+      manualReviewRequired: eligibilityStatus === 'manual_review',
+      manualReviewReason: eligibilityStatus === 'manual_review'
+        ? 'A predicted or achieved EPQ grade is required to assess the alternative academic offer.'
+        : null,
+      transparencyContext: {
+        stage_1_eligibility: leicesterCourse.stage_1_eligibility,
+        eligibility_checks: [
+          {
+            check_id: 'epq_alternative_offer',
+            qualification_type: 'a_level',
+            status: eligibilityStatus === 'eligible'
+              ? 'met'
+              : eligibilityStatus === 'manual_review'
+                ? 'information_needed'
+                : 'not_met'
+          }
+        ],
+        eligibility_failures: eligibilityStatus === 'not_eligible'
+          ? ['a_level_requirements_not_met']
+          : []
+      }
+    });
+    assert.deepStrictEqual(
+      card.alternative_academic_offer,
+      {
+        type: 'epq',
+        standard_offer: 'A*AA',
+        alternative_offer: 'AAA + EPQ Grade B',
+        epq_minimum_grade: 'B',
+        pathway_id: 'leicester_epq_alternative',
+        conditions: []
+      },
+      `alternative academic offer summary should render for ${eligibilityStatus} results`
+    );
+    assert.strictEqual(
+      publicAcademicChecks(card).length,
+      1,
+      `${eligibilityStatus} EPQ summary must not duplicate academic badges`
+    );
+  }
 }
 
 function makeCambridgeCard(ucatTotal) {
