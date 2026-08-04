@@ -8,9 +8,7 @@ import {
   filterGroupForCategory,
   presentResult,
   resultCardRecommendationExplanation,
-  strongestPopulatedCategory,
   strongestPopulatedFilterGroup,
-  type ResultCategory,
 } from './resultPresenter';
 import type { PredictionResult } from '../api/types';
 
@@ -304,27 +302,6 @@ describe('Result filter groups', () => {
     });
     expect(filterGroupForCategory('very_strong')).toBe('recommended');
     expect(filterGroupForCategory('eligible_to_apply')).toBe('information_needed');
-  });
-});
-
-describe('strongestPopulatedCategory', () => {
-  it('picks very_strong when populated, ahead of everything else', () => {
-    const counts: Partial<Record<ResultCategory, number>> = { very_strong: 1, strong: 5, not_eligible: 2 };
-    expect(strongestPopulatedCategory(counts)).toBe('very_strong');
-  });
-
-  it('falls through the priority order to the first populated category', () => {
-    const counts: Partial<Record<ResultCategory, number>> = { high_risk: 3, not_eligible: 4 };
-    expect(strongestPopulatedCategory(counts)).toBe('high_risk');
-  });
-
-  it('prefers ambitious over high_risk when both are populated', () => {
-    const counts: Partial<Record<ResultCategory, number>> = { high_risk: 3, ambitious: 1 };
-    expect(strongestPopulatedCategory(counts)).toBe('ambitious');
-  });
-
-  it('falls back to "all" when nothing is populated', () => {
-    expect(strongestPopulatedCategory({})).toBe('all');
   });
 });
 

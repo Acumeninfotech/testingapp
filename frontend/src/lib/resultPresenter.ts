@@ -518,14 +518,3 @@ export function strongestPopulatedFilterGroup(
   }
   return 'all';
 }
-
-export function strongestPopulatedCategory(
-  counts: Partial<Record<ResultCategory, number>>,
-): ResultCategory | 'all' {
-  for (const category of CATEGORY_PRIORITY) {
-    if ((counts[category] || 0) > 0) {
-      return category;
-    }
-  }
-  return 'all';
-}

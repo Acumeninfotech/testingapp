@@ -1,7 +1,6 @@
 import { useMemo, useState } from 'react';
 import type { PredictionResult } from '../api/types';
 import {
-  CATEGORY_PRIORITY,
   categoryRank,
   emptyFilterGroupCounts,
   filterGroupForCategory,
@@ -135,7 +134,3 @@ export function ResultsPage({ results, onStartOver }: ResultsPageProps) {
     </section>
   );
 }
-
-// Re-exported so callers/tests can enumerate the category priority without
-// importing lib/resultPresenter directly.
-export { CATEGORY_PRIORITY };
