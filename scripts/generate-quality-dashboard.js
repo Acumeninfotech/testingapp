@@ -18,6 +18,10 @@ function writeFile(fileName, value) {
   fs.writeFileSync(path.join(resultsDir, fileName), value);
 }
 
+function readDataJson(relativePath) {
+  return JSON.parse(fs.readFileSync(path.join(dataDir, relativePath), 'utf8'));
+}
+
 function count(rows, predicate) {
   return rows.filter(predicate).length;
 }
@@ -36,6 +40,7 @@ function summarise(rows, identity) {
     total_profiles_tested: rows.length,
     eligible: count(rows, (row) => row.eligibility === 'Eligible'),
     not_eligible: countDisplayState(rows, 'not_eligible'),
+    eligibility_only: countDisplayState(rows, 'eligibility_only'),
     manual_review: countDisplayState(rows, 'manual_review'),
     insufficient_evidence: countDisplayState(rows, 'insufficient_evidence'),
     strong_choice: countRecommendation(rows, 'Strong choice'),
@@ -50,9 +55,18 @@ function summarise(rows, identity) {
 
 const profileIds = [...new Set(matrix.map((row) => row.profile_id))];
 const universities = [...new Set(matrix.map((row) => row.university))];
-const productionReadyUniversityNames = index.universities
-  .filter((u) => u.activation_ready === true && u.result_card_ready === true && u.regression === true)
-  .map((u) => u.university_name);
+const productionReadyEntries = index.universities
+  .filter((u) => u.activation_ready === true && u.result_card_ready === true && u.regression === true);
+const productionReadyCourseIds = productionReadyEntries.map((entry) => entry.id);
+const courseIdsByUniversityName = new Map(
+  productionReadyEntries.map((entry) => {
+    const course = readDataJson(entry.json_file);
+    return [course.university?.name || entry.university_name, entry.id];
+  })
+);
+const matrixCourseIds = universities
+  .map((university) => courseIdsByUniversityName.get(university))
+  .filter(Boolean);
 const profileLevelSummary = profileIds.map((profileId) => {
   const rows = matrix.filter((row) => row.profile_id === profileId);
   return summarise(rows, {
@@ -70,6 +84,7 @@ const universityLevelSummary = universities.map((university) => {
 const displayDistribution = {
   standard_historical_recommendation: countDisplayState(matrix, 'standard'),
   entry_requirements_not_met: countDisplayState(matrix, 'not_eligible'),
+  eligibility_only: countDisplayState(matrix, 'eligibility_only'),
   needs_adviser_review: countDisplayState(matrix, 'manual_review'),
   evidence_not_yet_available: countDisplayState(matrix, 'insufficient_evidence')
 };
@@ -141,8 +156,9 @@ const dashboard = {
         new Set(matrix.map((row) => `${row.profile_id}\u0000${row.university}`)).size ===
           matrix.length,
       matrix_matches_production_ready_university_count:
-        universities.length === productionReadyUniversityNames.length &&
-        productionReadyUniversityNames.every((name) => universities.includes(name)),
+        matrixCourseIds.length === universities.length &&
+        matrixCourseIds.length === productionReadyCourseIds.length &&
+        productionReadyCourseIds.every((id) => matrixCourseIds.includes(id)),
       result_card_states_are_mutually_exclusive:
         Object.values(displayDistribution).reduce((total, value) => total + value, 0) ===
         matrix.length,
@@ -177,6 +193,7 @@ const markdown = `# ApplySmart Quality Dashboard
 |---|---:|
 | Historical recommendation | ${displayDistribution.standard_historical_recommendation} |
 | Entry requirements not met | ${displayDistribution.entry_requirements_not_met} |
+| Eligibility only | ${displayDistribution.eligibility_only} |
 | Needs adviser review | ${displayDistribution.needs_adviser_review} |
 | Evidence not yet available | ${displayDistribution.evidence_not_yet_available} |
 
