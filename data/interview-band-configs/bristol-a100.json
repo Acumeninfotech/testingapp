@@ -423,9 +423,21 @@
       },
       "band_rules": [
         {
-          "band": "realistic",
+          "band": "very_strong_interview_potential",
           "operator": "greater_than_or_equal",
-          "value": 2270
+          "value": 2370
+        },
+        {
+          "band": "interview_likely",
+          "operator": "between_inclusive",
+          "min": 2300,
+          "max": 2369
+        },
+        {
+          "band": "realistic",
+          "operator": "between_inclusive",
+          "min": 2270,
+          "max": 2299
         },
         {
           "band": "high_risk",

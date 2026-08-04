@@ -267,9 +267,21 @@
       "metric": "ucat_total",
       "band_rules": [
         {
-          "band": "realistic",
+          "band": "very_strong_interview_potential",
           "operator": "greater_than_or_equal",
-          "value": 2070
+          "value": 2170
+        },
+        {
+          "band": "interview_likely",
+          "operator": "between_inclusive",
+          "min": 2100,
+          "max": 2169
+        },
+        {
+          "band": "realistic",
+          "operator": "between_inclusive",
+          "min": 2070,
+          "max": 2099
         },
         {
           "band": "high_risk",

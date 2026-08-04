@@ -897,7 +897,7 @@ const sharedClassifierCases = [
     }),
     expected_pool: 'home_contextual_scored',
     expected_score: 10,
-    expected_band: 'realistic'
+    expected_band: 'interview_likely'
   },
   {
     case_id: 'classifier_ukwpmed_guaranteed_interview',
@@ -1210,6 +1210,44 @@ assert.strictEqual(
   strongApplicantResult.canonical_interview_band,
   'interview_likely',
   '8.5 (>= 7.236) must classify as Strong Choice (interview_likely)'
+);
+
+const contextualBelowThresholdResult = classifyInterviewBand(
+  profile,
+  config,
+  merge(fixture.base_applicants.home_standard, {
+    applicant_identity: {
+      contextual: true,
+      contextual_status_confirmed: true,
+      polar4_quintile: 'Q5'
+    },
+    admissions_tests: {
+      ucat: {
+        total_score: 2050
+      }
+    },
+    gcse_profile: {
+      subjects: {
+        english_language: '6',
+        english_literature: '6',
+        mathematics: '6',
+        biology: '6',
+        chemistry: '6',
+        history: '7',
+        geography: '7'
+      }
+    }
+  })
+);
+assert.strictEqual(contextualBelowThresholdResult.guidance_pool_id, 'home_contextual_scored');
+assert.ok(
+  contextualBelowThresholdResult.ranking.value < 8.561,
+  'contextual below-threshold boundary fixture must remain below 8.561'
+);
+assert.strictEqual(
+  contextualBelowThresholdResult.canonical_interview_band,
+  'high_risk',
+  '<8.561 must remain high_risk for Birmingham home_contextual_scored'
 );
 
 console.log('PASS: Birmingham home_standard 7.236 boundary (7.235 -> high_risk unchanged, 8.5 -> interview_likely/Strong Choice) and rule definition verified');

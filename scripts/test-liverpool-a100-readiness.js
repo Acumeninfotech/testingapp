@@ -306,6 +306,31 @@ assert.ok(config.guidance_pools.every((pool) => {
     return values.every((value) => APPROVED_BAND_BOUNDARIES.has(value));
   });
 }), 'Liverpool config must only use the official FOI-verified cutoffs and the approved ApplySmart point-offset boundaries (+30, +100) derived from them.');
+
+for (const boundary of [
+  ['contextual_12_points', 1732, 'ambitious'],
+  ['contextual_12_points', 1733, 'realistic'],
+  ['contextual_12_points', 1762, 'realistic'],
+  ['contextual_12_points', 1763, 'interview_likely'],
+  ['contextual_12_points', 1832, 'interview_likely'],
+  ['contextual_12_points', 1833, 'very_strong_interview_potential'],
+  ['international_band4_at_E2025_cutoff', 2107, 'ambitious'],
+  ['international_band4_at_E2025_cutoff', 2108, 'realistic'],
+  ['international_band4_at_E2025_cutoff', 2137, 'realistic'],
+  ['international_band4_at_E2025_cutoff', 2138, 'interview_likely'],
+  ['international_band4_at_E2025_cutoff', 2207, 'interview_likely'],
+  ['international_band4_at_E2025_cutoff', 2208, 'very_strong_interview_potential']
+]) {
+  const [builderId, ucatTotal, expectedBand] = boundary;
+  const applicant = builders[builderId]();
+  applicant.admissions_tests.ucat.total_score = ucatTotal;
+  const classification = classifyInterviewBand(course, config, applicant);
+  assert.strictEqual(
+    classification.canonical_interview_band,
+    expectedBand,
+    `${builderId} UCAT ${ucatTotal}: boundary band`
+  );
+}
 assert.strictEqual(config.offer_prediction, undefined);
 assert.strictEqual(course.engine_notes.offer_prediction_scope, 'out_of_scope');
 assert.strictEqual(course.engine_notes.offer_prediction_ready, undefined);
