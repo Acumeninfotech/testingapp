@@ -56,6 +56,21 @@ export interface UniversitiesResponse {
   count: number;
 }
 
+export interface ContextualPostcodeLookupResponse {
+  matched: boolean;
+  postcode: string;
+  normalised_postcode: string;
+  polar4_quintile: number | null;
+  tundra_quintile: number | null;
+  imd_quintile: number | null;
+  availability: {
+    polar4: boolean;
+    tundra: boolean;
+    imd: boolean;
+  };
+  warnings?: string[];
+}
+
 // studentProfile is passed through to the existing engine unmodified; the
 // frontend does not interpret or validate its internal shape.
 export interface StudentProfile {

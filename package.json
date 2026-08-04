@@ -14,6 +14,8 @@
     "web:dev": "npm run dev --prefix frontend",
     "web:build": "npm run build --prefix frontend",
     "web:test": "npm test --prefix frontend",
+    "contextual:build-postcode-lookup": "node scripts/build-contextual-postcode-lookup.js",
+    "contextual:test-postcode-lookup": "node scripts/test-contextual-postcode-lookup.js",
     "app:install": "npm run api:install && npm run web:install",
     "app:dev": "concurrently -n API,WEB -c blue,green \"npm run api:dev\" \"npm run web:dev\"",
     "app:test": "npm run api:test && npm run web:test"
