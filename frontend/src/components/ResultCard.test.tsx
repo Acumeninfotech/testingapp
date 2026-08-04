@@ -1,4 +1,4 @@
-import { render, screen } from '@testing-library/react';
+import { render, screen, within } from '@testing-library/react';
 import { createRequire } from 'node:module';
 import { describe, expect, it } from 'vitest';
 import { ResultCard } from './ResultCard';
@@ -133,6 +133,66 @@ describe('ResultCard', () => {
     expect(screen.getByText('AAB + EPQ Grade A')).toBeInTheDocument();
     expect(screen.getByText('Grade A required in the applicable mandatory science')).toBeInTheDocument();
     expect(screen.getByText('EPQ must be taken alongside A-levels')).toBeInTheDocument();
+  });
+
+  it('renders a contextual academic offer summary', () => {
+    render(
+      <ResultCard
+        result={makeResult({
+          alternative_academic_offer: {
+            type: 'contextual',
+            standard_offer: 'AAA',
+            alternative_offer: 'AAB',
+            pathway_id: 'lancaster_contextual_offer',
+            conditions: [],
+          },
+          academic_requirement_checks: [
+            {
+              qualification_type: 'a_level',
+              requirement_type: 'a_level_contextual_offer',
+              label: 'A-level grades',
+              status: 'met',
+              required_value: 'AAB',
+              applicant_value: 'AAB',
+              reason: 'This requirement is met.',
+            },
+          ],
+        })}
+      />,
+    );
+
+    const offer = screen
+      .getByRole('heading', { name: 'Alternative Academic Offer' })
+      .closest('.alternative-academic-offer');
+    expect(offer).not.toBeNull();
+    expect(within(offer as HTMLElement).getByText('Contextual')).toBeInTheDocument();
+    expect(within(offer as HTMLElement).getByText('Contextual Offer')).toBeInTheDocument();
+    expect(within(offer as HTMLElement).getByText('AAB')).toBeInTheDocument();
+  });
+
+  it('renders a contextual EPQ academic offer summary', () => {
+    render(
+      <ResultCard
+        result={makeResult({
+          alternative_academic_offer: {
+            type: 'contextual_epq',
+            standard_offer: 'AAB',
+            alternative_offer: 'ABB + EPQ Grade B',
+            epq_minimum_grade: 'B',
+            pathway_id: 'lancaster_contextual_epq_alternative',
+            conditions: [],
+          },
+        })}
+      />,
+    );
+
+    const offer = screen
+      .getByRole('heading', { name: 'Alternative Academic Offer' })
+      .closest('.alternative-academic-offer');
+    expect(offer).not.toBeNull();
+    expect(within(offer as HTMLElement).getByText('Contextual + EPQ')).toBeInTheDocument();
+    expect(within(offer as HTMLElement).getByText('Contextual EPQ Alternative')).toBeInTheDocument();
+    expect(within(offer as HTMLElement).getByText('ABB + EPQ Grade B')).toBeInTheDocument();
   });
 
   it('omits the EPQ alternative summary for non-EPQ or malformed contracts', () => {

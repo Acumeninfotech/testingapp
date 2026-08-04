@@ -220,6 +220,116 @@
       }
     },
     {
+      "scenario_id": "home_contextual_realistic_upper_bound",
+      "overrides": {
+        "applicant_identity": {
+          "contextual": true,
+          "widening_participation": true,
+          "contextual_flags": {
+            "care_experienced": true
+          }
+        },
+        "admissions_tests": {
+          "ucat": {
+            "total_score": 1899
+          }
+        }
+      },
+      "expected": {
+        "eligibility_status": "eligible",
+        "guidance_pool_id": "home_contextual_wp_school_leaver",
+        "interview_band": "realistic"
+      }
+    },
+    {
+      "scenario_id": "home_contextual_interview_likely_lower_bound",
+      "overrides": {
+        "applicant_identity": {
+          "contextual": true,
+          "widening_participation": true,
+          "contextual_flags": {
+            "care_experienced": true
+          }
+        },
+        "admissions_tests": {
+          "ucat": {
+            "total_score": 1900
+          }
+        }
+      },
+      "expected": {
+        "eligibility_status": "eligible",
+        "guidance_pool_id": "home_contextual_wp_school_leaver",
+        "interview_band": "interview_likely"
+      }
+    },
+    {
+      "scenario_id": "home_contextual_interview_likely_upper_bound",
+      "overrides": {
+        "applicant_identity": {
+          "contextual": true,
+          "widening_participation": true,
+          "contextual_flags": {
+            "care_experienced": true
+          }
+        },
+        "admissions_tests": {
+          "ucat": {
+            "total_score": 1969
+          }
+        }
+      },
+      "expected": {
+        "eligibility_status": "eligible",
+        "guidance_pool_id": "home_contextual_wp_school_leaver",
+        "interview_band": "interview_likely"
+      }
+    },
+    {
+      "scenario_id": "home_contextual_very_strong_interview_potential_lower_bound",
+      "overrides": {
+        "applicant_identity": {
+          "contextual": true,
+          "widening_participation": true,
+          "contextual_flags": {
+            "care_experienced": true
+          }
+        },
+        "admissions_tests": {
+          "ucat": {
+            "total_score": 1970
+          }
+        }
+      },
+      "expected": {
+        "eligibility_status": "eligible",
+        "guidance_pool_id": "home_contextual_wp_school_leaver",
+        "interview_band": "very_strong_interview_potential"
+      }
+    },
+    {
+      "scenario_id": "home_contextual_exceptionally_strong_not_capped",
+      "overrides": {
+        "applicant_identity": {
+          "contextual": true,
+          "widening_participation": true,
+          "contextual_flags": {
+            "care_experienced": true
+          }
+        },
+        "admissions_tests": {
+          "ucat": {
+            "total_score": 2400
+          }
+        }
+      },
+      "expected": {
+        "eligibility_status": "eligible",
+        "guidance_pool_id": "home_contextual_wp_school_leaver",
+        "interview_band": "very_strong_interview_potential"
+      }
+    },
+    {
       "scenario_id": "home_contextual_borderline_upper_bound",
       "overrides": {
         "applicant_identity": {
@@ -464,6 +574,31 @@
       "pool": "home_contextual",
       "ucat_total": 1870,
       "expected_band": "realistic"
+    },
+    {
+      "pool": "home_contextual",
+      "ucat_total": 1899,
+      "expected_band": "realistic"
+    },
+    {
+      "pool": "home_contextual",
+      "ucat_total": 1900,
+      "expected_band": "interview_likely"
+    },
+    {
+      "pool": "home_contextual",
+      "ucat_total": 1969,
+      "expected_band": "interview_likely"
+    },
+    {
+      "pool": "home_contextual",
+      "ucat_total": 1970,
+      "expected_band": "very_strong_interview_potential"
+    },
+    {
+      "pool": "home_contextual",
+      "ucat_total": 2400,
+      "expected_band": "very_strong_interview_potential"
     },
     {
       "pool": "international",

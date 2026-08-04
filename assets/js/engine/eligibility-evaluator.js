@@ -306,6 +306,9 @@ function applyCourseSpecificDerivedApplicantGroups(course, applicant, groupIds) 
   const groups = new Set(groupIds);
   const identity = applicant.applicant_identity || {};
   const flags = identity.contextual_flags || {};
+  const trueFlagCount = (flagIds) => {
+    return flagIds.filter((flagId) => flags[flagId] === true).length;
+  };
 
   if (
     course?.profile_id === 'birmingham-a100' &&
@@ -322,6 +325,27 @@ function applyCourseSpecificDerivedApplicantGroups(course, applicant, groupIds) 
     )
   ) {
     groups.add('contextual');
+  }
+
+  if (
+    course?.profile_id === 'lancaster-a100' &&
+    groups.has('home_fee') &&
+    !groups.has('international_fee') &&
+    !groups.has('graduate_applicant') &&
+    (
+      flags.care_experienced === true ||
+      flags.refugee === true ||
+      flags.refugee_or_asylum_seeker === true ||
+      trueFlagCount([
+        'free_school_meals',
+        'first_generation_higher_education',
+        'school_contextual_indicator',
+        'ucat_bursary'
+      ]) >= 2
+    )
+  ) {
+    groups.add('contextual');
+    groups.add('widening_participation');
   }
 
   return [...groups];
@@ -619,14 +643,22 @@ function evaluateALevelRequirement(requirement, applicant, state, routeRules = {
   const excludedSubjectsPassed = Object.keys(subjectGrades).every((subjectId) => {
     return !excludedSubjectIds.has(subjectId);
   });
+  const epqRequirementPassed = aLevelRouteEpqRequirementApplies(requirement, applicant);
   const passed = profilePassed &&
     requiredSubjectsPassed &&
     directSubjectGradesPassed &&
     subjectOptionsPassed &&
     subjectGroupsPassed &&
-    excludedSubjectsPassed;
+    excludedSubjectsPassed &&
+    epqRequirementPassed;
 
   addCheck(state, requirement.requirement_id || 'a_level_requirement', passed, {
+    academic_pathway: requirement.academic_pathway || null,
+    pathway_id: requirement.pathway_id || requirement.route_id || requirement.requirement_id || null,
+    required: formatGradeProfile(requiredGradeProfile),
+    actual: formatGradeProfile(actualGrades),
+    epq_requirement_met: epqRequirementPassed,
+    epq_minimum_grade: requirement.epq_minimum_grade || null,
     grade_profile_met: profilePassed,
     required_subjects_met: requiredSubjectsPassed,
     subject_grade_rule_met: directSubjectGradesPassed && subjectOptionsPassed,
@@ -637,6 +669,57 @@ function evaluateALevelRequirement(requirement, applicant, state, routeRules = {
     addFailure(state, 'a_level_requirements_not_met');
   }
 
+}
+
+function aLevelRouteEpqRequirementApplies(route = {}, applicant = {}) {
+  if (route.requires_epq !== true && !route.epq_minimum_grade) {
+    return true;
+  }
+
+  const epq = applicant?.a_level_profile?.epq || applicant?.epq || {};
+  const status = normaliseId(epq.status);
+  if (!['predicted', 'achieved'].includes(status)) {
+    return false;
+  }
+  return gradeMeets(epq.grade, route.epq_minimum_grade || 'B', 'a_level');
+}
+
+function hasRoutedEpqAlternative(routeRules = {}) {
+  const routes = [
+    ...(Array.isArray(routeRules.grade_requirements) ? routeRules.grade_requirements : []),
+    ...(Array.isArray(routeRules.routes) ? routeRules.routes : [])
+  ];
+  return routes.some((route) => route?.requires_epq === true || route?.epq_minimum_grade);
+}
+
+function formatGradeProfile(grades = []) {
+  if (!Array.isArray(grades) || grades.length === 0) {
+    return null;
+  }
+  const normalised = grades
+    .map((grade) => normaliseGrade(grade))
+    .filter(Boolean);
+  return normalised.length === grades.length ? normalised.join('') : null;
+}
+
+function academicPathwayForALevelRequirement(requirement = {}) {
+  const route = requirement || {};
+  if (route.academic_pathway) {
+    return route.academic_pathway;
+  }
+  const id = normaliseId(route.pathway_id || route.route_id || route.requirement_id);
+  if (id.includes('contextual')) {
+    return 'contextual';
+  }
+  if (id.includes('standard')) {
+    return 'standard';
+  }
+  return null;
+}
+
+function academicPathwayIdForALevelRequirement(requirement = {}) {
+  const route = requirement || {};
+  return route.pathway_id || route.route_id || route.requirement_id || null;
 }
 
 function evaluateStandardALevelRequirement(applicant, standardRequirement, routeRules = {}) {
@@ -868,13 +951,16 @@ function evaluateALevelRoute(course, applicant, state) {
     return groupRuleApplies(requirement, state.applicant_group_ids) &&
       !requirement.applies_to_group_ids?.includes('graduate_applicant');
   });
+  const activeApplicable = applicable.filter((requirement) => {
+    return aLevelRouteEpqRequirementApplies(requirement, applicant);
+  });
 
-  if (applicable.length === 0) {
+  if (activeApplicable.length === 0) {
     addFailure(state, 'a_level_route_not_supported_for_applicant_groups');
     return;
   }
 
-  const attempts = applicable.map((requirement) => {
+  const attempts = activeApplicable.map((requirement) => {
     const attempt = {
       ...state,
       checks: [],
@@ -884,13 +970,18 @@ function evaluateALevelRoute(course, applicant, state) {
     evaluateALevelRequirement(requirement, applicant, attempt, routeRules);
     return attempt;
   });
-  const passed = attempts.find((attempt) => attempt.failures.length === 0);
-  const standardPassed = standardOfferRoutePassed(applicable, attempts, routeRules);
-  const epqAlternativePathway = evaluateALevelEpqAlternativePathway(
-    applicant,
-    routeRules,
-    standardPassed
-  );
+  const passedIndex = attempts.findIndex((attempt) => attempt.failures.length === 0);
+  const passed = passedIndex >= 0 ? attempts[passedIndex] : null;
+  const passedRequirement = passedIndex >= 0 ? activeApplicable[passedIndex] : null;
+  const passedRequirementPathway = academicPathwayForALevelRequirement(passedRequirement);
+  const standardPassed = standardOfferRoutePassed(activeApplicable, attempts, routeRules);
+  const epqAlternativePathway = passed || hasRoutedEpqAlternative(routeRules)
+    ? null
+    : evaluateALevelEpqAlternativePathway(
+        applicant,
+        routeRules,
+        standardPassed
+      );
   if (passed) {
     state.checks.push(...passed.checks);
     if (epqAlternativePathway) {
@@ -906,8 +997,9 @@ function evaluateALevelRoute(course, applicant, state) {
         addFailure(state, 'a_level_requirements_not_met');
       }
     } else {
-      state.academic_pathway = state.academic_pathway || 'standard';
-      state.academic_pathway_id = state.academic_pathway_id || null;
+      state.academic_pathway = state.academic_pathway || passedRequirementPathway || 'standard';
+      state.academic_pathway_id = state.academic_pathway_id ||
+        (passedRequirementPathway ? academicPathwayIdForALevelRequirement(passedRequirement) : null);
     }
   } else {
     state.checks.push(...attempts.flatMap((attempt) => attempt.checks));
@@ -924,6 +1016,13 @@ function evaluateALevelRoute(course, applicant, state) {
         addFailure(state, 'a_level_requirements_not_met');
       }
     } else {
+      const activeRequirement = activeApplicable[0];
+      const activePathway = academicPathwayForALevelRequirement(activeRequirement);
+      if (activePathway) {
+        state.academic_pathway = state.academic_pathway || activePathway;
+        state.academic_pathway_id = state.academic_pathway_id ||
+          academicPathwayIdForALevelRequirement(activeRequirement);
+      }
       addFailure(state, 'a_level_requirements_not_met');
     }
   }

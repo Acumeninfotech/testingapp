@@ -245,6 +245,36 @@ function alternativeOfferFor(course) {
 }
 
 {
+  assert.deepStrictEqual(
+    buildAlternativeAcademicOffer(lancasterCourse.stage_1_eligibility, {
+      academic_pathway: 'contextual',
+      academic_pathway_id: 'lancaster_contextual_offer'
+    }),
+    {
+      type: 'contextual',
+      standard_offer: 'AAA',
+      alternative_offer: 'AAB',
+      pathway_id: 'lancaster_contextual_offer',
+      conditions: []
+    },
+    'Lancaster active contextual pathway should expose the AAB contextual offer summary'
+  );
+  assert.deepStrictEqual(
+    buildAlternativeAcademicOffer(lancasterCourse.stage_1_eligibility, {
+      academic_pathway: 'contextual_epq_alternative',
+      academic_pathway_id: 'lancaster_contextual_epq_alternative'
+    }),
+    {
+      type: 'contextual_epq',
+      standard_offer: 'AAB',
+      alternative_offer: 'ABB + EPQ Grade B',
+      epq_minimum_grade: 'B',
+      pathway_id: 'lancaster_contextual_epq_alternative',
+      conditions: []
+    },
+    'Lancaster active contextual-plus-EPQ pathway should expose the ABB contextual EPQ offer summary'
+  );
+
   assert.strictEqual(
     alternativeOfferFor(cambridgeCourse),
     null,

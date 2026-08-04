@@ -52,6 +52,23 @@
           },
           {
             "applicant_evidence_path": "applicant_identity.contextual_flags.refugee"
+          },
+          {
+            "minimum_evidence_matches": 2,
+            "minimum_evidence": [
+              {
+                "applicant_evidence_path": "applicant_identity.contextual_flags.free_school_meals"
+              },
+              {
+                "applicant_evidence_path": "applicant_identity.contextual_flags.first_generation_higher_education"
+              },
+              {
+                "applicant_evidence_path": "applicant_identity.contextual_flags.school_contextual_indicator"
+              },
+              {
+                "applicant_evidence_path": "applicant_identity.contextual_flags.ucat_bursary"
+              }
+            ]
           }
         ]
       }
@@ -87,9 +104,115 @@
     "a_level": {
       "routes": [
         {
-          "route_id": "standard_stage_1_aab",
+          "route_id": "a_level_contextual_epq_alternative",
+          "academic_pathway": "contextual_epq_alternative",
+          "pathway_id": "lancaster_contextual_epq_alternative",
+          "requires_epq": true,
+          "epq_minimum_grade": "B",
           "applies_to_group_ids": [
             "school_leaver"
+          ],
+          "any_group_ids": [
+            "contextual",
+            "widening_participation",
+            "care_experienced"
+          ],
+          "excluded_group_ids": [
+            "resit_applicant"
+          ],
+          "grade_profile": [
+            "A",
+            "B",
+            "B"
+          ],
+          "required_subject_ids": [],
+          "one_of_subject_groups": [
+            {
+              "minimum_required": 2,
+              "subject_ids": [
+                "biology",
+                "chemistry",
+                "psychology"
+              ]
+            }
+          ],
+          "excluded_subject_ids": []
+        },
+        {
+          "route_id": "a_level_epq_alternative",
+          "academic_pathway": "epq_alternative",
+          "pathway_id": "lancaster_epq_alternative",
+          "requires_epq": true,
+          "epq_minimum_grade": "B",
+          "applies_to_group_ids": [
+            "school_leaver"
+          ],
+          "excluded_group_ids": [
+            "resit_applicant",
+            "contextual",
+            "widening_participation",
+            "care_experienced"
+          ],
+          "grade_profile": [
+            "A",
+            "A",
+            "B"
+          ],
+          "required_subject_ids": [],
+          "one_of_subject_groups": [
+            {
+              "minimum_required": 2,
+              "subject_ids": [
+                "biology",
+                "chemistry",
+                "psychology"
+              ]
+            }
+          ],
+          "excluded_subject_ids": []
+        },
+        {
+          "route_id": "a_level_standard_offer",
+          "academic_pathway": "standard",
+          "pathway_id": "lancaster_standard_offer",
+          "applies_to_group_ids": [
+            "school_leaver"
+          ],
+          "excluded_group_ids": [
+            "resit_applicant",
+            "contextual",
+            "widening_participation",
+            "care_experienced"
+          ],
+          "grade_profile": [
+            "A",
+            "A",
+            "A"
+          ],
+          "required_subject_ids": [],
+          "one_of_subject_groups": [
+            {
+              "minimum_required": 2,
+              "subject_ids": [
+                "biology",
+                "chemistry",
+                "psychology"
+              ]
+            }
+          ],
+          "excluded_subject_ids": []
+        },
+        {
+          "route_id": "a_level_contextual_offer",
+          "academic_pathway": "contextual",
+          "pathway_id": "lancaster_contextual_offer",
+          "applies_to_group_ids": [
+            "school_leaver"
+          ],
+          "any_group_ids": [
+            "contextual",
+            "widening_participation",
+            "care_experienced"
           ],
           "excluded_group_ids": [
             "resit_applicant"
@@ -157,11 +280,11 @@
     "historical_guidance_only": true,
     "legacy_3600_conversion_used": false,
     "band_policy": {
-      "realistic": "From the applicable published 2026-entry threshold up to 29 points above it (Home standard pool). This is an ApplySmart confidence interpretation of historical evidence, not an official university category or cut-off.",
+      "realistic": "From the applicable published 2026-entry Home pool threshold up to 29 points above it. This is an ApplySmart confidence interpretation of historical evidence, not an official university category or cut-off.",
       "ambitious": "Within the published 10-point Home borderline interval where prior academic performance was also considered.",
       "high_risk": "Below the published threshold and, for Home pools, below the borderline interval.",
-      "interview_likely": "ApplySmart interpretation only: 30 to 99 points above the published 2026-entry threshold for the Home standard pool. Not an official university interview category, cut-off or guarantee of interview.",
-      "very_strong_interview_potential": "ApplySmart interpretation only: at least 100 points above the published 2026-entry threshold for the Home standard pool. Not an official university interview category, cut-off or guarantee of interview."
+      "interview_likely": "ApplySmart interpretation only: 30 to 99 points above the applicable published 2026-entry Home pool threshold. Not an official university interview category, cut-off or guarantee of interview.",
+      "very_strong_interview_potential": "ApplySmart interpretation only: at least 100 points above the applicable published 2026-entry Home pool threshold. Not an official university interview category, cut-off or guarantee of interview."
     }
   },
   "guidance_pools": [
@@ -214,9 +337,21 @@
       "metric": "ucat_total",
       "band_rules": [
         {
-          "band": "realistic",
+          "band": "very_strong_interview_potential",
           "operator": "greater_than_or_equal",
-          "value": 1870
+          "value": 1970
+        },
+        {
+          "band": "interview_likely",
+          "operator": "between_inclusive",
+          "min": 1900,
+          "max": 1969
+        },
+        {
+          "band": "realistic",
+          "operator": "between_inclusive",
+          "min": 1870,
+          "max": 1899
         },
         {
           "band": "ambitious",

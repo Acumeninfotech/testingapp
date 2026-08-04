@@ -318,6 +318,15 @@ function academicRequirementLabelForCheck(rawCheck, qualificationType) {
   if (checkId === 'epq_alternative_offer') {
     return 'A-levels + EPQ';
   }
+  if (checkId === 'a_level_contextual_epq_alternative') {
+    return 'Contextual A-levels + EPQ';
+  }
+  if (checkId === 'a_level_epq_alternative') {
+    return 'A-levels + EPQ';
+  }
+  if (checkId === 'a_level_contextual_offer') {
+    return 'Contextual A-level grades';
+  }
   if (checkId === 'a_level_route' || checkId.includes('a_level')) {
     return 'A-level grades';
   }
@@ -588,7 +597,83 @@ function epqAlternativeOfferConditions(policy = {}) {
   return [...new Set(conditions)];
 }
 
-function buildAlternativeAcademicOffer(stage1Eligibility = null) {
+function buildContextualAcademicOffer(stage1Eligibility = null) {
+  const aLevel = stage1Eligibility?.post_16?.a_level;
+  const standardGrades = aLevel?.standard_offer?.grade_profile || aLevel?.grade_profile || [];
+  const contextualGrades = aLevel?.contextual_offer?.grade_profile || [];
+  const standardOffer = formatAlevelGradeProfile(standardGrades);
+  const contextualOffer = formatAlevelGradeProfile(contextualGrades);
+
+  if (!standardOffer || !contextualOffer) {
+    return null;
+  }
+
+  return {
+    type: 'contextual',
+    standard_offer: standardOffer,
+    alternative_offer: contextualOffer,
+    pathway_id: aLevel.contextual_offer?.pathway_id || 'contextual_offer',
+    conditions: []
+  };
+}
+
+function buildContextualEpqAcademicOffer(stage1Eligibility = null) {
+  const aLevel = stage1Eligibility?.post_16?.a_level;
+  const contextualGrades = aLevel?.contextual_offer?.grade_profile || [];
+  const policy = aLevel?.contextual_epq_alternative_offer;
+  const contextualOffer = formatAlevelGradeProfile(contextualGrades);
+  const alternativeGrades = policy?.a_level_grades || policy?.grade_profile || [];
+  const alternativeGradeOffer = formatAlevelGradeProfile(alternativeGrades);
+  const epqMinimumGrade = String(policy?.epq_minimum_grade || policy?.epq_grade || '').trim().toUpperCase();
+  const pathwayId = String(policy?.pathway_id || '').trim();
+
+  if (!contextualOffer || !alternativeGradeOffer || !epqMinimumGrade || !pathwayId) {
+    return null;
+  }
+
+  return {
+    type: 'contextual_epq',
+    standard_offer: contextualOffer,
+    alternative_offer: `${alternativeGradeOffer} + EPQ Grade ${epqMinimumGrade}`,
+    epq_minimum_grade: epqMinimumGrade,
+    pathway_id: pathwayId,
+    conditions: []
+  };
+}
+
+function hasRoutedAcademicOfferPathways(stage1Eligibility = null) {
+  const routes = stage1Eligibility?.post_16?.a_level?.grade_requirements || [];
+  return routes.some((route) => {
+    return route?.pathway_id ||
+      route?.academic_pathway ||
+      route?.requires_epq === true ||
+      route?.epq_minimum_grade;
+  });
+}
+
+function buildAlternativeAcademicOffer(stage1Eligibility = null, context = {}) {
+  if (context.academic_pathway === 'contextual_epq_alternative') {
+    const contextualEpqOffer = buildContextualEpqAcademicOffer(stage1Eligibility);
+    if (contextualEpqOffer) {
+      return contextualEpqOffer;
+    }
+  }
+
+  if (context.academic_pathway === 'contextual') {
+    const contextualOffer = buildContextualAcademicOffer(stage1Eligibility);
+    if (contextualOffer) {
+      return contextualOffer;
+    }
+  }
+
+  if (
+    context.academic_pathway &&
+    context.academic_pathway !== 'epq_alternative' &&
+    hasRoutedAcademicOfferPathways(stage1Eligibility)
+  ) {
+    return null;
+  }
+
   const aLevel = stage1Eligibility?.post_16?.a_level;
   const policy = aLevel?.epq_alternative_offer;
   if (policy?.enabled !== true) {
@@ -4304,7 +4389,11 @@ function presentResultCard({
     academic_pathway: academicPathway,
     academic_pathway_id: academicPathwayId,
     alternative_academic_offer: buildAlternativeAcademicOffer(
-      transparencyContext.stage_1_eligibility
+      transparencyContext.stage_1_eligibility,
+      {
+        academic_pathway: academicPathway,
+        academic_pathway_id: academicPathwayId
+      }
     ),
     future_conditions: [...new Set(futureConditions)],
     future_condition_advisories: futureConditionAdvisoryText,

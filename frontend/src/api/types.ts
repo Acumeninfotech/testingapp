@@ -251,10 +251,10 @@ export interface ResultCard {
   selection_approach_display?: string | null;
   academic_requirement_checks?: AcademicRequirementCheck[];
   alternative_academic_offer?: {
-    type: 'epq';
+    type: 'epq' | 'contextual' | 'contextual_epq';
     standard_offer: string;
     alternative_offer: string;
-    epq_minimum_grade: string;
+    epq_minimum_grade?: string;
     pathway_id: string;
     conditions?: string[];
   } | null;

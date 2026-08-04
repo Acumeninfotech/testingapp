@@ -109,7 +109,15 @@ assert.deepStrictEqual(aLevel.epq_alternative_offer, {
   a_level_grades: ['A', 'A', 'B'],
   epq_minimum_grade: 'B'
 });
-assert.deepStrictEqual(aLevel.contextual_offer.grade_profile, ['A', 'B', 'B']);
+assert.deepStrictEqual(aLevel.contextual_offer.grade_profile, ['A', 'A', 'B']);
+assert.deepStrictEqual(aLevel.contextual_epq_alternative_offer, {
+  enabled: true,
+  pathway_id: 'lancaster_contextual_epq_alternative',
+  a_level_grades: ['A', 'B', 'B'],
+  epq_minimum_grade: 'B',
+  source_ids: ['lancaster_admissions_policy_2026'],
+  notes: 'ABB applies only where the applicant is contextual/WP and has EPQ grade B or above.'
+});
 assert.strictEqual(aLevel.science_practical_endorsement_required, null);
 assert.deepStrictEqual(
   aLevel.one_of_subject_groups[0].subject_ids,
@@ -126,19 +134,53 @@ assert.strictEqual(admissionsTests.sjt.scoring.used_in_score, false);
 
 assert.strictEqual(config.score_model.fixed_current_cutoff, false);
 assert.strictEqual(config.score_model.legacy_3600_conversion_used, false);
+const homeStandardPool = config.guidance_pools
+  .find((pool) => pool.pool_id === 'home_standard_school_leaver');
+const homeContextualPool = config.guidance_pools
+  .find((pool) => pool.pool_id === 'home_contextual_wp_school_leaver');
 assert.strictEqual(
-  config.guidance_pools
-    .find((pool) => pool.pool_id === 'home_standard_school_leaver')
-    .band_rules.some((rule) => rule.band === 'interview_likely'),
+  homeStandardPool.band_rules.some((rule) => rule.band === 'interview_likely'),
   true,
   'Lancaster home standard pool must use the approved ApplySmart interview_likely band (30-99 points above the published threshold).'
 );
 assert.strictEqual(
-  config.guidance_pools
-    .find((pool) => pool.pool_id === 'home_standard_school_leaver')
-    .band_rules.some((rule) => rule.band === 'very_strong_interview_potential'),
+  homeStandardPool.band_rules.some((rule) => rule.band === 'very_strong_interview_potential'),
   true,
   'Lancaster home standard pool must use the approved ApplySmart very_strong_interview_potential band (100+ points above the published threshold).'
+);
+assert.deepStrictEqual(
+  homeContextualPool.band_rules,
+  [
+    {
+      band: 'very_strong_interview_potential',
+      operator: 'greater_than_or_equal',
+      value: 1970
+    },
+    {
+      band: 'interview_likely',
+      operator: 'between_inclusive',
+      min: 1900,
+      max: 1969
+    },
+    {
+      band: 'realistic',
+      operator: 'between_inclusive',
+      min: 1870,
+      max: 1899
+    },
+    {
+      band: 'ambitious',
+      operator: 'between_inclusive',
+      min: 1860,
+      max: 1869
+    },
+    {
+      band: 'high_risk',
+      operator: 'less_than',
+      value: 1860
+    }
+  ],
+  'Lancaster contextual pool must apply the same 0-29, 30-99 and 100+ ApplySmart offsets anchored to the contextual 1870 benchmark.'
 );
 
 for (const scenario of fixture.scenarios) {

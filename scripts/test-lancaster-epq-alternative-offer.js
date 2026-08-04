@@ -57,7 +57,7 @@ const southamptonCourse = readJson('data/universities/southampton-a100.json');
 const southamptonConfig = readJson('data/interview-band-configs/southampton-a100.json');
 const southamptonFixture = readJson('data/fixtures/interview-band-classification/southampton-a100.json');
 
-function applicantWith({ grades, epq = undefined }) {
+function applicantWith({ grades, epq = undefined, contextual = false }) {
   const subjects = [
     ['biology', grades[0]],
     ['chemistry', grades[1]],
@@ -76,6 +76,22 @@ function applicantWith({ grades, epq = undefined }) {
     aLevelProfile.epq = epq;
   }
   return merge(fixture.base_applicant, {
+    applicant_identity: contextual
+      ? {
+          contextual: true,
+          widening_participation: true,
+          contextual_status_confirmed: true,
+          contextual_flags: {
+            care_experienced: true,
+            refugee_or_asylum_seeker: true,
+            refugee: true,
+            free_school_meals: true,
+            first_generation_higher_education: true,
+            school_contextual_indicator: true,
+            ucat_bursary: true
+          }
+        }
+      : {},
     a_level_profile: aLevelProfile,
     admissions_tests: {
       ucat: {
@@ -218,6 +234,9 @@ function publicPost16Checks(checks) {
 
 const EPQ_PATHWAY_ID = 'lancaster_epq_alternative';
 const EPQ_GRADE_REASON = `${EPQ_PATHWAY_ID}_epq_grade_required`;
+const STANDARD_PATHWAY_ID = 'lancaster_standard_offer';
+const CONTEXTUAL_PATHWAY_ID = 'lancaster_contextual_offer';
+const CONTEXTUAL_EPQ_PATHWAY_ID = 'lancaster_contextual_epq_alternative';
 
 assert.deepStrictEqual(course.stage_1_eligibility.post_16.a_level.epq_alternative_offer, {
   enabled: true,
@@ -234,12 +253,244 @@ assert.strictEqual(
   'Lancaster must use the canonical epq_alternative_offer field, not the legacy alias.'
 );
 
+function assertLancasterAlevelPathwayScenario({
+  label,
+  applicant,
+  expectedStatus,
+  expectedPathway,
+  expectedPathwayId,
+  expectedRequirementType,
+  expectedRowLabel = 'A-level grades',
+  expectedPublicAlevelStatus,
+  expectedRowRequired,
+  expectedRowActual,
+  expectedAlternativeType,
+  expectedAlternativeOffer
+}) {
+  const eligibility = evaluateCourseEligibility(course, applicant);
+  const classification = classifyInterviewBand(course, config, applicant);
+  const card = publicCardFor(course, config, applicant);
+  const aLevelRows = publicPost16Checks(card.academic_requirement_checks || []);
+
+  assert.strictEqual(eligibility.status, expectedStatus, `${label}: generic eligibility status`);
+  assert.strictEqual(
+    classification.eligibility.status,
+    expectedStatus,
+    `${label}: classifier eligibility status`
+  );
+  assert.strictEqual(eligibility.academic_pathway ?? null, expectedPathway, `${label}: generic pathway`);
+  assert.strictEqual(
+    classification.eligibility.academic_pathway ?? null,
+    expectedPathway,
+    `${label}: classifier pathway`
+  );
+  assert.strictEqual(
+    card.academic_pathway ?? null,
+    expectedPathway,
+    `${label}: public card pathway`
+  );
+  assert.strictEqual(
+    eligibility.academic_pathway_id ?? null,
+    expectedPathwayId,
+    `${label}: generic pathway id`
+  );
+  assert.strictEqual(
+    classification.eligibility.academic_pathway_id ?? null,
+    expectedPathwayId,
+    `${label}: classifier pathway id`
+  );
+  assert.strictEqual(
+    card.academic_pathway_id ?? null,
+    expectedPathwayId,
+    `${label}: public card pathway id`
+  );
+  assert.deepStrictEqual(
+    aLevelRows.map((check) => [
+      check.label,
+      check.status,
+      check.requirement_type,
+      check.required_value,
+      check.applicant_value
+    ]),
+    [[
+      expectedRowLabel,
+      expectedPublicAlevelStatus,
+      expectedRequirementType,
+      expectedRowRequired,
+      expectedRowActual
+    ]],
+    `${label}: public A-level row should use active pathway ${JSON.stringify(aLevelRows)}`
+  );
+  assert.strictEqual(
+    card.alternative_academic_offer?.type ?? null,
+    expectedAlternativeType,
+    `${label}: alternative offer type`
+  );
+  assert.strictEqual(
+    card.alternative_academic_offer?.alternative_offer ?? null,
+    expectedAlternativeOffer,
+    `${label}: alternative offer grade`
+  );
+}
+
+[
+  {
+    label: 'non-contextual no EPQ AAA',
+    applicant: applicantWith({ grades: ['A', 'A', 'A'] }),
+    expectedStatus: 'eligible',
+    expectedPathway: 'standard',
+    expectedPathwayId: STANDARD_PATHWAY_ID,
+    expectedRequirementType: 'a_level_standard_offer',
+    expectedPublicAlevelStatus: 'met',
+    expectedRowRequired: 'AAA',
+    expectedRowActual: 'AAA',
+    expectedAlternativeType: null,
+    expectedAlternativeOffer: null
+  },
+  {
+    label: 'non-contextual no EPQ AAB',
+    applicant: applicantWith({ grades: ['A', 'A', 'B'] }),
+    expectedStatus: 'not_eligible',
+    expectedPathway: 'standard',
+    expectedPathwayId: STANDARD_PATHWAY_ID,
+    expectedRequirementType: 'a_level_standard_offer',
+    expectedPublicAlevelStatus: 'not_met',
+    expectedRowRequired: 'AAA',
+    expectedRowActual: 'AAB',
+    expectedAlternativeType: null,
+    expectedAlternativeOffer: null
+  },
+  {
+    label: 'non-contextual EPQ B AAB',
+    applicant: applicantWith({ grades: ['A', 'A', 'B'], epq: { status: 'predicted', grade: 'B' } }),
+    expectedStatus: 'eligible',
+    expectedPathway: 'epq_alternative',
+    expectedPathwayId: EPQ_PATHWAY_ID,
+    expectedRequirementType: 'a_level_epq_alternative',
+    expectedRowLabel: 'A-levels + EPQ',
+    expectedPublicAlevelStatus: 'met',
+    expectedRowRequired: 'AAB',
+    expectedRowActual: 'AAB',
+    expectedAlternativeType: 'epq',
+    expectedAlternativeOffer: 'AAB + EPQ Grade B'
+  },
+  {
+    label: 'non-contextual EPQ C AAB',
+    applicant: applicantWith({ grades: ['A', 'A', 'B'], epq: { status: 'predicted', grade: 'C' } }),
+    expectedStatus: 'not_eligible',
+    expectedPathway: 'standard',
+    expectedPathwayId: STANDARD_PATHWAY_ID,
+    expectedRequirementType: 'a_level_standard_offer',
+    expectedPublicAlevelStatus: 'not_met',
+    expectedRowRequired: 'AAA',
+    expectedRowActual: 'AAB',
+    expectedAlternativeType: null,
+    expectedAlternativeOffer: null
+  },
+  {
+    label: 'contextual no EPQ AAB',
+    applicant: applicantWith({ grades: ['A', 'A', 'B'], contextual: true }),
+    expectedStatus: 'eligible',
+    expectedPathway: 'contextual',
+    expectedPathwayId: CONTEXTUAL_PATHWAY_ID,
+    expectedRequirementType: 'a_level_contextual_offer',
+    expectedRowLabel: 'Contextual A-level grades',
+    expectedPublicAlevelStatus: 'met',
+    expectedRowRequired: 'AAB',
+    expectedRowActual: 'AAB',
+    expectedAlternativeType: 'contextual',
+    expectedAlternativeOffer: 'AAB'
+  },
+  {
+    label: 'contextual two-or-more WP indicators no EPQ AAB',
+    applicant: merge(applicantWith({ grades: ['A', 'A', 'B'], contextual: true }), {
+      applicant_identity: {
+        contextual_flags: {
+          care_experienced: false,
+          refugee_or_asylum_seeker: false,
+          refugee: false,
+          free_school_meals: true,
+          first_generation_higher_education: true,
+          school_contextual_indicator: true,
+          ucat_bursary: false
+        }
+      }
+    }),
+    expectedStatus: 'eligible',
+    expectedPathway: 'contextual',
+    expectedPathwayId: CONTEXTUAL_PATHWAY_ID,
+    expectedRequirementType: 'a_level_contextual_offer',
+    expectedRowLabel: 'Contextual A-level grades',
+    expectedPublicAlevelStatus: 'met',
+    expectedRowRequired: 'AAB',
+    expectedRowActual: 'AAB',
+    expectedAlternativeType: 'contextual',
+    expectedAlternativeOffer: 'AAB'
+  },
+  {
+    label: 'contextual no EPQ ABB',
+    applicant: applicantWith({ grades: ['A', 'B', 'B'], contextual: true }),
+    expectedStatus: 'not_eligible',
+    expectedPathway: 'contextual',
+    expectedPathwayId: CONTEXTUAL_PATHWAY_ID,
+    expectedRequirementType: 'a_level_contextual_offer',
+    expectedRowLabel: 'Contextual A-level grades',
+    expectedPublicAlevelStatus: 'not_met',
+    expectedRowRequired: 'AAB',
+    expectedRowActual: 'ABB',
+    expectedAlternativeType: 'contextual',
+    expectedAlternativeOffer: 'AAB'
+  },
+  {
+    label: 'contextual EPQ B ABB',
+    applicant: applicantWith({ grades: ['A', 'B', 'B'], contextual: true, epq: { status: 'predicted', grade: 'B' } }),
+    expectedStatus: 'eligible',
+    expectedPathway: 'contextual_epq_alternative',
+    expectedPathwayId: CONTEXTUAL_EPQ_PATHWAY_ID,
+    expectedRequirementType: 'a_level_contextual_epq_alternative',
+    expectedRowLabel: 'Contextual A-levels + EPQ',
+    expectedPublicAlevelStatus: 'met',
+    expectedRowRequired: 'ABB',
+    expectedRowActual: 'ABB',
+    expectedAlternativeType: 'contextual_epq',
+    expectedAlternativeOffer: 'ABB + EPQ Grade B'
+  },
+  {
+    label: 'contextual EPQ C ABB',
+    applicant: applicantWith({ grades: ['A', 'B', 'B'], contextual: true, epq: { status: 'predicted', grade: 'C' } }),
+    expectedStatus: 'not_eligible',
+    expectedPathway: 'contextual',
+    expectedPathwayId: CONTEXTUAL_PATHWAY_ID,
+    expectedRequirementType: 'a_level_contextual_offer',
+    expectedRowLabel: 'Contextual A-level grades',
+    expectedPublicAlevelStatus: 'not_met',
+    expectedRowRequired: 'AAB',
+    expectedRowActual: 'ABB',
+    expectedAlternativeType: 'contextual',
+    expectedAlternativeOffer: 'AAB'
+  },
+  {
+    label: 'contextual EPQ B below ABB',
+    applicant: applicantWith({ grades: ['B', 'B', 'B'], contextual: true, epq: { status: 'predicted', grade: 'B' } }),
+    expectedStatus: 'not_eligible',
+    expectedPathway: 'contextual_epq_alternative',
+    expectedPathwayId: CONTEXTUAL_EPQ_PATHWAY_ID,
+    expectedRequirementType: 'a_level_contextual_epq_alternative',
+    expectedRowLabel: 'Contextual A-levels + EPQ',
+    expectedPublicAlevelStatus: 'not_met',
+    expectedRowRequired: 'ABB',
+    expectedRowActual: 'BBB',
+    expectedAlternativeType: 'contextual_epq',
+    expectedAlternativeOffer: 'ABB + EPQ Grade B'
+  }
+].forEach(assertLancasterAlevelPathwayScenario);
+
 assertAcademicScenario({
   label: 'AAA no EPQ',
   applicant: applicantWith({ grades: ['A', 'A', 'A'] }),
   expectedStatus: 'eligible',
   expectedPathway: 'standard',
-  expectedPathwayId: null,
+  expectedPathwayId: STANDARD_PATHWAY_ID,
   expectedBand: 'very_strong_interview_potential'
 });
 
@@ -282,7 +533,7 @@ assertAcademicScenario({
   applicant: applicantWith({ grades: ['A', 'A', 'A'], epq: { status: 'planning', grade: null } }),
   expectedStatus: 'eligible',
   expectedPathway: 'standard',
-  expectedPathwayId: null,
+  expectedPathwayId: 'lancaster_standard_offer',
   expectedBand: 'very_strong_interview_potential'
 });
 
@@ -302,18 +553,15 @@ assertAcademicScenario({
     applicantWith({ grades: ['A', 'A', 'B'], epq: { status: 'achieved', grade: 'B' } })
   );
   assertNoDuplicatePublicAcademicLabels(checks, 'AAB achieved EPQ B');
-  assert.strictEqual(
-    checks.some((check) => check.label === 'A-level grades'),
-    false,
-    `AAB + EPQ B must not expose a separate A-level grades badge: ${JSON.stringify(checks)}`
-  );
   assert.ok(
     checks.some((check) =>
       check.label === 'A-levels + EPQ' &&
       check.status === 'met' &&
-      check.requirement_type === 'epq_alternative_offer'
+      check.requirement_type === 'a_level_epq_alternative' &&
+      check.required_value === 'AAB' &&
+      check.applicant_value === 'AAB'
     ),
-    `AAB + EPQ B should expose a positive EPQ-pathway check: ${JSON.stringify(checks)}`
+    `AAB + EPQ B should expose the active EPQ A-level pathway check: ${JSON.stringify(checks)}`
   );
   assert.strictEqual(
     checks.some((check) => check.requirement_type === 'a_level_subject_combination'),
@@ -321,8 +569,8 @@ assertAcademicScenario({
     `AAB + EPQ B should not expose a second met A-level subject-combination badge: ${JSON.stringify(checks)}`
   );
   assert.deepStrictEqual(
-    publicPost16Checks(checks).map((check) => [check.label, check.status]),
-    [['A-levels + EPQ', 'met']],
+    publicPost16Checks(checks).map((check) => [check.label, check.status, check.requirement_type]),
+    [['A-levels + EPQ', 'met', 'a_level_epq_alternative']],
     `AAB + EPQ B should expose exactly one final post-16 pathway row: ${JSON.stringify(checks)}`
   );
 }
@@ -336,13 +584,12 @@ assertAcademicScenario({
     })
   })[0];
   const checks = apiResult.result_card.academic_requirement_checks || [];
-  assert.strictEqual(
-    checks.some((check) => check.label === 'A-level grades'),
-    false,
-    `API payload for AAB + EPQ B must not expose a separate A-level badge: ${JSON.stringify(checks)}`
-  );
   assert.ok(
-    checks.some((check) => check.label === 'A-levels + EPQ' && check.status === 'met'),
+    checks.some((check) =>
+      check.label === 'A-levels + EPQ' &&
+      check.requirement_type === 'a_level_epq_alternative' &&
+      check.status === 'met'
+    ),
     `API payload for AAB + EPQ B should expose positive EPQ pathway: ${JSON.stringify(checks)}`
   );
 }
@@ -361,9 +608,15 @@ assertAcademicScenario({
     applicantWith({ grades: ['A', 'A', 'B'], epq: { status: 'predicted', grade: 'C' } })
   );
   assert.deepStrictEqual(
-    publicPost16Checks(checks).map((check) => [check.label, check.status]),
-    [['A-levels + EPQ', 'not_met']],
-    `AAB + EPQ C should expose one final failed post-16 pathway row: ${JSON.stringify(checks)}`
+    publicPost16Checks(checks).map((check) => [
+      check.label,
+      check.status,
+      check.requirement_type,
+      check.required_value,
+      check.applicant_value
+    ]),
+    [['A-level grades', 'not_met', 'a_level_standard_offer', 'AAA', 'AAB']],
+    `AAB + EPQ C should fall back to the standard failed post-16 row: ${JSON.stringify(checks)}`
   );
 }
 
@@ -385,20 +638,16 @@ assertAcademicScenario({
   const checks = card.academic_requirement_checks || [];
   assert.ok(
     checks.some((check) =>
-      check.label === 'A-levels + EPQ' &&
-      check.status === 'information_needed'
+      check.label === 'A-level grades' &&
+      check.requirement_type === 'a_level_standard_offer' &&
+      check.status === 'not_met'
     ),
-    `AAB + EPQ planning should expose EPQ information-needed check: ${JSON.stringify(checks)}`
+    `AAB + EPQ planning should not activate the EPQ pathway: ${JSON.stringify(checks)}`
   );
   assert.deepStrictEqual(
-    publicPost16Checks(checks).map((check) => [check.label, check.status]),
-    [['A-levels + EPQ', 'information_needed']],
+    publicPost16Checks(checks).map((check) => [check.label, check.status, check.requirement_type]),
+    [['A-level grades', 'not_met', 'a_level_standard_offer']],
     `AAB + EPQ planning should expose exactly one final post-16 pathway row: ${JSON.stringify(checks)}`
-  );
-  assert.match(
-    card.primary_explanation,
-    /predicted or achieved EPQ grade/i,
-    `AAB + EPQ planning should explain EPQ grade requirement: ${card.primary_explanation}`
   );
 }
 
@@ -415,8 +664,8 @@ assertAcademicScenario({
   label: 'AAB EPQ C',
   applicant: applicantWith({ grades: ['A', 'A', 'B'], epq: { status: 'predicted', grade: 'C' } }),
   expectedStatus: 'not_eligible',
-  expectedPathway: null,
-  expectedPathwayId: null,
+  expectedPathway: 'standard',
+  expectedPathwayId: STANDARD_PATHWAY_ID,
   expectedBand: 'not_eligible',
   expectedFailure: 'a_level_requirements_not_met'
 });
@@ -424,29 +673,29 @@ assertAcademicScenario({
 assertAcademicScenario({
   label: 'AAB EPQ planning',
   applicant: applicantWith({ grades: ['A', 'A', 'B'], epq: { status: 'planning', grade: null } }),
-  expectedStatus: 'manual_review',
-  expectedPathway: 'epq_alternative',
-  expectedPathwayId: EPQ_PATHWAY_ID,
-  expectedBand: 'insufficient_evidence',
-  expectedManualReviewReason: EPQ_GRADE_REASON
+  expectedStatus: 'not_eligible',
+  expectedPathway: 'standard',
+  expectedPathwayId: STANDARD_PATHWAY_ID,
+  expectedBand: 'not_eligible',
+  expectedFailure: 'a_level_requirements_not_met'
 });
 
 assertAcademicScenario({
   label: 'AAB predicted EPQ missing grade',
   applicant: applicantWith({ grades: ['A', 'A', 'B'], epq: { status: 'predicted', grade: null } }),
-  expectedStatus: 'manual_review',
-  expectedPathway: 'epq_alternative',
-  expectedPathwayId: EPQ_PATHWAY_ID,
-  expectedBand: 'insufficient_evidence',
-  expectedManualReviewReason: EPQ_GRADE_REASON
+  expectedStatus: 'not_eligible',
+  expectedPathway: 'standard',
+  expectedPathwayId: STANDARD_PATHWAY_ID,
+  expectedBand: 'not_eligible',
+  expectedFailure: 'a_level_requirements_not_met'
 });
 
 assertAcademicScenario({
   label: 'AAB EPQ not taken',
   applicant: applicantWith({ grades: ['A', 'A', 'B'], epq: { status: 'not_taken', grade: null } }),
   expectedStatus: 'not_eligible',
-  expectedPathway: null,
-  expectedPathwayId: null,
+  expectedPathway: 'standard',
+  expectedPathwayId: STANDARD_PATHWAY_ID,
   expectedBand: 'not_eligible',
   expectedFailure: 'a_level_requirements_not_met'
 });
@@ -455,8 +704,8 @@ assertAcademicScenario({
   label: 'ABB EPQ A*',
   applicant: applicantWith({ grades: ['A', 'B', 'B'], epq: { status: 'achieved', grade: 'A*' } }),
   expectedStatus: 'not_eligible',
-  expectedPathway: null,
-  expectedPathwayId: null,
+  expectedPathway: 'epq_alternative',
+  expectedPathwayId: EPQ_PATHWAY_ID,
   expectedBand: 'not_eligible',
   expectedFailure: 'a_level_requirements_not_met'
 });
@@ -466,7 +715,7 @@ assertAcademicScenario({
   applicant: applicantWith({ grades: ['A', 'A', 'A'] }),
   expectedStatus: 'eligible',
   expectedPathway: 'standard',
-  expectedPathwayId: null,
+  expectedPathwayId: 'lancaster_standard_offer',
   expectedBand: 'very_strong_interview_potential'
 });
 

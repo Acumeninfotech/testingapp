@@ -13,7 +13,7 @@ function isRenderableOffer(
   offer: PredictionResult['result_card']['alternative_academic_offer'],
 ): offer is AlternativeAcademicOfferContract {
   return (
-    offer?.type === 'epq' &&
+    (offer?.type === 'epq' || offer?.type === 'contextual' || offer?.type === 'contextual_epq') &&
     typeof offer.standard_offer === 'string' &&
     cleanText(offer.standard_offer).length > 0 &&
     typeof offer.alternative_offer === 'string' &&
@@ -35,12 +35,22 @@ export function AlternativeAcademicOffer({
   const conditions = Array.isArray(offer.conditions)
     ? offer.conditions.map(cleanText).filter(Boolean)
     : [];
+  const offerTypeLabel = offer.type === 'contextual'
+    ? 'Contextual'
+    : offer.type === 'contextual_epq'
+      ? 'Contextual + EPQ'
+      : 'EPQ';
+  const alternativeLabel = offer.type === 'contextual'
+    ? 'Contextual Offer'
+    : offer.type === 'contextual_epq'
+      ? 'Contextual EPQ Alternative'
+      : 'EPQ Alternative';
 
   return (
     <section className="alternative-academic-offer" aria-labelledby={headingId}>
       <header className="alternative-academic-offer__header">
         <h4 id={headingId}>Alternative Academic Offer</h4>
-        <span>EPQ</span>
+        <span>{offerTypeLabel}</span>
       </header>
 
       <div className="alternative-academic-offer__options">
@@ -50,7 +60,7 @@ export function AlternativeAcademicOffer({
         </div>
 
         <div>
-          <span>EPQ Alternative</span>
+          <span>{alternativeLabel}</span>
           <strong>{cleanText(offer.alternative_offer)}</strong>
         </div>
       </div>
