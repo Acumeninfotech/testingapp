@@ -29,12 +29,14 @@ const EXPECTED_FLAG_ROUTE_CHANGES = {
     'birmingham-a100',
     'bristol-a100',
     'cambridge-a100',
+    'imperial-college-london-a100',
     'keele-a100',
     'lancaster-a100',
     'liverpool-a100',
     'manchester-a100'
   ],
   refugee_or_asylum_seeker: [
+    'aston-a100',
     'keele-a100',
     'lancaster-a100'
   ],
@@ -44,6 +46,7 @@ const EXPECTED_FLAG_ROUTE_CHANGES = {
     'birmingham-a100',
     'bristol-a100',
     'cambridge-a100',
+    'imperial-college-london-a100',
     'keele-a100',
     'manchester-a100'
   ],

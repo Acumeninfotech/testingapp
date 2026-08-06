@@ -4295,12 +4295,17 @@ function presentResultCard({
         available: !officialPredictionUnavailable
       },
       interview_prediction: {
-        available: !officialPredictionUnavailable && !eligibilityOnly && resultBand !== 'insufficient_evidence',
+        available: !officialPredictionUnavailable &&
+          !eligibilityOnly &&
+          resultBand !== 'insufficient_evidence' &&
+          resultBand !== 'not_eligible',
         unavailable_reason: eligibilityOnly
           ? 'ApplySmart does not estimate interview likelihood for this eligibility-only course.'
           : officialPredictionUnavailable
             ? officialPrediction.explanation || 'Official interview prediction is unavailable.'
-            : null
+            : resultBand === 'not_eligible'
+              ? 'Interview prediction is not produced because the supported entry requirements are not met.'
+              : null
       },
       ranking_metric: isUcatRankingContext(transparencyContext) ? 'ucat_total' : undefined
     },

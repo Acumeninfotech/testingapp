@@ -1,6 +1,19 @@
 import type { ReactNode } from 'react';
 import { requiresEnglishLanguageEvidence } from '../validation';
 import { normaliseEpqQualification, type EpqQualification } from '../profileTypes';
+import {
+  CONTEXTUAL_FIELD_LABELS,
+  HOME_QUINTILE_FIELDS,
+  OTHER_ACCESS_PROGRAMMES,
+  PROGRAMME_STATUS_LABELS,
+  QUINTILE_OPTIONS,
+  HOME_REGION_OPTIONS,
+  SCHOOL_AREA_OPTIONS,
+  SPECIFIC_HOME_AREA_OPTIONS,
+  TRI_STATE_LABELS,
+  UKWPMED_REGISTRY,
+  universityLabel,
+} from '../contextualRegistry';
 import type { StepProps } from './StepProps';
 
 const FRIENDLY_LABELS: Record<string, string> = {
@@ -129,6 +142,15 @@ function ReviewField({ label, value }: { label: string; value: ReactNode }) {
   );
 }
 
+function ReviewValueWithHint({ value, hint }: { value: ReactNode; hint?: string }) {
+  return (
+    <span className="review-value-with-hint">
+      <span>{value}</span>
+      {hint && <small>{hint}</small>}
+    </span>
+  );
+}
+
 function ReviewFieldGrid({ children }: { children: ReactNode }) {
   return <dl className="review-field-grid">{children}</dl>;
 }
@@ -141,6 +163,32 @@ function GradeTile({ subject, grade }: { subject: string; grade: string | number
       <dt>{subject}</dt>
       <dd className={displayedGrade === 'Not provided' ? 'review-value-muted' : undefined}>{displayedGrade}</dd>
     </div>
+  );
+}
+
+function MeaningfulContextualAnswers({
+  answers,
+  sensitive = false,
+}: {
+  answers: Record<string, string | undefined>;
+  sensitive?: boolean;
+}) {
+  const fields = Object.entries(answers).filter(([, value]) => value && value !== 'no');
+  if (fields.length === 0) return null;
+
+  return (
+    <ReviewFieldGrid>
+      {fields.map(([key, value]) => (
+        <ReviewField
+          key={key}
+          label={CONTEXTUAL_FIELD_LABELS[key] || displayLabel(key)}
+          value={value ? TRI_STATE_LABELS[value as keyof typeof TRI_STATE_LABELS] || displayLabel(value) : 'Not provided'}
+        />
+      ))}
+      {sensitive && fields.length > 0 && (
+        <ReviewField label="Visibility" value="Shown here for your review only" />
+      )}
+    </ReviewFieldGrid>
   );
 }
 
@@ -169,6 +217,7 @@ const AGE_AT_COURSE_START_LABELS = {
 export function ReviewStep({ profile }: StepProps) {
   const {
     applicant_identity,
+    contextual_profile,
     course_target,
     gcse_profile,
     a_level_profile,
@@ -193,6 +242,77 @@ export function ReviewStep({ profile }: StepProps) {
   ];
   const epqSummary = formatEpqSummary(normaliseEpqQualification(a_level_profile.epq));
   const epqTakenAlongside = formatEpqTakenAlongside(normaliseEpqQualification(a_level_profile.epq));
+  const postcodeLookupValues = contextual_profile.home_area_region.postcode_lookup?.values;
+  const postcodeLookupStatus = contextual_profile.home_area_region.postcode_lookup?.status ?? 'not_checked';
+  const homeRegionLabel = HOME_REGION_OPTIONS.find((option) => option.value === contextual_profile.home_area_region.home_region)?.label ?? 'Not provided';
+  const specificHomeAreaLabel = SPECIFIC_HOME_AREA_OPTIONS.find((option) => option.value === contextual_profile.home_area_region.specific_home_area)?.label ?? 'Not provided';
+  const selectedSchoolAreas = Array.isArray(contextual_profile.home_area_region.school_areas)
+    ? contextual_profile.home_area_region.school_areas
+    : [];
+  const legacySchoolAreaLabels = selectedSchoolAreas.flatMap((value) => {
+    const label = SCHOOL_AREA_OPTIONS.find((option) => option.value === value)?.label;
+    return label ? [label] : [];
+  });
+  const schoolAreaFromSingular =
+    SCHOOL_AREA_OPTIONS.find((option) => option.value === contextual_profile.home_area_region.school_area)?.label ??
+    (contextual_profile.home_area_region.school_area === 'none'
+      ? 'None of the above'
+      : contextual_profile.home_area_region.school_area === 'unknown'
+        ? 'Not sure'
+        : null);
+  const schoolAreaDisplay = schoolAreaFromSingular ??
+    (legacySchoolAreaLabels.length === 1
+      ? legacySchoolAreaLabels[0]
+      : legacySchoolAreaLabels.length > 1
+        ? 'Not sure'
+        : 'Not provided');
+  const postcodeLookupStatusLabel = {
+    matched: 'Matched',
+    partial_match: 'Partially matched',
+    not_found: 'Not matched',
+    error: 'Error checking postcode',
+    not_checked: 'Not checked',
+  }[postcodeLookupStatus] || 'Not checked';
+  const homeAreaRows = [
+    contextual_profile.home_area_region.postcode
+      ? { label: 'Postcode', value: contextual_profile.home_area_region.postcode }
+      : null,
+    { label: 'Postcode lookup status', value: postcodeLookupStatusLabel },
+    { label: 'I live in', value: homeRegionLabel },
+    { label: 'I live in the following area', value: specificHomeAreaLabel },
+    ...HOME_QUINTILE_FIELDS
+      .filter(({ key }) => {
+        const value = contextual_profile.home_area_region[key];
+        return value && value !== 'unknown';
+      })
+      .map(({ key, label }) => ({
+        label,
+        value: (
+          <ReviewValueWithHint
+            value={QUINTILE_OPTIONS.find((option) => option.value === contextual_profile.home_area_region[key])?.label ||
+              displayLabel(contextual_profile.home_area_region[key])}
+            hint={
+              (
+                (key === 'polar4_quintile' && postcodeLookupValues?.polar4.source === 'postcode_lookup') ||
+                (key === 'tundra_quintile' && postcodeLookupValues?.tundra.source === 'postcode_lookup') ||
+                (key === 'imd_quintile' && postcodeLookupValues?.imd.source === 'postcode_lookup')
+              )
+                ? 'Identified from postcode'
+                : undefined
+            }
+          />
+        ),
+      })),
+    { label: 'I attended school in', value: schoolAreaDisplay },
+  ].filter(Boolean) as { label: string; value: ReactNode }[];
+  const ukwpmed = contextual_profile.access_programmes.ukwpmed;
+  const ukwpmedProgramme = UKWPMED_REGISTRY.recognised_programmes.find(
+    (programme) => programme.programme_id === ukwpmed.programme_id,
+  );
+  const otherAccessProgrammes = contextual_profile.access_programmes.other_programmes.filter((programme) => programme.programme_id);
+  const partnerSchoolRelationships = contextual_profile.partner_schools.relationships.filter(
+    (relationship) => relationship.school_name || relationship.university_id || relationship.university_name,
+  );
 
   return (
     <div className="step-grid review-step">
@@ -328,6 +448,123 @@ export function ReviewStep({ profile }: StepProps) {
           <ReviewField label="SJT band" value={admissions_tests.ucat.sjt_band ? `Band ${admissions_tests.ucat.sjt_band}` : 'Not provided'} />
         </ReviewFieldGrid>
       </ReviewSection>
+
+      {homeAreaRows.length > 0 && (
+        <ReviewSection title="Home area & region">
+          <ReviewFieldGrid>
+            {homeAreaRows.map((row) => (
+              <ReviewField key={row.label} label={row.label} value={row.value} />
+            ))}
+          </ReviewFieldGrid>
+        </ReviewSection>
+      )}
+
+      {Object.values(contextual_profile.financial_support).some((value) => value && value !== 'no') && (
+        <ReviewSection title="Financial support">
+          <MeaningfulContextualAnswers answers={contextual_profile.financial_support} />
+        </ReviewSection>
+      )}
+
+      {Object.values(contextual_profile.school_education).some((value) => value && value !== 'no') && (
+        <ReviewSection title="School & education">
+          <MeaningfulContextualAnswers answers={contextual_profile.school_education} />
+        </ReviewSection>
+      )}
+
+      {Object.values(contextual_profile.personal_circumstances).some((value) => value && value !== 'no') && (
+        <ReviewSection title="Personal circumstances">
+          <MeaningfulContextualAnswers answers={contextual_profile.personal_circumstances} sensitive />
+        </ReviewSection>
+      )}
+
+      {(ukwpmed.status !== 'no' || otherAccessProgrammes.length > 0) && (
+        <ReviewSection title="Access / WP programmes">
+          {ukwpmed.status === 'not_sure' && (
+            <ReviewFieldGrid>
+              <ReviewField label="UKWPMED participation" value="Not sure" />
+            </ReviewFieldGrid>
+          )}
+          {ukwpmed.status === 'yes' && (
+            <>
+              <h3>UKWPMED programme</h3>
+              <ReviewFieldGrid>
+                <ReviewField
+                  label="Programme"
+                  value={ukwpmed.not_sure_programme ? 'Not sure which programme' : ukwpmedProgramme?.label || displayLabel(ukwpmed.programme_id)}
+                />
+                {ukwpmedProgramme && (
+                  <ReviewField
+                    label="Provider"
+                    value={universityLabel(ukwpmedProgramme.provider_university_id)}
+                  />
+                )}
+                <ReviewField
+                  label="Status"
+                  value={
+                    ukwpmed.programme_status
+                      ? PROGRAMME_STATUS_LABELS[ukwpmed.programme_status]
+                      : 'Not provided'
+                  }
+                />
+                {ukwpmed.completion_year && (
+                  <ReviewField label="Completion year" value={ukwpmed.completion_year} />
+                )}
+                <ReviewField
+                  label="Recognised by"
+                  value="Birmingham, Brighton and Sussex, Keele, Hull York, Leicester, Manchester and Plymouth"
+                />
+              </ReviewFieldGrid>
+            </>
+          )}
+          {otherAccessProgrammes.length > 0 && (
+            <>
+              <h3>Other access programmes</h3>
+              <ReviewFieldGrid>
+                {otherAccessProgrammes.map((programme, index) => {
+                  const knownProgramme = OTHER_ACCESS_PROGRAMMES.find(
+                    (candidate) => candidate.programme_id === programme.programme_id,
+                  );
+                  const label = knownProgramme?.label || displayLabel(programme.programme_id);
+                  const extraName = programme.programme_id === 'other_access_wp_programme'
+                    ? contextual_profile.access_programmes.other_programme_name || programme.programme_name
+                    : '';
+                  return (
+                    <ReviewField
+                      key={`${programme.programme_id}-${index}`}
+                      label={extraName ? `${label}: ${extraName}` : label}
+                      value={programme.status ? PROGRAMME_STATUS_LABELS[programme.status] : 'Not provided'}
+                    />
+                  );
+                })}
+              </ReviewFieldGrid>
+            </>
+          )}
+        </ReviewSection>
+      )}
+
+      {(contextual_profile.partner_schools.status === 'not_sure' || partnerSchoolRelationships.length > 0) && (
+        <ReviewSection title="Partner schools">
+          {contextual_profile.partner_schools.status === 'not_sure' && (
+            <ReviewFieldGrid>
+              <ReviewField label="Partner-school recognition" value="Not sure" />
+            </ReviewFieldGrid>
+          )}
+          {partnerSchoolRelationships.length > 0 && (
+            <ReviewFieldGrid>
+              {partnerSchoolRelationships.map((relationship, index) => (
+                <ReviewField
+                  key={`${relationship.school_name}-${index}`}
+                  label={relationship.school_name || `Relationship ${index + 1}`}
+                  value={[
+                    universityLabel(relationship.university_id, relationship.university_name),
+                    relationship.relationship_type,
+                  ].filter(Boolean).join('; ')}
+                />
+              ))}
+            </ReviewFieldGrid>
+          )}
+        </ReviewSection>
+      )}
 
       <ReviewSection title="Universities">
         <ReviewFieldGrid>

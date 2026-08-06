@@ -436,10 +436,6 @@
     "guaranteed_interview_condition": {
       "type": "object",
       "additionalProperties": true,
-      "required": [
-        "applicant_evidence_path",
-        "required_evidence"
-      ],
       "properties": {
         "match": {
           "$ref": "#/$defs/applicant_match"
@@ -455,7 +451,20 @@
           "type": "string",
           "minLength": 1
         }
-      }
+      },
+      "anyOf": [
+        {
+          "required": [
+            "applicant_evidence_path",
+            "required_evidence"
+          ]
+        },
+        {
+          "required": [
+            "match"
+          ]
+        }
+      ]
     },
     "guaranteed_interview_override": {
       "type": "object",

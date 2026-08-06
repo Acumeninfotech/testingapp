@@ -3,6 +3,9 @@ const CURRENT_UCAT_TEST_YEAR = 2026;
 const {
   normaliseALevelPracticalEndorsements
 } = require('./science-practical-endorsement');
+const {
+  UKWPMED_PROGRAMME_BY_ID
+} = require('./contextual-profile-registry');
 
 function normaliseId(value) {
   return String(value ?? '')
@@ -24,6 +27,452 @@ function normaliseBooleanEvidence(value) {
     return false;
   }
   return null;
+}
+
+function asObject(value) {
+  return value && typeof value === 'object' && !Array.isArray(value)
+    ? value
+    : {};
+}
+
+function normaliseTriState(value, fallback = undefined) {
+  if (value === true) return 'yes';
+  if (value === false) return 'no';
+  const normalised = normaliseId(value);
+  if (['yes', 'y', 'true'].includes(normalised)) return 'yes';
+  if (['no', 'n', 'false'].includes(normalised)) return 'no';
+  if (['not_sure', 'unsure', 'unknown'].includes(normalised)) return 'not_sure';
+  return fallback;
+}
+
+function normaliseSensitiveAnswer(value) {
+  const normalised = normaliseId(value);
+  if (normalised === 'prefer_not_to_say') return 'prefer_not_to_say';
+  return normaliseTriState(value);
+}
+
+function normaliseQuintile(value) {
+  const normalised = normaliseId(value);
+  if (['q1', 'q2', 'q3', 'q4', 'q5'].includes(normalised)) return normalised;
+  if (['1', 'quintile_1', 'quintile1'].includes(normalised)) return 'q1';
+  if (['2', 'quintile_2', 'quintile2'].includes(normalised)) return 'q2';
+  if (['3', 'quintile_3', 'quintile3'].includes(normalised)) return 'q3';
+  if (['4', 'quintile_4', 'quintile4'].includes(normalised)) return 'q4';
+  if (['5', 'quintile_5', 'quintile5'].includes(normalised)) return 'q5';
+  return 'unknown';
+}
+
+function quintileNumber(value) {
+  if (value === 'q1') return 1;
+  if (value === 'q2') return 2;
+  if (value === 'q3') return 3;
+  if (value === 'q4') return 4;
+  if (value === 'q5') return 5;
+  return null;
+}
+
+function normaliseLookupStatus(value) {
+  const normalised = normaliseId(value);
+  if (['not_checked', 'matched', 'partial_match', 'not_found', 'error'].includes(normalised)) {
+    return normalised;
+  }
+  return 'not_checked';
+}
+
+function normaliseValueSource(value, quintileValue) {
+  const normalised = normaliseId(value);
+  if (['postcode_lookup', 'manual', 'existing_profile', 'unknown'].includes(normalised)) {
+    return normalised;
+  }
+  return quintileValue && quintileValue !== 'unknown' ? 'existing_profile' : 'unknown';
+}
+
+function normaliseProgrammeStatus(value) {
+  const normalised = normaliseId(value);
+  if (['offered', 'participating', 'completed', 'not_sure'].includes(normalised)) {
+    return normalised;
+  }
+  return '';
+}
+
+function normaliseAnswerRecord(value, normaliseAnswer) {
+  return Object.fromEntries(
+    Object.entries(asObject(value))
+      .map(([key, answer]) => [key, normaliseAnswer(answer)])
+      .filter(([, answer]) => answer)
+  );
+}
+
+function defaultContextualProfile() {
+  return {
+    home_area_region: {
+      postcode: '',
+      polar4_quintile: 'unknown',
+      imd_quintile: 'unknown',
+      tundra_quintile: 'unknown',
+      simd_quintile: 'unknown',
+      home_region: null,
+      specific_home_area: null,
+      school_area: null,
+      regional_flags: {},
+      postcode_lookup: {
+        status: 'not_checked',
+        values: {
+          polar4: { value: null, source: 'unknown' },
+          tundra: { value: null, source: 'unknown' },
+          imd: { value: null, source: 'unknown', dataset_year: 2019 }
+        }
+      }
+    },
+    financial_support: {},
+    school_education: {},
+    personal_circumstances: {},
+    access_programmes: {
+      participation_status: 'no',
+      ukwpmed: {
+        status: 'no',
+        programme_id: '',
+        programme_status: '',
+        provider_university_id: '',
+        completion_year: '',
+        not_sure_programme: false
+      },
+      other_programmes: [],
+      other_programme_name: ''
+    },
+    partner_schools: {
+      status: 'no',
+      relationships: []
+    }
+  };
+}
+
+const HOME_REGION_FLAG_TO_VALUE = {
+  south_west_england_resident: 'south_west_england',
+  north_west_england_resident: 'north_west_england',
+  north_east_england_or_cumbria_resident: 'north_east_england_or_cumbria',
+  east_of_england_resident: 'east_of_england'
+};
+
+const SPECIFIC_HOME_AREA_FLAG_TO_VALUE = {
+  essex_resident: 'essex',
+  lincolnshire_resident: 'lincolnshire'
+};
+
+const SCHOOL_AREA_FLAG_TO_VALUE = {
+  northern_ireland_bt_postcode_school_to_year_12: 'northern_ireland_bt_to_year_12',
+  bristol_bs_ba_state_school: 'bristol_bs_ba_state_school',
+  keele_region_school: 'keele_region_school'
+};
+
+function normaliseHomeRegionValue(value) {
+  return ['south_west_england', 'north_west_england', 'north_east_england_or_cumbria', 'east_of_england', 'none', 'unknown'].includes(value)
+    ? value
+    : null;
+}
+
+function normaliseSpecificHomeAreaValue(value) {
+  return ['essex', 'lincolnshire', 'none', 'unknown'].includes(value)
+    ? value
+    : null;
+}
+
+function normaliseSchoolAreas(value) {
+  if (!Array.isArray(value)) return [];
+  return value.filter((entry) => ['northern_ireland_bt_to_year_12', 'bristol_bs_ba_state_school', 'keele_region_school'].includes(entry));
+}
+
+function firstYesFromFlags(flags, map) {
+  const selected = Object.entries(map)
+    .filter(([flagKey]) => flags[flagKey] === 'yes')
+    .map(([, mappedValue]) => mappedValue);
+
+  if (selected.length === 1) return selected[0];
+  if (selected.length > 1) return 'unknown';
+
+  const entries = Object.keys(map)
+    .map((flagKey) => flags[flagKey])
+    .filter((value) => value !== undefined);
+  if (entries.length === 0) return null;
+  if (entries.some((value) => value === 'not_sure')) return 'unknown';
+  if (entries.every((value) => value === 'no')) return 'none';
+  return null;
+}
+
+function selectedSchoolAreasFromFlags(flags) {
+  const selected = Object.entries(SCHOOL_AREA_FLAG_TO_VALUE)
+    .filter(([flagKey]) => flags[flagKey] === 'yes')
+    .map(([, mappedValue]) => mappedValue);
+
+  if (selected.length === 1) return selected[0];
+  if (selected.length > 1) return 'unknown';
+
+  const entries = Object.keys(SCHOOL_AREA_FLAG_TO_VALUE)
+    .map((flagKey) => flags[flagKey])
+    .filter((value) => value !== undefined);
+  if (entries.length === 0) return null;
+  if (entries.some((value) => value === 'not_sure')) return 'unknown';
+  if (entries.every((value) => value === 'no')) return 'none';
+  return null;
+}
+
+function resolveLegacySchoolArea(...values) {
+  const present = values.filter(Boolean);
+  if (present.length === 0) return null;
+  if (present.includes('unknown')) return 'unknown';
+  return new Set(present).size === 1 ? present[0] : 'unknown';
+}
+
+function applyFlagProjectionFromConsolidatedFields(flags, homeRegion, specificHomeArea, schoolArea) {
+  const next = { ...flags };
+
+  const setMappedFlags = (keys, selectedKeys, mode) => {
+    for (const key of keys) {
+      if (mode === 'unknown') {
+        next[key] = 'not_sure';
+      } else {
+        next[key] = selectedKeys.includes(key) ? 'yes' : 'no';
+      }
+    }
+  };
+
+  if (homeRegion) {
+    const entries = Object.entries(HOME_REGION_FLAG_TO_VALUE);
+    const keys = entries.map(([key]) => key);
+    if (homeRegion === 'unknown') {
+      setMappedFlags(keys, [], 'unknown');
+    } else if (homeRegion === 'none') {
+      setMappedFlags(keys, [], 'none');
+    } else {
+      setMappedFlags(keys, entries.filter(([, value]) => value === homeRegion).map(([key]) => key), 'known');
+    }
+  }
+
+  if (specificHomeArea) {
+    const entries = Object.entries(SPECIFIC_HOME_AREA_FLAG_TO_VALUE);
+    const keys = entries.map(([key]) => key);
+    if (specificHomeArea === 'unknown') {
+      setMappedFlags(keys, [], 'unknown');
+    } else if (specificHomeArea === 'none') {
+      setMappedFlags(keys, [], 'none');
+    } else {
+      setMappedFlags(keys, entries.filter(([, value]) => value === specificHomeArea).map(([key]) => key), 'known');
+    }
+  }
+
+  const schoolEntries = Object.entries(SCHOOL_AREA_FLAG_TO_VALUE);
+  const schoolKeys = schoolEntries.map(([key]) => key);
+  if (schoolArea === 'unknown') {
+    setMappedFlags(schoolKeys, [], 'unknown');
+  } else if (schoolArea === 'none') {
+    setMappedFlags(schoolKeys, [], 'none');
+  } else if (schoolArea) {
+    setMappedFlags(schoolKeys, schoolEntries.filter(([, value]) => value === schoolArea).map(([key]) => key), 'known');
+  }
+
+  return next;
+}
+
+function legacyProgrammesFrom(value) {
+  if (Array.isArray(value)) return value;
+  const access = asObject(value);
+  if (Array.isArray(access.access_programmes)) return access.access_programmes;
+  if (Array.isArray(access.other_programmes)) return access.other_programmes;
+  return [];
+}
+
+function normaliseContextualProfile(applicant) {
+  const defaults = defaultContextualProfile();
+  const existing = asObject(applicant.contextual_profile);
+  const identity = asObject(applicant.applicant_identity);
+  const flags = asObject(identity.contextual_flags);
+  const home = asObject(existing.home_area_region);
+  const lookup = asObject(home.postcode_lookup);
+  const lookupValues = asObject(lookup.values);
+  const accessInput = existing.access_programmes ?? applicant.access_programmes;
+  const access = asObject(accessInput);
+  const ukwpmedInput = asObject(access.ukwpmed);
+  const legacyProgrammes = legacyProgrammesFrom(accessInput);
+  const seenOtherProgrammeIds = new Set();
+  const recognisedLegacyProgrammes = legacyProgrammes.filter((entry) => {
+    const programmeId = asObject(entry).programme_id;
+    return typeof programmeId === 'string' && UKWPMED_PROGRAMME_BY_ID[programmeId];
+  });
+  const firstLegacyUkwpmed = asObject(recognisedLegacyProgrammes[0]);
+  const ukwpmedProgrammeId =
+    typeof ukwpmedInput.programme_id === 'string' && ukwpmedInput.programme_id
+      ? ukwpmedInput.programme_id
+      : typeof firstLegacyUkwpmed.programme_id === 'string'
+        ? firstLegacyUkwpmed.programme_id
+        : '';
+  const ukwpmedProgramme = UKWPMED_PROGRAMME_BY_ID[ukwpmedProgrammeId];
+
+  const otherProgrammes = [
+    ...(Array.isArray(access.other_programmes) ? access.other_programmes : []),
+    ...legacyProgrammes.filter((entry) => {
+      const programmeId = asObject(entry).programme_id;
+      return typeof programmeId !== 'string' || !UKWPMED_PROGRAMME_BY_ID[programmeId];
+    })
+  ]
+    .map((entry) => {
+      const record = asObject(entry);
+      const programmeId = String(record.programme_id || '').trim();
+      if (!programmeId || seenOtherProgrammeIds.has(programmeId)) return null;
+      seenOtherProgrammeIds.add(programmeId);
+      return {
+        ...record,
+        programme_id: programmeId,
+        status: normaliseProgrammeStatus(record.status)
+      };
+    })
+    .filter(Boolean);
+
+  const polar4Quintile = normaliseQuintile(home.polar4_quintile ?? flags.polar_quintile);
+  const imdQuintile = normaliseQuintile(home.imd_quintile ?? flags.imd_quintile);
+  const tundraQuintile = normaliseQuintile(home.tundra_quintile);
+  const normalisedRegionalFlags = normaliseAnswerRecord(home.regional_flags, normaliseTriState);
+  const legacyHomeRegion = firstYesFromFlags(normalisedRegionalFlags, HOME_REGION_FLAG_TO_VALUE);
+  const legacySpecificHomeArea = firstYesFromFlags(normalisedRegionalFlags, SPECIFIC_HOME_AREA_FLAG_TO_VALUE);
+  const homeRegion = normaliseHomeRegionValue(home.home_region) ?? legacyHomeRegion;
+  const specificHomeArea = normaliseSpecificHomeAreaValue(home.specific_home_area) ?? legacySpecificHomeArea;
+  const legacySchoolArea = selectedSchoolAreasFromFlags(normalisedRegionalFlags);
+  const explicitSchoolAreas = normaliseSchoolAreas(home.school_areas);
+  const singleSchoolArea = ['none', 'unknown'].includes(home.school_area) ? home.school_area : null;
+  const singleSchoolAreaOption = ['northern_ireland_bt_to_year_12', 'bristol_bs_ba_state_school', 'keele_region_school'].includes(home.school_area)
+    ? home.school_area
+    : null;
+  const legacySchoolAreaFromArray = explicitSchoolAreas.length === 1
+    ? explicitSchoolAreas[0]
+    : explicitSchoolAreas.length > 1
+      ? 'unknown'
+      : null;
+  const explicitSchoolArea = singleSchoolAreaOption ?? singleSchoolArea;
+  const schoolArea = explicitSchoolArea ?? resolveLegacySchoolArea(legacySchoolAreaFromArray, legacySchoolArea);
+  const homeWithoutLegacySchoolAreas = { ...home };
+  delete homeWithoutLegacySchoolAreas.school_areas;
+  const projectedRegionalFlags = applyFlagProjectionFromConsolidatedFields(
+    normalisedRegionalFlags,
+    homeRegion,
+    specificHomeArea,
+    schoolArea
+  );
+
+  return {
+    ...defaults,
+    ...existing,
+    home_area_region: {
+      ...defaults.home_area_region,
+      ...homeWithoutLegacySchoolAreas,
+      postcode: typeof home.postcode === 'string' ? home.postcode : '',
+      polar4_quintile: polar4Quintile,
+      imd_quintile: imdQuintile,
+      tundra_quintile: tundraQuintile,
+      home_region: homeRegion,
+      specific_home_area: specificHomeArea,
+      school_area: schoolArea,
+      acorn_quintile:
+        home.acorn_quintile === null || home.acorn_quintile === undefined
+          ? null
+          : normaliseQuintile(home.acorn_quintile),
+      simd_quintile: normaliseQuintile(
+        home.simd_quintile ?? (flags.simd20 === true ? 'q1' : flags.simd40 === true ? 'q2' : undefined)
+      ),
+      mem_quintile:
+        home.mem_quintile === null || home.mem_quintile === undefined
+          ? null
+          : normaliseQuintile(home.mem_quintile),
+      regional_flags: projectedRegionalFlags,
+      postcode_lookup: {
+        status: normaliseLookupStatus(lookup.status),
+        normalised_postcode: typeof lookup.normalised_postcode === 'string' ? lookup.normalised_postcode : undefined,
+        looked_up_postcode: typeof lookup.looked_up_postcode === 'string' ? lookup.looked_up_postcode : undefined,
+        stale: lookup.stale === true,
+        values: {
+          polar4: {
+            value: quintileNumber(polar4Quintile),
+            source: normaliseValueSource(asObject(lookupValues.polar4).source, polar4Quintile)
+          },
+          tundra: {
+            value: quintileNumber(tundraQuintile),
+            source: normaliseValueSource(asObject(lookupValues.tundra).source, tundraQuintile)
+          },
+          imd: {
+            value: quintileNumber(imdQuintile),
+            source: normaliseValueSource(asObject(lookupValues.imd).source, imdQuintile),
+            dataset_year: 2019
+          }
+        }
+      }
+    },
+    financial_support: {
+      ...normaliseAnswerRecord(existing.financial_support, normaliseTriState),
+      ...(flags.free_school_meals === true ? { free_school_meals: 'yes' } : {}),
+      ...(flags.ucat_bursary === true ? { ucat_bursary_recipient: 'yes' } : {})
+    },
+    school_education: normaliseAnswerRecord(existing.school_education, normaliseTriState),
+    personal_circumstances: {
+      ...normaliseAnswerRecord(existing.personal_circumstances, normaliseSensitiveAnswer),
+      ...(flags.care_experienced === true ? { care_experienced: 'yes' } : {}),
+      ...(flags.refugee === true || flags.refugee_or_asylum_seeker === true ? { refugee: 'yes' } : {}),
+      ...(flags.asylum_seeker === true ? { seeking_asylum: 'yes' } : {}),
+      ...(flags.first_generation_higher_education === true ? { first_in_family_at_university: 'yes' } : {})
+    },
+    access_programmes: {
+      ...defaults.access_programmes,
+      ...access,
+      participation_status: normaliseTriState(
+        access.participation_status,
+        otherProgrammes.length > 0 ? 'yes' : defaults.access_programmes.participation_status
+      ),
+      ukwpmed: {
+        ...defaults.access_programmes.ukwpmed,
+        ...ukwpmedInput,
+        status: normaliseTriState(
+          ukwpmedInput.status,
+          ukwpmedProgrammeId ? 'yes' : defaults.access_programmes.ukwpmed.status
+        ),
+        programme_id: ukwpmedProgrammeId,
+        programme_status: normaliseProgrammeStatus(
+          ukwpmedInput.programme_status ?? firstLegacyUkwpmed.status
+        ),
+        provider_university_id:
+          typeof ukwpmedInput.provider_university_id === 'string' && ukwpmedInput.provider_university_id
+            ? ukwpmedInput.provider_university_id
+            : ukwpmedProgramme?.provider_university_id || '',
+        completion_year: Number.isInteger(ukwpmedInput.completion_year)
+          ? ukwpmedInput.completion_year
+          : '',
+        not_sure_programme: ukwpmedInput.not_sure_programme === true
+      },
+      other_programmes: otherProgrammes,
+      other_programme_name: typeof access.other_programme_name === 'string'
+        ? access.other_programme_name
+        : ''
+    },
+    partner_schools: normalisePartnerSchools(existing.partner_schools, defaults.partner_schools)
+  };
+}
+
+function normalisePartnerSchools(value, defaults) {
+  const partnerSchools = asObject(value);
+  return {
+    ...defaults,
+    ...partnerSchools,
+    status: normaliseTriState(partnerSchools.status, defaults.status),
+    relationships: Array.isArray(partnerSchools.relationships)
+      ? partnerSchools.relationships.map((entry) => {
+          const record = asObject(entry);
+          return {
+            ...record,
+            university_id: typeof record.university_id === 'string' ? record.university_id : '',
+            university_name: typeof record.university_name === 'string' ? record.university_name : undefined,
+            school_name: typeof record.school_name === 'string' ? record.school_name : '',
+            relationship_type: typeof record.relationship_type === 'string' ? record.relationship_type : undefined,
+            status: normaliseTriState(record.status, '')
+          };
+        })
+      : []
+  };
 }
 
 function normaliseAgeAtCourseStartBand(value) {
@@ -146,6 +595,7 @@ function normaliseApplicantProfile(applicant, options = {}) {
   const profile = applicant.a_level_profile
     ? {
         ...applicant,
+        contextual_profile: normaliseContextualProfile(applicant),
         a_level_profile: normaliseALevelPracticalEndorsements(
           normaliseALevelSameSittingEvidence(
             applicant.a_level_profile,
@@ -153,7 +603,10 @@ function normaliseApplicantProfile(applicant, options = {}) {
           )
         )
       }
-    : applicant;
+    : {
+        ...applicant,
+        contextual_profile: normaliseContextualProfile(applicant)
+      };
 
   if (!isStandardUndergraduateMedicine(profile, options.course)) {
     return profile;
@@ -355,5 +808,6 @@ module.exports = {
   isStandardUndergraduateMedicine,
   isUcatCycleValid,
   normaliseAgeAtCourseStartBand,
+  normaliseContextualProfile,
   normaliseApplicantProfile
 };

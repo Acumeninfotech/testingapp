@@ -182,6 +182,15 @@ function normaliseId(value) {
     .replace(/^_|_$/g, '');
 }
 
+function contextualEvaluatorIdForCourse(course = {}) {
+  return (
+    course.contextual_eligibility?.evaluator_id ||
+    course.contextual_admissions?.contextual_eligibility?.evaluator_id ||
+    course.contextual_admissions?.evaluator_id ||
+    null
+  );
+}
+
 function graduateGcseRequired(graduateRules = {}) {
   if (graduateRules.gcse_required === true) {
     return true;
@@ -1289,8 +1298,7 @@ function evaluateAcademicEligibility(course, config, applicant, groupIds) {
           );
           const combinationRulePassed = subjectCombinationMeets(
             aLevelData.subject_combination_rule,
-            declaredSubjects,
-            route.grade_profile || route.standard_offer || []
+            declaredSubjects
           );
           return requiredSubjectsPassed &&
             subjectGroupsPassed &&
@@ -1323,14 +1331,8 @@ function evaluateAcademicEligibility(course, config, applicant, groupIds) {
         activeRoutes.includes(route) &&
         evaluateALevelRoute(route, aLevelGrades, applicant);
     });
-    const subjectCombinationPassed = activeRoutes.some((route) => {
-      const gradeProfile = route.grade_profile || route.standard_offer || [];
-      return subjectCombinationMeets(
-        aLevelData.subject_combination_rule,
-        aLevelGrades,
-        gradeProfile
-      );
-    });
+    let subjectCombinationPassed = activeRoutes.length > 0 &&
+      subjectCombinationMeets(aLevelData.subject_combination_rule, aLevelGrades);
     let aLevelGateExceptionApplied = false;
     let epqAlternativeInformationNeeded = false;
     const epqAlternativePathway = routePassed || hasRoutedEpqAlternative(aLevelData, aLevelConfig)
@@ -1348,6 +1350,9 @@ function evaluateAcademicEligibility(course, config, applicant, groupIds) {
       academicPathwayId = epqAlternativePathway.academic_pathway_id;
       epqAlternativeResult = epqAlternativePathway.epq_alternative_result;
       futureConditions = epqAlternativePathway.future_conditions || [];
+      if (epqAlternativeResult?.a_level_requirement_met === true) {
+        subjectCombinationPassed = true;
+      }
       if (epqAlternativePathway.status === 'met') {
         routePassed = true;
       } else if (epqAlternativePathway.status === 'information_needed') {
@@ -3762,13 +3767,17 @@ function classifyInterviewBand(course, config, applicantInput, options = {}) {
   }
 
   const birmingham = isBirminghamProfile(course);
-  const eligibility = birmingham
+  const courseEligibility = contextualEvaluatorIdForCourse(course)
     ? evaluateCourseEligibility(course, applicant)
     : null;
-  const groupIds = birmingham
+  const useCourseEligibility = birmingham || courseEligibility?.contextual_eligibility?.is_contextual === true;
+  const eligibility = birmingham
+    ? evaluateCourseEligibility(course, applicant)
+    : courseEligibility;
+  const groupIds = useCourseEligibility
     ? eligibility.applicant_group_ids
     : deriveConfiguredApplicantGroupIds(applicant, classificationConfig);
-  const resolvedEligibility = birmingham
+  const resolvedEligibility = useCourseEligibility
     ? eligibility
     : evaluateHardFilters(course, classificationConfig, applicant, groupIds);
   const base = {

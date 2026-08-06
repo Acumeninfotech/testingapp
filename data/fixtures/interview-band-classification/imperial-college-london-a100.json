@@ -204,12 +204,9 @@
     {
       "scenario_id": "contextual_at_2170",
       "overrides": {
-        "applicant_identity": {
-          "contextual": true,
-          "widening_participation": true,
-          "contextual_status_confirmed": true,
-          "contextual_flags": {
-            "imperial_wp_confirmed": true
+        "contextual_profile": {
+          "personal_circumstances": {
+            "care_experienced": "yes"
           }
         },
         "a_level_profile": {
@@ -242,19 +239,21 @@
       },
       "expected": {
         "eligibility_status": "eligible",
-        "guidance_pool_id": "contextual_home_a100",
-        "interview_band": "ambitious"
+        "interview_band": null,
+        "interview_outcome": "guaranteed_interview",
+        "derived_applicant_groups": [
+          "imperial_contextual",
+          "contextual",
+          "widening_participation"
+        ]
       }
     },
     {
       "scenario_id": "contextual_immediately_below_2170",
       "overrides": {
-        "applicant_identity": {
-          "contextual": true,
-          "widening_participation": true,
-          "contextual_status_confirmed": true,
-          "contextual_flags": {
-            "imperial_wp_confirmed": true
+        "contextual_profile": {
+          "personal_circumstances": {
+            "care_experienced": "yes"
           }
         },
         "a_level_profile": {
@@ -294,12 +293,9 @@
     {
       "scenario_id": "contextual_realistic_modelled_band",
       "overrides": {
-        "applicant_identity": {
-          "contextual": true,
-          "widening_participation": true,
-          "contextual_status_confirmed": true,
-          "contextual_flags": {
-            "imperial_wp_confirmed": true
+        "contextual_profile": {
+          "home_area_region": {
+            "imd_quintile": "q1"
           }
         },
         "a_level_profile": {
@@ -332,8 +328,13 @@
       },
       "expected": {
         "eligibility_status": "eligible",
-        "guidance_pool_id": "contextual_home_a100",
-        "interview_band": "realistic"
+        "interview_band": null,
+        "interview_outcome": "guaranteed_interview",
+        "derived_applicant_groups": [
+          "imperial_contextual",
+          "contextual",
+          "widening_participation"
+        ]
       }
     },
     {
@@ -550,12 +551,9 @@
     {
       "scenario_id": "contextual_astar_in_third_subject",
       "overrides": {
-        "applicant_identity": {
-          "contextual": true,
-          "widening_participation": true,
-          "contextual_status_confirmed": true,
-          "contextual_flags": {
-            "imperial_wp_confirmed": true
+        "contextual_profile": {
+          "financial_support": {
+            "free_school_meals": "yes"
           }
         },
         "a_level_profile": {
@@ -588,8 +586,13 @@
       },
       "expected": {
         "eligibility_status": "eligible",
-        "guidance_pool_id": "contextual_home_a100",
-        "interview_band": "interview_likely"
+        "interview_band": null,
+        "interview_outcome": "guaranteed_interview",
+        "derived_applicant_groups": [
+          "imperial_contextual",
+          "contextual",
+          "widening_participation"
+        ]
       }
     },
     {
@@ -1005,26 +1008,6 @@
     {
       "pool": "home",
       "ucat_total": 2320,
-      "expected_band": "ambitious"
-    },
-    {
-      "pool": "contextual",
-      "ucat_total": 2320,
-      "expected_band": "interview_likely"
-    },
-    {
-      "pool": "contextual",
-      "ucat_total": 2250,
-      "expected_band": "realistic"
-    },
-    {
-      "pool": "contextual",
-      "ucat_total": 2249,
-      "expected_band": "ambitious"
-    },
-    {
-      "pool": "contextual",
-      "ucat_total": 2170,
       "expected_band": "ambitious"
     },
     {

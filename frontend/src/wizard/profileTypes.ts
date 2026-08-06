@@ -125,6 +125,107 @@ export interface ContextualFlags {
   ucat_bursary: boolean;
 }
 
+export type YesNoNotSure = 'yes' | 'no' | 'not_sure';
+export type SensitiveAnswer = YesNoNotSure | 'prefer_not_to_say';
+export type QuintileValue = 'q1' | 'q2' | 'q3' | 'q4' | 'q5' | 'unknown' | '';
+export type ProgrammeStatus = 'offered' | 'participating' | 'completed' | 'not_sure';
+export type ContextualValueSource = 'postcode_lookup' | 'manual' | 'existing_profile' | 'unknown';
+export type PostcodeLookupStatus = 'not_checked' | 'matched' | 'partial_match' | 'not_found' | 'error';
+export type HomeRegionValue =
+  | 'south_west_england'
+  | 'north_west_england'
+  | 'north_east_england_or_cumbria'
+  | 'east_of_england'
+  | 'none'
+  | 'unknown';
+export type SpecificHomeAreaValue = 'essex' | 'lincolnshire' | 'none' | 'unknown';
+export type SchoolAreaValue =
+  | 'northern_ireland_bt_to_year_12'
+  | 'bristol_bs_ba_state_school'
+  | 'keele_region_school'
+  | 'none'
+  | 'unknown';
+export type SchoolAreaOption = Exclude<SchoolAreaValue, 'none' | 'unknown'>;
+
+export interface PostcodeLookupValueMetadata {
+  value: number | null;
+  source: ContextualValueSource;
+  dataset_year?: number;
+}
+
+export interface PostcodeLookupMetadata {
+  status: PostcodeLookupStatus;
+  normalised_postcode?: string;
+  looked_up_postcode?: string;
+  stale?: boolean;
+  values: {
+    polar4: PostcodeLookupValueMetadata;
+    tundra: PostcodeLookupValueMetadata;
+    imd: PostcodeLookupValueMetadata;
+  };
+}
+
+export interface HomeAreaRegionProfile {
+  postcode: string;
+  polar4_quintile: QuintileValue;
+  imd_quintile: QuintileValue;
+  tundra_quintile: QuintileValue;
+  simd_quintile: QuintileValue;
+  home_region: HomeRegionValue | null;
+  specific_home_area: SpecificHomeAreaValue | null;
+  school_area: SchoolAreaValue | null;
+  school_areas?: SchoolAreaOption[];
+  // Legacy compatibility fields retained for existing profiles and rules.
+  acorn_quintile?: QuintileValue | null;
+  mem_quintile?: QuintileValue | null;
+  regional_flags?: Record<string, YesNoNotSure | undefined>;
+  postcode_lookup?: PostcodeLookupMetadata;
+}
+
+export interface UkwpmedProgramme {
+  status: YesNoNotSure;
+  programme_id: string;
+  programme_status: ProgrammeStatus | '';
+  provider_university_id: string;
+  completion_year: number | '';
+  not_sure_programme: boolean;
+}
+
+export interface OtherAccessProgramme {
+  programme_id: string;
+  status: ProgrammeStatus | '';
+  programme_name?: string;
+}
+
+export interface AccessProgrammesProfile {
+  participation_status: YesNoNotSure;
+  ukwpmed: UkwpmedProgramme;
+  other_programmes: OtherAccessProgramme[];
+  other_programme_name: string;
+}
+
+export interface PartnerSchoolRelationship {
+  university_id: string;
+  university_name?: string;
+  school_name: string;
+  relationship_type?: string;
+  status?: YesNoNotSure | '';
+}
+
+export interface PartnerSchoolsProfile {
+  status: YesNoNotSure;
+  relationships: PartnerSchoolRelationship[];
+}
+
+export interface ContextualProfile {
+  home_area_region: HomeAreaRegionProfile;
+  financial_support: Record<string, YesNoNotSure | undefined>;
+  school_education: Record<string, YesNoNotSure | undefined>;
+  personal_circumstances: Record<string, SensitiveAnswer | undefined>;
+  access_programmes: AccessProgrammesProfile;
+  partner_schools: PartnerSchoolsProfile;
+}
+
 export interface ApplicantIdentity {
   applicant_type: ApplicantType | '';
   fee_status: FeeStatus | '';
@@ -275,6 +376,7 @@ export interface UcatProfile {
 
 export interface WizardProfile {
   applicant_identity: ApplicantIdentity;
+  contextual_profile: ContextualProfile;
   course_target: CourseTarget;
   gcse_profile: GcseProfile;
   a_level_profile: ALevelProfile;
@@ -290,6 +392,50 @@ export interface WizardProfile {
     gamsat: GamsatProfile;
   };
   university_ids: string[];
+}
+
+export function createEmptyContextualProfile(): ContextualProfile {
+  return {
+    home_area_region: {
+      postcode: '',
+      polar4_quintile: 'unknown',
+      imd_quintile: 'unknown',
+      tundra_quintile: 'unknown',
+      simd_quintile: 'unknown',
+      home_region: null,
+      specific_home_area: null,
+      school_area: null,
+      regional_flags: {},
+      postcode_lookup: {
+        status: 'not_checked',
+        values: {
+          polar4: { value: null, source: 'unknown' },
+          tundra: { value: null, source: 'unknown' },
+          imd: { value: null, source: 'unknown', dataset_year: 2019 },
+        },
+      },
+    },
+    financial_support: {},
+    school_education: {},
+    personal_circumstances: {},
+    access_programmes: {
+      participation_status: 'no',
+      ukwpmed: {
+        status: 'no',
+        programme_id: '',
+        programme_status: '',
+        provider_university_id: '',
+        completion_year: '',
+        not_sure_programme: false,
+      },
+      other_programmes: [],
+      other_programme_name: '',
+    },
+    partner_schools: {
+      status: 'no',
+      relationships: [],
+    },
+  };
 }
 
 export function createEmptyProfile(): WizardProfile {
@@ -314,6 +460,7 @@ export function createEmptyProfile(): WizardProfile {
         subjects_resat: [],
       },
     },
+    contextual_profile: createEmptyContextualProfile(),
     course_target: {
       discipline: 'medicine',
       ucas_code: 'A100',

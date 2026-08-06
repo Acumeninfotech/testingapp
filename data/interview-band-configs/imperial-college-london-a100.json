@@ -34,31 +34,7 @@
         "unknown"
       ]
     },
-    "derived_applicant_groups": [
-      {
-        "group_ids": [
-          "contextual",
-          "widening_participation"
-        ],
-        "match": {
-          "all_group_ids": [
-            "home_fee"
-          ],
-          "excluded_group_ids": [
-            "international_fee",
-            "graduate_applicant"
-          ]
-        },
-        "all_evidence": [
-          {
-            "applicant_evidence_path": "applicant_identity.contextual_status_confirmed"
-          },
-          {
-            "applicant_evidence_path": "applicant_identity.contextual_flags.imperial_wp_confirmed"
-          }
-        ]
-      }
-    ],
+    "derived_applicant_groups": [],
     "gcse": {
       "minimum_count": null,
       "use_exact_subject_list": false,
@@ -74,6 +50,7 @@
         {
           "route_id": "imperial_standard_a_level_astar_aa_biology_chemistry",
           "excluded_group_ids": [
+            "imperial_contextual",
             "contextual",
             "widening_participation",
             "graduate_applicant"
@@ -119,20 +96,17 @@
           ]
         },
         {
-          "route_id": "imperial_contextual_a_level_astar_any_subject_biology_chemistry_a",
+          "route_id": "imperial_contextual_a_level_aaa_biology_chemistry",
           "applies_to_group_ids": [
-            "home_fee"
-          ],
-          "any_group_ids": [
-            "contextual",
-            "widening_participation"
+            "home_fee",
+            "imperial_contextual"
           ],
           "excluded_group_ids": [
             "international_fee",
             "graduate_applicant"
           ],
           "grade_profile": [
-            "A*",
+            "A",
             "A",
             "A"
           ],
@@ -241,6 +215,29 @@
         4
       ]
     },
+    "map_override": {
+      "override_id": "imperial_contextual_guaranteed_interview",
+      "outcome": "guaranteed_interview",
+      "interview_outcome": "guaranteed_interview",
+      "apply_ucat_guidance_band": false,
+      "description": "Imperial contextual applicants receive a guaranteed interview only after structured contextual evidence and all implemented academic, UCAT, SJT and hard-filter checks pass.",
+      "applicant_facing_explanation": "The applicant qualifies under Imperial's contextual admissions route and meets the implemented AAA academic, UCAT contextual-threshold and SJT requirements for a guaranteed interview. This applies to interview invitation only, not an offer.",
+      "any_conditions": [
+        {
+          "condition_id": "imperial_contextual_evidence_and_hard_filters_met",
+          "match": {
+            "all_group_ids": [
+              "home_fee",
+              "imperial_contextual"
+            ],
+            "excluded_group_ids": [
+              "international_fee",
+              "graduate_applicant"
+            ]
+          }
+        }
+      ]
+    },
     "resits": {
       "resits_accepted": false,
       "extenuating_circumstances_required": true,
@@ -291,11 +288,8 @@
       "priority": 40,
       "applicant_match": {
         "all_group_ids": [
-          "home_fee"
-        ],
-        "any_group_ids": [
-          "contextual",
-          "widening_participation"
+          "home_fee",
+          "imperial_contextual"
         ],
         "excluded_group_ids": [
           "international_fee"
@@ -394,6 +388,7 @@
         ],
         "excluded_group_ids": [
           "international_fee",
+          "imperial_contextual",
           "contextual",
           "widening_participation"
         ]

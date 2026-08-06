@@ -1971,6 +1971,172 @@ main:has(.university-explorer) {
   background: var(--surface);
 }
 
+/* ---------- Contextual profile ---------- */
+
+.contextual-step {
+  gap: 1rem;
+}
+
+.contextual-accordion {
+  border: 1.5px solid var(--border);
+  border-radius: var(--radius-md);
+  background: var(--surface);
+  box-shadow: var(--shadow-sm);
+  overflow: hidden;
+}
+
+.contextual-accordion summary {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 1rem 1.1rem;
+  color: var(--text-h);
+  font-weight: 800;
+  cursor: pointer;
+  list-style: none;
+}
+
+.contextual-accordion summary::-webkit-details-marker {
+  display: none;
+}
+
+.contextual-accordion summary::before {
+  content: '+';
+  width: 1.6rem;
+  height: 1.6rem;
+  display: inline-grid;
+  place-items: center;
+  border: 1px solid var(--border);
+  border-radius: 50%;
+  color: var(--green-deep);
+  font-weight: 900;
+  flex: 0 0 auto;
+}
+
+.contextual-accordion[open] summary::before {
+  content: '-';
+}
+
+.contextual-accordion summary span:first-of-type {
+  flex: 1;
+}
+
+.contextual-count-badge {
+  min-width: 1.7rem;
+  height: 1.7rem;
+  display: inline-grid;
+  place-items: center;
+  padding: 0 0.45rem;
+  border-radius: 999px;
+  background: var(--green-pale);
+  border: 1px solid var(--border);
+  color: var(--green-deep);
+  font-size: 0.78rem;
+  font-weight: 900;
+}
+
+.contextual-accordion-body {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  padding: 0 1.1rem 1.1rem;
+}
+
+.contextual-field-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1rem;
+}
+
+.contextual-postcode-check {
+  justify-self: start;
+}
+
+.contextual-quintile-field {
+  display: grid;
+  gap: 0.45rem;
+}
+
+.contextual-apply-lookup {
+  justify-self: start;
+  padding: 0.55rem 0.8rem;
+}
+
+.contextual-subsection {
+  display: flex;
+  flex-direction: column;
+  gap: 0.9rem;
+  padding: 1rem;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  background: var(--neutral-bg);
+}
+
+.contextual-subsection h3 {
+  margin: 0;
+}
+
+.contextual-conditional-panel {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  padding: 1rem;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  background: var(--surface);
+}
+
+.contextual-inline-checkbox {
+  margin: 0;
+}
+
+.contextual-inline-checkbox span {
+  font-weight: 600;
+}
+
+.contextual-add-row {
+  max-width: 28rem;
+}
+
+.contextual-list-row,
+.contextual-partner-row {
+  display: flex;
+  flex-direction: column;
+  gap: 0.85rem;
+  padding: 1rem;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  background: var(--surface);
+}
+
+.contextual-list-row > div:first-child {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.contextual-list-row strong {
+  color: var(--text-h);
+}
+
+.contextual-list-row span {
+  color: var(--text-muted);
+  font-size: 0.9rem;
+}
+
+.contextual-row-action {
+  align-self: flex-start;
+}
+
+.contextual-partner-row legend {
+  padding: 0 0.35rem;
+  color: var(--text-muted);
+  font-size: 0.78rem;
+  font-weight: 800;
+  letter-spacing: 0.03em;
+}
+
 .a-level-subject {
   position: relative;
   border: 1.5px solid var(--border);
@@ -2187,6 +2353,17 @@ main:has(.university-explorer) {
   font-weight: 800;
   line-height: 1.35;
   overflow-wrap: anywhere;
+}
+
+.review-value-with-hint {
+  display: grid;
+  gap: 0.2rem;
+}
+
+.review-value-with-hint small {
+  color: var(--text-muted);
+  font-size: 0.82rem;
+  font-weight: 650;
 }
 
 .review-value-muted {
@@ -4430,6 +4607,10 @@ main:has(.university-explorer) {
   }
 
   .review-field-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .contextual-field-grid {
     grid-template-columns: 1fr;
   }
 

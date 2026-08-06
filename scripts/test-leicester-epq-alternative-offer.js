@@ -260,6 +260,58 @@ function assertPublicPost16(label, applicant, expectedRows) {
   );
 }
 
+function assertNoSelectionScoring(label, applicant) {
+  const classification = classify(applicant);
+  assert.strictEqual(classification.eligibility.status, 'not_eligible', `${label}: classifier eligibility`);
+  assert.strictEqual(classification.canonical_interview_band, 'not_eligible', `${label}: classifier band`);
+  assert.strictEqual(classification.ranking, null, `${label}: classifier ranking must not be calculated`);
+  assert.strictEqual(classification.band_metric, undefined, `${label}: classifier band metric must not exist`);
+  assert.strictEqual(classification.guidance_pool_id, undefined, `${label}: classifier guidance pool must not exist`);
+
+  const apiResult = predict({
+    universityIds: ['leicester-a100'],
+    studentProfile: applicant
+  })[0].result_card;
+  assert.strictEqual(apiResult.recommendation_display_state, 'not_eligible', `${label}: public state`);
+  assert.strictEqual(apiResult.prediction.result_band, 'not_eligible', `${label}: public result band`);
+  assert.strictEqual(
+    apiResult.prediction.interview_prediction.available,
+    false,
+    `${label}: public interview prediction must not be available`
+  );
+  assert.strictEqual(
+    apiResult.decision_transparency.score_breakdown,
+    null,
+    `${label}: public score breakdown must not be shown`
+  );
+  assert.strictEqual(
+    apiResult.decision_transparency.selection_metric,
+    null,
+    `${label}: public selection metric must not be shown`
+  );
+  assert.notStrictEqual(
+    apiResult.primary_user_facing_recommendation,
+    'Strong choice for your application',
+    `${label}: must not be a Strong Choice`
+  );
+}
+
+function assertNoSubjectCombinationFailure(label, applicant) {
+  const classification = classify(applicant);
+  assert.ok(
+    !(classification.eligibility.failures || []).includes('a_level_subject_combination_not_met'),
+    `${label}: valid subject combinations must not be reported as subject failures`
+  );
+  const card = publicCardFor(course, config, applicant);
+  assert.ok(
+    !(card.academic_requirement_checks || []).some((check) =>
+      check.requirement_type === 'a_level_subject_combination' &&
+      check.status === 'not_met'
+    ),
+    `${label}: public card must not show required A-level subjects as failed`
+  );
+}
+
 const EPQ_PATHWAY_ID = 'leicester_epq_alternative';
 const EPQ_GRADE_REASON = `${EPQ_PATHWAY_ID}_epq_grade_required`;
 const expectedScienceOptions = [
@@ -278,6 +330,27 @@ assert.deepStrictEqual(course.stage_1_eligibility.post_16.a_level.standard_offer
   'A',
   'A'
 ]);
+assert.deepStrictEqual(
+  course.stage_1_eligibility.post_16.a_level.scoring_floor.grade_profile,
+  ['A', 'A', 'B'],
+  'Leicester AAB scoring floor should remain documented separately from eligibility.'
+);
+assert.deepStrictEqual(
+  course.stage_1_eligibility.post_16.a_level.grade_requirements.map((route) => [
+    route.requirement_id,
+    route.grade_profile
+  ]),
+  [['a_level_standard_offer', ['A*', 'A', 'A']]],
+  'Leicester executable A-level eligibility routes must not include the AAB scoring floor.'
+);
+assert.deepStrictEqual(
+  config.eligibility.a_level.routes.map((route) => [
+    route.route_id,
+    route.grade_profile
+  ]),
+  [['a_level_standard_offer', ['A*', 'A', 'A']]],
+  'Leicester classifier eligibility routes must not include the AAB scoring floor.'
+);
 assert.deepStrictEqual(course.stage_1_eligibility.post_16.a_level.epq_alternative_offer, {
   enabled: true,
   pathway_id: EPQ_PATHWAY_ID,
@@ -337,10 +410,124 @@ for (const [label, epq] of [
     applicant,
     expectedStatus: 'eligible',
     expectedPathway: 'standard',
-    expectedPathwayId: null,
+    expectedPathwayId: 'a_level_standard_offer',
     expectedBand: 'realistic'
   });
   assertPublicPost16(label, applicant, [['A-level grades', 'met', 'a_level_standard_offer']]);
+}
+
+{
+  const applicant = applicantWith({
+    grades: ['A*', 'A', 'A'],
+    overrides: {
+      gcse_profile: {
+        subjects: {
+          english_language: '9',
+          mathematics: '9',
+          chemistry: '9',
+          biology: '9',
+          physics: '8',
+          english_literature: '8',
+          history: '8',
+          geography: '8'
+        }
+      },
+      admissions_tests: {
+        ucat: {
+          total_score: 2400,
+          subtests: {
+            verbal_reasoning: 800,
+            decision_making: 800,
+            quantitative_reasoning: 800
+          }
+        }
+      }
+    }
+  });
+  const classification = classify(applicant);
+  assert.strictEqual(classification.eligibility.status, 'eligible');
+  assert.strictEqual(classification.eligibility.academic_pathway, 'standard');
+  assert.strictEqual(classification.ranking.status, 'calculated');
+  assert.strictEqual(classification.ranking.components.gcse_score.value, 44);
+  assert.strictEqual(classification.ranking.components.ucat_score.value, 47);
+  assert.strictEqual(classification.ranking.value, 91);
+  assert.strictEqual(classification.ranking.max, 96);
+  assert.strictEqual(classification.canonical_interview_band, 'interview_likely');
+}
+
+{
+  const applicant = applicantWith({
+    subjects: [
+      subject('Chemistry', 'A'),
+      subject('Biology', 'A'),
+      subject('Mathematics', 'A')
+    ],
+    epq: { status: 'achieved', grade: 'A', taken_alongside_a_levels: true }
+  });
+  assertAcademicScenario({
+    label: 'AAA achieved EPQ A display-case valid subjects',
+    applicant,
+    expectedStatus: 'eligible',
+    expectedPathway: 'epq_alternative',
+    expectedPathwayId: EPQ_PATHWAY_ID,
+    expectedBand: 'realistic'
+  });
+  assertNoSubjectCombinationFailure('AAA achieved EPQ A display-case valid subjects', applicant);
+  assertPublicPost16(
+    'AAA achieved EPQ A display-case valid subjects',
+    applicant,
+    [['A-levels + EPQ', 'met', 'epq_alternative_offer']]
+  );
+}
+
+{
+  const applicant = applicantWith({ grades: ['A', 'A', 'B'] });
+  assertAcademicScenario({
+    label: 'AAB no EPQ',
+    applicant,
+    expectedStatus: 'not_eligible',
+    expectedPathway: 'standard',
+    expectedPathwayId: 'a_level_standard_offer',
+    expectedBand: 'not_eligible',
+    expectedFailure: 'a_level_requirements_not_met'
+  });
+  assertNoSelectionScoring('AAB no EPQ', applicant);
+  assertNoSubjectCombinationFailure('AAB no EPQ', applicant);
+  assertPublicPost16('AAB no EPQ', applicant, [['A-level grades', 'not_met', 'a_level_standard_offer']]);
+}
+
+{
+  const applicant = applicantWith({ grades: ['A', 'A', 'A'] });
+  assertAcademicScenario({
+    label: 'AAA no EPQ',
+    applicant,
+    expectedStatus: 'not_eligible',
+    expectedPathway: 'standard',
+    expectedPathwayId: 'a_level_standard_offer',
+    expectedBand: 'not_eligible',
+    expectedFailure: 'a_level_requirements_not_met'
+  });
+  assertNoSelectionScoring('AAA no EPQ', applicant);
+  assertNoSubjectCombinationFailure('AAA no EPQ', applicant);
+  assertPublicPost16('AAA no EPQ', applicant, [['A-level grades', 'not_met', 'a_level_standard_offer']]);
+  const card = publicCardFor(course, config, applicant);
+  assert.deepStrictEqual(card.alternative_academic_offer, {
+    type: 'epq',
+    standard_offer: 'A*AA',
+    alternative_offer: 'AAA + EPQ Grade B',
+    epq_minimum_grade: 'B',
+    pathway_id: EPQ_PATHWAY_ID,
+    conditions: []
+  });
+  assert.ok(
+    !(card.academic_requirement_checks || []).some((check) =>
+      check.requirement_type === 'epq_alternative_offer' &&
+      check.status === 'met'
+    ),
+    'AAA no EPQ: EPQ alternative must not be displayed as met.'
+  );
+  assert.match(card.primary_explanation, /A-level grades/i);
+  assert.doesNotMatch(card.primary_explanation, /subjects do not match/i);
 }
 
 for (const [label, epq] of [
@@ -420,9 +607,9 @@ for (const [label, epq] of [
 }
 
 {
-  const applicant = applicantWith({ grades: ['A', 'A', 'B'], epq: { status: 'achieved', grade: 'A*' } });
+  const applicant = applicantWith({ grades: ['A', 'A', 'B'], epq: { status: 'achieved', grade: 'A' } });
   assertAcademicScenario({
-    label: 'AAB EPQ A*',
+    label: 'AAB EPQ A',
     applicant,
     expectedStatus: 'not_eligible',
     expectedPathway: null,
@@ -431,7 +618,9 @@ for (const [label, epq] of [
     expectedFailure: 'a_level_requirements_not_met',
     expectedEpqFailedCondition: 'a_level_grade_profile'
   });
-  assertPublicPost16('AAB EPQ A*', applicant, [['A-levels + EPQ', 'not_met', 'epq_alternative_offer']]);
+  assertNoSelectionScoring('AAB EPQ A', applicant);
+  assertNoSubjectCombinationFailure('AAB EPQ A', applicant);
+  assertPublicPost16('AAB EPQ A', applicant, [['A-levels + EPQ', 'not_met', 'epq_alternative_offer']]);
 }
 
 {

@@ -13,9 +13,9 @@
       "Consider": 3
     },
     "all_flags": {
-      "Recommended": 30,
+      "Recommended": 32,
       "Information Needed": 6,
-      "Consider": 4
+      "Consider": 2
     }
   },
   "rows": [
@@ -191,9 +191,9 @@
         "result_band": "interview_likely",
         "display_state": "standard",
         "applicant_group_ids": [
+          "home_fee",
           "england_domiciled",
           "rest_of_uk",
-          "home_fee",
           "care_experienced",
           "refugee_or_asylum_seeker",
           "refugee",
@@ -203,14 +203,13 @@
           "school_contextual_indicator",
           "ucat_bursary",
           "school_leaver",
-          "contextual",
-          "widening_participation"
+          "contextual"
         ],
         "guidance_pool_id": "home_wp",
         "selection_route_id": null,
         "canonical_interview_band": "interview_likely",
-        "academic_pathway": "contextual",
-        "academic_pathway_id": "contextual_school_leaver_a_level",
+        "academic_pathway": "standard",
+        "academic_pathway_id": "standard_school_leaver_a_level",
         "interview_outcome": null
       },
       "contextual_route_legitimately_activated": true,
@@ -1233,13 +1232,13 @@
         "interview_outcome": null
       },
       "all_flags": {
-        "public_group": "Consider",
-        "result_band": "realistic",
+        "public_group": "Recommended",
+        "result_band": "interview_likely",
         "display_state": "standard",
         "applicant_group_ids": [
+          "home_fee",
           "england_domiciled",
           "rest_of_uk",
-          "home_fee",
           "care_experienced",
           "refugee_or_asylum_seeker",
           "refugee",
@@ -1248,17 +1247,20 @@
           "first_generation_higher_education",
           "school_contextual_indicator",
           "ucat_bursary",
-          "school_leaver"
+          "school_leaver",
+          "imperial_contextual",
+          "contextual",
+          "widening_participation"
         ],
-        "guidance_pool_id": "home_a100",
+        "guidance_pool_id": null,
         "selection_route_id": null,
-        "canonical_interview_band": "realistic",
-        "academic_pathway": "standard",
-        "academic_pathway_id": "imperial_standard_a_level_astar_aa_biology_chemistry",
-        "interview_outcome": null
+        "canonical_interview_band": null,
+        "academic_pathway": "contextual",
+        "academic_pathway_id": "imperial_contextual_a_level_aaa_biology_chemistry",
+        "interview_outcome": "guaranteed_interview"
       },
-      "contextual_route_legitimately_activated": false,
-      "change_reason": "no_route_or_prediction_change"
+      "contextual_route_legitimately_activated": true,
+      "change_reason": "evidence_specific_contextual_or_wp_route"
     },
     {
       "university_id": "keele-a100",
@@ -1671,7 +1673,7 @@
         "selection_route_id": null,
         "canonical_interview_band": "interview_likely",
         "academic_pathway": "standard",
-        "academic_pathway_id": null,
+        "academic_pathway_id": "a_level_standard_offer",
         "interview_outcome": null
       },
       "top_level_only": {
@@ -1688,7 +1690,7 @@
         "selection_route_id": null,
         "canonical_interview_band": "interview_likely",
         "academic_pathway": "standard",
-        "academic_pathway_id": null,
+        "academic_pathway_id": "a_level_standard_offer",
         "interview_outcome": null
       },
       "all_flags": {
@@ -1713,7 +1715,7 @@
         "selection_route_id": null,
         "canonical_interview_band": "interview_likely",
         "academic_pathway": "standard",
-        "academic_pathway_id": null,
+        "academic_pathway_id": "a_level_standard_offer",
         "interview_outcome": null
       },
       "contextual_route_legitimately_activated": false,
@@ -1822,8 +1824,8 @@
         "interview_outcome": null
       },
       "all_flags": {
-        "public_group": "Consider",
-        "result_band": "realistic",
+        "public_group": "Recommended",
+        "result_band": "very_strong_interview_potential",
         "display_state": "standard",
         "applicant_group_ids": [
           "england_domiciled",
@@ -1843,7 +1845,7 @@
         ],
         "guidance_pool_id": "home_contextual_non_graduate",
         "selection_route_id": null,
-        "canonical_interview_band": "realistic",
+        "canonical_interview_band": "very_strong_interview_potential",
         "academic_pathway": "standard",
         "academic_pathway_id": "standard_aaa",
         "interview_outcome": null

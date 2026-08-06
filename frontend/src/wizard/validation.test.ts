@@ -7,6 +7,7 @@ import {
   validateAccessToHeStep,
   validateALevelStep,
   validateBtecStep,
+  validateContextualStep,
   validateEnglishLanguageStep,
   validateGcseStep,
   validateGraduateStep,
@@ -44,6 +45,36 @@ describe('validateIdentityStep', () => {
     profile.applicant_identity.fee_status = 'home';
     profile.applicant_identity.domicile = 'england';
     expect(validateIdentityStep(profile).age_at_course_start_band).toBeTruthy();
+  });
+});
+
+describe('validateContextualStep', () => {
+  it('accepts empty placeholders as null values for Home area dropdowns', () => {
+    const profile = createEmptyProfile();
+
+    profile.contextual_profile.home_area_region.home_region = null;
+    profile.contextual_profile.home_area_region.specific_home_area = null;
+    profile.contextual_profile.home_area_region.school_area = null;
+
+    expect(validateContextualStep(profile).home_region).toBeUndefined();
+    expect(validateContextualStep(profile).specific_home_area).toBeUndefined();
+    expect(validateContextualStep(profile).school_area).toBeUndefined();
+  });
+
+  it('accepts singular school-area values and rejects invalid values', () => {
+    const profile = createEmptyProfile();
+
+    profile.contextual_profile.home_area_region.school_area = 'bristol_bs_ba_state_school';
+    expect(validateContextualStep(profile).school_area).toBeUndefined();
+
+    profile.contextual_profile.home_area_region.school_area = 'none';
+    expect(validateContextualStep(profile).school_area).toBeUndefined();
+
+    profile.contextual_profile.home_area_region.school_area = 'unknown';
+    expect(validateContextualStep(profile).school_area).toBeUndefined();
+
+    profile.contextual_profile.home_area_region.school_area = 'not_a_school_area' as typeof profile.contextual_profile.home_area_region.school_area;
+    expect(validateContextualStep(profile).school_area).toBeTruthy();
   });
 });
 

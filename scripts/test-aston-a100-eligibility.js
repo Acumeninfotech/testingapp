@@ -103,9 +103,14 @@ function setALevels(applicant, grades) {
 
 function contextualApplicant(grades) {
   const applicant = setALevels(baseApplicant(), grades);
-  applicant.applicant_identity.contextual = true;
-  applicant.applicant_identity.widening_participation = true;
-  applicant.applicant_identity.contextual_status_confirmed = true;
+  applicant.contextual_profile = {
+    school_education: {
+      state_non_fee_paying_school: 'yes'
+    },
+    financial_support: {
+      ucat_bursary_recipient: 'yes'
+    }
+  };
   return applicant;
 }
 
@@ -281,9 +286,14 @@ const cases = [
     expected: MANUAL_REVIEW,
     expectedManualReview: 'wp_ib_overall_score_unknown',
     mutate(applicant) {
-      applicant.applicant_identity.contextual = true;
-      applicant.applicant_identity.widening_participation = true;
-      applicant.applicant_identity.contextual_status_confirmed = true;
+      applicant.contextual_profile = {
+        school_education: {
+          state_non_fee_paying_school: 'yes'
+        },
+        financial_support: {
+          ucat_bursary_recipient: 'yes'
+        }
+      };
       return applicant;
     },
     applicant: ibApplicant()

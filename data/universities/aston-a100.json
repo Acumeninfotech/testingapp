@@ -3,7 +3,7 @@
   "profile_id": "aston-a100",
   "profile_status": "official_and_foi_evidence_implemented_interview_guidance_active",
   "verification_status": "official_and_foi_verified",
-  "last_updated": "2026-06-29",
+  "last_updated": "2026-08-05",
   "selection_approach_display": {
     "by_applicant_pool": {
       "home_non_wp": "Home applicants are assessed using a selection score combining GCSE performance and UCAT.",
@@ -328,10 +328,6 @@
             "requirement_id": "standard_school_leaver_a_level",
             "applies_to_group_ids": [
               "school_leaver"
-            ],
-            "excluded_group_ids": [
-              "contextual",
-              "widening_participation"
             ],
             "grade_profile": [
               "A*",
@@ -1460,6 +1456,7 @@
       "aston_official_research_team_2026_2027"
     ],
     "available": true,
+    "evaluator_id": "aston_ready_medicine_a100",
     "applies_to_group_ids": [
       "home_fee"
     ],
@@ -1469,62 +1466,6 @@
     ],
     "criteria": [
       {
-        "criterion_id": "polar_or_imd_quintile_1_2",
-        "applies_to_group_ids": [
-          "home_fee"
-        ],
-        "any_group_ids": [
-          "contextual",
-          "widening_participation"
-        ],
-        "description": "Lives in a POLAR quintile 1 or 2 or IMD quintile 1 or 2 postcode.",
-        "source_ids": [
-          "aston_official_research_team_2026_2027"
-        ]
-      },
-      {
-        "criterion_id": "free_school_meals_last_six_years",
-        "applies_to_group_ids": [
-          "home_fee"
-        ],
-        "any_group_ids": [
-          "contextual",
-          "widening_participation"
-        ],
-        "description": "Received Free School Meals within the previous six years.",
-        "source_ids": [
-          "aston_official_research_team_2026_2027"
-        ]
-      },
-      {
-        "criterion_id": "care_experienced_or_looked_after",
-        "applies_to_group_ids": [
-          "home_fee"
-        ],
-        "any_group_ids": [
-          "contextual",
-          "widening_participation"
-        ],
-        "description": "Care-experienced or a looked-after child.",
-        "source_ids": [
-          "aston_official_research_team_2026_2027"
-        ]
-      },
-      {
-        "criterion_id": "first_generation_higher_education",
-        "applies_to_group_ids": [
-          "home_fee"
-        ],
-        "any_group_ids": [
-          "contextual",
-          "widening_participation"
-        ],
-        "description": "First generation in the family to enter higher education.",
-        "source_ids": [
-          "aston_official_research_team_2026_2027"
-        ]
-      },
-      {
         "criterion_id": "ucat_bursary",
         "applies_to_group_ids": [
           "home_fee"
@@ -1533,13 +1474,13 @@
           "contextual",
           "widening_participation"
         ],
-        "description": "Received a UCAT bursary.",
+        "description": "Eligible for a UCAT bursary.",
         "source_ids": [
-          "aston_official_research_team_2026_2027"
+          "aston_ready_contextual_2026"
         ]
       },
       {
-        "criterion_id": "aston_ready_or_pathways",
+        "criterion_id": "free_school_meals_end_ks4_last_six_years",
         "applies_to_group_ids": [
           "home_fee"
         ],
@@ -1547,9 +1488,93 @@
           "contextual",
           "widening_participation"
         ],
-        "description": "Completed Aston Ready or Aston Pathways.",
+        "description": "Eligible for Free School Meals by the end of Key Stage 4 within the previous six years.",
         "source_ids": [
-          "aston_official_research_team_2026_2027"
+          "aston_ready_contextual_2026"
+        ]
+      },
+      {
+        "criterion_id": "declared_disability_ucas",
+        "applies_to_group_ids": [
+          "home_fee"
+        ],
+        "any_group_ids": [
+          "contextual",
+          "widening_participation"
+        ],
+        "description": "Declared a disability on the UCAS application.",
+        "source_ids": [
+          "aston_ready_contextual_2026"
+        ]
+      },
+      {
+        "criterion_id": "aston_pathways_year_12_13",
+        "applies_to_group_ids": [
+          "home_fee"
+        ],
+        "any_group_ids": [
+          "contextual",
+          "widening_participation"
+        ],
+        "description": "Completed an Aston Pathways programme during Year 12 or Year 13.",
+        "source_ids": [
+          "aston_ready_contextual_2026"
+        ]
+      },
+      {
+        "criterion_id": "aston_stem_education_academy_trust_school",
+        "applies_to_group_ids": [
+          "home_fee"
+        ],
+        "any_group_ids": [
+          "contextual",
+          "widening_participation"
+        ],
+        "description": "Attends Aston University Engineering Academy, Aston University Maths School or Aston University Goldsmith's Institute.",
+        "source_ids": [
+          "aston_ready_contextual_2026"
+        ]
+      },
+      {
+        "criterion_id": "care_experienced_or_care_leaver",
+        "applies_to_group_ids": [
+          "home_fee"
+        ],
+        "any_group_ids": [
+          "contextual",
+          "widening_participation"
+        ],
+        "description": "Spent time in local-authority care or is declared as a care leaver.",
+        "source_ids": [
+          "aston_ready_contextual_2026"
+        ]
+      },
+      {
+        "criterion_id": "refugee_status_home_office",
+        "applies_to_group_ids": [
+          "home_fee"
+        ],
+        "any_group_ids": [
+          "contextual",
+          "widening_participation"
+        ],
+        "description": "Granted refugee status by the Home Office.",
+        "source_ids": [
+          "aston_ready_contextual_2026"
+        ]
+      },
+      {
+        "criterion_id": "polar4_quintile_1_2",
+        "applies_to_group_ids": [
+          "home_fee"
+        ],
+        "any_group_ids": [
+          "contextual",
+          "widening_participation"
+        ],
+        "description": "Lives in a POLAR4 Quintile 1 or Quintile 2 area.",
+        "source_ids": [
+          "aston_ready_contextual_2026"
         ]
       }
     ],

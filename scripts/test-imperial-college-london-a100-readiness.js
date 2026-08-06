@@ -107,6 +107,21 @@ for (const scenario of fixture.scenarios) {
     expected.interview_band,
     `${scenario.scenario_id}: band`
   );
+  if (expected.interview_outcome !== undefined) {
+    assert.strictEqual(
+      result.interview_outcome,
+      expected.interview_outcome,
+      `${scenario.scenario_id}: interview outcome`
+    );
+  }
+  if (expected.derived_applicant_groups) {
+    for (const groupId of expected.derived_applicant_groups) {
+      assert.ok(
+        result.applicant_group_ids.includes(groupId),
+        `${scenario.scenario_id}: expected applicant group ${groupId}`
+      );
+    }
+  }
   if (expected.guidance_pool_id !== undefined) {
     assert.strictEqual(
       result.guidance_pool_id,
@@ -267,8 +282,8 @@ assert.match(text, /2025 UCAT averages.*3600|3600 scale/s);
 assert.strictEqual(config.score_model.legacy_3600_conversion_used, false);
 assert.strictEqual(card.historical_context.legacy_3600_data.conversion_used_for_execution, false);
 assert.doesNotMatch(text, /offer_probability|offer_prediction_status/);
-assert.doesNotMatch(text, /"guaranteed_interview"/i);
-assert.match(text, /not a guarantee|No interview is guaranteed|not guaranteed/i);
+assert.match(text, /"guaranteed_interview"/i);
+assert.match(text, /not a guarantee|not guaranteed|guaranteed interview/i);
 assert.match(text, /subsection.*not.*executed|subsection.*not.*disclosed/i);
 
 assert.strictEqual(card.prediction.result_band, 'realistic');

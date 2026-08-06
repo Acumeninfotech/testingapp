@@ -170,9 +170,14 @@ const tests = [
     id: 'home_wp_contextual_route_and_pool',
     run() {
       const applicant = baseApplicant();
-      applicant.applicant_identity.contextual = true;
-      applicant.applicant_identity.contextual_status_confirmed = true;
-      applicant.applicant_identity.widening_participation = true;
+      applicant.contextual_profile = {
+        school_education: {
+          state_non_fee_paying_school: 'yes'
+        },
+        financial_support: {
+          ucat_bursary_recipient: 'yes'
+        }
+      };
       applicant.gcse_profile.subjects = {
         english_language: '9',
         mathematics: '9',

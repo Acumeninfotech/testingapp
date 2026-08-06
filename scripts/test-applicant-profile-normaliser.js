@@ -6,6 +6,7 @@ const {
   CURRENT_UCAT_TEST_YEAR,
   evaluateExplicitMinimumAge,
   isUcatCycleValid,
+  normaliseContextualProfile,
   normaliseApplicantProfile
 } = require('../assets/js/engine/applicant-profile-normaliser');
 
@@ -262,6 +263,53 @@ assert.deepStrictEqual(
     blocks_prediction: false,
     manual_review_reason: 'minimum_age_requires_confirmation'
   }
+);
+
+const emptyContextualProfile = normaliseContextualProfile({});
+assert.strictEqual(emptyContextualProfile.home_area_region.polar4_quintile, 'unknown');
+assert.strictEqual(emptyContextualProfile.access_programmes.ukwpmed.status, 'no');
+assert.deepStrictEqual(emptyContextualProfile.access_programmes.other_programmes, []);
+
+const legacySteps2Medicine = normaliseApplicantProfile({
+  ...applicant,
+  access_programmes: [
+    {
+      programme_id: 'keele_steps2medicine',
+      status: 'completed'
+    },
+    {
+      programme_id: 'unknown_legacy_access_scheme',
+      status: 'participating'
+    }
+  ]
+}, { course });
+assert.deepStrictEqual(
+  legacySteps2Medicine.contextual_profile.access_programmes.ukwpmed,
+  {
+    status: 'yes',
+    programme_id: 'keele_steps2medicine',
+    programme_status: 'completed',
+    provider_university_id: 'keele-a100',
+    completion_year: '',
+    not_sure_programme: false
+  }
+);
+assert.deepStrictEqual(
+  legacySteps2Medicine.contextual_profile.access_programmes.other_programmes,
+  [
+    {
+      programme_id: 'unknown_legacy_access_scheme',
+      status: 'participating'
+    }
+  ]
+);
+
+const once = normaliseApplicantProfile(legacySteps2Medicine, { course });
+const twice = normaliseApplicantProfile(once, { course });
+assert.deepStrictEqual(twice.contextual_profile, once.contextual_profile);
+assert.strictEqual(
+  legacySteps2Medicine.applicant_identity.contextual_flags?.free_school_meals,
+  undefined
 );
 
 console.log('Applicant profile normaliser: PASS');

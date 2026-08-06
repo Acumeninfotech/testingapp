@@ -184,14 +184,16 @@ for (const [domicile, score, expectedBand, expectedPool] of stAndrewsBoundaryCas
   assert.strictEqual(result.offer_prediction_status, undefined);
 }
 
-for (const changes of [
-  { contextual: true },
-  { graduate: true }
-]) {
-  const result = classifyStAndrews('England', 2200, changes);
-  assert.strictEqual(result.canonical_interview_band, 'insufficient_evidence');
-  assert.strictEqual(result.guidance_pool_id, null);
-}
+const stAndrewsTopLevelContextual = classifyStAndrews('England', 2200, { contextual: true });
+assert.strictEqual(stAndrewsTopLevelContextual.canonical_interview_band, 'interview_likely');
+assert.strictEqual(
+  stAndrewsTopLevelContextual.guidance_pool_id,
+  'rest_of_uk_non_contextual_a_level_school_leaver'
+);
+
+const stAndrewsGraduate = classifyStAndrews('England', 2200, { graduate: true });
+assert.strictEqual(stAndrewsGraduate.canonical_interview_band, 'insufficient_evidence');
+assert.strictEqual(stAndrewsGraduate.guidance_pool_id, null);
 
 const stAndrewsInternational = classifyStAndrews('International', 1995, {
   fee_status: 'International'
@@ -212,8 +214,11 @@ const stAndrewsWpResult = classifyInterviewBand(
   stAndrewsCase.config,
   stAndrewsWpApplicant
 );
-assert.strictEqual(stAndrewsWpResult.canonical_interview_band, 'insufficient_evidence');
-assert.strictEqual(stAndrewsWpResult.guidance_pool_id, null);
+assert.strictEqual(stAndrewsWpResult.canonical_interview_band, 'interview_likely');
+assert.strictEqual(
+  stAndrewsWpResult.guidance_pool_id,
+  'scottish_home_non_contextual_a_level_school_leaver'
+);
 
 const stAndrewsSjtBand4 = clone(fixture.applicant);
 stAndrewsSjtBand4.admissions_tests.ucat.sjt_band = 4;

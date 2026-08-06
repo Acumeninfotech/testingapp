@@ -62,6 +62,12 @@ const {
   contextualFlagApplicantGroupIds,
   feeStatusApplicantGroupIds
 } = require('./applicant-group-normalisation');
+const {
+  evaluateContextualEligibility: evaluateSharedContextualEligibility
+} = require('./contextual-eligibility-framework');
+const {
+  DEFAULT_CONTEXTUAL_ELIGIBILITY_EVALUATORS
+} = require('./contextual-eligibility-evaluators');
 
 function normaliseId(value) {
   return String(value ?? '')
@@ -278,6 +284,31 @@ function deriveApplicantGroupIds(applicant) {
   return [...groups];
 }
 
+function contextualEvaluatorIdForCourse(course = {}) {
+  return (
+    course.contextual_eligibility?.evaluator_id ||
+    course.contextual_admissions?.contextual_eligibility?.evaluator_id ||
+    course.contextual_admissions?.evaluator_id ||
+    null
+  );
+}
+
+function evaluateContextualEligibility(course, applicant, options = {}) {
+  return evaluateSharedContextualEligibility(course, applicant, {
+    ...options,
+    evaluators: {
+      ...DEFAULT_CONTEXTUAL_ELIGIBILITY_EVALUATORS,
+      ...(options.evaluators || {})
+    }
+  });
+}
+
+function evaluateCourseContextualEligibility(course, applicant) {
+  return contextualEvaluatorIdForCourse(course)
+    ? evaluateContextualEligibility(course, applicant)
+    : null;
+}
+
 function birminghamSupportedPolar4Quintile(course, value) {
   if (typeof value !== 'string') {
     return false;
@@ -302,7 +333,7 @@ function birminghamSupportedPolar4Quintile(course, value) {
     Number.isFinite(pointsByQuintile[quintile]);
 }
 
-function applyCourseSpecificDerivedApplicantGroups(course, applicant, groupIds) {
+function applyCourseSpecificDerivedApplicantGroups(course, applicant, groupIds, contextualEligibility = null) {
   const groups = new Set(groupIds);
   const identity = applicant.applicant_identity || {};
   const flags = identity.contextual_flags || {};
@@ -348,7 +379,26 @@ function applyCourseSpecificDerivedApplicantGroups(course, applicant, groupIds) 
     groups.add('widening_participation');
   }
 
+  const contextualResult = contextualEligibility || evaluateCourseContextualEligibility(course, applicant);
+  if (
+    ['aston-a100', 'imperial-college-london-a100'].includes(course?.profile_id) &&
+    contextualResult?.is_contextual === true
+  ) {
+    for (const groupId of contextualResult.activated_applicant_group_ids || ['contextual']) {
+      groups.add(groupId);
+    }
+  }
+
   return [...groups];
+}
+
+function deriveCourseApplicantGroupIds(course, applicant) {
+  return applyCourseSpecificDerivedApplicantGroups(
+    course,
+    applicant,
+    deriveApplicantGroupIds(applicant),
+    evaluateCourseContextualEligibility(course, applicant)
+  );
 }
 
 function groupRuleApplies(rule, groupIds) {
@@ -501,6 +551,7 @@ function evaluateGcseRules(course, applicant, state) {
   const subjectGrades = profileToSubjectMap(applicant.gcse_profile);
   const countRule = rules.minimum_count_at_or_above_grade;
   const countableGrades = getCountableGcseGrades(subjectGrades);
+  state.exact_gcse_count = Object.keys(subjectGrades).length;
   const combinedScienceGrades = parseCombinedScienceGrades(
     subjectGrades.combined_science || subjectGrades.double_science
   );
@@ -2036,6 +2087,7 @@ function evaluateManualReviewTriggers(applicant, state) {
   if (
     (groups.has('contextual') || groups.has('widening_participation')) &&
     state.qualification_route !== 'ukwpmed' &&
+    state.contextual_eligibility?.is_contextual !== true &&
     identity.contextual_status_confirmed !== true
   ) {
     addManualReview(state, 'contextual_wp_status_requires_confirmation');
@@ -2083,6 +2135,7 @@ function evaluateCourseEligibility(course, applicantInput) {
     throw new TypeError('course and applicant are required.');
   }
   const applicant = normaliseApplicantProfile(applicantInput, { course });
+  const contextualEligibility = evaluateCourseContextualEligibility(course, applicant);
 
   const state = {
     mode: 'eligibility_only',
@@ -2092,11 +2145,13 @@ function evaluateCourseEligibility(course, applicantInput) {
     applicant_group_ids: applyCourseSpecificDerivedApplicantGroups(
       course,
       applicant,
-      deriveApplicantGroupIds(applicant)
+      deriveApplicantGroupIds(applicant),
+      contextualEligibility
     ),
     checks: [],
     failures: [],
-    manual_review_reasons: []
+    manual_review_reasons: [],
+    ...(contextualEligibility ? { contextual_eligibility: contextualEligibility } : {})
   };
 
   for (const groupId of course.stage_1_eligibility?.explicitly_blocked_applicant_group_ids || []) {
@@ -2164,8 +2219,10 @@ function evaluateCourseEligibility(course, applicantInput) {
 }
 
 module.exports = {
+  deriveCourseApplicantGroupIds,
   deriveApplicantGroupIds,
   deriveQualificationRoute,
+  evaluateContextualEligibility,
   evaluateCourseEligibility,
   evaluateStandardALevelRequirement,
   getALevelSubjectMap,

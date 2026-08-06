@@ -95,6 +95,7 @@ export function toStudentProfile(profile: WizardProfile): StudentProfile {
         subjects_resat: profile.applicant_identity.resit.subjects_resat,
       },
     },
+    contextual_profile: profile.contextual_profile,
     course_target: {
       discipline: profile.course_target.discipline,
       ucas_code: profile.course_target.ucas_code,

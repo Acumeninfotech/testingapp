@@ -1,4 +1,5 @@
 import { A_LEVEL_SCIENCE_SUBJECTS, GCSE_CORE_SUBJECT_IDS, GCSE_SEPARATE_SCIENCE_SUBJECT_IDS, type WizardProfile } from './profileTypes';
+import { UKWPMED_REGISTRY } from './contextualRegistry';
 
 export type ValidationErrors = Record<string, string>;
 
@@ -344,9 +345,93 @@ export function validateUcatStep(profile: WizardProfile): ValidationErrors {
   return errors;
 }
 
-export function validateContextualStep(): ValidationErrors {
-  // All fields on this step are optional booleans — nothing to validate.
-  return {};
+export function validateContextualStep(profile: WizardProfile): ValidationErrors {
+  const errors: ValidationErrors = {};
+  const homeArea = profile.contextual_profile?.home_area_region;
+  const access = profile.contextual_profile?.access_programmes;
+  const ukwpmed = access?.ukwpmed;
+  const allowedQuintiles = new Set(['', 'unknown', 'q1', 'q2', 'q3', 'q4', 'q5']);
+  const allowedHomeRegions = new Set(['south_west_england', 'north_west_england', 'north_east_england_or_cumbria', 'east_of_england', 'none', 'unknown', null, '']);
+  const allowedSpecificHomeAreas = new Set(['essex', 'lincolnshire', 'none', 'unknown', null, '']);
+  const allowedSchoolAreaOptions = new Set(['northern_ireland_bt_to_year_12', 'bristol_bs_ba_state_school', 'keele_region_school']);
+  const allowedSchoolAreaValues = new Set([...allowedSchoolAreaOptions, 'none', 'unknown', null, '']);
+
+  if (homeArea) {
+    for (const key of ['polar4_quintile', 'tundra_quintile', 'imd_quintile'] as const) {
+      if (!allowedQuintiles.has(homeArea[key])) {
+        errors[key] = 'Select Unknown or a quintile from 1 to 5.';
+      }
+    }
+
+    if (!allowedHomeRegions.has(homeArea.home_region ?? null)) {
+      errors.home_region = 'Select a valid home region option.';
+    }
+    if (!allowedSpecificHomeAreas.has(homeArea.specific_home_area ?? null)) {
+      errors.specific_home_area = 'Select a valid specific home area option.';
+    }
+    if (!allowedSchoolAreaValues.has(homeArea.school_area ?? null)) {
+      errors.school_area = 'Select a valid school area option.';
+    }
+
+    const schoolAreas = Array.isArray(homeArea.school_areas) ? homeArea.school_areas : [];
+    if (schoolAreas.some((value) => !allowedSchoolAreaOptions.has(value))) {
+      errors.school_areas = 'Select only valid school-area options.';
+    }
+    if (schoolAreas.length > 0 && homeArea.school_area) {
+      errors.school_areas = 'Use either the saved school-area field or legacy school-area values, not both.';
+    }
+  }
+
+  if (ukwpmed?.status === 'yes') {
+    if (!ukwpmed.programme_id && !ukwpmed.not_sure_programme) {
+      errors.ukwpmed_programme_id = 'Select a recognised UKWPMED programme, or choose that you are not sure which programme.';
+    }
+    if (ukwpmed.programme_id && !ukwpmed.programme_status) {
+      errors.ukwpmed_programme_status = 'Select the status of this programme.';
+    }
+    if (ukwpmed.programme_id && !UKWPMED_REGISTRY.recognised_programmes.some((programme) => programme.programme_id === ukwpmed.programme_id)) {
+      errors.ukwpmed_programme_id = 'Select a recognised UKWPMED programme.';
+    }
+    if (ukwpmed.completion_year !== '') {
+      const year = Number(ukwpmed.completion_year);
+      if (!Number.isInteger(year) || year < 2000 || year > 2035) {
+        errors.ukwpmed_completion_year = 'Enter a sensible four-digit year.';
+      }
+    }
+  }
+
+  if (access?.participation_status === 'yes') {
+    access.other_programmes.forEach((programme, index) => {
+      if (programme.programme_id && !programme.status) {
+        errors[`other_programme_${index}_status`] = 'Select the status of this programme.';
+      }
+    });
+    if (
+      access.other_programmes.some((programme) => programme.programme_id === 'other_access_wp_programme') &&
+      !access.other_programme_name.trim()
+    ) {
+      errors.other_access_programme_name = 'Enter the programme name.';
+    }
+  }
+
+  const partnerSchools = profile.contextual_profile?.partner_schools;
+  if (partnerSchools?.status === 'yes') {
+    const meaningful = partnerSchools.relationships.some((relationship) => (
+      relationship.school_name.trim() ||
+      relationship.university_id ||
+      relationship.university_name?.trim()
+    ));
+    if (!meaningful) {
+      errors.partner_schools = 'Add at least one partner-school relationship, or choose Not sure.';
+    }
+    partnerSchools.relationships.forEach((relationship, index) => {
+      if ((relationship.university_id || relationship.university_name?.trim()) && !relationship.school_name.trim()) {
+        errors[`partner_school_${index}_school_name`] = 'Enter the school or college name.';
+      }
+    });
+  }
+
+  return errors;
 }
 
 export function validateUniversitiesStep(profile: WizardProfile): ValidationErrors {
