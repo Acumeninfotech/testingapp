@@ -22,7 +22,13 @@ export function validateIdentityStep(profile: WizardProfile): ValidationErrors {
     errors.domicile = 'Select where you are domiciled.';
   }
   if (!identity.age_at_course_start_band) {
-    errors.age_at_course_start_band = 'Select your age when starting university.';
+    errors.age_at_course_start_band = 'Select your age on 1 September of your course-start year.';
+  } else if (identity.age_at_course_start_band === 'age_18_or_over_legacy') {
+    errors.age_at_course_start_band =
+      'Please confirm your exact age on 1 September of your course-start year. A legacy "18 or over" answer is too broad.';
+  }
+  if (!identity.current_uk_residence) {
+    errors.current_uk_residence = 'Select whether you currently live in the UK.';
   }
 
   return errors;
@@ -355,6 +361,16 @@ export function validateContextualStep(profile: WizardProfile): ValidationErrors
   const allowedSpecificHomeAreas = new Set(['essex', 'lincolnshire', 'none', 'unknown', null, '']);
   const allowedSchoolAreaOptions = new Set(['northern_ireland_bt_to_year_12', 'bristol_bs_ba_state_school', 'keele_region_school']);
   const allowedSchoolAreaValues = new Set([...allowedSchoolAreaOptions, 'none', 'unknown', null, '']);
+  const allowedYesNoNotSure = new Set(['yes', 'no', 'not_sure', undefined]);
+  const allowedSensitiveAnswers = new Set(['yes', 'no', 'not_sure', 'prefer_not_to_say', undefined]);
+  const allowedUkrainianVisaSchemes = new Set([
+    'homes_for_ukraine',
+    'ukraine_family_scheme',
+    'ukraine_extension_scheme',
+    'none',
+    'not_sure',
+    undefined,
+  ]);
 
   if (homeArea) {
     for (const key of ['polar4_quintile', 'tundra_quintile', 'imd_quintile'] as const) {
@@ -397,6 +413,25 @@ export function validateContextualStep(profile: WizardProfile): ValidationErrors
       if (!Number.isInteger(year) || year < 2000 || year > 2035) {
         errors.ukwpmed_completion_year = 'Enter a sensible four-digit year.';
       }
+    }
+  }
+
+  for (const [key, value] of Object.entries(profile.contextual_profile?.school_education ?? {})) {
+    if (!allowedYesNoNotSure.has(value)) {
+      errors[`school_education_${key}`] = 'Select Yes, No or Not sure.';
+    }
+  }
+
+  for (const [key, value] of Object.entries(profile.contextual_profile?.personal_circumstances ?? {})) {
+    if (key === 'ukrainian_visa_scheme') {
+      if (!allowedUkrainianVisaSchemes.has(value)) {
+        errors.personal_circumstances_ukrainian_visa_scheme = 'Select a valid Ukrainian visa scheme option.';
+      }
+      continue;
+    }
+
+    if (!allowedSensitiveAnswers.has(value)) {
+      errors[`personal_circumstances_${key}`] = 'Select Yes, No, Not sure or Prefer not to say.';
     }
   }
 

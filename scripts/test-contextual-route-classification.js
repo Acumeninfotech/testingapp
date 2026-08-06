@@ -32,8 +32,8 @@ const EXPECTED_FLAG_ROUTE_CHANGES = {
     'imperial-college-london-a100',
     'keele-a100',
     'lancaster-a100',
-    'liverpool-a100',
-    'manchester-a100'
+    'leicester-a100',
+    'liverpool-a100'
   ],
   refugee_or_asylum_seeker: [
     'aston-a100',
@@ -42,26 +42,25 @@ const EXPECTED_FLAG_ROUTE_CHANGES = {
   ],
   free_school_meals: [
     'anglia-ruskin-a100',
-    'aston-a100',
     'birmingham-a100',
     'bristol-a100',
     'cambridge-a100',
     'imperial-college-london-a100',
     'keele-a100',
-    'manchester-a100'
+    'leicester-a100'
   ],
   first_generation_higher_education: [
     'aston-a100',
     'keele-a100',
-    'liverpool-a100',
-    'manchester-a100'
+    'liverpool-a100'
   ],
   school_contextual_indicator: [
     'bristol-a100',
     'cambridge-a100'
   ],
   ucat_bursary: [
-    'aston-a100'
+    'aston-a100',
+    'leicester-a100'
   ]
 };
 
@@ -461,7 +460,7 @@ function run() {
     );
   }
 
-  for (const id of ['keele-a100', 'leicester-a100', 'queen-s-belfast-a100']) {
+  for (const id of ['keele-a100', 'queen-s-belfast-a100']) {
     const result = evaluate(byId[id], makeAuditProfile({ flags: ['ucat_bursary'] }));
     assertNoContextualGroups(result, `${id}: UCAT bursary alone should not create generic contextual/WP membership.`);
     assert.strictEqual(

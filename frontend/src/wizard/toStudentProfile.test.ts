@@ -217,7 +217,8 @@ describe('Aston A100 frontend payload contextual route integration', () => {
     profile.applicant_identity.applicant_type = 'school_leaver';
     profile.applicant_identity.fee_status = 'home';
     profile.applicant_identity.domicile = 'england';
-    profile.applicant_identity.age_at_course_start_band = 'age_18_or_over';
+    profile.applicant_identity.age_at_course_start_band = 'age_18';
+    profile.applicant_identity.current_uk_residence = 'yes';
     profile.gcse_profile.subjects = {
       english_language: '6',
       english_literature: '',
@@ -326,13 +327,50 @@ describe('toStudentProfile identity mapping', () => {
   it('sends the age-at-course-start band and does not send date of birth', () => {
     const profile = createEmptyProfile();
     profile.applicant_identity.age_at_course_start_band = 'age_17';
+    profile.applicant_identity.current_uk_residence = 'no';
     profile.applicant_identity.date_of_birth = '2009-08-01';
 
     const studentProfile = toStudentProfile(profile);
     const identity = studentProfile.applicant_identity as Record<string, unknown>;
 
     expect(identity.age_at_course_start_band).toBe('age_17');
+    expect(identity.current_uk_residence).toBe('no');
     expect(identity.date_of_birth).toBeUndefined();
+  });
+
+  it('loads new factual fields from stored profiles and defaults missing legacy values to not sure', () => {
+    const profile = normaliseStoredProfile({
+      applicant_identity: {
+        age_at_course_start_band: 'age_18_or_over',
+      },
+      contextual_profile: {
+        school_education: {
+          attended_uk_school_or_college_for_gcse_or_equivalent: 'yes',
+        },
+        personal_circumstances: {
+          care_over_three_months: 'yes',
+          uk_refugee_status_granted: 'no',
+          ukrainian_visa_scheme: 'homes_for_ukraine',
+        },
+      },
+    });
+
+    expect(profile.applicant_identity.age_at_course_start_band).toBe('age_18_or_over_legacy');
+    expect(profile.applicant_identity.current_uk_residence).toBe('not_sure');
+    expect(profile.contextual_profile.school_education.attended_uk_school_or_college_for_gcse_or_equivalent).toBe('yes');
+    expect(profile.contextual_profile.personal_circumstances.care_over_three_months).toBe('yes');
+    expect(profile.contextual_profile.personal_circumstances.uk_refugee_status_granted).toBe('no');
+    expect(profile.contextual_profile.personal_circumstances.ukrainian_visa_scheme).toBe('homes_for_ukraine');
+  });
+
+  it('preserves the canonical legacy broad age value when mapping to studentProfile', () => {
+    const profile = createEmptyProfile();
+    profile.applicant_identity.age_at_course_start_band = 'age_18_or_over_legacy';
+
+    const studentProfile = toStudentProfile(profile);
+    const identity = studentProfile.applicant_identity as Record<string, unknown>;
+
+    expect(identity.age_at_course_start_band).toBe('age_18_or_over_legacy');
   });
 
   it('submits contextual_profile without deriving legacy contextual eligibility flags', () => {
@@ -406,5 +444,21 @@ describe('toStudentProfile identity mapping', () => {
     });
 
     expect(profile.contextual_profile.home_area_region.school_area).toBe('unknown');
+  });
+
+  it('loads existing profiles without new factual fields safely', () => {
+    const profile = normaliseStoredProfile({
+      applicant_identity: {
+        applicant_type: 'school_leaver',
+      },
+      contextual_profile: {
+        school_education: {},
+        personal_circumstances: {},
+      },
+    });
+
+    expect(profile.applicant_identity.current_uk_residence).toBe('not_sure');
+    expect(profile.applicant_identity.age_at_course_start_band).toBe('not_sure');
+    expect(profile.contextual_profile.personal_circumstances.ukrainian_visa_scheme).toBeUndefined();
   });
 });

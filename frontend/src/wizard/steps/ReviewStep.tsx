@@ -58,6 +58,9 @@ const FRIENDLY_LABELS: Record<string, string> = {
   fail: 'Fail',
   not_applicable: 'Not applicable',
   english_language: 'English Language',
+  yes: 'Yes',
+  no: 'No',
+  not_sure: 'Not sure',
   english_literature: 'English Literature',
   mathematics: 'Mathematics',
   biology: 'Biology',
@@ -79,6 +82,10 @@ const FRIENDLY_LABELS: Record<string, string> = {
   business_studies: 'Business Studies',
   physical_education: 'Physical Education',
   design_and_technology: 'Design and Technology',
+  homes_for_ukraine: 'Homes for Ukraine',
+  ukraine_family_scheme: 'Ukraine Family Scheme',
+  ukraine_extension_scheme: 'Ukraine Extension Scheme',
+  none: 'None of these',
 };
 
 function humanizeId(value: string) {
@@ -211,7 +218,12 @@ function SubjectGradeSummary({ subjects }: { subjects: { subject_id: string; gra
 const AGE_AT_COURSE_START_LABELS = {
   under_17: 'Under 17',
   age_17: '17',
-  age_18_or_over: '18 or over',
+  age_18: '18',
+  age_19: '19',
+  age_20: '20',
+  age_21_or_over: '21 or over',
+  age_18_or_over_legacy: '18 or over (legacy answer - please confirm)',
+  not_sure: 'Not sure',
 } as const;
 
 export function ReviewStep({ profile }: StepProps) {
@@ -326,7 +338,11 @@ export function ReviewStep({ profile }: StepProps) {
           <ReviewField label="Fee status" value={displayLabel(applicant_identity.fee_status)} />
           <ReviewField label="Domicile" value={displayLabel(applicant_identity.domicile)} />
           <ReviewField
-            label="Age when starting university"
+            label="Current UK residence"
+            value={applicant_identity.current_uk_residence ? displayLabel(applicant_identity.current_uk_residence) : 'Not provided'}
+          />
+          <ReviewField
+            label="Age on 1 September of your course-start year"
             value={
               applicant_identity.age_at_course_start_band
                 ? AGE_AT_COURSE_START_LABELS[applicant_identity.age_at_course_start_band]

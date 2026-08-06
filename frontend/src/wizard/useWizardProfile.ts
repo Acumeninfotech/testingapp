@@ -9,11 +9,13 @@ import {
   type HomeRegionValue,
   type PostcodeLookupStatus,
   type ProgrammeStatus,
+  type PersonalCircumstanceValue,
   type QuintileValue,
   type SchoolAreaOption,
   type SchoolAreaValue,
   type SpecificHomeAreaValue,
   type SensitiveAnswer,
+  type UkrainianVisaScheme,
   type WizardProfile,
   type YesNoNotSure,
 } from './profileTypes';
@@ -171,9 +173,29 @@ function ageBandFromDateOfBirth(dateOfBirth: unknown, applicationYear: unknown):
     age -= 1;
   }
 
-  if (age >= 18) return 'age_18_or_over';
+  if (age >= 21) return 'age_21_or_over';
+  if (age === 20) return 'age_20';
+  if (age === 19) return 'age_19';
+  if (age === 18) return 'age_18';
   if (age === 17) return 'age_17';
   return 'under_17';
+}
+
+function normaliseAgeBand(value: unknown): AgeAtCourseStartBand | '' {
+  if (
+    value === 'under_17' ||
+    value === 'age_17' ||
+    value === 'age_18' ||
+    value === 'age_19' ||
+    value === 'age_20' ||
+    value === 'age_21_or_over' ||
+    value === 'age_18_or_over_legacy' ||
+    value === 'not_sure'
+  ) {
+    return value;
+  }
+  if (value === 'age_18_or_over') return 'age_18_or_over_legacy';
+  return '';
 }
 
 export function normaliseStoredProfile(parsed: unknown): WizardProfile {
@@ -187,9 +209,9 @@ export function normaliseStoredProfile(parsed: unknown): WizardProfile {
   };
   const savedCourseTarget = (saved.course_target || {}) as Partial<WizardProfile['course_target']>;
   const savedALevelProfile = (saved.a_level_profile || {}) as Partial<WizardProfile['a_level_profile']>;
-  const ageBand =
-    savedIdentity.age_at_course_start_band ||
-    ageBandFromDateOfBirth(savedIdentity.date_of_birth, savedCourseTarget.application_year);
+  const ageBand = normaliseAgeBand(savedIdentity.age_at_course_start_band)
+    || ageBandFromDateOfBirth(savedIdentity.date_of_birth, savedCourseTarget.application_year)
+    || 'not_sure';
 
   return {
     ...empty,
@@ -198,6 +220,7 @@ export function normaliseStoredProfile(parsed: unknown): WizardProfile {
       ...empty.applicant_identity,
       ...savedIdentity,
       age_at_course_start_band: ageBand,
+      current_uk_residence: normaliseTriState(savedIdentity.current_uk_residence) ?? 'not_sure',
       date_of_birth: '',
     },
     course_target: {
@@ -227,6 +250,32 @@ function normaliseTriState(value: unknown): YesNoNotSure | undefined {
 function normaliseSensitive(value: unknown): SensitiveAnswer | undefined {
   if (value === 'prefer_not_to_say') return value;
   return normaliseTriState(value);
+}
+
+function normaliseUkrainianVisaScheme(value: unknown): UkrainianVisaScheme | undefined {
+  if (
+    value === 'homes_for_ukraine' ||
+    value === 'ukraine_family_scheme' ||
+    value === 'ukraine_extension_scheme' ||
+    value === 'none' ||
+    value === 'not_sure'
+  ) {
+    return value;
+  }
+  return undefined;
+}
+
+function normalisePersonalCircumstances(value: unknown) {
+  return Object.fromEntries(
+    Object.entries(asRecord(value))
+      .map(([key, answer]) => {
+        const normalised = key === 'ukrainian_visa_scheme'
+          ? normaliseUkrainianVisaScheme(answer)
+          : normaliseSensitive(answer);
+        return normalised ? [key, normalised] : null;
+      })
+      .filter((entry): entry is [string, PersonalCircumstanceValue] => Boolean(entry)),
+  ) as ContextualProfile['personal_circumstances'];
 }
 
 function normaliseQuintile(value: unknown): QuintileValue {
@@ -417,7 +466,7 @@ function normaliseContextualProfile(
     },
     school_education: normaliseAnswerRecord(saved.school_education, normaliseTriState),
     personal_circumstances: {
-      ...normaliseAnswerRecord(saved.personal_circumstances, normaliseSensitive),
+      ...normalisePersonalCircumstances(saved.personal_circumstances),
       ...(flags.care_experienced === true ? { care_experienced: 'yes' as const } : {}),
       ...(flags.refugee === true || flags.refugee_or_asylum_seeker === true ? { refugee: 'yes' as const } : {}),
       ...(flags.asylum_seeker === true ? { seeking_asylum: 'yes' as const } : {}),

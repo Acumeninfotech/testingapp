@@ -260,6 +260,7 @@ export interface ResultCard {
   primary_user_facing_recommendation: string;
   recommendation_display_state: string;
   primary_explanation: string;
+  contextual_status?: 'confirmed' | null;
   information_needed_reason?: string | null;
   trust_statement?: string | null;
   historical_guidance_caveat?: string | null;

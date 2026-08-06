@@ -3770,7 +3770,10 @@ function classifyInterviewBand(course, config, applicantInput, options = {}) {
   const courseEligibility = contextualEvaluatorIdForCourse(course)
     ? evaluateCourseEligibility(course, applicant)
     : null;
-  const useCourseEligibility = birmingham || courseEligibility?.contextual_eligibility?.is_contextual === true;
+  const contextualStatus = courseEligibility?.contextual_eligibility?.status;
+  const useCourseEligibility = birmingham ||
+    courseEligibility?.contextual_eligibility?.is_contextual === true ||
+    contextualStatus === 'information_needed';
   const eligibility = birmingham
     ? evaluateCourseEligibility(course, applicant)
     : courseEligibility;
@@ -3849,6 +3852,8 @@ function classifyInterviewBand(course, config, applicantInput, options = {}) {
         band_metric: null,
         canonical_interview_band: 'insufficient_evidence',
         manual_review_required: true,
+        missing_information:
+          resolvedEligibility.contextual_eligibility?.missing_information || null,
         explanation:
           'We need more information to confirm eligibility before showing interview guidance.'
       };
@@ -3882,6 +3887,12 @@ function classifyInterviewBand(course, config, applicantInput, options = {}) {
         guaranteedOverride.interview_outcome || guaranteedOverride.outcome || 'guaranteed_interview',
       guaranteed_interview_explanation:
         guaranteedOverride.applicant_facing_explanation || null,
+      guaranteed_interview_notice:
+        guaranteedOverride.confirmation_notice || null,
+      guaranteed_interview_pool_label:
+        guaranteedOverride.applicant_pool_label || null,
+      guaranteed_interview_badge_label:
+        guaranteedOverride.recommendation_badge_label || null,
       explanation: 'Eligible verified programme completer: guaranteed interview applies after all implemented minimum criteria pass. Ordinary UCAT guidance banding was not applied.'
     };
   }

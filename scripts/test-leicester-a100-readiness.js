@@ -150,17 +150,18 @@ assert.strictEqual(achievedTotal, 40);
 const accessScoring = course.stage_1_eligibility.post_16.access_to_medicine;
 assert.match(accessScoring.execution_status_manual_review_note, /manual-review/i);
 
-// --- Contextual/WP guaranteed-interview routes: documented, non-executable in Engine v1 ---
+// --- Contextual/WP routes: shared evaluator + guaranteed-interview overrides ---
 assert.strictEqual(course.contextual_admissions.guaranteed_interview_rules.length, 4);
 assert.ok(
   course.contextual_admissions.guaranteed_interview_rules.some(
     (rule) => rule.route_id === 'ukwpmed_restricted_guaranteed_interview_2027'
   )
 );
-assert.strictEqual(course.contextual_admissions.qualitative_flag_only, true);
-assert.match(course.contextual_admissions.engine_execution_status, /not_an_automatic_classifier_override/i);
-assert.strictEqual(course.engine_notes.contextual_logic, false);
-assert.strictEqual(research.readiness.contextual_logic, false);
+assert.strictEqual(course.contextual_admissions.evaluator_id, 'leicester_contextual_medicine_a100');
+assert.strictEqual(course.contextual_admissions.qualitative_flag_only, false);
+assert.match(course.contextual_admissions.engine_execution_status, /partially_automatic/i);
+assert.strictEqual(course.engine_notes.contextual_logic, true);
+assert.strictEqual(config.eligibility.map_override.apply_ucat_guidance_band, false);
 
 // --- Achieved-route auto-interview: documented, non-executable in Engine v1 ---
 assert.match(
@@ -287,7 +288,7 @@ for (const [field, expected] of Object.entries({
   interview_band_config_ready: true,
   metadata_activation_ready: true,
   result_card_ready: true,
-  contextual_logic: false,
+  contextual_logic: true,
   international_prediction: true,
   regression: true
 })) {

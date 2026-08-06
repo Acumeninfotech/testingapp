@@ -15,6 +15,9 @@ import {
 import { UNIVERSITY_CODES } from '../data/universityCodes';
 import { AlternativeAcademicOffer } from './AlternativeAcademicOffer';
 
+const CONTEXTUAL_CONFIRMED_MESSAGE =
+  "Contextual eligibility confirmed. Your application has been assessed using this university's published contextual admissions criteria.";
+
 function isOfficialPredictionUnavailable(card: PredictionResult['result_card']): boolean {
   const officialPrediction = card.prediction?.official_prediction as
     | { available?: boolean; prediction_status?: string }
@@ -809,6 +812,17 @@ export function ResultCard({ result }: { result: PredictionResult }) {
   const summaryLineTwo = publicText(topAcademicStatus);
   const visibleSummaryLineTwo = isPositiveAcademicStatusSummary(summaryLineTwo) ? null : summaryLineTwo;
   const advisoryLine = visibleTrustStatement ? compactSentence(visibleTrustStatement) : null;
+  const contextualStatusConfirmed =
+    card.contextual_status === 'confirmed' && card.recommendation_display_state === 'standard';
+  const contextualConfirmedMessage = contextualStatusConfirmed
+    ? CONTEXTUAL_CONFIRMED_MESSAGE
+    : null;
+  const guaranteedInterviewNotice =
+    card.interview_outcome === 'guaranteed_interview' &&
+    typeof card.guaranteed_interview_notice === 'string' &&
+    card.guaranteed_interview_notice.trim().length > 0
+      ? card.guaranteed_interview_notice.trim()
+      : 'Every published guaranteed-interview condition for this route has been verified as met.';
 
   const eligibilityText = [
     ...(eligibilityStage?.checks || []).map((check) => `${check.label} ${check.status} ${check.summary}`),
@@ -1009,6 +1023,7 @@ export function ResultCard({ result }: { result: PredictionResult }) {
             <p className="result-card-explanation">{summaryLineOne}</p>
             {visibleSummaryLineTwo && <p className="result-card-academic-status">{visibleSummaryLineTwo}</p>}
             {advisoryLine && <p className="result-card-advisory">{advisoryLine}</p>}
+            {contextualConfirmedMessage && <p className="result-card-advisory">{contextualConfirmedMessage}</p>}
           </div>
         </div>
         <div className="result-card-hero-side">
@@ -1037,7 +1052,7 @@ export function ResultCard({ result }: { result: PredictionResult }) {
 
       {card.interview_outcome === 'guaranteed_interview' && (
         <p className="result-card-notice result-card-notice--guaranteed" role="status">
-          Every published guaranteed-interview condition for this route has been verified as met.
+          {guaranteedInterviewNotice}
         </p>
       )}
 
@@ -1085,7 +1100,10 @@ export function ResultCard({ result }: { result: PredictionResult }) {
         </div>
       </section>
 
-      <AlternativeAcademicOffer offer={card.alternative_academic_offer} />
+      <AlternativeAcademicOffer
+        offer={card.alternative_academic_offer}
+        contextualStatus={contextualStatusConfirmed ? card.contextual_status : null}
+      />
 
       <section className="result-card-section result-card-details">
         <SectionHeader title="Selection" subtitle="How applicants are ranked for interview" icon="person" />

@@ -9,12 +9,15 @@ const {
 } = require('../../assets/js/engine/result-card-presenter');
 const { classifyInterviewBand } = require('../../assets/js/engine/interview-band-classifier');
 const cambridgeCourse = require('../../data/universities/cambridge-a100.json');
+const astonCourse = require('../../data/universities/aston-a100.json');
 const cambridgeConfig = require('../../data/interview-band-configs/cambridge-a100.json');
 const cambridgeFixture = require('../../data/fixtures/interview-band-classification/cambridge-a100.json');
 const hullYorkCourse = require('../../data/universities/hull-york-a100.json');
+const imperialCourse = require('../../data/universities/imperial-college-london-a100.json');
 const keeleCourse = require('../../data/universities/keele-a100.json');
 const lancasterCourse = require('../../data/universities/lancaster-a100.json');
 const leicesterCourse = require('../../data/universities/leicester-a100.json');
+const manchesterCourse = require('../../data/universities/manchester-a100.json');
 const queensBelfastCourse = require('../../data/universities/queen-s-belfast-a100.json');
 const sheffieldCourse = require('../../data/universities/sheffield-a100.json');
 
@@ -246,6 +249,63 @@ function alternativeOfferFor(course) {
 
 {
   assert.deepStrictEqual(
+    buildAlternativeAcademicOffer(astonCourse.stage_1_eligibility, {
+      academic_pathway: 'contextual',
+      academic_pathway_id: 'contextual_school_leaver_a_level'
+    }),
+    {
+      type: 'contextual',
+      standard_offer: 'A*AA',
+      alternative_offer: 'AAB',
+      pathway_id: 'contextual_school_leaver_a_level',
+      conditions: []
+    },
+    'Aston active contextual pathway should preserve the standard vs contextual grade comparison'
+  );
+  assert.deepStrictEqual(
+    buildAlternativeAcademicOffer(imperialCourse.stage_1_eligibility, {
+      academic_pathway: 'contextual',
+      academic_pathway_id: 'imperial_contextual_a_level_aaa_biology_chemistry'
+    }),
+    {
+      type: 'contextual',
+      standard_offer: 'A*AA',
+      alternative_offer: 'AAA',
+      pathway_id: 'imperial_contextual_a_level_aaa_biology_chemistry',
+      conditions: []
+    },
+    'Imperial active contextual pathway should preserve the standard vs contextual grade comparison'
+  );
+  assert.deepStrictEqual(
+    buildAlternativeAcademicOffer(manchesterCourse.stage_1_eligibility, {
+      academic_pathway: 'contextual',
+      academic_pathway_id: 'manchester_contextual_aab_offer'
+    }),
+    {
+      type: 'contextual',
+      standard_offer: 'AAA',
+      alternative_offer: 'AAB',
+      pathway_id: 'manchester_contextual_aab_offer',
+      conditions: []
+    },
+    'Manchester contextual AAB pathway should expose the standard vs contextual grade comparison'
+  );
+  assert.deepStrictEqual(
+    buildAlternativeAcademicOffer(manchesterCourse.stage_1_eligibility, {
+      academic_pathway: 'contextual',
+      academic_pathway_id: 'manchester_refugee_care_abb_offer'
+    }),
+    {
+      type: 'contextual',
+      standard_offer: 'AAA',
+      alternative_offer: 'ABB',
+      pathway_id: 'manchester_refugee_care_abb_offer',
+      conditions: []
+    },
+    'Manchester care/refugee ABB pathway should expose the standard vs contextual grade comparison'
+  );
+
+  assert.deepStrictEqual(
     buildAlternativeAcademicOffer(lancasterCourse.stage_1_eligibility, {
       academic_pathway: 'contextual',
       academic_pathway_id: 'lancaster_contextual_offer'
@@ -335,6 +395,56 @@ function alternativeOfferFor(course) {
       `${eligibilityStatus} EPQ summary must not duplicate academic badges`
     );
   }
+}
+
+{
+  const contextualCard = present({
+    transparencyContext: {
+      eligibility: {
+        contextual_eligibility: {
+          status: 'contextual'
+        }
+      }
+    }
+  });
+  assert.strictEqual(
+    contextualCard.contextual_status,
+    'confirmed',
+    'contextual applicants should expose a confirmed contextual status for presentation'
+  );
+
+  const standardCard = present({
+    transparencyContext: {
+      eligibility: {
+        contextual_eligibility: {
+          status: 'standard'
+        }
+      }
+    }
+  });
+  assert.strictEqual(
+    standardCard.contextual_status,
+    null,
+    'standard applicants should not expose a contextual confirmation status'
+  );
+
+  const unresolvedCard = present({
+    eligibilityStatus: 'manual_review',
+    interviewBand: 'realistic',
+    manualReviewRequired: true,
+    transparencyContext: {
+      eligibility: {
+        contextual_eligibility: {
+          status: 'contextual'
+        }
+      }
+    }
+  });
+  assert.strictEqual(
+    unresolvedCard.contextual_status,
+    null,
+    'manual-review outcomes should not expose a contextual confirmation status'
+  );
 }
 
 function makeCambridgeCard(ucatTotal) {

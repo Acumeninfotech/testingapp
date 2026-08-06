@@ -66,46 +66,36 @@
         "completed": true,
         "verified": true
       },
-      "applicant_facing_explanation": "The applicant qualifies under Manchester's verified published guaranteed-interview policy. All mandatory academic, admissions-test and programme-specific conditions must still be satisfied. This applies to interview invitation only, not an offer.",
+      "any_conditions": [
+        {
+          "condition_id": "manchester_map_legacy_contextual_evidence",
+          "applicant_evidence_path": "contextual_evidence.manchester_access_programme",
+          "required_evidence": {
+            "completed": true,
+            "verified": true
+          }
+        },
+        {
+          "condition_id": "manchester_map_structured_ukwpmed_completion",
+          "applicant_evidence_path": "contextual_profile.access_programmes.ukwpmed",
+          "required_evidence": {
+            "status": "yes",
+            "programme_id": "manchester_access_programme",
+            "programme_status": "completed",
+            "provider_university_id": "manchester-a100"
+          }
+        }
+      ],
+      "applicant_facing_explanation": "Based on the information provided, you meet the published criteria for a guaranteed interview through the Manchester Access Programme (MAP).",
+      "confirmation_notice": "You meet the published requirements for the MAP guaranteed-interview route.",
+      "applicant_pool_label": "Manchester Access Programme (MAP)",
+      "recommendation_badge_label": "Guaranteed Interview",
       "source_ids": [
         "manchester_medicine_contextual"
       ],
       "notes": "The result-card/consumer integration must apply this production override before ordinary historical band output."
     },
-    "derived_applicant_groups": [
-      {
-        "group_ids": [
-          "contextual",
-          "widening_participation"
-        ],
-        "match": {
-          "all_group_ids": [
-            "home_fee"
-          ],
-          "excluded_group_ids": [
-            "international_fee"
-          ]
-        },
-        "any_evidence": [
-          {
-            "applicant_evidence_path": "applicant_identity.contextual_flags.free_school_meals"
-          },
-          {
-            "applicant_evidence_path": "applicant_identity.contextual_flags.care_experienced"
-          },
-          {
-            "applicant_evidence_path": "applicant_identity.contextual_flags.first_generation_higher_education"
-          },
-          {
-            "applicant_evidence_path": "contextual_evidence.manchester_access_programme",
-            "required_evidence": {
-              "completed": true,
-              "verified": true
-            }
-          }
-        ]
-      }
-    ],
+    "derived_applicant_groups": [],
     "unsupported_and_insufficient_evidence_groups": [
       "A106 applicants presenting a prior degree where distinct UCAT treatment is not established",
       "Applicants to A101",
@@ -269,8 +259,7 @@
         ],
         "any_group_ids": [
           "contextual",
-          "widening_participation",
-          "care_experienced"
+          "widening_participation"
         ],
         "excluded_group_ids": [
           "international_fee",
@@ -308,7 +297,6 @@
         "excluded_group_ids": [
           "contextual",
           "widening_participation",
-          "care_experienced",
           "international_fee",
           "graduate_applicant"
         ]

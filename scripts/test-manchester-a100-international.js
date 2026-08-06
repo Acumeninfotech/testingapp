@@ -145,7 +145,7 @@ assert.deepStrictEqual(homeConfigSnapshot.contextual, {
   priority: 20,
   applicant_match: {
     all_group_ids: ['home_fee', 'school_leaver'],
-    any_group_ids: ['contextual', 'widening_participation', 'care_experienced'],
+    any_group_ids: ['contextual', 'widening_participation'],
     excluded_group_ids: ['international_fee', 'graduate_applicant']
   },
   metric: 'ucat_total',
@@ -163,7 +163,6 @@ assert.deepStrictEqual(homeConfigSnapshot.standard, {
     excluded_group_ids: [
       'contextual',
       'widening_participation',
-      'care_experienced',
       'international_fee',
       'graduate_applicant'
     ]

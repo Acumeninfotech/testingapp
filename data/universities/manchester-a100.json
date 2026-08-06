@@ -162,8 +162,7 @@
             "school_leaver"
           ],
           "excluded_group_ids": [
-            "contextual",
-            "widening_participation"
+            "manchester_wp_verified"
           ],
           "count": 7,
           "minimum_grade": "7/A",
@@ -173,17 +172,18 @@
           ]
         },
         {
-          "requirement_id": "gcse_contextual_six_at_7_or_a",
+          "requirement_id": "gcse_manchester_wp_verified_six_at_7_or_a",
           "applies_to_group_ids": [
-            "contextual",
-            "widening_participation"
+            "school_leaver",
+            "manchester_wp_verified"
           ],
           "count": 6,
           "minimum_grade": "7/A",
           "decision_outcome_if_not_met": "not_eligible",
           "source_ids": [
             "manchester_medicine_contextual"
-          ]
+          ],
+          "notes": "Available only where Manchester's official contextual eligibility tool has verified WP+ or WP++ status."
         }
       ],
       "counted_subject_limit": null,
@@ -293,12 +293,10 @@
         "grade_requirements": [
           {
             "requirement_id": "a_level_standard_offer",
+            "pathway_id": "manchester_standard_offer",
+            "academic_pathway": "standard",
             "applies_to_group_ids": [
               "school_leaver"
-            ],
-            "excluded_group_ids": [
-              "contextual",
-              "widening_participation"
             ],
             "grade_profile": [
               "A",
@@ -312,10 +310,29 @@
             "notes": "The published subject-combination gate also applies."
           },
           {
-            "requirement_id": "a_level_contextual_offer",
+            "requirement_id": "a_level_manchester_refugee_care_abb_offer",
+            "pathway_id": "manchester_refugee_care_abb_offer",
+            "academic_pathway": "contextual",
             "applies_to_group_ids": [
-              "contextual",
-              "widening_participation"
+              "manchester_refugee_care_abb"
+            ],
+            "grade_profile": [
+              "A",
+              "B",
+              "B"
+            ],
+            "decision_outcome_if_not_met": "not_eligible",
+            "source_ids": [
+              "manchester_medicine_contextual"
+            ],
+            "notes": "The published subject-combination gate also applies. This route is for care experience over more than three months, UK-government-granted refugee status, or a qualifying Ukrainian visa scheme."
+          },
+          {
+            "requirement_id": "a_level_manchester_contextual_aab_offer",
+            "pathway_id": "manchester_contextual_aab_offer",
+            "academic_pathway": "contextual",
+            "applies_to_group_ids": [
+              "manchester_contextual_aab"
             ],
             "grade_profile": [
               "A",
@@ -326,7 +343,7 @@
             "source_ids": [
               "manchester_medicine_contextual"
             ],
-            "notes": "The published subject-combination gate also applies."
+            "notes": "The published subject-combination gate also applies. This route requires current UK residence, being under 21 on 1 September of the course-start year, a qualifying postcode area criterion (POLAR4 Q1/Q2 or IMD 2019 Q1 or TUNDRA Q1/Q2), and a qualifying UK school or college below the national average over multiple years."
           }
         ],
         "standard_offer": {
@@ -342,8 +359,7 @@
         },
         "contextual_offer": {
           "applies_to_group_ids": [
-            "contextual",
-            "widening_participation"
+            "manchester_contextual_aab"
           ],
           "grade_profile": [
             "A",
@@ -353,7 +369,21 @@
           "source_ids": [
             "manchester_medicine_contextual"
           ],
-          "notes": "Available only after Manchester verifies contextual/WP status."
+          "notes": "Available only after Manchester confirms the under-21 UK-resident contextual route."
+        },
+        "refugee_care_offer": {
+          "applies_to_group_ids": [
+            "manchester_refugee_care_abb"
+          ],
+          "grade_profile": [
+            "A",
+            "B",
+            "B"
+          ],
+          "source_ids": [
+            "manchester_medicine_contextual"
+          ],
+          "notes": "Available only after Manchester confirms care experience over more than three months, UK-government-granted refugee status, or a qualifying Ukrainian visa scheme."
         },
         "subject_combination_rule": {
           "requirement_id": "a_level_medicine_subject_combination",
@@ -1187,61 +1217,70 @@
       "manchester_medicine_contextual"
     ],
     "available": true,
+    "evaluator_id": "manchester_contextual_medicine_a100",
     "applies_to_group_ids": [
       "contextual",
       "widening_participation",
-      "care_experienced"
+      "manchester_contextual_aab",
+      "manchester_refugee_care_abb",
+      "manchester_wp_verified"
     ],
-    "verification_method": "Eligibility is confirmed using UCAS and internal University data.",
+    "verification_method": "Eligibility is confirmed using shared factual evidence. Manchester external verification is used only where the policy explicitly requires WP+ or WP++ confirmation for the GCSE-count adjustment.",
     "criteria": [
       {
-        "criterion_id": "polar4_quintile_1_or_2",
+        "criterion_id": "current_uk_residence_and_under_21",
         "applies_to_group_ids": [
-          "contextual",
-          "widening_participation"
+          "manchester_contextual_aab"
         ],
-        "description": "POLAR4 Quintile 1 or 2.",
+        "description": "Currently lives in the UK and is under 21 on 1 September of the course-start year.",
         "source_ids": [
           "manchester_medicine_contextual"
         ],
-        "notes": "Manchester verification is authoritative."
+        "notes": "Age must be established from the shared age-at-course-start band. The legacy broad age value does not prove under-21 status."
       },
       {
-        "criterion_id": "free_school_meals",
+        "criterion_id": "postcode_area_low_progression_criterion",
         "applies_to_group_ids": [
-          "contextual",
-          "widening_participation"
+          "manchester_contextual_aab"
         ],
-        "description": "Free School Meals eligibility.",
+        "description": "Area criterion met via postcode facts: POLAR4 quintile 1 or 2, or IMD 2019 quintile 1, or TUNDRA quintile 1 or 2.",
         "source_ids": [
           "manchester_medicine_contextual"
         ],
-        "notes": "Manchester verification is authoritative."
+        "notes": "Derived directly from normalised postcode quintiles. Any one qualifying measure satisfies this criterion."
       },
       {
-        "criterion_id": "care_experienced",
+        "criterion_id": "uk_school_or_college_below_national_average",
         "applies_to_group_ids": [
-          "care_experienced",
-          "contextual",
-          "widening_participation"
+          "manchester_contextual_aab"
         ],
-        "description": "Care-experienced applicant.",
+        "description": "Attended a UK school or college for GCSEs or post-16 study that performed below the national average over multiple years.",
         "source_ids": [
           "manchester_medicine_contextual"
         ],
-        "notes": "Manchester verification is authoritative."
+        "notes": "Derived only from the shared below-average school facts plus the UK attendance-stage facts."
       },
       {
-        "criterion_id": "first_generation_higher_education",
+        "criterion_id": "care_over_three_months",
         "applies_to_group_ids": [
-          "contextual",
-          "widening_participation"
+          "manchester_refugee_care_abb"
         ],
-        "description": "First-generation higher education.",
+        "description": "Looked after in local-authority care for more than three months.",
         "source_ids": [
           "manchester_medicine_contextual"
         ],
-        "notes": "Manchester verification is authoritative."
+        "notes": "Generic care-experienced evidence alone is not enough."
+      },
+      {
+        "criterion_id": "uk_refugee_or_ukrainian_scheme",
+        "applies_to_group_ids": [
+          "manchester_refugee_care_abb"
+        ],
+        "description": "UK-government-granted refugee status or a qualifying Ukrainian visa scheme.",
+        "source_ids": [
+          "manchester_medicine_contextual"
+        ],
+        "notes": "This route accepts Homes for Ukraine, Ukraine Family Scheme and Ukraine Extension Scheme."
       },
       {
         "criterion_id": "manchester_access_programme",
@@ -1258,13 +1297,12 @@
     ],
     "adjustments": [
       {
-        "adjustment_id": "contextual_gcse_count",
+        "adjustment_id": "verified_wp_gcse_count",
         "applies_to_group_ids": [
-          "contextual",
-          "widening_participation"
+          "manchester_wp_verified"
         ],
         "stage": "stage_1_eligibility",
-        "policy_description": "Reduce the number of GCSE/IGCSE subjects required at grade 7/A from seven to six.",
+        "policy_description": "Reduce the number of GCSE/IGCSE subjects required at grade 7/A from seven to six where Manchester's official tool verifies WP+ or WP++.",
         "effect": {
           "type": "replace_minimum",
           "target": "gcse.minimum_count_at_grade_7_or_a",
@@ -1273,13 +1311,12 @@
         "source_ids": [
           "manchester_medicine_contextual"
         ],
-        "notes": "Mandatory English, Mathematics and science subject minima still apply."
+        "notes": "Mandatory English, Mathematics and science subject minima still apply. This reduction must not be inferred without verified Manchester WP+ or WP++ evidence."
       },
       {
         "adjustment_id": "contextual_a_level_offer",
         "applies_to_group_ids": [
-          "contextual",
-          "widening_participation"
+          "manchester_contextual_aab"
         ],
         "stage": "offer_conditions",
         "policy_description": "Use the contextual A-level offer of AAB.",
@@ -1289,6 +1326,27 @@
           "value": [
             "A",
             "A",
+            "B"
+          ]
+        },
+        "source_ids": [
+          "manchester_medicine_contextual"
+        ],
+        "notes": "The A-level subject combination and science-practical requirements remain."
+      },
+      {
+        "adjustment_id": "refugee_care_a_level_offer",
+        "applies_to_group_ids": [
+          "manchester_refugee_care_abb"
+        ],
+        "stage": "offer_conditions",
+        "policy_description": "Use the refugee or care-experienced A-level offer of ABB.",
+        "effect": {
+          "type": "replace_offer",
+          "target": "a_level.grade_profile",
+          "value": [
+            "A",
+            "B",
             "B"
           ]
         },
@@ -1338,7 +1396,7 @@
         "notes": "This rule bypasses competitive UCAT guidance, not the minimum eligibility gates."
       }
     ],
-    "notes": "Contextual status must come from Manchester/UCAS verification. The engine must not infer status from user-entered postcode or background data alone."
+    "notes": "Manchester contextual routes are derived from shared factual evidence. Generic contextual declarations, generic contextual flags and MAP must not independently prove Manchester contextual-route eligibility. Manchester external-tool verification remains required only for WP+/WP++ GCSE-count adjustment evidence."
   },
   "ranking_pools": [
     {
@@ -1558,8 +1616,7 @@
     },
     "contextual_offer": {
       "applies_to_group_ids": [
-        "contextual",
-        "widening_participation"
+        "manchester_contextual_aab"
       ],
       "grade_profile": [
         "A",
@@ -1569,7 +1626,21 @@
       "source_ids": [
         "manchester_medicine_contextual"
       ],
-      "notes": "Available after contextual/WP verification."
+      "notes": "Available after Manchester confirms the under-21 UK-resident contextual route."
+    },
+    "refugee_care_offer": {
+      "applies_to_group_ids": [
+        "manchester_refugee_care_abb"
+      ],
+      "grade_profile": [
+        "A",
+        "B",
+        "B"
+      ],
+      "source_ids": [
+        "manchester_medicine_contextual"
+      ],
+      "notes": "Available after Manchester confirms care experience over more than three months, UK-government-granted refugee status, or a qualifying Ukrainian visa scheme."
     },
     "prediction_status": "partial_diagnostic_only",
     "prediction_ready": false,

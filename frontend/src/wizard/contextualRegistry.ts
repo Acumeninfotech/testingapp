@@ -13,6 +13,14 @@ export const SENSITIVE_OPTIONS = [
   { value: 'not_sure', label: 'Not sure' },
 ] as const;
 
+export const UKRAINIAN_VISA_SCHEME_OPTIONS = [
+  { value: 'homes_for_ukraine', label: 'Homes for Ukraine' },
+  { value: 'ukraine_family_scheme', label: 'Ukraine Family Scheme' },
+  { value: 'ukraine_extension_scheme', label: 'Ukraine Extension Scheme' },
+  { value: 'none', label: 'None of these' },
+  { value: 'not_sure', label: 'Not sure' },
+] as const;
+
 export const QUINTILE_OPTIONS = [
   { value: 'unknown', label: 'Unknown' },
   { value: 'q1', label: 'Quintile 1' },
@@ -105,6 +113,14 @@ export const SCHOOL_EDUCATION_FIELDS = [
   },
   { key: 'scottish_target_or_access_school', label: 'I attended a Scottish target or access school' },
   {
+    key: 'attended_uk_school_or_college_for_gcse_or_equivalent',
+    label: 'I attended a UK school or college for my GCSEs or equivalent qualifications',
+  },
+  {
+    key: 'attended_uk_school_or_college_for_post16_or_equivalent',
+    label: 'I attended a UK school or college for my post-16 or equivalent qualifications',
+  },
+  {
     key: 'welsh_language_gcse_first_or_second_language',
     label: 'I studied Welsh Language GCSE as a first or second language',
   },
@@ -112,11 +128,18 @@ export const SCHOOL_EDUCATION_FIELDS = [
 
 export const PERSONAL_CIRCUMSTANCE_FIELDS = [
   { key: 'care_experienced', label: 'I have experience of being in local-authority care' },
+  { key: 'care_over_three_months', label: 'I was looked after in local-authority care for more than three months' },
   { key: 'care_leaver', label: 'I am a care leaver' },
   { key: 'estranged_from_family', label: 'I am permanently estranged from my family' },
   { key: 'young_or_adult_carer', label: 'I am a young or adult carer' },
   { key: 'parenting_responsibilities', label: 'I have parenting responsibilities' },
   { key: 'refugee', label: 'I have refugee status' },
+  { key: 'uk_refugee_status_granted', label: 'My refugee status was granted by the UK government' },
+  {
+    key: 'ukrainian_visa_scheme',
+    label: 'My current or most relevant UK visa is one of the Ukrainian schemes',
+    options: UKRAINIAN_VISA_SCHEME_OPTIONS,
+  },
   { key: 'seeking_asylum', label: 'I am seeking asylum' },
   {
     key: 'first_in_family_at_university',

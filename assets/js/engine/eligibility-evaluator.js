@@ -381,10 +381,12 @@ function applyCourseSpecificDerivedApplicantGroups(course, applicant, groupIds, 
 
   const contextualResult = contextualEligibility || evaluateCourseContextualEligibility(course, applicant);
   if (
-    ['aston-a100', 'imperial-college-london-a100'].includes(course?.profile_id) &&
-    contextualResult?.is_contextual === true
+    ['aston-a100', 'imperial-college-london-a100', 'manchester-a100', 'leicester-a100'].includes(course?.profile_id)
   ) {
-    for (const groupId of contextualResult.activated_applicant_group_ids || ['contextual']) {
+    const activatedGroups = contextualResult?.is_contextual === true
+      ? contextualResult.activated_applicant_group_ids
+      : contextualResult?.provisional_activated_applicant_group_ids;
+    for (const groupId of activatedGroups || []) {
       groups.add(groupId);
     }
   }
@@ -549,7 +551,11 @@ function addManualReview(state, reason) {
 function evaluateGcseRules(course, applicant, state) {
   const rules = course.stage_1_eligibility?.gcse || {};
   const subjectGrades = profileToSubjectMap(applicant.gcse_profile);
-  const countRule = rules.minimum_count_at_or_above_grade;
+  const countRules = Array.isArray(rules.minimum_count_at_or_above_grade)
+    ? rules.minimum_count_at_or_above_grade
+    : rules.minimum_count_at_or_above_grade
+      ? [rules.minimum_count_at_or_above_grade]
+      : [];
   const countableGrades = getCountableGcseGrades(subjectGrades);
   state.exact_gcse_count = Object.keys(subjectGrades).length;
   const combinedScienceGrades = parseCombinedScienceGrades(
@@ -570,17 +576,24 @@ function evaluateGcseRules(course, applicant, state) {
     }
   }
 
-  if (countRule) {
+  for (const countRule of countRules) {
+    if (!groupRuleApplies(countRule, state.applicant_group_ids)) {
+      continue;
+    }
     const actualCount = countableGrades.filter((grade) => {
       return gradeMeets(grade, countRule.minimum_grade, 'gcse');
     }).length;
     const passed = actualCount >= countRule.count;
-    addCheck(state, countRule.requirement_id, passed, {
+    addCheck(state, countRule.requirement_id || 'gcse_minimum_count_at_grade', passed, {
       actual: actualCount,
-      required: countRule.count
+      required: countRule.count,
+      minimum_grade: countRule.minimum_grade
     });
     if (!passed) {
-      addFailure(state, 'gcse_minimum_count_at_grade_not_met');
+      addFailure(
+        state,
+        `minimum_gcse_count_at_grade_not_met:${countRule.requirement_id || 'gcse_minimum_count_at_grade'}`
+      );
     }
   }
 
@@ -2088,9 +2101,16 @@ function evaluateManualReviewTriggers(applicant, state) {
     (groups.has('contextual') || groups.has('widening_participation')) &&
     state.qualification_route !== 'ukwpmed' &&
     state.contextual_eligibility?.is_contextual !== true &&
+    state.contextual_eligibility?.status !== 'information_needed' &&
     identity.contextual_status_confirmed !== true
   ) {
     addManualReview(state, 'contextual_wp_status_requires_confirmation');
+  }
+  if (
+    state.contextual_eligibility?.status === 'information_needed' &&
+    state.contextual_eligibility?.manual_review_reason
+  ) {
+    addManualReview(state, state.contextual_eligibility.manual_review_reason);
   }
   if (repeat.is_repeat_applicant === true || repeat.previous_application === true) {
     if (repeat.previous_aston_mmi_red_flag_rejection === true) {

@@ -651,7 +651,44 @@ function hasRoutedAcademicOfferPathways(stage1Eligibility = null) {
   });
 }
 
+function matchedAcademicOfferRoute(stage1Eligibility = null, context = {}) {
+  const aLevelRoutes = stage1Eligibility?.post_16?.a_level?.grade_requirements || [];
+  return aLevelRoutes.find((route) => {
+    return String(
+      route?.pathway_id ||
+      route?.route_id ||
+      route?.requirement_id ||
+      ''
+    ).trim() === String(context.academic_pathway_id || '').trim();
+  });
+}
+
+function buildRoutedAcademicOffer(stage1Eligibility = null, matchedRoute = null) {
+  if (matchedRoute && Array.isArray(matchedRoute.grade_profile) && matchedRoute.grade_profile.length > 0) {
+    const standardOffer = formatAlevelGradeProfile(
+      stage1Eligibility?.post_16?.a_level?.standard_offer?.grade_profile || []
+    );
+    const displayOfferGrades = Array.isArray(matchedRoute.display_offer_grade_profile) &&
+      matchedRoute.display_offer_grade_profile.length > 0
+      ? matchedRoute.display_offer_grade_profile
+      : matchedRoute.grade_profile;
+    const matchedOffer = formatAlevelGradeProfile(displayOfferGrades);
+    if (matchedOffer && matchedOffer !== standardOffer) {
+      return {
+        type: 'routed_offer',
+        standard_offer: standardOffer,
+        alternative_offer: matchedOffer,
+        pathway_id: matchedRoute.pathway_id || matchedRoute.route_id || matchedRoute.requirement_id || null,
+        conditions: []
+      };
+    }
+  }
+  return null;
+}
+
 function buildAlternativeAcademicOffer(stage1Eligibility = null, context = {}) {
+  const matchedRoute = matchedAcademicOfferRoute(stage1Eligibility, context);
+
   if (context.academic_pathway === 'contextual_epq_alternative') {
     const contextualEpqOffer = buildContextualEpqAcademicOffer(stage1Eligibility);
     if (contextualEpqOffer) {
@@ -660,14 +697,29 @@ function buildAlternativeAcademicOffer(stage1Eligibility = null, context = {}) {
   }
 
   if (context.academic_pathway === 'contextual') {
+    const routedContextualOffer = buildRoutedAcademicOffer(stage1Eligibility, matchedRoute);
+    if (routedContextualOffer) {
+      return {
+        ...routedContextualOffer,
+        type: 'contextual'
+      };
+    }
     const contextualOffer = buildContextualAcademicOffer(stage1Eligibility);
     if (contextualOffer) {
       return contextualOffer;
     }
   }
 
+  if (matchedRoute) {
+    const routedOffer = buildRoutedAcademicOffer(stage1Eligibility, matchedRoute);
+    if (routedOffer) {
+      return routedOffer;
+    }
+  }
+
   if (
     context.academic_pathway &&
+    context.academic_pathway !== 'standard' &&
     context.academic_pathway !== 'epq_alternative' &&
     hasRoutedAcademicOfferPathways(stage1Eligibility)
   ) {
@@ -838,7 +890,11 @@ const FAILURE_REASON_LABELS = {
   initial_deferred_entry_not_accepted: 'This university does not accept deferred entry.',
   t_level_not_accepted: 'This university does not accept T-levels for this route.',
   minimum_age_requires_confirmation: 'Your age needs to be confirmed against this university’s published age requirement.',
-  age_on_1_october_requires_confirmation: 'Your age on 1 October of the entry year needs to be confirmed against this university’s published age requirement.'
+  age_on_1_october_requires_confirmation: 'Your age on 1 October of the entry year needs to be confirmed against this university’s published age requirement.',
+  leicester_contextual_information_needed: 'ApplySmart needs more Leicester contextual evidence to confirm whether a Leicester contextual route applies.',
+  manchester_contextual_information_needed: 'ApplySmart needs Manchester postcode or school-context evidence to check whether the contextual AAB route applies.',
+  manchester_refugee_or_care_information_needed: 'ApplySmart needs more care, refugee-status or Ukrainian visa information to check whether Manchester’s ABB route applies.',
+  manchester_contextual_or_refugee_care_information_needed: 'ApplySmart needs Manchester postcode/school-context evidence and personal-circumstance confirmation to check whether Manchester’s contextual routes apply.'
 };
 
 function futureConditionAdvisories(futureConditions = [], options = {}) {
@@ -1027,6 +1083,98 @@ function humanApplicantPoolLabel(groupIds, applicantContext = {}) {
 
   const base = parts.length > 0 ? parts.join(', ') : 'Applicant';
   return modifiers.length > 0 ? `${base} applicants (${modifiers.join(', ')})` : `${base} applicants`;
+}
+
+function manchesterContextualRouteDetails(card = {}) {
+  const profileId = card.course_identity?.profile_id || null;
+  if (profileId !== 'manchester-a100') {
+    return null;
+  }
+  const contextual = card.eligibility?.contextual_eligibility || null;
+  if (!contextual || contextual.status !== 'contextual') {
+    return null;
+  }
+
+  const routeId = contextual.matched_contextual_pathway || null;
+  const routeLabel = routeId === 'manchester_refugee_care_abb'
+    ? 'Care Experienced Route (ABB)'
+    : routeId === 'manchester_contextual_aab'
+      ? 'Contextual Route (AAB)'
+      : null;
+  if (!routeLabel) {
+    return null;
+  }
+
+  const routeCriterionIds = routeId === 'manchester_refugee_care_abb'
+    ? ['care_over_three_months', 'uk_refugee_status_granted', 'ukrainian_visa_scheme']
+    : ['current_uk_residence', 'under_21_on_1_september', 'area_criterion', 'gcse_school_below_average', 'post16_school_below_average'];
+  const criteria = Array.isArray(contextual.qualifying_criteria)
+    ? contextual.qualifying_criteria
+      .filter((entry) => routeCriterionIds.includes(entry.criterion_id))
+    : [];
+  const fallbackCriteria = Array.isArray(contextual.qualifying_criteria)
+    ? contextual.qualifying_criteria
+    : [];
+  const selectedCriteria = criteria.length > 0 ? criteria : fallbackCriteria;
+  const evidenceSummary = selectedCriteria
+    .map((entry) => {
+      const label = String(entry.label || '').trim();
+      const actual = String(entry.actual || '').trim();
+      if (!label) return null;
+      if (!actual || ['yes', 'true', 'confirmed'].includes(normaliseCheckId(actual))) {
+        return label;
+      }
+      return `${label}: ${actual}`;
+    })
+    .filter(Boolean);
+
+  return {
+    route_id: routeId,
+    route_label: routeLabel,
+    evidence_items: evidenceSummary
+  };
+}
+
+function manchesterContextualSummary(card = {}) {
+  const details = manchesterContextualRouteDetails(card);
+  if (!details) {
+    return null;
+  }
+  const evidence = details.evidence_items.length > 0
+    ? ` Matched evidence: ${details.evidence_items.join('; ')}.`
+    : '';
+  return `Contextual eligibility confirmed: ${details.route_label}.${evidence}`;
+}
+
+function contextualOfferRouteSummary(card = {}, offer = null) {
+  if (!offer || (offer.type !== 'contextual' && offer.type !== 'contextual_epq')) {
+    return null;
+  }
+  const academicPathway = card.academic_pathway ||
+    card.eligibility?.academic_pathway ||
+    null;
+  if (!academicPathway || !String(academicPathway).startsWith('contextual')) {
+    return null;
+  }
+
+  const standardOffer = String(offer.standard_offer || '').trim();
+  const alternativeOffer = String(offer.alternative_offer || '').trim();
+  if (!standardOffer || !alternativeOffer) {
+    return null;
+  }
+
+  const manchesterSummary = manchesterContextualSummary(card);
+  const contextualRouteLabel = String(
+    card.eligibility?.contextual_eligibility?.matched_contextual_pathway_label || ''
+  ).trim();
+  const comparison = `Standard offer ${standardOffer}; applied contextual offer ${alternativeOffer}.`;
+  if (manchesterSummary) {
+    return `${manchesterSummary} ${comparison}`;
+  }
+  if (contextualRouteLabel) {
+    return `Contextual eligibility confirmed: ${contextualRouteLabel}. ${comparison}`;
+  }
+  return `Contextual eligibility confirmed. ${comparison}`;
 }
 
 // Historical cycle year fields are not standardised across university JSON:
@@ -2896,6 +3044,20 @@ function recommendationSummary(card, state, options = {}) {
     selectionScoreComparison: options.selectionScoreComparison,
     context: options.context || options.applicantContext
   });
+  const contextualSummary = contextualOfferRouteSummary(
+    card,
+    card.alternative_academic_offer || (
+      options.stage1Eligibility
+        ? buildAlternativeAcademicOffer(options.stage1Eligibility, {
+          academic_pathway: card.academic_pathway || card.eligibility?.academic_pathway || null,
+          academic_pathway_id: card.academic_pathway_id || card.eligibility?.academic_pathway_id || null
+        })
+        : null
+    )
+  );
+  if (contextualSummary) {
+    return `${contextualSummary} ${explanation} Treat this as guidance for university choice, not a promised interview.`;
+  }
   return `${explanation} Treat this as guidance for university choice, not a promised interview.`;
 }
 
@@ -3568,6 +3730,7 @@ function buildDecisionTimeline(card, options = {}) {
         insufficientEvidenceReasonCode: options.insufficientEvidenceReasonCode,
         guidancePool: options.guidancePool,
         scoreModel: options.scoreModel,
+        stage1Eligibility: options.stage1Eligibility,
         riskExplanation: options.riskExplanation
       })
     }
@@ -3819,7 +3982,7 @@ function buildDecisionTransparency(card, options = {}) {
   const state = decisionState(card, options);
   const notEligible = state === 'not_eligible';
   const pool = options.interviewOutcome === 'guaranteed_interview'
-    ? 'Guaranteed-interview verified applicants'
+    ? options.guaranteedInterviewPoolLabel || 'Guaranteed-interview verified applicants'
     : options.applicantPool ||
       humanApplicantPoolLabel(options.applicantGroupIds, options.applicantContext) ||
       presentation.pool_label ||
@@ -3875,6 +4038,11 @@ function buildDecisionTransparency(card, options = {}) {
     presentation.selection_summary ||
     card.stage_2_selection?.summary ||
     'The university selection approach is applied after eligibility checks.';
+  const contextualOffer = buildAlternativeAcademicOffer(options.stage1Eligibility, {
+    academic_pathway: card.academic_pathway || card.eligibility?.academic_pathway || null,
+    academic_pathway_id: card.academic_pathway_id || card.eligibility?.academic_pathway_id || null
+  });
+  const contextualRouteSummaryText = contextualOfferRouteSummary(card, contextualOffer);
   const guaranteedInterview = options.interviewOutcome === 'guaranteed_interview';
   const hideScoreBreakdown = presentation.hide_score_breakdown === true;
   const hideSelectionDetails = hideSelectionScoreDetails(presentation);
@@ -3892,11 +4060,19 @@ function buildDecisionTransparency(card, options = {}) {
       : null);
   const selectionChecks = [
     check('Applicant pool', 'Used', pool),
+    ...(contextualRouteSummaryText
+      ? [check(
+        'Contextual eligibility',
+        'Confirmed',
+        contextualRouteSummaryText
+      )]
+      : []),
     ...(guaranteedInterview
       ? [check(
         'Selection approach',
         'Guaranteed interview',
-        'Every published guaranteed-interview condition for this route has been verified as met, so the usual scored/ranked selection approach does not apply.'
+        options.guaranteedInterviewSelectionSummary ||
+          'Every published guaranteed-interview condition for this route has been verified as met, so the usual scored/ranked selection approach does not apply.'
       )]
         : state === 'eligibility_only'
           ? [
@@ -4026,6 +4202,7 @@ function buildDecisionTransparency(card, options = {}) {
 	          selectionScoreComparison,
 	          ucatComparison,
 	          context: options.applicantContext,
+            stage1Eligibility: options.stage1Eligibility,
             riskExplanation
 	        }),
         checks: []
@@ -4046,6 +4223,7 @@ function buildDecisionTransparency(card, options = {}) {
             ? [insufficientEvidenceReason, 'A confident recommendation is not shown.']
             : [
               eligibilitySummary,
+              ...(contextualRouteSummaryText ? [contextualRouteSummaryText] : []),
               ...(officialPredictionReason ? [officialPredictionReason] : []),
               `The result uses ${pool}.`,
               ...(riskExplanation?.summary ? [riskExplanation.summary] : []),
@@ -4100,6 +4278,20 @@ function presentResultCard({
   transparencyContext = {}
 }) {
   let display;
+  const academicPathway = transparencyContext.academic_pathway ||
+    transparencyContext.eligibility?.academic_pathway ||
+    null;
+  const academicPathwayId = transparencyContext.academic_pathway_id ??
+    transparencyContext.eligibility?.academic_pathway_id ??
+    null;
+  const activeAlternativeAcademicOffer = buildAlternativeAcademicOffer(
+    transparencyContext.stage_1_eligibility,
+    {
+      academic_pathway: academicPathway,
+      academic_pathway_id: academicPathwayId
+    }
+  );
+  const contextualRouteSummary = contextualOfferRouteSummary(transparencyContext, activeAlternativeAcademicOffer);
   const selectionApproachDisplay = selectionApproachForContext(
     transparencyContext.selection_approach_display,
     transparencyContext
@@ -4178,12 +4370,22 @@ function presentResultCard({
   const insufficientEvidencePrimaryExplanation =
     resolvedInsufficientEvidenceReason ||
     GENERIC_INSUFFICIENT_EVIDENCE_EXPLANATION;
-		  if (guaranteedInterview) {
+  const defaultGuaranteedInterviewExplanation = contextualRouteSummary
+    ? `${contextualRouteSummary} Based on ApplySmart's assessment, this applicant group meets the published guaranteed-interview evidence available for this route.`
+    : "Based on ApplySmart's assessment, this applicant group meets the published guaranteed-interview evidence available for this route.";
+  const guaranteedInterviewExplanation = firstNonEmptyString(
+    transparencyContext.guaranteed_interview_explanation,
+    defaultGuaranteedInterviewExplanation
+  );
+  const guaranteedInterviewNotice = firstNonEmptyString(
+    transparencyContext.guaranteed_interview_notice,
+    'Every published guaranteed-interview condition for this route has been verified as met.'
+  );
+  if (guaranteedInterview) {
     display = {
       primary_user_facing_recommendation: STANDARD_RECOMMENDATION_HEADLINES.guaranteed_interview,
       recommendation_display_state: 'standard',
-      primary_explanation:
-        "Based on ApplySmart's assessment, this applicant group meets the published guaranteed-interview evidence available for this route.",
+      primary_explanation: guaranteedInterviewExplanation,
       historical_guidance_caveat: null
     };
   } else if (eligibilityStatus === 'not_eligible' || interviewBand === 'not_eligible') {
@@ -4227,12 +4429,15 @@ function presentResultCard({
 	      selectionScoreComparison,
 	      context: transparencyContext
 	    });
+      const primaryExplanation = contextualRouteSummary
+        ? `${contextualRouteSummary} ${riskExplanation?.summary || standardExplanation}`
+        : riskExplanation?.summary || standardExplanation;
 	    display = recommendation
 	      ? {
 	        primary_user_facing_recommendation: recommendation.headline,
 	        recommendation_display_state: 'standard',
 	        internal_recommendation: recommendation.recommendation,
-	        primary_explanation: riskExplanation?.summary || standardExplanation,
+	        primary_explanation: primaryExplanation,
 	        trust_statement: presentation.trust_statement || (officialPredictionUnavailable
 	          ? OFFICIAL_UNAVAILABLE_TRUST_STATEMENT
 	          : null),
@@ -4337,6 +4542,7 @@ function presentResultCard({
     officialScore: transparencyContext.official_score,
     estimatedSelectionScore: transparencyContext.estimated_selection_score,
     interviewOutcome: transparencyContext.interview_outcome,
+    guaranteedInterviewPoolLabel: transparencyContext.guaranteed_interview_pool_label,
     guidancePoolId: transparencyContext.guidance_pool_id,
     guidancePool: transparencyContext.guidance_pool,
     ucatComparison,
@@ -4352,12 +4558,14 @@ function presentResultCard({
     transparencyOptions
   );
   const prediction = transparencyCard.prediction;
-  const academicPathway = transparencyContext.academic_pathway ||
-    transparencyContext.eligibility?.academic_pathway ||
-    null;
-  const academicPathwayId = transparencyContext.academic_pathway_id ??
-    transparencyContext.eligibility?.academic_pathway_id ??
-    null;
+  const contextualStatus =
+    display.recommendation_display_state === 'standard' &&
+    (
+      transparencyContext.eligibility?.contextual_eligibility?.status === 'contextual' ||
+      transparencyContext.contextual_eligibility?.status === 'contextual'
+    )
+      ? 'confirmed'
+      : null;
   const futureConditionsArePublic =
     academicPathway === 'epq_alternative' &&
     ['eligible', 'met'].includes(normaliseCheckId(eligibilityStatus));
@@ -4393,13 +4601,8 @@ function presentResultCard({
     ...display,
     academic_pathway: academicPathway,
     academic_pathway_id: academicPathwayId,
-    alternative_academic_offer: buildAlternativeAcademicOffer(
-      transparencyContext.stage_1_eligibility,
-      {
-        academic_pathway: academicPathway,
-        academic_pathway_id: academicPathwayId
-      }
-    ),
+    contextual_status: contextualStatus,
+    alternative_academic_offer: activeAlternativeAcademicOffer,
     future_conditions: [...new Set(futureConditions)],
     future_condition_advisories: futureConditionAdvisoryText,
     academic_requirement_checks: academicRequirementChecks,
@@ -4413,6 +4616,10 @@ function presentResultCard({
     trust_statement: display.trust_statement || futureConditionAdvisoryText[0] || null,
     prediction,
     interview_outcome: transparencyContext.interview_outcome || null,
+    guaranteed_interview_notice: guaranteedInterview ? guaranteedInterviewNotice : null,
+    guaranteed_interview_badge_label: guaranteedInterview
+      ? transparencyContext.guaranteed_interview_badge_label || null
+      : null,
     evidence_confidence: evidenceConfidence,
     risk_explanation: publicRiskExplanation,
     factor_usage: normalizeFactorUsage(transparencyContext, transparencyOptions),

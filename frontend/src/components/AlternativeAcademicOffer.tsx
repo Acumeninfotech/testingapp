@@ -23,28 +23,36 @@ function isRenderableOffer(
 
 export function AlternativeAcademicOffer({
   offer,
+  contextualStatus,
 }: {
   offer?: PredictionResult['result_card']['alternative_academic_offer'];
+  contextualStatus?: PredictionResult['result_card']['contextual_status'];
 }) {
   const headingId = useId();
+  const contextualConfirmed = contextualStatus === 'confirmed';
+  const hasRenderableOffer = isRenderableOffer(offer);
 
-  if (!isRenderableOffer(offer)) {
+  if (!hasRenderableOffer && !contextualConfirmed) {
     return null;
   }
 
-  const conditions = Array.isArray(offer.conditions)
+  const conditions = hasRenderableOffer && Array.isArray(offer.conditions)
     ? offer.conditions.map(cleanText).filter(Boolean)
     : [];
-  const offerTypeLabel = offer.type === 'contextual'
-    ? 'Contextual'
-    : offer.type === 'contextual_epq'
-      ? 'Contextual + EPQ'
-      : 'EPQ';
-  const alternativeLabel = offer.type === 'contextual'
-    ? 'Contextual Offer'
-    : offer.type === 'contextual_epq'
-      ? 'Contextual EPQ Alternative'
-      : 'EPQ Alternative';
+  const offerTypeLabel = hasRenderableOffer
+    ? offer.type === 'contextual'
+      ? 'Contextual'
+      : offer.type === 'contextual_epq'
+        ? 'Contextual + EPQ'
+        : 'EPQ'
+    : 'Contextual';
+  const alternativeLabel = hasRenderableOffer
+    ? offer.type === 'contextual'
+      ? 'Contextual Offer'
+      : offer.type === 'contextual_epq'
+        ? 'Contextual EPQ Alternative'
+        : 'EPQ Alternative'
+    : 'Contextual Offer';
 
   return (
     <section className="alternative-academic-offer" aria-labelledby={headingId}>
@@ -53,17 +61,28 @@ export function AlternativeAcademicOffer({
         <span>{offerTypeLabel}</span>
       </header>
 
-      <div className="alternative-academic-offer__options">
-        <div>
-          <span>Standard</span>
-          <strong>{cleanText(offer.standard_offer)}</strong>
-        </div>
+      {hasRenderableOffer && (
+        <div className="alternative-academic-offer__options">
+          <div>
+            <span>Standard</span>
+            <strong>{cleanText(offer.standard_offer)}</strong>
+          </div>
 
-        <div>
-          <span>{alternativeLabel}</span>
-          <strong>{cleanText(offer.alternative_offer)}</strong>
+          <div>
+            <span>{alternativeLabel}</span>
+            <strong>{cleanText(offer.alternative_offer)}</strong>
+          </div>
         </div>
-      </div>
+      )}
+
+      {contextualConfirmed && (
+        <div className="alternative-academic-offer__options">
+          <div>
+            <span>Contextual Status</span>
+            <strong>✅ Contextual eligibility confirmed</strong>
+          </div>
+        </div>
+      )}
 
       {conditions.length > 0 && (
         <ul className="alternative-academic-offer__conditions" aria-label="Alternative offer conditions">

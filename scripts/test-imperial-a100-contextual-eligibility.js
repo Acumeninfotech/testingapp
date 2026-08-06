@@ -10,6 +10,7 @@ const {
 const {
   classifyInterviewBand
 } = require('../assets/js/engine/interview-band-classifier');
+const { predict } = require('../server/src/predict');
 
 const rootDir = path.resolve(__dirname, '..');
 
@@ -320,6 +321,19 @@ const contextualBelowUcat = classified(
 assert.strictEqual(contextualBelowUcat.eligibility.status, 'not_eligible');
 assert.ok(contextualBelowUcat.eligibility.failures.includes('minimum_ucat_total_not_met'));
 assertNotGuaranteed(contextualBelowUcat);
+
+const [imperialContextualPrediction] = predict({
+  universityIds: ['imperial-college-london-a100'],
+  studentProfile: contextualApplicant(
+    { personal_circumstances: { care_experienced: 'yes' } },
+    { admissions_tests: { ucat: { total_score: 2400 } } }
+  )
+});
+assert.strictEqual(
+  imperialContextualPrediction.result_card.contextual_status,
+  'confirmed',
+  'Imperial contextual applicants should expose contextual_status=confirmed for presentation.'
+);
 
 console.log('Imperial A100 contextual eligibility regression: PASS');
 console.log('Structured contextual evidence derivation, guaranteed interview routing, UCAT/SJT boundaries and legacy negatives: PASS');

@@ -311,12 +311,11 @@ function AnswerGrid({
   updateProfile,
 }: {
   group: AnswerGroupName;
-  fields: readonly { key: string; label: string }[];
+  fields: readonly { key: string; label: string; options?: readonly { value: string; label: string }[] }[];
   profile: StepProps['profile'];
   updateProfile: StepProps['updateProfile'];
 }) {
-  const values = profile.contextual_profile[group];
-  const options = group === 'personal_circumstances' ? SENSITIVE_OPTIONS : YES_NO_NOT_SURE_OPTIONS;
+  const values = profile.contextual_profile[group] as Record<string, string | undefined>;
 
   return (
     <div className="contextual-field-grid">
@@ -326,7 +325,7 @@ function AnswerGrid({
           id={`${group}_${field.key}`}
           label={field.label}
           value={values[field.key] ?? ''}
-          options={options}
+          options={field.options ?? (group === 'personal_circumstances' ? SENSITIVE_OPTIONS : YES_NO_NOT_SURE_OPTIONS)}
           onChange={(value) =>
             updateContextual(updateProfile, (contextual) => ({
               ...contextual,

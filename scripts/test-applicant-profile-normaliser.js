@@ -5,7 +5,9 @@ const {
   CURRENT_MEDICINE_ENTRY_YEAR,
   CURRENT_UCAT_TEST_YEAR,
   evaluateExplicitMinimumAge,
+  evaluateAgeBandAgainstMaximumExclusive,
   isUcatCycleValid,
+  normaliseAgeAtCourseStartBand,
   normaliseContextualProfile,
   normaliseApplicantProfile
 } = require('../assets/js/engine/applicant-profile-normaliser');
@@ -231,7 +233,7 @@ const age18Band = {
   ...normalised,
   applicant_identity: {
     ...normalised.applicant_identity,
-    age_at_course_start_band: 'age_18_or_over'
+    age_at_course_start_band: 'age_18'
   }
 };
 assert.deepStrictEqual(
@@ -265,10 +267,117 @@ assert.deepStrictEqual(
   }
 );
 
+const legacyBroadAgeBand = {
+  ...normalised,
+  applicant_identity: {
+    ...normalised.applicant_identity,
+    age_at_course_start_band: 'age_18_or_over'
+  }
+};
+assert.strictEqual(
+  normaliseAgeAtCourseStartBand('age_18_or_over'),
+  'age_18_or_over_legacy'
+);
+assert.deepStrictEqual(
+  evaluateExplicitMinimumAge(course, legacyBroadAgeBand),
+  {
+    status: 'pass',
+    minimum_age: 17,
+    age: null,
+    blocks_prediction: false
+  }
+);
+assert.deepStrictEqual(
+  evaluateExplicitMinimumAge(age18Course, legacyBroadAgeBand),
+  {
+    status: 'pass',
+    minimum_age: 18,
+    age: null,
+    blocks_prediction: false
+  }
+);
+assert.deepStrictEqual(
+  evaluateAgeBandAgainstMaximumExclusive('age_18_or_over', 21),
+  {
+    status: 'manual_review',
+    age: null,
+    reason: 'maximum_age_requires_confirmation'
+  }
+);
+assert.deepStrictEqual(
+  evaluateAgeBandAgainstMaximumExclusive('age_18', 21),
+  {
+    status: 'pass',
+    age: 18
+  }
+);
+assert.deepStrictEqual(
+  evaluateAgeBandAgainstMaximumExclusive('age_19', 21),
+  {
+    status: 'pass',
+    age: 19
+  }
+);
+assert.deepStrictEqual(
+  evaluateAgeBandAgainstMaximumExclusive('age_20', 21),
+  {
+    status: 'pass',
+    age: 20
+  }
+);
+assert.deepStrictEqual(
+  evaluateAgeBandAgainstMaximumExclusive('age_21_or_over', 21),
+  {
+    status: 'fail',
+    age: 21
+  }
+);
+
 const emptyContextualProfile = normaliseContextualProfile({});
 assert.strictEqual(emptyContextualProfile.home_area_region.polar4_quintile, 'unknown');
 assert.strictEqual(emptyContextualProfile.access_programmes.ukwpmed.status, 'no');
 assert.deepStrictEqual(emptyContextualProfile.access_programmes.other_programmes, []);
+assert.strictEqual(emptyContextualProfile.school_education.attended_uk_school_or_college_for_gcse_or_equivalent, 'not_sure');
+assert.strictEqual(emptyContextualProfile.personal_circumstances.ukrainian_visa_scheme, 'not_sure');
+
+const normalisedSharedFacts = normaliseApplicantProfile({
+  ...applicant,
+  applicant_identity: {
+    graduate: false,
+    age_at_course_start_band: 'age_20',
+    current_uk_residence: true
+  },
+  contextual_profile: {
+    school_education: {
+      attended_uk_school_or_college_for_gcse_or_equivalent: 'yes',
+      attended_uk_school_or_college_for_post16_or_equivalent: false
+    },
+    personal_circumstances: {
+      care_over_three_months: true,
+      uk_refugee_status_granted: 'no',
+      ukrainian_visa_scheme: 'ukraine_family_scheme'
+    }
+  }
+}, { course });
+assert.strictEqual(normalisedSharedFacts.applicant_identity.current_uk_residence, 'yes');
+assert.strictEqual(normalisedSharedFacts.applicant_identity.age_at_course_start_band, 'age_20');
+assert.strictEqual(normalisedSharedFacts.applicant_identity.age_on_1_september, 20);
+assert.strictEqual(normalisedSharedFacts.contextual_profile.school_education.attended_uk_school_or_college_for_gcse_or_equivalent, 'yes');
+assert.strictEqual(normalisedSharedFacts.contextual_profile.school_education.attended_uk_school_or_college_for_post16_or_equivalent, 'no');
+assert.strictEqual(normalisedSharedFacts.contextual_profile.personal_circumstances.care_over_three_months, 'yes');
+assert.strictEqual(normalisedSharedFacts.contextual_profile.personal_circumstances.uk_refugee_status_granted, 'no');
+assert.strictEqual(normalisedSharedFacts.contextual_profile.personal_circumstances.ukrainian_visa_scheme, 'ukraine_family_scheme');
+
+const normalisedLegacyBroadAge = normaliseApplicantProfile({
+  ...applicant,
+  applicant_identity: {
+    graduate: false,
+    age_at_course_start_band: 'age_18_or_over'
+  }
+}, { course: age18Course });
+assert.strictEqual(normalisedLegacyBroadAge.applicant_identity.age_at_course_start_band, 'age_18_or_over_legacy');
+assert.strictEqual('age_on_1_september' in normalisedLegacyBroadAge.applicant_identity, false);
+assert.strictEqual('age_on_1_october' in normalisedLegacyBroadAge.applicant_identity, false);
 
 const legacySteps2Medicine = normaliseApplicantProfile({
   ...applicant,

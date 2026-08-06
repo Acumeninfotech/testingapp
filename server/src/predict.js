@@ -149,6 +149,9 @@ function evaluateGenericUniversity(studentProfile, university) {
       selectionRouteId: classification.selection_route_id,
       interviewOutcome: classification.interview_outcome,
       guaranteedInterviewExplanation: classification.guaranteed_interview_explanation,
+      guaranteedInterviewNotice: classification.guaranteed_interview_notice,
+      guaranteedInterviewPoolLabel: classification.guaranteed_interview_pool_label,
+      guaranteedInterviewBadgeLabel: classification.guaranteed_interview_badge_label,
       officialPrediction: classification.official_prediction,
       warnings: classification.warnings,
       applicantGroupIds: classification.applicant_group_ids,
@@ -276,6 +279,12 @@ function makeResultCard(studentProfile, university, eligibilityStatus, band, man
       interview_outcome: scoreContext.interviewOutcome || null,
       guaranteed_interview_explanation:
         scoreContext.guaranteedInterviewExplanation || null,
+      guaranteed_interview_notice:
+        scoreContext.guaranteedInterviewNotice || null,
+      guaranteed_interview_pool_label:
+        scoreContext.guaranteedInterviewPoolLabel || null,
+      guaranteed_interview_badge_label:
+        scoreContext.guaranteedInterviewBadgeLabel || null,
       official_prediction: scoreContext.officialPrediction || null,
       warnings: scoreContext.warnings || []
     }

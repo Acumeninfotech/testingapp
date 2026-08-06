@@ -7,6 +7,7 @@ const {
   evaluateContextualEligibility,
   evaluateCourseEligibility
 } = require('../assets/js/engine/eligibility-evaluator');
+const { predict } = require('../server/src/predict');
 
 const rootDir = path.resolve(__dirname, '..');
 const course = JSON.parse(
@@ -540,6 +541,32 @@ assert.deepStrictEqual(
   evaluateCourseEligibility(syntheticNonAstonCourse, nonAstonWithAstonReadyFacts),
   evaluateCourseEligibility(syntheticNonAstonCourse, nonAstonApplicant),
   'Aston Ready contextual_profile facts must not alter a non-Aston course.'
+);
+
+const astonContextualPredictionApplicant = merge(
+  withContextualProfile({
+    financial_support: { ucat_bursary_recipient: 'yes' }
+  }),
+  {
+    admissions_tests: {
+      ucat: {
+        subtests: {
+          verbal_reasoning: 700,
+          decision_making: 700,
+          quantitative_reasoning: 700
+        }
+      }
+    }
+  }
+);
+const [astonContextualPrediction] = predict({
+  universityIds: ['aston-a100'],
+  studentProfile: astonContextualPredictionApplicant
+});
+assert.strictEqual(
+  astonContextualPrediction.result_card.contextual_status,
+  'confirmed',
+  'Aston contextual applicants should expose contextual_status=confirmed for presentation.'
 );
 
 console.log('Aston A100 contextual eligibility framework tests: PASS');

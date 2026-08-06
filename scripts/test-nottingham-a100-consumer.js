@@ -131,7 +131,8 @@ const contextualApplicant = clone(baseApplicant());
 contextualApplicant.applicant_identity.contextual = true;
 contextualApplicant.applicant_identity.contextual_status_confirmed = true;
 const contextual = evaluateNottinghamA100(course, contextualApplicant);
-assert.strictEqual(contextual.contextual_policy.applicable, true);
+assert.strictEqual(contextual.contextual_policy.applicable, false);
+assert.strictEqual(contextual.contextual_policy.status, 'not_applicable');
 assert.strictEqual(contextual.contextual_policy.ranking_bonus_points, 0);
 assert.strictEqual(contextual.contextual_policy.effect_stage, 'offer_stage_only');
 assert.deepStrictEqual(
@@ -146,7 +147,7 @@ const unverifiedContextual = evaluateNottinghamA100(course, unverifiedContextual
 assert.strictEqual(unverifiedContextual.contextual_policy.applicable, false);
 assert.strictEqual(
   unverifiedContextual.contextual_policy.status,
-  'contextual_status_requires_confirmation'
+  'not_applicable'
 );
 
 const ibApplicant = clone(baseApplicant());

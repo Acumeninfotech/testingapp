@@ -1023,6 +1023,25 @@ async function main() {
       console.log('PASS: Cambridge age-17 band needs age confirmation while 18-or-over satisfies the 18+ gate');
     }
 
+    if (readyEntries.some((u) => u.id === 'cardiff-a100')) {
+      const cardiffLegacyBroadAgeApplicant = JSON.parse(JSON.stringify(topTierApplicant));
+      cardiffLegacyBroadAgeApplicant.applicant_identity.age_at_course_start_band = 'age_18_or_over';
+      const cardiffLegacyBroadAgeResponse = await requestJson(server, 'POST', '/api/predict', {
+        universityIds: ['cardiff-a100'],
+        studentProfile: cardiffLegacyBroadAgeApplicant
+      });
+      assert.strictEqual(cardiffLegacyBroadAgeResponse.status, 200);
+      assert.notStrictEqual(
+        cardiffLegacyBroadAgeResponse.json.results[0].result_card.recommendation_display_state,
+        'manual_review'
+      );
+      assert.notStrictEqual(
+        cardiffLegacyBroadAgeResponse.json.results[0].result_card.recommendation_display_state,
+        'not_eligible'
+      );
+      console.log('PASS: Cardiff legacy 18-or-over band still satisfies the existing 18+ gate without becoming a precise age');
+    }
+
     if (readyEntries.some((u) => u.id === 'exeter-a100')) {
       const categoryScenarioIds = [
         'exeter_predicted_non_contextual_category_maximum',

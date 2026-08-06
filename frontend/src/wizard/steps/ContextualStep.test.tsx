@@ -158,6 +158,25 @@ describe('ContextualStep', () => {
     expect(within(genericSelector).getByText('PARTNERS Programme')).toBeInTheDocument();
   });
 
+  it('renders and stores the new neutral school-attendance and visa-scheme facts', () => {
+    const { profile } = renderStep();
+
+    fireEvent.click(screen.getByText('School & education').closest('summary') as HTMLElement);
+    fireEvent.click(screen.getByText('Personal circumstances').closest('summary') as HTMLElement);
+
+    selectValue('school_education_attended_uk_school_or_college_for_gcse_or_equivalent', 'yes');
+    selectValue('school_education_attended_uk_school_or_college_for_post16_or_equivalent', 'not_sure');
+    selectValue('personal_circumstances_care_over_three_months', 'no');
+    selectValue('personal_circumstances_uk_refugee_status_granted', 'yes');
+    selectValue('personal_circumstances_ukrainian_visa_scheme', 'ukraine_family_scheme');
+
+    expect(profile.contextual_profile.school_education.attended_uk_school_or_college_for_gcse_or_equivalent).toBe('yes');
+    expect(profile.contextual_profile.school_education.attended_uk_school_or_college_for_post16_or_equivalent).toBe('not_sure');
+    expect(profile.contextual_profile.personal_circumstances.care_over_three_months).toBe('no');
+    expect(profile.contextual_profile.personal_circumstances.uk_refugee_status_granted).toBe('yes');
+    expect(profile.contextual_profile.personal_circumstances.ukrainian_visa_scheme).toBe('ukraine_family_scheme');
+  });
+
   it('adds other access programmes and partner-school relationships as structured records', () => {
     const { profile, rerender, updateProfile } = renderStep();
 

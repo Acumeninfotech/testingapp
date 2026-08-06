@@ -245,9 +245,14 @@ export function presentResult(card: PredictionResult['result_card']): ResultPres
     throw new Error('Result card contract violation: standard result_card is missing prediction.result_band.');
   }
   if (card.interview_outcome === 'guaranteed_interview') {
+    const guaranteedBadgeLabel =
+      typeof card.guaranteed_interview_badge_label === 'string' &&
+      card.guaranteed_interview_badge_label.trim().length > 0
+        ? card.guaranteed_interview_badge_label.trim()
+        : 'Guaranteed';
     return {
       variant: 'safe',
-      label: 'Guaranteed',
+      label: guaranteedBadgeLabel,
       category: 'very_strong',
       officialPredictionUnavailable,
     };
@@ -430,7 +435,10 @@ export function resultCardRecommendationExplanation(card: PredictionResult['resu
   const band = card.prediction?.result_band;
 
   if (card.interview_outcome === 'guaranteed_interview') {
-    return 'Based on ApplySmart\'s assessment, this applicant group meets the published guaranteed-interview evidence available for this route.';
+    return (
+      firstNonEmptyString(card.primary_explanation) ||
+      "Based on ApplySmart's assessment, this applicant group meets the published guaranteed-interview evidence available for this route."
+    );
   }
   if (state === 'not_eligible' || band === 'not_eligible') {
     return card.primary_explanation || 'Based on the information entered, one or more supported entry requirements are not met.';

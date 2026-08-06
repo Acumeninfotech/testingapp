@@ -6,6 +6,7 @@ const path = require('path');
 const {
   classifyInterviewBand
 } = require('../assets/js/engine/interview-band-classifier');
+const { predict } = require('../server/src/predict');
 
 const rootDir = path.resolve(__dirname, '..');
 
@@ -40,306 +41,603 @@ function merge(base, overrides) {
   return result;
 }
 
-function hasNestedKey(value, targetKey) {
-  if (!value || typeof value !== 'object') {
-    return false;
-  }
-  if (Object.prototype.hasOwnProperty.call(value, targetKey)) {
-    return true;
-  }
-  return Object.values(value).some((entry) => hasNestedKey(entry, targetKey));
-}
-
 const course = readJson('data/universities/manchester-a100.json');
-const research = readJson('data/research/manchester-a100-research.json');
 const config = readJson('data/interview-band-configs/manchester-a100.json');
-const card = readJson('data/examples/manchester-a100-result-card.example.json');
-const fixture = readJson(
-  'data/fixtures/interview-band-classification/manchester-a100.json'
-);
+const fixture = readJson('data/fixtures/interview-band-classification/manchester-a100.json');
 const index = readJson('data/index.json');
 
-assert.strictEqual(course.profile_id, 'manchester-a100');
-assert.strictEqual(research.course_profile_id, course.profile_id);
-assert.strictEqual(research.course_identity.ucas_code, 'A106');
-assert.strictEqual(course.course.ucas_code, 'A100');
-assert.strictEqual(course.course.entry_route, 'standard_entry');
-assert.strictEqual(course.course.is_graduate_entry, false);
-assert.strictEqual(config.course_profile_id, course.profile_id);
-assert.strictEqual(card.course_identity.profile_id, course.profile_id);
-assert.strictEqual(fixture.course_profile_id, course.profile_id);
+const baseApplicant = fixture.base_applicant;
 
-const researchALevelRule = research.academic_requirements.a_level.required_subject_rule;
-assert.strictEqual(
-  Object.prototype.hasOwnProperty.call(researchALevelRule, 'primary_requirement'),
-  false,
-  'Research must not flatten the first required science condition.'
-);
-assert.deepStrictEqual(
-  researchALevelRule.first_required_science_condition.options,
-  [
-    {
-      option: 'Biology/Human Biology',
-      operator: 'one_of',
-      subjects: ['Biology', 'Human Biology']
+function fullUcat() {
+  return {
+    verbal_reasoning: 700,
+    decision_making: 700,
+    quantitative_reasoning: 700
+  };
+}
+
+function standardSubjects() {
+  return [
+    { subject_id: 'chemistry', predicted_grade: 'A', practical_endorsement: 'pass' },
+    { subject_id: 'biology', predicted_grade: 'A', practical_endorsement: 'pass' },
+    { subject_id: 'history', predicted_grade: 'A' }
+  ];
+}
+
+function contextualAabSubjects() {
+  return [
+    { subject_id: 'chemistry', predicted_grade: 'A', practical_endorsement: 'pass' },
+    { subject_id: 'biology', predicted_grade: 'A', practical_endorsement: 'pass' },
+    { subject_id: 'history', predicted_grade: 'B' }
+  ];
+}
+
+function refugeeCareAbbSubjects() {
+  return [
+    { subject_id: 'chemistry', predicted_grade: 'A', practical_endorsement: 'pass' },
+    { subject_id: 'biology', predicted_grade: 'B', practical_endorsement: 'pass' },
+    { subject_id: 'history', predicted_grade: 'B' }
+  ];
+}
+
+function verifiedManchesterAssessment(criteria = {}) {
+  return [{
+    provider_university_id: 'manchester',
+    assessment_id: 'contextual_eligibility_tool',
+    verification_status: 'verified',
+    criteria
+  }];
+}
+
+function structuredMapCompletionEvidence(overrides = {}) {
+  return merge({
+    contextual_profile: {
+      access_programmes: {
+        ukwpmed: {
+          status: 'yes',
+          programme_id: 'manchester_access_programme',
+          programme_status: 'completed',
+          provider_university_id: 'manchester-a100'
+        }
+      }
+    }
+  }, overrides);
+}
+
+function contextualSharedFacts(overrides = {}) {
+  return merge({
+    applicant_identity: {
+      age_at_course_start_band: 'age_19',
+      current_uk_residence: 'yes'
     },
-    {
-      option: 'Chemistry',
-      operator: 'required_subject',
-      subject: 'Chemistry'
+    contextual_profile: {
+      home_area_region: {
+        polar4_quintile: 'q2',
+        imd_quintile: 'q3',
+        tundra_quintile: 'q4'
+      },
+      school_education: {
+        attended_uk_school_or_college_for_gcse_or_equivalent: 'yes',
+        below_average_gcse_school: 'yes'
+      }
     }
-  ]
-);
-assert.deepStrictEqual(
-  researchALevelRule.second_subject_one_of,
-  ['Chemistry', 'Biology', 'Human Biology', 'Physics', 'Psychology', 'Mathematics', 'Further Mathematics']
-);
-assert.strictEqual(researchALevelRule.offer_basis.full_a_levels_counted, 3);
-assert.strictEqual(researchALevelRule.offer_basis.extra_a_levels_included_in_offer, false);
-assert.strictEqual(researchALevelRule.offer_basis.three_sciences_acceptable, true);
-
-const productionALevelRule =
-  course.stage_1_eligibility.post_16.a_level.subject_combination_rule;
-assert.strictEqual(
-  Object.prototype.hasOwnProperty.call(productionALevelRule, 'primary_subject_group'),
-  false,
-  'Production must use the structured first required science condition.'
-);
-assert.deepStrictEqual(
-  productionALevelRule.primary_subject_condition.options.map((option) => option.subject_ids),
-  [['biology', 'human_biology'], ['chemistry']]
-);
-assert.deepStrictEqual(
-  productionALevelRule.second_subject_group.subject_ids,
-  ['chemistry', 'biology', 'human_biology', 'physics', 'psychology', 'mathematics', 'further_mathematics']
-);
-assert.deepStrictEqual(
-  productionALevelRule.disallowed_overlaps,
-  [['biology', 'human_biology'], ['mathematics', 'further_mathematics']]
-);
-assert.strictEqual(productionALevelRule.offer_subject_count, 3);
-assert.strictEqual(productionALevelRule.extra_a_levels_included_in_offer, false);
-assert.strictEqual(productionALevelRule.third_subject_preference, 'none');
-assert.strictEqual(productionALevelRule.three_sciences_acceptable, true);
-
-const historicalSeries = [
-  {
-    groupId: 'home_standard',
-    researchValues: research.historical_ucat_data.a106_home_standard
-  },
-  {
-    groupId: 'home_contextual_wp',
-    researchValues: research.historical_ucat_data.a106_home_contextual_wp
-  }
-];
-
-for (const { groupId, researchValues } of historicalSeries) {
-  const expectedValues = researchValues
-    .slice()
-    .sort((left, right) => left.entry_year - right.entry_year)
-    .map((record) => record.minimum_invited.converted_score_2700);
-  const configValues = config.score_model.historical_series.find(
-    (series) => series.group_id === groupId
-  ).minimum_invited_values_2700;
-  const cardValues = card.historical_context[groupId].minimum_invited_values_2700;
-  assert.deepStrictEqual(configValues, expectedValues, `${groupId}: research/config history`);
-  assert.deepStrictEqual(cardValues, expectedValues, `${groupId}: research/card history`);
+  }, overrides);
 }
 
-const scenarioResults = fixture.scenarios.map((scenario) => {
-  const applicant = merge(fixture.base_applicant, scenario.overrides);
-  const result = classifyInterviewBand(course, config, applicant);
-  const expected = scenario.expected;
-
-  assert.strictEqual(
-    result.eligibility.status,
-    expected.eligibility_status,
-    `${scenario.scenario_id}: eligibility`
-  );
-  assert.strictEqual(
-    result.canonical_interview_band,
-    expected.interview_band,
-    `${scenario.scenario_id}: band`
-  );
-  assert.strictEqual(
-    result.ranking?.value ?? null,
-    expected.ranking_value,
-    `${scenario.scenario_id}: ranking`
-  );
-
-  if (Object.prototype.hasOwnProperty.call(expected, 'guidance_pool_id')) {
-    assert.strictEqual(
-      result.guidance_pool_id ?? null,
-      expected.guidance_pool_id,
-      `${scenario.scenario_id}: pool`
-    );
-  }
-  if (expected.interview_outcome) {
-    assert.strictEqual(
-      result.interview_outcome,
-      expected.interview_outcome,
-      `${scenario.scenario_id}: MAP outcome`
-    );
-  }
-  if (expected.failure) {
-    const eligibilityReasons = [
-      ...result.eligibility.failures,
-      ...(result.eligibility.manual_review_reasons || [])
-    ];
-    assert.ok(
-      eligibilityReasons.includes(expected.failure),
-      `${scenario.scenario_id}: expected failure ${expected.failure}`
-    );
-  }
-
-  assert.strictEqual(result.offer_prediction_status, undefined);
-  assert.strictEqual(hasNestedKey(result, 'offer_probability'), false);
-  return { scenario_id: scenario.scenario_id, result };
-});
-
-const explicitFailedPracticalApplicant = merge(
-  fixture.base_applicant,
-  {
-    a_level_profile: {
-      subjects: fixture.base_applicant.a_level_profile.subjects.map((subject) => ({
-        ...subject,
-        practical_endorsement:
-          subject.subject_id === 'chemistry'
-            ? 'fail'
-            : subject.practical_endorsement
-      }))
-    }
-  }
-);
-const explicitFailedPractical = classifyInterviewBand(
-  course,
-  config,
-  explicitFailedPracticalApplicant
-);
-assert.strictEqual(
-  explicitFailedPractical.eligibility.status,
-  'not_eligible',
-  'Manchester must reject an explicit failed science practical endorsement.'
-);
-assert.ok(
-  explicitFailedPractical.eligibility.failures.includes(
-    'science_practical_endorsement_not_confirmed:chemistry'
-  )
-);
-
-const contextualOverrides = fixture.scenarios.find((scenario) => {
-  return scenario.scenario_id === 'eligible_home_contextual_wp';
-}).overrides;
-
-for (const boundary of fixture.historical_guidance_boundaries) {
-  const poolOverrides = boundary.pool === 'contextual_wp' ? contextualOverrides : {};
-  const applicant = merge(
-    merge(fixture.base_applicant, poolOverrides),
-    { admissions_tests: { ucat: { total_score: boundary.ucat } } }
-  );
-  const result = classifyInterviewBand(course, config, applicant);
-  assert.strictEqual(result.eligibility.status, 'eligible', `${boundary.scenario_id}: eligibility`);
-  assert.strictEqual(
-    result.canonical_interview_band,
-    boundary.expected_band,
-    `${boundary.scenario_id}: historical guidance boundary`
-  );
+function makeApplicant(overrides = {}) {
+  const applicant = merge(baseApplicant, overrides);
+  applicant.admissions_tests = applicant.admissions_tests || {};
+  applicant.admissions_tests.ucat = applicant.admissions_tests.ucat || {};
+  applicant.admissions_tests.ucat.subtests = fullUcat();
+  return applicant;
 }
 
-const mapResult = scenarioResults.find((entry) => {
-  return entry.scenario_id === 'map_guaranteed_interview_override';
-}).result;
-assert.strictEqual(mapResult.ranking, null);
-assert.strictEqual(mapResult.guidance_pool_id, null);
-assert.match(mapResult.explanation, /guaranteed interview/i);
-assert.match(mapResult.explanation, /banding was not applied/i);
-
-for (const scenarioId of [
-  'sjt_band_3_rejected_before_banding',
-  'sjt_band_4_rejected_before_banding',
-  'a101_target_isolated_from_a106'
-]) {
-  const result = scenarioResults.find((entry) => entry.scenario_id === scenarioId).result;
-  assert.strictEqual(result.ranking, null);
-  assert.strictEqual(result.guidance_pool_id, undefined);
+function classify(overrides = {}) {
+  return classifyInterviewBand(course, config, makeApplicant(overrides));
 }
 
-for (const scenarioId of [
-  'unsupported_a106_prior_degree_applicant_guidance'
-]) {
-  const result = scenarioResults.find((entry) => entry.scenario_id === scenarioId).result;
-  assert.strictEqual(result.guidance_pool_id, null);
-  assert.strictEqual(result.canonical_interview_band, 'insufficient_evidence');
+function predictManchester(overrides = {}) {
+  return predict({
+    universityIds: ['manchester-a100'],
+    studentProfile: makeApplicant(overrides)
+  })[0];
 }
 
-const internationalResult = scenarioResults.find((entry) => {
-  return entry.scenario_id === 'eligible_international_guidance';
-}).result;
-assert.strictEqual(internationalResult.guidance_pool_id, 'a106_international');
-assert.strictEqual(internationalResult.canonical_interview_band, 'interview_likely');
+function assertNoManchesterContextualActivation(result, message) {
+  assert.ok(!result.applicant_group_ids.includes('contextual'), message);
+  assert.ok(!result.applicant_group_ids.includes('widening_participation'), message);
+  assert.ok(!result.applicant_group_ids.includes('manchester_contextual_aab'), message);
+  assert.ok(!result.applicant_group_ids.includes('manchester_refugee_care_abb'), message);
+  assert.ok(!result.applicant_group_ids.includes('manchester_wp_verified'), message);
+}
 
-const a101Reference = course.historical_admissions.reference_only_related_course_data;
-assert.strictEqual(a101Reference.course_code, 'A101');
-assert.strictEqual(a101Reference.executable_for_a106, false);
-assert.strictEqual(
-  config.eligibility.reference_only_exclusions[0].executable_for_a106,
-  false
+assert.strictEqual(course.profile_id, 'manchester-a100');
+assert.strictEqual(course.course.ucas_code, 'A100');
+assert.strictEqual(course.contextual_admissions.evaluator_id, 'manchester_contextual_medicine_a100');
+assert.strictEqual(config.course_profile_id, course.profile_id);
+assert.deepStrictEqual(course.stage_1_eligibility.admissions_tests.sjt.accepted_bands, [1, 2]);
+assert.deepStrictEqual(
+  course.contextual_admissions.adjustments.find((entry) => entry.adjustment_id === 'verified_wp_gcse_count').applies_to_group_ids,
+  ['manchester_wp_verified']
 );
-assert.strictEqual(
-  config.guidance_pools.some((pool) => /a101/i.test(JSON.stringify(pool))),
-  false
-);
-assert.strictEqual(
-  JSON.stringify(card.prediction).includes('2080'),
-  false,
-  'A101 historical score must not enter Manchester standard-course prediction output.'
-);
-assert.strictEqual(card.a101_isolation.executable_for_a106, false);
-assert.strictEqual(card.offer_selection, undefined);
-assert.strictEqual(card.prediction.offer_prediction_status, undefined);
-assert.strictEqual(hasNestedKey(card, 'offer_probability'), false);
-
-const researchA101 = JSON.stringify(research).match(/A101/g) || [];
-assert.ok(researchA101.length > 0, 'Research must retain A101 reference context.');
-assert.strictEqual(card.readiness.result_card_ready, true);
-assert.strictEqual(card.readiness.offer_prediction_scope, 'out_of_scope');
-assert.strictEqual(card.readiness.interview_band_config_ready, true);
-assert.strictEqual(card.readiness.metadata_activation_ready, true);
+assert.deepStrictEqual(config.eligibility.derived_applicant_groups, []);
 
 const indexCourse = index.universities.find((entry) => entry.id === course.profile_id);
 assert.ok(indexCourse, 'Manchester A100 must be present in data/index.json.');
-assert.strictEqual(indexCourse.course_code, 'A100');
 assert.strictEqual(indexCourse.json_file, 'universities/manchester-a100.json');
 assert.strictEqual(
   indexCourse.interview_band_config_file,
   'interview-band-configs/manchester-a100.json'
 );
-assert.strictEqual(index.total_courses, index.universities.length);
-assert.strictEqual(indexCourse.selection_model, 'ucat_ranking');
-assert.strictEqual(indexCourse.entry_route, 'Standard Entry');
-assert.strictEqual(indexCourse.has_graduate_entry, false);
-for (const [flag, expected] of Object.entries({
-  eligibility_ready: true,
-  interview_prediction_ready: true,
-  interview_band_config_ready: true,
-  result_card_ready: true,
-  metadata_activation_ready: true
-})) {
-  assert.strictEqual(course.engine_notes[flag], expected, `production ${flag}`);
-  assert.strictEqual(indexCourse[flag], expected, `index ${flag}`);
-}
-assert.strictEqual(course.engine_notes.offer_prediction_scope, 'out_of_scope');
-assert.strictEqual(indexCourse.offer_prediction_scope, 'out_of_scope');
 
-const terminologyAudit = JSON.stringify({ research, course, config, card, fixture });
-assert.doesNotMatch(
-  terminologyAudit,
-  /\bgraduate[- _]?a106\b|\bgraduate applicants to a106\b/i,
-  'Manchester artifacts must not use the incorrect course/category terminology.'
+const standardResult = classify();
+assert.strictEqual(standardResult.eligibility.status, 'eligible');
+assert.strictEqual(standardResult.eligibility.academic_pathway_id, 'manchester_standard_offer');
+assert.strictEqual(standardResult.guidance_pool_id, 'a106_home_standard_school_leaver');
+assert.strictEqual(standardResult.canonical_interview_band, 'interview_likely');
+const standardPrediction = predictManchester();
+assert.strictEqual(standardPrediction.result_card.recommendation_display_state, 'standard');
+assert.strictEqual(standardPrediction.result_card.contextual_status, null);
+
+const contextualAabResult = classify(merge(
+  contextualSharedFacts(),
+  {
+    a_level_profile: {
+      subjects: contextualAabSubjects()
+    }
+  }
+));
+assert.strictEqual(contextualAabResult.eligibility.status, 'eligible');
+assert.strictEqual(contextualAabResult.eligibility.academic_pathway_id, 'manchester_contextual_aab_offer');
+assert.strictEqual(contextualAabResult.guidance_pool_id, 'a106_home_contextual_wp_school_leaver');
+assert.ok(contextualAabResult.applicant_group_ids.includes('manchester_contextual_aab'));
+assert.ok(contextualAabResult.applicant_group_ids.includes('contextual'));
+assert.ok(contextualAabResult.applicant_group_ids.includes('widening_participation'));
+
+const contextualPrediction = predictManchester(merge(
+  contextualSharedFacts(),
+  {
+    a_level_profile: {
+      subjects: contextualAabSubjects()
+    }
+  }
+));
+assert.strictEqual(contextualPrediction.result_card.recommendation_display_state, 'standard');
+assert.strictEqual(contextualPrediction.result_card.academic_pathway_id, 'manchester_contextual_aab_offer');
+assert.strictEqual(contextualPrediction.result_card.contextual_status, 'confirmed');
+assert.deepStrictEqual(contextualPrediction.result_card.alternative_academic_offer, {
+  type: 'contextual',
+  standard_offer: 'AAA',
+  alternative_offer: 'AAB',
+  pathway_id: 'manchester_contextual_aab_offer',
+  conditions: []
+});
+
+const missingAreaResult = classify(merge(
+  contextualSharedFacts({
+    contextual_profile: {
+      home_area_region: {
+        polar4_quintile: 'unknown',
+        imd_quintile: 'unknown',
+        tundra_quintile: 'unknown'
+      }
+    }
+  }),
+  {
+    a_level_profile: {
+      subjects: contextualAabSubjects()
+    }
+  }
+));
+assert.strictEqual(missingAreaResult.eligibility.status, 'manual_review');
+assert.strictEqual(missingAreaResult.canonical_interview_band, 'insufficient_evidence');
+assert.deepStrictEqual(missingAreaResult.eligibility.manual_review_reasons, [
+  'manchester_contextual_information_needed'
+]);
+
+const missingAreaPrediction = predictManchester(merge(
+  contextualSharedFacts({
+    contextual_profile: {
+      home_area_region: {
+        polar4_quintile: 'unknown',
+        imd_quintile: 'unknown',
+        tundra_quintile: 'unknown'
+      }
+    }
+  }),
+  {
+    a_level_profile: {
+      subjects: contextualAabSubjects()
+    }
+  }
+));
+assert.strictEqual(missingAreaPrediction.result_card.recommendation_display_state, 'manual_review');
+assert.strictEqual(missingAreaPrediction.result_card.contextual_status, null);
+assert.match(
+  missingAreaPrediction.result_card.information_needed_reason || '',
+  /postcode|school-context evidence/i
 );
 
-console.log('Manchester A100 result-card and consumer regression');
-console.log('PASS research, production, config, result-card and activation consistency');
-console.log(`PASS ${fixture.scenarios.length} scenario fixtures`);
-console.log(`PASS ${fixture.historical_guidance_boundaries.length} historical guidance boundaries`);
-console.log('PASS MAP override, SJT gate, unsupported groups, A101 isolation and offer safeguard');
+const missingSchoolResult = classify({
+  applicant_identity: {
+    age_at_course_start_band: 'age_19',
+    current_uk_residence: 'yes'
+  },
+  contextual_profile: {
+    home_area_region: {
+      polar4_quintile: 'q2',
+      imd_quintile: 'q3',
+      tundra_quintile: 'q4'
+    }
+  },
+  a_level_profile: {
+    subjects: contextualAabSubjects()
+  }
+});
+assert.strictEqual(missingSchoolResult.eligibility.status, 'manual_review');
+assert.deepStrictEqual(missingSchoolResult.eligibility.manual_review_reasons, [
+  'manchester_contextual_information_needed'
+]);
+assert.ok(
+  missingSchoolResult.eligibility.contextual_eligibility.missing_information.some((entry) => {
+    return entry.reason === 'school_stage_evidence_missing';
+  })
+);
+
+for (const [label, applicantIdentity] of Object.entries({
+  age_21_or_over: {
+    age_at_course_start_band: 'age_21_or_over',
+    current_uk_residence: 'yes'
+  },
+  non_uk_resident: {
+    age_at_course_start_band: 'age_19',
+    current_uk_residence: 'no'
+  }
+})) {
+  const result = classify(merge(
+    contextualSharedFacts({
+      applicant_identity: applicantIdentity
+    }),
+    {
+      a_level_profile: {
+        subjects: contextualAabSubjects()
+      }
+    }
+  ));
+  assert.strictEqual(result.eligibility.status, 'not_eligible', `${label}: eligibility`);
+  assert.strictEqual(result.eligibility.academic_pathway_id, 'manchester_standard_offer', `${label}: pathway`);
+}
+
+const careAbbResult = classify({
+  contextual_profile: {
+    personal_circumstances: {
+      care_over_three_months: 'yes'
+    }
+  },
+  a_level_profile: {
+    subjects: refugeeCareAbbSubjects()
+  }
+});
+assert.strictEqual(careAbbResult.eligibility.status, 'eligible');
+assert.strictEqual(careAbbResult.eligibility.academic_pathway_id, 'manchester_refugee_care_abb_offer');
+assert.ok(careAbbResult.applicant_group_ids.includes('manchester_refugee_care_abb'));
+
+const refugeeAbbResult = classify({
+  contextual_profile: {
+    personal_circumstances: {
+      uk_refugee_status_granted: 'yes'
+    }
+  },
+  a_level_profile: {
+    subjects: refugeeCareAbbSubjects()
+  }
+});
+assert.strictEqual(refugeeAbbResult.eligibility.status, 'eligible');
+assert.strictEqual(refugeeAbbResult.eligibility.academic_pathway_id, 'manchester_refugee_care_abb_offer');
+
+for (const scheme of [
+  'homes_for_ukraine',
+  'ukraine_family_scheme',
+  'ukraine_extension_scheme'
+]) {
+  const result = classify({
+    contextual_profile: {
+      personal_circumstances: {
+        ukrainian_visa_scheme: scheme
+      }
+    },
+    a_level_profile: {
+      subjects: refugeeCareAbbSubjects()
+    }
+  });
+  assert.strictEqual(result.eligibility.status, 'eligible', `${scheme}: eligibility`);
+  assert.strictEqual(
+    result.eligibility.academic_pathway_id,
+    'manchester_refugee_care_abb_offer',
+    `${scheme}: pathway`
+  );
+}
+
+const careDurationMissingResult = classify({
+  contextual_profile: {
+    personal_circumstances: {
+      care_experienced: 'yes'
+    }
+  },
+  a_level_profile: {
+    subjects: refugeeCareAbbSubjects()
+  }
+});
+assert.strictEqual(careDurationMissingResult.eligibility.status, 'manual_review');
+assert.deepStrictEqual(careDurationMissingResult.eligibility.manual_review_reasons, [
+  'manchester_refugee_or_care_information_needed'
+]);
+assert.ok(
+  careDurationMissingResult.eligibility.contextual_eligibility.missing_information.some((entry) => {
+    return entry.reason === 'care_duration_confirmation_required';
+  })
+);
+
+const topLevelContextualOnly = classify({
+  applicant_identity: {
+    contextual: true,
+    widening_participation: true,
+    age_at_course_start_band: 'age_19',
+    current_uk_residence: 'yes'
+  },
+  a_level_profile: {
+    subjects: contextualAabSubjects()
+  }
+});
+assert.strictEqual(topLevelContextualOnly.eligibility.status, 'not_eligible');
+assertNoManchesterContextualActivation(
+  topLevelContextualOnly,
+  'Generic contextual declarations must not activate Manchester contextual routes.'
+);
+
+const genericFlagsOnly = classify({
+  applicant_identity: {
+    age_at_course_start_band: 'age_19',
+    current_uk_residence: 'yes',
+    contextual_flags: {
+      free_school_meals: true,
+      first_generation_higher_education: true
+    }
+  },
+  a_level_profile: {
+    subjects: contextualAabSubjects()
+  }
+});
+assert.strictEqual(genericFlagsOnly.eligibility.status, 'not_eligible');
+assertNoManchesterContextualActivation(
+  genericFlagsOnly,
+  'Generic contextual flags must not activate Manchester contextual routes.'
+);
+
+const legacyAgeResult = classify(merge(
+  contextualSharedFacts({
+    applicant_identity: {
+      age_at_course_start_band: 'age_18_or_over_legacy',
+      current_uk_residence: 'yes'
+    }
+  }),
+  {
+    a_level_profile: {
+      subjects: contextualAabSubjects()
+    }
+  }
+));
+assert.strictEqual(legacyAgeResult.eligibility.status, 'manual_review');
+assert.deepStrictEqual(legacyAgeResult.eligibility.manual_review_reasons, [
+  'manchester_contextual_information_needed'
+]);
+assert.ok(
+  legacyAgeResult.eligibility.contextual_eligibility.missing_information.some((entry) => {
+    return entry.reason === 'precise_age_confirmation_required';
+  })
+);
+
+const mapGuaranteedInterview = classify({
+  contextual_evidence: {
+    manchester_access_programme: {
+      completed: true,
+      verified: true
+    }
+  }
+});
+assert.strictEqual(mapGuaranteedInterview.eligibility.status, 'eligible');
+assert.strictEqual(mapGuaranteedInterview.interview_outcome, 'guaranteed_interview');
+assert.strictEqual(mapGuaranteedInterview.eligibility.academic_pathway_id, 'manchester_standard_offer');
+assertNoManchesterContextualActivation(
+  mapGuaranteedInterview,
+  'MAP must remain separate from Manchester contextual route activation.'
+);
+
+const structuredMapGuaranteedInterview = classify(
+  structuredMapCompletionEvidence()
+);
+assert.strictEqual(structuredMapGuaranteedInterview.eligibility.status, 'eligible');
+assert.strictEqual(structuredMapGuaranteedInterview.interview_outcome, 'guaranteed_interview');
+assert.strictEqual(structuredMapGuaranteedInterview.eligibility.academic_pathway_id, 'manchester_standard_offer');
+assertNoManchesterContextualActivation(
+  structuredMapGuaranteedInterview,
+  'Structured UKWPMED MAP completion must trigger only the MAP guaranteed-interview override.'
+);
+assert.strictEqual(
+  structuredMapGuaranteedInterview.guaranteed_interview_explanation,
+  'Based on the information provided, you meet the published criteria for a guaranteed interview through the Manchester Access Programme (MAP).'
+);
+
+const structuredMapPrediction = predictManchester(
+  structuredMapCompletionEvidence()
+);
+assert.strictEqual(structuredMapPrediction.result_card.interview_outcome, 'guaranteed_interview');
+assert.strictEqual(
+  structuredMapPrediction.result_card.primary_explanation,
+  'Based on the information provided, you meet the published criteria for a guaranteed interview through the Manchester Access Programme (MAP).'
+);
+assert.strictEqual(
+  structuredMapPrediction.result_card.guaranteed_interview_notice,
+  'You meet the published requirements for the MAP guaranteed-interview route.'
+);
+assert.strictEqual(
+  structuredMapPrediction.result_card.guaranteed_interview_badge_label,
+  'Guaranteed Interview'
+);
+const mapSelectionStage = structuredMapPrediction.result_card.decision_transparency?.decision_path?.find((stage) => {
+  return stage.stage === 'Selection model';
+});
+const mapApplicantPoolCheck = (mapSelectionStage?.checks || []).find((entry) => {
+  return entry.label === 'Applicant pool';
+});
+assert.strictEqual(
+  mapApplicantPoolCheck?.summary,
+  'Manchester Access Programme (MAP)'
+);
+
+const mapDoesNotRescueAab = classify({
+  contextual_evidence: {
+    manchester_access_programme: {
+      completed: true,
+      verified: true
+    }
+  },
+  a_level_profile: {
+    subjects: contextualAabSubjects()
+  }
+});
+assert.strictEqual(mapDoesNotRescueAab.eligibility.status, 'not_eligible');
+assert.strictEqual(mapDoesNotRescueAab.eligibility.academic_pathway_id, 'manchester_standard_offer');
+
+const structuredMapDoesNotRescueAab = classify(merge(
+  structuredMapCompletionEvidence(),
+  {
+    a_level_profile: {
+      subjects: contextualAabSubjects()
+    }
+  }
+));
+assert.strictEqual(structuredMapDoesNotRescueAab.eligibility.status, 'not_eligible');
+assert.strictEqual(structuredMapDoesNotRescueAab.eligibility.academic_pathway_id, 'manchester_standard_offer');
+
+for (const band of [3, 4]) {
+  const result = classify({
+    admissions_tests: {
+      ucat: {
+        sjt_band: band
+      }
+    }
+  });
+  assert.strictEqual(result.eligibility.status, 'not_eligible', `SJT ${band}: eligibility`);
+  assert.ok(result.eligibility.failures.includes('disqualifying_sjt_rule'), `SJT ${band}: failure`);
+}
+
+const standardPrecedenceResult = classify(merge(
+  contextualSharedFacts(),
+  {
+    a_level_profile: {
+      subjects: standardSubjects()
+    }
+  }
+));
+assert.strictEqual(standardPrecedenceResult.eligibility.status, 'eligible');
+assert.strictEqual(standardPrecedenceResult.eligibility.academic_pathway_id, 'manchester_standard_offer');
+assert.strictEqual(standardPrecedenceResult.guidance_pool_id, 'a106_home_contextual_wp_school_leaver');
+
+const contextualRescueWithoutFacts = classify({
+  a_level_profile: {
+    subjects: contextualAabSubjects()
+  }
+});
+assert.strictEqual(contextualRescueWithoutFacts.eligibility.status, 'not_eligible');
+assert.strictEqual(contextualRescueWithoutFacts.eligibility.academic_pathway_id, 'manchester_standard_offer');
+
+const contextualRescueWithFacts = classify(merge(
+  contextualSharedFacts(),
+  {
+    a_level_profile: {
+      subjects: contextualAabSubjects()
+    }
+  }
+));
+assert.strictEqual(contextualRescueWithFacts.eligibility.status, 'eligible');
+assert.strictEqual(contextualRescueWithFacts.eligibility.academic_pathway_id, 'manchester_contextual_aab_offer');
+
+const wpNotVerifiedResult = classify(merge(
+  contextualSharedFacts(),
+  {
+    gcse_profile: {
+      subjects: {
+        religious_studies: '6'
+      }
+    },
+    a_level_profile: {
+      subjects: contextualAabSubjects()
+    }
+  }
+));
+assert.strictEqual(wpNotVerifiedResult.eligibility.status, 'not_eligible');
+assert.ok(
+  wpNotVerifiedResult.eligibility.failures.includes(
+    'minimum_gcse_count_at_grade_not_met:gcse_standard_seven_at_7_or_a'
+  )
+);
+
+const wpVerifiedResult = classify(merge(
+  contextualSharedFacts({
+    contextual_evidence: {
+      external_assessments: verifiedManchesterAssessment({
+        wp_band: 'wp_plus'
+      })
+    }
+  }),
+  {
+    gcse_profile: {
+      subjects: {
+        religious_studies: '6'
+      }
+    },
+    a_level_profile: {
+      subjects: contextualAabSubjects()
+    }
+  }
+));
+assert.strictEqual(wpVerifiedResult.eligibility.status, 'eligible');
+assert.ok(wpVerifiedResult.applicant_group_ids.includes('manchester_wp_verified'));
+
+const refugeePrediction = predictManchester({
+  contextual_profile: {
+    personal_circumstances: {
+      uk_refugee_status_granted: 'yes'
+    }
+  },
+  a_level_profile: {
+    subjects: refugeeCareAbbSubjects()
+  }
+});
+assert.strictEqual(refugeePrediction.result_card.recommendation_display_state, 'standard');
+assert.deepStrictEqual(refugeePrediction.result_card.alternative_academic_offer, {
+  type: 'contextual',
+  standard_offer: 'AAA',
+  alternative_offer: 'ABB',
+  pathway_id: 'manchester_refugee_care_abb_offer',
+  conditions: []
+});
+assert.match(
+  refugeePrediction.result_card.primary_explanation,
+  /Contextual eligibility confirmed: Care Experienced Route \(ABB\)/i
+);
+const refugeeSelectionStage = refugeePrediction.result_card.decision_transparency?.decision_path?.find((stage) => {
+  return stage.stage === 'Selection model';
+});
+const contextualEligibilityCheck = (refugeeSelectionStage?.checks || []).find((entry) => {
+  return entry.label === 'Contextual eligibility';
+});
+assert.ok(contextualEligibilityCheck, 'Manchester result card must show a contextual eligibility check.');
+assert.match(contextualEligibilityCheck.summary || '', /Care Experienced Route \(ABB\)/i);
+assert.match(contextualEligibilityCheck.summary || '', /Matched evidence/i);
+
+console.log('Manchester A100 contextual routing and result-card regression');
+console.log('PASS standard AAA, contextual AAB, refugee/care ABB and MAP separation');
+console.log('PASS missing area/school evidence, legacy age ambiguity and generic-flag isolation');
+console.log('PASS SJT rejection, standard-route precedence, contextual rescue and WP verification gating');

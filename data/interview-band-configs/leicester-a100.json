@@ -184,6 +184,34 @@
         4
       ]
     },
+    "map_override": {
+      "apply_ucat_guidance_band": false,
+      "applicant_facing_explanation": "Eligible verified Leicester contextual-route applicant: guaranteed interview applies once the published Leicester route requirements are confirmed.",
+      "any_conditions": [
+        {
+          "condition_id": "leicester_access_leicester_medicine_contextual_guaranteed_interview",
+          "match": {
+            "all_group_ids": [
+              "leicester_contextual_access_leicester_medicine"
+            ]
+          },
+          "source_band_id": "leicester_access_leicester_medicine_contextual_guaranteed_interview",
+          "result_card_id": "leicester_access_leicester_medicine_contextual_guaranteed_interview",
+          "interview_outcome": "guaranteed_interview"
+        },
+        {
+          "condition_id": "leicester_realising_opportunities_contextual_guaranteed_interview",
+          "match": {
+            "all_group_ids": [
+              "leicester_contextual_realising_opportunities"
+            ]
+          },
+          "source_band_id": "leicester_realising_opportunities_contextual_guaranteed_interview",
+          "result_card_id": "leicester_realising_opportunities_contextual_guaranteed_interview",
+          "interview_outcome": "guaranteed_interview"
+        }
+      ]
+    },
     "manual_review_routes": [
       "Scottish Advanced Higher plus Higher joint evaluation",
       "Irish Leaving Certificate route",

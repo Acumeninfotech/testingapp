@@ -51,6 +51,20 @@ function normaliseSensitiveAnswer(value) {
   return normaliseTriState(value);
 }
 
+function normaliseUkrainianVisaScheme(value) {
+  const normalised = normaliseId(value);
+  if ([
+    'homes_for_ukraine',
+    'ukraine_family_scheme',
+    'ukraine_extension_scheme',
+    'none',
+    'not_sure'
+  ].includes(normalised)) {
+    return normalised;
+  }
+  return undefined;
+}
+
 function normaliseQuintile(value) {
   const normalised = normaliseId(value);
   if (['q1', 'q2', 'q3', 'q4', 'q5'].includes(normalised)) return normalised;
@@ -125,8 +139,15 @@ function defaultContextualProfile() {
       }
     },
     financial_support: {},
-    school_education: {},
-    personal_circumstances: {},
+    school_education: {
+      attended_uk_school_or_college_for_gcse_or_equivalent: 'not_sure',
+      attended_uk_school_or_college_for_post16_or_equivalent: 'not_sure'
+    },
+    personal_circumstances: {
+      care_over_three_months: 'not_sure',
+      uk_refugee_status_granted: 'not_sure',
+      ukrainian_visa_scheme: 'not_sure'
+    },
     access_programmes: {
       participation_status: 'no',
       ukwpmed: {
@@ -409,9 +430,13 @@ function normaliseContextualProfile(applicant) {
       ...(flags.free_school_meals === true ? { free_school_meals: 'yes' } : {}),
       ...(flags.ucat_bursary === true ? { ucat_bursary_recipient: 'yes' } : {})
     },
-    school_education: normaliseAnswerRecord(existing.school_education, normaliseTriState),
+    school_education: {
+      ...defaults.school_education,
+      ...normaliseAnswerRecord(existing.school_education, normaliseTriState)
+    },
     personal_circumstances: {
-      ...normaliseAnswerRecord(existing.personal_circumstances, normaliseSensitiveAnswer),
+      ...defaults.personal_circumstances,
+      ...normalisePersonalCircumstancesRecord(existing.personal_circumstances),
       ...(flags.care_experienced === true ? { care_experienced: 'yes' } : {}),
       ...(flags.refugee === true || flags.refugee_or_asylum_seeker === true ? { refugee: 'yes' } : {}),
       ...(flags.asylum_seeker === true ? { seeking_asylum: 'yes' } : {}),
@@ -475,6 +500,19 @@ function normalisePartnerSchools(value, defaults) {
   };
 }
 
+function normalisePersonalCircumstancesRecord(value) {
+  return Object.fromEntries(
+    Object.entries(asObject(value))
+      .map(([key, answer]) => [
+        key,
+        key === 'ukrainian_visa_scheme'
+          ? normaliseUkrainianVisaScheme(answer)
+          : normaliseSensitiveAnswer(answer)
+      ])
+      .filter(([, answer]) => answer)
+  );
+}
+
 function normaliseAgeAtCourseStartBand(value) {
   const normalised = normaliseId(value);
   if (['under_17', 'under17', 'under_seventeen'].includes(normalised)) {
@@ -483,15 +521,31 @@ function normaliseAgeAtCourseStartBand(value) {
   if (['age_17', '17', 'seventeen'].includes(normalised)) {
     return 'age_17';
   }
+  if (['age_18', '18', 'eighteen'].includes(normalised)) {
+    return 'age_18';
+  }
+  if (['age_19', '19', 'nineteen'].includes(normalised)) {
+    return 'age_19';
+  }
+  if (['age_20', '20', 'twenty'].includes(normalised)) {
+    return 'age_20';
+  }
+  if (['age_21_or_over', '21_or_over', '21_plus', 'twenty_one_or_over', 'over_21'].includes(normalised)) {
+    return 'age_21_or_over';
+  }
   if ([
     'age_18_or_over',
     '18_or_over',
     '18_plus',
     'over_18',
     'eighteen_or_over',
-    'age_18_plus'
+    'age_18_plus',
+    'age_18_or_over_legacy'
   ].includes(normalised)) {
-    return 'age_18_or_over';
+    return 'age_18_or_over_legacy';
+  }
+  if (['not_sure', 'unknown', 'unsure'].includes(normalised)) {
+    return 'not_sure';
   }
   return null;
 }
@@ -521,16 +575,62 @@ function evaluateAgeBandAgainstMinimum(ageBand, minimumAge) {
       reason: 'minimum_age_requires_confirmation'
     };
   }
-  if (minimumAge <= 18) {
+  if (band === 'age_18_or_over_legacy') {
+    if (minimumAge <= 18) {
+      return {
+        status: 'pass',
+        age: null
+      };
+    }
+    return {
+      status: 'manual_review',
+      age: null,
+      reason: 'minimum_age_requires_confirmation'
+    };
+  }
+  if (['age_18', 'age_19', 'age_20', 'age_21_or_over'].includes(band) && minimumAge <= 18) {
     return {
       status: 'pass',
-      age: 18
+      age: Number(band.replace('age_', '').replace('_or_over', '')) || 18
     };
   }
   return {
     status: 'manual_review',
     age: null,
     reason: 'minimum_age_requires_confirmation'
+  };
+}
+
+function evaluateAgeBandAgainstMaximumExclusive(ageBand, exclusiveMaximumAge) {
+  const band = normaliseAgeAtCourseStartBand(ageBand);
+  if (!band || !Number.isFinite(exclusiveMaximumAge)) {
+    return null;
+  }
+
+  if (band === 'age_18_or_over_legacy') {
+    return {
+      status: 'manual_review',
+      age: null,
+      reason: 'maximum_age_requires_confirmation'
+    };
+  }
+
+  const preciseAge =
+    band === 'under_17' ? 16
+      : band === 'age_17' ? 17
+        : band === 'age_18' ? 18
+          : band === 'age_19' ? 19
+            : band === 'age_20' ? 20
+              : band === 'age_21_or_over' ? 21
+                : null;
+
+  if (!Number.isFinite(preciseAge)) {
+    return null;
+  }
+
+  return {
+    status: preciseAge < exclusiveMaximumAge ? 'pass' : 'fail',
+    age: preciseAge
   };
 }
 
@@ -609,29 +709,58 @@ function normaliseApplicantProfile(applicant, options = {}) {
       };
 
   if (!isStandardUndergraduateMedicine(profile, options.course)) {
-    return profile;
+    const identity = profile.applicant_identity || {};
+    const ageBand = normaliseAgeAtCourseStartBand(identity.age_at_course_start_band);
+    return {
+      ...profile,
+      applicant_identity: {
+        ...identity,
+        current_uk_residence: normaliseTriState(identity.current_uk_residence, 'not_sure'),
+        ...(ageBand ? { age_at_course_start_band: ageBand } : {})
+      }
+    };
   }
 
   const admissionsTests = profile.admissions_tests || {};
   const ucat = admissionsTests.ucat || {};
   const identity = profile.applicant_identity || {};
   const ageBand = normaliseAgeAtCourseStartBand(identity.age_at_course_start_band);
-  const ageOnReferenceDates = ageBand === 'age_18_or_over'
+  const ageOnReferenceDates = ageBand === 'under_17'
     ? {
-        age_on_1_september: 18,
-        age_on_1_october: 18
+        age_on_1_september: 16,
+        age_on_1_october: 16
       }
-    : ageBand === 'under_17'
+    : ageBand === 'age_17'
       ? {
-          age_on_1_september: 16,
-          age_on_1_october: 16
+          age_on_1_september: 17
         }
-      : {};
+      : ageBand === 'age_18'
+        ? {
+            age_on_1_september: 18,
+            age_on_1_october: 18
+          }
+        : ageBand === 'age_19'
+          ? {
+              age_on_1_september: 19,
+              age_on_1_october: 19
+            }
+          : ageBand === 'age_20'
+            ? {
+                age_on_1_september: 20,
+                age_on_1_october: 20
+              }
+            : ageBand === 'age_21_or_over'
+              ? {
+                  age_on_1_september: 21,
+                  age_on_1_october: 21
+                }
+              : {};
 
   return {
     ...profile,
     applicant_identity: {
       ...identity,
+      current_uk_residence: normaliseTriState(identity.current_uk_residence, 'not_sure'),
       ...(ageBand ? { age_at_course_start_band: ageBand } : {}),
       ...ageOnReferenceDates
     },
@@ -804,6 +933,7 @@ module.exports = {
   ageAtDate,
   evaluateExplicitMinimumAge,
   evaluateAgeBandAgainstMinimum,
+  evaluateAgeBandAgainstMaximumExclusive,
   expectedUcatTestYear,
   isStandardUndergraduateMedicine,
   isUcatCycleValid,

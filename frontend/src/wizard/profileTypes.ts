@@ -23,7 +23,48 @@ export type PracticalEndorsement = 'pass' | 'fail' | 'not_applicable';
 export type ALevelGrade = 'A*' | 'A' | 'B' | 'C' | 'D' | 'E' | 'U' | '';
 export type GcseGrade = '9' | '8' | '7' | '6' | '5' | '4' | '3' | '2' | '1' | 'U' | '';
 export type SjtBand = 1 | 2 | 3 | 4 | 0;
-export type AgeAtCourseStartBand = 'under_17' | 'age_17' | 'age_18_or_over';
+export type AgeAtCourseStartBand =
+  | 'under_17'
+  | 'age_17'
+  | 'age_18'
+  | 'age_19'
+  | 'age_20'
+  | 'age_21_or_over'
+  | 'age_18_or_over_legacy'
+  | 'not_sure';
+export type CurrentUkResidence = YesNoNotSure;
+export type UkrainianVisaScheme =
+  | 'homes_for_ukraine'
+  | 'ukraine_family_scheme'
+  | 'ukraine_extension_scheme'
+  | 'none'
+  | 'not_sure';
+export type SchoolEducationFieldKey =
+  | 'state_non_fee_paying_school'
+  | 'below_average_gcse_school'
+  | 'below_average_post16_school'
+  | 'high_free_school_meals_school'
+  | 'low_progression_to_higher_education_school'
+  | 'scottish_target_or_access_school'
+  | 'welsh_language_gcse_first_or_second_language'
+  | 'attended_uk_school_or_college_for_gcse_or_equivalent'
+  | 'attended_uk_school_or_college_for_post16_or_equivalent';
+export type PersonalCircumstanceFieldKey =
+  | 'care_experienced'
+  | 'care_leaver'
+  | 'estranged_from_family'
+  | 'young_or_adult_carer'
+  | 'parenting_responsibilities'
+  | 'refugee'
+  | 'seeking_asylum'
+  | 'first_in_family_at_university'
+  | 'military_family'
+  | 'gypsy_roma_traveller'
+  | 'disability'
+  | 'care_over_three_months'
+  | 'uk_refugee_status_granted'
+  | 'ukrainian_visa_scheme';
+export type PersonalCircumstanceValue = SensitiveAnswer | UkrainianVisaScheme;
 
 // Scottish route: applicant.scottish_profile.{national_5_subjects,
 // higher_subjects, advanced_higher_subjects}, letter grades A*-U
@@ -220,8 +261,8 @@ export interface PartnerSchoolsProfile {
 export interface ContextualProfile {
   home_area_region: HomeAreaRegionProfile;
   financial_support: Record<string, YesNoNotSure | undefined>;
-  school_education: Record<string, YesNoNotSure | undefined>;
-  personal_circumstances: Record<string, SensitiveAnswer | undefined>;
+  school_education: Partial<Record<SchoolEducationFieldKey, YesNoNotSure | undefined>>;
+  personal_circumstances: Partial<Record<PersonalCircumstanceFieldKey, PersonalCircumstanceValue | undefined>>;
   access_programmes: AccessProgrammesProfile;
   partner_schools: PartnerSchoolsProfile;
 }
@@ -231,6 +272,7 @@ export interface ApplicantIdentity {
   fee_status: FeeStatus | '';
   domicile: Domicile | '';
   age_at_course_start_band: AgeAtCourseStartBand | '';
+  current_uk_residence: CurrentUkResidence | '';
   date_of_birth?: string;
   contextual: boolean;
   contextual_flags: ContextualFlags;
@@ -445,6 +487,7 @@ export function createEmptyProfile(): WizardProfile {
       fee_status: '',
       domicile: '',
       age_at_course_start_band: '',
+      current_uk_residence: '',
       contextual: false,
       contextual_flags: {
         care_experienced: false,

@@ -534,6 +534,65 @@
         },
         "grade_requirements": [
           {
+            "requirement_id": "a_level_leicester_access_leicester_medicine_contextual_offer",
+            "pathway_id": "leicester_access_leicester_medicine_contextual_offer",
+            "academic_pathway": "contextual",
+            "applies_to_group_ids": [
+              "leicester_contextual_access_leicester_medicine"
+            ],
+            "grade_profile": [
+              "A",
+              "B",
+              "B"
+            ],
+            "decision_outcome_if_not_met": "not_eligible",
+            "source_ids": [
+              "leicester_a100_entry_requirements"
+            ],
+            "notes": "Access Leicester: Medicine contextual route. Programme confirmation and contextual-route gating are evaluated by the shared Leicester contextual evaluator."
+          },
+          {
+            "requirement_id": "a_level_leicester_realising_opportunities_contextual_offer",
+            "pathway_id": "leicester_realising_opportunities_contextual_offer",
+            "academic_pathway": "contextual",
+            "applies_to_group_ids": [
+              "leicester_contextual_realising_opportunities"
+            ],
+            "grade_profile": [
+              "A",
+              "A",
+              "A"
+            ],
+            "decision_outcome_if_not_met": "not_eligible",
+            "source_ids": [
+              "leicester_a100_entry_requirements"
+            ],
+            "notes": "Realising Opportunities contextual route. Programme confirmation and contextual-route gating are evaluated by the shared Leicester contextual evaluator."
+          },
+          {
+            "requirement_id": "a_level_leicester_imd_plus_indicator_contextual_offer",
+            "pathway_id": "leicester_imd_plus_indicator_contextual_offer",
+            "academic_pathway": "contextual",
+            "applies_to_group_ids": [
+              "leicester_contextual_imd_plus_indicator"
+            ],
+            "grade_profile": [
+              "A",
+              "B",
+              "B"
+            ],
+            "display_offer_grade_profile": [
+              "A",
+              "A",
+              "A"
+            ],
+            "decision_outcome_if_not_met": "not_eligible",
+            "source_ids": [
+              "leicester_a100_entry_requirements"
+            ],
+            "notes": "IMD quintile 1 plus additional Leicester contextual indicator route. Contextual evidence gating is evaluated by the shared Leicester contextual evaluator."
+          },
+          {
             "requirement_id": "a_level_standard_offer",
             "applies_to_group_ids": [
               "school_leaver"
@@ -1502,10 +1561,15 @@
       "leicester_a100_2027_scoring_document"
     ],
     "available": true,
+    "evaluator_id": "leicester_contextual_medicine_a100",
     "applies_to_group_ids": [
       "contextual",
       "widening_participation",
-      "care_experienced"
+      "care_experienced",
+      "leicester_contextual_access_leicester_medicine",
+      "leicester_contextual_realising_opportunities",
+      "leicester_contextual_imd_plus_indicator",
+      "leicester_contextual_guaranteed_interview"
     ],
     "criteria": [
       "Access Leicester: Medicine (AL Med) programme completion by 1 December in year of application.",
@@ -1567,12 +1631,32 @@
     ],
     "adjustments": [
       {
+        "adjustment_id": "access_leicester_contextual_a_level_offer_adjustment",
+        "applies_to_group_ids": [
+          "leicester_contextual_access_leicester_medicine"
+        ],
+        "stage": "offer_conditions",
+        "policy_description": "Access Leicester: Medicine contextual route applies the ABB academic pathway after Leicester contextual-route confirmation.",
+        "effect": {
+          "type": "replace_offer",
+          "target": "a_level.grade_profile",
+          "value": [
+            "A",
+            "B",
+            "B"
+          ]
+        },
+        "source_ids": [
+          "leicester_a100_entry_requirements"
+        ]
+      },
+      {
         "adjustment_id": "contextual_a_level_offer_adjustment",
         "applies_to_group_ids": [
-          "contextual",
-          "widening_participation"
+          "leicester_contextual_realising_opportunities",
+          "leicester_contextual_imd_plus_indicator"
         ],
-        "stage": "stage_1_eligibility",
+        "stage": "offer_conditions",
         "policy_description": "Verified AL Med, ROP, Sutton Trust completers and IMD quintile-1 applicants meeting bursary/FSM/care criteria receive the adjusted AAA A-level offer instead of the standard A*AA offer.",
         "effect": {
           "type": "adjusted_grade_offer",
@@ -1586,11 +1670,11 @@
       }
     ],
     "manual_review_required": true,
-    "qualitative_flag_only": true,
+    "qualitative_flag_only": false,
     "no_numeric_adjustment": true,
-    "engine_execution_status": "published_and_officially_documented_but_not_an_automatic_classifier_override_in_engine_v1",
-    "engine_execution_reason": "Leicester's guaranteed-interview routes (AL Med, ROP, Sutton Trust, restricted UKWPMED) are official and fully documented above, but the shared generic classifier's guaranteed-interview override mechanism is wired only for one other university's bespoke route function in this engine, not as a general-purpose declarative override. Applying that would require either a new bespoke Leicester route function or a generic engine change, both outside this implementation's scope without separate architecture-freeze approval. Verified AL Med/ROP/Sutton Trust/UKWPMED completers are therefore surfaced as a qualitative manual-review flag: an adviser confirms programme completion and the contextual offer criteria, rather than the engine auto-applying a guaranteed interview. This is a non-blocking, documented engine-execution gap, not a missing research finding.",
-    "notes": "Leicester's contextual/WP routes carry a published, official guaranteed-interview outcome once verified programme completion and the contextual offer criteria are confirmed met. In this engine, that verification and the resulting guaranteed-interview decision are manual-review boundaries rather than automatic classifier output, because ApplySmart cannot independently verify programme completion, IMD quintile/decile or bursary/FSM/care evidence, and the generic classifier does not yet expose a declarative guaranteed-interview override for this university."
+    "engine_execution_status": "official_routes_partially_automatic_via_shared_contextual_evaluator",
+    "engine_execution_reason": "Leicester contextual routes are evaluated through the shared contextual framework and activate route-specific applicant groups. Access Leicester: Medicine and Realising Opportunities guaranteed-interview outcomes are applied via Leicester interview-classification override once a contextual route is confirmed.",
+    "notes": "Leicester contextual routes use structured contextual-profile evidence and the Leicester contextual evaluator. Generic contextual declarations or generic flags do not independently activate Leicester contextual routes."
   },
   "ranking_pools": [
     {
@@ -1938,7 +2022,7 @@
     "interview_prediction": true,
     "historical_guidance": true,
     "international_prediction": true,
-    "contextual_logic": false,
+    "contextual_logic": true,
     "result_card": true,
     "regression": true,
     "research_completeness": "complete_for_supported_scope_with_documented_gaps",

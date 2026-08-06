@@ -65,6 +65,8 @@ describe('ReviewStep contextual display', () => {
 
   it('shows contextual answers by public labels without raw programme IDs', () => {
     const profile = createEmptyProfile();
+    profile.applicant_identity.current_uk_residence = 'yes';
+    profile.applicant_identity.age_at_course_start_band = 'age_20';
     profile.contextual_profile.home_area_region.postcode = 'BS1 1AA';
     profile.contextual_profile.home_area_region.polar4_quintile = 'q1';
     profile.contextual_profile.home_area_region.tundra_quintile = 'q3';
@@ -83,7 +85,11 @@ describe('ReviewStep contextual display', () => {
     };
     profile.contextual_profile.financial_support.free_school_meals = 'yes';
     profile.contextual_profile.school_education.state_non_fee_paying_school = 'not_sure';
+    profile.contextual_profile.school_education.attended_uk_school_or_college_for_gcse_or_equivalent = 'yes';
     profile.contextual_profile.personal_circumstances.care_experienced = 'prefer_not_to_say';
+    profile.contextual_profile.personal_circumstances.care_over_three_months = 'yes';
+    profile.contextual_profile.personal_circumstances.uk_refugee_status_granted = 'yes';
+    profile.contextual_profile.personal_circumstances.ukrainian_visa_scheme = 'ukraine_extension_scheme';
     profile.contextual_profile.access_programmes.ukwpmed = {
       status: 'yes',
       programme_id: 'keele_steps2medicine',
@@ -108,6 +114,8 @@ describe('ReviewStep contextual display', () => {
 
     render(<ReviewStep profile={profile} updateProfile={() => {}} errors={{}} />);
 
+    expectReviewValue(reviewSection('Identity'), 'Current UK residence', 'Yes');
+    expectReviewValue(reviewSection('Identity'), 'Age on 1 September of your course-start year', '20');
     expectReviewValue(reviewSection('Home area & region'), 'Postcode', 'BS1 1AA');
     expectReviewValue(reviewSection('Home area & region'), 'I live in', 'Not sure');
     expectReviewValue(reviewSection('Home area & region'), 'I live in the following area', 'None of the above');
@@ -116,7 +124,11 @@ describe('ReviewStep contextual display', () => {
     expectReviewValue(reviewSection('Home area & region'), 'TUNDRA quintile', 'Quintile 3');
     expectReviewValue(reviewSection('Financial support'), 'I receive or previously received free school meals', 'Yes');
     expectReviewValue(reviewSection('School & education'), 'I attended a state-funded, non-fee-paying school', 'Not sure');
+    expectReviewValue(reviewSection('School & education'), 'I attended a UK school or college for my GCSEs or equivalent qualifications', 'Yes');
     expectReviewValue(reviewSection('Personal circumstances'), 'I have experience of being in local-authority care', 'Prefer not to say');
+    expectReviewValue(reviewSection('Personal circumstances'), 'I was looked after in local-authority care for more than three months', 'Yes');
+    expectReviewValue(reviewSection('Personal circumstances'), 'My refugee status was granted by the UK government', 'Yes');
+    expectReviewValue(reviewSection('Personal circumstances'), 'My current or most relevant UK visa is one of the Ukrainian schemes', 'Ukraine Extension Scheme');
     expectReviewValue(reviewSection('Access / WP programmes'), 'Programme', 'Steps2Medicine');
     expectReviewValue(reviewSection('Access / WP programmes'), 'Provider', 'Keele University');
     expectReviewValue(reviewSection('Access / WP programmes'), 'Status', 'Completed');
@@ -142,5 +154,18 @@ describe('ReviewStep contextual display', () => {
     render(<ReviewStep profile={profile} updateProfile={() => {}} errors={{}} />);
 
     expectReviewValue(reviewSection('Home area & region'), 'I attended school in', 'Not sure');
+  });
+
+  it('does not misrepresent the legacy broad age answer as a precise age', () => {
+    const profile = createEmptyProfile();
+    profile.applicant_identity.age_at_course_start_band = 'age_18_or_over_legacy';
+
+    render(<ReviewStep profile={profile} updateProfile={() => {}} errors={{}} />);
+
+    expectReviewValue(
+      reviewSection('Identity'),
+      'Age on 1 September of your course-start year',
+      '18 or over (legacy answer - please confirm)',
+    );
   });
 });

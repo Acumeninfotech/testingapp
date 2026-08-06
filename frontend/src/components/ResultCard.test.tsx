@@ -9,6 +9,9 @@ const { predict } = require('../../../server/src/predict') as {
   predict: (request: { universityIds: string[]; studentProfile: Record<string, unknown> }) => PredictionResult[];
 };
 
+const CONTEXTUAL_CONFIRMED_MESSAGE =
+  "Contextual eligibility confirmed. Your application has been assessed using this university's published contextual admissions criteria.";
+
 function makeResult(
   overrides: Partial<PredictionResult['result_card']>,
   resultOverrides: Partial<Omit<PredictionResult, 'result_card'>> = {},
@@ -168,6 +171,96 @@ describe('ResultCard', () => {
     expect(within(offer as HTMLElement).getByText('Contextual')).toBeInTheDocument();
     expect(within(offer as HTMLElement).getByText('Contextual Offer')).toBeInTheDocument();
     expect(within(offer as HTMLElement).getByText('AAB')).toBeInTheDocument();
+  });
+
+  it('shows contextual confirmation messaging for confirmed contextual applicants', () => {
+    render(
+      <ResultCard
+        result={makeResult({
+          contextual_status: 'confirmed',
+          alternative_academic_offer: {
+            type: 'contextual',
+            standard_offer: 'AAA',
+            alternative_offer: 'AAB',
+            pathway_id: 'lancaster_contextual_offer',
+            conditions: [],
+          },
+        })}
+      />,
+    );
+
+    expect(screen.getByText(CONTEXTUAL_CONFIRMED_MESSAGE)).toBeInTheDocument();
+    expect(screen.getByText('Contextual Status')).toBeInTheDocument();
+    expect(screen.getByText('✅ Contextual eligibility confirmed')).toBeInTheDocument();
+  });
+
+  it('does not show contextual confirmation messaging for standard applicants', () => {
+    render(
+      <ResultCard
+        result={makeResult({
+          alternative_academic_offer: {
+            type: 'contextual',
+            standard_offer: 'AAA',
+            alternative_offer: 'AAB',
+            pathway_id: 'lancaster_contextual_offer',
+            conditions: [],
+          },
+        })}
+      />,
+    );
+
+    expect(screen.queryByText(CONTEXTUAL_CONFIRMED_MESSAGE)).not.toBeInTheDocument();
+    expect(screen.queryByText('Contextual Status')).not.toBeInTheDocument();
+    expect(screen.queryByText('✅ Contextual eligibility confirmed')).not.toBeInTheDocument();
+  });
+
+  it('does not show contextual confirmation messaging for information-needed outcomes', () => {
+    const reason = 'ApplySmart needs more information.';
+    render(
+      <ResultCard
+        result={makeResult({
+          recommendation_display_state: 'insufficient_evidence',
+          contextual_status: 'confirmed',
+          information_needed_reason: reason,
+          decision_transparency: {
+            information_needed_reason: reason,
+          },
+          alternative_academic_offer: {
+            type: 'contextual',
+            standard_offer: 'AAA',
+            alternative_offer: 'AAB',
+            pathway_id: 'lancaster_contextual_offer',
+            conditions: [],
+          },
+        })}
+      />,
+    );
+
+    expect(screen.queryByText(CONTEXTUAL_CONFIRMED_MESSAGE)).not.toBeInTheDocument();
+    expect(screen.queryByText('Contextual Status')).not.toBeInTheDocument();
+    expect(screen.queryByText('✅ Contextual eligibility confirmed')).not.toBeInTheDocument();
+  });
+
+  it('does not show contextual confirmation messaging for not-eligible outcomes', () => {
+    render(
+      <ResultCard
+        result={makeResult({
+          recommendation_display_state: 'not_eligible',
+          contextual_status: 'confirmed',
+          alternative_academic_offer: {
+            type: 'contextual',
+            standard_offer: 'AAA',
+            alternative_offer: 'AAB',
+            pathway_id: 'lancaster_contextual_offer',
+            conditions: [],
+          },
+        })}
+      />,
+    );
+
+    expect(screen.queryByText(CONTEXTUAL_CONFIRMED_MESSAGE)).not.toBeInTheDocument();
+    expect(screen.queryByText('Contextual Status')).not.toBeInTheDocument();
+    expect(screen.queryByText('✅ Contextual eligibility confirmed')).not.toBeInTheDocument();
   });
 
   it('renders a contextual EPQ academic offer summary', () => {

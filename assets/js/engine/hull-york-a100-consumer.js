@@ -605,6 +605,11 @@ function evaluateAgeAndTransfer(course, applicant, state) {
 
   if (bandAssessment?.status === 'manual_review') {
     addManualReview(state, 'age_on_1_october_requires_confirmation');
+  } else if (bandAssessment?.status === 'pass') {
+    addCheck(state, 'minimum_age_18_on_1_october', true, { age: bandAssessment.age });
+  } else if (bandAssessment?.status === 'fail') {
+    addCheck(state, 'minimum_age_18_on_1_october', false, { age: bandAssessment.age });
+    addFailure(state, 'minimum_age_not_met');
   } else if (Number.isFinite(age)) {
     const passed = age >= 18;
     addCheck(state, 'minimum_age_18_on_1_october', passed, { age });

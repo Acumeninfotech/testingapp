@@ -340,8 +340,13 @@ assert.deepStrictEqual(
     route.requirement_id,
     route.grade_profile
   ]),
-  [['a_level_standard_offer', ['A*', 'A', 'A']]],
-  'Leicester executable A-level eligibility routes must not include the AAB scoring floor.'
+  [
+    ['a_level_leicester_access_leicester_medicine_contextual_offer', ['A', 'B', 'B']],
+    ['a_level_leicester_realising_opportunities_contextual_offer', ['A', 'A', 'A']],
+    ['a_level_leicester_imd_plus_indicator_contextual_offer', ['A', 'B', 'B']],
+    ['a_level_standard_offer', ['A*', 'A', 'A']]
+  ],
+  'Leicester executable A-level eligibility routes should include contextual and standard pathways explicitly.'
 );
 assert.deepStrictEqual(
   config.eligibility.a_level.routes.map((route) => [

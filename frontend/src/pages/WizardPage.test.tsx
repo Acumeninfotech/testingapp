@@ -38,11 +38,12 @@ function typeValue(id: string, value: string) {
   fireEvent.change(document.getElementById(id) as HTMLInputElement, { target: { value } });
 }
 
-function fillIdentity(ageBand = 'age_18_or_over', options = { applicantType: 'school_leaver', feeStatus: 'home', domicile: 'england' }) {
+function fillIdentity(ageBand = 'age_18', options = { applicantType: 'school_leaver', feeStatus: 'home', domicile: 'england', currentUkResidence: 'yes' }) {
   selectValue('applicant_type', options.applicantType);
   selectValue('fee_status', options.feeStatus);
   selectValue('domicile', options.domicile);
   selectValue('age_at_course_start_band', ageBand);
+  selectValue('current_uk_residence', options.currentUkResidence);
 }
 
 function clickContinue() {
@@ -152,7 +153,7 @@ describe('WizardPage navigation', () => {
     expect((document.getElementById('age_at_course_start_band') as HTMLSelectElement).value).toBe('age_17');
   });
 
-  it('loads a legacy A-level profile without EPQ data using the default not-taken status', () => {
+  it('loads old localStorage profiles containing the broad legacy age answer without narrowing it', () => {
     window.localStorage.setItem(
       'applysmart.wizard.profile.v1',
       JSON.stringify({
@@ -161,6 +162,31 @@ describe('WizardPage navigation', () => {
           fee_status: 'home',
           domicile: 'england',
           age_at_course_start_band: 'age_18_or_over',
+          current_uk_residence: 'yes',
+        },
+      })
+    );
+
+    render(<WizardPage />);
+
+    const ageField = document.getElementById('age_at_course_start_band') as HTMLSelectElement;
+    expect(ageField.value).toBe('age_18_or_over_legacy');
+    expect(ageField.options[ageField.selectedIndex]?.text).toContain('please confirm');
+    clickContinue();
+    expect(screen.getByText(/legacy "18 or over" answer is too broad/i)).toBeInTheDocument();
+    expect(screen.getByTestId('wizard-progress')).toHaveTextContent('Step 1 of 8');
+  });
+
+  it('loads a legacy A-level profile without EPQ data using the default not-taken status', () => {
+    window.localStorage.setItem(
+      'applysmart.wizard.profile.v1',
+      JSON.stringify({
+        applicant_identity: {
+          applicant_type: 'school_leaver',
+          fee_status: 'home',
+          domicile: 'england',
+          age_at_course_start_band: 'age_18',
+          current_uk_residence: 'yes',
         },
         course_target: {
           discipline: 'medicine',
@@ -273,7 +299,8 @@ describe('WizardPage submit flow', () => {
     expect(submittedProfile.qualification_route).toBe('a_level');
     const identity = submittedProfile.applicant_identity as Record<string, unknown>;
     expect(identity.applicant_type).toBe('school_leaver');
-    expect(identity.age_at_course_start_band).toBe('age_18_or_over');
+    expect(identity.age_at_course_start_band).toBe('age_18');
+    expect(identity.current_uk_residence).toBe('yes');
     expect(identity.date_of_birth).toBeUndefined();
     const aLevelProfile = submittedProfile.a_level_profile as Record<string, unknown>;
     expect(aLevelProfile.completed_in_one_sitting).toBe(true);
@@ -460,7 +487,7 @@ describe('WizardPage submit flow', () => {
 
     render(<WizardPage />);
 
-    fillIdentity('age_18_or_over', { applicantType: 'school_leaver', feeStatus: 'home', domicile: 'scotland' });
+    fillIdentity('age_18', { applicantType: 'school_leaver', feeStatus: 'home', domicile: 'scotland', currentUkResidence: 'yes' });
     clickContinue();
 
     selectValue('qualification_route', 'scottish');
@@ -515,7 +542,7 @@ describe('WizardPage submit flow', () => {
 
     render(<WizardPage />);
 
-    fillIdentity('age_18_or_over', { applicantType: 'mature_graduate', feeStatus: 'international', domicile: 'other' });
+    fillIdentity('age_18', { applicantType: 'mature_graduate', feeStatus: 'international', domicile: 'other', currentUkResidence: 'no' });
     clickContinue();
 
     selectValue('qualification_route', 'graduate');
@@ -715,7 +742,7 @@ describe('WizardPage submit flow', () => {
 
     render(<WizardPage />);
 
-    fillIdentity('age_18_or_over', { applicantType: 'school_leaver', feeStatus: 'rest_of_uk', domicile: 'england' });
+    fillIdentity('age_18', { applicantType: 'school_leaver', feeStatus: 'rest_of_uk', domicile: 'england', currentUkResidence: 'yes' });
     clickContinue();
 
     typeValue('application_year', '2027');

@@ -28,6 +28,7 @@ describe('validateIdentityStep', () => {
     expect(errors.fee_status).toBeTruthy();
     expect(errors.domicile).toBeTruthy();
     expect(errors.age_at_course_start_band).toBeTruthy();
+    expect(errors.current_uk_residence).toBeTruthy();
   });
 
   it('passes when all fields are filled correctly', () => {
@@ -35,8 +36,20 @@ describe('validateIdentityStep', () => {
     profile.applicant_identity.applicant_type = 'school_leaver';
     profile.applicant_identity.fee_status = 'home';
     profile.applicant_identity.domicile = 'england';
-    profile.applicant_identity.age_at_course_start_band = 'age_18_or_over';
+    profile.applicant_identity.age_at_course_start_band = 'age_18';
+    profile.applicant_identity.current_uk_residence = 'yes';
     expect(hasErrors(validateIdentityStep(profile))).toBe(false);
+  });
+
+  it('requires reconfirmation for the legacy broad age value', () => {
+    const profile = createEmptyProfile();
+    profile.applicant_identity.applicant_type = 'school_leaver';
+    profile.applicant_identity.fee_status = 'home';
+    profile.applicant_identity.domicile = 'england';
+    profile.applicant_identity.age_at_course_start_band = 'age_18_or_over_legacy';
+    profile.applicant_identity.current_uk_residence = 'yes';
+
+    expect(validateIdentityStep(profile).age_at_course_start_band).toMatch(/too broad/i);
   });
 
   it('rejects a missing age band', () => {
@@ -45,6 +58,15 @@ describe('validateIdentityStep', () => {
     profile.applicant_identity.fee_status = 'home';
     profile.applicant_identity.domicile = 'england';
     expect(validateIdentityStep(profile).age_at_course_start_band).toBeTruthy();
+  });
+
+  it('rejects a missing current UK residence answer', () => {
+    const profile = createEmptyProfile();
+    profile.applicant_identity.applicant_type = 'school_leaver';
+    profile.applicant_identity.fee_status = 'home';
+    profile.applicant_identity.domicile = 'england';
+    profile.applicant_identity.age_at_course_start_band = 'age_19';
+    expect(validateIdentityStep(profile).current_uk_residence).toBeTruthy();
   });
 });
 
@@ -75,6 +97,28 @@ describe('validateContextualStep', () => {
 
     profile.contextual_profile.home_area_region.school_area = 'not_a_school_area' as typeof profile.contextual_profile.home_area_region.school_area;
     expect(validateContextualStep(profile).school_area).toBeTruthy();
+  });
+
+  it('accepts the new factual school-attendance and personal-circumstance values', () => {
+    const profile = createEmptyProfile();
+    profile.contextual_profile.school_education.attended_uk_school_or_college_for_gcse_or_equivalent = 'yes';
+    profile.contextual_profile.school_education.attended_uk_school_or_college_for_post16_or_equivalent = 'not_sure';
+    profile.contextual_profile.personal_circumstances.care_over_three_months = 'no';
+    profile.contextual_profile.personal_circumstances.uk_refugee_status_granted = 'prefer_not_to_say';
+    profile.contextual_profile.personal_circumstances.ukrainian_visa_scheme = 'ukraine_family_scheme';
+
+    expect(validateContextualStep(profile).school_education_attended_uk_school_or_college_for_gcse_or_equivalent).toBeUndefined();
+    expect(validateContextualStep(profile).personal_circumstances_ukrainian_visa_scheme).toBeUndefined();
+  });
+
+  it('rejects invalid new factual contextual values', () => {
+    const profile = createEmptyProfile();
+    profile.contextual_profile.school_education.attended_uk_school_or_college_for_gcse_or_equivalent = 'maybe' as never;
+    profile.contextual_profile.personal_circumstances.ukrainian_visa_scheme = 'temporary_scheme' as never;
+
+    const errors = validateContextualStep(profile);
+    expect(errors.school_education_attended_uk_school_or_college_for_gcse_or_equivalent).toBeTruthy();
+    expect(errors.personal_circumstances_ukrainian_visa_scheme).toBeTruthy();
   });
 });
 
