@@ -224,6 +224,119 @@ assert.deepStrictEqual(
   'SJT bands 1-4 must not alter the Oxford composite score.'
 );
 
+const nonContextualOxfordApplicant = merge(fixture.base_applicant, {
+  applicant_identity: {
+    contextual: false,
+    contextual_flags: {}
+  },
+  contextual_profile: {
+    home_area_region: {
+      polar4_quintile: 'unknown',
+      imd_quintile: 'unknown',
+      tundra_quintile: 'unknown',
+      simd_quintile: 'unknown'
+    },
+    financial_support: {},
+    school_education: {},
+    personal_circumstances: {},
+    access_programmes: {
+      participation_status: 'no',
+      ukwpmed: {
+        status: 'no',
+        programme_id: '',
+        programme_status: '',
+        provider_university_id: '',
+        completion_year: '',
+        not_sure_programme: false
+      },
+      other_programmes: [],
+      other_programme_name: ''
+    },
+    partner_schools: {
+      status: 'no',
+      relationships: []
+    }
+  }
+});
+
+const contextualEvidenceOxfordApplicant = merge(nonContextualOxfordApplicant, {
+  applicant_identity: {
+    contextual: true,
+    contextual_flags: {
+      care_experienced: true,
+      free_school_meals: true,
+      refugee_or_asylum_seeker: true
+    }
+  },
+  contextual_profile: {
+    home_area_region: {
+      polar4_quintile: 'q1',
+      imd_quintile: 'q1',
+      tundra_quintile: 'q1',
+      simd_quintile: 'q1'
+    },
+    financial_support: {
+      free_school_meals: 'yes',
+      ucat_bursary_recipient: 'yes'
+    },
+    school_education: {
+      first_in_family_at_university: 'yes',
+      state_non_fee_paying_school: 'yes'
+    },
+    personal_circumstances: {
+      care_experienced: 'yes',
+      refugee: 'yes'
+    },
+    access_programmes: {
+      participation_status: 'yes',
+      ukwpmed: {
+        status: 'yes',
+        programme_id: 'kplus',
+        programme_status: 'completed',
+        provider_university_id: 'kings_college_london',
+        completion_year: 2025,
+        not_sure_programme: false
+      },
+      other_programmes: [],
+      other_programme_name: ''
+    },
+    partner_schools: {
+      status: 'yes',
+      relationships: [
+        {
+          university_id: 'oxford',
+          school_name: 'Example School',
+          status: 'yes'
+        }
+      ]
+    }
+  }
+});
+
+const nonContextualOxfordResult = classifyInterviewBand(course, config, nonContextualOxfordApplicant);
+const contextualEvidenceOxfordResult = classifyInterviewBand(course, config, contextualEvidenceOxfordApplicant);
+
+assert.strictEqual(
+  contextualEvidenceOxfordResult.eligibility.status,
+  nonContextualOxfordResult.eligibility.status,
+  'Oxford contextual profile evidence must not change eligibility status.'
+);
+assert.strictEqual(
+  contextualEvidenceOxfordResult.canonical_interview_band,
+  nonContextualOxfordResult.canonical_interview_band,
+  'Oxford contextual profile evidence must not change interview band.'
+);
+assert.strictEqual(
+  contextualEvidenceOxfordResult.ranking?.value,
+  nonContextualOxfordResult.ranking?.value,
+  'Oxford contextual profile evidence must not change ranking score.'
+);
+assert.strictEqual(
+  contextualEvidenceOxfordResult.guidance_pool_id,
+  nonContextualOxfordResult.guidance_pool_id,
+  'Oxford contextual profile evidence must not change applicant pool selection.'
+);
+
 const cardApplicant = merge(fixture.base_applicant, {
   admissions_tests: {
     ucat: {
