@@ -385,7 +385,7 @@ function applyCourseSpecificDerivedApplicantGroups(course, applicant, groupIds, 
     groups.delete('widening_participation');
   }
   if (
-    ['aston-a100', 'imperial-college-london-a100', 'manchester-a100', 'leicester-a100', 'bristol-a100'].includes(course?.profile_id)
+    ['aston-a100', 'imperial-college-london-a100', 'manchester-a100', 'leicester-a100', 'bristol-a100', 'east-anglia-a100'].includes(course?.profile_id)
   ) {
     const activatedGroups = contextualResult?.is_contextual === true
       ? contextualResult.activated_applicant_group_ids

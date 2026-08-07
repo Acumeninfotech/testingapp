@@ -4695,8 +4695,12 @@ function presentResultCard({
     transparencyOptions
   );
   const prediction = transparencyCard.prediction;
+  const suppressContextualStatusForUeaProgrammeRoute =
+    transparencyContext.course_identity?.profile_id === 'east-anglia-a100' &&
+    transparencyContext.interview_outcome === 'guaranteed_interview';
   const contextualStatus =
     display.recommendation_display_state === 'standard' &&
+    !suppressContextualStatusForUeaProgrammeRoute &&
     (
       transparencyContext.eligibility?.contextual_eligibility?.status === 'contextual' ||
       transparencyContext.contextual_eligibility?.status === 'contextual'

@@ -154,6 +154,34 @@
       ],
       "rejected_bands": []
     },
+    "map_override": {
+      "override_id": "uea_preparing_for_medicine_guaranteed_interview",
+      "outcome": "guaranteed_interview",
+      "interview_outcome": "guaranteed_interview",
+      "apply_ucat_guidance_band": false,
+      "description": "UEA Preparing for Medicine participants who have confirmed programme engagement and meet UEA A100 minimum entry requirements receive a guaranteed interview.",
+      "applicant_facing_explanation": "You meet the published criteria for a guaranteed interview through the UEA Preparing for Medicine Programme, subject to meeting the standard UEA A100 entry requirements.",
+      "confirmation_notice": "Guaranteed interview — UEA Preparing for Medicine Programme",
+      "applicant_pool_label": "UEA Preparing for Medicine Programme",
+      "recommendation_badge_label": "Guaranteed interview — UEA Preparing for Medicine Programme",
+      "any_conditions": [
+        {
+          "condition_id": "uea_preparing_for_medicine_programme_confirmed",
+          "match": {
+            "all_group_ids": [
+              "uea_preparing_for_medicine_programme"
+            ]
+          },
+          "source_band_id": "uea_preparing_for_medicine_programme_guaranteed_interview",
+          "result_card_id": "uea_preparing_for_medicine_programme_guaranteed_interview",
+          "interview_outcome": "guaranteed_interview"
+        }
+      ],
+      "source_ids": [
+        "uea_preparing_for_medicine_programme"
+      ],
+      "notes": "This override bypasses competitive UCAT interview-ranking output only after standard UEA A100 minimum eligibility requirements are met."
+    },
     "resits": {
       "resits_accepted": true,
       "applicant_form_required": false,

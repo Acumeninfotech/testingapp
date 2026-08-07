@@ -461,11 +461,29 @@
       "uea_foi_24_267"
     ],
     "available": false,
-    "applies_to_group_ids": [],
+    "evaluator_id": "uea_a100_contextual_screening_excluded",
+    "applies_to_group_ids": [
+      "uea_preparing_for_medicine_programme"
+    ],
     "criteria": [],
     "adjustments": [],
-    "guaranteed_interview_rules": [],
-    "notes": "UEA A100 has no standard contextual admissions adjustment. A104 Gateway Medicine is a separate course and is not implemented inside this A100 profile. The Preparing for Medicine outreach interview guarantee is not implemented because the current profile does not contain verified programme-specific evidence inputs."
+    "guaranteed_interview_rules": [
+      {
+        "rule_id": "uea_preparing_for_medicine_programme_guaranteed_interview",
+        "programme": "UEA Preparing for Medicine Programme",
+        "minimum_requirements_must_be_met": true,
+        "conditions": [
+          "Explicit UEA Outreach / Pathways programme evidence is provided in the redesigned Step 6 contextual profile.",
+          "Programme engagement is confirmed.",
+          "Normal UEA A100 minimum entry requirements are met or predicted to be met."
+        ],
+        "source_ids": [
+          "uea_preparing_for_medicine_programme"
+        ],
+        "notes": "General contextual admissions evidence remains excluded from A100 screening."
+      }
+    ],
+    "notes": "UEA A100 general contextual policy remains an explicit screening exclusion: non-programme contextual evidence may be collected but does not activate contextual screening, academic reductions or UCAT adjustments. A separate programme-specific guaranteed-interview pathway applies only to confirmed UEA Preparing for Medicine Programme participants who also meet the normal A100 entry requirements. A104 Gateway Medicine is a separate course and is not implemented inside this A100 profile."
   },
   "ranking_pools": [
     {
