@@ -3,6 +3,7 @@
 const assert = require('assert');
 const fs = require('fs');
 const path = require('path');
+const { evaluateContextualEligibility } = require('../assets/js/engine/eligibility-evaluator');
 const { classifyInterviewBand } = require('../assets/js/engine/interview-band-classifier');
 const { evaluateHullYorkA100 } = require('../assets/js/engine/hull-york-a100-consumer');
 const { evaluateNottinghamA100 } = require('../assets/js/engine/nottingham-a100-consumer');
@@ -37,6 +38,7 @@ const EXPECTED_FLAG_ROUTE_CHANGES = {
   ],
   refugee_or_asylum_seeker: [
     'aston-a100',
+    'bristol-a100',
     'keele-a100',
     'lancaster-a100'
   ],
@@ -51,6 +53,7 @@ const EXPECTED_FLAG_ROUTE_CHANGES = {
   ],
   first_generation_higher_education: [
     'aston-a100',
+    'bristol-a100',
     'keele-a100',
     'liverpool-a100'
   ],
@@ -60,6 +63,7 @@ const EXPECTED_FLAG_ROUTE_CHANGES = {
   ],
   ucat_bursary: [
     'aston-a100',
+    'bristol-a100',
     'leicester-a100'
   ]
 };
@@ -401,13 +405,40 @@ function run() {
     all_flags: countPublicGroups(rows, 'all_flags')
   };
 
+  const topLevelChangedRows = rows.filter((row) => {
+    return (
+      routeSignature(row.top_level_only) !== routeSignature(row.standard) ||
+      JSON.stringify(row.top_level_only.applicant_group_ids) !== JSON.stringify(row.standard.applicant_group_ids)
+    );
+  });
   assert.deepStrictEqual(
-    counts.top_level_only,
-    counts.standard,
-    'Top-level contextual self-declaration must not alter public result totals.'
+    topLevelChangedRows.map((row) => row.university_id),
+    ['bristol-a100'],
+    'Only Bristol should diverge when top-level contextual self-declaration lacks structured evidence.'
+  );
+  assert.deepStrictEqual(
+    countPublicGroups(
+      rows.filter((row) => row.university_id !== 'bristol-a100'),
+      'top_level_only'
+    ),
+    countPublicGroups(
+      rows.filter((row) => row.university_id !== 'bristol-a100'),
+      'standard'
+    ),
+    'Top-level contextual self-declaration must not alter non-Bristol public result totals.'
   );
 
+  const bristolTopLevelRow = topLevelChangedRows[0];
+  assert.strictEqual(bristolTopLevelRow.standard.public_group, 'Recommended');
+  assert.strictEqual(bristolTopLevelRow.top_level_only.public_group, 'Information Needed');
+  assert.strictEqual(bristolTopLevelRow.top_level_only.display_state, 'manual_review');
+  assert.strictEqual(bristolTopLevelRow.top_level_only.result_band, 'insufficient_evidence');
+  assert.strictEqual(bristolTopLevelRow.top_level_only.guidance_pool_id, null);
+
   for (const row of rows) {
+    if (row.university_id === 'bristol-a100') {
+      continue;
+    }
     assert.strictEqual(
       routeSignature(row.top_level_only),
       routeSignature(row.standard),
@@ -520,6 +551,41 @@ function run() {
     bristolFixture.scenarios.find((scenario) => scenario.scenario_id === 'verified_bristol_wp_programme_guaranteed_interview').overrides
   );
   assert.strictEqual(classifyInternal(bristol, bristolWpApplicant).interview_outcome, 'guaranteed_interview');
+
+  const bristolAwaitingConfirmationContextual = evaluateContextualEligibility(
+    bristol.course,
+    merge(bristolFixture.base_applicant, {
+      application_year: 2027,
+      contextual_profile: {
+        partner_schools: {
+          status: 'yes',
+          relationships: [
+            {
+              university_id: 'bristol_a100',
+              school_identifier_type: 'apply_centre_code',
+              school_identifier: '10125',
+              school_name: 'Westhill Academy',
+              status: 'yes'
+            }
+          ]
+        }
+      }
+    })
+  );
+  assert.strictEqual(
+    bristolAwaitingConfirmationContextual.contextual_evidence.bristol_aspiring_state_school.verification_status,
+    'matched_awaiting_confirmation'
+  );
+  assert.ok(
+    bristolAwaitingConfirmationContextual.missing_information.some((entry) => {
+      return entry.reason === 'bristol_aspiring_state_school_awaiting_confirmation';
+    })
+  );
+  assert.ok(
+    !bristolAwaitingConfirmationContextual.qualifying_criteria.some((criterion) => {
+      return criterion.criterion_id === 'aspiring_state_school_or_college' && criterion.status === 'matched';
+    })
+  );
 
   writeAudit(rows, counts);
   console.log('Contextual route classification regression: PASS');

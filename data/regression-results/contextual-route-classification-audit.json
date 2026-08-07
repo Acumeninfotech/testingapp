@@ -7,14 +7,14 @@
       "Consider": 3
     },
     "top_level_only": {
-      "Recommended": 32,
-      "Information Needed": 4,
+      "Recommended": 31,
+      "Information Needed": 5,
       "Not Eligible": 1,
       "Consider": 3
     },
     "all_flags": {
-      "Recommended": 31,
-      "Information Needed": 7,
+      "Recommended": 30,
+      "Information Needed": 8,
       "Consider": 2
     }
   },
@@ -354,9 +354,9 @@
         "result_band": "very_strong_interview_potential",
         "display_state": "standard",
         "applicant_group_ids": [
+          "home_fee",
           "england_domiciled",
           "rest_of_uk",
-          "home_fee",
           "school_leaver"
         ],
         "guidance_pool_id": "home_a100",
@@ -367,30 +367,33 @@
         "interview_outcome": null
       },
       "top_level_only": {
-        "public_group": "Recommended",
-        "result_band": "very_strong_interview_potential",
-        "display_state": "standard",
+        "public_group": "Information Needed",
+        "result_band": "insufficient_evidence",
+        "display_state": "manual_review",
         "applicant_group_ids": [
+          "home_fee",
           "england_domiciled",
           "rest_of_uk",
-          "home_fee",
-          "school_leaver"
+          "school_leaver",
+          "bristol_contextual_offer",
+          "contextual",
+          "widening_participation"
         ],
-        "guidance_pool_id": "home_a100",
+        "guidance_pool_id": null,
         "selection_route_id": null,
-        "canonical_interview_band": "very_strong_interview_potential",
+        "canonical_interview_band": "insufficient_evidence",
         "academic_pathway": "standard",
         "academic_pathway_id": "bristol_standard_a_level_aaa",
         "interview_outcome": null
       },
       "all_flags": {
-        "public_group": "Recommended",
-        "result_band": "very_strong_interview_potential",
-        "display_state": "standard",
+        "public_group": "Information Needed",
+        "result_band": "insufficient_evidence",
+        "display_state": "manual_review",
         "applicant_group_ids": [
+          "home_fee",
           "england_domiciled",
           "rest_of_uk",
-          "home_fee",
           "care_experienced",
           "refugee_or_asylum_seeker",
           "refugee",
@@ -400,17 +403,19 @@
           "school_contextual_indicator",
           "ucat_bursary",
           "school_leaver",
-          "contextual"
+          "bristol_contextual_offer",
+          "contextual",
+          "widening_participation"
         ],
-        "guidance_pool_id": "home_a100",
+        "guidance_pool_id": null,
         "selection_route_id": null,
-        "canonical_interview_band": "very_strong_interview_potential",
+        "canonical_interview_band": "insufficient_evidence",
         "academic_pathway": "standard",
         "academic_pathway_id": "bristol_standard_a_level_aaa",
         "interview_outcome": null
       },
-      "contextual_route_legitimately_activated": false,
-      "change_reason": "no_route_or_prediction_change"
+      "contextual_route_legitimately_activated": true,
+      "change_reason": "unexpected_top_level_change"
     },
     {
       "university_id": "brunel-university-of-london-a100",

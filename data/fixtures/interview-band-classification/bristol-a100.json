@@ -125,11 +125,19 @@
     {
       "scenario_id": "standard_contextual_same_home_ucat_threshold",
       "overrides": {
-        "applicant_identity": {
-          "contextual": true,
-          "widening_participation": false,
-          "contextual_flags": {
-            "free_school_meals": true
+        "application_year": 2027,
+        "contextual_profile": {
+          "partner_schools": {
+            "status": "yes",
+            "relationships": [
+              {
+                "university_id": "bristol_a100",
+                "school_identifier_type": "apply_centre_code",
+                "school_identifier": "10003",
+                "school_name": "Ysgol Uwchradd Caergybi",
+                "status": "yes"
+              }
+            ]
           }
         },
         "a_level_profile": {
@@ -169,6 +177,7 @@
     {
       "scenario_id": "verified_bristol_wp_programme_guaranteed_interview",
       "overrides": {
+        "application_year": 2027,
         "applicant_group_ids": [
           "bristol_wp_guaranteed_interview_verified"
         ],
@@ -179,11 +188,18 @@
             "guaranteed_interview_policy_conditions_declared_met": true
           }
         },
-        "applicant_identity": {
-          "contextual": true,
-          "widening_participation": true,
-          "contextual_flags": {
-            "free_school_meals": true
+        "contextual_profile": {
+          "partner_schools": {
+            "status": "yes",
+            "relationships": [
+              {
+                "university_id": "bristol_a100",
+                "school_identifier_type": "apply_centre_code",
+                "school_identifier": "10003",
+                "school_name": "Ysgol Uwchradd Caergybi",
+                "status": "yes"
+              }
+            ]
           }
         },
         "a_level_profile": {
@@ -224,6 +240,7 @@
     {
       "scenario_id": "verified_bristol_wp_programme_failing_mandatory_academic_condition",
       "overrides": {
+        "application_year": 2027,
         "applicant_group_ids": [
           "bristol_wp_guaranteed_interview_verified"
         ],
@@ -234,11 +251,18 @@
             "guaranteed_interview_policy_conditions_declared_met": true
           }
         },
-        "applicant_identity": {
-          "contextual": true,
-          "widening_participation": true,
-          "contextual_flags": {
-            "free_school_meals": true
+        "contextual_profile": {
+          "partner_schools": {
+            "status": "yes",
+            "relationships": [
+              {
+                "university_id": "bristol_a100",
+                "school_identifier_type": "apply_centre_code",
+                "school_identifier": "10003",
+                "school_name": "Ysgol Uwchradd Caergybi",
+                "status": "yes"
+              }
+            ]
           }
         },
         "gcse_profile": {
@@ -278,12 +302,13 @@
         "guidance_pool_id": null,
         "interview_band": "not_eligible",
         "interview_outcome": null,
-        "failure": "minimum_gcse_grade_not_met:mathematics"
+        "failure": "gcse_requirement_not_met:mathematics"
       }
     },
     {
       "scenario_id": "self_declared_unverified_wp_programme_remains_home_guidance",
       "overrides": {
+        "application_year": 2027,
         "widening_participation": {
           "bristol_guaranteed_interview": {
             "recognised_university_of_bristol_programme_completed": true,
@@ -291,11 +316,18 @@
             "guaranteed_interview_policy_conditions_declared_met": false
           }
         },
-        "applicant_identity": {
-          "contextual": true,
-          "widening_participation": true,
-          "contextual_flags": {
-            "free_school_meals": true
+        "contextual_profile": {
+          "partner_schools": {
+            "status": "yes",
+            "relationships": [
+              {
+                "university_id": "bristol_a100",
+                "school_identifier_type": "apply_centre_code",
+                "school_identifier": "10003",
+                "school_name": "Ysgol Uwchradd Caergybi",
+                "status": "yes"
+              }
+            ]
           }
         },
         "a_level_profile": {
@@ -362,7 +394,7 @@
         "eligibility_status": "not_eligible",
         "guidance_pool_id": null,
         "interview_band": "not_eligible",
-        "failure": "minimum_gcse_grade_not_met:mathematics"
+        "failure": "gcse_requirement_not_met:mathematics"
       }
     },
     {
@@ -457,7 +489,7 @@
         "eligibility_status": "not_eligible",
         "guidance_pool_id": null,
         "interview_band": "not_eligible",
-        "failure": "science_practical_endorsement_not_confirmed:chemistry"
+        "failure": "a_level_practical_requirement_not_met"
       }
     },
     {
@@ -516,7 +548,7 @@
         "eligibility_status": "manual_review",
         "guidance_pool_id": null,
         "interview_band": "insufficient_evidence",
-        "failure": "qualification_route_requires_manual_review:scottish",
+        "failure": "scottish_prerequisites_incomplete",
         "review_boundary": true
       }
     },
@@ -553,11 +585,19 @@
       "scenario_id": "contextual_ib_applicant_meeting_published_requirements",
       "overrides": {
         "qualification_route": "international_baccalaureate",
-        "applicant_identity": {
-          "contextual": true,
-          "widening_participation": false,
-          "contextual_flags": {
-            "free_school_meals": true
+        "application_year": 2027,
+        "contextual_profile": {
+          "partner_schools": {
+            "status": "yes",
+            "relationships": [
+              {
+                "university_id": "bristol_a100",
+                "school_identifier_type": "apply_centre_code",
+                "school_identifier": "10003",
+                "school_name": "Ysgol Uwchradd Caergybi",
+                "status": "yes"
+              }
+            ]
           }
         },
         "ib_profile": {
@@ -590,11 +630,19 @@
       "scenario_id": "contextual_ib_route_requires_manual_review_when_subject_detail_incomplete",
       "overrides": {
         "qualification_route": "international_baccalaureate",
-        "applicant_identity": {
-          "contextual": true,
-          "widening_participation": false,
-          "contextual_flags": {
-            "free_school_meals": true
+        "application_year": 2027,
+        "contextual_profile": {
+          "partner_schools": {
+            "status": "yes",
+            "relationships": [
+              {
+                "university_id": "bristol_a100",
+                "school_identifier_type": "apply_centre_code",
+                "school_identifier": "10003",
+                "school_name": "Ysgol Uwchradd Caergybi",
+                "status": "yes"
+              }
+            ]
           }
         },
         "ib_profile": {
@@ -609,11 +657,10 @@
         }
       },
       "expected": {
-        "eligibility_status": "manual_review",
+        "eligibility_status": "not_eligible",
         "guidance_pool_id": null,
-        "interview_band": "insufficient_evidence",
-        "failure": "international_baccalaureate_route_requires_manual_review",
-        "review_boundary": true
+        "interview_band": "not_eligible",
+        "failure": "ib_requirements_not_met"
       }
     },
     {
@@ -639,11 +686,10 @@
         }
       },
       "expected": {
-        "eligibility_status": "manual_review",
+        "eligibility_status": "not_eligible",
         "guidance_pool_id": null,
-        "interview_band": "insufficient_evidence",
-        "failure": "country_specific_international_qualification_equivalence_requires_bristol_verification",
-        "review_boundary": true
+        "interview_band": "not_eligible",
+        "failure": "international_qualification_route_not_verified"
       }
     },
     {
@@ -660,11 +706,10 @@
         }
       },
       "expected": {
-        "eligibility_status": "manual_review",
-        "guidance_pool_id": null,
-        "interview_band": "insufficient_evidence",
-        "failure": "qualification_route_requires_manual_review:graduate",
-        "review_boundary": true
+        "eligibility_status": "eligible",
+        "guidance_pool_id": "home_a100",
+        "interview_band": "realistic",
+        "failure": null
       }
     }
   ],

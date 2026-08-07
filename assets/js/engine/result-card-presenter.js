@@ -894,7 +894,17 @@ const FAILURE_REASON_LABELS = {
   leicester_contextual_information_needed: 'ApplySmart needs more Leicester contextual evidence to confirm whether a Leicester contextual route applies.',
   manchester_contextual_information_needed: 'ApplySmart needs Manchester postcode or school-context evidence to check whether the contextual AAB route applies.',
   manchester_refugee_or_care_information_needed: 'ApplySmart needs more care, refugee-status or Ukrainian visa information to check whether Manchester’s ABB route applies.',
-  manchester_contextual_or_refugee_care_information_needed: 'ApplySmart needs Manchester postcode/school-context evidence and personal-circumstance confirmation to check whether Manchester’s contextual routes apply.'
+  manchester_contextual_or_refugee_care_information_needed: 'ApplySmart needs Manchester postcode/school-context evidence and personal-circumstance confirmation to check whether Manchester’s contextual routes apply.',
+  bristol_contextual_baseline_information_needed: 'More information is needed to confirm whether you qualify for Bristol’s contextual offer.',
+  bristol_contextual_information_needed: 'More information is needed to confirm whether you qualify for Bristol’s contextual offer.',
+  bristol_contextual_imd_postcode_evidence_required: 'More information is needed to verify Bristol IMD eligibility from postcode-derived evidence.',
+  bristol_contextual_fsm_secondary_verification_required: 'More information is needed to verify Free School Meals eligibility during secondary education for Bristol contextual assessment.',
+  bristol_aspiring_state_school_identifier_or_name_required: 'More information is needed to verify whether your school or college appears on Bristol’s Aspiring State Schools list.',
+  bristol_aspiring_state_school_identifier_unverifiable: 'The school identifier provided cannot be verified against Bristol’s Aspiring State Schools list. Provide an Apply centre code or exact school/college name.',
+  bristol_aspiring_state_school_awaiting_confirmation: 'Your school or college appears on Bristol’s Aspiring State Schools file but is still marked as awaiting confirmation.',
+  bristol_aspiring_state_school_list_unavailable: 'Bristol Aspiring State Schools list data is currently unavailable for this application cycle and needs individual review.',
+  bristol_aspiring_state_school_verification_required: 'Bristol aspiring state-school evidence cannot be verified automatically and needs individual review.',
+  bristol_scholars_tailored_offer_manual_review: 'Bristol Scholars may receive a tailored offer. The standard Bristol contextual offer of ABB should not be assumed, so this route requires individual review.'
 };
 
 function futureConditionAdvisories(futureConditions = [], options = {}) {
@@ -924,7 +934,17 @@ function firstSpecificFailureLabel(failures) {
     .find(Boolean) || null;
 }
 
-function notEligiblePrimaryExplanation(failures) {
+function notEligiblePrimaryExplanation(failures, context = {}) {
+  const profileId = context.course_identity?.profile_id || context.course_profile_id;
+  const contextual = context.eligibility?.contextual_eligibility || context.contextual_eligibility;
+  if (
+    profileId === 'bristol-a100' &&
+    contextual?.status === 'contextual' &&
+    (context.academic_pathway || context.eligibility?.academic_pathway) === 'contextual' &&
+    (failures || []).some((failure) => normaliseCheckId(failure) === 'a_level_requirements_not_met')
+  ) {
+    return 'You meet Bristol’s contextual eligibility criteria, but your current grades do not meet the published contextual offer of ABB, including A in Chemistry and B in an accepted second science or Mathematics subject.';
+  }
   const specificFailure = firstSpecificFailureLabel(failures);
   const generic = 'Based on the information entered, one or more supported entry requirements are not met.';
   return specificFailure ? `${specificFailure} ${generic}` : generic;
@@ -1146,7 +1166,63 @@ function manchesterContextualSummary(card = {}) {
   return `Contextual eligibility confirmed: ${details.route_label}.${evidence}`;
 }
 
+function bristolMissingContextualEvidenceList(contextual = {}) {
+  const missing = Array.isArray(contextual.missing_information)
+    ? contextual.missing_information
+    : [];
+  return missing
+    .map((entry) => String(entry.label || entry.criterion_id || '').trim())
+    .filter(Boolean);
+}
+
+function bristolContextualSummary(card = {}, offer = null) {
+  const profileId = card.course_identity?.profile_id || card.course_profile_id;
+  if (profileId !== 'bristol-a100') {
+    return null;
+  }
+
+  const contextual = card.eligibility?.contextual_eligibility || card.contextual_eligibility || null;
+  if (!contextual) {
+    return null;
+  }
+
+  if (contextual.reason === 'bristol_scholars_tailored_offer_manual_review') {
+    return 'Bristol Scholars may receive a tailored offer. The standard Bristol contextual offer of ABB should not be assumed, so this route requires individual review.';
+  }
+
+  if (contextual.status === 'contextual') {
+    const contextualOfferLabel = 'Bristol contextual offer';
+    const gradeSummary = 'ABB, including A in Chemistry and B in an accepted second science or Mathematics subject';
+    const contextualGradesMet =
+      (card.eligibility?.status || card.eligibility_status) === 'eligible' &&
+      (card.academic_pathway || card.eligibility?.academic_pathway) === 'contextual';
+    if (contextualGradesMet) {
+      return `${contextualOfferLabel}: You meet the published Bristol contextual offer of ${gradeSummary}.`;
+    }
+    return "Contextual eligibility is confirmed, but your current grades do not meet Bristol's contextual academic requirements.";
+  }
+
+  if (contextual.status === 'not_contextual') {
+    return 'The information provided does not currently meet Bristol’s published contextual-offer criteria. Your application has therefore been assessed against the standard academic requirements.';
+  }
+
+  if (contextual.status === 'information_needed') {
+    const missingEvidence = bristolMissingContextualEvidenceList(contextual);
+    const evidenceSuffix = missingEvidence.length > 0
+      ? ` Missing evidence: ${missingEvidence.join(', ')}.`
+      : '';
+    return `More information is needed to confirm whether you qualify for Bristol’s contextual offer.${evidenceSuffix}`;
+  }
+
+  return null;
+}
+
 function contextualOfferRouteSummary(card = {}, offer = null) {
+  const bristolSummary = bristolContextualSummary(card, offer);
+  if (bristolSummary) {
+    return bristolSummary;
+  }
+
   if (!offer || (offer.type !== 'contextual' && offer.type !== 'contextual_epq')) {
     return null;
   }
@@ -2493,7 +2569,40 @@ function buildStandardRiskExplanation(interviewBand, options = {}) {
   return null;
 }
 
-function academicStatusSummary(state, eligibilityStatus) {
+function bristolContextualCompactAcademicStatus(card = {}, state, eligibilityStatus) {
+  const profileId = card.course_identity?.profile_id || card.course_profile_id;
+  if (profileId !== 'bristol-a100') {
+    return null;
+  }
+
+  const contextual = card.eligibility?.contextual_eligibility || card.contextual_eligibility || null;
+  const academicPathway = card.academic_pathway || card.eligibility?.academic_pathway || null;
+  const contextualGradesMet =
+    contextual?.status === 'contextual' &&
+    contextual?.reason !== 'bristol_scholars_tailored_offer_manual_review' &&
+    academicPathway === 'contextual' &&
+    state !== 'not_eligible' &&
+    eligibilityStatus !== 'not_eligible' &&
+    state !== 'manual_review' &&
+    eligibilityStatus !== 'manual_review' &&
+    eligibilityStatus !== 'insufficient_evidence';
+  if (!contextualGradesMet) {
+    return null;
+  }
+
+  return 'Contextual eligibility confirmed. You meet the contextual academic requirements.';
+}
+
+function academicStatusSummary(state, eligibilityStatus, card = {}) {
+  const bristolContextualSummary = bristolContextualCompactAcademicStatus(
+    card,
+    state,
+    eligibilityStatus
+  );
+  if (bristolContextualSummary) {
+    return bristolContextualSummary;
+  }
+
   if (state === 'not_eligible' || eligibilityStatus === 'not_eligible') {
     return 'You do not currently meet the academic requirements.';
   }
@@ -2747,10 +2856,10 @@ function lowerInitial(value) {
   return value.charAt(0).toLowerCase() + value.slice(1);
 }
 
-function buildCompactStatus({ state, eligibilityStatus }) {
+function buildCompactStatus({ state, eligibilityStatus, card = {} }) {
   if (state === 'not_eligible') {
     return {
-      label: academicStatusSummary(state, eligibilityStatus),
+      label: academicStatusSummary(state, eligibilityStatus, card),
       type: 'academic_status',
       tone: 'negative'
     };
@@ -2758,7 +2867,7 @@ function buildCompactStatus({ state, eligibilityStatus }) {
 
   if (state === 'manual_review') {
     return {
-      label: academicStatusSummary(state, eligibilityStatus),
+      label: academicStatusSummary(state, eligibilityStatus, card),
       type: 'academic_status',
       tone: 'warning'
     };
@@ -2766,14 +2875,14 @@ function buildCompactStatus({ state, eligibilityStatus }) {
 
   if (state === 'insufficient_evidence' || eligibilityStatus === 'insufficient_evidence') {
     return {
-      label: academicStatusSummary(state, eligibilityStatus),
+      label: academicStatusSummary(state, eligibilityStatus, card),
       type: 'academic_status',
       tone: 'warning'
     };
   }
 
   return {
-    label: academicStatusSummary(state, eligibilityStatus),
+    label: academicStatusSummary(state, eligibilityStatus, card),
     type: 'academic_status',
     tone: 'positive'
   };
@@ -3808,6 +3917,30 @@ function publicInformationNeededReason({
   card = {}
 } = {}) {
   if (state === 'manual_review') {
+    const profileId = card.course_identity?.profile_id || card.course_profile_id;
+    const contextual = card.eligibility?.contextual_eligibility || card.contextual_eligibility || null;
+    if (profileId === 'bristol-a100' && contextual?.status === 'information_needed') {
+      const missing = Array.isArray(
+        missingInformation ||
+        card.missing_information ||
+        card.decision_transparency?.missing_information
+      )
+        ? (
+          missingInformation ||
+          card.missing_information ||
+          card.decision_transparency?.missing_information
+        )
+        : [];
+      const labels = missing
+        .map((entry) => String(entry?.label || entry?.criterion_id || '').trim())
+        .filter(Boolean);
+      const suffix = labels.length > 0
+        ? ` Missing evidence: ${labels.join(', ')}.`
+        : '';
+      return appendNotARejection(
+        `More information is needed to confirm whether you qualify for Bristol’s contextual offer.${suffix}`
+      );
+    }
     return appendNotARejection(
       firstNonEmptyString(
         card.decision_transparency?.manual_review_reason,
@@ -4102,7 +4235,8 @@ function buildDecisionTransparency(card, options = {}) {
   });
   const compactStatus = buildCompactStatus({
     state,
-    eligibilityStatus: card.eligibility?.status
+    eligibilityStatus: card.eligibility?.status,
+    card
   });
   const comparisonMetrics = buildComparisonMetrics({
     state,
@@ -4392,7 +4526,10 @@ function presentResultCard({
     display = {
       primary_user_facing_recommendation: STANDARD_RECOMMENDATION_HEADLINES.not_eligible,
       recommendation_display_state: 'not_eligible',
-      primary_explanation: notEligiblePrimaryExplanation(transparencyContext.eligibility_failures),
+      primary_explanation: notEligiblePrimaryExplanation(
+        transparencyContext.eligibility_failures,
+        transparencyContext
+      ),
       historical_guidance_caveat: null
     };
 	  } else if (manualReviewRequired || eligibilityStatus === 'manual_review') {

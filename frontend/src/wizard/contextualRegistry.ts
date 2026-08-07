@@ -80,7 +80,7 @@ export const SCHOOL_AREA_OPTIONS = [
   },
   {
     value: 'bristol_bs_ba_state_school',
-    label: 'State school in a Bristol BS or BA postcode area',
+    label: 'School in a Bristol BS or BA postcode area (does not by itself confirm Bristol Aspiring State School eligibility)',
   },
   { value: 'keele_region_school', label: 'School in the Keele region' },
 ] as const;
@@ -242,6 +242,11 @@ export const OTHER_ACCESS_PROGRAMMES = [
   { programme_id: 'leeds_access_to_leeds', label: 'Access to Leeds' },
   { programme_id: 'realising_opportunities', label: 'Realising Opportunities' },
   { programme_id: 'bristol_access_to_bristol', label: 'Access to Bristol' },
+  { programme_id: 'bristol_discover_bristol', label: 'Discover Bristol' },
+  { programme_id: 'bristol_insight_into_bristol_summer_school', label: 'Insight into Bristol summer school' },
+  { programme_id: 'bristol_next_step_bristol', label: 'Next Step Bristol' },
+  { programme_id: 'bristol_virtual_summer_school', label: 'Virtual Summer School' },
+  { programme_id: 'bristol_scholars', label: 'Bristol Scholars' },
   { programme_id: 'exeter_scholars', label: 'Exeter Scholars' },
   { programme_id: 'southampton_access_southampton', label: 'Access Southampton' },
   { programme_id: 'uea_outreach_pathways', label: 'UEA Outreach / Pathways' },

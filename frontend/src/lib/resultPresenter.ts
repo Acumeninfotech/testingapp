@@ -475,6 +475,14 @@ export function resultCardRecommendationExplanation(card: PredictionResult['resu
 }
 
 export function resultCardAcademicStatus(card: PredictionResult['result_card']): string {
+  const compactStatusLabel =
+    typeof card.decision_transparency?.compact_status?.label === 'string'
+      ? card.decision_transparency.compact_status.label.trim()
+      : '';
+  if (compactStatusLabel) {
+    return compactStatusLabel;
+  }
+
   const state = card.recommendation_display_state;
   const eligibilityStatus = card.eligibility?.status;
   const eligibilityStage = card.decision_transparency?.decision_path?.find((s) => s.stage === 'Eligibility');

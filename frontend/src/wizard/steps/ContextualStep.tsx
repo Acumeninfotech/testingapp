@@ -77,6 +77,12 @@ const SCHOOL_AREA_SELECTOR_OPTIONS = [
   { value: 'none', label: 'None of the above' },
   { value: 'unknown', label: 'Not sure' },
 ] as const;
+const SCHOOL_IDENTIFIER_TYPE_OPTIONS = [
+  { value: 'apply_centre_code', label: 'Apply centre code' },
+  { value: 'urn', label: 'URN' },
+  { value: 'ukprn', label: 'UKPRN' },
+  { value: 'other', label: 'Other official identifier' },
+] as const;
 const HOME_AREA_ERROR_KEYS = new Set([
   'polar4_quintile',
   'tundra_quintile',
@@ -400,11 +406,13 @@ function PartnerSchoolRow({
   index,
   updateProfile,
   error,
+  identifierError,
 }: {
   relationship: PartnerSchoolRelationship;
   index: number;
   updateProfile: StepProps['updateProfile'];
   error?: string;
+  identifierError?: string;
 }) {
   const updateRelationship = (patch: Partial<PartnerSchoolRelationship>) => {
     updateContextual(updateProfile, (contextual) => ({
@@ -446,6 +454,29 @@ function PartnerSchoolRow({
           value={relationship.school_name}
           error={error}
           onChange={(value) => updateRelationship({ school_name: value })}
+        />
+        <SelectField
+          id={`partner_school_${index}_school_identifier_type`}
+          label="School or college identifier type"
+          value={relationship.school_identifier_type ?? ''}
+          options={[...SCHOOL_IDENTIFIER_TYPE_OPTIONS]}
+          placeholder="Optional"
+          onChange={(value) =>
+            updateRelationship({
+              school_identifier_type: value as PartnerSchoolRelationship['school_identifier_type'],
+              school_identifier: value ? relationship.school_identifier ?? relationship.school_id ?? '' : '',
+            })
+          }
+        />
+      </div>
+      <div className="field-row">
+        <TextField
+          id={`partner_school_${index}_school_identifier`}
+          label="School or college identifier"
+          value={relationship.school_identifier ?? relationship.school_id ?? ''}
+          error={identifierError}
+          hint="Use the official identifier when available."
+          onChange={(value) => updateRelationship({ school_identifier: value, school_id: value })}
         />
         <TextField
           id={`partner_school_${index}_relationship_type`}
@@ -1189,6 +1220,7 @@ export function ContextualStep({ profile, updateProfile, errors }: StepProps) {
                 index={index}
                 updateProfile={updateProfile}
                 error={errors[`partner_school_${index}_school_name`]}
+                identifierError={errors[`partner_school_${index}_school_identifier`]}
               />
             ))}
             <button
@@ -1201,7 +1233,15 @@ export function ContextualStep({ profile, updateProfile, errors }: StepProps) {
                     ...current.partner_schools,
                     relationships: [
                       ...current.partner_schools.relationships,
-                      { university_id: '', school_name: '', relationship_type: '', status: '' },
+                      {
+                        university_id: '',
+                        school_name: '',
+                        school_identifier_type: '',
+                        school_identifier: '',
+                        school_id: '',
+                        relationship_type: '',
+                        status: '',
+                      },
                     ],
                   },
                 }))

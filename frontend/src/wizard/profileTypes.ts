@@ -249,6 +249,9 @@ export interface PartnerSchoolRelationship {
   university_id: string;
   university_name?: string;
   school_name: string;
+  school_id?: string;
+  school_identifier?: string;
+  school_identifier_type?: 'apply_centre_code' | 'urn' | 'ukprn' | 'other' | '';
   relationship_type?: string;
   status?: YesNoNotSure | '';
 }

@@ -453,6 +453,7 @@ export function validateContextualStep(profile: WizardProfile): ValidationErrors
   if (partnerSchools?.status === 'yes') {
     const meaningful = partnerSchools.relationships.some((relationship) => (
       relationship.school_name.trim() ||
+      (relationship.school_identifier ?? relationship.school_id ?? '').trim() ||
       relationship.university_id ||
       relationship.university_name?.trim()
     ));
@@ -460,8 +461,13 @@ export function validateContextualStep(profile: WizardProfile): ValidationErrors
       errors.partner_schools = 'Add at least one partner-school relationship, or choose Not sure.';
     }
     partnerSchools.relationships.forEach((relationship, index) => {
-      if ((relationship.university_id || relationship.university_name?.trim()) && !relationship.school_name.trim()) {
-        errors[`partner_school_${index}_school_name`] = 'Enter the school or college name.';
+      const schoolName = relationship.school_name.trim();
+      const schoolIdentifier = (relationship.school_identifier ?? relationship.school_id ?? '').trim();
+      if ((relationship.university_id || relationship.university_name?.trim()) && !schoolName && !schoolIdentifier) {
+        errors[`partner_school_${index}_school_name`] = 'Enter a school or college name or official identifier.';
+      }
+      if (relationship.school_identifier_type && !schoolIdentifier) {
+        errors[`partner_school_${index}_school_identifier`] = 'Enter the identifier value for this school or college.';
       }
     });
   }

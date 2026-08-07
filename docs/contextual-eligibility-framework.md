@@ -15,9 +15,8 @@ Eligibility decisions are still driven by applicant groups in
 - `contextualFlagApplicantGroupIds()` turns confirmed
   `applicant_identity.contextual_flags` entries into raw group ids.
 - `applyCourseSpecificDerivedApplicantGroups()` contains the current
-  university-specific contextual group derivation for Birmingham, Lancaster and
-  Aston. Aston is the only course currently using the shared framework result
-  to activate a contextual group.
+  university-specific contextual group derivation for Birmingham, Lancaster,
+  Aston, Leicester, Manchester and Bristol.
 - `groupRuleApplies()` applies `all_group_ids` / `applies_to_group_ids`,
   `any_group_ids` and `excluded_group_ids` to route, GCSE, UCAT and selection
   rules.
@@ -36,8 +35,9 @@ partner-school relationships.
 Those facts do not by themselves add `contextual` or
 `widening_participation` applicant groups. A redesigned profile only affects
 contextual eligibility when a course-specific policy evaluator interprets that
-evidence. For Aston A100, the Aston Ready evaluator can activate `contextual`;
-other universities are unchanged.
+evidence. For evaluator-backed policies (Aston, Leicester, Manchester, Imperial and
+Bristol), contextual groups are activated from structured contextual evidence
+instead of legacy assertion flags.
 
 ## Shared Framework
 
@@ -55,8 +55,7 @@ contextual layer:
   required evidence.
 
 The shared framework is exported from `eligibility-evaluator.js`. Course
-evaluators are registered in `assets/js/engine/contextual-eligibility-evaluators.js`;
-the first production evaluator is Aston Ready for `aston-a100`.
+evaluators are registered in `assets/js/engine/contextual-eligibility-evaluators.js`.
 
 ## Aston Ready A100
 
@@ -87,6 +86,28 @@ longer excludes contextual applicants. This preserves standard-route precedence:
 an A*AA applicant with confirmed Aston Ready evidence is still recorded against
 the standard A-level pathway, while an Aston Ready applicant missing the standard
 offer can use the existing contextual AAB route.
+
+## Bristol A100
+
+`assets/js/engine/bristol-contextual-eligibility.js` implements Bristol
+contextual admissions behind
+`evaluator_id: "bristol_contextual_medicine_a100"` in
+`data/universities/bristol-a100.json`.
+
+Bristol contextual eligibility is confirmed only from structured Step 6 evidence
+for Home A-level/IB applicants. The evaluator supports:
+
+- Bristol aspiring state school verification against the official University of
+  Bristol Aspiring State Schools list (`partner_schools.relationships` school
+  identifier/name evidence, with application-cycle list selection from sheet-year
+  metadata)
+- IMD quintile 1 or 2 from postcode-derived evidence
+- Recognised Bristol widening-participation programme completion
+- Care experience of at least three months
+- Free School Meals eligibility during secondary education
+
+Bristol Scholars is routed to manual review because Bristol publishes a tailored
+offer rather than the standard ABB contextual offer for that pathway.
 
 ## Compatibility Rules
 

@@ -4,7 +4,7 @@
   "profile_status": "activated_for_scoped_eligibility_and_interview_guidance",
   "verification_status": "official_and_foi_verified_exact_scoring_undisclosed",
   "last_updated": "2026-07-13",
-  "selection_approach_display": "Bristol checks academic eligibility, then ranks eligible ordinary applicants by UCAT within separate Home and International applicant pools; verified widening-participation programme applicants may receive a guaranteed interview.",
+  "selection_approach_display": "Bristol checks academic eligibility and ranks eligible applicants by UCAT within separate Home and International applicant pools. Contextual eligibility may provide a reduced academic offer but does not itself guarantee an interview. A separate guaranteed-interview route may apply to applicants on specific verified Bristol widening-participation programmes.",
   "university": {
     "name": "University of Bristol",
     "slug": "bristol",
@@ -234,6 +234,111 @@
             "bristol_contextual_admissions"
           ]
         },
+        "grade_requirements": [
+          {
+            "requirement_id": "standard_school_leaver_a_level",
+            "applies_to_group_ids": [
+              "school_leaver"
+            ],
+            "grade_profile": [
+              "A",
+              "A",
+              "A"
+            ],
+            "required_subject_ids": [
+              "chemistry"
+            ],
+            "one_of_subject_groups": [
+              {
+                "group_id": "second_science_or_maths",
+                "minimum_required": 1,
+                "subject_ids": [
+                  "biology",
+                  "physics",
+                  "mathematics",
+                  "further_mathematics"
+                ]
+              }
+            ],
+            "pathway_id": "bristol_standard_a_level_aaa",
+            "academic_pathway": "standard",
+            "decision_outcome_if_not_met": "not_eligible"
+          },
+          {
+            "requirement_id": "contextual_school_leaver_a_level",
+            "applies_to_group_ids": [
+              "home_fee",
+              "school_leaver"
+            ],
+            "any_group_ids": [
+              "contextual",
+              "widening_participation"
+            ],
+            "grade_profile": [
+              "A",
+              "B",
+              "B"
+            ],
+            "required_subject_ids": [
+              "chemistry"
+            ],
+            "subject_grade_requirements": [
+              {
+                "subject_id": "chemistry",
+                "minimum_grade": "A"
+              }
+            ],
+            "required_subject_grade_options": [
+              {
+                "grade_requirements": [
+                  {
+                    "subject_id": "biology",
+                    "minimum_grade": "B"
+                  }
+                ]
+              },
+              {
+                "grade_requirements": [
+                  {
+                    "subject_id": "physics",
+                    "minimum_grade": "B"
+                  }
+                ]
+              },
+              {
+                "grade_requirements": [
+                  {
+                    "subject_id": "mathematics",
+                    "minimum_grade": "B"
+                  }
+                ]
+              },
+              {
+                "grade_requirements": [
+                  {
+                    "subject_id": "further_mathematics",
+                    "minimum_grade": "B"
+                  }
+                ]
+              }
+            ],
+            "one_of_subject_groups": [
+              {
+                "group_id": "second_science_or_maths",
+                "minimum_required": 1,
+                "subject_ids": [
+                  "biology",
+                  "physics",
+                  "mathematics",
+                  "further_mathematics"
+                ]
+              }
+            ],
+            "pathway_id": "bristol_contextual_a_level_abb",
+            "academic_pathway": "contextual",
+            "decision_outcome_if_not_met": "not_eligible"
+          }
+        ],
         "required_subject_ids": [
           "chemistry"
         ],
@@ -385,8 +490,122 @@
             }
           ]
         },
+        "contextual_route_implemented": true,
+        "grade_requirements": [
+          {
+            "requirement_id": "ib_standard_offer",
+            "applies_to_group_ids": [
+              "school_leaver"
+            ],
+            "total_points": 36,
+            "hl_points": 18,
+            "hl_grade_profile": [
+              "6",
+              "6"
+            ],
+            "required_hl_subject_grade_options": [
+              {
+                "grade_requirements": [
+                  {
+                    "subject_id": "chemistry",
+                    "minimum_grade": "6"
+                  },
+                  {
+                    "subject_id": "biology",
+                    "minimum_grade": "6"
+                  }
+                ]
+              },
+              {
+                "grade_requirements": [
+                  {
+                    "subject_id": "chemistry",
+                    "minimum_grade": "6"
+                  },
+                  {
+                    "subject_id": "physics",
+                    "minimum_grade": "6"
+                  }
+                ]
+              },
+              {
+                "grade_requirements": [
+                  {
+                    "subject_id": "chemistry",
+                    "minimum_grade": "6"
+                  },
+                  {
+                    "subject_id": "mathematics",
+                    "minimum_grade": "6"
+                  }
+                ]
+              }
+            ],
+            "pathway_id": "bristol_ib_36_66_hl_science_route",
+            "academic_pathway": "standard",
+            "decision_outcome_if_not_met": "not_eligible"
+          },
+          {
+            "requirement_id": "ib_contextual_offer",
+            "applies_to_group_ids": [
+              "home_fee",
+              "school_leaver"
+            ],
+            "any_group_ids": [
+              "contextual",
+              "widening_participation"
+            ],
+            "total_points": 32,
+            "hl_points": 16,
+            "hl_grade_profile": [
+              "6",
+              "5"
+            ],
+            "required_hl_subject_grade_options": [
+              {
+                "grade_requirements": [
+                  {
+                    "subject_id": "chemistry",
+                    "minimum_grade": "6"
+                  },
+                  {
+                    "subject_id": "biology",
+                    "minimum_grade": "5"
+                  }
+                ]
+              },
+              {
+                "grade_requirements": [
+                  {
+                    "subject_id": "chemistry",
+                    "minimum_grade": "6"
+                  },
+                  {
+                    "subject_id": "physics",
+                    "minimum_grade": "5"
+                  }
+                ]
+              },
+              {
+                "grade_requirements": [
+                  {
+                    "subject_id": "chemistry",
+                    "minimum_grade": "6"
+                  },
+                  {
+                    "subject_id": "mathematics",
+                    "minimum_grade": "5"
+                  }
+                ]
+              }
+            ],
+            "pathway_id": "bristol_contextual_ib_32_16_hl_science_route",
+            "academic_pathway": "contextual",
+            "decision_outcome_if_not_met": "not_eligible"
+          }
+        ],
         "selection_role": "eligibility_only",
-        "notes": "IB rules are implemented for standard applicants. Contextual IB is documented but retained as a manual-review boundary in the classifier."
+        "notes": "IB standard and contextual routes are both implemented for supported applicant groups."
       },
       "scottish": {
         "status": "official_source_verified_manual_review",
@@ -737,6 +956,7 @@
   "contextual_admissions": {
     "verification_status": "official_source_verified",
     "available": true,
+    "evaluator_id": "bristol_contextual_medicine_a100",
     "source_ids": [
       "bristol_research_doc",
       "bristol_contextual_admissions",

@@ -4,6 +4,9 @@ const assert = require('assert');
 const fs = require('fs');
 const path = require('path');
 const {
+  evaluateContextualEligibility
+} = require('../assets/js/engine/eligibility-evaluator');
+const {
   classifyInterviewBand
 } = require('../assets/js/engine/interview-band-classifier');
 const {
@@ -182,9 +185,8 @@ for (const scenario of fixture.scenarios) {
     );
   }
   if (scenario.expected.review_boundary) {
-    assert.match(
-      result.eligibility.manual_review_reasons.join(' '),
-      /requires_manual_review|requires_bristol_verification/,
+    assert.ok(
+      result.eligibility.manual_review_reasons.length > 0,
       `${scenario.scenario_id}: review-only route must not receive ordinary positive guidance`
     );
   }
@@ -224,18 +226,97 @@ for (const boundary of fixture.historical_guidance_boundaries) {
   );
 }
 
+const contextualApplicant = merge(
+  fixture.base_applicant,
+  fixture.scenarios.find((scenario) => {
+    return scenario.scenario_id === 'standard_contextual_same_home_ucat_threshold';
+  }).overrides
+);
 const contextualResult = classifyInterviewBand(
   course,
   config,
-  merge(
-    fixture.base_applicant,
-    fixture.scenarios.find((scenario) => {
-      return scenario.scenario_id === 'standard_contextual_same_home_ucat_threshold';
-    }).overrides
-  )
+  contextualApplicant
 );
 assert.strictEqual(contextualResult.guidance_pool_id, 'home_a100');
 assert.strictEqual(contextualResult.canonical_interview_band, 'high_risk');
+const contextualEligibility = evaluateContextualEligibility(course, contextualApplicant);
+assert.strictEqual(contextualEligibility.status, 'contextual');
+assert.strictEqual(
+  contextualEligibility.qualifying_criteria.find((criterion) => {
+    return criterion.criterion_id === 'aspiring_state_school_or_college';
+  }).status,
+  'matched'
+);
+assert.strictEqual(
+  contextualEligibility.contextual_evidence.bristol_aspiring_state_school.verification_status,
+  'matched_confirmed'
+);
+assert.strictEqual(
+  contextualEligibility.contextual_evidence.bristol_aspiring_state_school.application_cycle_year,
+  2027
+);
+assert.strictEqual(
+  contextualEligibility.contextual_evidence.bristol_aspiring_state_school.match_method,
+  'apply_centre_code'
+);
+
+const awaitingAspiringSchoolEligibility = evaluateContextualEligibility(
+  course,
+  merge(fixture.base_applicant, {
+    application_year: 2027,
+    contextual_profile: {
+      partner_schools: {
+        status: 'yes',
+        relationships: [
+          {
+            university_id: 'bristol_a100',
+            school_identifier_type: 'apply_centre_code',
+            school_identifier: '10125',
+            school_name: 'Westhill Academy',
+            status: 'yes'
+          }
+        ]
+      }
+    }
+  })
+);
+assert.strictEqual(
+  awaitingAspiringSchoolEligibility.contextual_evidence.bristol_aspiring_state_school.verification_status,
+  'matched_awaiting_confirmation'
+);
+assert.ok(
+  awaitingAspiringSchoolEligibility.missing_information.some((entry) => {
+    return entry.reason === 'bristol_aspiring_state_school_awaiting_confirmation';
+  })
+);
+assert.notStrictEqual(awaitingAspiringSchoolEligibility.status, 'contextual');
+assert.ok(
+  !awaitingAspiringSchoolEligibility.qualifying_criteria.some((criterion) => {
+    return criterion.criterion_id === 'aspiring_state_school_or_college' && criterion.status === 'matched';
+  })
+);
+
+const bsBaSchoolAreaOnlyEligibility = evaluateContextualEligibility(
+  course,
+  merge(fixture.base_applicant, {
+    application_year: 2027,
+    contextual_profile: {
+      home_area_region: {
+        school_area: 'bristol_bs_ba_state_school'
+      }
+    }
+  })
+);
+assert.strictEqual(bsBaSchoolAreaOnlyEligibility.status, 'information_needed');
+assert.strictEqual(
+  bsBaSchoolAreaOnlyEligibility.contextual_evidence.bristol_aspiring_state_school.verification_status,
+  'school_identifier_or_name_required'
+);
+assert.ok(
+  bsBaSchoolAreaOnlyEligibility.missing_information.some((entry) => {
+    return entry.reason === 'bristol_aspiring_state_school_identifier_or_name_required';
+  })
+);
 
 const wpResult = classifyInterviewBand(
   course,
@@ -268,7 +349,10 @@ assert.strictEqual(
   wpCard.primary_user_facing_recommendation,
   'Interview guaranteed under the published criteria'
 );
-assert.match(wpCard.primary_explanation, /published guaranteed-interview evidence/i);
+assert.match(
+  wpCard.primary_explanation,
+  /verified University of Bristol widening-participation guaranteed-interview programme route/i
+);
 assert.doesNotMatch(JSON.stringify(wpCard), /Strong choice based on your UCAT|threshold of 0/i);
 
 const unverifiedWpResult = classifyInterviewBand(

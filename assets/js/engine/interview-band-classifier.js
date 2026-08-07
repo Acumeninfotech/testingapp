@@ -3772,6 +3772,7 @@ function classifyInterviewBand(course, config, applicantInput, options = {}) {
     : null;
   const contextualStatus = courseEligibility?.contextual_eligibility?.status;
   const useCourseEligibility = birmingham ||
+    course.profile_id === 'bristol-a100' ||
     courseEligibility?.contextual_eligibility?.is_contextual === true ||
     contextualStatus === 'information_needed';
   const eligibility = birmingham

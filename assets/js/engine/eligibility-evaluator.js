@@ -380,8 +380,12 @@ function applyCourseSpecificDerivedApplicantGroups(course, applicant, groupIds, 
   }
 
   const contextualResult = contextualEligibility || evaluateCourseContextualEligibility(course, applicant);
+  if (course?.profile_id === 'bristol-a100' && contextualResult) {
+    groups.delete('contextual');
+    groups.delete('widening_participation');
+  }
   if (
-    ['aston-a100', 'imperial-college-london-a100', 'manchester-a100', 'leicester-a100'].includes(course?.profile_id)
+    ['aston-a100', 'imperial-college-london-a100', 'manchester-a100', 'leicester-a100', 'bristol-a100'].includes(course?.profile_id)
   ) {
     const activatedGroups = contextualResult?.is_contextual === true
       ? contextualResult.activated_applicant_group_ids
@@ -548,6 +552,38 @@ function addManualReview(state, reason) {
   }
 }
 
+function gcseRuleAppliesToQualificationRoute(rule, qualificationRoute) {
+  const qualificationLevel = normaliseId(rule?.qualification_level);
+  if (!qualificationLevel) {
+    return true;
+  }
+
+  const route = normaliseId(qualificationRoute);
+  if (!route || ['unknown', 'foundation', 'mixed_t_level_a_level'].includes(route)) {
+    return true;
+  }
+
+  const routeIsScottish = ['scottish', 'scottish_advanced_highers'].includes(route);
+  const isNational5OnlyRule = ['national_5', 'national5'].includes(qualificationLevel);
+  const includesGcse = qualificationLevel.includes('gcse');
+  const includesNational5 = qualificationLevel.includes('national_5');
+
+  if (routeIsScottish) {
+    if (includesNational5) {
+      return true;
+    }
+    if (includesGcse) {
+      return false;
+    }
+  }
+
+  if (!routeIsScottish && isNational5OnlyRule) {
+    return false;
+  }
+
+  return true;
+}
+
 function evaluateGcseRules(course, applicant, state) {
   const rules = course.stage_1_eligibility?.gcse || {};
   const subjectGrades = profileToSubjectMap(applicant.gcse_profile);
@@ -580,6 +616,9 @@ function evaluateGcseRules(course, applicant, state) {
     if (!groupRuleApplies(countRule, state.applicant_group_ids)) {
       continue;
     }
+    if (!gcseRuleAppliesToQualificationRoute(countRule, state.qualification_route)) {
+      continue;
+    }
     const actualCount = countableGrades.filter((grade) => {
       return gradeMeets(grade, countRule.minimum_grade, 'gcse');
     }).length;
@@ -599,6 +638,9 @@ function evaluateGcseRules(course, applicant, state) {
 
   for (const rule of rules.grade_requirements || []) {
     if (!groupRuleApplies(rule, state.applicant_group_ids)) {
+      continue;
+    }
+    if (!gcseRuleAppliesToQualificationRoute(rule, state.qualification_route)) {
       continue;
     }
     const subjectId = normaliseId(rule.subject_id);
@@ -1148,12 +1190,21 @@ function evaluateIbRoute(course, applicant, state) {
       []
   });
   const actualGrades = Object.values(subjectGrades);
+  const actualHigherLevelPoints = Number.isFinite(Number(applicant.ib_profile?.higher_level_total_points))
+    ? Number(applicant.ib_profile.higher_level_total_points)
+    : actualGrades.reduce((total, grade) => {
+      const numeric = Number(grade);
+      return total + (Number.isFinite(numeric) ? numeric : 0);
+    }, 0);
   const passed = requirements.some((requirement) => {
     const expectedProfile = requirement.hl_grade_profile ||
       String(requirement.hl_points || '').split(',').map((grade) => grade.trim()).filter(Boolean);
     const totalPassed =
       Number.isFinite(applicant.ib_profile?.total_points) &&
       applicant.ib_profile.total_points >= requirement.total_points;
+    const hlPointsPassed =
+      !Number.isFinite(Number(requirement.hl_points)) ||
+      actualHigherLevelPoints >= Number(requirement.hl_points);
     const profilePassed = gradeProfileMeets(actualGrades, expectedProfile, 'gcse');
     const requiredSubjectsPassed = (requirement.required_hl_subject_ids || []).every((subjectId) => {
       return subjectGrades[normaliseId(subjectId)] !== undefined;
@@ -1181,6 +1232,7 @@ function evaluateIbRoute(course, applicant, state) {
           standardLevelSubjectGrades[subjectId] !== undefined;
       });
     return totalPassed &&
+      hlPointsPassed &&
       profilePassed &&
       requiredSubjectsPassed &&
       directSubjectGradesPassed &&
@@ -2219,7 +2271,9 @@ function evaluateCourseEligibility(course, applicantInput) {
   evaluateAdmissionsTests(course, applicant, state);
   evaluateDeferral(course, applicant, state);
 
-  const status = state.failures.length
+  const status = state.manual_review_reasons.includes('bristol_scholars_tailored_offer_manual_review')
+    ? 'manual_review'
+    : state.failures.length
     ? 'not_eligible'
     : state.manual_review_reasons.length
       ? 'manual_review'
