@@ -240,6 +240,17 @@ function compactSentence(value: string | null | undefined, fallback = ''): strin
   return sentence.length > 145 ? `${sentence.slice(0, 142).trim()}...` : sentence;
 }
 
+function splitContextualOfferGrade(body: string, grade: string | null) {
+  if (!grade) return null;
+  const index = body.indexOf(grade);
+  if (index < 0) return null;
+  return {
+    before: body.slice(0, index),
+    grade,
+    after: body.slice(index + grade.length),
+  };
+}
+
 function isPositiveAcademicStatusSummary(value: string): boolean {
   return value.trim() === 'You meet the academic requirements.';
 }
@@ -558,6 +569,14 @@ function academicRequirementTone(status: string): RequirementBadgeTone {
   return 'neutral';
 }
 
+function academicPathway(card: PredictionResult['result_card']): string {
+  return asString(card.academic_pathway).toLowerCase().replace(/[\s-]+/g, '_');
+}
+
+function isEpqAlternativeRequirement(type: string, label: string): boolean {
+  return /epq/i.test(type) || /epq/i.test(label);
+}
+
 const requirementTonePriority: Record<RequirementBadgeTone, number> = {
   neutral: 0,
   positive: 1,
@@ -570,6 +589,7 @@ function conciseRequirementRows(
   overallStatus: string | null,
 ) {
   const rowsByType = new Map<string, { label: string; value: string; tone: RequirementBadgeTone }>();
+  const suppressEpqAlternative = academicPathway(card) === 'standard';
   (card.academic_requirement_checks || []).forEach((check) => {
     const type =
       asString(check.requirement_type) ||
@@ -579,6 +599,7 @@ function conciseRequirementRows(
     const status = asString(check.status);
     const tone = academicRequirementTone(status);
     if (!type || !label || tone === 'neutral') return;
+    if (suppressEpqAlternative && isEpqAlternativeRequirement(type, label)) return;
     const current = rowsByType.get(type);
     if (current && requirementTonePriority[current.tone] >= requirementTonePriority[tone]) return;
     rowsByType.set(type, {
@@ -814,9 +835,39 @@ export function ResultCard({ result }: { result: PredictionResult }) {
   const advisoryLine = visibleTrustStatement ? compactSentence(visibleTrustStatement) : null;
   const contextualStatusConfirmed =
     card.contextual_status === 'confirmed' && card.recommendation_display_state === 'standard';
-  const contextualConfirmedMessage = contextualStatusConfirmed
-    ? CONTEXTUAL_CONFIRMED_MESSAGE
+  const contextualConfirmation =
+    contextualStatusConfirmed && card.contextual_confirmation && typeof card.contextual_confirmation === 'object'
+      ? card.contextual_confirmation
+      : null;
+  const contextualCollapsedMessage =
+    typeof contextualConfirmation?.collapsed_label === 'string' && contextualConfirmation.collapsed_label.trim()
+      ? null
+      : contextualStatusConfirmed
+        ? CONTEXTUAL_CONFIRMED_MESSAGE
+        : null;
+  const contextualExpandedHeading =
+    typeof contextualConfirmation?.expanded_heading === 'string' && contextualConfirmation.expanded_heading.trim()
+      ? contextualConfirmation.expanded_heading.trim()
+      : null;
+  const contextualExpandedBody =
+    typeof contextualConfirmation?.expanded_body === 'string' && contextualConfirmation.expanded_body.trim()
+      ? contextualConfirmation.expanded_body.trim()
+      : null;
+  const contextualConsiderationLabel =
+    typeof contextualConfirmation?.consideration_label === 'string' && contextualConfirmation.consideration_label.trim()
+      ? contextualConfirmation.consideration_label.trim()
+      : null;
+  const contextualOfferGrade =
+    typeof contextualConfirmation?.contextual_offer_grade === 'string' && contextualConfirmation.contextual_offer_grade.trim()
+      ? contextualConfirmation.contextual_offer_grade.trim()
+      : null;
+  const contextualBodyGradeParts = contextualExpandedBody
+    ? splitContextualOfferGrade(contextualExpandedBody, contextualOfferGrade)
     : null;
+  const visibleAlternativeAcademicOffer =
+    academicPathway(card) === 'standard' && card.alternative_academic_offer?.type === 'epq'
+      ? null
+      : card.alternative_academic_offer;
   const guaranteedInterviewNotice =
     card.interview_outcome === 'guaranteed_interview' &&
     typeof card.guaranteed_interview_notice === 'string' &&
@@ -1021,9 +1072,9 @@ export function ResultCard({ result }: { result: PredictionResult }) {
           </div>
           <div className="result-card-assessment-summary">
             <p className="result-card-explanation">{summaryLineOne}</p>
+            {contextualCollapsedMessage && <p className="result-card-advisory">{contextualCollapsedMessage}</p>}
             {visibleSummaryLineTwo && <p className="result-card-academic-status">{visibleSummaryLineTwo}</p>}
             {advisoryLine && <p className="result-card-advisory">{advisoryLine}</p>}
-            {contextualConfirmedMessage && <p className="result-card-advisory">{contextualConfirmedMessage}</p>}
           </div>
         </div>
         <div className="result-card-hero-side">
@@ -1100,9 +1151,27 @@ export function ResultCard({ result }: { result: PredictionResult }) {
         </div>
       </section>
 
+      {contextualExpandedHeading && contextualExpandedBody && (
+        <section className="result-card-section result-card-contextual-confirmation">
+          <SectionHeader title={contextualExpandedHeading} subtitle={undefined} icon="info" />
+          <p className="result-card-compact-note">
+            {contextualConsiderationLabel && <strong>{publicText(contextualConsiderationLabel)} </strong>}
+            {contextualBodyGradeParts ? (
+              <>
+                {contextualBodyGradeParts.before}
+                <strong>{contextualBodyGradeParts.grade}</strong>
+                {contextualBodyGradeParts.after}
+              </>
+            ) : (
+              publicText(contextualExpandedBody)
+            )}
+          </p>
+        </section>
+      )}
+
       <AlternativeAcademicOffer
-        offer={card.alternative_academic_offer}
-        contextualStatus={contextualStatusConfirmed ? card.contextual_status : null}
+        offer={visibleAlternativeAcademicOffer}
+        contextualStatus={contextualStatusConfirmed && !contextualConfirmation ? card.contextual_status : null}
       />
 
       <section className="result-card-section result-card-details">

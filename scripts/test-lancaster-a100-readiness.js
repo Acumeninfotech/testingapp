@@ -102,6 +102,10 @@ assert.deepStrictEqual(
 
 const aLevel = course.stage_1_eligibility.post_16.a_level;
 assert.deepStrictEqual(aLevel.stage_1_predicted_minimum.grade_profile, ['A', 'A', 'B']);
+assert.deepStrictEqual(
+  aLevel.grade_requirements.map((route) => route.requirement_id),
+  ['a_level_epq_alternative', 'a_level_standard_offer', 'a_level_resit_profile']
+);
 assert.deepStrictEqual(aLevel.standard_offer.grade_profile, ['A', 'A', 'A']);
 assert.deepStrictEqual(aLevel.epq_alternative_offer, {
   enabled: true,
@@ -109,15 +113,15 @@ assert.deepStrictEqual(aLevel.epq_alternative_offer, {
   a_level_grades: ['A', 'A', 'B'],
   epq_minimum_grade: 'B'
 });
-assert.deepStrictEqual(aLevel.contextual_offer.grade_profile, ['A', 'A', 'B']);
-assert.deepStrictEqual(aLevel.contextual_epq_alternative_offer, {
-  enabled: true,
-  pathway_id: 'lancaster_contextual_epq_alternative',
-  a_level_grades: ['A', 'B', 'B'],
-  epq_minimum_grade: 'B',
-  source_ids: ['lancaster_admissions_policy_2026'],
-  notes: 'ABB applies only where the applicant is contextual/WP and has EPQ grade B or above.'
-});
+assert.deepStrictEqual(aLevel.contextual_offer.grade_profile, ['A', 'B', 'B']);
+assert.strictEqual(
+  Object.prototype.hasOwnProperty.call(aLevel, 'contextual_epq_alternative_offer'),
+  false
+);
+assert.strictEqual(
+  course.contextual_admissions.contextual_eligibility.evaluator_id,
+  'lancaster_contextual_medicine_a100'
+);
 assert.strictEqual(aLevel.science_practical_endorsement_required, null);
 assert.deepStrictEqual(
   aLevel.one_of_subject_groups[0].subject_ids,
@@ -223,12 +227,21 @@ function applicantForBoundary(boundary) {
       fee_status: international ? 'International' : 'Home',
       domicile: international ? 'International' : 'England',
       english_language_exempt: international,
-      contextual,
-      widening_participation: contextual,
+      contextual: false,
+      widening_participation: false,
       contextual_flags: {
-        care_experienced: contextual
+        care_experienced: false
       }
     },
+    ...(contextual
+      ? {
+          contextual_profile: {
+            personal_circumstances: {
+              care_experienced: 'yes'
+            }
+          }
+        }
+      : {}),
     admissions_tests: {
       ucat: {
         total_score: boundary.ucat_total

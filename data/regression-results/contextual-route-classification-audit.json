@@ -13,8 +13,9 @@
       "Consider": 3
     },
     "all_flags": {
-      "Recommended": 30,
+      "Recommended": 29,
       "Information Needed": 8,
+      "Not Eligible": 1,
       "Consider": 2
     }
   },
@@ -585,9 +586,9 @@
         "interview_outcome": null
       },
       "all_flags": {
-        "public_group": "Information Needed",
-        "result_band": "ambitious",
-        "display_state": "manual_review",
+        "public_group": "Not Eligible",
+        "result_band": "not_eligible",
+        "display_state": "not_eligible",
         "applicant_group_ids": [
           "england_domiciled",
           "rest_of_uk",
@@ -604,15 +605,15 @@
           "contextual",
           "widening_participation"
         ],
-        "guidance_pool_id": "cambridge_home_hidden_holistic_guidance",
+        "guidance_pool_id": null,
         "selection_route_id": null,
-        "canonical_interview_band": "ambitious",
+        "canonical_interview_band": "not_eligible",
         "academic_pathway": null,
         "academic_pathway_id": null,
         "interview_outcome": null
       },
-      "contextual_route_legitimately_activated": true,
-      "change_reason": "evidence_specific_contextual_or_wp_route"
+      "contextual_route_legitimately_activated": false,
+      "change_reason": "no_route_or_prediction_change"
     },
     {
       "university_id": "cardiff-a100",
@@ -1537,9 +1538,9 @@
         "result_band": "very_strong_interview_potential",
         "display_state": "standard",
         "applicant_group_ids": [
+          "home_fee",
           "england_domiciled",
           "rest_of_uk",
-          "home_fee",
           "school_leaver"
         ],
         "guidance_pool_id": "home_standard_school_leaver",
@@ -1554,9 +1555,9 @@
         "result_band": "very_strong_interview_potential",
         "display_state": "standard",
         "applicant_group_ids": [
+          "home_fee",
           "england_domiciled",
           "rest_of_uk",
-          "home_fee",
           "school_leaver"
         ],
         "guidance_pool_id": "home_standard_school_leaver",
@@ -1567,13 +1568,13 @@
         "interview_outcome": null
       },
       "all_flags": {
-        "public_group": "Recommended",
-        "result_band": "very_strong_interview_potential",
-        "display_state": "standard",
+        "public_group": "Information Needed",
+        "result_band": "insufficient_evidence",
+        "display_state": "manual_review",
         "applicant_group_ids": [
+          "home_fee",
           "england_domiciled",
           "rest_of_uk",
-          "home_fee",
           "care_experienced",
           "refugee_or_asylum_seeker",
           "refugee",
@@ -1582,18 +1583,16 @@
           "first_generation_higher_education",
           "school_contextual_indicator",
           "ucat_bursary",
-          "school_leaver",
-          "contextual",
-          "widening_participation"
+          "school_leaver"
         ],
-        "guidance_pool_id": "home_contextual_wp_school_leaver",
+        "guidance_pool_id": null,
         "selection_route_id": null,
-        "canonical_interview_band": "very_strong_interview_potential",
-        "academic_pathway": "contextual",
-        "academic_pathway_id": "lancaster_contextual_offer",
+        "canonical_interview_band": "insufficient_evidence",
+        "academic_pathway": "standard",
+        "academic_pathway_id": "lancaster_standard_offer",
         "interview_outcome": null
       },
-      "contextual_route_legitimately_activated": true,
+      "contextual_route_legitimately_activated": false,
       "change_reason": "evidence_specific_contextual_or_wp_route"
     },
     {

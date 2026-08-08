@@ -200,11 +200,9 @@
     {
       "scenario_id": "home_contextual_at_historical_threshold",
       "overrides": {
-        "applicant_identity": {
-          "contextual": true,
-          "widening_participation": true,
-          "contextual_flags": {
-            "care_experienced": true
+        "contextual_profile": {
+          "personal_circumstances": {
+            "care_experienced": "yes"
           }
         },
         "admissions_tests": {
@@ -222,11 +220,9 @@
     {
       "scenario_id": "home_contextual_realistic_upper_bound",
       "overrides": {
-        "applicant_identity": {
-          "contextual": true,
-          "widening_participation": true,
-          "contextual_flags": {
-            "care_experienced": true
+        "contextual_profile": {
+          "personal_circumstances": {
+            "care_experienced": "yes"
           }
         },
         "admissions_tests": {
@@ -244,11 +240,9 @@
     {
       "scenario_id": "home_contextual_interview_likely_lower_bound",
       "overrides": {
-        "applicant_identity": {
-          "contextual": true,
-          "widening_participation": true,
-          "contextual_flags": {
-            "care_experienced": true
+        "contextual_profile": {
+          "personal_circumstances": {
+            "care_experienced": "yes"
           }
         },
         "admissions_tests": {
@@ -266,11 +260,9 @@
     {
       "scenario_id": "home_contextual_interview_likely_upper_bound",
       "overrides": {
-        "applicant_identity": {
-          "contextual": true,
-          "widening_participation": true,
-          "contextual_flags": {
-            "care_experienced": true
+        "contextual_profile": {
+          "personal_circumstances": {
+            "care_experienced": "yes"
           }
         },
         "admissions_tests": {
@@ -288,11 +280,9 @@
     {
       "scenario_id": "home_contextual_very_strong_interview_potential_lower_bound",
       "overrides": {
-        "applicant_identity": {
-          "contextual": true,
-          "widening_participation": true,
-          "contextual_flags": {
-            "care_experienced": true
+        "contextual_profile": {
+          "personal_circumstances": {
+            "care_experienced": "yes"
           }
         },
         "admissions_tests": {
@@ -310,11 +300,9 @@
     {
       "scenario_id": "home_contextual_exceptionally_strong_not_capped",
       "overrides": {
-        "applicant_identity": {
-          "contextual": true,
-          "widening_participation": true,
-          "contextual_flags": {
-            "care_experienced": true
+        "contextual_profile": {
+          "personal_circumstances": {
+            "care_experienced": "yes"
           }
         },
         "admissions_tests": {
@@ -332,11 +320,9 @@
     {
       "scenario_id": "home_contextual_borderline_upper_bound",
       "overrides": {
-        "applicant_identity": {
-          "contextual": true,
-          "widening_participation": true,
-          "contextual_flags": {
-            "care_experienced": true
+        "contextual_profile": {
+          "personal_circumstances": {
+            "care_experienced": "yes"
           }
         },
         "admissions_tests": {
@@ -421,7 +407,7 @@
         "eligibility_status": "not_eligible",
         "guidance_pool_id": null,
         "interview_band": "not_eligible",
-        "failure": "disqualifying_sjt_rule"
+        "failure": "sjt_band_excluded"
       }
     },
     {

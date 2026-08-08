@@ -289,46 +289,6 @@
         },
         "grade_requirements": [
           {
-            "requirement_id": "a_level_contextual_epq_alternative",
-            "academic_pathway": "contextual_epq_alternative",
-            "pathway_id": "lancaster_contextual_epq_alternative",
-            "requires_epq": true,
-            "epq_minimum_grade": "B",
-            "applies_to_group_ids": [
-              "school_leaver"
-            ],
-            "any_group_ids": [
-              "contextual",
-              "widening_participation",
-              "care_experienced"
-            ],
-            "excluded_group_ids": [
-              "resit_applicant"
-            ],
-            "grade_profile": [
-              "A",
-              "B",
-              "B"
-            ],
-            "required_subject_ids": [],
-            "one_of_subject_groups": [
-              {
-                "group_id": "two_of_biology_chemistry_psychology",
-                "minimum_required": 2,
-                "subject_ids": [
-                  "biology",
-                  "chemistry",
-                  "psychology"
-                ]
-              }
-            ],
-            "decision_outcome_if_not_met": "not_eligible",
-            "source_ids": [
-              "lancaster_admissions_policy_2026"
-            ],
-            "notes": "Active contextual-plus-EPQ A-level pathway. ABB applies only when Lancaster contextual/WP eligibility and EPQ grade B or above are both present."
-          },
-          {
             "requirement_id": "a_level_epq_alternative",
             "academic_pathway": "epq_alternative",
             "pathway_id": "lancaster_epq_alternative",
@@ -338,10 +298,7 @@
               "school_leaver"
             ],
             "excluded_group_ids": [
-              "resit_applicant",
-              "contextual",
-              "widening_participation",
-              "care_experienced"
+              "resit_applicant"
             ],
             "grade_profile": [
               "A",
@@ -364,7 +321,7 @@
             "source_ids": [
               "lancaster_admissions_policy_2026"
             ],
-            "notes": "Active EPQ A-level pathway for non-contextual applicants with EPQ grade B or above."
+            "notes": "Active A-level plus EPQ pathway. This standard AAB plus EPQ route remains available irrespective of contextual status."
           },
           {
             "requirement_id": "a_level_standard_offer",
@@ -374,9 +331,7 @@
               "school_leaver"
             ],
             "excluded_group_ids": [
-              "resit_applicant",
-              "contextual",
-              "widening_participation"
+              "resit_applicant"
             ],
             "grade_profile": [
               "A",
@@ -400,45 +355,7 @@
               "lancaster_admissions_policy_2026",
               "lancaster_course_2027"
             ],
-            "notes": "Standard active A-level offer pathway for non-contextual school-leaver applicants."
-          },
-          {
-            "requirement_id": "a_level_contextual_offer",
-            "academic_pathway": "contextual",
-            "pathway_id": "lancaster_contextual_offer",
-            "applies_to_group_ids": [
-              "school_leaver"
-            ],
-            "any_group_ids": [
-              "contextual",
-              "widening_participation",
-              "care_experienced"
-            ],
-            "excluded_group_ids": [
-              "resit_applicant"
-            ],
-            "grade_profile": [
-              "A",
-              "A",
-              "B"
-            ],
-            "required_subject_ids": [],
-            "one_of_subject_groups": [
-              {
-                "group_id": "two_of_biology_chemistry_psychology",
-                "minimum_required": 2,
-                "subject_ids": [
-                  "biology",
-                  "chemistry",
-                  "psychology"
-                ]
-              }
-            ],
-            "decision_outcome_if_not_met": "not_eligible",
-            "source_ids": [
-              "lancaster_admissions_policy_2026"
-            ],
-            "notes": "Active contextual A-level offer pathway without a qualifying EPQ; applicants with a qualifying EPQ use the contextual-plus-EPQ pathway."
+            "notes": "Standard active A-level offer pathway for school-leaver applicants. Contextual status does not lower the pre-interview Stage 1 academic screen."
           },
           {
             "requirement_id": "a_level_resit_profile",
@@ -515,27 +432,13 @@
           ],
           "grade_profile": [
             "A",
-            "A",
+            "B",
             "B"
           ],
           "source_ids": [
             "lancaster_admissions_policy_2026"
           ],
           "notes": "Final contextual offer after successful interview; it does not replace the Stage 1 academic screen."
-        },
-        "contextual_epq_alternative_offer": {
-          "enabled": true,
-          "pathway_id": "lancaster_contextual_epq_alternative",
-          "a_level_grades": [
-            "A",
-            "B",
-            "B"
-          ],
-          "epq_minimum_grade": "B",
-          "source_ids": [
-            "lancaster_admissions_policy_2026"
-          ],
-          "notes": "ABB applies only where the applicant is contextual/WP and has EPQ grade B or above."
         },
         "required_subject_ids": [],
         "one_of_subject_groups": [
@@ -1116,6 +1019,9 @@
       "lancaster_admissions_data"
     ],
     "available": true,
+    "contextual_eligibility": {
+      "evaluator_id": "lancaster_contextual_medicine_a100"
+    },
     "applies_to_group_ids": [
       "home_fee",
       "contextual",
@@ -1128,7 +1034,7 @@
         "applies_to_group_ids": [
           "home_fee"
         ],
-        "description": "Care experience or care-leaver status of at least three months, or refugee status, qualifies automatically subject to Lancaster verification.",
+        "description": "Care experienced, care leaver or local-authority care for 3 months or more, or confirmed refugee status, qualifies automatically subject to Lancaster verification.",
         "source_ids": [
           "lancaster_admissions_policy_2026"
         ],
@@ -1139,11 +1045,11 @@
         "applies_to_group_ids": [
           "home_fee"
         ],
-        "description": "Otherwise at least two published widening-participation criteria are required, including supported neighbourhood, household-income, bursary and related evidence categories.",
+        "description": "Otherwise at least two distinct supported widening-participation categories are required from the implemented Lancaster subset: area or low-participation disadvantage, low-income household evidence, and school disadvantage.",
         "source_ids": [
           "lancaster_admissions_policy_2026"
         ],
-        "notes": "The full evidence list is university-verified; ApplySmart does not infer eligibility from a postcode alone."
+        "notes": "The captured widening-participation list is not exhaustive. ApplySmart does not infer Lancaster area eligibility from postcode-derived quintiles alone where no published executable cutoff is available."
       }
     ],
     "adjustments": [
@@ -1365,27 +1271,13 @@
       ],
       "grade_profile": [
         "A",
-        "A",
-        "B"
-      ],
-      "source_ids": [
-        "lancaster_admissions_policy_2026"
-      ],
-      "notes": "For university-verified eligible WP applicants who succeed at interview without the qualifying EPQ reduction."
-    },
-    "contextual_epq_alternative_offer": {
-      "pathway_id": "lancaster_contextual_epq_alternative",
-      "requires_epq": true,
-      "epq_minimum_grade": "B",
-      "grade_profile": [
-        "A",
         "B",
         "B"
       ],
       "source_ids": [
         "lancaster_admissions_policy_2026"
       ],
-      "notes": "For contextual/WP applicants with EPQ grade B or above."
+      "notes": "For university-verified eligible WP applicants who succeed at interview."
     },
     "notes": "Post-interview information is stored for transparency only. ApplySmart does not produce an offer prediction."
   },

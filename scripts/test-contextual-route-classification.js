@@ -32,7 +32,6 @@ const EXPECTED_FLAG_ROUTE_CHANGES = {
     'cambridge-a100',
     'imperial-college-london-a100',
     'keele-a100',
-    'lancaster-a100',
     'leicester-a100',
     'liverpool-a100'
   ],

@@ -204,6 +204,23 @@ describe('ContextualStep', () => {
     });
   });
 
+  it('offers Lancaster Access to Medicine in the other access programme selector', () => {
+    const { profile, rerender, updateProfile } = renderStep();
+
+    selectValue('other_access_participation_status', 'yes');
+    rerender(<ContextualStep profile={profile} updateProfile={updateProfile} errors={{}} />);
+
+    expect(screen.getByRole('option', { name: 'Lancaster Access to Medicine' })).toHaveValue(
+      'lancaster_access_to_medicine',
+    );
+
+    selectValue('other_access_programme_selector', 'lancaster_access_to_medicine');
+
+    expect(profile.contextual_profile.access_programmes.other_programmes).toEqual([
+      { programme_id: 'lancaster_access_to_medicine', status: '' },
+    ]);
+  });
+
   it('checks postcode on blur and populates available POLAR4, TUNDRA and IMD values', async () => {
     lookupContextualPostcodeMock.mockResolvedValue({
       matched: true,

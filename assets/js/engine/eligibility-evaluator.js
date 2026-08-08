@@ -337,9 +337,6 @@ function applyCourseSpecificDerivedApplicantGroups(course, applicant, groupIds, 
   const groups = new Set(groupIds);
   const identity = applicant.applicant_identity || {};
   const flags = identity.contextual_flags || {};
-  const trueFlagCount = (flagIds) => {
-    return flagIds.filter((flagId) => flags[flagId] === true).length;
-  };
 
   if (
     course?.profile_id === 'birmingham-a100' &&
@@ -358,34 +355,13 @@ function applyCourseSpecificDerivedApplicantGroups(course, applicant, groupIds, 
     groups.add('contextual');
   }
 
-  if (
-    course?.profile_id === 'lancaster-a100' &&
-    groups.has('home_fee') &&
-    !groups.has('international_fee') &&
-    !groups.has('graduate_applicant') &&
-    (
-      flags.care_experienced === true ||
-      flags.refugee === true ||
-      flags.refugee_or_asylum_seeker === true ||
-      trueFlagCount([
-        'free_school_meals',
-        'first_generation_higher_education',
-        'school_contextual_indicator',
-        'ucat_bursary'
-      ]) >= 2
-    )
-  ) {
-    groups.add('contextual');
-    groups.add('widening_participation');
-  }
-
   const contextualResult = contextualEligibility || evaluateCourseContextualEligibility(course, applicant);
   if (course?.profile_id === 'bristol-a100' && contextualResult) {
     groups.delete('contextual');
     groups.delete('widening_participation');
   }
   if (
-    ['aston-a100', 'imperial-college-london-a100', 'manchester-a100', 'leicester-a100', 'bristol-a100', 'east-anglia-a100'].includes(course?.profile_id)
+    ['aston-a100', 'imperial-college-london-a100', 'manchester-a100', 'leicester-a100', 'bristol-a100', 'east-anglia-a100', 'lancaster-a100'].includes(course?.profile_id)
   ) {
     const activatedGroups = contextualResult?.is_contextual === true
       ? contextualResult.activated_applicant_group_ids
@@ -2207,7 +2183,7 @@ function evaluateCourseEligibility(course, applicantInput) {
     throw new TypeError('course and applicant are required.');
   }
   const applicant = normaliseApplicantProfile(applicantInput, { course });
-  const contextualEligibility = evaluateCourseContextualEligibility(course, applicant);
+  const contextualEligibility = evaluateCourseContextualEligibility(course, applicantInput);
 
   const state = {
     mode: 'eligibility_only',

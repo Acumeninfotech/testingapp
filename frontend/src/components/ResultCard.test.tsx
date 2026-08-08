@@ -8,6 +8,9 @@ const require = createRequire(import.meta.url);
 const { predict } = require('../../../server/src/predict') as {
   predict: (request: { universityIds: string[]; studentProfile: Record<string, unknown> }) => PredictionResult[];
 };
+const lancasterFixture = require('../../../data/fixtures/interview-band-classification/lancaster-a100.json') as {
+  base_applicant: Record<string, unknown>;
+};
 
 const CONTEXTUAL_CONFIRMED_MESSAGE =
   "Contextual eligibility confirmed. Your application has been assessed using this university's published contextual admissions criteria.";
@@ -52,6 +55,68 @@ function merge(base: Record<string, unknown>, overrides: Record<string, unknown>
     }
   });
   return result;
+}
+
+function lancasterApplicant(overrides: Record<string, unknown> = {}): Record<string, unknown> {
+  return merge(
+    lancasterFixture.base_applicant,
+    merge({
+      admissions_tests: {
+        ucat: {
+          total_score: 1920,
+          score_scale: 2700,
+          subtests: {
+            verbal_reasoning: 640,
+            decision_making: 640,
+            quantitative_reasoning: 640,
+          },
+          sjt_band: 2,
+          test_year: 2026,
+        },
+      },
+    }, overrides),
+  );
+}
+
+function lancasterAlevelApplicant({
+  grades,
+  epq,
+}: {
+  grades: string[];
+  epq?: Record<string, unknown>;
+}): Record<string, unknown> {
+  const subjects = [
+    ['biology', grades[0]],
+    ['chemistry', grades[1]],
+    ['mathematics', grades[2]],
+  ].map(([subjectId, predictedGrade], index) => ({
+    subject_id: subjectId,
+    predicted_grade: predictedGrade,
+    sitting_status: 'first_sitting',
+    ...(index < 2 ? { practical_endorsement: 'pass' } : {}),
+  }));
+
+  return merge(lancasterFixture.base_applicant, {
+    contextual_profile: {},
+    a_level_profile: {
+      subjects,
+      sitting_status: 'first_sitting',
+      ...(epq ? { epq } : {}),
+    },
+    admissions_tests: {
+      ucat: {
+        total_score: 2200,
+        score_scale: 2700,
+        subtests: {
+          verbal_reasoning: 730,
+          decision_making: 730,
+          quantitative_reasoning: 740,
+        },
+        sjt_band: 1,
+        test_year: 2026,
+      },
+    },
+  });
 }
 
 describe('ResultCard', () => {
@@ -138,6 +203,132 @@ describe('ResultCard', () => {
     expect(screen.getByText('EPQ must be taken alongside A-levels')).toBeInTheDocument();
   });
 
+  it('does not show Lancaster EPQ alternative-used presentation for AAA applicants without EPQ', () => {
+    const [result] = predict({
+      universityIds: ['lancaster-a100'],
+      studentProfile: lancasterAlevelApplicant({
+        grades: ['A', 'A', 'A'],
+        epq: { status: 'not_taken', grade: null },
+      }),
+    });
+
+    expect(result.result_card.recommendation_display_state).toBe('standard');
+    expect(result.result_card.academic_pathway).toBe('standard');
+    expect(result.result_card.alternative_academic_offer).toBeNull();
+
+    render(<ResultCard result={result} />);
+
+    expect(screen.queryByText('Alternative Academic Offer')).not.toBeInTheDocument();
+    expect(screen.queryByText('EPQ Alternative')).not.toBeInTheDocument();
+    expect(screen.queryByText(/AAB \+ EPQ Grade B/i)).not.toBeInTheDocument();
+  });
+
+  it('suppresses stale EPQ presentation for contextual Lancaster standard-route applicants', () => {
+    render(
+      <ResultCard
+        result={makeResult(
+          {
+            academic_pathway: 'standard',
+            contextual_status: 'confirmed',
+            contextual_confirmation: {
+              collapsed_label: 'Contextual eligibility confirmed',
+              expanded_heading: 'Contextual eligibility confirmed',
+              consideration_label: 'Contextual consideration:',
+              expanded_body:
+                'Your contextual status may be considered during UCAT interview shortlisting. If successful at interview, you may be considered for a contextual offer of ABB.',
+              contextual_offer_grade: 'ABB',
+            },
+            alternative_academic_offer: {
+              type: 'epq',
+              standard_offer: 'AAA',
+              alternative_offer: 'AAB + EPQ Grade B',
+              epq_minimum_grade: 'B',
+              pathway_id: 'lancaster_epq_alternative',
+              conditions: [],
+            },
+            academic_requirement_checks: [
+              {
+                qualification_type: 'a_level',
+                requirement_type: 'a_level_epq_alternative',
+                label: 'A-levels + EPQ',
+                status: 'met',
+              },
+              {
+                qualification_type: 'a_level',
+                requirement_type: 'a_level_standard_offer',
+                label: 'A-level grades',
+                status: 'met',
+              },
+            ],
+          },
+          { universityId: 'lancaster-a100', university: 'Lancaster University' },
+        )}
+      />,
+    );
+
+    expect(screen.getByText('A-level grades')).toBeInTheDocument();
+    expect(screen.queryByText('A-levels + EPQ')).not.toBeInTheDocument();
+    expect(screen.queryByText('Alternative Academic Offer')).not.toBeInTheDocument();
+    expect(screen.queryByText(/AAB \+ EPQ Grade B/i)).not.toBeInTheDocument();
+    expect(screen.getByRole('heading', { name: 'Contextual eligibility confirmed' })).toBeInTheDocument();
+    expect(screen.getByText(/Contextual consideration:/)).toBeInTheDocument();
+    expect(screen.getByText('ABB')).toBeInTheDocument();
+  });
+
+  it('shows Lancaster EPQ alternative-used presentation for AAB plus EPQ Grade B applicants', () => {
+    const [result] = predict({
+      universityIds: ['lancaster-a100'],
+      studentProfile: lancasterAlevelApplicant({
+        grades: ['A', 'A', 'B'],
+        epq: { status: 'predicted', grade: 'B' },
+      }),
+    });
+
+    expect(result.result_card.recommendation_display_state).toBe('standard');
+    expect(result.result_card.academic_pathway).toBe('epq_alternative');
+    expect(result.result_card.alternative_academic_offer).toEqual({
+      type: 'epq',
+      standard_offer: 'AAA',
+      alternative_offer: 'AAB + EPQ Grade B',
+      epq_minimum_grade: 'B',
+      pathway_id: 'lancaster_epq_alternative',
+      conditions: [],
+    });
+
+    render(<ResultCard result={result} />);
+
+    const offer = screen
+      .getByRole('heading', { name: 'Alternative Academic Offer' })
+      .closest('.alternative-academic-offer');
+    expect(offer).not.toBeNull();
+    expect(within(offer as HTMLElement).getByText('EPQ')).toBeInTheDocument();
+    expect(within(offer as HTMLElement).getByText('EPQ Alternative')).toBeInTheDocument();
+    expect(within(offer as HTMLElement).getByText('AAB + EPQ Grade B')).toBeInTheDocument();
+  });
+
+  it('keeps Lancaster AAB without EPQ as the existing unmet academic result', () => {
+    const [result] = predict({
+      universityIds: ['lancaster-a100'],
+      studentProfile: lancasterAlevelApplicant({
+        grades: ['A', 'A', 'B'],
+        epq: { status: 'not_taken', grade: null },
+      }),
+    });
+
+    expect(result.result_card.recommendation_display_state).toBe('not_eligible');
+    expect(result.result_card.academic_pathway).toBe('standard');
+    expect(result.result_card.alternative_academic_offer).toBeNull();
+    expect(
+      result.result_card.academic_requirement_checks?.some(
+        (check) =>
+          check.requirement_type === 'a_level_standard_offer' &&
+          check.status === 'not_met' &&
+          check.required_value === 'AAA' &&
+          check.applicant_value === 'AAB',
+      ),
+    ).toBe(true);
+  });
+
   it('renders a contextual academic offer summary', () => {
     render(
       <ResultCard
@@ -192,6 +383,80 @@ describe('ResultCard', () => {
     expect(screen.getByText(CONTEXTUAL_CONFIRMED_MESSAGE)).toBeInTheDocument();
     expect(screen.getByText('Contextual Status')).toBeInTheDocument();
     expect(screen.getByText('✅ Contextual eligibility confirmed')).toBeInTheDocument();
+  });
+
+  it('shows Lancaster contextual wording only in the dedicated expanded contextual section', () => {
+    const [result] = predict({
+      universityIds: ['lancaster-a100'],
+      studentProfile: lancasterApplicant({
+        contextual_profile: {
+          financial_support: {
+            free_school_meals: 'yes',
+          },
+          school_education: {
+            low_progression_to_higher_education_school: 'yes',
+          },
+        },
+      }),
+    });
+
+    render(<ResultCard result={result} />);
+
+    const header = document.querySelector('.result-card-head');
+    expect(header).not.toBeNull();
+    expect(within(header as HTMLElement).queryByText('Contextual eligibility confirmed')).not.toBeInTheDocument();
+    expect(header).not.toHaveTextContent('ABB');
+
+    const contextualSection = document.querySelector('.result-card-contextual-confirmation');
+    expect(contextualSection).not.toBeNull();
+    expect(within(contextualSection as HTMLElement).getByRole('heading', { name: 'Contextual eligibility confirmed' })).toBeInTheDocument();
+    expect(contextualSection).toHaveTextContent(
+      'Contextual consideration: Your contextual status may be considered during UCAT interview shortlisting. If successful at interview, you may be considered for a contextual offer of ABB.',
+    );
+  });
+
+  it('does not show Lancaster contextual wording for standard Lancaster applicants', () => {
+    const [result] = predict({
+      universityIds: ['lancaster-a100'],
+      studentProfile: lancasterApplicant(),
+    });
+
+    render(<ResultCard result={result} />);
+
+    const header = document.querySelector('.result-card-head');
+    expect(header).not.toBeNull();
+    expect(within(header as HTMLElement).queryByText('Contextual eligibility confirmed')).not.toBeInTheDocument();
+    expect(screen.queryByText(/Contextual consideration:/)).not.toBeInTheDocument();
+    expect(screen.queryByText(/contextual offer of ABB/i)).not.toBeInTheDocument();
+  });
+
+  it('keeps Lancaster Access to Medicine guaranteed-interview presentation free of the contextual ABB notice', () => {
+    const [result] = predict({
+      universityIds: ['lancaster-a100'],
+      studentProfile: lancasterApplicant({
+        contextual_profile: {
+          personal_circumstances: {
+            care_experienced: 'yes',
+          },
+          access_programmes: {
+            other_programmes: [
+              {
+                programme_id: 'lancaster_access_to_medicine',
+                status: 'completed',
+              },
+            ],
+          },
+        },
+      }),
+    });
+
+    render(<ResultCard result={result} />);
+
+    expect(result.result_card.interview_outcome).toBe('guaranteed_interview');
+    expect(result.result_card.contextual_confirmation).toBeNull();
+    expect(screen.getAllByText(/Every published guaranteed-interview condition/).length).toBeGreaterThan(0);
+    expect(screen.queryByText(/Contextual consideration:/)).not.toBeInTheDocument();
+    expect(screen.queryByText(/contextual offer of ABB/i)).not.toBeInTheDocument();
   });
 
   it('does not show contextual confirmation messaging for standard applicants', () => {

@@ -1721,7 +1721,7 @@ function isEquivalentCourseTarget(profileId, targetCourseCode) {
   return Array.isArray(allowed) && allowed.includes(targetCourseCode);
 }
 
-function evaluateHardFilters(course, config, applicant, groupIds) {
+function evaluateHardFilters(course, config, applicant, groupIds, resolvedEligibility = null) {
   const academic = evaluateAcademicEligibility(course, config, applicant, groupIds);
   const failures = [...academic.failures];
   const tests = course.stage_1_eligibility?.admissions_tests || {};
@@ -1772,7 +1772,7 @@ function evaluateHardFilters(course, config, applicant, groupIds) {
       !ucat.excluded_group_ids.some((groupId) => groupIds.includes(groupId)));
   const missingUcatAllowedByOverride = Boolean(
     !Number.isFinite(ucatTotal) &&
-    resolveGuaranteedInterviewOverride(config, applicant, groupIds)
+    resolveGuaranteedInterviewOverride(config, applicant, groupIds, resolvedEligibility)
   );
   if (
     ucat.required === true &&
@@ -1980,6 +1980,16 @@ function overrideEvidenceMatches(condition, applicant) {
 
   const evidence = getValueAtPath(applicant, condition.applicant_evidence_path);
   const requiredEvidence = condition.required_evidence || {};
+  const isArrayEvidence = Array.isArray(evidence);
+
+  if (isArrayEvidence) {
+    return evidence.some((entry) => {
+      if (!entry || typeof entry !== 'object') {
+        return false;
+      }
+      return Object.entries(requiredEvidence).every(([key, expected]) => entry[key] === expected);
+    });
+  }
 
   return Boolean(
     evidence &&
@@ -1987,14 +1997,26 @@ function overrideEvidenceMatches(condition, applicant) {
   );
 }
 
-function guaranteedInterviewOverrideApplies(config, applicant, groupIds = []) {
-  return Boolean(resolveGuaranteedInterviewOverride(config, applicant, groupIds));
+function guaranteedInterviewOverrideApplies(config, applicant, groupIds = [], resolvedEligibility = null) {
+  return Boolean(resolveGuaranteedInterviewOverride(config, applicant, groupIds, resolvedEligibility));
 }
 
-function resolveGuaranteedInterviewOverride(config, applicant, groupIds = []) {
+function resolveGuaranteedInterviewOverride(config, applicant, groupIds = [], resolvedEligibility = null) {
   const override = config.eligibility?.map_override;
   if (!override || override.apply_ucat_guidance_band !== false) {
     return null;
+  }
+
+  const isLancasterOverride = override.band_id === 'lancaster_access_to_medicine_guaranteed_interview';
+  if (isLancasterOverride) {
+    const contextualStatus = resolvedEligibility?.contextual_eligibility?.status;
+    const contextualConfirmed = contextualStatus === 'contextual' || contextualStatus === 'confirmed';
+    const academicEligible = resolvedEligibility?.status === 'eligible';
+    const sjtBand = applicant.admissions_tests?.ucat?.sjt_band;
+    const sjtAllowed = Number.isFinite(sjtBand) ? sjtBand !== 4 : true;
+    if (!contextualConfirmed || !academicEligible || !sjtAllowed) {
+      return null;
+    }
   }
 
   if (Array.isArray(override.any_conditions) && override.any_conditions.length > 0) {
@@ -3266,7 +3288,11 @@ function selectGuidancePool(config, groupIds, applicant = null) {
     .sort((a, b) => (b.priority || 0) - (a.priority || 0))[0] || null;
 }
 
-function resolveKeeleSelectionRouteId({ course, groupIds, resolvedEligibility, guaranteedOverride, guidancePool }) {
+function resolveSelectionRouteId({ course, groupIds, resolvedEligibility, guaranteedOverride, guidancePool }) {
+  if (guaranteedOverride?.band_id === 'lancaster_access_to_medicine_guaranteed_interview') {
+    return 'lancaster_access_to_medicine_guaranteed_interview';
+  }
+
   if (course?.profile_id !== 'keele-a100') {
     return null;
   }
@@ -3768,15 +3794,19 @@ function classifyInterviewBand(course, config, applicantInput, options = {}) {
 
   const birmingham = isBirminghamProfile(course);
   const courseEligibility = contextualEvaluatorIdForCourse(course)
-    ? evaluateCourseEligibility(course, applicant)
+    ? evaluateCourseEligibility(course, applicantInput)
     : null;
   const contextualStatus = courseEligibility?.contextual_eligibility?.status;
+  const contextualEvaluatorControlsGroupRouting =
+    classificationConfig.eligibility?.contextual_evaluator_controls_group_routing === true ||
+    course.contextual_admissions?.contextual_eligibility?.controls_group_routing === true;
   const useCourseEligibility = birmingham ||
     course.profile_id === 'bristol-a100' ||
+    contextualEvaluatorControlsGroupRouting ||
     courseEligibility?.contextual_eligibility?.is_contextual === true ||
     contextualStatus === 'information_needed';
   const eligibility = birmingham
-    ? evaluateCourseEligibility(course, applicant)
+    ? evaluateCourseEligibility(course, applicantInput)
     : courseEligibility;
   const groupIds = useCourseEligibility
     ? eligibility.applicant_group_ids
@@ -3864,10 +3894,11 @@ function classifyInterviewBand(course, config, applicantInput, options = {}) {
   const guaranteedOverride = resolveGuaranteedInterviewOverride(
     classificationConfig,
     applicant,
-    groupIds
+    groupIds,
+    resolvedEligibility
   );
   if (guaranteedOverride) {
-    const selectionRouteId = resolveKeeleSelectionRouteId({
+    const selectionRouteId = resolveSelectionRouteId({
       course,
       groupIds,
       resolvedEligibility,
@@ -3905,7 +3936,7 @@ function classifyInterviewBand(course, config, applicantInput, options = {}) {
     groupIds
   };
   const pool = selectGuidancePool(classificationConfig, groupIds, applicant);
-  const selectionRouteId = resolveKeeleSelectionRouteId({
+  const selectionRouteId = resolveSelectionRouteId({
     course,
     groupIds,
     resolvedEligibility,

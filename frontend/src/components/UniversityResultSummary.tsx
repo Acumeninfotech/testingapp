@@ -170,6 +170,13 @@ export function UniversityResultSummary({
   const headline = resultCardRecommendationHeadline(card);
   const reason = firstCompleteSentence(resultCardRecommendationExplanation(card));
   const academicStatus = resultCardAcademicStatus(card);
+  const contextualCollapsedLabel =
+    card.contextual_status === 'confirmed' &&
+    card.recommendation_display_state === 'standard' &&
+    typeof card.contextual_confirmation?.collapsed_label === 'string' &&
+    card.contextual_confirmation.collapsed_label.trim()
+      ? card.contextual_confirmation.collapsed_label.trim()
+      : null;
   const detailsId = `university-result-details-${result.universityId}`;
   const addDisabled = !shortlisted && shortlistFull;
 
@@ -184,6 +191,9 @@ export function UniversityResultSummary({
         <p className={`university-result-reason${reason ? '' : ' university-result-reason--empty'}`}>
           {reason}
         </p>
+        {contextualCollapsedLabel && (
+          <p className="university-result-contextual-status">{contextualCollapsedLabel}</p>
+        )}
         <p className="university-result-eligibility">
           <span className="university-result-eligibility-label">{academicStatus}</span>
         </p>

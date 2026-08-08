@@ -25,6 +25,18 @@ const STANDARD_RECOMMENDATION_HEADLINES = {
   guaranteed_interview: 'Interview guaranteed under the published criteria'
 };
 
+const LANCASTER_CONTEXTUAL_CONFIRMATION = {
+  collapsed_label: 'Contextual eligibility confirmed',
+  expanded_heading: 'Contextual eligibility confirmed',
+  consideration_label: 'Contextual consideration:',
+  expanded_body:
+    'Your contextual status may be considered during UCAT interview shortlisting. If successful at interview, you may be considered for a contextual offer of ABB.',
+  contextual_offer_grade: 'ABB'
+};
+
+const LANCASTER_ACCESS_TO_MEDICINE_WP_REVIEW_REASON =
+  "Lancaster Access to Medicine completion confirmed. More information is needed to verify Lancaster's widening-participation criteria before the guaranteed-interview route can be confirmed.";
+
 const {
   isRestOfUkFeeStatus
 } = require('./applicant-group-normalisation');
@@ -686,46 +698,7 @@ function buildRoutedAcademicOffer(stage1Eligibility = null, matchedRoute = null)
   return null;
 }
 
-function buildAlternativeAcademicOffer(stage1Eligibility = null, context = {}) {
-  const matchedRoute = matchedAcademicOfferRoute(stage1Eligibility, context);
-
-  if (context.academic_pathway === 'contextual_epq_alternative') {
-    const contextualEpqOffer = buildContextualEpqAcademicOffer(stage1Eligibility);
-    if (contextualEpqOffer) {
-      return contextualEpqOffer;
-    }
-  }
-
-  if (context.academic_pathway === 'contextual') {
-    const routedContextualOffer = buildRoutedAcademicOffer(stage1Eligibility, matchedRoute);
-    if (routedContextualOffer) {
-      return {
-        ...routedContextualOffer,
-        type: 'contextual'
-      };
-    }
-    const contextualOffer = buildContextualAcademicOffer(stage1Eligibility);
-    if (contextualOffer) {
-      return contextualOffer;
-    }
-  }
-
-  if (matchedRoute) {
-    const routedOffer = buildRoutedAcademicOffer(stage1Eligibility, matchedRoute);
-    if (routedOffer) {
-      return routedOffer;
-    }
-  }
-
-  if (
-    context.academic_pathway &&
-    context.academic_pathway !== 'standard' &&
-    context.academic_pathway !== 'epq_alternative' &&
-    hasRoutedAcademicOfferPathways(stage1Eligibility)
-  ) {
-    return null;
-  }
-
+function buildEpqAcademicOffer(stage1Eligibility = null) {
   const aLevel = stage1Eligibility?.post_16?.a_level;
   const policy = aLevel?.epq_alternative_offer;
   if (policy?.enabled !== true) {
@@ -751,6 +724,60 @@ function buildAlternativeAcademicOffer(stage1Eligibility = null, context = {}) {
     pathway_id: pathwayId,
     conditions: epqAlternativeOfferConditions(policy)
   };
+}
+
+function buildAlternativeAcademicOffer(stage1Eligibility = null, context = {}) {
+  const matchedRoute = matchedAcademicOfferRoute(stage1Eligibility, context);
+
+  if (context.academic_pathway === 'contextual_epq_alternative') {
+    const contextualEpqOffer = buildContextualEpqAcademicOffer(stage1Eligibility);
+    if (contextualEpqOffer) {
+      return contextualEpqOffer;
+    }
+  }
+
+  if (context.academic_pathway === 'contextual') {
+    const routedContextualOffer = buildRoutedAcademicOffer(stage1Eligibility, matchedRoute);
+    if (routedContextualOffer) {
+      return {
+        ...routedContextualOffer,
+        type: 'contextual'
+      };
+    }
+    const contextualOffer = buildContextualAcademicOffer(stage1Eligibility);
+    if (contextualOffer) {
+      return contextualOffer;
+    }
+  }
+
+  if (context.academic_pathway === 'epq_alternative') {
+    const epqOffer = buildEpqAcademicOffer(stage1Eligibility);
+    if (epqOffer) {
+      return epqOffer;
+    }
+  }
+
+  if (matchedRoute) {
+    const routedOffer = buildRoutedAcademicOffer(stage1Eligibility, matchedRoute);
+    if (routedOffer) {
+      return routedOffer;
+    }
+  }
+
+  if (
+    context.academic_pathway &&
+    context.academic_pathway !== 'standard' &&
+    context.academic_pathway !== 'epq_alternative' &&
+    hasRoutedAcademicOfferPathways(stage1Eligibility)
+  ) {
+    return null;
+  }
+
+  if (context.academic_pathway === 'standard') {
+    return null;
+  }
+
+  return buildEpqAcademicOffer(stage1Eligibility);
 }
 
 function epqAlternativeCheck(rawChecks = []) {
@@ -892,6 +919,7 @@ const FAILURE_REASON_LABELS = {
   minimum_age_requires_confirmation: 'Your age needs to be confirmed against this university’s published age requirement.',
   age_on_1_october_requires_confirmation: 'Your age on 1 October of the entry year needs to be confirmed against this university’s published age requirement.',
   leicester_contextual_information_needed: 'ApplySmart needs more Leicester contextual evidence to confirm whether a Leicester contextual route applies.',
+  lancaster_contextual_information_needed: 'ApplySmart needs more Lancaster contextual evidence or manual review to confirm whether Lancaster contextual or widening-participation status can be verified.',
   manchester_contextual_information_needed: 'ApplySmart needs Manchester postcode or school-context evidence to check whether the contextual AAB route applies.',
   manchester_refugee_or_care_information_needed: 'ApplySmart needs more care, refugee-status or Ukrainian visa information to check whether Manchester’s ABB route applies.',
   manchester_contextual_or_refugee_care_information_needed: 'ApplySmart needs Manchester postcode/school-context evidence and personal-circumstance confirmation to check whether Manchester’s contextual routes apply.',
@@ -1175,6 +1203,56 @@ function bristolMissingContextualEvidenceList(contextual = {}) {
     .filter(Boolean);
 }
 
+function missingInformationEntries(...sources) {
+  return sources.flatMap((source) => {
+    if (Array.isArray(source)) {
+      return source;
+    }
+    return source ? [source] : [];
+  });
+}
+
+function hasMissingInformationReason(entries, reasonCode) {
+  return missingInformationEntries(entries).some((entry) =>
+    normaliseCheckId(entry?.reason) === reasonCode ||
+    normaliseCheckId(entry?.criterion_id) === reasonCode
+  );
+}
+
+function hasCompletedLancasterAccessToMedicine(card = {}) {
+  const profile = card.applicant_context?.contextual_profile || card.contextual_profile || {};
+  const programmes = profile.access_programmes?.other_programmes;
+  if (!Array.isArray(programmes)) {
+    return false;
+  }
+  return programmes.some((programme) =>
+    normaliseCheckId(programme?.programme_id) === 'lancaster_access_to_medicine' &&
+    normaliseCheckId(programme?.status) === 'completed'
+  );
+}
+
+function lancasterAccessToMedicineWpReviewReason(card = {}, missingInformation = null) {
+  const profileId = card.course_identity?.profile_id || card.course_profile_id;
+  const contextual = card.eligibility?.contextual_eligibility || card.contextual_eligibility || null;
+  if (
+    profileId !== 'lancaster-a100' ||
+    contextual?.status !== 'information_needed' ||
+    !hasCompletedLancasterAccessToMedicine(card)
+  ) {
+    return null;
+  }
+
+  const missing = missingInformationEntries(
+    missingInformation,
+    card.missing_information,
+    card.decision_transparency?.missing_information,
+    contextual.missing_information
+  );
+  return hasMissingInformationReason(missing, 'lancaster_other_wp_circumstances_require_manual_review')
+    ? LANCASTER_ACCESS_TO_MEDICINE_WP_REVIEW_REASON
+    : null;
+}
+
 function bristolContextualSummary(card = {}, offer = null) {
   const profileId = card.course_identity?.profile_id || card.course_profile_id;
   if (profileId !== 'bristol-a100') {
@@ -1251,6 +1329,18 @@ function contextualOfferRouteSummary(card = {}, offer = null) {
     return `Contextual eligibility confirmed: ${contextualRouteLabel}. ${comparison}`;
   }
   return `Contextual eligibility confirmed. ${comparison}`;
+}
+
+function contextualConfirmationFor(card = {}, contextualStatus = null, options = {}) {
+  const profileId = card.course_identity?.profile_id || card.profile_id || null;
+  if (
+    profileId === 'lancaster-a100' &&
+    contextualStatus === 'confirmed' &&
+    options.guaranteedInterview !== true
+  ) {
+    return { ...LANCASTER_CONTEXTUAL_CONFIRMATION };
+  }
+  return null;
 }
 
 // Historical cycle year fields are not standardised across university JSON:
@@ -2604,6 +2694,10 @@ function academicStatusSummary(state, eligibilityStatus, card = {}) {
   }
 
   if (state === 'not_eligible' || eligibilityStatus === 'not_eligible') {
+    const failures = card.eligibility_failures || card.eligibility?.failures || [];
+    if (failures.some((failure) => ['sjt_band_excluded', 'disqualifying_sjt_rule'].includes(normaliseCheckId(failure)))) {
+      return 'You do not currently meet this university’s SJT requirement.';
+    }
     return 'You do not currently meet the academic requirements.';
   }
   if (
@@ -3919,6 +4013,10 @@ function publicInformationNeededReason({
   if (state === 'manual_review') {
     const profileId = card.course_identity?.profile_id || card.course_profile_id;
     const contextual = card.eligibility?.contextual_eligibility || card.contextual_eligibility || null;
+    const lancasterAccessWpReviewReason = lancasterAccessToMedicineWpReviewReason(card, missingInformation);
+    if (lancasterAccessWpReviewReason) {
+      return appendNotARejection(lancasterAccessWpReviewReason);
+    }
     if (profileId === 'bristol-a100' && contextual?.status === 'information_needed') {
       const missing = Array.isArray(
         missingInformation ||
@@ -4707,6 +4805,9 @@ function presentResultCard({
     )
       ? 'confirmed'
       : null;
+  const contextualConfirmation = contextualConfirmationFor(transparencyContext, contextualStatus, {
+    guaranteedInterview
+  });
   const futureConditionsArePublic =
     academicPathway === 'epq_alternative' &&
     ['eligible', 'met'].includes(normaliseCheckId(eligibilityStatus));
@@ -4743,6 +4844,7 @@ function presentResultCard({
     academic_pathway: academicPathway,
     academic_pathway_id: academicPathwayId,
     contextual_status: contextualStatus,
+    contextual_confirmation: contextualConfirmation,
     alternative_academic_offer: activeAlternativeAcademicOffer,
     future_conditions: [...new Set(futureConditions)],
     future_condition_advisories: futureConditionAdvisoryText,

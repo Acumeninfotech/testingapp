@@ -13,6 +13,27 @@
   },
   "eligibility": {
     "international_english_language_required": true,
+    "contextual_evaluator_controls_group_routing": true,
+    "map_override": {
+      "apply_ucat_guidance_band": false,
+      "band_id": "lancaster_access_to_medicine_guaranteed_interview",
+      "applicant_facing_explanation": "Eligible verified Lancaster Access to Medicine completers receive a guaranteed interview once the contextual, academic and SJT requirements are confirmed.",
+      "source_band_id": "lancaster_access_to_medicine_guaranteed_interview",
+      "result_card_id": "lancaster_access_to_medicine_guaranteed_interview",
+      "interview_outcome": "guaranteed_interview",
+      "match": {
+        "all_group_ids": [
+          "home_fee",
+          "contextual",
+          "widening_participation"
+        ]
+      },
+      "required_evidence": {
+        "programme_id": "lancaster_access_to_medicine",
+        "status": "completed"
+      },
+      "applicant_evidence_path": "contextual_profile.access_programmes.other_programmes"
+    },
     "qualification_routes": {
       "supported": [
         "a_level",
@@ -28,51 +49,7 @@
         "unknown"
       ]
     },
-    "derived_applicant_groups": [
-      {
-        "group_ids": [
-          "contextual",
-          "widening_participation"
-        ],
-        "match": {
-          "all_group_ids": [
-            "home_fee"
-          ],
-          "excluded_group_ids": [
-            "international_fee",
-            "graduate_applicant"
-          ]
-        },
-        "any_evidence": [
-          {
-            "applicant_evidence_path": "applicant_identity.contextual_flags.care_experienced"
-          },
-          {
-            "applicant_evidence_path": "applicant_identity.contextual_flags.refugee_or_asylum_seeker"
-          },
-          {
-            "applicant_evidence_path": "applicant_identity.contextual_flags.refugee"
-          },
-          {
-            "minimum_evidence_matches": 2,
-            "minimum_evidence": [
-              {
-                "applicant_evidence_path": "applicant_identity.contextual_flags.free_school_meals"
-              },
-              {
-                "applicant_evidence_path": "applicant_identity.contextual_flags.first_generation_higher_education"
-              },
-              {
-                "applicant_evidence_path": "applicant_identity.contextual_flags.school_contextual_indicator"
-              },
-              {
-                "applicant_evidence_path": "applicant_identity.contextual_flags.ucat_bursary"
-              }
-            ]
-          }
-        ]
-      }
-    ],
+    "derived_applicant_groups": [],
     "gcse": {
       "minimum_count": 8,
       "use_exact_subject_list": false,
@@ -104,41 +81,6 @@
     "a_level": {
       "routes": [
         {
-          "route_id": "a_level_contextual_epq_alternative",
-          "academic_pathway": "contextual_epq_alternative",
-          "pathway_id": "lancaster_contextual_epq_alternative",
-          "requires_epq": true,
-          "epq_minimum_grade": "B",
-          "applies_to_group_ids": [
-            "school_leaver"
-          ],
-          "any_group_ids": [
-            "contextual",
-            "widening_participation",
-            "care_experienced"
-          ],
-          "excluded_group_ids": [
-            "resit_applicant"
-          ],
-          "grade_profile": [
-            "A",
-            "B",
-            "B"
-          ],
-          "required_subject_ids": [],
-          "one_of_subject_groups": [
-            {
-              "minimum_required": 2,
-              "subject_ids": [
-                "biology",
-                "chemistry",
-                "psychology"
-              ]
-            }
-          ],
-          "excluded_subject_ids": []
-        },
-        {
           "route_id": "a_level_epq_alternative",
           "academic_pathway": "epq_alternative",
           "pathway_id": "lancaster_epq_alternative",
@@ -148,10 +90,7 @@
             "school_leaver"
           ],
           "excluded_group_ids": [
-            "resit_applicant",
-            "contextual",
-            "widening_participation",
-            "care_experienced"
+            "resit_applicant"
           ],
           "grade_profile": [
             "A",
@@ -179,48 +118,12 @@
             "school_leaver"
           ],
           "excluded_group_ids": [
-            "resit_applicant",
-            "contextual",
-            "widening_participation",
-            "care_experienced"
-          ],
-          "grade_profile": [
-            "A",
-            "A",
-            "A"
-          ],
-          "required_subject_ids": [],
-          "one_of_subject_groups": [
-            {
-              "minimum_required": 2,
-              "subject_ids": [
-                "biology",
-                "chemistry",
-                "psychology"
-              ]
-            }
-          ],
-          "excluded_subject_ids": []
-        },
-        {
-          "route_id": "a_level_contextual_offer",
-          "academic_pathway": "contextual",
-          "pathway_id": "lancaster_contextual_offer",
-          "applies_to_group_ids": [
-            "school_leaver"
-          ],
-          "any_group_ids": [
-            "contextual",
-            "widening_participation",
-            "care_experienced"
-          ],
-          "excluded_group_ids": [
             "resit_applicant"
           ],
           "grade_profile": [
             "A",
             "A",
-            "B"
+            "A"
           ],
           "required_subject_ids": [],
           "one_of_subject_groups": [
@@ -326,8 +229,7 @@
         ],
         "any_group_ids": [
           "contextual",
-          "widening_participation",
-          "care_experienced"
+          "widening_participation"
         ],
         "excluded_group_ids": [
           "international_fee",
@@ -377,7 +279,6 @@
         "excluded_group_ids": [
           "contextual",
           "widening_participation",
-          "care_experienced",
           "international_fee",
           "graduate_applicant"
         ]

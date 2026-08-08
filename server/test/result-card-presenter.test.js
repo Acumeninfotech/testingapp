@@ -313,26 +313,19 @@ function alternativeOfferFor(course) {
     {
       type: 'contextual',
       standard_offer: 'AAA',
-      alternative_offer: 'AAB',
+      alternative_offer: 'ABB',
       pathway_id: 'lancaster_contextual_offer',
       conditions: []
     },
-    'Lancaster active contextual pathway should expose the AAB contextual offer summary'
+    'Lancaster active contextual pathway should expose the ABB contextual offer summary'
   );
-  assert.deepStrictEqual(
+  assert.strictEqual(
     buildAlternativeAcademicOffer(lancasterCourse.stage_1_eligibility, {
       academic_pathway: 'contextual_epq_alternative',
       academic_pathway_id: 'lancaster_contextual_epq_alternative'
     }),
-    {
-      type: 'contextual_epq',
-      standard_offer: 'AAB',
-      alternative_offer: 'ABB + EPQ Grade B',
-      epq_minimum_grade: 'B',
-      pathway_id: 'lancaster_contextual_epq_alternative',
-      conditions: []
-    },
-    'Lancaster active contextual-plus-EPQ pathway should expose the ABB contextual EPQ offer summary'
+    null,
+    'Lancaster must not expose an unsupported contextual-plus-EPQ offer summary'
   );
 
   assert.strictEqual(
@@ -347,6 +340,41 @@ function alternativeOfferFor(course) {
     buildAlternativeAcademicOffer(malformed),
     null,
     'malformed EPQ metadata must not crash or expose a partial alternative offer summary'
+  );
+}
+
+{
+  const lancasterStandardCard = present({
+    transparencyContext: {
+      stage_1_eligibility: lancasterCourse.stage_1_eligibility,
+      academic_pathway: 'standard',
+      academic_pathway_id: 'lancaster_standard_offer'
+    }
+  });
+  assert.strictEqual(
+    lancasterStandardCard.alternative_academic_offer,
+    null,
+    'Lancaster standard pathway should not expose applicant-specific EPQ alternative-used presentation'
+  );
+
+  const lancasterEpqCard = present({
+    transparencyContext: {
+      stage_1_eligibility: lancasterCourse.stage_1_eligibility,
+      academic_pathway: 'epq_alternative',
+      academic_pathway_id: 'lancaster_epq_alternative'
+    }
+  });
+  assert.deepStrictEqual(
+    lancasterEpqCard.alternative_academic_offer,
+    {
+      type: 'epq',
+      standard_offer: 'AAA',
+      alternative_offer: 'AAB + EPQ Grade B',
+      epq_minimum_grade: 'B',
+      pathway_id: 'lancaster_epq_alternative',
+      conditions: []
+    },
+    'Lancaster active EPQ pathway should expose the EPQ alternative-used presentation'
   );
 }
 
@@ -413,6 +441,29 @@ function alternativeOfferFor(course) {
     'contextual applicants should expose a confirmed contextual status for presentation'
   );
 
+  const lancasterContextualCard = present({
+    transparencyContext: {
+      course_identity: { profile_id: 'lancaster-a100' },
+      eligibility: {
+        contextual_eligibility: {
+          status: 'contextual'
+        }
+      }
+    }
+  });
+  assert.deepStrictEqual(
+    lancasterContextualCard.contextual_confirmation,
+    {
+      collapsed_label: 'Contextual eligibility confirmed',
+      expanded_heading: 'Contextual eligibility confirmed',
+      consideration_label: 'Contextual consideration:',
+      expanded_body:
+        'Your contextual status may be considered during UCAT interview shortlisting. If successful at interview, you may be considered for a contextual offer of ABB.',
+      contextual_offer_grade: 'ABB'
+    },
+    'confirmed Lancaster contextual applicants should expose the Lancaster contextual presentation notice'
+  );
+
   const standardCard = present({
     transparencyContext: {
       eligibility: {
@@ -426,6 +477,11 @@ function alternativeOfferFor(course) {
     standardCard.contextual_status,
     null,
     'standard applicants should not expose a contextual confirmation status'
+  );
+  assert.strictEqual(
+    standardCard.contextual_confirmation,
+    null,
+    'standard applicants should not expose Lancaster contextual presentation wording'
   );
 
   const unresolvedCard = present({
@@ -444,6 +500,30 @@ function alternativeOfferFor(course) {
     unresolvedCard.contextual_status,
     null,
     'manual-review outcomes should not expose a contextual confirmation status'
+  );
+  assert.strictEqual(
+    unresolvedCard.contextual_confirmation,
+    null,
+    'manual-review outcomes should not expose Lancaster contextual presentation wording'
+  );
+
+  const lancasterGuaranteedInterviewCard = present({
+    interviewBand: null,
+    transparencyContext: {
+      course_identity: { profile_id: 'lancaster-a100' },
+      interview_outcome: 'guaranteed_interview',
+      eligibility: {
+        contextual_eligibility: {
+          status: 'contextual'
+        }
+      }
+    }
+  });
+  assert.strictEqual(lancasterGuaranteedInterviewCard.interview_outcome, 'guaranteed_interview');
+  assert.strictEqual(
+    lancasterGuaranteedInterviewCard.contextual_confirmation,
+    null,
+    'Lancaster Access to Medicine guaranteed-interview presentation should not gain the contextual ABB notice'
   );
 }
 
@@ -1324,6 +1404,42 @@ function makeCambridgeSixGcseCard() {
 
 {
   const card = present({
+    eligibilityStatus: 'not_eligible',
+    interviewBand: 'not_eligible',
+    transparencyContext: {
+      course_identity: { profile_id: 'lancaster-a100' },
+      eligibility_failures: ['sjt_band_excluded'],
+      eligibility: {
+        contextual_eligibility: { status: 'contextual' }
+      },
+      applicant_context: {
+        contextual_profile: {
+          access_programmes: {
+            other_programmes: [
+              {
+                programme_id: 'lancaster_access_to_medicine',
+                status: 'completed'
+              }
+            ]
+          }
+        },
+        admissions_tests: {
+          ucat: { total_score: 2400, score_scale: 2700, sjt_band: 4 }
+        }
+      }
+    }
+  });
+  assertCompactStatus(card, {
+    label: 'You do not currently meet this university’s SJT requirement.',
+    type: 'academic_status',
+    tone: 'negative'
+  });
+  assert.match(card.primary_explanation, /SJT band is excluded/i);
+  assert.doesNotMatch(card.decision_transparency?.compact_status?.label || '', /academic requirements/i);
+}
+
+{
+  const card = present({
     eligibilityStatus: 'insufficient_evidence',
     interviewBand: 'insufficient_evidence',
     insufficientEvidenceReasonCode: 'applicant_evidence_gap'
@@ -1467,6 +1583,77 @@ function makeCambridgeSixGcseCard() {
   assert.strictEqual(card.primary_explanation, 'Please confirm the practical endorsement outcome for your required A-level science subject.');
   assert.strictEqual(card.risk_explanation, null);
   assert.strictEqual(card.decision_transparency.risk_explanation, null);
+}
+
+{
+  const reason =
+    "Lancaster Access to Medicine completion confirmed. More information is needed to verify Lancaster's widening-participation criteria before the guaranteed-interview route can be confirmed. This is not a rejection.";
+  const missingInformation = [
+    {
+      criterion_id: 'other_lancaster_wp_circumstances',
+      label: 'Other Lancaster widening-participation circumstances',
+      evidence_path: 'access_programmes',
+      reason: 'lancaster_other_wp_circumstances_require_manual_review'
+    }
+  ];
+  const card = present({
+    eligibilityStatus: 'manual_review',
+    manualReviewRequired: true,
+    manualReviewReason:
+      'ApplySmart needs more Lancaster contextual evidence or manual review to confirm whether Lancaster contextual or widening-participation status can be verified.',
+    missingInformation,
+    transparencyContext: {
+      course_identity: { profile_id: 'lancaster-a100' },
+      applicant_context: {
+        contextual_profile: {
+          access_programmes: {
+            other_programmes: [
+              {
+                programme_id: 'lancaster_access_to_medicine',
+                status: 'completed'
+              }
+            ]
+          }
+        }
+      },
+      eligibility: {
+        contextual_eligibility: {
+          status: 'information_needed',
+          missing_information: missingInformation
+        }
+      },
+      missing_information: missingInformation
+    }
+  });
+  assert.strictEqual(card.information_needed_reason, reason);
+  assert.strictEqual(card.decision_transparency.information_needed_reason, reason);
+  assert.strictEqual(card.primary_explanation, 'ApplySmart needs more Lancaster contextual evidence or manual review to confirm whether Lancaster contextual or widening-participation status can be verified.');
+
+  const ordinaryLancasterReviewCard = present({
+    eligibilityStatus: 'manual_review',
+    manualReviewRequired: true,
+    manualReviewReason:
+      'ApplySmart needs more Lancaster contextual evidence or manual review to confirm whether Lancaster contextual or widening-participation status can be verified.',
+    missingInformation,
+    transparencyContext: {
+      course_identity: { profile_id: 'lancaster-a100' },
+      applicant_context: {
+        contextual_profile: {
+          access_programmes: {
+            other_programmes: []
+          }
+        }
+      },
+      eligibility: {
+        contextual_eligibility: {
+          status: 'information_needed',
+          missing_information: missingInformation
+        }
+      },
+      missing_information: missingInformation
+    }
+  });
+  assert.notStrictEqual(ordinaryLancasterReviewCard.information_needed_reason, reason);
 }
 
 console.log('PASS: compact_status presenter mappings are generated from structured result data');

@@ -260,7 +260,16 @@ export interface ResultCard {
   primary_user_facing_recommendation: string;
   recommendation_display_state: string;
   primary_explanation: string;
+  academic_pathway?: string | null;
+  academic_pathway_id?: string | null;
   contextual_status?: 'confirmed' | null;
+  contextual_confirmation?: {
+    collapsed_label?: string | null;
+    expanded_heading?: string | null;
+    consideration_label?: string | null;
+    expanded_body?: string | null;
+    contextual_offer_grade?: string | null;
+  } | null;
   information_needed_reason?: string | null;
   trust_statement?: string | null;
   historical_guidance_caveat?: string | null;

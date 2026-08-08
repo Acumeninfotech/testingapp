@@ -24,6 +24,10 @@ const {
   UEA_PREPARING_FOR_MEDICINE_PROGRAMME_ID,
   evaluateUeaContextualEligibility
 } = require('./uea-contextual-eligibility');
+const {
+  LANCASTER_CONTEXTUAL_EVALUATOR_ID,
+  evaluateLancasterContextualEligibility
+} = require('./lancaster-contextual-eligibility');
 
 const DEFAULT_CONTEXTUAL_ELIGIBILITY_EVALUATORS = {
   [ASTON_READY_EVALUATOR_ID]: astonReadyMedicineEvaluator,
@@ -31,7 +35,8 @@ const DEFAULT_CONTEXTUAL_ELIGIBILITY_EVALUATORS = {
   [MANCHESTER_CONTEXTUAL_EVALUATOR_ID]: evaluateManchesterContextualEligibility,
   [LEICESTER_CONTEXTUAL_EVALUATOR_ID]: evaluateLeicesterContextualEligibility,
   [BRISTOL_CONTEXTUAL_EVALUATOR_ID]: evaluateBristolContextualEligibility,
-  [UEA_CONTEXTUAL_EVALUATOR_ID]: evaluateUeaContextualEligibility
+  [UEA_CONTEXTUAL_EVALUATOR_ID]: evaluateUeaContextualEligibility,
+  [LANCASTER_CONTEXTUAL_EVALUATOR_ID]: evaluateLancasterContextualEligibility
 };
 
 module.exports = {

@@ -247,6 +247,7 @@ export const OTHER_ACCESS_PROGRAMMES = [
   { programme_id: 'bristol_next_step_bristol', label: 'Next Step Bristol' },
   { programme_id: 'bristol_virtual_summer_school', label: 'Virtual Summer School' },
   { programme_id: 'bristol_scholars', label: 'Bristol Scholars' },
+  { programme_id: 'lancaster_access_to_medicine', label: 'Lancaster Access to Medicine' },
   { programme_id: 'exeter_scholars', label: 'Exeter Scholars' },
   { programme_id: 'southampton_access_southampton', label: 'Access Southampton' },
   { programme_id: 'uea_outreach_pathways', label: 'UEA Outreach / Pathways' },

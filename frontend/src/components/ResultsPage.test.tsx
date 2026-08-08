@@ -249,6 +249,39 @@ describe('ResultsPage', () => {
     expect(screen.getAllByText('View details').length).toBeGreaterThan(0);
   });
 
+  it('shows Lancaster contextual confirmation on the compact card before the academic status', () => {
+    const result = makeResult('lancaster-a100', 'Lancaster University', {
+      contextual_status: 'confirmed',
+      contextual_confirmation: {
+        collapsed_label: 'Contextual eligibility confirmed',
+        expanded_heading: 'Contextual eligibility confirmed',
+        consideration_label: 'Contextual consideration:',
+        expanded_body:
+          'Your contextual status may be considered during UCAT interview shortlisting. If successful at interview, you may be considered for a contextual offer of ABB.',
+        contextual_offer_grade: 'ABB',
+      },
+      decision_transparency: {
+        compact_status: {
+          label: 'You meet the academic requirements.',
+          type: 'academic_status',
+          tone: 'positive',
+        },
+      },
+    });
+
+    render(<ResultsPage results={[result]} onStartOver={() => {}} />);
+
+    const summary = document.querySelector('.university-result-summary');
+    expect(summary).not.toBeNull();
+    expect(within(summary as HTMLElement).getByText('Contextual eligibility confirmed')).toBeInTheDocument();
+    expect(summary).not.toHaveTextContent('ABB');
+    const summaryText = summary?.textContent || '';
+    expect(summaryText.indexOf('Contextual eligibility confirmed')).toBeLessThan(
+      summaryText.indexOf('You meet the academic requirements.'),
+    );
+    expect(screen.queryByText(/Contextual consideration:/)).not.toBeInTheDocument();
+  });
+
   it('expands and collapses a card when its details toggle is clicked', () => {
     render(<ResultsPage results={RESULTS} onStartOver={() => {}} />);
     const toggle = screen.getAllByText('View details')[0];
