@@ -60,18 +60,8 @@
         "unknown"
       ]
     },
-    "allow_guidance_with_manual_review_reasons": [
-      "contextual_a_level_gate_exception_requires_manual_review"
-    ],
-    "manual_review_band_caps": [
-      {
-        "manual_review_reasons": [
-          "contextual_a_level_gate_exception_requires_manual_review"
-        ],
-        "cap_to_band": "ambitious",
-        "research_label": "Borderline"
-      }
-    ],
+    "allow_guidance_with_manual_review_reasons": [],
+    "manual_review_band_caps": [],
     "conditional_manual_review": [
       {
         "condition_id": "cambridge_international_realistic_or_above",
@@ -127,39 +117,7 @@
             }
           ]
         }
-      ],
-      "contextual_gate_exception": {
-        "applies_to_group_ids": [
-          "home_fee",
-          "contextual"
-        ],
-        "excluded_group_ids": [
-          "international_fee"
-        ],
-        "route": {
-          "route_id": "cambridge_contextual_a_star_a_a_manual_review",
-          "grade_profile": [
-            "A*",
-            "A",
-            "A"
-          ],
-          "required_subject_ids": [
-            "chemistry"
-          ],
-          "one_of_subject_groups": [
-            {
-              "group_id": "second_science_or_maths",
-              "subject_ids": [
-                "biology",
-                "physics",
-                "mathematics"
-              ],
-              "minimum_required": 1
-            }
-          ]
-        },
-        "manual_review_reason": "contextual_a_level_gate_exception_requires_manual_review"
-      }
+      ]
     },
     "international_baccalaureate": {
       "routes": [
@@ -397,24 +355,7 @@
           "any_grade_at_or_below": "5",
           "adjustment": -2
         },
-        "evidence": "modelled_hidden"
-      },
-      {
-        "component_id": "contextual_qualitative_uplift",
-        "type": "conditional_points",
-        "max": 1,
-        "conditions": [
-          {
-            "condition_id": "contextual_uplift",
-            "any_group_ids": [
-              "contextual",
-              "widening_participation",
-              "care_experienced"
-            ],
-            "points": 1,
-            "evidence": "modelled_hidden"
-          }
-        ]
+       "evidence": "modelled_hidden"
       }
     ]
   },
