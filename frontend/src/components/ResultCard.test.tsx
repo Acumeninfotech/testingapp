@@ -1835,6 +1835,40 @@ describe('ResultCard', () => {
     expect(badgeText).toEqual(['GCSEs', 'A-levels']);
   });
 
+  it('keeps A-level academic status visible after detailed GCSE badges', () => {
+    type AcademicRequirementChecks = NonNullable<PredictionResult['result_card']['academic_requirement_checks']>;
+    const gcseChecks: AcademicRequirementChecks = [
+      { qualification_type: 'gcse', requirement_type: 'gcse_minimum_count', label: 'GCSEs', status: 'met' },
+      { qualification_type: 'gcse', requirement_type: 'gcse_english_language_minimum', label: 'GCSE English Language', status: 'met' },
+      { qualification_type: 'gcse', requirement_type: 'gcse_mathematics_minimum', label: 'GCSE Mathematics', status: 'met' },
+      { qualification_type: 'gcse', requirement_type: 'gcse_biology_minimum', label: 'GCSE Biology', status: 'met' },
+      { qualification_type: 'gcse', requirement_type: 'gcse_chemistry_minimum', label: 'GCSE Chemistry', status: 'met' },
+    ];
+    const resultWithAlevels = (status: 'met' | 'not_met') => makeResult({
+      academic_requirement_checks: [
+        ...gcseChecks,
+        {
+          qualification_type: 'a_level',
+          requirement_type: 'a_level_standard_offer',
+          label: 'A-level grades',
+          status,
+        },
+      ],
+    });
+
+    const { rerender } = render(<ResultCard result={resultWithAlevels('not_met')} />);
+    let academicCard = screen.getByText('Academic Requirements').closest('.result-card-summary-card');
+    expect(academicCard).toHaveTextContent('A-level grades');
+    expect(within(academicCard as HTMLElement).getByText('A-level grades').closest('.result-card-requirement-badge'))
+      .toHaveClass('result-card-requirement-badge--negative');
+
+    rerender(<ResultCard result={resultWithAlevels('met')} />);
+    academicCard = screen.getByText('Academic Requirements').closest('.result-card-summary-card');
+    expect(academicCard).toHaveTextContent('A-level grades');
+    expect(within(academicCard as HTMLElement).getByText('A-level grades').closest('.result-card-requirement-badge'))
+      .toHaveClass('result-card-requirement-badge--positive');
+  });
+
   it('shows More information needed fallback when only overall warning academic status is exposed', () => {
     const reason = 'More information is needed for this qualification route. This is not a rejection.';
     render(

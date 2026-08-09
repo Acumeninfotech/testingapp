@@ -293,7 +293,7 @@ function UniversityAvatar({ universityId }: { universityId: string }) {
   );
 }
 
-function SectionHeader({ title, subtitle, icon }: { title: string; subtitle?: string | null; icon: 'shield' | 'person' | 'history' }) {
+function SectionHeader({ title, subtitle, icon }: { title: string; subtitle?: string | null; icon: 'shield' | 'person' | 'history' | 'info' }) {
   return (
     <div className="result-card-section-heading">
       <div>
@@ -584,17 +584,59 @@ const requirementTonePriority: Record<RequirementBadgeTone, number> = {
   negative: 3,
 };
 
+const COMPACT_REQUIREMENT_ROW_LIMIT = 5;
+
+type CompactRequirementRow = {
+  label: string;
+  value: string;
+  tone: RequirementBadgeTone;
+};
+
+type CompactRequirementCandidate = CompactRequirementRow & {
+  type: string;
+  qualificationType: string;
+};
+
+function isALevelRequirementCandidate(row: CompactRequirementCandidate): boolean {
+  return row.qualificationType === 'a_level' ||
+    /a[-_\s]?levels?/i.test(`${row.type} ${row.label}`);
+}
+
+function compactRequirementRow(row: CompactRequirementCandidate): CompactRequirementRow {
+  return {
+    label: row.label,
+    value: row.value,
+    tone: row.tone,
+  };
+}
+
+function visibleCompactRequirementRows(rows: CompactRequirementCandidate[]): CompactRequirementRow[] {
+  if (rows.length <= COMPACT_REQUIREMENT_ROW_LIMIT) {
+    return rows.map(compactRequirementRow);
+  }
+
+  const visible = rows.slice(0, COMPACT_REQUIREMENT_ROW_LIMIT);
+  const visibleHasALevel = visible.some(isALevelRequirementCandidate);
+  const firstALevel = rows.find(isALevelRequirementCandidate);
+  const withRequiredALevel = !visibleHasALevel && firstALevel
+    ? [...visible, firstALevel]
+    : visible;
+
+  return withRequiredALevel.map(compactRequirementRow);
+}
+
 function conciseRequirementRows(
   card: PredictionResult['result_card'],
   overallStatus: string | null,
 ) {
-  const rowsByType = new Map<string, { label: string; value: string; tone: RequirementBadgeTone }>();
+  const rowsByType = new Map<string, CompactRequirementCandidate>();
   const suppressEpqAlternative = academicPathway(card) === 'standard';
   (card.academic_requirement_checks || []).forEach((check) => {
     const type =
       asString(check.requirement_type) ||
       asString(check.label) ||
       asString(check.qualification_type);
+    const qualificationType = asString(check.qualification_type);
     const label = asString(check.label);
     const status = asString(check.status);
     const tone = academicRequirementTone(status);
@@ -603,12 +645,14 @@ function conciseRequirementRows(
     const current = rowsByType.get(type);
     if (current && requirementTonePriority[current.tone] >= requirementTonePriority[tone]) return;
     rowsByType.set(type, {
+      type,
+      qualificationType,
       label,
       value: tone === 'positive' ? 'met' : tone === 'negative' ? 'not-met' : 'info',
       tone,
     });
   });
-  const qualificationRows = Array.from(rowsByType.values()).slice(0, 5);
+  const qualificationRows = visibleCompactRequirementRows(Array.from(rowsByType.values()));
 
   if (qualificationRows.length > 0) return qualificationRows;
 
@@ -652,7 +696,7 @@ function EligibilityCard({
       </div>
       {badgeOnly && rows.length > 0 ? (
         <ul className="result-card-requirement-badges" aria-label={`${title} status`}>
-          {rows.slice(0, 5).map((row, index) => {
+          {rows.map((row, index) => {
             const rowTone = row.tone || statusTone(row.value);
             const shape = rowTone === 'negative' ? 'x' : rowTone === 'warning' ? 'info' : 'check';
             return (
