@@ -572,15 +572,12 @@
           "notes": "Chemistry plus one of Biology, Physics or Mathematics and a third academic subject."
         },
         "contextual_offer": {
-          "applies_to_group_ids": [
-            "contextual",
-            "widening_participation"
-          ],
+          "applies_to_group_ids": [],
           "grade_profile": [],
           "source_ids": [
             "liverpool_contextual_data_2027"
           ],
-          "notes": "The general contextual policy states a reduction of up to two grades, not one universal grade profile. Liverpool Scholars and Liverpool Pathways have separately published likely offers."
+          "notes": "No automatic Liverpool A100 contextual A-level reduction is applied. Liverpool Scholars and Liverpool Pathways have separately published likely offer guidance."
         },
         "required_subject_ids": [
           "chemistry"
@@ -1518,6 +1515,10 @@
       "liverpool_research_team_verified_update_2026"
     ],
     "available": true,
+    "contextual_eligibility": {
+      "evaluator_id": "liverpool_contextual_medicine_a100",
+      "controls_group_routing": true
+    },
     "applies_to_group_ids": [
       "home_fee",
       "contextual",
@@ -1540,33 +1541,7 @@
         "source_ids": [
           "liverpool_contextual_data_2027"
         ],
-        "notes": "Used for the intended reduced contextual offer cohort."
-      },
-      {
-        "criterion_id": "polar4_or_polar5_quintile_1_or_2",
-        "applies_to_group_ids": [
-          "home_fee",
-          "contextual",
-          "widening_participation"
-        ],
-        "description": "Eligible Home applicant in POLAR4 or POLAR5 quintile 1 or 2.",
-        "source_ids": [
-          "liverpool_research_team_verified_update_2026"
-        ],
-        "evidence_classification": "official_verified"
-      },
-      {
-        "criterion_id": "first_generation_higher_education",
-        "applies_to_group_ids": [
-          "home_fee",
-          "contextual",
-          "widening_participation"
-        ],
-        "description": "Eligible Home applicant who is first generation in higher education.",
-        "source_ids": [
-          "liverpool_research_team_verified_update_2026"
-        ],
-        "evidence_classification": "official_verified"
+        "notes": "Liverpool IMD Deciles 1-2 are represented in ApplySmart by canonical IMD Quintile 1."
       },
       {
         "criterion_id": "care_experienced",
@@ -1578,60 +1553,7 @@
         "source_ids": [
           "liverpool_contextual_data_2027"
         ],
-        "notes": "Used for the intended reduced contextual offer cohort."
-      },
-      {
-        "criterion_id": "estranged",
-        "applies_to_group_ids": [
-          "home_fee",
-          "contextual",
-          "widening_participation"
-        ],
-        "description": "Eligible estranged Home applicant.",
-        "source_ids": [
-          "liverpool_research_team_verified_update_2026"
-        ],
-        "evidence_classification": "official_verified"
-      },
-      {
-        "criterion_id": "household_income_below_25000",
-        "applies_to_group_ids": [
-          "home_fee",
-          "contextual",
-          "widening_participation"
-        ],
-        "description": "Eligible Home applicant with household income below \u00a325,000.",
-        "source_ids": [
-          "liverpool_research_team_verified_update_2026"
-        ],
-        "evidence_classification": "official_verified"
-      },
-      {
-        "criterion_id": "liverpool_scholars_or_pathways",
-        "applies_to_group_ids": [
-          "home_fee",
-          "widening_participation"
-        ],
-        "description": "Eligible Liverpool Scholars or Liverpool Pathways to Medicine participant.",
-        "source_ids": [
-          "liverpool_contextual_data_2027",
-          "liverpool_admissions_faq_2027",
-          "liverpool_pathways_guidelines_2027"
-        ],
-        "notes": "Programme-specific academic and offer guidance applies."
-      },
-      {
-        "criterion_id": "realising_opportunities",
-        "applies_to_group_ids": [
-          "home_fee",
-          "contextual",
-          "widening_participation"
-        ],
-        "description": "Eligible Realising Opportunities participant.",
-        "source_ids": [
-          "liverpool_research_team_verified_update_2026"
-        ],
-        "evidence_classification": "official_verified"
+        "notes": "Care-experienced applicants can qualify for Liverpool Medicine contextual consideration. This does not guarantee an interview, offer or reduced A-level offer."
       }
     ],
     "adjustments": [
@@ -1652,13 +1574,14 @@
         },
         "retained_core_requirements": [
           "English Language grade 6/B",
-          "Mathematics grade 6/B"
+          "Mathematics grade 6/B",
+          "required sciences grade 6/B"
         ],
-        "other_core_subject_requirements": "unknown",
+        "other_core_subject_requirements": "retained",
         "source_ids": [
           "liverpool_contextual_data_2027"
         ],
-        "notes": "The contextual policy explicitly retains English Language and Mathematics at grade 6. It does not clearly resolve whether or how the standard science core minima are adjusted."
+        "notes": "The contextual GCSE points threshold is 12 rather than 15 for confirmed Liverpool contextual applicants. Mandatory GCSE subject and grade requirements remain independently enforced."
       },
       {
         "adjustment_id": "contextual_ucat_flexibility",
@@ -1709,26 +1632,6 @@
           "liverpool_contextual_data_2027"
         ],
         "notes": "Flexibility is determined annually after all scores are available and does not guarantee an offer."
-      },
-      {
-        "adjustment_id": "reduced_contextual_offer",
-        "applies_to_group_ids": [
-          "home_fee",
-          "contextual",
-          "widening_participation",
-          "care_experienced"
-        ],
-        "stage": "offer_selection",
-        "policy_description": "The School intends to make up to 50 reduced contextual offers in 2027 to the most competitive eligible applicants from the named under-represented groups.",
-        "effect": {
-          "type": "lower_offer_requirement",
-          "target": "offer_selection.contextual_offer",
-          "value": "up to two A-level grades below the standard offer"
-        },
-        "source_ids": [
-          "liverpool_contextual_data_2027"
-        ],
-        "notes": "Eligibility and special consideration do not guarantee an interview, offer or reduced offer."
       }
     ],
     "guaranteed_interview_rules": [],
@@ -2015,23 +1918,6 @@
         "liverpool_a100_departmental_supplement_2027"
       ],
       "notes": "May change with application volume and quality."
-    },
-    {
-      "quota_id": "intended_reduced_contextual_offers_2027",
-      "name": "Intended reduced contextual offers",
-      "applies_to_group_ids": [
-        "home_fee",
-        "contextual",
-        "widening_participation",
-        "care_experienced"
-      ],
-      "stage": "offer_selection",
-      "quota_type": "intended_maximum",
-      "value": 50,
-      "source_ids": [
-        "liverpool_contextual_data_2027"
-      ],
-      "notes": "Up to 50 reduced offers are intended for the most competitive eligible applicants from the named under-represented groups. This is not a guarantee."
     }
   ],
   "offer_selection": {
@@ -2130,18 +2016,13 @@
       "notes": "Subject requirements remain Chemistry plus one of Biology, Physics or Mathematics and a third academic subject. For A*AB, the A* and A must be in the two required science/mathematics subjects."
     },
     "contextual_offer": {
-      "applies_to_group_ids": [
-        "home_fee",
-        "contextual",
-        "widening_participation",
-        "care_experienced"
-      ],
+      "applies_to_group_ids": [],
       "grade_profile": [],
-      "maximum_reduction": "up to two A-level grades below the standard offer",
+      "maximum_reduction": null,
       "source_ids": [
         "liverpool_contextual_data_2027"
       ],
-      "notes": "No single universal contextual grade profile is published. Liverpool Scholars and Pathways have named likely offer profiles stored under contextual admissions."
+      "notes": "No automatic Liverpool A100 contextual A-level reduction is applied. Liverpool Scholars and Pathways have named likely offer profiles stored under contextual admissions."
     },
     "notes": "Offer prediction is disabled. Only the official MMI ranking method and official borderline decision hierarchy are stored. No annual pass mark, offer boundary, weights or probability are inferred."
   },

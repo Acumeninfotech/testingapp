@@ -16,6 +16,7 @@
     "explicitly_blocked_applicant_groups": [
       "mature_applicant"
     ],
+    "contextual_evaluator_controls_group_routing": true,
     "qualification_routes": {
       "supported": [
         "a_level",
@@ -33,30 +34,6 @@
         "unknown"
       ]
     },
-    "derived_applicant_groups": [
-      {
-        "group_ids": [
-          "contextual",
-          "widening_participation"
-        ],
-        "match": {
-          "all_group_ids": [
-            "home_fee"
-          ],
-          "excluded_group_ids": [
-            "international_fee"
-          ]
-        },
-        "any_evidence": [
-          {
-            "applicant_evidence_path": "applicant_identity.contextual_flags.first_generation_higher_education"
-          },
-          {
-            "applicant_evidence_path": "applicant_identity.contextual_flags.care_experienced"
-          }
-        ]
-      }
-    ],
     "gcse": {
       "minimum_count": 9,
       "use_exact_subject_list": false,

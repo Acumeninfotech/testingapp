@@ -34,6 +34,14 @@ const LANCASTER_CONTEXTUAL_CONFIRMATION = {
   contextual_offer_grade: 'ABB'
 };
 
+const LIVERPOOL_CONTEXTUAL_CONFIRMATION = {
+  collapsed_label: 'Contextual eligibility confirmed',
+  expanded_heading: 'Contextual eligibility confirmed',
+  consideration_label: 'Liverpool contextual consideration:',
+  expanded_body:
+    'Contextual eligibility means additional consideration for Liverpool Medicine A100. It does not guarantee an interview, offer or reduced A-level offer.'
+};
+
 const LANCASTER_ACCESS_TO_MEDICINE_WP_REVIEW_REASON =
   "Lancaster Access to Medicine completion confirmed. More information is needed to verify Lancaster's widening-participation criteria before the guaranteed-interview route can be confirmed.";
 
@@ -1339,6 +1347,18 @@ function contextualConfirmationFor(card = {}, contextualStatus = null, options =
     options.guaranteedInterview !== true
   ) {
     return { ...LANCASTER_CONTEXTUAL_CONFIRMATION };
+  }
+  if (profileId === 'liverpool-a100' && contextualStatus === 'confirmed') {
+    const gcsePointsCheck = (card.eligibility?.checks || [])
+      .find((check) => normaliseCheckId(check?.check_id || check?.check) === 'gcse_points');
+    const contextualGcseThresholdApplied = Number(gcsePointsCheck?.required) === 12;
+    const gcseSentence = contextualGcseThresholdApplied
+      ? " ApplySmart applied Liverpool's 12-point contextual GCSE threshold instead of the standard 15-point threshold; mandatory English Language, Mathematics and required science grades still apply."
+      : '';
+    return {
+      ...LIVERPOOL_CONTEXTUAL_CONFIRMATION,
+      expanded_body: `${LIVERPOOL_CONTEXTUAL_CONFIRMATION.expanded_body}${gcseSentence}`
+    };
   }
   return null;
 }
