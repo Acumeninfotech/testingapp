@@ -361,7 +361,7 @@ function applyCourseSpecificDerivedApplicantGroups(course, applicant, groupIds, 
     groups.delete('widening_participation');
   }
   if (
-    ['aston-a100', 'imperial-college-london-a100', 'manchester-a100', 'leicester-a100', 'bristol-a100', 'east-anglia-a100', 'lancaster-a100', 'liverpool-a100'].includes(course?.profile_id)
+    ['aston-a100', 'imperial-college-london-a100', 'manchester-a100', 'leicester-a100', 'bristol-a100', 'east-anglia-a100', 'lancaster-a100', 'liverpool-a100', 'sheffield-a100'].includes(course?.profile_id)
   ) {
     const activatedGroups = contextualResult?.is_contextual === true
       ? contextualResult.activated_applicant_group_ids
@@ -648,6 +648,9 @@ function evaluateGcseRules(course, applicant, state) {
     const matchedOptions = [];
 
     for (const option of scienceRule.accepted_options || []) {
+      if (!groupRuleApplies(option, state.applicant_group_ids)) {
+        continue;
+      }
       const passed = (option.grade_requirements || []).every((requirement) => {
         const subjectId = normaliseId(requirement.subject_id);
         if (requirement.minimum_grade_profile) {
@@ -2178,6 +2181,17 @@ function shouldEvaluateGcse(course, route, state) {
   ].includes(route);
 }
 
+function sheffieldBradfordHallamReviewTakesPrecedence(state) {
+  return (
+    state.course_profile_id === 'sheffield-a100' &&
+    state.contextual_eligibility?.status === 'information_needed' &&
+    state.contextual_eligibility?.manual_review_reason === 'sheffield_contextual_evidence_needs_review' &&
+    (state.contextual_eligibility?.missing_information || []).some((entry) => {
+      return entry?.criterion_id === 'bradford_hallam_pathway_evidence_unresolved';
+    })
+  );
+}
+
 function evaluateCourseEligibility(course, applicantInput) {
   if (!course || !applicantInput) {
     throw new TypeError('course and applicant are required.');
@@ -2247,7 +2261,9 @@ function evaluateCourseEligibility(course, applicantInput) {
   evaluateAdmissionsTests(course, applicant, state);
   evaluateDeferral(course, applicant, state);
 
-  const status = state.manual_review_reasons.includes('bristol_scholars_tailored_offer_manual_review')
+  const status = sheffieldBradfordHallamReviewTakesPrecedence(state)
+    ? 'manual_review'
+    : state.manual_review_reasons.includes('bristol_scholars_tailored_offer_manual_review')
     ? 'manual_review'
     : state.failures.length
     ? 'not_eligible'

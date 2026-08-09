@@ -662,8 +662,15 @@ function conciseRequirementRows(
 
 function compactUcatMinimum(summary?: string | null): string | null {
   if (!summary) return null;
-  const sectionMinimum = summary.match(/(?:at least|minimum(?: of)?)\s+(\d{3,4})/i);
-  if (sectionMinimum) return `${sectionMinimum[1]} min per section`;
+  const totalMinimum = summary.match(/minimum total\s+(\d{3,4})(?:\s*\/\s*(\d{3,4}))?/i);
+  if (totalMinimum) {
+    return totalMinimum[1];
+  }
+  const sectionMinimum = summary.match(/(?:per section|each (?:cognitive )?section|section minimum|minimum(?: of)?\s+(\d{3,4}).{0,30}(?:per|each).{0,20}section)/i);
+  if (sectionMinimum) {
+    const sectionScore = sectionMinimum[1] || summary.match(/\b(\d{3,4})\b/)?.[1];
+    return sectionScore ? `${sectionScore} min per section` : compactSentence(summary);
+  }
   const score = summary.match(/\b(\d{3,4})\b/);
   return score ? score[1] : compactSentence(summary);
 }
@@ -938,17 +945,19 @@ export function ResultCard({ result }: { result: PredictionResult }) {
   const sjtFactor = factorUsageById.get('sjt');
   const ucatPointsRow = scoreComponentRow(scoreBreakdown, /^UCAT points$/i);
   const sjtPointsRow = scoreComponentRow(scoreBreakdown, /^SJT points$/i);
+  const ucatRole = ucatFactor?.role;
   const ucatRows: Array<{ label: string; value: string }> = [];
   const ucatMinimumText =
-    compactUcatMinimum(officialMinimumCheck?.summary) ||
-    compactUcatMinimum(ucatComparison?.official_ucat_minimum?.summary);
+    ucatRole === 'ranking'
+      ? null
+      : compactUcatMinimum(officialMinimumCheck?.summary) ||
+        compactUcatMinimum(ucatComparison?.official_ucat_minimum?.summary);
   if (ucatPointsRow) {
     ucatRows.push(ucatPointsRow);
   } else if (ucatMinimumText) {
     ucatRows.push({ label: 'Minimum', value: ucatMinimumText });
   }
   const ucatExplicitlyNotUsed = /ucat.{0,50}(not used|not scored)|not used.{0,50}ucat/i.test(selectionText);
-  const ucatRole = ucatFactor?.role;
   const ucatStatus = ucatPointsRow
     ? 'Counted'
     : ucatRole === 'not_used'

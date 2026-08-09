@@ -76,13 +76,50 @@ assert.strictEqual(course.stage_2_interview_selection.primary_model, 'ucat_ranki
 
 const gcse = course.stage_1_eligibility.gcse;
 assert.strictEqual(gcse.minimum_count, 5);
-assert.strictEqual(gcse.minimum_count_at_or_above_grade.count, 5);
-assert.strictEqual(gcse.minimum_count_at_or_above_grade.minimum_grade, '7/A');
+assert.deepStrictEqual(
+  gcse.minimum_count_at_or_above_grade.map((rule) => [
+    rule.requirement_id,
+    rule.count,
+    rule.minimum_grade,
+    rule.applies_to_group_ids || [],
+    rule.excluded_group_ids || []
+  ]),
+  [
+    [
+      'five_gcse_grade_7_minimum',
+      5,
+      '7/A',
+      [],
+      ['sheffield_access_to_sheffield_medicine']
+    ],
+    [
+      'access_to_sheffield_medicine_five_gcse_grade_6_minimum',
+      5,
+      '6/B',
+      ['sheffield_access_to_sheffield_medicine'],
+      []
+    ]
+  ]
+);
 assert.deepStrictEqual(
   gcse.grade_requirements.map((rule) => [rule.subject_id, rule.minimum_grade]),
   [
     ['english_language', '6/B'],
-    ['mathematics', '6/B']
+    ['mathematics', '6/B'],
+    ['english_language', '4/C'],
+    ['mathematics', '4/C']
+  ]
+);
+assert.strictEqual(
+  course.contextual_admissions.contextual_eligibility.evaluator_id,
+  'sheffield_contextual_medicine_a100'
+);
+assert.deepStrictEqual(
+  course.contextual_admissions.contextual_eligibility.activated_applicant_group_ids,
+  [
+    'sheffield_contextual_offer',
+    'sheffield_access_to_sheffield_medicine',
+    'sheffield_bradford_hallam_pathway'
   ]
 );
 assert.strictEqual(gcse.selection_role, 'eligibility_only');
@@ -111,7 +148,7 @@ assert.strictEqual(config.score_model.historical_guidance_only, true);
 assert.deepStrictEqual(
   config.guidance_pools.map((pool) => pool.pool_id),
   [
-    'access_to_sheffield_medicine_pathway',
+    'access_to_sheffield_medicine',
     'international_a100',
     'home_a100'
   ]
@@ -193,14 +230,14 @@ const accessResult = classifyInterviewBand(
   course,
   config,
   merge(fixture.base_applicant, fixture.scenarios.find((scenario) => {
-    return scenario.scenario_id === 'verified_access_to_sheffield_medicine_pathway';
+    return scenario.scenario_id === 'verified_access_to_sheffield_medicine_step6';
   }).overrides)
 );
 assert.strictEqual(accessResult.canonical_interview_band, 'interview_likely');
 assert.strictEqual(accessResult.ranking.value, 1800);
 assert.strictEqual(
   accessResult.guidance_pool_id,
-  'access_to_sheffield_medicine_pathway'
+  'access_to_sheffield_medicine'
 );
 
 assert.strictEqual(

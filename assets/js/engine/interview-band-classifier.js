@@ -908,8 +908,9 @@ function scienceOptionMeets(option, gcseGrades) {
   });
 }
 
-function findSatisfiedScienceOption(gcseRules, gcseGrades) {
+function findSatisfiedScienceOption(gcseRules, gcseGrades, groupIds = []) {
   return (gcseRules.science_requirement?.accepted_options || [])
+    .filter((option) => groupRuleApplies(option, groupIds))
     .find((option) => scienceOptionMeets(option, gcseGrades)) || null;
 }
 
@@ -1005,9 +1006,9 @@ function subjectCombinationMeets(rule, subjectGrades, gradeProfile = []) {
   });
 }
 
-function countGcseSubjects(gcseRules, gcseGrades) {
+function countGcseSubjects(gcseRules, gcseGrades, groupIds = []) {
   const exactCount = Object.keys(gcseGrades).length;
-  const scienceOption = findSatisfiedScienceOption(gcseRules, gcseGrades);
+  const scienceOption = findSatisfiedScienceOption(gcseRules, gcseGrades, groupIds);
   const creditedCount = scienceOption?.counts_as_gcse_subjects;
   const listedCount = scienceOption?.grade_requirements?.length;
 
@@ -1036,7 +1037,7 @@ function evaluateAcademicEligibility(course, config, applicant, groupIds) {
   const academicRoute = supportedRoutes.length > 0 ? qualificationRoute : 'a_level';
   const gcseGrades = getGcseGrades(applicant);
   const exactGcseCount = Object.keys(gcseGrades).length;
-  const creditedGcseCount = countGcseSubjects(gcseRules, gcseGrades);
+  const creditedGcseCount = countGcseSubjects(gcseRules, gcseGrades, groupIds);
   const reportedGcseCount = applicant.gcse_profile?.total_gcse_count;
   const missingAcademicEvidenceOutcome =
     configEligibility.academic_evidence?.missing_outcome ||
@@ -1156,7 +1157,7 @@ function evaluateAcademicEligibility(course, config, applicant, groupIds) {
           minimum_grade: rule.minimum_grade
         }));
     const scienceOption = gcseRules.science_requirement?.requirement_type === 'any_of'
-      ? findSatisfiedScienceOption(gcseRules, gcseGrades)
+      ? findSatisfiedScienceOption(gcseRules, gcseGrades, groupIds)
       : null;
     const scienceAlternativeSubjects = new Set(['biology', 'chemistry']);
     const mandatorySubjectIds = new Set([

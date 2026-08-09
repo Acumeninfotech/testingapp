@@ -149,6 +149,38 @@
       }
     },
     {
+      "scenario_id": "aab_without_contextual_evidence_fails",
+      "overrides": {
+        "a_level_profile": {
+          "subjects": [
+            {
+              "subject_id": "biology",
+              "predicted_grade": "A",
+              "sitting_status": "first_sitting",
+              "practical_endorsement": "pass"
+            },
+            {
+              "subject_id": "chemistry",
+              "predicted_grade": "A",
+              "sitting_status": "first_sitting",
+              "practical_endorsement": "pass"
+            },
+            {
+              "subject_id": "mathematics",
+              "predicted_grade": "B",
+              "sitting_status": "first_sitting"
+            }
+          ]
+        }
+      },
+      "expected": {
+        "eligibility_status": "not_eligible",
+        "guidance_pool_id": null,
+        "interview_band": "not_eligible",
+        "failure": "a_level_requirements_not_met"
+      }
+    },
+    {
       "scenario_id": "failed_science_practical_endorsement",
       "overrides": {
         "a_level_profile": {
@@ -181,21 +213,184 @@
       }
     },
     {
-      "scenario_id": "verified_access_to_sheffield_medicine_pathway",
+      "scenario_id": "access_plus_imd_contextual_aab_home_pool",
       "overrides": {
-        "qualification_route": "access_to_medicine",
-        "applicant_identity": {
-          "contextual": true,
-          "widening_participation": true,
-          "contextual_flags": {
-            "free_school_meals": true
+        "a_level_profile": {
+          "subjects": [
+            {
+              "subject_id": "biology",
+              "predicted_grade": "A",
+              "sitting_status": "first_sitting",
+              "practical_endorsement": "pass"
+            },
+            {
+              "subject_id": "chemistry",
+              "predicted_grade": "A",
+              "sitting_status": "first_sitting",
+              "practical_endorsement": "pass"
+            },
+            {
+              "subject_id": "mathematics",
+              "predicted_grade": "B",
+              "sitting_status": "first_sitting"
+            }
+          ]
+        },
+        "admissions_tests": {
+          "ucat": {
+            "total_score": 2100
           }
         },
-        "access_to_medicine_profile": {
-          "provider_approved_by_institution": true,
-          "requirements_met": true,
-          "programme": "Access to Sheffield Medicine",
-          "verified": true
+        "contextual_profile": {
+          "home_area_region": {
+            "imd_quintile": "q1"
+          }
+        }
+      },
+      "expected": {
+        "eligibility_status": "eligible",
+        "guidance_pool_id": "home_a100",
+        "interview_band": "high_risk",
+        "failure": null
+      }
+    },
+    {
+      "scenario_id": "access_plus_contextual_retains_standard_gcse",
+      "overrides": {
+        "gcse_profile": {
+          "subjects": {
+            "english_language": "4",
+            "mathematics": "7",
+            "biology": "7",
+            "chemistry": "7",
+            "physics": "7",
+            "history": "7",
+            "geography": "7"
+          },
+          "total_gcse_count": 7
+        },
+        "a_level_profile": {
+          "subjects": [
+            {
+              "subject_id": "biology",
+              "predicted_grade": "A",
+              "sitting_status": "first_sitting",
+              "practical_endorsement": "pass"
+            },
+            {
+              "subject_id": "chemistry",
+              "predicted_grade": "A",
+              "sitting_status": "first_sitting",
+              "practical_endorsement": "pass"
+            },
+            {
+              "subject_id": "mathematics",
+              "predicted_grade": "B",
+              "sitting_status": "first_sitting"
+            }
+          ]
+        },
+        "contextual_profile": {
+          "home_area_region": {
+            "imd_quintile": "q1"
+          }
+        }
+      },
+      "expected": {
+        "eligibility_status": "not_eligible",
+        "guidance_pool_id": null,
+        "interview_band": "not_eligible",
+        "failure": "gcse_requirement_not_met:english_language"
+      }
+    },
+    {
+      "scenario_id": "access_plus_contextual_below_ucat_minimum",
+      "overrides": {
+        "a_level_profile": {
+          "subjects": [
+            {
+              "subject_id": "biology",
+              "predicted_grade": "A",
+              "sitting_status": "first_sitting",
+              "practical_endorsement": "pass"
+            },
+            {
+              "subject_id": "chemistry",
+              "predicted_grade": "A",
+              "sitting_status": "first_sitting",
+              "practical_endorsement": "pass"
+            },
+            {
+              "subject_id": "mathematics",
+              "predicted_grade": "B",
+              "sitting_status": "first_sitting"
+            }
+          ]
+        },
+        "admissions_tests": {
+          "ucat": {
+            "total_score": 1799
+          }
+        },
+        "contextual_profile": {
+          "home_area_region": {
+            "imd_quintile": "q1"
+          }
+        }
+      },
+      "expected": {
+        "eligibility_status": "not_eligible",
+        "guidance_pool_id": null,
+        "interview_band": "not_eligible",
+        "failure": "minimum_ucat_total_not_met"
+      }
+    },
+    {
+      "scenario_id": "verified_access_to_sheffield_medicine_step6",
+      "overrides": {
+        "gcse_profile": {
+          "subjects": {
+            "english_language": "4",
+            "mathematics": "4",
+            "biology": "6",
+            "chemistry": "6",
+            "physics": "6",
+            "history": "6",
+            "geography": "6"
+          },
+          "total_gcse_count": 7
+        },
+        "a_level_profile": {
+          "subjects": [
+            {
+              "subject_id": "biology",
+              "predicted_grade": "A",
+              "sitting_status": "first_sitting",
+              "practical_endorsement": "pass"
+            },
+            {
+              "subject_id": "chemistry",
+              "predicted_grade": "A",
+              "sitting_status": "first_sitting",
+              "practical_endorsement": "pass"
+            },
+            {
+              "subject_id": "mathematics",
+              "predicted_grade": "B",
+              "sitting_status": "first_sitting"
+            }
+          ]
+        },
+        "contextual_profile": {
+          "access_programmes": {
+            "participation_status": "yes",
+            "other_programmes": [
+              {
+                "programme_id": "sheffield_access_to_sheffield_medicine",
+                "status": "completed"
+              }
+            ]
+          }
         },
         "admissions_tests": {
           "ucat": {
@@ -205,9 +400,128 @@
       },
       "expected": {
         "eligibility_status": "eligible",
-        "guidance_pool_id": "access_to_sheffield_medicine_pathway",
+        "guidance_pool_id": "access_to_sheffield_medicine",
         "interview_band": "interview_likely",
         "failure": null
+      }
+    },
+    {
+      "scenario_id": "access_to_sheffield_medicine_below_special_gcse",
+      "overrides": {
+        "gcse_profile": {
+          "subjects": {
+            "english_language": "4",
+            "mathematics": "4",
+            "biology": "6",
+            "chemistry": "6",
+            "physics": "6",
+            "history": "6"
+          },
+          "total_gcse_count": 6
+        },
+        "a_level_profile": {
+          "subjects": [
+            {
+              "subject_id": "biology",
+              "predicted_grade": "A",
+              "sitting_status": "first_sitting",
+              "practical_endorsement": "pass"
+            },
+            {
+              "subject_id": "chemistry",
+              "predicted_grade": "A",
+              "sitting_status": "first_sitting",
+              "practical_endorsement": "pass"
+            },
+            {
+              "subject_id": "mathematics",
+              "predicted_grade": "B",
+              "sitting_status": "first_sitting"
+            }
+          ]
+        },
+        "contextual_profile": {
+          "access_programmes": {
+            "participation_status": "yes",
+            "other_programmes": [
+              {
+                "programme_id": "sheffield_access_to_sheffield_medicine",
+                "status": "completed"
+              }
+            ]
+          }
+        }
+      },
+      "expected": {
+        "eligibility_status": "not_eligible",
+        "guidance_pool_id": null,
+        "interview_band": "not_eligible",
+        "failure": "minimum_gcse_count_at_grade_not_met:access_to_sheffield_medicine_five_gcse_grade_6_minimum"
+      }
+    },
+    {
+      "scenario_id": "realising_opportunities_incomplete_evidence_needs_review",
+      "overrides": {
+        "a_level_profile": {
+          "subjects": [
+            {
+              "subject_id": "biology",
+              "predicted_grade": "A",
+              "sitting_status": "first_sitting",
+              "practical_endorsement": "pass"
+            },
+            {
+              "subject_id": "chemistry",
+              "predicted_grade": "A",
+              "sitting_status": "first_sitting",
+              "practical_endorsement": "pass"
+            },
+            {
+              "subject_id": "mathematics",
+              "predicted_grade": "B",
+              "sitting_status": "first_sitting"
+            }
+          ]
+        },
+        "contextual_profile": {
+          "access_programmes": {
+            "participation_status": "yes",
+            "other_programmes": [
+              {
+                "programme_id": "realising_opportunities",
+                "status": "completed"
+              }
+            ]
+          }
+        }
+      },
+      "expected": {
+        "eligibility_status": "manual_review",
+        "guidance_pool_id": null,
+        "interview_band": "insufficient_evidence",
+        "failure": "sheffield_contextual_evidence_needs_review"
+      }
+    },
+    {
+      "scenario_id": "bradford_hallam_partial_evidence_needs_review",
+      "overrides": {
+        "contextual_profile": {
+          "access_programmes": {
+            "participation_status": "yes",
+            "other_programmes": [
+              {
+                "programme_id": "sheffield_bradford_hallam_pathway",
+                "status": "participating"
+              }
+            ]
+          }
+        }
+      },
+      "expected": {
+        "eligibility_status": "manual_review",
+        "guidance_pool_id": null,
+        "interview_band": "insufficient_evidence",
+        "failure": "sheffield_contextual_evidence_needs_review"
       }
     },
     {

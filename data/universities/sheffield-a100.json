@@ -3,7 +3,7 @@
   "profile_id": "sheffield-a100",
   "profile_status": "activated_for_scoped_eligibility_and_interview_guidance",
   "verification_status": "official_source_verified_with_remaining_eligibility_exceptions",
-  "last_updated": "2026-07-06",
+  "last_updated": "2026-08-09",
   "selection_approach_display": "Sheffield checks academic eligibility and the UCAT minimum before ranking most eligible applicants by UCAT cognitive total within separate Home and International pools.",
   "university": {
     "name": "University of Sheffield",
@@ -60,14 +60,13 @@
       "pool_id": "access_to_sheffield_medicine",
       "applies_to_group_ids": [
         "home_fee",
-        "contextual",
-        "widening_participation"
+        "sheffield_access_to_sheffield_medicine"
       ],
       "excluded_group_ids": [
         "international_fee",
         "graduate_applicant"
       ],
-      "selection_relevance": "Verified Access to Sheffield Medicine or approved pathway applicants must meet the UCAT minimum but bypass ordinary UCAT ranking."
+      "selection_relevance": "Verified Access to Sheffield (Medicine) applicants must meet the UCAT minimum but progress to the next stage without competitive UCAT ranking."
     },
     {
       "pool_id": "graduate_a100_manual_review",
@@ -87,6 +86,9 @@
     "rest_of_uk",
     "contextual",
     "widening_participation",
+    "sheffield_contextual_offer",
+    "sheffield_access_to_sheffield_medicine",
+    "sheffield_bradford_hallam_pathway",
     "care_experienced",
     "graduate_applicant",
     "school_leaver",
@@ -132,19 +134,40 @@
         "mathematics",
         "science"
       ],
-      "minimum_count_at_or_above_grade": {
-        "requirement_id": "five_gcse_grade_7_minimum",
-        "count": 5,
-        "minimum_grade": "7/A",
-        "decision_outcome_if_not_met": "not_eligible",
-        "source_ids": [
-          "sheffield_course_page_2027",
-          "sheffield_a100_policy_2027"
-        ]
-      },
+      "minimum_count_at_or_above_grade": [
+        {
+          "requirement_id": "five_gcse_grade_7_minimum",
+          "excluded_group_ids": [
+            "sheffield_access_to_sheffield_medicine"
+          ],
+          "count": 5,
+          "minimum_grade": "7/A",
+          "decision_outcome_if_not_met": "not_eligible",
+          "source_ids": [
+            "sheffield_course_page_2027",
+            "sheffield_a100_policy_2027"
+          ]
+        },
+        {
+          "requirement_id": "access_to_sheffield_medicine_five_gcse_grade_6_minimum",
+          "applies_to_group_ids": [
+            "sheffield_access_to_sheffield_medicine"
+          ],
+          "count": 5,
+          "minimum_grade": "6/B",
+          "decision_outcome_if_not_met": "not_eligible",
+          "source_ids": [
+            "sheffield_widening_access",
+            "sheffield_a100_policy_2027"
+          ]
+        }
+      ],
       "grade_requirements": [
         {
           "requirement_id": "gcse_english_language_minimum",
+          "excluded_group_ids": [
+            "sheffield_access_to_sheffield_medicine"
+          ],
           "subject_id": "english_language",
           "minimum_grade": "6/B",
           "qualification_level": "gcse_or_igcse",
@@ -156,12 +179,43 @@
         },
         {
           "requirement_id": "gcse_mathematics_minimum",
+          "excluded_group_ids": [
+            "sheffield_access_to_sheffield_medicine"
+          ],
           "subject_id": "mathematics",
           "minimum_grade": "6/B",
           "qualification_level": "gcse_or_igcse",
           "decision_outcome_if_not_met": "not_eligible",
           "source_ids": [
             "sheffield_course_page_2027",
+            "sheffield_a100_policy_2027"
+          ]
+        },
+        {
+          "requirement_id": "access_to_sheffield_medicine_gcse_english_language_minimum",
+          "applies_to_group_ids": [
+            "sheffield_access_to_sheffield_medicine"
+          ],
+          "subject_id": "english_language",
+          "minimum_grade": "4/C",
+          "qualification_level": "gcse_or_igcse",
+          "decision_outcome_if_not_met": "not_eligible",
+          "source_ids": [
+            "sheffield_widening_access",
+            "sheffield_a100_policy_2027"
+          ]
+        },
+        {
+          "requirement_id": "access_to_sheffield_medicine_gcse_mathematics_minimum",
+          "applies_to_group_ids": [
+            "sheffield_access_to_sheffield_medicine"
+          ],
+          "subject_id": "mathematics",
+          "minimum_grade": "4/C",
+          "qualification_level": "gcse_or_igcse",
+          "decision_outcome_if_not_met": "not_eligible",
+          "source_ids": [
+            "sheffield_widening_access",
             "sheffield_a100_policy_2027"
           ]
         }
@@ -173,6 +227,9 @@
         "accepted_options": [
           {
             "option_id": "single_named_science",
+            "excluded_group_ids": [
+              "sheffield_access_to_sheffield_medicine"
+            ],
             "minimum_subjects_required": 1,
             "accepted_subject_ids": [
               "biology",
@@ -185,6 +242,9 @@
           },
           {
             "option_id": "combined_science",
+            "excluded_group_ids": [
+              "sheffield_access_to_sheffield_medicine"
+            ],
             "subject_id": "combined_science",
             "minimum_grade_profile": [
               "6",
@@ -193,6 +253,37 @@
             "accepted_equivalent_profile": [
               "B",
               "B"
+            ],
+            "counts_as_gcse_subjects": 2
+          },
+          {
+            "option_id": "access_to_sheffield_medicine_single_named_science",
+            "applies_to_group_ids": [
+              "sheffield_access_to_sheffield_medicine"
+            ],
+            "minimum_subjects_required": 1,
+            "accepted_subject_ids": [
+              "biology",
+              "chemistry",
+              "physics",
+              "psychology",
+              "science"
+            ],
+            "minimum_grade": "4/C"
+          },
+          {
+            "option_id": "access_to_sheffield_medicine_combined_science",
+            "applies_to_group_ids": [
+              "sheffield_access_to_sheffield_medicine"
+            ],
+            "subject_id": "combined_science",
+            "minimum_grade_profile": [
+              "4",
+              "4"
+            ],
+            "accepted_equivalent_profile": [
+              "C",
+              "C"
             ],
             "counts_as_gcse_subjects": 2
           }
@@ -241,8 +332,7 @@
               "school_leaver"
             ],
             "excluded_group_ids": [
-              "contextual",
-              "widening_participation",
+              "sheffield_contextual_offer",
               "graduate_applicant"
             ],
             "grade_profile": [
@@ -278,8 +368,7 @@
               "school_leaver"
             ],
             "excluded_group_ids": [
-              "contextual",
-              "widening_participation",
+              "sheffield_contextual_offer",
               "graduate_applicant"
             ],
             "grade_profile": [
@@ -313,8 +402,7 @@
             "requirement_id": "contextual_aab_biology_route",
             "applies_to_group_ids": [
               "home_fee",
-              "contextual",
-              "widening_participation",
+              "sheffield_contextual_offer",
               "school_leaver"
             ],
             "excluded_group_ids": [
@@ -358,8 +446,7 @@
             "requirement_id": "contextual_aab_chemistry_route",
             "applies_to_group_ids": [
               "home_fee",
-              "contextual",
-              "widening_participation",
+              "sheffield_contextual_offer",
               "school_leaver"
             ],
             "excluded_group_ids": [
@@ -415,8 +502,7 @@
         "contextual_offer": {
           "applies_to_group_ids": [
             "home_fee",
-            "contextual",
-            "widening_participation"
+            "sheffield_contextual_offer"
           ],
           "grade_profile": [
             "A",
@@ -721,7 +807,7 @@
     "primary_model": "ucat_ranking",
     "modifiers": [
       "widening_participation_scheme",
-      "guaranteed_interview",
+      "ucat_ranking_bypass",
       "separate_applicant_pool"
     ],
     "ranking_factors": [
@@ -764,7 +850,7 @@
     },
     "thresholds": [
       {
-        "threshold_id": "ucat_minimum_2026_entry",
+        "threshold_id": "ucat_minimum_2027_entry",
         "applies_to_group_ids": [],
         "metric": "ucat_total",
         "operator": "greater_than_or_equal",
@@ -807,16 +893,15 @@
     "selection_adjustments": [
       {
         "adjustment_id": "access_to_sheffield_medicine_ranking_bypass",
-        "modifier_id": "guaranteed_interview",
+        "modifier_id": "ucat_ranking_bypass",
         "applies_to_group_ids": [
           "home_fee",
-          "contextual",
-          "widening_participation"
+          "sheffield_access_to_sheffield_medicine"
         ],
         "condition": {
-          "field": "access_to_medicine_profile",
-          "operator": "verified_pathway",
-          "value": true
+          "field": "applicant_group_ids",
+          "operator": "includes",
+          "value": "sheffield_access_to_sheffield_medicine"
         },
         "effect": {
           "type": "bypass_ranking",
@@ -828,7 +913,7 @@
           "sheffield_widening_access",
           "sheffield_a100_policy_2027"
         ],
-        "notes": "The UCAT minimum still applies. The pathway is represented as interview-likely only after its academic requirements are verified."
+        "notes": "The UCAT minimum still applies. Verified Access to Sheffield (Medicine) applicants progress to the next stage without competitive UCAT ranking after academic requirements are verified."
       }
     ],
     "tie_breakers": [],
@@ -854,20 +939,46 @@
     "available": true,
     "applies_to_group_ids": [
       "home_fee",
-      "contextual",
-      "widening_participation"
+      "sheffield_contextual_offer"
     ],
+    "contextual_eligibility": {
+      "evaluator_id": "sheffield_contextual_medicine_a100",
+      "controls_group_routing": true,
+      "activated_applicant_group_ids": [
+        "sheffield_contextual_offer",
+        "sheffield_access_to_sheffield_medicine",
+        "sheffield_bradford_hallam_pathway"
+      ],
+      "evidence_source": "step_6_contextual_profile",
+      "manual_review_when_evidence_incomplete": true,
+      "notes": "Sheffield A100 contextual groups must be activated from Step 6 structured contextual evidence via the shared contextual evidence framework. Generic access_to_medicine academic routes and access_to_medicine_profile are not valid evidence for Access to Sheffield (Medicine)."
+    },
     "criteria": [
       {
         "criterion_id": "access_sheffield_verified_status",
-        "description": "Access Sheffield or Access+ eligibility must be verified by the university.",
+        "description": "Access Sheffield or Access+ eligibility may activate the published 2027 AAB contextual A-level offer where Step 6 evidence establishes a qualifying criterion.",
         "source_ids": [
           "sheffield_widening_access"
         ]
       },
       {
         "criterion_id": "access_to_sheffield_medicine_completion",
-        "description": "The specific Access to Sheffield Medicine programme or approved pathway must be completed and verified for the UCAT-ranking bypass.",
+        "description": "The specific Access to Sheffield (Medicine) programme must be represented through named Step 6 access/WP programme evidence for the special GCSE branch and UCAT-ranking bypass.",
+        "source_ids": [
+          "sheffield_widening_access",
+          "sheffield_a100_policy_2027"
+        ]
+      },
+      {
+        "criterion_id": "realising_opportunities_manual_review",
+        "description": "Realising Opportunities evidence requires manual review until cohort and completion timing can be established in structured Step 6 evidence.",
+        "source_ids": [
+          "sheffield_widening_access"
+        ]
+      },
+      {
+        "criterion_id": "bradford_hallam_pathway_manual_review",
+        "description": "Recognised Bradford / Sheffield Hallam pathway evidence requires manual review unless pathway marks, module thresholds and widening-participation criteria are established.",
         "source_ids": [
           "sheffield_widening_access",
           "sheffield_a100_policy_2027"
@@ -879,8 +990,7 @@
         "adjustment_id": "contextual_a_level_offer",
         "applies_to_group_ids": [
           "home_fee",
-          "contextual",
-          "widening_participation"
+          "sheffield_contextual_offer"
         ],
         "stage": "academic_eligibility",
         "policy_description": "AAB including grade A in Chemistry or Biology.",
@@ -895,17 +1005,16 @@
         ]
       }
     ],
-    "guaranteed_interview_rules": [
+    "ranking_bypass_rules": [
       {
         "rule_id": "access_to_sheffield_medicine_ucat_ranking_bypass",
         "applies_to_group_ids": [
           "home_fee",
-          "contextual",
-          "widening_participation"
+          "sheffield_access_to_sheffield_medicine"
         ],
         "minimum_requirements_must_be_met": true,
         "conditions": [
-          "Specific programme or pathway completion is verified.",
+          "Specific Access to Sheffield (Medicine) programme evidence is verified.",
           "Applicable academic requirements are met.",
           "UCAT total is at least 1800 out of 2700."
         ],
@@ -913,7 +1022,7 @@
           "sheffield_widening_access",
           "sheffield_a100_policy_2027"
         ],
-        "notes": "Ordinary UCAT ranking is bypassed; no contextual points or invented uplift are applied."
+        "notes": "Ordinary UCAT ranking is bypassed after the minimum UCAT gate; no contextual points, guaranteed-interview label, or invented uplift is applied."
       }
     ],
     "notes": "General Access Sheffield contextual applicants receive the academic adjustment but remain in the ordinary Home UCAT ranking pool."
@@ -1039,8 +1148,7 @@
     "contextual_offer": {
       "applies_to_group_ids": [
         "home_fee",
-        "contextual",
-        "widening_participation"
+        "sheffield_contextual_offer"
       ],
       "grade_profile": [
         "A",
@@ -1051,7 +1159,7 @@
         "sheffield_course_page_2027",
         "sheffield_widening_access"
       ],
-      "notes": "Stored as academic eligibility information only."
+      "notes": "Stored as academic eligibility information only. The 2027 AAB Access Sheffield A-level offer is explicitly published on the Sheffield course page."
     },
     "notes": "ApplySmart does not predict offers, interview performance, MMI scores, SJT interview scores, waiting-list outcomes or post-interview ranking."
   },
@@ -1106,7 +1214,7 @@
       "url": "https://sheffield.ac.uk/smph/undergraduate/medicine-admissions",
       "source_type": "official_selection_page",
       "published_date": null,
-      "accessed_date": "2026-07-06",
+      "accessed_date": "2026-08-09",
       "applies_to_sections": [
         "course_identity",
         "stage_1_eligibility",
@@ -1124,7 +1232,7 @@
       "url": "https://sheffield.ac.uk/undergraduate/courses/2027/medicine-mbchb",
       "source_type": "official_course_page",
       "published_date": null,
-      "accessed_date": "2026-07-06",
+      "accessed_date": "2026-08-09",
       "applies_to_sections": [
         "course_identity",
         "stage_1_eligibility",
@@ -1141,7 +1249,7 @@
       "url": "https://sheffield.ac.uk/media/69386/download",
       "source_type": "official_admissions_policy",
       "published_date": null,
-      "accessed_date": "2026-07-06",
+      "accessed_date": "2026-08-09",
       "applies_to_sections": [
         "stage_1_eligibility",
         "stage_2_interview_selection",
@@ -1158,7 +1266,7 @@
       "url": "https://sheffield.ac.uk/smph/undergraduate/widening-access",
       "source_type": "official_contextual_policy",
       "published_date": null,
-      "accessed_date": "2026-07-06",
+      "accessed_date": "2026-08-09",
       "applies_to_sections": [
         "stage_1_eligibility",
         "contextual_admissions",
@@ -1185,7 +1293,7 @@
   ],
   "validation": {
     "source_status": "official_source_verified_with_remaining_eligibility_exceptions",
-    "last_verified": "2026-07-06",
+    "last_verified": "2026-08-09",
     "confidence_level": "Medium",
     "completion_status": "production_ready_for_supported_scope_with_documented_gaps",
     "section_completion_status": {
@@ -1261,14 +1369,16 @@
       "Do not apply A101 rules to A100.",
       "Do not predict offers, interview performance, waiting-list outcomes or post-interview ranking."
     ],
-    "approved_activation_scope": "Complete standard or verified contextual A-level school-leaver profiles, standard IB profiles, verified Access to Sheffield Medicine/pathway profiles, and International applicants with a supported qualification and a confirmed published English-language exemption.",
-    "prediction_scope": "Medium-confidence interview guidance using the native 2025-26 Home and International UCAT cutpoints after academic and 1800 UCAT gates. Verified Access to Sheffield Medicine/pathway applicants use threshold-only interview-likely logic.",
+    "approved_activation_scope": "Complete standard A-level school-leaver profiles, Step 6-verified Sheffield contextual A-level school-leaver profiles, standard IB profiles, and International applicants with a supported qualification and a confirmed published English-language exemption. Incomplete Realising Opportunities and Bradford/Hallam pathway evidence remains manual review.",
+    "prediction_scope": "Medium-confidence interview guidance using the native 2025-26 Home and International UCAT cutpoints after academic and 1800 UCAT gates. Step 6-verified Access to Sheffield (Medicine) applicants use threshold-only interview-likely logic after the minimum UCAT gate because competitive UCAT ranking is bypassed.",
     "blocking_missing_fields_scope": "Automatic Engine v1.0 execution boundaries only; these are not missing Sheffield admissions evidence. Genuine evidence gaps are listed in validation.known_unknowns and the research profile evidence_gaps array.",
     "course_specific_notes": [
       "Sheffield first checks academic eligibility, then the 1800 UCAT minimum, then ranks most applicants by UCAT within separate Home and International pools.",
       "GCSEs and A-levels are threshold-only.",
       "General Access Sheffield contextual applicants use the Home UCAT ranking pool.",
-      "Verified Access to Sheffield Medicine and approved pathway applicants bypass ordinary UCAT ranking after meeting the minimum UCAT and academic requirements.",
+      "Step 6-verified Access to Sheffield (Medicine) applicants bypass ordinary UCAT ranking after meeting the minimum UCAT and academic requirements.",
+      "Access Sheffield / Access+ contextual applicants can receive the published 2027 AAB A-level offer but remain subject to standard GCSE requirements and competitive UCAT ranking.",
+      "Realising Opportunities and Bradford/Hallam pathway cases remain manual review when Step 6 evidence cannot establish the required cohort, completion timing, pathway marks or pathway-specific WP criteria.",
       "SJT is not used for interview shortlisting."
     ]
   }

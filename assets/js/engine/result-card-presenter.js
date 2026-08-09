@@ -169,6 +169,8 @@ function mergePresentations(...presentations) {
 function configuredPresentation(card = {}, options = {}) {
   return mergePresentations(
     card.stage_2_selection?.presentation,
+    card.score_model?.presentation,
+    card.guidance_pool?.presentation,
     options.scoreModel?.presentation,
     options.guidancePool?.presentation
   );
@@ -1319,6 +1321,12 @@ function contextualOfferRouteSummary(card = {}, offer = null) {
     return null;
   }
 
+  const presentation = configuredPresentation(card);
+  const configuredSummary = String(presentation.contextual_route_summary || '').trim();
+  if (configuredSummary) {
+    return configuredSummary;
+  }
+
   const standardOffer = String(offer.standard_offer || '').trim();
   const alternativeOffer = String(offer.alternative_offer || '').trim();
   if (!standardOffer || !alternativeOffer) {
@@ -1907,8 +1915,44 @@ function buildRankingEvidence(options = {}) {
   const ucat = applicant?.admissions_tests?.ucat;
   const gamsat = applicant?.admissions_tests?.gamsat;
   const ucatComparison = options.ucatComparison;
+  const ucatRankingBypass = ucatRankingBypassApplies(options);
 
   const checks = [];
+  if (ucatRankingBypass) {
+    const applicantUcat = Number.isFinite(bandMetric?.value)
+      ? bandMetric.value
+      : ucat?.total_score;
+    const max = Number.isFinite(bandMetric?.scale?.max)
+      ? bandMetric.scale.max
+      : (ucat?.score_scale ?? 2700);
+    const officialMinimum = resolveApplicantUcatMinimum(
+      options.stage1Eligibility,
+      options.applicantGroupIds
+    );
+    if (Number.isFinite(officialMinimum)) {
+      const met = Number.isFinite(applicantUcat) && applicantUcat >= officialMinimum;
+      checks.push(check(
+        'UCAT minimum',
+        met ? 'Met' : 'Not met',
+        Number.isFinite(applicantUcat)
+          ? `Your total UCAT cognitive score is ${applicantUcat} / ${max}. Minimum total ${officialMinimum} / ${max}.`
+          : `Minimum total ${officialMinimum} / ${max}.`
+      ));
+    } else if (Number.isFinite(applicantUcat)) {
+      checks.push(check('UCAT total entered', 'Minimum gate only', `${applicantUcat} out of ${max}.`));
+    }
+    if (ucat?.sjt_band !== undefined && ucat?.sjt_band !== null) {
+      checks.push(check('SJT band', 'On file', `Band ${ucat.sjt_band}.`));
+    }
+    checks.push(check(
+      'Selection approach',
+      'Ranking bypassed',
+      options.selectionSummary ||
+        'UCAT is used as a minimum eligibility gate for this route; competitive UCAT ranking does not apply.'
+    ));
+    return checks;
+  }
+
   if (ucatComparison?.official_ucat_minimum) {
     checks.push(check(
       'UCAT minimum',
@@ -2457,6 +2501,10 @@ function scoreModelUsesAcademicAndUcat(context = {}) {
 }
 
 function recommendationAssessmentBasis({ ucatComparison, selectionScoreComparison, context = {} } = {}) {
+  if (ucatRankingBypassApplies(context)) {
+    return 'minimum_gate';
+  }
+
   if (ucatComparison && ucatComparison.comparison_type !== 'ranking_only') {
     const label = publicUcatComparisonPhrase(ucatComparison);
     if (label.startsWith('published')) {
@@ -2508,6 +2556,12 @@ function standardRecommendationExplanation(interviewBand, options = {}) {
 
   if (basis === 'selection_score') {
     return competitivenessExplanation('selection score');
+  }
+
+  if (basis === 'minimum_gate') {
+    const presentation = configuredPresentation(options.context);
+    return presentation.minimum_gate_explanation ||
+      "Based on ApplySmart's assessment, you meet the published minimum gates for this applicant route.";
   }
 
   return competitivenessExplanation('academic profile');
@@ -2704,6 +2758,32 @@ function bristolContextualCompactAcademicStatus(card = {}, state, eligibilitySta
 }
 
 function academicStatusSummary(state, eligibilityStatus, card = {}) {
+  const presentation = configuredPresentation(card);
+  const contextual = card.eligibility?.contextual_eligibility || card.contextual_eligibility || null;
+  const configuredContextualStatus = String(presentation.compact_contextual_status || '').trim();
+  if (
+    configuredContextualStatus &&
+    contextual?.status === 'contextual' &&
+    state !== 'not_eligible' &&
+    eligibilityStatus !== 'not_eligible' &&
+    state !== 'manual_review' &&
+    eligibilityStatus !== 'manual_review' &&
+    eligibilityStatus !== 'insufficient_evidence'
+  ) {
+    return configuredContextualStatus;
+  }
+  if (
+    getProfileId(card) === 'sheffield-a100' &&
+    contextual?.status === 'contextual' &&
+    state !== 'not_eligible' &&
+    eligibilityStatus !== 'not_eligible' &&
+    state !== 'manual_review' &&
+    eligibilityStatus !== 'manual_review' &&
+    eligibilityStatus !== 'insufficient_evidence'
+  ) {
+    return 'Contextual eligibility confirmed.';
+  }
+
   const bristolContextualSummary = bristolContextualCompactAcademicStatus(
     card,
     state,
@@ -3047,6 +3127,9 @@ function buildComparisonMetrics({ state, selectionMetric, ucatComparison, option
   if (!['standard', 'not_eligible'].includes(state)) {
     return [];
   }
+  if (ucatRankingBypassApplies(options)) {
+    return [];
+  }
 
   const historicalAdmissionsMetrics = historicalAdmissionComparisonMetrics(
     options.historicalAdmissions,
@@ -3171,6 +3254,10 @@ function selectionScoreThresholdComparisonCheck(comparison) {
 
 function historicalSummary(card, state, options = {}) {
   const presentation = configuredPresentation(card, options);
+  if (ucatRankingBypassApplies({ ...card, ...options })) {
+    return presentation.historical_summary ||
+      'Historical UCAT ranking data is not used for this route because competitive UCAT ranking is bypassed after the minimum UCAT gate.';
+  }
   if (state === 'eligibility_only') {
     return 'Historical admissions data is not used for this eligibility-only result because ApplySmart is not predicting interview likelihood.';
   }
@@ -3423,6 +3510,45 @@ function groupRuleApplies(rule = {}, groupIds = []) {
     all.every((groupId) => groups.has(groupId)) &&
     (any.length === 0 || any.some((groupId) => groups.has(groupId))) &&
     !excluded.some((groupId) => groups.has(groupId))
+  );
+}
+
+function applicantGroupConditionApplies(condition = {}, groupIds = []) {
+  if (!condition || typeof condition !== 'object' || !condition.field) {
+    return true;
+  }
+  if (condition.field !== 'applicant_group_ids') {
+    return false;
+  }
+
+  const groups = new Set(groupIds || []);
+  const values = Array.isArray(condition.value) ? condition.value : [condition.value];
+  if (condition.operator === 'includes') {
+    return values.every((groupId) => groups.has(groupId));
+  }
+  if (condition.operator === 'includes_any') {
+    return values.some((groupId) => groups.has(groupId));
+  }
+  return false;
+}
+
+function ucatRankingBypassApplies(context = {}) {
+  const stage2Selection =
+    context.stage2InterviewSelection ||
+    context.stage_2_interview_selection ||
+    context.stage_2_selection ||
+    null;
+  const groupIds = context.applicantGroupIds || context.applicant_group_ids || [];
+  const adjustments = Array.isArray(stage2Selection?.selection_adjustments)
+    ? stage2Selection.selection_adjustments
+    : [];
+
+  return adjustments.some((adjustment) =>
+    adjustment?.effect?.type === 'bypass_ranking' &&
+    adjustment.effect.target === 'ucat_ranking' &&
+    adjustment.effect.value === true &&
+    groupRuleApplies(adjustment, groupIds) &&
+    applicantGroupConditionApplies(adjustment.condition, groupIds)
   );
 }
 
@@ -3709,6 +3835,10 @@ function officialPredictionUnavailableSelectionSummary(context = {}) {
 }
 
 function isUcatRankingContext(context = {}) {
+  if (ucatRankingBypassApplies(context)) {
+    return false;
+  }
+
   const rankingHasComponents = Object.keys(context.ranking?.components || {}).length > 0;
   return (
     context.band_metric?.metric === 'ucat_total' ||
@@ -3799,6 +3929,7 @@ function decisionState(card, options = {}) {
 function buildDecisionTimeline(card, options = {}) {
   const state = decisionState(card, options);
   const presentation = configuredPresentation(card, options);
+  const ucatRankingBypass = ucatRankingBypassApplies({ ...card, ...options });
   const eligibilityStatus =
     state === 'not_eligible'
       ? 'Not eligible'
@@ -3827,10 +3958,15 @@ function buildDecisionTimeline(card, options = {}) {
   const officialPredictionSelectionSummary = officialPredictionReason
     ? officialPredictionUnavailableSelectionSummary(card)
     : null;
-  const selectionSummary =
-    options.selectionApproachDisplay ||
-    presentation.timeline_selection_summary ||
-    presentation.selection_summary ||
+  const selectionSummary = (
+    ucatRankingBypass
+      ? presentation.timeline_selection_summary ||
+        presentation.selection_summary ||
+        options.selectionApproachDisplay
+      : options.selectionApproachDisplay ||
+        presentation.timeline_selection_summary ||
+        presentation.selection_summary
+  ) ||
     studentFacingText(card.stage_2_selection?.summary) ||
     officialPredictionSelectionSummary ||
     (officialPredictionReason ? `Official prediction unavailable. ${officialPredictionReason}` : null) ||
@@ -3843,7 +3979,7 @@ function buildDecisionTimeline(card, options = {}) {
     card.prediction?.result_band === 'eligible_to_apply'
       ? 'Eligible to apply'
       : CANONICAL_BAND_LABELS[card.prediction?.result_band] || 'Insufficient evidence';
-  const selectionScoreComparison = hideSelectionDetails
+  const selectionScoreComparison = hideSelectionDetails || ucatRankingBypass
     ? null
     : options.selectionScoreComparison || selectionScoreThresholdComparison(options);
   const selectionScoreText =
@@ -3908,6 +4044,8 @@ function buildDecisionTimeline(card, options = {}) {
       status:
         state === 'eligibility_only'
           ? 'Not used'
+          : ucatRankingBypass
+          ? 'Not used'
           : state === 'standard'
           ? 'Complete'
           : state === 'insufficient_evidence'
@@ -3916,6 +4054,12 @@ function buildDecisionTimeline(card, options = {}) {
       summary:
         state === 'eligibility_only'
           ? historicalSummary(card, state, { selectionScoreComparison, ucatComparison: options.ucatComparison })
+          : ucatRankingBypass
+          ? historicalSummary(card, state, {
+            ...options,
+            selectionScoreComparison,
+            ucatComparison: options.ucatComparison
+          })
           : state === 'standard'
           ? (reusableHistoricalTimelineSummary || historicalPresentationSummary)
             ? (reusableHistoricalTimelineSummary || historicalPresentationSummary)
@@ -3953,6 +4097,7 @@ function buildDecisionTimeline(card, options = {}) {
         insufficientEvidenceReasonCode: options.insufficientEvidenceReasonCode,
         guidancePool: options.guidancePool,
         scoreModel: options.scoreModel,
+        context: { ...card, ...options },
         stage1Eligibility: options.stage1Eligibility,
         riskExplanation: options.riskExplanation
       })
@@ -4107,6 +4252,7 @@ function normalizeFactorUsage(card, options = {}) {
   const contextualAvailable = contextualAdmissions?.available === true || contextualAdmissions?.applies_to_group_ids?.length > 0;
   const contextualRole = contextualAvailable ? 'contextual' : 'not_used';
   const ucatEligibility = stage1Eligibility?.admissions_tests?.ucat || {};
+  const ucatRankingBypass = ucatRankingBypassApplies({ ...card, ...options });
   const ucatSelectionText = [
     ucatEligibility.selection_role,
     ucatEligibility.used === false ? 'not used' : null,
@@ -4141,9 +4287,12 @@ function normalizeFactorUsage(card, options = {}) {
   const ucatConsideredUse =
     stage2Selection?.primary_model === 'holistic_review' ||
     /(review_factor|qualitative_modifier|considered alongside|considered as part of|holistic review)/.test(ucatSelectionText);
+  const ucatExplicitlyNotGate =
+    ucatEligibility.used_as_gate === false ||
+    /\bnot used as (?:an? )?(?:eligibility )?gate\b|\bnot (?:an? )?(?:eligibility )?gate\b/.test(ucatSelectionText);
   const ucatEligibilityUse =
     ucatEligibility.used_as_gate === true ||
-    (/\bucat\b/.test(ucatSelectionText) && /\beligibility gate\b|\bgate\b|\bfilter\b/.test(ucatSelectionText));
+    (!ucatExplicitlyNotGate && /\bucat\b/.test(ucatSelectionText) && /\beligibility gate\b|\bgate\b|\bfilter\b/.test(ucatSelectionText));
   const ucatExplicitlyNotUsed =
     (!ucatRankingUse && !ucatConsideredUse && !ucatEligibilityUse) && (
       /\bnot used\b|\bnot scored\b|\bignored\b/.test(ucatSelectionText) ||
@@ -4156,14 +4305,16 @@ function normalizeFactorUsage(card, options = {}) {
       label: 'UCAT',
       role: ucatExplicitlyNotUsed
         ? 'not_used'
-        : ucatRankingUse
+        : ucatRankingBypass || ucatEligibilityUse
+          ? 'eligibility'
+          : ucatRankingUse
           ? 'ranking'
           : ucatConsideredUse
             ? 'considered'
-            : ucatEligibilityUse
-              ? 'eligibility'
-              : 'unknown',
-      detail: ucatRankingUse
+            : 'unknown',
+      detail: ucatRankingBypass
+        ? 'Used as a minimum eligibility gate; competitive UCAT ranking is bypassed for this route.'
+        : ucatRankingUse
         ? 'Used for ranking in the university’s selection process.'
         : ucatConsideredUse
           ? 'Used as part of the university’s holistic selection review.'
@@ -4232,9 +4383,11 @@ function buildDecisionTransparency(card, options = {}) {
   const presentation = configuredPresentation(card, options);
   const state = decisionState(card, options);
   const notEligible = state === 'not_eligible';
+  const ucatRankingBypass = ucatRankingBypassApplies({ ...card, ...options });
   const pool = options.interviewOutcome === 'guaranteed_interview'
     ? options.guaranteedInterviewPoolLabel || 'Guaranteed-interview verified applicants'
     : options.applicantPool ||
+      (ucatRankingBypass ? presentation.pool_label : null) ||
       humanApplicantPoolLabel(options.applicantGroupIds, options.applicantContext) ||
       presentation.pool_label ||
       'The applicant group matching the supplied fee status and entry route';
@@ -4284,9 +4437,13 @@ function buildDecisionTransparency(card, options = {}) {
       ? officialPrediction.explanation ||
         'Official interview prediction is unavailable because the university has not published enough current-cycle information for ApplySmart to reproduce it.'
       : null;
-  const selectionSummary =
-    options.selectionApproachDisplay ||
-    presentation.selection_summary ||
+  const selectionSummary = (
+    ucatRankingBypass
+      ? presentation.selection_summary ||
+        options.selectionApproachDisplay
+      : options.selectionApproachDisplay ||
+        presentation.selection_summary
+  ) ||
     card.stage_2_selection?.summary ||
     'The university selection approach is applied after eligibility checks.';
   const contextualOffer = buildAlternativeAcademicOffer(options.stage1Eligibility, {
@@ -4301,12 +4458,12 @@ function buildDecisionTransparency(card, options = {}) {
     state === 'standard' && !guaranteedInterview && !hideScoreBreakdown
       ? buildScoreBreakdown(options)
       : null;
-  const selectionScoreComparison = hideSelectionDetails
+  const selectionScoreComparison = hideSelectionDetails || ucatRankingBypass
     ? null
     : options.selectionScoreComparison || selectionScoreThresholdComparison(options);
   const ucatComparison =
     options.ucatComparison ||
-    (isUcatRankingContext(options) && !guaranteedInterview
+    (isUcatRankingContext({ ...card, ...options }) && !guaranteedInterview
       ? buildUcatComparison(options)
       : null);
   const selectionChecks = [
@@ -4372,7 +4529,8 @@ function buildDecisionTransparency(card, options = {}) {
     options.applicantGroupIds
   );
   const hasHistoricalContext =
-    comparisonMetrics.length > 0 || historicalContextChecks.length > 0 || hasPublicUcatHistoricalComparison(ucatComparison);
+    !ucatRankingBypass &&
+    (comparisonMetrics.length > 0 || historicalContextChecks.length > 0 || hasPublicUcatHistoricalComparison(ucatComparison));
 
   const factorUsage = normalizeFactorUsage(card, options);
   const riskExplanation =
@@ -4417,6 +4575,8 @@ function buildDecisionTransparency(card, options = {}) {
         status:
           state === 'eligibility_only'
             ? 'Not used'
+            : ucatRankingBypass
+            ? 'Not used'
             : state === 'standard'
             ? 'Guidance available'
             : state === 'insufficient_evidence'
@@ -4427,16 +4587,25 @@ function buildDecisionTransparency(card, options = {}) {
         summary: historicalSummary(card, state, { ...options, selectionScoreComparison, ucatComparison }),
         checks: [
           check('Applicant pool', 'Used', pool),
+          ...(ucatRankingBypass
+            ? [check(
+              'Historical UCAT comparison',
+              'Not used',
+              historicalSummary(card, state, { ...options, selectionScoreComparison, ucatComparison })
+            )]
+            : []),
           ...(hasPublicUcatHistoricalComparison(ucatComparison) && ['standard', 'not_eligible'].includes(state)
             ? [check('UCAT comparison', state === 'not_eligible' ? 'Context only' : 'Compared', ucatComparisonAssessmentText(ucatComparison))]
             : []),
-          ...(state === 'standard' || state === 'insufficient_evidence' || state === 'not_eligible'
+          ...(!ucatRankingBypass && (state === 'standard' || state === 'insufficient_evidence' || state === 'not_eligible')
             ? historicalContextChecks
             : []),
-          state === 'eligibility_only'
+          ucatRankingBypass
+            ? null
+            : state === 'eligibility_only'
             ? check('Interview prediction', 'Unavailable', ELIGIBILITY_ONLY_SELECTION_SUMMARY)
             : check('Important limitation', 'Guidance only', HISTORICAL_GUIDANCE_CAVEAT)
-        ]
+        ].filter(Boolean)
       },
       {
         stage: 'Recommendation',
@@ -4453,7 +4622,7 @@ function buildDecisionTransparency(card, options = {}) {
 	        summary: recommendationSummary(card, state, {
 	          selectionScoreComparison,
 	          ucatComparison,
-	          context: options.applicantContext,
+	          context: { ...card, ...options },
             stage1Eligibility: options.stage1Eligibility,
             riskExplanation
 	        }),
@@ -4559,6 +4728,10 @@ function presentResultCard({
     transparencyContext.readiness?.eligibility_only_ready === true ||
     transparencyContext.score_model?.assessment_mode === 'eligibility_only' ||
     resultBand === 'eligible_to_apply';
+  const ucatRankingBypass = ucatRankingBypassApplies(transparencyContext);
+  const effectiveSelectionApproachDisplay = ucatRankingBypass
+    ? presentation.selection_summary || selectionApproachDisplay
+    : selectionApproachDisplay;
   const ucatRanking = isUcatRankingContext(transparencyContext);
   const ucatComparison = ucatRanking && !guaranteedInterview
     ? buildUcatComparison({
@@ -4572,7 +4745,7 @@ function presentResultCard({
 	      scoreModel: transparencyContext.score_model
 	    })
     : null;
-	  const selectionScoreComparison = hideSelectionScoreDetails(presentation)
+	  const selectionScoreComparison = hideSelectionScoreDetails(presentation) || ucatRankingBypass
 	    ? null
 	    : selectionScoreThresholdComparison({
 	      guidancePool: transparencyContext.guidance_pool,
@@ -4696,7 +4869,7 @@ function presentResultCard({
 	        trust_statement: presentation.trust_statement || (officialPredictionUnavailable
 	          ? OFFICIAL_UNAVAILABLE_TRUST_STATEMENT
 	          : null),
-	        historical_guidance_caveat: HISTORICAL_GUIDANCE_CAVEAT
+	        historical_guidance_caveat: ucatRankingBypass ? null : HISTORICAL_GUIDANCE_CAVEAT
 	      }
 	      : {
 	        primary_user_facing_recommendation: STANDARD_RECOMMENDATION_HEADLINES.insufficient_evidence,
@@ -4789,6 +4962,7 @@ function presentResultCard({
     eligibilityChecks: transparencyContext.eligibility_checks,
     eligibilityFailures: transparencyContext.eligibility_failures,
     stage1Eligibility: transparencyContext.stage_1_eligibility,
+    stage2InterviewSelection: transparencyContext.stage_2_interview_selection,
     historicalAdmissions: transparencyContext.historical_admissions,
     ranking: transparencyContext.ranking,
     bandMetric: transparencyContext.band_metric,
@@ -4805,7 +4979,7 @@ function presentResultCard({
     warnings: transparencyContext.warnings,
     insufficientEvidenceReasonCode,
     informationNeededReason,
-    selectionApproachDisplay
+    selectionApproachDisplay: effectiveSelectionApproachDisplay
   };
   transparencyOptions.riskExplanation = publicRiskExplanation;
   const evidenceConfidence = buildEvidenceConfidence(
@@ -4874,7 +5048,7 @@ function presentResultCard({
       transparencyContext.missing_information ||
       null,
     fee_information: feeInformation,
-    selection_approach_display: selectionApproachDisplay,
+    selection_approach_display: effectiveSelectionApproachDisplay,
     information_needed_reason: informationNeededReason,
     trust_statement: display.trust_statement || futureConditionAdvisoryText[0] || null,
     prediction,

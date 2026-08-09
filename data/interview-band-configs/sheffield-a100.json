@@ -4,7 +4,7 @@
   "confidence": "medium",
   "evidence": {
     "classification": "official_sequential_gates_with_native_scale_pool_cutpoint_guidance",
-    "summary": "Official academic and UCAT minimum gates followed by separate Home and International UCAT ranking. Native 2025-26 cutpoints are historical guidance only; verified Access to Sheffield Medicine/pathway applicants use threshold-only guidance because ordinary UCAT ranking is bypassed.",
+    "summary": "Official academic and UCAT minimum gates followed by separate Home and International UCAT ranking. Native 2025-26 cutpoints are historical guidance only; Step 6-verified Access to Sheffield (Medicine) applicants use threshold-only guidance because ordinary UCAT ranking is bypassed after the minimum UCAT gate.",
     "source_ids": [
       "sheffield_admissions_page",
       "sheffield_course_page_2027",
@@ -15,11 +15,11 @@
   "eligibility": {
     "scope": "Automatic banding applies only after an executable academic route passes, a current-cycle UCAT total of at least 1800 is present, and the applicant pool is resolved.",
     "international_english_language_required": true,
+    "contextual_evaluator_controls_group_routing": true,
     "qualification_routes": {
       "supported": [
         "a_level",
         "international_baccalaureate",
-        "access_to_medicine",
         "international_qualification"
       ],
       "explicitly_blocked": [
@@ -177,10 +177,6 @@
         }
       ]
     },
-    "access_to_medicine": {
-      "routing": "Verified Access to Sheffield Medicine or approved Sheffield pathway only",
-      "unverified_outcome": "not_eligible"
-    },
     "international_qualification": {
       "routing": "Sheffield-verified qualification equivalence only",
       "unverified_outcome": "not_eligible"
@@ -218,7 +214,7 @@
   },
   "score_model": {
     "type": "ranking_metric",
-    "basis": "UCAT cognitive total after academic eligibility and the 1800/2700 minimum; separate Home and International historical guidance, with threshold-only handling for verified pathway applicants.",
+    "basis": "UCAT cognitive total after academic eligibility and the 1800/2700 minimum; separate Home and International historical guidance, with threshold-only handling for Step 6-verified Access to Sheffield (Medicine) applicants.",
     "metric": "ucat_total",
     "pool_specific_output": true,
     "scale": {
@@ -232,12 +228,12 @@
   },
   "guidance_pools": [
     {
-      "pool_id": "access_to_sheffield_medicine_pathway",
+      "pool_id": "access_to_sheffield_medicine",
       "priority": 100,
       "applicant_match": {
         "all_group_ids": [
           "home_fee",
-          "access_to_medicine"
+          "sheffield_access_to_sheffield_medicine"
         ],
         "excluded_group_ids": [
           "international_fee",
@@ -245,6 +241,15 @@
         ]
       },
       "metric": "ucat_total",
+      "presentation": {
+        "pool_label": "Access to Sheffield (Medicine) applicants",
+        "contextual_route_summary": "Access to Sheffield (Medicine) eligibility confirmed.",
+        "compact_contextual_status": "Contextual eligibility confirmed - Access to Sheffield (Medicine).",
+        "minimum_gate_explanation": "You meet the published academic and UCAT minimum requirements, and your UCAT is not competitively ranked.",
+        "selection_summary": "Access to Sheffield (Medicine) eligibility confirmed. Published academic and UCAT minimum gates are checked; competitive UCAT ranking is bypassed for this verified route.",
+        "timeline_selection_summary": "Access to Sheffield (Medicine): minimum gates checked; competitive UCAT ranking bypassed.",
+        "historical_summary": "Historical UCAT ranking data is not used for this route because competitive UCAT ranking is bypassed after the minimum UCAT gate."
+      },
       "band_rules": [
         {
           "band": "interview_likely",
@@ -300,7 +305,7 @@
         "excluded_group_ids": [
           "international_fee",
           "graduate_applicant",
-          "access_to_medicine"
+          "sheffield_access_to_sheffield_medicine"
         ]
       },
       "metric": "ucat_total",

@@ -11,6 +11,10 @@ const { predict } = require('../../../server/src/predict') as {
 const lancasterFixture = require('../../../data/fixtures/interview-band-classification/lancaster-a100.json') as {
   base_applicant: Record<string, unknown>;
 };
+const sheffieldFixture = require('../../../data/fixtures/interview-band-classification/sheffield-a100.json') as {
+  base_applicant: Record<string, unknown>;
+  scenarios: Array<{ scenario_id: string; overrides: Record<string, unknown> }>;
+};
 
 const CONTEXTUAL_CONFIRMED_MESSAGE =
   "Contextual eligibility confirmed. Your application has been assessed using this university's published contextual admissions criteria.";
@@ -75,6 +79,14 @@ function lancasterApplicant(overrides: Record<string, unknown> = {}): Record<str
         },
       },
     }, overrides),
+  );
+}
+
+function sheffieldScenarioApplicant(scenarioId: string, overrides: Record<string, unknown> = {}): Record<string, unknown> {
+  const scenario = sheffieldFixture.scenarios.find((entry) => entry.scenario_id === scenarioId);
+  return merge(
+    merge(sheffieldFixture.base_applicant, scenario?.overrides || {}),
+    overrides,
   );
 }
 
@@ -2185,6 +2197,67 @@ describe('ResultCard', () => {
     expect(screen.getAllByText('historical interview range').length).toBeGreaterThan(0);
     expect(screen.getAllByText('Difference').length).toBeGreaterThan(0);
     expect(screen.getAllByText('+485 above guide').length).toBeGreaterThan(0);
+  });
+
+  it('does not present an applicant UCAT score as a university minimum when UCAT is used for ranking', () => {
+    const [result] = predict({
+      universityIds: ['sheffield-a100'],
+      studentProfile: sheffieldScenarioApplicant('access_plus_imd_contextual_aab_home_pool', {
+        admissions_tests: {
+          ucat: {
+            total_score: 2400,
+            score_scale: 2700,
+            subtests: {
+              verbal_reasoning: 800,
+              decision_making: 800,
+              quantitative_reasoning: 800,
+            },
+            sjt_band: 2,
+            test_year: 2026,
+          },
+        },
+      }),
+    });
+
+    expect(result.result_card.factor_usage?.find((entry) => entry.factor_id === 'ucat')?.role).toBe('ranking');
+
+    render(<ResultCard result={result} />);
+
+    const ucatCard = screen.getAllByText('UCAT')[0].closest('.result-card-summary-card');
+    expect(ucatCard).toHaveTextContent('Used for ranking');
+    expect(ucatCard).not.toHaveTextContent('Minimum');
+    expect(ucatCard).not.toHaveTextContent('2400');
+  });
+
+  it('preserves the Sheffield Access to Medicine UCAT minimum display when ranking is bypassed', () => {
+    const [result] = predict({
+      universityIds: ['sheffield-a100'],
+      studentProfile: sheffieldScenarioApplicant('verified_access_to_sheffield_medicine_step6', {
+        admissions_tests: {
+          ucat: {
+            total_score: 2400,
+            score_scale: 2700,
+            subtests: {
+              verbal_reasoning: 800,
+              decision_making: 800,
+              quantitative_reasoning: 800,
+            },
+            sjt_band: 2,
+            test_year: 2026,
+          },
+        },
+      }),
+    });
+
+    expect(result.result_card.factor_usage?.find((entry) => entry.factor_id === 'ucat')?.role).toBe('eligibility');
+
+    render(<ResultCard result={result} />);
+
+    const ucatCard = screen.getAllByText('UCAT')[0].closest('.result-card-summary-card');
+    expect(ucatCard).toHaveTextContent('Eligibility requirement');
+    expect(ucatCard).toHaveTextContent('Minimum');
+    expect(ucatCard).toHaveTextContent('1800');
+    expect(ucatCard).not.toHaveTextContent('2700');
   });
 
   it("renders City St George's with cleaner applicant-facing wording and no fees", () => {
