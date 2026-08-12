@@ -272,6 +272,198 @@
         "predicted_grades_accepted_for_offer_conditions": true,
         "predicted_grades_used_in_shortlisting": false,
         "science_practical_endorsement": "A pass is required where assessed separately; it is not numerically scored.",
+        "grade_requirements": [
+          {
+            "requirement_id": "a_level_nottingham_standard_aaa_offer",
+            "pathway_id": "nottingham_standard_aaa_offer",
+            "academic_pathway": "standard",
+            "applies_to_group_ids": [
+              "school_leaver"
+            ],
+            "excluded_group_ids": [
+              "nottingham_standard_contextual",
+              "nottingham_enhanced_contextual"
+            ],
+            "grade_profile": [
+              "A",
+              "A",
+              "A"
+            ],
+            "required_subject_ids": [
+              "chemistry"
+            ],
+            "one_of_subject_groups": [
+              {
+                "group_id": "biology_or_human_biology",
+                "minimum_required": 1,
+                "subject_ids": [
+                  "biology",
+                  "human_biology"
+                ]
+              }
+            ],
+            "subject_grade_requirements": [
+              {
+                "subject_id": "chemistry",
+                "minimum_grade": "A"
+              }
+            ],
+            "required_subject_grade_options": [
+              {
+                "grade_requirements": [
+                  {
+                    "subject_id": "biology",
+                    "minimum_grade": "A"
+                  }
+                ]
+              },
+              {
+                "grade_requirements": [
+                  {
+                    "subject_id": "human_biology",
+                    "minimum_grade": "A"
+                  }
+                ]
+              }
+            ],
+            "decision_outcome_if_not_met": "not_eligible",
+            "source_ids": [
+              "nottingham_course_page_2027",
+              "nottingham_admissions_policy_2026_v1_3"
+            ]
+          },
+          {
+            "requirement_id": "a_level_nottingham_enhanced_contextual_abb_offer",
+            "pathway_id": "nottingham_enhanced_contextual_abb_offer",
+            "academic_pathway": "contextual",
+            "applies_to_group_ids": [
+              "school_leaver",
+              "nottingham_enhanced_contextual"
+            ],
+            "grade_profile": [
+              "A",
+              "B",
+              "B"
+            ],
+            "required_subject_ids": [
+              "chemistry"
+            ],
+            "one_of_subject_groups": [
+              {
+                "group_id": "biology_or_human_biology",
+                "minimum_required": 1,
+                "subject_ids": [
+                  "biology",
+                  "human_biology"
+                ]
+              }
+            ],
+            "subject_grade_requirements": [
+              {
+                "subject_id": "chemistry",
+                "minimum_grade": "B"
+              }
+            ],
+            "required_subject_grade_options": [
+              {
+                "grade_requirements": [
+                  {
+                    "subject_id": "biology",
+                    "minimum_grade": "A"
+                  }
+                ]
+              },
+              {
+                "grade_requirements": [
+                  {
+                    "subject_id": "human_biology",
+                    "minimum_grade": "A"
+                  }
+                ]
+              },
+              {
+                "grade_requirements": [
+                  {
+                    "subject_id": "chemistry",
+                    "minimum_grade": "A"
+                  }
+                ]
+              }
+            ],
+            "decision_outcome_if_not_met": "not_eligible",
+            "source_ids": [
+              "nottingham_admissions_policy_2026_v1_3",
+              "nottingham_contextual_admissions_policy_2026"
+            ]
+          },
+          {
+            "requirement_id": "a_level_nottingham_standard_contextual_aab_offer",
+            "pathway_id": "nottingham_standard_contextual_aab_offer",
+            "academic_pathway": "contextual",
+            "applies_to_group_ids": [
+              "school_leaver",
+              "nottingham_standard_contextual"
+            ],
+            "excluded_group_ids": [
+              "nottingham_enhanced_contextual"
+            ],
+            "grade_profile": [
+              "A",
+              "A",
+              "B"
+            ],
+            "required_subject_ids": [
+              "chemistry"
+            ],
+            "one_of_subject_groups": [
+              {
+                "group_id": "biology_or_human_biology",
+                "minimum_required": 1,
+                "subject_ids": [
+                  "biology",
+                  "human_biology"
+                ]
+              }
+            ],
+            "subject_grade_requirements": [
+              {
+                "subject_id": "chemistry",
+                "minimum_grade": "B"
+              }
+            ],
+            "required_subject_grade_options": [
+              {
+                "grade_requirements": [
+                  {
+                    "subject_id": "biology",
+                    "minimum_grade": "A"
+                  }
+                ]
+              },
+              {
+                "grade_requirements": [
+                  {
+                    "subject_id": "human_biology",
+                    "minimum_grade": "A"
+                  }
+                ]
+              },
+              {
+                "grade_requirements": [
+                  {
+                    "subject_id": "chemistry",
+                    "minimum_grade": "A"
+                  }
+                ]
+              }
+            ],
+            "decision_outcome_if_not_met": "not_eligible",
+            "source_ids": [
+              "nottingham_admissions_policy_2026_v1_3",
+              "nottingham_contextual_admissions_policy_2026"
+            ]
+          }
+        ],
         "resit_policy": {
           "maximum_subjects": 2,
           "conditions": [
@@ -848,6 +1040,9 @@
     "shortlisting_score_changed": false,
     "published_separate_shortlisting_mechanism": false,
     "effect_stage": "offer_stage_only",
+    "contextual_eligibility": {
+      "evaluator_id": "nottingham_contextual_medicine_a100"
+    },
     "adjustments": [
       {
         "adjustment_id": "standard_contextual_offer",

@@ -685,10 +685,18 @@ function matchedAcademicOfferRoute(stage1Eligibility = null, context = {}) {
   });
 }
 
+function standardAlevelOfferGrades(stage1Eligibility = null) {
+  const standardOffer = stage1Eligibility?.post_16?.a_level?.standard_offer;
+  if (Array.isArray(standardOffer)) {
+    return standardOffer;
+  }
+  return standardOffer?.grade_profile || [];
+}
+
 function buildRoutedAcademicOffer(stage1Eligibility = null, matchedRoute = null) {
   if (matchedRoute && Array.isArray(matchedRoute.grade_profile) && matchedRoute.grade_profile.length > 0) {
     const standardOffer = formatAlevelGradeProfile(
-      stage1Eligibility?.post_16?.a_level?.standard_offer?.grade_profile || []
+      standardAlevelOfferGrades(stage1Eligibility)
     );
     const displayOfferGrades = Array.isArray(matchedRoute.display_offer_grade_profile) &&
       matchedRoute.display_offer_grade_profile.length > 0
@@ -2773,7 +2781,6 @@ function academicStatusSummary(state, eligibilityStatus, card = {}) {
     return configuredContextualStatus;
   }
   if (
-    getProfileId(card) === 'sheffield-a100' &&
     contextual?.status === 'contextual' &&
     state !== 'not_eligible' &&
     eligibilityStatus !== 'not_eligible' &&

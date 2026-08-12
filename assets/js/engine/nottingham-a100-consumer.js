@@ -1,6 +1,7 @@
 const {
   deriveApplicantGroupIds,
-  deriveQualificationRoute
+  deriveQualificationRoute,
+  evaluateContextualEligibility
 } = require('./eligibility-evaluator');
 const {
   classifyNottinghamA100InterviewGuidance
@@ -238,15 +239,25 @@ function evaluateALevelRoute(course, applicant, state) {
   const countableGrades = Object.entries(subjects)
     .filter(([subjectId]) => !EXCLUDED_A_LEVEL_SUBJECTS.has(subjectId))
     .map(([, grade]) => grade);
+  const activeRoute = activeALevelRequirementForContextualState(state.contextual_eligibility);
   const profilePassed = sortedGradeProfileMeets(
     countableGrades,
-    ['A', 'A', 'A'],
+    activeRoute.gradeProfile,
     A_LEVEL_GRADE_RANK
   );
   const biologyGrade = subjects.biology ?? subjects.human_biology;
-  const sciencesPassed =
-    gradeMeets(biologyGrade, 'A', A_LEVEL_GRADE_RANK) &&
+  const biologyPassed = gradeMeets(biologyGrade, activeRoute.minimumScienceGrade, A_LEVEL_GRADE_RANK);
+  const chemistryPassed = gradeMeets(subjects.chemistry, activeRoute.minimumScienceGrade, A_LEVEL_GRADE_RANK);
+  const biologyOrChemistryA =
+    gradeMeets(biologyGrade, 'A', A_LEVEL_GRADE_RANK) ||
     gradeMeets(subjects.chemistry, 'A', A_LEVEL_GRADE_RANK);
+  const sciencesPassed =
+    biologyPassed &&
+    chemistryPassed &&
+    (
+      activeRoute.requiresBothSciencesAtA ||
+      biologyOrChemistryA
+    );
   const practicalAssessment = assessPracticalEndorsements(course, null, applicant);
   const practicalsPassed = practicalAssessment.passed;
   const sittingPassed =
@@ -258,8 +269,16 @@ function evaluateALevelRoute(course, applicant, state) {
   const passed = profilePassed && sciencesPassed && practicalsPassed && sittingPassed;
 
   addCheck(state, 'a_level_AAA_biology_chemistry', passed, {
+    check_id: activeRoute.checkId,
+    academic_pathway: activeRoute.academicPathway,
+    pathway_id: activeRoute.pathwayId,
+    required: activeRoute.gradeProfile.join(''),
+    actual: countableGrades.map(normaliseGrade).join(''),
     grade_profile_met: profilePassed,
     required_sciences_met: sciencesPassed,
+    biology_or_human_biology_minimum_met: biologyPassed,
+    chemistry_minimum_met: chemistryPassed,
+    biology_or_chemistry_A_met: biologyOrChemistryA,
     practical_endorsements_met: practicalsPassed,
     practical_endorsement_subject_ids:
       practicalAssessment.applicable_subject_ids,
@@ -267,9 +286,49 @@ function evaluateALevelRoute(course, applicant, state) {
       practicalAssessment.unconfirmed_subject_ids,
     sitting_policy_met: sittingPassed
   });
+  if (passed) {
+    state.academic_pathway = activeRoute.academicPathway;
+    state.academic_pathway_id = activeRoute.pathwayId;
+  } else {
+    state.academic_pathway = state.academic_pathway || activeRoute.academicPathway;
+    state.academic_pathway_id = state.academic_pathway_id || activeRoute.pathwayId;
+  }
   if (!passed) {
     addFailure(state, 'a_level_requirements_not_met');
   }
+}
+
+function activeALevelRequirementForContextualState(contextualEligibility = null) {
+  if (contextualEligibility?.matched_contextual_pathway === 'nottingham_enhanced_contextual') {
+    return {
+      checkId: 'a_level_nottingham_enhanced_contextual_ABB_biology_chemistry_one_A',
+      academicPathway: 'contextual',
+      pathwayId: 'nottingham_enhanced_contextual_abb_offer',
+      gradeProfile: ['A', 'B', 'B'],
+      minimumScienceGrade: 'B',
+      requiresBothSciencesAtA: false
+    };
+  }
+
+  if (contextualEligibility?.matched_contextual_pathway === 'nottingham_standard_contextual') {
+    return {
+      checkId: 'a_level_nottingham_standard_contextual_AAB_biology_chemistry_one_A',
+      academicPathway: 'contextual',
+      pathwayId: 'nottingham_standard_contextual_aab_offer',
+      gradeProfile: ['A', 'A', 'B'],
+      minimumScienceGrade: 'B',
+      requiresBothSciencesAtA: false
+    };
+  }
+
+  return {
+    checkId: 'a_level_AAA_biology_chemistry',
+    academicPathway: 'standard',
+    pathwayId: 'nottingham_standard_aaa_offer',
+    gradeProfile: ['A', 'A', 'A'],
+    minimumScienceGrade: 'A',
+    requiresBothSciencesAtA: true
+  };
 }
 
 function evaluateIbRoute(applicant, state) {
@@ -572,11 +631,22 @@ function evaluateAdmissionsTest(applicant, state) {
   }
 }
 
-function evaluateEligibility(course, applicant) {
+function applicantGroupIdsWithContextualEligibility(applicant, contextualEligibility = null) {
+  const groups = new Set(deriveApplicantGroupIds(applicant));
+  if (contextualEligibility?.is_contextual === true) {
+    for (const groupId of contextualEligibility.activated_applicant_group_ids || []) {
+      groups.add(groupId);
+    }
+  }
+  return [...groups];
+}
+
+function evaluateEligibility(course, applicant, contextualEligibility = null) {
   const state = {
     status: null,
     qualification_route: deriveQualificationRoute(applicant),
-    applicant_group_ids: deriveApplicantGroupIds(applicant),
+    applicant_group_ids: applicantGroupIdsWithContextualEligibility(applicant, contextualEligibility),
+    contextual_eligibility: contextualEligibility,
     checks: [],
     failures: [],
     manual_review_reasons: []
@@ -879,6 +949,27 @@ function missingInformationFromOfficialScore(officialScore) {
 }
 
 function contextualMessage(course, applicant, applicantGroupIds) {
+  const evaluated = applicant.contextual_eligibility;
+  if (evaluated?.evaluator_id === 'nottingham_contextual_medicine_a100') {
+    return {
+      applicable: evaluated.status === 'contextual',
+      status: evaluated.status === 'contextual'
+        ? evaluated.matched_contextual_pathway
+        : evaluated.status,
+      matched_contextual_pathway: evaluated.matched_contextual_pathway || null,
+      matched_contextual_pathway_label: evaluated.matched_contextual_pathway_label || null,
+      ranking_bonus_points: 0,
+      effect_stage: 'offer_stage_only',
+      message: evaluated.status === 'contextual'
+        ? `${evaluated.matched_contextual_pathway_label}. Contextual status adds no Nottingham shortlisting points and does not bypass UCAT, SJT, GCSE or interview requirements.`
+        : evaluated.status === 'information_needed'
+          ? 'More information is needed to confirm whether a Nottingham contextual offer route applies. No shortlisting bonus is added.'
+          : 'The supplied evidence does not confirm Nottingham contextual eligibility. No shortlisting bonus is added.',
+      offers: course.contextual_admissions?.adjustments || [],
+      source_ids: [...(course.contextual_admissions?.source_ids || [])]
+    };
+  }
+
   const contextualClaimed =
     applicantGroupIds.includes('contextual') ||
     applicantGroupIds.includes('widening_participation');
@@ -936,8 +1027,10 @@ function evaluateNottinghamA100(course, applicantInput, options = {}) {
     throw new TypeError('An applicant profile is required.');
   }
   const applicant = normaliseApplicantProfile(applicantInput, { course });
+  const contextualEligibility = evaluateContextualEligibility(course, applicant);
+  applicant.contextual_eligibility = contextualEligibility;
 
-  const eligibility = evaluateEligibility(course, applicant);
+  const eligibility = evaluateEligibility(course, applicant, contextualEligibility);
   const officialScore = buildOfficialScore(applicant, course);
   const historical = historicalGuidance(course);
   const contextualPolicy = contextualMessage(

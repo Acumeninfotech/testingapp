@@ -140,6 +140,7 @@ function defaultContextualProfile() {
     },
     financial_support: {},
     school_education: {
+      current_or_most_recent_uk_school_independent_fee_paying: 'not_sure',
       attended_uk_school_or_college_for_gcse_or_equivalent: 'not_sure',
       attended_uk_school_or_college_for_post16_or_equivalent: 'not_sure'
     },

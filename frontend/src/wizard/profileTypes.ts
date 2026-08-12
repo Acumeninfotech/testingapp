@@ -41,6 +41,7 @@ export type UkrainianVisaScheme =
   | 'not_sure';
 export type SchoolEducationFieldKey =
   | 'state_non_fee_paying_school'
+  | 'current_or_most_recent_uk_school_independent_fee_paying'
   | 'below_average_gcse_school'
   | 'below_average_post16_school'
   | 'high_free_school_meals_school'
@@ -461,7 +462,9 @@ export function createEmptyContextualProfile(): ContextualProfile {
       },
     },
     financial_support: {},
-    school_education: {},
+    school_education: {
+      current_or_most_recent_uk_school_independent_fee_paying: 'not_sure',
+    },
     personal_circumstances: {},
     access_programmes: {
       participation_status: 'no',

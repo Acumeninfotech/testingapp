@@ -1391,6 +1391,94 @@ function makeCambridgeSixGcseCard() {
 }
 
 {
+  for (const academicPathwayId of [
+    'nottingham_contextual_aab_offer',
+    'nottingham_enhanced_contextual_abb_offer'
+  ]) {
+    const card = present({
+      transparencyContext: {
+        course_identity: { profile_id: 'nottingham-a100' },
+        academic_pathway: 'contextual',
+        academic_pathway_id: academicPathwayId,
+        eligibility: {
+          contextual_eligibility: { status: 'contextual' }
+        }
+      }
+    });
+    assertCompactStatus(card, {
+      label: 'Contextual eligibility confirmed.',
+      type: 'academic_status',
+      tone: 'positive'
+    });
+  }
+
+  const sheffieldContextualCard = present({
+    transparencyContext: {
+      course_identity: { profile_id: 'sheffield-a100' },
+      eligibility: {
+        contextual_eligibility: { status: 'contextual' }
+      }
+    }
+  });
+  assertCompactStatus(sheffieldContextualCard, {
+    label: 'Contextual eligibility confirmed.',
+    type: 'academic_status',
+    tone: 'positive'
+  });
+
+  const accessSheffieldCard = present({
+    transparencyContext: {
+      course_identity: { profile_id: 'sheffield-a100' },
+      guidance_pool: {
+        presentation: {
+          compact_contextual_status:
+            'Contextual eligibility confirmed - Access to Sheffield (Medicine).'
+        }
+      },
+      eligibility: {
+        contextual_eligibility: { status: 'contextual' }
+      }
+    }
+  });
+  assertCompactStatus(accessSheffieldCard, {
+    label: 'Contextual eligibility confirmed - Access to Sheffield (Medicine).',
+    type: 'academic_status',
+    tone: 'positive'
+  });
+
+  const nonContextualCard = present({
+    transparencyContext: {
+      course_identity: { profile_id: 'nottingham-a100' },
+      eligibility: {
+        contextual_eligibility: { status: 'not_contextual' }
+      }
+    }
+  });
+  assertCompactStatus(nonContextualCard, {
+    label: 'You meet the academic requirements.',
+    type: 'academic_status',
+    tone: 'positive'
+  });
+
+  const notEligibleContextualCard = present({
+    eligibilityStatus: 'not_eligible',
+    interviewBand: 'not_eligible',
+    transparencyContext: {
+      course_identity: { profile_id: 'nottingham-a100' },
+      eligibility: {
+        contextual_eligibility: { status: 'contextual' }
+      },
+      eligibility_failures: ['a_level_requirements_not_met']
+    }
+  });
+  assertCompactStatus(notEligibleContextualCard, {
+    label: 'You do not currently meet the academic requirements.',
+    type: 'academic_status',
+    tone: 'negative'
+  });
+}
+
+{
   const card = present({
     eligibilityStatus: 'not_eligible',
     interviewBand: 'not_eligible'

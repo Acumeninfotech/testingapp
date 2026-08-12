@@ -166,12 +166,14 @@ describe('ContextualStep', () => {
 
     selectValue('school_education_attended_uk_school_or_college_for_gcse_or_equivalent', 'yes');
     selectValue('school_education_attended_uk_school_or_college_for_post16_or_equivalent', 'not_sure');
+    selectValue('school_education_current_or_most_recent_uk_school_independent_fee_paying', 'no');
     selectValue('personal_circumstances_care_over_three_months', 'no');
     selectValue('personal_circumstances_uk_refugee_status_granted', 'yes');
     selectValue('personal_circumstances_ukrainian_visa_scheme', 'ukraine_family_scheme');
 
     expect(profile.contextual_profile.school_education.attended_uk_school_or_college_for_gcse_or_equivalent).toBe('yes');
     expect(profile.contextual_profile.school_education.attended_uk_school_or_college_for_post16_or_equivalent).toBe('not_sure');
+    expect(profile.contextual_profile.school_education.current_or_most_recent_uk_school_independent_fee_paying).toBe('no');
     expect(profile.contextual_profile.personal_circumstances.care_over_three_months).toBe('no');
     expect(profile.contextual_profile.personal_circumstances.uk_refugee_status_granted).toBe('yes');
     expect(profile.contextual_profile.personal_circumstances.ukrainian_visa_scheme).toBe('ukraine_family_scheme');
@@ -219,6 +221,21 @@ describe('ContextualStep', () => {
     expect(profile.contextual_profile.access_programmes.other_programmes).toEqual([
       { programme_id: 'lancaster_access_to_medicine', status: '' },
     ]);
+  });
+
+  it('offers Nottingham contextual programme options in the other access programme selector', () => {
+    const { profile, rerender, updateProfile } = renderStep();
+
+    selectValue('other_access_participation_status', 'yes');
+    rerender(<ContextualStep profile={profile} updateProfile={updateProfile} errors={{}} />);
+
+    expect(screen.getByRole('option', { name: 'Sutton Trust Online' })).toHaveValue('sutton_trust_online');
+    expect(screen.getByRole('option', { name: 'Sutton Trust Pathways to Medicine at the University of Nottingham' })).toHaveValue(
+      'nottingham_sutton_trust_pathways_to_medicine',
+    );
+    expect(screen.getByRole('option', { name: 'Nottingham Ambition 16-18 Tier 1+' })).toHaveValue(
+      'nottingham_ambition_16_18_tier_1_plus',
+    );
   });
 
   it('checks postcode on blur and populates available POLAR4, TUNDRA and IMD values', async () => {

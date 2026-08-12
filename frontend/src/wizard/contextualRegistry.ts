@@ -98,6 +98,10 @@ export const FINANCIAL_SUPPORT_FIELDS = [
 
 export const SCHOOL_EDUCATION_FIELDS = [
   { key: 'state_non_fee_paying_school', label: 'I attended a state-funded, non-fee-paying school' },
+  {
+    key: 'current_or_most_recent_uk_school_independent_fee_paying',
+    label: 'My current or most recent UK school or college is independent or fee-paying',
+  },
   { key: 'below_average_gcse_school', label: "My school's GCSE performance was below the national average" },
   {
     key: 'below_average_post16_school',
@@ -251,6 +255,21 @@ export const OTHER_ACCESS_PROGRAMMES = [
   { programme_id: 'bristol_virtual_summer_school', label: 'Virtual Summer School' },
   { programme_id: 'bristol_scholars', label: 'Bristol Scholars' },
   { programme_id: 'lancaster_access_to_medicine', label: 'Lancaster Access to Medicine' },
+  { programme_id: 'sutton_trust_online', label: 'Sutton Trust Online' },
+  {
+    programme_id: 'sutton_trust_post16_non_nottingham',
+    label: 'Sutton Trust post-16 programme not hosted by Nottingham',
+  },
+  {
+    programme_id: 'nottingham_sutton_trust_summer_school',
+    label: 'Sutton Trust Summer School at the University of Nottingham',
+  },
+  {
+    programme_id: 'nottingham_sutton_trust_pathways_to_medicine',
+    label: 'Sutton Trust Pathways to Medicine at the University of Nottingham',
+  },
+  { programme_id: 'nottingham_ambition_16_18_tier_1', label: 'Nottingham Ambition 16-18 Tier 1' },
+  { programme_id: 'nottingham_ambition_16_18_tier_1_plus', label: 'Nottingham Ambition 16-18 Tier 1+' },
   { programme_id: 'exeter_scholars', label: 'Exeter Scholars' },
   { programme_id: 'southampton_access_southampton', label: 'Access Southampton' },
   { programme_id: 'uea_outreach_pathways', label: 'UEA Outreach / Pathways' },

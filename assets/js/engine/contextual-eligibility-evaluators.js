@@ -36,6 +36,10 @@ const {
   SHEFFIELD_CONTEXTUAL_EVALUATOR_ID,
   evaluateSheffieldContextualEligibility
 } = require('./sheffield-contextual-eligibility');
+const {
+  NOTTINGHAM_CONTEXTUAL_EVALUATOR_ID,
+  evaluateNottinghamContextualEligibility
+} = require('./nottingham-contextual-eligibility');
 
 const DEFAULT_CONTEXTUAL_ELIGIBILITY_EVALUATORS = {
   [ASTON_READY_EVALUATOR_ID]: astonReadyMedicineEvaluator,
@@ -46,16 +50,19 @@ const DEFAULT_CONTEXTUAL_ELIGIBILITY_EVALUATORS = {
   [UEA_CONTEXTUAL_EVALUATOR_ID]: evaluateUeaContextualEligibility,
   [LANCASTER_CONTEXTUAL_EVALUATOR_ID]: evaluateLancasterContextualEligibility,
   [LIVERPOOL_CONTEXTUAL_EVALUATOR_ID]: evaluateLiverpoolContextualEligibility,
-  [SHEFFIELD_CONTEXTUAL_EVALUATOR_ID]: evaluateSheffieldContextualEligibility
+  [SHEFFIELD_CONTEXTUAL_EVALUATOR_ID]: evaluateSheffieldContextualEligibility,
+  [NOTTINGHAM_CONTEXTUAL_EVALUATOR_ID]: evaluateNottinghamContextualEligibility
 };
 
 module.exports = {
   LIVERPOOL_CONTEXTUAL_EVALUATOR_ID,
+  NOTTINGHAM_CONTEXTUAL_EVALUATOR_ID,
   SHEFFIELD_CONTEXTUAL_EVALUATOR_ID,
   UEA_CONTEXTUAL_EVALUATOR_ID,
   UEA_PREPARING_FOR_MEDICINE_GROUP_ID,
   UEA_PREPARING_FOR_MEDICINE_PROGRAMME_ID,
   evaluateLiverpoolContextualEligibility,
+  evaluateNottinghamContextualEligibility,
   evaluateSheffieldContextualEligibility,
   evaluateUeaContextualEligibility,
   DEFAULT_CONTEXTUAL_ELIGIBILITY_EVALUATORS

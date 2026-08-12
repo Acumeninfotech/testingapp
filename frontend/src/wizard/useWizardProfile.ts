@@ -464,7 +464,10 @@ function normaliseContextualProfile(
       ...(flags.free_school_meals === true ? { free_school_meals: 'yes' as const } : {}),
       ...(flags.ucat_bursary === true ? { ucat_bursary_recipient: 'yes' as const } : {}),
     },
-    school_education: normaliseAnswerRecord(saved.school_education, normaliseTriState),
+    school_education: {
+      ...empty.school_education,
+      ...normaliseAnswerRecord(saved.school_education, normaliseTriState),
+    },
     personal_circumstances: {
       ...normalisePersonalCircumstances(saved.personal_circumstances),
       ...(flags.care_experienced === true ? { care_experienced: 'yes' as const } : {}),
