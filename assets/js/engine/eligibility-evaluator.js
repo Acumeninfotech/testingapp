@@ -68,6 +68,10 @@ const {
 const {
   DEFAULT_CONTEXTUAL_ELIGIBILITY_EVALUATORS
 } = require('./contextual-eligibility-evaluators');
+const {
+  getRecognisedUkwpmedProgramme,
+  isUkwpmedRecognisedByMedicalSchool
+} = require('./contextual-profile-registry');
 
 function normaliseId(value) {
   return String(value ?? '')
@@ -309,59 +313,19 @@ function evaluateCourseContextualEligibility(course, applicant) {
     : null;
 }
 
-function birminghamSupportedPolar4Quintile(course, value) {
-  if (typeof value !== 'string') {
-    return false;
-  }
-
-  const quintile = value.trim();
-  if (!quintile) {
-    return false;
-  }
-
-  const contextualComponent = (
-    course?.stage_2_interview_selection?.calculation?.score_components || []
-  ).find((component) => component?.component_id === 'contextual_component');
-  const pointsByQuintile =
-    contextualComponent?.points_by_quintile ||
-    (course?.contextual_admissions?.adjustments || [])
-      .find((adjustment) => adjustment?.adjustment_id === 'polar4_contextual_points')
-      ?.points_by_quintile ||
-    {};
-
-  return Object.prototype.hasOwnProperty.call(pointsByQuintile, quintile) &&
-    Number.isFinite(pointsByQuintile[quintile]);
-}
-
 function applyCourseSpecificDerivedApplicantGroups(course, applicant, groupIds, contextualEligibility = null) {
   const groups = new Set(groupIds);
-  const identity = applicant.applicant_identity || {};
-  const flags = identity.contextual_flags || {};
-
-  if (
-    course?.profile_id === 'birmingham-a100' &&
-    groups.has('home_fee') &&
-    !groups.has('international_fee') &&
-    !groups.has('graduate_applicant') &&
-    (
-      flags.free_school_meals === true ||
-      flags.care_experienced === true ||
-      (
-        identity.contextual_status_confirmed === true &&
-        birminghamSupportedPolar4Quintile(course, identity.polar4_quintile)
-      )
-    )
-  ) {
-    groups.add('contextual');
-  }
 
   const contextualResult = contextualEligibility || evaluateCourseContextualEligibility(course, applicant);
-  if (course?.profile_id === 'bristol-a100' && contextualResult) {
+  if (['bristol-a100', 'birmingham-a100'].includes(course?.profile_id) && contextualResult) {
     groups.delete('contextual');
     groups.delete('widening_participation');
   }
+  if (course?.profile_id === 'birmingham-a100' && contextualResult) {
+    groups.delete('care_experienced');
+  }
   if (
-    ['aston-a100', 'imperial-college-london-a100', 'manchester-a100', 'leicester-a100', 'bristol-a100', 'east-anglia-a100', 'lancaster-a100', 'liverpool-a100', 'sheffield-a100', 'nottingham-a100'].includes(course?.profile_id)
+    ['aston-a100', 'imperial-college-london-a100', 'manchester-a100', 'leicester-a100', 'bristol-a100', 'birmingham-a100', 'east-anglia-a100', 'lancaster-a100', 'liverpool-a100', 'sheffield-a100', 'nottingham-a100'].includes(course?.profile_id)
   ) {
     const activatedGroups = contextualResult?.is_contextual === true
       ? contextualResult.activated_applicant_group_ids
@@ -392,6 +356,86 @@ function groupRuleApplies(rule, groupIds) {
   return required.every((groupId) => groups.has(groupId)) &&
     (alternatives.length === 0 || alternatives.some((groupId) => groups.has(groupId))) &&
     excluded.every((groupId) => !groups.has(groupId));
+}
+
+function qualificationStatusFromSubjects(subjects) {
+  const entries = (subjects || []).filter((subject) => subject?.subject_id);
+  if (entries.length === 0) {
+    return null;
+  }
+  const achievedCount = entries.filter((subject) =>
+    subject.achieved_grade !== null &&
+      subject.achieved_grade !== undefined &&
+      subject.achieved_grade !== ''
+  ).length;
+  const predictedCount = entries.filter((subject) =>
+    subject.predicted_grade !== null &&
+      subject.predicted_grade !== undefined &&
+      subject.predicted_grade !== ''
+  ).length;
+
+  if (achievedCount === entries.length && predictedCount === 0) {
+    return 'achieved';
+  }
+  if (predictedCount > 0 && achievedCount === 0) {
+    return 'predicted';
+  }
+  return 'mixed_or_unclear';
+}
+
+function deriveQualificationStatus(applicant) {
+  const explicit = normaliseId(
+    applicant.qualification_status ||
+      applicant.academic_status ||
+      applicant.a_level_profile?.qualification_status ||
+      applicant.ib_profile?.qualification_status
+  );
+  if (['achieved', 'predicted'].includes(explicit)) {
+    return explicit;
+  }
+
+  const aLevelStatus = qualificationStatusFromSubjects(applicant.a_level_profile?.subjects);
+  if (aLevelStatus) {
+    return aLevelStatus;
+  }
+
+  const ibSubjects =
+    applicant.ib_profile?.higher_level_subjects ||
+      applicant.ib_profile?.hl_subjects ||
+      applicant.ib_profile?.subjects;
+  const ibStatus = qualificationStatusFromSubjects(ibSubjects);
+  if (ibStatus) {
+    return ibStatus;
+  }
+
+  return 'unknown';
+}
+
+function profileArray(value) {
+  return Array.isArray(value) && value.length > 0 ? value : null;
+}
+
+function firstProfileArray(...values) {
+  return values.map(profileArray).find(Boolean) || null;
+}
+
+function aLevelGradeProfileForQualificationStatus(requirement = {}, applicant = {}) {
+  const qualificationStatus = deriveQualificationStatus(applicant);
+  const predictedProfile = profileArray(requirement.predicted_minimum_profile);
+  const achievedProfile = firstProfileArray(
+    requirement.achieved_grade_profile,
+    requirement.offer_grade_profile,
+    requirement.final_grade_profile
+  );
+  const legacyProfile = firstProfileArray(requirement.grade_profile, requirement.standard_offer);
+
+  if (qualificationStatus === 'predicted' && predictedProfile) {
+    return predictedProfile;
+  }
+  if (qualificationStatus === 'achieved' && achievedProfile) {
+    return achievedProfile;
+  }
+  return legacyProfile || predictedProfile || achievedProfile || [];
 }
 
 function resolveUcatMinimumTotalScore(ucat, groupIds) {
@@ -697,10 +741,7 @@ function evaluateALevelRequirement(requirement, applicant, state, routeRules = {
   const subjectGrades = getALevelSubjectMap(applicant);
   const countableSubjectGrades = getCountableALevelSubjectMap(subjectGrades, routeRules);
   const actualGrades = Object.values(countableSubjectGrades);
-  const requiredGradeProfile =
-    requirement.grade_profile ||
-    requirement.predicted_minimum_profile ||
-    [];
+  const requiredGradeProfile = aLevelGradeProfileForQualificationStatus(requirement, applicant);
   const profilePassed = gradeProfileMeets(actualGrades, requiredGradeProfile);
   const requiredSubjectsPassed = (requirement.required_subject_ids || []).every((subjectId) => {
     return subjectGrades[normaliseId(subjectId)] !== undefined;
@@ -740,6 +781,7 @@ function evaluateALevelRequirement(requirement, applicant, state, routeRules = {
   addCheck(state, requirement.requirement_id || 'a_level_requirement', passed, {
     academic_pathway: requirement.academic_pathway || null,
     pathway_id: requirement.pathway_id || requirement.route_id || requirement.requirement_id || null,
+    qualification_status: deriveQualificationStatus(applicant),
     required: formatGradeProfile(requiredGradeProfile),
     actual: formatGradeProfile(actualGrades),
     epq_requirement_met: epqRequirementPassed,
@@ -1582,29 +1624,104 @@ function evaluateIrishRoute(course, applicant, state) {
   }
 }
 
-function evaluateUkWpMedRoute(course, applicant, state) {
-  const rule = (course.contextual_admissions?.guaranteed_interview_rules || [])
-    .find((candidate) => normaliseId(candidate.route) === 'ukwpmed_guaranteed_interview');
-  if (!rule) {
-    addFailure(state, 'ukwpmed_route_not_supported');
-    return;
+function getBirminghamUkwpmedRule(course = {}) {
+  if (course.profile_id !== 'birmingham-a100') {
+    return null;
+  }
+  return (course.contextual_admissions?.guaranteed_interview_rules || [])
+    .find((candidate) => normaliseId(candidate.route) === 'ukwpmed_guaranteed_interview') || null;
+}
+
+function getBirminghamUkwpmedALevelRoute(course = {}, rule = {}) {
+  const aLevel = course.stage_1_eligibility?.post_16?.a_level || {};
+  const routeIds = new Set([
+    rule.rule_id,
+    rule.route,
+    'ukwpmed_birmingham_appendix_1',
+    'ukwpmed_guaranteed_interview',
+    'ukwpmed'
+  ].map(normaliseId));
+
+  return [
+    ...(aLevel.grade_requirements || []),
+    ...(aLevel.routed_offer_routes || []),
+    ...(aLevel.presentation_offer_routes || [])
+  ].find((route) => {
+    return [
+      route?.requirement_id,
+      route?.route_id,
+      route?.pathway_id,
+      route?.selection_route_id,
+      route?.academic_pathway
+    ].some((routeId) => routeIds.has(normaliseId(routeId)));
+  }) || {};
+}
+
+function birminghamDedicatedRouteForUkwpmedProgramme(course = {}, programmeId = '') {
+  const normalisedProgrammeId = normaliseId(programmeId);
+  if (!normalisedProgrammeId) {
+    return null;
   }
 
-  const evidence = applicant.ukwpmed || {};
-  const completionVerified =
-    rule.recognised_programmes.includes(evidence.programme) &&
-    evidence.successfully_completed === true;
-  if (!completionVerified) {
-    addFailure(state, 'ukwpmed_completion_not_verified');
-    return;
+  return (course.contextual_admissions?.guaranteed_interview_rules || [])
+    .find((candidate) => {
+      return candidate?.separate_from_ukwpmed_route === true &&
+        normaliseId(candidate.programme_evidence?.programme_id) === normalisedProgrammeId;
+    }) || null;
+}
+
+function getBirminghamUkwpmedProgrammeEvidence(applicant = {}, course = {}, rule = {}) {
+  const access = applicant.contextual_profile?.access_programmes || {};
+  const evidence = access.ukwpmed || {};
+  const programme = rule.programme_evidence || {};
+  const programmeId = normaliseId(evidence.programme_id);
+  const recognisedProgramme = getRecognisedUkwpmedProgramme(programmeId);
+  const dedicatedRoute = birminghamDedicatedRouteForUkwpmedProgramme(course, programmeId);
+  const status = normaliseId(evidence.programme_status || evidence.status);
+  const acceptedStatuses = (programme.accepted_programme_statuses || ['completed'])
+    .map(normaliseId);
+  const recognisedByBirmingham = isUkwpmedRecognisedByMedicalSchool(
+    programme.recognised_by_university_id || course.profile_id,
+    recognisedProgramme?.programme_id
+  );
+
+  return {
+    evidence,
+    recognised_programme: recognisedProgramme,
+    programme_id: programmeId,
+    programme_status: status,
+    dedicated_route_id: dedicatedRoute ? normaliseId(dedicatedRoute.route) : null,
+    matched_programme: Boolean(recognisedProgramme) &&
+      recognisedByBirmingham &&
+      !dedicatedRoute,
+    completed: Boolean(recognisedProgramme) &&
+      recognisedByBirmingham &&
+      !dedicatedRoute &&
+      acceptedStatuses.includes(status)
+  };
+}
+
+function evaluateBirminghamUkwpmedRoute(course, applicant, state) {
+  const rule = getBirminghamUkwpmedRule(course);
+  if (!rule) {
+    return false;
   }
-  if (evidence.declared_in_ucas_extra_activities !== true) {
-    if (evidence.declared_in_ucas_extra_activities === false) {
-      addFailure(state, 'ukwpmed_declaration_missing');
-    } else {
-      addManualReview(state, 'ukwpmed_declaration_unverified');
-    }
-    return;
+
+  const programme = getBirminghamUkwpmedProgrammeEvidence(applicant, course, rule);
+  if (!programme.matched_programme) {
+    return false;
+  }
+  if (!programme.completed) {
+    addCheck(state, rule.rule_id || 'ukwpmed_appendix_1', false, {
+      selection_route_id: 'ukwpmed_guaranteed_interview',
+      evidence_path: rule.programme_evidence?.evidence_path ||
+        'contextual_profile.access_programmes.ukwpmed',
+      programme_id: programme.programme_id,
+      programme_status: programme.programme_status,
+      reason: 'ukwpmed_completion_not_verified'
+    });
+    addFailure(state, 'ukwpmed_completion_not_verified');
+    return true;
   }
 
   const appendix = rule.appendix_1 || {};
@@ -1620,6 +1737,15 @@ function evaluateUkWpMedRoute(course, applicant, state) {
     gcseGrades.biology ?? combinedScience[0]
   ];
   const aLevelGrades = getALevelSubjectMap(applicant);
+  const aLevelRoute = getBirminghamUkwpmedALevelRoute(course, rule);
+  const requiredALevelProfile = aLevelGradeProfileForQualificationStatus(
+    {
+      ...aLevelRoute,
+      predicted_minimum_profile:
+        appendix.predicted_a_level_profile || aLevelRoute.predicted_minimum_profile
+    },
+    applicant
+  );
   const requiredNamedProfile =
     appendix.named_subject_grade_profile?.grades_in_any_order ||
     [];
@@ -1633,7 +1759,7 @@ function evaluateUkWpMedRoute(course, applicant, state) {
   const aLevelPassed =
     gradeProfileMeets(
       Object.values(aLevelGrades),
-      appendix.predicted_a_level_profile || []
+      requiredALevelProfile
     ) &&
     aLevelGrades.chemistry !== undefined &&
     (
@@ -1649,16 +1775,184 @@ function evaluateUkWpMedRoute(course, applicant, state) {
   const passed = gcsePassed && aLevelPassed && ucatTaken;
 
   addCheck(state, rule.rule_id || 'ukwpmed_appendix_1', passed, {
+    selection_route_id: 'ukwpmed_guaranteed_interview',
+    evidence_path: rule.programme_evidence?.evidence_path ||
+      'contextual_profile.access_programmes.ukwpmed',
+    programme_id: programme.programme_id,
+    provider_university_id: programme.recognised_programme?.provider_university_id || '',
+    programme_status: programme.programme_status,
+    gcse_thresholds_met: gcsePassed,
+    a_level_thresholds_met: aLevelPassed,
+    qualification_status: deriveQualificationStatus(applicant),
+    required_a_level_profile: formatGradeProfile(requiredALevelProfile),
+    ucat_taken: ucatTaken,
+    ucat_threshold_required: appendix.ucat_threshold_required === true,
+    guaranteed_interview: passed
+  });
+
+  if (passed) {
+    state.guaranteed_interview = true;
+    state.selection_route_id = 'ukwpmed_guaranteed_interview';
+    state.academic_pathway = 'ukwpmed';
+    state.academic_pathway_id = 'ukwpmed_birmingham_appendix_1';
+  } else {
+    addFailure(state, 'ukwpmed_appendix_1_thresholds_not_met');
+  }
+
+  return true;
+}
+
+function getBirminghamPathwaysRule(course = {}) {
+  if (course.profile_id !== 'birmingham-a100') {
+    return null;
+  }
+  return (course.contextual_admissions?.guaranteed_interview_rules || [])
+    .find((candidate) => normaliseId(candidate.route) === 'pathways_to_birmingham') || null;
+}
+
+function getBirminghamPathwaysProgrammeEvidence(applicant = {}, rule = {}) {
+  const access = applicant.contextual_profile?.access_programmes || {};
+  const evidence = access.ukwpmed || {};
+  const programme = rule.programme_evidence || {};
+  const programmeId = normaliseId(evidence.programme_id);
+  const requiredProgrammeId = normaliseId(programme.programme_id);
+  const status = normaliseId(evidence.programme_status || evidence.status);
+  const acceptedStatuses = (programme.accepted_programme_statuses || ['completed'])
+    .map(normaliseId);
+
+  return {
+    evidence,
+    programme_id: programmeId,
+    programme_status: status,
+    matched_programme: Boolean(requiredProgrammeId) && programmeId === requiredProgrammeId,
+    completed: Boolean(requiredProgrammeId) &&
+      programmeId === requiredProgrammeId &&
+      acceptedStatuses.includes(status)
+  };
+}
+
+function hasCompletedBirminghamGuaranteedProgrammeEvidence(course, applicant) {
+  const pathwaysRule = getBirminghamPathwaysRule(course);
+  if (
+    pathwaysRule &&
+    getBirminghamPathwaysProgrammeEvidence(applicant, pathwaysRule).completed
+  ) {
+    return true;
+  }
+
+  const ukwpmedRule = getBirminghamUkwpmedRule(course);
+  return Boolean(
+    ukwpmedRule &&
+    getBirminghamUkwpmedProgrammeEvidence(applicant, course, ukwpmedRule).completed
+  );
+}
+
+function evaluateBirminghamPathwaysRoute(course, applicant, state) {
+  const rule = getBirminghamPathwaysRule(course);
+  if (!rule) {
+    return false;
+  }
+
+  const programme = getBirminghamPathwaysProgrammeEvidence(applicant, rule);
+  if (!programme.matched_programme) {
+    return false;
+  }
+  if (!programme.completed) {
+    addCheck(state, rule.rule_id || 'pathways_to_birmingham', false, {
+      selection_route_id: 'pathways_to_birmingham',
+      evidence_path: rule.programme_evidence?.evidence_path ||
+        'contextual_profile.access_programmes.ukwpmed',
+      programme_id: programme.programme_id,
+      programme_status: programme.programme_status,
+      reason: 'pathways_to_birmingham_completion_required'
+    });
+    return false;
+  }
+
+  const criteria = rule.pathways_academic_criteria || {};
+  const gcseGrades = profileToSubjectMap(applicant.gcse_profile);
+  const countableGcseGrades = getCountableGcseGrades(gcseGrades);
+  const combinedScience = parseCombinedScienceGrades(
+    gcseGrades.combined_science || gcseGrades.double_science
+  );
+  const namedGcseGrades = [
+    gcseGrades.english_language,
+    gcseGrades.mathematics,
+    gcseGrades.chemistry ?? combinedScience[1],
+    gcseGrades.biology ?? combinedScience[0]
+  ];
+  const gcsePassed =
+    countableGcseGrades.length >= (criteria.minimum_gcse_count || 0) &&
+    countableGcseGrades.every((grade) => {
+      return gradeMeets(grade, criteria.minimum_gcse_grade || '4', 'gcse');
+    }) &&
+    namedGcseGrades.every((grade) => grade !== undefined && grade !== null && grade !== '') &&
+    gradeProfileMeets(
+      namedGcseGrades,
+      criteria.named_subject_grade_profile?.grades_in_any_order || [],
+      'gcse'
+    );
+
+  const routeRules = course.stage_1_eligibility?.post_16?.a_level || {};
+  const aLevelRoute = (routeRules.grade_requirements || [])
+    .find((requirement) => {
+      return normaliseId(requirement.requirement_id) === 'pathways_to_birmingham_a_level';
+    }) || {};
+  const aLevelGrades = getALevelSubjectMap(applicant);
+  const countableALevelGrades = getCountableALevelSubjectMap(aLevelGrades, routeRules);
+  const requiredGradeProfile = aLevelGradeProfileForQualificationStatus(
+    {
+      ...aLevelRoute,
+      predicted_minimum_profile:
+        criteria.predicted_a_level_profile || aLevelRoute.predicted_minimum_profile,
+      offer_grade_profile:
+        criteria.final_offer_profile || aLevelRoute.offer_grade_profile
+    },
+    applicant
+  );
+  const requiredSubjectsPassed = (criteria.required_a_level_subject_ids || [])
+    .every((subjectId) => aLevelGrades[normaliseId(subjectId)] !== undefined);
+  const secondSciencePassed = (criteria.second_science_any_of_subject_ids || [])
+    .some((subjectId) => aLevelGrades[normaliseId(subjectId)] !== undefined);
+  const excludedSubjectIds = new Set(
+    (aLevelRoute.excluded_subject_ids || routeRules.excluded_subject_ids || [])
+      .map(normaliseId)
+  );
+  const excludedSubjectsPassed = Object.keys(aLevelGrades)
+    .every((subjectId) => !excludedSubjectIds.has(subjectId));
+  const aLevelPassed =
+    gradeProfileMeets(Object.values(countableALevelGrades), requiredGradeProfile) &&
+    requiredSubjectsPassed &&
+    secondSciencePassed &&
+    excludedSubjectsPassed;
+  const ucatTaken =
+    criteria.ucat_must_be_taken !== true ||
+    applicant.admissions_tests?.ucat?.taken === true;
+  const passed = gcsePassed && aLevelPassed && ucatTaken;
+
+  addCheck(state, rule.rule_id || 'pathways_to_birmingham', passed, {
+    selection_route_id: 'pathways_to_birmingham',
+    academic_pathway: 'pathways_to_birmingham',
+    pathway_id: 'pathways_to_birmingham_a_level',
+    evidence_path: rule.programme_evidence?.evidence_path ||
+      'contextual_profile.access_programmes.ukwpmed',
+    programme_id: programme.programme_id,
+    programme_status: programme.programme_status,
     gcse_thresholds_met: gcsePassed,
     a_level_thresholds_met: aLevelPassed,
     ucat_taken: ucatTaken,
     guaranteed_interview: passed
   });
-  if (passed) {
-    state.guaranteed_interview = true;
-  } else {
-    addFailure(state, 'ukwpmed_appendix_1_thresholds_not_met');
+
+  if (!passed) {
+    return false;
   }
+
+  state.guaranteed_interview = true;
+  state.selection_route_id = 'pathways_to_birmingham';
+  state.academic_pathway = 'pathways_to_birmingham';
+  state.academic_pathway_id = 'pathways_to_birmingham_a_level';
+  return true;
 }
 
 function evaluateVerifiedRoute(applicant, state, route) {
@@ -1703,7 +1997,7 @@ function evaluateQualificationRoute(course, applicant, state) {
   } else if (route === 'irish_leaving_certificate' || route === 'irish') {
     evaluateIrishRoute(course, applicant, state);
   } else if (route === 'ukwpmed') {
-    evaluateUkWpMedRoute(course, applicant, state);
+    addManualReview(state, 'legacy_ukwpmed_route_retired_use_step_6_programme_evidence');
   } else if (route === 't_level') {
     addFailure(state, 't_level_not_accepted');
   } else if (route === 'access_to_he' || route === 'access' || route === 'access_to_medicine') {
@@ -2105,11 +2399,13 @@ function evaluateDeferral(course, applicant, state) {
   }
 }
 
-function evaluateManualReviewTriggers(applicant, state) {
+function evaluateManualReviewTriggers(course, applicant, state) {
   const groups = new Set(state.applicant_group_ids);
   const identity = applicant.applicant_identity || {};
   const international = applicant.international_qualification || {};
   const repeat = applicant.repeat_application || {};
+  const completedBirminghamGuaranteedProgramme =
+    hasCompletedBirminghamGuaranteedProgrammeEvidence(course, applicant);
 
   if (groups.has('home_fee') && groups.has('international_fee')) {
     addManualReview(state, 'ambiguous_fee_status');
@@ -2131,6 +2427,7 @@ function evaluateManualReviewTriggers(applicant, state) {
   if (
     (groups.has('contextual') || groups.has('widening_participation')) &&
     state.qualification_route !== 'ukwpmed' &&
+    !completedBirminghamGuaranteedProgramme &&
     state.contextual_eligibility?.is_contextual !== true &&
     state.contextual_eligibility?.status !== 'information_needed' &&
     identity.contextual_status_confirmed !== true
@@ -2192,6 +2489,30 @@ function sheffieldBradfordHallamReviewTakesPrecedence(state) {
   );
 }
 
+function finaliseCourseEligibilityState(course, state) {
+  const status = sheffieldBradfordHallamReviewTakesPrecedence(state)
+    ? 'manual_review'
+    : state.manual_review_reasons.includes('bristol_scholars_tailored_offer_manual_review')
+    ? 'manual_review'
+    : state.failures.length
+    ? 'not_eligible'
+    : state.manual_review_reasons.length
+      ? 'manual_review'
+      : 'eligible';
+
+  return {
+    ...state,
+    status,
+    safeguards: {
+      eligibility_only: true,
+      interview_prediction_ready: false,
+      offer_prediction_scope: 'out_of_scope',
+      result_card_ready: false,
+      do_not_infer: [...(course.engine_notes?.do_not_infer || [])]
+    }
+  };
+}
+
 function evaluateCourseEligibility(course, applicantInput) {
   if (!course || !applicantInput) {
     throw new TypeError('course and applicant are required.');
@@ -2222,7 +2543,14 @@ function evaluateCourseEligibility(course, applicantInput) {
     }
   }
 
-  evaluateManualReviewTriggers(applicant, state);
+  evaluateManualReviewTriggers(course, applicant, state);
+
+  if (evaluateBirminghamPathwaysRoute(course, applicant, state)) {
+    return finaliseCourseEligibilityState(course, state);
+  }
+  if (evaluateBirminghamUkwpmedRoute(course, applicant, state)) {
+    return finaliseCourseEligibilityState(course, state);
+  }
 
   const routeRequiresImmediateReview = [
     'foundation',
@@ -2261,27 +2589,7 @@ function evaluateCourseEligibility(course, applicantInput) {
   evaluateAdmissionsTests(course, applicant, state);
   evaluateDeferral(course, applicant, state);
 
-  const status = sheffieldBradfordHallamReviewTakesPrecedence(state)
-    ? 'manual_review'
-    : state.manual_review_reasons.includes('bristol_scholars_tailored_offer_manual_review')
-    ? 'manual_review'
-    : state.failures.length
-    ? 'not_eligible'
-    : state.manual_review_reasons.length
-      ? 'manual_review'
-      : 'eligible';
-
-  return {
-    ...state,
-    status,
-    safeguards: {
-      eligibility_only: true,
-      interview_prediction_ready: false,
-      offer_prediction_scope: 'out_of_scope',
-      result_card_ready: false,
-      do_not_infer: [...(course.engine_notes?.do_not_infer || [])]
-    }
-  };
+  return finaliseCourseEligibilityState(course, state);
 }
 
 module.exports = {

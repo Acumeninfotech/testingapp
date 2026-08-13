@@ -215,6 +215,71 @@ describe('ResultCard', () => {
     expect(screen.getByText('EPQ must be taken alongside A-levels')).toBeInTheDocument();
   });
 
+  it('renders routed alternative academic offers and keeps UCAT as an eligibility requirement when ranking is bypassed', () => {
+    render(
+      <ResultCard
+        result={makeResult({
+          interview_outcome: 'guaranteed_interview',
+          selection_approach_display:
+            "Applicants on the completed Pathways to Birmingham Medicine guaranteed-interview route are not ranked by Birmingham's ordinary GCSE/UCAT selection score once the verified Pathways conditions are met.",
+          alternative_academic_offer: {
+            type: 'routed_offer',
+            standard_offer: 'A*AA',
+            alternative_offer: 'AAB',
+            pathway_id: 'pathways_to_birmingham_a_level',
+            conditions: [],
+          },
+          factor_usage: [
+            {
+              factor_id: 'ucat',
+              label: 'UCAT',
+              role: 'eligibility',
+              detail:
+                'Required as an eligibility condition; competitive UCAT ranking is bypassed for this guaranteed-interview route.',
+              evidence_status: 'available',
+            },
+          ],
+          decision_transparency: {
+            factor_usage: [
+              {
+                factor_id: 'ucat',
+                label: 'UCAT',
+                role: 'eligibility',
+                evidence_status: 'available',
+              },
+            ],
+            decision_path: [
+              {
+                stage: 'Eligibility',
+                status: 'Met',
+                summary: 'You meet the published requirements.',
+                checks: [],
+              },
+              {
+                stage: 'Selection model',
+                status: 'Assessed',
+                summary:
+                  "Applicants on the completed Pathways to Birmingham Medicine guaranteed-interview route are not ranked by Birmingham's ordinary GCSE/UCAT selection score once the verified Pathways conditions are met.",
+                checks: [],
+              },
+            ],
+          },
+        })}
+      />,
+    );
+
+    expect(screen.getByRole('heading', { name: 'Alternative Academic Offer' })).toBeInTheDocument();
+    expect(screen.getByText('Pathways to Birmingham')).toBeInTheDocument();
+    expect(screen.getByText('Standard')).toBeInTheDocument();
+    expect(screen.getByText('A*AA')).toBeInTheDocument();
+    expect(screen.getByText('Alternative offer')).toBeInTheDocument();
+    expect(screen.getByText('AAB')).toBeInTheDocument();
+
+    const ucatCard = screen.getAllByText('UCAT')[0].closest('.result-card-summary-card');
+    expect(ucatCard).toHaveTextContent('Eligibility requirement');
+    expect(ucatCard).not.toHaveTextContent('Used for ranking');
+  });
+
   it('does not show Lancaster EPQ alternative-used presentation for AAA applicants without EPQ', () => {
     const [result] = predict({
       universityIds: ['lancaster-a100'],

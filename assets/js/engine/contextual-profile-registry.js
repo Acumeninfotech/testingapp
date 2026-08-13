@@ -57,7 +57,35 @@ const UKWPMED_PROGRAMME_BY_ID = Object.fromEntries(
   ])
 );
 
+function normaliseRegistryId(value) {
+  return String(value ?? '')
+    .trim()
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, '_')
+    .replace(/^_|_$/g, '');
+}
+
+const UKWPMED_PROGRAMME_BY_NORMALISED_ID = Object.fromEntries(
+  UKWPMED_REGISTRY.recognised_programmes.map((programme) => [
+    normaliseRegistryId(programme.programme_id),
+    programme
+  ])
+);
+
+function getRecognisedUkwpmedProgramme(programmeId) {
+  return UKWPMED_PROGRAMME_BY_ID[programmeId] ||
+    UKWPMED_PROGRAMME_BY_NORMALISED_ID[normaliseRegistryId(programmeId)] ||
+    null;
+}
+
+function isUkwpmedRecognisedByMedicalSchool(medicalSchoolId, programmeId) {
+  return Boolean(getRecognisedUkwpmedProgramme(programmeId)) &&
+    UKWPMED_REGISTRY.recognised_medical_schools.includes(medicalSchoolId);
+}
+
 module.exports = {
+  getRecognisedUkwpmedProgramme,
+  isUkwpmedRecognisedByMedicalSchool,
   UKWPMED_PROGRAMME_BY_ID,
   UKWPMED_REGISTRY
 };

@@ -9,11 +9,32 @@ function cleanText(value: string): string {
   return value.trim().replace(/\s+/g, ' ');
 }
 
+function humanRouteLabel(pathwayId: string | undefined): string {
+  const cleaned = cleanText(pathwayId || '')
+    .replace(/[_-](?:a[_-]?level|offer|alternative|route|pathway)$/i, '')
+    .replace(/[_-]+/g, ' ');
+  if (!cleaned) return 'Alternative route';
+  return cleaned
+    .split(' ')
+    .map((word, index) => {
+      const lower = word.toLowerCase();
+      if (lower === 'ukwpmed') return 'UKWPMED';
+      if (index > 0 && ['and', 'of', 'to', 'the'].includes(lower)) return lower;
+      return `${lower.charAt(0).toUpperCase()}${lower.slice(1)}`;
+    })
+    .join(' ');
+}
+
 function isRenderableOffer(
   offer: PredictionResult['result_card']['alternative_academic_offer'],
 ): offer is AlternativeAcademicOfferContract {
   return (
-    (offer?.type === 'epq' || offer?.type === 'contextual' || offer?.type === 'contextual_epq') &&
+    (
+      offer?.type === 'epq' ||
+      offer?.type === 'contextual' ||
+      offer?.type === 'contextual_epq' ||
+      offer?.type === 'routed_offer'
+    ) &&
     typeof offer.standard_offer === 'string' &&
     cleanText(offer.standard_offer).length > 0 &&
     typeof offer.alternative_offer === 'string' &&
@@ -44,14 +65,18 @@ export function AlternativeAcademicOffer({
       ? 'Contextual'
       : offer.type === 'contextual_epq'
         ? 'Contextual + EPQ'
-        : 'EPQ'
+        : offer.type === 'routed_offer'
+          ? humanRouteLabel(offer.pathway_id)
+          : 'EPQ'
     : 'Contextual';
   const alternativeLabel = hasRenderableOffer
     ? offer.type === 'contextual'
       ? 'Contextual Offer'
       : offer.type === 'contextual_epq'
         ? 'Contextual EPQ Alternative'
-        : 'EPQ Alternative'
+        : offer.type === 'routed_offer'
+          ? 'Alternative offer'
+          : 'EPQ Alternative'
     : 'Contextual Offer';
 
   return (

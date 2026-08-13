@@ -219,12 +219,16 @@
         "type",
         "standard_offer",
         "alternative_offer",
-        "epq_minimum_grade",
         "pathway_id"
       ],
       "properties": {
         "type": {
-          "const": "epq"
+          "enum": [
+            "epq",
+            "contextual",
+            "contextual_epq",
+            "routed_offer"
+          ]
         },
         "standard_offer": {
           "type": "string",

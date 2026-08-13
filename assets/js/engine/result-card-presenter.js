@@ -664,7 +664,7 @@ function buildContextualEpqAcademicOffer(stage1Eligibility = null) {
 }
 
 function hasRoutedAcademicOfferPathways(stage1Eligibility = null) {
-  const routes = stage1Eligibility?.post_16?.a_level?.grade_requirements || [];
+  const routes = routedAcademicOfferRoutes(stage1Eligibility);
   return routes.some((route) => {
     return route?.pathway_id ||
       route?.academic_pathway ||
@@ -673,36 +673,97 @@ function hasRoutedAcademicOfferPathways(stage1Eligibility = null) {
   });
 }
 
+function routedAcademicOfferRoutes(stage1Eligibility = null) {
+  const aLevel = stage1Eligibility?.post_16?.a_level || {};
+  return [
+    ...(aLevel.grade_requirements || []),
+    ...(aLevel.routed_offer_routes || []),
+    ...(aLevel.presentation_offer_routes || [])
+  ];
+}
+
 function matchedAcademicOfferRoute(stage1Eligibility = null, context = {}) {
-  const aLevelRoutes = stage1Eligibility?.post_16?.a_level?.grade_requirements || [];
+  const aLevelRoutes = routedAcademicOfferRoutes(stage1Eligibility);
+  const genericAcademicPathways = new Set([
+    'standard',
+    'contextual',
+    'epq_alternative',
+    'contextual_epq_alternative'
+  ]);
+  const academicPathway = String(context.academic_pathway || '').trim();
+  const contextRouteIds = [
+    context.academic_pathway_id,
+    context.selection_route_id,
+    academicPathway && !genericAcademicPathways.has(academicPathway)
+      ? academicPathway
+      : null
+  ]
+    .map((value) => String(value || '').trim())
+    .filter(Boolean);
+  if (contextRouteIds.length === 0) {
+    return null;
+  }
+
   return aLevelRoutes.find((route) => {
-    return String(
-      route?.pathway_id ||
-      route?.route_id ||
-      route?.requirement_id ||
-      ''
-    ).trim() === String(context.academic_pathway_id || '').trim();
+    const routeIds = [
+      route?.pathway_id,
+      route?.route_id,
+      route?.requirement_id,
+      route?.selection_route_id,
+      route?.academic_pathway
+    ]
+      .map((value) => String(value || '').trim())
+      .filter(Boolean);
+    return routeIds.some((routeId) => contextRouteIds.includes(routeId));
   });
 }
 
+function profileArray(value) {
+  return Array.isArray(value) && value.length > 0 ? value : null;
+}
+
+function firstProfileArray(...values) {
+  return values.map(profileArray).find(Boolean) || [];
+}
+
+function offerGradeProfileForRoute(route = null) {
+  if (!route || typeof route !== 'object') {
+    return [];
+  }
+  return firstProfileArray(
+    route.display_offer_grade_profile,
+    route.offer_grade_profile,
+    route.achieved_grade_profile,
+    route.final_grade_profile,
+    route.grade_profile,
+    route.standard_offer
+  );
+}
+
 function standardAlevelOfferGrades(stage1Eligibility = null) {
-  const standardOffer = stage1Eligibility?.post_16?.a_level?.standard_offer;
+  const aLevel = stage1Eligibility?.post_16?.a_level || {};
+  const standardOffer = aLevel.standard_offer;
   if (Array.isArray(standardOffer)) {
     return standardOffer;
   }
-  return standardOffer?.grade_profile || [];
+  if (Array.isArray(standardOffer?.grade_profile) && standardOffer.grade_profile.length > 0) {
+    return standardOffer.grade_profile;
+  }
+
+  const standardRoute = (aLevel.grade_requirements || []).find((route) => {
+    const routeId = normaliseCheckId(route?.pathway_id || route?.route_id || route?.requirement_id);
+    return route?.academic_pathway === 'standard' || routeId.includes('standard');
+  });
+  return offerGradeProfileForRoute(standardRoute);
 }
 
 function buildRoutedAcademicOffer(stage1Eligibility = null, matchedRoute = null) {
-  if (matchedRoute && Array.isArray(matchedRoute.grade_profile) && matchedRoute.grade_profile.length > 0) {
+  const matchedOfferGrades = offerGradeProfileForRoute(matchedRoute);
+  if (matchedRoute && Array.isArray(matchedOfferGrades) && matchedOfferGrades.length > 0) {
     const standardOffer = formatAlevelGradeProfile(
       standardAlevelOfferGrades(stage1Eligibility)
     );
-    const displayOfferGrades = Array.isArray(matchedRoute.display_offer_grade_profile) &&
-      matchedRoute.display_offer_grade_profile.length > 0
-      ? matchedRoute.display_offer_grade_profile
-      : matchedRoute.grade_profile;
-    const matchedOffer = formatAlevelGradeProfile(displayOfferGrades);
+    const matchedOffer = formatAlevelGradeProfile(matchedOfferGrades);
     if (matchedOffer && matchedOffer !== standardOffer) {
       return {
         type: 'routed_offer',
@@ -4260,6 +4321,7 @@ function normalizeFactorUsage(card, options = {}) {
   const contextualRole = contextualAvailable ? 'contextual' : 'not_used';
   const ucatEligibility = stage1Eligibility?.admissions_tests?.ucat || {};
   const ucatRankingBypass = ucatRankingBypassApplies({ ...card, ...options });
+  const guaranteedInterviewBypass = options.interviewOutcome === 'guaranteed_interview';
   const ucatSelectionText = [
     ucatEligibility.selection_role,
     ucatEligibility.used === false ? 'not used' : null,
@@ -4299,6 +4361,7 @@ function normalizeFactorUsage(card, options = {}) {
     /\bnot used as (?:an? )?(?:eligibility )?gate\b|\bnot (?:an? )?(?:eligibility )?gate\b/.test(ucatSelectionText);
   const ucatEligibilityUse =
     ucatEligibility.used_as_gate === true ||
+    (guaranteedInterviewBypass && ucatEligibility.required !== false) ||
     (!ucatExplicitlyNotGate && /\bucat\b/.test(ucatSelectionText) && /\beligibility gate\b|\bgate\b|\bfilter\b/.test(ucatSelectionText));
   const ucatExplicitlyNotUsed =
     (!ucatRankingUse && !ucatConsideredUse && !ucatEligibilityUse) && (
@@ -4321,6 +4384,8 @@ function normalizeFactorUsage(card, options = {}) {
             : 'unknown',
       detail: ucatRankingBypass
         ? 'Used as a minimum eligibility gate; competitive UCAT ranking is bypassed for this route.'
+        : guaranteedInterviewBypass && ucatEligibility.required !== false
+          ? 'Required as an eligibility condition; competitive UCAT ranking is bypassed for this guaranteed-interview route.'
         : ucatRankingUse
         ? 'Used for ranking in the university’s selection process.'
         : ucatConsideredUse
@@ -4392,7 +4457,9 @@ function buildDecisionTransparency(card, options = {}) {
   const notEligible = state === 'not_eligible';
   const ucatRankingBypass = ucatRankingBypassApplies({ ...card, ...options });
   const pool = options.interviewOutcome === 'guaranteed_interview'
-    ? options.guaranteedInterviewPoolLabel || 'Guaranteed-interview verified applicants'
+    ? options.guaranteedInterviewPoolLabel ||
+      presentation.pool_label ||
+      'Guaranteed-interview verified applicants'
     : options.applicantPool ||
       (ucatRankingBypass ? presentation.pool_label : null) ||
       humanApplicantPoolLabel(options.applicantGroupIds, options.applicantContext) ||
@@ -4455,7 +4522,8 @@ function buildDecisionTransparency(card, options = {}) {
     'The university selection approach is applied after eligibility checks.';
   const contextualOffer = buildAlternativeAcademicOffer(options.stage1Eligibility, {
     academic_pathway: card.academic_pathway || card.eligibility?.academic_pathway || null,
-    academic_pathway_id: card.academic_pathway_id || card.eligibility?.academic_pathway_id || null
+    academic_pathway_id: card.academic_pathway_id || card.eligibility?.academic_pathway_id || null,
+    selection_route_id: card.selection_route_id || card.eligibility?.selection_route_id || null
   });
   const contextualRouteSummaryText = contextualOfferRouteSummary(card, contextualOffer);
   const guaranteedInterview = options.interviewOutcome === 'guaranteed_interview';
@@ -4716,7 +4784,8 @@ function presentResultCard({
     transparencyContext.stage_1_eligibility,
     {
       academic_pathway: academicPathway,
-      academic_pathway_id: academicPathwayId
+      academic_pathway_id: academicPathwayId,
+      selection_route_id: transparencyContext.selection_route_id || null
     }
   );
   const contextualRouteSummary = contextualOfferRouteSummary(transparencyContext, activeAlternativeAcademicOffer);
@@ -4807,15 +4876,22 @@ function presentResultCard({
     : "Based on ApplySmart's assessment, this applicant group meets the published guaranteed-interview evidence available for this route.";
   const guaranteedInterviewExplanation = firstNonEmptyString(
     transparencyContext.guaranteed_interview_explanation,
+    presentation.guaranteed_interview_explanation,
     defaultGuaranteedInterviewExplanation
   );
   const guaranteedInterviewNotice = firstNonEmptyString(
     transparencyContext.guaranteed_interview_notice,
+    presentation.guaranteed_interview_notice,
     'Every published guaranteed-interview condition for this route has been verified as met.'
+  );
+  const guaranteedInterviewHeadline = firstNonEmptyString(
+    transparencyContext.guaranteed_interview_headline,
+    presentation.guaranteed_interview_headline,
+    STANDARD_RECOMMENDATION_HEADLINES.guaranteed_interview
   );
   if (guaranteedInterview) {
     display = {
-      primary_user_facing_recommendation: STANDARD_RECOMMENDATION_HEADLINES.guaranteed_interview,
+      primary_user_facing_recommendation: guaranteedInterviewHeadline,
       recommendation_display_state: 'standard',
       primary_explanation: guaranteedInterviewExplanation,
       historical_guidance_caveat: null

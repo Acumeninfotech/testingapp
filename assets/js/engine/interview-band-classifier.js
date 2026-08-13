@@ -437,6 +437,33 @@ function matchQualificationStatus(rule, applicant) {
   return !excludedStatuses.map(normaliseId).includes(deriveQualificationStatus(applicant));
 }
 
+function profileArray(value) {
+  return Array.isArray(value) && value.length > 0 ? value : null;
+}
+
+function firstProfileArray(...values) {
+  return values.map(profileArray).find(Boolean) || null;
+}
+
+function aLevelGradeProfileForQualificationStatus(route = {}, applicant = {}) {
+  const qualificationStatus = deriveQualificationStatus(applicant);
+  const predictedProfile = profileArray(route.predicted_minimum_profile);
+  const achievedProfile = firstProfileArray(
+    route.achieved_grade_profile,
+    route.offer_grade_profile,
+    route.final_grade_profile
+  );
+  const legacyProfile = firstProfileArray(route.grade_profile, route.standard_offer);
+
+  if (qualificationStatus === 'predicted' && predictedProfile) {
+    return predictedProfile;
+  }
+  if (qualificationStatus === 'achieved' && achievedProfile) {
+    return achievedProfile;
+  }
+  return legacyProfile || predictedProfile || achievedProfile || [];
+}
+
 function resolveUcatMinimumTotalScore(ucat, groupIds) {
   const groupRule = (ucat?.group_minimum_total_scores || [])
     .find((rule) => {
@@ -619,7 +646,7 @@ function evaluateALevelRoute(route, subjectGrades, applicant = null) {
     )
     : subjectGrades;
   const grades = Object.values(countedSubjectGrades).filter((grade) => grade !== null && grade !== undefined);
-  const gradeProfile = route.grade_profile || route.standard_offer || [];
+  const gradeProfile = aLevelGradeProfileForQualificationStatus(route, applicant || {});
   const requiredSubjects = route.required_subject_ids || [];
   const subjectsPresent = requiredSubjects.every((subjectId) => countedSubjectGrades[subjectId] !== undefined);
   const groupsPass = checkSubjectGroups(countedSubjectGrades, route.one_of_subject_groups);
@@ -1374,7 +1401,7 @@ function evaluateAcademicEligibility(course, config, applicant, groupIds) {
       passed: routePassed,
       academic_pathway: academicPathway || activeRoutePathway || null,
       pathway_id: academicPathwayId || academicPathwayIdForALevelRoute(activeRoute) || null,
-      required: formatGradeProfile(activeRoute?.grade_profile || activeRoute?.standard_offer || []),
+      required: formatGradeProfile(aLevelGradeProfileForQualificationStatus(activeRoute || {}, applicant)),
       actual: formatGradeProfile(Object.values(aLevelGrades))
     });
     checks.push({ check: 'a_level_subject_combination', passed: subjectCombinationPassed });
@@ -3452,7 +3479,10 @@ function getGuidancePoolById(config, poolId) {
 function selectBirminghamGuidancePool(config, eligibility) {
   const groups = new Set(eligibility.applicant_group_ids || []);
 
-  if (eligibility.qualification_route === 'ukwpmed') {
+  if (eligibility.selection_route_id === 'pathways_to_birmingham') {
+    return getGuidancePoolById(config, 'pathways_to_birmingham');
+  }
+  if (eligibility.selection_route_id === 'ukwpmed_guaranteed_interview') {
     return getGuidancePoolById(config, 'ukwpmed_guaranteed_interview');
   }
   if (groups.has('international_fee')) {
@@ -3474,6 +3504,24 @@ function selectBirminghamGuidancePool(config, eligibility) {
 function getBirminghamComponent(course, componentId) {
   return (course.stage_2_interview_selection?.calculation?.score_components || [])
     .find((component) => component.component_id === componentId);
+}
+
+function normaliseBirminghamPolar4Quintile(value) {
+  const normalised = normaliseId(value);
+  if (['q1', 'quintile_1', 'quintile1', '1'].includes(normalised)) return 'Q1';
+  if (['q2', 'quintile_2', 'quintile2', '2'].includes(normalised)) return 'Q2';
+  if (['q3', 'quintile_3', 'quintile3', '3'].includes(normalised)) return 'Q3';
+  if (['q4', 'quintile_4', 'quintile4', '4'].includes(normalised)) return 'Q4';
+  if (['q5', 'quintile_5', 'quintile5', '5'].includes(normalised)) return 'Q5';
+  return null;
+}
+
+function resolveBirminghamPolar4Quintile(applicant = {}) {
+  return normaliseBirminghamPolar4Quintile(
+    applicant.contextual_profile?.home_area_region?.polar4_quintile
+  ) || normaliseBirminghamPolar4Quintile(
+    applicant.applicant_identity?.polar4_quintile
+  );
 }
 
 function getBirminghamNamedGcsePoints(scoringModel, grade) {
@@ -3597,7 +3645,7 @@ function calculateBirminghamHomeRanking(course, applicant, contextual, context =
   }
 
   const contextualComponent = getBirminghamComponent(course, 'contextual_component');
-  const polar4Quintile = applicant.applicant_identity?.polar4_quintile;
+  const polar4Quintile = resolveBirminghamPolar4Quintile(applicant);
   const contextualValue = contextual
     ? contextualComponent?.points_by_quintile?.[polar4Quintile]
     : 0;
@@ -3683,17 +3731,40 @@ function classifyBirminghamInterviewBand(course, config, applicant, eligibility,
   }
 
   const pool = selectBirminghamGuidancePool(config, eligibility);
-  if (eligibility.qualification_route === 'ukwpmed') {
+  if (eligibility.selection_route_id === 'pathways_to_birmingham') {
+    return {
+      ...base,
+      ranking: null,
+      guidance_pool_id: pool?.pool_id || 'pathways_to_birmingham',
+      guidance_pool: pool || null,
+      selection_route_id: 'pathways_to_birmingham',
+      band_metric: null,
+      canonical_interview_band: null,
+      interview_outcome: 'guaranteed_interview',
+      guaranteed_interview_explanation:
+        'Eligible completed Pathways to Birmingham Medicine participant: the guaranteed interview applies because programme completion, Pathways academic criteria and UCAT-taking are verified.',
+      guaranteed_interview_notice:
+        'You meet the published requirements for the Pathways to Birmingham Medicine guaranteed-interview route.',
+      guaranteed_interview_pool_label: 'Pathways to Birmingham',
+      guaranteed_interview_badge_label: 'Guaranteed interview',
+      warnings: [],
+      explanation:
+        'Eligible completed Pathways to Birmingham Medicine participant: guaranteed interview applies after all implemented minimum criteria pass. Ordinary Birmingham numerical ranking was not applied.'
+    };
+  }
+  if (eligibility.selection_route_id === 'ukwpmed_guaranteed_interview') {
     if (eligibility.guaranteed_interview === true) {
       return {
         ...base,
         ranking: null,
         guidance_pool_id: pool?.pool_id || 'ukwpmed_guaranteed_interview',
+        guidance_pool: pool || null,
+        selection_route_id: 'ukwpmed_guaranteed_interview',
         band_metric: null,
         canonical_interview_band: null,
         interview_outcome: 'guaranteed_interview',
         warnings: guidanceWarnings,
-        explanation: 'Eligible verified UKWPMED completer: the guaranteed interview applies because programme completion, UCAS declaration and every Birmingham Appendix 1 threshold are met.'
+        explanation: 'Eligible verified UKWPMED completer: the guaranteed interview applies because Step 6 programme completion and every Birmingham Appendix 1 threshold are met.'
       };
     }
     return {

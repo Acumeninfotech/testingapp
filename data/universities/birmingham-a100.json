@@ -4,7 +4,13 @@
   "profile_status": "production_ready_eligibility_and_interview_guidance",
   "verification_status": "official_source_verified_with_remaining_unpublished_offer_fields",
   "last_updated": "2026-07-01",
-  "selection_approach_display": "Applicants are assessed using the university's published selection score, which combines GCSE performance and UCAT.",
+  "selection_approach_display": {
+    "default": "Applicants are assessed using the university's published selection score, which combines GCSE performance and UCAT.",
+    "by_selection_route": {
+      "pathways_to_birmingham": "Applicants on the completed Pathways to Birmingham Medicine guaranteed-interview route are not ranked by Birmingham's ordinary GCSE/UCAT selection score once the verified Pathways conditions are met.",
+      "ukwpmed_guaranteed_interview": "Eligible UKWPMED applicants receive a guaranteed interview and are not ranked using Birmingham's standard GCSE/UCAT selection score."
+    }
+  },
   "university": {
     "name": "University of Birmingham",
     "slug": "birmingham",
@@ -49,10 +55,16 @@
       "selection": "Official application score out of 10 including the contextual component."
     },
     {
+      "pool_id": "pathways_to_birmingham",
+      "name": "Pathways to Birmingham guaranteed-interview route",
+      "status": "supported_separate_route",
+      "selection": "Guaranteed interview when Routes to the Professions Medicine completion and the Pathways Medicine academic criteria are verified."
+    },
+    {
       "pool_id": "ukwpmed_guaranteed_interview",
       "name": "UKWPMED guaranteed-interview route",
       "status": "supported_separate_route",
-      "selection": "Guaranteed interview only when programme completion, declaration and Birmingham Appendix 1 thresholds are all verified."
+      "selection": "Guaranteed interview only when canonical Step 6 programme completion and Birmingham Appendix 1 thresholds are all verified."
     },
     {
       "pool_id": "graduate_a100",
@@ -244,6 +256,22 @@
       ],
       "a_level": {
         "status": "official_source_verified",
+        "routed_offer_routes": [
+          {
+            "route_id": "ukwpmed_guaranteed_interview",
+            "pathway_id": "ukwpmed",
+            "academic_pathway": "ukwpmed",
+            "requirement_id": "ukwpmed_birmingham_appendix_1",
+            "offer_grade_profile": [
+              "A",
+              "B",
+              "B"
+            ],
+            "source_ids": [
+              "birmingham_ukwpmed"
+            ]
+          }
+        ],
         "grade_requirements": [
           {
             "requirement_id": "home_standard_a_level",
@@ -266,16 +294,12 @@
               "A",
               "A"
             ],
-            "grade_profile": [
-              "A",
-              "A",
-              "A"
-            ],
             "required_subject_ids": [
               "chemistry"
             ],
             "second_science_any_of_subject_ids": [
               "biology",
+              "human_biology",
               "physics",
               "mathematics"
             ],
@@ -285,6 +309,7 @@
                 "minimum_required": 1,
                 "subject_ids": [
                   "biology",
+                  "human_biology",
                   "physics",
                   "mathematics"
                 ]
@@ -312,9 +337,49 @@
               "A",
               "B"
             ],
-            "grade_profile": [
+            "required_subject_ids": [
+              "chemistry"
+            ],
+            "second_science_any_of_subject_ids": [
+              "biology",
+              "human_biology",
+              "physics",
+              "mathematics"
+            ],
+            "one_of_subject_groups": [
+              {
+                "group_id": "home_contextual_second_science",
+                "minimum_required": 1,
+                "subject_ids": [
+                  "biology",
+                  "human_biology",
+                  "physics",
+                  "mathematics"
+                ]
+              }
+            ],
+            "excluded_subject_ids": [
+              "general_studies",
+              "critical_thinking",
+              "epq"
+            ],
+            "decision_outcome_if_not_met": "not_eligible"
+          },
+          {
+            "requirement_id": "pathways_to_birmingham_a_level",
+            "pathway_id": "pathways_to_birmingham_a_level",
+            "academic_pathway": "pathways_to_birmingham",
+            "applies_to_group_ids": [
+              "pathways_to_birmingham"
+            ],
+            "offer_grade_profile": [
               "A",
               "A",
+              "B"
+            ],
+            "predicted_minimum_profile": [
+              "B",
+              "B",
               "B"
             ],
             "required_subject_ids": [
@@ -327,7 +392,7 @@
             ],
             "one_of_subject_groups": [
               {
-                "group_id": "home_contextual_second_science",
+                "group_id": "pathways_to_birmingham_second_science",
                 "minimum_required": 1,
                 "subject_ids": [
                   "biology",
@@ -341,7 +406,19 @@
               "critical_thinking",
               "epq"
             ],
-            "decision_outcome_if_not_met": "not_eligible"
+            "programme_requirement": {
+              "evidence_path": "contextual_profile.access_programmes.ukwpmed",
+              "programme_id": "birmingham_pathways_to_birmingham_medicine",
+              "accepted_programme_statuses": [
+                "completed"
+              ],
+              "completion_status_limitation": "Step 6 currently models completed, not successfully_completed. For Step 4A, completed is treated as the closest canonical evidence for completed/satisfactory R2P Medicine participation."
+            },
+            "decision_outcome_if_not_met": "not_eligible",
+            "source_ids": [
+              "birmingham_routes_to_the_professions",
+              "birmingham_pathways_to_birmingham_eligibility"
+            ]
           },
           {
             "requirement_id": "international_a_level",
@@ -1048,12 +1125,21 @@
         ]
       },
       {
+        "adjustment_id": "pathways_to_birmingham_guaranteed_interview",
+        "modifier_id": "guaranteed_interview",
+        "rule": "Return guaranteed interview when canonical Step 6 evidence confirms completed Routes to the Professions Medicine participation and the Pathways Medicine GCSE, A-level and UCAT-taking gates are met.",
+        "source_ids": [
+          "birmingham_routes_to_the_professions",
+          "birmingham_pathways_to_birmingham_eligibility"
+        ]
+      },
+      {
         "adjustment_id": "ukwpmed_guaranteed_interview",
         "modifier_id": "guaranteed_interview",
         "applies_to_group_ids": [
           "widening_participation"
         ],
-        "rule": "Return guaranteed interview only when successful completion of a recognised programme, UCAS declaration and every Birmingham Appendix 1 threshold are verified.",
+        "rule": "Return guaranteed interview only when canonical Step 6 evidence confirms successful completion of a recognised UKWPMED programme and every Birmingham Appendix 1 threshold is verified.",
         "decision_outcome_if_not_met": "not_eligible",
         "source_ids": [
           "birmingham_ukwpmed"
@@ -1100,6 +1186,15 @@
       "widening_participation",
       "care_experienced"
     ],
+    "contextual_eligibility": {
+      "evaluator_id": "birmingham_contextual_medicine_a100",
+      "controls_group_routing": true,
+      "activated_applicant_group_ids": [
+        "contextual"
+      ],
+      "evidence_source": "step_6_contextual_profile",
+      "notes": "Birmingham A100 ordinary contextual eligibility is activated only from Step 6 evidence for Free School Meals during secondary education or local-authority care experience. POLAR4 is retained only for the later contextual interview-score component."
+    },
     "criteria": [
       {
         "criterion_id": "free_school_meals",
@@ -1135,19 +1230,76 @@
     ],
     "guaranteed_interview_rules": [
       {
+        "rule_id": "pathways_to_birmingham_routes_to_the_professions_medicine",
+        "route": "pathways_to_birmingham",
+        "separate_from_contextual_scored_route": true,
+        "separate_from_ukwpmed_route": true,
+        "programme_evidence": {
+          "evidence_path": "contextual_profile.access_programmes.ukwpmed",
+          "programme_id": "birmingham_pathways_to_birmingham_medicine",
+          "accepted_programme_statuses": [
+            "completed"
+          ],
+          "completion_status_limitation": "Step 6 currently models completed, not successfully_completed. For Step 4A, completed is treated as the closest canonical evidence for completed/satisfactory R2P Medicine participation."
+        },
+        "pathways_academic_criteria": {
+          "minimum_gcse_count": 7,
+          "minimum_gcse_grade": "4",
+          "named_subject_grade_profile": {
+            "subjects": [
+              "English Language",
+              "Mathematics",
+              "Chemistry",
+              "Biology or Double Award Science"
+            ],
+            "grades_in_any_order": [
+              "7",
+              "7",
+              "5",
+              "5"
+            ]
+          },
+          "ucat_must_be_taken": true,
+          "ucat_threshold_required": false,
+          "predicted_a_level_profile": [
+            "B",
+            "B",
+            "B"
+          ],
+          "required_a_level_subject_ids": [
+            "chemistry"
+          ],
+          "second_science_any_of_subject_ids": [
+            "biology",
+            "physics",
+            "mathematics"
+          ],
+          "source_policy_note": "The Routes to the Professions Medicine page specifies Chemistry plus a second science from Biology, Physics or Maths. This narrower official R2P Medicine stream rule is used for Pathways rather than the broader standard A100 Human Biology wording."
+        },
+        "decision_outcome_when_all_met": "eligible",
+        "interview_outcome_when_all_met": "guaranteed_interview",
+        "decision_outcome_if_threshold_not_met": "ordinary_route_selection_continues",
+        "unknown_or_uncompleted_status": "ordinary_route_selection_continues",
+        "alternative_offer": "AAB",
+        "source_ids": [
+          "birmingham_routes_to_the_professions",
+          "birmingham_pathways_to_birmingham_eligibility"
+        ]
+      },
+      {
         "rule_id": "ukwpmed_birmingham_appendix_1",
         "route": "ukwpmed_guaranteed_interview",
         "separate_from_contextual_scored_route": true,
-        "recognised_programmes": [
-          "Routes to the Professions: Medicine \u2014 Birmingham",
-          "BrightMed \u2014 Brighton & Sussex",
-          "Pathways to Medicine \u2014 Hull York",
-          "Steps2Medicine \u2014 Keele",
-          "Manchester Access Programme / Preston Widening Access Programme \u2014 Manchester",
-          "Peninsula Pathways \u2014 Plymouth"
-        ],
+        "programme_evidence": {
+          "evidence_path": "contextual_profile.access_programmes.ukwpmed",
+          "scheme_id": "ukwpmed",
+          "recognised_by_university_id": "birmingham-a100",
+          "accepted_programme_statuses": [
+            "completed"
+          ],
+          "recognition_source": "shared_ukwpmed_programme_registry"
+        },
         "completion_required": true,
-        "ucas_extra_activities_declaration_required": true,
         "appendix_1": {
           "minimum_gcse_count": 7,
           "minimum_gcse_grade": "4",
@@ -1181,9 +1333,13 @@
         "decision_outcome_when_all_met": "eligible",
         "interview_outcome_when_all_met": "guaranteed_interview",
         "decision_outcome_if_threshold_not_met": "not_eligible",
-        "unknown_or_undeclared_status": "manual_review",
+        "unknown_or_uncompleted_programme_status": "ordinary_route_selection_continues_or_manual_review_if_wp_status_is_unresolved",
         "reduced_offer": "ABB",
         "reduced_offer_cycle_warning": "Subject to annual change.",
+        "post_offer_conditions": {
+          "firm_choice_condition_recorded_as_policy_metadata_only": true,
+          "runtime_application_stage_gate": false
+        },
         "source_ids": [
           "birmingham_ukwpmed"
         ]
@@ -1192,6 +1348,29 @@
     "notes": "Do not infer contextual or UKWPMED status. UKWPMED is a separate guaranteed-interview pathway, not the scored contextual route."
   },
   "ranking_pools": [
+    {
+      "pool_id": "pathways_to_birmingham",
+      "name": "Pathways to Birmingham guaranteed-interview pathway",
+      "applies_to_group_ids": [
+        "widening_participation"
+      ],
+      "fee_statuses": [
+        "home"
+      ],
+      "ranking_model": "direct_interview_if_minimum_met",
+      "ranking_factors": [
+        "Verified completed Routes to the Professions Medicine programme evidence from Step 6",
+        "Pathways Medicine GCSE criteria",
+        "Pathways Medicine A-level predicted or final academic criteria",
+        "UCAT taken"
+      ],
+      "places_available": null,
+      "source_ids": [
+        "birmingham_routes_to_the_professions",
+        "birmingham_pathways_to_birmingham_eligibility"
+      ],
+      "notes": "No UCAT threshold is inferred. This route bypasses ordinary Birmingham numerical ranking when all Pathways gates are met."
+    },
     {
       "pool_id": "home_standard_and_contextual_scored",
       "name": "Home standard and contextual scored selection",
@@ -1226,8 +1405,7 @@
       ],
       "ranking_model": "direct_interview_if_minimum_met",
       "ranking_factors": [
-        "Verified programme completion",
-        "Verified UCAS declaration",
+        "Canonical Step 6 recognised programme completion",
         "Birmingham Appendix 1 academic and UCAT-taking thresholds"
       ],
       "places_available": null,
@@ -1375,6 +1553,7 @@
     },
     "contextual_offer": {
       "home_contextual_scored": "AAA",
+      "pathways_to_birmingham": "AAB",
       "ukwpmed": "ABB",
       "ukwpmed_warning": "Subject to annual change."
     },
@@ -1538,6 +1717,37 @@
       "confidence": "High",
       "evidence_classification": "official_statistics_historical_guidance",
       "notes": "Official 2025-entry statistics. Historical values are non-executable guidance."
+    },
+    {
+      "source_id": "birmingham_pathways_to_birmingham_eligibility",
+      "title": "Pathways to Birmingham eligibility criteria",
+      "url": "https://www.birmingham.ac.uk/study/undergraduate/apply/pathways-to-birmingham/eligibility-criteria",
+      "source_type": "official_widening_participation_pathway",
+      "published_date": null,
+      "accessed_date": "2026-08-13",
+      "applies_to_sections": [
+        "stage_1_eligibility",
+        "contextual_admissions"
+      ],
+      "confidence": "High",
+      "notes": "Official Pathways to Birmingham eligibility criteria. Used only to document the programme evidence route; the Step 4A runtime trigger uses the canonical completed Step 6 programme record rather than re-asking these eligibility questions."
+    },
+    {
+      "source_id": "birmingham_routes_to_the_professions",
+      "title": "Routes to the Professions",
+      "url": "https://www.birmingham.ac.uk/study/undergraduate/apply/pathways-to-birmingham/routes-to-the-professions",
+      "source_type": "official_widening_participation_pathway",
+      "published_date": null,
+      "accessed_date": "2026-08-13",
+      "applies_to_sections": [
+        "stage_1_eligibility",
+        "stage_2_interview_selection",
+        "contextual_admissions",
+        "ranking_pools",
+        "offer_selection"
+      ],
+      "confidence": "High",
+      "notes": "Official R2P Medicine stream criteria. Used for the Pathways to Birmingham Medicine route: seven GCSEs with named subjects at 7755 in any order, Chemistry plus a second science from Biology, Physics or Maths, completion-triggered guaranteed interview for Medicine when academic criteria are met, and the Pathways alternative offer."
     },
     {
       "source_id": "birmingham_ukwpmed",

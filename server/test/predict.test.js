@@ -1207,18 +1207,24 @@ async function main() {
       console.log('PASS: prediction API propagates university metadata selection_approach_display into result cards');
     }
 
-    // Birmingham's UKWPMED guaranteed-interview override is computed by the
-    // classifier (classification.interview_outcome === 'guaranteed_interview')
-    // but was previously dropped before reaching the result card. A verified
-    // UKWPMED completer must see a guaranteed-interview explanation, not the
-    // generic insufficient_evidence message.
+    // Birmingham's canonical Step 6 UKWPMED guaranteed-interview override is
+    // computed by the classifier (classification.interview_outcome ===
+    // 'guaranteed_interview') but was previously dropped before reaching the
+    // result card. A verified UKWPMED completer must see a guaranteed-interview
+    // explanation, not the generic insufficient_evidence message.
     if (readyEntries.some((u) => u.id === 'birmingham-a100')) {
       const ukwpmedProfile = JSON.parse(JSON.stringify(topTierApplicant));
-      ukwpmedProfile.qualification_route = 'ukwpmed';
-      ukwpmedProfile.ukwpmed = {
-        programme: 'Routes to the Professions: Medicine — Birmingham',
-        successfully_completed: true,
-        declared_in_ucas_extra_activities: true
+      ukwpmedProfile.contextual_profile = {
+        ...(ukwpmedProfile.contextual_profile || {}),
+        access_programmes: {
+          ...(ukwpmedProfile.contextual_profile?.access_programmes || {}),
+          ukwpmed: {
+            status: 'yes',
+            programme_id: 'keele_steps2medicine',
+            programme_status: 'completed',
+            provider_university_id: 'keele-a100'
+          }
+        }
       };
       const ukwpmedResponse = await requestJson(server, 'POST', '/api/predict', {
         universityIds: ['birmingham-a100'],

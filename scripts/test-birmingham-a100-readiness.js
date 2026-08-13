@@ -4,14 +4,22 @@ const assert = require('assert');
 const fs = require('fs');
 const path = require('path');
 const {
+  evaluateContextualEligibility,
   evaluateCourseEligibility
 } = require('../assets/js/engine/eligibility-evaluator');
 const {
   classifyInterviewBand
 } = require('../assets/js/engine/interview-band-classifier');
 const {
+  buildAlternativeAcademicOffer
+} = require('../assets/js/engine/result-card-presenter');
+const {
   resolveUcatDecile
 } = require('../assets/js/engine/ucat-decile-service');
+const {
+  getRecognisedUkwpmedProgramme,
+  isUkwpmedRecognisedByMedicalSchool
+} = require('../assets/js/engine/contextual-profile-registry');
 
 const rootDir = path.resolve(__dirname, '..');
 const readJson = (relativePath) => JSON.parse(
@@ -57,6 +65,24 @@ function normaliseId(value) {
     .toLowerCase()
     .replace(/[^a-z0-9]+/g, '_')
     .replace(/^_|_$/g, '');
+}
+
+function normaliseBirminghamPolar4Quintile(value) {
+  const normalised = normaliseId(value);
+  if (['q1', 'quintile_1', 'quintile1', '1'].includes(normalised)) return 'Q1';
+  if (['q2', 'quintile_2', 'quintile2', '2'].includes(normalised)) return 'Q2';
+  if (['q3', 'quintile_3', 'quintile3', '3'].includes(normalised)) return 'Q3';
+  if (['q4', 'quintile_4', 'quintile4', '4'].includes(normalised)) return 'Q4';
+  if (['q5', 'quintile_5', 'quintile5', '5'].includes(normalised)) return 'Q5';
+  return null;
+}
+
+function resolveBirminghamPolar4Quintile(applicant = {}) {
+  return normaliseBirminghamPolar4Quintile(
+    applicant.contextual_profile?.home_area_region?.polar4_quintile
+  ) || normaliseBirminghamPolar4Quintile(
+    applicant.applicant_identity?.polar4_quintile
+  );
 }
 
 const GCSE_RANK = {
@@ -120,6 +146,45 @@ function subjectMap(subjects = []) {
     normaliseId(subject.subject_id),
     subject.predicted_grade ?? subject.achieved_grade ?? subject.grade
   ]));
+}
+
+function qualificationStatusFromSubjects(subjects = []) {
+  const entries = subjects.filter((subject) => subject?.subject_id);
+  if (entries.length === 0) {
+    return 'unknown';
+  }
+  const achievedCount = entries.filter((subject) =>
+    subject.achieved_grade !== null &&
+      subject.achieved_grade !== undefined &&
+      subject.achieved_grade !== ''
+  ).length;
+  const predictedCount = entries.filter((subject) =>
+    subject.predicted_grade !== null &&
+      subject.predicted_grade !== undefined &&
+      subject.predicted_grade !== ''
+  ).length;
+
+  if (achievedCount === entries.length && predictedCount === 0) {
+    return 'achieved';
+  }
+  if (predictedCount > 0 && achievedCount === 0) {
+    return 'predicted';
+  }
+  return 'mixed_or_unclear';
+}
+
+function aLevelProfileForStatus(requirement, applicant) {
+  const status = qualificationStatusFromSubjects(applicant.a_level_profile?.subjects || []);
+  if (status === 'predicted' && Array.isArray(requirement.predicted_minimum_profile)) {
+    return requirement.predicted_minimum_profile;
+  }
+  if (status === 'achieved' && Array.isArray(requirement.offer_grade_profile)) {
+    return requirement.offer_grade_profile;
+  }
+  return requirement.grade_profile ||
+    requirement.predicted_minimum_profile ||
+    requirement.offer_grade_profile ||
+    [];
 }
 
 function parseDualGrade(value) {
@@ -262,7 +327,7 @@ function evaluateALevel(applicant, contextual, international = false) {
   }
   if (!profileMeets(
     Object.values(subjects),
-    required.predicted_minimum_profile,
+    aLevelProfileForStatus(required, applicant),
     A_LEVEL_RANK
   )) {
     return outcome('not_eligible', 'a_level_grade_profile_not_met');
@@ -336,7 +401,7 @@ function scoreHomeApplicant(applicant, contextual) {
     .find((component) => component.component_id === 'contextual_component');
   const contextualPoints = contextual
     ? contextualModel.points_by_quintile[
-        applicant.applicant_identity?.polar4_quintile
+        resolveBirminghamPolar4Quintile(applicant)
       ]
     : 0;
   if (!Number.isFinite(contextualPoints)) {
@@ -358,13 +423,24 @@ function scoreHomeApplicant(applicant, contextual) {
 }
 
 function evaluateUkWpMed(applicant) {
-  const rule = profile.contextual_admissions.guaranteed_interview_rules[0];
-  const wp = applicant.ukwpmed || {};
-  if (!rule.recognised_programmes.includes(wp.programme) || wp.successfully_completed !== true) {
+  const rule = profile.contextual_admissions.guaranteed_interview_rules.find(
+    (candidate) => candidate.route === 'ukwpmed_guaranteed_interview'
+  );
+  const wp = applicant.contextual_profile?.access_programmes?.ukwpmed || {};
+  const programmeId = normaliseId(wp.programme_id);
+  const programme = getRecognisedUkwpmedProgramme(programmeId);
+  const acceptedStatuses = (rule.programme_evidence?.accepted_programme_statuses || ['completed'])
+    .map(normaliseId);
+  const completed =
+    Boolean(programme) &&
+    isUkwpmedRecognisedByMedicalSchool(
+      rule.programme_evidence?.recognised_by_university_id || profile.profile_id,
+      programme.programme_id
+    ) &&
+    acceptedStatuses.includes(normaliseId(wp.programme_status || wp.status));
+
+  if (!completed) {
     return outcome('not_eligible', 'ukwpmed_completion_not_verified');
-  }
-  if (wp.declared_in_ucas_extra_activities !== true) {
-    return outcome('not_eligible', 'ukwpmed_declaration_missing');
   }
   const appendix = rule.appendix_1;
   const gcse = applicant.gcse_profile?.subjects || {};
@@ -377,6 +453,15 @@ function evaluateUkWpMed(applicant) {
   ];
   const requiredNamed = appendix.named_subject_grade_profile.grades_in_any_order;
   const aLevels = subjectMap(applicant.a_level_profile?.subjects);
+  const aLevelRoute = profile.stage_1_eligibility.post_16.a_level.routed_offer_routes
+    .find((route) => route.requirement_id === 'ukwpmed_birmingham_appendix_1') || {};
+  const requiredALevelProfile = aLevelProfileForStatus(
+    {
+      ...aLevelRoute,
+      predicted_minimum_profile: appendix.predicted_a_level_profile
+    },
+    applicant
+  );
   const thresholdsMet =
     allGcseGrades.length >= appendix.minimum_gcse_count &&
     allGcseGrades.every((grade) => gradeMeets(grade, appendix.minimum_gcse_grade, GCSE_RANK)) &&
@@ -385,7 +470,7 @@ function evaluateUkWpMed(applicant) {
     applicant.admissions_tests?.ucat?.taken === true &&
     profileMeets(
       Object.values(aLevels),
-      appendix.predicted_a_level_profile,
+      requiredALevelProfile,
       A_LEVEL_RANK
     ) &&
     aLevels.chemistry !== undefined &&
@@ -590,8 +675,11 @@ function evaluateApplicant(applicant) {
   if (blockedRoutes.includes(route)) {
     return outcome('not_eligible', 'blocked_qualification_route');
   }
-  if (route === 'ukwpmed') {
+  if (applicant.contextual_profile?.access_programmes?.ukwpmed?.programme_id) {
     return evaluateUkWpMed(applicant);
+  }
+  if (route === 'ukwpmed') {
+    return outcome('manual_review', 'legacy_ukwpmed_route_retired_use_step_6_programme_evidence');
   }
   if (applicant.applicant_identity?.fee_status === 'International') {
     return evaluateInternational(applicant);
@@ -625,7 +713,7 @@ function evaluateApplicant(applicant) {
     return outcome('manual_review', 'unrepresented_qualification_route');
   }
 
-  const contextual = applicant.applicant_identity?.contextual === true;
+  const contextual = evaluateContextualEligibility(profile, applicant)?.is_contextual === true;
   const gcse = evaluateGcse(applicant);
   if (gcse.status) {
     return gcse;
@@ -800,6 +888,18 @@ const sharedIntegrationCases = [
     expected_excluded_applicant_groups: ['contextual']
   },
   {
+    case_id: 'shared_contextual_status_with_supported_polar4_remains_standard',
+    applicant: merge(fixture.base_applicants.home_standard, {
+      contextual_profile: {
+        home_area_region: {
+          polar4_quintile: 'q2'
+        }
+      }
+    }),
+    expected_status: 'eligible',
+    expected_excluded_applicant_groups: ['contextual']
+  },
+  {
     case_id: 'shared_ucat_required',
     applicant: merge(fixture.base_applicants.home_standard, {
       admissions_tests: {
@@ -878,6 +978,312 @@ for (const integrationCase of sharedIntegrationCases) {
   }
 }
 
+function aLevelSubjects(grades, gradeField = 'predicted_grade', secondScience = 'biology') {
+  return [
+    {
+      subject_id: 'chemistry',
+      [gradeField]: grades[0]
+    },
+    {
+      subject_id: secondScience,
+      [gradeField]: grades[1]
+    },
+    {
+      subject_id: 'history',
+      [gradeField]: grades[2]
+    }
+  ];
+}
+
+function pathwaysProgramme(status = 'completed') {
+  return {
+    access_programmes: {
+      ukwpmed: {
+        status: 'yes',
+        programme_id: 'birmingham_pathways_to_birmingham_medicine',
+        programme_status: status,
+        provider_university_id: 'birmingham-a100'
+      }
+    }
+  };
+}
+
+const pathwaysApplicant = merge(fixture.base_applicants.home_standard, {
+  gcse_profile: {
+    subjects: {
+      english_language: '5',
+      mathematics: '5',
+      chemistry: '7',
+      biology: '7',
+      english_literature: '4',
+      history: '4',
+      geography: '4'
+    }
+  },
+  a_level_profile: {
+    subjects: aLevelSubjects(['B', 'B', 'B'])
+  },
+  contextual_profile: pathwaysProgramme('completed')
+});
+
+const pathwaysEligibility = evaluateCourseEligibility(profile, clone(pathwaysApplicant));
+assert.strictEqual(pathwaysEligibility.status, 'eligible', 'Pathways completed + BBB eligibility');
+assert.strictEqual(
+  pathwaysEligibility.selection_route_id,
+  'pathways_to_birmingham',
+  'Pathways route id'
+);
+assert.strictEqual(
+  pathwaysEligibility.academic_pathway_id,
+  'pathways_to_birmingham_a_level',
+  'Pathways academic route id'
+);
+assert.strictEqual(
+  pathwaysEligibility.guaranteed_interview,
+  true,
+  'Pathways completed + BBB guaranteed interview'
+);
+assert.ok(
+  !pathwaysEligibility.applicant_group_ids.includes('contextual'),
+  'Pathways alone must not activate ordinary Birmingham contextual status'
+);
+
+const pathwaysOffer = buildAlternativeAcademicOffer(
+  profile.stage_1_eligibility,
+  pathwaysEligibility
+);
+assert.deepStrictEqual(
+  {
+    standard_offer: pathwaysOffer.standard_offer,
+    alternative_offer: pathwaysOffer.alternative_offer,
+    pathway_id: pathwaysOffer.pathway_id
+  },
+  {
+    standard_offer: 'A*AA',
+    alternative_offer: 'AAB',
+    pathway_id: 'pathways_to_birmingham_a_level'
+  },
+  'Pathways routed offer must be AAB'
+);
+
+for (const status of ['offered', 'participating', 'not_sure']) {
+  const result = evaluateCourseEligibility(
+    profile,
+    merge(pathwaysApplicant, {
+      contextual_profile: pathwaysProgramme(status)
+    })
+  );
+  assert.notStrictEqual(
+    result.selection_route_id,
+    'pathways_to_birmingham',
+    `Pathways status ${status} must not activate the Pathways route`
+  );
+  assert.strictEqual(
+    result.status,
+    'not_eligible',
+    `Pathways status ${status} must fall back to ordinary Birmingham gates`
+  );
+}
+
+const pathwaysWithFsm = merge(pathwaysApplicant, {
+  contextual_profile: {
+    ...pathwaysProgramme('completed'),
+    financial_support: {
+      free_school_meals: 'yes'
+    },
+    home_area_region: {
+      polar4_quintile: 'q1'
+    }
+  }
+});
+const pathwaysFsmEligibility = evaluateCourseEligibility(profile, clone(pathwaysWithFsm));
+assert.strictEqual(pathwaysFsmEligibility.status, 'eligible', 'Pathways + FSM eligibility');
+assert.strictEqual(
+  pathwaysFsmEligibility.contextual_eligibility.is_contextual,
+  true,
+  'Pathways + FSM must preserve ordinary contextual evidence'
+);
+assert.strictEqual(
+  pathwaysFsmEligibility.selection_route_id,
+  'pathways_to_birmingham',
+  'Pathways + FSM must keep Pathways route precedence'
+);
+
+const pathwaysClassification = classifyInterviewBand(profile, config, clone(pathwaysWithFsm));
+assert.strictEqual(
+  pathwaysClassification.guidance_pool_id,
+  'pathways_to_birmingham',
+  'Pathways classifier pool'
+);
+assert.strictEqual(
+  pathwaysClassification.interview_outcome,
+  'guaranteed_interview',
+  'Pathways classifier interview outcome'
+);
+assert.strictEqual(
+  pathwaysClassification.ranking,
+  null,
+  'Pathways guaranteed route must bypass numerical ranking'
+);
+assert.strictEqual(
+  pathwaysClassification.band_metric,
+  null,
+  'Pathways guaranteed route must not expose a selection-score metric'
+);
+
+const sharedAcademicRoutingCases = [
+  {
+    case_id: 'shared_standard_predicted_aaa_uses_predicted_minimum',
+    applicant: merge(fixture.base_applicants.home_standard, {
+      a_level_profile: {
+        subjects: aLevelSubjects(['A', 'A', 'A'])
+      }
+    }),
+    expected_status: 'eligible',
+    expected_pathway_id: 'home_standard_a_level',
+    expected_required: 'AAA',
+    expected_alternative_offer: null
+  },
+  {
+    case_id: 'shared_standard_predicted_aab_fails_predicted_minimum',
+    applicant: merge(fixture.base_applicants.home_standard, {
+      a_level_profile: {
+        subjects: aLevelSubjects(['A', 'A', 'B'])
+      }
+    }),
+    expected_status: 'not_eligible',
+    expected_required: 'AAA'
+  },
+  {
+    case_id: 'shared_standard_achieved_astar_aa_uses_final_offer',
+    applicant: merge(fixture.base_applicants.home_standard, {
+      a_level_profile: {
+        subjects: aLevelSubjects(['A*', 'A', 'A'], 'achieved_grade')
+      }
+    }),
+    expected_status: 'eligible',
+    expected_pathway_id: 'home_standard_a_level',
+    expected_required: 'A*AA',
+    expected_alternative_offer: null
+  },
+  {
+    case_id: 'shared_standard_achieved_aaa_fails_final_offer',
+    applicant: merge(fixture.base_applicants.home_standard, {
+      a_level_profile: {
+        subjects: aLevelSubjects(['A', 'A', 'A'], 'achieved_grade')
+      }
+    }),
+    expected_status: 'not_eligible',
+    expected_required: 'A*AA'
+  },
+  {
+    case_id: 'shared_contextual_fsm_predicted_aab_uses_predicted_minimum',
+    applicant: merge(fixture.base_applicants.home_standard, {
+      contextual_profile: {
+        financial_support: {
+          free_school_meals: 'yes'
+        }
+      },
+      a_level_profile: {
+        subjects: aLevelSubjects(['A', 'A', 'B'])
+      }
+    }),
+    expected_status: 'eligible',
+    expected_pathway_id: 'home_contextual_a_level',
+    expected_required: 'AAB',
+    expected_alternative_offer: {
+      standard_offer: 'A*AA',
+      alternative_offer: 'AAA'
+    }
+  },
+  {
+    case_id: 'shared_contextual_achieved_aaa_uses_final_offer',
+    applicant: merge(fixture.base_applicants.home_standard, {
+      contextual_profile: {
+        personal_circumstances: {
+          care_experienced: 'yes'
+        }
+      },
+      a_level_profile: {
+        subjects: aLevelSubjects(['A', 'A', 'A'], 'achieved_grade')
+      }
+    }),
+    expected_status: 'eligible',
+    expected_pathway_id: 'home_contextual_a_level',
+    expected_required: 'AAA',
+    expected_alternative_offer: {
+      standard_offer: 'A*AA',
+      alternative_offer: 'AAA'
+    }
+  },
+  {
+    case_id: 'shared_contextual_achieved_aab_fails_final_offer',
+    applicant: merge(fixture.base_applicants.home_standard, {
+      contextual_profile: {
+        financial_support: {
+          free_school_meals: 'yes'
+        }
+      },
+      a_level_profile: {
+        subjects: aLevelSubjects(['A', 'A', 'B'], 'achieved_grade')
+      }
+    }),
+    expected_status: 'not_eligible',
+    expected_required: 'AAA'
+  },
+  {
+    case_id: 'shared_standard_human_biology_second_science_accepted',
+    applicant: merge(fixture.base_applicants.home_standard, {
+      a_level_profile: {
+        subjects: aLevelSubjects(['A', 'A', 'A'], 'predicted_grade', 'human_biology')
+      }
+    }),
+    expected_status: 'eligible',
+    expected_pathway_id: 'home_standard_a_level',
+    expected_required: 'AAA'
+  }
+];
+
+for (const routingCase of sharedAcademicRoutingCases) {
+  const result = evaluateCourseEligibility(profile, clone(routingCase.applicant));
+  assert.strictEqual(
+    result.status,
+    routingCase.expected_status,
+    `${routingCase.case_id}: shared academic routing status; failures=${result.failures.join(',')}`
+  );
+  const routeCheck = result.checks.find((check) => {
+    return (check.check_id || check.check) === (
+      routingCase.expected_pathway_id || 'home_standard_a_level'
+    );
+  }) || result.checks.find((check) => check.required === routingCase.expected_required);
+  assert.ok(routeCheck, `${routingCase.case_id}: expected A-level route check`);
+  assert.strictEqual(
+    routeCheck.required,
+    routingCase.expected_required,
+    `${routingCase.case_id}: routed A-level requirement`
+  );
+  if (routingCase.expected_pathway_id) {
+    assert.strictEqual(
+      result.academic_pathway_id,
+      routingCase.expected_pathway_id,
+      `${routingCase.case_id}: academic pathway id`
+    );
+  }
+  if (Object.hasOwn(routingCase, 'expected_alternative_offer')) {
+    const offer = buildAlternativeAcademicOffer(profile.stage_1_eligibility, result);
+    assert.deepStrictEqual(
+      offer
+        ? {
+            standard_offer: offer.standard_offer,
+            alternative_offer: offer.alternative_offer
+          }
+        : null,
+      routingCase.expected_alternative_offer,
+      `${routingCase.case_id}: result-card academic offer`
+    );
+  }
+}
+
 const sharedClassifierCases = [
   {
     case_id: 'classifier_home_standard',
@@ -889,10 +1295,13 @@ const sharedClassifierCases = [
   {
     case_id: 'classifier_home_contextual_scored',
     applicant: merge(fixture.base_applicants.home_standard, {
-      applicant_identity: {
-        contextual: true,
-        contextual_status_confirmed: true,
-        polar4_quintile: 'Q1'
+      contextual_profile: {
+        home_area_region: {
+          polar4_quintile: 'q1'
+        },
+        financial_support: {
+          free_school_meals: 'yes'
+        }
       }
     }),
     expected_pool: 'home_contextual_scored',
@@ -1113,8 +1522,12 @@ for (const practicalProfile of [
 
 for (const applicant of [
   merge(fixture.base_applicants.ukwpmed, {
-    ukwpmed: {
-      declared_in_ucas_extra_activities: false
+    contextual_profile: {
+      access_programmes: {
+        ukwpmed: {
+          programme_status: 'participating'
+        }
+      }
     }
   }),
   merge(fixture.base_applicants.ukwpmed, {
@@ -1216,10 +1629,13 @@ const contextualBelowThresholdResult = classifyInterviewBand(
   profile,
   config,
   merge(fixture.base_applicants.home_standard, {
-    applicant_identity: {
-      contextual: true,
-      contextual_status_confirmed: true,
-      polar4_quintile: 'Q5'
+    contextual_profile: {
+      home_area_region: {
+        polar4_quintile: 'q5'
+      },
+      personal_circumstances: {
+        care_experienced: 'yes'
+      }
     },
     admissions_tests: {
       ucat: {

@@ -10,6 +10,7 @@ const {
 const { classifyInterviewBand } = require('../../assets/js/engine/interview-band-classifier');
 const cambridgeCourse = require('../../data/universities/cambridge-a100.json');
 const astonCourse = require('../../data/universities/aston-a100.json');
+const birminghamCourse = require('../../data/universities/birmingham-a100.json');
 const cambridgeConfig = require('../../data/interview-band-configs/cambridge-a100.json');
 const cambridgeFixture = require('../../data/fixtures/interview-band-classification/cambridge-a100.json');
 const hullYorkCourse = require('../../data/universities/hull-york-a100.json');
@@ -423,6 +424,145 @@ function alternativeOfferFor(course) {
       `${eligibilityStatus} EPQ summary must not duplicate academic badges`
     );
   }
+}
+
+{
+  const pathwaysSelectionText = birminghamCourse.selection_approach_display.by_selection_route.pathways_to_birmingham;
+  const card = present({
+    interviewBand: null,
+    transparencyContext: {
+      course_identity: { profile_id: 'birmingham-a100' },
+      stage_1_eligibility: birminghamCourse.stage_1_eligibility,
+      stage_2_interview_selection: birminghamCourse.stage_2_interview_selection,
+      selection_approach_display: birminghamCourse.selection_approach_display,
+      selection_route_id: 'pathways_to_birmingham',
+      interview_outcome: 'guaranteed_interview',
+      guaranteed_interview_pool_label: 'Pathways to Birmingham',
+      guaranteed_interview_badge_label: 'Guaranteed interview',
+      applicant_context: {
+        admissions_tests: {
+          ucat: { total_score: 2400, score_scale: 2700, sjt_band: 1 }
+        }
+      }
+    }
+  });
+
+  assert.deepStrictEqual(
+    card.alternative_academic_offer,
+    {
+      type: 'routed_offer',
+      standard_offer: 'A*AA',
+      alternative_offer: 'AAB',
+      pathway_id: 'pathways_to_birmingham_a_level',
+      conditions: []
+    },
+    'Pathways route should expose the routed AAB alternative offer even when only selection_route_id is supplied'
+  );
+  assert.strictEqual(
+    card.selection_approach_display,
+    pathwaysSelectionText,
+    'Pathways guaranteed-interview route should use route-specific selection presentation'
+  );
+  assert.strictEqual(
+    card.decision_transparency.selection_approach_display,
+    pathwaysSelectionText,
+    'decision transparency should carry the resolved Pathways selection presentation'
+  );
+  assert.doesNotMatch(
+    card.selection_approach_display,
+    /published selection score, which combines GCSE performance and UCAT/i,
+    'Pathways route should not display the ordinary Birmingham scored-pool summary'
+  );
+  assert.strictEqual(
+    card.factor_usage.find((entry) => entry.factor_id === 'ucat')?.role,
+    'eligibility',
+    'Pathways guaranteed-interview route should present UCAT as a required eligibility condition, not ranking'
+  );
+  assert.strictEqual(
+    card.decision_transparency.factor_usage.find((entry) => entry.factor_id === 'ucat')?.role,
+    'eligibility',
+    'decision transparency should carry the Pathways UCAT eligibility role'
+  );
+
+  const ukwpmedSelectionText = birminghamCourse.selection_approach_display.by_selection_route.ukwpmed_guaranteed_interview;
+  const ukwpmedCard = present({
+    interviewBand: null,
+    transparencyContext: {
+      course_identity: { profile_id: 'birmingham-a100' },
+      stage_1_eligibility: birminghamCourse.stage_1_eligibility,
+      stage_2_interview_selection: birminghamCourse.stage_2_interview_selection,
+      selection_approach_display: birminghamCourse.selection_approach_display,
+      selection_route_id: 'ukwpmed_guaranteed_interview',
+      academic_pathway: 'ukwpmed',
+      academic_pathway_id: 'ukwpmed_birmingham_appendix_1',
+      guidance_pool: {
+        pool_id: 'ukwpmed_guaranteed_interview',
+        presentation: {
+          pool_label: 'UKWPMED',
+          guaranteed_interview_headline: 'UKWPMED guaranteed interview',
+          guaranteed_interview_explanation: "You meet Birmingham's published UKWPMED guaranteed-interview requirements.",
+          guaranteed_interview_notice: 'You meet the published requirements for the UKWPMED guaranteed-interview route.'
+        }
+      },
+      interview_outcome: 'guaranteed_interview',
+      guaranteed_interview_badge_label: 'Guaranteed interview',
+      applicant_context: {
+        admissions_tests: {
+          ucat: { total_score: 2400, score_scale: 2700, sjt_band: 1 }
+        }
+      }
+    }
+  });
+
+  assert.deepStrictEqual(
+    ukwpmedCard.alternative_academic_offer,
+    {
+      type: 'routed_offer',
+      standard_offer: 'A*AA',
+      alternative_offer: 'ABB',
+      pathway_id: 'ukwpmed',
+      conditions: []
+    },
+    'UKWPMED guaranteed-interview route should expose the configured ABB routed offer'
+  );
+  assert.strictEqual(
+    ukwpmedCard.selection_approach_display,
+    ukwpmedSelectionText,
+    'UKWPMED guaranteed-interview route should use route-specific selection presentation'
+  );
+  assert.doesNotMatch(
+    ukwpmedCard.selection_approach_display,
+    /published selection score, which combines GCSE performance and UCAT/i,
+    'UKWPMED route should not display the ordinary Birmingham scored-pool summary'
+  );
+  assert.match(
+    ukwpmedCard.selection_approach_display,
+    /not ranked using Birmingham's standard GCSE\/UCAT selection score/i,
+    'UKWPMED selection presentation should explain the ordinary ranking bypass'
+  );
+  assert.strictEqual(
+    ukwpmedCard.primary_user_facing_recommendation,
+    'UKWPMED guaranteed interview',
+    'UKWPMED guaranteed-interview route should use the configured collapsed-card heading'
+  );
+  assert.strictEqual(
+    ukwpmedCard.primary_explanation,
+    "You meet Birmingham's published UKWPMED guaranteed-interview requirements.",
+    'UKWPMED guaranteed-interview route should use the configured collapsed-card description'
+  );
+  assert.strictEqual(
+    ukwpmedCard.guaranteed_interview_notice,
+    'You meet the published requirements for the UKWPMED guaranteed-interview route.',
+    'UKWPMED guaranteed-interview route should use the configured detail notice'
+  );
+  assert.strictEqual(
+    ukwpmedCard.decision_transparency.decision_path
+      .find((stage) => stage.stage === 'Selection model')
+      ?.checks.find((entry) => entry.label === 'Applicant pool')
+      ?.summary,
+    'UKWPMED',
+    'UKWPMED guaranteed-interview route should use the configured applicant-pool label'
+  );
 }
 
 {

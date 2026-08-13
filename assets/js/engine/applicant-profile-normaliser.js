@@ -303,23 +303,29 @@ function legacyProgrammesFrom(value) {
   return [];
 }
 
-function normaliseContextualProfile(applicant) {
+function normaliseContextualProfile(applicant, options = {}) {
   const defaults = defaultContextualProfile();
   const existing = asObject(applicant.contextual_profile);
   const identity = asObject(applicant.applicant_identity);
   const flags = asObject(identity.contextual_flags);
+  const projectLegacyContextualCriteriaFlags = options.projectLegacyContextualCriteriaFlags !== false;
+  const projectLegacyAccessProgrammes = options.projectLegacyAccessProgrammes !== false;
   const home = asObject(existing.home_area_region);
   const lookup = asObject(home.postcode_lookup);
   const lookupValues = asObject(lookup.values);
-  const accessInput = existing.access_programmes ?? applicant.access_programmes;
+  const accessInput = existing.access_programmes ?? (
+    projectLegacyAccessProgrammes ? applicant.access_programmes : undefined
+  );
   const access = asObject(accessInput);
   const ukwpmedInput = asObject(access.ukwpmed);
   const legacyProgrammes = legacyProgrammesFrom(accessInput);
   const seenOtherProgrammeIds = new Set();
-  const recognisedLegacyProgrammes = legacyProgrammes.filter((entry) => {
-    const programmeId = asObject(entry).programme_id;
-    return typeof programmeId === 'string' && UKWPMED_PROGRAMME_BY_ID[programmeId];
-  });
+  const recognisedLegacyProgrammes = projectLegacyAccessProgrammes
+    ? legacyProgrammes.filter((entry) => {
+        const programmeId = asObject(entry).programme_id;
+        return typeof programmeId === 'string' && UKWPMED_PROGRAMME_BY_ID[programmeId];
+      })
+    : [];
   const firstLegacyUkwpmed = asObject(recognisedLegacyProgrammes[0]);
   const ukwpmedProgrammeId =
     typeof ukwpmedInput.programme_id === 'string' && ukwpmedInput.programme_id
@@ -428,7 +434,7 @@ function normaliseContextualProfile(applicant) {
     },
     financial_support: {
       ...normaliseAnswerRecord(existing.financial_support, normaliseTriState),
-      ...(flags.free_school_meals === true ? { free_school_meals: 'yes' } : {}),
+      ...(projectLegacyContextualCriteriaFlags && flags.free_school_meals === true ? { free_school_meals: 'yes' } : {}),
       ...(flags.ucat_bursary === true ? { ucat_bursary_recipient: 'yes' } : {})
     },
     school_education: {
@@ -438,7 +444,7 @@ function normaliseContextualProfile(applicant) {
     personal_circumstances: {
       ...defaults.personal_circumstances,
       ...normalisePersonalCircumstancesRecord(existing.personal_circumstances),
-      ...(flags.care_experienced === true ? { care_experienced: 'yes' } : {}),
+      ...(projectLegacyContextualCriteriaFlags && flags.care_experienced === true ? { care_experienced: 'yes' } : {}),
       ...(flags.refugee === true || flags.refugee_or_asylum_seeker === true ? { refugee: 'yes' } : {}),
       ...(flags.asylum_seeker === true ? { seeking_asylum: 'yes' } : {}),
       ...(flags.first_generation_higher_education === true ? { first_in_family_at_university: 'yes' } : {})
@@ -692,11 +698,17 @@ function normaliseApplicantProfile(applicant, options = {}) {
   if (!applicant || typeof applicant !== 'object') {
     throw new TypeError('An applicant profile is required.');
   }
+  const contextualProfileOptions = {
+    ...(options.contextualProfileOptions || {})
+  };
+  if (options.course?.profile_id === 'birmingham-a100') {
+    contextualProfileOptions.projectLegacyAccessProgrammes = false;
+  }
 
   const profile = applicant.a_level_profile
     ? {
         ...applicant,
-        contextual_profile: normaliseContextualProfile(applicant),
+        contextual_profile: normaliseContextualProfile(applicant, contextualProfileOptions),
         a_level_profile: normaliseALevelPracticalEndorsements(
           normaliseALevelSameSittingEvidence(
             applicant.a_level_profile,
@@ -706,7 +718,7 @@ function normaliseApplicantProfile(applicant, options = {}) {
       }
     : {
         ...applicant,
-        contextual_profile: normaliseContextualProfile(applicant)
+        contextual_profile: normaliseContextualProfile(applicant, contextualProfileOptions)
       };
 
   if (!isStandardUndergraduateMedicine(profile, options.course)) {

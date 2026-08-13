@@ -6,6 +6,7 @@ const {
 } = require('./applicant-group-normalisation');
 
 const DEFAULT_UNSUPPORTED_REASON = 'unsupported_contextual_policy';
+const BIRMINGHAM_CONTEXTUAL_EVALUATOR_ID = 'birmingham_contextual_medicine_a100';
 
 function asObject(value) {
   return value && typeof value === 'object' && !Array.isArray(value)
@@ -57,8 +58,8 @@ function collectLegacyDeclarations(applicant = {}) {
   };
 }
 
-function collectContextualEvidence(applicant = {}) {
-  const contextualProfile = normaliseContextualProfile(applicant);
+function collectContextualEvidence(applicant = {}, options = {}) {
+  const contextualProfile = normaliseContextualProfile(applicant, options);
   const home = contextualProfile.home_area_region;
   const access = contextualProfile.access_programmes;
   const partnerSchools = contextualProfile.partner_schools;
@@ -236,6 +237,19 @@ function criteriaForCourse(course = {}) {
   );
 }
 
+function contextualEvidenceOptionsForCourse(course = {}, evaluatorId = null, options = {}) {
+  const evidenceOptions = {
+    ...asObject(options.evidenceOptions)
+  };
+
+  if (course.profile_id === 'birmingham-a100' || evaluatorId === BIRMINGHAM_CONTEXTUAL_EVALUATOR_ID) {
+    evidenceOptions.projectLegacyContextualCriteriaFlags = false;
+    evidenceOptions.projectLegacyAccessProgrammes = false;
+  }
+
+  return evidenceOptions;
+}
+
 function evaluateContextualEligibility(course, applicant, options = {}) {
   if (!course || !applicant) {
     throw new TypeError('course and applicant are required.');
@@ -255,9 +269,14 @@ function evaluateContextualEligibility(course, applicant, options = {}) {
     };
   }
 
-  const evidence = collectContextualEvidence(applicant);
+  const evidenceOptions = contextualEvidenceOptionsForCourse(course, evaluatorId, options);
+  const evidence = collectContextualEvidence(applicant, evidenceOptions);
   const helpers = {
-    collectContextualEvidence,
+    collectContextualEvidence: (candidate = applicant, helperOptions = {}) =>
+      collectContextualEvidence(candidate, {
+        ...evidenceOptions,
+        ...helperOptions
+      }),
     evaluateCriteria,
     evaluateCriterion,
     normaliseId,

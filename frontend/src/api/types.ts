@@ -276,7 +276,7 @@ export interface ResultCard {
   selection_approach_display?: string | null;
   academic_requirement_checks?: AcademicRequirementCheck[];
   alternative_academic_offer?: {
-    type: 'epq' | 'contextual' | 'contextual_epq';
+    type: 'epq' | 'contextual' | 'contextual_epq' | 'routed_offer';
     standard_offer: string;
     alternative_offer: string;
     epq_minimum_grade?: string;
