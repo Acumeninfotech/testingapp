@@ -236,6 +236,8 @@
           },
           {
             "requirement_id": "a_level_widening_access_offer",
+            "pathway_id": "aberdeen_a_level_widening_access_offer",
+            "academic_pathway": "contextual",
             "applies_to_group_ids": [
               "widening_participation"
             ],
@@ -857,6 +859,24 @@
       "abdn_widening_access"
     ],
     "available": true,
+    "contextual_eligibility": {
+      "evaluator_id": "aberdeen_contextual_medicine_a100",
+      "controls_group_routing": true,
+      "applies_to_group_ids": [
+        "home_fee"
+      ],
+      "excluded_group_ids": [
+        "international_fee"
+      ],
+      "activated_applicant_group_ids": [
+        "contextual",
+        "widening_participation",
+        "care_experienced"
+      ],
+      "evidence_source": "step_6_contextual_profile",
+      "manual_review_when_evidence_incomplete": true,
+      "notes": "Aberdeen A100 Home/RUK contextual A-level routing is activated only from Step 6 structured contextual evidence via the shared contextual eligibility framework. Legacy contextual flags or raw applicant-group IDs must not independently unlock the AAB widening-access route."
+    },
     "applies_to_group_ids": [
       "widening_participation",
       "care_experienced"
@@ -1359,7 +1379,7 @@
     "interview_prediction": true,
     "historical_guidance": true,
     "international_prediction": true,
-    "contextual_logic": false,
+    "contextual_logic": true,
     "result_card": true,
     "regression": true,
     "research_completeness": "complete_for_supported_scope_with_documented_gaps",

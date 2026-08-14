@@ -3875,9 +3875,14 @@ function classifyInterviewBand(course, config, applicantInput, options = {}) {
     ? evaluateCourseEligibility(course, applicantInput)
     : null;
   const contextualStatus = courseEligibility?.contextual_eligibility?.status;
+  const preliminaryGroupIds = deriveConfiguredApplicantGroupIds(applicant, classificationConfig);
+  const contextualRoutingPolicy = course.contextual_admissions?.contextual_eligibility || {};
   const contextualEvaluatorControlsGroupRouting =
-    classificationConfig.eligibility?.contextual_evaluator_controls_group_routing === true ||
-    course.contextual_admissions?.contextual_eligibility?.controls_group_routing === true;
+    (
+      classificationConfig.eligibility?.contextual_evaluator_controls_group_routing === true ||
+      contextualRoutingPolicy.controls_group_routing === true
+    ) &&
+    groupRuleApplies(contextualRoutingPolicy, preliminaryGroupIds);
   const useCourseEligibility = birmingham ||
     course.profile_id === 'bristol-a100' ||
     routeUsesCourseEligibility ||
@@ -3889,7 +3894,7 @@ function classifyInterviewBand(course, config, applicantInput, options = {}) {
     : courseEligibility;
   const groupIds = useCourseEligibility
     ? eligibility.applicant_group_ids
-    : deriveConfiguredApplicantGroupIds(applicant, classificationConfig);
+    : preliminaryGroupIds;
   const resolvedEligibility = useCourseEligibility
     ? eligibility
     : evaluateHardFilters(course, classificationConfig, applicant, groupIds);

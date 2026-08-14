@@ -6,6 +6,7 @@ const {
 } = require('./applicant-group-normalisation');
 
 const DEFAULT_UNSUPPORTED_REASON = 'unsupported_contextual_policy';
+const ABERDEEN_CONTEXTUAL_EVALUATOR_ID = 'aberdeen_contextual_medicine_a100';
 const BIRMINGHAM_CONTEXTUAL_EVALUATOR_ID = 'birmingham_contextual_medicine_a100';
 
 function asObject(value) {
@@ -242,7 +243,12 @@ function contextualEvidenceOptionsForCourse(course = {}, evaluatorId = null, opt
     ...asObject(options.evidenceOptions)
   };
 
-  if (course.profile_id === 'birmingham-a100' || evaluatorId === BIRMINGHAM_CONTEXTUAL_EVALUATOR_ID) {
+  if (
+    course.profile_id === 'aberdeen-a100' ||
+    evaluatorId === ABERDEEN_CONTEXTUAL_EVALUATOR_ID ||
+    course.profile_id === 'birmingham-a100' ||
+    evaluatorId === BIRMINGHAM_CONTEXTUAL_EVALUATOR_ID
+  ) {
     evidenceOptions.projectLegacyContextualCriteriaFlags = false;
     evidenceOptions.projectLegacyAccessProgrammes = false;
   }

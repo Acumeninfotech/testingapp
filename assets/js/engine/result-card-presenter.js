@@ -1010,6 +1010,7 @@ const FAILURE_REASON_LABELS = {
   manchester_contextual_or_refugee_care_information_needed: 'ApplySmart needs Manchester postcode/school-context evidence and personal-circumstance confirmation to check whether Manchester’s contextual routes apply.',
   bristol_contextual_baseline_information_needed: 'More information is needed to confirm whether you qualify for Bristol’s contextual offer.',
   bristol_contextual_information_needed: 'More information is needed to confirm whether you qualify for Bristol’s contextual offer.',
+  aberdeen_contextual_information_needed: 'More information is needed to confirm whether you qualify for Aberdeen’s contextual widening-access route.',
   bristol_contextual_imd_postcode_evidence_required: 'More information is needed to verify Bristol IMD eligibility from postcode-derived evidence.',
   bristol_contextual_fsm_secondary_verification_required: 'More information is needed to verify Free School Meals eligibility during secondary education for Bristol contextual assessment.',
   bristol_aspiring_state_school_identifier_or_name_required: 'More information is needed to verify whether your school or college appears on Bristol’s Aspiring State Schools list.',
@@ -1676,6 +1677,13 @@ function filterHistoricalEntriesForApplicant(entries, groupIds = []) {
     return entries;
   }
 
+  const exactGroupMatches = entries.filter((entry) =>
+    historicalEntryMatchesApplicantGroups(entry, groups)
+  );
+  if (exactGroupMatches.length > 0) {
+    return exactGroupMatches;
+  }
+
   const matching = entries.filter((entry) => {
     const feeStatus = String(entry.fee_status || entry.applicant_group_id || '').toLowerCase();
     const anyGroupIds = [
@@ -1693,6 +1701,35 @@ function filterHistoricalEntriesForApplicant(entries, groupIds = []) {
   });
 
   return matching.length > 0 ? matching : entries;
+}
+
+function normaliseHistoricalApplicantGroupId(value) {
+  const groupId = normaliseCheckId(value);
+  if (groupId === 'home') return 'home_fee';
+  if (groupId === 'international') return 'international_fee';
+  return groupId;
+}
+
+function historicalEntryMatchesApplicantGroups(entry = {}, groups = new Set()) {
+  const requiredGroupIds = (Array.isArray(entry.applicant_group_ids) && entry.applicant_group_ids.length > 0
+    ? entry.applicant_group_ids
+    : entry.applies_to_group_ids || []
+  )
+    .map(normaliseHistoricalApplicantGroupId)
+    .filter(Boolean);
+  if (requiredGroupIds.length > 0) {
+    return requiredGroupIds.every((groupId) => groups.has(groupId));
+  }
+
+  const anyGroupIds = (entry.any_group_ids || [])
+    .map(normaliseHistoricalApplicantGroupId)
+    .filter(Boolean);
+  if (anyGroupIds.length > 0) {
+    return anyGroupIds.some((groupId) => groups.has(groupId));
+  }
+
+  const applicantGroupId = normaliseHistoricalApplicantGroupId(entry.applicant_group_id);
+  return Boolean(applicantGroupId) && groups.has(applicantGroupId);
 }
 
 function historicalAdmissionsChecks(historicalAdmissions, groupIds = []) {

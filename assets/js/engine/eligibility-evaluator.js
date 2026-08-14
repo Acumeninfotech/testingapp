@@ -313,20 +313,57 @@ function evaluateCourseContextualEligibility(course, applicant) {
     : null;
 }
 
+const COURSES_WITH_CONTEXTUAL_EVALUATOR_GROUP_CONTROL = [
+  'aberdeen-a100',
+  'bristol-a100',
+  'birmingham-a100'
+];
+
+const ABERDEEN_LEGACY_CONTEXTUAL_GROUP_IDS = [
+  'contextual',
+  'widening_participation',
+  'care_experienced',
+  'simd20',
+  'simd40',
+  'polar4_quintile_1',
+  'polar_quintile_1'
+];
+
+const COURSES_WITH_ACTIVATED_CONTEXTUAL_GROUPS = [
+  'aberdeen-a100',
+  'aston-a100',
+  'imperial-college-london-a100',
+  'manchester-a100',
+  'leicester-a100',
+  'bristol-a100',
+  'birmingham-a100',
+  'east-anglia-a100',
+  'lancaster-a100',
+  'liverpool-a100',
+  'sheffield-a100',
+  'nottingham-a100'
+];
+
 function applyCourseSpecificDerivedApplicantGroups(course, applicant, groupIds, contextualEligibility = null) {
   const groups = new Set(groupIds);
 
   const contextualResult = contextualEligibility || evaluateCourseContextualEligibility(course, applicant);
-  if (['bristol-a100', 'birmingham-a100'].includes(course?.profile_id) && contextualResult) {
+  if (
+    COURSES_WITH_CONTEXTUAL_EVALUATOR_GROUP_CONTROL.includes(course?.profile_id) &&
+    contextualResult
+  ) {
     groups.delete('contextual');
     groups.delete('widening_participation');
+  }
+  if (course?.profile_id === 'aberdeen-a100' && contextualResult) {
+    for (const groupId of ABERDEEN_LEGACY_CONTEXTUAL_GROUP_IDS) {
+      groups.delete(groupId);
+    }
   }
   if (course?.profile_id === 'birmingham-a100' && contextualResult) {
     groups.delete('care_experienced');
   }
-  if (
-    ['aston-a100', 'imperial-college-london-a100', 'manchester-a100', 'leicester-a100', 'bristol-a100', 'birmingham-a100', 'east-anglia-a100', 'lancaster-a100', 'liverpool-a100', 'sheffield-a100', 'nottingham-a100'].includes(course?.profile_id)
-  ) {
+  if (COURSES_WITH_ACTIVATED_CONTEXTUAL_GROUPS.includes(course?.profile_id)) {
     const activatedGroups = contextualResult?.is_contextual === true
       ? contextualResult.activated_applicant_group_ids
       : contextualResult?.provisional_activated_applicant_group_ids;
@@ -2620,6 +2657,7 @@ function evaluateManualReviewTriggers(course, applicant, state) {
     addManualReview(state, 'contextual_wp_status_requires_confirmation');
   }
   if (
+    course?.profile_id !== 'aberdeen-a100' &&
     state.contextual_eligibility?.status === 'information_needed' &&
     state.contextual_eligibility?.manual_review_reason
   ) {
@@ -2631,6 +2669,62 @@ function evaluateManualReviewTriggers(course, applicant, state) {
     } else {
       addManualReview(state, 'repeat_application_policy_not_fully_published');
     }
+  }
+}
+
+function contextualInformationNeededReason(state = {}) {
+  return state.contextual_eligibility?.status === 'information_needed' &&
+    state.contextual_eligibility?.manual_review_reason
+    ? state.contextual_eligibility.manual_review_reason
+    : null;
+}
+
+function unresolvedContextualEligibilityIsAcademicRouteRelevant(course, applicant, state = {}) {
+  if (state.academic_pathway === 'standard' && state.failures.length === 0) {
+    return false;
+  }
+  if (state.academic_pathway === 'contextual') {
+    return true;
+  }
+  if (state.qualification_route !== 'a_level') {
+    return state.failures.length > 0;
+  }
+
+  const routeRules = course.stage_1_eligibility?.post_16?.a_level || {};
+  const contextualRequirements = resolveALevelRequirements(routeRules).filter((requirement) => {
+    return academicPathwayForALevelRequirement(requirement) === 'contextual';
+  });
+  return contextualRequirements.some((requirement) => {
+    const attempt = {
+      ...state,
+      checks: [],
+      failures: [],
+      manual_review_reasons: []
+    };
+    evaluateALevelRequirement(requirement, applicant, attempt, routeRules);
+    return attempt.failures.length === 0;
+  });
+}
+
+function applyContextualInformationNeededReview(course, applicant, state) {
+  if (course?.profile_id !== 'aberdeen-a100') {
+    return;
+  }
+  const reason = contextualInformationNeededReason(state);
+  if (!reason) {
+    return;
+  }
+  if (!unresolvedContextualEligibilityIsAcademicRouteRelevant(course, applicant, state)) {
+    return;
+  }
+
+  addManualReview(state, reason);
+  if (
+    state.qualification_route === 'a_level' &&
+    state.failures.length === 1 &&
+    state.failures.includes('a_level_requirements_not_met')
+  ) {
+    state.failures = [];
   }
 }
 
@@ -2764,8 +2858,10 @@ function evaluateCourseEligibility(course, applicantInput) {
       evaluateGcseRules(course, applicant, state);
     }
     evaluateQualificationRoute(course, applicant, state);
+    applyContextualInformationNeededReview(course, applicant, state);
   } else {
     evaluateQualificationRoute(course, applicant, state);
+    applyContextualInformationNeededReview(course, applicant, state);
   }
 
   evaluateSameSittingRequirement(course, applicant, state);
