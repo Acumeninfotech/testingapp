@@ -3865,7 +3865,13 @@ function classifyInterviewBand(course, config, applicantInput, options = {}) {
   }
 
   const birmingham = isBirminghamProfile(course);
-  const courseEligibility = contextualEvaluatorIdForCourse(course)
+  const qualificationRoute = deriveQualificationRoute(applicant);
+  const courseEligibilityQualificationRoutes =
+    classificationConfig.eligibility?.use_course_eligibility_for_qualification_routes || [];
+  const routeUsesCourseEligibility = courseEligibilityQualificationRoutes
+    .map(normaliseId)
+    .includes(normaliseId(qualificationRoute));
+  const courseEligibility = (contextualEvaluatorIdForCourse(course) || routeUsesCourseEligibility)
     ? evaluateCourseEligibility(course, applicantInput)
     : null;
   const contextualStatus = courseEligibility?.contextual_eligibility?.status;
@@ -3874,6 +3880,7 @@ function classifyInterviewBand(course, config, applicantInput, options = {}) {
     course.contextual_admissions?.contextual_eligibility?.controls_group_routing === true;
   const useCourseEligibility = birmingham ||
     course.profile_id === 'bristol-a100' ||
+    routeUsesCourseEligibility ||
     contextualEvaluatorControlsGroupRouting ||
     courseEligibility?.contextual_eligibility?.is_contextual === true ||
     contextualStatus === 'information_needed';
@@ -4070,6 +4077,17 @@ function classifyInterviewBand(course, config, applicantInput, options = {}) {
     canonical_interview_band: band,
     source_interview_band_id: matchedRule?.source_band_id || matchedRule?.band_id || null,
     result_card_id: matchedRule?.result_card_id || null,
+    matched_band_rule: matchedRule
+      ? {
+          band: matchedRule.band || null,
+          operator: matchedRule.operator || null,
+          value: Number.isFinite(matchedRule.value) ? matchedRule.value : null,
+          min: Number.isFinite(matchedRule.min) ? matchedRule.min : null,
+          max: Number.isFinite(matchedRule.max) ? matchedRule.max : null,
+          evidence_status: matchedRule.evidence_status || null,
+          evidence_classification: matchedRule.evidence_classification || null
+        }
+      : null,
     insufficient_evidence_reason_code: insufficientEvidenceReasonCodeForBand({
       band,
       ranking,

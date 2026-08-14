@@ -109,8 +109,15 @@ export const WIZARD_STEPS: WizardStepConfig[] = getWizardSteps({
 export function getWizardSteps(profile: WizardProfile): WizardStepConfig[] {
   const route = profile.course_target.qualification_route || 'a_level';
   const routeSteps = ROUTE_STEP[route] ?? ROUTE_STEP.a_level;
+  const includeGcseStep = route !== 'scottish';
 
-  const steps: WizardStepConfig[] = [IDENTITY_STEP, ROUTE_SELECT_STEP, GCSE_STEP, ...routeSteps, UCAT_STEP];
+  const steps: WizardStepConfig[] = [
+    IDENTITY_STEP,
+    ROUTE_SELECT_STEP,
+    ...(includeGcseStep ? [GCSE_STEP] : []),
+    ...routeSteps,
+    UCAT_STEP,
+  ];
 
   if (requiresEnglishLanguageEvidence(profile)) {
     steps.push(ENGLISH_LANGUAGE_STEP);

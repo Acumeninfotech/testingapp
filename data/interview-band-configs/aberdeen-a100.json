@@ -13,6 +13,9 @@
     ]
   },
   "eligibility": {
+    "use_course_eligibility_for_qualification_routes": [
+      "scottish"
+    ],
     "international_sjt_policy": {
       "applies_to_group_ids": [
         "international_fee"
@@ -105,6 +108,64 @@
       ]
     },
     {
+      "pool_id": "home_scotland_school_leaver",
+      "priority": 20,
+      "applicant_match": {
+        "all_group_ids": [
+          "home_fee",
+          "scotland_domiciled",
+          "school_leaver"
+        ],
+        "qualification_routes": [
+          "scottish"
+        ],
+        "excluded_group_ids": [
+          "contextual",
+          "widening_participation",
+          "international_fee",
+          "graduate_applicant"
+        ]
+      },
+      "metric": "ucat_total",
+      "comparison_guidance": {
+        "comparison_type": "historical_range",
+        "label": "ApplySmart-derived UCAT prediction bands",
+        "caveat": "Derived from Aberdeen Scottish school-leaver historical lowest and average interviewed UCAT evidence. These are ApplySmart prediction bands, not official Aberdeen-published ranges, thresholds or guarantees."
+      },
+      "band_rules": [
+        {
+          "band": "interview_likely",
+          "operator": "greater_than_or_equal",
+          "value": 2000,
+          "evidence_status": "applysmart_derived",
+          "evidence_classification": "applysmart_interpretation_of_foi_verified_historical_guidance"
+        },
+        {
+          "band": "realistic",
+          "operator": "between_inclusive",
+          "min": 1850,
+          "max": 1999,
+          "evidence_status": "applysmart_derived",
+          "evidence_classification": "applysmart_interpretation_of_foi_verified_historical_guidance"
+        },
+        {
+          "band": "ambitious",
+          "operator": "between_inclusive",
+          "min": 1700,
+          "max": 1849,
+          "evidence_status": "applysmart_derived",
+          "evidence_classification": "applysmart_interpretation_of_foi_verified_historical_guidance"
+        },
+        {
+          "band": "high_risk",
+          "operator": "less_than",
+          "value": 1700,
+          "evidence_status": "applysmart_derived",
+          "evidence_classification": "applysmart_interpretation_of_foi_verified_historical_guidance"
+        }
+      ]
+    },
+    {
       "pool_id": "home_rest_of_uk_school_leaver",
       "priority": 10,
       "applicant_match": {
@@ -112,6 +173,9 @@
           "home_fee",
           "rest_of_uk",
           "school_leaver"
+        ],
+        "excluded_group_ids": [
+          "scotland_domiciled"
         ]
       },
       "metric": "ucat_total",

@@ -257,6 +257,7 @@
         "physics",
         "mathematics",
         "further_mathematics",
+        "english",
         "english_language",
         "english_literature",
         "combined_science",
@@ -449,6 +450,139 @@
         "C",
         "D",
         "E"
+      ]
+    },
+    "national_5_requirement": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/common_rule_object"
+        },
+        {
+          "type": "object",
+          "additionalProperties": true,
+          "properties": {
+            "requirement_id": {
+              "type": "string",
+              "minLength": 1
+            },
+            "minimum_grade": {
+              "type": "string",
+              "minLength": 1
+            },
+            "condition": {
+              "$ref": "#/$defs/nullable_string"
+            },
+            "alternative_subject_ids": {
+              "$ref": "#/$defs/subject_id_array"
+            },
+            "equivalent_subject_ids": {
+              "$ref": "#/$defs/subject_id_array"
+            },
+            "post16_satisfaction": {
+              "type": "object",
+              "additionalProperties": true,
+              "properties": {
+                "allowed": {
+                  "type": "boolean"
+                },
+                "qualification_levels": {
+                  "type": "array",
+                  "items": {
+                    "enum": [
+                      "higher",
+                      "scottish_higher",
+                      "scottish_highers",
+                      "advanced_higher",
+                      "advanced_highers",
+                      "scottish_advanced_higher",
+                      "scottish_advanced_highers"
+                    ]
+                  },
+                  "minItems": 1,
+                  "uniqueItems": true
+                },
+                "subject_ids": {
+                  "$ref": "#/$defs/subject_id_array"
+                },
+                "minimum_grade": {
+                  "type": "string",
+                  "minLength": 1
+                }
+              }
+            },
+            "satisfied_by": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "additionalProperties": true,
+                "properties": {
+                  "qualification_level": {
+                    "type": "string",
+                    "minLength": 1
+                  },
+                  "subject_ids": {
+                    "$ref": "#/$defs/subject_id_array"
+                  },
+                  "minimum_grade": {
+                    "type": "string",
+                    "minLength": 1
+                  }
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "national_5_requirements": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/common_rule_object"
+        },
+        {
+          "type": "object",
+          "additionalProperties": true,
+          "properties": {
+            "minimum_count": {
+              "$ref": "#/$defs/nullable_integer"
+            },
+            "minimum_grade": {
+              "type": "string",
+              "minLength": 1
+            },
+            "minimum_count_grade": {
+              "type": "string",
+              "minLength": 1
+            },
+            "confirmed_mandatory_subject_ids": {
+              "$ref": "#/$defs/subject_id_array"
+            },
+            "grade_requirements": {
+              "type": "array",
+              "items": {
+                "$ref": "#/$defs/national_5_requirement"
+              }
+            },
+            "required_subjects": {
+              "type": "array",
+              "items": {
+                "$ref": "#/$defs/national_5_requirement"
+              }
+            },
+            "conditional_requirements": {
+              "type": "array",
+              "items": {
+                "$ref": "#/$defs/national_5_requirement"
+              }
+            },
+            "conditional_national_5_requirements": {
+              "type": "array",
+              "items": {
+                "$ref": "#/$defs/national_5_requirement"
+              }
+            }
+          }
+        }
       ]
     },
     "epq_alternative_offer_policy": {
@@ -725,7 +859,12 @@
             "resits",
             "english_language",
             "age_or_professional_checks"
-          ]
+          ],
+          "properties": {
+            "national_5": {
+              "$ref": "#/$defs/national_5_requirements"
+            }
+          }
         }
       ]
     },

@@ -541,8 +541,20 @@ export function createEmptyProfile(): WizardProfile {
       epq: { ...DEFAULT_EPQ_QUALIFICATION },
     },
     scottish_profile: {
-      national_5_subjects: [],
-      higher_subjects: [{ subject_id: '', grade: '' }, { subject_id: '', grade: '' }, { subject_id: '', grade: '' }],
+      national_5_subjects: [
+        { subject_id: '', grade: '' },
+        { subject_id: '', grade: '' },
+        { subject_id: '', grade: '' },
+        { subject_id: '', grade: '' },
+        { subject_id: '', grade: '' },
+      ],
+      higher_subjects: [
+        { subject_id: '', grade: '' },
+        { subject_id: '', grade: '' },
+        { subject_id: '', grade: '' },
+        { subject_id: '', grade: '' },
+        { subject_id: '', grade: '' },
+      ],
       advanced_higher_subjects: [{ subject_id: '', grade: '' }, { subject_id: '', grade: '' }],
     },
     ib_profile: {

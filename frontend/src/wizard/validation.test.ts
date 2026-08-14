@@ -466,6 +466,29 @@ describe('validateScottishStep', () => {
     expect(errors.higher_subjects).toBeTruthy();
   });
 
+  it('allows blank optional National 5 rows', () => {
+    const profile = createEmptyProfile();
+    profile.scottish_profile.higher_subjects = [
+      { subject_id: 'chemistry', grade: 'A' },
+      { subject_id: 'biology', grade: 'A' },
+      { subject_id: 'mathematics', grade: 'B' },
+    ];
+
+    expect(validateScottishStep(profile).national_5_subjects).toBeUndefined();
+  });
+
+  it('requires a grade when an optional National 5 subject is entered', () => {
+    const profile = createEmptyProfile();
+    profile.scottish_profile.national_5_subjects[0] = { subject_id: 'english', grade: '' };
+    profile.scottish_profile.higher_subjects = [
+      { subject_id: 'chemistry', grade: 'A' },
+      { subject_id: 'biology', grade: 'A' },
+      { subject_id: 'mathematics', grade: 'B' },
+    ];
+
+    expect(validateScottishStep(profile).national_5_subjects_0_grade).toBeTruthy();
+  });
+
   it('passes with three Highers filled in', () => {
     const profile = createEmptyProfile();
     profile.scottish_profile.higher_subjects = [

@@ -119,7 +119,11 @@ describe('ReviewStep contextual display', () => {
     expectReviewValue(reviewSection('Home area & region'), 'Postcode', 'BS1 1AA');
     expectReviewValue(reviewSection('Home area & region'), 'I live in', 'Not sure');
     expectReviewValue(reviewSection('Home area & region'), 'I live in the following area', 'None of the above');
-    expectReviewValue(reviewSection('Home area & region'), 'I attended school in', 'State school in a Bristol BS or BA postcode area');
+    expectReviewValue(
+      reviewSection('Home area & region'),
+      'I attended school in',
+      'School in a Bristol BS or BA postcode area (does not by itself confirm Bristol Aspiring State School eligibility)',
+    );
     expectReviewValue(reviewSection('Home area & region'), 'POLAR4 quintile', 'Quintile 1Identified from postcode');
     expectReviewValue(reviewSection('Home area & region'), 'TUNDRA quintile', 'Quintile 3');
     expectReviewValue(reviewSection('Financial support'), 'I receive or previously received free school meals', 'Yes');
@@ -167,5 +171,34 @@ describe('ReviewStep contextual display', () => {
       'Age on 1 September of your course-start year',
       '18 or over (legacy answer - please confirm)',
     );
+  });
+});
+
+describe('ReviewStep Scottish display', () => {
+  it('shows entered National 5s alongside Highers and Advanced Highers', () => {
+    const profile = createEmptyProfile();
+    profile.course_target.qualification_route = 'scottish';
+    profile.scottish_profile.national_5_subjects = [
+      { subject_id: 'english', grade: 'A' },
+      { subject_id: 'mathematics', grade: 'B' },
+      { subject_id: '', grade: '' },
+    ];
+    profile.scottish_profile.higher_subjects = [
+      { subject_id: 'chemistry', grade: 'A' },
+      { subject_id: 'biology', grade: 'A' },
+      { subject_id: 'mathematics', grade: 'B' },
+    ];
+    profile.scottish_profile.advanced_higher_subjects = [
+      { subject_id: 'chemistry', grade: 'B' },
+    ];
+
+    render(<ReviewStep profile={profile} updateProfile={() => {}} errors={{}} />);
+
+    const scottish = reviewSection('Scottish qualifications');
+    expect(within(scottish).getByRole('heading', { name: 'National 5s' })).toBeInTheDocument();
+    expectReviewValue(scottish, 'English', 'A');
+    expect(within(scottish).getAllByText('Mathematics')[0].nextElementSibling).toHaveTextContent('B');
+    expect(within(scottish).getByRole('heading', { name: 'Highers' })).toBeInTheDocument();
+    expect(within(scottish).getByRole('heading', { name: 'Advanced Highers' })).toBeInTheDocument();
   });
 });

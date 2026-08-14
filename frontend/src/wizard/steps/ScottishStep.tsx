@@ -1,3 +1,5 @@
+import { useEffect, useState } from 'react';
+
 import { SelectField } from '../components/SelectField';
 import type { ScottishSubject } from '../profileTypes';
 import type { StepProps } from './StepProps';
@@ -12,6 +14,10 @@ const SUBJECT_OPTIONS = [
   { value: 'english', label: 'English' },
   { value: 'other', label: 'Other' },
 ];
+
+function enteredSubjectCount(subjects: ScottishSubject[]) {
+  return subjects.filter((subject) => subject.subject_id || subject.grade).length;
+}
 
 function SubjectGradeList({
   subjects,
@@ -32,8 +38,8 @@ function SubjectGradeList({
         </p>
       )}
       {subjects.map((subject, index) => (
-        <fieldset key={index} className="a-level-subject">
-          <legend>Subject {index + 1}</legend>
+        <fieldset key={index} className="scottish-subject-row">
+          <legend className="sr-only">Subject {index + 1}</legend>
           <SelectField
             id={`${fieldPrefix}_${index}_id`}
             label="Subject"
@@ -55,18 +61,89 @@ function SubjectGradeList({
   );
 }
 
+function ScottishQualificationSection({
+  title,
+  status,
+  subjects,
+  fieldPrefix,
+  errors,
+  defaultOpen = false,
+  onUpdate,
+}: {
+  title: string;
+  status: 'Required' | 'Optional';
+  subjects: ScottishSubject[];
+  fieldPrefix: string;
+  errors: StepProps['errors'];
+  defaultOpen?: boolean;
+  onUpdate: (index: number, subject: ScottishSubject) => void;
+}) {
+  const [isOpen, setIsOpen] = useState(defaultOpen);
+  const enteredCount = enteredSubjectCount(subjects);
+  const enteredSummary = `${enteredCount} entered`;
+  const hasErrors = Boolean(
+    errors[fieldPrefix] || subjects.some((_, index) => errors[`${fieldPrefix}_${index}_grade`]),
+  );
+
+  useEffect(() => {
+    if (hasErrors) {
+      setIsOpen(true);
+    }
+  }, [hasErrors]);
+
+  return (
+    <details
+      className="scottish-qualification-section"
+      open={isOpen}
+      onToggle={(event) => setIsOpen(event.currentTarget.open)}
+    >
+      <summary>
+        <span className="scottish-qualification-title">
+          {title}
+          <span>{status}</span>
+        </span>
+        <span className="scottish-qualification-count" aria-label={enteredSummary}>
+          {enteredSummary}
+        </span>
+      </summary>
+      <div className="scottish-qualification-body">
+        <div className="scottish-subject-grid" aria-label={`${title} subject and grade rows`}>
+          <SubjectGradeList subjects={subjects} fieldPrefix={fieldPrefix} errors={errors} onUpdate={onUpdate} />
+        </div>
+      </div>
+    </details>
+  );
+}
+
 export function ScottishStep({ profile, updateProfile, errors }: StepProps) {
-  const { higher_subjects, advanced_higher_subjects } = profile.scottish_profile;
+  const { national_5_subjects, higher_subjects, advanced_higher_subjects } = profile.scottish_profile;
 
   return (
     <div className="step-grid">
-      <p>Enter your Higher subjects (required) and Advanced Higher subjects (if applicable).</p>
+      <p>Enter your National 5 subjects (if applicable), Higher subjects (required) and Advanced Higher subjects (if applicable).</p>
 
-      <h3>Highers</h3>
-      <SubjectGradeList
+      <ScottishQualificationSection
+        title="National 5s"
+        status="Optional"
+        subjects={national_5_subjects}
+        fieldPrefix="national_5_subjects"
+        errors={errors}
+        onUpdate={(index, subject) =>
+          updateProfile((prev) => {
+            const next = [...prev.scottish_profile.national_5_subjects];
+            next[index] = subject;
+            return { ...prev, scottish_profile: { ...prev.scottish_profile, national_5_subjects: next } };
+          })
+        }
+      />
+
+      <ScottishQualificationSection
+        title="Highers"
+        status="Required"
         subjects={higher_subjects}
         fieldPrefix="higher_subjects"
         errors={errors}
+        defaultOpen
         onUpdate={(index, subject) =>
           updateProfile((prev) => {
             const next = [...prev.scottish_profile.higher_subjects];
@@ -76,8 +153,9 @@ export function ScottishStep({ profile, updateProfile, errors }: StepProps) {
         }
       />
 
-      <h3>Advanced Highers (optional)</h3>
-      <SubjectGradeList
+      <ScottishQualificationSection
+        title="Advanced Highers"
+        status="Optional"
         subjects={advanced_higher_subjects}
         fieldPrefix="advanced_higher_subjects"
         errors={errors}

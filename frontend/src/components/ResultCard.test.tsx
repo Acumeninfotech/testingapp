@@ -1437,6 +1437,81 @@ describe('ResultCard', () => {
     expect(screen.queryByText('Fees')).not.toBeInTheDocument();
   });
 
+  it('presents ApplySmart-derived UCAT bands separately from university historical evidence', () => {
+    render(
+      <ResultCard
+        result={makeResult(
+          {
+            primary_user_facing_recommendation: 'Possible choice for your application',
+            prediction: {
+              result_band: 'realistic',
+              guidance_pool_id: 'home_scotland_school_leaver',
+            },
+            decision_transparency: {
+              decision_path: [
+                {
+                  stage: 'Eligibility',
+                  status: 'Met',
+                  summary: 'You meet the published entry requirements covered by ApplySmart.',
+                  checks: [],
+                },
+                {
+                  stage: 'Historical guidance',
+                  status: 'Guidance available',
+                  summary:
+                    'UCAT: 1950 - within the ApplySmart prediction band of 1850-1999. ApplySmart prediction bands are derived from admissions evidence; they are not university-published ranges, thresholds or guarantees.',
+                  checks: [],
+                },
+              ],
+              ucat_comparison: {
+                comparison_type: 'applysmart_prediction_band',
+                applicant_ucat: 1950,
+                benchmark_min: 1850,
+                benchmark_max: 1999,
+                comparison_operator: 'between_inclusive',
+                benchmark_label: 'ApplySmart prediction band',
+                caveat:
+                  'ApplySmart prediction bands are derived from admissions evidence; they are not university-published ranges, thresholds or guarantees.',
+                evidence_status: 'applysmart_derived',
+                prediction_band: 'realistic',
+                difference_from_benchmark: null,
+                position: 'within',
+                applicant_pool: 'Home Scotland school-leaver applicants',
+                sjt_policy: 'SJT recorded.',
+                sjt_outcome: 'ignored',
+                sjt_summary: 'SJT recorded but not modelled.',
+                applicant_sjt_band: 2,
+                official_ucat_minimum: null,
+              },
+              comparison_metrics: [
+                { label: 'Lowest interviewed UCAT', value: '1700', difference: '+250' },
+                { label: 'Average interviewed UCAT', value: '1970', difference: '-20' },
+              ],
+            },
+          },
+          { universityId: 'aberdeen-a100', university: 'University of Aberdeen' },
+        )}
+      />,
+    );
+
+    expect(screen.getByRole('heading', { name: 'UCAT PREDICTION CONTEXT' })).toBeInTheDocument();
+    const predictionContext = screen.getByLabelText('Prediction Context values');
+    expect(within(predictionContext).getByText('ApplySmart Prediction Band')).toBeInTheDocument();
+    expect(within(predictionContext).getByText('1850-1999')).toBeInTheDocument();
+    expect(within(predictionContext).getByText('Lowest interviewed UCAT')).toBeInTheDocument();
+    expect(within(predictionContext).getByText('Average interviewed UCAT')).toBeInTheDocument();
+    expect(within(predictionContext).getByText('1700')).toBeInTheDocument();
+    expect(within(predictionContext).getByText('1970')).toBeInTheDocument();
+    expect(within(predictionContext).queryByText('Your UCAT')).not.toBeInTheDocument();
+    expect(within(predictionContext).queryByText('Difference')).not.toBeInTheDocument();
+    expect(screen.getAllByText('Your UCAT').length).toBeGreaterThan(0);
+    expect(screen.getByText('Difference')).toBeInTheDocument();
+    expect(screen.getByText('Within prediction band')).toBeInTheDocument();
+    expect(screen.queryByText('Historical UCAT Guide')).not.toBeInTheDocument();
+    expect(screen.queryByText(/historical UCAT range 1850-1999/i)).not.toBeInTheDocument();
+    expect(screen.queryByText('Historical Interview Data · ApplySmart prediction band')).not.toBeInTheDocument();
+  });
+
   it('renders BSMS with simplified applicant-facing wording and no fees section', () => {
     const [result] = predict({
       universityIds: ['brighton-and-sussex-a100'],

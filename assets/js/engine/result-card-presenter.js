@@ -349,6 +349,12 @@ function academicRequirementLabelForCheck(rawCheck, qualificationType) {
   if (checkId === 'a_level_contextual_offer') {
     return 'Contextual A-level grades';
   }
+  if (checkId === 'national_5_requirements' || checkId.includes('national_5')) {
+    return 'National 5s';
+  }
+  if (checkId === 'scottish_post_16_requirements' || checkId.includes('scottish_post_16')) {
+    return 'Scottish Highers';
+  }
   if (checkId === 'a_level_route' || checkId.includes('a_level')) {
     return 'A-level grades';
   }
@@ -2447,10 +2453,12 @@ function publicThresholdGroup(text = '') {
 
 function publicUcatComparisonPhrase(comparison = {}) {
   const comparisonType = comparison.comparison_type || '';
+  const evidenceStatus = comparison.evidence_status || '';
   const labelText = String(comparison.benchmark_label || '').toLowerCase();
   const text = [
     comparison.benchmark_label,
     comparison.caveat,
+    evidenceStatus,
     comparisonType
   ].filter(Boolean).join(' ').toLowerCase();
   const published =
@@ -2460,6 +2468,9 @@ function publicUcatComparisonPhrase(comparison = {}) {
 
   if (comparisonType === 'official_minimum') {
     return 'published UCAT minimum';
+  }
+  if (comparisonType === 'applysmart_prediction_band' || evidenceStatus === 'applysmart_derived') {
+    return 'ApplySmart prediction band';
   }
   if (/historical ucat range|ucat range/.test(labelText) && !/interview/.test(labelText)) {
     return 'historical UCAT range';
@@ -2515,6 +2526,9 @@ function publicComparisonCaveat(comparison = {}) {
   const phrase = publicUcatComparisonPhrase(comparison);
   if (phrase.startsWith('published')) {
     return 'Published thresholds and reference ranges can change between cycles and do not guarantee an interview.';
+  }
+  if (comparison.comparison_type === 'applysmart_prediction_band' || comparison.evidence_status === 'applysmart_derived') {
+    return 'ApplySmart prediction bands are derived from admissions evidence; they are not university-published ranges, thresholds or guarantees.';
   }
   return HISTORICAL_GUIDANCE_CAVEAT;
 }
@@ -3379,7 +3393,7 @@ function historicalSummary(card, state, options = {}) {
   if (selectionScoreText) {
     return `${selectionScoreText} ${HISTORICAL_GUIDANCE_CAVEAT}`;
   }
-  if (['current_guidance', 'historical_range', 'historical_threshold', 'historical_average'].includes(options.ucatComparison?.comparison_type)) {
+  if (['applysmart_prediction_band', 'current_guidance', 'historical_range', 'historical_threshold', 'historical_average'].includes(options.ucatComparison?.comparison_type)) {
     return `${ucatComparisonAssessmentText(options.ucatComparison)} ${publicComparisonCaveat(options.ucatComparison)}`;
   }
 
@@ -3696,13 +3710,57 @@ function buildSjtInterpretation(stage1Eligibility, groupIds = [], applicantConte
   };
 }
 
-function deriveHistoricalBenchmark(guidancePool = {}, scoreModel = {}) {
+function derivedBandBenchmarkFromRule(rule = {}, pool = {}) {
+  if (!rule || rule.evidence_status !== 'applysmart_derived') {
+    return null;
+  }
+
+  if (rule.operator === 'between_inclusive' && Number.isFinite(rule.min) && Number.isFinite(rule.max)) {
+    return {
+      comparison_type: 'applysmart_prediction_band',
+      comparison_operator: rule.operator,
+      benchmark_min: rule.min,
+      benchmark_max: rule.max,
+      benchmark_label: pool.comparison_guidance?.label || null,
+      caveat: pool.comparison_guidance?.caveat || null,
+      evidence_status: rule.evidence_status,
+      evidence_classification: rule.evidence_classification || null,
+      prediction_band: rule.band || null
+    };
+  }
+
+  if (
+    ['greater_than', 'greater_than_or_equal', 'less_than', 'less_than_or_equal'].includes(rule.operator) &&
+    Number.isFinite(rule.value)
+  ) {
+    return {
+      comparison_type: 'applysmart_prediction_band',
+      comparison_operator: rule.operator,
+      benchmark_min: rule.value,
+      benchmark_max: null,
+      benchmark_label: pool.comparison_guidance?.label || null,
+      caveat: pool.comparison_guidance?.caveat || null,
+      evidence_status: rule.evidence_status,
+      evidence_classification: rule.evidence_classification || null,
+      prediction_band: rule.band || null
+    };
+  }
+
+  return null;
+}
+
+function deriveHistoricalBenchmark(guidancePool = {}, scoreModel = {}, matchedBandRule = null) {
   const pool = guidancePool || {};
   const rules = (pool.band_rules || []).filter((rule) =>
     rule.metric === undefined || rule.metric === pool.metric
   );
   if (pool.metric !== 'ucat_total' || rules.length === 0) {
     return { comparison_type: 'ranking_only', benchmark_min: null, benchmark_max: null };
+  }
+
+  const derivedBandBenchmark = derivedBandBenchmarkFromRule(matchedBandRule, pool);
+  if (derivedBandBenchmark) {
+    return derivedBandBenchmark;
   }
 
   if (pool.comparison_guidance?.comparison_type === 'current_guidance') {
@@ -3762,6 +3820,9 @@ function deriveHistoricalBenchmark(guidancePool = {}, scoreModel = {}) {
 
 function positionAgainstBenchmark(applicantUcat, comparison) {
   if (!Number.isFinite(applicantUcat)) return null;
+  if (comparison.comparison_type === 'applysmart_prediction_band') {
+    return 'within';
+  }
   if (comparison.comparison_type === 'historical_range') {
     if (applicantUcat < comparison.benchmark_min) return 'below';
     if (applicantUcat > comparison.benchmark_max) return 'above';
@@ -3787,7 +3848,7 @@ function buildUcatComparison(options = {}) {
   );
   const minimumFailure = (options.eligibilityFailures || [])
     .some((failure) => String(failure).startsWith('minimum_ucat_total_not_met'));
-  const benchmark = deriveHistoricalBenchmark(options.guidancePool, options.scoreModel);
+  const benchmark = deriveHistoricalBenchmark(options.guidancePool, options.scoreModel, options.matchedBandRule);
   const comparison = minimumFailure && officialMinimum
     ? {
       comparison_type: 'official_minimum',
@@ -3819,8 +3880,12 @@ function buildUcatComparison(options = {}) {
     applicant_ucat: Number.isFinite(applicantUcat) ? applicantUcat : null,
     benchmark_min: comparison.benchmark_min,
     benchmark_max: comparison.benchmark_max,
+    comparison_operator: comparison.comparison_operator || null,
     benchmark_label: publicBenchmarkLabel,
     caveat: publicCaveat,
+    evidence_status: comparison.evidence_status || null,
+    evidence_classification: comparison.evidence_classification || null,
+    prediction_band: comparison.prediction_band || null,
     difference_from_benchmark: differenceFromBenchmark,
     position,
     applicant_pool: options.applicantPool ||
@@ -3867,6 +3932,18 @@ function ucatComparisonAssessmentText(comparison) {
       return `UCAT: ${ucat}/2700 - ${Math.abs(difference)} points ${direction} the ${comparisonName} of ${comparison.benchmark_min}/2700.`;
     }
     return `UCAT: ${ucat}/2700 - compared with the ${comparisonName} of ${comparison.benchmark_min}/2700.`;
+  }
+  if (comparison.comparison_type === 'applysmart_prediction_band') {
+    const rangeText = comparison.comparison_operator === 'greater_than_or_equal'
+      ? `${comparison.benchmark_min}+`
+      : comparison.comparison_operator === 'greater_than'
+        ? `>${comparison.benchmark_min}`
+        : comparison.comparison_operator === 'less_than'
+          ? `<${comparison.benchmark_min}`
+          : comparison.comparison_operator === 'less_than_or_equal'
+            ? `<=${comparison.benchmark_min}`
+            : `${comparison.benchmark_min}-${comparison.benchmark_max}`;
+    return `UCAT: ${ucat} - within the ApplySmart prediction band of ${rangeText}.`;
   }
   if (comparison.comparison_type === 'historical_range') {
     const positionText = { above: 'above', within: 'within', below: 'below' }[comparison.position] || 'compared with';
@@ -4056,7 +4133,7 @@ function buildDecisionTimeline(card, options = {}) {
       : selectionScoreThresholdText(selectionScoreComparison) ||
         existingSelectionScoreThresholdText(card);
   const ucatComparisonText =
-    ['current_guidance', 'historical_range', 'historical_threshold', 'historical_average'].includes(options.ucatComparison?.comparison_type)
+    ['applysmart_prediction_band', 'current_guidance', 'historical_range', 'historical_threshold', 'historical_average'].includes(options.ucatComparison?.comparison_type)
       ? ucatComparisonAssessmentText(options.ucatComparison)
       : null;
   const historicalPresentationSummary = presentation.historical_summary || null;
@@ -4303,10 +4380,17 @@ function publicInformationNeededReason({
   );
 }
 
+function contextualEligibilityStatus(context = {}) {
+  return (
+    context.eligibility?.contextual_eligibility?.status ||
+    context.contextual_eligibility?.status ||
+    null
+  );
+}
+
 function normalizeFactorUsage(card, options = {}) {
   const stage1Eligibility = options.stage1Eligibility || card.stage_1_eligibility || null;
   const stage2Selection = options.stage2InterviewSelection || card.stage_2_interview_selection || null;
-  const contextualAdmissions = options.contextualAdmissions || card.contextual_admissions || null;
   const applicantContext = options.applicantContext || card.applicant_context || null;
   const ucat = applicantContext?.admissions_tests?.ucat || null;
   const hasUcatEvidence = Number.isFinite(ucat?.total_score);
@@ -4317,8 +4401,8 @@ function normalizeFactorUsage(card, options = {}) {
   const sjtUsed = stage1Eligibility?.admissions_tests?.sjt?.used === true;
   const sjtGate = stage1Eligibility?.admissions_tests?.sjt?.used_as_gate === true;
   const sjtScored = stage1Eligibility?.admissions_tests?.sjt?.scoring?.used_in_score === true;
-  const contextualAvailable = contextualAdmissions?.available === true || contextualAdmissions?.applies_to_group_ids?.length > 0;
-  const contextualRole = contextualAvailable ? 'contextual' : 'not_used';
+  const contextualConfirmed = contextualEligibilityStatus(card) === 'contextual';
+  const contextualRole = contextualConfirmed ? 'contextual' : 'not_used';
   const ucatEligibility = stage1Eligibility?.admissions_tests?.ucat || {};
   const ucatRankingBypass = ucatRankingBypassApplies({ ...card, ...options });
   const guaranteedInterviewBypass = options.interviewOutcome === 'guaranteed_interview';
@@ -4434,10 +4518,10 @@ function normalizeFactorUsage(card, options = {}) {
       factor_id: 'contextual',
       label: 'Contextual',
       role: contextualRole,
-      detail: contextualAvailable
+      detail: contextualConfirmed
         ? 'Contextual information is used as part of the university’s contextual review.'
         : 'Contextual information is not used for this route.',
-      evidence_status: contextualAvailable ? 'available' : 'not_applicable'
+      evidence_status: contextualConfirmed ? 'available' : 'not_applicable'
     }
   ];
 
@@ -4818,6 +4902,7 @@ function presentResultCard({
 	      stage1Eligibility: transparencyContext.stage_1_eligibility,
 	      bandMetric: transparencyContext.band_metric,
 	      guidancePool: transparencyContext.guidance_pool,
+	      matchedBandRule: transparencyContext.matched_band_rule,
 	      scoreModel: transparencyContext.score_model
 	    })
     : null;
@@ -5076,10 +5161,7 @@ function presentResultCard({
   const contextualStatus =
     display.recommendation_display_state === 'standard' &&
     !suppressContextualStatusForUeaProgrammeRoute &&
-    (
-      transparencyContext.eligibility?.contextual_eligibility?.status === 'contextual' ||
-      transparencyContext.contextual_eligibility?.status === 'contextual'
-    )
+    contextualEligibilityStatus(transparencyContext) === 'contextual'
       ? 'confirmed'
       : null;
   const contextualConfirmation = contextualConfirmationFor(transparencyContext, contextualStatus, {

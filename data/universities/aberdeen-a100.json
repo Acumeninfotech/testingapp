@@ -5,6 +5,7 @@
   "selection_approach_display": {
     "default": "Aberdeen checks eligibility, then scores academic performance and UCAT for interview selection within the relevant competition group.",
     "by_applicant_pool": {
+      "home_scotland_school_leaver": "Aberdeen checks eligibility against Scottish school-leaver requirements, then uses Scottish applicant historical UCAT data for interview guidance.",
       "home_rest_of_uk_school_leaver": "Aberdeen checks eligibility, then scores academic performance and UCAT for interview selection in the Rest of UK school-leaver group.",
       "international": "Aberdeen checks academic and SJT eligibility, then scores academic performance and UCAT for interview selection within the separate International pool."
     }
@@ -135,6 +136,50 @@
       "sitting_policy": "unknown",
       "achieved_or_predicted": "unknown",
       "notes": "Biology and Physics are recommended but not compulsory."
+    },
+    "national_5": {
+      "status": "verified",
+      "source_ids": [
+        "abdn_uk_requirements",
+        "abdn_course_page"
+      ],
+      "minimum_count": null,
+      "grade_requirements": [
+        {
+          "requirement_id": "national_5_english_minimum",
+          "applies_to_group_ids": [
+            "scotland_domiciled"
+          ],
+          "subject_id": "english_language",
+          "alternative_subject_ids": [
+            "english"
+          ],
+          "minimum_grade": "B",
+          "qualification_level": "national_5",
+          "decision_outcome_if_not_met": "not_eligible",
+          "source_ids": [
+            "abdn_uk_requirements",
+            "abdn_course_page"
+          ],
+          "notes": "National 5 English grade B is required for Scottish qualification applicants."
+        },
+        {
+          "requirement_id": "national_5_mathematics_minimum",
+          "applies_to_group_ids": [
+            "scotland_domiciled"
+          ],
+          "subject_id": "mathematics",
+          "minimum_grade": "B",
+          "qualification_level": "national_5",
+          "decision_outcome_if_not_met": "not_eligible",
+          "source_ids": [
+            "abdn_uk_requirements",
+            "abdn_course_page"
+          ],
+          "notes": "National 5 Mathematics grade B is required for Scottish qualification applicants."
+        }
+      ],
+      "notes": "Scottish qualification applicants must have National 5 English and Mathematics at grade B."
     },
     "post_16": {
       "status": "verified",
@@ -326,6 +371,7 @@
       },
       "scottish": {
         "status": "verified",
+        "route_implemented": true,
         "source_ids": [
           "abdn_uk_requirements",
           "abdn_widening_access"
@@ -1039,6 +1085,52 @@
           "abdn_admissions_data"
         ],
         "notes": "Official admissions data page. Entrants listed as TBC at time of access."
+      },
+      {
+        "entry_year": 2026,
+        "applicant_group_id": "scottish_school_leaver",
+        "applicant_group_ids": [
+          "scotland_domiciled",
+          "school_leaver"
+        ],
+        "pool": "lowest interviewed UCAT",
+        "applications": null,
+        "interviews": null,
+        "offers": null,
+        "places": null,
+        "metric": "lowest_interviewed",
+        "display_value": 1700,
+        "ucat_scale": 2700,
+        "lowest_interviewed_ucat": 1700,
+        "average_interviewed_ucat": 1970,
+        "interview_score_cutoff": null,
+        "source_ids": [
+          "abdn_admissions_data"
+        ],
+        "notes": "Official Aberdeen admissions-data page row for Scottish School Leavers. Applicant group is represented by Scotland domicile plus school-leaver status."
+      },
+      {
+        "entry_year": 2026,
+        "applicant_group_id": "scottish_school_leaver",
+        "applicant_group_ids": [
+          "scotland_domiciled",
+          "school_leaver"
+        ],
+        "pool": "average interviewed UCAT",
+        "applications": null,
+        "interviews": null,
+        "offers": null,
+        "places": null,
+        "metric": "average_interviewed",
+        "display_value": 1970,
+        "ucat_scale": 2700,
+        "lowest_interviewed_ucat": 1700,
+        "average_interviewed_ucat": 1970,
+        "interview_score_cutoff": null,
+        "source_ids": [
+          "abdn_admissions_data"
+        ],
+        "notes": "Official Aberdeen admissions-data page row for Scottish School Leavers. Applicant group is represented by Scotland domicile plus school-leaver status."
       },
       {
         "entry_year": 2026,

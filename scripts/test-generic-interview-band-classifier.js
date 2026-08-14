@@ -127,6 +127,32 @@ assert.strictEqual(
   'Cardiff scoring must include mandatory subjects before selecting the remaining best GCSEs.'
 );
 
+const aberdeenCase = loadCase('aberdeen-a100');
+const aberdeenScottishApplicant = readJson(
+  path.join(rootDir, 'data', 'regression-profiles', '13_scottish_home_applicant.json')
+);
+aberdeenScottishApplicant.scottish_profile = {
+  national_5_subjects: aberdeenScottishApplicant.scottish_qualifications.national_5s,
+  higher_subjects: aberdeenScottishApplicant.scottish_qualifications.highers,
+  advanced_higher_subjects: aberdeenScottishApplicant.scottish_qualifications.advanced_highers
+};
+const aberdeenScottishBoundaryCases = [
+  [1950, 'realistic'],
+  [2000, 'interview_likely'],
+  [1849, 'ambitious'],
+  [1699, 'high_risk']
+];
+
+for (const [score, expectedBand] of aberdeenScottishBoundaryCases) {
+  const applicant = clone(aberdeenScottishApplicant);
+  applicant.admissions_tests.ucat.total_score = score;
+  const result = classifyInterviewBand(aberdeenCase.course, aberdeenCase.config, applicant);
+  assert.strictEqual(result.eligibility.status, 'eligible');
+  assert.strictEqual(result.guidance_pool_id, 'home_scotland_school_leaver');
+  assert.strictEqual(result.ranking?.value, score);
+  assert.strictEqual(result.canonical_interview_band, expectedBand);
+}
+
 const liverpoolCase = loadCase('liverpool-a100');
 const liverpoolEightGcse = clone(fixture.applicant);
 liverpoolEightGcse.gcse_profile.additional_subjects =

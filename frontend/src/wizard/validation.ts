@@ -70,8 +70,9 @@ function validateSubjectGradeList(
 
 export function validateScottishStep(profile: WizardProfile): ValidationErrors {
   const errors: ValidationErrors = {};
-  const { higher_subjects, advanced_higher_subjects } = profile.scottish_profile;
+  const { national_5_subjects, higher_subjects, advanced_higher_subjects } = profile.scottish_profile;
 
+  validateSubjectGradeList(national_5_subjects, 0, 'national_5_subjects', errors);
   validateSubjectGradeList(higher_subjects, 3, 'higher_subjects', errors);
   validateSubjectGradeList(advanced_higher_subjects, 0, 'advanced_higher_subjects', errors);
 

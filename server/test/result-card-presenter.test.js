@@ -580,6 +580,11 @@ function alternativeOfferFor(course) {
     'confirmed',
     'contextual applicants should expose a confirmed contextual status for presentation'
   );
+  assert.strictEqual(
+    contextualCard.factor_usage.find((entry) => entry.factor_id === 'contextual')?.role,
+    'contextual',
+    'confirmed contextual applicants should expose contextual as an active selection factor'
+  );
 
   const lancasterContextualCard = present({
     transparencyContext: {
@@ -610,6 +615,9 @@ function alternativeOfferFor(course) {
         contextual_eligibility: {
           status: 'standard'
         }
+      },
+      contextual_admissions: {
+        available: true
       }
     }
   });
@@ -622,6 +630,16 @@ function alternativeOfferFor(course) {
     standardCard.contextual_confirmation,
     null,
     'standard applicants should not expose Lancaster contextual presentation wording'
+  );
+  assert.strictEqual(
+    standardCard.factor_usage.find((entry) => entry.factor_id === 'contextual')?.role,
+    'not_used',
+    'standard applicants should not expose contextual as active just because contextual admissions are available'
+  );
+  assert.strictEqual(
+    standardCard.factor_usage.find((entry) => entry.factor_id === 'contextual')?.evidence_status,
+    'not_applicable',
+    'standard contextual factor usage should remain neutral/not used when contextual eligibility is not confirmed'
   );
 
   const unresolvedCard = present({
@@ -795,8 +813,8 @@ function makeCambridgeSixGcseCard() {
     {
       factor_id: 'contextual',
       label: 'Contextual',
-      role: 'contextual',
-      evidence_status: 'available'
+      role: 'not_used',
+      evidence_status: 'not_applicable'
     }
   ]);
 }
@@ -1105,16 +1123,16 @@ function makeCambridgeSixGcseCard() {
   const card = present({
     transparencyContext: {
       eligibility_checks: [
-        { check: 'national_5_route', passed: true },
-        { check: 'scottish_post_16_route', passed: true },
+        { check: 'national_5_requirements', passed: true },
+        { check: 'scottish_post_16_requirements', passed: true },
         { check: 'graduate_degree_route', passed: true },
         { check: 'resit_pathway', passed: true }
       ]
     }
   });
   assert.deepStrictEqual(publicAcademicChecks(card), [
-    { qualification_type: 'scottish', requirement_type: 'national_5_route', label: 'Scottish Highers', status: 'met' },
-    { qualification_type: 'scottish', requirement_type: 'scottish_post_16_route', label: 'Scottish Highers', status: 'met' },
+    { qualification_type: 'scottish', requirement_type: 'national_5_requirements', label: 'National 5s', status: 'met' },
+    { qualification_type: 'scottish', requirement_type: 'scottish_post_16_requirements', label: 'Scottish Highers', status: 'met' },
     { qualification_type: 'graduate', requirement_type: 'graduate_degree_route', label: 'Graduate Entry', status: 'met' }
   ]);
 }

@@ -118,10 +118,12 @@ function publicThresholdGroup(text = ''): string | null {
 
 function publicUcatComparisonPhrase(comparison?: UcatComparison | null): string {
   const comparisonType = comparison?.comparison_type || '';
+  const evidenceStatus = comparison?.evidence_status || '';
   const labelText = String(comparison?.benchmark_label || '').toLowerCase();
   const text = [
     comparison?.benchmark_label,
     comparison?.caveat,
+    evidenceStatus,
     comparisonType,
   ].filter(Boolean).join(' ').toLowerCase();
   const published =
@@ -130,6 +132,9 @@ function publicUcatComparisonPhrase(comparison?: UcatComparison | null): string 
   const advisory = /advisory|modelled|modeled|applysmart|historical-equivalent|working/.test(text);
 
   if (comparisonType === 'official_minimum') return 'published UCAT minimum';
+  if (comparisonType === 'applysmart_prediction_band' || evidenceStatus === 'applysmart_derived') {
+    return 'ApplySmart prediction band';
+  }
   if (/historical ucat range|ucat range/.test(labelText) && !/interview/.test(labelText)) {
     return 'historical UCAT range';
   }
@@ -155,6 +160,9 @@ function publicComparisonCaveat(comparison?: UcatComparison | null): string {
   const phrase = publicUcatComparisonPhrase(comparison);
   if (phrase.startsWith('published')) {
     return 'Published thresholds and reference ranges can change between cycles and do not guarantee an interview.';
+  }
+  if (comparison?.comparison_type === 'applysmart_prediction_band' || comparison?.evidence_status === 'applysmart_derived') {
+    return 'ApplySmart prediction bands are derived from admissions evidence; they are not university-published ranges, thresholds or guarantees.';
   }
   return 'Historical admissions data provides a benchmark only; it is not a current cut-off or a guarantee of interview.';
 }
@@ -357,10 +365,13 @@ function reliableUcatComparison(
       max: 2700,
       referenceMin: Number(ucatComparison.benchmark_min),
       referenceMax: Number.isFinite(ucatComparison.benchmark_max) ? Number(ucatComparison.benchmark_max) : null,
+      comparisonOperator: ucatComparison.comparison_operator || null,
       label: publicUcatComparisonPhrase(ucatComparison),
       difference:
         ucatComparison.position === 'within'
-          ? 'Within reference range'
+          ? ucatComparison.comparison_type === 'applysmart_prediction_band' || ucatComparison.evidence_status === 'applysmart_derived'
+            ? 'Within prediction band'
+            : 'Within reference range'
           : formatUcatDifference(ucatComparison.difference_from_benchmark, ucatComparison.position) ||
             (selectionMetric?.type === 'ucat' ? formatSelectionMetricDifference(selectionMetric) : null),
       position: ucatComparison.position,
@@ -387,6 +398,10 @@ function reliableUcatComparison(
 }
 
 function comparisonRangeText(comparison: NonNullable<ReturnType<typeof reliableUcatComparison>>): string {
+  if (comparison.comparisonOperator === 'greater_than_or_equal') return `${comparison.referenceMin}+`;
+  if (comparison.comparisonOperator === 'greater_than') return `>${comparison.referenceMin}`;
+  if (comparison.comparisonOperator === 'less_than') return `<${comparison.referenceMin}`;
+  if (comparison.comparisonOperator === 'less_than_or_equal') return `<=${comparison.referenceMin}`;
   return comparison.referenceMax !== null
     ? `${comparison.referenceMin}-${comparison.referenceMax}`
     : String(comparison.referenceMin);
@@ -1100,8 +1115,12 @@ export function ResultCard({ result }: { result: PredictionResult }) {
         renderableHistoricalStage),
   );
   const historicalTitle =
-    typeof transparency?.comparison_metrics_title === 'string' && transparency.comparison_metrics_title.trim()
+    ucatComparison?.comparison_type === 'applysmart_prediction_band'
+      ? 'UCAT PREDICTION CONTEXT'
+      : typeof transparency?.comparison_metrics_title === 'string' && transparency.comparison_metrics_title.trim()
       ? publicText(transparency.comparison_metrics_title)
+      : comparison?.label === 'ApplySmart prediction band'
+        ? 'Prediction Context'
       : primaryAssessmentKind === 'selection-score'
         ? 'Historical Score Context'
         : primaryAssessmentKind === 'ranking-only'
@@ -1109,6 +1128,14 @@ export function ResultCard({ result }: { result: PredictionResult }) {
           : primaryAssessmentKind === 'eligibility-only' && isExplicitEligibilityOnly
             ? 'Eligibility Information'
             : 'Historical Context';
+  const isApplySmartPredictionComparison = ucatComparison?.comparison_type === 'applysmart_prediction_band';
+  const predictionContextRows =
+    isApplySmartPredictionComparison && comparison
+      ? [
+          { label: 'ApplySmart Prediction Band', value: comparisonRangeText(comparison) },
+          ...comparisonMetrics.map((row) => ({ label: row.label, value: row.value })),
+        ]
+      : [];
 
   return (
     <article className={`result-card result-card--${variant}`}>
@@ -1286,28 +1313,57 @@ export function ResultCard({ result }: { result: PredictionResult }) {
 
       {showHistoricalContext && (
         <section className="result-card-section result-card-historical">
-          <SectionHeader title={historicalTitle} subtitle={comparison?.label} icon="history" />
+          <SectionHeader title={historicalTitle} subtitle={isApplySmartPredictionComparison ? null : comparison?.label} icon="history" />
           {primaryAssessmentKind === 'ucat' && comparison ? (
-            <div className="result-card-historical-grid">
-              <div>
-                <span>Historical UCAT Guide</span>
-                <strong>{comparisonRangeText(comparison)}</strong>
-              </div>
-              <div>
-                <span>Your UCAT</span>
-                <strong>{comparison.applicant}</strong>
-              </div>
-              {comparison.difference && (
+            isApplySmartPredictionComparison ? (
+              <div className="result-card-historical-grid result-card-historical-grid--prediction-context">
+                <section className="result-card-prediction-context-block" aria-label="Prediction Context values">
+                  <dl>
+                    {predictionContextRows.map((row, index) => (
+                      <div key={`${row.label}-${index}`}>
+                        <dt>{publicText(row.label)}</dt>
+                        <dd>{publicText(row.value)}</dd>
+                      </div>
+                    ))}
+                  </dl>
+                  <p>
+                    <ResultIcon shape="info" />
+                    {publicText(comparison.caveat)}
+                  </p>
+                </section>
                 <div>
-                  <span>Difference</span>
-                  <strong>{comparison.difference}</strong>
+                  <span>Your UCAT</span>
+                  <strong>{comparison.applicant}</strong>
                 </div>
-              )}
-              <p>
-                <ResultIcon shape="info" />
-                {publicText(comparison.caveat)}
-              </p>
-            </div>
+                {comparison.difference && (
+                  <div>
+                    <span>Difference</span>
+                    <strong>{comparison.difference}</strong>
+                  </div>
+                )}
+              </div>
+            ) : (
+              <div className="result-card-historical-grid">
+                <div>
+                  <span>Historical UCAT Guide</span>
+                  <strong>{comparisonRangeText(comparison)}</strong>
+                </div>
+                <div>
+                  <span>Your UCAT</span>
+                  <strong>{comparison.applicant}</strong>
+                </div>
+                {comparison.difference && (
+                  <div>
+                    <span>Difference</span>
+                    <strong>{comparison.difference}</strong>
+                  </div>
+                )}
+                <p>
+                  <ResultIcon shape="info" />
+                  {publicText(comparison.caveat)}
+                </p>
+              </div>
+            )
           ) : primaryAssessmentKind === 'selection-score' && showSelectionScoreComparison ? (
             <div className="result-card-historical-grid">
               {selectionScoreHistoricalRows.map((row, index) => (

@@ -363,6 +363,109 @@ describe('toStudentProfile identity mapping', () => {
     expect(profile.contextual_profile.personal_circumstances.ukrainian_visa_scheme).toBe('homes_for_ukraine');
   });
 
+  it('seeds five Scottish Higher rows for new profiles', () => {
+    expect(createEmptyProfile().scottish_profile.higher_subjects).toHaveLength(5);
+  });
+
+  it('seeds five optional National 5 rows for new Scottish profiles', () => {
+    expect(createEmptyProfile().scottish_profile.national_5_subjects).toHaveLength(5);
+  });
+
+  it('preserves entered National 5 rows through studentProfile mapping', () => {
+    const profile = createEmptyProfile();
+    profile.course_target.qualification_route = 'scottish';
+    profile.scottish_profile.national_5_subjects = [
+      { subject_id: 'english', grade: 'A' },
+      { subject_id: 'mathematics', grade: 'B' },
+      { subject_id: '', grade: '' },
+    ];
+
+    const studentProfile = toStudentProfile(profile);
+    const scottishProfile = studentProfile.scottish_profile as {
+      national_5_subjects: { subject_id: string; grade: string }[];
+    };
+
+    expect(scottishProfile.national_5_subjects).toEqual([
+      { subject_id: 'english', grade: 'A' },
+      { subject_id: 'mathematics', grade: 'B' },
+    ]);
+  });
+
+  it('pads older stored National 5 rows to five without replacing entries', () => {
+    const profile = normaliseStoredProfile({
+      scottish_profile: {
+        national_5_subjects: [
+          { subject_id: 'english', grade: 'A' },
+          { subject_id: 'mathematics', grade: 'B' },
+        ],
+      },
+    });
+
+    expect(profile.scottish_profile.national_5_subjects).toEqual([
+      { subject_id: 'english', grade: 'A' },
+      { subject_id: 'mathematics', grade: 'B' },
+      { subject_id: '', grade: '' },
+      { subject_id: '', grade: '' },
+      { subject_id: '', grade: '' },
+    ]);
+  });
+
+  it('does not truncate stored National 5 rows beyond five', () => {
+    const national5Subjects = [
+      { subject_id: 'english', grade: 'A' },
+      { subject_id: 'mathematics', grade: 'A' },
+      { subject_id: 'biology', grade: 'A' },
+      { subject_id: 'chemistry', grade: 'A' },
+      { subject_id: 'physics', grade: 'A' },
+      { subject_id: 'history', grade: 'B' },
+    ];
+    const profile = normaliseStoredProfile({
+      scottish_profile: {
+        national_5_subjects: national5Subjects,
+      },
+    });
+
+    expect(profile.scottish_profile.national_5_subjects).toEqual(national5Subjects);
+  });
+
+  it('pads older stored Scottish Higher rows to five without replacing entries', () => {
+    const profile = normaliseStoredProfile({
+      scottish_profile: {
+        higher_subjects: [
+          { subject_id: 'chemistry', grade: 'A' },
+          { subject_id: 'biology', grade: 'B' },
+          { subject_id: 'mathematics', grade: 'A' },
+        ],
+      },
+    });
+
+    expect(profile.scottish_profile.higher_subjects).toEqual([
+      { subject_id: 'chemistry', grade: 'A' },
+      { subject_id: 'biology', grade: 'B' },
+      { subject_id: 'mathematics', grade: 'A' },
+      { subject_id: '', grade: '' },
+      { subject_id: '', grade: '' },
+    ]);
+  });
+
+  it('does not truncate stored Scottish Higher rows beyond five', () => {
+    const higherSubjects = [
+      { subject_id: 'chemistry', grade: 'A' },
+      { subject_id: 'biology', grade: 'A' },
+      { subject_id: 'mathematics', grade: 'A' },
+      { subject_id: 'physics', grade: 'A' },
+      { subject_id: 'english', grade: 'B' },
+      { subject_id: 'history', grade: 'A' },
+    ];
+    const profile = normaliseStoredProfile({
+      scottish_profile: {
+        higher_subjects: higherSubjects,
+      },
+    });
+
+    expect(profile.scottish_profile.higher_subjects).toEqual(higherSubjects);
+  });
+
   it('preserves the canonical legacy broad age value when mapping to studentProfile', () => {
     const profile = createEmptyProfile();
     profile.applicant_identity.age_at_course_start_band = 'age_18_or_over_legacy';

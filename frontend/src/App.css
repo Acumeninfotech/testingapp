@@ -2204,6 +2204,114 @@ main:has(.university-explorer) {
   gap: 1rem;
 }
 
+/* ---------- Scottish qualification rows ---------- */
+
+.scottish-qualification-section {
+  border: 1.5px solid var(--border);
+  border-radius: var(--radius-md);
+  background: var(--surface);
+  box-shadow: var(--shadow-sm);
+  overflow: hidden;
+}
+
+.scottish-qualification-section summary {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 0.9rem 1rem;
+  color: var(--text-h);
+  cursor: pointer;
+  list-style: none;
+}
+
+.scottish-qualification-section summary::-webkit-details-marker {
+  display: none;
+}
+
+.scottish-qualification-section summary::before {
+  content: '+';
+  width: 1.5rem;
+  height: 1.5rem;
+  display: inline-grid;
+  place-items: center;
+  border: 1px solid var(--border);
+  border-radius: 50%;
+  color: var(--green-deep);
+  font-weight: 900;
+  flex: 0 0 auto;
+}
+
+.scottish-qualification-section[open] summary::before {
+  content: '-';
+}
+
+.scottish-qualification-title {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  flex: 1;
+  min-width: 0;
+  font-weight: 800;
+}
+
+.scottish-qualification-title span {
+  padding: 0.2rem 0.5rem;
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  background: var(--neutral-bg);
+  color: var(--text-muted);
+  font-size: 0.72rem;
+  font-weight: 800;
+}
+
+.scottish-qualification-count {
+  flex: 0 0 auto;
+  padding: 0.28rem 0.6rem;
+  border-radius: 999px;
+  background: var(--green-pale);
+  border: 1px solid var(--border);
+  color: var(--green-deep);
+  font-size: 0.78rem;
+  font-weight: 900;
+}
+
+.scottish-qualification-body {
+  padding: 0 1rem 1rem;
+}
+
+.scottish-subject-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 0.65rem;
+}
+
+.scottish-subject-row {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(7rem, 10rem);
+  gap: 0.75rem;
+  align-items: start;
+}
+
+.scottish-subject-row .form-field {
+  gap: 0.3rem;
+}
+
+.scottish-subject-row .form-field label {
+  font-size: 0.78rem;
+  color: var(--text-muted);
+}
+
+.scottish-subject-row .form-field select {
+  min-height: 2.65rem;
+  padding: 0.7rem 2.4rem 0.7rem 0.85rem;
+  font-size: 0.95rem;
+  background-position: right 0.75rem center;
+}
+
 /* ---------- Additional GCSE cards ---------- */
 
 .gcse-additional-subjects {
@@ -3351,6 +3459,55 @@ main:has(.university-explorer) {
 
 .result-card-historical-grid--metrics {
   grid-template-columns: repeat(3, minmax(0, 1fr)) minmax(16rem, 1fr);
+}
+
+.result-card-historical-grid--prediction-context {
+  grid-template-columns: minmax(18rem, 1.45fr) minmax(0, 0.7fr) minmax(0, 0.85fr);
+}
+
+.result-card-prediction-context-block {
+  min-width: 0;
+  padding: 0.9rem 1rem;
+  border-right: 1px solid var(--border);
+  background: rgba(248, 250, 252, 0.72);
+}
+
+.result-card-prediction-context-block dl {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0.85rem;
+  margin: 0;
+}
+
+.result-card-prediction-context-block dl > div {
+  padding: 0;
+  border: 0;
+}
+
+.result-card-prediction-context-block dt {
+  color: #14264d;
+  font-size: 0.78rem;
+  font-weight: 740;
+  line-height: 1.25;
+}
+
+.result-card-prediction-context-block dd {
+  margin: 0.4rem 0 0;
+  color: #07142f;
+  font-size: 1.25rem;
+  font-weight: 860;
+  line-height: 1.05;
+}
+
+.result-card-prediction-context-block p {
+  margin-top: 0.85rem;
+  margin-right: -1rem;
+  margin-bottom: -0.9rem;
+  margin-left: -1rem;
+}
+
+.result-card-historical-grid--prediction-context > div:last-child {
+  border-right: 0;
 }
 
 /* Safe: strong interview likelihood */
@@ -4680,7 +4837,8 @@ main:has(.university-explorer) {
 
   .result-card-summary-grid,
   .result-card-historical-grid,
-  .result-card-historical-grid--metrics {
+  .result-card-historical-grid--metrics,
+  .result-card-historical-grid--prediction-context {
     grid-template-columns: 1fr;
   }
 
@@ -4718,6 +4876,19 @@ main:has(.university-explorer) {
   .result-card-historical-grid div {
     border-right: 0;
     border-bottom: 1px solid var(--border);
+  }
+
+  .result-card-prediction-context-block {
+    border-right: 0;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .result-card-prediction-context-block dl {
+    grid-template-columns: 1fr;
+  }
+
+  .result-card-prediction-context-block dl > div {
+    border-bottom: 0;
   }
 
   .result-card-detail-list {

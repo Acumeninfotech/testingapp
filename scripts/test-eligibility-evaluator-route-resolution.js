@@ -5,6 +5,7 @@ const assert = require('assert');
 const {
   evaluateCourseEligibility
 } = require('../assets/js/engine/eligibility-evaluator');
+const aberdeenCourse = require('../data/universities/aberdeen-a100.json');
 
 function clone(value) {
   return JSON.parse(JSON.stringify(value));
@@ -338,7 +339,24 @@ function baseALevelApplicant(overrides = {}) {
     stage_1_eligibility: {
       national_5: {
         minimum_count: 2,
-        confirmed_mandatory_subject_ids: []
+        grade_requirements: [
+          {
+            requirement_id: 'national_5_english_minimum',
+            subject_id: 'english_language',
+            alternative_subject_ids: ['english'],
+            minimum_grade: 'B'
+          },
+          {
+            requirement_id: 'national_5_biology_or_higher_minimum',
+            subject_id: 'biology',
+            minimum_grade: 'B',
+            post16_satisfaction: {
+              allowed: true,
+              qualification_levels: ['higher', 'advanced_higher'],
+              minimum_grade: 'B'
+            }
+          }
+        ]
       },
       post_16: {
         scottish: {
@@ -377,6 +395,75 @@ function baseALevelApplicant(overrides = {}) {
     }
   );
   assert.strictEqual(result.status, 'eligible', 'valid Scottish route should pass.');
+  const national5Check = result.checks.find((check) => check.check_id === 'national_5_requirements');
+  assert.strictEqual(national5Check.status, 'pass', 'National 5 alternatives and Higher satisfaction should pass.');
+  assert.deepStrictEqual(
+    national5Check.evaluated_requirement_ids,
+    ['national_5_english_minimum', 'national_5_biology_or_higher_minimum'],
+    'National 5 check should report evaluated shared requirement IDs.'
+  );
+}
+
+{
+  const applicant = {
+    profile_id: 'aberdeen-scottish-national-5-valid',
+    qualification_route: 'scottish',
+    applicant_identity: {
+      applicant_type: 'standard_school_leaver',
+      fee_status: 'Home',
+      domicile: 'Scotland',
+      english_language_exempt: true
+    },
+    scottish_profile: {
+      national_5_subjects: [
+        { subject_id: 'english', grade: 'B' },
+        { subject_id: 'mathematics', grade: 'B' }
+      ],
+      higher_subjects: [
+        { subject_id: 'chemistry', grade: 'A' },
+        { subject_id: 'biology', grade: 'A' },
+        { subject_id: 'mathematics', grade: 'A' },
+        { subject_id: 'physics', grade: 'A' },
+        { subject_id: 'english', grade: 'B' }
+      ],
+      advanced_higher_subjects: []
+    },
+    admissions_tests: {
+      ucat: {
+        total_score: 2200,
+        score_scale: 2700,
+        subtests: {
+          verbal_reasoning: 700,
+          decision_making: 750,
+          quantitative_reasoning: 750
+        },
+        sjt_band: 2
+      }
+    }
+  };
+
+  const result = evaluateCourseEligibility(aberdeenCourse, applicant);
+  assert.strictEqual(result.status, 'eligible', 'Aberdeen Scottish applicant with required National 5s should pass.');
+
+  const failedNational5Applicant = merge(applicant, {
+    profile_id: 'aberdeen-scottish-national-5-invalid',
+    scottish_profile: {
+      national_5_subjects: [
+        { subject_id: 'english', grade: 'B' },
+        { subject_id: 'mathematics', grade: 'C' }
+      ]
+    }
+  });
+  const failedResult = evaluateCourseEligibility(aberdeenCourse, failedNational5Applicant);
+  assert.strictEqual(
+    failedResult.status,
+    'not_eligible',
+    'Aberdeen Scottish applicant below the configured National 5 Mathematics minimum should fail.'
+  );
+  assert.ok(
+    failedResult.failures.includes('national_5_requirements_not_met'),
+    'Aberdeen National 5 failure should come from the shared National 5 evaluator.'
+  );
 }
 
 {

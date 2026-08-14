@@ -58,6 +58,7 @@ const FRIENDLY_LABELS: Record<string, string> = {
   fail: 'Fail',
   not_applicable: 'Not applicable',
   english_language: 'English Language',
+  english: 'English',
   yes: 'Yes',
   no: 'No',
   not_sure: 'Not sure',
@@ -393,6 +394,8 @@ export function ReviewStep({ profile }: StepProps) {
 
       {route === 'scottish' && (
         <ReviewSection title="Scottish qualifications">
+          <h3>National 5s</h3>
+          <SubjectGradeSummary subjects={scottish_profile.national_5_subjects} />
           <h3>Highers</h3>
           <SubjectGradeSummary subjects={scottish_profile.higher_subjects} />
           <h3>Advanced Highers</h3>

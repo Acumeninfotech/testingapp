@@ -119,13 +119,18 @@ export interface UcatComparison {
     | 'historical_threshold'
     | 'historical_range'
     | 'historical_average'
+    | 'applysmart_prediction_band'
     | 'current_guidance'
     | 'ranking_only';
   applicant_ucat: number | null;
   benchmark_min: number | null;
   benchmark_max: number | null;
+  comparison_operator?: 'greater_than' | 'greater_than_or_equal' | 'less_than' | 'less_than_or_equal' | 'between_inclusive' | string | null;
   benchmark_label?: string | null;
   caveat?: string | null;
+  evidence_status?: string | null;
+  evidence_classification?: string | null;
+  prediction_band?: string | null;
   difference_from_benchmark: number | null;
   position: 'above' | 'within' | 'below' | null;
   applicant_pool: string | null;

@@ -311,6 +311,7 @@ function publicComparisonLabel(card: PredictionResult['result_card']): string | 
     metricLabel,
     ucatComparison?.benchmark_label,
     ucatComparison?.caveat,
+    ucatComparison?.evidence_status,
     ucatComparison?.comparison_type,
   ]
     .filter(Boolean)
@@ -318,6 +319,9 @@ function publicComparisonLabel(card: PredictionResult['result_card']): string | 
     .toLowerCase();
 
   if (!text.trim()) return null;
+  if (ucatComparison?.comparison_type === 'applysmart_prediction_band' || ucatComparison?.evidence_status === 'applysmart_derived') {
+    return 'ApplySmart prediction band';
+  }
   if (/\bhome\b/.test(text) && /published|official/.test(text) && /threshold|minimum/.test(text)) {
     return 'published Home threshold';
   }
