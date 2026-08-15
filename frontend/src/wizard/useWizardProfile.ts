@@ -302,6 +302,7 @@ function normalisePersonalCircumstances(value: unknown) {
 
 function normaliseQuintile(value: unknown): QuintileValue {
   if (value === 'q1' || value === 'q2' || value === 'q3' || value === 'q4' || value === 'q5') return value;
+  if (value === 'not_applicable') return value;
   if (value === 1 || value === '1') return 'q1';
   if (value === 2 || value === '2') return 'q2';
   if (value === 3 || value === '3') return 'q3';

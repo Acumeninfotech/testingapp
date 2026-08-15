@@ -61,6 +61,22 @@ function isRestOfUkApplicant(identity, normaliseId) {
   );
 }
 
+function isScotlandDomiciledApplicant(identity, normaliseId) {
+  const feeStatus = normaliseId(identity.fee_status);
+  const domicile = normaliseId(identity.domicile);
+  return (
+    ['scotland', 'scottish', 'scotland_domiciled'].includes(domicile) ||
+    ['scotland', 'scottish', 'scotland_domiciled'].includes(feeStatus)
+  );
+}
+
+function normaliseQuintile(value, normaliseId) {
+  const normalised = normaliseId(value);
+  if (!normalised) return null;
+  const match = normalised.match(/(?:q|quintile|simd)?_?([1-5])$/);
+  return match ? `q${match[1]}` : normalised;
+}
+
 function defaultResult() {
   return {
     status: 'not_contextual',
@@ -78,28 +94,34 @@ function defaultResult() {
     },
     contextual_criteria: [],
     ucat_uplift_percent: null,
+    ucat_uplift_reason: null,
+    adjusted_selection_ucat: null,
     activated_applicant_group_ids: []
   };
 }
 
-function contextualOutcome(result, matchedCheck, extra = {}) {
+function contextualOutcome(result, matchedChecks, extra = {}) {
+  const checks = asArray(matchedChecks);
+  const primaryCheck = checks[0] || null;
   const contextualCriteria = [
-    matchedCheck.criterion_id,
+    ...checks.map((entry) => entry.criterion_id),
     ...(extra.contextual_criteria || [])
-  ];
+  ].filter(Boolean);
   return {
     ...result,
     status: 'contextual',
     reason: 'aberdeen_contextual_criterion_met',
     is_contextual: true,
-    matched_contextual_pathway: matchedCheck.criterion_id,
-    matched_contextual_pathway_label: matchedCheck.label,
+    matched_contextual_pathway: primaryCheck?.criterion_id || null,
+    matched_contextual_pathway_label: primaryCheck?.label || null,
     qualifying_criteria: [
       ...result.qualifying_criteria,
-      matchedCheck
+      ...checks
     ],
     contextual_criteria: [...new Set(contextualCriteria)],
     ucat_uplift_percent: extra.ucat_uplift_percent ?? null,
+    ucat_uplift_reason: extra.ucat_uplift_reason ?? null,
+    adjusted_selection_ucat: extra.adjusted_selection_ucat ?? null,
     activated_applicant_group_ids: [
       'contextual',
       'widening_participation',
@@ -138,6 +160,37 @@ function unresolvedAccessProgrammeSignal(accessProgrammes, normaliseId) {
   });
 }
 
+function structuredReachProgramScotlandCheck(accessProgrammes, normaliseId) {
+  const otherProgrammes = asArray(accessProgrammes.other_programmes);
+  const reachRecord = otherProgrammes
+    .map(asObject)
+    .find((programme) =>
+      normaliseId(programme.programme_id) === 'st_andrews_reach_scotland'
+    );
+
+  if (!reachRecord) {
+    return check(
+      'reach_program_scotland',
+      'Reach Program Scotland',
+      'access_programmes.other_programmes',
+      'not_matched'
+    );
+  }
+
+  const status = normaliseId(reachRecord.status);
+  const confirmed = ['participating', 'completed'].includes(status);
+  return check(
+    'reach_program_scotland',
+    'Reach Program Scotland',
+    'access_programmes.other_programmes',
+    confirmed ? 'matched' : 'information_needed',
+    {
+      programme_id: reachRecord.programme_id,
+      status: reachRecord.status || null
+    }
+  );
+}
+
 function evaluateAberdeenContextualEligibility({ applicant, evidence, helpers }) {
   const normaliseId = helpers.normaliseId;
   const identity = asObject(applicant.applicant_identity);
@@ -148,15 +201,18 @@ function evaluateAberdeenContextualEligibility({ applicant, evidence, helpers })
 
   const homeFee = isHomeFeeStatus(identity.fee_status, normaliseId);
   const restOfUk = isRestOfUkApplicant(identity, normaliseId);
-  const scopePassed = homeFee && restOfUk;
+  const scotlandDomiciled = isScotlandDomiciledApplicant(identity, normaliseId);
+  const scopePassed = homeFee && (restOfUk || scotlandDomiciled);
   result.checks.scope.push(check(
-    'home_ruk_scope',
-    'Home fee status and Rest of UK route',
+    'home_ruk_or_scotland_scope',
+    'Home fee status and UK domicile route',
     'applicant_identity.fee_status/applicant_identity.domicile',
     scopePassed ? 'matched' : 'not_applicable',
     {
       fee_status: identity.fee_status,
-      domicile: identity.domicile
+      domicile: identity.domicile,
+      scotland_domiciled: scotlandDomiciled,
+      rest_of_uk: restOfUk
     }
   ));
 
@@ -168,16 +224,56 @@ function evaluateAberdeenContextualEligibility({ applicant, evidence, helpers })
     };
   }
 
+  const matchedChecks = [];
+  const upliftCandidates = [];
+  const rawUcat = applicant.admissions_tests?.ucat?.total_score;
+  const addUpliftCandidate = (checkEntry, percent) => {
+    upliftCandidates.push({
+      criterion_id: checkEntry.criterion_id,
+      label: checkEntry.label,
+      percent
+    });
+  };
+
+  if (scotlandDomiciled) {
+    const simdQuintile = normaliseQuintile(postcode.simd_quintile, normaliseId);
+    const simd20Check = check(
+      'simd20',
+      'SIMD20 / SIMD Quintile 1',
+      'home_area_region.simd_quintile',
+      simdQuintile === 'q1' ? 'matched' : 'not_matched',
+      postcode.simd_quintile
+    );
+    result.checks.qualifying_criteria.push(simd20Check);
+    if (simd20Check.status === 'matched') {
+      matchedChecks.push(simd20Check);
+      addUpliftCandidate(simd20Check, 10);
+    }
+
+    const simd40Check = check(
+      'simd40',
+      'SIMD40 / SIMD Quintile 2',
+      'home_area_region.simd_quintile',
+      simdQuintile === 'q2' ? 'matched' : 'not_matched',
+      postcode.simd_quintile
+    );
+    result.checks.qualifying_criteria.push(simd40Check);
+    if (simd40Check.status === 'matched') {
+      matchedChecks.push(simd40Check);
+      addUpliftCandidate(simd40Check, 5);
+    }
+  }
+
   const polar4Check = check(
     'polar4_quintile_1',
     'POLAR4 Quintile 1',
     'home_area_region.polar4_quintile',
-    postcode.polar4_quintile === 'q1' ? 'matched' : 'not_matched',
+    normaliseQuintile(postcode.polar4_quintile, normaliseId) === 'q1' ? 'matched' : 'not_matched',
     postcode.polar4_quintile
   );
   result.checks.qualifying_criteria.push(polar4Check);
   if (polar4Check.status === 'matched') {
-    return contextualOutcome(result, polar4Check);
+    matchedChecks.push(polar4Check);
   }
 
   const careCheck = check(
@@ -189,10 +285,39 @@ function evaluateAberdeenContextualEligibility({ applicant, evidence, helpers })
   );
   result.checks.qualifying_criteria.push(careCheck);
   if (careCheck.status === 'matched') {
-    return contextualOutcome(result, careCheck, {
-      activated_applicant_group_ids: ['care_experienced'],
-      contextual_criteria: ['care_experienced'],
-      ucat_uplift_percent: 10
+    matchedChecks.push(careCheck);
+    addUpliftCandidate(careCheck, 10);
+  }
+
+  const structuredReachCheck = structuredReachProgramScotlandCheck(
+    accessProgrammes,
+    normaliseId
+  );
+  result.checks.qualifying_criteria.push(structuredReachCheck);
+  if (structuredReachCheck.status === 'matched') {
+    matchedChecks.push(structuredReachCheck);
+  }
+
+  if (matchedChecks.length > 0) {
+    const selectedUplift = upliftCandidates
+      .sort((a, b) => b.percent - a.percent)[0] || null;
+    const adjustedSelectionUcat =
+      selectedUplift && Number.isFinite(rawUcat)
+        ? {
+          raw_ucat: rawUcat,
+          adjusted_ucat: Math.round(rawUcat * (1 + selectedUplift.percent / 100)),
+          uplift_percent: selectedUplift.percent,
+          reason: selectedUplift.criterion_id,
+          reason_label: selectedUplift.label,
+          stacking_policy: 'highest_applicable_uplift_only'
+        }
+        : null;
+    return contextualOutcome(result, matchedChecks, {
+      activated_applicant_group_ids: careCheck.status === 'matched' ? ['care_experienced'] : [],
+      contextual_criteria: selectedUplift ? [selectedUplift.criterion_id] : [],
+      ucat_uplift_percent: selectedUplift?.percent ?? null,
+      ucat_uplift_reason: selectedUplift?.criterion_id ?? null,
+      adjusted_selection_ucat: adjustedSelectionUcat
     });
   }
 
@@ -209,9 +334,10 @@ function evaluateAberdeenContextualEligibility({ applicant, evidence, helpers })
 
   const reachCheck = check(
     'reach_program_scotland',
-    'Reach Program Scotland participation',
+    'Reach Program Scotland',
     'access_programmes',
-    unresolvedAccessProgrammeSignal(accessProgrammes, normaliseId)
+    structuredReachCheck.status === 'information_needed' ||
+      unresolvedAccessProgrammeSignal(accessProgrammes, normaliseId)
       ? 'information_needed'
       : 'not_matched'
   );
@@ -223,15 +349,22 @@ function evaluateAberdeenContextualEligibility({ applicant, evidence, helpers })
       criterion_id: entry.criterion_id,
       label: entry.label,
       evidence_path: entry.evidence_path,
-      reason: 'aberdeen_contextual_evidence_needs_review'
+      reason: entry.criterion_id === 'reach_program_scotland'
+        ? 'aberdeen_reach_program_scotland_information_needed'
+        : 'aberdeen_contextual_evidence_needs_review'
     }));
 
   if (missingInformation.length > 0) {
+    const manualReviewReason =
+      missingInformation.length === 1 &&
+        missingInformation[0]?.criterion_id === 'reach_program_scotland'
+        ? 'aberdeen_reach_program_scotland_information_needed'
+        : 'aberdeen_contextual_information_needed';
     return {
       ...result,
       status: 'information_needed',
-      reason: 'aberdeen_contextual_information_needed',
-      manual_review_reason: 'aberdeen_contextual_information_needed',
+      reason: manualReviewReason,
+      manual_review_reason: manualReviewReason,
       missing_information: missingInformation,
       policy_decision: 'manual_review_required_for_unresolved_contextual_evidence'
     };

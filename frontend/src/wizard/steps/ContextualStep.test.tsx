@@ -265,6 +265,25 @@ describe('ContextualStep', () => {
     expect(screen.getAllByText('Automatically identified from your postcode.')).toHaveLength(3);
   });
 
+  it('stores manual SIMD quintile evidence without adding postcode lookup data', () => {
+    const { profile } = renderStep();
+
+    const simdSelect = screen.getByLabelText('Scottish Index of Multiple Deprivation (SIMD)');
+    expect(within(simdSelect).getByRole('option', { name: 'Quintile 1 - SIMD20' })).toHaveValue('q1');
+    expect(within(simdSelect).getByRole('option', { name: 'Quintile 2 - SIMD40' })).toHaveValue('q2');
+    expect(within(simdSelect).getByRole('option', { name: "Not sure / I don't know" })).toHaveValue('unknown');
+    expect(within(simdSelect).getByRole('option', { name: 'Not applicable / postcode outside Scotland' })).toHaveValue(
+      'not_applicable',
+    );
+
+    selectValue('contextual_simd_quintile', 'q2');
+
+    expect(profile.contextual_profile.home_area_region.simd_quintile).toBe('q2');
+    expect(profile.contextual_profile.home_area_region.postcode_lookup?.values).not.toHaveProperty('simd');
+    expect(profile.applicant_identity.contextual_flags).not.toHaveProperty('simd20');
+    expect(profile.applicant_identity.contextual_flags).not.toHaveProperty('simd40');
+  });
+
   it('orders Home area & region fields with quintiles immediately below the postcode button', () => {
     renderStep();
 
@@ -275,6 +294,7 @@ describe('ContextualStep', () => {
       screen.getByLabelText('POLAR4 quintile'),
       screen.getByLabelText('TUNDRA quintile'),
       screen.getByLabelText('IMD 2019 quintile'),
+      screen.getByLabelText('Scottish Index of Multiple Deprivation (SIMD)'),
       screen.getByLabelText('I live in'),
       screen.getByLabelText('I live in the following area'),
       screen.getByLabelText('I attended school in'),

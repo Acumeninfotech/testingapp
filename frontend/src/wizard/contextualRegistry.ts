@@ -30,6 +30,16 @@ export const QUINTILE_OPTIONS = [
   { value: 'q5', label: 'Quintile 5' },
 ] as const;
 
+export const SIMD_QUINTILE_OPTIONS = [
+  { value: 'q1', label: 'Quintile 1 - SIMD20' },
+  { value: 'q2', label: 'Quintile 2 - SIMD40' },
+  { value: 'q3', label: 'Quintile 3' },
+  { value: 'q4', label: 'Quintile 4' },
+  { value: 'q5', label: 'Quintile 5' },
+  { value: 'unknown', label: "Not sure / I don't know" },
+  { value: 'not_applicable', label: 'Not applicable / postcode outside Scotland' },
+] as const;
+
 export const PROGRAMME_STATUS_OPTIONS: { value: ProgrammeStatus; label: string }[] = [
   { value: 'offered', label: 'I have received a place' },
   { value: 'participating', label: 'I am currently participating' },

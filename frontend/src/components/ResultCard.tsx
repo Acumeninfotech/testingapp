@@ -4,6 +4,7 @@ import type {
   PredictionResult,
   ScoreBreakdown,
   SelectionMetric,
+  UcatAdjustment,
   UcatComparison,
 } from '../api/types';
 import {
@@ -100,6 +101,23 @@ function isRenderableComparisonMetric(metric: unknown): metric is ComparisonMetr
     typeof candidate.value === 'string' &&
     candidate.value.trim().length > 0
   );
+}
+
+function hasAppliedUcatAdjustment(adjustment?: UcatAdjustment | null): adjustment is UcatAdjustment {
+  return Boolean(
+    adjustment &&
+      Number.isFinite(adjustment.raw_ucat) &&
+      Number.isFinite(adjustment.uplift_percent) &&
+      Number(adjustment.uplift_percent) > 0 &&
+      Number.isFinite(adjustment.adjusted_selection_ucat),
+  );
+}
+
+function contextualUpliftValue(adjustment: UcatAdjustment): string {
+  const reason = typeof adjustment.uplift_reason_label === 'string' && adjustment.uplift_reason_label.trim()
+    ? ` (${adjustment.uplift_reason_label.trim()})`
+    : '';
+  return `+${Number(adjustment.uplift_percent)}%${reason}`;
 }
 
 function publicThresholdGroup(text = ''): string | null {
@@ -504,6 +522,7 @@ function assessmentPanelRows({
   variant,
   informationNeededReason,
   unresolvedLabel,
+  ucatAdjustment,
 }: {
   kind: AssessmentKind;
   comparison: ReturnType<typeof reliableUcatComparison>;
@@ -514,11 +533,23 @@ function assessmentPanelRows({
   variant: string;
   informationNeededReason?: string | null;
   unresolvedLabel?: string;
+  ucatAdjustment?: UcatAdjustment | null;
 }): Array<{ label: string; value: string; emphasis?: boolean }> {
   if (variant === 'manual-review' || /insufficient_evidence|manual_review|information/i.test(displayState)) {
     return [
       { label: 'Eligibility Status', value: unresolvedLabel || 'Information Needed', emphasis: true },
       ...(informationNeededReason ? [{ label: 'Reason', value: informationNeededReason }] : []),
+    ];
+  }
+  if (hasAppliedUcatAdjustment(ucatAdjustment)) {
+    return [
+      { label: 'Your UCAT', value: String(ucatAdjustment.raw_ucat) },
+      { label: 'Contextual uplift', value: contextualUpliftValue(ucatAdjustment) },
+      {
+        label: 'Aberdeen adjusted selection UCAT',
+        value: String(ucatAdjustment.adjusted_selection_ucat),
+        emphasis: true,
+      },
     ];
   }
   if (kind === 'ucat' && comparison) {
@@ -823,6 +854,7 @@ export function ResultCard({ result }: { result: PredictionResult }) {
   const scoreChecks = scoreBreakdown?.checks || [];
   const historicalChecks = historicalStage?.checks || [];
   const ucatComparison = transparency?.ucat_comparison || null;
+  const ucatAdjustment = transparency?.ucat_adjustment || null;
   const selectionMetric = transparency?.selection_metric || null;
   const hasStructuredComparisonMetrics = Array.isArray(transparency?.comparison_metrics);
   const comparisonMetrics = hasStructuredComparisonMetrics
@@ -1034,6 +1066,7 @@ export function ResultCard({ result }: { result: PredictionResult }) {
     { key: 'ps', label: 'PS' },
   ];
   const componentRows = scoreComponentRows(scoreBreakdown);
+  const adjustedSelectionUcatApplied = hasAppliedUcatAdjustment(ucatAdjustment);
   const primaryAssessmentKind = assessmentKind({
     comparison,
     selectionMetric,
@@ -1052,8 +1085,11 @@ export function ResultCard({ result }: { result: PredictionResult }) {
     variant,
     informationNeededReason,
     unresolvedLabel: label,
+    ucatAdjustment,
   });
-  const assessmentTitle = primaryAssessmentKind === 'ucat'
+  const assessmentTitle = adjustedSelectionUcatApplied
+    ? 'UCAT adjustment'
+    : primaryAssessmentKind === 'ucat'
     ? 'UCAT comparison'
     : primaryAssessmentKind === 'selection-score'
       ? 'Selection score'
@@ -1332,7 +1368,7 @@ export function ResultCard({ result }: { result: PredictionResult }) {
                   </p>
                 </section>
                 <div>
-                  <span>Your UCAT</span>
+                  <span>{adjustedSelectionUcatApplied ? 'Aberdeen adjusted selection UCAT' : 'Your UCAT'}</span>
                   <strong>{comparison.applicant}</strong>
                 </div>
                 {comparison.difference && (
@@ -1349,7 +1385,7 @@ export function ResultCard({ result }: { result: PredictionResult }) {
                   <strong>{comparisonRangeText(comparison)}</strong>
                 </div>
                 <div>
-                  <span>Your UCAT</span>
+                  <span>{adjustedSelectionUcatApplied ? 'Aberdeen adjusted selection UCAT' : 'Your UCAT'}</span>
                   <strong>{comparison.applicant}</strong>
                 </div>
                 {comparison.difference && (

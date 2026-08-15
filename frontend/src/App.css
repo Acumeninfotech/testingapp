@@ -4056,6 +4056,11 @@ main:has(.university-explorer) {
   justify-content: center;
 }
 
+.university-result-selection-metric--ucat-adjustment {
+  display: block;
+  min-height: 5.55rem;
+}
+
 .university-result-selection-label {
   grid-column: 1 / -1;
   min-width: 0;
@@ -4068,6 +4073,42 @@ main:has(.university-explorer) {
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+}
+
+.university-result-ucat-adjustment-list {
+  display: grid;
+  gap: 0.28rem;
+  margin: 0.45rem 0 0;
+}
+
+.university-result-ucat-adjustment-list div {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 0.75rem;
+  align-items: baseline;
+}
+
+.university-result-ucat-adjustment-list dt {
+  min-width: 0;
+  color: var(--text-muted);
+  font-size: 0.75rem;
+  font-weight: 760;
+  line-height: 1.2;
+}
+
+.university-result-ucat-adjustment-list dd {
+  margin: 0;
+  color: var(--text-h);
+  font-size: 0.82rem;
+  font-weight: 820;
+  line-height: 1.2;
+  text-align: right;
+}
+
+.university-result-ucat-adjustment-list div:last-child dd {
+  color: var(--success);
+  font-size: 0.96rem;
+  font-weight: 880;
 }
 
 .university-result-selection-row {

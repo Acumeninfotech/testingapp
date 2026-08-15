@@ -45,6 +45,12 @@ const LIVERPOOL_CONTEXTUAL_CONFIRMATION = {
 const LANCASTER_ACCESS_TO_MEDICINE_WP_REVIEW_REASON =
   "Lancaster Access to Medicine completion confirmed. More information is needed to verify Lancaster's widening-participation criteria before the guaranteed-interview route can be confirmed.";
 
+const ABERDEEN_REACH_CONTEXTUAL_CONFIRMATION =
+  'Contextual/Widening Access confirmed: Reach Program Scotland.';
+
+const ABERDEEN_REACH_CONTEXTUAL_REVIEW_REASON =
+  'Further evidence or review is needed to confirm Aberdeen Reach Program Scotland widening-access eligibility.';
+
 const {
   isRestOfUkFeeStatus
 } = require('./applicant-group-normalisation');
@@ -396,6 +402,18 @@ function academicRequirementReasonForCheck(rawCheck, status) {
     if (checkId === 'epq_alternative_offer') {
       return 'A predicted or achieved EPQ grade is required to assess the alternative academic offer.';
     }
+    if (
+      checkId === 'scottish_post_16_requirements' &&
+      rawCheck?.manual_review_reason === 'aberdeen_reach_program_scotland_information_needed'
+    ) {
+      return ABERDEEN_REACH_CONTEXTUAL_REVIEW_REASON;
+    }
+    if (
+      checkId === 'scottish_post_16_requirements' &&
+      rawCheck?.manual_review_reason === 'aberdeen_contextual_information_needed'
+    ) {
+      return 'Further evidence or review is needed to determine whether Aberdeen widening-access eligibility applies to this Scottish Higher requirement.';
+    }
     return 'Required subject information is missing.';
   }
 
@@ -645,6 +663,57 @@ function buildContextualAcademicOffer(stage1Eligibility = null) {
   };
 }
 
+function buildContextualScottishAcademicOffer(stage1Eligibility = null, context = {}) {
+  const scottish = stage1Eligibility?.post_16?.scottish || {};
+  const routes = scottish.grade_requirements || [];
+  const routeIds = [
+    context.academic_pathway_id,
+    context.selection_route_id
+  ]
+    .map((value) => String(value || '').trim())
+    .filter(Boolean);
+  const matchedRoute = routes.find((route) => {
+    const ids = [
+      route.pathway_id,
+      route.route_id,
+      route.requirement_id
+    ].map((value) => String(value || '').trim()).filter(Boolean);
+    const routeGroups = route.applies_to_group_ids || [];
+    const contextualRoute =
+      routeGroups.includes('contextual') ||
+      routeGroups.includes('widening_participation');
+    return contextualRoute && (
+      routeIds.length === 0 ||
+      ids.some((id) => routeIds.includes(id))
+    );
+  });
+  if (!matchedRoute) {
+    return null;
+  }
+
+  const standardGrades =
+    scottish.higher_offer?.grade_profile ||
+    routes.find((route) => {
+      const routeId = normaliseCheckId(route.requirement_id || route.pathway_id || route.route_id);
+      return routeId.includes('standard');
+    })?.grade_profile ||
+    [];
+  const contextualGrades = matchedRoute.grade_profile || [];
+  const standardOffer = formatAlevelGradeProfile(standardGrades);
+  const contextualOffer = formatAlevelGradeProfile(contextualGrades);
+  if (!standardOffer || !contextualOffer) {
+    return null;
+  }
+
+  return {
+    type: 'contextual',
+    standard_offer: `${standardOffer} Scottish Highers`,
+    alternative_offer: `${contextualOffer} Scottish Highers`,
+    pathway_id: matchedRoute.pathway_id || matchedRoute.route_id || matchedRoute.requirement_id || null,
+    conditions: []
+  };
+}
+
 function buildContextualEpqAcademicOffer(stage1Eligibility = null) {
   const aLevel = stage1Eligibility?.post_16?.a_level;
   const contextualGrades = aLevel?.contextual_offer?.grade_profile || [];
@@ -822,6 +891,10 @@ function buildAlternativeAcademicOffer(stage1Eligibility = null, context = {}) {
   }
 
   if (context.academic_pathway === 'contextual') {
+    const scottishContextualOffer = buildContextualScottishAcademicOffer(stage1Eligibility, context);
+    if (scottishContextualOffer) {
+      return scottishContextualOffer;
+    }
     const routedContextualOffer = buildRoutedAcademicOffer(stage1Eligibility, matchedRoute);
     if (routedContextualOffer) {
       return {
@@ -1010,7 +1083,8 @@ const FAILURE_REASON_LABELS = {
   manchester_contextual_or_refugee_care_information_needed: 'ApplySmart needs Manchester postcode/school-context evidence and personal-circumstance confirmation to check whether Manchester’s contextual routes apply.',
   bristol_contextual_baseline_information_needed: 'More information is needed to confirm whether you qualify for Bristol’s contextual offer.',
   bristol_contextual_information_needed: 'More information is needed to confirm whether you qualify for Bristol’s contextual offer.',
-  aberdeen_contextual_information_needed: 'More information is needed to confirm whether you qualify for Aberdeen’s contextual widening-access route.',
+  aberdeen_contextual_information_needed: 'Further evidence or review is needed to determine whether Aberdeen widening-access eligibility applies.',
+  aberdeen_reach_program_scotland_information_needed: ABERDEEN_REACH_CONTEXTUAL_REVIEW_REASON,
   bristol_contextual_imd_postcode_evidence_required: 'More information is needed to verify Bristol IMD eligibility from postcode-derived evidence.',
   bristol_contextual_fsm_secondary_verification_required: 'More information is needed to verify Free School Meals eligibility during secondary education for Bristol contextual assessment.',
   bristol_aspiring_state_school_identifier_or_name_required: 'More information is needed to verify whether your school or college appears on Bristol’s Aspiring State Schools list.',
@@ -1305,6 +1379,47 @@ function hasMissingInformationReason(entries, reasonCode) {
   );
 }
 
+function isAberdeenProfile(card = {}) {
+  return (
+    card.course_identity?.profile_id ||
+    card.course_profile_id ||
+    card.profile_id
+  ) === 'aberdeen-a100';
+}
+
+function aberdeenReachContextualSummary(card = {}) {
+  if (!isAberdeenProfile(card)) {
+    return null;
+  }
+  const contextual = card.eligibility?.contextual_eligibility || card.contextual_eligibility || null;
+  if (
+    contextual?.status !== 'contextual' ||
+    normaliseCheckId(contextual.matched_contextual_pathway) !== 'reach_program_scotland'
+  ) {
+    return null;
+  }
+  return ABERDEEN_REACH_CONTEXTUAL_CONFIRMATION;
+}
+
+function hasAberdeenReachContextualReview(card = {}, missingInformation = null) {
+  if (!isAberdeenProfile(card)) {
+    return false;
+  }
+  const contextual = card.eligibility?.contextual_eligibility || card.contextual_eligibility || null;
+  if (contextual?.status !== 'information_needed') {
+    return false;
+  }
+  return hasMissingInformationReason(
+    missingInformationEntries(
+      missingInformation,
+      card.missing_information,
+      card.decision_transparency?.missing_information,
+      contextual.missing_information
+    ),
+    'reach_program_scotland'
+  );
+}
+
 function hasCompletedLancasterAccessToMedicine(card = {}) {
   const profile = card.applicant_context?.contextual_profile || card.contextual_profile || {};
   const programmes = profile.access_programmes?.other_programmes;
@@ -1385,6 +1500,11 @@ function contextualOfferRouteSummary(card = {}, offer = null) {
   const bristolSummary = bristolContextualSummary(card, offer);
   if (bristolSummary) {
     return bristolSummary;
+  }
+
+  const aberdeenReachSummary = aberdeenReachContextualSummary(card);
+  if (aberdeenReachSummary) {
+    return aberdeenReachSummary;
   }
 
   if (!offer || (offer.type !== 'contextual' && offer.type !== 'contextual_epq')) {
@@ -2028,6 +2148,12 @@ function buildRankingEvidence(options = {}) {
   const gamsat = applicant?.admissions_tests?.gamsat;
   const ucatComparison = options.ucatComparison;
   const ucatRankingBypass = ucatRankingBypassApplies(options);
+  const usesAberdeenAdjustedSelectionUcat =
+    bandMetric?.metric === 'aberdeen_adjusted_selection_ucat_total';
+  const adjustedSelectionUcatApplied =
+    usesAberdeenAdjustedSelectionUcat &&
+    Number.isFinite(options.ranking?.total_uplift_percent) &&
+    options.ranking.total_uplift_percent > 0;
 
   const checks = [];
   if (ucatRankingBypass) {
@@ -2065,6 +2191,27 @@ function buildRankingEvidence(options = {}) {
     return checks;
   }
 
+  if (adjustedSelectionUcatApplied && Number.isFinite(ucat?.total_score)) {
+    checks.push(check(
+      'Your UCAT',
+      'Preserved',
+      `${ucat.total_score} out of ${ucat.score_scale ?? 2700}.`
+    ));
+    checks.push(check(
+      'Contextual uplift',
+      'Applied',
+      `+${options.ranking.total_uplift_percent}%${
+        publicUcatUpliftReasonLabel(options.ranking.applied_uplift || {})
+          ? ` (${publicUcatUpliftReasonLabel(options.ranking.applied_uplift || {})})`
+          : ''
+      }.`
+    ));
+    checks.push(check(
+      'Aberdeen adjusted selection UCAT',
+      'Used for ranking',
+      `${bandMetric.value} out of ${bandMetric.scale?.max ?? ucat.score_scale ?? 2700}.`
+    ));
+  }
   if (ucatComparison?.official_ucat_minimum) {
     checks.push(check(
       'UCAT minimum',
@@ -2074,8 +2221,10 @@ function buildRankingEvidence(options = {}) {
   }
   if (ucatComparison) {
     checks.push(check(
-      'UCAT',
-      ucatComparison.position ? titleCaseGroupLabel(ucatComparison.position) : 'Ranking only',
+      usesAberdeenAdjustedSelectionUcat ? 'Aberdeen adjusted selection UCAT' : 'UCAT',
+      usesAberdeenAdjustedSelectionUcat && adjustedSelectionUcatApplied
+        ? 'Compared'
+        : ucatComparison.position ? titleCaseGroupLabel(ucatComparison.position) : 'Ranking only',
       ucatComparisonAssessmentText(ucatComparison)
     ));
     checks.push(check(
@@ -2089,7 +2238,11 @@ function buildRankingEvidence(options = {}) {
   } else if (Number.isFinite(bandMetric?.value) || Number.isFinite(ucat?.total_score)) {
     const value = Number.isFinite(bandMetric?.value) ? bandMetric.value : ucat.total_score;
     const max = Number.isFinite(bandMetric?.scale?.max) ? bandMetric.scale.max : (ucat?.score_scale ?? 2700);
-    checks.push(check('UCAT total entered', 'Used for ranking', `${value} out of ${max}.`));
+    checks.push(check(
+      'UCAT total entered',
+      usesAberdeenAdjustedSelectionUcat ? 'Used for ranking without uplift' : 'Used for ranking',
+      `${value} out of ${max}.`
+    ));
   } else if (Number.isFinite(gamsat?.overall_score)) {
     checks.push(check('GAMSAT total entered', 'On file', `${gamsat.overall_score}${Number.isFinite(gamsat.score_scale) ? ` out of ${gamsat.score_scale}` : ''}.`));
   }
@@ -2106,6 +2259,61 @@ function buildRankingEvidence(options = {}) {
   ));
 
   return checks;
+}
+
+function publicUcatUpliftReasonLabel(uplift = {}) {
+  const reason = normaliseCheckId(uplift.reason || uplift.reason_label || uplift.uplift_reason || '');
+  if (reason.includes('simd20') || reason.includes('simd_quintile_1')) {
+    return 'SIMD20';
+  }
+  if (reason.includes('simd40') || reason.includes('simd_quintile_2')) {
+    return 'SIMD40';
+  }
+  if (reason.includes('care')) {
+    return 'Care experienced';
+  }
+  return uplift.reason_label || uplift.uplift_reason_label || null;
+}
+
+function buildUcatAdjustmentPresentation(options = {}) {
+  if (options.bandMetric?.metric !== 'aberdeen_adjusted_selection_ucat_total') {
+    return null;
+  }
+
+  const upliftPercent = Number(options.ranking?.total_uplift_percent);
+  if (!Number.isFinite(upliftPercent) || upliftPercent <= 0) {
+    return null;
+  }
+
+  const rawUcat = Number.isFinite(options.ranking?.raw_value)
+    ? options.ranking.raw_value
+    : options.applicantContext?.admissions_tests?.ucat?.total_score;
+  const adjustedUcat = Number.isFinite(options.bandMetric?.value)
+    ? options.bandMetric.value
+    : options.ranking?.value;
+  if (!Number.isFinite(rawUcat) || !Number.isFinite(adjustedUcat)) {
+    return null;
+  }
+
+  const maxUcat = Number.isFinite(options.bandMetric?.scale?.max)
+    ? options.bandMetric.scale.max
+    : options.applicantContext?.admissions_tests?.ucat?.score_scale ?? 2700;
+  const reasonLabel = publicUcatUpliftReasonLabel(options.ranking?.applied_uplift || {});
+
+  return {
+    raw_ucat: rawUcat,
+    max_ucat: Number.isFinite(maxUcat) ? maxUcat : null,
+    uplift_percent: upliftPercent,
+    uplift_reason: options.ranking?.applied_uplift?.reason || null,
+    uplift_reason_label: reasonLabel,
+    adjusted_selection_ucat: adjustedUcat,
+    label: 'Aberdeen adjusted selection UCAT',
+    summary: [
+      `Your UCAT: ${rawUcat}.`,
+      `Contextual uplift: +${upliftPercent}%${reasonLabel ? ` (${reasonLabel})` : ''}.`,
+      `Aberdeen adjusted selection UCAT: ${adjustedUcat}.`
+    ].join(' ')
+  };
 }
 
 function eligibilityChecksFromFailureCodes(checks, failures) {
@@ -2880,6 +3088,17 @@ function bristolContextualCompactAcademicStatus(card = {}, state, eligibilitySta
 function academicStatusSummary(state, eligibilityStatus, card = {}) {
   const presentation = configuredPresentation(card);
   const contextual = card.eligibility?.contextual_eligibility || card.contextual_eligibility || null;
+  const aberdeenReachSummary = aberdeenReachContextualSummary(card);
+  if (
+    aberdeenReachSummary &&
+    state !== 'not_eligible' &&
+    eligibilityStatus !== 'not_eligible' &&
+    state !== 'manual_review' &&
+    eligibilityStatus !== 'manual_review' &&
+    eligibilityStatus !== 'insufficient_evidence'
+  ) {
+    return aberdeenReachSummary;
+  }
   const configuredContextualStatus = String(presentation.compact_contextual_status || '').trim();
   if (
     configuredContextualStatus &&
@@ -3024,11 +3243,12 @@ function buildUcatSelectionMetric(ucatComparison, options = {}) {
   const maximum = Number.isFinite(options.bandMetric?.scale?.max)
     ? options.bandMetric.scale.max
     : options.applicantContext?.admissions_tests?.ucat?.score_scale ?? 2700;
+  const ucatAdjustment = buildUcatAdjustmentPresentation(options);
 
   if (!Number.isFinite(ucatComparison.benchmark_min)) {
     return {
       type: 'ucat',
-      label: 'UCAT ranking',
+      label: ucatAdjustment ? 'Aberdeen adjusted selection UCAT' : 'UCAT ranking',
       applicant_value: ucatComparison.applicant_ucat,
       comparison_value: null,
       comparison_max_value: null,
@@ -3051,7 +3271,7 @@ function buildUcatSelectionMetric(ucatComparison, options = {}) {
 
   return {
     type: 'ucat',
-    label: 'UCAT comparison',
+    label: ucatAdjustment ? 'Aberdeen adjusted selection UCAT comparison' : 'UCAT comparison',
     applicant_value: ucatComparison.applicant_ucat,
     comparison_value: ucatComparison.benchmark_min,
     comparison_max_value: Number.isFinite(ucatComparison.benchmark_max)
@@ -3876,7 +4096,8 @@ function positionAgainstBenchmark(applicantUcat, comparison) {
 
 function buildUcatComparison(options = {}) {
   const applicantUcat =
-    options.bandMetric?.metric === 'ucat_total' && Number.isFinite(options.bandMetric.value)
+    ['ucat_total', 'aberdeen_adjusted_selection_ucat_total'].includes(options.bandMetric?.metric) &&
+    Number.isFinite(options.bandMetric.value)
       ? options.bandMetric.value
       : options.applicantContext?.admissions_tests?.ucat?.total_score;
   const officialMinimum = resolveApplicantUcatMinimum(
@@ -4024,6 +4245,7 @@ function isUcatRankingContext(context = {}) {
   const rankingHasComponents = Object.keys(context.ranking?.components || {}).length > 0;
   return (
     context.band_metric?.metric === 'ucat_total' ||
+    context.band_metric?.metric === 'aberdeen_adjusted_selection_ucat_total' ||
     context.stage_2_selection?.represented_ranking_input?.metric === 'ucat_total' ||
     (
       context.score_model?.type === 'ranking_metric' &&
@@ -4364,6 +4586,9 @@ function publicInformationNeededReason({
     if (lancasterAccessWpReviewReason) {
       return appendNotARejection(lancasterAccessWpReviewReason);
     }
+    if (hasAberdeenReachContextualReview(card, missingInformation)) {
+      return appendNotARejection(ABERDEEN_REACH_CONTEXTUAL_REVIEW_REASON);
+    }
     if (profileId === 'bristol-a100' && contextual?.status === 'information_needed') {
       const missing = Array.isArray(
         missingInformation ||
@@ -4662,6 +4887,7 @@ function buildDecisionTransparency(card, options = {}) {
     (isUcatRankingContext({ ...card, ...options }) && !guaranteedInterview
       ? buildUcatComparison(options)
       : null);
+  const ucatAdjustment = buildUcatAdjustmentPresentation(options);
   const selectionChecks = [
     check('Applicant pool', 'Used', pool),
     ...(contextualRouteSummaryText
@@ -4880,7 +5106,8 @@ function buildDecisionTransparency(card, options = {}) {
     selection_approach_display: options.selectionApproachDisplay || null,
     selection_metric: selectionMetric,
     score_breakdown: scoreBreakdown,
-    ucat_comparison: ucatComparison
+    ucat_comparison: ucatComparison,
+    ucat_adjustment: ucatAdjustment
   };
 }
 

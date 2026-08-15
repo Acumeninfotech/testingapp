@@ -13,6 +13,7 @@ import {
   QUINTILE_OPTIONS,
   SCHOOL_EDUCATION_FIELDS,
   SCHOOL_AREA_OPTIONS,
+  SIMD_QUINTILE_OPTIONS,
   SPECIFIC_HOME_AREA_OPTIONS,
   SENSITIVE_OPTIONS,
   UKWPMED_REGISTRY,
@@ -87,6 +88,7 @@ const HOME_AREA_ERROR_KEYS = new Set([
   'polar4_quintile',
   'tundra_quintile',
   'imd_quintile',
+  'simd_quintile',
   'home_region',
   'specific_home_area',
   'school_area',
@@ -197,7 +199,8 @@ function selectedAnswerCount(answers: Record<string, string | undefined>) {
 }
 
 function selectedQuintileCount(contextual: ContextualProfile) {
-  return HOME_QUINTILE_FIELDS.filter(({ key }) => ['q1', 'q2'].includes(contextual.home_area_region[key])).length;
+  const postcodeQuintiles = HOME_QUINTILE_FIELDS.filter(({ key }) => ['q1', 'q2'].includes(contextual.home_area_region[key])).length;
+  return postcodeQuintiles + (['q1', 'q2'].includes(contextual.home_area_region.simd_quintile) ? 1 : 0);
 }
 
 function selectedHomeAreaCount(contextual: ContextualProfile) {
@@ -913,6 +916,23 @@ export function ContextualStep({ profile, updateProfile, errors }: StepProps) {
               </div>
             );
           })}
+          <div className="contextual-quintile-field">
+            <SelectField
+              id="contextual_simd_quintile"
+              label="Scottish Index of Multiple Deprivation (SIMD)"
+              value={homeArea.simd_quintile}
+              options={[...SIMD_QUINTILE_OPTIONS]}
+              onChange={(value) => {
+                updateContextual(updateProfile, (current) => ({
+                  ...current,
+                  home_area_region: {
+                    ...current.home_area_region,
+                    simd_quintile: value as QuintileValue,
+                  },
+                }));
+              }}
+            />
+          </div>
         </div>
 
         <SelectField

@@ -169,7 +169,7 @@ export interface ContextualFlags {
 
 export type YesNoNotSure = 'yes' | 'no' | 'not_sure';
 export type SensitiveAnswer = YesNoNotSure | 'prefer_not_to_say';
-export type QuintileValue = 'q1' | 'q2' | 'q3' | 'q4' | 'q5' | 'unknown' | '';
+export type QuintileValue = 'q1' | 'q2' | 'q3' | 'q4' | 'q5' | 'unknown' | 'not_applicable' | '';
 export type ProgrammeStatus = 'offered' | 'participating' | 'completed' | 'not_sure';
 export type ContextualValueSource = 'postcode_lookup' | 'manual' | 'existing_profile' | 'unknown';
 export type PostcodeLookupStatus = 'not_checked' | 'matched' | 'partial_match' | 'not_found' | 'error';

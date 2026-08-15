@@ -1,4 +1,4 @@
-import type { PredictionResult, SelectionMetric } from '../api/types';
+import type { PredictionResult, SelectionMetric, UcatAdjustment } from '../api/types';
 import {
   presentResult,
   resultCardAcademicStatus,
@@ -65,6 +65,23 @@ function formatMetricValue(value: number | null, max: number | null): string {
   return Number.isFinite(max) ? `${formattedValue} / ${formatMetricNumber(Number(max))}` : formattedValue;
 }
 
+function hasAppliedUcatAdjustment(adjustment?: UcatAdjustment | null): adjustment is UcatAdjustment {
+  return Boolean(
+    adjustment &&
+      Number.isFinite(adjustment.raw_ucat) &&
+      Number.isFinite(adjustment.uplift_percent) &&
+      Number(adjustment.uplift_percent) > 0 &&
+      Number.isFinite(adjustment.adjusted_selection_ucat),
+  );
+}
+
+function contextualUpliftValue(adjustment: UcatAdjustment): string {
+  const reason = typeof adjustment.uplift_reason_label === 'string' && adjustment.uplift_reason_label.trim()
+    ? ` (${adjustment.uplift_reason_label.trim()})`
+    : '';
+  return `+${Number(adjustment.uplift_percent)}%${reason}`;
+}
+
 function inlineComparisonLabel(metric: SelectionMetric): string {
   const label = metric.comparison_label || 'Comparison value';
   return label.charAt(0).toLowerCase() + label.slice(1);
@@ -91,7 +108,38 @@ function differenceParts(metric: SelectionMetric): { value: string; label: strin
   return { value, label: `${metric.difference_direction} ${word}` };
 }
 
-function SelectionMetricPanel({ metric }: { metric: SelectionMetric | null }) {
+function SelectionMetricPanel({
+  metric,
+  ucatAdjustment,
+}: {
+  metric: SelectionMetric | null;
+  ucatAdjustment?: UcatAdjustment | null;
+}) {
+  if (hasAppliedUcatAdjustment(ucatAdjustment)) {
+    return (
+      <div
+        className="university-result-selection-metric university-result-selection-metric--ucat-adjustment"
+        aria-label={`Your UCAT ${ucatAdjustment.raw_ucat}, contextual uplift ${contextualUpliftValue(ucatAdjustment)}, Aberdeen adjusted selection UCAT ${ucatAdjustment.adjusted_selection_ucat}`}
+      >
+        <span className="university-result-selection-label">UCAT adjustment</span>
+        <dl className="university-result-ucat-adjustment-list">
+          <div>
+            <dt>Your UCAT</dt>
+            <dd>{ucatAdjustment.raw_ucat}</dd>
+          </div>
+          <div>
+            <dt>Contextual uplift</dt>
+            <dd>{contextualUpliftValue(ucatAdjustment)}</dd>
+          </div>
+          <div>
+            <dt>Aberdeen adjusted selection UCAT</dt>
+            <dd>{ucatAdjustment.adjusted_selection_ucat}</dd>
+          </div>
+        </dl>
+      </div>
+    );
+  }
+
   if (!metric) {
     return (
       <div
@@ -167,6 +215,7 @@ export function UniversityResultSummary({
   const card = result.result_card;
   const { variant, label } = presentResult(card);
   const metric = keyMetric(card);
+  const ucatAdjustment = card.decision_transparency?.ucat_adjustment || null;
   const headline = resultCardRecommendationHeadline(card);
   const reason = firstCompleteSentence(resultCardRecommendationExplanation(card));
   const academicStatus = resultCardAcademicStatus(card);
@@ -197,7 +246,7 @@ export function UniversityResultSummary({
         <p className="university-result-eligibility">
           <span className="university-result-eligibility-label">{academicStatus}</span>
         </p>
-        <SelectionMetricPanel metric={metric} />
+        <SelectionMetricPanel metric={metric} ucatAdjustment={ucatAdjustment} />
       </div>
       <div className="university-result-actions">
         <button

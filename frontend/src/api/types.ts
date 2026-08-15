@@ -145,6 +145,17 @@ export interface UcatComparison {
   } | null;
 }
 
+export interface UcatAdjustment {
+  raw_ucat: number;
+  max_ucat?: number | null;
+  uplift_percent: number;
+  uplift_reason?: string | null;
+  uplift_reason_label?: string | null;
+  adjusted_selection_ucat: number;
+  label?: string | null;
+  summary?: string | null;
+}
+
 export interface SelectionMetric {
   type: 'ucat' | 'selection_score' | 'points' | 'eligibility';
   label: string;
@@ -176,6 +187,7 @@ export interface CompactStatus {
   type:
     | 'selection_comparison'
     | 'selection_metric'
+    | 'academic_status'
     | 'eligibility'
     | 'manual_review'
     | 'information_needed'
@@ -220,6 +232,7 @@ export interface DecisionTransparency {
     | null;
   score_breakdown?: ScoreBreakdown | null;
   ucat_comparison?: UcatComparison | null;
+  ucat_adjustment?: UcatAdjustment | null;
   selection_metric?: SelectionMetric | null;
   compact_status?: CompactStatus | null;
   comparison_metrics_title?: string | null;

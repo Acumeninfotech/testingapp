@@ -70,6 +70,7 @@ describe('ReviewStep contextual display', () => {
     profile.contextual_profile.home_area_region.postcode = 'BS1 1AA';
     profile.contextual_profile.home_area_region.polar4_quintile = 'q1';
     profile.contextual_profile.home_area_region.tundra_quintile = 'q3';
+    profile.contextual_profile.home_area_region.simd_quintile = 'not_applicable';
     profile.contextual_profile.home_area_region.home_region = 'unknown';
     profile.contextual_profile.home_area_region.specific_home_area = 'none';
     profile.contextual_profile.home_area_region.school_area = 'bristol_bs_ba_state_school';
@@ -126,6 +127,11 @@ describe('ReviewStep contextual display', () => {
     );
     expectReviewValue(reviewSection('Home area & region'), 'POLAR4 quintile', 'Quintile 1Identified from postcode');
     expectReviewValue(reviewSection('Home area & region'), 'TUNDRA quintile', 'Quintile 3');
+    expectReviewValue(
+      reviewSection('Home area & region'),
+      'Scottish Index of Multiple Deprivation (SIMD)',
+      'Not applicable / postcode outside Scotland',
+    );
     expectReviewValue(reviewSection('Financial support'), 'I receive or previously received free school meals', 'Yes');
     expectReviewValue(reviewSection('School & education'), 'I attended a state-funded, non-fee-paying school', 'Not sure');
     expectReviewValue(reviewSection('School & education'), 'I attended a UK school or college for my GCSEs or equivalent qualifications', 'Yes');

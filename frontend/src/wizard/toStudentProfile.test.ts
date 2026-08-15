@@ -478,6 +478,7 @@ describe('toStudentProfile identity mapping', () => {
 
   it('submits contextual_profile without deriving legacy contextual eligibility flags', () => {
     const profile = createEmptyProfile();
+    profile.contextual_profile.home_area_region.simd_quintile = 'q1';
     profile.contextual_profile.financial_support.free_school_meals = 'yes';
     profile.contextual_profile.access_programmes.ukwpmed = {
       status: 'yes',
@@ -493,9 +494,24 @@ describe('toStudentProfile identity mapping', () => {
     const contextual = studentProfile.contextual_profile as Record<string, unknown>;
 
     expect(contextual).toEqual(profile.contextual_profile);
+    expect((contextual.home_area_region as Record<string, unknown>).simd_quintile).toBe('q1');
     expect(identity.contextual).toBe(false);
     expect(identity.contextual_flags.free_school_meals).toBe(false);
+    expect(identity.contextual_flags.simd20).toBeUndefined();
+    expect(identity.contextual_flags.simd40).toBeUndefined();
     expect(studentProfile.qualification_route).toBe('a_level');
+  });
+
+  it('loads canonical manual SIMD values from saved profiles', () => {
+    const profile = normaliseStoredProfile({
+      contextual_profile: {
+        home_area_region: {
+          simd_quintile: 'not_applicable',
+        },
+      },
+    });
+
+    expect(profile.contextual_profile.home_area_region.simd_quintile).toBe('not_applicable');
   });
 
   it('submits singular school_area without adding legacy school_areas', () => {

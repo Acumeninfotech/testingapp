@@ -9,6 +9,7 @@ import {
   QUINTILE_OPTIONS,
   HOME_REGION_OPTIONS,
   SCHOOL_AREA_OPTIONS,
+  SIMD_QUINTILE_OPTIONS,
   SPECIFIC_HOME_AREA_OPTIONS,
   TRI_STATE_LABELS,
   UKWPMED_REGISTRY,
@@ -316,6 +317,14 @@ export function ReviewStep({ profile }: StepProps) {
           />
         ),
       })),
+    contextual_profile.home_area_region.simd_quintile && contextual_profile.home_area_region.simd_quintile !== 'unknown'
+      ? {
+          label: 'Scottish Index of Multiple Deprivation (SIMD)',
+          value:
+            SIMD_QUINTILE_OPTIONS.find((option) => option.value === contextual_profile.home_area_region.simd_quintile)?.label ||
+            displayLabel(contextual_profile.home_area_region.simd_quintile),
+        }
+      : null,
     { label: 'I attended school in', value: schoolAreaDisplay },
   ].filter(Boolean) as { label: string; value: ReactNode }[];
   const ukwpmed = contextual_profile.access_programmes.ukwpmed;
