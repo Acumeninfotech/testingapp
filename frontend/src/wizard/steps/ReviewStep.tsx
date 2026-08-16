@@ -370,17 +370,19 @@ export function ReviewStep({ profile }: StepProps) {
         </ReviewFieldGrid>
       </ReviewSection>
 
-      <ReviewSection title="GCSE grades">
-        <dl className="grade-tile-grid">
-          {gcseSubjects.map((subject, index) => (
-            <GradeTile
-              key={`${subject.subject_id}-${index}`}
-              subject={displayLabel(subject.subject_id)}
-              grade={subject.grade}
-            />
-          ))}
-        </dl>
-      </ReviewSection>
+      {route !== 'scottish' && (
+        <ReviewSection title="GCSE grades">
+          <dl className="grade-tile-grid">
+            {gcseSubjects.map((subject, index) => (
+              <GradeTile
+                key={`${subject.subject_id}-${index}`}
+                subject={displayLabel(subject.subject_id)}
+                grade={subject.grade}
+              />
+            ))}
+          </dl>
+        </ReviewSection>
+      )}
 
       {route === 'a_level' && (
         <ReviewSection title="A levels">

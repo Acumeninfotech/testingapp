@@ -182,6 +182,16 @@ function aLevelApplicant(overrides = {}) {
   }, overrides);
 }
 
+function scotlandHomeALevelApplicant(overrides = {}) {
+  return aLevelApplicant(merge({
+    profile_id: 'glasgow_scotland_home_a_level_test_applicant',
+    applicant_identity: {
+      fee_status: 'Home',
+      domicile: 'Scotland'
+    }
+  }, overrides));
+}
+
 function resultCardFor(profile) {
   return predict({
     universityIds: ['glasgow-a100'],
@@ -205,6 +215,8 @@ const GLASGOW_REACH_COMPLETION_INFORMATION_NEEDED_REASON =
   'Successful completion of Reach is required to confirm the Glasgow adjusted/contextual route.';
 const GLASGOW_SCOTLAND_HOME_UCAT_PREDICTION_CAVEAT =
   'This prediction band is ApplySmart-derived guidance, not a Glasgow-published current 2027 cutoff; it does not guarantee an interview.';
+const GLASGOW_RUK_UCAT_PREDICTION_CAVEAT =
+  'This prediction band is ApplySmart-derived guidance informed by Glasgow historical RUK evidence; it is not a Glasgow-published current 2027 cutoff and does not guarantee an interview.';
 
 assert.strictEqual(
   course.contextual_admissions.contextual_eligibility.evaluator_id,
@@ -271,6 +283,18 @@ assert.strictEqual(
 assert.strictEqual(
   standardCard.decision_transparency.selection_metric.comparison_label,
   'ApplySmart prediction band'
+);
+assert.strictEqual(
+  standardCard.decision_transparency.selection_metric.comparison_label_type,
+  'applysmart_advisory_guide'
+);
+assert.strictEqual(
+  standardCard.decision_transparency.selection_metric.difference_word,
+  'prediction band'
+);
+assert.match(
+  standardCard.decision_transparency.decision_path.find((stage) => stage.stage === 'Historical guidance')?.summary || '',
+  /ApplySmart-derived guidance, not a Glasgow-published current 2027 cutoff; it does not guarantee an interview/i
 );
 assert.ok(
   ![
@@ -531,9 +555,98 @@ const national5OnlyResit = applicant({
 });
 assert.strictEqual(evaluateCourseEligibility(course, national5OnlyResit).status, 'eligible');
 
+const scotlandHomeALevel = scotlandHomeALevelApplicant();
+const scotlandHomeALevelEligibility = evaluateCourseEligibility(course, scotlandHomeALevel);
+assert.strictEqual(scotlandHomeALevelEligibility.status, 'eligible');
+assert.strictEqual(scotlandHomeALevelEligibility.qualification_route, 'a_level');
+assert.ok(scotlandHomeALevelEligibility.applicant_group_ids.includes('home_fee'));
+assert.ok(scotlandHomeALevelEligibility.applicant_group_ids.includes('scotland_domiciled'));
+assert.ok(scotlandHomeALevelEligibility.applicant_group_ids.includes('school_leaver'));
+assert.ok(!scotlandHomeALevelEligibility.applicant_group_ids.includes('rest_of_uk'));
+assert.strictEqual(scotlandHomeALevelEligibility.academic_pathway, 'standard');
+assert.strictEqual(
+  scotlandHomeALevelEligibility.academic_pathway_id,
+  'a_level_scotland_home_standard_offer'
+);
+assert.ok(!scotlandHomeALevelEligibility.failures.includes('a_level_route_not_supported_for_applicant_groups'));
+const scotlandHomeALevelClassification = classifyInterviewBand(course, config, scotlandHomeALevel);
+assert.strictEqual(scotlandHomeALevelClassification.guidance_pool_id, 'scotland_home_school_leaver');
+assert.strictEqual(scotlandHomeALevelClassification.eligibility.status, 'eligible');
+const scotlandHomeALevelCard = resultCardFor(scotlandHomeALevel);
+assert.strictEqual(
+  decisionPathCheck(scotlandHomeALevelCard, 'Applicant pool').summary,
+  'Home, Scotland-domiciled applicants'
+);
+assert.strictEqual(scotlandHomeALevelCard.academic_pathway, 'standard');
+assert.strictEqual(scotlandHomeALevelCard.contextual_status, null);
+assert.strictEqual(scotlandHomeALevelCard.contextual_confirmation, null);
+assert.strictEqual(scotlandHomeALevelCard.alternative_academic_offer, null);
+assert.ok(requirementLabels(scotlandHomeALevelCard).includes('A-level grades'));
+assert.ok(!requirementLabels(scotlandHomeALevelCard).includes('Scottish adjusted/contextual route'));
+
+const scotlandHomeALevelMissingChemistry = scotlandHomeALevelApplicant({
+  a_level_profile: {
+    subjects: [
+      { subject_id: 'biology', predicted_grade: 'A' },
+      { subject_id: 'physics', predicted_grade: 'A' },
+      { subject_id: 'mathematics', predicted_grade: 'A' }
+    ],
+    completed_in_one_sitting: true
+  }
+});
+const scotlandHomeALevelMissingChemistryEligibility =
+  evaluateCourseEligibility(course, scotlandHomeALevelMissingChemistry);
+assert.strictEqual(scotlandHomeALevelMissingChemistryEligibility.status, 'not_eligible');
+assert.strictEqual(
+  scotlandHomeALevelMissingChemistryEligibility.academic_pathway_id,
+  'a_level_scotland_home_standard_offer'
+);
+assert.ok(scotlandHomeALevelMissingChemistryEligibility.failures.includes('a_level_requirements_not_met'));
+assert.ok(
+  !scotlandHomeALevelMissingChemistryEligibility.failures
+    .includes('a_level_route_not_supported_for_applicant_groups')
+);
+
+const scotlandHomeALevelReachWp = scotlandHomeALevelApplicant({
+  contextual_profile: contextualProfile({
+    home_area_region: {
+      simd_quintile: 'q1'
+    },
+    access_programmes: reach('completed')
+  })
+});
+const scotlandHomeALevelReachWpContextual =
+  evaluateContextualEligibility(course, scotlandHomeALevelReachWp);
+assert.strictEqual(scotlandHomeALevelReachWpContextual.status, 'not_contextual');
+assert.strictEqual(
+  scotlandHomeALevelReachWpContextual.policy_decision,
+  'outside_scottish_qualification_route_scope'
+);
+const scotlandHomeALevelReachWpEligibility =
+  evaluateCourseEligibility(course, scotlandHomeALevelReachWp);
+assert.strictEqual(scotlandHomeALevelReachWpEligibility.status, 'eligible');
+assert.strictEqual(scotlandHomeALevelReachWpEligibility.academic_pathway, 'standard');
+assert.strictEqual(
+  scotlandHomeALevelReachWpEligibility.academic_pathway_id,
+  'a_level_scotland_home_standard_offer'
+);
+assert.ok(!scotlandHomeALevelReachWpEligibility.applicant_group_ids.includes('contextual'));
+assert.ok(!scotlandHomeALevelReachWpEligibility.applicant_group_ids.includes('widening_participation'));
+assert.ok(!scotlandHomeALevelReachWpEligibility.manual_review_reasons.includes('glasgow_reach_completion_required'));
+const scotlandHomeALevelReachWpClassification =
+  classifyInterviewBand(course, config, scotlandHomeALevelReachWp);
+assert.strictEqual(scotlandHomeALevelReachWpClassification.guidance_pool_id, 'scotland_home_school_leaver');
+const scotlandHomeALevelReachWpCard = resultCardFor(scotlandHomeALevelReachWp);
+assert.strictEqual(scotlandHomeALevelReachWpCard.academic_pathway, 'standard');
+assert.strictEqual(scotlandHomeALevelReachWpCard.contextual_status, null);
+assert.strictEqual(scotlandHomeALevelReachWpCard.contextual_confirmation, null);
+assert.strictEqual(scotlandHomeALevelReachWpCard.alternative_academic_offer, null);
+assert.ok(!requirementLabels(scotlandHomeALevelReachWpCard).includes('Scottish adjusted/contextual route'));
+
 const rukStandard = aLevelApplicant();
 const rukStandardClassification = classifyInterviewBand(course, config, rukStandard);
 assert.strictEqual(rukStandardClassification.guidance_pool_id, 'home_rest_of_uk_school_leaver');
+assert.strictEqual(rukStandardClassification.eligibility.academic_pathway_id, 'a_level_uk_standard_offer');
 const rukStandardCard = resultCardFor(rukStandard);
 assert.strictEqual(
   decisionPathCheck(rukStandardCard, 'Applicant pool').summary,
@@ -546,11 +659,36 @@ assert.strictEqual(rukStandardCard.alternative_academic_offer, null);
 assert.strictEqual(rukStandardCard.decision_transparency.ucat_comparison.comparison_type, 'historical_range');
 assert.strictEqual(
   rukStandardCard.decision_transparency.ucat_comparison.benchmark_label,
-  'historical interview range'
+  'ApplySmart prediction band'
+);
+assert.strictEqual(
+  rukStandardCard.decision_transparency.ucat_comparison.caveat,
+  GLASGOW_RUK_UCAT_PREDICTION_CAVEAT
+);
+assert.strictEqual(
+  rukStandardCard.decision_transparency.ucat_comparison.evidence_status,
+  'applysmart_derived'
+);
+assert.strictEqual(
+  rukStandardCard.decision_transparency.selection_metric.comparison_label,
+  'ApplySmart prediction band'
+);
+assert.strictEqual(
+  rukStandardCard.decision_transparency.selection_metric.comparison_label_type,
+  'applysmart_advisory_guide'
+);
+assert.strictEqual(
+  rukStandardCard.decision_transparency.selection_metric.difference_word,
+  'prediction band'
+);
+assert.ok(
+  rukStandardCard.decision_transparency.decision_path
+    .find((stage) => stage.stage === 'Historical guidance')
+    .summary.includes('ApplySmart-derived guidance informed by Glasgow historical RUK evidence')
 );
 assert.ok(!requirementLabels(rukStandardCard).includes('Scottish adjusted/contextual route'));
 
 console.log(
   'Glasgow A100 Scottish/contextual implementation regression: PASS ' +
-  '(standard SQA, adjusted Reach+WP, raw-flag denial, Reach information-needed, SQA timing/resit safeguards, Scotland/Home UCAT pool)'
+  '(standard SQA, adjusted Reach+WP, raw-flag denial, Reach information-needed, SQA timing/resit safeguards, Scotland/Home A-level route and UCAT pool)'
 );

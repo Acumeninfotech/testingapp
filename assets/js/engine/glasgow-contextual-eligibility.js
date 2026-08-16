@@ -27,6 +27,25 @@ function isScotlandDomiciledApplicant(identity, normaliseId) {
   );
 }
 
+function deriveQualificationRoute(applicant, normaliseId) {
+  const explicitRoute = normaliseId(
+    applicant.qualification_route ||
+      applicant.entry_route ||
+      applicant.course_target?.qualification_route
+  );
+  if (explicitRoute) {
+    return explicitRoute;
+  }
+  const scottishProfile = asObject(applicant.scottish_profile);
+  if (scottishProfile.higher_subjects || scottishProfile.advanced_higher_subjects) {
+    return 'scottish';
+  }
+  if (asObject(applicant.a_level_profile).subjects) {
+    return 'a_level';
+  }
+  return null;
+}
+
 function check(criterionId, label, evidencePath, status, actual = undefined) {
   return {
     criterion_id: criterionId,
@@ -201,6 +220,9 @@ function evaluateGlasgowContextualEligibility({ applicant, evidence, helpers }) 
   const accessProgrammes = asObject(evidence.access_programmes);
   const result = defaultResult();
   const scotlandDomiciled = isScotlandDomiciledApplicant(identity, normaliseId);
+  const qualificationRoute = deriveQualificationRoute(applicant, normaliseId);
+  const scottishRoute = ['scottish', 'scottish_highers', 'scottish_advanced_highers', 'sqa']
+    .includes(qualificationRoute);
 
   result.checks.scope.push(check(
     'scotland_domicile_required',
@@ -215,6 +237,22 @@ function evaluateGlasgowContextualEligibility({ applicant, evidence, helpers }) 
       ...result,
       reason: 'glasgow_contextual_not_applicable',
       policy_decision: 'outside_scotland_contextual_scope'
+    };
+  }
+
+  result.checks.scope.push(check(
+    'scottish_qualification_route_required',
+    'Scottish qualification route',
+    'qualification_route',
+    scottishRoute ? 'matched' : 'not_applicable',
+    qualificationRoute
+  ));
+
+  if (!scottishRoute) {
+    return {
+      ...result,
+      reason: 'glasgow_contextual_not_applicable_to_qualification_route',
+      policy_decision: 'outside_scottish_qualification_route_scope'
     };
   }
 

@@ -55,6 +55,8 @@ const GLASGOW_REACH_COMPLETION_INFORMATION_NEEDED_REASON =
   'Successful completion of Reach is required to confirm the Glasgow adjusted/contextual route.';
 const GLASGOW_SCOTLAND_HOME_UCAT_PREDICTION_CAVEAT =
   'This prediction band is ApplySmart-derived guidance, not a Glasgow-published current 2027 cutoff; it does not guarantee an interview.';
+const GLASGOW_RUK_UCAT_PREDICTION_CAVEAT =
+  'This prediction band is ApplySmart-derived guidance informed by Glasgow historical RUK evidence; it is not a Glasgow-published current 2027 cutoff and does not guarantee an interview.';
 
 const {
   isRestOfUkFeeStatus
@@ -2827,7 +2829,10 @@ function publicComparisonCaveat(comparison = {}) {
     return 'Published thresholds and reference ranges can change between cycles and do not guarantee an interview.';
   }
   if (comparison.comparison_type === 'applysmart_prediction_band' || comparison.evidence_status === 'applysmart_derived') {
-    if (comparison.caveat === GLASGOW_SCOTLAND_HOME_UCAT_PREDICTION_CAVEAT) {
+    if (
+      comparison.caveat === GLASGOW_SCOTLAND_HOME_UCAT_PREDICTION_CAVEAT ||
+      comparison.caveat === GLASGOW_RUK_UCAT_PREDICTION_CAVEAT
+    ) {
       return comparison.caveat;
     }
     return 'ApplySmart prediction bands are derived from admissions evidence; they are not university-published ranges, thresholds or guarantees.';
@@ -3211,6 +3216,14 @@ function ucatComparisonLabel(comparison = {}) {
       comparison_label: publicUcatComparisonPhrase(comparison),
       comparison_label_type: 'published_ucat_minimum',
       difference_word: 'minimum'
+    };
+  }
+
+  if (comparison.comparison_type === 'applysmart_prediction_band' || comparison.evidence_status === 'applysmart_derived') {
+    return {
+      comparison_label: 'ApplySmart prediction band',
+      comparison_label_type: 'applysmart_advisory_guide',
+      difference_word: 'prediction band'
     };
   }
 
@@ -4081,6 +4094,16 @@ function isGlasgowScotlandHomeUcatPredictionContext(guidancePool = {}, context =
   return profileId === 'glasgow-a100' && guidancePool?.pool_id === 'scotland_home_school_leaver';
 }
 
+function isGlasgowRukUcatPredictionContext(guidancePool = {}, context = {}) {
+  const profileId =
+    context.courseProfileId ||
+    context.course_profile_id ||
+    context.course_identity?.profile_id ||
+    context.profile_id ||
+    null;
+  return profileId === 'glasgow-a100' && guidancePool?.pool_id === 'home_rest_of_uk_school_leaver';
+}
+
 function deriveHistoricalBenchmark(guidancePool = {}, scoreModel = {}, matchedBandRule = null, context = {}) {
   const pool = guidancePool || {};
   const rules = (pool.band_rules || []).filter((rule) =>
@@ -4120,21 +4143,26 @@ function deriveHistoricalBenchmark(guidancePool = {}, scoreModel = {}, matchedBa
   if (realisticRange) {
     const glasgowScotlandHomePredictionBand =
       isGlasgowScotlandHomeUcatPredictionContext(pool, context);
+    const glasgowRukPredictionBand = isGlasgowRukUcatPredictionContext(pool, context);
+    const glasgowApplySmartPredictionBand =
+      glasgowScotlandHomePredictionBand || glasgowRukPredictionBand;
     return {
       comparison_type: 'historical_range',
       benchmark_min: realisticRange.min,
       benchmark_max: realisticRange.max,
-      benchmark_label: glasgowScotlandHomePredictionBand
+      benchmark_label: glasgowApplySmartPredictionBand
         ? 'ApplySmart prediction band'
         : pool.comparison_guidance?.label || null,
       caveat: glasgowScotlandHomePredictionBand
         ? GLASGOW_SCOTLAND_HOME_UCAT_PREDICTION_CAVEAT
+        : glasgowRukPredictionBand
+        ? GLASGOW_RUK_UCAT_PREDICTION_CAVEAT
         : pool.comparison_guidance?.caveat || null,
-      evidence_status: glasgowScotlandHomePredictionBand ? 'applysmart_derived' : null,
-      evidence_classification: glasgowScotlandHomePredictionBand
+      evidence_status: glasgowApplySmartPredictionBand ? 'applysmart_derived' : null,
+      evidence_classification: glasgowApplySmartPredictionBand
         ? 'applysmart_prediction_guidance'
         : null,
-      prediction_band: glasgowScotlandHomePredictionBand ? realisticRange.band || null : null
+      prediction_band: glasgowApplySmartPredictionBand ? realisticRange.band || null : null
     };
   }
 

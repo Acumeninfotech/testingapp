@@ -181,6 +181,49 @@ describe('ReviewStep contextual display', () => {
 });
 
 describe('ReviewStep Scottish display', () => {
+  function profileAfterALevelToScottishSwitch() {
+    const profile = createEmptyProfile();
+    profile.course_target.qualification_route = 'scottish';
+    profile.gcse_profile.subjects = {
+      english_language: '9',
+      english_literature: '8',
+      mathematics: '9',
+      biology: '9',
+      chemistry: '9',
+      physics: '9',
+    };
+    profile.gcse_profile.additional_subjects = [{ subject_id: 'history', grade: '8' }];
+    profile.a_level_profile.subjects = [
+      { subject_id: 'chemistry', predicted_grade: 'A', achieved_grade: '', practical_endorsement: 'pass' },
+      { subject_id: 'biology', predicted_grade: 'A', achieved_grade: '', practical_endorsement: 'pass' },
+      { subject_id: 'psychology', predicted_grade: 'A', achieved_grade: '', practical_endorsement: 'not_applicable' },
+    ];
+    profile.scottish_profile.national_5_subjects = [
+      { subject_id: 'english_language', grade: 'A' },
+      { subject_id: 'mathematics', grade: 'B' },
+    ];
+    profile.scottish_profile.higher_subjects = [
+      { subject_id: 'chemistry', grade: 'A' },
+      { subject_id: 'biology', grade: 'A' },
+      { subject_id: 'physics', grade: 'B' },
+    ];
+    profile.scottish_profile.advanced_higher_subjects = [
+      { subject_id: 'chemistry', grade: 'B' },
+    ];
+    return profile;
+  }
+
+  it('hides stale GCSE and A-level sections after switching to Scottish qualifications', () => {
+    const profile = profileAfterALevelToScottishSwitch();
+
+    render(<ReviewStep profile={profile} updateProfile={() => {}} errors={{}} />);
+
+    expect(screen.queryByRole('heading', { name: 'GCSE grades' })).not.toBeInTheDocument();
+    expect(screen.queryByRole('heading', { name: 'A levels' })).not.toBeInTheDocument();
+    expect(screen.queryByText('History')).not.toBeInTheDocument();
+    expect(screen.queryByText('Psychology')).not.toBeInTheDocument();
+  });
+
   it('shows entered National 5s alongside Highers and Advanced Highers', () => {
     const profile = createEmptyProfile();
     profile.course_target.qualification_route = 'scottish';
@@ -207,5 +250,18 @@ describe('ReviewStep Scottish display', () => {
     expectReviewValue(scottish, 'Applications of Mathematics', 'B');
     expect(within(scottish).getByRole('heading', { name: 'Highers' })).toBeInTheDocument();
     expect(within(scottish).getByRole('heading', { name: 'Advanced Highers' })).toBeInTheDocument();
+  });
+
+  it('shows retained GCSE and A-level evidence again after switching back to A levels', () => {
+    const profile = profileAfterALevelToScottishSwitch();
+    profile.course_target.qualification_route = 'a_level';
+
+    render(<ReviewStep profile={profile} updateProfile={() => {}} errors={{}} />);
+
+    expect(screen.getByRole('heading', { name: 'GCSE grades' })).toBeInTheDocument();
+    const aLevels = reviewSection('A levels');
+    expectReviewValue(aLevels, 'Chemistry', 'Predicted A; achieved Not provided');
+    expectReviewValue(aLevels, 'Psychology', 'Predicted A; achieved Not provided');
+    expect(screen.queryByRole('heading', { name: 'Scottish qualifications' })).not.toBeInTheDocument();
   });
 });

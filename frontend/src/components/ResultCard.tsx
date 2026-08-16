@@ -1169,13 +1169,15 @@ export function ResultCard({ result }: { result: PredictionResult }) {
         comparisonMetrics.length > 0 ||
         renderableHistoricalStage),
   );
+  const isApplySmartPredictionComparison =
+    ucatComparison?.comparison_type === 'applysmart_prediction_band' ||
+    ucatComparison?.evidence_status === 'applysmart_derived' ||
+    comparison?.label === 'ApplySmart prediction band';
   const historicalTitle =
-    ucatComparison?.comparison_type === 'applysmart_prediction_band'
+    isApplySmartPredictionComparison
       ? 'UCAT PREDICTION CONTEXT'
       : typeof transparency?.comparison_metrics_title === 'string' && transparency.comparison_metrics_title.trim()
       ? publicText(transparency.comparison_metrics_title)
-      : comparison?.label === 'ApplySmart prediction band'
-        ? 'Prediction Context'
       : primaryAssessmentKind === 'selection-score'
         ? 'Historical Score Context'
         : primaryAssessmentKind === 'ranking-only'
@@ -1183,10 +1185,6 @@ export function ResultCard({ result }: { result: PredictionResult }) {
           : primaryAssessmentKind === 'eligibility-only' && isExplicitEligibilityOnly
             ? 'Eligibility Information'
             : 'Historical Context';
-  const isApplySmartPredictionComparison =
-    ucatComparison?.comparison_type === 'applysmart_prediction_band' ||
-    ucatComparison?.evidence_status === 'applysmart_derived' ||
-    comparison?.label === 'ApplySmart prediction band';
   const predictionContextRows =
     isApplySmartPredictionComparison && comparison
       ? [

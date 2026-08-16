@@ -211,6 +211,136 @@ describe('toStudentProfile A-level mapping', () => {
   });
 });
 
+describe('toStudentProfile Scottish route filtering', () => {
+  function profileWithScottishRouteAndStaleEnglishQualifications() {
+    const profile = createEmptyProfile();
+    profile.course_target.qualification_route = 'scottish';
+    profile.applicant_identity = {
+      ...profile.applicant_identity,
+      applicant_type: 'school_leaver',
+      fee_status: 'home',
+      domicile: 'scotland',
+      age_at_course_start_band: 'age_18',
+      current_uk_residence: 'yes',
+    };
+    profile.gcse_profile.subjects = {
+      english_language: '9',
+      english_literature: '8',
+      mathematics: '9',
+      biology: '9',
+      chemistry: '9',
+      physics: '9',
+    };
+    profile.gcse_profile.additional_subjects = [{ subject_id: 'history', grade: '8' }];
+    profile.a_level_profile.subjects = [
+      { subject_id: 'chemistry', predicted_grade: 'E', achieved_grade: '', practical_endorsement: 'fail' },
+      { subject_id: 'psychology', predicted_grade: 'A', achieved_grade: '', practical_endorsement: 'not_applicable' },
+    ];
+    profile.a_level_profile.completed_in_one_sitting = false;
+    profile.a_level_profile.epq = { status: 'predicted', grade: 'A*', taken_alongside_a_levels: true };
+    profile.scottish_profile.completed_in_one_sitting = true;
+    profile.scottish_profile.national_5_subjects = [
+      { subject_id: 'english_language', grade: 'A', school_year: 's4', first_attempt: true },
+    ];
+    profile.scottish_profile.higher_subjects = [
+      { subject_id: 'chemistry', grade: 'A', school_year: 's5', first_attempt: true },
+      { subject_id: 'biology', grade: 'A', school_year: 's5', first_attempt: true },
+      { subject_id: 'mathematics', grade: 'A', school_year: 's5', first_attempt: true },
+      { subject_id: 'physics', grade: 'A', school_year: 's5', first_attempt: true },
+      { subject_id: 'english_language', grade: 'A', school_year: 's5', first_attempt: true },
+    ];
+    profile.scottish_profile.advanced_higher_subjects = [
+      { subject_id: 'physics', grade: 'A', school_year: 's6', first_attempt: true },
+      { subject_id: 'other', grade: 'A', school_year: 's6', first_attempt: true },
+    ];
+    profile.admissions_tests.ucat = {
+      taken: true,
+      total_score: 2000,
+      score_scale: 2700,
+      subtests: {
+        verbal_reasoning: 670,
+        decision_making: 665,
+        quantitative_reasoning: 665,
+      },
+      sjt_band: 4,
+      test_year: 2026,
+    };
+    return profile;
+  }
+
+  it('does not submit stale GCSE or A-level evidence as active Scottish-route evidence', () => {
+    const profile = profileWithScottishRouteAndStaleEnglishQualifications();
+    const studentProfile = toStudentProfile(profile);
+    const gcse = studentProfile.gcse_profile as {
+      subjects: Record<string, unknown>;
+      additional_subjects: unknown[];
+      total_gcse_count: number;
+      top_9_gcse_grades: unknown[];
+    };
+    const aLevel = studentProfile.a_level_profile as {
+      subjects: unknown[];
+      completed_in_one_sitting: boolean | null;
+      epq: Record<string, unknown>;
+    };
+    const scottishProfile = studentProfile.scottish_profile as {
+      national_5_subjects: { subject_id: string; grade: string }[];
+      higher_subjects: { subject_id: string; grade: string }[];
+      advanced_higher_subjects: { subject_id: string; grade: string }[];
+    };
+
+    expect(profile.gcse_profile.additional_subjects).toEqual([{ subject_id: 'history', grade: '8' }]);
+    expect(profile.a_level_profile.subjects.map((subject) => subject.subject_id)).toEqual(['chemistry', 'psychology']);
+    expect(studentProfile.qualification_route).toBe('scottish');
+    expect(gcse).toEqual({
+      subjects: {},
+      additional_subjects: [],
+      total_gcse_count: 0,
+      top_9_gcse_grades: [],
+    });
+    expect(aLevel).toEqual({
+      subjects: [],
+      sitting_status: 'first_sitting',
+      completed_in_one_sitting: null,
+      epq: { status: 'not_taken', grade: null, taken_alongside_a_levels: null },
+    });
+    expect(scottishProfile.national_5_subjects).toHaveLength(1);
+    expect(scottishProfile.higher_subjects).toHaveLength(5);
+    expect(scottishProfile.advanced_higher_subjects).toHaveLength(2);
+    expect(JSON.stringify(studentProfile)).not.toContain('psychology');
+    expect(JSON.stringify(studentProfile)).not.toContain('history');
+
+    const result = predict({
+      universityIds: ['glasgow-a100'],
+      studentProfile,
+    })[0].result_card as { recommendation_display_state: string };
+
+    expect(result.recommendation_display_state).toBe('standard');
+  });
+
+  it('submits retained A-level evidence after switching back to the A-level route', () => {
+    const profile = profileWithScottishRouteAndStaleEnglishQualifications();
+    profile.course_target.qualification_route = 'a_level';
+
+    const studentProfile = toStudentProfile(profile);
+    const gcse = studentProfile.gcse_profile as {
+      additional_subjects: { subject_id: string; grade: string }[];
+      total_gcse_count: number;
+    };
+    const aLevel = studentProfile.a_level_profile as {
+      subjects: { subject_id: string; predicted_grade: string | null }[];
+      completed_in_one_sitting: boolean | null;
+      epq: Record<string, unknown>;
+    };
+
+    expect(studentProfile.qualification_route).toBe('a_level');
+    expect(gcse.additional_subjects).toEqual([{ subject_id: 'history', grade: '8' }]);
+    expect(gcse.total_gcse_count).toBe(7);
+    expect(aLevel.subjects.map((subject) => subject.subject_id)).toEqual(['chemistry', 'psychology']);
+    expect(aLevel.completed_in_one_sitting).toBe(false);
+    expect(aLevel.epq).toEqual({ status: 'predicted', grade: 'A*', taken_alongside_a_levels: true });
+  });
+});
+
 describe('Aston A100 frontend payload contextual route integration', () => {
   function astonAabWizardProfile() {
     const profile = createEmptyProfile();

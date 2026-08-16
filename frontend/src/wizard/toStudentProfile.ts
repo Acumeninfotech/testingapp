@@ -42,6 +42,7 @@ function scottishSubjectList(subjects: ScottishSubject[]) {
 export function toStudentProfile(profile: WizardProfile): StudentProfile {
   const gcse = profile.gcse_profile;
   const route = profile.course_target.qualification_route;
+  const isScottishRoute = route === 'scottish';
   const legacyEnglishLiteratureGrade = gcse.additional_subjects.find(
     (subject) => subject.subject_id === 'english_literature' && subject.grade !== '',
   )?.grade;
@@ -115,27 +116,41 @@ export function toStudentProfile(profile: WizardProfile): StudentProfile {
       entry_route: profile.course_target.entry_route,
     },
     application_year: profile.course_target.application_year || null,
-    gcse_profile: {
-      subjects: {
-        ...gcse.subjects,
-        english_literature: englishLiteratureGrade || undefined,
-        combined_science: gcse.science_mode === 'combined_science' && gcse.combined_science_grade
-          ? `${gcse.combined_science_grade}/${gcse.combined_science_grade}`
-          : null,
-      },
-      additional_subjects: gcse.additional_subjects
-        .filter((s) => s.subject_id !== 'english_literature')
-        .filter((s) => s.subject_id !== '' && s.grade !== '')
-        .map((s) => ({ subject_id: s.subject_id, grade: s.grade })),
-      total_gcse_count: allGcseGrades.length,
-      top_9_gcse_grades: top9GcseGrades,
-    },
-    a_level_profile: {
-      subjects: aLevelSubjects,
-      sitting_status: profile.a_level_profile.sitting_status,
-      completed_in_one_sitting: profile.a_level_profile.completed_in_one_sitting,
-      epq,
-    },
+    gcse_profile: isScottishRoute
+      ? {
+          subjects: {},
+          additional_subjects: [],
+          total_gcse_count: 0,
+          top_9_gcse_grades: [],
+        }
+      : {
+          subjects: {
+            ...gcse.subjects,
+            english_literature: englishLiteratureGrade || undefined,
+            combined_science: gcse.science_mode === 'combined_science' && gcse.combined_science_grade
+              ? `${gcse.combined_science_grade}/${gcse.combined_science_grade}`
+              : null,
+          },
+          additional_subjects: gcse.additional_subjects
+            .filter((s) => s.subject_id !== 'english_literature')
+            .filter((s) => s.subject_id !== '' && s.grade !== '')
+            .map((s) => ({ subject_id: s.subject_id, grade: s.grade })),
+          total_gcse_count: allGcseGrades.length,
+          top_9_gcse_grades: top9GcseGrades,
+        },
+    a_level_profile: isScottishRoute
+      ? {
+          subjects: [],
+          sitting_status: profile.a_level_profile.sitting_status,
+          completed_in_one_sitting: null,
+          epq: { status: 'not_taken', grade: null, taken_alongside_a_levels: null },
+        }
+      : {
+          subjects: aLevelSubjects,
+          sitting_status: profile.a_level_profile.sitting_status,
+          completed_in_one_sitting: profile.a_level_profile.completed_in_one_sitting,
+          epq,
+        },
     scottish_profile: {
       completed_in_one_sitting: profile.scottish_profile.completed_in_one_sitting,
       national_5_subjects: scottishSubjectList(profile.scottish_profile.national_5_subjects),

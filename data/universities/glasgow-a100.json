@@ -292,6 +292,40 @@
             "notes": "UK A-level standard requirement."
           },
           {
+            "requirement_id": "a_level_scotland_home_standard_offer",
+            "academic_pathway": "standard",
+            "applies_to_group_ids": [
+              "home_fee",
+              "scotland_domiciled",
+              "school_leaver"
+            ],
+            "grade_profile": [
+              "A",
+              "A",
+              "A"
+            ],
+            "required_subject_ids": [
+              "chemistry"
+            ],
+            "one_of_subject_groups": [
+              {
+                "group_id": "a_level_second_science_or_maths",
+                "minimum_required": 1,
+                "subject_ids": [
+                  "biology",
+                  "physics",
+                  "mathematics"
+                ],
+                "notes": "One of Biology, Physics or Mathematics is required alongside Chemistry."
+              }
+            ],
+            "decision_outcome_if_not_met": "not_eligible",
+            "source_ids": [
+              "glasgow_degree_page_2027"
+            ],
+            "notes": "Scotland-domiciled Home fee A-level standard requirement; academic criteria match the UK A-level standard offer."
+          },
+          {
             "requirement_id": "a_level_international_standard_offer",
             "applies_to_group_ids": [
               "international_fee",
@@ -517,7 +551,7 @@
             "pathway_id": "glasgow_scottish_standard",
             "academic_pathway": "standard",
             "applies_to_group_ids": [
-              "scotland_domiciled",
+              "home_fee",
               "school_leaver"
             ],
             "qualification_level": "scottish_highers_and_advanced_highers",

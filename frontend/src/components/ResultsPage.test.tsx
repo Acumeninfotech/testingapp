@@ -429,6 +429,118 @@ describe('ResultsPage', () => {
     expect(screen.getByText('above guide')).toBeInTheDocument();
   });
 
+  it('labels Glasgow Scotland/Home UCAT range as an ApplySmart prediction band in the result summary', () => {
+    render(
+      <ResultsPage
+        results={[
+          makeResult('glasgow-a100', 'University of Glasgow', {
+            prediction: { result_band: 'interview_likely' },
+            decision_transparency: {
+              selection_metric: selectionMetric({
+                applicant_value: 2000,
+                comparison_value: 1900,
+                comparison_max_value: 1974,
+                comparison_label: 'ApplySmart prediction band',
+                comparison_label_type: 'applysmart_advisory_guide',
+                difference: 100,
+                difference_direction: 'above',
+                difference_word: 'prediction band',
+                caveat:
+                  'This prediction band is ApplySmart-derived guidance, not a Glasgow-published current 2027 cutoff; it does not guarantee an interview.',
+              }),
+              ucat_comparison: {
+                comparison_type: 'historical_range',
+                applicant_ucat: 2000,
+                benchmark_min: 1900,
+                benchmark_max: 1974,
+                comparison_operator: null,
+                benchmark_label: 'ApplySmart prediction band',
+                caveat:
+                  'This prediction band is ApplySmart-derived guidance, not a Glasgow-published current 2027 cutoff; it does not guarantee an interview.',
+                evidence_status: 'applysmart_derived',
+                evidence_classification: 'applysmart_prediction_guidance',
+                prediction_band: 'realistic',
+                difference_from_benchmark: null,
+                position: 'above',
+                applicant_pool: 'Home, Scotland-domiciled applicants',
+                sjt_policy: 'SJT is not used for interview selection.',
+                sjt_outcome: 'ignored',
+                sjt_summary: 'SJT is not used for interview selection.',
+                applicant_sjt_band: 2,
+                official_ucat_minimum: null,
+              },
+            },
+          }),
+        ]}
+        onStartOver={() => {}}
+      />,
+    );
+
+    const ucatSummary = screen.getByLabelText(
+      /UCAT comparison, 2000 \/ 2700, versus ApplySmart prediction band 1900-1974/i,
+    );
+    expect(ucatSummary).toBeInTheDocument();
+    expect(ucatSummary).toHaveTextContent(/vs\s+ApplySmart prediction band\s+1900-1974/i);
+    expect(screen.getByText('above prediction band')).toBeInTheDocument();
+    expect(screen.queryByText(/vs historical interview range 1900-1974/i)).not.toBeInTheDocument();
+  });
+
+  it('labels Glasgow RUK UCAT range as an ApplySmart prediction band in the result summary', () => {
+    render(
+      <ResultsPage
+        results={[
+          makeResult('glasgow-a100', 'University of Glasgow', {
+            prediction: { result_band: 'interview_likely' },
+            decision_transparency: {
+              selection_metric: selectionMetric({
+                applicant_value: 2000,
+                comparison_value: 1855,
+                comparison_max_value: 1864,
+                comparison_label: 'ApplySmart prediction band',
+                comparison_label_type: 'applysmart_advisory_guide',
+                difference: 145,
+                difference_direction: 'above',
+                difference_word: 'prediction band',
+                caveat:
+                  'This prediction band is ApplySmart-derived guidance informed by Glasgow historical RUK evidence; it is not a Glasgow-published current 2027 cutoff and does not guarantee an interview.',
+              }),
+              ucat_comparison: {
+                comparison_type: 'historical_range',
+                applicant_ucat: 2000,
+                benchmark_min: 1855,
+                benchmark_max: 1864,
+                comparison_operator: null,
+                benchmark_label: 'ApplySmart prediction band',
+                caveat:
+                  'This prediction band is ApplySmart-derived guidance informed by Glasgow historical RUK evidence; it is not a Glasgow-published current 2027 cutoff and does not guarantee an interview.',
+                evidence_status: 'applysmart_derived',
+                evidence_classification: 'applysmart_prediction_guidance',
+                prediction_band: 'realistic',
+                difference_from_benchmark: null,
+                position: 'above',
+                applicant_pool: 'Home, Rest of UK applicants',
+                sjt_policy: 'SJT is not used for interview selection.',
+                sjt_outcome: 'ignored',
+                sjt_summary: 'SJT is not used for interview selection.',
+                applicant_sjt_band: 2,
+                official_ucat_minimum: null,
+              },
+            },
+          }),
+        ]}
+        onStartOver={() => {}}
+      />,
+    );
+
+    const ucatSummary = screen.getByLabelText(
+      /UCAT comparison, 2000 \/ 2700, versus ApplySmart prediction band 1855-1864/i,
+    );
+    expect(ucatSummary).toBeInTheDocument();
+    expect(ucatSummary).toHaveTextContent(/vs\s+ApplySmart prediction band\s+1855-1864/i);
+    expect(screen.getByText('above prediction band')).toBeInTheDocument();
+    expect(screen.queryByText(/vs historical interview range 1855-1864/i)).not.toBeInTheDocument();
+  });
+
   it('keeps decimal score differences visible without showing duplicate comparison labels in the top section', () => {
     render(
       <ResultsPage

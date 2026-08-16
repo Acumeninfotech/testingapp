@@ -84,6 +84,9 @@ function contextualUpliftValue(adjustment: UcatAdjustment): string {
 
 function inlineComparisonLabel(metric: SelectionMetric): string {
   const label = metric.comparison_label || 'Comparison value';
+  if (/^ApplySmart\b/.test(label)) {
+    return label;
+  }
   return label.charAt(0).toLowerCase() + label.slice(1);
 }
 

@@ -1647,9 +1647,17 @@ describe('ResultCard', () => {
       benchmark_label: 'ApplySmart prediction band',
       evidence_status: 'applysmart_derived',
     });
+    expect(result.result_card.decision_transparency?.selection_metric).toMatchObject({
+      comparison_value: 1900,
+      comparison_max_value: 1974,
+      comparison_label: 'ApplySmart prediction band',
+      comparison_label_type: 'applysmart_advisory_guide',
+      difference_word: 'prediction band',
+    });
 
     render(<ResultCard result={result} />);
 
+    expect(screen.getByRole('heading', { name: 'UCAT PREDICTION CONTEXT' })).toBeInTheDocument();
     const predictionContext = screen.getByLabelText('Prediction Context values');
     expect(within(predictionContext).getAllByText('ApplySmart Prediction Band')).toHaveLength(1);
     expect(within(predictionContext).getAllByText('1900-1974')).toHaveLength(1);
@@ -1722,10 +1730,29 @@ describe('ResultCard', () => {
       },
     });
 
+    expect(result.result_card.decision_transparency?.ucat_comparison).toMatchObject({
+      benchmark_label: 'ApplySmart prediction band',
+      caveat:
+        'This prediction band is ApplySmart-derived guidance informed by Glasgow historical RUK evidence; it is not a Glasgow-published current 2027 cutoff and does not guarantee an interview.',
+      evidence_status: 'applysmart_derived',
+    });
+    expect(result.result_card.decision_transparency?.selection_metric).toMatchObject({
+      comparison_label: 'ApplySmart prediction band',
+      comparison_label_type: 'applysmart_advisory_guide',
+      difference_word: 'prediction band',
+    });
     expect(result.result_card.academic_requirement_checks?.filter((check) => check.label === 'A-level grades')).toHaveLength(1);
 
     render(<ResultCard result={result} />);
 
+    expect(screen.getByRole('heading', { name: 'UCAT PREDICTION CONTEXT' })).toBeInTheDocument();
+    const predictionContext = screen.getByLabelText('Prediction Context values');
+    expect(within(predictionContext).getAllByText('ApplySmart Prediction Band')).toHaveLength(1);
+    expect(screen.getByText(/ApplySmart-derived guidance informed by Glasgow historical RUK evidence/i)).toBeInTheDocument();
+    expect(screen.getByText(/not a Glasgow-published current 2027 cutoff/i)).toBeInTheDocument();
+    expect(screen.getByText(/does not guarantee an interview/i)).toBeInTheDocument();
+    expect(screen.queryByText('Historical UCAT Guide')).not.toBeInTheDocument();
+    expect(screen.queryByText(/historical interview range/i)).not.toBeInTheDocument();
     const academicCard = screen.getByText('Academic Requirements').closest('.result-card-summary-card');
     expect(within(academicCard as HTMLElement).getAllByText('A-level grades')).toHaveLength(1);
   });
