@@ -245,10 +245,10 @@ export const UKWPMED_REGISTRY = {
 export const OTHER_ACCESS_PROGRAMMES = [
   { programme_id: 'leicester_accessleicester_medicine', label: 'AccessLeicester: Medicine' },
   { programme_id: 'plymouth_peninsula_pathways_plus', label: 'Peninsula Pathways PLUS' },
-  { programme_id: 'st_andrews_reach_scotland', label: 'Reach Scotland' },
+  { programme_id: 'st_andrews_reach_scotland', label: 'Reach Scotland - University of St Andrews' },
   { programme_id: 'st_andrews_access_programme', label: 'St Andrews Access Programme' },
   { programme_id: 'glasgow_top_up', label: 'Top Up Programme' },
-  { programme_id: 'glasgow_reach', label: 'Reach Programme' },
+  { programme_id: 'glasgow_reach', label: 'Reach Scotland - University of Glasgow Reach Programme' },
   { programme_id: 'edinburgh_access_edinburgh', label: 'Access Edinburgh' },
   { programme_id: 'dundee_reach', label: 'Reach Dundee' },
   { programme_id: 'dundee_access', label: 'Access Dundee' },

@@ -19,6 +19,8 @@ import { AlternativeAcademicOffer } from './AlternativeAcademicOffer';
 const CONTEXTUAL_CONFIRMED_MESSAGE =
   "Contextual eligibility confirmed. Your application has been assessed using this university's published contextual admissions criteria.";
 
+const GLASGOW_REACH_COMPLETION_REQUIRED_REASON = 'glasgow_reach_completion_required';
+
 function isOfficialPredictionUnavailable(card: PredictionResult['result_card']): boolean {
   const officialPrediction = card.prediction?.official_prediction as
     | { available?: boolean; prediction_status?: string }
@@ -180,6 +182,9 @@ function publicComparisonCaveat(comparison?: UcatComparison | null): string {
     return 'Published thresholds and reference ranges can change between cycles and do not guarantee an interview.';
   }
   if (comparison?.comparison_type === 'applysmart_prediction_band' || comparison?.evidence_status === 'applysmart_derived') {
+    if (/Glasgow-published current 2027 cutoff/i.test(comparison?.caveat || '')) {
+      return comparison?.caveat || '';
+    }
     return 'ApplySmart prediction bands are derived from admissions evidence; they are not university-published ranges, thresholds or guarantees.';
   }
   return 'Historical admissions data provides a benchmark only; it is not a current cut-off or a guarantee of interview.';
@@ -896,6 +901,12 @@ export function ResultCard({ result }: { result: PredictionResult }) {
       : typeof transparency?.information_needed_reason === 'string' && transparency.information_needed_reason.trim()
         ? transparency.information_needed_reason.trim()
         : null;
+  const manualReviewReasonCode =
+    typeof transparency?.manual_review_reason_code === 'string' && transparency.manual_review_reason_code.trim()
+      ? transparency.manual_review_reason_code.trim()
+      : null;
+  const glasgowReachCompletionInformationNeeded =
+    manualReviewReasonCode === GLASGOW_REACH_COMPLETION_REQUIRED_REASON;
   const trustStatement =
     typeof card.trust_statement === 'string' && card.trust_statement.trim().length > 0
       ? card.trust_statement
@@ -929,7 +940,10 @@ export function ResultCard({ result }: { result: PredictionResult }) {
       ? publicText(primaryExplanation)
       : compactSentence(primaryExplanation, resultCardRecommendationHeadline(card));
   const summaryLineTwo = publicText(topAcademicStatus);
-  const visibleSummaryLineTwo = isPositiveAcademicStatusSummary(summaryLineTwo) ? null : summaryLineTwo;
+  const visibleSummaryLineTwo =
+    glasgowReachCompletionInformationNeeded || isPositiveAcademicStatusSummary(summaryLineTwo)
+      ? null
+      : summaryLineTwo;
   const advisoryLine = visibleTrustStatement ? compactSentence(visibleTrustStatement) : null;
   const contextualStatusConfirmed =
     card.contextual_status === 'confirmed' && card.recommendation_display_state === 'standard';
@@ -986,6 +1000,11 @@ export function ResultCard({ result }: { result: PredictionResult }) {
   const overallAcademicStatus = exposedOverallAcademicStatus(card, eligibilityStage);
   const academicRows = conciseRequirementRows(card, overallAcademicStatus);
   const academicTone = academicRows[0]?.tone || statusTone(academicStatus);
+  const eligibilitySubtitle = glasgowReachCompletionInformationNeeded
+    ? null
+    : isPositiveAcademicStatusSummary(topAcademicStatus)
+    ? 'You meet the published requirements'
+    : topAcademicStatus;
   const factorUsageEntries = Array.isArray(card.factor_usage) ? card.factor_usage : [];
   const factorUsageById = new Map(factorUsageEntries.map((entry) => [entry.factor_id, entry]));
   const ucatFactor = factorUsageById.get('ucat');
@@ -1164,12 +1183,22 @@ export function ResultCard({ result }: { result: PredictionResult }) {
           : primaryAssessmentKind === 'eligibility-only' && isExplicitEligibilityOnly
             ? 'Eligibility Information'
             : 'Historical Context';
-  const isApplySmartPredictionComparison = ucatComparison?.comparison_type === 'applysmart_prediction_band';
+  const isApplySmartPredictionComparison =
+    ucatComparison?.comparison_type === 'applysmart_prediction_band' ||
+    ucatComparison?.evidence_status === 'applysmart_derived' ||
+    comparison?.label === 'ApplySmart prediction band';
   const predictionContextRows =
     isApplySmartPredictionComparison && comparison
       ? [
           { label: 'ApplySmart Prediction Band', value: comparisonRangeText(comparison) },
-          ...comparisonMetrics.map((row) => ({ label: row.label, value: row.value })),
+          ...comparisonMetrics
+            .filter((row) => {
+              const isDuplicatePredictionBand =
+                publicText(row.label).toLowerCase() === 'applysmart prediction band' &&
+                publicText(row.value) === comparisonRangeText(comparison);
+              return !isDuplicatePredictionBand;
+            })
+            .map((row) => ({ label: row.label, value: row.value })),
         ]
       : [];
 
@@ -1236,7 +1265,7 @@ export function ResultCard({ result }: { result: PredictionResult }) {
       <section className="result-card-section result-card-checks">
         <SectionHeader
           title="Eligibility"
-          subtitle={entryRequirementsMet ? 'You meet the published requirements' : 'Some published requirements need attention'}
+          subtitle={eligibilitySubtitle}
           icon="shield"
         />
         <div className="result-card-summary-grid">

@@ -185,14 +185,14 @@ describe('ReviewStep Scottish display', () => {
     const profile = createEmptyProfile();
     profile.course_target.qualification_route = 'scottish';
     profile.scottish_profile.national_5_subjects = [
-      { subject_id: 'english', grade: 'A' },
+      { subject_id: 'english_language', grade: 'A' },
       { subject_id: 'mathematics', grade: 'B' },
       { subject_id: '', grade: '' },
     ];
     profile.scottish_profile.higher_subjects = [
       { subject_id: 'chemistry', grade: 'A' },
       { subject_id: 'biology', grade: 'A' },
-      { subject_id: 'mathematics', grade: 'B' },
+      { subject_id: 'applications_of_mathematics', grade: 'B' },
     ];
     profile.scottish_profile.advanced_higher_subjects = [
       { subject_id: 'chemistry', grade: 'B' },
@@ -202,8 +202,9 @@ describe('ReviewStep Scottish display', () => {
 
     const scottish = reviewSection('Scottish qualifications');
     expect(within(scottish).getByRole('heading', { name: 'National 5s' })).toBeInTheDocument();
-    expectReviewValue(scottish, 'English', 'A');
+    expectReviewValue(scottish, 'English Language', 'A');
     expect(within(scottish).getAllByText('Mathematics')[0].nextElementSibling).toHaveTextContent('B');
+    expectReviewValue(scottish, 'Applications of Mathematics', 'B');
     expect(within(scottish).getByRole('heading', { name: 'Highers' })).toBeInTheDocument();
     expect(within(scottish).getByRole('heading', { name: 'Advanced Highers' })).toBeInTheDocument();
   });

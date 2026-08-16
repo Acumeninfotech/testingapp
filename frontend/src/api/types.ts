@@ -207,6 +207,7 @@ export interface DecisionTransparency {
   evidence_used?: string[];
   warnings?: string[];
   manual_review_reason?: string | null;
+  manual_review_reason_code?: string | null;
   information_needed_reason?: string | null;
   insufficient_evidence_reason?: string | null;
   // Distinguishes an insufficient_evidence result caused by the university's

@@ -375,34 +375,296 @@ describe('toStudentProfile identity mapping', () => {
     const profile = createEmptyProfile();
     profile.course_target.qualification_route = 'scottish';
     profile.scottish_profile.national_5_subjects = [
-      { subject_id: 'english', grade: 'A' },
-      { subject_id: 'mathematics', grade: 'B' },
+      { subject_id: 'english_language', grade: 'A', school_year: 's4', first_attempt: true },
+      { subject_id: 'mathematics', grade: 'B', school_year: 's4', first_attempt: true },
       { subject_id: '', grade: '' },
     ];
 
     const studentProfile = toStudentProfile(profile);
     const scottishProfile = studentProfile.scottish_profile as {
-      national_5_subjects: { subject_id: string; grade: string }[];
+      national_5_subjects: {
+        subject_id: string;
+        grade: string;
+        predicted_grade: string;
+        school_year: string;
+        sitting_id: string;
+        first_attempt: boolean;
+      }[];
     };
 
     expect(scottishProfile.national_5_subjects).toEqual([
-      { subject_id: 'english', grade: 'A' },
-      { subject_id: 'mathematics', grade: 'B' },
+      {
+        subject_id: 'english_language',
+        grade: 'A',
+        predicted_grade: 'A',
+        school_year: 's4',
+        sitting_id: 's4',
+        first_attempt: true,
+      },
+      {
+        subject_id: 'mathematics',
+        grade: 'B',
+        predicted_grade: 'B',
+        school_year: 's4',
+        sitting_id: 's4',
+        first_attempt: true,
+      },
     ]);
+  });
+
+  it('preserves Applications of Mathematics as distinct from Mathematics in Scottish Higher mapping', () => {
+    const profile = createEmptyProfile();
+    profile.course_target.qualification_route = 'scottish';
+    profile.scottish_profile.higher_subjects = [
+      { subject_id: 'chemistry', grade: 'A', school_year: 's5', first_attempt: true },
+      { subject_id: 'biology', grade: 'A', school_year: 's5', first_attempt: true },
+      { subject_id: 'applications_of_mathematics', grade: 'A', school_year: 's5', first_attempt: true },
+    ];
+
+    const studentProfile = toStudentProfile(profile);
+    const scottishProfile = studentProfile.scottish_profile as {
+      higher_subjects: {
+        subject_id: string;
+        grade: string;
+        predicted_grade: string;
+        school_year: string;
+        sitting_id: string;
+        first_attempt: boolean;
+      }[];
+    };
+
+    expect(scottishProfile.higher_subjects[2]).toEqual({
+      subject_id: 'applications_of_mathematics',
+      grade: 'A',
+      predicted_grade: 'A',
+      school_year: 's5',
+      sitting_id: 's5',
+      first_attempt: true,
+    });
+    expect(scottishProfile.higher_subjects.map((subject) => subject.subject_id)).not.toContain('mathematics');
+  });
+
+  it('maps the Glasgow Scottish standard Case 1 wizard profile as eligible', () => {
+    const profile = createEmptyProfile();
+    profile.course_target.qualification_route = 'scottish';
+    profile.applicant_identity = {
+      ...profile.applicant_identity,
+      applicant_type: 'school_leaver',
+      fee_status: 'home',
+      domicile: 'scotland',
+      age_at_course_start_band: 'age_18',
+      current_uk_residence: 'yes',
+    };
+    profile.scottish_profile.completed_in_one_sitting = true;
+    profile.scottish_profile.national_5_subjects = [
+      { subject_id: 'english_language', grade: 'A', school_year: 's4', first_attempt: true },
+    ];
+    profile.scottish_profile.higher_subjects = [
+      { subject_id: 'chemistry', grade: 'A', school_year: 's5', first_attempt: true },
+      { subject_id: 'biology', grade: 'A', school_year: 's5', first_attempt: true },
+      { subject_id: 'mathematics', grade: 'A', school_year: 's5', first_attempt: true },
+      { subject_id: 'physics', grade: 'A', school_year: 's5', first_attempt: true },
+      { subject_id: 'english_language', grade: 'A', school_year: 's5', first_attempt: true },
+    ];
+    profile.scottish_profile.advanced_higher_subjects = [
+      { subject_id: 'physics', grade: 'A', school_year: 's6', first_attempt: true },
+      { subject_id: 'other', grade: 'A', school_year: 's6', first_attempt: true },
+    ];
+    profile.admissions_tests.ucat = {
+      taken: true,
+      total_score: 2000,
+      score_scale: 2700,
+      subtests: {
+        verbal_reasoning: 670,
+        decision_making: 665,
+        quantitative_reasoning: 665,
+      },
+      sjt_band: 4,
+      test_year: 2026,
+    };
+
+    const result = predict({
+      universityIds: ['glasgow-a100'],
+      studentProfile: toStudentProfile(profile),
+    })[0].result_card as {
+      recommendation_display_state: string;
+      primary_user_facing_recommendation: string;
+      decision_transparency?: {
+        compact_status?: { label: string; tone: string };
+      };
+      academic_requirement_checks?: { label: string; status: string }[];
+    };
+
+    expect(result.recommendation_display_state).toBe('standard');
+    expect(result.decision_transparency?.compact_status).toMatchObject({
+      label: 'You meet the academic requirements.',
+      tone: 'positive',
+    });
+    expect(result.academic_requirement_checks?.map((entry) => [
+      entry.label,
+      entry.status,
+    ])).toEqual([
+      ['National 5 English at grade B', 'met'],
+      ['Scottish standard route', 'met'],
+    ]);
+    expect(result.primary_user_facing_recommendation).not.toMatch(/not suitable/i);
+  });
+
+  it('does not let Glasgow Case 8 treat Higher Applications of Mathematics as Higher Mathematics', () => {
+    const profile = createEmptyProfile();
+    profile.course_target.qualification_route = 'scottish';
+    profile.applicant_identity = {
+      ...profile.applicant_identity,
+      applicant_type: 'school_leaver',
+      fee_status: 'home',
+      domicile: 'scotland',
+      age_at_course_start_band: 'age_18',
+      current_uk_residence: 'yes',
+    };
+    profile.scottish_profile.completed_in_one_sitting = true;
+    profile.scottish_profile.national_5_subjects = [
+      { subject_id: 'english_language', grade: 'A', school_year: 's4', first_attempt: true },
+    ];
+    profile.scottish_profile.higher_subjects = [
+      { subject_id: 'chemistry', grade: 'A', school_year: 's5', first_attempt: true },
+      { subject_id: 'biology', grade: 'A', school_year: 's5', first_attempt: true },
+      { subject_id: 'applications_of_mathematics', grade: 'A', school_year: 's5', first_attempt: true },
+      { subject_id: 'english_language', grade: 'A', school_year: 's5', first_attempt: true },
+      { subject_id: 'history', grade: 'B', school_year: 's5', first_attempt: true },
+    ];
+    profile.scottish_profile.advanced_higher_subjects = [
+      { subject_id: 'chemistry', grade: 'B', school_year: 's6', first_attempt: true },
+      { subject_id: 'biology', grade: 'B', school_year: 's6', first_attempt: true },
+    ];
+    profile.admissions_tests.ucat = {
+      taken: true,
+      total_score: 2000,
+      score_scale: 2700,
+      subtests: {
+        verbal_reasoning: 670,
+        decision_making: 665,
+        quantitative_reasoning: 665,
+      },
+      sjt_band: 4,
+      test_year: 2026,
+    };
+
+    const result = predict({
+      universityIds: ['glasgow-a100'],
+      studentProfile: toStudentProfile(profile),
+    })[0].result_card as {
+      primary_user_facing_recommendation: string;
+      academic_requirement_checks?: { label: string; status: string }[];
+    };
+
+    expect(result.academic_requirement_checks?.map((entry) => [
+      entry.label,
+      entry.status,
+    ])).toEqual([
+      ['National 5 English at grade B', 'met'],
+      ['Scottish standard route', 'not_met'],
+    ]);
+    expect(result.primary_user_facing_recommendation).toBe('Not currently eligible');
+  });
+
+  it('maps the Glasgow Scottish adjusted Case 3 wizard profile as eligible', () => {
+    const profile = createEmptyProfile();
+    profile.course_target.qualification_route = 'scottish';
+    profile.applicant_identity = {
+      ...profile.applicant_identity,
+      applicant_type: 'school_leaver',
+      fee_status: 'home',
+      domicile: 'scotland',
+      age_at_course_start_band: 'age_18',
+      current_uk_residence: 'yes',
+    };
+    profile.contextual_profile.home_area_region.simd_quintile = 'q1';
+    profile.contextual_profile.access_programmes.participation_status = 'yes';
+    profile.contextual_profile.access_programmes.other_programmes = [
+      { programme_id: 'glasgow_reach', status: 'completed' },
+    ];
+    profile.scottish_profile.completed_in_one_sitting = true;
+    profile.scottish_profile.national_5_subjects = [
+      { subject_id: 'english_language', grade: 'B', school_year: 's4', first_attempt: true },
+    ];
+    profile.scottish_profile.higher_subjects = [
+      { subject_id: 'chemistry', grade: 'A', school_year: 's5', first_attempt: true },
+      { subject_id: 'biology', grade: 'A', school_year: 's5', first_attempt: true },
+      { subject_id: 'mathematics', grade: 'A', school_year: 's5', first_attempt: true },
+      { subject_id: 'physics', grade: 'B', school_year: 's5', first_attempt: true },
+      { subject_id: 'history', grade: 'B', school_year: 's5', first_attempt: true },
+    ];
+    profile.scottish_profile.advanced_higher_subjects = [
+      { subject_id: 'chemistry', grade: 'B', school_year: 's6', first_attempt: true },
+      { subject_id: 'biology', grade: 'C', school_year: 's6', first_attempt: true },
+    ];
+    profile.admissions_tests.ucat = {
+      taken: true,
+      total_score: 2000,
+      score_scale: 2700,
+      subtests: {
+        verbal_reasoning: 670,
+        decision_making: 665,
+        quantitative_reasoning: 665,
+      },
+      sjt_band: 4,
+      test_year: 2026,
+    };
+
+    const result = predict({
+      universityIds: ['glasgow-a100'],
+      studentProfile: toStudentProfile(profile),
+    })[0].result_card as {
+      recommendation_display_state: string;
+      primary_user_facing_recommendation: string;
+      contextual_status?: string | null;
+      contextual_confirmation?: { collapsed_label?: string } | null;
+      decision_transparency?: {
+        compact_status?: { label: string; tone: string };
+        decision_path?: { checks?: { label: string; summary?: string }[] }[];
+      };
+      academic_requirement_checks?: { label: string; status: string }[];
+      alternative_academic_offer?: { pathway_id?: string; alternative_offer?: string } | null;
+    };
+
+    expect(result.recommendation_display_state).toBe('standard');
+    expect(result.contextual_status).toBe('confirmed');
+    expect(result.contextual_confirmation?.collapsed_label).toBe('Glasgow adjusted Scottish route confirmed');
+    expect(result.decision_transparency?.compact_status).toMatchObject({
+      label: 'Contextual eligibility confirmed.',
+      tone: 'positive',
+    });
+    expect(result.academic_requirement_checks?.map((entry) => [
+      entry.label,
+      entry.status,
+    ])).toEqual([
+      ['National 5 English at grade B', 'met'],
+      ['Scottish adjusted/contextual route', 'met'],
+    ]);
+    expect(result.alternative_academic_offer).toMatchObject({
+      pathway_id: 'glasgow_scottish_adjusted',
+      alternative_offer: 'AAABB or AAAAC Scottish Highers + BC Advanced Highers',
+    });
+    expect(
+      result.decision_transparency?.decision_path
+        ?.flatMap((stage) => stage.checks ?? [])
+        .find((entry) => entry.label === 'Applicant pool')?.summary,
+    ).toBe('Home, Scotland-domiciled applicants (contextual/widening participation)');
+    expect(result.primary_user_facing_recommendation).not.toMatch(/information needed|not suitable/i);
   });
 
   it('pads older stored National 5 rows to five without replacing entries', () => {
     const profile = normaliseStoredProfile({
       scottish_profile: {
         national_5_subjects: [
-          { subject_id: 'english', grade: 'A' },
+          { subject_id: 'english_language', grade: 'A' },
           { subject_id: 'mathematics', grade: 'B' },
         ],
       },
     });
 
     expect(profile.scottish_profile.national_5_subjects).toEqual([
-      { subject_id: 'english', grade: 'A' },
+      { subject_id: 'english_language', grade: 'A' },
       { subject_id: 'mathematics', grade: 'B' },
       { subject_id: '', grade: '' },
       { subject_id: '', grade: '' },
@@ -412,7 +674,7 @@ describe('toStudentProfile identity mapping', () => {
 
   it('does not truncate stored National 5 rows beyond five', () => {
     const national5Subjects = [
-      { subject_id: 'english', grade: 'A' },
+      { subject_id: 'english_language', grade: 'A' },
       { subject_id: 'mathematics', grade: 'A' },
       { subject_id: 'biology', grade: 'A' },
       { subject_id: 'chemistry', grade: 'A' },
@@ -454,7 +716,7 @@ describe('toStudentProfile identity mapping', () => {
       { subject_id: 'biology', grade: 'A' },
       { subject_id: 'mathematics', grade: 'A' },
       { subject_id: 'physics', grade: 'A' },
-      { subject_id: 'english', grade: 'B' },
+      { subject_id: 'english_language', grade: 'B' },
       { subject_id: 'history', grade: 'A' },
     ];
     const profile = normaliseStoredProfile({

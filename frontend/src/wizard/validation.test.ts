@@ -461,6 +461,13 @@ describe('validateRouteStep', () => {
 });
 
 describe('validateScottishStep', () => {
+  const higher = (subject_id: string, grade: 'A' | 'B' = 'A') => ({
+    subject_id,
+    grade,
+    school_year: 's5' as const,
+    first_attempt: true,
+  });
+
   it('requires at least three Higher subjects with grades', () => {
     const errors = validateScottishStep(createEmptyProfile());
     expect(errors.higher_subjects).toBeTruthy();
@@ -468,10 +475,11 @@ describe('validateScottishStep', () => {
 
   it('allows blank optional National 5 rows', () => {
     const profile = createEmptyProfile();
+    profile.scottish_profile.completed_in_one_sitting = true;
     profile.scottish_profile.higher_subjects = [
-      { subject_id: 'chemistry', grade: 'A' },
-      { subject_id: 'biology', grade: 'A' },
-      { subject_id: 'mathematics', grade: 'B' },
+      higher('chemistry'),
+      higher('biology'),
+      higher('mathematics', 'B'),
     ];
 
     expect(validateScottishStep(profile).national_5_subjects).toBeUndefined();
@@ -479,22 +487,43 @@ describe('validateScottishStep', () => {
 
   it('requires a grade when an optional National 5 subject is entered', () => {
     const profile = createEmptyProfile();
-    profile.scottish_profile.national_5_subjects[0] = { subject_id: 'english', grade: '' };
+    profile.scottish_profile.completed_in_one_sitting = true;
+    profile.scottish_profile.national_5_subjects[0] = {
+      subject_id: 'english_language',
+      grade: '',
+      school_year: 's4',
+      first_attempt: true,
+    };
     profile.scottish_profile.higher_subjects = [
-      { subject_id: 'chemistry', grade: 'A' },
-      { subject_id: 'biology', grade: 'A' },
-      { subject_id: 'mathematics', grade: 'B' },
+      higher('chemistry'),
+      higher('biology'),
+      higher('mathematics', 'B'),
     ];
 
     expect(validateScottishStep(profile).national_5_subjects_0_grade).toBeTruthy();
   });
 
-  it('passes with three Highers filled in', () => {
+  it('requires school year, attempt status and same-sitting evidence for Scottish rows', () => {
     const profile = createEmptyProfile();
     profile.scottish_profile.higher_subjects = [
       { subject_id: 'chemistry', grade: 'A' },
-      { subject_id: 'biology', grade: 'A' },
-      { subject_id: 'mathematics', grade: 'B' },
+      higher('biology'),
+      higher('mathematics', 'B'),
+    ];
+
+    const errors = validateScottishStep(profile);
+    expect(errors.higher_subjects_0_school_year).toBeTruthy();
+    expect(errors.higher_subjects_0_first_attempt).toBeTruthy();
+    expect(errors.scottish_completed_in_one_sitting).toBeTruthy();
+  });
+
+  it('passes with three Highers filled in', () => {
+    const profile = createEmptyProfile();
+    profile.scottish_profile.completed_in_one_sitting = true;
+    profile.scottish_profile.higher_subjects = [
+      higher('chemistry'),
+      higher('biology'),
+      higher('mathematics', 'B'),
     ];
     expect(hasErrors(validateScottishStep(profile))).toBe(false);
   });

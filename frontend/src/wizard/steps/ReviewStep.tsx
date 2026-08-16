@@ -65,6 +65,7 @@ const FRIENDLY_LABELS: Record<string, string> = {
   not_sure: 'Not sure',
   english_literature: 'English Literature',
   mathematics: 'Mathematics',
+  applications_of_mathematics: 'Applications of Mathematics',
   biology: 'Biology',
   chemistry: 'Chemistry',
   physics: 'Physics',

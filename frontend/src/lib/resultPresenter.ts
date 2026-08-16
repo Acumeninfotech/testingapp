@@ -127,11 +127,18 @@ export const UNRESOLVED_LABELS = {
   predictionUnavailable: 'Prediction Unavailable',
 } as const;
 
+const GLASGOW_REACH_COMPLETION_REQUIRED_REASON = 'glasgow_reach_completion_required';
+
 function isPredictionUnavailableReasonCode(reasonCode?: string | null): boolean {
   return reasonCode === 'university_methodology_gap' ||
     reasonCode === 'prediction_calibration_unavailable' ||
     reasonCode === 'academic_matrix_band_unavailable' ||
     /historical_evidence_gap/.test(reasonCode ?? '');
+}
+
+function manualReviewReasonCode(card: PredictionResult['result_card']): string | null {
+  const code = card.decision_transparency?.manual_review_reason_code;
+  return typeof code === 'string' && code.trim().length > 0 ? code.trim() : null;
 }
 
 function firstNonEmptyString(...values: Array<string | null | undefined>): string | null {
@@ -199,7 +206,8 @@ export function presentResult(card: PredictionResult['result_card']): ResultPres
     // cannot safely calculate (e.g. a qualification route needing adviser
     // review) - distinct from missing applicant data.
     const manualReason = card.decision_transparency?.manual_review_reason || '';
-    const label = /please confirm|missing|required applicant information|more information/i.test(manualReason)
+    const label = manualReviewReasonCode(card) === GLASGOW_REACH_COMPLETION_REQUIRED_REASON ||
+      /please confirm|missing|required applicant information|more information/i.test(manualReason)
       ? UNRESOLVED_LABELS.informationNeeded
       : UNRESOLVED_LABELS.needsReview;
     return {

@@ -51,6 +51,11 @@ const ABERDEEN_REACH_CONTEXTUAL_CONFIRMATION =
 const ABERDEEN_REACH_CONTEXTUAL_REVIEW_REASON =
   'Further evidence or review is needed to confirm Aberdeen Reach Program Scotland widening-access eligibility.';
 
+const GLASGOW_REACH_COMPLETION_INFORMATION_NEEDED_REASON =
+  'Successful completion of Reach is required to confirm the Glasgow adjusted/contextual route.';
+const GLASGOW_SCOTLAND_HOME_UCAT_PREDICTION_CAVEAT =
+  'This prediction band is ApplySmart-derived guidance, not a Glasgow-published current 2027 cutoff; it does not guarantee an interview.';
+
 const {
   isRestOfUkFeeStatus
 } = require('./applicant-group-normalisation');
@@ -324,7 +329,7 @@ function humanSubjectLabel(subjectId) {
     .replace(/\b\w/g, (char) => char.toUpperCase());
 }
 
-function academicRequirementLabelForCheck(rawCheck, qualificationType) {
+function academicRequirementLabelForCheck(rawCheck, qualificationType, context = {}) {
   const checkId = academicRequirementCheckId(rawCheck);
   const firstSubject =
     rawCheck?.subject_id ||
@@ -355,10 +360,33 @@ function academicRequirementLabelForCheck(rawCheck, qualificationType) {
   if (checkId === 'a_level_contextual_offer') {
     return 'Contextual A-level grades';
   }
+  const evaluatedRequirementIds = [
+    ...(rawCheck?.evaluated_requirement_ids || []),
+    ...(rawCheck?.failed_requirement_ids || [])
+  ].map(normaliseCheckId);
+  if (
+    checkId === 'national_5_requirements' &&
+    evaluatedRequirementIds.includes('national_5_english_minimum')
+  ) {
+    return 'National 5 English at grade B';
+  }
+  if (
+    context.course_profile_id === 'glasgow-a100' &&
+    qualificationType === 'gcse' &&
+    checkId === 'gcse_biology_if_not_a_level_biology'
+  ) {
+    return 'GCSE Biology';
+  }
   if (checkId === 'national_5_requirements' || checkId.includes('national_5')) {
     return 'National 5s';
   }
   if (checkId === 'scottish_post_16_requirements' || checkId.includes('scottish_post_16')) {
+    if (context.course_profile_id === 'glasgow-a100') {
+      return context.academic_pathway === 'contextual' ||
+        context.academic_pathway_id === 'glasgow_scottish_adjusted'
+        ? 'Scottish adjusted/contextual route'
+        : 'Scottish standard route';
+    }
     return 'Scottish Highers';
   }
   if (checkId === 'a_level_route' || checkId.includes('a_level')) {
@@ -691,6 +719,23 @@ function buildContextualScottishAcademicOffer(stage1Eligibility = null, context 
     return null;
   }
 
+  if (
+    matchedRoute.pathway_id === 'glasgow_scottish_adjusted' ||
+    matchedRoute.route_id === 'glasgow_scottish_adjusted' ||
+    matchedRoute.requirement_id === 'sqa_adjusted_contextual_offer'
+  ) {
+    return {
+      type: 'contextual',
+      standard_offer: 'AAAAB Scottish Highers + BB Advanced Highers',
+      alternative_offer: 'AAABB or AAAAC Scottish Highers + BC Advanced Highers',
+      pathway_id: 'glasgow_scottish_adjusted',
+      conditions: [
+        'Adjusted Scottish route requires confirmed Glasgow contextual eligibility and successful completion of Reach.',
+        'The C grade in the AAAAC Higher option cannot be Chemistry.'
+      ]
+    };
+  }
+
   const standardGrades =
     scottish.higher_offer?.grade_profile ||
     routes.find((route) => {
@@ -980,7 +1025,7 @@ function buildAcademicRequirementChecks(rawChecks = [], eligibilityStatus = null
       continue;
     }
     const checkId = academicRequirementCheckId(rawCheck) || qualificationType;
-    const label = academicRequirementLabelForCheck(rawCheck, qualificationType);
+    const label = academicRequirementLabelForCheck(rawCheck, qualificationType, buildContext);
     const key = publicAcademicRequirementKey(rawCheck, qualificationType, label);
     const row = {
       qualification_type: qualificationType,
@@ -1545,6 +1590,15 @@ function contextualOfferRouteSummary(card = {}, offer = null) {
 
 function contextualConfirmationFor(card = {}, contextualStatus = null, options = {}) {
   const profileId = card.course_identity?.profile_id || card.profile_id || null;
+  if (profileId === 'glasgow-a100' && contextualStatus === 'confirmed') {
+    return {
+      collapsed_label: 'Glasgow adjusted Scottish route confirmed',
+      expanded_heading: 'Glasgow adjusted Scottish route confirmed',
+      consideration_label: 'Adjusted Scottish route:',
+      expanded_body:
+        "ApplySmart applied Glasgow's adjusted/contextual Scottish academic route because Glasgow contextual eligibility and successful completion of Reach were confirmed. Reach completion alone does not make an applicant contextual."
+    };
+  }
   if (
     profileId === 'lancaster-a100' &&
     contextualStatus === 'confirmed' &&
@@ -2773,6 +2827,9 @@ function publicComparisonCaveat(comparison = {}) {
     return 'Published thresholds and reference ranges can change between cycles and do not guarantee an interview.';
   }
   if (comparison.comparison_type === 'applysmart_prediction_band' || comparison.evidence_status === 'applysmart_derived') {
+    if (comparison.caveat === GLASGOW_SCOTLAND_HOME_UCAT_PREDICTION_CAVEAT) {
+      return comparison.caveat;
+    }
     return 'ApplySmart prediction bands are derived from admissions evidence; they are not university-published ranges, thresholds or guarantees.';
   }
   return HISTORICAL_GUIDANCE_CAVEAT;
@@ -3399,6 +3456,14 @@ function buildCompactStatus({ state, eligibilityStatus, card = {} }) {
   }
 
   if (state === 'manual_review') {
+    const glasgowReachCompletionReason = glasgowReachCompletionInformationNeededReason(card);
+    if (glasgowReachCompletionReason) {
+      return {
+        label: glasgowReachCompletionReason,
+        type: 'information_needed',
+        tone: 'warning'
+      };
+    }
     return {
       label: academicStatusSummary(state, eligibilityStatus, card),
       type: 'academic_status',
@@ -4006,7 +4071,17 @@ function derivedBandBenchmarkFromRule(rule = {}, pool = {}) {
   return null;
 }
 
-function deriveHistoricalBenchmark(guidancePool = {}, scoreModel = {}, matchedBandRule = null) {
+function isGlasgowScotlandHomeUcatPredictionContext(guidancePool = {}, context = {}) {
+  const profileId =
+    context.courseProfileId ||
+    context.course_profile_id ||
+    context.course_identity?.profile_id ||
+    context.profile_id ||
+    null;
+  return profileId === 'glasgow-a100' && guidancePool?.pool_id === 'scotland_home_school_leaver';
+}
+
+function deriveHistoricalBenchmark(guidancePool = {}, scoreModel = {}, matchedBandRule = null, context = {}) {
   const pool = guidancePool || {};
   const rules = (pool.band_rules || []).filter((rule) =>
     rule.metric === undefined || rule.metric === pool.metric
@@ -4043,12 +4118,23 @@ function deriveHistoricalBenchmark(guidancePool = {}, scoreModel = {}, matchedBa
     Number.isFinite(rule.max)
   );
   if (realisticRange) {
+    const glasgowScotlandHomePredictionBand =
+      isGlasgowScotlandHomeUcatPredictionContext(pool, context);
     return {
       comparison_type: 'historical_range',
       benchmark_min: realisticRange.min,
       benchmark_max: realisticRange.max,
-      benchmark_label: pool.comparison_guidance?.label || null,
-      caveat: pool.comparison_guidance?.caveat || null
+      benchmark_label: glasgowScotlandHomePredictionBand
+        ? 'ApplySmart prediction band'
+        : pool.comparison_guidance?.label || null,
+      caveat: glasgowScotlandHomePredictionBand
+        ? GLASGOW_SCOTLAND_HOME_UCAT_PREDICTION_CAVEAT
+        : pool.comparison_guidance?.caveat || null,
+      evidence_status: glasgowScotlandHomePredictionBand ? 'applysmart_derived' : null,
+      evidence_classification: glasgowScotlandHomePredictionBand
+        ? 'applysmart_prediction_guidance'
+        : null,
+      prediction_band: glasgowScotlandHomePredictionBand ? realisticRange.band || null : null
     };
   }
 
@@ -4106,7 +4192,18 @@ function buildUcatComparison(options = {}) {
   );
   const minimumFailure = (options.eligibilityFailures || [])
     .some((failure) => String(failure).startsWith('minimum_ucat_total_not_met'));
-  const benchmark = deriveHistoricalBenchmark(options.guidancePool, options.scoreModel, options.matchedBandRule);
+  const benchmark = deriveHistoricalBenchmark(
+    options.guidancePool,
+    options.scoreModel,
+    options.matchedBandRule,
+    {
+      courseProfileId:
+        options.courseProfileId ||
+        options.course_profile_id ||
+        options.course_identity?.profile_id ||
+        null
+    }
+  );
   const comparison = minimumFailure && officialMinimum
     ? {
       comparison_type: 'official_minimum',
@@ -4561,6 +4658,30 @@ function resolveInsufficientEvidenceReason({
   );
 }
 
+function glasgowReachCompletionInformationNeededReason(card = {}) {
+  const profileId = card.course_identity?.profile_id || card.course_profile_id || card.profile_id;
+  if (profileId !== 'glasgow-a100') {
+    return null;
+  }
+
+  const contextual = card.eligibility?.contextual_eligibility || card.contextual_eligibility || null;
+  const manualReviewReasons = [
+    ...(Array.isArray(card.eligibility?.manual_review_reasons)
+      ? card.eligibility.manual_review_reasons
+      : []),
+    ...(Array.isArray(card.manual_review_reasons)
+      ? card.manual_review_reasons
+      : []),
+    contextual?.manual_review_reason
+  ]
+    .map(normaliseCheckId)
+    .filter(Boolean);
+
+  return manualReviewReasons.includes('glasgow_reach_completion_required')
+    ? GLASGOW_REACH_COMPLETION_INFORMATION_NEEDED_REASON
+    : null;
+}
+
 function appendNotARejection(reason) {
   if (!reason) {
     return null;
@@ -4583,6 +4704,10 @@ function publicInformationNeededReason({
     const profileId = card.course_identity?.profile_id || card.course_profile_id;
     const contextual = card.eligibility?.contextual_eligibility || card.contextual_eligibility || null;
     const lancasterAccessWpReviewReason = lancasterAccessToMedicineWpReviewReason(card, missingInformation);
+    const glasgowReachCompletionReason = glasgowReachCompletionInformationNeededReason(card);
+    if (glasgowReachCompletionReason) {
+      return glasgowReachCompletionReason;
+    }
     if (lancasterAccessWpReviewReason) {
       return appendNotARejection(lancasterAccessWpReviewReason);
     }
@@ -4818,9 +4943,11 @@ function buildDecisionTransparency(card, options = {}) {
       ? 'One or more supported entry requirements are not met.'
       : 'The supported entry requirements are met.')
   );
+  const glasgowReachCompletionReason = glasgowReachCompletionInformationNeededReason(card);
   const manualReviewReason =
     state === 'manual_review'
       ? options.manualReviewReason ||
+        glasgowReachCompletionReason ||
         'Some required applicant information is missing or needs confirmation by an adviser.'
       : null;
   const insufficientEvidenceReasonCode =
@@ -5095,6 +5222,9 @@ function buildDecisionTransparency(card, options = {}) {
       }
       : undefined,
     manual_review_reason: manualReviewReason,
+    manual_review_reason_code: glasgowReachCompletionReason
+      ? 'glasgow_reach_completion_required'
+      : null,
     information_needed_reason: informationNeededReason,
     insufficient_evidence_reason: insufficientEvidenceReason,
     insufficient_evidence_reason_code: insufficientEvidenceReasonCode,
@@ -5163,12 +5293,13 @@ function presentResultCard({
       applicantGroupIds: transparencyContext.applicant_group_ids,
       applicantPool: transparencyContext.applicantPool,
       eligibilityFailures: transparencyContext.eligibility_failures,
-	      stage1Eligibility: transparencyContext.stage_1_eligibility,
-	      bandMetric: transparencyContext.band_metric,
-	      guidancePool: transparencyContext.guidance_pool,
-	      matchedBandRule: transparencyContext.matched_band_rule,
-	      scoreModel: transparencyContext.score_model
-	    })
+      stage1Eligibility: transparencyContext.stage_1_eligibility,
+      bandMetric: transparencyContext.band_metric,
+      guidancePool: transparencyContext.guidance_pool,
+      matchedBandRule: transparencyContext.matched_band_rule,
+      scoreModel: transparencyContext.score_model,
+      courseProfileId: transparencyContext.course_identity?.profile_id || null
+    })
     : null;
 	  const selectionScoreComparison = hideSelectionScoreDetails(presentation) || ucatRankingBypass
 	    ? null
@@ -5188,7 +5319,9 @@ function presentResultCard({
     context: transparencyContext,
     presentation
   });
+  const glasgowReachCompletionReason = glasgowReachCompletionInformationNeededReason(transparencyContext);
   const manualReviewPrimaryExplanation = firstNonEmptyString(
+    glasgowReachCompletionReason,
     transparencyContext.decision_transparency?.manual_review_reason,
     manualReviewReason
   ) || GENERIC_MANUAL_REVIEW_EXPLANATION;
@@ -5406,6 +5539,7 @@ function presentResultCard({
     guaranteedInterviewPoolLabel: transparencyContext.guaranteed_interview_pool_label,
     guidancePoolId: transparencyContext.guidance_pool_id,
     guidancePool: transparencyContext.guidance_pool,
+    courseProfileId: transparencyContext.course_identity?.profile_id || null,
     ucatComparison,
     officialPrediction,
     warnings: transparencyContext.warnings,
@@ -5454,8 +5588,10 @@ function presentResultCard({
     transparencyContext.eligibility_checks,
     eligibilityStatus,
     {
+      course_profile_id: transparencyContext.course_identity?.profile_id || null,
       academic_pathway: academicPathway,
       academic_pathway_id: academicPathwayId,
+      selection_route_id: transparencyContext.selection_route_id || null,
       has_epq_alternative_offer: hasEnabledEpqAlternativeOffer(
         transparencyContext.stage_1_eligibility
       )

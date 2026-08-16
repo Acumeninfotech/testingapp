@@ -68,13 +68,19 @@ export type PersonalCircumstanceFieldKey =
 export type PersonalCircumstanceValue = SensitiveAnswer | UkrainianVisaScheme;
 
 // Scottish route: applicant.scottish_profile.{national_5_subjects,
-// higher_subjects, advanced_higher_subjects}, letter grades A*-U
-// (eligibility-evaluator.js:820-893, hull-york-a100-consumer.js:406-428).
+// higher_subjects, advanced_higher_subjects}, letter grades A*-U plus SQA
+// sitting evidence read by Glasgow's Scottish route implementation.
+// (eligibility-evaluator.js:820-893,1885-2020; hull-york-a100-consumer.js:406-428).
+export type ScottishSchoolYear = 's4' | 's5' | 's6' | '';
 export interface ScottishSubject {
   subject_id: string;
   grade: ALevelGrade;
+  school_year?: ScottishSchoolYear;
+  sitting_id?: string;
+  first_attempt?: boolean | null;
 }
 export interface ScottishProfile {
+  completed_in_one_sitting: boolean | null;
   national_5_subjects: ScottishSubject[];
   higher_subjects: ScottishSubject[];
   advanced_higher_subjects: ScottishSubject[];
@@ -541,6 +547,7 @@ export function createEmptyProfile(): WizardProfile {
       epq: { ...DEFAULT_EPQ_QUALIFICATION },
     },
     scottish_profile: {
+      completed_in_one_sitting: null,
       national_5_subjects: [
         { subject_id: '', grade: '' },
         { subject_id: '', grade: '' },

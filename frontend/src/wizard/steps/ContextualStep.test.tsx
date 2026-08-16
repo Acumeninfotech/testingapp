@@ -206,6 +206,28 @@ describe('ContextualStep', () => {
     });
   });
 
+  it('stores the Glasgow Reach Scotland option with the Glasgow programme ID', () => {
+    const { profile, rerender, updateProfile } = renderStep();
+
+    selectValue('other_access_participation_status', 'yes');
+    rerender(<ContextualStep profile={profile} updateProfile={updateProfile} errors={{}} />);
+
+    expect(screen.getByRole('option', { name: 'Reach Scotland - University of Glasgow Reach Programme' })).toHaveValue(
+      'glasgow_reach',
+    );
+    expect(screen.getByRole('option', { name: 'Reach Scotland - University of St Andrews' })).toHaveValue(
+      'st_andrews_reach_scotland',
+    );
+
+    selectValue('other_access_programme_selector', 'glasgow_reach');
+    rerender(<ContextualStep profile={profile} updateProfile={updateProfile} errors={{}} />);
+    selectValue('other_programme_0_status', 'completed');
+
+    expect(profile.contextual_profile.access_programmes.other_programmes).toEqual([
+      { programme_id: 'glasgow_reach', status: 'completed' },
+    ]);
+  });
+
   it('offers Lancaster Access to Medicine in the other access programme selector', () => {
     const { profile, rerender, updateProfile } = renderStep();
 

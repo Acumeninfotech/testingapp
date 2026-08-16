@@ -5,13 +5,27 @@ import type { ScottishSubject } from '../profileTypes';
 import type { StepProps } from './StepProps';
 
 const GRADE_OPTIONS = ['A', 'B', 'C', 'D'].map((g) => ({ value: g, label: g }));
+const SCHOOL_YEAR_OPTIONS = [
+  { value: 's4', label: 'S4' },
+  { value: 's5', label: 'S5' },
+  { value: 's6', label: 'S6' },
+];
+const FIRST_ATTEMPT_OPTIONS = [
+  { value: 'yes', label: 'First attempt' },
+  { value: 'no', label: 'Resit / repeat' },
+];
+const SAME_SITTING_OPTIONS = [
+  { value: 'yes', label: 'Yes' },
+  { value: 'no', label: 'No' },
+];
 
 const SUBJECT_OPTIONS = [
   { value: 'chemistry', label: 'Chemistry' },
   { value: 'biology', label: 'Biology' },
   { value: 'mathematics', label: 'Mathematics' },
+  { value: 'applications_of_mathematics', label: 'Applications of Mathematics' },
   { value: 'physics', label: 'Physics' },
-  { value: 'english', label: 'English' },
+  { value: 'english_language', label: 'English' },
   { value: 'other', label: 'Other' },
 ];
 
@@ -54,6 +68,27 @@ function SubjectGradeList({
             options={GRADE_OPTIONS}
             error={errors[`${fieldPrefix}_${index}_grade`]}
             onChange={(value) => onUpdate(index, { ...subject, grade: value as ScottishSubject['grade'] })}
+          />
+          <SelectField
+            id={`${fieldPrefix}_${index}_school_year`}
+            label="School year"
+            value={subject.school_year || ''}
+            options={SCHOOL_YEAR_OPTIONS}
+            error={errors[`${fieldPrefix}_${index}_school_year`]}
+            onChange={(value) => onUpdate(index, { ...subject, school_year: value as ScottishSubject['school_year'] })}
+          />
+          <SelectField
+            id={`${fieldPrefix}_${index}_first_attempt`}
+            label="Attempt"
+            value={subject.first_attempt == null ? '' : subject.first_attempt ? 'yes' : 'no'}
+            options={FIRST_ATTEMPT_OPTIONS}
+            error={errors[`${fieldPrefix}_${index}_first_attempt`]}
+            onChange={(value) =>
+              onUpdate(index, {
+                ...subject,
+                first_attempt: value === '' ? null : value === 'yes',
+              })
+            }
           />
         </fieldset>
       ))}
@@ -116,11 +151,33 @@ function ScottishQualificationSection({
 }
 
 export function ScottishStep({ profile, updateProfile, errors }: StepProps) {
-  const { national_5_subjects, higher_subjects, advanced_higher_subjects } = profile.scottish_profile;
+  const {
+    completed_in_one_sitting,
+    national_5_subjects,
+    higher_subjects,
+    advanced_higher_subjects,
+  } = profile.scottish_profile;
 
   return (
     <div className="step-grid">
       <p>Enter your National 5 subjects (if applicable), Higher subjects (required) and Advanced Higher subjects (if applicable).</p>
+
+      <SelectField
+        id="scottish_completed_in_one_sitting"
+        label="Were your required SQA subjects completed in the same sitting?"
+        value={completed_in_one_sitting == null ? '' : completed_in_one_sitting ? 'yes' : 'no'}
+        options={SAME_SITTING_OPTIONS}
+        error={errors.scottish_completed_in_one_sitting}
+        onChange={(value) =>
+          updateProfile((prev) => ({
+            ...prev,
+            scottish_profile: {
+              ...prev.scottish_profile,
+              completed_in_one_sitting: value === '' ? null : value === 'yes',
+            },
+          }))
+        }
+      />
 
       <ScottishQualificationSection
         title="National 5s"

@@ -178,6 +178,37 @@ describe('ResultCard', () => {
     expect(badge?.querySelector('.result-card-icon')).not.toBeInTheDocument();
   });
 
+  it('does not show a positive eligibility subtitle when the compact academic status is not eligible', () => {
+    render(
+      <ResultCard
+        result={makeResult({
+          recommendation_display_state: 'not_eligible',
+          primary_user_facing_recommendation: 'Not suitable',
+          prediction: { result_band: 'not_eligible' },
+          eligibility: { status: 'not_eligible' },
+          decision_transparency: {
+            compact_status: {
+              label: 'You do not currently meet the academic requirements.',
+              type: 'academic_status',
+              tone: 'negative',
+            },
+            decision_path: [
+              {
+                stage: 'Eligibility',
+                status: 'Not met',
+                summary: 'You do not currently meet the academic requirements.',
+                checks: [],
+              },
+            ],
+          },
+        })}
+      />,
+    );
+
+    expect(screen.getAllByText('You do not currently meet the academic requirements.').length).toBeGreaterThan(0);
+    expect(screen.queryByText('You meet the published requirements')).not.toBeInTheDocument();
+  });
+
   it('renders the reusable EPQ alternative academic offer summary', () => {
     render(
       <ResultCard
@@ -899,6 +930,37 @@ describe('ResultCard', () => {
     expect(screen.getByRole('status')).toHaveTextContent('not a rejection');
   });
 
+  it('shows Glasgow incomplete Reach as Information Needed without the generic academic subtitle', () => {
+    const reason =
+      'Successful completion of Reach is required to confirm the Glasgow adjusted/contextual route.';
+    render(
+      <ResultCard
+        result={makeResult({
+          recommendation_display_state: 'manual_review',
+          primary_explanation: reason,
+          information_needed_reason: reason,
+          decision_transparency: {
+            manual_review_reason_code: 'glasgow_reach_completion_required',
+            manual_review_reason: reason,
+            information_needed_reason: reason,
+            compact_status: {
+              label: 'ApplySmart needs more information to assess the academic requirements.',
+              type: 'academic_status',
+              tone: 'warning',
+            },
+          },
+        })}
+      />,
+    );
+
+    expect(screen.getAllByText('Information Needed').length).toBeGreaterThan(0);
+    expect(screen.queryByText('Needs Review')).not.toBeInTheDocument();
+    expect(screen.getByRole('status')).toHaveTextContent(reason);
+    expect(
+      screen.queryByText('ApplySmart needs more information to assess the academic requirements.'),
+    ).not.toBeInTheDocument();
+  });
+
   it('shows Prediction Unavailable for insufficient_evidence with a university_methodology_gap reason code', () => {
     const reason =
       'This university has not published a complete scoring or ranking methodology that ApplySmart can apply to this specific applicant route. This is not a rejection.';
@@ -1510,6 +1572,162 @@ describe('ResultCard', () => {
     expect(screen.queryByText('Historical UCAT Guide')).not.toBeInTheDocument();
     expect(screen.queryByText(/historical UCAT range 1850-1999/i)).not.toBeInTheDocument();
     expect(screen.queryByText('Historical Interview Data · ApplySmart prediction band')).not.toBeInTheDocument();
+  });
+
+  it('labels Glasgow Scotland/Home UCAT guidance as an ApplySmart prediction band', () => {
+    const [result] = predict({
+      universityIds: ['glasgow-a100'],
+      studentProfile: {
+        profile_id: 'glasgow_scottish_result_card_test_applicant',
+        qualification_route: 'scottish',
+        applicant_identity: {
+          applicant_type: 'standard_school_leaver',
+          domicile: 'Scotland',
+          fee_status: 'Home',
+          contextual_flags: {},
+          resit: {
+            has_resits: false,
+          },
+        },
+        scottish_profile: {
+          completed_in_one_sitting: true,
+          national_5_subjects: [
+            { subject_id: 'english_language', grade: 'B' },
+          ],
+          advanced_higher_subjects: [
+            { subject_id: 'chemistry', predicted_grade: 'B', school_year: 's6', sitting_id: 's6', first_attempt: true },
+            { subject_id: 'biology', predicted_grade: 'B', school_year: 's6', sitting_id: 's6', first_attempt: true },
+          ],
+          higher_subjects: [
+            { subject_id: 'chemistry', predicted_grade: 'A', school_year: 's5', sitting_id: 's5', first_attempt: true },
+            { subject_id: 'biology', predicted_grade: 'A', school_year: 's5', sitting_id: 's5', first_attempt: true },
+            { subject_id: 'mathematics', predicted_grade: 'A', school_year: 's5', sitting_id: 's5', first_attempt: true },
+            { subject_id: 'physics', predicted_grade: 'A', school_year: 's5', sitting_id: 's5', first_attempt: true },
+            { subject_id: 'history', predicted_grade: 'B', school_year: 's5', sitting_id: 's5', first_attempt: true },
+          ],
+        },
+        admissions_tests: {
+          ucat: {
+            total_score: 2000,
+            score_scale: 2700,
+            sjt_band: 4,
+            subtests: {
+              verbal_reasoning: 670,
+              decision_making: 665,
+              quantitative_reasoning: 665,
+              abstract_reasoning: 0,
+            },
+          },
+        },
+        contextual_profile: {
+          home_area_region: {
+            simd_quintile: 'unknown',
+          },
+          personal_circumstances: {},
+          access_programmes: {
+            participation_status: 'no',
+            ukwpmed: {
+              status: 'no',
+              programme_id: '',
+              programme_status: '',
+              provider_university_id: '',
+            },
+            other_programmes: [],
+            other_programme_name: '',
+          },
+        },
+      },
+    });
+
+    expect(result.result_card.prediction.result_band).toBe('interview_likely');
+    expect(result.result_card.primary_user_facing_recommendation).toBe('Strong choice for your application');
+    expect(result.result_card.decision_transparency?.ucat_comparison).toMatchObject({
+      benchmark_min: 1900,
+      benchmark_max: 1974,
+      benchmark_label: 'ApplySmart prediction band',
+      evidence_status: 'applysmart_derived',
+    });
+
+    render(<ResultCard result={result} />);
+
+    const predictionContext = screen.getByLabelText('Prediction Context values');
+    expect(within(predictionContext).getAllByText('ApplySmart Prediction Band')).toHaveLength(1);
+    expect(within(predictionContext).getAllByText('1900-1974')).toHaveLength(1);
+    expect(within(predictionContext).queryByText('ApplySmart prediction band')).not.toBeInTheDocument();
+    expect(screen.getByText(/not a Glasgow-published current 2027 cutoff/i)).toBeInTheDocument();
+    expect(screen.getByText(/does not guarantee an interview/i)).toBeInTheDocument();
+    expect(screen.queryByText('Historical UCAT Guide')).not.toBeInTheDocument();
+    expect(screen.queryByText(/historical interview range/i)).not.toBeInTheDocument();
+  });
+
+  it('renders Glasgow RUK A-level grades once in Academic Requirements', () => {
+    const [result] = predict({
+      universityIds: ['glasgow-a100'],
+      studentProfile: {
+        profile_id: 'glasgow_ruk_result_card_test_applicant',
+        qualification_route: 'a_level',
+        applicant_identity: {
+          applicant_type: 'standard_school_leaver',
+          domicile: 'England',
+          fee_status: 'RUK',
+          contextual_flags: {},
+          resit: {
+            has_resits: false,
+          },
+        },
+        a_level_profile: {
+          completed_in_one_sitting: true,
+          subjects: [
+            { subject_id: 'chemistry', predicted_grade: 'A' },
+            { subject_id: 'biology', predicted_grade: 'A' },
+            { subject_id: 'mathematics', predicted_grade: 'A' },
+          ],
+        },
+        gcse_profile: {
+          subjects: {
+            english_language: '6',
+            biology: '6',
+          },
+        },
+        admissions_tests: {
+          ucat: {
+            total_score: 2000,
+            score_scale: 2700,
+            sjt_band: 4,
+            subtests: {
+              verbal_reasoning: 2000,
+              decision_making: 0,
+              quantitative_reasoning: 0,
+              abstract_reasoning: 0,
+            },
+          },
+        },
+        contextual_profile: {
+          home_area_region: {
+            simd_quintile: 'unknown',
+          },
+          personal_circumstances: {},
+          access_programmes: {
+            participation_status: 'no',
+            ukwpmed: {
+              status: 'no',
+              programme_id: '',
+              programme_status: '',
+              provider_university_id: '',
+            },
+            other_programmes: [],
+            other_programme_name: '',
+          },
+        },
+      },
+    });
+
+    expect(result.result_card.academic_requirement_checks?.filter((check) => check.label === 'A-level grades')).toHaveLength(1);
+
+    render(<ResultCard result={result} />);
+
+    const academicCard = screen.getByText('Academic Requirements').closest('.result-card-summary-card');
+    expect(within(academicCard as HTMLElement).getAllByText('A-level grades')).toHaveLength(1);
   });
 
   it('renders BSMS with simplified applicant-facing wording and no fees section', () => {

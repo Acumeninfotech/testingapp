@@ -52,10 +52,11 @@ export function validateRouteStep(profile: WizardProfile): ValidationErrors {
 }
 
 function validateSubjectGradeList(
-  subjects: { subject_id: string; grade: string }[],
+  subjects: { subject_id: string; grade: string; school_year?: string; first_attempt?: boolean | null }[],
   minCount: number,
   fieldPrefix: string,
   errors: ValidationErrors,
+  requireScottishSittingEvidence = false,
 ) {
   const filled = subjects.filter((s) => s.subject_id !== '');
   if (filled.length < minCount) {
@@ -65,16 +66,31 @@ function validateSubjectGradeList(
     if (subject.subject_id && !subject.grade) {
       errors[`${fieldPrefix}_${index}_grade`] = 'Enter a grade for this subject.';
     }
+    if (requireScottishSittingEvidence && subject.subject_id && !subject.school_year) {
+      errors[`${fieldPrefix}_${index}_school_year`] = 'Select the school year for this subject.';
+    }
+    if (requireScottishSittingEvidence && subject.subject_id && typeof subject.first_attempt !== 'boolean') {
+      errors[`${fieldPrefix}_${index}_first_attempt`] = 'Select whether this was a first attempt or resit.';
+    }
   });
 }
 
 export function validateScottishStep(profile: WizardProfile): ValidationErrors {
   const errors: ValidationErrors = {};
-  const { national_5_subjects, higher_subjects, advanced_higher_subjects } = profile.scottish_profile;
+  const {
+    completed_in_one_sitting,
+    national_5_subjects,
+    higher_subjects,
+    advanced_higher_subjects,
+  } = profile.scottish_profile;
 
-  validateSubjectGradeList(national_5_subjects, 0, 'national_5_subjects', errors);
-  validateSubjectGradeList(higher_subjects, 3, 'higher_subjects', errors);
-  validateSubjectGradeList(advanced_higher_subjects, 0, 'advanced_higher_subjects', errors);
+  validateSubjectGradeList(national_5_subjects, 0, 'national_5_subjects', errors, true);
+  validateSubjectGradeList(higher_subjects, 3, 'higher_subjects', errors, true);
+  validateSubjectGradeList(advanced_higher_subjects, 0, 'advanced_higher_subjects', errors, true);
+  if (typeof completed_in_one_sitting !== 'boolean') {
+    errors.scottish_completed_in_one_sitting =
+      'Confirm whether your required SQA subjects were completed in the same sitting.';
+  }
 
   return errors;
 }

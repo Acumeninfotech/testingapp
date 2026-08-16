@@ -80,6 +80,21 @@ describe('presentResult canonical band -> public label mapping', () => {
     expect(result.label).toBe('Needs Review');
   });
 
+  it('maps Glasgow incomplete Reach manual_review to Information Needed', () => {
+    const result = presentResult(
+      card({
+        recommendation_display_state: 'manual_review',
+        decision_transparency: {
+          manual_review_reason_code: 'glasgow_reach_completion_required',
+          manual_review_reason:
+            'Successful completion of Reach is required to confirm the Glasgow adjusted/contextual route.',
+        },
+      }),
+    );
+    expect(result.category).toBe('manual_review');
+    expect(result.label).toBe('Information Needed');
+  });
+
   it('labels insufficient_evidence with a university_methodology_gap reason code as Prediction Unavailable', () => {
     const result = presentResult(
       card({

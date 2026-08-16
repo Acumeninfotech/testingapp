@@ -19,8 +19,19 @@ const FEE_STATUS_LABEL: Record<string, string> = {
   international: 'international_fee',
 };
 
-function subjectList(subjects: (ScottishSubject | IbSubject)[]) {
+function subjectList(subjects: IbSubject[]) {
   return subjects.filter((s) => s.subject_id !== '').map((s) => ({ subject_id: s.subject_id, grade: s.grade }));
+}
+
+function scottishSubjectList(subjects: ScottishSubject[]) {
+  return subjects.filter((s) => s.subject_id !== '').map((s) => ({
+    subject_id: s.subject_id,
+    grade: s.grade,
+    predicted_grade: s.grade || null,
+    school_year: s.school_year || null,
+    sitting_id: s.sitting_id || s.school_year || null,
+    first_attempt: typeof s.first_attempt === 'boolean' ? s.first_attempt : null,
+  }));
 }
 
 // Converts the wizard's UI-shaped profile into the studentProfile object the
@@ -126,9 +137,10 @@ export function toStudentProfile(profile: WizardProfile): StudentProfile {
       epq,
     },
     scottish_profile: {
-      national_5_subjects: subjectList(profile.scottish_profile.national_5_subjects),
-      higher_subjects: subjectList(profile.scottish_profile.higher_subjects),
-      advanced_higher_subjects: subjectList(profile.scottish_profile.advanced_higher_subjects),
+      completed_in_one_sitting: profile.scottish_profile.completed_in_one_sitting,
+      national_5_subjects: scottishSubjectList(profile.scottish_profile.national_5_subjects),
+      higher_subjects: scottishSubjectList(profile.scottish_profile.higher_subjects),
+      advanced_higher_subjects: scottishSubjectList(profile.scottish_profile.advanced_higher_subjects),
     },
     ib_profile: {
       total_points: profile.ib_profile.total_points === '' ? null : profile.ib_profile.total_points,
