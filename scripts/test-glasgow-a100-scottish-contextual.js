@@ -234,7 +234,8 @@ const standardEligibility = evaluateCourseEligibility(course, standardApplicant)
 assert.strictEqual(standardEligibility.contextual_eligibility.status, 'not_contextual');
 assert.strictEqual(standardEligibility.status, 'eligible');
 assert.ok(!standardEligibility.applicant_group_ids.includes('contextual'));
-assert.strictEqual(standardEligibility.academic_pathway || null, null);
+assert.strictEqual(standardEligibility.academic_pathway, 'standard');
+assert.strictEqual(standardEligibility.academic_pathway_id, 'glasgow_scottish_standard');
 
 const standardClassification = classifyInterviewBand(course, config, standardApplicant);
 assert.strictEqual(standardClassification.guidance_pool_id, 'scotland_home_school_leaver');
@@ -650,7 +651,7 @@ assert.strictEqual(rukStandardClassification.eligibility.academic_pathway_id, 'a
 const rukStandardCard = resultCardFor(rukStandard);
 assert.strictEqual(
   decisionPathCheck(rukStandardCard, 'Applicant pool').summary,
-  'Home, Rest of UK applicants'
+  'Rest of UK / ROI applicants'
 );
 assert.strictEqual(rukStandardCard.academic_pathway, 'standard');
 assert.strictEqual(rukStandardCard.contextual_status, null);
