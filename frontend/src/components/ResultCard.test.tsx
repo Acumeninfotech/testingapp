@@ -90,6 +90,175 @@ function sheffieldScenarioApplicant(scenarioId: string, overrides: Record<string
   );
 }
 
+function dundeeScottishContextualApplicant(): Record<string, unknown> {
+  return {
+    profile_id: 'dundee_scotland_contextual_aaabb_ucat_2100',
+    qualification_route: 'scottish',
+    application_year: 2027,
+    applicant_identity: {
+      applicant_type: 'school_leaver',
+      fee_status: 'home_fee',
+      domicile: 'scotland',
+      contextual: true,
+      contextual_flags: {},
+      graduate: false,
+      resit: { has_resits: false, subjects_resat: [] },
+    },
+    contextual_profile: {
+      home_area_region: { simd_quintile: 'q2' },
+      financial_support: { free_school_meals: 'no' },
+      personal_circumstances: {
+        young_or_adult_carer: 'no',
+        care_experienced: 'no',
+        care_over_three_months: 'no',
+        estranged_from_family: 'no',
+        refugee: 'no',
+        uk_refugee_status_granted: 'no',
+        seeking_asylum: 'no',
+        asylum_seeker: 'no',
+        disability: 'no',
+      },
+      access_programmes: {
+        participation_status: 'no',
+        other_programmes: [],
+        other_programme_name: '',
+      },
+    },
+    scottish_profile: {
+      national_5_subjects: [
+        { subject_id: 'english', grade: 'A' },
+        { subject_id: 'mathematics', grade: 'A' },
+        { subject_id: 'biology', grade: 'A' },
+        { subject_id: 'chemistry', grade: 'A' },
+        { subject_id: 'physics', grade: 'A' },
+      ],
+      higher_subjects: [
+        { subject_id: 'chemistry', grade: 'A', school_year: 's5', first_attempt: true },
+        { subject_id: 'biology', grade: 'A', school_year: 's5', first_attempt: true },
+        { subject_id: 'mathematics', grade: 'A', school_year: 's5', first_attempt: true },
+        { subject_id: 'english', grade: 'B', school_year: 's5', first_attempt: true },
+        { subject_id: 'physics', grade: 'B', school_year: 's5', first_attempt: true },
+      ],
+      advanced_higher_subjects: [
+        { subject_id: 'chemistry', grade: 'B', school_year: 's6', first_attempt: true },
+        { subject_id: 'biology', grade: 'B', school_year: 's6', first_attempt: true },
+      ],
+    },
+    admissions_tests: {
+      ucat: {
+        total_score: 2100,
+        score_scale: 2700,
+        subtests: {
+          verbal_reasoning: 700,
+          decision_making: 700,
+          quantitative_reasoning: 700,
+        },
+        sjt_band: 2,
+      },
+    },
+    graduate_profile: {
+      is_graduate: false,
+    },
+  };
+}
+
+function dundeeScottishStandardApplicant(): Record<string, unknown> {
+  return merge(dundeeScottishContextualApplicant(), {
+    profile_id: 'dundee_scotland_standard_aaaab_ucat_2200',
+    applicant_identity: {
+      contextual: false,
+      widening_participation: false,
+    },
+    contextual_profile: {
+      home_area_region: { simd_quintile: 'q4' },
+    },
+    scottish_profile: {
+      higher_subjects: [
+        { subject_id: 'chemistry', grade: 'A', school_year: 's5', first_attempt: true },
+        { subject_id: 'biology', grade: 'A', school_year: 's5', first_attempt: true },
+        { subject_id: 'mathematics', grade: 'A', school_year: 's5', first_attempt: true },
+        { subject_id: 'english', grade: 'A', school_year: 's5', first_attempt: true },
+        { subject_id: 'physics', grade: 'B', school_year: 's5', first_attempt: true },
+      ],
+    },
+    admissions_tests: {
+      ucat: {
+        total_score: 2200,
+        score_scale: 2700,
+        subtests: {
+          verbal_reasoning: 733,
+          decision_making: 733,
+          quantitative_reasoning: 734,
+        },
+        sjt_band: 2,
+      },
+    },
+  });
+}
+
+function dundeeRukAlevelApplicant({
+  contextual = false,
+  grades = ['A', 'A', 'A'],
+  feeStatus = 'rest_of_uk_roi_fee_rate',
+}: {
+  contextual?: boolean;
+  grades?: string[];
+  feeStatus?: string;
+} = {}): Record<string, unknown> {
+  const topTierApplicant = require('../../../data/regression-profiles/16_top_tier_applicant.json') as Record<string, unknown>;
+  return merge(topTierApplicant, {
+    profile_id: contextual
+      ? 'dundee_ruk_contextual_a_level_wording_regression'
+      : 'dundee_ruk_standard_a_level_badge_regression',
+    qualification_route: 'a_level',
+    applicant_identity: {
+      applicant_type: 'school_leaver',
+      fee_status: feeStatus,
+      domicile: 'england',
+      contextual,
+      widening_participation: contextual,
+      contextual_flags: contextual ? { free_school_meals: true } : {},
+      graduate: false,
+      resit: { has_resits: false, subjects_resat: [] },
+    },
+    contextual_profile: {
+      financial_support: { free_school_meals: contextual ? 'yes' : 'no' },
+      personal_circumstances: {
+        care_over_three_months: 'no',
+        care_experienced: 'no',
+        uk_refugee_status_granted: 'no',
+        refugee: 'no',
+        ukrainian_visa_scheme: 'no',
+      },
+    },
+    a_level_profile: {
+      subjects: [
+        ['chemistry', grades[0]],
+        ['biology', grades[1]],
+        ['mathematics', grades[2]],
+      ].map(([subjectId, predictedGrade]) => ({
+        subject_id: subjectId,
+        predicted_grade: predictedGrade,
+        achieved_grade: null,
+        sitting_status: 'first_sitting',
+        practical_endorsement: subjectId === 'mathematics' ? null : 'pass',
+      })),
+    },
+    admissions_tests: {
+      ucat: {
+        total_score: 2200,
+        score_scale: 2700,
+        subtests: {
+          verbal_reasoning: 733,
+          decision_making: 733,
+          quantitative_reasoning: 734,
+        },
+        sjt_band: 2,
+      },
+    },
+  });
+}
+
 function lancasterAlevelApplicant({
   grades,
   epq,
@@ -2419,14 +2588,14 @@ describe('ResultCard', () => {
     expect(screen.getAllByText('70 / 90').length).toBeGreaterThan(0);
   });
 
-  it('renders Dundee academic score from the presenter contract', () => {
+  it('renders Dundee international academic score from the presenter contract', () => {
     const topTierApplicant = require('../../../data/regression-profiles/16_top_tier_applicant.json');
     const dundeeApplicant = merge(topTierApplicant, {
       applicant_identity: {
-        fee_status: 'Home',
-        domicile: 'England',
-        contextual: true,
-        widening_participation: true,
+        fee_status: 'International',
+        domicile: 'International',
+        contextual: false,
+        widening_participation: false,
       },
       admissions_tests: {
         ucat: {
@@ -2447,7 +2616,7 @@ describe('ResultCard', () => {
     });
 
     expect(result.result_card.decision_transparency?.score_breakdown).toMatchObject({
-      name: 'Selection score',
+      name: 'International pre-interview score',
       value: 76,
       max: 100,
     });
@@ -2460,6 +2629,167 @@ describe('ResultCard', () => {
     expect(screen.getAllByText('16 / 40').length).toBeGreaterThan(0);
     expect(screen.getByText('Total Selection Score')).toBeInTheDocument();
     expect(screen.getAllByText('76 / 100').length).toBeGreaterThan(0);
+  });
+
+  it('renders Dundee RUK A-level academic badges once with GCSE wording', () => {
+    const [result] = predict({
+      universityIds: ['dundee-a100'],
+      studentProfile: dundeeRukAlevelApplicant(),
+    });
+
+    const badgeLabels = result.result_card.academic_requirement_checks?.map((check) => check.label);
+    expect(badgeLabels).toEqual(['A-level requirements', 'GCSE requirements']);
+    expect(badgeLabels?.filter((label) => label === 'A-level requirements')).toHaveLength(1);
+    expect(badgeLabels).not.toContain('Dundee National 5 requirements');
+
+    render(<ResultCard result={result} />);
+
+    const academicCard = screen.getByText('Academic Requirements').closest('.result-card-summary-card');
+    const renderedBadges = Array.from(academicCard?.querySelectorAll('.result-card-requirement-badge') || [])
+      .map((badge) => badge.textContent);
+    expect(renderedBadges).toEqual(['A-level requirements', 'GCSE requirements']);
+    expect(within(academicCard as HTMLElement).queryByText('Dundee National 5 requirements')).not.toBeInTheDocument();
+  });
+
+  it('renders Dundee RUK contextual wording once while keeping the AAA/ABB comparison', () => {
+    const [result] = predict({
+      universityIds: ['dundee-a100'],
+      studentProfile: dundeeRukAlevelApplicant({
+        contextual: true,
+        grades: ['A', 'B', 'B'],
+        feeStatus: 'home_fee',
+      }),
+    });
+
+    expect(result.result_card.contextual_status).toBe('confirmed');
+    expect(result.result_card.contextual_confirmation).toMatchObject({
+      expanded_heading: 'Contextual Route',
+      expanded_body: "You meet Dundee's contextual admissions criteria and widening-access academic requirements.",
+    });
+    expect(result.result_card.primary_explanation).not.toMatch(/Contextual eligibility confirmed|Standard offer AAA; applied contextual offer ABB/i);
+    expect(result.result_card.decision_transparency?.compact_status?.label).toBe('You meet the academic requirements.');
+    expect(result.result_card.alternative_academic_offer).toMatchObject({
+      standard_offer: 'AAA',
+      alternative_offer: 'ABB',
+    });
+    expect(result.result_card.academic_requirement_checks?.map((check) => check.label)).toEqual([
+      'A-level requirements',
+      'GCSE requirements',
+    ]);
+
+    render(<ResultCard result={result} />);
+
+    const contextualSection = document.querySelector('.result-card-contextual-confirmation');
+    expect(contextualSection).not.toBeNull();
+    expect(within(contextualSection as HTMLElement).getByRole('heading', { name: 'Contextual Route' })).toBeInTheDocument();
+    expect(
+      within(contextualSection as HTMLElement).getByText(
+        "You meet Dundee's contextual admissions criteria and widening-access academic requirements.",
+      ),
+    ).toBeInTheDocument();
+    expect(screen.queryByText(/Contextual eligibility confirmed/i)).not.toBeInTheDocument();
+    expect(screen.queryByText('Contextual Status')).not.toBeInTheDocument();
+
+    const offer = screen
+      .getByRole('heading', { name: 'Alternative Academic Offer' })
+      .closest('.alternative-academic-offer');
+    expect(offer).not.toBeNull();
+    expect(within(offer as HTMLElement).getByText('Standard')).toBeInTheDocument();
+    expect(within(offer as HTMLElement).getByText('AAA')).toBeInTheDocument();
+    expect(within(offer as HTMLElement).getByText('Contextual Offer')).toBeInTheDocument();
+    expect(within(offer as HTMLElement).getByText('ABB')).toBeInTheDocument();
+  });
+
+  it('hides Dundee Scottish Standard technical trust wording from the primary Result Card summary', () => {
+    const [result] = predict({
+      universityIds: ['dundee-a100'],
+      studentProfile: dundeeScottishStandardApplicant(),
+    });
+
+    expect(result.result_card.primary_explanation).toBe(
+      "Based on ApplySmart's assessment, your academic profile appears competitive for this applicant group.",
+    );
+    expect(result.result_card.trust_statement).toBeNull();
+    expect(result.result_card.academic_requirement_checks?.map((check) => check.label)).toEqual([
+      'Dundee National 5 requirements',
+      'Dundee Scottish standard route',
+    ]);
+
+    render(<ResultCard result={result} />);
+
+    const header = document.querySelector('.result-card-head');
+    expect(header).not.toBeNull();
+    expect(
+      within(header as HTMLElement).getByText(
+        "Based on ApplySmart's assessment, your academic profile appears competitive for this applicant group.",
+      ),
+    ).toBeInTheDocument();
+    expect(
+      within(header as HTMLElement).queryByText(/ApplySmart cannot reproduce Dundee's exact internal score/i),
+    ).not.toBeInTheDocument();
+    expect(
+      screen.queryByText(/complete academic scoring table and current Dundee applicant-pool UCAT decile boundaries/i),
+    ).not.toBeInTheDocument();
+    const academicCard = screen.getByText('Academic Requirements').closest('.result-card-summary-card');
+    expect(academicCard).toHaveTextContent('Dundee National 5 requirements');
+    expect(academicCard).toHaveTextContent('Dundee Scottish standard route');
+  });
+
+  it('renders Dundee Scottish contextual confirmation once without public Category 1/2 wording', () => {
+    const [result] = predict({
+      universityIds: ['dundee-a100'],
+      studentProfile: dundeeScottishContextualApplicant(),
+    });
+
+    expect(result.result_card.contextual_status).toBe('confirmed');
+    expect(result.result_card.contextual_confirmation).toMatchObject({
+      expanded_heading: 'Contextual Route',
+      expanded_body: "You meet Dundee's contextual admissions criteria and widening-access academic requirements.",
+    });
+    expect(result.result_card.trust_statement).toBeNull();
+    expect(result.result_card.alternative_academic_offer).toMatchObject({
+      standard_offer: 'AAAAB Scottish Highers + BB Advanced Highers',
+      alternative_offer: 'AAABB Scottish Highers + BB Advanced Highers',
+    });
+    expect(result.result_card.academic_requirement_checks?.map((check) => check.label)).toEqual([
+      'Dundee National 5 requirements',
+      'Dundee Scottish widening-access route',
+    ]);
+
+    render(<ResultCard result={result} />);
+
+    const header = document.querySelector('.result-card-head');
+    expect(header).not.toBeNull();
+    expect(within(header as HTMLElement).queryByText(/Contextual eligibility confirmed/i)).not.toBeInTheDocument();
+    expect(within(header as HTMLElement).queryByText(/Category 1\/2|ApplySmart-mapped/i)).not.toBeInTheDocument();
+
+    const contextualSection = document.querySelector('.result-card-contextual-confirmation');
+    expect(contextualSection).not.toBeNull();
+    expect(within(contextualSection as HTMLElement).getByRole('heading', { name: 'Contextual Route' })).toBeInTheDocument();
+    expect(
+      within(contextualSection as HTMLElement).getByText(
+        "You meet Dundee's contextual admissions criteria and widening-access academic requirements.",
+      ),
+    ).toBeInTheDocument();
+    expect(screen.queryByText(/Contextual eligibility confirmed/i)).not.toBeInTheDocument();
+    expect(
+      screen.queryByText(
+        /This is an ApplySmart prediction based on published contextual admissions evidence and historical UCAT guidance/i,
+      ),
+    ).not.toBeInTheDocument();
+    expect(screen.queryByText(/Category 1\/2|ApplySmart-mapped/i)).not.toBeInTheDocument();
+    expect(screen.queryByText('Contextual Status')).not.toBeInTheDocument();
+
+    const offer = screen
+      .getByRole('heading', { name: 'Alternative Academic Offer' })
+      .closest('.alternative-academic-offer');
+    expect(offer).not.toBeNull();
+    expect(within(offer as HTMLElement).getByText('Standard')).toBeInTheDocument();
+    expect(within(offer as HTMLElement).getByText('AAAAB Scottish Highers + BB Advanced Highers')).toBeInTheDocument();
+    const academicCard = screen.getByText('Academic Requirements').closest('.result-card-summary-card');
+    expect(academicCard).toHaveTextContent('Dundee National 5 requirements');
+    expect(academicCard).toHaveTextContent('Dundee Scottish widening-access route');
+    expect(within(offer as HTMLElement).getByText('AAABB Scottish Highers + BB Advanced Highers')).toBeInTheDocument();
   });
 
   it('renders Lincoln applicant-facing score and SJT wording without public route labels or fees', () => {

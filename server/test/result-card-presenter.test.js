@@ -21,6 +21,9 @@ const leicesterCourse = require('../../data/universities/leicester-a100.json');
 const manchesterCourse = require('../../data/universities/manchester-a100.json');
 const queensBelfastCourse = require('../../data/universities/queen-s-belfast-a100.json');
 const sheffieldCourse = require('../../data/universities/sheffield-a100.json');
+const dundeeCourse = require('../../data/universities/dundee-a100.json');
+const dundeeConfig = require('../../data/interview-band-configs/dundee-a100.json');
+const topTierApplicant = require('../../data/regression-profiles/16_top_tier_applicant.json');
 
 function present(overrides = {}) {
   return presentResultCard({
@@ -152,6 +155,155 @@ function clone(value) {
 
 function alternativeOfferFor(course) {
   return buildAlternativeAcademicOffer(course.stage_1_eligibility);
+}
+
+function presentDundeeClassification(classification, applicant) {
+  return presentResultCard({
+    eligibilityStatus: classification.eligibility.status,
+    interviewBand: classification.canonical_interview_band,
+    transparencyContext: {
+      course_identity: {
+        profile_id: 'dundee-a100',
+        university_name: 'University of Dundee',
+        course_name: 'MBChB Medicine (A100)',
+        ucas_code: 'A100'
+      },
+      applicant_context: applicant,
+      applicant_group_ids: classification.applicant_group_ids,
+      eligibility_checks: classification.eligibility.checks || [],
+      eligibility_failures: classification.eligibility.failures || [],
+      academic_pathway: classification.eligibility.academic_pathway || null,
+      academic_pathway_id: classification.eligibility.academic_pathway_id || null,
+      eligibility: classification.eligibility,
+      stage_1_eligibility: dundeeCourse.stage_1_eligibility,
+      historical_admissions: dundeeCourse.historical_admissions,
+      selection_approach_display: dundeeCourse.selection_approach_display,
+      ranking: classification.ranking,
+      band_metric: classification.band_metric,
+      guidance_pool: classification.guidance_pool,
+      matched_band_rule: classification.matched_band_rule,
+      score_model: dundeeConfig.score_model,
+      guidance_pool_id: classification.guidance_pool_id,
+      warnings: classification.warnings || []
+    }
+  });
+}
+
+function dundeeMirrorScottishApplicant() {
+  return {
+    profile_id: 'dundee_england_home_scottish_standard_result_card',
+    qualification_route: 'scottish',
+    application_year: 2027,
+    applicant_identity: {
+      applicant_type: 'school_leaver',
+      fee_status: 'home_fee',
+      domicile: 'england',
+      contextual: false,
+      contextual_flags: {},
+      graduate: false,
+      resit: { has_resits: false, subjects_resat: [] }
+    },
+    contextual_profile: {
+      home_area_region: { simd_quintile: 'q5' },
+      financial_support: { free_school_meals: 'no' },
+      personal_circumstances: {
+        care_experienced: 'no',
+        care_over_three_months: 'no',
+        refugee: 'no',
+        uk_refugee_status_granted: 'no'
+      },
+      access_programmes: { participation_status: 'no' }
+    },
+    scottish_profile: {
+      national_5_subjects: [
+        { subject_id: 'english', grade: 'A' },
+        { subject_id: 'mathematics', grade: 'A' },
+        { subject_id: 'biology', grade: 'A' },
+        { subject_id: 'chemistry', grade: 'A' },
+        { subject_id: 'physics', grade: 'A' }
+      ],
+      higher_subjects: [
+        { subject_id: 'chemistry', grade: 'A', school_year: 's5', first_attempt: true },
+        { subject_id: 'biology', grade: 'A', school_year: 's5', first_attempt: true },
+        { subject_id: 'mathematics', grade: 'A', school_year: 's5', first_attempt: true },
+        { subject_id: 'english', grade: 'A', school_year: 's5', first_attempt: true },
+        { subject_id: 'physics', grade: 'B', school_year: 's5', first_attempt: true }
+      ],
+      advanced_higher_subjects: [
+        { subject_id: 'chemistry', grade: 'B', school_year: 's6', first_attempt: true },
+        { subject_id: 'biology', grade: 'B', school_year: 's6', first_attempt: true }
+      ]
+    },
+    admissions_tests: {
+      ucat: {
+        total_score: 2200,
+        score_scale: 2700,
+        subtests: {
+          verbal_reasoning: 730,
+          decision_making: 730,
+          quantitative_reasoning: 740
+        },
+        sjt_band: 2
+      }
+    },
+    graduate_profile: { is_graduate: false }
+  };
+}
+
+function dundeeMirrorAlevelApplicant() {
+  const applicant = clone(topTierApplicant);
+  applicant.profile_id = 'dundee_scotland_home_a_level_standard_result_card';
+  applicant.qualification_route = 'a_level';
+  applicant.applicant_identity = {
+    ...applicant.applicant_identity,
+    applicant_type: 'school_leaver',
+    fee_status: 'home_fee',
+    domicile: 'scotland',
+    contextual: false,
+    contextual_flags: {},
+    graduate: false,
+    resit: { has_resits: false, subjects_resat: [] }
+  };
+  applicant.a_level_profile.subjects = [
+    ['chemistry', 'A'],
+    ['biology', 'A'],
+    ['mathematics', 'A']
+  ].map(([subjectId, predictedGrade]) => ({
+    subject_id: subjectId,
+    predicted_grade: predictedGrade,
+    achieved_grade: null,
+    sitting_status: 'first_sitting',
+    practical_endorsement: subjectId === 'mathematics' ? null : 'pass'
+  }));
+  applicant.admissions_tests.ucat.total_score = 2200;
+  return applicant;
+}
+
+function resultCardText(card) {
+  return [
+    card.primary_user_facing_recommendation,
+    card.primary_explanation,
+    card.trust_statement,
+    card.historical_guidance_caveat,
+    ...(card.academic_requirement_checks || []).flatMap((check) => [
+      check.qualification_type,
+      check.requirement_type,
+      check.label,
+      check.status
+    ]),
+    ...(card.decision_transparency?.decision_path || []).flatMap((stage) => [
+      stage.stage,
+      stage.status,
+      stage.summary,
+      ...(stage.checks || []).flatMap((check) => [check.label, check.status, check.summary])
+    ]),
+    ...(card.factor_usage || []).flatMap((factor) => [
+      factor.factor_id,
+      factor.label,
+      factor.role,
+      factor.detail
+    ])
+  ].filter(Boolean).join('\n');
 }
 
 {
@@ -1135,6 +1287,151 @@ function makeCambridgeSixGcseCard() {
     { qualification_type: 'scottish', requirement_type: 'scottish_post_16_requirements', label: 'Scottish Highers', status: 'met' },
     { qualification_type: 'graduate', requirement_type: 'graduate_degree_route', label: 'Graduate Entry', status: 'met' }
   ]);
+}
+
+{
+  const card = present({
+    transparencyContext: {
+      course_identity: { profile_id: 'dundee-a100' },
+      applicant_context: { qualification_route: 'a_level' },
+      applicant_group_ids: ['home_fee', 'rest_of_uk', 'school_leaver'],
+      guidance_pool: { pool_id: 'home_rest_of_uk_standard_school_leaver' },
+      eligibility_checks: [
+        { check_id: 'gcse_biology_minimum_for_a_level_applicants', status: 'pass', subject_id: 'biology' },
+        { check_id: 'gcse_or_national_5_english_minimum', status: 'pass', subject_id: 'english_language' },
+        { check_id: 'a_level_standard_offer', status: 'pass', required: 'AAA', actual: 'AAA' }
+      ]
+    }
+  });
+  assert.deepStrictEqual(publicAcademicChecks(card), [
+    { qualification_type: 'a_level', requirement_type: 'a_level_standard_offer', label: 'A-level requirements', status: 'met' },
+    { qualification_type: 'gcse', requirement_type: 'gcse_biology_minimum_for_a_level_applicants', label: 'GCSE requirements', status: 'met' }
+  ]);
+}
+
+{
+  const standardCard = present({
+    transparencyContext: {
+      course_identity: { profile_id: 'dundee-a100' },
+      applicant_context: { qualification_route: 'scottish' },
+      applicant_group_ids: ['home_fee', 'scotland_domiciled', 'school_leaver'],
+      guidance_pool: { pool_id: 'home_scotland_standard_school_leaver' },
+      eligibility_checks: [
+        { check_id: 'national_5_requirements', status: 'pass' },
+        { check_id: 'scottish_post_16_requirements', status: 'pass' }
+      ]
+    }
+  });
+  assert.deepStrictEqual(publicAcademicChecks(standardCard), [
+    { qualification_type: 'scottish', requirement_type: 'national_5_requirements', label: 'Dundee National 5 requirements', status: 'met' },
+    { qualification_type: 'scottish', requirement_type: 'scottish_post_16_requirements', label: 'Dundee Scottish standard route', status: 'met' }
+  ]);
+
+  const wideningAccessCard = present({
+    transparencyContext: {
+      course_identity: { profile_id: 'dundee-a100' },
+      academic_pathway: 'contextual',
+      academic_pathway_id: 'dundee_scottish_widening_access',
+      applicant_context: { qualification_route: 'scottish' },
+      applicant_group_ids: ['home_fee', 'scotland_domiciled', 'school_leaver', 'contextual'],
+      guidance_pool: { pool_id: 'home_scotland_contextual_school_leaver' },
+      eligibility_checks: [
+        { check_id: 'national_5_requirements', status: 'pass' },
+        { check_id: 'scottish_post_16_requirements', status: 'pass' }
+      ]
+    }
+  });
+  assert.deepStrictEqual(publicAcademicChecks(wideningAccessCard), [
+    { qualification_type: 'scottish', requirement_type: 'national_5_requirements', label: 'Dundee National 5 requirements', status: 'met' },
+    { qualification_type: 'scottish', requirement_type: 'scottish_post_16_requirements', label: 'Dundee Scottish widening-access route', status: 'met' }
+  ]);
+}
+
+{
+  const cases = [
+    {
+      name: 'England domicile + Scottish qualifications',
+      applicant: dundeeMirrorScottishApplicant(),
+      expectedPool: 'home_rest_of_uk_standard_school_leaver',
+      expectedPoolText: 'Home/RUK Standard school-leaver applicants',
+      expectedAcademicChecks: [
+        { qualification_type: 'scottish', requirement_type: 'national_5_requirements', label: 'Dundee National 5 requirements', status: 'met' },
+        { qualification_type: 'scottish', requirement_type: 'scottish_post_16_requirements', label: 'Dundee Scottish standard route', status: 'met' }
+      ],
+      requiredText: [
+        /Home\/RUK Standard applicants/i,
+        /Dundee Scottish standard route/i,
+        /ApplySmart-derived historical RUK UCAT guidance/i,
+        /SJT is not used for interview selection/i
+      ],
+      forbiddenText: [
+        /Scotland-domiciled applicants/i,
+        /A-level requirements|GCSE requirements/i,
+        /Contextual route confirmed|contextual admissions criteria/i,
+        /Prediction Unavailable|Not predicted/i
+      ]
+    },
+    {
+      name: 'Scotland domicile + A-levels',
+      applicant: dundeeMirrorAlevelApplicant(),
+      expectedPool: 'home_scotland_standard_school_leaver',
+      expectedPoolText: 'Home, Scotland-domiciled Standard school-leaver applicants',
+      expectedAcademicChecks: [
+        { qualification_type: 'a_level', requirement_type: 'a_level_standard_offer', label: 'A-level requirements', status: 'met' },
+        { qualification_type: 'gcse', requirement_type: 'gcse_biology_minimum_for_a_level_applicants', label: 'GCSE requirements', status: 'met' }
+      ],
+      requiredText: [
+        /Home, Scotland-domiciled Standard applicants/i,
+        /A-level requirements/i,
+        /ApplySmart-derived historical Scotland UCAT guidance/i,
+        /SJT is not used for interview selection/i
+      ],
+      forbiddenText: [
+        /Home\/RUK|Rest of UK|\bRUK\b/i,
+        /Dundee National 5 requirements|Dundee Scottish standard route|Advanced Higher/i,
+        /Contextual route confirmed|contextual admissions criteria/i,
+        /Prediction Unavailable|Not predicted/i
+      ]
+    }
+  ];
+
+  for (const testCase of cases) {
+    const classification = classifyInterviewBand(
+      dundeeCourse,
+      dundeeConfig,
+      testCase.applicant
+    );
+    const card = presentDundeeClassification(classification, testCase.applicant);
+    const text = resultCardText(card);
+    const applicantPoolChecks = card.decision_transparency.decision_path
+      .flatMap((stage) => stage.checks || [])
+      .filter((check) => check.label === 'Applicant pool');
+    const academicKeys = card.academic_requirement_checks.map((check) => {
+      return `${check.qualification_type}|${check.requirement_type}|${check.label}|${check.status}`;
+    });
+
+    assert.strictEqual(classification.eligibility.status, 'eligible', testCase.name);
+    assert.strictEqual(classification.guidance_pool_id, testCase.expectedPool, testCase.name);
+    assert.strictEqual(card.prediction.available, true, testCase.name);
+    assert.notStrictEqual(card.prediction.result_band, 'insufficient_evidence', testCase.name);
+    assert.strictEqual(card.contextual_status, null, testCase.name);
+    assert.strictEqual(card.contextual_confirmation, null, testCase.name);
+    assert.deepStrictEqual(publicAcademicChecks(card), testCase.expectedAcademicChecks, testCase.name);
+    assert.strictEqual(new Set(academicKeys).size, academicKeys.length, testCase.name);
+    assert.ok(applicantPoolChecks.length > 0, testCase.name);
+    assert.ok(applicantPoolChecks.every((check) => check.summary === testCase.expectedPoolText), testCase.name);
+    assert.strictEqual(
+      card.factor_usage.find((factor) => factor.factor_id === 'sjt')?.role,
+      'not_used',
+      testCase.name
+    );
+    for (const pattern of testCase.requiredText) {
+      assert.match(text, pattern, testCase.name);
+    }
+    for (const pattern of testCase.forbiddenText) {
+      assert.doesNotMatch(text, pattern, testCase.name);
+    }
+  }
 }
 
 {

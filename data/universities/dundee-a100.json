@@ -3,12 +3,15 @@
   "profile_id": "dundee-a100",
   "profile_status": "stage_1_verified_structural_pilot",
   "selection_approach_display": {
-    "default": "Dundee checks academic eligibility before applying the interview-selection process for the applicant's route; Home-route academic and UCAT weighting is not published.",
-    "by_applicant_pool": {
-      "home_rest_of_uk_school_leaver": "Dundee checks academic eligibility before selecting Home and Rest of UK school-leaver applicants for interview; the current academic and UCAT weighting is not published.",
-      "international": "Dundee ranks eligible International applicants using a pre-interview score based on 60% academic performance and 40% UCAT."
-    }
-  },
+  "default": "Dundee considers academic performance and UCAT when selecting applicants for interview.",
+  "by_applicant_pool": {
+    "home_scotland_standard_school_leaver": "Dundee considers academic performance and UCAT when selecting Home, Scotland-domiciled Standard applicants for interview. School-leaver selection uses 60% academic performance and 40% UCAT.",
+    "home_scotland_contextual_school_leaver": "Dundee considers academic performance and UCAT when selecting Home, Scotland-domiciled Contextual applicants for interview. School-leaver selection uses 60% academic performance and 40% UCAT.",
+    "home_rest_of_uk_standard_school_leaver": "Dundee considers academic performance and UCAT when selecting Home/RUK Standard applicants for interview. School-leaver selection uses 60% academic performance and 40% UCAT.",
+    "home_rest_of_uk_contextual_school_leaver": "Dundee considers academic performance and UCAT when selecting Home/RUK Contextual applicants for interview. School-leaver selection uses 60% academic performance and 40% UCAT.",
+    "international": "Dundee considers academic performance and UCAT when selecting International applicants for interview."
+  }
+} ,
   "verification_status": "partially_verified",
   "last_updated": "2026-07-02",
   "university": {
@@ -57,14 +60,64 @@
       "notes": "International applicants compete in a separate pool. Historical UCAT guidance is not a fixed threshold."
     },
     {
-      "pool_id": "home_fee_applicants",
-      "name": "Home-fee applicants",
-      "status": "supported_for_eligibility_and_guidance",
+      "pool_id": "home_scotland_standard_school_leaver",
+      "name": "Scotland Standard school-leaver applicants",
+      "status": "supported_for_applysmart_guidance",
       "applies_to_group_ids": [
-        "home_fee"
+        "home_fee",
+        "scotland_domiciled",
+        "school_leaver"
       ],
-      "selection_relevance": "Applicant cohort descriptor only; no additional ranking pool, scoring rule or admissions decision is inferred.",
-      "notes": "Added to expose the production applicant-pool contract where the current profile already supports Home-fee eligibility or guidance but does not publish a separate Home ranking pool."
+      "selection_relevance": "ApplySmart-derived pre-interview tier using the FOI-supported school-leaver 60% academic / 40% UCAT structure. Not an official Dundee score.",
+      "notes": "Dundee's exact academic scoring conversion and current Dundee applicant-pool UCAT decile boundaries are not public. ApplySmart conservatively treats a confirmed qualifying Standard Scottish Higher route as satisfying the Higher academic-strength component; National 5 strength may provide the existing estimated differentiation."
+    },
+    {
+      "pool_id": "home_scotland_contextual_school_leaver",
+      "name": "Scotland Contextual school-leaver applicants",
+      "status": "supported_for_applysmart_guidance",
+      "applies_to_group_ids": [
+        "home_fee",
+        "scotland_domiciled",
+        "school_leaver",
+        "contextual"
+      ],
+      "selection_relevance": "ApplySmart-derived pre-interview tier using the FOI-supported school-leaver 60% academic / 40% UCAT structure. Category 1/2 is ApplySmart-mapped where applicable.",
+      "notes": "Contextual Category 1/2 must not be presented as Dundee-confirmed internal classification. Dundee's exact academic scoring conversion is unpublished, so ApplySmart conservatively treats a confirmed qualifying Contextual Scottish Higher route as satisfying the Higher academic-strength component without claiming Dundee awards identical official academic scores to all eligible contextual applicants."
+    },
+    {
+      "pool_id": "home_rest_of_uk_standard_school_leaver",
+      "name": "Rest of UK / ROI Standard school-leaver applicants",
+      "status": "supported_for_applysmart_guidance",
+      "applies_to_group_ids": [
+        "home_fee",
+        "rest_of_uk",
+        "school_leaver"
+      ],
+      "selection_relevance": "ApplySmart-derived pre-interview tier using the FOI-supported school-leaver 60% academic / 40% UCAT structure. Not an official Dundee score.",
+      "notes": "Dundee's exact academic conversion table and current Dundee applicant-pool UCAT decile boundaries are not public."
+    },
+    {
+      "pool_id": "home_rest_of_uk_contextual_school_leaver",
+      "name": "Rest of UK / ROI Contextual school-leaver applicants",
+      "status": "supported_for_applysmart_guidance",
+      "applies_to_group_ids": [
+        "home_fee",
+        "rest_of_uk",
+        "school_leaver",
+        "contextual"
+      ],
+      "selection_relevance": "ApplySmart-derived pre-interview tier using the FOI-supported school-leaver 60% academic / 40% UCAT structure. Not an official Dundee score.",
+      "notes": "Dundee's exact academic conversion table and current Dundee applicant-pool UCAT decile boundaries are not public."
+    },
+    {
+      "pool_id": "graduate",
+      "name": "Graduate applicants",
+      "status": "isolated_not_scored",
+      "applies_to_group_ids": [
+        "graduate_applicant"
+      ],
+      "selection_relevance": "Graduate route kept separate from school-leaver and International prediction pools.",
+      "notes": "ApplySmart does not currently expose a Dundee graduate prediction tier without complete graduate academic scoring and applicant-pool UCAT evidence."
     }
   ],
   "applies_to_group_ids": [
@@ -139,7 +192,7 @@
           "source_ids": [
             "dundee_all_entry_requirements"
           ],
-          "notes": "For SQA applicants, Biology is required at National 5 grade A."
+          "notes": "For SQA applicants, Biology is required at National 5 grade A where Biology is not studied at Higher."
         },
         {
           "requirement_id": "national_5_chemistry_minimum_for_sqa_applicants",
@@ -151,7 +204,7 @@
           "source_ids": [
             "dundee_all_entry_requirements"
           ],
-          "notes": "For SQA applicants, Chemistry is required at National 5 grade A."
+          "notes": "For SQA applicants, Chemistry is required at National 5 grade A where Chemistry is not studied at Higher."
         },
         {
           "requirement_id": "gcse_or_national_5_english_minimum",
@@ -181,7 +234,116 @@
       "accepted_equivalencies": [],
       "sitting_policy": "route_dependent",
       "achieved_or_predicted": "unknown",
-      "notes": "Dundee's GCSE/National 5 requirements are route-dependent and should be evaluated alongside the applicant's post-16 qualification route."
+      "notes": "Dundee's GCSE/National 5 requirements are route-dependent and should be evaluated alongside the applicant's post-16 qualification route. For SQA applicants, Biology/Chemistry National 5 grade A applies to the counterpart subject not studied at Higher. ApplySmart may use National 5 strength for estimated Home guidance differentiation, but Dundee's exact academic scoring conversion is unpublished."
+    },
+    "national_5": {
+      "status": "official_source_verified",
+      "source_ids": [
+        "dundee_all_entry_requirements"
+      ],
+      "grade_requirements": [
+        {
+          "requirement_id": "national_5_biology_grade_a",
+          "applies_to_group_ids": [
+            "scotland_domiciled"
+          ],
+          "subject_id": "biology",
+          "minimum_grade": "A",
+          "qualification_level": "national_5",
+          "post16_satisfaction": {
+            "allowed": true,
+            "qualification_levels": [
+              "higher"
+            ],
+            "subject_ids": [
+              "biology"
+            ],
+            "minimum_grade": "B"
+          },
+          "decision_outcome_if_not_met": "not_eligible",
+          "source_ids": [
+            "dundee_all_entry_requirements"
+          ],
+          "notes": "Biology is required at National 5 grade A for SQA applicants if Biology is not studied at Higher."
+        },
+        {
+          "requirement_id": "national_5_chemistry_grade_a",
+          "applies_to_group_ids": [
+            "scotland_domiciled"
+          ],
+          "subject_id": "chemistry",
+          "minimum_grade": "A",
+          "qualification_level": "national_5",
+          "post16_satisfaction": {
+            "allowed": true,
+            "qualification_levels": [
+              "higher"
+            ],
+            "subject_ids": [
+              "chemistry"
+            ],
+            "minimum_grade": "B"
+          },
+          "decision_outcome_if_not_met": "not_eligible",
+          "source_ids": [
+            "dundee_all_entry_requirements"
+          ],
+          "notes": "Chemistry is required at National 5 grade A for SQA applicants if Chemistry is not studied at Higher."
+        },
+        {
+          "requirement_id": "national_5_english_grade_b_if_not_higher",
+          "applies_to_group_ids": [
+            "scotland_domiciled"
+          ],
+          "subject_id": "english_language",
+          "alternative_subject_ids": [
+            "english"
+          ],
+          "minimum_grade": "B",
+          "qualification_level": "national_5",
+          "post16_satisfaction": {
+            "allowed": true,
+            "qualification_levels": [
+              "higher"
+            ],
+            "subject_ids": [
+              "english_language",
+              "english"
+            ],
+            "minimum_grade": "B"
+          },
+          "decision_outcome_if_not_met": "not_eligible",
+          "source_ids": [
+            "dundee_all_entry_requirements"
+          ],
+          "notes": "English is required at National 5 grade B if not studied at Higher."
+        },
+        {
+          "requirement_id": "national_5_mathematics_grade_b_if_not_higher",
+          "applies_to_group_ids": [
+            "scotland_domiciled"
+          ],
+          "subject_id": "mathematics",
+          "minimum_grade": "B",
+          "qualification_level": "national_5",
+          "post16_satisfaction": {
+            "allowed": true,
+            "qualification_levels": [
+              "higher"
+            ],
+            "subject_ids": [
+              "mathematics"
+            ],
+            "minimum_grade": "B"
+          },
+          "decision_outcome_if_not_met": "not_eligible",
+          "source_ids": [
+            "dundee_all_entry_requirements"
+          ],
+          "notes": "Mathematics is required at National 5 grade B if not studied at Higher."
+        }
+      ],
+      "notes": "SQA applicants need National 5 grade A in the Biology/Chemistry counterpart subject when that subject is not studied at Higher. English and Mathematics are required at National 5 grade B if not studied at Higher."
     },
     "post_16": {
       "status": "verified",
@@ -207,6 +369,9 @@
         "grade_requirements": [
           {
             "requirement_id": "a_level_standard_offer",
+            "route_id": "dundee_a_level_standard_offer",
+            "pathway_id": "dundee_ruk_standard_a_level",
+            "academic_pathway": "standard",
             "applies_to_group_ids": [],
             "grade_profile": [
               "A",
@@ -244,6 +409,9 @@
           },
           {
             "requirement_id": "a_level_widening_access_offer",
+            "route_id": "dundee_a_level_widening_access_offer",
+            "pathway_id": "dundee_ruk_contextual_widening_access_a_level",
+            "academic_pathway": "contextual",
             "applies_to_group_ids": [
               "widening_participation"
             ],
@@ -438,32 +606,36 @@
         },
         "grade_requirements": [
           {
-            "requirement_id": "scottish_higher_standard_offer",
-            "applies_to_group_ids": [],
-            "qualification_level": "scottish_highers",
-            "grade_profile": [
+            "requirement_id": "scottish_higher_standard_chemistry_anchor",
+            "route_id": "dundee_scottish_standard_chemistry_anchor",
+            "pathway_id": "dundee_scottish_standard_chemistry_anchor",
+            "academic_pathway": "standard",
+            "applies_to_group_ids": [
+              "home_fee",
+              "school_leaver"
+            ],
+            "qualification_level": "scottish_highers_and_advanced_highers",
+            "higher_grade_profile": [
               "A",
               "A",
               "A",
               "A",
               "B"
             ],
-            "required_subject_ids": [],
-            "one_of_subject_groups": [
+            "advanced_higher_grade_profile": [
+              "B",
+              "B"
+            ],
+            "same_sitting_required": true,
+            "same_sitting_qualification_level": "higher",
+            "higher_required_subject_ids": [
+              "chemistry"
+            ],
+            "higher_one_of_subject_groups": [
               {
-                "group_id": "sqa_higher_chemistry_or_biology",
+                "group_id": "sqa_higher_second_science_for_chemistry_anchor",
                 "minimum_required": 1,
                 "subject_ids": [
-                  "chemistry",
-                  "biology"
-                ],
-                "notes": "Either Chemistry or Biology is required."
-              },
-              {
-                "group_id": "sqa_higher_second_science",
-                "minimum_required": 1,
-                "subject_ids": [
-                  "chemistry",
                   "biology",
                   "mathematics",
                   "physics"
@@ -471,41 +643,92 @@
                 "notes": "Another science is required; Mathematics is accepted as a science."
               }
             ],
+            "advanced_higher_required_subject_ids": [],
+            "advanced_higher_one_of_subject_groups": [],
             "decision_outcome_if_not_met": "not_eligible",
             "source_ids": [
               "dundee_all_entry_requirements"
             ],
-            "notes": "Highers must be achieved in one sitting."
+            "notes": "Standard SQA route: AAAAB Highers in one sitting including Chemistry and another science, plus BB Advanced Highers/S6."
           },
           {
-            "requirement_id": "scottish_higher_widening_access_offer",
+            "requirement_id": "scottish_higher_standard_biology_anchor",
+            "route_id": "dundee_scottish_standard_biology_anchor",
+            "pathway_id": "dundee_scottish_standard_biology_anchor",
+            "academic_pathway": "standard",
             "applies_to_group_ids": [
+              "home_fee",
+              "school_leaver"
+            ],
+            "qualification_level": "scottish_highers_and_advanced_highers",
+            "higher_grade_profile": [
+              "A",
+              "A",
+              "A",
+              "A",
+              "B"
+            ],
+            "advanced_higher_grade_profile": [
+              "B",
+              "B"
+            ],
+            "same_sitting_required": true,
+            "same_sitting_qualification_level": "higher",
+            "higher_required_subject_ids": [
+              "biology"
+            ],
+            "higher_one_of_subject_groups": [
+              {
+                "group_id": "sqa_higher_second_science_for_biology_anchor",
+                "minimum_required": 1,
+                "subject_ids": [
+                  "chemistry",
+                  "mathematics",
+                  "physics"
+                ],
+                "notes": "Another science is required; Mathematics is accepted as a science."
+              }
+            ],
+            "advanced_higher_required_subject_ids": [],
+            "advanced_higher_one_of_subject_groups": [],
+            "decision_outcome_if_not_met": "not_eligible",
+            "source_ids": [
+              "dundee_all_entry_requirements"
+            ],
+            "notes": "Standard SQA route: AAAAB Highers in one sitting including Biology and another science, plus BB Advanced Highers/S6."
+          },
+          {
+            "requirement_id": "scottish_higher_widening_access_chemistry_anchor",
+            "route_id": "dundee_scottish_widening_access_chemistry_anchor",
+            "pathway_id": "dundee_scottish_widening_access_chemistry_anchor",
+            "academic_pathway": "contextual",
+            "applies_to_group_ids": [
+              "home_fee",
+              "school_leaver",
               "widening_participation"
             ],
-            "qualification_level": "scottish_highers",
-            "grade_profile": [
+            "qualification_level": "scottish_highers_and_advanced_highers",
+            "higher_grade_profile": [
               "A",
               "A",
               "A",
               "B",
               "B"
             ],
-            "required_subject_ids": [],
-            "one_of_subject_groups": [
+            "advanced_higher_grade_profile": [
+              "B",
+              "B"
+            ],
+            "same_sitting_required": true,
+            "same_sitting_qualification_level": "higher",
+            "higher_required_subject_ids": [
+              "chemistry"
+            ],
+            "higher_one_of_subject_groups": [
               {
-                "group_id": "sqa_contextual_higher_chemistry_or_biology",
+                "group_id": "sqa_contextual_higher_second_science_for_chemistry_anchor",
                 "minimum_required": 1,
                 "subject_ids": [
-                  "chemistry",
-                  "biology"
-                ],
-                "notes": "Either Chemistry or Biology is required."
-              },
-              {
-                "group_id": "sqa_contextual_higher_second_science",
-                "minimum_required": 1,
-                "subject_ids": [
-                  "chemistry",
                   "biology",
                   "mathematics",
                   "physics"
@@ -513,28 +736,70 @@
                 "notes": "Another science is required; Mathematics is accepted as a science."
               }
             ],
+            "advanced_higher_required_subject_ids": [],
+            "advanced_higher_one_of_subject_groups": [],
             "decision_outcome_if_not_met": "not_eligible",
             "source_ids": [
               "dundee_all_entry_requirements",
               "dundee_contextual_admissions_policy"
             ],
-            "notes": "Widening access SQA Higher offer."
+            "contextual_offer_conditions": [
+              "Dundee widening-access Scottish requirements apply only after Dundee contextual eligibility is confirmed through structured contextual evidence.",
+              "The same Higher subject and National 5 rules apply to standard and widening-access Scottish routes."
+            ],
+            "notes": "Widening access SQA route: AAABB Highers in one sitting including Chemistry and another science, plus BB Advanced Highers/S6."
           },
           {
-            "requirement_id": "advanced_higher_s6_requirement",
-            "applies_to_group_ids": [],
-            "qualification_level": "advanced_highers",
-            "grade_profile": [
+            "requirement_id": "scottish_higher_widening_access_biology_anchor",
+            "route_id": "dundee_scottish_widening_access_biology_anchor",
+            "pathway_id": "dundee_scottish_widening_access_biology_anchor",
+            "academic_pathway": "contextual",
+            "applies_to_group_ids": [
+              "home_fee",
+              "school_leaver",
+              "widening_participation"
+            ],
+            "qualification_level": "scottish_highers_and_advanced_highers",
+            "higher_grade_profile": [
+              "A",
+              "A",
+              "A",
               "B",
               "B"
             ],
-            "required_subject_ids": [],
-            "one_of_subject_groups": [],
-            "decision_outcome_if_not_met": "risk_flag",
-            "source_ids": [
-              "dundee_all_entry_requirements"
+            "advanced_higher_grade_profile": [
+              "B",
+              "B"
             ],
-            "notes": "BB at Advanced Higher for all S6 candidates. Candidates completing S6 without meeting this are unlikely to be considered."
+            "same_sitting_required": true,
+            "same_sitting_qualification_level": "higher",
+            "higher_required_subject_ids": [
+              "biology"
+            ],
+            "higher_one_of_subject_groups": [
+              {
+                "group_id": "sqa_contextual_higher_second_science_for_biology_anchor",
+                "minimum_required": 1,
+                "subject_ids": [
+                  "chemistry",
+                  "mathematics",
+                  "physics"
+                ],
+                "notes": "Another science is required; Mathematics is accepted as a science."
+              }
+            ],
+            "advanced_higher_required_subject_ids": [],
+            "advanced_higher_one_of_subject_groups": [],
+            "decision_outcome_if_not_met": "not_eligible",
+            "source_ids": [
+              "dundee_all_entry_requirements",
+              "dundee_contextual_admissions_policy"
+            ],
+            "contextual_offer_conditions": [
+              "Dundee widening-access Scottish requirements apply only after Dundee contextual eligibility is confirmed through structured contextual evidence.",
+              "The same Higher subject and National 5 rules apply to standard and widening-access Scottish routes."
+            ],
+            "notes": "Widening access SQA route: AAABB Highers in one sitting including Biology and another science, plus BB Advanced Highers/S6."
           }
         ],
         "required_subject_ids": [],
@@ -560,7 +825,14 @@
             "notes": "Another science is required; Mathematics is accepted as a science."
           }
         ],
-        "notes": "Biology and Chemistry are also required at National 5 grade A for SQA applicants."
+        "notes": "Biology and Chemistry are also required at National 5 grade A for SQA applicants. Dundee's exact Scottish academic scoring conversion is unpublished; ApplySmart treats confirmed Standard or Contextual Higher-route eligibility as satisfying the Higher academic-strength component for guidance only.",
+        "route_implemented": true,
+        "contextual_route_implemented": true,
+        "runtime_notes": [
+          "Dundee Scottish route evaluation uses the shared Scottish engine.",
+          "Highers must be achieved in one sitting.",
+          "Dundee contextual/widening-access Scottish routes activate only after the Dundee contextual evaluator confirms eligibility."
+        ]
       },
       "btec": {
         "status": "unknown",
@@ -736,7 +1008,7 @@
           "dundee_interview_page",
           "dundee_admissions_statistics"
         ],
-        "notes": "Academic and UCAT weighting are not published in reviewed official sources. Historical admissions statistics include invited-to-interview UCAT data for display/context only, not as a prediction formula."
+        "notes": "School-leaver academic and UCAT weighting is FOI-supported at 60% academic and 40% UCAT. Historical admissions statistics include invited-to-interview UCAT data for display/context only; exact academic conversion and current Dundee applicant-pool UCAT decile boundaries are not public."
       }
     ],
     "calculation": {
@@ -768,7 +1040,7 @@
       ],
       "notes": "Bands are medium-confidence ApplySmart guidance from historical data and the clearly labelled research model. International bands use verified historical international evidence. They are not fixed Dundee UCAT cut-offs."
     },
-    "notes": "Home primary model, academic weighting, UCAT weighting and ranking formula remain unchanged and unknown. For international applicants, verified evidence records a separate pool, 60% academic and 40% UCAT weighting, national-decile ranking using cognitive total only, no fixed UCAT cut-off, and no personal-statement shortlisting."
+    "notes": "Home school-leaver weighting is FOI-supported at 60% academic and 40% UCAT, but the exact Dundee academic conversion table and current applicant-pool UCAT decile boundaries are not public. For international applicants, verified evidence records a separate pool, 60% academic and 40% UCAT weighting, national-decile ranking using cognitive total only, no fixed UCAT cut-off, and no personal-statement shortlisting."
   },
   "contextual_admissions": {
     "verification_status": "official_source_verified",
@@ -777,6 +1049,24 @@
       "dundee_all_entry_requirements"
     ],
     "available": true,
+    "contextual_eligibility": {
+      "evaluator_id": "dundee_contextual_medicine_a100",
+      "controls_group_routing": true,
+      "applies_to_group_ids": [
+        "home_fee"
+      ],
+      "excluded_group_ids": [
+        "international_fee"
+      ],
+      "activated_applicant_group_ids": [
+        "contextual",
+        "widening_participation",
+        "care_experienced"
+      ],
+      "evidence_source": "step_6_contextual_profile",
+      "manual_review_when_evidence_incomplete": true,
+      "notes": "Dundee A100 contextual/widening-access routing is activated only from structured Step 6 contextual evidence via the shared contextual eligibility framework. Raw legacy contextual flags or raw applicant-group IDs must not independently unlock Dundee contextual, widening-access, RUK contextual or Scottish contextual routes. ApplySmart stores Category 1 and Category 2 metadata where directly evidenced from Dundee's published criteria, but this is not presented as Dundee having confirmed an applicant's internal category. Possible internal upgrading of multiple Category 2 factors is not inferred."
+    },
     "applies_to_group_ids": [
       "widening_participation",
       "care_experienced"
@@ -794,6 +1084,17 @@
         "notes": null
       },
       {
+        "criterion_id": "simd40",
+        "applies_to_group_ids": [
+          "widening_participation"
+        ],
+        "description": "SIMD40 / SIMD Quintile 2 contextual factor.",
+        "source_ids": [
+          "dundee_contextual_admissions_policy"
+        ],
+        "notes": "Stored as ApplySmart-derived Category 2 metadata from Dundee published contextual evidence."
+      },
+      {
         "criterion_id": "free_school_meals",
         "applies_to_group_ids": [
           "widening_participation"
@@ -803,6 +1104,17 @@
           "dundee_contextual_admissions_policy"
         ],
         "notes": null
+      },
+      {
+        "criterion_id": "declared_disability",
+        "applies_to_group_ids": [
+          "widening_participation"
+        ],
+        "description": "Declared disability or long-term condition contextual factor.",
+        "source_ids": [
+          "dundee_contextual_admissions_policy"
+        ],
+        "notes": "Stored as ApplySmart-derived Category 2 metadata from Dundee published contextual evidence."
       },
       {
         "criterion_id": "carer_status",
@@ -1272,17 +1584,18 @@
       "SJT bands are not used as part of initial interview selection, but post-interview SJT use is not stated.",
       "BTEC acceptance is unknown; no clear official acceptance rule was found.",
       "SWAP subject/unit details are stored as notes until dedicated subject IDs are agreed.",
-      "The Home Stage 2 interview selection model, academic weighting and UCAT weighting are not published in reviewed official sources.",
+      "Dundee contextual and Scottish academic route activation uses the shared contextual and Scottish eligibility engines.",
+      "The exact Home Stage 2 academic scoring table and current Dundee applicant-pool UCAT decile boundaries are not published.",
       "The exact interview scoring rubric and Home offer selection weighting remain unavailable."
     ],
-    "review_notes": "Home eligibility and selection logic remain unchanged. Verified international evidence now supports a separate 60% academic and 40% national-decile UCAT pool, historical interview guidance, a two-stage hybrid interview and interview-only offer ranking. Guidance is historical, not a fixed UCAT cut-off."
+    "review_notes": "Home eligibility now includes Dundee-specific contextual activation and Scottish standard/widening-access academic route support. FOI-supported school-leaver weighting is 60% academic and 40% UCAT, but Home prediction is ApplySmart-derived tier guidance because exact academic conversion and current Dundee applicant-pool UCAT decile boundaries are not public. Verified international evidence supports a separate 60% academic and 40% national-decile UCAT pool, historical interview guidance, a two-stage hybrid interview and interview-only offer ranking."
   },
   "engine_notes": {
     "eligibility": true,
     "interview_prediction": true,
     "historical_guidance": true,
     "international_prediction": true,
-    "contextual_logic": false,
+    "contextual_logic": true,
     "result_card": true,
     "regression": true,
     "research_completeness": "complete_for_supported_scope_with_documented_gaps",
@@ -1307,15 +1620,15 @@
       "Known unknown retained as non-blocking for activation-ready production scope: SJT bands are not used as part of initial interview selection, but post-interview SJT use is not stated.",
       "Known unknown retained as non-blocking for activation-ready production scope: BTEC acceptance is unknown; no clear official acceptance rule was found.",
       "Known unknown retained as non-blocking for activation-ready production scope: SWAP subject/unit details are stored as notes until dedicated subject IDs are agreed.",
-      "Known unknown retained as non-blocking for activation-ready production scope: The Home Stage 2 interview selection model, academic weighting and UCAT weighting are not published in reviewed official sources.",
+      "Known unknown retained as non-blocking for activation-ready production scope: The exact Home Stage 2 academic scoring table and current Dundee applicant-pool UCAT decile boundaries are not published.",
       "Known unknown retained as non-blocking for activation-ready production scope: The exact interview scoring rubric and Home offer selection weighting remain unavailable."
     ],
     "engine_assumptions": [],
     "do_not_infer": [
       "Do not infer BTEC acceptance.",
       "Do not infer post-interview SJT policy.",
-      "Do not infer Home Stage 2 ranking or interview selection.",
-      "Do not apply the verified international 60/40 weighting or historical guidance to Home applicants.",
+      "Do not infer an official Home Dundee ranking score from ApplySmart tier guidance.",
+      "Do not apply the verified international academic conversion, UCAT decile mapping or historical guidance to Home applicants.",
       "Do not treat international historical UCAT guidance as a fixed cut-off.",
       "Do not treat aliases as canonical subject IDs.",
       "Do not apply contextual adjustments unless represented as structured rules."

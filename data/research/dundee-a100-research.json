@@ -2,7 +2,7 @@
   "schema_version": "1.0.0",
   "profile_id": "dundee-a100-research",
   "course_profile_id": "dundee-a100",
-  "research_status": "verified_international_evidence_added_home_model_needs_foi_verification",
+  "research_status": "foi_supported_school_leaver_weighting_with_applysmart_home_guidance",
   "file_purpose": "Research and evidence profile for University of Dundee A100. This file does not replace the production admissions rules.",
   "official_rules_source": "data/universities/dundee-a100.json",
   "created_at": null,
@@ -15,7 +15,7 @@
     "interview_prediction": true,
     "historical_guidance": true,
     "international_prediction": true,
-    "contextual_logic": false,
+    "contextual_logic": true,
     "result_card": true,
     "regression": true,
     "research_completeness": "complete_for_supported_scope_with_documented_gaps",
@@ -28,8 +28,8 @@
     "eligibility_ready_status": "mostly_true",
     "official_selection_formula_available": false,
     "historical_guidance_available": true,
-    "historical_prediction_status": "available_for_international_guidance",
-    "summary": "Dundee can support eligibility guidance, verified international interview guidance, official historical admissions context, and a research-derived predictor model. International guidance uses a separate 60% academic and 40% national-decile UCAT pool with no fixed cut-off. Home logic is unchanged.",
+    "historical_prediction_status": "available_for_international_and_applysmart_home_tier_guidance",
+    "summary": "Dundee can support eligibility guidance, Scottish standard/contextual academic route evaluation, Dundee contextual evidence classification, verified international interview guidance, official historical admissions context, and ApplySmart-derived school-leaver prediction tiers. School-leaver weighting is FOI-supported at 60% academic and 40% UCAT, but Dundee's exact academic scoring conversion and current Dundee applicant-pool UCAT decile boundaries are not public, so ApplySmart must not display an official Dundee score. The Scottish Higher proxy treats confirmed qualifying Standard or Contextual Higher-route eligibility as satisfying the Higher academic-strength component; it does not claim Dundee awards identical official academic scores to all eligible applicants.",
     "labels": [
       "Eligibility guidance available",
       "Historical admissions context available",
@@ -87,7 +87,7 @@
       "Home offer ranking formula verification",
       "Tie-breaker rules"
     ],
-    "explanation": "Dundee A100 remains unavailable for a complete official formula prediction. Verified international selection and offer-ranking evidence is stored, but the exact academic point conversion and interview scoring rubric are not supplied. Home selection logic remains unchanged and incomplete.",
+    "explanation": "Dundee A100 remains unavailable for a complete official formula prediction. The school-leaver 60% academic / 40% UCAT weighting is FOI-supported, and verified international selection and offer-ranking evidence is stored, but the exact academic point conversion, current Dundee applicant-pool UCAT decile boundaries, and interview scoring rubric are not supplied. Home school-leaver prediction must therefore be displayed only as ApplySmart-derived tier guidance.",
     "source_ids": [
       "dundee_admissions_statistics",
       "dundee_verified_international_admissions_evidence"
@@ -659,7 +659,7 @@
   ],
   "estimated_historical_prediction": {
     "available": true,
-    "method": "International applicants use verified /2700 historical guidance in a separate international pool. Existing Home applicant guidance is unchanged. The bands are historical interview guidance, not fixed UCAT cut-offs or offer predictions.",
+    "method": "International applicants use verified /2700 historical guidance in a separate international pool. Home school-leaver applicants use ApplySmart-derived tier guidance that combines academic strength and UCAT competitiveness according to the FOI-supported 60% academic / 40% UCAT structure. The bands are guidance only, not Dundee cut-offs, official ranking scores or offer predictions.",
     "method_status": "validated",
     "method_status_values": [
       "not_modelled",
@@ -776,14 +776,17 @@
       "The selection process may change year-on-year.",
       "UCAT scoring changes from 2025 mean older UCAT totals are not directly comparable to future 2700-scale test results.",
       "Historical data supports context only and must not be treated as the official scoring formula.",
-      "Validated historical guidance is available only for the international pool; Home guidance remains unchanged.",
+      "Home school-leaver guidance is ApplySmart-derived because Dundee's exact academic scoring conversion and current Dundee applicant-pool UCAT decile boundaries are not public.",
+      "ApplySmart treats a confirmed qualifying Dundee Scottish Standard or Contextual Higher route conservatively as satisfying the Higher academic-strength component, while National 5 strength may provide the existing estimated differentiation. This is not a claim that Dundee awards identical official academic scores to all eligible applicants.",
+      "Scotland Standard, Scotland Contextual, RUK Standard and RUK Contextual UCAT benchmark values are ApplySmart-derived historical guidance, not Dundee published cut-offs, deciles or scoring boundaries.",
+      "ApplySmart's 12/20/28/34/40 UCAT proxy mapping and 60/76/88 final tier boundaries are policy thresholds for classification only.",
       "Dundee warns that UCAT values published before the 2025 UCAT change are not directly comparable with current UCAT scores. ApplySmart stores converted 2700-scale estimates for rough context only.",
       "Converted 2700-scale UCAT estimates are not official current cutoffs and must not be used as Dundee scoring formula.",
       "Research-derived predictor model is not an official university-published scoring formula.",
       "Detailed academic point tables referenced by the research request were not included in the pasted source.",
       "Graduate and contextual historical UCAT values were requested but exact row values were not included in the pasted source."
     ],
-    "disclaimer": "Estimated historical prediction is based on historical or FOI data and is not the official university scoring formula. It should be shown separately from official formula prediction.",
+    "disclaimer": "Estimated historical prediction is based on historical or FOI-supported evidence and ApplySmart predictor estimates. It is not the official Dundee scoring formula, cut-off, applicant-pool decile table or ranking score, and should be shown separately from official formula prediction.",
     "source_ids": [
       "dundee_admissions_statistics",
       "dundee_verified_international_admissions_evidence"
@@ -805,6 +808,9 @@
       "Do not treat converted 2700-scale UCAT estimates as official current cutoffs.",
       "Do not use historical UCAT values as Dundee's official scoring formula.",
       "Do not treat research-derived Dundee predictor model as official university policy.",
+      "Do not describe the internal 0-100 ApplySmart guidance index as Dundee's official score.",
+      "Do not describe ApplySmart's UCAT benchmark values as Dundee published cut-offs, deciles or scoring boundaries.",
+      "Do not present ApplySmart's 12/20/28/34/40 UCAT proxy points or 60/76/88 tier thresholds as Dundee published scoring.",
       "Do not mark official_formula_prediction_ready true from predictor estimates.",
       "Do not invent missing academic point tables or missing graduate/contextual UCAT rows.",
       "Do not generate academic point tables from assumptions.",
@@ -813,7 +819,9 @@
     ],
     "course_specific_notes": [
       "Dundee full formula prediction remains unavailable because the exact academic point conversion and interview scoring rubric are not supplied.",
-      "Verified international historical guidance is available in a separate pool; Home applicant logic and guidance remain unchanged."
+      "Dundee contextual eligibility and Scottish standard/widening-access academic routes are implemented through the shared contextual and Scottish eligibility engines.",
+      "Dundee's exact Scottish academic scoring conversion is unpublished. For Home guidance only, ApplySmart treats a confirmed qualifying Dundee Standard or Contextual Higher route as satisfying the Higher academic-strength component while allowing National 5 strength to provide estimated differentiation. This is not a claim that Dundee awards identical official academic scores to all eligible applicants.",
+      "Verified international historical guidance is available in a separate pool and must not be applied to Home applicants."
     ],
     "offer_prediction_scope": "out_of_scope"
   },
@@ -831,7 +839,7 @@
   "predictor_model": {
     "model_id": "dundee_a100_academic_ucat_weighted_decile_ranking_v0",
     "selection_model": "ACADEMIC_UCAT_WEIGHTED_DECILE_RANKING",
-    "source_status": "mixed_verified_international_foi_derived_and_predictor_estimate",
+    "source_status": "mixed_foi_supported_weighting_verified_international_and_predictor_estimate",
     "official_university_published": false,
     "official_selection_formula_available": false,
     "evidence_summary": [
@@ -857,7 +865,7 @@
       },
       {
         "item": "ucat_decile_points_standard_entry",
-        "evidence_label": "predictor_estimate"
+        "evidence_label": "predictor_estimate_for_home_proxy_not_current_dundee_applicant_pool_deciles"
       },
       {
         "item": "ucat_decile_points_graduate_a100",
@@ -896,7 +904,7 @@
     "ucat_scoring": {
       "ucat_required": true,
       "no_fixed_cutoff": true,
-      "scoring_basis": "national cohort decile rank",
+      "scoring_basis": "Dundee annual applicant-pool decile rank; exact current boundaries are not public, so ApplySmart proxy guidance must be labelled as an estimate. Scotland Standard, Scotland Contextual, RUK Standard and RUK Contextual benchmark values are ApplySmart-derived historical guidance only.",
       "international_score_input": "cognitive_total_only",
       "international_national_decile_ranking_verified": true,
       "international_fixed_cutoff": null,
@@ -933,7 +941,7 @@
         "ucat_decile_points_standard_entry": "predictor_estimate",
         "ucat_decile_points_graduate_a100": "predictor_estimate"
       },
-      "notes": "Supplied UCAT decile point mappings are stored. They are predictor_estimate unless FOI verified and must not be treated as official Dundee-published scoring.",
+      "notes": "Supplied UCAT decile point mappings are stored as predictor estimates. For Home applicants, Dundee uses its own annual applicant-pool UCAT deciles rather than fixed national Pearson/UCAT deciles; ApplySmart proxy mappings must not be treated as official Dundee-published scoring. The 12/20/28/34/40 mapping used by the Home guidance index is ApplySmart proxy points only.",
       "evidence_levels": {
         "ucat_decile_points_standard_entry": "predictor_estimate",
         "ucat_decile_points_graduate_a100": "predictor_estimate"
@@ -994,11 +1002,11 @@
       "scottish_higher_scoring": [
         {
           "points": 30,
-          "description": "AAAAA or AAAAB by end of S5 in one sitting"
+          "description": "ApplySmart proxy: confirmed qualifying Standard Higher route by end of S5 in one sitting, including AAAAB eligibility; not an official Dundee equal-score claim for AAAAA and AAAAB"
         },
         {
           "points": 30,
-          "description": "AAABB if contextual eligible"
+          "description": "ApplySmart proxy: confirmed qualifying Contextual Higher route, including AAABB eligibility; not an official Dundee equal-score claim for all eligible contextual applicants"
         },
         {
           "points": 0,
@@ -1008,7 +1016,9 @@
       "notes": [
         "predictor_estimate",
         "not_official_dundee_scoring",
-        "usable_for_historical_prediction_engine_only"
+        "usable_for_historical_prediction_engine_only",
+        "dundee_exact_academic_scoring_conversion_unpublished",
+        "confirmed_scottish_higher_route_satisfies_applysmart_higher_strength_component_only"
       ],
       "missing_detail_notes": [],
       "usable_for": [
@@ -1027,7 +1037,8 @@
       "standard_entry": {
         "formula": "academic_score_out_of_60 + ucat_decile_score_out_of_40",
         "maximum_score": 100,
-        "evidence_label": "mixed_foi_derived_and_predictor_estimate"
+        "evidence_label": "foi_supported_weighting_with_applysmart_predictor_estimate_components",
+        "notes": "Use only to derive ApplySmart prediction tiers. Do not display as an official Dundee score because Dundee's exact academic scoring conversion and current Dundee applicant-pool UCAT decile boundaries are not public. The internal 0-100 guidance index and 60/76/88 final tier boundaries are ApplySmart policy thresholds for classification only."
       },
       "graduate_a100": {
         "formula": "academic_score_out_of_40 + ucat_decile_score_out_of_60",
@@ -1137,17 +1148,17 @@
     },
     {
       "row_id": "contextual_category_1",
-      "label": "Contextual category 1",
+      "label": "ApplySmart mapped contextual category 1",
       "source": "research_team_supplied",
       "scale": "2700_style",
-      "notes": "Exact contextual category 1 benchmark values were not included in the pasted request."
+      "notes": "Exact contextual category 1 benchmark values were not included in the pasted request. Category wording is ApplySmart-derived from published Dundee contextual evidence, not a Dundee-confirmed applicant category."
     },
     {
       "row_id": "contextual_category_2",
-      "label": "Contextual category 2",
+      "label": "ApplySmart mapped contextual category 2",
       "source": "research_team_supplied",
       "scale": "2700_style",
-      "notes": "Exact contextual category 2 benchmark values were not included in the pasted request."
+      "notes": "Exact contextual category 2 benchmark values were not included in the pasted request. Category wording is ApplySmart-derived from published Dundee contextual evidence, not a Dundee-confirmed applicant category."
     }
   ],
   "predictor_benchmarks_2700": {

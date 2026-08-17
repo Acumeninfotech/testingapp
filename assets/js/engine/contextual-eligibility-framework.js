@@ -8,6 +8,7 @@ const {
 const DEFAULT_UNSUPPORTED_REASON = 'unsupported_contextual_policy';
 const ABERDEEN_CONTEXTUAL_EVALUATOR_ID = 'aberdeen_contextual_medicine_a100';
 const BIRMINGHAM_CONTEXTUAL_EVALUATOR_ID = 'birmingham_contextual_medicine_a100';
+const DUNDEE_CONTEXTUAL_EVALUATOR_ID = 'dundee_contextual_medicine_a100';
 const GLASGOW_CONTEXTUAL_EVALUATOR_ID = 'glasgow_contextual_medicine_a100';
 
 function asObject(value) {
@@ -34,7 +35,7 @@ function valueAtPath(source, path) {
 function booleanFromTriState(value) {
   if (value === true || value === false) return value;
   const normalised = normaliseId(value);
-  if (['yes', 'true', 'confirmed', 'completed', 'participating', 'offered'].includes(normalised)) {
+  if (['yes', 'true', 'confirmed', 'completed'].includes(normalised)) {
     return true;
   }
   if (['no', 'false'].includes(normalised)) {
@@ -249,6 +250,8 @@ function contextualEvidenceOptionsForCourse(course = {}, evaluatorId = null, opt
     evaluatorId === ABERDEEN_CONTEXTUAL_EVALUATOR_ID ||
     course.profile_id === 'birmingham-a100' ||
     evaluatorId === BIRMINGHAM_CONTEXTUAL_EVALUATOR_ID ||
+    course.profile_id === 'dundee-a100' ||
+    evaluatorId === DUNDEE_CONTEXTUAL_EVALUATOR_ID ||
     course.profile_id === 'glasgow-a100' ||
     evaluatorId === GLASGOW_CONTEXTUAL_EVALUATOR_ID
   ) {

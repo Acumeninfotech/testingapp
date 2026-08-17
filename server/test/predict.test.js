@@ -264,6 +264,78 @@ function routingProfile({ feeStatus, domicile }) {
   });
 }
 
+function dundeeScottishStandardApplicant() {
+  return merge(scottishHomeApplicant, {
+    profile_id: 'dundee_scotland_standard_aaaab_ucat_2200',
+    qualification_route: 'scottish',
+    applicant_identity: {
+      applicant_type: 'school_leaver',
+      fee_status: 'home_fee',
+      domicile: 'scotland',
+      contextual: false,
+      contextual_flags: {},
+      graduate: false,
+      resit: { has_resits: false, subjects_resat: [] }
+    },
+    contextual_profile: {
+      home_area_region: {
+        simd_quintile: 'q5'
+      },
+      financial_support: {
+        free_school_meals: 'no'
+      },
+      personal_circumstances: {
+        young_or_adult_carer: 'no',
+        care_experienced: 'no',
+        care_over_three_months: 'no',
+        estranged_from_family: 'no',
+        refugee: 'no',
+        uk_refugee_status_granted: 'no',
+        seeking_asylum: 'no',
+        asylum_seeker: 'no',
+        disability: 'no'
+      },
+      access_programmes: {
+        participation_status: 'no',
+        other_programmes: [],
+        other_programme_name: ''
+      }
+    },
+    scottish_profile: {
+      national_5_subjects: [
+        { subject_id: 'english', grade: 'A' },
+        { subject_id: 'mathematics', grade: 'A' },
+        { subject_id: 'biology', grade: 'A' },
+        { subject_id: 'chemistry', grade: 'A' },
+        { subject_id: 'physics', grade: 'A' }
+      ],
+      higher_subjects: [
+        { subject_id: 'chemistry', grade: 'A', school_year: 's5', first_attempt: true },
+        { subject_id: 'biology', grade: 'A', school_year: 's5', first_attempt: true },
+        { subject_id: 'mathematics', grade: 'A', school_year: 's5', first_attempt: true },
+        { subject_id: 'english', grade: 'A', school_year: 's5', first_attempt: true },
+        { subject_id: 'physics', grade: 'B', school_year: 's5', first_attempt: true }
+      ],
+      advanced_higher_subjects: [
+        { subject_id: 'chemistry', grade: 'B', school_year: 's6', first_attempt: true },
+        { subject_id: 'biology', grade: 'B', school_year: 's6', first_attempt: true }
+      ]
+    },
+    admissions_tests: {
+      ucat: {
+        total_score: 2200,
+        score_scale: 2700,
+        subtests: {
+          verbal_reasoning: 730,
+          decision_making: 730,
+          quantitative_reasoning: 740
+        },
+        sjt_band: 2
+      }
+    }
+  });
+}
+
 function sixGcseAllEightNineUcat2400Applicant() {
   return merge(topTierApplicant, {
     profile_id: 'six_gcse_all_8_9_ucat_2400',
@@ -809,7 +881,6 @@ async function main() {
       'cardiff-a100',
       'leicester-a100',
       'birmingham-a100',
-      'dundee-a100',
       'edinburgh-a100',
       'exeter-a100',
       'nottingham-a100'
@@ -828,7 +899,8 @@ async function main() {
       'manchester-a100',
       'sheffield-a100',
       'st-andrews-a100',
-      'aberdeen-a100'
+      'aberdeen-a100',
+      'dundee-a100'
     ];
 
     const readyScoringIds = SCORING_MODEL_UNIVERSITY_IDS.filter((id) => readyEntries.some((u) => u.id === id));
@@ -883,16 +955,63 @@ async function main() {
       assert.strictEqual(dundeeRegressionResponse.status, 200);
       const dundeeRegressionResult = dundeeRegressionResponse.json.results[0];
       const dundeeBreakdown = dundeeRegressionResult.result_card.decision_transparency?.score_breakdown;
-      assert.ok(dundeeBreakdown, 'Dundee 76/100 regression expected score_breakdown');
-      assert.strictEqual(dundeeBreakdown.value, 76);
-      assert.strictEqual(dundeeBreakdown.max, 100);
-      const dundeeComponentSummaries = new Map(
-        dundeeBreakdown.checks.map((check) => [check.label, check.summary])
+      assert.strictEqual(dundeeBreakdown ?? null, null);
+      const dundeeApplicantPoolCheck = dundeeRegressionResult.result_card.decision_transparency
+        ?.decision_path
+        ?.flatMap((stage) => stage.checks || [])
+        ?.find((check) => check.label === 'Applicant pool');
+      assert.match(dundeeApplicantPoolCheck?.summary || '', /Home|Rest of UK|England/);
+      assert.strictEqual(dundeeRegressionResult.result_card.academic_pathway, 'standard');
+      assert.strictEqual(dundeeRegressionResult.result_card.contextual_status, null);
+      assert.strictEqual(dundeeRegressionResult.result_card.alternative_academic_offer, null);
+      console.log('PASS: Dundee Home/RUK result-card contract does not apply international score components');
+
+      const dundeeScottishApplicant = dundeeScottishStandardApplicant();
+      const { course: dundeeCourse, config: dundeeConfig } = loadCourseAndConfig('dundee-a100');
+      const dundeeScottishClassification = classifyInterviewBand(
+        dundeeCourse,
+        dundeeConfig,
+        dundeeScottishApplicant
       );
-      assert.strictEqual(dundeeComponentSummaries.get('Academic score'), '60 out of 60.');
-      assert.strictEqual(dundeeComponentSummaries.get('UCAT score'), '16 out of 40.');
-      assertScoreBreakdownComponentsExplainTotal(dundeeRegressionResult);
-      console.log('PASS: Dundee 76/100 result-card contract exposes academic and UCAT score components');
+      assert.strictEqual(dundeeScottishClassification.eligibility.status, 'eligible');
+      assert.strictEqual(
+        dundeeScottishClassification.guidance_pool_id,
+        'home_scotland_standard_school_leaver'
+      );
+      assert.strictEqual(dundeeScottishClassification.eligibility.academic_pathway, 'standard');
+      assert.ok(
+        ['interview_likely', 'realistic', 'ambitious', 'high_risk'].includes(
+          dundeeScottishClassification.canonical_interview_band
+        ),
+        `Dundee Scotland Standard must resolve to a prediction tier, got ${dundeeScottishClassification.canonical_interview_band}`
+      );
+      assert.strictEqual(
+        dundeeScottishClassification.applicant_group_ids.includes('rest_of_uk'),
+        false
+      );
+
+      const dundeeScottishResponse = await requestJson(server, 'POST', '/api/predict', {
+        universityIds: ['dundee-a100'],
+        studentProfile: dundeeScottishApplicant
+      });
+      assert.strictEqual(dundeeScottishResponse.status, 200);
+      const dundeeScottishCard = dundeeScottishResponse.json.results[0].result_card;
+      assert.strictEqual(dundeeScottishCard.prediction.available, true);
+      assert.strictEqual(
+        dundeeScottishCard.prediction.result_band,
+        dundeeScottishClassification.canonical_interview_band
+      );
+      assert.strictEqual(dundeeScottishCard.academic_pathway, 'standard');
+      assert.strictEqual(dundeeScottishCard.contextual_status, null);
+      assert.strictEqual(dundeeScottishCard.decision_transparency?.score_breakdown ?? null, null);
+      const dundeeScottishText = collectApplicantFacingCardText(dundeeScottishCard);
+      assert.match(dundeeScottishText, /60% academic and 40% UCAT/i);
+      assert.match(dundeeScottishText, /ApplySmart-derived prediction tier|ApplySmart-derived guidance/i);
+      assert.match(dundeeScottishText, /not a Dundee cut-off or official ranking score/i);
+      assert.doesNotMatch(dundeeScottishText, /\b\d+(?:\.\d+)?\s*\/\s*100\b/);
+      assert.doesNotMatch(dundeeScottishText, /International applicants|International score/i);
+      assert.doesNotMatch(dundeeScottishText, /Rest of UK \/ ROI/i);
+      console.log('PASS: Dundee Scotland Standard school-leaver resolves ApplySmart 60/40 tier guidance without official score display');
     }
 
     if (readyEntries.some((u) => u.id === 'hull-york-a100')) {
@@ -2068,10 +2187,13 @@ async function main() {
       const rukEnglandCard = rukEnglandResponse.json.results.find((result) => result.universityId === id).result_card;
       const scottishHomeCard = scottishHomeResponse.json.results.find((result) => result.universityId === id).result_card;
       const internationalScotlandCard = internationalScotlandResponse.json.results.find((result) => result.universityId === id).result_card;
+      const expectedRukPoolId = id === 'dundee-a100'
+        ? 'home_rest_of_uk_standard_school_leaver'
+        : 'home_rest_of_uk_school_leaver';
 
       assert.deepStrictEqual(
         rukScotlandClassification.guidance_pool_id,
-        'home_rest_of_uk_school_leaver',
+        expectedRukPoolId,
         `${id} must route RUK/ROI fee + Scotland domicile into the existing RUK guidance pool`
       );
       assert.strictEqual(

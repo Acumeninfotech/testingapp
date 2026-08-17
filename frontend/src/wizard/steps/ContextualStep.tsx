@@ -922,6 +922,7 @@ export function ContextualStep({ profile, updateProfile, errors }: StepProps) {
               label="Scottish Index of Multiple Deprivation (SIMD)"
               value={homeArea.simd_quintile}
               options={[...SIMD_QUINTILE_OPTIONS]}
+              placeholder="Select an option"
               onChange={(value) => {
                 updateContextual(updateProfile, (current) => ({
                   ...current,

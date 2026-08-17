@@ -126,10 +126,14 @@ for (const testCase of fixture.cases) {
 
 const homeResult = classifyInterviewBand(course, config, homeApplicant);
 assert.strictEqual(homeResult.eligibility.status, 'eligible');
-assert.strictEqual(homeResult.guidance_pool_id, 'home_rest_of_uk_school_leaver');
+assert.strictEqual(homeResult.guidance_pool_id, 'home_rest_of_uk_standard_school_leaver');
 assert.strictEqual(homeResult.canonical_interview_band, 'realistic');
 assert.strictEqual(homeResult.ranking.value, 76);
 assert.strictEqual(homeResult.ranking.max, 100);
+assert.strictEqual(
+  homeResult.ranking.components.home_school_leaver_guidance_index.official,
+  false
+);
 
 assert.deepStrictEqual(
   resultCard.applicant_context.applies_to_group_ids,

@@ -76,6 +76,11 @@ function normaliseQuintile(value) {
   return 'unknown';
 }
 
+function normaliseOptionalQuintile(value) {
+  if (value === undefined || value === null || value === '') return '';
+  return normaliseQuintile(value);
+}
+
 function quintileNumber(value) {
   if (value === 'q1') return 1;
   if (value === 'q2') return 2;
@@ -124,7 +129,7 @@ function defaultContextualProfile() {
       polar4_quintile: 'unknown',
       imd_quintile: 'unknown',
       tundra_quintile: 'unknown',
-      simd_quintile: 'unknown',
+      simd_quintile: '',
       home_region: null,
       specific_home_area: null,
       school_area: null,
@@ -140,7 +145,6 @@ function defaultContextualProfile() {
     },
     financial_support: {},
     school_education: {
-      current_or_most_recent_uk_school_independent_fee_paying: 'not_sure',
       attended_uk_school_or_college_for_gcse_or_equivalent: 'not_sure',
       attended_uk_school_or_college_for_post16_or_equivalent: 'not_sure'
     },
@@ -402,7 +406,7 @@ function normaliseContextualProfile(applicant, options = {}) {
         home.acorn_quintile === null || home.acorn_quintile === undefined
           ? null
           : normaliseQuintile(home.acorn_quintile),
-      simd_quintile: normaliseQuintile(
+      simd_quintile: normaliseOptionalQuintile(
         home.simd_quintile ?? (flags.simd20 === true ? 'q1' : flags.simd40 === true ? 'q2' : undefined)
       ),
       mem_quintile:

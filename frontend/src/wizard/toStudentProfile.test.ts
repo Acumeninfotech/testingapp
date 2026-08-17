@@ -898,6 +898,24 @@ describe('toStudentProfile identity mapping', () => {
     const profile = normaliseStoredProfile({
       contextual_profile: {
         home_area_region: {
+          simd_quintile: 'unknown',
+        },
+        school_education: {
+          current_or_most_recent_uk_school_independent_fee_paying: 'not_sure',
+        },
+      },
+    });
+
+    expect(profile.contextual_profile.home_area_region.simd_quintile).toBe('unknown');
+    expect(profile.contextual_profile.school_education.current_or_most_recent_uk_school_independent_fee_paying).toBe(
+      'not_sure',
+    );
+  });
+
+  it('loads canonical manual SIMD not-applicable values from saved profiles', () => {
+    const profile = normaliseStoredProfile({
+      contextual_profile: {
+        home_area_region: {
           simd_quintile: 'not_applicable',
         },
       },

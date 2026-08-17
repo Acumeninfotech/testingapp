@@ -317,6 +317,7 @@ const COURSES_WITH_CONTEXTUAL_EVALUATOR_GROUP_CONTROL = [
   'aberdeen-a100',
   'bristol-a100',
   'birmingham-a100',
+  'dundee-a100',
   'glasgow-a100'
 ];
 
@@ -344,6 +345,22 @@ const GLASGOW_LEGACY_CONTEXTUAL_GROUP_IDS = [
   'estranged_from_family'
 ];
 
+const DUNDEE_LEGACY_CONTEXTUAL_GROUP_IDS = [
+  'contextual',
+  'widening_participation',
+  'care_experienced',
+  'simd20',
+  'simd40',
+  'refugee',
+  'asylum_seeker',
+  'refugee_or_asylum_seeker',
+  'unpaid_carer',
+  'carer',
+  'estranged_from_family',
+  'polar4_quintile_1',
+  'polar_quintile_1'
+];
+
 const COURSES_WITH_ACTIVATED_CONTEXTUAL_GROUPS = [
   'aberdeen-a100',
   'aston-a100',
@@ -357,6 +374,7 @@ const COURSES_WITH_ACTIVATED_CONTEXTUAL_GROUPS = [
   'liverpool-a100',
   'sheffield-a100',
   'nottingham-a100',
+  'dundee-a100',
   'glasgow-a100'
 ];
 
@@ -378,6 +396,11 @@ function applyCourseSpecificDerivedApplicantGroups(course, applicant, groupIds, 
   }
   if (course?.profile_id === 'birmingham-a100' && contextualResult) {
     groups.delete('care_experienced');
+  }
+  if (course?.profile_id === 'dundee-a100' && contextualResult) {
+    for (const groupId of DUNDEE_LEGACY_CONTEXTUAL_GROUP_IDS) {
+      groups.delete(groupId);
+    }
   }
   if (course?.profile_id === 'glasgow-a100' && contextualResult) {
     for (const groupId of GLASGOW_LEGACY_CONTEXTUAL_GROUP_IDS) {
@@ -700,12 +723,22 @@ function national5RequirementMet(requirement, national5Grades, higherGrades, adv
     return true;
   }
 
-  return subjectGradeRequirementMet(
+  const national5Met = subjectGradeRequirementMet(
     national5Grades,
     subjectIds,
     requirement.minimum_grade,
     'gcse'
-  ) || post16ScottishRequirementMet(requirement, subjectIds, higherGrades, advancedHigherGrades);
+  );
+
+  if (
+    requirement.post16_equivalency_allowed === false ||
+    requirement.post16_satisfaction_allowed === false
+  ) {
+    return national5Met;
+  }
+
+  return national5Met ||
+    post16ScottishRequirementMet(requirement, subjectIds, higherGrades, advancedHigherGrades);
 }
 
 function national5MinimumCountMet(national5Grades, rules = {}) {
@@ -1942,11 +1975,15 @@ function evaluateScottishRoute(course, applicant, state) {
       route,
       'advanced_higher'
     );
-    const routeSittingPassed = scottishSameSittingMet(
-      profile,
-      allPost16ScottishSubjects,
-      route
-    );
+    const sameSittingLevel = normaliseId(route.same_sitting_qualification_level);
+    const routeSittingSubjects = sameSittingLevel === 'higher' ||
+      sameSittingLevel === 'scottish_highers'
+      ? higherSubjects
+      : sameSittingLevel === 'advanced_higher' ||
+        sameSittingLevel === 'advanced_highers'
+        ? advancedHigherSubjects
+        : allPost16ScottishSubjects;
+    const routeSittingPassed = scottishSameSittingMet(profile, routeSittingSubjects, route);
 
     if (route.qualification_level === 'scottish_highers_and_advanced_highers') {
       return routeSittingPassed &&
@@ -2006,14 +2043,16 @@ function evaluateScottishRoute(course, applicant, state) {
     const contextualRoute =
       passedRouteGroups.includes('contextual') ||
       passedRouteGroups.includes('widening_participation');
-    if (contextualRoute) {
-      state.academic_pathway = state.academic_pathway || passedRoute.academic_pathway || 'contextual';
-      state.academic_pathway_id = state.academic_pathway_id ||
-        passedRoute.pathway_id ||
-        passedRoute.route_id ||
-        passedRoute.requirement_id ||
-        null;
+    const passedRoutePathway = passedRoute.academic_pathway ||
+      (contextualRoute ? 'contextual' : null);
+    if (passedRoutePathway) {
+      state.academic_pathway = state.academic_pathway || passedRoutePathway;
     }
+    state.academic_pathway_id = state.academic_pathway_id ||
+      passedRoute.pathway_id ||
+      passedRoute.route_id ||
+      passedRoute.requirement_id ||
+      null;
   }
   if (!post16Passed) {
     addFailure(state, 'scottish_post_16_requirements_not_met');
@@ -2900,7 +2939,7 @@ function evaluateManualReviewTriggers(course, applicant, state) {
     addManualReview(state, 'contextual_wp_status_requires_confirmation');
   }
   if (
-    course?.profile_id !== 'aberdeen-a100' &&
+    !['aberdeen-a100', 'dundee-a100'].includes(course?.profile_id) &&
     state.contextual_eligibility?.status === 'information_needed' &&
     state.contextual_eligibility?.manual_review_reason
   ) {
@@ -3021,8 +3060,44 @@ function glasgowUnresolvedScottishContextualRouteWouldPass(course, applicant, st
     attempt.academic_pathway_id === 'glasgow_scottish_adjusted';
 }
 
+function dundeeUnresolvedScottishContextualRouteWouldPass(course, applicant, state = {}) {
+  if (
+    course?.profile_id !== 'dundee-a100' ||
+    state.qualification_route !== 'scottish'
+  ) {
+    return false;
+  }
+
+  const post16Rules = course.stage_1_eligibility?.post_16?.scottish || {};
+  if (post16Rules.contextual_route_implemented !== true) {
+    return false;
+  }
+
+  const applicantGroupIds = [
+    ...new Set([
+      ...(state.applicant_group_ids || []),
+      'contextual',
+      'widening_participation'
+    ])
+  ];
+  const attempt = {
+    ...state,
+    applicant_group_ids: applicantGroupIds,
+    checks: [],
+    failures: [],
+    manual_review_reasons: [],
+    academic_pathway: null,
+    academic_pathway_id: null
+  };
+
+  evaluateScottishRoute(course, applicant, attempt);
+  return !attempt.failures.includes('scottish_post_16_requirements_not_met') &&
+    attempt.academic_pathway === 'contextual' &&
+    String(attempt.academic_pathway_id || '').startsWith('dundee_scottish_widening_access');
+}
+
 function applyContextualInformationNeededReview(course, applicant, state) {
-  if (!['aberdeen-a100', 'glasgow-a100'].includes(course?.profile_id)) {
+  if (!['aberdeen-a100', 'dundee-a100', 'glasgow-a100'].includes(course?.profile_id)) {
     return;
   }
   const reason = contextualInformationNeededReason(state);
@@ -3047,6 +3122,7 @@ function applyContextualInformationNeededReview(course, applicant, state) {
     state.failures.includes('scottish_post_16_requirements_not_met') &&
     (
       aberdeenUnresolvedScottishContextualRouteWouldPass(course, applicant, state) ||
+      dundeeUnresolvedScottishContextualRouteWouldPass(course, applicant, state) ||
       glasgowUnresolvedScottishContextualRouteWouldPass(course, applicant, state)
     )
   ) {
@@ -3057,7 +3133,9 @@ function applyContextualInformationNeededReview(course, applicant, state) {
         check.manual_review_reason = reason;
         check.contextual_route_under_review = course?.profile_id === 'glasgow-a100'
           ? 'glasgow_scottish_adjusted'
-          : 'scottish_higher_widening_access';
+          : course?.profile_id === 'dundee-a100'
+            ? 'dundee_scottish_widening_access'
+            : 'scottish_higher_widening_access';
       }
     }
   }

@@ -56,6 +56,17 @@ describe('ContextualStep', () => {
     expect(within(financialSummary).getByLabelText('1 selected')).toBeInTheDocument();
   });
 
+  it('starts true unanswered Step 6 uncertainty fields blank', () => {
+    renderStep();
+
+    expect(screen.getByLabelText('Scottish Index of Multiple Deprivation (SIMD)')).toHaveValue('');
+
+    fireEvent.click(screen.getByText('School & education').closest('summary') as HTMLElement);
+    expect(
+      screen.getByLabelText('My current or most recent UK school or college is independent or fee-paying'),
+    ).toHaveValue('');
+  });
+
   it('starts all contextual accordions collapsed and preserves manual expansion while mounted', async () => {
     const { profile, rerender, updateProfile } = renderStep();
 
@@ -297,6 +308,9 @@ describe('ContextualStep', () => {
     expect(within(simdSelect).getByRole('option', { name: 'Not applicable / postcode outside Scotland' })).toHaveValue(
       'not_applicable',
     );
+
+    selectValue('contextual_simd_quintile', 'unknown');
+    expect(profile.contextual_profile.home_area_region.simd_quintile).toBe('unknown');
 
     selectValue('contextual_simd_quintile', 'q2');
 

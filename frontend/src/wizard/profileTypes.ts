@@ -453,7 +453,7 @@ export function createEmptyContextualProfile(): ContextualProfile {
       polar4_quintile: 'unknown',
       imd_quintile: 'unknown',
       tundra_quintile: 'unknown',
-      simd_quintile: 'unknown',
+      simd_quintile: '',
       home_region: null,
       specific_home_area: null,
       school_area: null,
@@ -468,9 +468,7 @@ export function createEmptyContextualProfile(): ContextualProfile {
       },
     },
     financial_support: {},
-    school_education: {
-      current_or_most_recent_uk_school_independent_fee_paying: 'not_sure',
-    },
+    school_education: {},
     personal_circumstances: {},
     access_programmes: {
       participation_status: 'no',

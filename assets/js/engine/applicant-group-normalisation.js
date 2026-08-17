@@ -8,7 +8,9 @@ function normaliseId(value) {
 
 function isRestOfUkFeeStatus(value) {
   const feeStatus = normaliseId(value);
-  return feeStatus === 'rest_of_uk' || feeStatus === 'rest_of_uk_roi_fee_rate';
+  return feeStatus === 'ruk' ||
+    feeStatus === 'rest_of_uk' ||
+    feeStatus === 'rest_of_uk_roi_fee_rate';
 }
 
 function feeStatusApplicantGroupIds(value) {

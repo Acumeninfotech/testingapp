@@ -311,6 +311,11 @@ function normaliseQuintile(value: unknown): QuintileValue {
   return 'unknown';
 }
 
+function normaliseOptionalQuintile(value: unknown): QuintileValue {
+  if (value === undefined || value === null || value === '') return '';
+  return normaliseQuintile(value);
+}
+
 function quintileNumber(value: QuintileValue): number | null {
   if (value === 'q1') return 1;
   if (value === 'q2') return 2;
@@ -455,7 +460,7 @@ function normaliseContextualProfile(
       acorn_quintile: home.acorn_quintile === null || home.acorn_quintile === undefined
         ? null
         : normaliseQuintile(home.acorn_quintile),
-      simd_quintile: normaliseQuintile(home.simd_quintile ?? (flags.simd20 === true ? 'q1' : flags.simd40 === true ? 'q2' : undefined)),
+      simd_quintile: normaliseOptionalQuintile(home.simd_quintile ?? (flags.simd20 === true ? 'q1' : flags.simd40 === true ? 'q2' : undefined)),
       mem_quintile: home.mem_quintile === null || home.mem_quintile === undefined
         ? null
         : normaliseQuintile(home.mem_quintile),

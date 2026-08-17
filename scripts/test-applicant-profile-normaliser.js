@@ -335,10 +335,28 @@ assert.deepStrictEqual(
 
 const emptyContextualProfile = normaliseContextualProfile({});
 assert.strictEqual(emptyContextualProfile.home_area_region.polar4_quintile, 'unknown');
+assert.strictEqual(emptyContextualProfile.home_area_region.simd_quintile, '');
 assert.strictEqual(emptyContextualProfile.access_programmes.ukwpmed.status, 'no');
 assert.deepStrictEqual(emptyContextualProfile.access_programmes.other_programmes, []);
+assert.strictEqual(emptyContextualProfile.school_education.current_or_most_recent_uk_school_independent_fee_paying, undefined);
 assert.strictEqual(emptyContextualProfile.school_education.attended_uk_school_or_college_for_gcse_or_equivalent, 'not_sure');
 assert.strictEqual(emptyContextualProfile.personal_circumstances.ukrainian_visa_scheme, 'not_sure');
+
+const legacyExplicitUncertaintyProfile = normaliseContextualProfile({
+  contextual_profile: {
+    home_area_region: {
+      simd_quintile: 'unknown'
+    },
+    school_education: {
+      current_or_most_recent_uk_school_independent_fee_paying: 'not_sure'
+    }
+  }
+});
+assert.strictEqual(legacyExplicitUncertaintyProfile.home_area_region.simd_quintile, 'unknown');
+assert.strictEqual(
+  legacyExplicitUncertaintyProfile.school_education.current_or_most_recent_uk_school_independent_fee_paying,
+  'not_sure'
+);
 
 const normalisedSharedFacts = normaliseApplicantProfile({
   ...applicant,
