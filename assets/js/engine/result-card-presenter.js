@@ -235,6 +235,87 @@ function check(label, status, summary) {
   return { label, status, summary };
 }
 
+const SCOTTISH_MEDICAL_SCHOOL_PRESENTATION_ROUTE_IDS = Object.freeze([
+  'scotland_standard',
+  'scotland_contextual',
+  'ruk_standard',
+  'ruk_contextual'
+]);
+
+const SCOTTISH_MEDICAL_SCHOOL_PRESENTATION_PROFILE_IDS = Object.freeze([
+  'aberdeen-a100',
+  'glasgow-a100',
+  'dundee-a100'
+]);
+
+const SCOTTISH_MEDICAL_SCHOOL_ROUTE_PRESENTATION = Object.freeze({
+  scotland_standard: Object.freeze({
+    route_id: 'scotland_standard',
+    label: 'Scotland Standard',
+    applicant_pool: 'scotland',
+    academic_route: 'standard',
+    uses_contextual_academic_route: false
+  }),
+  scotland_contextual: Object.freeze({
+    route_id: 'scotland_contextual',
+    label: 'Scotland Contextual',
+    applicant_pool: 'scotland',
+    academic_route: 'contextual',
+    uses_contextual_academic_route: true
+  }),
+  ruk_standard: Object.freeze({
+    route_id: 'ruk_standard',
+    label: 'RUK Standard',
+    applicant_pool: 'ruk',
+    academic_route: 'standard',
+    uses_contextual_academic_route: false
+  }),
+  ruk_contextual: Object.freeze({
+    route_id: 'ruk_contextual',
+    label: 'RUK Contextual',
+    applicant_pool: 'ruk',
+    academic_route: 'contextual',
+    uses_contextual_academic_route: true
+  })
+});
+
+const SCOTTISH_ACADEMIC_ROUTE_LABEL_OVERRIDES = Object.freeze({
+  'glasgow-a100': Object.freeze({
+    scotland_standard: 'Scottish standard route',
+    scotland_contextual: 'Scottish adjusted/contextual route'
+  }),
+  'dundee-a100': Object.freeze({
+    scotland_standard: 'Dundee Scottish standard route',
+    scotland_contextual: 'Dundee Scottish widening-access route',
+    ruk_standard: 'Dundee Scottish standard route',
+    ruk_contextual: 'Dundee Scottish widening-access route'
+  })
+});
+
+const SCOTTISH_CONTEXTUAL_CONFIRMATION_OVERRIDES = Object.freeze({
+  'glasgow-a100': Object.freeze({
+    scotland_contextual: Object.freeze({
+      collapsed_label: 'Glasgow adjusted Scottish route confirmed',
+      expanded_heading: 'Glasgow adjusted Scottish route confirmed',
+      consideration_label: 'Adjusted Scottish route:',
+      expanded_body:
+        "ApplySmart applied Glasgow's adjusted/contextual Scottish academic route because Glasgow contextual eligibility and successful completion of Reach were confirmed. Reach completion alone does not make an applicant contextual."
+    })
+  }),
+  'dundee-a100': Object.freeze({
+    scotland_contextual: Object.freeze({
+      collapsed_label: 'Dundee contextual route confirmed',
+      expanded_heading: 'Contextual Route',
+      expanded_body: "You meet Dundee's contextual admissions criteria and widening-access academic requirements."
+    }),
+    ruk_contextual: Object.freeze({
+      collapsed_label: 'Dundee contextual route confirmed',
+      expanded_heading: 'Contextual Route',
+      expanded_body: "You meet Dundee's contextual admissions criteria and widening-access academic requirements."
+    })
+  })
+});
+
 const ACADEMIC_REQUIREMENT_LABELS = {
   gcse: 'GCSEs',
   a_level: 'A-levels',
@@ -255,6 +336,191 @@ function normaliseCheckId(value) {
     .toLowerCase()
     .replace(/[^a-z0-9]+/g, '_')
     .replace(/^_|_$/g, '');
+}
+
+function courseProfileIdForPresentation(context = {}) {
+  return context.course_identity?.profile_id ||
+    context.course_profile_id ||
+    context.profile_id ||
+    null;
+}
+
+function structuredContextualEligibilityForPresentation(context = {}) {
+  return context.eligibility?.contextual_eligibility ||
+    context.contextual_eligibility ||
+    null;
+}
+
+function contextualPresentationState(context = {}) {
+  const contextual = structuredContextualEligibilityForPresentation(context);
+  const status = normaliseCheckId(contextual?.status);
+  const confirmed = status === 'contextual' || contextual?.is_contextual === true;
+  const informationNeeded = status === 'information_needed';
+  const manualOrUnresolved =
+    informationNeeded ||
+    status.includes('manual') ||
+    status.includes('review') ||
+    status.includes('unresolved');
+
+  return {
+    status: status || null,
+    public_status: confirmed ? 'confirmed' : null,
+    confirmed,
+    information_needed: informationNeeded,
+    manual_or_unresolved: manualOrUnresolved,
+    not_contextual: status === 'not_contextual'
+  };
+}
+
+function contextualConfirmedForPresentation(context = {}) {
+  return contextualPresentationState(context).confirmed;
+}
+
+function knownScottishPresentationRouteId(value) {
+  const routeId = normaliseCheckId(value);
+  return SCOTTISH_MEDICAL_SCHOOL_PRESENTATION_ROUTE_IDS.includes(routeId)
+    ? routeId
+    : null;
+}
+
+function scottishRouteIdFromGuidancePoolId(guidancePoolId) {
+  const poolId = normaliseCheckId(guidancePoolId);
+  if (!poolId) {
+    return null;
+  }
+  if (poolId.includes('scotland') && poolId.includes('contextual')) {
+    return 'scotland_contextual';
+  }
+  if (poolId.includes('scotland') || poolId.includes('scottish')) {
+    return 'scotland_standard';
+  }
+  if (
+    (poolId.includes('rest_of_uk') || poolId.includes('home_ruk') || poolId.includes('ruk')) &&
+    poolId.includes('contextual')
+  ) {
+    return 'ruk_contextual';
+  }
+  if (poolId.includes('rest_of_uk') || poolId.includes('home_ruk') || poolId.includes('ruk')) {
+    return 'ruk_standard';
+  }
+  return null;
+}
+
+function scottishApplicantPoolForPresentation(context = {}) {
+  const directRouteId = [
+    context.scottish_medical_school_route?.route_id,
+    context.scottish_route?.route_id,
+    context.scottish_route_id,
+    context.selection_route_id,
+    context.eligibility?.selection_route_id
+  ].map(knownScottishPresentationRouteId).find(Boolean);
+  if (directRouteId) {
+    return directRouteId.startsWith('scotland') ? 'scotland' : 'ruk';
+  }
+
+  const guidancePoolRoute = scottishRouteIdFromGuidancePoolId(
+    context.guidance_pool_id || context.guidance_pool?.pool_id
+  );
+  if (guidancePoolRoute) {
+    return guidancePoolRoute.startsWith('scotland') ? 'scotland' : 'ruk';
+  }
+
+  const groupIds = context.applicant_group_ids || [];
+  const groups = new Set(groupIds);
+  if (groups.has('home_fee') && groups.has('scotland_domiciled')) {
+    return 'scotland';
+  }
+  if (groups.has('home_fee') && groups.has('rest_of_uk')) {
+    return 'ruk';
+  }
+  return null;
+}
+
+function scottishAcademicRouteForPresentation(context = {}) {
+  const directRouteId = [
+    context.scottish_medical_school_route?.route_id,
+    context.scottish_route?.route_id,
+    context.scottish_route_id,
+    context.selection_route_id,
+    context.eligibility?.selection_route_id
+  ].map(knownScottishPresentationRouteId).find(Boolean);
+  if (directRouteId) {
+    return directRouteId.endsWith('_contextual') ? 'contextual' : 'standard';
+  }
+
+  const guidancePoolRoute = scottishRouteIdFromGuidancePoolId(
+    context.guidance_pool_id || context.guidance_pool?.pool_id
+  );
+  if (guidancePoolRoute?.endsWith('_contextual')) {
+    return 'contextual';
+  }
+
+  const pathway = normaliseCheckId(context.academic_pathway || context.eligibility?.academic_pathway);
+  const pathwayId = normaliseCheckId(
+    context.academic_pathway_id ||
+    context.eligibility?.academic_pathway_id
+  );
+  if (
+    pathway === 'contextual' ||
+    pathway.startsWith('contextual') ||
+    pathwayId.includes('contextual') ||
+    pathwayId.includes('widening_access') ||
+    pathwayId.includes('adjusted')
+  ) {
+    return 'contextual';
+  }
+  if (
+    pathway === 'standard' ||
+    pathwayId.includes('standard') ||
+    guidancePoolRoute?.endsWith('_standard')
+  ) {
+    return 'standard';
+  }
+  return null;
+}
+
+function scottishMedicalSchoolRouteIdForPresentation(context = {}) {
+  const directRouteId = [
+    context.scottish_medical_school_route?.route_id,
+    context.scottish_route?.route_id,
+    context.scottish_route_id,
+    context.selection_route_id,
+    context.eligibility?.selection_route_id
+  ].map(knownScottishPresentationRouteId).find(Boolean);
+  if (directRouteId) {
+    return directRouteId;
+  }
+
+  const profileId = courseProfileIdForPresentation(context);
+  if (!SCOTTISH_MEDICAL_SCHOOL_PRESENTATION_PROFILE_IDS.includes(profileId)) {
+    return null;
+  }
+
+  const guidancePoolRoute = scottishRouteIdFromGuidancePoolId(
+    context.guidance_pool_id || context.guidance_pool?.pool_id
+  );
+  if (guidancePoolRoute?.endsWith('_contextual')) {
+    return guidancePoolRoute;
+  }
+
+  const applicantPool = scottishApplicantPoolForPresentation(context);
+  const academicRoute = scottishAcademicRouteForPresentation(context);
+  if (!applicantPool || !academicRoute) {
+    return guidancePoolRoute || null;
+  }
+  return `${applicantPool}_${academicRoute}`;
+}
+
+function scottishMedicalSchoolRoutePresentation(context = {}) {
+  const routeId = scottishMedicalSchoolRouteIdForPresentation(context);
+  const presentation = SCOTTISH_MEDICAL_SCHOOL_ROUTE_PRESENTATION[routeId] || null;
+  return presentation ? { ...presentation } : null;
+}
+
+function scottishAcademicRouteLabelForContext(context = {}) {
+  const profileId = courseProfileIdForPresentation(context);
+  const routeId = scottishMedicalSchoolRouteIdForPresentation(context);
+  return SCOTTISH_ACADEMIC_ROUTE_LABEL_OVERRIDES[profileId]?.[routeId] || null;
 }
 
 function academicQualificationTypeForCheck(rawCheck) {
@@ -435,17 +701,9 @@ function academicRequirementLabelForCheck(rawCheck, qualificationType, context =
     return 'National 5s';
   }
   if (checkId === 'scottish_post_16_requirements' || checkId.includes('scottish_post_16')) {
-    if (context.course_profile_id === 'glasgow-a100') {
-      return context.academic_pathway === 'contextual' ||
-        context.academic_pathway_id === 'glasgow_scottish_adjusted'
-        ? 'Scottish adjusted/contextual route'
-        : 'Scottish standard route';
-    }
-    if (context.course_profile_id === 'dundee-a100') {
-      return context.academic_pathway === 'contextual' ||
-        String(context.academic_pathway_id || '').includes('widening_access')
-        ? 'Dundee Scottish widening-access route'
-        : 'Dundee Scottish standard route';
+    const sharedScottishRouteLabel = scottishAcademicRouteLabelForContext(context);
+    if (sharedScottishRouteLabel) {
+      return sharedScottishRouteLabel;
     }
     return 'Scottish Highers';
   }
@@ -1410,11 +1668,12 @@ function titleCaseGroupLabel(groupId) {
 // the headline distinction; domicile, contextual/WP and graduate status are
 // appended when present, since they are also real evaluated applicant-group
 // facts, not invented text.
-function humanApplicantPoolLabel(groupIds, applicantContext = {}) {
+function humanApplicantPoolLabel(groupIds, applicantContext = {}, options = {}) {
   const groups = new Set(groupIds || []);
   if (groups.size === 0) {
     return null;
   }
+  const contextualModifierAllowed = options.contextual_modifier_allowed !== false;
   const explicitRestOfUkFeeStatus = isRestOfUkFeeStatus(
     applicantContext?.applicant_identity?.fee_status ||
     applicantContext?.fee_status
@@ -1438,7 +1697,12 @@ function humanApplicantPoolLabel(groupIds, applicantContext = {}) {
 
   const modifiers = [];
   if (groups.has('graduate_applicant')) modifiers.push('graduate');
-  if (groups.has('contextual') || groups.has('widening_participation')) modifiers.push('contextual/widening participation');
+  if (
+    contextualModifierAllowed &&
+    (groups.has('contextual') || groups.has('widening_participation'))
+  ) {
+    modifiers.push('contextual/widening participation');
+  }
   if (groups.has('care_experienced')) modifiers.push('care-experienced');
   if (groups.has('mature_applicant')) modifiers.push('mature');
 
@@ -1720,16 +1984,33 @@ function isDundeeContextualSchoolLeaverPool(profileId, guidancePoolId) {
   ].includes(String(guidancePoolId || '').trim());
 }
 
+function scottishContextualConfirmationFor(card = {}, contextualStatus = null) {
+  if (contextualStatus !== 'confirmed') {
+    return null;
+  }
+
+  const profileId = courseProfileIdForPresentation(card);
+  const guidancePoolId = String(card.guidance_pool_id || card.guidance_pool?.pool_id || '').trim();
+  if (
+    profileId === 'dundee-a100' &&
+    !isDundeeContextualSchoolLeaverPool(profileId, guidancePoolId)
+  ) {
+    return null;
+  }
+
+  const routeId = scottishMedicalSchoolRouteIdForPresentation(card);
+  const confirmation = SCOTTISH_CONTEXTUAL_CONFIRMATION_OVERRIDES[profileId]?.[routeId];
+  return confirmation ? { ...confirmation } : null;
+}
+
 function contextualConfirmationFor(card = {}, contextualStatus = null, options = {}) {
   const profileId = card.course_identity?.profile_id || card.profile_id || null;
-  if (profileId === 'glasgow-a100' && contextualStatus === 'confirmed') {
-    return {
-      collapsed_label: 'Glasgow adjusted Scottish route confirmed',
-      expanded_heading: 'Glasgow adjusted Scottish route confirmed',
-      consideration_label: 'Adjusted Scottish route:',
-      expanded_body:
-        "ApplySmart applied Glasgow's adjusted/contextual Scottish academic route because Glasgow contextual eligibility and successful completion of Reach were confirmed. Reach completion alone does not make an applicant contextual."
-    };
+  const scottishContextualConfirmation = scottishContextualConfirmationFor(
+    card,
+    contextualStatus
+  );
+  if (scottishContextualConfirmation) {
+    return scottishContextualConfirmation;
   }
   if (
     profileId === 'lancaster-a100' &&
@@ -1748,14 +2029,6 @@ function contextualConfirmationFor(card = {}, contextualStatus = null, options =
     return {
       ...LIVERPOOL_CONTEXTUAL_CONFIRMATION,
       expanded_body: `${LIVERPOOL_CONTEXTUAL_CONFIRMATION.expanded_body}${gcseSentence}`
-    };
-  }
-  const guidancePoolId = String(card.guidance_pool_id || card.guidance_pool?.pool_id || '').trim();
-  if (contextualStatus === 'confirmed' && isDundeeContextualSchoolLeaverPool(profileId, guidancePoolId)) {
-    return {
-      collapsed_label: 'Dundee contextual route confirmed',
-      expanded_heading: 'Contextual Route',
-      expanded_body: "You meet Dundee's contextual admissions criteria and widening-access academic requirements."
     };
   }
   return null;
@@ -4955,11 +5228,7 @@ function publicInformationNeededReason({
 }
 
 function contextualEligibilityStatus(context = {}) {
-  return (
-    context.eligibility?.contextual_eligibility?.status ||
-    context.contextual_eligibility?.status ||
-    null
-  );
+  return contextualPresentationState(context).status;
 }
 
 function normalizeFactorUsage(card, options = {}) {
@@ -5120,6 +5389,12 @@ function buildDecisionTransparency(card, options = {}) {
     card.profile_id ||
     options.courseProfileId ||
     null;
+  const contextualState = contextualPresentationState(card);
+  const requiresStructuredContextualPoolModifier = [
+    'aberdeen-a100',
+    'glasgow-a100',
+    'dundee-a100'
+  ].includes(profileId);
   const configuredPoolLabelFirst =
     profileId === 'dundee-a100' ? presentation.pool_label : null;
   const pool = options.interviewOutcome === 'guaranteed_interview'
@@ -5129,7 +5404,10 @@ function buildDecisionTransparency(card, options = {}) {
     : options.applicantPool ||
       configuredPoolLabelFirst ||
       (ucatRankingBypass ? presentation.pool_label : null) ||
-      humanApplicantPoolLabel(options.applicantGroupIds, options.applicantContext) ||
+      humanApplicantPoolLabel(options.applicantGroupIds, options.applicantContext, {
+        contextual_modifier_allowed:
+          !requiresStructuredContextualPoolModifier || contextualState.confirmed
+      }) ||
       presentation.pool_label ||
       'The applicant group matching the supplied fee status and entry route';
   const eligibilitySummary = studentFacingText(
@@ -5454,6 +5732,11 @@ function presentResultCard({
   const academicPathwayId = transparencyContext.academic_pathway_id ??
     transparencyContext.eligibility?.academic_pathway_id ??
     null;
+  const scottishRoutePresentation = scottishMedicalSchoolRoutePresentation({
+    ...transparencyContext,
+    academic_pathway: academicPathway,
+    academic_pathway_id: academicPathwayId
+  });
   const activeAlternativeAcademicOffer = buildAlternativeAcademicOffer(
     transparencyContext.stage_1_eligibility,
     {
@@ -5759,8 +6042,8 @@ function presentResultCard({
   const suppressContextualStatusForUeaProgrammeRoute =
     transparencyContext.course_identity?.profile_id === 'east-anglia-a100' &&
     transparencyContext.interview_outcome === 'guaranteed_interview';
-  const contextualEligibilityConfirmed =
-    contextualEligibilityStatus(transparencyContext) === 'contextual';
+  const contextualState = contextualPresentationState(transparencyContext);
+  const contextualEligibilityConfirmed = contextualState.confirmed;
   const contextualStatus =
     (
       display.recommendation_display_state === 'standard' ||
@@ -5817,6 +6100,7 @@ function presentResultCard({
     ...display,
     academic_pathway: academicPathway,
     academic_pathway_id: academicPathwayId,
+    ...(scottishRoutePresentation ? { scottish_route: scottishRoutePresentation } : {}),
     contextual_status: contextualStatus,
     contextual_confirmation: contextualConfirmation,
     alternative_academic_offer: activeAlternativeAcademicOffer,
