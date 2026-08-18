@@ -359,8 +359,12 @@ function normaliseContextualProfile(applicant, options = {}) {
     })
     .filter(Boolean);
 
-  const polar4Quintile = normaliseQuintile(home.polar4_quintile ?? flags.polar_quintile);
-  const imdQuintile = normaliseQuintile(home.imd_quintile ?? flags.imd_quintile);
+  const polar4Quintile = normaliseQuintile(
+    home.polar4_quintile ?? (projectLegacyContextualCriteriaFlags ? flags.polar_quintile : undefined)
+  );
+  const imdQuintile = normaliseQuintile(
+    home.imd_quintile ?? (projectLegacyContextualCriteriaFlags ? flags.imd_quintile : undefined)
+  );
   const tundraQuintile = normaliseQuintile(home.tundra_quintile);
   const normalisedRegionalFlags = normaliseAnswerRecord(home.regional_flags, normaliseTriState);
   const legacyHomeRegion = firstYesFromFlags(normalisedRegionalFlags, HOME_REGION_FLAG_TO_VALUE);
@@ -407,7 +411,11 @@ function normaliseContextualProfile(applicant, options = {}) {
           ? null
           : normaliseQuintile(home.acorn_quintile),
       simd_quintile: normaliseOptionalQuintile(
-        home.simd_quintile ?? (flags.simd20 === true ? 'q1' : flags.simd40 === true ? 'q2' : undefined)
+        home.simd_quintile ?? (
+          projectLegacyContextualCriteriaFlags
+            ? flags.simd20 === true ? 'q1' : flags.simd40 === true ? 'q2' : undefined
+            : undefined
+        )
       ),
       mem_quintile:
         home.mem_quintile === null || home.mem_quintile === undefined
@@ -439,7 +447,7 @@ function normaliseContextualProfile(applicant, options = {}) {
     financial_support: {
       ...normaliseAnswerRecord(existing.financial_support, normaliseTriState),
       ...(projectLegacyContextualCriteriaFlags && flags.free_school_meals === true ? { free_school_meals: 'yes' } : {}),
-      ...(flags.ucat_bursary === true ? { ucat_bursary_recipient: 'yes' } : {})
+      ...(projectLegacyContextualCriteriaFlags && flags.ucat_bursary === true ? { ucat_bursary_recipient: 'yes' } : {})
     },
     school_education: {
       ...defaults.school_education,
@@ -449,9 +457,9 @@ function normaliseContextualProfile(applicant, options = {}) {
       ...defaults.personal_circumstances,
       ...normalisePersonalCircumstancesRecord(existing.personal_circumstances),
       ...(projectLegacyContextualCriteriaFlags && flags.care_experienced === true ? { care_experienced: 'yes' } : {}),
-      ...(flags.refugee === true || flags.refugee_or_asylum_seeker === true ? { refugee: 'yes' } : {}),
-      ...(flags.asylum_seeker === true ? { seeking_asylum: 'yes' } : {}),
-      ...(flags.first_generation_higher_education === true ? { first_in_family_at_university: 'yes' } : {})
+      ...(projectLegacyContextualCriteriaFlags && (flags.refugee === true || flags.refugee_or_asylum_seeker === true) ? { refugee: 'yes' } : {}),
+      ...(projectLegacyContextualCriteriaFlags && flags.asylum_seeker === true ? { seeking_asylum: 'yes' } : {}),
+      ...(projectLegacyContextualCriteriaFlags && flags.first_generation_higher_education === true ? { first_in_family_at_university: 'yes' } : {})
     },
     access_programmes: {
       ...defaults.access_programmes,

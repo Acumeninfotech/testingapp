@@ -162,11 +162,169 @@
               "points": 2
             }
           ]
+        },
+        "sqa": {
+          "national_5": {
+            "subject_count": 5,
+            "bands": [
+              {
+                "band_id": "all_a_strong_a_profile",
+                "all_minimum_grade": "A",
+                "minimum_count_at_or_above": {
+                  "grade": "A",
+                  "count": 5
+                },
+                "subject_minimums": [
+                  {
+                    "any_subject_ids": [
+                      "biology",
+                      "chemistry"
+                    ],
+                    "grade": "A"
+                  }
+                ],
+                "points": 12
+              },
+              {
+                "band_id": "all_a_five_a_grades",
+                "all_minimum_grade": "A",
+                "minimum_count_at_or_above": {
+                  "grade": "A",
+                  "count": 5
+                },
+                "points": 10
+              },
+              {
+                "band_id": "all_a_up_to_four_a_grades",
+                "all_minimum_grade": "A",
+                "points": 8
+              },
+              {
+                "band_id": "other_subject_grade_b",
+                "subject_minimums": [
+                  {
+                    "excluded_subject_ids": [
+                      "biology",
+                      "chemistry"
+                    ],
+                    "grade": "B"
+                  }
+                ],
+                "points": 4
+              },
+              {
+                "band_id": "science_grade_b",
+                "subject_minimums": [
+                  {
+                    "any_subject_ids": [
+                      "biology",
+                      "chemistry"
+                    ],
+                    "grade": "B"
+                  }
+                ],
+                "points": 2
+              }
+            ]
+          },
+          "higher_advanced_higher": {
+            "bands": [
+              {
+                "band_id": "aaaaa_bb_advanced_highers_chemistry_b_or_higher",
+                "higher_profile": [
+                  "A",
+                  "A",
+                  "A",
+                  "A",
+                  "A"
+                ],
+                "advanced_higher_profile": [
+                  "B",
+                  "B"
+                ],
+                "subject_minimums": [
+                  {
+                    "field": "advanced_higher_subjects",
+                    "subject_id": "chemistry",
+                    "grade": "B"
+                  }
+                ],
+                "points": 8
+              },
+              {
+                "band_id": "aaaaa_bb_advanced_highers",
+                "higher_profile": [
+                  "A",
+                  "A",
+                  "A",
+                  "A",
+                  "A"
+                ],
+                "advanced_higher_profile": [
+                  "B",
+                  "B"
+                ],
+                "points": 6
+              },
+              {
+                "band_id": "aaaaa_bc_advanced_highers",
+                "higher_profile": [
+                  "A",
+                  "A",
+                  "A",
+                  "A",
+                  "A"
+                ],
+                "advanced_higher_profile": [
+                  "B",
+                  "C"
+                ],
+                "points": 5
+              },
+              {
+                "band_id": "aaaaa_cc_advanced_highers",
+                "higher_profile": [
+                  "A",
+                  "A",
+                  "A",
+                  "A",
+                  "A"
+                ],
+                "advanced_higher_profile": [
+                  "C",
+                  "C"
+                ],
+                "points": 3
+              },
+              {
+                "band_id": "aaaab_or_aaabb_no_advanced_highers",
+                "any_higher_profiles": [
+                  [
+                    "A",
+                    "A",
+                    "A",
+                    "A",
+                    "B"
+                  ],
+                  [
+                    "A",
+                    "A",
+                    "A",
+                    "B",
+                    "B"
+                  ]
+                ],
+                "maximum_advanced_higher_count": 0,
+                "points": 2
+              }
+            ]
+          }
         }
       },
       {
         "component_id": "ucat_decile_score",
         "type": "ucat_range_lookup",
+        "score_source": "contextual_adjusted_selection_ucat_total",
         "ranges": [
           {
             "band": 1,
@@ -272,6 +430,119 @@
   },
   "guidance_pools": [
     {
+      "pool_id": "scotland_contextual",
+      "priority": 40,
+      "applicant_match": {
+        "all_group_ids": [
+          "home_fee",
+          "scotland_domiciled",
+          "school_leaver",
+          "contextual"
+        ]
+      },
+      "metric": "selection_score",
+      "band_rules": [
+        {
+          "band": "interview_likely",
+          "operator": "greater_than_or_equal",
+          "value": 30
+        },
+        {
+          "band": "realistic",
+          "operator": "between_inclusive",
+          "min": 25,
+          "max": 29.99
+        },
+        {
+          "band": "ambitious",
+          "operator": "between_inclusive",
+          "min": 22,
+          "max": 24.99
+        },
+        {
+          "band": "high_risk",
+          "operator": "less_than",
+          "value": 22
+        }
+      ]
+    },
+    {
+      "pool_id": "scotland_standard",
+      "priority": 30,
+      "applicant_match": {
+        "all_group_ids": [
+          "home_fee",
+          "scotland_domiciled",
+          "school_leaver"
+        ],
+        "excluded_group_ids": [
+          "contextual"
+        ]
+      },
+      "metric": "selection_score",
+      "band_rules": [
+        {
+          "band": "interview_likely",
+          "operator": "greater_than_or_equal",
+          "value": 30
+        },
+        {
+          "band": "realistic",
+          "operator": "between_inclusive",
+          "min": 25,
+          "max": 29.99
+        },
+        {
+          "band": "ambitious",
+          "operator": "between_inclusive",
+          "min": 22,
+          "max": 24.99
+        },
+        {
+          "band": "high_risk",
+          "operator": "less_than",
+          "value": 22
+        }
+      ]
+    },
+    {
+      "pool_id": "ruk_contextual",
+      "priority": 40,
+      "applicant_match": {
+        "all_group_ids": [
+          "home_fee",
+          "rest_of_uk",
+          "school_leaver",
+          "contextual"
+        ]
+      },
+      "metric": "selection_score",
+      "band_rules": [
+        {
+          "band": "interview_likely",
+          "operator": "greater_than_or_equal",
+          "value": 30
+        },
+        {
+          "band": "realistic",
+          "operator": "between_inclusive",
+          "min": 25,
+          "max": 29.99
+        },
+        {
+          "band": "ambitious",
+          "operator": "between_inclusive",
+          "min": 22,
+          "max": 24.99
+        },
+        {
+          "band": "high_risk",
+          "operator": "less_than",
+          "value": 22
+        }
+      ]
+    },
+    {
       "pool_id": "international",
       "priority": 100,
       "applicant_match": {
@@ -307,13 +578,16 @@
       ]
     },
     {
-      "pool_id": "home_rest_of_uk_school_leaver",
+      "pool_id": "ruk_standard",
       "priority": 10,
       "applicant_match": {
         "all_group_ids": [
           "home_fee",
           "rest_of_uk",
           "school_leaver"
+        ],
+        "excluded_group_ids": [
+          "contextual"
         ]
       },
       "metric": "selection_score",

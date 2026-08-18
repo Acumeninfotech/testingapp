@@ -122,6 +122,12 @@ function contextualUpliftValue(adjustment: UcatAdjustment): string {
   return `+${Number(adjustment.uplift_percent)}%${reason}`;
 }
 
+function adjustedSelectionUcatLabel(adjustment?: UcatAdjustment | null): string {
+  return typeof adjustment?.label === 'string' && adjustment.label.trim()
+    ? adjustment.label.trim()
+    : 'Adjusted selection UCAT';
+}
+
 function publicThresholdGroup(text = ''): string | null {
   if (/contextual|widening participation|wp\b|ukwpmed/.test(text)) return 'contextual';
   if (/overseas|international|non-uk/.test(text)) return 'Overseas';
@@ -547,11 +553,12 @@ function assessmentPanelRows({
     ];
   }
   if (hasAppliedUcatAdjustment(ucatAdjustment)) {
+    const adjustedUcatLabel = adjustedSelectionUcatLabel(ucatAdjustment);
     return [
       { label: 'Your UCAT', value: String(ucatAdjustment.raw_ucat) },
       { label: 'Contextual uplift', value: contextualUpliftValue(ucatAdjustment) },
       {
-        label: 'Aberdeen adjusted selection UCAT',
+        label: adjustedUcatLabel,
         value: String(ucatAdjustment.adjusted_selection_ucat),
         emphasis: true,
       },
@@ -647,6 +654,44 @@ type CompactRequirementCandidate = CompactRequirementRow & {
   type: string;
   qualificationType: string;
 };
+
+function academicSelectionFactorLabels(
+  checks: PredictionResult['result_card']['academic_requirement_checks'],
+): { gcse: string; aLevel: string } {
+  const defaultLabels = { gcse: 'GCSEs', aLevel: 'A-Levels' };
+  if (!Array.isArray(checks) || checks.length === 0) {
+    return defaultLabels;
+  }
+
+  const labelFor = (pattern: RegExp): string | null => {
+    const match = checks.find((check) => pattern.test(asString(check.label)));
+    return asString(match?.label) || null;
+  };
+
+  const hasEvidenceFor = (pattern: RegExp): boolean => checks.some((check) => {
+    const text = [
+      asString(check.qualification_type),
+      asString(check.requirement_type),
+      asString(check.label),
+    ].join(' ');
+    return pattern.test(text);
+  });
+
+  const national5Label = labelFor(/\bnational\s*5s?\b|national_5/i);
+  const scottishHigherLabel = labelFor(/\bscottish\s+highers?\b/i);
+  const hasNational5Evidence = hasEvidenceFor(/\bnational\s*5s?\b|national_5/i);
+  const hasScottishHigherEvidence = hasEvidenceFor(/\bscottish\s+highers?\b|scottish_post_16|higher_requirements|highers/i);
+  const hasScottishChecks = checks.some((check) => asString(check.qualification_type) === 'scottish');
+
+  if (!hasScottishChecks && !hasNational5Evidence && !hasScottishHigherEvidence) {
+    return defaultLabels;
+  }
+
+  return {
+    gcse: national5Label || (hasNational5Evidence || hasScottishChecks ? 'National 5s' : defaultLabels.gcse),
+    aLevel: scottishHigherLabel || (hasScottishHigherEvidence || hasScottishChecks ? 'Scottish Highers' : defaultLabels.aLevel),
+  };
+}
 
 function isALevelRequirementCandidate(row: CompactRequirementCandidate): boolean {
   return row.qualificationType === 'a_level' ||
@@ -1076,16 +1121,18 @@ export function ResultCard({ result }: { result: PredictionResult }) {
                 : sjtCheck || sjtRequirementCheck
                   ? 'Threshold met'
                   : 'Not used';
+  const academicSelectionLabels = academicSelectionFactorLabels(card.academic_requirement_checks);
   const factors: Array<{ key: Parameters<typeof factorState>[0]['factor']; label: string }> = [
     { key: 'ucat', label: 'UCAT' },
-    { key: 'gcse', label: 'GCSEs' },
-    { key: 'a-level', label: 'A-Levels' },
+    { key: 'gcse', label: academicSelectionLabels.gcse },
+    { key: 'a-level', label: academicSelectionLabels.aLevel },
     { key: 'sjt', label: 'SJT' },
     { key: 'contextual', label: 'Contextual' },
     { key: 'ps', label: 'PS' },
   ];
   const componentRows = scoreComponentRows(scoreBreakdown);
   const adjustedSelectionUcatApplied = hasAppliedUcatAdjustment(ucatAdjustment);
+  const adjustedUcatLabel = adjustedSelectionUcatLabel(ucatAdjustment);
   const primaryAssessmentKind = assessmentKind({
     comparison,
     selectionMetric,
@@ -1395,7 +1442,7 @@ export function ResultCard({ result }: { result: PredictionResult }) {
                   </p>
                 </section>
                 <div>
-                  <span>{adjustedSelectionUcatApplied ? 'Aberdeen adjusted selection UCAT' : 'Your UCAT'}</span>
+                  <span>{adjustedSelectionUcatApplied ? adjustedUcatLabel : 'Your UCAT'}</span>
                   <strong>{comparison.applicant}</strong>
                 </div>
                 {comparison.difference && (
@@ -1412,7 +1459,7 @@ export function ResultCard({ result }: { result: PredictionResult }) {
                   <strong>{comparisonRangeText(comparison)}</strong>
                 </div>
                 <div>
-                  <span>{adjustedSelectionUcatApplied ? 'Aberdeen adjusted selection UCAT' : 'Your UCAT'}</span>
+                  <span>{adjustedSelectionUcatApplied ? adjustedUcatLabel : 'Your UCAT'}</span>
                   <strong>{comparison.applicant}</strong>
                 </div>
                 {comparison.difference && (

@@ -56,10 +56,15 @@ const {
   DUNDEE_CONTEXTUAL_EVALUATOR_ID,
   evaluateDundeeContextualEligibility
 } = require('./dundee-contextual-eligibility');
+const {
+  EDINBURGH_CONTEXTUAL_EVALUATOR_ID,
+  evaluateEdinburghContextualEligibility
+} = require('./edinburgh-contextual-eligibility');
 
 const DEFAULT_CONTEXTUAL_ELIGIBILITY_EVALUATORS = {
   [ABERDEEN_CONTEXTUAL_EVALUATOR_ID]: evaluateAberdeenContextualEligibility,
   [DUNDEE_CONTEXTUAL_EVALUATOR_ID]: evaluateDundeeContextualEligibility,
+  [EDINBURGH_CONTEXTUAL_EVALUATOR_ID]: evaluateEdinburghContextualEligibility,
   [GLASGOW_CONTEXTUAL_EVALUATOR_ID]: evaluateGlasgowContextualEligibility,
   [ASTON_READY_EVALUATOR_ID]: astonReadyMedicineEvaluator,
   [IMPERIAL_CONTEXTUAL_EVALUATOR_ID]: evaluateImperialContextualEligibility,
@@ -78,6 +83,7 @@ module.exports = {
   ABERDEEN_CONTEXTUAL_EVALUATOR_ID,
   BIRMINGHAM_CONTEXTUAL_EVALUATOR_ID,
   DUNDEE_CONTEXTUAL_EVALUATOR_ID,
+  EDINBURGH_CONTEXTUAL_EVALUATOR_ID,
   GLASGOW_CONTEXTUAL_EVALUATOR_ID,
   LIVERPOOL_CONTEXTUAL_EVALUATOR_ID,
   NOTTINGHAM_CONTEXTUAL_EVALUATOR_ID,
@@ -88,6 +94,7 @@ module.exports = {
   evaluateAberdeenContextualEligibility,
   evaluateBirminghamContextualEligibility,
   evaluateDundeeContextualEligibility,
+  evaluateEdinburghContextualEligibility,
   evaluateGlasgowContextualEligibility,
   evaluateLiverpoolContextualEligibility,
   evaluateNottinghamContextualEligibility,

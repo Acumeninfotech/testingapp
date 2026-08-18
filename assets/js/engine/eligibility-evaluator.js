@@ -318,6 +318,7 @@ const COURSES_WITH_CONTEXTUAL_EVALUATOR_GROUP_CONTROL = [
   'bristol-a100',
   'birmingham-a100',
   'dundee-a100',
+  'edinburgh-a100',
   'glasgow-a100'
 ];
 
@@ -361,6 +362,17 @@ const DUNDEE_LEGACY_CONTEXTUAL_GROUP_IDS = [
   'polar_quintile_1'
 ];
 
+const EDINBURGH_LEGACY_CONTEXTUAL_GROUP_IDS = [
+  'contextual',
+  'widening_participation',
+  'care_experienced',
+  'simd20',
+  'simd40',
+  'plus_flag',
+  'flag',
+  'ucat_bursary'
+];
+
 const COURSES_WITH_ACTIVATED_CONTEXTUAL_GROUPS = [
   'aberdeen-a100',
   'aston-a100',
@@ -375,6 +387,7 @@ const COURSES_WITH_ACTIVATED_CONTEXTUAL_GROUPS = [
   'sheffield-a100',
   'nottingham-a100',
   'dundee-a100',
+  'edinburgh-a100',
   'glasgow-a100'
 ];
 
@@ -492,9 +505,20 @@ function resolveScottishMedicalSchoolRoute(course, applicant = {}, options = {})
   return {
     route_id: resolvedRouteId,
     applicant_pool: applicantPool,
+    contextual_level: contextualEligibility?.level ||
+      contextualEligibility?.contextual_level ||
+      contextualEligibility?.academic_contextual_level ||
+      null,
     contextual_status: contextualEligibility?.status || null,
     contextual_confirmed: contextualEligibility?.is_contextual === true,
-    uses_contextual_academic_route: resolvedRouteId.endsWith('_contextual'),
+    uses_contextual_academic_route:
+      course?.profile_id === 'edinburgh-a100'
+        ? (
+          contextualEligibility?.academic_contextual_level === 'plus_flag' ||
+          contextualEligibility?.level === 'plus_flag' ||
+          contextualEligibility?.contextual_level === 'plus_flag'
+        )
+        : resolvedRouteId.endsWith('_contextual'),
     supported_route_ids: supportedRouteIds,
     contextual_evaluator_id: contextualEligibility?.evaluator_id ||
       contextualEvaluatorIdForCourse(course) ||
@@ -523,6 +547,11 @@ function applyCourseSpecificDerivedApplicantGroups(course, applicant, groupIds, 
   }
   if (course?.profile_id === 'dundee-a100' && contextualResult) {
     for (const groupId of DUNDEE_LEGACY_CONTEXTUAL_GROUP_IDS) {
+      groups.delete(groupId);
+    }
+  }
+  if (course?.profile_id === 'edinburgh-a100' && contextualResult) {
+    for (const groupId of EDINBURGH_LEGACY_CONTEXTUAL_GROUP_IDS) {
       groups.delete(groupId);
     }
   }
@@ -651,6 +680,16 @@ function resolveUcatMinimumTotalScore(ucat, groupIds) {
     });
 
   return groupRule?.minimum_total_score ?? ucat?.minimum_total_score ?? null;
+}
+
+function resolveCourseUcatMinimumTotalScore(course, ucat, groupIds, contextualEligibility = null) {
+  if (
+    course?.profile_id === 'edinburgh-a100' &&
+    contextualEligibility?.ucat_contextual_treatment?.minimum_total_score_required === false
+  ) {
+    return null;
+  }
+  return resolveUcatMinimumTotalScore(ucat, groupIds);
 }
 
 function finiteScore(value) {
@@ -2040,8 +2079,8 @@ function evaluateGraduateRoute(course, applicant, state) {
 }
 
 function evaluateScottishRoute(course, applicant, state) {
-  const national5Rules = course.stage_1_eligibility?.national_5 || {};
   const post16Rules = course.stage_1_eligibility?.post_16?.scottish || {};
+  const national5Rules = course.stage_1_eligibility?.national_5 || {};
   const profile = applicant.scottish_profile || {};
   const national5 = profileToSubjectMap({ subjects: profile.national_5_subjects || [] });
   const higherSubjects = scottishProfileSubjects(profile, 'higher_subjects');
@@ -2939,9 +2978,11 @@ function evaluateAdmissionsTests(course, applicant, state) {
   ) {
     addManualReview(state, 'ucat_score_scale_mismatch');
   }
-  const minimumUcatTotalScore = resolveUcatMinimumTotalScore(
+  const minimumUcatTotalScore = resolveCourseUcatMinimumTotalScore(
+    course,
     ucat,
-    state.applicant_group_ids
+    state.applicant_group_ids,
+    state.contextual_eligibility
   );
   if (
     ucatApplies &&
@@ -3337,6 +3378,14 @@ function evaluateCourseEligibility(course, applicantInput) {
     manual_review_reasons: [],
     ...(contextualEligibility ? { contextual_eligibility: contextualEligibility } : {})
   };
+  const scottishMedicalSchoolRoute = resolveScottishMedicalSchoolRoute(course, applicant, {
+    applicant_group_ids: state.applicant_group_ids,
+    contextual_eligibility: contextualEligibility
+  });
+  if (scottishMedicalSchoolRoute) {
+    state.scottish_medical_school_route = scottishMedicalSchoolRoute;
+    state.selection_route_id = scottishMedicalSchoolRoute.route_id;
+  }
 
   for (const groupId of course.stage_1_eligibility?.explicitly_blocked_applicant_group_ids || []) {
     if (state.applicant_group_ids.includes(groupId)) {

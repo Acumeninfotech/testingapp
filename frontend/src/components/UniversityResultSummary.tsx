@@ -82,6 +82,12 @@ function contextualUpliftValue(adjustment: UcatAdjustment): string {
   return `+${Number(adjustment.uplift_percent)}%${reason}`;
 }
 
+function adjustedSelectionUcatLabel(adjustment?: UcatAdjustment | null): string {
+  return typeof adjustment?.label === 'string' && adjustment.label.trim()
+    ? adjustment.label.trim()
+    : 'Adjusted selection UCAT';
+}
+
 function inlineComparisonLabel(metric: SelectionMetric): string {
   const label = metric.comparison_label || 'Comparison value';
   if (/^ApplySmart\b/.test(label)) {
@@ -119,10 +125,11 @@ function SelectionMetricPanel({
   ucatAdjustment?: UcatAdjustment | null;
 }) {
   if (hasAppliedUcatAdjustment(ucatAdjustment)) {
+    const adjustedUcatLabel = adjustedSelectionUcatLabel(ucatAdjustment);
     return (
       <div
         className="university-result-selection-metric university-result-selection-metric--ucat-adjustment"
-        aria-label={`Your UCAT ${ucatAdjustment.raw_ucat}, contextual uplift ${contextualUpliftValue(ucatAdjustment)}, Aberdeen adjusted selection UCAT ${ucatAdjustment.adjusted_selection_ucat}`}
+        aria-label={`Your UCAT ${ucatAdjustment.raw_ucat}, contextual uplift ${contextualUpliftValue(ucatAdjustment)}, ${adjustedUcatLabel} ${ucatAdjustment.adjusted_selection_ucat}`}
       >
         <span className="university-result-selection-label">UCAT adjustment</span>
         <dl className="university-result-ucat-adjustment-list">
@@ -135,7 +142,7 @@ function SelectionMetricPanel({
             <dd>{contextualUpliftValue(ucatAdjustment)}</dd>
           </div>
           <div>
-            <dt>Aberdeen adjusted selection UCAT</dt>
+            <dt>{adjustedUcatLabel}</dt>
             <dd>{ucatAdjustment.adjusted_selection_ucat}</dd>
           </div>
         </dl>
