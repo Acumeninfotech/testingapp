@@ -11,6 +11,7 @@ const BIRMINGHAM_CONTEXTUAL_EVALUATOR_ID = 'birmingham_contextual_medicine_a100'
 const DUNDEE_CONTEXTUAL_EVALUATOR_ID = 'dundee_contextual_medicine_a100';
 const EDINBURGH_CONTEXTUAL_EVALUATOR_ID = 'edinburgh_contextual_medicine_a100';
 const GLASGOW_CONTEXTUAL_EVALUATOR_ID = 'glasgow_contextual_medicine_a100';
+const ST_ANDREWS_CONTEXTUAL_EVALUATOR_ID = 'st_andrews_contextual_medicine_a100';
 
 function asObject(value) {
   return value && typeof value === 'object' && !Array.isArray(value)
@@ -256,7 +257,9 @@ function contextualEvidenceOptionsForCourse(course = {}, evaluatorId = null, opt
     course.profile_id === 'edinburgh-a100' ||
     evaluatorId === EDINBURGH_CONTEXTUAL_EVALUATOR_ID ||
     course.profile_id === 'glasgow-a100' ||
-    evaluatorId === GLASGOW_CONTEXTUAL_EVALUATOR_ID
+    evaluatorId === GLASGOW_CONTEXTUAL_EVALUATOR_ID ||
+    course.profile_id === 'st-andrews-a100' ||
+    evaluatorId === ST_ANDREWS_CONTEXTUAL_EVALUATOR_ID
   ) {
     evidenceOptions.projectLegacyContextualCriteriaFlags = false;
     evidenceOptions.projectLegacyAccessProgrammes = false;

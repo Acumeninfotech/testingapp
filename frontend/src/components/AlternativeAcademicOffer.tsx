@@ -70,13 +70,16 @@ export function AlternativeAcademicOffer({
           : 'EPQ'
     : 'Contextual';
   const alternativeLabel = hasRenderableOffer
-    ? offer.type === 'contextual'
-      ? 'Contextual Offer'
-      : offer.type === 'contextual_epq'
-        ? 'Contextual EPQ Alternative'
-        : offer.type === 'routed_offer'
-          ? 'Alternative offer'
-          : 'EPQ Alternative'
+    ? cleanText(
+      offer.alternative_offer_label ||
+      (offer.type === 'contextual'
+        ? 'Contextual Offer'
+        : offer.type === 'contextual_epq'
+          ? 'Contextual EPQ Alternative'
+          : offer.type === 'routed_offer'
+            ? 'Alternative offer'
+            : 'EPQ Alternative')
+    )
     : 'Contextual Offer';
 
   return (

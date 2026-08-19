@@ -15,6 +15,10 @@ function section(name: string) {
   return screen.getByText(name).closest('details') as HTMLDetailsElement;
 }
 
+function renderedRows(sectionName: string) {
+  return section(sectionName).querySelectorAll('.scottish-subject-row');
+}
+
 describe('ScottishStep', () => {
   it('uses compact sections with only Highers expanded by default', () => {
     renderStep();
@@ -28,7 +32,7 @@ describe('ScottishStep', () => {
     expect(within(section('Advanced Highers')).getByText('Optional')).toBeInTheDocument();
   });
 
-  it('shows entered counts and keeps five Higher subject and grade rows', async () => {
+  it('shows entered counts and keeps five Higher subject and grade rows by default', async () => {
     const profile = createEmptyProfile();
     profile.scottish_profile.national_5_subjects[0] = { subject_id: 'english_language', grade: 'A' };
     profile.scottish_profile.national_5_subjects[1] = { subject_id: 'mathematics', grade: 'B' };
@@ -47,6 +51,24 @@ describe('ScottishStep', () => {
     await waitFor(() => expect(section('National 5s')).toHaveAttribute('open'));
     expect(within(section('National 5s')).getAllByLabelText('Subject')).toHaveLength(5);
     expect(within(section('National 5s')).getAllByLabelText('Grade')).toHaveLength(5);
+  });
+
+  it('provides five Higher rows and three Advanced Higher rows for Scottish profiles', async () => {
+    renderStep();
+
+    expect(within(section('Highers')).getAllByLabelText('Subject')).toHaveLength(5);
+    expect(within(section('Highers')).getAllByLabelText('Grade')).toHaveLength(5);
+    expect(within(section('Highers')).getAllByLabelText('School year')).toHaveLength(5);
+    expect(within(section('Highers')).getAllByLabelText('Attempt')).toHaveLength(5);
+
+    fireEvent.click(screen.getByText('Advanced Highers').closest('summary') as HTMLElement);
+    await waitFor(() => expect(section('Advanced Highers')).toHaveAttribute('open'));
+    expect(renderedRows('Advanced Highers')).toHaveLength(3);
+    expect(within(section('Advanced Highers')).queryByLabelText('Qualification')).not.toBeInTheDocument();
+    expect(within(section('Advanced Highers')).getAllByLabelText('Subject')).toHaveLength(3);
+    expect(within(section('Advanced Highers')).getAllByLabelText('Grade')).toHaveLength(3);
+    expect(within(section('Advanced Highers')).getAllByLabelText('School year')).toHaveLength(3);
+    expect(within(section('Advanced Highers')).getAllByLabelText('Attempt')).toHaveLength(3);
   });
 
   it('updates same-sitting, school-year and attempt evidence', () => {

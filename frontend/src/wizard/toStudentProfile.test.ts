@@ -840,6 +840,24 @@ describe('toStudentProfile identity mapping', () => {
     ]);
   });
 
+  it('pads older stored Scottish Advanced Higher rows to three without replacing entries', () => {
+    const profile = normaliseStoredProfile({
+      scottish_profile: {
+        advanced_higher_subjects: [
+          { subject_id: 'chemistry', grade: 'A' },
+          { subject_id: 'biology', grade: 'B' },
+        ],
+      },
+    });
+
+    expect(profile.scottish_profile.higher_subjects).toHaveLength(5);
+    expect(profile.scottish_profile.advanced_higher_subjects).toEqual([
+      { subject_id: 'chemistry', grade: 'A' },
+      { subject_id: 'biology', grade: 'B' },
+      { subject_id: '', grade: '' },
+    ]);
+  });
+
   it('does not truncate stored Scottish Higher rows beyond five', () => {
     const higherSubjects = [
       { subject_id: 'chemistry', grade: 'A' },

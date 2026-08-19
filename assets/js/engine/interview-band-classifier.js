@@ -40,6 +40,7 @@ const CANONICAL_BANDS = new Set([
 ]);
 const ABERDEEN_ADJUSTED_SELECTION_UCAT_METRIC = 'aberdeen_adjusted_selection_ucat_total';
 const CONTEXTUAL_ADJUSTED_SELECTION_UCAT_SOURCE = 'contextual_adjusted_selection_ucat_total';
+const CONTEXTUAL_ADJUSTED_SELECTION_UCAT_METRIC = 'contextual_adjusted_selection_ucat_total';
 
 const GCSE_GRADE_RANK = {
   U: 0,
@@ -3082,6 +3083,59 @@ function resolveAberdeenAdjustedSelectionUcat(applicant, context = {}) {
   };
 }
 
+function resolveContextualAdjustedSelectionUcat(applicant, context = {}) {
+  const rawScore = applicant.admissions_tests?.ucat?.total_score;
+  const max = applicant.admissions_tests?.ucat?.score_scale ?? 2700;
+  if (!Number.isFinite(rawScore)) {
+    return {
+      value: null,
+      raw_value: null,
+      max,
+      reason: 'ucat_total_unavailable'
+    };
+  }
+
+  const contextual = context.resolvedEligibility?.contextual_eligibility || {};
+  const adjusted = contextual.adjusted_selection_ucat;
+  const adjustedScore = Number(adjusted?.adjusted_ucat);
+  const upliftPercent = Number(adjusted?.uplift_percent ?? contextual.ucat_uplift_percent);
+  if (Number.isFinite(adjustedScore) && Number.isFinite(upliftPercent) && upliftPercent > 0) {
+    return {
+      value: adjustedScore,
+      raw_value: Number.isFinite(Number(adjusted.raw_ucat)) ? Number(adjusted.raw_ucat) : rawScore,
+      max,
+      total_uplift_percent: upliftPercent,
+      applied_uplift: {
+        reason: adjusted.reason || contextual.ucat_uplift_reason || null,
+        reason_label: adjusted.reason_label || null,
+        percent: upliftPercent
+      }
+    };
+  }
+
+  if (Number.isFinite(upliftPercent) && upliftPercent > 0) {
+    return {
+      value: Math.round(rawScore * (1 + upliftPercent / 100)),
+      raw_value: rawScore,
+      max,
+      total_uplift_percent: upliftPercent,
+      applied_uplift: {
+        reason: contextual.ucat_uplift_reason || null,
+        reason_label: null,
+        percent: upliftPercent
+      }
+    };
+  }
+
+  return {
+    value: rawScore,
+    raw_value: rawScore,
+    max,
+    total_uplift_percent: 0,
+    applied_uplift: null
+  };
+}
+
 function gradeIsInExamYear(subject, examYears = []) {
   const year = Number(subject.exam_year ?? subject.year ?? subject.sitting_year);
   return Number.isInteger(year) && examYears.includes(year);
@@ -3554,7 +3608,12 @@ function calculateScore(config, applicant, context) {
 
 function calculatePoolRanking(config, pool, applicant, context) {
   if (
-    !['ucat_total', 'gamsat_total', ABERDEEN_ADJUSTED_SELECTION_UCAT_METRIC].includes(pool?.metric) ||
+    ![
+      'ucat_total',
+      'gamsat_total',
+      ABERDEEN_ADJUSTED_SELECTION_UCAT_METRIC,
+      CONTEXTUAL_ADJUSTED_SELECTION_UCAT_METRIC
+    ].includes(pool?.metric) ||
     (
       config.score_model?.pool_specific_output !== true ||
       pool?.pool_specific_output === false
@@ -3567,6 +3626,8 @@ function calculatePoolRanking(config, pool, applicant, context) {
   const adjustedUcat =
     pool.metric === ABERDEEN_ADJUSTED_SELECTION_UCAT_METRIC
       ? resolveAberdeenAdjustedSelectionUcat(applicant, context)
+      : pool.metric === CONTEXTUAL_ADJUSTED_SELECTION_UCAT_METRIC
+        ? resolveContextualAdjustedSelectionUcat(applicant, context)
       : null;
   const value = isGamsat
     ? applicant.admissions_tests?.gamsat?.overall_score
@@ -3583,6 +3644,8 @@ function calculatePoolRanking(config, pool, applicant, context) {
       ? 'Overall GAMSAT ranking after the section minimum'
       : pool.metric === ABERDEEN_ADJUSTED_SELECTION_UCAT_METRIC
       ? 'Aberdeen adjusted selection UCAT ranking'
+      : pool.metric === CONTEXTUAL_ADJUSTED_SELECTION_UCAT_METRIC
+      ? 'Contextual adjusted UCAT ranking'
       : config.score_model?.metric === 'ucat_total'
       ? config.score_model.basis
       : 'UCAT total ranking',
@@ -3724,7 +3787,10 @@ function getMetricValue(metric, score, applicant) {
   if (metric === 'ucat_national_percentile') {
     return score?.value;
   }
-  if (metric === ABERDEEN_ADJUSTED_SELECTION_UCAT_METRIC) {
+  if (
+    metric === ABERDEEN_ADJUSTED_SELECTION_UCAT_METRIC ||
+    metric === CONTEXTUAL_ADJUSTED_SELECTION_UCAT_METRIC
+  ) {
     return score?.value;
   }
   if (metric === 'ucat_total') {
@@ -3757,7 +3823,10 @@ function getMetricScale(metric, score, applicant, config) {
         2700
     };
   }
-  if (metric === ABERDEEN_ADJUSTED_SELECTION_UCAT_METRIC) {
+  if (
+    metric === ABERDEEN_ADJUSTED_SELECTION_UCAT_METRIC ||
+    metric === CONTEXTUAL_ADJUSTED_SELECTION_UCAT_METRIC
+  ) {
     return {
       min: 0,
       max: score?.max ??
@@ -3787,6 +3856,9 @@ function getMetricLabel(metric) {
   }
   if (metric === ABERDEEN_ADJUSTED_SELECTION_UCAT_METRIC) {
     return 'Aberdeen adjusted selection UCAT';
+  }
+  if (metric === CONTEXTUAL_ADJUSTED_SELECTION_UCAT_METRIC) {
+    return 'contextual adjusted UCAT';
   }
   if (metric === 'gamsat_total') {
     return 'GAMSAT total';

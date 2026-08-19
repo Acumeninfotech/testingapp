@@ -319,7 +319,8 @@ const COURSES_WITH_CONTEXTUAL_EVALUATOR_GROUP_CONTROL = [
   'birmingham-a100',
   'dundee-a100',
   'edinburgh-a100',
-  'glasgow-a100'
+  'glasgow-a100',
+  'st-andrews-a100'
 ];
 
 const ABERDEEN_LEGACY_CONTEXTUAL_GROUP_IDS = [
@@ -373,6 +374,25 @@ const EDINBURGH_LEGACY_CONTEXTUAL_GROUP_IDS = [
   'ucat_bursary'
 ];
 
+const ST_ANDREWS_LEGACY_CONTEXTUAL_GROUP_IDS = [
+  'contextual',
+  'widening_participation',
+  'care_experienced',
+  'simd20',
+  'simd40',
+  'imd_quintile_1',
+  'imd_quintile_2',
+  'polar4_quintile_1',
+  'polar_quintile_1',
+  'young_carer',
+  'unpaid_carer',
+  'carer',
+  'estranged_from_family',
+  'refugee',
+  'asylum_seeker',
+  'refugee_or_asylum_seeker'
+];
+
 const COURSES_WITH_ACTIVATED_CONTEXTUAL_GROUPS = [
   'aberdeen-a100',
   'aston-a100',
@@ -388,7 +408,8 @@ const COURSES_WITH_ACTIVATED_CONTEXTUAL_GROUPS = [
   'nottingham-a100',
   'dundee-a100',
   'edinburgh-a100',
-  'glasgow-a100'
+  'glasgow-a100',
+  'st-andrews-a100'
 ];
 
 const SCOTTISH_MEDICAL_SCHOOL_ROUTE_IDS = Object.freeze([
@@ -445,6 +466,20 @@ function supportedScottishMedicalSchoolRouteIds(course = {}) {
     scottishRequirements.some(isContextualAcademicRequirement)
   ) {
     supported.add('scotland_contextual');
+  }
+  const scottishSupportedApplicantPools = new Set(
+    (scottishRules.supported_applicant_pools || []).map(normaliseId)
+  );
+  if (scottishSupportedApplicantPools.has('ruk') || scottishSupportedApplicantPools.has('rest_of_uk')) {
+    if (scottishRequirements.some((requirement) => !isContextualAcademicRequirement(requirement))) {
+      supported.add('ruk_standard');
+    }
+    if (
+      scottishRules.contextual_route_implemented === true &&
+      scottishRequirements.some(isContextualAcademicRequirement)
+    ) {
+      supported.add('ruk_contextual');
+    }
   }
 
   const aLevelRequirements = resolveALevelRequirements(post16Rules.a_level || {});
@@ -557,6 +592,11 @@ function applyCourseSpecificDerivedApplicantGroups(course, applicant, groupIds, 
   }
   if (course?.profile_id === 'glasgow-a100' && contextualResult) {
     for (const groupId of GLASGOW_LEGACY_CONTEXTUAL_GROUP_IDS) {
+      groups.delete(groupId);
+    }
+  }
+  if (course?.profile_id === 'st-andrews-a100' && contextualResult) {
+    for (const groupId of ST_ANDREWS_LEGACY_CONTEXTUAL_GROUP_IDS) {
       groups.delete(groupId);
     }
   }
@@ -1056,28 +1096,180 @@ function scottishSubjectMap(subjects, route = {}, level = 'higher') {
   return result;
 }
 
-function scottishSameSittingMet(profile = {}, subjects = [], route = {}) {
-  if (route.same_sitting_required !== true) {
+function valueAtPath(source, path) {
+  if (!path) return undefined;
+  return String(path)
+    .split('.')
+    .filter(Boolean)
+    .reduce((current, key) => {
+      if (current === null || current === undefined) return undefined;
+      return current[key];
+    }, source);
+}
+
+function booleanEvidence(value) {
+  if (value === true || value === false) {
+    return value;
+  }
+  const normalised = normaliseId(value);
+  if (['yes', 'true', 'confirmed', 'verified'].includes(normalised)) {
     return true;
   }
+  if (['no', 'false'].includes(normalised)) {
+    return false;
+  }
+  return null;
+}
+
+function scottishSameSittingAssessment(profile = {}, subjects = [], route = {}) {
+  if (route.same_sitting_required !== true) {
+    return { passed: true };
+  }
+  const schoolYearFilter = normaliseId(route.same_sitting_school_year);
+  const eligibleSubjects = schoolYearFilter
+    ? subjects.filter((subject) => scottishSubjectSchoolYear(subject) === schoolYearFilter)
+    : subjects;
   const explicit =
     profile.completed_in_one_sitting ??
     profile.same_sitting_confirmed ??
     profile.same_sitting?.confirmed ??
     profile.same_sitting?.completed_in_one_sitting;
+  let passed = null;
   if (explicit === true || explicit === false) {
-    return explicit;
+    passed = explicit;
+  } else {
+    const sittingIds = eligibleSubjects
+      .map((subject) => {
+        return subject.sitting_id ||
+          subject.exam_sitting_id ||
+          subject.sitting ||
+          subject.exam_series;
+      })
+      .filter(Boolean);
+    passed = sittingIds.length === 0 || new Set(sittingIds).size === 1;
   }
 
-  const sittingIds = subjects
-    .map((subject) => {
-      return subject.sitting_id ||
-        subject.exam_sitting_id ||
-        subject.sitting ||
-        subject.exam_series;
-    })
-    .filter(Boolean);
-  return sittingIds.length === 0 || new Set(sittingIds).size === 1;
+  if (passed || route.same_sitting_exception_allowed !== true) {
+    return { passed };
+  }
+
+  const exceptionPath =
+    route.same_sitting_exception_evidence_path ||
+    'same_sitting.school_exception_confirmed';
+  const exceptionValue =
+    valueAtPath(profile, exceptionPath) ??
+    profile.same_sitting_school_exception_confirmed ??
+    profile.school_could_not_present_five_highers_one_sitting ??
+    profile.s5_five_higher_same_sitting_school_exception;
+  const exceptionConfirmed = booleanEvidence(exceptionValue);
+  if (exceptionConfirmed === true) {
+    return {
+      passed: true,
+      exception_applied: true,
+      exception_evidence_path: exceptionPath
+    };
+  }
+  if (exceptionConfirmed === false) {
+    return {
+      passed: false,
+      exception_applied: false,
+      exception_evidence_path: exceptionPath
+    };
+  }
+
+  return {
+    passed: true,
+    requires_manual_review: true,
+    manual_review_reason:
+      route.same_sitting_exception_manual_review_reason ||
+      'scottish_same_sitting_school_exception_requires_review',
+    exception_evidence_path: exceptionPath
+  };
+}
+
+function scottishSameSittingMet(profile = {}, subjects = [], route = {}) {
+  return scottishSameSittingAssessment(profile, subjects, route).passed;
+}
+
+function scottishSubjectsForCombinedRule(higherSubjects = [], advancedHigherSubjects = [], rule = {}) {
+  const allowedLevels = (rule.qualification_levels || ['higher', 'advanced_higher'])
+    .map(normaliseId);
+  const schoolYear = normaliseId(rule.school_year || rule.required_school_year);
+  const subjects = [];
+
+  if (allowedLevels.some((level) => scottishQualificationLevelMatches(level, 'higher'))) {
+    subjects.push(...higherSubjects.map((subject) => ({ ...subject, qualification_level: 'higher' })));
+  }
+  if (allowedLevels.some((level) => scottishQualificationLevelMatches(level, 'advanced_higher'))) {
+    subjects.push(...advancedHigherSubjects.map((subject) => ({
+      ...subject,
+      qualification_level: 'advanced_higher'
+    })));
+  }
+
+  return subjects.filter((subject) => {
+    if (schoolYear && scottishSubjectSchoolYear(subject) !== schoolYear) {
+      return false;
+    }
+    if (rule.first_attempt_required === true && !scottishSubjectIsFirstAttempt(subject)) {
+      return false;
+    }
+    return scottishSubjectGrade(subject) !== undefined &&
+      scottishSubjectGrade(subject) !== null &&
+      scottishSubjectGrade(subject) !== '';
+  });
+}
+
+function combinedScottishGradeRequirementsMeet(higherSubjects, advancedHigherSubjects, rules = []) {
+  return (rules || []).every((rule) => {
+    const subjects = scottishSubjectsForCombinedRule(higherSubjects, advancedHigherSubjects, rule);
+    return gradeProfileOptionsMeet(
+      subjects.map(scottishSubjectGrade),
+      rule.grade_profile || [],
+      rule.grade_profile_options || []
+    );
+  });
+}
+
+function scottishSameYearSubjectRuleMet(higherSubjects, advancedHigherSubjects, rule = {}) {
+  const allowedYears = (rule.allowed_school_years || ['s5', 's6']).map(normaliseId);
+  const subjects = scottishSubjectsForCombinedRule(higherSubjects, advancedHigherSubjects, {
+    qualification_levels: rule.qualification_levels || ['higher', 'advanced_higher'],
+    first_attempt_required: rule.first_attempt_required
+  });
+  const requiredSubjectIds = (rule.required_subject_ids || []).map(normaliseId);
+  const alternativeSubjectIds = (
+    rule.one_of_subject_ids ||
+    rule.second_subject_ids ||
+    rule.accepted_second_subject_ids ||
+    []
+  ).map(normaliseId);
+
+  return allowedYears.some((schoolYear) => {
+    const grades = {};
+    for (const subject of subjects) {
+      if (scottishSubjectSchoolYear(subject) !== schoolYear) {
+        continue;
+      }
+      const subjectId = normaliseScottishSubjectId(subject);
+      if (subjectId) {
+        grades[subjectId] = scottishSubjectGrade(subject);
+      }
+    }
+    const requiredPresent = requiredSubjectIds.every((subjectId) => {
+      return grades[subjectId] !== undefined;
+    });
+    const alternativePresent = alternativeSubjectIds.some((subjectId) => {
+      return grades[subjectId] !== undefined;
+    });
+    return requiredPresent && alternativePresent;
+  });
+}
+
+function scottishSameYearSubjectRulesMeet(higherSubjects, advancedHigherSubjects, rules = []) {
+  return (rules || []).every((rule) => {
+    return scottishSameYearSubjectRuleMet(higherSubjects, advancedHigherSubjects, rule);
+  });
 }
 
 function gradeProfileOptionsMeet(grades, profile, profileOptions = []) {
@@ -2131,6 +2323,7 @@ function evaluateScottishRoute(course, applicant, state) {
       return grades[normaliseId(subjectId)] !== undefined;
     });
   };
+  const routeManualReviewReasons = new Map();
   const routeMeets = (route) => {
     const routeHigherGrades = scottishSubjectMap(higherSubjects, route, 'higher');
     const routeAdvancedHigherGrades = scottishSubjectMap(
@@ -2142,23 +2335,46 @@ function evaluateScottishRoute(course, applicant, state) {
     const routeSittingSubjects = sameSittingLevel === 'higher' ||
       sameSittingLevel === 'scottish_highers'
       ? higherSubjects
-      : sameSittingLevel === 'advanced_higher' ||
-        sameSittingLevel === 'advanced_highers'
+        : sameSittingLevel === 'advanced_higher' ||
+          sameSittingLevel === 'advanced_highers'
         ? advancedHigherSubjects
         : allPost16ScottishSubjects;
-    const routeSittingPassed = scottishSameSittingMet(profile, routeSittingSubjects, route);
+    const routeSittingAssessment = scottishSameSittingAssessment(
+      profile,
+      routeSittingSubjects,
+      route
+    );
+    const routeSittingPassed = routeSittingAssessment.passed;
+    const sameYearSubjectRulesPassed = scottishSameYearSubjectRulesMeet(
+      higherSubjects,
+      advancedHigherSubjects,
+      route.required_subject_same_school_year_rules || []
+    );
+    const combinedGradeRequirementsPassed = combinedScottishGradeRequirementsMeet(
+      higherSubjects,
+      advancedHigherSubjects,
+      route.combined_grade_requirements || []
+    );
+    const higherProfileRequired =
+      (route.higher_grade_profile || []).length > 0 ||
+      (route.higher_grade_profile_options || []).length > 0;
+    const advancedHigherProfileRequired =
+      (route.advanced_higher_grade_profile || []).length > 0 ||
+      (route.advanced_higher_grade_profile_options || []).length > 0;
 
     if (route.qualification_level === 'scottish_highers_and_advanced_highers') {
-      return routeSittingPassed &&
-        gradeProfileOptionsMeet(
+      const passed = routeSittingPassed &&
+        (!higherProfileRequired || gradeProfileOptionsMeet(
           Object.values(routeHigherGrades),
           route.higher_grade_profile || [],
           route.higher_grade_profile_options || []
-        ) &&
-        gradeProfileOptionsMeet(
+        )) &&
+        (!advancedHigherProfileRequired || gradeProfileOptionsMeet(
           Object.values(routeAdvancedHigherGrades),
-          route.advanced_higher_grade_profile || []
-        ) &&
+          route.advanced_higher_grade_profile || [],
+          route.advanced_higher_grade_profile_options || []
+        )) &&
+        combinedGradeRequirementsPassed &&
         subjectsMeet(
           routeHigherGrades,
           route.higher_required_subject_ids || route.required_subject_ids
@@ -2182,13 +2398,18 @@ function evaluateScottishRoute(course, applicant, state) {
         subjectGradeRequirementsMeet(
           routeAdvancedHigherGrades,
           route.advanced_higher_subject_grade_requirements || []
-        );
+        ) &&
+        sameYearSubjectRulesPassed;
+      if (passed && routeSittingAssessment.requires_manual_review) {
+        routeManualReviewReasons.set(route, routeSittingAssessment.manual_review_reason);
+      }
+      return passed;
     }
 
     const grades = route.qualification_level === 'advanced_higher'
       ? routeAdvancedHigherGrades
       : routeHigherGrades;
-    return routeSittingPassed &&
+    const passed = routeSittingPassed &&
       gradeProfileOptionsMeet(
         Object.values(grades),
         route.grade_profile || [],
@@ -2196,11 +2417,22 @@ function evaluateScottishRoute(course, applicant, state) {
       ) &&
       subjectsMeet(grades, route.required_subject_ids) &&
       subjectGroupsMeet(grades, route.one_of_subject_groups) &&
-      subjectGradeRequirementsMeet(grades, route.subject_grade_requirements || []);
+      subjectGradeRequirementsMeet(grades, route.subject_grade_requirements || []) &&
+      sameYearSubjectRulesPassed;
+    if (passed && routeSittingAssessment.requires_manual_review) {
+      routeManualReviewReasons.set(route, routeSittingAssessment.manual_review_reason);
+    }
+    return passed;
   };
   const passedRoute = routes.find(routeMeets) || null;
   const post16Passed = Boolean(passedRoute);
-  addCheck(state, 'scottish_post_16_requirements', post16Passed);
+  const post16ReviewReason = passedRoute ? routeManualReviewReasons.get(passedRoute) : null;
+  addCheck(state, 'scottish_post_16_requirements', post16Passed, {
+    ...(post16ReviewReason ? {
+      status: 'manual_review',
+      manual_review_reason: post16ReviewReason
+    } : {})
+  });
   if (post16Passed) {
     const passedRouteGroups = passedRoute.applies_to_group_ids || [];
     const contextualRoute =
@@ -2216,6 +2448,9 @@ function evaluateScottishRoute(course, applicant, state) {
       passedRoute.route_id ||
       passedRoute.requirement_id ||
       null;
+    if (post16ReviewReason) {
+      addManualReview(state, post16ReviewReason);
+    }
   }
   if (!post16Passed) {
     addFailure(state, 'scottish_post_16_requirements_not_met');
@@ -3104,7 +3339,7 @@ function evaluateManualReviewTriggers(course, applicant, state) {
     addManualReview(state, 'contextual_wp_status_requires_confirmation');
   }
   if (
-    !['aberdeen-a100', 'dundee-a100'].includes(course?.profile_id) &&
+    !['aberdeen-a100', 'dundee-a100', 'st-andrews-a100'].includes(course?.profile_id) &&
     state.contextual_eligibility?.status === 'information_needed' &&
     state.contextual_eligibility?.manual_review_reason
   ) {
@@ -3201,7 +3436,7 @@ function probeUnresolvedScottishContextualAcademicRoute(course, applicant, state
     contextual_eligibility: state.contextual_eligibility || null,
     assume_contextual: true
   });
-  if (routeIdentity?.route_id !== 'scotland_contextual') {
+  if (!routeIdentity?.route_id?.endsWith('_contextual')) {
     return {
       would_pass: false,
       contextual_route_under_review: null
@@ -3249,11 +3484,18 @@ function probeUnresolvedScottishContextualAcademicRoute(course, applicant, state
 }
 
 function applyContextualInformationNeededReview(course, applicant, state) {
-  if (!['aberdeen-a100', 'dundee-a100', 'glasgow-a100'].includes(course?.profile_id)) {
+  if (!['aberdeen-a100', 'dundee-a100', 'glasgow-a100', 'st-andrews-a100'].includes(course?.profile_id)) {
     return;
   }
   const reason = contextualInformationNeededReason(state);
   if (!reason) {
+    return;
+  }
+  if (
+    course?.profile_id === 'st-andrews-a100' &&
+    state.qualification_route === 'scottish' &&
+    state.contextual_eligibility?.is_contextual !== true
+  ) {
     return;
   }
   if (!unresolvedContextualEligibilityIsAcademicRouteRelevant(course, applicant, state)) {

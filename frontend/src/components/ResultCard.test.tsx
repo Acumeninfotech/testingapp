@@ -641,6 +641,78 @@ describe('ResultCard', () => {
     expect(within(offer as HTMLElement).getByText('AAB')).toBeInTheDocument();
   });
 
+  it('renders St Andrews minimum-entry wording without internal route terms', () => {
+    render(
+      <ResultCard
+        result={makeResult({
+          contextual_status: 'confirmed',
+          contextual_confirmation: {
+            collapsed_label: 'Minimum entry requirements apply',
+            expanded_heading: 'Minimum entry requirements apply',
+            consideration_label: null,
+            expanded_body:
+              "You qualify for St Andrews' minimum entry requirements. Applicants who meet the academic requirements are then ranked by UCAT for interview.",
+          },
+          alternative_academic_offer: {
+            type: 'contextual',
+            standard_offer: 'AAAAB in S5 + BBB in S6 (Highers, Advanced Highers or a mixture)',
+            alternative_offer: 'AAABB in S5 + BB in S6 (Highers, Advanced Highers or a mixture)',
+            alternative_offer_label: 'Your minimum requirements',
+            pathway_id: 'st_andrews_sqa_minimum_contextual_entry',
+            conditions: [
+              'Minimum entry requirements apply to eligible applicants based on their circumstances.',
+            ],
+          },
+          academic_requirement_checks: [
+            {
+              qualification_type: 'scottish',
+              requirement_type: 'scottish_post_16_requirements',
+              label: 'Scottish Highers',
+              status: 'met',
+              required_value: 'AAABB in S5 + BB in S6',
+              applicant_value: 'AAABB in S5 + BB in S6',
+              reason: 'This requirement is met.',
+            },
+            {
+              qualification_type: 'scottish',
+              requirement_type: 'national_5_requirements',
+              label: 'National 5s',
+              status: 'met',
+              required_value: 'Met',
+              applicant_value: 'Met',
+              reason: 'This requirement is met.',
+            },
+          ],
+        })}
+      />,
+    );
+
+    expect(screen.getAllByText('Scottish Highers').length).toBeGreaterThan(0);
+    expect(screen.getAllByText('National 5s').length).toBeGreaterThan(0);
+    expect(screen.getByRole('heading', { name: 'Minimum entry requirements apply' })).toBeInTheDocument();
+    expect(
+      screen.getByText(
+        "You qualify for St Andrews' minimum entry requirements. Applicants who meet the academic requirements are then ranked by UCAT for interview.",
+      ),
+    ).toBeInTheDocument();
+
+    const offer = screen
+      .getByRole('heading', { name: 'Alternative Academic Offer' })
+      .closest('.alternative-academic-offer');
+    expect(offer).not.toBeNull();
+    expect(within(offer as HTMLElement).getByText('Your minimum requirements')).toBeInTheDocument();
+    expect(within(offer as HTMLElement).queryByText('Contextual Offer')).not.toBeInTheDocument();
+    expect(
+      within(offer as HTMLElement).getByText(
+        'Minimum entry requirements apply to eligible applicants based on their circumstances.',
+      ),
+    ).toBeInTheDocument();
+
+    const text = document.body.textContent || '';
+    expect(text).not.toMatch(/Step 6|structured evidence|route activated|contextual route confirmed/i);
+    expect(text).not.toContain('St Andrews SQA minimum/contextual route: AAABB in S5 + BB in S6');
+  });
+
   it('shows contextual confirmation messaging for confirmed contextual applicants', () => {
     render(
       <ResultCard

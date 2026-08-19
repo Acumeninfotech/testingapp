@@ -86,6 +86,9 @@ export interface ScottishProfile {
   advanced_higher_subjects: ScottishSubject[];
 }
 
+export const DEFAULT_SCOTTISH_HIGHER_ROWS = 5;
+export const DEFAULT_SCOTTISH_ADVANCED_HIGHER_ROWS = 3;
+
 // IB route: applicant.ib_profile.{total_points, higher_level_subjects,
 // standard_level_subjects}, numeric 1-7 IB point scale
 // (eligibility-evaluator.js:160-164,616-628; nottingham-a100-consumer.js:270-283).
@@ -560,7 +563,11 @@ export function createEmptyProfile(): WizardProfile {
         { subject_id: '', grade: '' },
         { subject_id: '', grade: '' },
       ],
-      advanced_higher_subjects: [{ subject_id: '', grade: '' }, { subject_id: '', grade: '' }],
+      advanced_higher_subjects: [
+        { subject_id: '', grade: '' },
+        { subject_id: '', grade: '' },
+        { subject_id: '', grade: '' },
+      ],
     },
     ib_profile: {
       total_points: '',

@@ -4,7 +4,7 @@
   "confidence": "low",
   "evidence": {
     "classification": "official_ucat_ranking_with_verified_international_historical_guidance",
-    "summary": "Official St Andrews hurdle-then-rank selection uses UCAT Global Score after mandatory hurdles. International guidance uses verified historical lowest-invited scores on the 2700 scale; these bands are historical competitiveness guidance, not official UCAT cut-offs, live thresholds or probabilities.",
+    "summary": "Official St Andrews hurdle-then-rank selection uses UCAT Global Score after mandatory hurdles. Contextual guidance applies the published ranking-only UCAT uplift where verified; international guidance uses verified historical lowest-invited scores on the 2700 scale. These bands are historical competitiveness guidance, not official UCAT cut-offs, live thresholds or probabilities.",
     "source_ids": [
       "standrews_ucat_policy",
       "standrews_selection_process",
@@ -19,6 +19,7 @@
     "type": "ranking_metric",
     "basis": "Official UCAT Global Score ranking input; guidance boundaries are ApplySmart-derived historical prediction methodology",
     "metric": "ucat_total",
+    "pool_specific_output": true,
     "scale": {
       "min": 0,
       "max": 2700
@@ -68,6 +69,61 @@
       ]
     },
     {
+      "pool_id": "scottish_home_contextual_school_leaver",
+      "priority": 25,
+      "applicant_match": {
+        "all_group_ids": [
+          "home_fee",
+          "scotland_domiciled",
+          "school_leaver",
+          "contextual"
+        ],
+        "excluded_group_ids": [
+          "graduate_applicant",
+          "international_fee"
+        ]
+      },
+      "metric": "contextual_adjusted_selection_ucat_total",
+      "presentation": {
+        "contextual_route_summary": "Minimum entry requirements apply. Standard requirements AAAAB in S5 + BBB in S6 (Highers, Advanced Highers or a mixture); your minimum requirements AAABB in S5 + BB in S6 (Highers, Advanced Highers or a mixture).",
+        "contextual_confirmation": {
+          "collapsed_label": "Minimum entry requirements apply",
+          "expanded_heading": "Minimum entry requirements apply",
+          "consideration_label": null,
+          "expanded_body": "You qualify for St Andrews' minimum entry requirements. Applicants who meet the academic requirements are then ranked by UCAT for interview."
+        }
+      },
+      "comparison_guidance": {
+        "comparison_type": "historical_range",
+        "label": "ApplySmart-derived Scotland UCAT ranking guidance with contextual ranking adjustment",
+        "caveat": "St Andrews publishes UCAT ranking after eligibility hurdles and a contextual ranking-only UCAT uplift where criteria apply. These bands use ApplySmart historical Scotland UCAT guidance; they are not St Andrews-published contextual thresholds or guarantees."
+      },
+      "band_rules": [
+        {
+          "band": "interview_likely",
+          "operator": "greater_than_or_equal",
+          "value": 2040
+        },
+        {
+          "band": "realistic",
+          "operator": "between_inclusive",
+          "min": 1793,
+          "max": 2039
+        },
+        {
+          "band": "ambitious",
+          "operator": "between_inclusive",
+          "min": 1673,
+          "max": 1792
+        },
+        {
+          "band": "high_risk",
+          "operator": "less_than",
+          "value": 1673
+        }
+      ]
+    },
+    {
       "pool_id": "rest_of_uk_non_contextual_a_level_school_leaver",
       "priority": 20,
       "applicant_match": {
@@ -84,6 +140,61 @@
         ]
       },
       "metric": "ucat_total",
+      "band_rules": [
+        {
+          "band": "interview_likely",
+          "operator": "greater_than_or_equal",
+          "value": 2180
+        },
+        {
+          "band": "realistic",
+          "operator": "between_inclusive",
+          "min": 2078,
+          "max": 2179
+        },
+        {
+          "band": "ambitious",
+          "operator": "between_inclusive",
+          "min": 1800,
+          "max": 2077
+        },
+        {
+          "band": "high_risk",
+          "operator": "less_than",
+          "value": 1800
+        }
+      ]
+    },
+    {
+      "pool_id": "rest_of_uk_contextual_school_leaver",
+      "priority": 25,
+      "applicant_match": {
+        "all_group_ids": [
+          "home_fee",
+          "rest_of_uk",
+          "school_leaver",
+          "contextual"
+        ],
+        "excluded_group_ids": [
+          "graduate_applicant",
+          "international_fee"
+        ]
+      },
+      "metric": "contextual_adjusted_selection_ucat_total",
+      "presentation": {
+        "contextual_route_summary": "Minimum entry requirements apply. Standard requirements AAAAB in S5 + BBB in S6 (Highers, Advanced Highers or a mixture); your minimum requirements AAABB in S5 + BB in S6 (Highers, Advanced Highers or a mixture).",
+        "contextual_confirmation": {
+          "collapsed_label": "Minimum entry requirements apply",
+          "expanded_heading": "Minimum entry requirements apply",
+          "consideration_label": null,
+          "expanded_body": "You qualify for St Andrews' minimum entry requirements. Applicants who meet the academic requirements are then ranked by UCAT for interview."
+        }
+      },
+      "comparison_guidance": {
+        "comparison_type": "historical_range",
+        "label": "ApplySmart-derived RUK UCAT ranking guidance with contextual ranking adjustment",
+        "caveat": "St Andrews publishes UCAT ranking after eligibility hurdles and a contextual ranking-only UCAT uplift where criteria apply. These bands use ApplySmart historical RUK UCAT guidance; they are not St Andrews-published contextual thresholds or guarantees."
+      },
       "band_rules": [
         {
           "band": "interview_likely",

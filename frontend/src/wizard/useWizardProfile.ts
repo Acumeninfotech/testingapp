@@ -2,6 +2,8 @@ import { useCallback, useEffect, useState } from 'react';
 import {
   createEmptyProfile,
   createEmptyContextualProfile,
+  DEFAULT_SCOTTISH_ADVANCED_HIGHER_ROWS,
+  DEFAULT_SCOTTISH_HIGHER_ROWS,
   normaliseEpqQualification,
   type AgeAtCourseStartBand,
   type ContextualProfile,
@@ -24,7 +26,6 @@ import { providerUniversityIdForUkwpmed, UKWPMED_REGISTRY } from './contextualRe
 
 const STORAGE_KEY = 'applysmart.wizard.profile.v1';
 const MIN_NATIONAL_5_ROWS = 5;
-const MIN_SCOTTISH_HIGHER_ROWS = 5;
 
 const HOME_REGION_FLAG_TO_VALUE: Record<string, HomeRegionValue> = {
   south_west_england_resident: 'south_west_england',
@@ -253,7 +254,11 @@ export function normaliseStoredProfile(parsed: unknown): WizardProfile {
       ...empty.scottish_profile,
       ...savedScottishProfile,
       national_5_subjects: padScottishSubjectRows(savedScottishProfile.national_5_subjects, MIN_NATIONAL_5_ROWS),
-      higher_subjects: padScottishSubjectRows(savedScottishProfile.higher_subjects, MIN_SCOTTISH_HIGHER_ROWS),
+      higher_subjects: padScottishSubjectRows(savedScottishProfile.higher_subjects, DEFAULT_SCOTTISH_HIGHER_ROWS),
+      advanced_higher_subjects: padScottishSubjectRows(
+        savedScottishProfile.advanced_higher_subjects,
+        DEFAULT_SCOTTISH_ADVANCED_HIGHER_ROWS,
+      ),
     },
   };
 }

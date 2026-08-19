@@ -1,7 +1,11 @@
 import { useEffect, useState } from 'react';
 
 import { SelectField } from '../components/SelectField';
-import type { ScottishSubject } from '../profileTypes';
+import {
+  DEFAULT_SCOTTISH_ADVANCED_HIGHER_ROWS,
+  DEFAULT_SCOTTISH_HIGHER_ROWS,
+  type ScottishSubject,
+} from '../profileTypes';
 import type { StepProps } from './StepProps';
 
 const GRADE_OPTIONS = ['A', 'B', 'C', 'D'].map((g) => ({ value: g, label: g }));
@@ -31,6 +35,16 @@ const SUBJECT_OPTIONS = [
 
 function enteredSubjectCount(subjects: ScottishSubject[]) {
   return subjects.filter((subject) => subject.subject_id || subject.grade).length;
+}
+
+function blankScottishSubject(): ScottishSubject {
+  return { subject_id: '', grade: '' };
+}
+
+function padScottishSubjectRows(subjects: ScottishSubject[], minimumRows: number) {
+  const rows = [...subjects];
+  while (rows.length < minimumRows) rows.push(blankScottishSubject());
+  return rows;
 }
 
 function SubjectGradeList({
@@ -143,7 +157,12 @@ function ScottishQualificationSection({
       </summary>
       <div className="scottish-qualification-body">
         <div className="scottish-subject-grid" aria-label={`${title} subject and grade rows`}>
-          <SubjectGradeList subjects={subjects} fieldPrefix={fieldPrefix} errors={errors} onUpdate={onUpdate} />
+          <SubjectGradeList
+            subjects={subjects}
+            fieldPrefix={fieldPrefix}
+            errors={errors}
+            onUpdate={onUpdate}
+          />
         </div>
       </div>
     </details>
@@ -157,6 +176,11 @@ export function ScottishStep({ profile, updateProfile, errors }: StepProps) {
     higher_subjects,
     advanced_higher_subjects,
   } = profile.scottish_profile;
+  const visibleHigherSubjects = padScottishSubjectRows(higher_subjects, DEFAULT_SCOTTISH_HIGHER_ROWS);
+  const visibleAdvancedHigherSubjects = padScottishSubjectRows(
+    advanced_higher_subjects,
+    DEFAULT_SCOTTISH_ADVANCED_HIGHER_ROWS,
+  );
 
   return (
     <div className="step-grid">
@@ -197,13 +221,13 @@ export function ScottishStep({ profile, updateProfile, errors }: StepProps) {
       <ScottishQualificationSection
         title="Highers"
         status="Required"
-        subjects={higher_subjects}
+        subjects={visibleHigherSubjects}
         fieldPrefix="higher_subjects"
         errors={errors}
         defaultOpen
         onUpdate={(index, subject) =>
           updateProfile((prev) => {
-            const next = [...prev.scottish_profile.higher_subjects];
+            const next = padScottishSubjectRows(prev.scottish_profile.higher_subjects, DEFAULT_SCOTTISH_HIGHER_ROWS);
             next[index] = subject;
             return { ...prev, scottish_profile: { ...prev.scottish_profile, higher_subjects: next } };
           })
@@ -213,12 +237,15 @@ export function ScottishStep({ profile, updateProfile, errors }: StepProps) {
       <ScottishQualificationSection
         title="Advanced Highers"
         status="Optional"
-        subjects={advanced_higher_subjects}
+        subjects={visibleAdvancedHigherSubjects}
         fieldPrefix="advanced_higher_subjects"
         errors={errors}
         onUpdate={(index, subject) =>
           updateProfile((prev) => {
-            const next = [...prev.scottish_profile.advanced_higher_subjects];
+            const next = padScottishSubjectRows(
+              prev.scottish_profile.advanced_higher_subjects,
+              DEFAULT_SCOTTISH_ADVANCED_HIGHER_ROWS,
+            );
             next[index] = subject;
             return { ...prev, scottish_profile: { ...prev.scottish_profile, advanced_higher_subjects: next } };
           })

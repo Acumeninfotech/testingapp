@@ -298,6 +298,7 @@ export interface ResultCard {
     type: 'epq' | 'contextual' | 'contextual_epq' | 'routed_offer';
     standard_offer: string;
     alternative_offer: string;
+    alternative_offer_label?: string;
     epq_minimum_grade?: string;
     pathway_id: string;
     conditions?: string[];

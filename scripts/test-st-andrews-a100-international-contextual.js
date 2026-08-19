@@ -42,9 +42,35 @@ function contextualApplicant(ucatTotal) {
   const applicant = clone(baseApplicant);
   applicant.profile_id = 'st_andrews_a100_contextual_fixture';
   applicant.applicant_identity.domicile = 'Scotland';
-  applicant.applicant_identity.contextual = true;
-  applicant.applicant_identity.widening_participation = true;
-  applicant.applicant_identity.contextual_flags.simd40 = true;
+  applicant.applicant_identity.contextual = false;
+  applicant.applicant_identity.widening_participation = false;
+  applicant.applicant_identity.contextual_flags = {};
+  applicant.contextual_profile = {
+    home_area_region: {
+      simd_quintile: 'q2',
+      imd_quintile: 'q5'
+    },
+    school_education: {
+      low_progression_to_higher_education_school: 'no'
+    },
+    personal_circumstances: {
+      care_experienced: 'no',
+      care_over_three_months: 'no',
+      looked_after: 'no',
+      young_or_adult_carer: 'no',
+      young_carer: 'no',
+      carer: 'no',
+      unpaid_carer: 'no',
+      estranged_from_family: 'no',
+      estranged: 'no',
+      refugee: 'no',
+      uk_refugee_status_granted: 'no'
+    },
+    access_programmes: {
+      participation_status: 'no',
+      other_programmes: []
+    }
+  };
   applicant.admissions_tests.ucat.total_score = ucatTotal;
   return applicant;
 }
@@ -139,6 +165,9 @@ assert.deepStrictEqual(contextualPolicy.not_applied_to, [
 const contextualResult = classifyInterviewBand(course, config, contextual);
 assert.strictEqual(contextualResult.guidance_pool_id, contextualCase.expected_guidance_pool_id);
 assert.strictEqual(contextualResult.canonical_interview_band, contextualCase.expected_band);
+assert.strictEqual(contextualResult.ranking.raw_value, contextualCase.raw_ucat_total);
+assert.strictEqual(contextualResult.ranking.value, contextualCase.expected_adjusted_ranking_score);
+assert.strictEqual(contextualResult.ranking.total_uplift_percent, contextualPolicy.ucat_adjustment_percent);
 assert.deepStrictEqual(course.ranking_pools, []);
 assert.strictEqual(course.contextual_admissions.ranking_pool.separately_published_contextual_pool, false);
 assert.strictEqual(
@@ -164,12 +193,18 @@ assert.strictEqual(card.prediction.guidance_pool_id, 'international_historical_g
 assert.match(card.prediction.band_basis, /historical international competitiveness/i);
 assert.match(card.prediction.band_basis, /not (?:an )?official .*cut-?off/i);
 assert.strictEqual(card.contextual_applicant_example.adjusted_ucat_for_interview_ranking, 2090);
-assert.strictEqual(card.contextual_applicant_example.guidance_pool_id, null);
-assert.strictEqual(card.contextual_applicant_example.interview_band, 'insufficient_evidence');
+assert.strictEqual(
+  contextualResult.guidance_pool_id,
+  card.contextual_applicant_example.guidance_pool_id
+);
+assert.strictEqual(
+  contextualResult.canonical_interview_band,
+  card.contextual_applicant_example.interview_band
+);
 
 console.log(
   `St Andrews A100 international/contextual regression: PASS ` +
   `(${fixture.international_guidance_cases.length} international guidance boundaries, ` +
-  `MMI tie-break, 10% contextual ranking-only uplift, no contextual pool or threshold, ` +
+  `MMI tie-break, 10% contextual ranking-only uplift, UCAT-ranking contextual guidance, ` +
   `verified evidence gaps and result-card examples)`
 );
