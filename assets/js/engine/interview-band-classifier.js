@@ -2537,12 +2537,36 @@ function calculateEdinburghPlusFlagScottishHigherAdvancedHigherBand(component, c
   };
 }
 
+function calculateEdinburghStandardScottishHigherAdvancedHigherBand(component, context = {}) {
+  const routeId = context.resolvedEligibility?.scottish_medical_school_route?.route_id;
+  if (
+    context.courseProfileId !== 'edinburgh-a100' ||
+    context.resolvedEligibility?.status !== 'eligible' ||
+    !['scotland_standard', 'ruk_standard'].includes(routeId)
+  ) {
+    return null;
+  }
+
+  const floorBand = lowestConfiguredScottishHigherAdvancedHigherBand(component);
+  if (!floorBand) {
+    return null;
+  }
+
+  return {
+    value: floorBand.points,
+    band: 'edinburgh_standard_sqa_eligible_floor',
+    reference_band: floorBand.band_id,
+    route: 'edinburgh_standard_sqa_eligible_floor'
+  };
+}
+
 function calculateScottishAcademicProfileMatrix(component, applicant, context = {}) {
   const national5 = calculateScottishNational5Band(component, applicant);
   const standardHigherAdvancedHigher = calculateScottishHigherAdvancedHigherBand(component, applicant);
   const higherAdvancedHigher = Number.isFinite(standardHigherAdvancedHigher.value)
     ? standardHigherAdvancedHigher
     : calculateEdinburghPlusFlagScottishHigherAdvancedHigherBand(component, context) ||
+      calculateEdinburghStandardScottishHigherAdvancedHigherBand(component, context) ||
       standardHigherAdvancedHigher;
 
   if (!Number.isFinite(national5.value) || !Number.isFinite(higherAdvancedHigher.value)) {

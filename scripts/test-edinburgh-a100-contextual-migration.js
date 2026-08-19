@@ -695,6 +695,105 @@ assert.notStrictEqual(
 );
 assert.doesNotMatch(scotlandStandardPrediction.primary_explanation, /insufficient/i);
 
+const screenshotScotlandStandardApplicant = scottishApplicant({
+  profile_id: 'edinburgh_a100_screenshot_regression_scotland_standard',
+  admissions_tests: { ucat: ucat(2100, 1) },
+  scottish_profile: {
+    national_5_subjects: [
+      { subject_id: 'chemistry', grade: 'A' },
+      { subject_id: 'biology', grade: 'A' },
+      { subject_id: 'mathematics', grade: 'A' },
+      { subject_id: 'english_language', grade: 'A' },
+      { subject_id: 'physics', grade: 'A' }
+    ],
+    higher_subjects: [
+      { subject_id: 'chemistry', grade: 'A', school_year: 's5', first_attempt: true },
+      { subject_id: 'biology', grade: 'A', school_year: 's5', first_attempt: true },
+      { subject_id: 'mathematics', grade: 'A', school_year: 's5', first_attempt: true },
+      { subject_id: 'english_language', grade: 'B', school_year: 's5', first_attempt: true },
+      { subject_id: 'other', grade: 'A', school_year: 's5', first_attempt: true }
+    ],
+    advanced_higher_subjects: [
+      { subject_id: 'applications_of_mathematics', grade: 'A', school_year: 's6', first_attempt: true },
+      { subject_id: 'chemistry', grade: 'A', school_year: 's6', first_attempt: true },
+      { subject_id: 'english_language', grade: 'A', school_year: 's6', first_attempt: true }
+    ]
+  }
+});
+const screenshotScotlandStandard = classifyInterviewBand(
+  course,
+  config,
+  screenshotScotlandStandardApplicant
+);
+assert.strictEqual(screenshotScotlandStandard.eligibility.status, 'eligible');
+assert.strictEqual(screenshotScotlandStandard.selection_route_id, 'scotland_standard');
+assert.strictEqual(screenshotScotlandStandard.guidance_pool_id, 'scotland_standard');
+assert.strictEqual(screenshotScotlandStandard.ranking.status, 'calculated');
+assert.strictEqual(screenshotScotlandStandard.ranking.components.academic_score.value, 14);
+assert.strictEqual(
+  screenshotScotlandStandard.ranking.components.academic_score.components.higher_advanced_higher.band,
+  'edinburgh_standard_sqa_eligible_floor'
+);
+assert.strictEqual(
+  screenshotScotlandStandard.ranking.components.academic_score.components.higher_advanced_higher.reference_band,
+  'aaaab_or_aaabb_no_advanced_highers'
+);
+assert.strictEqual(screenshotScotlandStandard.ranking.components.ucat_decile_score.value, 9.8);
+assert.strictEqual(screenshotScotlandStandard.ranking.components.sjt_score.value, 6);
+assert.strictEqual(screenshotScotlandStandard.ranking.value, 29.8);
+assert.strictEqual(screenshotScotlandStandard.canonical_interview_band, 'realistic');
+
+const screenshotScotlandStandardPrediction = predict({
+  universityIds: ['edinburgh-a100'],
+  studentProfile: screenshotScotlandStandardApplicant
+})[0].result_card;
+assert.strictEqual(screenshotScotlandStandardPrediction.prediction.result_band, 'realistic');
+assert.notStrictEqual(
+  screenshotScotlandStandardPrediction.primary_user_facing_recommendation,
+  'Prediction Unavailable'
+);
+assert.doesNotMatch(screenshotScotlandStandardPrediction.primary_explanation, /insufficient/i);
+
+const screenshotRukStandardApplicant = merge(screenshotScotlandStandardApplicant, {
+  profile_id: 'edinburgh_a100_screenshot_regression_ruk_standard',
+  applicant_identity: {
+    domicile: 'england'
+  }
+});
+const screenshotRukStandard = classifyInterviewBand(
+  course,
+  config,
+  screenshotRukStandardApplicant
+);
+assert.strictEqual(screenshotRukStandard.eligibility.status, 'eligible');
+assert.strictEqual(screenshotRukStandard.selection_route_id, 'ruk_standard');
+assert.strictEqual(screenshotRukStandard.guidance_pool_id, 'ruk_standard');
+assert.strictEqual(screenshotRukStandard.ranking.status, 'calculated');
+assert.strictEqual(screenshotRukStandard.ranking.components.academic_score.value, 14);
+assert.strictEqual(
+  screenshotRukStandard.ranking.components.academic_score.components.higher_advanced_higher.band,
+  'edinburgh_standard_sqa_eligible_floor'
+);
+assert.strictEqual(
+  screenshotRukStandard.ranking.components.academic_score.components.higher_advanced_higher.reference_band,
+  'aaaab_or_aaabb_no_advanced_highers'
+);
+assert.strictEqual(screenshotRukStandard.ranking.components.ucat_decile_score.value, 9.8);
+assert.strictEqual(screenshotRukStandard.ranking.components.sjt_score.value, 6);
+assert.strictEqual(screenshotRukStandard.ranking.value, 29.8);
+assert.strictEqual(screenshotRukStandard.canonical_interview_band, 'realistic');
+
+const screenshotRukStandardPrediction = predict({
+  universityIds: ['edinburgh-a100'],
+  studentProfile: screenshotRukStandardApplicant
+})[0].result_card;
+assert.strictEqual(screenshotRukStandardPrediction.prediction.result_band, 'realistic');
+assert.notStrictEqual(
+  screenshotRukStandardPrediction.primary_user_facing_recommendation,
+  'Prediction Unavailable'
+);
+assert.doesNotMatch(screenshotRukStandardPrediction.primary_explanation, /insufficient/i);
+
 const validScotlandPlusFlagReducedSqaApplicant = scottishApplicant({
   profile_id: 'edinburgh_a100_manual_regression_scotland_plus_flag_aaabb_ab',
   admissions_tests: { ucat: ucat(1800, 1) },
