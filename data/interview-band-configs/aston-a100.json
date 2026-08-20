@@ -13,6 +13,9 @@
   },
   "eligibility": {
     "scope": "Banding applies only after the production eligibility rules pass and an applicant pool is resolved.",
+    "use_course_eligibility_for_qualification_routes": [
+      "scottish"
+    ],
     "manual_review_and_insufficient_evidence": [
       "Home or WP applicants with UCAT below 1650 because no verified UCAT points are published for that range",
       "Applicants whose selected six GCSEs include legacy letter grade A because the exact Aston points value is unresolved",
@@ -58,7 +61,7 @@
   },
   "score_model": {
     "type": "component_sum",
-    "basis": "Verified Aston Home and WP pre-interview score: GCSE academic score out of 24 plus UCAT score out of 12",
+    "basis": "Verified Aston Home and WP pre-interview score: academic score out of 24 plus UCAT score out of 12; Scottish qualification applicants use Aston's Scottish National 5 / Advanced Higher academic scoring route",
     "pool_specific_output": true,
     "fixed_current_cutoff": false,
     "confidence_notes": [
@@ -126,6 +129,65 @@
             "points": 1
           }
         ],
+        "max": 24,
+        "match": {
+          "excluded_qualification_routes": [
+            "scottish"
+          ]
+        }
+      },
+      {
+        "component_id": "scottish_academic_score",
+        "type": "aston_scottish_academic_score",
+        "match": {
+          "qualification_routes": [
+            "scottish"
+          ]
+        },
+        "predicted": {
+          "national_5": {
+            "subject_count": 6,
+            "mandatory_subject_ids": [
+              "english_language",
+              "mathematics",
+              "chemistry",
+              "biology"
+            ],
+            "points_by_grade": {
+              "A": 4,
+              "B": 2,
+              "C": 1
+            },
+            "max": 24
+          }
+        },
+        "achieved": {
+          "advanced_higher": {
+            "subject_count": 3,
+            "required_subject_ids": [
+              "chemistry",
+              "biology"
+            ],
+            "points_by_grade": {
+              "A": 4
+            },
+            "max": 12
+          },
+          "national_5": {
+            "subject_count": 6,
+            "mandatory_subject_ids": [
+              "english_language",
+              "mathematics",
+              "chemistry",
+              "biology"
+            ],
+            "points_by_grade": {
+              "A": 2,
+              "B": 1
+            },
+            "max": 12
+          }
+        },
         "max": 24
       },
       {
@@ -300,6 +362,15 @@
         ]
       },
       "metric": "selection_score",
+      "presentation": {
+        "contextual_route_summary": "You are eligible for Aston's contextual offer.",
+        "contextual_confirmation": {
+          "collapsed_label": "You meet Aston's contextual admissions criteria.",
+          "expanded_heading": "You meet Aston's contextual admissions criteria.",
+          "consideration_label": null,
+          "expanded_body": "Your application has been assessed using Aston's published contextual admissions criteria."
+        }
+      },
       "band_rules": [
         {
           "band": "interview_likely",

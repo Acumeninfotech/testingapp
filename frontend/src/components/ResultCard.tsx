@@ -289,7 +289,9 @@ function splitContextualOfferGrade(body: string, grade: string | null) {
 }
 
 function isPositiveAcademicStatusSummary(value: string): boolean {
-  return value.trim() === 'You meet the academic requirements.';
+  const normalized = value.trim();
+  return normalized === 'You meet the academic requirements.' ||
+    normalized === 'Contextual eligibility confirmed.';
 }
 
 function iconPath(shape: 'star' | 'shield' | 'academic' | 'bars' | 'person' | 'history' | 'info' | 'check' | 'x') {
@@ -330,7 +332,7 @@ function UniversityAvatar({ universityId }: { universityId: string }) {
   );
 }
 
-function SectionHeader({ title, subtitle, icon }: { title: string; subtitle?: string | null; icon: 'shield' | 'person' | 'history' | 'info' }) {
+function SectionHeader({ title, subtitle, icon }: { title: string; subtitle?: string | null; icon: 'shield' | 'person' | 'history' | 'info' | 'check' }) {
   return (
     <div className="result-card-section-heading">
       <div>
@@ -1172,7 +1174,7 @@ export function ResultCard({ result }: { result: PredictionResult }) {
   const selectionScoreHistoricalRows =
     primaryAssessmentKind === 'selection-score'
       ? [
-          { label: 'Historical Selection Score Guide', value: selectionGuideValue(selectionMetric, comparisonMetrics) },
+          { label: 'ApplySmart-Derived Selection Score Guide', value: selectionGuideValue(selectionMetric, comparisonMetrics) },
           { label: 'Your Selection Score', value: scoreValueFromMetric(selectionMetric, totalScoreText) },
           { label: 'Difference', value: selectionMetric ? formatSelectionMetricDifference(selectionMetric) : null },
         ].filter((row) => row.value)
@@ -1307,6 +1309,24 @@ export function ResultCard({ result }: { result: PredictionResult }) {
         </ul>
       )}
 
+      {contextualExpandedHeading && contextualExpandedBody && (
+        <section className="result-card-section result-card-contextual-confirmation">
+          <SectionHeader title={contextualExpandedHeading} subtitle={undefined} icon="check" />
+          <p className="result-card-compact-note">
+            {contextualConsiderationLabel && <strong>{publicText(contextualConsiderationLabel)} </strong>}
+            {contextualBodyGradeParts ? (
+              <>
+                {contextualBodyGradeParts.before}
+                <strong>{contextualBodyGradeParts.grade}</strong>
+                {contextualBodyGradeParts.after}
+              </>
+            ) : (
+              publicText(contextualExpandedBody)
+            )}
+          </p>
+        </section>
+      )}
+
       <section className="result-card-section result-card-checks">
         <SectionHeader
           title="Eligibility"
@@ -1341,27 +1361,13 @@ export function ResultCard({ result }: { result: PredictionResult }) {
         </div>
       </section>
 
-      {contextualExpandedHeading && contextualExpandedBody && (
-        <section className="result-card-section result-card-contextual-confirmation">
-          <SectionHeader title={contextualExpandedHeading} subtitle={undefined} icon="info" />
-          <p className="result-card-compact-note">
-            {contextualConsiderationLabel && <strong>{publicText(contextualConsiderationLabel)} </strong>}
-            {contextualBodyGradeParts ? (
-              <>
-                {contextualBodyGradeParts.before}
-                <strong>{contextualBodyGradeParts.grade}</strong>
-                {contextualBodyGradeParts.after}
-              </>
-            ) : (
-              publicText(contextualExpandedBody)
-            )}
-          </p>
-        </section>
-      )}
-
       <AlternativeAcademicOffer
         offer={visibleAlternativeAcademicOffer}
-        contextualStatus={contextualStatusConfirmed && !contextualConfirmation ? card.contextual_status : null}
+        contextualStatus={
+          contextualStatusConfirmed && (visibleAlternativeAcademicOffer || !contextualConfirmation)
+            ? card.contextual_status
+            : null
+        }
       />
 
       <section className="result-card-section result-card-details">

@@ -315,6 +315,7 @@ function evaluateCourseContextualEligibility(course, applicant) {
 
 const COURSES_WITH_CONTEXTUAL_EVALUATOR_GROUP_CONTROL = [
   'aberdeen-a100',
+  'aston-a100',
   'bristol-a100',
   'birmingham-a100',
   'dundee-a100',
@@ -331,6 +332,24 @@ const ABERDEEN_LEGACY_CONTEXTUAL_GROUP_IDS = [
   'simd40',
   'polar4_quintile_1',
   'polar_quintile_1'
+];
+
+const ASTON_LEGACY_CONTEXTUAL_GROUP_IDS = [
+  'contextual',
+  'widening_participation',
+  'ucat_bursary',
+  'free_school_meals',
+  'care_experienced',
+  'care_leaver',
+  'refugee',
+  'asylum_seeker',
+  'refugee_or_asylum_seeker',
+  'disability',
+  'declared_disability',
+  'polar4_quintile_1',
+  'polar4_quintile_2',
+  'polar_quintile_1',
+  'polar_quintile_2'
 ];
 
 const GLASGOW_LEGACY_CONTEXTUAL_GROUP_IDS = [
@@ -577,6 +596,11 @@ function applyCourseSpecificDerivedApplicantGroups(course, applicant, groupIds, 
       groups.delete(groupId);
     }
   }
+  if (course?.profile_id === 'aston-a100' && contextualResult) {
+    for (const groupId of ASTON_LEGACY_CONTEXTUAL_GROUP_IDS) {
+      groups.delete(groupId);
+    }
+  }
   if (course?.profile_id === 'birmingham-a100' && contextualResult) {
     groups.delete('care_experienced');
   }
@@ -662,7 +686,8 @@ function deriveQualificationStatus(applicant) {
     applicant.qualification_status ||
       applicant.academic_status ||
       applicant.a_level_profile?.qualification_status ||
-      applicant.ib_profile?.qualification_status
+      applicant.ib_profile?.qualification_status ||
+      applicant.scottish_profile?.qualification_status
   );
   if (['achieved', 'predicted'].includes(explicit)) {
     return explicit;
@@ -680,6 +705,13 @@ function deriveQualificationStatus(applicant) {
   const ibStatus = qualificationStatusFromSubjects(ibSubjects);
   if (ibStatus) {
     return ibStatus;
+  }
+
+  const scottishStatus = qualificationStatusFromSubjects(
+    applicant.scottish_profile?.advanced_higher_subjects
+  );
+  if (scottishStatus) {
+    return scottishStatus;
   }
 
   return 'unknown';
@@ -784,16 +816,6 @@ function evaluateUcatSubsectionMinimums(ucat = {}, evidence = {}) {
     passed: checks.every((check) => check.passed),
     failing_sections: checks.filter((check) => !check.passed).map((check) => check.section)
   };
-}
-
-function subjectGradeRequirementsMeet(subjectGrades, requirements, level) {
-  return (requirements || []).every((requirement) => {
-    return gradeMeets(
-      subjectGrades[normaliseId(requirement.subject_id)],
-      requirement.minimum_grade,
-      level
-    );
-  });
 }
 
 function subjectGradeOptionsMeet(subjectGrades, options, level) {
@@ -920,7 +942,23 @@ function post16ScottishRequirementMet(requirement, defaultSubjectIds, higherGrad
   });
 }
 
-function national5RequirementMet(requirement, national5Grades, higherGrades, advancedHigherGrades) {
+function national5RequirementMet(
+  requirement,
+  national5Grades,
+  higherGrades,
+  advancedHigherGrades,
+  groupIds = []
+) {
+  if (requirement.requirement_type === 'any_of') {
+    const matchedOptions = (requirement.accepted_options || []).filter((option) => {
+      return groupRuleApplies(option, groupIds) &&
+        (option.grade_requirements || []).every((gradeRequirement) => {
+          return national5GradeRequirementMet(national5Grades, gradeRequirement);
+        });
+    });
+    return matchedOptions.length >= (requirement.minimum_options_required || 1);
+  }
+
   const subjectIds = subjectIdsForRequirement(requirement);
   if (subjectIds.length === 0) {
     return true;
@@ -944,13 +982,31 @@ function national5RequirementMet(requirement, national5Grades, higherGrades, adv
     post16ScottishRequirementMet(requirement, subjectIds, higherGrades, advancedHigherGrades);
 }
 
+function national5GradeRequirementMet(national5Grades, requirement = {}) {
+  const subjectIds = subjectIdsForRequirement(requirement);
+  if (requirement.minimum_grade_profile) {
+    return subjectIds.some((subjectId) => {
+      const actualProfile = parseCombinedScienceGrades(national5Grades[normaliseId(subjectId)]);
+      return gradeProfileMeets(actualProfile, requirement.minimum_grade_profile, 'gcse') ||
+        gradeProfileMeets(actualProfile, requirement.accepted_equivalent_profile || [], 'gcse');
+    });
+  }
+
+  return subjectGradeRequirementMet(
+    national5Grades,
+    subjectIds,
+    requirement.minimum_grade,
+    'gcse'
+  );
+}
+
 function national5MinimumCountMet(national5Grades, rules = {}) {
   const minimumCount = Number(rules.minimum_count);
   if (!Number.isFinite(minimumCount) || minimumCount <= 0) {
     return true;
   }
   const minimumGrade = rules.minimum_count_grade || rules.minimum_grade;
-  const count = Object.values(national5Grades).filter((grade) => {
+  const count = getCountableGcseGrades(national5Grades).filter((grade) => {
     if (grade === undefined || grade === null || grade === '') {
       return false;
     }
@@ -964,6 +1020,7 @@ function national5RequirementsFor(rules = {}, groupIds = []) {
   const requirements = [
     ...asArray(rules.grade_requirements),
     ...asArray(rules.required_subjects),
+    ...(rules.science_requirement ? [rules.science_requirement] : []),
     ...asArray(rules.conditional_requirements),
     ...asArray(rules.conditional_national_5_requirements)
   ].filter((requirement) => requirement && groupRuleApplies(requirement, groupIds));
@@ -1281,7 +1338,17 @@ function gradeProfileOptionsMeet(grades, profile, profileOptions = []) {
   });
 }
 
-function subjectGradeRequirementsMeet(subjectGrades, requirements = []) {
+function subjectGradeRequirementsMeet(subjectGrades, requirements = [], level = 'a_level') {
+  if (level && level !== 'a_level') {
+    return (requirements || []).every((requirement) => {
+      return gradeMeets(
+        subjectGrades[normaliseId(requirement.subject_id)],
+        requirement.minimum_grade,
+        level
+      );
+    });
+  }
+
   return (requirements || []).every((requirement) => {
     return subjectGradeRequirementMet(
       subjectGrades,
@@ -1505,6 +1572,56 @@ function evaluateGcseRules(course, applicant, state) {
       addFailure(state, 'minimum_gcse_points_not_met');
     }
   }
+}
+
+function applyScottishNational5EquivalenceReview(course, applicant, state) {
+  const route = normaliseId(state.qualification_route);
+  if (!['scottish', 'scottish_advanced_highers'].includes(route)) {
+    return;
+  }
+
+  const equivalenceStatus = normaliseId(
+    course.stage_1_eligibility?.post_16?.scottish?.national_5_equivalence?.execution_status
+  );
+  if (equivalenceStatus !== 'manual_review') {
+    return;
+  }
+
+  const gcseSubjects = profileToSubjectMap(applicant.gcse_profile);
+  const national5Subjects = asArray(applicant.scottish_profile?.national_5_subjects);
+  if (Object.keys(gcseSubjects).length > 0 || national5Subjects.length === 0) {
+    return;
+  }
+
+  const reviewReason = 'national_5_equivalence_requires_manual_review';
+  const gcseEquivalentFailures = new Set([
+    'minimum_gcse_count_not_met',
+    'gcse_science_alternative_not_met',
+    'minimum_gcse_points_not_met'
+  ]);
+  state.failures = state.failures.filter((reason) => {
+    return !(
+      gcseEquivalentFailures.has(reason) ||
+      reason.startsWith('minimum_gcse_count_at_grade_not_met:') ||
+      reason.startsWith('gcse_requirement_not_met:')
+    );
+  });
+  for (const check of state.checks) {
+    if (
+      check.status === 'fail' &&
+      (
+        check.check_id === 'gcse_minimum_count' ||
+        check.check_id === 'gcse_science_minimum' ||
+        check.check_id === 'gcse_science_alternative' ||
+        check.check_id.startsWith('gcse_') ||
+        check.check_id.startsWith('minimum_gcse_')
+      )
+    ) {
+      check.status = 'manual_review';
+      check.manual_review_reason = reviewReason;
+    }
+  }
+  addManualReview(state, reviewReason);
 }
 
 function evaluateALevelRequirement(requirement, applicant, state, routeRules = {}) {
@@ -2282,7 +2399,13 @@ function evaluateScottishRoute(course, applicant, state) {
   const advancedHigherGrades = scottishSubjectMap(advancedHigherSubjects, {}, 'advanced_higher');
   const national5Requirements = national5RequirementsFor(national5Rules, state.applicant_group_ids);
   const failedNational5Requirements = national5Requirements.filter((requirement) => {
-    return !national5RequirementMet(requirement, national5, higherGrades, advancedHigherGrades);
+    return !national5RequirementMet(
+      requirement,
+      national5,
+      higherGrades,
+      advancedHigherGrades,
+      state.applicant_group_ids
+    );
   });
   const national5MinimumCountPassed = national5MinimumCountMet(national5, national5Rules);
   const national5Passed =
@@ -2428,6 +2551,9 @@ function evaluateScottishRoute(course, applicant, state) {
   const post16Passed = Boolean(passedRoute);
   const post16ReviewReason = passedRoute ? routeManualReviewReasons.get(passedRoute) : null;
   addCheck(state, 'scottish_post_16_requirements', post16Passed, {
+    ...(passedRoute?.qualification_level ? {
+      qualification_level: passedRoute.qualification_level
+    } : {}),
     ...(post16ReviewReason ? {
       status: 'manual_review',
       manual_review_reason: post16ReviewReason
@@ -3670,6 +3796,7 @@ function evaluateCourseEligibility(course, applicantInput) {
     if (shouldEvaluateGcse(course, state.qualification_route, state)) {
       evaluateGcseRules(course, applicant, state);
     }
+    applyScottishNational5EquivalenceReview(course, applicant, state);
     evaluateQualificationRoute(course, applicant, state);
     applyContextualInformationNeededReview(course, applicant, state);
   } else {

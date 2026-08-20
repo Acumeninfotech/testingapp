@@ -3,7 +3,7 @@
   "profile_id": "aston-a100",
   "profile_status": "official_and_foi_evidence_implemented_interview_guidance_active",
   "verification_status": "official_and_foi_verified",
-  "last_updated": "2026-08-05",
+  "last_updated": "2026-08-19",
   "selection_approach_display": {
     "by_applicant_pool": {
       "home_non_wp": "Home applicants are assessed using a selection score combining GCSE performance and UCAT.",
@@ -302,6 +302,86 @@
       ],
       "notes": "The minimum gate and current GCSE-only academic score are official. Country-specific GCSE equivalences and ambiguous legacy letter-grade A scoring remain manual Admissions decisions."
     },
+    "national_5": {
+      "status": "official_source_verified",
+      "source_ids": [
+        "aston_course_page_2027",
+        "aston_official_research_team_2026_2027"
+      ],
+      "minimum_count": 6,
+      "minimum_count_grade": "B",
+      "grade_requirements": [
+        {
+          "requirement_id": "national_5_english_minimum",
+          "subject_id": "english_language",
+          "alternative_subject_ids": [
+            "english"
+          ],
+          "minimum_grade": "B",
+          "qualification_level": "national_5",
+          "decision_outcome_if_not_met": "not_eligible",
+          "source_ids": [
+            "aston_course_page_2027",
+            "aston_official_research_team_2026_2027"
+          ]
+        },
+        {
+          "requirement_id": "national_5_mathematics_minimum",
+          "subject_id": "mathematics",
+          "minimum_grade": "B",
+          "qualification_level": "national_5",
+          "decision_outcome_if_not_met": "not_eligible",
+          "source_ids": [
+            "aston_course_page_2027",
+            "aston_official_research_team_2026_2027"
+          ]
+        }
+      ],
+      "science_requirement": {
+        "requirement_id": "national_5_science_minimum",
+        "requirement_type": "any_of",
+        "minimum_options_required": 1,
+        "accepted_options": [
+          {
+            "option_id": "separate_chemistry_and_biology",
+            "grade_requirements": [
+              {
+                "subject_id": "chemistry",
+                "minimum_grade": "B"
+              },
+              {
+                "subject_id": "biology",
+                "minimum_grade": "B"
+              }
+            ],
+            "decision_outcome_if_not_met": "not_eligible"
+          },
+          {
+            "option_id": "combined_or_double_science",
+            "grade_requirements": [
+              {
+                "subject_id": "combined_science",
+                "alternative_subject_ids": [
+                  "double_science"
+                ],
+                "minimum_grade_profile": [
+                  "B",
+                  "B"
+                ]
+              }
+            ],
+            "counts_as_national_5_qualifications": 2,
+            "decision_outcome_if_not_met": "not_eligible"
+          }
+        ],
+        "decision_outcome_if_not_met": "not_eligible",
+        "source_ids": [
+          "aston_course_page_2027",
+          "aston_official_research_team_2026_2027"
+        ]
+      },
+      "notes": "Aston Scottish applicants require at least six National 5 qualifications at grade B or above, including English, Mathematics, and either Chemistry plus Biology or an accepted Combined/Double Science double-award equivalent at B/B."
+    },
     "post_16": {
       "status": "official_source_verified_with_remaining_eligibility_exceptions",
       "source_ids": [
@@ -322,6 +402,30 @@
         "source_ids": [
           "aston_course_page_2027",
           "aston_medical_school_faq_current"
+        ],
+        "presentation_offer_routes": [
+          {
+            "pathway_id": "contextual_school_leaver_a_level",
+            "academic_pathway": "contextual",
+            "display_standard_offer_grade_profile": [
+              "A*",
+              "A",
+              "A"
+            ],
+            "display_offer_grade_profile": [
+              "A",
+              "A",
+              "B"
+            ],
+            "standard_offer_label": "Standard offer",
+            "alternative_offer_label": "Contextual offer",
+            "applicable_offer": "alternative",
+            "explanation": "You are eligible for Aston's contextual offer. AA must be in Chemistry and Biology. You must still meet all required subject and GCSE requirements.",
+            "source_ids": [
+              "aston_course_page_2027"
+            ],
+            "notes": "Result Card presentation-only wording. This does not alter the executable Aston A-level eligibility grade profile or subject rules."
+          }
         ],
         "grade_requirements": [
           {
@@ -618,46 +722,17 @@
         "notes": "Standard and WP IB eligibility are officially evidenced. WP IB remains manual until the eligibility consumer is updated for the 35-point rule."
       },
       "scottish": {
-        "status": "official_source_verified_pending_eligibility_consumer_support",
+        "status": "official_source_verified_standard_advanced_higher_and_national_5_route_implemented",
+        "route_implemented": true,
+        "contextual_route_implemented": false,
         "source_ids": [
-          "aston_course_page_2027",
-          "aston_official_research_team_2026_2027",
-          "aston_msc_research_team_2026_2027"
-        ],
-        "national_5_requirements": [
-          {
-            "subject_id": "english_language",
-            "minimum_grade": "B"
-          },
-          {
-            "subject_id": "mathematics",
-            "minimum_grade": "B"
-          },
-          {
-            "subject_id": "chemistry",
-            "minimum_grade": "B"
-          },
-          {
-            "subject_id": "biology",
-            "minimum_grade": "B"
-          }
+          "aston_course_page_2027"
         ],
         "higher_offer": {
-          "grade_profile": [
-            "A",
-            "A",
-            "A",
-            "A",
-            "A"
-          ],
-          "required_subject_ids": [
-            "chemistry",
-            "biology"
-          ],
-          "source_ids": [
-            "aston_official_research_team_2026_2027"
-          ],
-          "notes": "AAAAA including Chemistry and Biology."
+          "execution_status": "not_implemented_no_published_medicine_specific_higher_pathway",
+          "decision_outcome": "unknown",
+          "source_ids": [],
+          "notes": "Step 2 did not validate a standalone Aston Higher pathway comparable with Scottish medical schools. ApplySmart must not infer S5/S6 Higher timing, one-sitting or grade-profile rules."
         },
         "advanced_higher_offer": {
           "grade_profile": [
@@ -672,19 +747,12 @@
           "notes": "Chemistry and Biology are required."
         },
         "contextual_advanced_higher_offer": {
-          "grade_profile": [
-            "A",
-            "A",
-            "B"
-          ],
-          "required_subject_ids": [
-            "chemistry",
-            "biology"
-          ],
+          "execution_status": "manual_review_no_published_reduced_advanced_higher_offer",
+          "decision_outcome": "unknown",
           "source_ids": [
-            "aston_official_research_team_2026_2027"
+            "aston_course_page_2027"
           ],
-          "notes": "Contextual Advanced Higher requirement is AAB including Chemistry and Biology."
+          "notes": "Aston publishes the reduced Aston Ready offer for A-levels. Step 2 did not identify a published reduced Scottish Advanced Higher offer, so ApplySmart must not derive AAB or another contextual Scottish profile."
         },
         "grade_requirements": [
           {
@@ -705,10 +773,9 @@
             ],
             "decision_outcome_if_not_met": "not_eligible",
             "source_ids": [
-              "aston_course_page_2027",
-              "aston_official_research_team_2026_2027"
+              "aston_course_page_2027"
             ],
-            "notes": "The full National 5, Higher and Advanced Higher route is officially evidenced, but remains manual until evaluator support is added."
+            "notes": "Executable Aston Scottish route requires Scottish Advanced Highers AAA including Chemistry and Biology, alongside the shared National 5 requirements."
           }
         ],
         "required_subject_ids": [
@@ -716,8 +783,8 @@
           "biology"
         ],
         "one_of_subject_groups": [],
-        "execution_status": "pending_eligibility_consumer_update",
-        "notes": "National 5 A/B in English, Mathematics, Chemistry and Biology; Highers AAAAA including Chemistry and Biology; Advanced Highers AAA with Chemistry and Biology essential. Contextual Advanced Highers are AAB."
+        "execution_status": "automatic_for_standard_advanced_highers_only",
+        "notes": "Standard Scottish route is executable as six National 5s at grade B or above including required English, Mathematics and science evidence, plus Advanced Highers AAA including Chemistry and Biology. Standalone Higher profile/timing and any contextual Scottish academic reduction remain unresolved and must not be inferred."
       },
       "btec": {
         "status": "supported_only_in_published_combination",
@@ -963,7 +1030,7 @@
         "unlisted_qualification_execution_status": "manual_review_via_admissions_and_uk_enic",
         "notes": "Only the named routes are structured. All unlisted international qualifications require Aston Admissions and UK ENIC review."
       },
-      "notes": "Eligibility remains automatic only where the existing evaluator supports every applicable published rule. Scottish, WP IB, Aston Foundation and named international routes are officially evidenced but remain manual until consumer support is updated."
+      "notes": "Eligibility remains automatic only where the existing evaluator supports every applicable published rule. The standard Scottish route is executable for the validated National 5 plus Advanced Higher AAA including Chemistry and Biology requirements. Any Scottish contextual reduction, WP IB, Aston Foundation and named international routes remain manual until consumer support and official evidence are complete."
     },
     "admissions_tests": {
       "source_ids": [
@@ -2628,6 +2695,7 @@
       "The MMI /45 to /36 scaling precision and rounding convention.",
       "A complete catalogue of international qualification equivalences beyond the named routes.",
       "Medicine-specific acceptance thresholds for alternative English-language tests and the complete exemption policy.",
+      "Whether Aston publishes any reduced Scottish Advanced Higher requirement for Aston Ready applicants.",
       "Publication URLs or identifiers for the new official, FOI and MSC evidence package.",
       "The cause of inconsistent converted extrema in some early historical cycles.",
       "Current live interview and offer boundaries, which are dynamic rather than fixed."
@@ -2671,6 +2739,8 @@
     "engine_assumptions": [],
     "do_not_infer": [
       "Do not use the MSC seed profile as executable evidence.",
+      "Do not infer a reduced contextual Scottish Advanced Higher offer from Aston's reduced contextual A-level offer.",
+      "Do not create separate England-domiciled and Scotland-domiciled Home Scottish academic thresholds without official Aston evidence.",
       "Do not present any 2022-2026+ historical or guidance threshold as a live current cutoff.",
       "Do not repair, recalculate or automatically derive bands from inconsistent early-cycle converted UCAT extrema.",
       "Do not invent exact UCAT points below 1650.",
@@ -2684,7 +2754,7 @@
       "Do not invent an MMI scaling rounding convention.",
       "Do not implement MMI-only offer ranking; use the verified 2:1:1 model only after consumer acceptance."
     ],
-    "eligibility_scope": "The existing evaluator remains active only for its tested standard A-level, standard IB, exact BTEC, graduate, resit, IELTS and deferred-entry scope. Newly evidenced WP IB, Scottish, Aston Healthcare Foundation, named international and repeat-application rules remain manual until consumer acceptance is extended.",
+    "eligibility_scope": "The existing evaluator remains active for its tested standard A-level, standard IB, standard Scottish National 5 plus Advanced Higher, exact BTEC, graduate, resit, IELTS and deferred-entry scope. Newly evidenced WP IB, Aston Healthcare Foundation, named international and repeat-application rules remain manual until consumer acceptance is extended.",
     "eligibility_execution_contract": {
       "status": "active_for_previously_tested_routes_extended_routes_pending_consumer_update",
       "required_rule_support": [
@@ -2717,7 +2787,7 @@
       "initial_deferred_entry_or_gap_year": true,
       "access_to_he": true,
       "t_level": true,
-      "scottish_advanced_higher": false,
+      "scottish_advanced_higher": true,
       "foundation_programme": false,
       "contextual_wp_classification": false,
       "contextual_ib": false,
@@ -2735,7 +2805,6 @@
       "External foundation applicants are not eligible; ambiguous foundation evidence requires review",
       "Applicants with unlisted international qualifications or equivalences",
       "Named international routes until eligibility consumer support is added",
-      "Scottish applicants until the National 5, Higher and Advanced Higher evaluator is added",
       "Repeat applicants until attempt and wait-cycle consumer logic is added",
       "WP classification where the applicant's evidence is incomplete or ambiguous",
       "WP IB applicants until the 35 overall and HL 665 evaluator is added",

@@ -7,6 +7,7 @@ const {
 
 const DEFAULT_UNSUPPORTED_REASON = 'unsupported_contextual_policy';
 const ABERDEEN_CONTEXTUAL_EVALUATOR_ID = 'aberdeen_contextual_medicine_a100';
+const ASTON_READY_EVALUATOR_ID = 'aston_ready_medicine_a100';
 const BIRMINGHAM_CONTEXTUAL_EVALUATOR_ID = 'birmingham_contextual_medicine_a100';
 const DUNDEE_CONTEXTUAL_EVALUATOR_ID = 'dundee_contextual_medicine_a100';
 const EDINBURGH_CONTEXTUAL_EVALUATOR_ID = 'edinburgh_contextual_medicine_a100';
@@ -250,6 +251,8 @@ function contextualEvidenceOptionsForCourse(course = {}, evaluatorId = null, opt
   if (
     course.profile_id === 'aberdeen-a100' ||
     evaluatorId === ABERDEEN_CONTEXTUAL_EVALUATOR_ID ||
+    course.profile_id === 'aston-a100' ||
+    evaluatorId === ASTON_READY_EVALUATOR_ID ||
     course.profile_id === 'birmingham-a100' ||
     evaluatorId === BIRMINGHAM_CONTEXTUAL_EVALUATOR_ID ||
     course.profile_id === 'dundee-a100' ||

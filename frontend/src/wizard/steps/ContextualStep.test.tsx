@@ -256,6 +256,24 @@ describe('ContextualStep', () => {
     ]);
   });
 
+  it('captures Aston Pathways with shared programme school-year evidence', () => {
+    const { profile, rerender, updateProfile } = renderStep();
+
+    selectValue('other_access_participation_status', 'yes');
+    rerender(<ContextualStep profile={profile} updateProfile={updateProfile} errors={{}} />);
+
+    expect(screen.getByRole('option', { name: 'Aston Pathways' })).toHaveValue('aston_pathways');
+
+    selectValue('other_access_programme_selector', 'aston_pathways');
+    rerender(<ContextualStep profile={profile} updateProfile={updateProfile} errors={{}} />);
+    selectValue('other_programme_0_status', 'completed');
+    selectValue('other_programme_0_school_year', 'year_12');
+
+    expect(profile.contextual_profile.access_programmes.other_programmes).toEqual([
+      { programme_id: 'aston_pathways', status: 'completed', school_year: 'year_12' },
+    ]);
+  });
+
   it('offers Nottingham contextual programme options in the other access programme selector', () => {
     const { profile, rerender, updateProfile } = renderStep();
 
@@ -522,5 +540,18 @@ describe('validateContextualStep', () => {
     expect(validateContextualStep(partner).partner_schools).toBeTruthy();
     partner.contextual_profile.partner_schools.status = 'not_sure';
     expect(validateContextualStep(partner).partner_schools).toBeUndefined();
+  });
+
+  it('requires shared school-year evidence for programmes configured to need it', () => {
+    const profile = createEmptyProfile();
+    profile.contextual_profile.access_programmes.participation_status = 'yes';
+    profile.contextual_profile.access_programmes.other_programmes = [
+      { programme_id: 'aston_pathways', status: 'completed', school_year: '' },
+    ];
+
+    expect(validateContextualStep(profile).other_programme_0_school_year).toBeTruthy();
+
+    profile.contextual_profile.access_programmes.other_programmes[0].school_year = 'year_13';
+    expect(validateContextualStep(profile).other_programme_0_school_year).toBeUndefined();
   });
 });

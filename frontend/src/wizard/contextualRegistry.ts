@@ -1,4 +1,4 @@
-import type { ProgrammeStatus } from './profileTypes';
+import type { ProgrammeSchoolYear, ProgrammeStatus } from './profileTypes';
 
 export const YES_NO_NOT_SURE_OPTIONS = [
   { value: 'yes', label: 'Yes' },
@@ -51,6 +51,18 @@ export const PROGRAMME_STATUS_LABELS: Record<ProgrammeStatus, string> = {
   offered: 'Place received',
   participating: 'Currently participating',
   completed: 'Completed',
+  not_sure: 'Not sure',
+};
+
+export const PROGRAMME_SCHOOL_YEAR_OPTIONS: { value: ProgrammeSchoolYear; label: string }[] = [
+  { value: 'year_12', label: 'Year 12' },
+  { value: 'year_13', label: 'Year 13' },
+  { value: 'not_sure', label: 'Not sure' },
+];
+
+export const PROGRAMME_SCHOOL_YEAR_LABELS: Record<ProgrammeSchoolYear, string> = {
+  year_12: 'Year 12',
+  year_13: 'Year 13',
   not_sure: 'Not sure',
 };
 
@@ -242,7 +254,14 @@ export const UKWPMED_REGISTRY = {
   ],
 } as const;
 
-export const OTHER_ACCESS_PROGRAMMES = [
+export interface OtherAccessProgrammeOption {
+  programme_id: string;
+  label: string;
+  requires_school_year?: boolean;
+}
+
+export const OTHER_ACCESS_PROGRAMMES: readonly OtherAccessProgrammeOption[] = [
+  { programme_id: 'aston_pathways', label: 'Aston Pathways', requires_school_year: true },
   { programme_id: 'leicester_accessleicester_medicine', label: 'AccessLeicester: Medicine' },
   { programme_id: 'plymouth_peninsula_pathways_plus', label: 'Peninsula Pathways PLUS' },
   { programme_id: 'st_andrews_reach_scotland', label: 'Reach Scotland - University of St Andrews' },

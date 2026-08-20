@@ -238,9 +238,23 @@
           "type": "string",
           "minLength": 1
         },
+        "standard_offer_label": {
+          "type": "string",
+          "minLength": 1
+        },
         "alternative_offer_label": {
           "type": "string",
           "minLength": 1
+        },
+        "explanation": {
+          "type": "string",
+          "minLength": 1
+        },
+        "applicable_offer": {
+          "enum": [
+            "standard",
+            "alternative"
+          ]
         },
         "epq_minimum_grade": {
           "type": "string",

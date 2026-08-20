@@ -385,7 +385,8 @@ function deriveQualificationStatus(applicant) {
     applicant.qualification_status ||
     applicant.academic_status ||
     applicant.a_level_profile?.qualification_status ||
-    applicant.ib_profile?.qualification_status
+    applicant.ib_profile?.qualification_status ||
+    applicant.scottish_profile?.qualification_status
   );
   if (['achieved', 'predicted'].includes(explicit)) {
     return explicit;
@@ -405,14 +406,30 @@ function deriveQualificationStatus(applicant) {
     return ibStatus;
   }
 
+  const scottishStatus = qualificationStatusFromSubjects(
+    applicant.scottish_profile?.advanced_higher_subjects
+  );
+  if (scottishStatus) {
+    return scottishStatus;
+  }
+
   return 'unknown';
 }
 
 function matchQualificationStatus(rule, applicant) {
+  const qualificationRoute = deriveQualificationRoute(applicant);
   const allowedRoutes = rule?.qualification_routes || rule?.qualification_route;
   if (allowedRoutes) {
     const routes = Array.isArray(allowedRoutes) ? allowedRoutes : [allowedRoutes];
-    if (!routes.map(normaliseId).includes(deriveQualificationRoute(applicant))) {
+    if (!routes.map(normaliseId).includes(qualificationRoute)) {
+      return false;
+    }
+  }
+
+  const excludedRoutes = rule?.excluded_qualification_routes;
+  if (excludedRoutes) {
+    const routes = Array.isArray(excludedRoutes) ? excludedRoutes : [excludedRoutes];
+    if (routes.map(normaliseId).includes(qualificationRoute)) {
       return false;
     }
   }
@@ -2262,6 +2279,263 @@ function calculateGcseMandatoryThenBest(component, applicant) {
   };
 }
 
+function scoreAstonScottishGrade(grade, pointsByGrade = {}) {
+  const normalised = String(grade ?? '').trim().toUpperCase();
+  return Number(pointsByGrade[normalised]) || 0;
+}
+
+function selectAstonScottishNational5Subjects(applicant, pointsByGrade = {}) {
+  const grades = getSubjectGrades(
+    applicant.scottish_profile,
+    ['national_5_subjects']
+  );
+
+  const selected = [];
+  const used = new Set();
+
+  const requireSubject = (subjectId) => {
+    if (grades[subjectId] === undefined) {
+      return false;
+    }
+
+    selected.push({
+      subject_id: subjectId,
+      grade: grades[subjectId]
+    });
+    used.add(subjectId);
+    return true;
+  };
+
+  if (!requireSubject('english_language') && !requireSubject('english')) {
+    return {
+      selected: [],
+      reason: 'aston_scottish_national5_mandatory_missing:english_language'
+    };
+  }
+
+  if (!requireSubject('mathematics')) {
+    return {
+      selected: [],
+      reason: 'aston_scottish_national5_mandatory_missing:mathematics'
+    };
+  }
+
+  if (grades.chemistry !== undefined && grades.biology !== undefined) {
+    requireSubject('chemistry');
+    requireSubject('biology');
+  } else {
+    const doubleScienceId = ['combined_science', 'double_science']
+      .find((subjectId) => grades[subjectId] !== undefined);
+
+    if (!doubleScienceId) {
+      return {
+        selected: [],
+        reason: 'aston_scottish_national5_science_route_missing'
+      };
+    }
+
+    const profile = splitGradeProfile(grades[doubleScienceId]);
+
+    if (profile.length < 2) {
+      return {
+        selected: [],
+        reason: `aston_scottish_national5_double_science_profile_incomplete:${doubleScienceId}`
+      };
+    }
+
+    selected.push(
+      {
+        subject_id: doubleScienceId,
+        grade: profile[0],
+        credit_index: 1
+      },
+      {
+        subject_id: doubleScienceId,
+        grade: profile[1],
+        credit_index: 2
+      }
+    );
+    used.add(doubleScienceId);
+  }
+
+  const remaining = Object.entries(grades)
+    .filter(([subjectId]) => !used.has(subjectId))
+    .map(([subjectId, grade]) => ({
+      subject_id: subjectId,
+      grade
+    }))
+    .sort((a, b) =>
+      scoreAstonScottishGrade(b.grade, pointsByGrade) -
+        scoreAstonScottishGrade(a.grade, pointsByGrade) ||
+      gradeRank(b.grade, 'gcse') - gradeRank(a.grade, 'gcse')
+    );
+
+  selected.push(...remaining.slice(0, Math.max(0, 6 - selected.length)));
+
+  if (selected.length < 6) {
+    return {
+      selected,
+      reason: 'insufficient_aston_scottish_national5_results'
+    };
+  }
+
+  return {
+    selected: selected.slice(0, 6),
+    reason: null
+  };
+}
+
+function calculateAstonScottishAcademicScore(component, applicant) {
+  const qualificationStatus = deriveQualificationStatus(applicant);
+
+  if (!['predicted', 'achieved'].includes(qualificationStatus)) {
+    return {
+      value: null,
+      max: component.max,
+      reason: 'aston_scottish_qualification_status_unknown',
+      qualification_status: qualificationStatus
+    };
+  }
+
+  const national5PointsByGrade =
+    qualificationStatus === 'achieved'
+      ? (component.achieved?.national_5?.points_by_grade || {})
+      : (component.predicted?.national_5?.points_by_grade || {});
+
+  const national5Selection = selectAstonScottishNational5Subjects(
+    applicant,
+    national5PointsByGrade
+  );
+
+  if (national5Selection.reason) {
+    return {
+      value: null,
+      max: component.max,
+      reason: national5Selection.reason,
+      qualification_status: qualificationStatus,
+      selected_national_5_subjects: national5Selection.selected
+    };
+  }
+
+  const national5Score = national5Selection.selected.reduce(
+    (total, subject) =>
+      total + scoreAstonScottishGrade(subject.grade, national5PointsByGrade),
+    0
+  );
+
+  if (qualificationStatus === 'predicted') {
+    return {
+      value: Math.min(
+        national5Score,
+        component.predicted?.national_5?.max ?? component.max
+      ),
+      max: component.max,
+      qualification_status: qualificationStatus,
+      scoring_route: 'national_5_only',
+      national_5_score: national5Score,
+      national_5_max: component.predicted?.national_5?.max ?? 24,
+      selected_national_5_subjects: national5Selection.selected
+    };
+  }
+
+  const advancedHighers = getSubjectGrades(
+    applicant.scottish_profile,
+    ['advanced_higher_subjects']
+  );
+
+  const requiredAdvancedHigherIds =
+    component.achieved?.advanced_higher?.required_subject_ids ||
+    ['chemistry', 'biology'];
+
+  const selectedAdvancedHighers = [];
+  const usedAdvancedHighers = new Set();
+
+  for (const subjectId of requiredAdvancedHigherIds) {
+    if (advancedHighers[subjectId] === undefined) {
+      return {
+        value: null,
+        max: component.max,
+        reason: `aston_scottish_advanced_higher_required_subject_missing:${subjectId}`,
+        qualification_status: qualificationStatus
+      };
+    }
+
+    selectedAdvancedHighers.push({
+      subject_id: subjectId,
+      grade: advancedHighers[subjectId]
+    });
+    usedAdvancedHighers.add(subjectId);
+  }
+
+  const advancedHigherPointsByGrade =
+    component.achieved?.advanced_higher?.points_by_grade || {};
+
+  const remainingAdvancedHighers = Object.entries(advancedHighers)
+    .filter(([subjectId]) => !usedAdvancedHighers.has(subjectId))
+    .map(([subjectId, grade]) => ({
+      subject_id: subjectId,
+      grade
+    }))
+    .sort((a, b) =>
+      scoreAstonScottishGrade(b.grade, advancedHigherPointsByGrade) -
+        scoreAstonScottishGrade(a.grade, advancedHigherPointsByGrade) ||
+      gradeRank(b.grade, 'a_level') - gradeRank(a.grade, 'a_level')
+    );
+
+  selectedAdvancedHighers.push(
+    ...remainingAdvancedHighers.slice(
+      0,
+      Math.max(
+        0,
+        (component.achieved?.advanced_higher?.subject_count || 3) -
+          selectedAdvancedHighers.length
+      )
+    )
+  );
+
+  if (
+    selectedAdvancedHighers.length <
+    (component.achieved?.advanced_higher?.subject_count || 3)
+  ) {
+    return {
+      value: null,
+      max: component.max,
+      reason: 'insufficient_aston_scottish_advanced_higher_results',
+      qualification_status: qualificationStatus
+    };
+  }
+
+  const advancedHigherScore = selectedAdvancedHighers.reduce(
+    (total, subject) =>
+      total +
+      scoreAstonScottishGrade(
+        subject.grade,
+        advancedHigherPointsByGrade
+      ),
+    0
+  );
+
+  const advancedHigherMax =
+    component.achieved?.advanced_higher?.max ?? 12;
+  const national5Max =
+    component.achieved?.national_5?.max ?? 12;
+
+  return {
+    value:
+      Math.min(advancedHigherScore, advancedHigherMax) +
+      Math.min(national5Score, national5Max),
+    max: component.max,
+    qualification_status: qualificationStatus,
+    scoring_route: 'advanced_higher_plus_national_5',
+    advanced_higher_score: advancedHigherScore,
+    advanced_higher_max: advancedHigherMax,
+    national_5_score: national5Score,
+    national_5_max: national5Max,
+    selected_advanced_higher_subjects: selectedAdvancedHighers,
+    selected_national_5_subjects: national5Selection.selected
+  };
+}
+
 function calculateQualificationPresence(component, applicant) {
   const count = applicant.a_level_profile?.subjects?.length || 0;
   return {
@@ -3507,6 +3781,7 @@ function calculateComponent(component, applicant, context) {
     a_level_grade_points_scaled: calculateALevelGradePoints,
     ucat_national_decile_lookup: calculateNationalDecileLookup,
     gcse_mandatory_then_best: calculateGcseMandatoryThenBest,
+    aston_scottish_academic_score: calculateAstonScottishAcademicScore,
     qualification_presence: calculateQualificationPresence,
     academic_profile_matrix: calculateAcademicProfileMatrix,
     ucat_range_lookup: calculateRangeLookup,

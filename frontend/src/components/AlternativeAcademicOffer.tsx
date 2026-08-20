@@ -69,11 +69,17 @@ export function AlternativeAcademicOffer({
           ? humanRouteLabel(offer.pathway_id)
           : 'EPQ'
     : 'Contextual';
+  const sectionHeading = hasRenderableOffer && offer.type === 'contextual'
+    ? 'Academic Offer'
+    : 'Alternative Academic Offer';
+  const standardLabel = hasRenderableOffer
+    ? cleanText(offer.standard_offer_label || (offer.type === 'contextual' ? 'Standard offer' : 'Standard'))
+    : 'Standard offer';
   const alternativeLabel = hasRenderableOffer
     ? cleanText(
       offer.alternative_offer_label ||
       (offer.type === 'contextual'
-        ? 'Contextual Offer'
+        ? 'Contextual offer'
         : offer.type === 'contextual_epq'
           ? 'Contextual EPQ Alternative'
           : offer.type === 'routed_offer'
@@ -81,35 +87,48 @@ export function AlternativeAcademicOffer({
             : 'EPQ Alternative')
     )
     : 'Contextual Offer';
+  const applicableOffer = hasRenderableOffer
+    ? offer.applicable_offer ||
+      (contextualConfirmed && (offer.type === 'contextual' || offer.type === 'contextual_epq')
+        ? 'alternative'
+        : null)
+    : null;
+  const explanation = hasRenderableOffer && typeof offer.explanation === 'string'
+    ? cleanText(offer.explanation)
+    : '';
 
   return (
     <section className="alternative-academic-offer" aria-labelledby={headingId}>
       <header className="alternative-academic-offer__header">
-        <h4 id={headingId}>Alternative Academic Offer</h4>
+        <h4 id={headingId}>{sectionHeading}</h4>
         <span>{offerTypeLabel}</span>
       </header>
 
       {hasRenderableOffer && (
         <div className="alternative-academic-offer__options">
-          <div>
-            <span>Standard</span>
+          <div className={applicableOffer === 'standard' ? 'alternative-academic-offer__option--applicable' : undefined}>
+            <span>{standardLabel}</span>
             <strong>{cleanText(offer.standard_offer)}</strong>
           </div>
 
-          <div>
+          <div className={applicableOffer === 'alternative' ? 'alternative-academic-offer__option--applicable' : undefined}>
             <span>{alternativeLabel}</span>
             <strong>{cleanText(offer.alternative_offer)}</strong>
           </div>
         </div>
       )}
 
-      {contextualConfirmed && (
+      {contextualConfirmed && !hasRenderableOffer && (
         <div className="alternative-academic-offer__options">
           <div>
             <span>Contextual Status</span>
-            <strong>✅ Contextual eligibility confirmed</strong>
+            <strong>Contextual eligibility confirmed</strong>
           </div>
         </div>
+      )}
+
+      {explanation && (
+        <p className="alternative-academic-offer__explanation">{explanation}</p>
       )}
 
       {conditions.length > 0 && (

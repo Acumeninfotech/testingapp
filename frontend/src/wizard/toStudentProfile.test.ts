@@ -497,8 +497,8 @@ describe('toStudentProfile identity mapping', () => {
     expect(createEmptyProfile().scottish_profile.higher_subjects).toHaveLength(5);
   });
 
-  it('seeds five optional National 5 rows for new Scottish profiles', () => {
-    expect(createEmptyProfile().scottish_profile.national_5_subjects).toHaveLength(5);
+  it('seeds six optional National 5 rows for new Scottish profiles', () => {
+    expect(createEmptyProfile().scottish_profile.national_5_subjects).toHaveLength(6);
   });
 
   it('preserves entered National 5 rows through studentProfile mapping', () => {

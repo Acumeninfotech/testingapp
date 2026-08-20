@@ -7,10 +7,12 @@ const {
   buildAlternativeAcademicOffer,
   presentResultCard
 } = require('../../assets/js/engine/result-card-presenter');
+const { evaluateCourseEligibility } = require('../../assets/js/engine/eligibility-evaluator');
 const { classifyInterviewBand } = require('../../assets/js/engine/interview-band-classifier');
 const cambridgeCourse = require('../../data/universities/cambridge-a100.json');
 const astonCourse = require('../../data/universities/aston-a100.json');
 const birminghamCourse = require('../../data/universities/birmingham-a100.json');
+const astonConfig = require('../../data/interview-band-configs/aston-a100.json');
 const cambridgeConfig = require('../../data/interview-band-configs/cambridge-a100.json');
 const cambridgeFixture = require('../../data/fixtures/interview-band-classification/cambridge-a100.json');
 const hullYorkCourse = require('../../data/universities/hull-york-a100.json');
@@ -410,6 +412,10 @@ function resultCardText(card) {
       type: 'contextual',
       standard_offer: 'A*AA',
       alternative_offer: 'AAB',
+      standard_offer_label: 'Standard offer',
+      alternative_offer_label: 'Contextual offer',
+      explanation: "You are eligible for Aston's contextual offer. AA must be in Chemistry and Biology. You must still meet all required subject and GCSE requirements.",
+      applicable_offer: 'alternative',
       pathway_id: 'contextual_school_leaver_a_level',
       conditions: []
     },
@@ -738,6 +744,57 @@ function resultCardText(card) {
     'confirmed contextual applicants should expose contextual as an active selection factor'
   );
 
+  const astonContextualPool = astonConfig.guidance_pools.find((pool) => pool.pool_id === 'home_wp');
+  const astonContextualCard = present({
+    transparencyContext: {
+      course_identity: {
+        profile_id: 'aston-a100',
+        university_name: 'Aston University'
+      },
+      eligibility: {
+        academic_pathway: 'contextual',
+        academic_pathway_id: 'contextual_school_leaver_a_level',
+        contextual_eligibility: {
+          status: 'contextual'
+        }
+      },
+      academic_pathway: 'contextual',
+      academic_pathway_id: 'contextual_school_leaver_a_level',
+      stage_1_eligibility: astonCourse.stage_1_eligibility,
+      guidance_pool: astonContextualPool,
+      score_model: astonConfig.score_model
+    }
+  });
+  assert.deepStrictEqual(
+    astonContextualCard.contextual_confirmation,
+    {
+      collapsed_label: "You meet Aston's contextual admissions criteria.",
+      expanded_heading: "You meet Aston's contextual admissions criteria.",
+      consideration_label: null,
+      expanded_body: "Your application has been assessed using Aston's published contextual admissions criteria."
+    },
+    'Aston contextual applicants should expose the configured two-line contextual presentation'
+  );
+  assert.deepStrictEqual(
+    astonContextualCard.alternative_academic_offer,
+    {
+      type: 'contextual',
+      standard_offer: 'A*AA',
+      alternative_offer: 'AAB',
+      standard_offer_label: 'Standard offer',
+      alternative_offer_label: 'Contextual offer',
+      explanation: "You are eligible for Aston's contextual offer. AA must be in Chemistry and Biology. You must still meet all required subject and GCSE requirements.",
+      applicable_offer: 'alternative',
+      pathway_id: 'contextual_school_leaver_a_level',
+      conditions: []
+    },
+    'Aston contextual Result Card should use display-only configured standard/contextual offer presentation'
+  );
+  assert.ok(
+    !JSON.stringify(astonContextualCard).includes('Aston Ready'),
+    'Aston Ready wording must not appear without programme-specific evidence'
+  );
+
   const lancasterContextualCard = present({
     transparencyContext: {
       course_identity: { profile_id: 'lancaster-a100' },
@@ -784,14 +841,9 @@ function resultCardText(card) {
     'standard applicants should not expose Lancaster contextual presentation wording'
   );
   assert.strictEqual(
-    standardCard.factor_usage.find((entry) => entry.factor_id === 'contextual')?.role,
-    'not_used',
-    'standard applicants should not expose contextual as active just because contextual admissions are available'
-  );
-  assert.strictEqual(
-    standardCard.factor_usage.find((entry) => entry.factor_id === 'contextual')?.evidence_status,
-    'not_applicable',
-    'standard contextual factor usage should remain neutral/not used when contextual eligibility is not confirmed'
+    standardCard.factor_usage.some((entry) => entry.factor_id === 'contextual'),
+    false,
+    'standard applicants should not expose a contextual selection factor just because contextual admissions are available'
   );
 
   const unresolvedCard = present({
@@ -959,12 +1011,6 @@ function makeCambridgeSixGcseCard() {
     {
       factor_id: 'sjt',
       label: 'SJT',
-      role: 'not_used',
-      evidence_status: 'not_applicable'
-    },
-    {
-      factor_id: 'contextual',
-      label: 'Contextual',
       role: 'not_used',
       evidence_status: 'not_applicable'
     }
@@ -2198,5 +2244,342 @@ function makeCambridgeSixGcseCard() {
   });
   assert.notStrictEqual(ordinaryLancasterReviewCard.information_needed_reason, reason);
 }
+
+{
+  const astonScottishContextualApplicant = {
+    profile_id: 'aston_result_card_scottish_contextual',
+    qualification_route: 'scottish',
+    application_year: 2026,
+    applicant_identity: {
+      applicant_type: 'standard_school_leaver',
+      fee_status: 'Home',
+      domicile: 'Scotland',
+      contextual: false,
+      contextual_flags: {},
+      graduate: false,
+      resit: { has_resits: false, subjects_resat: [] }
+    },
+    contextual_profile: {
+      school_education: { independent_school: 'no' },
+      financial_support: { ucat_bursary_recipient: 'yes' }
+    },
+    gcse_profile: {
+      subjects: {
+        english_language: '6',
+        mathematics: '6',
+        biology: '6',
+        chemistry: '6',
+        physics: '6',
+        history: '6'
+      }
+    },
+    scottish_profile: {
+      qualification_status: 'achieved',
+      national_5_subjects: [
+        { subject_id: 'english_language', grade: 'B' },
+        { subject_id: 'mathematics', grade: 'B' },
+        { subject_id: 'chemistry', grade: 'B' },
+        { subject_id: 'biology', grade: 'B' },
+        { subject_id: 'physics', grade: 'B' },
+        { subject_id: 'history', grade: 'B' }
+      ],
+      advanced_higher_subjects: [
+        { subject_id: 'chemistry', achieved_grade: 'A' },
+        { subject_id: 'biology', achieved_grade: 'A' },
+        { subject_id: 'mathematics', achieved_grade: 'A' }
+      ]
+    },
+    admissions_tests: {
+      ucat: {
+        total_score: 2400,
+        score_scale: 2700,
+        test_year: 2026,
+        sjt_band: 4
+      }
+    },
+    graduate_profile: { is_graduate: false }
+  };
+  const eligibility = evaluateCourseEligibility(astonCourse, astonScottishContextualApplicant);
+  const card = presentResultCard({
+    eligibilityStatus: eligibility.status,
+    interviewBand: 'interview_likely',
+    transparencyContext: {
+      course_identity: {
+        profile_id: 'aston-a100',
+        university_name: 'Aston University',
+        course_name: 'Medicine MBChB',
+        ucas_code: 'A100'
+      },
+      applicant_context: astonScottishContextualApplicant,
+      applicant_group_ids: eligibility.applicant_group_ids,
+      eligibility_checks: eligibility.checks,
+      eligibility_failures: eligibility.failures,
+      academic_pathway: eligibility.academic_pathway || null,
+      academic_pathway_id: eligibility.academic_pathway_id || null,
+      eligibility,
+      stage_1_eligibility: astonCourse.stage_1_eligibility,
+      selection_approach_display: astonCourse.selection_approach_display
+    }
+  });
+  const academicKeys = card.academic_requirement_checks.map((check) => {
+    return `${check.qualification_type}|${check.requirement_type}|${check.label}|${check.status}`;
+  });
+  const text = resultCardText(card);
+
+  assert.strictEqual(eligibility.status, 'eligible');
+  assert.strictEqual(eligibility.qualification_route, 'scottish');
+  assert.strictEqual(eligibility.contextual_eligibility.is_contextual, true);
+  assert.strictEqual(card.contextual_status, 'confirmed');
+  assert.strictEqual(new Set(academicKeys).size, academicKeys.length);
+  assert.ok(
+    publicAcademicChecks(card).some((check) => {
+      return check.qualification_type === 'scottish' &&
+        check.requirement_type === 'scottish_post_16_requirements' &&
+        check.label === 'Scottish Advanced Highers' &&
+        check.status === 'met';
+    })
+  );
+  assert.match(text, /Contextual information is used as part of the university’s contextual review/i);
+  assert.doesNotMatch(text, /A-level grades.*Scottish Advanced Highers|Scottish Advanced Highers.*A-level grades/i);
+}
+
+
+{
+  const applicant = {
+    profile_id: 'aston_scottish_predicted_score_breakdown',
+    qualification_route: 'scottish',
+    application_year: 2026,
+    applicant_identity: {
+      applicant_type: 'standard_school_leaver',
+      fee_status: 'Home',
+      domicile: 'Scotland',
+      contextual: false,
+      widening_participation: false,
+      graduate: false,
+      resit: {
+        has_resits: false,
+        subjects_resat: []
+      }
+    },
+    scottish_profile: {
+      qualification_status: 'predicted',
+      national_5_subjects: [
+        { subject_id: 'english_language', grade: 'A' },
+        { subject_id: 'mathematics', grade: 'A' },
+        { subject_id: 'chemistry', grade: 'A' },
+        { subject_id: 'biology', grade: 'A' },
+        { subject_id: 'physics', grade: 'B' },
+        { subject_id: 'history', grade: 'B' }
+      ],
+      advanced_higher_subjects: [
+        { subject_id: 'chemistry', predicted_grade: 'A' },
+        { subject_id: 'biology', predicted_grade: 'A' },
+        { subject_id: 'mathematics', predicted_grade: 'A' }
+      ]
+    },
+    admissions_tests: {
+      ucat: {
+        total_score: 2400,
+        score_scale: 2700,
+        test_year: 2026,
+        sjt_band: 2
+      }
+    },
+    graduate_profile: {
+      is_graduate: false
+    }
+  };
+
+  const classification = classifyInterviewBand(
+    astonCourse,
+    astonConfig,
+    applicant
+  );
+
+  const card = presentResultCard({
+    eligibilityStatus: classification.eligibility.status,
+    interviewBand: classification.canonical_interview_band,
+    transparencyContext: {
+      course_identity: {
+        profile_id: 'aston-a100',
+        university_name: 'Aston University',
+        course_name: 'Medicine MBChB',
+        ucas_code: 'A100'
+      },
+      applicant_context: applicant,
+      applicant_group_ids: classification.applicant_group_ids,
+      eligibility_checks: classification.eligibility.checks,
+      eligibility_failures: classification.eligibility.failures,
+      eligibility: classification.eligibility,
+      ranking: classification.ranking,
+      score_model: astonConfig.score_model,
+      guidance_pool_id: classification.guidance_pool_id,
+      guidance_pool: astonConfig.guidance_pools.find(
+        (pool) => pool.pool_id === classification.guidance_pool_id
+      ),
+      stage_1_eligibility: astonCourse.stage_1_eligibility,
+      selection_approach_display: astonCourse.selection_approach_display
+    }
+  });
+
+  const checks = card.decision_transparency.score_breakdown.checks;
+
+  assert.ok(
+    checks.some((entry) =>
+      entry.label === 'National 5 score' &&
+      /20 out of 24/.test(entry.summary)
+    ),
+    'Predicted Scottish Aston route should expose National 5 score 20/24'
+  );
+
+  assert.ok(
+    checks.some((entry) =>
+      entry.label === 'UCAT score' &&
+      /11 out of 12/.test(entry.summary)
+    ),
+    'Predicted Scottish Aston route should expose UCAT score 11/12'
+  );
+
+  assert.ok(
+    !checks.some((entry) => /GCSE/i.test(entry.label)),
+    'Predicted Scottish Aston Result Card must not label the academic component as GCSE'
+  );
+
+  assert.ok(
+    !checks.some((entry) => /Advanced Higher score/i.test(entry.label)),
+    'Predicted Scottish Aston scoring should not display an achieved Advanced Higher points component'
+  );
+
+  assert.strictEqual(
+    card.decision_transparency.score_breakdown.value,
+    31
+  );
+
+  assert.strictEqual(
+    card.decision_transparency.score_breakdown.max,
+    36
+  );
+}
+
+{
+  const applicant = {
+    profile_id: 'aston_scottish_achieved_score_breakdown',
+    qualification_route: 'scottish',
+    application_year: 2026,
+    applicant_identity: {
+      applicant_type: 'standard_school_leaver',
+      fee_status: 'Home',
+      domicile: 'Scotland',
+      contextual: false,
+      widening_participation: false,
+      graduate: false,
+      resit: {
+        has_resits: false,
+        subjects_resat: []
+      }
+    },
+    scottish_profile: {
+      qualification_status: 'achieved',
+      national_5_subjects: [
+        { subject_id: 'english_language', grade: 'A' },
+        { subject_id: 'mathematics', grade: 'A' },
+        { subject_id: 'chemistry', grade: 'A' },
+        { subject_id: 'biology', grade: 'A' },
+        { subject_id: 'physics', grade: 'A' },
+        { subject_id: 'history', grade: 'A' }
+      ],
+      advanced_higher_subjects: [
+        { subject_id: 'chemistry', achieved_grade: 'A' },
+        { subject_id: 'biology', achieved_grade: 'A' },
+        { subject_id: 'mathematics', achieved_grade: 'A' }
+      ]
+    },
+    admissions_tests: {
+      ucat: {
+        total_score: 2400,
+        score_scale: 2700,
+        test_year: 2026,
+        sjt_band: 2
+      }
+    },
+    graduate_profile: {
+      is_graduate: false
+    }
+  };
+
+  const classification = classifyInterviewBand(
+    astonCourse,
+    astonConfig,
+    applicant
+  );
+
+  const card = presentResultCard({
+    eligibilityStatus: classification.eligibility.status,
+    interviewBand: classification.canonical_interview_band,
+    transparencyContext: {
+      course_identity: {
+        profile_id: 'aston-a100',
+        university_name: 'Aston University',
+        course_name: 'Medicine MBChB',
+        ucas_code: 'A100'
+      },
+      applicant_context: applicant,
+      applicant_group_ids: classification.applicant_group_ids,
+      eligibility_checks: classification.eligibility.checks,
+      eligibility_failures: classification.eligibility.failures,
+      eligibility: classification.eligibility,
+      ranking: classification.ranking,
+      score_model: astonConfig.score_model,
+      guidance_pool_id: classification.guidance_pool_id,
+      guidance_pool: astonConfig.guidance_pools.find(
+        (pool) => pool.pool_id === classification.guidance_pool_id
+      ),
+      stage_1_eligibility: astonCourse.stage_1_eligibility,
+      selection_approach_display: astonCourse.selection_approach_display
+    }
+  });
+
+  const checks = card.decision_transparency.score_breakdown.checks;
+
+  assert.ok(
+    checks.some((entry) =>
+      entry.label === 'Advanced Higher score' &&
+      /12 out of 12/.test(entry.summary)
+    ),
+    'Achieved Scottish Aston route should expose Advanced Higher score 12/12'
+  );
+
+  assert.ok(
+    checks.some((entry) =>
+      entry.label === 'National 5 score' &&
+      /12 out of 12/.test(entry.summary)
+    ),
+    'Achieved Scottish Aston route should expose National 5 score 12/12'
+  );
+
+  assert.ok(
+    checks.some((entry) =>
+      entry.label === 'UCAT score' &&
+      /11 out of 12/.test(entry.summary)
+    ),
+    'Achieved Scottish Aston route should expose UCAT score 11/12'
+  );
+
+  assert.ok(
+    !checks.some((entry) => /GCSE/i.test(entry.label)),
+    'Achieved Scottish Aston Result Card must not label the academic component as GCSE'
+  );
+
+  assert.strictEqual(
+    card.decision_transparency.score_breakdown.value,
+    35
+  );
+
+  assert.strictEqual(
+    card.decision_transparency.score_breakdown.max,
+    36
+  );
+}
+
 
 console.log('PASS: compact_status presenter mappings are generated from structured result data');

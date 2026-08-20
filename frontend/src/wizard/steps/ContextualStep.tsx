@@ -7,6 +7,7 @@ import {
   HOME_QUINTILE_FIELDS,
   HOME_REGION_OPTIONS,
   OTHER_ACCESS_PROGRAMMES,
+  PROGRAMME_SCHOOL_YEAR_OPTIONS,
   PARTNER_SCHOOL_UNIVERSITY_OPTIONS,
   PERSONAL_CIRCUMSTANCE_FIELDS,
   PROGRAMME_STATUS_OPTIONS,
@@ -30,6 +31,7 @@ import type {
   PostcodeLookupMetadata,
   PostcodeLookupStatus,
   PartnerSchoolRelationship,
+  ProgrammeSchoolYear,
   ProgrammeStatus,
   QuintileValue,
   SchoolAreaValue,
@@ -354,11 +356,18 @@ function OtherProgrammeRow({
   programme,
   index,
   updateProfile,
+  statusError,
+  schoolYearError,
 }: {
   programme: OtherAccessProgramme;
   index: number;
   updateProfile: StepProps['updateProfile'];
+  statusError?: string;
+  schoolYearError?: string;
 }) {
+  const programmeOption = OTHER_ACCESS_PROGRAMMES.find((entry) => entry.programme_id === programme.programme_id);
+  const requiresSchoolYear = programmeOption?.requires_school_year === true;
+
   return (
     <div className="contextual-list-row">
       <div>
@@ -373,6 +382,7 @@ function OtherProgrammeRow({
         value={programme.status}
         options={PROGRAMME_STATUS_OPTIONS}
         placeholder="Select status"
+        error={statusError}
         onChange={(value) =>
           updateContextual(updateProfile, (contextual) => ({
             ...contextual,
@@ -385,6 +395,27 @@ function OtherProgrammeRow({
           }))
         }
       />
+      {requiresSchoolYear && (
+        <SelectField
+          id={`other_programme_${index}_school_year`}
+          label="School year completed"
+          value={programme.school_year ?? ''}
+          options={PROGRAMME_SCHOOL_YEAR_OPTIONS}
+          placeholder="Select school year"
+          error={schoolYearError}
+          onChange={(value) =>
+            updateContextual(updateProfile, (contextual) => ({
+              ...contextual,
+              access_programmes: {
+                ...contextual.access_programmes,
+                other_programmes: contextual.access_programmes.other_programmes.map((entry, entryIndex) =>
+                  entryIndex === index ? { ...entry, school_year: value as ProgrammeSchoolYear | '' } : entry,
+                ),
+              },
+            }))
+          }
+        />
+      )}
       <button
         className="btn-secondary contextual-row-action"
         type="button"
@@ -1172,13 +1203,16 @@ export function ContextualStep({ profile, updateProfile, errors }: StepProps) {
                   placeholder="Select programme to add"
                   onChange={(value) => {
                     if (!value) return;
+                    const programmeOption = OTHER_ACCESS_PROGRAMMES.find((programme) => programme.programme_id === value);
                     updateContextual(updateProfile, (current) => ({
                       ...current,
                       access_programmes: {
                         ...current.access_programmes,
                         other_programmes: [
                           ...current.access_programmes.other_programmes,
-                          { programme_id: value, status: '' },
+                          programmeOption?.requires_school_year
+                            ? { programme_id: value, status: '', school_year: '' }
+                            : { programme_id: value, status: '' },
                         ],
                       },
                     }));
@@ -1191,6 +1225,8 @@ export function ContextualStep({ profile, updateProfile, errors }: StepProps) {
                   programme={programme}
                   index={index}
                   updateProfile={updateProfile}
+                  statusError={errors[`other_programme_${index}_status`]}
+                  schoolYearError={errors[`other_programme_${index}_school_year`]}
                 />
               ))}
               {accessProgrammes.other_programmes.some((programme) => programme.programme_id === 'other_access_wp_programme') && (

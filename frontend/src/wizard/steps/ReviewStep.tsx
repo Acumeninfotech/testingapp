@@ -5,6 +5,7 @@ import {
   CONTEXTUAL_FIELD_LABELS,
   HOME_QUINTILE_FIELDS,
   OTHER_ACCESS_PROGRAMMES,
+  PROGRAMME_SCHOOL_YEAR_LABELS,
   PROGRAMME_STATUS_LABELS,
   QUINTILE_OPTIONS,
   HOME_REGION_OPTIONS,
@@ -559,11 +560,13 @@ export function ReviewStep({ profile }: StepProps) {
                   const extraName = programme.programme_id === 'other_access_wp_programme'
                     ? contextual_profile.access_programmes.other_programme_name || programme.programme_name
                     : '';
+                  const statusLabel = programme.status ? PROGRAMME_STATUS_LABELS[programme.status] : 'Not provided';
+                  const schoolYearLabel = programme.school_year ? PROGRAMME_SCHOOL_YEAR_LABELS[programme.school_year] : '';
                   return (
                     <ReviewField
                       key={`${programme.programme_id}-${index}`}
                       label={extraName ? `${label}: ${extraName}` : label}
-                      value={programme.status ? PROGRAMME_STATUS_LABELS[programme.status] : 'Not provided'}
+                      value={schoolYearLabel ? `${statusLabel}; ${schoolYearLabel}` : statusLabel}
                     />
                   );
                 })}

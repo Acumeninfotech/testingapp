@@ -711,6 +711,18 @@ function academicRequirementLabelForCheck(rawCheck, qualificationType, context =
     if (sharedScottishRouteLabel) {
       return sharedScottishRouteLabel;
     }
+    const qualificationLevel = normaliseCheckId(rawCheck?.qualification_level);
+    if ([
+      'advanced_higher',
+      'advanced_highers',
+      'scottish_advanced_higher',
+      'scottish_advanced_highers'
+    ].includes(qualificationLevel)) {
+      return 'Scottish Advanced Highers';
+    }
+    if (['higher', 'highers', 'scottish_higher', 'scottish_highers'].includes(qualificationLevel)) {
+      return 'Scottish Highers';
+    }
     return 'Scottish Highers';
   }
   if (qualificationType === 'a_level' && (checkId === 'a_level_route' || checkId.includes('a_level'))) {
@@ -1182,9 +1194,9 @@ function hasRoutedEpqAlternativePathways(stage1Eligibility = null) {
 function routedAcademicOfferRoutes(stage1Eligibility = null) {
   const aLevel = stage1Eligibility?.post_16?.a_level || {};
   return [
+    ...(aLevel.presentation_offer_routes || []),
     ...(aLevel.grade_requirements || []),
-    ...(aLevel.routed_offer_routes || []),
-    ...(aLevel.presentation_offer_routes || [])
+    ...(aLevel.routed_offer_routes || [])
   ];
 }
 
@@ -1266,8 +1278,13 @@ function standardAlevelOfferGrades(stage1Eligibility = null) {
 function buildRoutedAcademicOffer(stage1Eligibility = null, matchedRoute = null) {
   const matchedOfferGrades = offerGradeProfileForRoute(matchedRoute);
   if (matchedRoute && Array.isArray(matchedOfferGrades) && matchedOfferGrades.length > 0) {
-    const standardOffer = formatAlevelGradeProfile(
+    const standardOfferGrades = firstProfileArray(
+      matchedRoute.display_standard_offer_grade_profile,
+      matchedRoute.standard_offer_grade_profile,
       standardAlevelOfferGrades(stage1Eligibility)
+    );
+    const standardOffer = formatAlevelGradeProfile(
+      standardOfferGrades
     );
     const matchedOffer = formatAlevelGradeProfile(matchedOfferGrades);
     if (matchedOffer && matchedOffer !== standardOffer) {
@@ -1275,6 +1292,10 @@ function buildRoutedAcademicOffer(stage1Eligibility = null, matchedRoute = null)
         type: 'routed_offer',
         standard_offer: standardOffer,
         alternative_offer: matchedOffer,
+        ...(matchedRoute.standard_offer_label ? { standard_offer_label: matchedRoute.standard_offer_label } : {}),
+        ...(matchedRoute.alternative_offer_label ? { alternative_offer_label: matchedRoute.alternative_offer_label } : {}),
+        ...(matchedRoute.explanation ? { explanation: matchedRoute.explanation } : {}),
+        ...(matchedRoute.applicable_offer ? { applicable_offer: matchedRoute.applicable_offer } : {}),
         pathway_id: matchedRoute.pathway_id || matchedRoute.route_id || matchedRoute.requirement_id || null,
         conditions: []
       };
@@ -2593,6 +2614,47 @@ function scoreComponentCheck(label, component) {
   return check(label, 'Counted', `${formatScorePoints(component.value)}${maxText}.`);
 }
 
+function scoreComponentChecks(componentId, component) {
+  if (
+    componentId === 'scottish_academic_score' &&
+    component?.scoring_route === 'advanced_higher_plus_national_5'
+  ) {
+    return [
+      Number.isFinite(component.advanced_higher_score)
+        ? scoreComponentCheck('Advanced Higher score', {
+            value: component.advanced_higher_score,
+            max: component.advanced_higher_max
+          })
+        : null,
+      Number.isFinite(component.national_5_score)
+        ? scoreComponentCheck('National 5 score', {
+            value: component.national_5_score,
+            max: component.national_5_max
+          })
+        : null
+    ].filter(Boolean);
+  }
+
+  if (
+    componentId === 'scottish_academic_score' &&
+    Number.isFinite(component?.national_5_score)
+  ) {
+    return [
+      scoreComponentCheck('National 5 score', {
+        value: component.national_5_score,
+        max: component.national_5_max ?? component.max
+      })
+    ].filter(Boolean);
+  }
+
+  const single = scoreComponentCheck(
+    humanScoreComponentLabel(componentId),
+    component
+  );
+
+  return single ? [single] : [];
+}
+
 // Hull York contextual points are shown as not applied when unavailable, but
 // keep the approved numeric score row when contextual points are counted.
 function contextualScoreComponentCheck(component) {
@@ -2669,8 +2731,7 @@ function buildScoreBreakdown(options = {}) {
   const rankingIsComponentSum = Object.keys(ranking?.components || {}).length > 0;
   if (ranking && scoreModel?.type === 'component_sum' && rankingIsComponentSum && ranking.status === 'calculated') {
     const checks = Object.entries(ranking.components || {})
-      .map(([componentId, component]) => scoreComponentCheck(humanScoreComponentLabel(componentId), component))
-      .filter(Boolean);
+      .flatMap(([componentId, component]) => scoreComponentChecks(componentId, component));
     const capExplanation =
       ranking.cap_applied === true &&
       Number.isFinite(ranking.uncapped_value) &&
@@ -2708,8 +2769,7 @@ function buildScoreBreakdown(options = {}) {
   // would be actively wrong for a university that does publish one.
   if (ranking && scoreModel?.type === 'component_sum' && rankingIsComponentSum && ranking.status === 'unavailable') {
     const checks = Object.entries(ranking.components || {})
-      .map(([componentId, component]) => scoreComponentCheck(humanScoreComponentLabel(componentId), component))
-      .filter(Boolean);
+      .flatMap(([componentId, component]) => scoreComponentChecks(componentId, component));
     const breakdown = {
       name: scoreModel.label || 'Selection score',
       value: null,
@@ -4232,7 +4292,7 @@ function existingSelectionScoreThresholdText(card) {
   const thresholdCheck = selectionStage?.checks?.find((entry) =>
     entry.label === 'Selection score threshold' ||
     entry.label === 'Selection score benchmark' ||
-    entry.label === 'Historical selection score guide' ||
+    entry.label === 'ApplySmart-derived selection score guide' ||
     entry.label === 'Selection score guide'
   );
   return thresholdCheck?.summary || null;
@@ -5433,7 +5493,6 @@ function normalizeFactorUsage(card, options = {}) {
   const sjtGate = stage1Eligibility?.admissions_tests?.sjt?.used_as_gate === true;
   const sjtScored = stage1Eligibility?.admissions_tests?.sjt?.scoring?.used_in_score === true;
   const contextualConfirmed = contextualEligibilityStatus(card) === 'contextual';
-  const contextualRole = contextualConfirmed ? 'contextual' : 'not_used';
   const ucatEligibility = stage1Eligibility?.admissions_tests?.ucat || {};
   const ucatRankingBypass = ucatRankingBypassApplies({ ...card, ...options });
   const guaranteedInterviewBypass = options.interviewOutcome === 'guaranteed_interview';
@@ -5545,15 +5604,15 @@ function normalizeFactorUsage(card, options = {}) {
             : 'SJT is not used for interview selection.',
       evidence_status: sjtUsed || sjtGate || sjtScored ? 'available' : 'not_applicable'
     },
-    {
-      factor_id: 'contextual',
-      label: 'Contextual',
-      role: contextualRole,
-      detail: contextualConfirmed
-        ? 'Contextual information is used as part of the university’s contextual review.'
-        : 'Contextual information is not used for this route.',
-      evidence_status: contextualConfirmed ? 'available' : 'not_applicable'
-    }
+    ...(contextualConfirmed
+      ? [{
+          factor_id: 'contextual',
+          label: 'Contextual',
+          role: 'contextual',
+          detail: 'Contextual information is used as part of the university’s contextual review.',
+          evidence_status: 'available'
+        }]
+      : [])
   ];
 
   return factorUsage;

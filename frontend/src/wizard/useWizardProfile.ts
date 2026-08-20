@@ -10,6 +10,7 @@ import {
   type ContextualValueSource,
   type HomeRegionValue,
   type PostcodeLookupStatus,
+  type ProgrammeSchoolYear,
   type ProgrammeStatus,
   type PersonalCircumstanceValue,
   type QuintileValue,
@@ -350,6 +351,15 @@ function normaliseProgrammeStatus(value: unknown): ProgrammeStatus | '' {
   return '';
 }
 
+function normaliseProgrammeSchoolYear(value: unknown): ProgrammeSchoolYear | '' {
+  if (typeof value !== 'string' && typeof value !== 'number') return '';
+  const normalised = String(value).trim().toLowerCase().replace(/[\s-]+/g, '_');
+  if (normalised === 'year_12' || normalised === 'y12' || normalised === 'yr12' || normalised === '12') return 'year_12';
+  if (normalised === 'year_13' || normalised === 'y13' || normalised === 'yr13' || normalised === '13') return 'year_13';
+  if (normalised === 'not_sure') return 'not_sure';
+  return '';
+}
+
 function normaliseHomeRegionValue(value: unknown): HomeRegionValue | null {
   return typeof value === 'string' && HOME_REGION_VALUES.has(value as HomeRegionValue)
     ? value as HomeRegionValue
@@ -527,10 +537,14 @@ function normaliseContextualProfile(
       },
       other_programmes: otherProgrammes.map((entry) => {
         const record = asRecord(entry);
+        const schoolYear = normaliseProgrammeSchoolYear(
+          record.school_year ?? record.year_group ?? record.completed_during ?? record.participation_year,
+        );
         return {
           programme_id: typeof record.programme_id === 'string' ? record.programme_id : '',
-          status: normaliseProgrammeStatus(record.status),
+          status: normaliseProgrammeStatus(record.status ?? record.programme_status),
           programme_name: typeof record.programme_name === 'string' ? record.programme_name : undefined,
+          ...(schoolYear ? { school_year: schoolYear } : {}),
         };
       }).filter((entry) => entry.programme_id),
       other_programme_name: typeof access.other_programme_name === 'string' ? access.other_programme_name : '',

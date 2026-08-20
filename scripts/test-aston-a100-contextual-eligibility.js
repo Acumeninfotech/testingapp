@@ -106,6 +106,30 @@ function setALevels(applicant, grades) {
   return applicant;
 }
 
+function setScottishAdvancedHighers(applicant, grades = {
+  chemistry: 'A',
+  biology: 'A',
+  mathematics: 'A'
+}) {
+  applicant.qualification_route = 'scottish';
+  delete applicant.a_level_profile;
+  applicant.scottish_profile = {
+    national_5_subjects: [
+      { subject_id: 'english_language', grade: 'B' },
+      { subject_id: 'mathematics', grade: 'B' },
+      { subject_id: 'chemistry', grade: 'B' },
+      { subject_id: 'biology', grade: 'B' },
+      { subject_id: 'history', grade: 'B' },
+      { subject_id: 'geography', grade: 'B' }
+    ],
+    advanced_higher_subjects: Object.entries(grades).map(([subjectId, grade]) => ({
+      subject_id: subjectId,
+      grade
+    }))
+  };
+  return applicant;
+}
+
 function withContextualProfile(overrides) {
   return merge(baseApplicant(), {
     contextual_profile: merge(
@@ -336,7 +360,24 @@ result = evaluateContextualEligibility(
     }
   })
 );
-assertContextual(result, 'ucat_bursary');
+assertNotContextual(result);
+assert.strictEqual(result.evidence.legacy_declarations.confirmed_flag_ids.includes('ucat_bursary'), true);
+assert.strictEqual(result.evidence.financial_support.ucat_bursary_recipient, undefined);
+assert.strictEqual(result.reason, 'no_aston_ready_criterion_matched');
+
+let eligibility = evaluateCourseEligibility(
+  course,
+  merge(baseApplicant(), {
+    applicant_identity: {
+      contextual_flags: {
+        ucat_bursary: true
+      }
+    }
+  })
+);
+assert.strictEqual(eligibility.contextual_eligibility.is_contextual, false);
+assert.strictEqual(eligibility.applicant_group_ids.includes('contextual'), false);
+assert.strictEqual(eligibility.applicant_group_ids.includes('ucat_bursary'), false);
 
 function contextualAabApplicant() {
   return setALevels(
@@ -351,7 +392,7 @@ function contextualAabApplicant() {
   );
 }
 
-let eligibility = evaluateCourseEligibility(course, contextualAabApplicant());
+eligibility = evaluateCourseEligibility(course, contextualAabApplicant());
 assert.strictEqual(eligibility.status, 'eligible');
 assert.strictEqual(eligibility.academic_pathway, 'contextual');
 assert.strictEqual(eligibility.academic_pathway_id, 'contextual_school_leaver_a_level');
@@ -367,6 +408,37 @@ eligibility = evaluateCourseEligibility(
 );
 assert.strictEqual(eligibility.status, 'not_eligible');
 assert.ok(eligibility.failures.includes('a_level_requirements_not_met'));
+
+eligibility = evaluateCourseEligibility(
+  course,
+  setScottishAdvancedHighers(
+    withContextualProfile({ financial_support: { ucat_bursary_recipient: 'yes' } })
+  )
+);
+assert.strictEqual(eligibility.status, 'eligible');
+assert.strictEqual(eligibility.qualification_route, 'scottish');
+assert.strictEqual(eligibility.contextual_eligibility.is_contextual, true);
+assert.ok(eligibility.applicant_group_ids.includes('contextual'));
+assert.strictEqual(eligibility.academic_pathway_id, 'scottish_advanced_higher');
+assert.notStrictEqual(eligibility.academic_pathway, 'contextual');
+
+eligibility = evaluateCourseEligibility(
+  course,
+  setScottishAdvancedHighers(
+    withContextualProfile({
+      school_education: {
+        independent_school: 'not_sure'
+      },
+      financial_support: {
+        free_school_meals: 'yes'
+      }
+    })
+  )
+);
+assert.strictEqual(eligibility.status, 'eligible');
+assert.strictEqual(eligibility.qualification_route, 'scottish');
+assert.strictEqual(eligibility.contextual_eligibility.status, 'information_needed');
+assert.strictEqual(eligibility.applicant_group_ids.includes('contextual'), false);
 
 eligibility = evaluateCourseEligibility(
   course,

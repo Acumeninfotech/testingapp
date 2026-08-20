@@ -1,5 +1,5 @@
 import { A_LEVEL_SCIENCE_SUBJECTS, GCSE_CORE_SUBJECT_IDS, GCSE_SEPARATE_SCIENCE_SUBJECT_IDS, type WizardProfile } from './profileTypes';
-import { UKWPMED_REGISTRY } from './contextualRegistry';
+import { OTHER_ACCESS_PROGRAMMES, UKWPMED_REGISTRY } from './contextualRegistry';
 
 export type ValidationErrors = Record<string, string>;
 
@@ -380,6 +380,12 @@ export function validateContextualStep(profile: WizardProfile): ValidationErrors
   const allowedSchoolAreaValues = new Set([...allowedSchoolAreaOptions, 'none', 'unknown', null, '']);
   const allowedYesNoNotSure = new Set(['yes', 'no', 'not_sure', undefined]);
   const allowedSensitiveAnswers = new Set(['yes', 'no', 'not_sure', 'prefer_not_to_say', undefined]);
+  const allowedProgrammeSchoolYears = new Set(['year_12', 'year_13', 'not_sure', '', undefined]);
+  const programmesRequiringSchoolYear = new Set(
+    OTHER_ACCESS_PROGRAMMES
+      .filter((programme) => programme.requires_school_year)
+      .map((programme) => programme.programme_id),
+  );
   const allowedUkrainianVisaSchemes = new Set([
     'homes_for_ukraine',
     'ukraine_family_scheme',
@@ -456,6 +462,12 @@ export function validateContextualStep(profile: WizardProfile): ValidationErrors
     access.other_programmes.forEach((programme, index) => {
       if (programme.programme_id && !programme.status) {
         errors[`other_programme_${index}_status`] = 'Select the status of this programme.';
+      }
+      if (!allowedProgrammeSchoolYears.has(programme.school_year)) {
+        errors[`other_programme_${index}_school_year`] = 'Select a valid school year option.';
+      }
+      if (programmesRequiringSchoolYear.has(programme.programme_id) && !programme.school_year) {
+        errors[`other_programme_${index}_school_year`] = 'Select the school year for this programme.';
       }
     });
     if (

@@ -633,11 +633,11 @@ describe('ResultCard', () => {
     );
 
     const offer = screen
-      .getByRole('heading', { name: 'Alternative Academic Offer' })
+      .getByRole('heading', { name: 'Academic Offer' })
       .closest('.alternative-academic-offer');
     expect(offer).not.toBeNull();
     expect(within(offer as HTMLElement).getByText('Contextual')).toBeInTheDocument();
-    expect(within(offer as HTMLElement).getByText('Contextual Offer')).toBeInTheDocument();
+    expect(within(offer as HTMLElement).getByText('Contextual offer')).toBeInTheDocument();
     expect(within(offer as HTMLElement).getByText('AAB')).toBeInTheDocument();
   });
 
@@ -697,11 +697,11 @@ describe('ResultCard', () => {
     ).toBeInTheDocument();
 
     const offer = screen
-      .getByRole('heading', { name: 'Alternative Academic Offer' })
+      .getByRole('heading', { name: 'Academic Offer' })
       .closest('.alternative-academic-offer');
     expect(offer).not.toBeNull();
     expect(within(offer as HTMLElement).getByText('Your minimum requirements')).toBeInTheDocument();
-    expect(within(offer as HTMLElement).queryByText('Contextual Offer')).not.toBeInTheDocument();
+    expect(within(offer as HTMLElement).queryByText('Contextual offer')).not.toBeInTheDocument();
     expect(
       within(offer as HTMLElement).getByText(
         'Minimum entry requirements apply to eligible applicants based on their circumstances.',
@@ -730,8 +730,62 @@ describe('ResultCard', () => {
     );
 
     expect(screen.getByText(CONTEXTUAL_CONFIRMED_MESSAGE)).toBeInTheDocument();
-    expect(screen.getByText('Contextual Status')).toBeInTheDocument();
-    expect(screen.getByText('✅ Contextual eligibility confirmed')).toBeInTheDocument();
+    expect(screen.queryByText('Contextual Status')).not.toBeInTheDocument();
+    expect(screen.queryByText('Contextual eligibility confirmed')).not.toBeInTheDocument();
+  });
+
+  it('renders Aston contextual wording and offer comparison without Aston Ready wording', () => {
+    render(
+      <ResultCard
+        result={makeResult(
+          {
+            contextual_status: 'confirmed',
+            contextual_confirmation: {
+              collapsed_label: "You meet Aston's contextual admissions criteria.",
+              expanded_heading: "You meet Aston's contextual admissions criteria.",
+              consideration_label: null,
+              expanded_body:
+                "Your application has been assessed using Aston's published contextual admissions criteria.",
+            },
+            alternative_academic_offer: {
+              type: 'contextual',
+              standard_offer: 'AAA',
+              alternative_offer: 'ABB',
+              standard_offer_label: 'Standard offer',
+              alternative_offer_label: 'Contextual offer',
+              explanation:
+                "You are eligible for Aston's contextual offer. You must still meet all required subject and GCSE requirements.",
+              applicable_offer: 'alternative',
+              pathway_id: 'contextual_school_leaver_a_level',
+              conditions: [],
+            },
+          },
+          { universityId: 'aston-a100', university: 'Aston University' },
+        )}
+      />,
+    );
+
+    expect(screen.getByRole('heading', { name: "You meet Aston's contextual admissions criteria." })).toBeInTheDocument();
+    expect(
+      screen.getByText("Your application has been assessed using Aston's published contextual admissions criteria."),
+    ).toBeInTheDocument();
+
+    const offer = screen
+      .getByRole('heading', { name: 'Academic Offer' })
+      .closest('.alternative-academic-offer');
+    expect(offer).not.toBeNull();
+    expect(within(offer as HTMLElement).getByText('Standard offer')).toBeInTheDocument();
+    expect(within(offer as HTMLElement).getByText('AAA')).toBeInTheDocument();
+    expect(within(offer as HTMLElement).getByText('Contextual offer')).toBeInTheDocument();
+    expect(within(offer as HTMLElement).getByText('ABB')).toBeInTheDocument();
+    expect(
+      within(offer as HTMLElement).getByText(
+        "You are eligible for Aston's contextual offer. You must still meet all required subject and GCSE requirements.",
+      ),
+    ).toBeInTheDocument();
+    expect(offer?.querySelector('.alternative-academic-offer__option--applicable')).toHaveTextContent('Contextual offer');
+    expect(screen.queryByText(/Aston Ready/i)).not.toBeInTheDocument();
+    expect(screen.queryByText('Contextual Status')).not.toBeInTheDocument();
   });
 
   it('shows Lancaster contextual wording only in the dedicated expanded contextual section', () => {
@@ -2763,12 +2817,12 @@ describe('ResultCard', () => {
     expect(screen.queryByText('Contextual Status')).not.toBeInTheDocument();
 
     const offer = screen
-      .getByRole('heading', { name: 'Alternative Academic Offer' })
+      .getByRole('heading', { name: 'Academic Offer' })
       .closest('.alternative-academic-offer');
     expect(offer).not.toBeNull();
-    expect(within(offer as HTMLElement).getByText('Standard')).toBeInTheDocument();
+    expect(within(offer as HTMLElement).getByText('Standard offer')).toBeInTheDocument();
     expect(within(offer as HTMLElement).getByText('AAA')).toBeInTheDocument();
-    expect(within(offer as HTMLElement).getByText('Contextual Offer')).toBeInTheDocument();
+    expect(within(offer as HTMLElement).getByText('Contextual offer')).toBeInTheDocument();
     expect(within(offer as HTMLElement).getByText('ABB')).toBeInTheDocument();
   });
 
@@ -2853,10 +2907,10 @@ describe('ResultCard', () => {
     expect(screen.queryByText('Contextual Status')).not.toBeInTheDocument();
 
     const offer = screen
-      .getByRole('heading', { name: 'Alternative Academic Offer' })
+      .getByRole('heading', { name: 'Academic Offer' })
       .closest('.alternative-academic-offer');
     expect(offer).not.toBeNull();
-    expect(within(offer as HTMLElement).getByText('Standard')).toBeInTheDocument();
+    expect(within(offer as HTMLElement).getByText('Standard offer')).toBeInTheDocument();
     expect(within(offer as HTMLElement).getByText('AAAAB Scottish Highers + BB Advanced Highers')).toBeInTheDocument();
     const academicCard = screen.getByText('Academic Requirements').closest('.result-card-summary-card');
     expect(academicCard).toHaveTextContent('Dundee National 5 requirements');
