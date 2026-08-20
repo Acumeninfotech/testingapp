@@ -12,7 +12,7 @@
     ]
   },
   "eligibility": {
-    "scope": "Automatic guidance applies only after implemented academic, GCSE English, A-level same-sitting, resit, UCAT and SJT gates pass. IB and Scottish routes are academically mapped but route to manual review for same-sitting evidence because the generic applicant model lacks a reliable route-level same-sitting field.",
+    "scope": "Automatic guidance applies only after implemented academic, GCSE English, same-sitting, resit, UCAT and SJT gates pass. Scottish Advanced Higher eligibility is evaluated through the shared course-eligibility route. IB same-sitting evidence remains manual review where unsupported.",
     "international_english_language_required": true,
     "explicitly_blocked_applicant_groups": [
       "graduate_applicant"
@@ -245,7 +245,6 @@
     },
     "manual_review_routes": [
       "IB same-sitting evidence",
-      "Scottish same-sitting evidence",
       "Country-specific international qualifications without Imperial-verified equivalence",
       "Alternative English-language evidence or exemption not already verified"
     ],
@@ -256,6 +255,9 @@
       "Do not apply an extra International penalty beyond the official 2310 threshold.",
       "Do not present modelled 2400 or 2500 boundaries as official thresholds.",
       "Do not predict offers."
+    ],
+    "use_course_eligibility_for_qualification_routes": [
+      "scottish"
     ]
   },
   "score_model": {
@@ -410,19 +412,19 @@
         {
           "band": "interview_likely",
           "operator": "greater_than_or_equal",
-          "value": 2500
+          "value": 2400
         },
         {
           "band": "realistic",
           "operator": "between_inclusive",
-          "min": 2400,
-          "max": 2499
+          "min": 2350,
+          "max": 2399
         },
         {
           "band": "ambitious",
           "operator": "between_inclusive",
           "min": 2320,
-          "max": 2399
+          "max": 2349
         },
         {
           "band": "high_risk",

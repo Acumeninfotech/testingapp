@@ -485,6 +485,16 @@ function scottishAcademicRouteForPresentation(context = {}) {
 }
 
 function scottishMedicalSchoolRouteIdForPresentation(context = {}) {
+  const profileId = courseProfileIdForPresentation(context);
+
+  // This presentation model is only for Scottish medical schools where
+  // Scotland/RUK is an admissions-route distinction. English universities
+  // accepting Scottish qualifications must not inherit Scotland/RUK
+  // presentation merely because the qualification route is Scottish.
+  if (!SCOTTISH_MEDICAL_SCHOOL_PRESENTATION_PROFILE_IDS.includes(profileId)) {
+    return null;
+  }
+
   const directRouteId = [
     context.scottish_medical_school_route?.route_id,
     context.scottish_route?.route_id,
@@ -493,27 +503,26 @@ function scottishMedicalSchoolRouteIdForPresentation(context = {}) {
     context.eligibility?.selection_route_id,
     context.eligibility?.scottish_medical_school_route?.route_id
   ].map(knownScottishPresentationRouteId).find(Boolean);
+
   if (directRouteId) {
     return directRouteId;
-  }
-
-  const profileId = courseProfileIdForPresentation(context);
-  if (!SCOTTISH_MEDICAL_SCHOOL_PRESENTATION_PROFILE_IDS.includes(profileId)) {
-    return null;
   }
 
   const guidancePoolRoute = scottishRouteIdFromGuidancePoolId(
     context.guidance_pool_id || context.guidance_pool?.pool_id
   );
+
   if (guidancePoolRoute?.endsWith('_contextual')) {
     return guidancePoolRoute;
   }
 
   const applicantPool = scottishApplicantPoolForPresentation(context);
   const academicRoute = scottishAcademicRouteForPresentation(context);
+
   if (!applicantPool || !academicRoute) {
     return guidancePoolRoute || null;
   }
+
   return `${applicantPool}_${academicRoute}`;
 }
 

@@ -97,10 +97,9 @@
         "required": true,
         "qualification_routes": [
           "a_level",
-          "international_baccalaureate",
-          "scottish"
+          "international_baccalaureate"
         ],
-        "notes": "Generic opt-in same-sitting enforcement. A-level has route-level applicant evidence; IB and Scottish same-sitting evidence are not currently represented and therefore route to manual review when this rule applies."
+        "notes": "Generic same-sitting enforcement applies to routes using the generic consumer. A-level evidence is represented directly. Scottish Advanced Higher same-sitting is enforced by the shared Scottish route evaluator."
       }
     },
     "overall_policy": {
@@ -414,14 +413,16 @@
             "decision_outcome_if_not_met": "not_eligible",
             "source_ids": [
               "imperial_research_doc"
-            ]
+            ],
+            "same_sitting_required": true,
+            "same_sitting_qualification_level": "advanced_higher"
           }
         ],
         "required_subject_ids": [
           "biology",
           "chemistry"
         ],
-        "notes": "Same-sitting evidence for Scottish routes is not currently represented by the generic applicant input and therefore requires manual review when the same-sitting opt-in applies."
+        "notes": "Scottish Advanced Highers are evaluated through the shared Scottish academic route: AAA including Biology and Chemistry, with the validated same-sitting requirement enforced from Scottish qualification evidence."
       },
       "degree": {
         "status": "not_accepted_for_a100_entry_route",
@@ -1145,8 +1146,7 @@
       "Future-cycle UCAT thresholds are not published in advance.",
       "Tie-breakers are unknown.",
       "Reserve-list policy is unknown.",
-      "Post-interview offer thresholds are unpublished and out of scope.",
-      "IB and Scottish same-sitting evidence are not represented by current applicant inputs and route to manual review."
+      "Post-interview offer thresholds are unpublished and out of scope."
     ],
     "review_notes": "Existing Imperial seed profile replaced with official and FOI verified production profile for A100 only."
   },
@@ -1173,7 +1173,7 @@
     "engine_assumptions": [
       "Imperial contextual group IDs are applied only after structured factual contextual_profile evidence satisfies Imperial's published criteria.",
       "A-level same-sitting evidence uses a_level_profile.completed_in_one_sitting.",
-      "IB and Scottish applicants require manual review for same-sitting evidence because no route-level field exists in the current applicant model."
+      "IB applicants continue to require manual review for same-sitting evidence where the current applicant model cannot resolve it automatically."
     ],
     "do_not_infer": [
       "Do not score GCSEs.",

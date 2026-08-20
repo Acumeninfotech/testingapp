@@ -286,7 +286,7 @@ assert.match(text, /"guaranteed_interview"/i);
 assert.match(text, /not a guarantee|not guaranteed|guaranteed interview/i);
 assert.match(text, /subsection.*not.*executed|subsection.*not.*disclosed/i);
 
-assert.strictEqual(card.prediction.result_band, 'realistic');
+assert.strictEqual(card.prediction.result_band, 'interview_likely');
 assert.strictEqual(card.evidence_confidence.level, 'Medium');
 assert.strictEqual(card.engine_notes.offer_prediction_scope, 'out_of_scope');
 assert.strictEqual(hasNestedKey(card, 'offer_prediction'), false);
