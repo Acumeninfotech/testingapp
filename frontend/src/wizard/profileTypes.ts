@@ -558,6 +558,7 @@ export function createEmptyProfile(): WizardProfile {
         { subject_id: '', grade: '' },
         { subject_id: '', grade: '' },
         { subject_id: '', grade: '' },
+        { subject_id: '', grade: '' },
       ],
       higher_subjects: [
         { subject_id: '', grade: '' },

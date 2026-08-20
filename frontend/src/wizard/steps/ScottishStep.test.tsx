@@ -49,8 +49,8 @@ describe('ScottishStep', () => {
 
     fireEvent.click(screen.getByText('National 5s').closest('summary') as HTMLElement);
     await waitFor(() => expect(section('National 5s')).toHaveAttribute('open'));
-    expect(within(section('National 5s')).getAllByLabelText('Subject')).toHaveLength(5);
-    expect(within(section('National 5s')).getAllByLabelText('Grade')).toHaveLength(5);
+    expect(within(section('National 5s')).getAllByLabelText('Subject')).toHaveLength(7);
+    expect(within(section('National 5s')).getAllByLabelText('Grade')).toHaveLength(7);
   });
 
   it('provides five Higher rows and three Advanced Higher rows for Scottish profiles', async () => {

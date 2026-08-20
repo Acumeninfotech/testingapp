@@ -26,7 +26,7 @@ import {
 import { providerUniversityIdForUkwpmed, UKWPMED_REGISTRY } from './contextualRegistry';
 
 const STORAGE_KEY = 'applysmart.wizard.profile.v1';
-const MIN_NATIONAL_5_ROWS = 5;
+const MIN_NATIONAL_5_ROWS = 7;
 
 const HOME_REGION_FLAG_TO_VALUE: Record<string, HomeRegionValue> = {
   south_west_england_resident: 'south_west_england',

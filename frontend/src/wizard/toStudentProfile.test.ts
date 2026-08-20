@@ -497,8 +497,8 @@ describe('toStudentProfile identity mapping', () => {
     expect(createEmptyProfile().scottish_profile.higher_subjects).toHaveLength(5);
   });
 
-  it('seeds six optional National 5 rows for new Scottish profiles', () => {
-    expect(createEmptyProfile().scottish_profile.national_5_subjects).toHaveLength(6);
+  it('seeds seven optional National 5 rows for new Scottish profiles', () => {
+    expect(createEmptyProfile().scottish_profile.national_5_subjects).toHaveLength(7);
   });
 
   it('preserves entered National 5 rows through studentProfile mapping', () => {
@@ -692,7 +692,7 @@ describe('toStudentProfile identity mapping', () => {
       entry.status,
     ])).toEqual([
       ['National 5 English at grade B', 'met'],
-      ['Scottish standard route', 'not_met'],
+      ['Scottish Highers', 'not_met'],
     ]);
     expect(result.primary_user_facing_recommendation).toBe('Not currently eligible');
   });
@@ -783,7 +783,7 @@ describe('toStudentProfile identity mapping', () => {
     expect(result.primary_user_facing_recommendation).not.toMatch(/information needed|not suitable/i);
   });
 
-  it('pads older stored National 5 rows to five without replacing entries', () => {
+  it('pads older stored National 5 rows to seven without replacing entries', () => {
     const profile = normaliseStoredProfile({
       scottish_profile: {
         national_5_subjects: [
@@ -799,10 +799,12 @@ describe('toStudentProfile identity mapping', () => {
       { subject_id: '', grade: '' },
       { subject_id: '', grade: '' },
       { subject_id: '', grade: '' },
+      { subject_id: '', grade: '' },
+      { subject_id: '', grade: '' },
     ]);
   });
 
-  it('does not truncate stored National 5 rows beyond five', () => {
+  it('does not truncate stored National 5 rows beyond seven', () => {
     const national5Subjects = [
       { subject_id: 'english_language', grade: 'A' },
       { subject_id: 'mathematics', grade: 'A' },
@@ -810,6 +812,8 @@ describe('toStudentProfile identity mapping', () => {
       { subject_id: 'chemistry', grade: 'A' },
       { subject_id: 'physics', grade: 'A' },
       { subject_id: 'history', grade: 'B' },
+      { subject_id: 'geography', grade: 'B' },
+      { subject_id: 'french', grade: 'B' },
     ];
     const profile = normaliseStoredProfile({
       scottish_profile: {
