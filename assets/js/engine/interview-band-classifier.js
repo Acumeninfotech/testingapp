@@ -4587,7 +4587,22 @@ function missingBirminghamScoringInput(reasonCode, label) {
   };
 }
 
+function birminghamScottishScoringUnavailable() {
+  return {
+    status: 'unavailable',
+    basis: 'Birmingham Home application score',
+    value: null,
+    max: 10,
+    components: {},
+    reason: 'birmingham_scottish_gcse_scoring_conversion_unavailable'
+  };
+}
+
 function calculateBirminghamHomeRanking(course, applicant, contextual, context = {}) {
+  if (deriveQualificationRoute(applicant) === 'scottish') {
+    return birminghamScottishScoringUnavailable();
+  }
+
   const scoringModel = course.stage_1_eligibility?.gcse?.scoring_model || {};
   const gcseGrades = getGcseGrades(applicant);
   const dualAwardGrades = splitGradeProfile(gcseGrades.combined_science);

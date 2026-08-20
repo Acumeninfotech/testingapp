@@ -58,6 +58,14 @@ const GLASGOW_SCOTLAND_HOME_UCAT_PREDICTION_CAVEAT =
 const GLASGOW_RUK_UCAT_PREDICTION_CAVEAT =
   'This prediction band is ApplySmart-derived guidance informed by Glasgow historical RUK evidence; it is not a Glasgow-published current 2027 cutoff and does not guarantee an interview.';
 const CONTEXTUAL_ADJUSTED_SELECTION_UCAT_METRIC = 'contextual_adjusted_selection_ucat_total';
+const UCL_SCOTTISH_PREDICTED_A1_CONFIRMATION_REASON =
+  'ucl_scottish_predicted_a1_confirmation_required';
+const UCL_SCOTTISH_PREDICTED_A1_CONFIRMATION_EXPLANATION =
+  'Manual review required: You meet the assessable Scottish Advanced Higher requirements. UCL requires A1, A, A, but the A1 element cannot be confirmed from predicted grades in ApplySmart. Manual confirmation of the A1 requirement is therefore required.';
+const UCL_SCOTTISH_ROUTE_2_PATHWAY_ID =
+  'ucl_scottish_two_advanced_highers_plus_highers';
+const UCL_SCOTTISH_PREDICTED_A1_SELECTION_APPROACH =
+  "Academic eligibility is pending manual confirmation of UCL's A1 Advanced Higher requirement. If confirmed, UCL ranks applicants in the relevant applicant pool using UCAT cognitive total, with SJT used only as a tie-break.";
 
 const {
   isRestOfUkFeeStatus
@@ -750,7 +758,7 @@ function academicRequirementLabelForCheck(rawCheck, qualificationType, context =
   return ACADEMIC_REQUIREMENT_LABELS[qualificationType];
 }
 
-function academicRequirementReasonForCheck(rawCheck, status) {
+function academicRequirementReasonForCheck(rawCheck, status, context = {}) {
   const checkId = academicRequirementCheckId(rawCheck);
   if (status === 'met') {
     if (checkId === 'same_sitting_requirement') {
@@ -786,6 +794,15 @@ function academicRequirementReasonForCheck(rawCheck, status) {
       rawCheck?.manual_review_reason === 'aberdeen_contextual_information_needed'
     ) {
       return 'Further evidence or review is needed to determine whether Aberdeen widening-access eligibility applies to this Scottish Higher requirement.';
+    }
+    if (
+      checkId === 'scottish_post_16_requirements' &&
+      rawCheck?.manual_review_reason === UCL_SCOTTISH_PREDICTED_A1_CONFIRMATION_REASON
+    ) {
+      return uclScottishPredictedA1ConfirmationExplanation({
+        ...context,
+        manual_review_reasons: [rawCheck.manual_review_reason]
+      }) || UCL_SCOTTISH_PREDICTED_A1_CONFIRMATION_EXPLANATION;
     }
     return 'Required subject information is missing.';
   }
@@ -1467,7 +1484,7 @@ function buildAcademicRequirementChecks(rawChecks = [], eligibilityStatus = null
       requirement_type: checkId,
       label,
       status,
-      reason: academicRequirementReasonForCheck(rawCheck, status)
+      reason: academicRequirementReasonForCheck(rawCheck, status, buildContext)
     };
     if (rawCheck.required !== undefined) row.required_value = rawCheck.required;
     if (rawCheck.actual !== undefined) row.applicant_value = rawCheck.actual;
@@ -1583,7 +1600,8 @@ const FAILURE_REASON_LABELS = {
   bristol_aspiring_state_school_awaiting_confirmation: 'Your school or college appears on Bristol’s Aspiring State Schools file but is still marked as awaiting confirmation.',
   bristol_aspiring_state_school_list_unavailable: 'Bristol Aspiring State Schools list data is currently unavailable for this application cycle and needs individual review.',
   bristol_aspiring_state_school_verification_required: 'Bristol aspiring state-school evidence cannot be verified automatically and needs individual review.',
-  bristol_scholars_tailored_offer_manual_review: 'Bristol Scholars may receive a tailored offer. The standard Bristol contextual offer of ABB should not be assumed, so this route requires individual review.'
+  bristol_scholars_tailored_offer_manual_review: 'Bristol Scholars may receive a tailored offer. The standard Bristol contextual offer of ABB should not be assumed, so this route requires individual review.',
+  ucl_scottish_predicted_a1_confirmation_required: UCL_SCOTTISH_PREDICTED_A1_CONFIRMATION_EXPLANATION
 };
 
 const SOUTHAMPTON_SCOTTISH_CASE_BY_CASE_REVIEW_REASON =
@@ -1608,6 +1626,39 @@ function humanFailureLabel(code) {
       'A predicted or achieved EPQ grade is required to assess the alternative A-level offer.';
   }
   return FAILURE_REASON_LABELS[base] || null;
+}
+
+function manualReviewReasonCodes(card = {}) {
+  return [
+    ...(Array.isArray(card.eligibility?.manual_review_reasons)
+      ? card.eligibility.manual_review_reasons
+      : []),
+    ...(Array.isArray(card.manual_review_reasons)
+      ? card.manual_review_reasons
+      : [])
+  ]
+    .map(normaliseCheckId)
+    .filter(Boolean);
+}
+
+function hasManualReviewReason(card = {}, reason) {
+  return manualReviewReasonCodes(card).includes(normaliseCheckId(reason));
+}
+
+function uclScottishPredictedA1ConfirmationExplanation(card = {}) {
+  const profileId = card.course_identity?.profile_id || card.course_profile_id || card.profile_id;
+  if (
+    profileId !== 'ucl-a100' ||
+    !hasManualReviewReason(card, UCL_SCOTTISH_PREDICTED_A1_CONFIRMATION_REASON)
+  ) {
+    return null;
+  }
+
+  const pathwayId = normaliseCheckId(card.academic_pathway_id || card.eligibility?.academic_pathway_id);
+  const requiredProfile = pathwayId === UCL_SCOTTISH_ROUTE_2_PATHWAY_ID
+    ? 'A1, A at Advanced Higher plus Highers AAA'
+    : 'A1, A, A';
+  return `Manual review required: You meet the assessable Scottish Advanced Higher requirements. UCL requires ${requiredProfile}, but the A1 element cannot be confirmed from predicted grades in ApplySmart. Manual confirmation of the A1 requirement is therefore required.`;
 }
 
 function firstSpecificFailureLabel(failures) {
@@ -3110,6 +3161,14 @@ function optionalDisplayText(value) {
 }
 
 function selectionApproachForContext(value, context = {}) {
+  const profileId = context.course_identity?.profile_id || context.course_profile_id || context.profile_id;
+  if (
+    profileId === 'ucl-a100' &&
+    hasManualReviewReason(context, UCL_SCOTTISH_PREDICTED_A1_CONFIRMATION_REASON)
+  ) {
+    return UCL_SCOTTISH_PREDICTED_A1_SELECTION_APPROACH;
+  }
+
   const simple = optionalDisplayText(value);
   if (simple) return simple;
   if (!value || typeof value !== 'object') return null;
@@ -5478,8 +5537,12 @@ function publicInformationNeededReason({
     const lancasterAccessWpReviewReason = lancasterAccessToMedicineWpReviewReason(card, missingInformation);
     const glasgowReachCompletionReason = glasgowReachCompletionInformationNeededReason(card);
     const southamptonScottishReviewReason = southamptonScottishCaseByCaseReviewReason(card);
+    const uclScottishPredictedA1Reason = uclScottishPredictedA1ConfirmationExplanation(card);
     if (glasgowReachCompletionReason) {
       return glasgowReachCompletionReason;
+    }
+    if (uclScottishPredictedA1Reason) {
+      return uclScottishPredictedA1Reason;
     }
     if (southamptonScottishReviewReason) {
       return southamptonScottishReviewReason;
@@ -5592,8 +5655,12 @@ function normalizeFactorUsage(card, options = {}) {
     .filter(Boolean)
     .join(' ')
     .toLowerCase();
+  const academicPlusUcatScoring =
+    stage2Selection?.primary_model === 'academic_plus_ucat_weighting' ||
+    stage2Selection?.primary_model === 'academic_plus_ucat_weighting_with_international_ucat_only_pool';
   const ucatRankingUse =
     stage2Selection?.primary_model === 'ucat_ranking' ||
+    academicPlusUcatScoring ||
     (/(?:\bucat\b|\bucat cognitive total\b|\bucat total\b)/.test(ucatSelectionText) && /\branking\b/.test(ucatSelectionText));
   const ucatConsideredUse =
     stage2Selection?.primary_model === 'holistic_review' ||
@@ -6131,10 +6198,14 @@ function presentResultCard({
   const glasgowReachCompletionReason = glasgowReachCompletionInformationNeededReason(transparencyContext);
   const manualReviewPrimaryExplanation = firstNonEmptyString(
     glasgowReachCompletionReason,
+    uclScottishPredictedA1ConfirmationExplanation(transparencyContext),
     southamptonScottishCaseByCaseReviewReason(transparencyContext),
     transparencyContext.decision_transparency?.manual_review_reason,
     manualReviewReason
   ) || GENERIC_MANUAL_REVIEW_EXPLANATION;
+  const uclScottishPredictedA1Review =
+    transparencyContext.course_identity?.profile_id === 'ucl-a100' &&
+    hasManualReviewReason(transparencyContext, UCL_SCOTTISH_PREDICTED_A1_CONFIRMATION_REASON);
   const preDisplayState =
     manualReviewRequired || eligibilityStatus === 'manual_review'
       ? 'manual_review'
@@ -6200,7 +6271,9 @@ function presentResultCard({
     };
 	  } else if (manualReviewRequired || eligibilityStatus === 'manual_review') {
 	    display = {
-	      primary_user_facing_recommendation: STANDARD_RECOMMENDATION_HEADLINES.manual_review,
+	      primary_user_facing_recommendation: uclScottishPredictedA1Review
+	        ? 'Information Needed / Manual Review'
+	        : STANDARD_RECOMMENDATION_HEADLINES.manual_review,
 	      recommendation_display_state: 'manual_review',
 	      primary_explanation: manualReviewPrimaryExplanation,
 	      historical_guidance_caveat: null

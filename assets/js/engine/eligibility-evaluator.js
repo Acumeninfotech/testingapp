@@ -1190,6 +1190,24 @@ function scottishSubjectMap(subjects, route = {}, level = 'higher') {
   return result;
 }
 
+function scottishPredictedManualReviewRoute(route = {}) {
+  const reviewRule =
+    route.predicted_grade_manual_review ||
+    route.predicted_manual_review ||
+    null;
+  if (!reviewRule || typeof reviewRule !== 'object') {
+    return null;
+  }
+
+  return {
+    ...route,
+    ...reviewRule,
+    route_id: route.route_id,
+    pathway_id: route.pathway_id,
+    requirement_id: route.requirement_id
+  };
+}
+
 function valueAtPath(source, path) {
   if (!path) return undefined;
   return String(path)
@@ -2613,37 +2631,53 @@ function evaluateScottishRoute(course, applicant, state) {
     return passed;
   };
   const passedRoute = routes.find(routeMeets) || null;
+  const predictedManualReviewRoute = !passedRoute && deriveQualificationStatus(applicant) === 'predicted'
+    ? routes
+      .map((route) => ({
+        route,
+        reviewRoute: scottishPredictedManualReviewRoute(route)
+      }))
+      .find((candidate) => candidate.reviewRoute && routeMeets(candidate.reviewRoute)) || null
+    : null;
   const post16Passed = Boolean(passedRoute);
   const post16ReviewReason = passedRoute ? routeManualReviewReasons.get(passedRoute) : null;
+  const post16ManualReviewReason = predictedManualReviewRoute
+    ? (
+      predictedManualReviewRoute.reviewRoute.manual_review_reason ||
+      'scottish_predicted_grade_confirmation_required'
+    )
+    : post16ReviewReason;
+  const displayRoute = passedRoute || predictedManualReviewRoute?.route || null;
   addCheck(state, 'scottish_post_16_requirements', post16Passed, {
-    ...(passedRoute?.qualification_level ? {
-      qualification_level: passedRoute.qualification_level
+    ...(displayRoute?.qualification_level ? {
+      qualification_level: displayRoute.qualification_level
     } : {}),
-    ...(post16ReviewReason ? {
+    ...(post16ManualReviewReason ? {
       status: 'manual_review',
-      manual_review_reason: post16ReviewReason
+      manual_review_reason: post16ManualReviewReason
     } : {})
   });
-  if (post16Passed) {
-    const passedRouteGroups = passedRoute.applies_to_group_ids || [];
+  if (post16Passed || predictedManualReviewRoute) {
+    const resolvedRoute = passedRoute || predictedManualReviewRoute.route;
+    const passedRouteGroups = resolvedRoute.applies_to_group_ids || [];
     const contextualRoute =
       passedRouteGroups.includes('contextual') ||
       passedRouteGroups.includes('widening_participation');
-    const passedRoutePathway = passedRoute.academic_pathway ||
+    const passedRoutePathway = resolvedRoute.academic_pathway ||
       (contextualRoute ? 'contextual' : null);
     if (passedRoutePathway) {
       state.academic_pathway = state.academic_pathway || passedRoutePathway;
     }
     state.academic_pathway_id = state.academic_pathway_id ||
-      passedRoute.pathway_id ||
-      passedRoute.route_id ||
-      passedRoute.requirement_id ||
+      resolvedRoute.pathway_id ||
+      resolvedRoute.route_id ||
+      resolvedRoute.requirement_id ||
       null;
-    if (post16ReviewReason) {
-      addManualReview(state, post16ReviewReason);
+    if (post16ManualReviewReason) {
+      addManualReview(state, post16ManualReviewReason);
     }
   }
-  if (!post16Passed) {
+  if (!post16Passed && !predictedManualReviewRoute) {
     addFailure(state, 'scottish_post_16_requirements_not_met');
   }
 }

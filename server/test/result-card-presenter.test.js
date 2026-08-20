@@ -13,6 +13,7 @@ const cambridgeCourse = require('../../data/universities/cambridge-a100.json');
 const astonCourse = require('../../data/universities/aston-a100.json');
 const birminghamCourse = require('../../data/universities/birmingham-a100.json');
 const astonConfig = require('../../data/interview-band-configs/aston-a100.json');
+const birminghamConfig = require('../../data/interview-band-configs/birmingham-a100.json');
 const cambridgeConfig = require('../../data/interview-band-configs/cambridge-a100.json');
 const cambridgeFixture = require('../../data/fixtures/interview-band-classification/cambridge-a100.json');
 const hullYorkCourse = require('../../data/universities/hull-york-a100.json');
@@ -582,6 +583,70 @@ function resultCardText(card) {
       `${eligibilityStatus} EPQ summary must not duplicate academic badges`
     );
   }
+}
+
+{
+  const reasonCode = 'birmingham_scottish_gcse_scoring_conversion_unavailable';
+  const card = present({
+    interviewBand: 'insufficient_evidence',
+    insufficientEvidenceReasonCode: reasonCode,
+    transparencyContext: {
+      course_identity: { profile_id: 'birmingham-a100' },
+      applicant_context: {
+        qualification_route: 'scottish',
+        admissions_tests: {
+          ucat: { total_score: 2400, score_scale: 2700, sjt_band: 2 }
+        }
+      },
+      applicant_group_ids: ['home_fee', 'school_leaver'],
+      stage_1_eligibility: birminghamCourse.stage_1_eligibility,
+      stage_2_interview_selection: birminghamCourse.stage_2_interview_selection,
+      selection_approach_display: birminghamCourse.selection_approach_display.default,
+      score_model: birminghamConfig.score_model,
+      guidance_pool_id: 'home_standard',
+      guidance_pool: {
+        pool_id: 'home_standard',
+        metric: 'selection_score'
+      },
+      ranking: {
+        status: 'unavailable',
+        basis: 'Birmingham Home application score',
+        value: null,
+        max: 10,
+        components: {},
+        reason: reasonCode
+      }
+    }
+  });
+
+  assert.strictEqual(
+    card.decision_transparency.insufficient_evidence_reason_code,
+    reasonCode,
+    'Birmingham Scottish route should use the dedicated scoring-conversion evidence-gap reason'
+  );
+  assert.match(
+    card.decision_transparency.insufficient_evidence_reason,
+    /meet Birmingham's published Scottish academic requirements/i
+  );
+  assert.match(
+    card.decision_transparency.insufficient_evidence_reason,
+    /verified National 5-to-GCSE scoring conversion/i
+  );
+  assert.doesNotMatch(
+    JSON.stringify(card),
+    /No English Language grade was provided|missing_birmingham_english_language_grade/i,
+    'Birmingham Scottish route must not render GCSE English Language missing-input copy'
+  );
+  assert.strictEqual(
+    card.decision_transparency.score_breakdown ?? null,
+    null,
+    'Birmingham Scottish route must not render an invented selection score breakdown'
+  );
+  assert.strictEqual(
+    card.factor_usage.find((entry) => entry.factor_id === 'ucat')?.role,
+    'ranking',
+    'Birmingham Scottish unavailable score should still present UCAT as used in selection'
+  );
 }
 
 {

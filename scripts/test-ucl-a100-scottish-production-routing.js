@@ -97,10 +97,33 @@ function route1AdvancedHighers() {
   ];
 }
 
+function route1PredictedAdvancedHighers() {
+  return [
+    { subject_id: 'biology', predicted_grade: 'A', sitting_id: '2026' },
+    { subject_id: 'chemistry', predicted_grade: 'A', sitting_id: '2026' },
+    { subject_id: 'mathematics', predicted_grade: 'A', sitting_id: '2026' }
+  ];
+}
+
+function route1AchievedAdvancedHighers(grades = ['A*', 'A', 'A']) {
+  return [
+    { subject_id: 'biology', achieved_grade: grades[0], sitting_id: '2026' },
+    { subject_id: 'chemistry', achieved_grade: grades[1], sitting_id: '2026' },
+    { subject_id: 'mathematics', achieved_grade: grades[2], sitting_id: '2026' }
+  ];
+}
+
 function route2AdvancedHighers() {
   return [
     { subject_id: 'biology', grade: 'A*', sitting_id: '2026' },
     { subject_id: 'chemistry', grade: 'A', sitting_id: '2026' }
+  ];
+}
+
+function route2PredictedAdvancedHighers() {
+  return [
+    { subject_id: 'biology', predicted_grade: 'A', sitting_id: '2026' },
+    { subject_id: 'chemistry', predicted_grade: 'A', sitting_id: '2026' }
   ];
 }
 
@@ -268,6 +291,59 @@ function assertNotEligible(applicant, expectedFailure) {
   assertNoScottishMedicalSchoolRouteInCard(card);
 }
 
+function assertUclPredictedA1ManualReview(applicant, expectedPathwayId, expectedRequiredProfile) {
+  const reason = 'ucl_scottish_predicted_a1_confirmation_required';
+  const expectedExplanation =
+    `Manual review required: You meet the assessable Scottish Advanced Higher requirements. UCL requires ${expectedRequiredProfile}, but the A1 element cannot be confirmed from predicted grades in ApplySmart. Manual confirmation of the A1 requirement is therefore required.`;
+  const classification = classify(applicant);
+  assert.strictEqual(
+    classification.eligibility.status,
+    'manual_review',
+    `Expected manual review; received ${JSON.stringify(classification.eligibility)}`
+  );
+  assert.ok(classification.eligibility.manual_review_reasons.includes(reason));
+  assert.strictEqual(classification.eligibility.academic_pathway_id, expectedPathwayId);
+  assert.strictEqual(classification.eligibility.qualification_route, 'scottish');
+  assert.strictEqual(classification.guidance_pool_id, 'home_a100');
+  assert.strictEqual(classification.ranking?.value, 2400);
+  assert.strictEqual(classification.band_metric?.metric, 'ucat_total');
+  assert.notStrictEqual(classification.canonical_interview_band, 'not_eligible');
+  assertNoScottishMedicalSchoolRoute(classification.selection_route_id);
+
+  const card = predictUcl(applicant);
+  assert.strictEqual(card.recommendation_display_state, 'manual_review');
+  assert.strictEqual(card.primary_user_facing_recommendation, 'Information Needed / Manual Review');
+  assert.strictEqual(
+    card.primary_explanation,
+    expectedExplanation
+  );
+  assert.strictEqual(
+    card.selection_approach_display,
+    "Academic eligibility is pending manual confirmation of UCL's A1 Advanced Higher requirement. If confirmed, UCL ranks applicants in the relevant applicant pool using UCAT cognitive total, with SJT used only as a tie-break."
+  );
+  assert.strictEqual(card.prediction.ranking_metric, 'ucat_total');
+  assert.strictEqual(card.academic_pathway_id, expectedPathwayId);
+  assert.ok(
+    card.academic_requirement_checks.some((check) => {
+      return check.qualification_type === 'scottish' &&
+        check.requirement_type === 'scottish_post_16_requirements' &&
+        check.status === 'information_needed';
+    }),
+    'Expected Scottish post-16 requirement to require information, not fail.'
+  );
+  assert.ok(
+    !card.academic_requirement_checks.some((check) => {
+      return check.qualification_type === 'scottish' &&
+        check.requirement_type === 'scottish_post_16_requirements' &&
+        check.status === 'not_met';
+    }),
+    'Predicted A1 confirmation gap must not render a failed Scottish post-16 badge.'
+  );
+  assertNoScottishMedicalSchoolRouteInCard(card);
+
+  return { classification, card };
+}
+
 const tests = [
   {
     id: 'configuration_routes_scottish_through_shared_course_eligibility',
@@ -310,6 +386,52 @@ const tests = [
     }
   },
   {
+    id: 'route_1_predicted_aaa_biology_chemistry_requires_a1_manual_review',
+    run() {
+      assertUclPredictedA1ManualReview(
+        scottishApplicant({
+          scottish_profile: {
+            national_5_subjects: [],
+            higher_subjects: [],
+            advanced_higher_subjects: route1PredictedAdvancedHighers()
+          }
+        }),
+        'ucl_scottish_advanced_highers_a1aa_biology_chemistry',
+        'A1, A, A'
+      );
+    }
+  },
+  {
+    id: 'route_1_predicted_aab_remains_not_eligible',
+    run() {
+      assertNotEligible(
+        scottishApplicant({
+          scottish_profile: {
+            advanced_higher_subjects: [
+              { subject_id: 'biology', predicted_grade: 'A', sitting_id: '2026' },
+              { subject_id: 'chemistry', predicted_grade: 'A', sitting_id: '2026' },
+              { subject_id: 'mathematics', predicted_grade: 'B', sitting_id: '2026' }
+            ]
+          }
+        }),
+        'scottish_post_16_requirements_not_met'
+      );
+    }
+  },
+  {
+    id: 'route_1_achieved_aaa_without_a1_remains_not_eligible',
+    run() {
+      assertNotEligible(
+        scottishApplicant({
+          scottish_profile: {
+            advanced_higher_subjects: route1AchievedAdvancedHighers(['A', 'A', 'A'])
+          }
+        }),
+        'scottish_post_16_requirements_not_met'
+      );
+    }
+  },
+  {
     id: 'scotland_domicile_valid_scottish_route_1_uses_home_pool',
     run() {
       const { classification } = assertScottishEligible(
@@ -333,6 +455,22 @@ const tests = [
       );
       assert.ok(classification.applicant_group_ids.includes('england_domiciled'));
       assert.ok(!classification.applicant_group_ids.includes('scotland_domiciled'));
+    }
+  },
+  {
+    id: 'route_2_predicted_aa_plus_highers_aaa_requires_a1_manual_review',
+    run() {
+      assertUclPredictedA1ManualReview(
+        scottishRoute2Applicant({
+          scottish_profile: {
+            national_5_subjects: [],
+            higher_subjects: route2Highers(),
+            advanced_higher_subjects: route2PredictedAdvancedHighers()
+          }
+        }),
+        'ucl_scottish_two_advanced_highers_plus_highers',
+        'A1, A at Advanced Higher plus Highers AAA'
+      );
     }
   },
   {
