@@ -1769,6 +1769,58 @@ function isEquivalentCourseTarget(profileId, targetCourseCode) {
   return Array.isArray(allowed) && allowed.includes(targetCourseCode);
 }
 
+function applyClassificationEligibilityGuards(eligibility, config, qualificationRoute, groupIds = []) {
+  const configEligibility = config?.eligibility || {};
+  const configuredRoutes = configEligibility.qualification_routes || {};
+  const normalisedRoute = normaliseId(qualificationRoute);
+  const normalisedGroupIds = groupIds.map(normaliseId);
+  const failures = [...(eligibility.failures || [])];
+  const manualReviewReasons = [...(eligibility.manual_review_reasons || [])];
+  const addFailure = (reason) => {
+    if (!failures.includes(reason)) {
+      failures.push(reason);
+    }
+  };
+  const addManualReview = (reason) => {
+    if (!manualReviewReasons.includes(reason)) {
+      manualReviewReasons.push(reason);
+    }
+  };
+
+  if ((configuredRoutes.explicitly_blocked || []).map(normaliseId).includes(normalisedRoute)) {
+    addFailure(`qualification_route_explicitly_blocked:${normalisedRoute}`);
+  }
+  if ((configuredRoutes.manual_review || []).map(normaliseId).includes(normalisedRoute)) {
+    addManualReview(`qualification_route_requires_manual_review:${normalisedRoute}`);
+  }
+
+  for (const groupId of configEligibility.explicitly_blocked_applicant_groups || []) {
+    const normalisedGroupId = normaliseId(groupId);
+    if (normalisedGroupIds.includes(normalisedGroupId)) {
+      addFailure(`applicant_group_explicitly_blocked:${normalisedGroupId}`);
+    }
+  }
+  for (const groupId of configEligibility.manual_review_applicant_groups || []) {
+    const normalisedGroupId = normaliseId(groupId);
+    if (normalisedGroupIds.includes(normalisedGroupId)) {
+      addManualReview(`applicant_group_requires_manual_review:${normalisedGroupId}`);
+    }
+  }
+
+  const status = failures.length
+    ? 'not_eligible'
+    : manualReviewReasons.length && eligibility.status === 'eligible'
+      ? 'manual_review'
+      : eligibility.status;
+
+  return {
+    ...eligibility,
+    status,
+    failures,
+    manual_review_reasons: manualReviewReasons
+  };
+}
+
 function evaluateHardFilters(course, config, applicant, groupIds, resolvedEligibility = null) {
   const academic = evaluateAcademicEligibility(course, config, applicant, groupIds);
   const failures = [...academic.failures];
@@ -4882,7 +4934,12 @@ function classifyInterviewBand(course, config, applicantInput, options = {}) {
     ? eligibility.applicant_group_ids
     : preliminaryGroupIds;
   const resolvedEligibility = useCourseEligibility
-    ? eligibility
+    ? applyClassificationEligibilityGuards(
+      eligibility,
+      classificationConfig,
+      qualificationRoute,
+      groupIds
+    )
     : evaluateHardFilters(course, classificationConfig, applicant, groupIds);
   const base = {
     course_profile_id: course.profile_id,

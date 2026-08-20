@@ -1586,6 +1586,9 @@ const FAILURE_REASON_LABELS = {
   bristol_scholars_tailored_offer_manual_review: 'Bristol Scholars may receive a tailored offer. The standard Bristol contextual offer of ABB should not be assumed, so this route requires individual review.'
 };
 
+const SOUTHAMPTON_SCOTTISH_CASE_BY_CASE_REVIEW_REASON =
+  "You meet Southampton's published minimum Scottish academic requirements, but Southampton assesses Scottish qualification offers on a case-by-case basis. ApplySmart cannot automatically confirm final academic eligibility.";
+
 function futureConditionAdvisories(futureConditions = [], options = {}) {
   const universityName = options.universityName || 'this university';
   return [...new Set(futureConditions || [])]
@@ -1725,6 +1728,48 @@ function publicFeeInformation(feeInformation, groupIds = []) {
 function humanManualReviewReason(manualReviewReasons) {
   const [firstReason] = manualReviewReasons || [];
   return humanFailureLabel(firstReason) || null;
+}
+
+function southamptonScottishCaseByCaseReviewReason(card = {}) {
+  const profileId = card.course_identity?.profile_id || card.course_profile_id || card.profile_id;
+  if (profileId !== 'southampton-a100') {
+    return null;
+  }
+
+  const qualificationRoute = normaliseCheckId(
+    card.applicant_context?.qualification_route ||
+    card.qualification_route ||
+    card.eligibility?.qualification_route
+  );
+  if (qualificationRoute !== 'scottish') {
+    return null;
+  }
+
+  const reasons = [
+    ...(Array.isArray(card.eligibility?.manual_review_reasons)
+      ? card.eligibility.manual_review_reasons
+      : []),
+    ...(Array.isArray(card.manual_review_reasons)
+      ? card.manual_review_reasons
+      : [])
+  ].map(normaliseCheckId);
+  if (!reasons.includes('qualification_route_requires_manual_review_scottish')) {
+    return null;
+  }
+
+  const checks = Array.isArray(card.eligibility_checks) ? card.eligibility_checks : [];
+  const hasPassedCheck = (checkId) => checks.some((check) => {
+    return normaliseCheckId(check?.check_id || check?.check) === checkId &&
+      normaliseCheckId(check?.status || check?.decision_outcome || (check?.passed === true ? 'pass' : '')) === 'pass';
+  });
+  if (
+    !hasPassedCheck('national_5_requirements') ||
+    !hasPassedCheck('scottish_post_16_requirements')
+  ) {
+    return null;
+  }
+
+  return SOUTHAMPTON_SCOTTISH_CASE_BY_CASE_REVIEW_REASON;
 }
 
 function titleCaseGroupLabel(groupId) {
@@ -4449,6 +4494,16 @@ function recommendationSummary(card, state, options = {}) {
     return `${options.riskExplanation.summary} Treat this as guidance for university choice, not a promised interview.`;
   }
 
+  const existingExplanation = firstNonEmptyString(
+    card.primary_explanation,
+    card.display?.primary_explanation
+  );
+  if (existingExplanation) {
+    return /Treat this as guidance/i.test(existingExplanation)
+      ? existingExplanation
+      : `${existingExplanation} Treat this as guidance for university choice, not a promised interview.`;
+  }
+
   const explanation = standardRecommendationExplanation(card.prediction?.result_band, {
     ucatComparison: options.ucatComparison,
     selectionScoreComparison: options.selectionScoreComparison,
@@ -5422,8 +5477,12 @@ function publicInformationNeededReason({
     const contextual = card.eligibility?.contextual_eligibility || card.contextual_eligibility || null;
     const lancasterAccessWpReviewReason = lancasterAccessToMedicineWpReviewReason(card, missingInformation);
     const glasgowReachCompletionReason = glasgowReachCompletionInformationNeededReason(card);
+    const southamptonScottishReviewReason = southamptonScottishCaseByCaseReviewReason(card);
     if (glasgowReachCompletionReason) {
       return glasgowReachCompletionReason;
+    }
+    if (southamptonScottishReviewReason) {
+      return southamptonScottishReviewReason;
     }
     if (lancasterAccessWpReviewReason) {
       return appendNotARejection(lancasterAccessWpReviewReason);
@@ -6072,6 +6131,7 @@ function presentResultCard({
   const glasgowReachCompletionReason = glasgowReachCompletionInformationNeededReason(transparencyContext);
   const manualReviewPrimaryExplanation = firstNonEmptyString(
     glasgowReachCompletionReason,
+    southamptonScottishCaseByCaseReviewReason(transparencyContext),
     transparencyContext.decision_transparency?.manual_review_reason,
     manualReviewReason
   ) || GENERIC_MANUAL_REVIEW_EXPLANATION;

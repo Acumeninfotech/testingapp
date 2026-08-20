@@ -528,7 +528,15 @@ function supportedScottishMedicalSchoolRouteIds(course = {}) {
   return SCOTTISH_MEDICAL_SCHOOL_ROUTE_IDS.filter((routeId) => supported.has(routeId));
 }
 
+function isScottishMedicalSchoolRouteCourse(course = {}) {
+  return normaliseId(course.university?.nation) === 'scotland';
+}
+
 function resolveScottishMedicalSchoolRoute(course, applicant = {}, options = {}) {
+  if (!isScottishMedicalSchoolRouteCourse(course)) {
+    return null;
+  }
+
   const groupIds = options.applicant_group_ids || deriveApplicantGroupIds(applicant);
   const applicantPool = applicantPoolForScottishMedicalSchoolRoute(groupIds);
   const supportedRouteIds = supportedScottishMedicalSchoolRouteIds(course);
@@ -1038,6 +1046,35 @@ function national5RequirementsFor(rules = {}, groupIds = []) {
   }
 
   return requirements;
+}
+
+function national5RulesForCourse(course) {
+  const rules = course?.stage_1_eligibility?.national_5 || {};
+  const embeddedGradeRequirements = (course?.stage_1_eligibility?.gcse?.grade_requirements || [])
+    .filter((requirement) => {
+      return normaliseId(requirement?.qualification_level) === 'national_5';
+    });
+
+  if (embeddedGradeRequirements.length === 0) {
+    return rules;
+  }
+
+  const gradeRequirementsById = new Map();
+  for (const requirement of [
+    ...asArray(rules.grade_requirements),
+    ...embeddedGradeRequirements
+  ]) {
+    const key = requirement.requirement_id ||
+      `${normaliseId(requirement.subject_id)}:${normaliseId(requirement.minimum_grade)}`;
+    if (!gradeRequirementsById.has(key)) {
+      gradeRequirementsById.set(key, requirement);
+    }
+  }
+
+  return {
+    ...rules,
+    grade_requirements: [...gradeRequirementsById.values()]
+  };
 }
 
 function asArray(value) {
@@ -2389,7 +2426,7 @@ function evaluateGraduateRoute(course, applicant, state) {
 
 function evaluateScottishRoute(course, applicant, state) {
   const post16Rules = course.stage_1_eligibility?.post_16?.scottish || {};
-  const national5Rules = course.stage_1_eligibility?.national_5 || {};
+  const national5Rules = national5RulesForCourse(course);
   const profile = applicant.scottish_profile || {};
   const national5 = profileToSubjectMap({ subjects: profile.national_5_subjects || [] });
   const higherSubjects = scottishProfileSubjects(profile, 'higher_subjects');
@@ -2486,6 +2523,18 @@ function evaluateScottishRoute(course, applicant, state) {
       (route.advanced_higher_grade_profile_options || []).length > 0;
 
     if (route.qualification_level === 'scottish_highers_and_advanced_highers') {
+      const higherSubjectOptionsPassed = subjectGradeOptionsMeet(
+        routeHigherGrades,
+        route.higher_required_subject_grade_options || [],
+        'higher'
+      );
+      const advancedHigherSubjectOptionsPassed = subjectGradeOptionsMeet(
+        routeAdvancedHigherGrades,
+        route.advanced_higher_required_subject_grade_options ||
+          route.required_subject_grade_options ||
+          [],
+        'advanced_higher'
+      );
       const passed = routeSittingPassed &&
         (!higherProfileRequired || gradeProfileOptionsMeet(
           Object.values(routeHigherGrades),
@@ -2510,6 +2559,7 @@ function evaluateScottishRoute(course, applicant, state) {
           routeHigherGrades,
           route.higher_subject_grade_requirements || []
         ) &&
+        higherSubjectOptionsPassed &&
         subjectsMeet(
           routeAdvancedHigherGrades,
           route.advanced_higher_required_subject_ids
@@ -2522,6 +2572,7 @@ function evaluateScottishRoute(course, applicant, state) {
           routeAdvancedHigherGrades,
           route.advanced_higher_subject_grade_requirements || []
         ) &&
+        advancedHigherSubjectOptionsPassed &&
         sameYearSubjectRulesPassed;
       if (passed && routeSittingAssessment.requires_manual_review) {
         routeManualReviewReasons.set(route, routeSittingAssessment.manual_review_reason);
@@ -2532,6 +2583,19 @@ function evaluateScottishRoute(course, applicant, state) {
     const grades = route.qualification_level === 'advanced_higher'
       ? routeAdvancedHigherGrades
       : routeHigherGrades;
+    const routeLevel = route.qualification_level === 'advanced_higher'
+      ? 'advanced_higher'
+      : 'higher';
+    const directSubjectGradesPassed = subjectGradeRequirementsMeet(
+      grades,
+      route.subject_grade_requirements || [],
+      routeLevel
+    );
+    const subjectOptionsPassed = subjectGradeOptionsMeet(
+      grades,
+      route.required_subject_grade_options || [],
+      routeLevel
+    );
     const passed = routeSittingPassed &&
       gradeProfileOptionsMeet(
         Object.values(grades),
@@ -2540,7 +2604,8 @@ function evaluateScottishRoute(course, applicant, state) {
       ) &&
       subjectsMeet(grades, route.required_subject_ids) &&
       subjectGroupsMeet(grades, route.one_of_subject_groups) &&
-      subjectGradeRequirementsMeet(grades, route.subject_grade_requirements || []) &&
+      directSubjectGradesPassed &&
+      subjectOptionsPassed &&
       sameYearSubjectRulesPassed;
     if (passed && routeSittingAssessment.requires_manual_review) {
       routeManualReviewReasons.set(route, routeSittingAssessment.manual_review_reason);

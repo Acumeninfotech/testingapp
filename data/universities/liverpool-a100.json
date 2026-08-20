@@ -726,23 +726,26 @@
         },
         "grade_requirements": [
           {
-            "requirement_id": "scottish_higher_requirement",
+            "requirement_id": "liverpool_scottish_highers_and_advanced_highers",
             "applies_to_group_ids": [
-              "scotland_domiciled",
               "school_leaver"
             ],
-            "qualification_level": "scottish_higher",
-            "grade_profile": [
+            "qualification_level": "scottish_highers_and_advanced_highers",
+            "higher_grade_profile": [
               "A",
               "A",
               "A",
               "A",
               "B"
             ],
-            "required_subject_ids": [
+            "advanced_higher_grade_profile": [
+              "A",
+              "A"
+            ],
+            "higher_required_subject_ids": [
               "chemistry"
             ],
-            "one_of_subject_groups": [
+            "higher_one_of_subject_groups": [
               {
                 "group_id": "scottish_higher_second_science_or_maths",
                 "minimum_required": 1,
@@ -754,27 +757,10 @@
                 "notes": "One of Biology, Physics or Mathematics is required alongside Chemistry."
               }
             ],
-            "decision_outcome_if_not_met": "not_eligible",
-            "source_ids": [
-              "liverpool_scottish_guidelines_2027"
-            ],
-            "notes": "Five Highers must be taken at one sitting after one year of study."
-          },
-          {
-            "requirement_id": "advanced_higher_requirement",
-            "applies_to_group_ids": [
-              "scotland_domiciled",
-              "school_leaver"
-            ],
-            "qualification_level": "advanced_higher",
-            "grade_profile": [
-              "A",
-              "A"
-            ],
-            "required_subject_ids": [
+            "advanced_higher_required_subject_ids": [
               "chemistry"
             ],
-            "one_of_subject_groups": [
+            "advanced_higher_one_of_subject_groups": [
               {
                 "group_id": "advanced_higher_second_science_or_maths",
                 "minimum_required": 1,
@@ -790,7 +776,7 @@
             "source_ids": [
               "liverpool_scottish_guidelines_2027"
             ],
-            "notes": "The Scottish Science Baccalaureate is not by itself sufficient."
+            "notes": "Five Highers must be taken at one sitting after one year of study. Advanced Highers must include Chemistry and one of Biology, Physics or Mathematics. The Scottish Science Baccalaureate is not by itself sufficient."
           }
         ],
         "required_subject_ids": [

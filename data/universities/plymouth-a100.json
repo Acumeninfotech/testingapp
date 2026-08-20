@@ -412,6 +412,32 @@
         "route_implemented": true,
         "higher_offer": "not_accepted_alone",
         "advanced_higher_offer": "AAA",
+        "grade_requirements": [
+          {
+            "requirement_id": "plymouth_scottish_advanced_highers_aaa",
+            "qualification_level": "advanced_higher",
+            "grade_profile": [
+              "A",
+              "A",
+              "A"
+            ],
+            "required_subject_ids": [
+              "biology"
+            ],
+            "one_of_subject_groups": [
+              {
+                "group_id": "second_advanced_higher_science",
+                "minimum_required": 1,
+                "subject_ids": [
+                  "chemistry",
+                  "physics",
+                  "mathematics",
+                  "psychology"
+                ]
+              }
+            ]
+          }
+        ],
         "required_subjects": [
           "biology"
         ],

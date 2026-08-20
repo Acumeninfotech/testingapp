@@ -12,6 +12,17 @@
   "eligibility": {
     "scope": "Automatic banding applies after the applicant passes an executable academic route, supplies a current-cycle UCAT total and resolves into a Home or International pool.",
     "international_english_language_required": true,
+    "allow_guidance_with_manual_review_reasons": [
+      "qualification_route_requires_manual_review:scottish"
+    ],
+    "manual_review_band_caps": [
+      {
+        "manual_review_reasons": [
+          "qualification_route_requires_manual_review:scottish"
+        ],
+        "cap_to_band": "insufficient_evidence"
+      }
+    ],
     "qualification_routes": {
       "supported": [
         "a_level",
@@ -19,6 +30,9 @@
         "graduate",
         "scottish",
         "international_qualification"
+      ],
+      "manual_review": [
+        "scottish"
       ],
       "explicitly_blocked": [
         "btec",
@@ -28,6 +42,9 @@
         "unknown"
       ]
     },
+    "use_course_eligibility_for_qualification_routes": [
+      "scottish"
+    ],
     "derived_applicant_groups": [
       {
         "group_id": "contextual",

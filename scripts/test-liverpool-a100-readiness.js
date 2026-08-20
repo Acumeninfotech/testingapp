@@ -210,6 +210,13 @@ const builders = {
         { subject_id: 'geography', grade: 'C' },
         { subject_id: 'french', grade: 'C' }
       ],
+      higher_subjects: [
+        { subject_id: 'chemistry', grade: 'A', sitting_id: '2025' },
+        { subject_id: 'biology', grade: 'A', sitting_id: '2025' },
+        { subject_id: 'mathematics', grade: 'A', sitting_id: '2025' },
+        { subject_id: 'english', grade: 'A', sitting_id: '2025' },
+        { subject_id: 'history', grade: 'B', sitting_id: '2025' }
+      ],
       advanced_higher_subjects: [
         { subject_id: 'chemistry', grade: 'A' },
         { subject_id: 'biology', grade: 'A' }
