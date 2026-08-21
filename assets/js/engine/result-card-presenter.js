@@ -1657,6 +1657,7 @@ const FAILURE_REASON_LABELS = {
   bristol_contextual_information_needed: 'More information is needed to confirm whether you qualify for Bristol’s contextual offer.',
   aberdeen_contextual_information_needed: 'Further evidence or review is needed to determine whether Aberdeen widening-access eligibility applies.',
   aberdeen_reach_program_scotland_information_needed: ABERDEEN_REACH_CONTEXTUAL_REVIEW_REASON,
+  southampton_contextual_information_needed: 'More information is needed to confirm whether Southampton’s contextual AAB route applies.',
   st_andrews_contextual_evidence_needs_review: 'More St Andrews contextual evidence is needed to confirm whether the Medicine minimum-entry route applies.',
   st_andrews_s5_same_sitting_school_exception_requires_review: 'St Andrews needs review because your S5 Highers were not all taken in one sitting and the school-availability exception must be confirmed.',
   bristol_contextual_imd_postcode_evidence_required: 'More information is needed to verify Bristol IMD eligibility from postcode-derived evidence.',

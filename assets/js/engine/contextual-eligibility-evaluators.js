@@ -68,6 +68,10 @@ const {
   ST_ANDREWS_CONTEXTUAL_EVALUATOR_ID,
   evaluateStAndrewsContextualEligibility
 } = require('./st-andrews-contextual-eligibility');
+const {
+  SOUTHAMPTON_CONTEXTUAL_EVALUATOR_ID,
+  evaluateSouthamptonContextualEligibility
+} = require('./southampton-contextual-eligibility');
 
 const DEFAULT_CONTEXTUAL_ELIGIBILITY_EVALUATORS = {
   [ABERDEEN_CONTEXTUAL_EVALUATOR_ID]: evaluateAberdeenContextualEligibility,
@@ -75,6 +79,7 @@ const DEFAULT_CONTEXTUAL_ELIGIBILITY_EVALUATORS = {
   [EDINBURGH_CONTEXTUAL_EVALUATOR_ID]: evaluateEdinburghContextualEligibility,
   [GLASGOW_CONTEXTUAL_EVALUATOR_ID]: evaluateGlasgowContextualEligibility,
   [ST_ANDREWS_CONTEXTUAL_EVALUATOR_ID]: evaluateStAndrewsContextualEligibility,
+  [SOUTHAMPTON_CONTEXTUAL_EVALUATOR_ID]: evaluateSouthamptonContextualEligibility,
   [ASTON_READY_EVALUATOR_ID]: astonReadyMedicineEvaluator,
   [IMPERIAL_CONTEXTUAL_EVALUATOR_ID]: evaluateImperialContextualEligibility,
   [MANCHESTER_CONTEXTUAL_EVALUATOR_ID]: evaluateManchesterContextualEligibility,
@@ -96,6 +101,7 @@ module.exports = {
   EDINBURGH_CONTEXTUAL_EVALUATOR_ID,
   GLASGOW_CONTEXTUAL_EVALUATOR_ID,
   ST_ANDREWS_CONTEXTUAL_EVALUATOR_ID,
+  SOUTHAMPTON_CONTEXTUAL_EVALUATOR_ID,
   LIVERPOOL_CONTEXTUAL_EVALUATOR_ID,
   NOTTINGHAM_CONTEXTUAL_EVALUATOR_ID,
   SHEFFIELD_CONTEXTUAL_EVALUATOR_ID,
@@ -108,6 +114,7 @@ module.exports = {
   evaluateEdinburghContextualEligibility,
   evaluateGlasgowContextualEligibility,
   evaluateStAndrewsContextualEligibility,
+  evaluateSouthamptonContextualEligibility,
   evaluateLiverpoolContextualEligibility,
   evaluatePlymouthContextualEligibility,
   evaluateNottinghamContextualEligibility,

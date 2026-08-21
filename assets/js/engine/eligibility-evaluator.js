@@ -322,7 +322,8 @@ const COURSES_WITH_CONTEXTUAL_EVALUATOR_GROUP_CONTROL = [
   'edinburgh-a100',
   'glasgow-a100',
   'st-andrews-a100',
-  'plymouth-a100'
+  'plymouth-a100',
+  'southampton-a100'
 ];
 
 const ABERDEEN_LEGACY_CONTEXTUAL_GROUP_IDS = [
@@ -430,7 +431,8 @@ const COURSES_WITH_ACTIVATED_CONTEXTUAL_GROUPS = [
   'dundee-a100',
   'edinburgh-a100',
   'glasgow-a100',
-  'st-andrews-a100'
+  'st-andrews-a100',
+  'southampton-a100'
 ];
 
 const SCOTTISH_MEDICAL_SCHOOL_ROUTE_IDS = Object.freeze([
@@ -3566,7 +3568,7 @@ function evaluateManualReviewTriggers(course, applicant, state) {
     addManualReview(state, 'contextual_wp_status_requires_confirmation');
   }
   if (
-    !['aberdeen-a100', 'dundee-a100', 'st-andrews-a100'].includes(course?.profile_id) &&
+    !['aberdeen-a100', 'dundee-a100', 'st-andrews-a100', 'southampton-a100'].includes(course?.profile_id) &&
     state.contextual_eligibility?.status === 'information_needed' &&
     state.contextual_eligibility?.manual_review_reason
   ) {
@@ -3711,7 +3713,7 @@ function probeUnresolvedScottishContextualAcademicRoute(course, applicant, state
 }
 
 function applyContextualInformationNeededReview(course, applicant, state) {
-  if (!['aberdeen-a100', 'dundee-a100', 'glasgow-a100', 'st-andrews-a100'].includes(course?.profile_id)) {
+  if (!['aberdeen-a100', 'dundee-a100', 'glasgow-a100', 'st-andrews-a100', 'southampton-a100'].includes(course?.profile_id)) {
     return;
   }
   const reason = contextualInformationNeededReason(state);
