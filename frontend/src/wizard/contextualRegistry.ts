@@ -91,6 +91,10 @@ export const HOME_REGION_OPTIONS = [
 export const SPECIFIC_HOME_AREA_OPTIONS = [
   { value: 'essex', label: 'Essex' },
   { value: 'lincolnshire', label: 'Lincolnshire' },
+  {
+    value: 'plymouth_widening_access_region',
+    label: 'Cornwall, Devon, Dorset or Somerset',
+  },
   { value: 'none', label: 'None of the above' },
   { value: 'unknown', label: 'Not sure' },
 ] as const;
@@ -109,6 +113,10 @@ export const SCHOOL_AREA_OPTIONS = [
 
 export const FINANCIAL_SUPPORT_FIELDS = [
   { key: 'free_school_meals', label: 'I receive or previously received free school meals' },
+  {
+    key: 'free_school_meals_at_level3_completion',
+    label: 'I received or was eligible for free school meals when completing my Level 3 qualifications',
+  },
   { key: 'means_tested_benefits', label: 'My household receives means-tested benefits' },
   { key: 'ema_or_16_19_bursary', label: 'I receive or previously received EMA or a 16-19 bursary' },
   { key: 'ehcp', label: 'I have or previously had an Education, Health and Care Plan' },

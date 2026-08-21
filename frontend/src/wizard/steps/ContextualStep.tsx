@@ -69,7 +69,11 @@ const HOME_REGION_FLAG_KEYS = [
   'east_of_england_resident',
 ] as const;
 
-const SPECIFIC_HOME_AREA_FLAG_KEYS = ['essex_resident', 'lincolnshire_resident'] as const;
+const SPECIFIC_HOME_AREA_FLAG_KEYS = [
+  'essex_resident',
+  'lincolnshire_resident',
+  'plymouth_widening_access_region_resident',
+] as const;
 const SCHOOL_AREA_FLAG_KEYS = [
   'northern_ireland_bt_postcode_school_to_year_12',
   'bristol_bs_ba_state_school',
@@ -107,6 +111,7 @@ const HOME_REGION_TO_FLAG: Record<Exclude<HomeRegionValue, 'none' | 'unknown'>, 
 const SPECIFIC_HOME_AREA_TO_FLAG: Record<Exclude<SpecificHomeAreaValue, 'none' | 'unknown'>, typeof SPECIFIC_HOME_AREA_FLAG_KEYS[number]> = {
   essex: 'essex_resident',
   lincolnshire: 'lincolnshire_resident',
+  plymouth_widening_access_region: 'plymouth_widening_access_region_resident',
 };
 
 const SCHOOL_AREA_TO_FLAG: Record<Exclude<SchoolAreaValue, 'none' | 'unknown'>, typeof SCHOOL_AREA_FLAG_KEYS[number]> = {
@@ -1169,6 +1174,26 @@ export function ContextualStep({ profile, updateProfile, errors }: StepProps) {
                   }
                 />
               </div>
+
+              {ukwpmed.programme_id === 'plymouth_peninsula_pathways' && (
+                <AnswerSelect
+                  id="ukwpmed_peninsula_pathways_significant_engagement"
+                  label="Have you completed Plymouth's significant Peninsula Pathways engagement requirements?"
+                  value={ukwpmed.significant_engagement ?? ''}
+                  onChange={(value) =>
+                    updateContextual(updateProfile, (current) => ({
+                      ...current,
+                      access_programmes: {
+                        ...current.access_programmes,
+                        ukwpmed: {
+                          ...current.access_programmes.ukwpmed,
+                          significant_engagement: value as YesNoNotSure,
+                        },
+                      },
+                    }))
+                  }
+                />
+              )}
             </div>
           )}
         </section>

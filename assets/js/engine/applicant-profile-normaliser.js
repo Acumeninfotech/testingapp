@@ -182,7 +182,8 @@ const HOME_REGION_FLAG_TO_VALUE = {
 
 const SPECIFIC_HOME_AREA_FLAG_TO_VALUE = {
   essex_resident: 'essex',
-  lincolnshire_resident: 'lincolnshire'
+  lincolnshire_resident: 'lincolnshire',
+  plymouth_widening_access_region_resident: 'plymouth_widening_access_region'
 };
 
 const SCHOOL_AREA_FLAG_TO_VALUE = {
@@ -198,7 +199,13 @@ function normaliseHomeRegionValue(value) {
 }
 
 function normaliseSpecificHomeAreaValue(value) {
-  return ['essex', 'lincolnshire', 'none', 'unknown'].includes(value)
+  return [
+    'essex',
+    'lincolnshire',
+    'plymouth_widening_access_region',
+    'none',
+    'unknown'
+  ].includes(value)
     ? value
     : null;
 }

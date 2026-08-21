@@ -244,7 +244,7 @@ const tests = [
     run() {
       const result = assertEligible(aLevelApplicant(), 'a_level');
       assert.ok(!result.applicant_group_ids.includes('scotland_domiciled'));
-      assert.strictEqual(result.eligibility.academic_pathway_id, 'plymouth_standard_a_star_aa');
+      assert.strictEqual(result.eligibility.academic_pathway_id, 'plymouth_standard_a_level_a_star_aa');
     }
   },
   {
@@ -259,7 +259,7 @@ const tests = [
         'a_level'
       );
       assert.ok(result.applicant_group_ids.includes('scotland_domiciled'));
-      assert.strictEqual(result.eligibility.academic_pathway_id, 'plymouth_standard_a_star_aa');
+      assert.strictEqual(result.eligibility.academic_pathway_id, 'plymouth_standard_a_level_a_star_aa');
     }
   },
   {

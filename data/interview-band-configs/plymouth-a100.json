@@ -32,31 +32,6 @@
     "use_course_eligibility_for_qualification_routes": [
       "scottish"
     ],
-    "derived_applicant_groups": [
-      {
-        "group_ids": [
-          "contextual",
-          "widening_participation"
-        ],
-        "match": {
-          "all_group_ids": [
-            "home_fee"
-          ],
-          "excluded_group_ids": [
-            "international_fee",
-            "graduate_applicant"
-          ]
-        },
-        "any_evidence": [
-          {
-            "applicant_evidence_path": "applicant_identity.contextual_flags.ukwpmed"
-          },
-          {
-            "applicant_evidence_path": "ukwpmed.verified"
-          }
-        ]
-      }
-    ],
     "gcse": {
       "minimum_count": 7,
       "use_exact_subject_list": false,
@@ -112,7 +87,8 @@
           ],
           "excluded_group_ids": [
             "international_fee",
-            "graduate_applicant"
+            "graduate_applicant",
+            "plymouth_ukwpmed"
           ],
           "grade_profile": [
             "A",
@@ -142,7 +118,7 @@
           "route_id": "plymouth_ukwpmed_abb",
           "applies_to_group_ids": [
             "home_fee",
-            "widening_participation"
+            "plymouth_ukwpmed"
           ],
           "excluded_group_ids": [
             "international_fee",
@@ -362,7 +338,7 @@
   },
   "score_model": {
     "type": "ranking_metric",
-    "basis": "Current-cycle UCAT total after academic eligibility. ApplySmart historical-normalised UCAT guidance uses official Plymouth 2023-2025 historical /3600 thresholds converted by ×0.75, a pool-specific median reference and fixed ±150 guidance bands.",
+    "basis": "Current-cycle UCAT total after academic eligibility. ApplySmart historical-normalised UCAT guidance uses official Plymouth 2023-2025 historical /3600 thresholds converted by \u00d70.75, a pool-specific median reference and fixed \u00b1150 guidance bands.",
     "metric": "ucat_total",
     "pool_specific_output": true,
     "scale": {
@@ -600,7 +576,7 @@
         "Official Plymouth academic eligibility rules",
         "FOI historical UCAT threshold rows for 2023, 2024 and 2025",
         "ApplySmart historical-normalised UCAT guidance methodology",
-        "Pool-specific median calibration and fixed ±150 guidance bands"
+        "Pool-specific median calibration and fixed \u00b1150 guidance bands"
       ]
     }
   },

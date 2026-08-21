@@ -22,6 +22,7 @@ const keeleCourse = require('../../data/universities/keele-a100.json');
 const lancasterCourse = require('../../data/universities/lancaster-a100.json');
 const leicesterCourse = require('../../data/universities/leicester-a100.json');
 const manchesterCourse = require('../../data/universities/manchester-a100.json');
+const plymouthCourse = require('../../data/universities/plymouth-a100.json');
 const queensBelfastCourse = require('../../data/universities/queen-s-belfast-a100.json');
 const sheffieldCourse = require('../../data/universities/sheffield-a100.json');
 const dundeeCourse = require('../../data/universities/dundee-a100.json');
@@ -951,6 +952,138 @@ function resultCardText(card) {
     lancasterGuaranteedInterviewCard.contextual_confirmation,
     null,
     'Lancaster Access to Medicine guaranteed-interview presentation should not gain the contextual ABB notice'
+  );
+}
+
+{
+  const standardPathwayId = 'plymouth_standard_a_level_a_star_aa';
+  const wideningAccessPathwayId = 'plymouth_contextual_home_aab';
+  const ukwpmedPathwayId = 'plymouth_ukwpmed_abb';
+  const plymouthContext = {
+    course_identity: { profile_id: 'plymouth-a100' },
+    stage_1_eligibility: plymouthCourse.stage_1_eligibility
+  };
+
+  const standardCard = present({
+    transparencyContext: {
+      ...plymouthContext,
+      academic_pathway: 'standard',
+      academic_pathway_id: standardPathwayId,
+      eligibility: {
+        academic_pathway: 'standard',
+        academic_pathway_id: standardPathwayId
+      }
+    }
+  });
+  assert.strictEqual(standardCard.contextual_status, null);
+  assert.strictEqual(standardCard.contextual_confirmation, null);
+  assert.strictEqual(standardCard.alternative_academic_offer, null);
+
+  const wideningAccessCard = present({
+    transparencyContext: {
+      ...plymouthContext,
+      academic_pathway: 'contextual',
+      academic_pathway_id: wideningAccessPathwayId,
+      eligibility: {
+        academic_pathway: 'contextual',
+        academic_pathway_id: wideningAccessPathwayId,
+        contextual_eligibility: {
+          status: 'contextual',
+          matched_contextual_pathway: wideningAccessPathwayId,
+          matched_contextual_pathway_label: 'Plymouth Widening Access'
+        }
+      }
+    }
+  });
+  assert.strictEqual(wideningAccessCard.contextual_status, 'confirmed');
+  assert.deepStrictEqual(
+    wideningAccessCard.contextual_confirmation,
+    {
+      collapsed_label: 'Contextual eligibility confirmed',
+      expanded_heading: 'Plymouth Widening Access',
+      consideration_label: 'Plymouth contextual route:',
+      expanded_body:
+        "ApplySmart has confirmed that you meet Plymouth's widening-access contextual criteria. The AAB contextual academic offer has been applied instead of the standard A*AA offer.",
+      contextual_offer_grade: 'AAB'
+    }
+  );
+  assert.deepStrictEqual(
+    wideningAccessCard.alternative_academic_offer,
+    {
+      type: 'contextual',
+      standard_offer: 'A*AA',
+      alternative_offer: 'AAB',
+      pathway_id: wideningAccessPathwayId,
+      conditions: []
+    }
+  );
+
+  const ukwpmedCard = present({
+    transparencyContext: {
+      ...plymouthContext,
+      academic_pathway: 'contextual',
+      academic_pathway_id: ukwpmedPathwayId,
+      eligibility: {
+        academic_pathway: 'contextual',
+        academic_pathway_id: ukwpmedPathwayId,
+        contextual_eligibility: {
+          status: 'contextual',
+          matched_contextual_pathway: ukwpmedPathwayId,
+          matched_contextual_pathway_label: 'Plymouth UKWPMED'
+        }
+      }
+    }
+  });
+  assert.strictEqual(ukwpmedCard.contextual_status, 'confirmed');
+  assert.strictEqual(
+    ukwpmedCard.contextual_confirmation.collapsed_label,
+    'UKWPMED route confirmed'
+  );
+  assert.deepStrictEqual(
+    ukwpmedCard.alternative_academic_offer,
+    {
+      type: 'contextual',
+      standard_offer: 'A*AA',
+      alternative_offer: 'ABB',
+      pathway_id: ukwpmedPathwayId,
+      conditions: []
+    }
+  );
+
+  const legacyUkwpmedFlagCard = present({
+    transparencyContext: {
+      ...plymouthContext,
+      academic_pathway: 'ukwpmed',
+      academic_pathway_id: standardPathwayId,
+      selection_route_id: 'ukwpmed',
+      applicant_group_ids: ['home_fee', 'plymouth_ukwpmed'],
+      applicant_context: {
+        contextual_profile: {
+          access_programmes: {
+            other_programmes: [
+              { programme_id: 'ukwpmed', status: 'completed' }
+            ]
+          }
+        }
+      },
+      eligibility: {
+        academic_pathway: 'ukwpmed',
+        academic_pathway_id: standardPathwayId,
+        contextual_eligibility: {
+          status: 'contextual'
+        }
+      }
+    }
+  });
+  assert.strictEqual(
+    legacyUkwpmedFlagCard.contextual_confirmation,
+    null,
+    'Plymouth UKWPMED confirmation must require the evaluated Plymouth UKWPMED pathway'
+  );
+  assert.strictEqual(
+    legacyUkwpmedFlagCard.alternative_academic_offer,
+    null,
+    'Plymouth UKWPMED ABB offer must require the evaluated Plymouth UKWPMED pathway'
   );
 }
 

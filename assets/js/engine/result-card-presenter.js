@@ -42,6 +42,27 @@ const LIVERPOOL_CONTEXTUAL_CONFIRMATION = {
     'Contextual eligibility means additional consideration for Liverpool Medicine A100. It does not guarantee an interview, offer or reduced A-level offer.'
 };
 
+const PLYMOUTH_CONTEXTUAL_A_LEVEL_ROUTES = Object.freeze({
+  plymouth_contextual_home_aab: Object.freeze({
+    offer_key: 'contextual_offer',
+    collapsed_label: 'Contextual eligibility confirmed',
+    expanded_heading: 'Plymouth Widening Access',
+    consideration_label: 'Plymouth contextual route:',
+    expanded_body:
+      "ApplySmart has confirmed that you meet Plymouth's widening-access contextual criteria. The AAB contextual academic offer has been applied instead of the standard A*AA offer.",
+    contextual_offer_grade: 'AAB'
+  }),
+  plymouth_ukwpmed_abb: Object.freeze({
+    offer_key: 'ukwpmed_offer',
+    collapsed_label: 'UKWPMED route confirmed',
+    expanded_heading: 'Plymouth UKWPMED',
+    consideration_label: 'Plymouth access route:',
+    expanded_body:
+      "ApplySmart has confirmed your verified UKWPMED participation for Plymouth Medicine A100. The ABB UKWPMED academic offer has been applied instead of the standard A*AA offer.",
+    contextual_offer_grade: 'ABB'
+  })
+});
+
 const LANCASTER_ACCESS_TO_MEDICINE_WP_REVIEW_REASON =
   "Lancaster Access to Medicine completion confirmed. More information is needed to verify Lancaster's widening-participation criteria before the guaranteed-interview route can be confirmed.";
 
@@ -1056,6 +1077,44 @@ function buildContextualAcademicOffer(stage1Eligibility = null) {
   };
 }
 
+function activeAcademicPathwayIdForPresentation(context = {}) {
+  return firstNonEmptyString(
+    context.academic_pathway_id,
+    context.eligibility?.academic_pathway_id,
+    context.matched_contextual_pathway,
+    context.contextual_eligibility?.matched_contextual_pathway,
+    context.eligibility?.contextual_eligibility?.matched_contextual_pathway
+  );
+}
+
+function buildPlymouthContextualAcademicOffer(stage1Eligibility = null, context = {}) {
+  const routeId = normaliseCheckId(activeAcademicPathwayIdForPresentation(context));
+  const route = PLYMOUTH_CONTEXTUAL_A_LEVEL_ROUTES[routeId];
+  if (!route) {
+    return null;
+  }
+
+  const aLevel = stage1Eligibility?.post_16?.a_level || {};
+  const standardOffer = formatAlevelGradeProfile(
+    aLevel.standard_offer?.grade_profile || aLevel.grade_profile || []
+  );
+  const alternativeOffer = formatAlevelGradeProfile(
+    aLevel[route.offer_key]?.grade_profile || []
+  );
+
+  if (!standardOffer || !alternativeOffer) {
+    return null;
+  }
+
+  return {
+    type: 'contextual',
+    standard_offer: standardOffer,
+    alternative_offer: alternativeOffer,
+    pathway_id: routeId,
+    conditions: []
+  };
+}
+
 function scottishCombinedS6Profile(route = {}) {
   const combined = (route.combined_grade_requirements || []).find((requirement) => {
     return normaliseCheckId(requirement.school_year) === 's6' &&
@@ -1360,6 +1419,13 @@ function buildEpqAcademicOffer(stage1Eligibility = null) {
 
 function buildAlternativeAcademicOffer(stage1Eligibility = null, context = {}) {
   const matchedRoute = matchedAcademicOfferRoute(stage1Eligibility, context);
+  const plymouthContextualOffer = buildPlymouthContextualAcademicOffer(stage1Eligibility, context);
+  if (plymouthContextualOffer) {
+    return plymouthContextualOffer;
+  }
+  if (normaliseCheckId(activeAcademicPathwayIdForPresentation(context)) === 'plymouth_standard_a_level_a_star_aa') {
+    return null;
+  }
 
   if (context.academic_pathway === 'contextual_epq_alternative') {
     const contextualEpqOffer = buildContextualEpqAcademicOffer(stage1Eligibility);
@@ -2236,8 +2302,39 @@ function scottishContextualConfirmationFor(card = {}, contextualStatus = null) {
   return confirmation ? { ...confirmation } : null;
 }
 
+function plymouthContextualConfirmationFor(card = {}, contextualStatus = null) {
+  if (contextualStatus !== 'confirmed') {
+    return null;
+  }
+
+  const profileId = card.course_identity?.profile_id ||
+    card.course_profile_id ||
+    card.profile_id ||
+    null;
+  if (profileId !== 'plymouth-a100') {
+    return null;
+  }
+
+  const routeId = normaliseCheckId(activeAcademicPathwayIdForPresentation(card));
+  const route = PLYMOUTH_CONTEXTUAL_A_LEVEL_ROUTES[routeId];
+  if (!route) {
+    return null;
+  }
+
+  return {
+    collapsed_label: route.collapsed_label,
+    expanded_heading: route.expanded_heading,
+    consideration_label: route.consideration_label,
+    expanded_body: route.expanded_body,
+    contextual_offer_grade: route.contextual_offer_grade
+  };
+}
+
 function contextualConfirmationFor(card = {}, contextualStatus = null, options = {}) {
-  const profileId = card.course_identity?.profile_id || card.profile_id || null;
+  const profileId = card.course_identity?.profile_id ||
+    card.course_profile_id ||
+    card.profile_id ||
+    null;
   const edinburghSummary = contextualStatus === 'confirmed'
     ? edinburghContextualSummary(card)
     : null;
@@ -2264,6 +2361,13 @@ function contextualConfirmationFor(card = {}, contextualStatus = null, options =
   );
   if (scottishContextualConfirmation) {
     return scottishContextualConfirmation;
+  }
+  const plymouthContextualConfirmation = plymouthContextualConfirmationFor(
+    card,
+    contextualStatus
+  );
+  if (plymouthContextualConfirmation) {
+    return plymouthContextualConfirmation;
   }
   if (
     profileId === 'lancaster-a100' &&
@@ -6131,6 +6235,10 @@ function presentResultCard({
     {
       academic_pathway: academicPathway,
       academic_pathway_id: academicPathwayId,
+      matched_contextual_pathway:
+        transparencyContext.eligibility?.contextual_eligibility?.matched_contextual_pathway ||
+        transparencyContext.contextual_eligibility?.matched_contextual_pathway ||
+        null,
       selection_route_id: transparencyContext.selection_route_id || null,
       course_profile_id: transparencyContext.course_identity?.profile_id || null
     }

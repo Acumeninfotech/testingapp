@@ -242,7 +242,7 @@
           ],
           "applies_to_group_ids": [
             "home_fee",
-            "widening_participation"
+            "plymouth_ukwpmed"
           ],
           "notes": "UKWPMED requires A in Biology and B in a second science in the supplied research."
         },
@@ -286,7 +286,8 @@
             ],
             "excluded_group_ids": [
               "international_fee",
-              "graduate_applicant"
+              "graduate_applicant",
+              "plymouth_ukwpmed"
             ],
             "grade_profile": [
               "A",
@@ -316,7 +317,7 @@
             "requirement_id": "plymouth_ukwpmed_abb",
             "applies_to_group_ids": [
               "home_fee",
-              "widening_participation"
+              "plymouth_ukwpmed"
             ],
             "excluded_group_ids": [
               "international_fee",
@@ -698,7 +699,7 @@
           "value": "AAB Widening Access or ABB UKWPMED, with separate historical UCAT threshold rows."
         },
         "decision_outcome": "eligible",
-        "notes": "No contextual points score is created."
+        "notes": "Plymouth Widening Access contextual eligibility uses the official 5-point contextual-marker threshold. Academic grades themselves are not converted into interview-shortlisting points."
       }
     ],
     "tie_breakers": [],
@@ -758,7 +759,14 @@
       }
     ],
     "guaranteed_interview_rules": [],
-    "notes": "A102 Foundation/Gateway widening-access admissions are a separate course and are not implemented in this A100 profile."
+    "notes": "A102 Foundation/Gateway widening-access admissions are a separate course and are not implemented in this A100 profile.",
+    "contextual_eligibility": {
+      "evaluator_id": "plymouth_contextual_medicine_a100",
+      "controls_group_routing": true,
+      "evidence_source": "step_6_contextual_profile",
+      "points_threshold": 5,
+      "notes": "Plymouth A100 contextual eligibility is determined from the redesigned Step 6 profile. Legacy contextual flags do not independently activate this route."
+    }
   },
   "ranking_pools": [
     {

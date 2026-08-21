@@ -37,6 +37,10 @@ const {
   evaluateLiverpoolContextualEligibility
 } = require('./liverpool-contextual-eligibility');
 const {
+  PLYMOUTH_CONTEXTUAL_EVALUATOR_ID,
+  evaluatePlymouthContextualEligibility
+} = require('./plymouth-contextual-eligibility');
+const {
   SHEFFIELD_CONTEXTUAL_EVALUATOR_ID,
   evaluateSheffieldContextualEligibility
 } = require('./sheffield-contextual-eligibility');
@@ -80,6 +84,7 @@ const DEFAULT_CONTEXTUAL_ELIGIBILITY_EVALUATORS = {
   [UEA_CONTEXTUAL_EVALUATOR_ID]: evaluateUeaContextualEligibility,
   [LANCASTER_CONTEXTUAL_EVALUATOR_ID]: evaluateLancasterContextualEligibility,
   [LIVERPOOL_CONTEXTUAL_EVALUATOR_ID]: evaluateLiverpoolContextualEligibility,
+  [PLYMOUTH_CONTEXTUAL_EVALUATOR_ID]: evaluatePlymouthContextualEligibility,
   [SHEFFIELD_CONTEXTUAL_EVALUATOR_ID]: evaluateSheffieldContextualEligibility,
   [NOTTINGHAM_CONTEXTUAL_EVALUATOR_ID]: evaluateNottinghamContextualEligibility
 };
@@ -104,6 +109,7 @@ module.exports = {
   evaluateGlasgowContextualEligibility,
   evaluateStAndrewsContextualEligibility,
   evaluateLiverpoolContextualEligibility,
+  evaluatePlymouthContextualEligibility,
   evaluateNottinghamContextualEligibility,
   evaluateSheffieldContextualEligibility,
   evaluateUeaContextualEligibility,

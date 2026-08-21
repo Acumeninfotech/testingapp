@@ -321,7 +321,8 @@ const COURSES_WITH_CONTEXTUAL_EVALUATOR_GROUP_CONTROL = [
   'dundee-a100',
   'edinburgh-a100',
   'glasgow-a100',
-  'st-andrews-a100'
+  'st-andrews-a100',
+  'plymouth-a100'
 ];
 
 const ABERDEEN_LEGACY_CONTEXTUAL_GROUP_IDS = [
@@ -423,6 +424,7 @@ const COURSES_WITH_ACTIVATED_CONTEXTUAL_GROUPS = [
   'east-anglia-a100',
   'lancaster-a100',
   'liverpool-a100',
+  'plymouth-a100',
   'sheffield-a100',
   'nottingham-a100',
   'dundee-a100',
@@ -1436,7 +1438,7 @@ function getCountableGcseGrades(subjectGrades) {
   for (const [subjectId, value] of Object.entries(subjectGrades)) {
     if (subjectId === 'combined_science' || subjectId === 'double_science') {
       grades.push(...parseCombinedScienceGrades(value).slice(0, 2));
-    } else {
+    } else if (value !== undefined && value !== null && value !== '') {
       grades.push(value);
     }
   }
@@ -1505,7 +1507,7 @@ function evaluateGcseRules(course, applicant, state) {
       ? [rules.minimum_count_at_or_above_grade]
       : [];
   const countableGrades = getCountableGcseGrades(subjectGrades);
-  state.exact_gcse_count = Object.keys(subjectGrades).length;
+  state.exact_gcse_count = countableGrades.length;
   const combinedScienceGrades = parseCombinedScienceGrades(
     subjectGrades.combined_science || subjectGrades.double_science
   );
@@ -2068,7 +2070,7 @@ function evaluateALevelRoute(course, applicant, state) {
     } else {
       state.academic_pathway = state.academic_pathway || passedRequirementPathway || 'standard';
       state.academic_pathway_id = state.academic_pathway_id ||
-        (passedRequirementPathway ? academicPathwayIdForALevelRequirement(passedRequirement) : null);
+        academicPathwayIdForALevelRequirement(passedRequirement);
     }
   } else {
     state.checks.push(...attempts.flatMap((attempt) => attempt.checks));
@@ -3869,6 +3871,10 @@ function evaluateCourseEligibility(course, applicantInput) {
     return finaliseCourseEligibilityState(course, state);
   }
 
+  const plymouthGamsatManualReview =
+    course.profile_id === 'plymouth-a100' &&
+    state.qualification_route === 'graduate';
+
   const routeRequiresImmediateReview = [
     'foundation',
     'mixed_t_level_a_level',
@@ -3891,7 +3897,9 @@ function evaluateCourseEligibility(course, applicantInput) {
         normaliseGrade(combination.btec_grade) === normaliseGrade(applicant.btec_profile?.grade);
     });
 
-  if (!routeRequiresImmediateReview && !wpIb && !unlistedBtec) {
+  if (plymouthGamsatManualReview) {
+    addManualReview(state, 'plymouth_gamsat_route_requires_manual_review');
+  } else if (!routeRequiresImmediateReview && !wpIb && !unlistedBtec) {
     if (shouldEvaluateGcse(course, state.qualification_route, state)) {
       evaluateGcseRules(course, applicant, state);
     }

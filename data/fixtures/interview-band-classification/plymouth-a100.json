@@ -379,13 +379,7 @@
     {
       "scenario_id": "ukwpmed_applicant_uses_widening_access_pool",
       "overrides": {
-        "applicant_identity": {
-          "contextual": true,
-          "widening_participation": true,
-          "contextual_flags": {
-            "ukwpmed": true
-          }
-        },
+        "applicant_identity": {},
         "a_level_profile": {
           "subjects": [
             {
@@ -414,6 +408,20 @@
               "verbal_reasoning": 635,
               "decision_making": 635,
               "quantitative_reasoning": 635
+            }
+          }
+        },
+        "contextual_profile": {
+          "access_programmes": {
+            "participation_status": "yes",
+            "ukwpmed": {
+              "status": "yes",
+              "programme_id": "plymouth_peninsula_pathways",
+              "programme_status": "completed",
+              "provider_university_id": "plymouth-a100",
+              "completion_year": 2026,
+              "not_sure_programme": false,
+              "significant_engagement": "yes"
             }
           }
         }
@@ -474,6 +482,9 @@
       "scenario_id": "low_gcse_count_not_eligible",
       "overrides": {
         "gcse_profile": {
+          "subjects": {
+            "geography": null
+          },
           "total_gcse_count": 6
         }
       },
@@ -657,13 +668,7 @@
     {
       "scenario_id": "ukwpmed_realistic_upper_boundary",
       "overrides": {
-        "applicant_identity": {
-          "contextual": true,
-          "widening_participation": true,
-          "contextual_flags": {
-            "ukwpmed": true
-          }
-        },
+        "applicant_identity": {},
         "a_level_profile": {
           "subjects": [
             {
@@ -694,6 +699,20 @@
               "quantitative_reasoning": 633
             }
           }
+        },
+        "contextual_profile": {
+          "access_programmes": {
+            "participation_status": "yes",
+            "ukwpmed": {
+              "status": "yes",
+              "programme_id": "plymouth_peninsula_pathways",
+              "programme_status": "completed",
+              "provider_university_id": "plymouth-a100",
+              "completion_year": 2026,
+              "not_sure_programme": false,
+              "significant_engagement": "yes"
+            }
+          }
         }
       },
       "expected": {
@@ -707,13 +726,7 @@
     {
       "scenario_id": "ukwpmed_realistic_lower_boundary",
       "overrides": {
-        "applicant_identity": {
-          "contextual": true,
-          "widening_participation": true,
-          "contextual_flags": {
-            "ukwpmed": true
-          }
-        },
+        "applicant_identity": {},
         "a_level_profile": {
           "subjects": [
             {
@@ -744,6 +757,20 @@
               "quantitative_reasoning": 583
             }
           }
+        },
+        "contextual_profile": {
+          "access_programmes": {
+            "participation_status": "yes",
+            "ukwpmed": {
+              "status": "yes",
+              "programme_id": "plymouth_peninsula_pathways",
+              "programme_status": "completed",
+              "provider_university_id": "plymouth-a100",
+              "completion_year": 2026,
+              "not_sure_programme": false,
+              "significant_engagement": "yes"
+            }
+          }
         }
       },
       "expected": {
@@ -757,13 +784,7 @@
     {
       "scenario_id": "ukwpmed_ambitious_upper_boundary",
       "overrides": {
-        "applicant_identity": {
-          "contextual": true,
-          "widening_participation": true,
-          "contextual_flags": {
-            "ukwpmed": true
-          }
-        },
+        "applicant_identity": {},
         "a_level_profile": {
           "subjects": [
             {
@@ -794,6 +815,20 @@
               "quantitative_reasoning": 583
             }
           }
+        },
+        "contextual_profile": {
+          "access_programmes": {
+            "participation_status": "yes",
+            "ukwpmed": {
+              "status": "yes",
+              "programme_id": "plymouth_peninsula_pathways",
+              "programme_status": "completed",
+              "provider_university_id": "plymouth-a100",
+              "completion_year": 2026,
+              "not_sure_programme": false,
+              "significant_engagement": "yes"
+            }
+          }
         }
       },
       "expected": {
@@ -807,13 +842,7 @@
     {
       "scenario_id": "ukwpmed_ambitious_lower_boundary",
       "overrides": {
-        "applicant_identity": {
-          "contextual": true,
-          "widening_participation": true,
-          "contextual_flags": {
-            "ukwpmed": true
-          }
-        },
+        "applicant_identity": {},
         "a_level_profile": {
           "subjects": [
             {
@@ -844,6 +873,20 @@
               "quantitative_reasoning": 533
             }
           }
+        },
+        "contextual_profile": {
+          "access_programmes": {
+            "participation_status": "yes",
+            "ukwpmed": {
+              "status": "yes",
+              "programme_id": "plymouth_peninsula_pathways",
+              "programme_status": "completed",
+              "provider_university_id": "plymouth-a100",
+              "completion_year": 2026,
+              "not_sure_programme": false,
+              "significant_engagement": "yes"
+            }
+          }
         }
       },
       "expected": {
@@ -857,13 +900,7 @@
     {
       "scenario_id": "ukwpmed_high_risk_boundary",
       "overrides": {
-        "applicant_identity": {
-          "contextual": true,
-          "widening_participation": true,
-          "contextual_flags": {
-            "ukwpmed": true
-          }
-        },
+        "applicant_identity": {},
         "a_level_profile": {
           "subjects": [
             {
@@ -892,6 +929,20 @@
               "verbal_reasoning": 532,
               "decision_making": 532,
               "quantitative_reasoning": 533
+            }
+          }
+        },
+        "contextual_profile": {
+          "access_programmes": {
+            "participation_status": "yes",
+            "ukwpmed": {
+              "status": "yes",
+              "programme_id": "plymouth_peninsula_pathways",
+              "programme_status": "completed",
+              "provider_university_id": "plymouth-a100",
+              "completion_year": 2026,
+              "not_sure_programme": false,
+              "significant_engagement": "yes"
             }
           }
         }

@@ -190,7 +190,12 @@ export type HomeRegionValue =
   | 'east_of_england'
   | 'none'
   | 'unknown';
-export type SpecificHomeAreaValue = 'essex' | 'lincolnshire' | 'none' | 'unknown';
+export type SpecificHomeAreaValue =
+  | 'essex'
+  | 'lincolnshire'
+  | 'plymouth_widening_access_region'
+  | 'none'
+  | 'unknown';
 export type SchoolAreaValue =
   | 'northern_ireland_bt_to_year_12'
   | 'bristol_bs_ba_state_school'
@@ -241,6 +246,7 @@ export interface UkwpmedProgramme {
   provider_university_id: string;
   completion_year: number | '';
   not_sure_programme: boolean;
+  significant_engagement?: YesNoNotSure;
 }
 
 export interface OtherAccessProgramme {
