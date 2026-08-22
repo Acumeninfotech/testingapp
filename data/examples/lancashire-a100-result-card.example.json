@@ -148,7 +148,12 @@
       "available": false,
       "unavailable_reason": "ApplySmart does not estimate interview likelihood for this eligibility-only course."
     },
-    "guidance_pool_id": "home_a100_ucat_guidance_gate"
+    "guidance_pool_id": "home_a100_ucat_guidance_gate",
+    "ranking_metric": "ucat_total",
+    "score_scale": {
+      "min": 0,
+      "max": 1
+    }
   },
   "confidence": {
     "level": "low",
@@ -212,26 +217,46 @@
     }
   ],
   "decision_transparency": {
+    "factor_usage": [
+      {
+        "factor_id": "ucat",
+        "label": "UCAT",
+        "role": "considered",
+        "detail": "Used as part of the university’s holistic selection review.",
+        "evidence_status": "available"
+      },
+      {
+        "factor_id": "gcse",
+        "label": "GCSEs",
+        "role": "eligibility",
+        "detail": "Used as an academic eligibility requirement.",
+        "evidence_status": "available"
+      },
+      {
+        "factor_id": "a_level",
+        "label": "A-levels",
+        "role": "eligibility",
+        "detail": "Used as an academic eligibility requirement.",
+        "evidence_status": "available"
+      },
+      {
+        "factor_id": "sjt",
+        "label": "SJT",
+        "role": "not_used",
+        "detail": "SJT is not used for interview selection.",
+        "evidence_status": "not_applicable"
+      }
+    ],
     "decision_path": [
       {
         "stage": "Eligibility",
         "status": "Met",
-        "summary": "The represented applicant meets Lancashire's supported measurable application requirements.",
+        "summary": "The supported entry requirements are met.",
         "checks": [
           {
-            "label": "GCSE English and Maths",
+            "label": "Entry requirements",
             "status": "Met",
-            "summary": "GCSE English Language and Mathematics at Grade 5/B or equivalent. Applicant information: English Language grade 6 and Mathematics grade 6."
-          },
-          {
-            "label": "A-level requirements",
-            "status": "Met",
-            "summary": "AAA including Chemistry plus one further science subject. Applicant information: AAA including Chemistry and Biology."
-          },
-          {
-            "label": "UCAT guidance",
-            "status": "Met",
-            "summary": "ApplySmart working historical guidance threshold for Home applicants: 1750. This is not an official University of Lancashire cut-off. Applicant information: UCAT 1800."
+            "summary": "The supported entry requirements have been assessed."
           }
         ]
       },
@@ -243,7 +268,7 @@
           {
             "label": "Applicant pool",
             "status": "Used",
-            "summary": "The applicant group matching the supplied fee status and entry route"
+            "summary": "Home, Rest of UK applicants"
           },
           {
             "label": "Selection approach",
@@ -265,7 +290,7 @@
           {
             "label": "Applicant pool",
             "status": "Used",
-            "summary": "The applicant group matching the supplied fee status and entry route"
+            "summary": "Home, Rest of UK applicants"
           },
           {
             "label": "Interview prediction",
@@ -282,7 +307,7 @@
       }
     ],
     "key_reasons": [
-      "The represented applicant meets Lancashire's supported measurable application requirements.",
+      "The supported entry requirements are met.",
       "UCAT is not required or ranked for this course.",
       "This result confirms eligibility only. It does not include an interview competitiveness prediction."
     ],
@@ -302,8 +327,10 @@
     },
     "warnings": [],
     "manual_review_reason": null,
-    "insufficient_evidence_reason": null,
-    "insufficient_evidence_reason_code": null,
+    "manual_review_reason_code": null,
+    "information_needed_reason": null,
+    "missing_information": null,
+    "risk_explanation": null,
     "compact_status": {
       "label": "You meet the academic requirements.",
       "type": "academic_status",
@@ -311,7 +338,7 @@
     },
     "comparison_metrics_title": null,
     "comparison_metrics": [],
-    "selection_approach_display": null,
+    "selection_approach_display": "University of Lancashire checks academic eligibility, then considers UCAT alongside academic and application information for UK applicants; it does not publish a numerical shortlisting formula.",
     "selection_metric": {
       "type": "eligibility",
       "label": "Eligibility",
@@ -332,7 +359,27 @@
       "caveat": null
     },
     "score_breakdown": null,
-    "ucat_comparison": null
+    "ucat_comparison": {
+      "comparison_type": "ranking_only",
+      "applicant_ucat": 1800,
+      "benchmark_min": null,
+      "benchmark_max": null,
+      "comparison_operator": null,
+      "benchmark_label": null,
+      "caveat": null,
+      "evidence_status": null,
+      "evidence_classification": null,
+      "prediction_band": null,
+      "difference_from_benchmark": null,
+      "position": null,
+      "applicant_pool": "Home, Rest of UK applicants",
+      "sjt_policy": "No official SJT policy was located.",
+      "sjt_outcome": "ignored",
+      "sjt_summary": "Band 3 - not used for interview selection.",
+      "applicant_sjt_band": 3,
+      "official_ucat_minimum": null
+    },
+    "ucat_adjustment": null
   },
   "engine_notes": {
     "generated_from_profile_id": "lancashire-a100",

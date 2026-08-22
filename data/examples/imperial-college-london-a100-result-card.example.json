@@ -212,7 +212,8 @@
     "source_ids": [
       "imperial_research_doc",
       "imperial_a100_foi_faq_2026_v2"
-    ]
+    ],
+    "ranking_metric": "ucat_total"
   },
   "missing_data": {
     "future_cycle_pool_cutpoints": "not_published_before_dynamic_ranking",
@@ -252,8 +253,8 @@
   "display": {
     "primary_user_facing_recommendation": "Strong choice for your application",
     "recommendation_display_state": "standard",
-    "primary_explanation": "Based on ApplySmart's assessment, your UCAT score is competitive for this applicant group.",
-    "historical_guidance_caveat": "Imperial thresholds vary annually. ApplySmart does not predict offers.",
+    "primary_explanation": "Based on ApplySmart's assessment, your UCAT score appears competitive for this applicant group.",
+    "historical_guidance_caveat": "Historical admissions data provides a benchmark only; it is not a current cut-off or a guarantee of interview.",
     "headline": "Strong choice for your application"
   },
   "decision_timeline": [
@@ -273,91 +274,116 @@
       "step": 3,
       "title": "Selection model applied",
       "status": "Complete",
-      "summary": "Imperial first checks academic eligibility, then uses UCAT cognitive total thresholds and ranking for interview invitation guidance. Academics above the minimum are not scored."
+      "summary": "Imperial checks academic and SJT eligibility, then applies the relevant Home, contextual or International UCAT threshold before ranking applicants who meet that threshold by UCAT cognitive total."
     },
     {
       "step": 4,
       "title": "Historical guidance compared",
       "status": "Complete",
-      "summary": "Your result was compared with interview information from previous admissions cycles. Interview thresholds may change each admissions cycle depending on applicant competition and interview capacity. Historical figures are guidance only, not a current cut-off, and do not guarantee an interview."
+      "summary": "UCAT: 2400 - above the published Home threshold of 2350-2399. Published thresholds and reference ranges can change between cycles and do not guarantee an interview."
     },
     {
       "step": 5,
       "title": "Interview recommendation produced",
       "status": "Strong Choice",
-      "summary": "Based on ApplySmart's assessment, your UCAT profile is competitive for this applicant group. Treat this as guidance for university choice, not a promised interview."
+      "summary": "Based on ApplySmart's assessment, your UCAT score appears competitive for this applicant group. Treat this as guidance for university choice, not a promised interview."
     }
   ],
   "decision_transparency": {
+    "factor_usage": [
+      {
+        "factor_id": "ucat",
+        "label": "UCAT",
+        "role": "ranking",
+        "detail": "Used for ranking in the university’s selection process.",
+        "evidence_status": "available"
+      },
+      {
+        "factor_id": "gcse",
+        "label": "GCSEs",
+        "role": "eligibility",
+        "detail": "Used as an academic eligibility requirement.",
+        "evidence_status": "available"
+      },
+      {
+        "factor_id": "a_level",
+        "label": "A-levels",
+        "role": "eligibility",
+        "detail": "Used as an academic eligibility requirement.",
+        "evidence_status": "available"
+      },
+      {
+        "factor_id": "sjt",
+        "label": "SJT",
+        "role": "eligibility",
+        "detail": "SJT is used as an eligibility gate.",
+        "evidence_status": "available"
+      }
+    ],
     "decision_path": [
       {
         "stage": "Eligibility",
         "status": "Met",
-        "summary": "The represented applicant meets Imperial's supported A-level, GCSE English, science practical, same-sitting, UCAT and SJT gates.",
+        "summary": "The supported entry requirements are met.",
         "checks": [
           {
-            "label": "GCSE English Language",
+            "label": "Entry requirements",
             "status": "Met",
-            "summary": "Grade 6/B minimum. Applicant information: Grade 6."
-          },
-          {
-            "label": "A-level threshold and subjects",
-            "status": "Met",
-            "summary": "A*AA with Biology and Chemistry, with A* and A across those two subjects. Applicant information: A* Biology, A Chemistry, A Mathematics."
-          },
-          {
-            "label": "Same-sitting rule",
-            "status": "Met",
-            "summary": "Qualifications must be taken in the same sitting. Applicant information: A-level same-sitting evidence confirmed."
-          },
-          {
-            "label": "UCAT and SJT",
-            "status": "Met",
-            "summary": "Home UCAT threshold 2320 and SJT Bands 1-3. Applicant information: UCAT 2400 and SJT Band 2."
+            "summary": "The supported entry requirements have been assessed."
           }
         ]
       },
       {
         "stage": "Selection model",
         "status": "Assessed",
-        "summary": "Imperial first checks academic eligibility, then uses UCAT cognitive total thresholds and ranking for interview invitation guidance. Academics above the minimum are not scored.",
+        "summary": "Imperial checks academic and SJT eligibility, then applies the relevant Home, contextual or International UCAT threshold before ranking applicants who meet that threshold by UCAT cognitive total.",
         "checks": [
           {
             "label": "Applicant pool",
             "status": "Used",
-            "summary": "The applicant group matching the supplied fee status and entry route"
+            "summary": "Home, Rest of UK applicants"
+          },
+          {
+            "label": "UCAT minimum",
+            "status": "Met",
+            "summary": "Met - your score is 2400 and the published minimum is 2320."
           },
           {
             "label": "UCAT",
-            "status": "Ranking only",
-            "summary": "UCAT ranking: Eligible applicants are ranked by UCAT. No reliable numerical historical comparison is available."
+            "status": "Above",
+            "summary": "UCAT: 2400 - above the published Home threshold of 2350-2399."
           },
           {
             "label": "SJT requirement",
-            "status": "Ignored",
-            "summary": "SJT is not used for interview selection."
+            "status": "Met",
+            "summary": "Met - Bands 1-3 are accepted."
           },
           {
             "label": "Selection approach",
             "status": "Ranking/cut-off based",
-            "summary": "Imperial first checks academic eligibility, then uses UCAT cognitive total thresholds and ranking for interview invitation guidance. Academics above the minimum are not scored."
+            "summary": "Imperial checks academic and SJT eligibility, then applies the relevant Home, contextual or International UCAT threshold before ranking applicants who meet that threshold by UCAT cognitive total."
           }
         ]
       },
       {
         "stage": "Historical guidance",
         "status": "Guidance available",
-        "summary": "The result was assessed using the available admissions evidence for this applicant group. Historical admissions data provides a benchmark only; it is not a current cut-off or a guarantee of interview.",
+        "summary": "UCAT: 2400 - above the published Home threshold of 2350-2399. Published thresholds and reference ranges can change between cycles and do not guarantee an interview.",
         "checks": [
           {
             "label": "Applicant pool",
             "status": "Used",
-            "summary": "The applicant group matching the supplied fee status and entry route"
+            "summary": "Home, Rest of UK applicants"
           },
           {
             "label": "UCAT comparison",
             "status": "Compared",
-            "summary": "UCAT ranking: Eligible applicants are ranked by UCAT. No reliable numerical historical comparison is available."
+            "summary": "UCAT: 2400 - above the published Home threshold of 2350-2399."
+          },
+          {
+            "label": "All Applicants",
+            "status": "Historical",
+            "summary": "~617 interviewed, ~271 places."
           },
           {
             "label": "Important limitation",
@@ -369,14 +395,14 @@
       {
         "stage": "Recommendation",
         "status": "Guidance only",
-        "summary": "Based on ApplySmart's assessment, your academic profile may be competitive for this applicant group. Treat this as guidance for university choice, not a promised interview.",
+        "summary": "Based on ApplySmart's assessment, your UCAT score appears competitive for this applicant group. Treat this as guidance for university choice, not a promised interview.",
         "checks": []
       }
     ],
     "key_reasons": [
-      "The represented applicant meets Imperial's supported A-level, GCSE English, science practical, same-sitting, UCAT and SJT gates.",
-      "The result uses The applicant group matching the supplied fee status and entry route.",
-      "You meet the academic requirements. Eligible applicants are ranked by UCAT. No reliable numerical historical comparison is available."
+      "The supported entry requirements are met.",
+      "The result uses Home, Rest of UK applicants.",
+      "Your UCAT score is above the published Home threshold for this applicant group."
     ],
     "evidence_used": [
       "Official admissions policy",
@@ -395,34 +421,68 @@
     },
     "warnings": [],
     "manual_review_reason": null,
-    "insufficient_evidence_reason": null,
-    "insufficient_evidence_reason_code": null,
+    "manual_review_reason_code": null,
+    "information_needed_reason": null,
+    "missing_information": null,
+    "risk_explanation": null,
     "compact_status": {
       "label": "You meet the academic requirements.",
       "type": "academic_status",
       "tone": "positive"
     },
     "comparison_metrics_title": null,
-    "comparison_metrics": [],
-    "selection_approach_display": null,
-    "selection_metric": null,
+    "comparison_metrics": [
+      {
+        "label": "published Home threshold",
+        "value": "2350-2399",
+        "difference": "+50"
+      }
+    ],
+    "selection_approach_display": "Imperial checks academic and SJT eligibility, then applies the relevant Home, contextual or International UCAT threshold before ranking applicants who meet that threshold by UCAT cognitive total.",
+    "selection_metric": {
+      "type": "ucat",
+      "label": "Your UCAT score",
+      "applicant_value": 2400,
+      "comparison_value": 2350,
+      "comparison_max_value": 2399,
+      "comparison_label": "published Home threshold",
+      "comparison_label_type": "published_interview_threshold",
+      "comparison_context": null,
+      "difference": 50,
+      "difference_direction": "above",
+      "difference_word": "range",
+      "maximum_value": 2700,
+      "display_mode": "comparison",
+      "display_eligibility": true,
+      "entry_year": null,
+      "caveat": "Published thresholds and reference ranges can change between cycles and do not guarantee an interview."
+    },
     "score_breakdown": null,
     "ucat_comparison": {
-      "comparison_type": "ranking_only",
-      "applicant_ucat": null,
-      "benchmark_min": null,
-      "benchmark_max": null,
-      "benchmark_label": null,
-      "caveat": null,
+      "comparison_type": "historical_range",
+      "applicant_ucat": 2400,
+      "benchmark_min": 2350,
+      "benchmark_max": 2399,
+      "comparison_operator": null,
+      "benchmark_label": "published Home threshold",
+      "caveat": "Published thresholds and reference ranges can change between cycles and do not guarantee an interview.",
+      "evidence_status": null,
+      "evidence_classification": null,
+      "prediction_band": null,
       "difference_from_benchmark": null,
-      "position": null,
-      "applicant_pool": null,
-      "sjt_policy": "SJT is not used for interview selection.",
-      "sjt_outcome": "ignored",
-      "sjt_summary": "SJT is not used for interview selection.",
-      "applicant_sjt_band": null,
-      "official_ucat_minimum": null
-    }
+      "position": "above",
+      "applicant_pool": "Home, Rest of UK applicants",
+      "sjt_policy": "SJT Bands 1-3 pass. Band 4 is discounted before interview prediction.",
+      "sjt_outcome": "met",
+      "sjt_summary": "Met - Bands 1-3 are accepted.",
+      "applicant_sjt_band": 2,
+      "official_ucat_minimum": {
+        "minimum": 2320,
+        "met": true,
+        "summary": "Met - your score is 2400 and the published minimum is 2320."
+      }
+    },
+    "ucat_adjustment": null
   },
   "engine_notes": {
     "offer_prediction_scope": "out_of_scope",
@@ -430,8 +490,8 @@
     "subsection_minimum_values_executed": false,
     "legacy_3600_conversion_used": false
   },
-  "primary_user_facing_recommendation": "Possible choice for your application",
-  "primary_explanation": "Based on ApplySmart's assessment, your UCAT score may be competitive for this applicant group.",
+  "primary_user_facing_recommendation": "Strong choice for your application",
+  "primary_explanation": "Based on ApplySmart's assessment, your UCAT score appears competitive for this applicant group.",
   "recommendation_display_state": "standard",
   "trust_statement": null,
   "historical_guidance_caveat": "Historical admissions data provides a benchmark only; it is not a current cut-off or a guarantee of interview."
