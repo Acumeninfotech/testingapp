@@ -199,7 +199,7 @@
     "guidance_pool_id": "international",
     "result_band": "realistic",
     "recommendation": "Good chance – recommend applying",
-    "score": 2080,
+    "score": 28.3,
     "score_scale": {
       "min": 0,
       "max": 2700
@@ -215,7 +215,8 @@
     "cannot_predict_explanation": "This result positions UCAT 2080 within verified historical international guidance only. Interview ranking depends on the complete academic, international-cohort UCAT decile and SJT pre-interview total, not UCAT alone.",
     "source_ids": [
       "edinburgh_verified_international_admissions_evidence"
-    ]
+    ],
+    "ranking_metric": "ucat_total"
   },
   "missing_data": {
     "current_international_cohort_decile": "not_supplied",
@@ -269,8 +270,8 @@
     "subheadline": "Historical UCAT guidance within a total-score ranking model",
     "primary_user_facing_recommendation": "Possible choice for your application",
     "recommendation_display_state": "standard",
-    "primary_explanation": "Based on ApplySmart's assessment, your academic profile may be competitive for this applicant group.",
-    "historical_guidance_caveat": "Interview thresholds may change each admissions cycle depending on applicant competition and interview capacity. Historical figures are guidance only, not a current cut-off, and do not guarantee an interview.",
+    "primary_explanation": "Based on ApplySmart's assessment, your UCAT score may be competitive for this applicant group.",
+    "historical_guidance_caveat": "Historical admissions data provides a benchmark only; it is not a current cut-off or a guarantee of interview.",
     "badges": [
       {
         "label": "Eligible",
@@ -309,71 +310,111 @@
       "step": 3,
       "title": "Selection model applied",
       "status": "Complete",
-      "summary": "Academic, UCAT cognitive and SJT components were considered in the pre-interview total."
+      "summary": "Edinburgh ranks applicants by a pre-interview total out of 40, combining academic, UCAT cognitive and SJT scores."
     },
     {
       "step": 4,
       "title": "Historical guidance compared",
       "status": "Complete",
-      "summary": "Your result was compared with interview information from previous admissions cycles. Interview thresholds may change each admissions cycle depending on applicant competition and interview capacity. Historical figures are guidance only, not a current cut-off, and do not guarantee an interview."
+      "summary": "UCAT: 2080 - within the historical interview range of 2050-2099. Historical admissions data provides a benchmark only; it is not a current cut-off or a guarantee of interview."
     },
     {
       "step": 5,
       "title": "Interview recommendation produced",
       "status": "Realistic Choice",
-      "summary": "Based on ApplySmart's assessment, your academic profile may be competitive for this applicant group. Treat this as guidance for university choice, not a promised interview."
+      "summary": "Based on ApplySmart's assessment, your UCAT score may be competitive for this applicant group. Treat this as guidance for university choice, not a promised interview."
     }
   ],
   "decision_transparency": {
+    "factor_usage": [
+      {
+        "factor_id": "ucat",
+        "label": "UCAT",
+        "role": "ranking",
+        "detail": "Used for ranking in the university’s selection process.",
+        "evidence_status": "available"
+      },
+      {
+        "factor_id": "gcse",
+        "label": "GCSEs",
+        "role": "unknown",
+        "detail": "GCSEs are part of the university’s academic review.",
+        "evidence_status": "available"
+      },
+      {
+        "factor_id": "a_level",
+        "label": "A-levels",
+        "role": "unknown",
+        "detail": "Used as part of the university’s academic review.",
+        "evidence_status": "available"
+      },
+      {
+        "factor_id": "sjt",
+        "label": "SJT",
+        "role": "ranking",
+        "detail": "SJT contributes to the university’s selection scoring.",
+        "evidence_status": "available"
+      }
+    ],
     "decision_path": [
       {
         "stage": "Eligibility",
         "status": "Met",
-        "summary": "The represented applicant is above the verified international UCAT eligibility threshold and has an acceptable SJT band. Meeting minimum requirements does not guarantee an interview.",
+        "summary": "The supported entry requirements are met.",
         "checks": [
           {
-            "label": "Academic eligibility",
+            "label": "Entry requirements",
             "status": "Met",
-            "summary": "Applicant must meet Edinburgh's academic requirements for their qualification route. Applicant information: Represented as academically eligible."
-          },
-          {
-            "label": "International UCAT eligibility threshold",
-            "status": "Met",
-            "summary": "Verified published minimum UCAT threshold: 1650/2700; the threshold changes annually. Applicant information: UCAT 2080/2700"
-          },
-          {
-            "label": "SJT Band 4 exclusion",
-            "status": "Met",
-            "summary": "SJT Band 4 causes automatic rejection; Bands 1–3 are acceptable. Applicant information: SJT Band 2"
+            "summary": "The supported entry requirements have been assessed."
           }
         ]
       },
       {
         "stage": "Selection model",
         "status": "Assessed",
-        "summary": "International applicants are ranked separately by total pre-interview score out of 40: academic 20 + international-cohort UCAT cognitive decile 14 + SJT 6. UCAT alone does not determine rank.",
+        "summary": "Edinburgh ranks applicants by a pre-interview total out of 40, combining academic, UCAT cognitive and SJT scores.",
         "checks": [
           {
             "label": "Applicant pool",
             "status": "Used",
-            "summary": "The applicant group matching the supplied fee status and entry route"
+            "summary": "International applicants"
           },
           {
-            "label": "Selection approach",
-            "status": "Ranking/cut-off based",
-            "summary": "International applicants are ranked separately by total pre-interview score out of 40: academic 20 + international-cohort UCAT cognitive decile 14 + SJT 6. UCAT alone does not determine rank."
+            "label": "Academic score",
+            "status": "Counted",
+            "summary": "14 out of 20."
+          },
+          {
+            "label": "UCAT score",
+            "status": "Counted",
+            "summary": "9.8 out of 14."
+          },
+          {
+            "label": "SJT score",
+            "status": "Counted",
+            "summary": "4.5 out of 6."
           }
         ]
       },
       {
         "stage": "Historical guidance",
         "status": "Guidance available",
-        "summary": "The result was assessed using the available admissions evidence for this applicant group. Historical admissions data provides a benchmark only; it is not a current cut-off or a guarantee of interview.",
+        "summary": "UCAT: 2080 - within the historical interview range of 2050-2099. Historical admissions data provides a benchmark only; it is not a current cut-off or a guarantee of interview.",
         "checks": [
           {
             "label": "Applicant pool",
             "status": "Used",
-            "summary": "The applicant group matching the supplied fee status and entry route"
+            "summary": "International applicants"
+          },
+          {
+            "label": "UCAT comparison",
+            "status": "Compared",
+            "summary": "UCAT: 2080 - within the historical interview range of 2050-2099."
+          },
+          {
+            "label": "International Fee",
+            "status": "Historical",
+            "summary": "~686 applicants, ~98 interviewed, ~68 offers, ~22 places."
           },
           {
             "label": "Important limitation",
@@ -385,14 +426,14 @@
       {
         "stage": "Recommendation",
         "status": "Guidance only",
-        "summary": "Based on ApplySmart's assessment, your academic profile may be competitive for this applicant group. Treat this as guidance for university choice, not a promised interview.",
+        "summary": "Based on ApplySmart's assessment, your UCAT score may be competitive for this applicant group. Treat this as guidance for university choice, not a promised interview.",
         "checks": []
       }
     ],
     "key_reasons": [
-      "The represented applicant is above the verified international UCAT eligibility threshold and has an acceptable SJT band. Meeting minimum requirements does not guarantee an interview.",
-      "The result uses The applicant group matching the supplied fee status and entry route.",
-      "International applicants are ranked separately by total pre-interview score out of 40: academic 20 + international-cohort UCAT cognitive decile 14 + SJT 6. UCAT alone does not determine rank."
+      "The supported entry requirements are met.",
+      "The result uses International applicants.",
+      "Selection score is 28.3 out of 40."
     ],
     "evidence_used": [
       "Official admissions policy",
@@ -412,8 +453,10 @@
     },
     "warnings": [],
     "manual_review_reason": null,
-    "insufficient_evidence_reason": null,
-    "insufficient_evidence_reason_code": null,
+    "manual_review_reason_code": null,
+    "information_needed_reason": null,
+    "missing_information": null,
+    "risk_explanation": null,
     "compact_status": {
       "label": "You meet the academic requirements.",
       "type": "academic_status",
@@ -421,10 +464,74 @@
     },
     "comparison_metrics_title": null,
     "comparison_metrics": [],
-    "selection_approach_display": null,
-    "selection_metric": null,
-    "score_breakdown": null,
-    "ucat_comparison": null
+    "selection_approach_display": "Edinburgh ranks applicants by a pre-interview total out of 40, combining academic, UCAT cognitive and SJT scores.",
+    "selection_metric": {
+      "type": "selection_score",
+      "label": "Selection score",
+      "applicant_value": 28.3,
+      "comparison_value": null,
+      "comparison_max_value": null,
+      "comparison_label": null,
+      "comparison_label_type": null,
+      "comparison_context": "Selection score",
+      "difference": null,
+      "difference_direction": null,
+      "difference_word": null,
+      "maximum_value": 40,
+      "display_mode": "score",
+      "display_eligibility": true,
+      "entry_year": null,
+      "caveat": null
+    },
+    "score_breakdown": {
+      "name": "Selection score",
+      "value": 28.3,
+      "max": 40,
+      "status": "calculated",
+      "explanation": "Official Edinburgh pre-assessment score with historical UCAT decile estimate",
+      "checks": [
+        {
+          "label": "Academic score",
+          "status": "Counted",
+          "summary": "14 out of 20."
+        },
+        {
+          "label": "UCAT score",
+          "status": "Counted",
+          "summary": "9.8 out of 14."
+        },
+        {
+          "label": "SJT score",
+          "status": "Counted",
+          "summary": "4.5 out of 6."
+        }
+      ]
+    },
+    "ucat_comparison": {
+      "comparison_type": "historical_range",
+      "applicant_ucat": 2080,
+      "benchmark_min": 2050,
+      "benchmark_max": 2099,
+      "comparison_operator": null,
+      "benchmark_label": "historical interview range",
+      "caveat": "Historical admissions data provides a benchmark only; it is not a current cut-off or a guarantee of interview.",
+      "evidence_status": null,
+      "evidence_classification": null,
+      "prediction_band": null,
+      "difference_from_benchmark": null,
+      "position": "within",
+      "applicant_pool": "International applicants",
+      "sjt_policy": "SJT banding is scored and added to academic and UCAT scoring for ranking. FOI-derived evidence supplies Bands 1-3 points; Band 4 applicants are not considered.",
+      "sjt_outcome": "scored",
+      "sjt_summary": "Band 2 - contributes to the university's selection score.",
+      "applicant_sjt_band": 2,
+      "official_ucat_minimum": {
+        "minimum": 1850,
+        "met": true,
+        "summary": "Met - your score is 2080 and the published minimum is 1850."
+      }
+    },
+    "ucat_adjustment": null
   },
   "engine_notes": {
     "generated_from_profile_id": "edinburgh-a100",
@@ -445,7 +552,7 @@
     ]
   },
   "primary_user_facing_recommendation": "Possible choice for your application",
-  "primary_explanation": "Based on ApplySmart's assessment, your academic profile may be competitive for this applicant group.",
+  "primary_explanation": "Based on ApplySmart's assessment, your UCAT score may be competitive for this applicant group.",
   "recommendation_display_state": "standard",
   "trust_statement": null,
   "historical_guidance_caveat": "Historical admissions data provides a benchmark only; it is not a current cut-off or a guarantee of interview."

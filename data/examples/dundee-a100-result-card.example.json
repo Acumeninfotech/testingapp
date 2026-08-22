@@ -563,7 +563,8 @@
       "dundee_entry_requirements",
       "dundee_admissions_statistics",
       "dundee_verified_international_admissions_evidence"
-    ]
+    ],
+    "ranking_metric": "ucat_total"
   },
   "missing_data": {
     "official_academic_formula": "partially_available",
@@ -675,8 +676,8 @@
     "subheadline": "MBChB Medicine, Standard Entry, 5 years",
     "primary_user_facing_recommendation": "Possible choice for your application",
     "recommendation_display_state": "standard",
-    "primary_explanation": "Based on ApplySmart's assessment, your academic profile may be competitive for this applicant group.",
-    "historical_guidance_caveat": "Interview thresholds may change each admissions cycle depending on applicant competition and interview capacity. Historical figures are guidance only, not a current cut-off, and do not guarantee an interview.",
+    "primary_explanation": "Based on ApplySmart's assessment, your UCAT score may be competitive for this applicant group.",
+    "historical_guidance_caveat": "Historical admissions data provides a benchmark only; it is not a current cut-off or a guarantee of interview.",
     "badges": [
       {
         "label": "Eligible",
@@ -719,76 +720,101 @@
       "step": 3,
       "title": "Selection model applied",
       "status": "Complete",
-      "summary": "Academic attainment and UCAT national-decile performance were combined."
+      "summary": "Dundee considers academic performance and UCAT when selecting International applicants for interview."
     },
     {
       "step": 4,
       "title": "Historical guidance compared",
       "status": "Complete",
-      "summary": "Your result was compared with interview information from previous admissions cycles. Interview thresholds may change each admissions cycle depending on applicant competition and interview capacity. Historical figures are guidance only, not a current cut-off, and do not guarantee an interview."
+      "summary": "UCAT: 2080 - within the historical interview range of 2050-2099. Historical admissions data provides a benchmark only; it is not a current cut-off or a guarantee of interview."
     },
     {
       "step": 5,
       "title": "Interview recommendation produced",
       "status": "Realistic Choice",
-      "summary": "Based on ApplySmart's assessment, your academic profile may be competitive for this applicant group. Treat this as guidance for university choice, not a promised interview."
+      "summary": "Based on ApplySmart's assessment, your UCAT score may be competitive for this applicant group. Treat this as guidance for university choice, not a promised interview."
     }
   ],
   "decision_transparency": {
+    "factor_usage": [
+      {
+        "factor_id": "ucat",
+        "label": "UCAT",
+        "role": "ranking",
+        "detail": "Used for ranking in the university’s selection process.",
+        "evidence_status": "available"
+      },
+      {
+        "factor_id": "gcse",
+        "label": "GCSEs",
+        "role": "unknown",
+        "detail": "GCSEs are part of the university’s academic review.",
+        "evidence_status": "available"
+      },
+      {
+        "factor_id": "a_level",
+        "label": "A-levels",
+        "role": "unknown",
+        "detail": "Used as part of the university’s academic review.",
+        "evidence_status": "available"
+      },
+      {
+        "factor_id": "sjt",
+        "label": "SJT",
+        "role": "not_used",
+        "detail": "SJT is not used for interview selection.",
+        "evidence_status": "not_applicable"
+      }
+    ],
     "decision_path": [
       {
         "stage": "Eligibility",
         "status": "Met",
-        "summary": "The complete test profile meets the represented Dundee Standard Entry Stage 1 eligibility requirements.",
+        "summary": "The supported entry requirements are met.",
         "checks": [
           {
-            "label": "GCSE / National 5 subjects",
+            "label": "Entry requirements",
             "status": "Met",
-            "summary": "English Language, Mathematics, Biology and Chemistry requirements represented as met at grade 8. Applicant information: English Language 8, Mathematics 8, Biology 8, Chemistry 8, Physics 8 plus three other grade 8 subjects"
-          },
-          {
-            "label": "A-level requirements",
-            "status": "Met",
-            "summary": "AAA including Chemistry or Biology plus another science. Applicant information: Chemistry A, Biology A, Mathematics A"
-          },
-          {
-            "label": "UCAT",
-            "status": "Met",
-            "summary": "UCAT required; no fixed cut-off stated. Applicant information: UCAT cognitive total 2080"
-          },
-          {
-            "label": "SJT",
-            "status": "Met",
-            "summary": "SJT not used for initial interview selection. Applicant information: Band 2"
+            "summary": "The supported entry requirements have been assessed."
           }
         ]
       },
       {
         "stage": "Selection model",
         "status": "Assessed",
-        "summary": "The university selection approach is applied after eligibility checks.",
+        "summary": "Dundee considers academic performance and UCAT when selecting International applicants for interview.",
         "checks": [
           {
             "label": "Applicant pool",
             "status": "Used",
-            "summary": "The applicant group matching the supplied fee status and entry route"
+            "summary": "International applicants"
           },
           {
             "label": "Selection approach",
-            "status": "Ranking/cut-off based",
-            "summary": "The university selection approach is applied after eligibility checks."
+            "status": "Assessed",
+            "summary": "Dundee considers academic performance and UCAT when selecting International applicants for interview."
           }
         ]
       },
       {
         "stage": "Historical guidance",
         "status": "Guidance available",
-        "summary": "The result was assessed using the available admissions evidence for this applicant group. Historical admissions data provides a benchmark only; it is not a current cut-off or a guarantee of interview.",
+        "summary": "UCAT: 2080 - within the historical interview range of 2050-2099. Historical admissions data provides a benchmark only; it is not a current cut-off or a guarantee of interview.",
         "checks": [
           {
             "label": "Applicant pool",
             "status": "Used",
-            "summary": "The applicant group matching the supplied fee status and entry route"
+            "summary": "International applicants"
+          },
+          {
+            "label": "UCAT comparison",
+            "status": "Compared",
+            "summary": "UCAT: 2080 - within the historical interview range of 2050-2099."
+          },
+          {
+            "label": "International Fee",
+            "status": "Historical",
+            "summary": "UCAT interview threshold ~2000 (2700 scale)."
           },
           {
             "label": "Important limitation",
@@ -800,14 +826,14 @@
       {
         "stage": "Recommendation",
         "status": "Guidance only",
-        "summary": "Based on ApplySmart's assessment, your academic profile may be competitive for this applicant group. Treat this as guidance for university choice, not a promised interview.",
+        "summary": "Based on ApplySmart's assessment, your UCAT score may be competitive for this applicant group. Treat this as guidance for university choice, not a promised interview.",
         "checks": []
       }
     ],
     "key_reasons": [
-      "The complete test profile meets the represented Dundee Standard Entry Stage 1 eligibility requirements.",
-      "The result uses The applicant group matching the supplied fee status and entry route.",
-      "The university selection approach is applied after eligibility checks."
+      "The supported entry requirements are met.",
+      "The result uses International applicants.",
+      "Your UCAT score is within the historical interview range for this applicant group."
     ],
     "evidence_used": [
       "Official admissions policy",
@@ -826,19 +852,64 @@
     },
     "warnings": [],
     "manual_review_reason": null,
-    "insufficient_evidence_reason": null,
-    "insufficient_evidence_reason_code": null,
+    "manual_review_reason_code": null,
+    "information_needed_reason": null,
+    "missing_information": null,
+    "risk_explanation": null,
     "compact_status": {
       "label": "You meet the academic requirements.",
       "type": "academic_status",
       "tone": "positive"
     },
     "comparison_metrics_title": null,
-    "comparison_metrics": [],
-    "selection_approach_display": null,
-    "selection_metric": null,
+    "comparison_metrics": [
+      {
+        "label": "historical interview range",
+        "value": "2050-2099",
+        "difference": "+30"
+      }
+    ],
+    "selection_approach_display": "Dundee considers academic performance and UCAT when selecting International applicants for interview.",
+    "selection_metric": {
+      "type": "ucat",
+      "label": "Your UCAT score",
+      "applicant_value": 2080,
+      "comparison_value": 2050,
+      "comparison_max_value": 2099,
+      "comparison_label": "historical interview range",
+      "comparison_label_type": "historical_interview_guide",
+      "comparison_context": null,
+      "difference": 30,
+      "difference_direction": "above",
+      "difference_word": "range",
+      "maximum_value": 2700,
+      "display_mode": "comparison",
+      "display_eligibility": true,
+      "entry_year": null,
+      "caveat": "Historical admissions data provides a benchmark only; it is not a current cut-off or a guarantee of interview."
+    },
     "score_breakdown": null,
-    "ucat_comparison": null
+    "ucat_comparison": {
+      "comparison_type": "historical_range",
+      "applicant_ucat": 2080,
+      "benchmark_min": 2050,
+      "benchmark_max": 2099,
+      "comparison_operator": null,
+      "benchmark_label": "historical interview range",
+      "caveat": "Historical admissions data provides a benchmark only; it is not a current cut-off or a guarantee of interview.",
+      "evidence_status": null,
+      "evidence_classification": null,
+      "prediction_band": null,
+      "difference_from_benchmark": null,
+      "position": "within",
+      "applicant_pool": "International applicants",
+      "sjt_policy": "Dundee's official admissions statistics state UCAT SJT bands are not used as part of the initial selection for interview process.",
+      "sjt_outcome": "ignored",
+      "sjt_summary": "Band 2 - not used for interview selection.",
+      "applicant_sjt_band": 2,
+      "official_ucat_minimum": null
+    },
+    "ucat_adjustment": null
   },
   "engine_notes": {
     "generated_from_profile_id": "dundee-a100",
@@ -867,8 +938,8 @@
     "disclaimer": "Historical interview guidance only; this is not a fixed international UCAT threshold, and Dundee has no fixed international UCAT threshold."
   },
   "primary_user_facing_recommendation": "Possible choice for your application",
-  "primary_explanation": "Based on ApplySmart's assessment, your academic profile may be competitive for this applicant group.",
+  "primary_explanation": "Based on ApplySmart's assessment, your UCAT score may be competitive for this applicant group.",
   "recommendation_display_state": "standard",
-  "trust_statement": null,
+  "trust_statement": "Dundee uses academic performance and UCAT in pre-interview ranking. ApplySmart cannot reproduce Dundee's exact internal score because the complete academic scoring table and current Dundee applicant-pool UCAT decile boundaries are not published. The internal guidance index is hidden from Result Cards and is not Dundee's official score.",
   "historical_guidance_caveat": "Historical admissions data provides a benchmark only; it is not a current cut-off or a guarantee of interview."
 }

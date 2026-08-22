@@ -456,28 +456,7 @@
     "result_band": "realistic",
     "recommendation": "Good chance – recommend applying",
     "guidance_pool_id": "international",
-    "score": {
-      "academic_score": {
-        "value": 27.78,
-        "max": 30,
-        "example_profile": "AAA",
-        "formula": "(75 / 81) * 30",
-        "evidence_classification": "research_team_model"
-      },
-      "ucat_score": {
-        "value": 15,
-        "max": 20,
-        "example_profile": "UCAT cognitive total 2050 / decile 7 / raw UCAT points 45",
-        "formula": "(45 / 60) * 20",
-        "evidence_classification": "foi_verified"
-      },
-      "pre_interview_score": {
-        "value": 42.78,
-        "max": 50,
-        "formula": "weighted_academic_score + weighted_ucat_score",
-        "evidence_classification": "mixed_research_team_model_and_foi_verified"
-      }
-    },
+    "score": 2050,
     "score_scale": {
       "min": 0,
       "max": 50
@@ -538,7 +517,8 @@
       "abdn_foi_ucat_conversion",
       "abdn_official_2025_sjt_policy",
       "abdn_verified_international_admissions_evidence"
-    ]
+    ],
+    "ranking_metric": "ucat_total"
   },
   "confidence": {
     "level": "medium",
@@ -671,8 +651,8 @@
     "subheadline": "Eligibility and historical interview guidance",
     "primary_user_facing_recommendation": "Possible choice for your application",
     "recommendation_display_state": "standard",
-    "primary_explanation": "Based on ApplySmart's assessment, your academic profile may be competitive for this applicant group.",
-    "historical_guidance_caveat": "Interview thresholds may change each admissions cycle depending on applicant competition and interview capacity. Historical figures are guidance only, not a current cut-off, and do not guarantee an interview.",
+    "primary_explanation": "Based on ApplySmart's assessment, your UCAT score may be competitive for this applicant group.",
+    "historical_guidance_caveat": "Historical admissions data provides a benchmark only; it is not a current cut-off or a guarantee of interview.",
     "badges": [
       {
         "label": "Eligibility guidance available",
@@ -707,61 +687,106 @@
       "step": 3,
       "title": "Selection model applied",
       "status": "Complete",
-      "summary": "Academic attainment and UCAT were combined in the implemented pre-interview score."
+      "summary": "Aberdeen checks academic and SJT eligibility, then scores academic performance and UCAT for interview selection within the separate International pool."
     },
     {
       "step": 4,
       "title": "Historical guidance compared",
       "status": "Complete",
-      "summary": "Your result was compared with interview information from previous admissions cycles. Interview thresholds may change each admissions cycle depending on applicant competition and interview capacity. Historical figures are guidance only, not a current cut-off, and do not guarantee an interview."
+      "summary": "UCAT: 2050 - within the historical interview range of 1950-2099. Historical admissions data provides a benchmark only; it is not a current cut-off or a guarantee of interview."
     },
     {
       "step": 5,
       "title": "Interview recommendation produced",
       "status": "Realistic Choice",
-      "summary": "Based on ApplySmart's assessment, your academic profile may be competitive for this applicant group. Treat this as guidance for university choice, not a promised interview."
+      "summary": "Based on ApplySmart's assessment, your UCAT score may be competitive for this applicant group. Treat this as guidance for university choice, not a promised interview."
     }
   ],
   "decision_transparency": {
+    "factor_usage": [
+      {
+        "factor_id": "ucat",
+        "label": "UCAT",
+        "role": "ranking",
+        "detail": "Used for ranking in the university’s selection process.",
+        "evidence_status": "available"
+      },
+      {
+        "factor_id": "gcse",
+        "label": "GCSEs",
+        "role": "unknown",
+        "detail": "GCSEs are part of the university’s academic review.",
+        "evidence_status": "available"
+      },
+      {
+        "factor_id": "a_level",
+        "label": "A-levels",
+        "role": "unknown",
+        "detail": "Used as part of the university’s academic review.",
+        "evidence_status": "available"
+      },
+      {
+        "factor_id": "sjt",
+        "label": "SJT",
+        "role": "not_used",
+        "detail": "SJT is not used for interview selection.",
+        "evidence_status": "not_applicable"
+      }
+    ],
     "decision_path": [
       {
         "stage": "Eligibility",
         "status": "Met",
-        "summary": "The international applicant meets the stored Stage 1 checks and has an acceptable SJT band.",
+        "summary": "The supported entry requirements are met.",
         "checks": [
           {
-            "label": "Entry requirement",
+            "label": "Entry requirements",
             "status": "Met",
-            "summary": "This requirement was assessed."
+            "summary": "The supported entry requirements have been assessed."
           }
         ]
       },
       {
         "stage": "Selection model",
         "status": "Assessed",
-        "summary": "Pre-interview selection uses academic achievement/prediction and UCAT. Highest-scoring applicants are invited to interview.",
+        "summary": "Aberdeen checks academic and SJT eligibility, then scores academic performance and UCAT for interview selection within the separate International pool.",
         "checks": [
           {
             "label": "Applicant pool",
             "status": "Used",
-            "summary": "The applicant group matching the supplied fee status and entry route"
+            "summary": "International applicants"
+          },
+          {
+            "label": "UCAT",
+            "status": "Within",
+            "summary": "UCAT: 2050 - within the historical interview range of 1950-2099."
+          },
+          {
+            "label": "SJT requirement",
+            "status": "Met",
+            "summary": "Met - Bands 1-3 are accepted."
           },
           {
             "label": "Selection approach",
             "status": "Ranking/cut-off based",
-            "summary": "Pre-interview selection uses academic achievement/prediction and UCAT. Highest-scoring applicants are invited to interview."
+            "summary": "Aberdeen checks academic and SJT eligibility, then scores academic performance and UCAT for interview selection within the separate International pool."
           }
         ]
       },
       {
         "stage": "Historical guidance",
         "status": "Guidance available",
-        "summary": "The result was assessed using the available admissions evidence for this applicant group. Historical admissions data provides a benchmark only; it is not a current cut-off or a guarantee of interview.",
+        "summary": "UCAT: 2050 - within the historical interview range of 1950-2099. Historical admissions data provides a benchmark only; it is not a current cut-off or a guarantee of interview.",
         "checks": [
           {
             "label": "Applicant pool",
             "status": "Used",
-            "summary": "The applicant group matching the supplied fee status and entry route"
+            "summary": "International applicants"
+          },
+          {
+            "label": "UCAT comparison",
+            "status": "Compared",
+            "summary": "UCAT: 2050 - within the historical interview range of 1950-2099."
           },
           {
             "label": "Important limitation",
@@ -773,14 +798,14 @@
       {
         "stage": "Recommendation",
         "status": "Guidance only",
-        "summary": "Based on ApplySmart's assessment, your academic profile may be competitive for this applicant group. Treat this as guidance for university choice, not a promised interview.",
+        "summary": "Based on ApplySmart's assessment, your UCAT score may be competitive for this applicant group. Treat this as guidance for university choice, not a promised interview.",
         "checks": []
       }
     ],
     "key_reasons": [
-      "The international applicant meets the stored Stage 1 checks and has an acceptable SJT band.",
-      "The result uses The applicant group matching the supplied fee status and entry route.",
-      "Pre-interview selection uses academic achievement/prediction and UCAT. Highest-scoring applicants are invited to interview."
+      "The supported entry requirements are met.",
+      "The result uses International applicants.",
+      "Your UCAT score is within the historical interview range for this applicant group."
     ],
     "evidence_used": [
       "Official admissions policy",
@@ -799,19 +824,64 @@
     },
     "warnings": [],
     "manual_review_reason": null,
-    "insufficient_evidence_reason": null,
-    "insufficient_evidence_reason_code": null,
+    "manual_review_reason_code": null,
+    "information_needed_reason": null,
+    "missing_information": null,
+    "risk_explanation": null,
     "compact_status": {
       "label": "You meet the academic requirements.",
       "type": "academic_status",
       "tone": "positive"
     },
     "comparison_metrics_title": null,
-    "comparison_metrics": [],
-    "selection_approach_display": null,
-    "selection_metric": null,
+    "comparison_metrics": [
+      {
+        "label": "historical interview range",
+        "value": "1950-2099",
+        "difference": "+100"
+      }
+    ],
+    "selection_approach_display": "Aberdeen checks academic and SJT eligibility, then scores academic performance and UCAT for interview selection within the separate International pool.",
+    "selection_metric": {
+      "type": "ucat",
+      "label": "Your UCAT score",
+      "applicant_value": 2050,
+      "comparison_value": 1950,
+      "comparison_max_value": 2099,
+      "comparison_label": "historical interview range",
+      "comparison_label_type": "historical_interview_guide",
+      "comparison_context": null,
+      "difference": 100,
+      "difference_direction": "above",
+      "difference_word": "range",
+      "maximum_value": 2700,
+      "display_mode": "comparison",
+      "display_eligibility": true,
+      "entry_year": null,
+      "caveat": "Historical admissions data provides a benchmark only; it is not a current cut-off or a guarantee of interview."
+    },
     "score_breakdown": null,
-    "ucat_comparison": null
+    "ucat_comparison": {
+      "comparison_type": "historical_range",
+      "applicant_ucat": 2050,
+      "benchmark_min": 1950,
+      "benchmark_max": 2099,
+      "comparison_operator": null,
+      "benchmark_label": "historical interview range",
+      "caveat": "Historical admissions data provides a benchmark only; it is not a current cut-off or a guarantee of interview.",
+      "evidence_status": null,
+      "evidence_classification": null,
+      "prediction_band": null,
+      "difference_from_benchmark": null,
+      "position": "within",
+      "applicant_pool": "International applicants",
+      "sjt_policy": "International applicants with SJT Band 4 are automatically ineligible for interview. Bands 1–3 are acceptable.",
+      "sjt_outcome": "met",
+      "sjt_summary": "Met - Bands 1-3 are accepted.",
+      "applicant_sjt_band": 2,
+      "official_ucat_minimum": null
+    },
+    "ucat_adjustment": null
   },
   "engine_notes": {
     "generated_from_profile_id": "aberdeen-a100",
@@ -823,7 +893,7 @@
     "do_not_display": []
   },
   "primary_user_facing_recommendation": "Possible choice for your application",
-  "primary_explanation": "Based on ApplySmart's assessment, your academic profile may be competitive for this applicant group.",
+  "primary_explanation": "Based on ApplySmart's assessment, your UCAT score may be competitive for this applicant group.",
   "recommendation_display_state": "standard",
   "trust_statement": null,
   "historical_guidance_caveat": "Historical admissions data provides a benchmark only; it is not a current cut-off or a guarantee of interview."

@@ -540,7 +540,9 @@
       "liverpool_research_team_verified_update_2026",
       "liverpool_foi_2025_cutoffs_verified_update",
       "liverpool_priority_2_historical_evidence_handoff_2026"
-    ]
+    ],
+    "ranking_metric": "ucat_total",
+    "guidance_pool_id": "home_standard_non_graduate"
   },
   "missing_data": {
     "live_2027_home_standard_ucat_cutoff": "unknown_dynamic_external_university_data",
@@ -697,8 +699,8 @@
     "subheadline": "Medium-confidence UCAT guidance based on historical data",
     "primary_user_facing_recommendation": "Strong choice for your application",
     "recommendation_display_state": "standard",
-    "primary_explanation": "Based on ApplySmart's assessment, your academic profile appears competitive for this applicant group.",
-    "historical_guidance_caveat": "Interview thresholds may change each admissions cycle depending on applicant competition and interview capacity. Historical figures are guidance only, not a current cut-off, and do not guarantee an interview.",
+    "primary_explanation": "Based on ApplySmart's assessment, your UCAT score appears competitive for this applicant group.",
+    "historical_guidance_caveat": "Historical admissions data provides a benchmark only; it is not a current cut-off or a guarantee of interview.",
     "badges": [
       "Minimum eligibility passed",
       "UCAT required and present",
@@ -726,86 +728,121 @@
       "step": 3,
       "title": "Selection model applied",
       "status": "Complete",
-      "summary": "Academic and SJT checks were applied before the applicant pool and historical UCAT guidance were considered."
+      "summary": "Applicants who meet the academic requirements are ranked using their UCAT score."
     },
     {
       "step": 4,
       "title": "Historical guidance compared",
       "status": "Complete",
-      "summary": "Your result was compared with interview information from previous admissions cycles. Interview thresholds may change each admissions cycle depending on applicant competition and interview capacity. Historical figures are guidance only, not a current cut-off, and do not guarantee an interview."
+      "summary": "UCAT: 2000 - above the historical interview range of 1935-1964. Historical admissions data provides a benchmark only; it is not a current cut-off or a guarantee of interview."
     },
     {
       "step": 5,
       "title": "Interview recommendation produced",
       "status": "Strong Choice",
-      "summary": "Based on ApplySmart's assessment, your academic profile appears competitive for this applicant group. Treat this as guidance for university choice, not a promised interview."
+      "summary": "Based on ApplySmart's assessment, your UCAT score appears competitive for this applicant group. Treat this as guidance for university choice, not a promised interview."
     }
   ],
   "decision_transparency": {
+    "factor_usage": [
+      {
+        "factor_id": "ucat",
+        "label": "UCAT",
+        "role": "ranking",
+        "detail": "Used for ranking in the university’s selection process.",
+        "evidence_status": "available"
+      },
+      {
+        "factor_id": "gcse",
+        "label": "GCSEs",
+        "role": "unknown",
+        "detail": "GCSEs are part of the university’s academic review.",
+        "evidence_status": "available"
+      },
+      {
+        "factor_id": "a_level",
+        "label": "A-levels",
+        "role": "unknown",
+        "detail": "Used as part of the university’s academic review.",
+        "evidence_status": "available"
+      },
+      {
+        "factor_id": "sjt",
+        "label": "SJT",
+        "role": "eligibility",
+        "detail": "SJT is used as an eligibility gate.",
+        "evidence_status": "available"
+      }
+    ],
     "decision_path": [
       {
         "stage": "Eligibility",
         "status": "Met",
-        "summary": "The representative standard Home A-level applicant passes all minimum requirements implemented for this route. This is not confirmation of an interview or offer.",
+        "summary": "The supported entry requirements are met.",
         "checks": [
           {
-            "label": "GCSE count and Liverpool points",
+            "label": "Entry requirement",
             "status": "Met",
-            "summary": "Nine GCSEs/equivalents are counted and at least 15 Liverpool GCSE points are required for a standard applicant. Applicant information: Nine counted GCSEs at grade 7; 18 Liverpool points."
+            "summary": "This requirement was assessed and met."
           },
           {
-            "label": "GCSE core subjects",
+            "label": "Entry requirement",
             "status": "Met",
-            "summary": "English Language, Mathematics, Biology and Chemistry at grade 6/B or above, subject to published science equivalencies. Applicant information: English Language 7, Mathematics 7, Biology 7 and Chemistry 7."
+            "summary": "This requirement was assessed and met."
           },
           {
-            "label": "A-level requirements",
+            "label": "Entry requirement",
             "status": "Met",
-            "summary": "AAA including Chemistry and one of Biology, Physics or Mathematics, plus a third academic subject. Applicant information: Predicted AAA in Chemistry, Biology and History."
+            "summary": "This requirement was assessed and met."
           },
           {
-            "label": "Resit policy",
-            "status": "Not applicable",
-            "summary": "Route-specific resit conditions apply where qualifications are retaken. Applicant information: No resits represented."
+            "label": "Entry requirement",
+            "status": "Met",
+            "summary": "This requirement was assessed and met."
           }
         ]
       },
       {
         "stage": "Selection model",
         "status": "Assessed",
-        "summary": "After the UCAT rank and academic/Home SJT gates, eligible Home standard non-graduates remain in the Home pool. UCAT 2000 is 65 points above the FOI-verified E2025 Home cutoff of 1935, so this example receives a strong-choice ApplySmart interpretation of historical guidance. That value is context only, not an official Liverpool category, current cutoff or deterministic interview outcome.",
+        "summary": "Applicants who meet the academic requirements are ranked using their UCAT score.",
         "checks": [
           {
             "label": "Applicant pool",
             "status": "Used",
-            "summary": "The applicant group matching the supplied fee status and entry route"
+            "summary": "Home, Rest of UK applicants"
           },
           {
-            "label": "UCAT total entered",
-            "status": "Used for ranking",
-            "summary": "2000 out of 2700."
+            "label": "UCAT",
+            "status": "Above",
+            "summary": "UCAT: 2000 - above the historical interview range of 1935-1964."
           },
           {
-            "label": "SJT band",
-            "status": "On file",
-            "summary": "Band 2."
+            "label": "SJT requirement",
+            "status": "Met",
+            "summary": "Met - Bands 1-3 are accepted."
           },
           {
             "label": "Selection approach",
             "status": "Ranking/cut-off based",
-            "summary": "After the UCAT rank and academic/Home SJT gates, eligible Home standard non-graduates remain in the Home pool. UCAT 2000 is 65 points above the FOI-verified E2025 Home cutoff of 1935, so this example receives a strong-choice ApplySmart interpretation of historical guidance. That value is context only, not an official Liverpool category, current cutoff or deterministic interview outcome."
+            "summary": "Applicants who meet the academic requirements are ranked using their UCAT score."
           }
         ]
       },
       {
         "stage": "Historical guidance",
         "status": "Guidance available",
-        "summary": "The result was assessed using the available admissions evidence for this applicant group. Historical admissions data provides a benchmark only; it is not a current cut-off or a guarantee of interview.",
+        "summary": "UCAT: 2000 - above the historical interview range of 1935-1964. Historical admissions data provides a benchmark only; it is not a current cut-off or a guarantee of interview.",
         "checks": [
           {
             "label": "Applicant pool",
             "status": "Used",
-            "summary": "The applicant group matching the supplied fee status and entry route"
+            "summary": "Home, Rest of UK applicants"
+          },
+          {
+            "label": "UCAT comparison",
+            "status": "Compared",
+            "summary": "UCAT: 2000 - above the historical interview range of 1935-1964."
           },
           {
             "label": "Important limitation",
@@ -817,14 +854,14 @@
       {
         "stage": "Recommendation",
         "status": "Guidance only",
-        "summary": "Based on ApplySmart's assessment, your academic profile appears competitive for this applicant group. Treat this as guidance for university choice, not a promised interview.",
+        "summary": "Based on ApplySmart's assessment, your UCAT score appears competitive for this applicant group. Treat this as guidance for university choice, not a promised interview.",
         "checks": []
       }
     ],
     "key_reasons": [
-      "The representative standard Home A-level applicant passes all minimum requirements implemented for this route. This is not confirmation of an interview or offer.",
-      "The result uses The applicant group matching the supplied fee status and entry route.",
-      "After the UCAT rank and academic/Home SJT gates, eligible Home standard non-graduates remain in the Home pool. UCAT 2000 is 65 points above the FOI-verified E2025 Home cutoff of 1935, so this example receives a strong-choice ApplySmart interpretation of historical guidance. That value is context only, not an official Liverpool category, current cutoff or deterministic interview outcome."
+      "The supported entry requirements are met.",
+      "The result uses Home, Rest of UK applicants.",
+      "Your UCAT score is above the historical interview range for this applicant group."
     ],
     "evidence_used": [
       "Official admissions policy",
@@ -844,19 +881,64 @@
     },
     "warnings": [],
     "manual_review_reason": null,
-    "insufficient_evidence_reason": null,
-    "insufficient_evidence_reason_code": null,
+    "manual_review_reason_code": null,
+    "information_needed_reason": null,
+    "missing_information": null,
+    "risk_explanation": null,
     "compact_status": {
       "label": "You meet the academic requirements.",
       "type": "academic_status",
       "tone": "positive"
     },
     "comparison_metrics_title": null,
-    "comparison_metrics": [],
-    "selection_approach_display": null,
-    "selection_metric": null,
+    "comparison_metrics": [
+      {
+        "label": "historical interview range",
+        "value": "1935-1964",
+        "difference": "+65"
+      }
+    ],
+    "selection_approach_display": "Applicants who meet the academic requirements are ranked using their UCAT score.",
+    "selection_metric": {
+      "type": "ucat",
+      "label": "Your UCAT score",
+      "applicant_value": 2000,
+      "comparison_value": 1935,
+      "comparison_max_value": 1964,
+      "comparison_label": "historical interview range",
+      "comparison_label_type": "historical_interview_guide",
+      "comparison_context": null,
+      "difference": 65,
+      "difference_direction": "above",
+      "difference_word": "range",
+      "maximum_value": 2700,
+      "display_mode": "comparison",
+      "display_eligibility": true,
+      "entry_year": null,
+      "caveat": "Historical admissions data provides a benchmark only; it is not a current cut-off or a guarantee of interview."
+    },
     "score_breakdown": null,
-    "ucat_comparison": null
+    "ucat_comparison": {
+      "comparison_type": "historical_range",
+      "applicant_ucat": 2000,
+      "benchmark_min": 1935,
+      "benchmark_max": 1964,
+      "comparison_operator": null,
+      "benchmark_label": "historical interview range",
+      "caveat": "Historical admissions data provides a benchmark only; it is not a current cut-off or a guarantee of interview.",
+      "evidence_status": null,
+      "evidence_classification": null,
+      "prediction_band": null,
+      "difference_from_benchmark": null,
+      "position": "above",
+      "applicant_pool": "Home, Rest of UK applicants",
+      "sjt_policy": "Home applicants with Band 4 are unsuccessful.",
+      "sjt_outcome": "met",
+      "sjt_summary": "Met - Bands 1-3 are accepted.",
+      "applicant_sjt_band": 2,
+      "official_ucat_minimum": null
+    },
+    "ucat_adjustment": null
   },
   "engine_notes": {
     "generated_from_profile_id": "liverpool-a100",
@@ -922,7 +1004,7 @@
     ]
   },
   "primary_user_facing_recommendation": "Strong choice for your application",
-  "primary_explanation": "Based on ApplySmart's assessment, your academic profile appears competitive for this applicant group.",
+  "primary_explanation": "Based on ApplySmart's assessment, your UCAT score appears competitive for this applicant group.",
   "recommendation_display_state": "standard",
   "trust_statement": null,
   "historical_guidance_caveat": "Historical admissions data provides a benchmark only; it is not a current cut-off or a guarantee of interview."
