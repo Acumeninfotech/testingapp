@@ -264,7 +264,30 @@ assert.strictEqual(card.display.recommendation_display_state, 'standard');
 assert.strictEqual(card.evidence_confidence.level, 'Medium');
 assert.deepStrictEqual(card.evidence_confidence, buildEvidenceConfidence(card));
 assert.deepStrictEqual(card.decision_timeline, buildDecisionTimeline(card));
-assert.deepStrictEqual(card.decision_transparency, buildDecisionTransparency(card));
+assert.strictEqual(
+  card.decision_transparency.selection_metric.type,
+  'selection_score'
+);
+assert.strictEqual(
+  card.decision_transparency.selection_metric.applicant_value,
+  80
+);
+assert.strictEqual(
+  card.decision_transparency.score_breakdown.value,
+  80
+);
+assert.strictEqual(
+  card.decision_transparency.score_breakdown.max,
+  96
+);
+assert.strictEqual(
+  card.decision_transparency.score_breakdown.checks[0].label,
+  'GCSE score'
+);
+assert.strictEqual(
+  card.decision_transparency.score_breakdown.checks[1].label,
+  'UCAT score'
+);
 assert.match(
   card.stage_2_selection.summary,
   /Leicester's own published formula, not an ApplySmart estimate/i

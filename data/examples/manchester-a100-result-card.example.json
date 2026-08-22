@@ -529,7 +529,8 @@
       "manchester_a106_ucat_2027",
       "manchester_a106_interviews_2027",
       "manchester_verified_international_official_and_foi_evidence"
-    ]
+    ],
+    "ranking_metric": "ucat_total"
   },
   "confidence": {
     "level": "medium",
@@ -588,7 +589,7 @@
     "primary_user_facing_recommendation": "Possible choice for your application",
     "recommendation_display_state": "standard",
     "primary_explanation": "Based on ApplySmart's assessment, your UCAT score may be competitive for this applicant group.",
-    "historical_guidance_caveat": "Interview thresholds may change each admissions cycle depending on applicant competition and interview capacity. Historical figures are guidance only, not a current cut-off, and do not guarantee an interview.",
+    "historical_guidance_caveat": "Historical admissions data provides a benchmark only; it is not a current cut-off or a guarantee of interview.",
     "badges": [
       {
         "label": "Eligible",
@@ -619,91 +620,106 @@
       "step": 3,
       "title": "Selection model applied",
       "status": "Complete",
-      "summary": "The SJT Band 1–2 gate was checked before UCAT ranking within the relevant applicant group."
+      "summary": "Manchester first applies the academic and SJT gates, then ranks eligible applicants by UCAT cognitive total."
     },
     {
       "step": 4,
       "title": "Historical guidance compared",
       "status": "Complete",
-      "summary": "Your result was compared with interview information from previous admissions cycles. Interview thresholds may change each admissions cycle depending on applicant competition and interview capacity. Historical figures are guidance only, not a current cut-off, and do not guarantee an interview."
+      "summary": "UCAT: 2100 - within the historical interview range of 2060-2149. Historical admissions data provides a benchmark only; it is not a current cut-off or a guarantee of interview."
     },
     {
       "step": 5,
       "title": "Interview recommendation produced",
       "status": "Realistic Choice",
-      "summary": "Based on ApplySmart's assessment, your academic profile may be competitive for this applicant group. Treat this as guidance for university choice, not a promised interview."
+      "summary": "Based on ApplySmart's assessment, your UCAT score may be competitive for this applicant group. Treat this as guidance for university choice, not a promised interview."
     }
   ],
   "decision_transparency": {
+    "factor_usage": [
+      {
+        "factor_id": "ucat",
+        "label": "UCAT",
+        "role": "eligibility",
+        "detail": "Used for ranking in the university’s selection process.",
+        "evidence_status": "available"
+      },
+      {
+        "factor_id": "gcse",
+        "label": "GCSEs",
+        "role": "eligibility",
+        "detail": "Used as an academic eligibility requirement.",
+        "evidence_status": "available"
+      },
+      {
+        "factor_id": "a_level",
+        "label": "A-levels",
+        "role": "unknown",
+        "detail": "Used as part of the university’s academic review.",
+        "evidence_status": "available"
+      },
+      {
+        "factor_id": "sjt",
+        "label": "SJT",
+        "role": "eligibility",
+        "detail": "SJT is used as an eligibility gate.",
+        "evidence_status": "available"
+      }
+    ],
     "decision_path": [
       {
         "stage": "Eligibility",
         "status": "Met",
-        "summary": "The representative International A-level applicant passes the implemented A106 minimum gates. Eligibility does not itself guarantee an interview or offer.",
+        "summary": "The supported entry requirements are met.",
         "checks": [
           {
-            "label": "Represented International-route GCSE grade count",
+            "label": "Entry requirements",
             "status": "Met",
-            "summary": "At least seven GCSEs at grade 7/A. Applicant information: Seven GCSEs at grade 7."
-          },
-          {
-            "label": "GCSE core subjects and sciences",
-            "status": "Met",
-            "summary": "English Language and Mathematics at 6/B plus two sciences or Combined/Double Science at 7/A. Applicant information: English Language 6, Mathematics 6, Biology 7 and Chemistry 7."
-          },
-          {
-            "label": "Represented International-route A-level grades and subjects",
-            "status": "Met",
-            "summary": "AAA across three full A levels, with Biology/Human Biology OR Chemistry as the first required condition and a distinct approved second subject; Biology plus Human Biology and Mathematics plus Further Mathematics cannot be counted together. Applicant information: Predicted AAA in Chemistry, Biology and History. Chemistry satisfies the first condition, Biology is the approved second subject, and History is an unrestricted third subject; both science practical endorsements are passed."
-          },
-          {
-            "label": "UCAT requirement",
-            "status": "Met",
-            "summary": "UCAT must be taken in the application cycle. Applicant information: UCAT 2100 recorded for this application."
+            "summary": "The supported entry requirements have been assessed."
           }
         ]
       },
       {
         "stage": "Selection model",
         "status": "Assessed",
-        "summary": "Eligible International applicants are ranked separately by UCAT cognitive total. Manchester determines the International threshold independently after UCAT results are available; the configured bands use historical International competitiveness only and are not the current threshold.",
+        "summary": "Manchester first applies the academic and SJT gates, then ranks eligible applicants by UCAT cognitive total.",
         "checks": [
           {
             "label": "Applicant pool",
             "status": "Used",
-            "summary": "The applicant group matching the supplied fee status and entry route"
+            "summary": "International, Rest of UK applicants"
           },
           {
             "label": "UCAT",
-            "status": "Ranking only",
-            "summary": "UCAT ranking: Eligible applicants are ranked by UCAT. No reliable numerical historical comparison is available."
+            "status": "Within",
+            "summary": "UCAT: 2100 - within the historical interview range of 2060-2149."
           },
           {
             "label": "SJT requirement",
-            "status": "Ignored",
-            "summary": "Band 2 - not used for interview selection."
+            "status": "Met",
+            "summary": "Met - Bands 1-2 are accepted."
           },
           {
             "label": "Selection approach",
             "status": "Ranking/cut-off based",
-            "summary": "Eligible International applicants are ranked separately by UCAT cognitive total. Manchester determines the International threshold independently after UCAT results are available; the configured bands use historical International competitiveness only and are not the current threshold."
+            "summary": "Manchester first applies the academic and SJT gates, then ranks eligible applicants by UCAT cognitive total."
           }
         ]
       },
       {
         "stage": "Historical guidance",
         "status": "Guidance available",
-        "summary": "The result was assessed using the available admissions evidence for this applicant group. Historical admissions data provides a benchmark only; it is not a current cut-off or a guarantee of interview.",
+        "summary": "UCAT: 2100 - within the historical interview range of 2060-2149. Historical admissions data provides a benchmark only; it is not a current cut-off or a guarantee of interview.",
         "checks": [
           {
             "label": "Applicant pool",
             "status": "Used",
-            "summary": "The applicant group matching the supplied fee status and entry route"
+            "summary": "International, Rest of UK applicants"
           },
           {
             "label": "UCAT comparison",
             "status": "Compared",
-            "summary": "UCAT ranking: Eligible applicants are ranked by UCAT. No reliable numerical historical comparison is available."
+            "summary": "UCAT: 2100 - within the historical interview range of 2060-2149."
           },
           {
             "label": "Important limitation",
@@ -715,14 +731,14 @@
       {
         "stage": "Recommendation",
         "status": "Guidance only",
-        "summary": "Based on ApplySmart's assessment, your academic profile may be competitive for this applicant group. Treat this as guidance for university choice, not a promised interview.",
+        "summary": "Based on ApplySmart's assessment, your UCAT score may be competitive for this applicant group. Treat this as guidance for university choice, not a promised interview.",
         "checks": []
       }
     ],
     "key_reasons": [
-      "The representative International A-level applicant passes the implemented A106 minimum gates. Eligibility does not itself guarantee an interview or offer.",
-      "The result uses The applicant group matching the supplied fee status and entry route.",
-      "You meet the academic requirements. Eligible applicants are ranked by UCAT. No reliable numerical historical comparison is available."
+      "The supported entry requirements are met.",
+      "The result uses International, Rest of UK applicants.",
+      "Your UCAT score is within the historical interview range for this applicant group."
     ],
     "evidence_used": [
       "Official admissions policy",
@@ -741,51 +757,64 @@
     },
     "warnings": [],
     "manual_review_reason": null,
-    "insufficient_evidence_reason": null,
-    "insufficient_evidence_reason_code": null,
+    "manual_review_reason_code": null,
+    "information_needed_reason": null,
+    "missing_information": null,
+    "risk_explanation": null,
     "compact_status": {
       "label": "You meet the academic requirements.",
       "type": "academic_status",
       "tone": "positive"
     },
     "comparison_metrics_title": null,
-    "comparison_metrics": [],
-    "selection_approach_display": null,
+    "comparison_metrics": [
+      {
+        "label": "historical interview range",
+        "value": "2060-2149",
+        "difference": "+40"
+      }
+    ],
+    "selection_approach_display": "Manchester first applies the academic and SJT gates, then ranks eligible applicants by UCAT cognitive total.",
     "selection_metric": {
       "type": "ucat",
-      "label": "UCAT ranking",
+      "label": "Your UCAT score",
       "applicant_value": 2100,
-      "comparison_value": null,
-      "comparison_max_value": null,
-      "comparison_label": null,
-      "comparison_label_type": null,
+      "comparison_value": 2060,
+      "comparison_max_value": 2149,
+      "comparison_label": "historical interview range",
+      "comparison_label_type": "historical_interview_guide",
       "comparison_context": null,
-      "difference": null,
-      "difference_direction": null,
-      "difference_word": null,
+      "difference": 40,
+      "difference_direction": "above",
+      "difference_word": "range",
       "maximum_value": 2700,
-      "display_mode": "score",
+      "display_mode": "comparison",
       "display_eligibility": true,
       "entry_year": null,
-      "caveat": null
+      "caveat": "Historical admissions data provides a benchmark only; it is not a current cut-off or a guarantee of interview."
     },
     "score_breakdown": null,
     "ucat_comparison": {
-      "comparison_type": "ranking_only",
+      "comparison_type": "historical_range",
       "applicant_ucat": 2100,
-      "benchmark_min": null,
-      "benchmark_max": null,
-      "benchmark_label": null,
-      "caveat": null,
+      "benchmark_min": 2060,
+      "benchmark_max": 2149,
+      "comparison_operator": null,
+      "benchmark_label": "historical interview range",
+      "caveat": "Historical admissions data provides a benchmark only; it is not a current cut-off or a guarantee of interview.",
+      "evidence_status": null,
+      "evidence_classification": null,
+      "prediction_band": null,
       "difference_from_benchmark": null,
-      "position": null,
-      "applicant_pool": null,
-      "sjt_policy": "Band 2 - not used for interview selection.",
-      "sjt_outcome": "ignored",
-      "sjt_summary": "Band 2 - not used for interview selection.",
+      "position": "within",
+      "applicant_pool": "International, Rest of UK applicants",
+      "sjt_policy": "SJT Bands 3 and 4 are automatic rejection. SJT is not part of the normal post-interview score.",
+      "sjt_outcome": "met",
+      "sjt_summary": "Met - Bands 1-2 are accepted.",
       "applicant_sjt_band": 2,
       "official_ucat_minimum": null
-    }
+    },
+    "ucat_adjustment": null
   },
   "engine_notes": {
     "generated_from_profile_id": "manchester-a100",

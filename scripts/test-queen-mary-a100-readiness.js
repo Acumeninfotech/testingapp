@@ -209,7 +209,34 @@ assert.strictEqual(card.display.recommendation_display_state, 'standard');
 assert.strictEqual(card.evidence_confidence.level, 'Medium');
 assert.deepStrictEqual(card.evidence_confidence, buildEvidenceConfidence(card));
 assert.deepStrictEqual(card.decision_timeline, buildDecisionTimeline(card));
-assert.deepStrictEqual(card.decision_transparency, buildDecisionTransparency(card));
+assert.strictEqual(
+  card.decision_transparency.selection_metric.type,
+  'ucat'
+);
+assert.strictEqual(
+  card.decision_transparency.selection_metric.applicant_value,
+  2200
+);
+assert.strictEqual(
+  card.decision_transparency.ucat_comparison.comparison_type,
+  'historical_range'
+);
+assert.strictEqual(
+  card.decision_transparency.ucat_comparison.applicant_ucat,
+  2200
+);
+assert.strictEqual(
+  card.decision_transparency.ucat_comparison.benchmark_min,
+  1965
+);
+assert.strictEqual(
+  card.decision_transparency.ucat_comparison.benchmark_max,
+  2099
+);
+assert.strictEqual(
+  card.decision_transparency.ucat_comparison.official_ucat_minimum.minimum,
+  1820
+);
 assert.match(
   card.display.primary_explanation,
   /UCAT score appears competitive for this applicant group/i
