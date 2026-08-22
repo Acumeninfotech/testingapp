@@ -52,6 +52,7 @@ const config = readJson('data/interview-band-configs/hull-york-a100.json');
 const fixture = readJson('data/fixtures/hull-york-a100-readiness.json');
 
 const EPQ_PATHWAY_ID = 'hull_york_epq_alternative';
+const STANDARD_A_LEVEL_PATHWAY_ID = 'standard_AAA_biology_chemistry';
 const FIRM_CHOICE_ADVISORY =
   'This reduced EPQ offer applies only if Hull York Medical School is accepted as your firm UCAS choice.';
 
@@ -162,6 +163,10 @@ function assertAcademicScenario({
   expectedStatus,
   expectedPathway,
   expectedPathwayId,
+  expectedGenericPathway = expectedPathway,
+  expectedGenericPathwayId = expectedPathwayId,
+  expectedHymsPathway = expectedPathway,
+  expectedHymsPathwayId = expectedPathwayId,
   expectedFailure,
   expectedManualReviewReason,
   expectedEpqFailedCondition,
@@ -171,10 +176,10 @@ function assertAcademicScenario({
   const result = evaluate(applicant);
 
   assert.strictEqual(result.eligibility.status, expectedStatus, `${label}: HYMS eligibility`);
-  assert.strictEqual(generic.academic_pathway ?? null, expectedPathway, `${label}: generic pathway`);
-  assert.strictEqual(result.eligibility.academic_pathway ?? null, expectedPathway, `${label}: HYMS pathway`);
-  assert.strictEqual(generic.academic_pathway_id ?? null, expectedPathwayId, `${label}: generic pathway id`);
-  assert.strictEqual(result.eligibility.academic_pathway_id ?? null, expectedPathwayId, `${label}: HYMS pathway id`);
+  assert.strictEqual(generic.academic_pathway ?? null, expectedGenericPathway, `${label}: generic pathway`);
+  assert.strictEqual(result.eligibility.academic_pathway ?? null, expectedHymsPathway, `${label}: HYMS pathway`);
+  assert.strictEqual(generic.academic_pathway_id ?? null, expectedGenericPathwayId, `${label}: generic pathway id`);
+  assert.strictEqual(result.eligibility.academic_pathway_id ?? null, expectedHymsPathwayId, `${label}: HYMS pathway id`);
   assert.deepStrictEqual(result.eligibility.future_conditions || [], expectedFutureConditions, `${label}: future conditions`);
 
   if (expectedFailure) {
@@ -237,7 +242,7 @@ assertAcademicScenario({
   applicant: applicantWith(),
   expectedStatus: 'eligible',
   expectedPathway: 'standard',
-  expectedPathwayId: null
+  expectedPathwayId: STANDARD_A_LEVEL_PATHWAY_ID
 });
 assertPublicPost16(
   'AAA no EPQ',
@@ -251,7 +256,7 @@ assertAcademicScenario({
   applicant: applicantWith({ epq: { status: 'planning', grade: null } }),
   expectedStatus: 'eligible',
   expectedPathway: 'standard',
-  expectedPathwayId: null
+  expectedPathwayId: STANDARD_A_LEVEL_PATHWAY_ID
 });
 assertPublicPost16(
   'AAA EPQ planning',
@@ -520,6 +525,8 @@ assertAcademicScenario({
   expectedStatus: 'not_eligible',
   expectedPathway: null,
   expectedPathwayId: null,
+  expectedGenericPathway: 'standard',
+  expectedGenericPathwayId: STANDARD_A_LEVEL_PATHWAY_ID,
   expectedFailure: 'a_level_requirements_not_met'
 });
 

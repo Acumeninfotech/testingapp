@@ -48,6 +48,7 @@ const APPLYSMART_HYMS_ANALYSIS_DISCLOSURE =
   "ApplySmart uses published HYMS admissions information and historical evidence to guide interview competitiveness alongside HYMS's published admissions policy. This is not a guarantee of interview.";
 const APPLYSMART_HYMS_SELECTION_SUMMARY =
   'ApplySmart combines HYMS published admissions information with historical admissions evidence to assess interview competitiveness for this applicant group.';
+const HYMS_STANDARD_A_LEVEL_PATHWAY_ID = 'standard_AAA_biology_chemistry';
 
 const A_LEVEL_GRADE_RANK = {
   U: 0,
@@ -343,7 +344,7 @@ function evaluateALevel(course, applicant, state) {
 
   if (passed) {
     state.academic_pathway = 'standard';
-    state.academic_pathway_id = null;
+    state.academic_pathway_id = HYMS_STANDARD_A_LEVEL_PATHWAY_ID;
     return;
   }
 
