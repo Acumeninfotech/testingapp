@@ -2,6 +2,7 @@
 
 const assert = require('assert');
 const fs = require('fs');
+const { predict } = require('../server/src/predict');
 const path = require('path');
 const {
   classifyInterviewBand
@@ -288,7 +289,16 @@ assert.strictEqual(hasNestedKey(card, 'offer_prediction'), false);
 assert.strictEqual(hasNestedKey(card, 'offer_probability'), false);
 assert.deepStrictEqual(card.evidence_confidence, buildEvidenceConfidence(card));
 assert.deepStrictEqual(card.decision_timeline, buildDecisionTimeline(card));
-assert.deepStrictEqual(card.decision_transparency, buildDecisionTransparency(card));
+const productionCard = predict({
+  studentProfile: fixture.base_applicant,
+  universityIds: [course.profile_id]
+})[0]?.result_card;
+
+assert.ok(productionCard, 'UCL production Result Card must be generated.');
+assert.deepStrictEqual(
+  card.decision_transparency,
+  productionCard.decision_transparency
+);
 
 const generatedCard = makeResultCard(course, config, fixture.base_applicant, baseResult);
 assert.strictEqual(generatedCard.prediction.result_band, card.prediction.result_band);

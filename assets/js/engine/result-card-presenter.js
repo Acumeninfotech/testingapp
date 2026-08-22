@@ -6521,7 +6521,27 @@ function presentResultCard({
               ? 'Interview prediction is not produced because the supported entry requirements are not met.'
               : null
       },
-      ranking_metric: isUcatRankingContext(transparencyContext) ? 'ucat_total' : undefined
+      ranking_metric: isUcatRankingContext(transparencyContext) ? 'ucat_total' : undefined,
+      score:
+        transparencyContext.prediction?.score ??
+        (Number.isFinite(transparencyContext.ranking?.value)
+          ? transparencyContext.ranking.value
+          : undefined),
+      score_scale:
+        transparencyContext.prediction?.score_scale ??
+        (Number.isFinite(transparencyContext.ranking?.max)
+          ? {
+            min: Number.isFinite(transparencyContext.ranking?.min)
+              ? transparencyContext.ranking.min
+              : 0,
+            max: transparencyContext.ranking.max
+          }
+          : undefined),
+      guidance_pool_id:
+        transparencyContext.prediction?.guidance_pool_id ??
+        transparencyContext.guidance_pool_id ??
+        transparencyContext.guidance_pool?.pool_id ??
+        undefined
     },
     display
   };
