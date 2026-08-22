@@ -142,12 +142,13 @@
     "prediction_type": "historical_ucat_guidance",
     "ranking_metric": "ucat_total",
     "guidance_pool_id": "home_a100",
-    "score": {
-      "value": 1800,
-      "max": 2700
-    },
+    "score": 1800,
     "fixed_current_cutoff": false,
-    "public_caveat": "Brunel does not publish a fixed future UCAT cut-off; historical Home interview scores provide guidance only."
+    "public_caveat": "Brunel does not publish a fixed future UCAT cut-off; historical Home interview scores provide guidance only.",
+    "score_scale": {
+      "min": 0,
+      "max": 2700
+    }
   },
   "confidence": {
     "level": "low",
@@ -175,8 +176,8 @@
   "display": {
     "primary_user_facing_recommendation": "Possible choice for your application",
     "recommendation_display_state": "standard",
-    "primary_explanation": "Based on ApplySmart's assessment, your academic profile may be competitive for this applicant group.",
-    "historical_guidance_caveat": "Interview thresholds may change each admissions cycle depending on applicant competition and interview capacity. Historical figures are guidance only, not a current cut-off, and do not guarantee an interview.",
+    "primary_explanation": "Based on ApplySmart's assessment, your UCAT score may be competitive for this applicant group.",
+    "historical_guidance_caveat": "Historical admissions data provides a benchmark only; it is not a current cut-off or a guarantee of interview.",
     "headline": "Possible choice for your application"
   },
   "decision_timeline": [
@@ -196,86 +197,116 @@
       "step": 3,
       "title": "Selection model applied",
       "status": "Complete",
-      "summary": "Academic eligibility and the SJT Band 4 gate were checked before Brunel Home-pool UCAT ranking guidance was applied. No academic score was created."
+      "summary": "Home applicants who meet the academic requirements and have SJT Band 1-3 are ranked by UCAT total."
     },
     {
       "step": 4,
       "title": "Historical guidance compared",
       "status": "Complete",
-      "summary": "Your UCAT was compared with interview information from previous admissions cycles. Interview thresholds may change each admissions cycle depending on applicant competition and interview capacity. Historical figures are guidance only, not a current cut-off, and do not guarantee an interview."
+      "summary": "UCAT: 1800 - within the historical interview range of 1680-1995. Historical admissions data provides a benchmark only; it is not a current cut-off or a guarantee of interview."
     },
     {
       "step": 5,
       "title": "Interview recommendation produced",
       "status": "Realistic Choice",
-      "summary": "Based on ApplySmart's assessment, your academic profile may be competitive for this applicant group. Treat this as guidance for university choice, not a promised interview."
+      "summary": "Based on ApplySmart's assessment, your UCAT score may be competitive for this applicant group. Treat this as guidance for university choice, not a promised interview."
     }
   ],
   "decision_transparency": {
+    "factor_usage": [
+      {
+        "factor_id": "ucat",
+        "label": "UCAT",
+        "role": "ranking",
+        "detail": "Used for ranking in the university’s selection process.",
+        "evidence_status": "available"
+      },
+      {
+        "factor_id": "gcse",
+        "label": "GCSEs",
+        "role": "eligibility",
+        "detail": "Used as an academic eligibility requirement.",
+        "evidence_status": "available"
+      },
+      {
+        "factor_id": "a_level",
+        "label": "A-levels",
+        "role": "unknown",
+        "detail": "Used as part of the university’s academic review.",
+        "evidence_status": "available"
+      },
+      {
+        "factor_id": "sjt",
+        "label": "SJT",
+        "role": "eligibility",
+        "detail": "SJT is used as an eligibility gate.",
+        "evidence_status": "available"
+      }
+    ],
     "decision_path": [
       {
         "stage": "Eligibility",
         "status": "Met",
-        "summary": "The represented applicant meets Brunel's supported Home A100 academic, UCAT and SJT eligibility gates.",
+        "summary": "The supported entry requirements are met.",
         "checks": [
           {
-            "label": "GCSE gate",
+            "label": "Entry requirements",
             "status": "Met",
-            "summary": "At least five GCSEs at Grade 6/B or above, English Language Grade 4/C, Mathematics Grade 5, and two sciences at Grade 6/B. Applicant information: Five GCSEs at Grade 6 including English Language, Mathematics, Biology, Chemistry and Physics."
-          },
-          {
-            "label": "A-level gate",
-            "status": "Met",
-            "summary": "AAA including Chemistry or Biology and a second science from Chemistry, Biology, Physics or Mathematics. Applicant information: AAA in Biology, Chemistry and Mathematics."
-          },
-          {
-            "label": "UCAT ranking input",
-            "status": "Met",
-            "summary": "Eligible Home applicants are ranked by total UCAT score. Brunel does not publish a fixed future UCAT cut-off. Applicant information: UCAT 1800/2700."
-          },
-          {
-            "label": "SJT gate",
-            "status": "Met",
-            "summary": "SJT Bands 1-3 are accepted; Band 4 is rejected. Applicant information: Band 2."
+            "summary": "The supported entry requirements have been assessed."
           }
         ]
       },
       {
         "stage": "Selection model",
         "status": "Assessed",
-        "summary": "The university selection approach is applied after eligibility checks.",
+        "summary": "Home applicants who meet the academic requirements and have SJT Band 1-3 are ranked by UCAT total.",
         "checks": [
           {
             "label": "Applicant pool",
             "status": "Used",
-            "summary": "The applicant group matching the supplied fee status and entry route"
+            "summary": "Home, Rest of UK applicants"
           },
           {
-            "label": "UCAT total entered",
-            "status": "Used for ranking",
-            "summary": "1800 out of 2700."
+            "label": "UCAT",
+            "status": "Within",
+            "summary": "UCAT: 1800 - within the historical interview range of 1680-1995."
           },
           {
-            "label": "SJT band",
-            "status": "On file",
-            "summary": "Band 2."
+            "label": "SJT requirement",
+            "status": "Met",
+            "summary": "Met - Bands 1-3 are accepted."
           },
           {
             "label": "Selection approach",
             "status": "Ranking/cut-off based",
-            "summary": "The university selection approach is applied after eligibility checks."
+            "summary": "Home applicants who meet the academic requirements and have SJT Band 1-3 are ranked by UCAT total."
           }
         ]
       },
       {
         "stage": "Historical guidance",
         "status": "Guidance available",
-        "summary": "The result was assessed using the available admissions evidence for this applicant group. Historical admissions data provides a benchmark only; it is not a current cut-off or a guarantee of interview.",
+        "summary": "UCAT: 1800 - within the historical interview range of 1680-1995. Historical admissions data provides a benchmark only; it is not a current cut-off or a guarantee of interview.",
         "checks": [
           {
             "label": "Applicant pool",
             "status": "Used",
-            "summary": "The applicant group matching the supplied fee status and entry route"
+            "summary": "Home, Rest of UK applicants"
+          },
+          {
+            "label": "UCAT comparison",
+            "status": "Compared",
+            "summary": "UCAT: 1800 - within the historical interview range of 1680-1995."
+          },
+          {
+            "label": "Home",
+            "status": "Historical",
+            "summary": "Lowest interviewed UCAT 1680 (2700 scale)."
+          },
+          {
+            "label": "Home",
+            "status": "Historical",
+            "summary": "Average interviewed UCAT 1995 (2700 scale)."
           },
           {
             "label": "Important limitation",
@@ -287,20 +318,21 @@
       {
         "stage": "Recommendation",
         "status": "Guidance only",
-        "summary": "Based on ApplySmart's assessment, your academic profile may be competitive for this applicant group. Treat this as guidance for university choice, not a promised interview.",
+        "summary": "Based on ApplySmart's assessment, your UCAT score may be competitive for this applicant group. Treat this as guidance for university choice, not a promised interview.",
         "checks": []
       }
     ],
     "key_reasons": [
-      "The represented applicant meets Brunel's supported Home A100 academic, UCAT and SJT eligibility gates.",
-      "The result uses The applicant group matching the supplied fee status and entry route.",
-      "The university selection approach is applied after eligibility checks."
+      "The supported entry requirements are met.",
+      "The result uses Home, Rest of UK applicants.",
+      "Your UCAT score is within the historical interview range for this applicant group."
     ],
     "evidence_used": [
       "Official admissions policy",
       "University selection methodology",
       "UCAT policy",
-      "Historical interview data"
+      "Historical interview data",
+      "FOI evidence"
     ],
     "evidence_confidence": {
       "level": "Medium",
@@ -313,19 +345,69 @@
     },
     "warnings": [],
     "manual_review_reason": null,
-    "insufficient_evidence_reason": null,
-    "insufficient_evidence_reason_code": null,
+    "manual_review_reason_code": null,
+    "information_needed_reason": null,
+    "missing_information": null,
+    "risk_explanation": null,
     "compact_status": {
       "label": "You meet the academic requirements.",
       "type": "academic_status",
       "tone": "positive"
     },
-    "comparison_metrics_title": null,
-    "comparison_metrics": [],
-    "selection_approach_display": null,
-    "selection_metric": null,
+    "comparison_metrics_title": "Historical Interview Data",
+    "comparison_metrics": [
+      {
+        "label": "Lowest interviewed UCAT",
+        "value": "1680",
+        "difference": "+120"
+      },
+      {
+        "label": "Average interviewed UCAT",
+        "value": "1995",
+        "difference": "-195"
+      }
+    ],
+    "selection_approach_display": "Home applicants who meet the academic requirements and have SJT Band 1-3 are ranked by UCAT total.",
+    "selection_metric": {
+      "type": "ucat",
+      "label": "Your UCAT score",
+      "applicant_value": 1800,
+      "comparison_value": 1680,
+      "comparison_max_value": 1995,
+      "comparison_label": "historical interview range",
+      "comparison_label_type": "historical_interview_guide",
+      "comparison_context": null,
+      "difference": 120,
+      "difference_direction": "above",
+      "difference_word": "range",
+      "maximum_value": 2700,
+      "display_mode": "comparison",
+      "display_eligibility": true,
+      "entry_year": null,
+      "caveat": "Historical admissions data provides a benchmark only; it is not a current cut-off or a guarantee of interview."
+    },
     "score_breakdown": null,
-    "ucat_comparison": null
+    "ucat_comparison": {
+      "comparison_type": "historical_range",
+      "applicant_ucat": 1800,
+      "benchmark_min": 1680,
+      "benchmark_max": 1995,
+      "comparison_operator": null,
+      "benchmark_label": "historical interview range",
+      "caveat": "Historical admissions data provides a benchmark only; it is not a current cut-off or a guarantee of interview.",
+      "evidence_status": null,
+      "evidence_classification": null,
+      "prediction_band": null,
+      "difference_from_benchmark": null,
+      "position": "within",
+      "applicant_pool": "Home, Rest of UK applicants",
+      "sjt_policy": "SJT Band 4 prevents Home interview selection. Bands 1-3 are not awarded additional points.",
+      "sjt_outcome": "met",
+      "sjt_summary": "Met - Bands 1-3 are accepted.",
+      "applicant_sjt_band": 2,
+      "official_ucat_minimum": null
+    },
+    "ucat_adjustment": null
   },
   "engine_notes": {
     "generated_from_profile_id": "brunel-university-of-london-a100",
@@ -336,7 +418,7 @@
     "public_internal_diagnostics_hidden": true
   },
   "primary_user_facing_recommendation": "Possible choice for your application",
-  "primary_explanation": "Based on ApplySmart's assessment, your academic profile may be competitive for this applicant group.",
+  "primary_explanation": "Based on ApplySmart's assessment, your UCAT score may be competitive for this applicant group.",
   "recommendation_display_state": "standard",
   "trust_statement": null,
   "historical_guidance_caveat": "Historical admissions data provides a benchmark only; it is not a current cut-off or a guarantee of interview."

@@ -2,13 +2,13 @@
 
 const assert = require('assert');
 const fs = require('fs');
+const { predict } = require('../server/src/predict');
 const path = require('path');
 const {
   classifyInterviewBand
 } = require('../assets/js/engine/interview-band-classifier');
 const {
   buildDecisionTimeline,
-  buildDecisionTransparency,
   buildEvidenceConfidence
 } = require('../assets/js/engine/result-card-presenter');
 
@@ -220,13 +220,19 @@ assert.strictEqual(card.readiness.international_prediction, false);
 assert.strictEqual(card.readiness.contextual_logic, false);
 assert.deepStrictEqual(card.evidence_confidence, buildEvidenceConfidence(card));
 assert.deepStrictEqual(card.decision_timeline, buildDecisionTimeline(card));
-assert.deepStrictEqual(card.decision_transparency, buildDecisionTransparency(card));
+const productionCard = predict({
+  studentProfile: fixture.base_applicant,
+  universityIds: [course.profile_id]
+})[0]?.result_card;
+
+assert.ok(productionCard, 'Edge Hill A100 production Result Card must be generated.');
+assert.deepStrictEqual(card.decision_transparency, productionCard.decision_transparency);
 assert.match(
   JSON.stringify(card.decision_transparency),
-  /Eligible applicants are ranked by UCAT.*No reliable numerical historical comparison is available/s
+  /Edge Hill checks academic and SJT eligibility.*within the historical interview range/s
 );
 assert.strictEqual(card.decision_transparency.selection_metric.type, 'ucat');
-assert.strictEqual(card.decision_transparency.ucat_comparison.comparison_type, 'ranking_only');
+assert.strictEqual(card.decision_transparency.ucat_comparison.comparison_type, 'historical_range');
 assert.strictEqual(hasNestedKey(card, 'offer_prediction'), false);
 assert.strictEqual(hasNestedKey(card, 'offer_probability'), false);
 

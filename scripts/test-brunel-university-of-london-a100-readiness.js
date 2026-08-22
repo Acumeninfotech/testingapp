@@ -2,6 +2,7 @@
 
 const assert = require('assert');
 const fs = require('fs');
+const { predict } = require('../server/src/predict');
 const path = require('path');
 const {
   classifyInterviewBand
@@ -11,7 +12,6 @@ const {
   humanManualReviewReason,
   insufficientEvidenceReasonCodeFromWarnings,
   buildDecisionTimeline,
-  buildDecisionTransparency,
   buildEvidenceConfidence
 } = require('../assets/js/engine/result-card-presenter');
 
@@ -296,7 +296,13 @@ assert.strictEqual(card.readiness.international_prediction, false);
 assert.strictEqual(card.readiness.contextual_logic, true);
 assert.deepStrictEqual(card.evidence_confidence, buildEvidenceConfidence(card));
 assert.deepStrictEqual(card.decision_timeline, buildDecisionTimeline(card));
-assert.deepStrictEqual(card.decision_transparency, buildDecisionTransparency(card));
+const productionCard = predict({
+  studentProfile: fixture.base_applicant,
+  universityIds: [course.profile_id]
+})[0]?.result_card;
+
+assert.ok(productionCard, 'Brunel University of London A100 production Result Card must be generated.');
+assert.deepStrictEqual(card.decision_transparency, productionCard.decision_transparency);
 assert.strictEqual(hasNestedKey(card, 'offer_prediction'), false);
 assert.strictEqual(hasNestedKey(card, 'offer_probability'), false);
 assert.doesNotMatch(
