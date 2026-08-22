@@ -702,19 +702,38 @@ const tests = [
     }
   },
   {
-    id: 'confirmed_access_ucl_scottish_applicant_uses_existing_access_pool',
+    id: 'step6_access_ucl_scottish_applicant_uses_existing_access_pool',
     run() {
       const { classification } = assertScottishEligible(
         scottishApplicant({
           applicant_identity: {
-            contextual: true,
-            contextual_status_confirmed: true,
-            widening_participation: true,
-            contextual_flags: {
-              access_ucl_confirmed: true
-            }
+            contextual: false,
+            contextual_status_confirmed: false,
+            widening_participation: false,
+            contextual_flags: {}
           },
-          applicant_group_ids: ['access_ucl_confirmed']
+          applicant_group_ids: [],
+          contextual_profile: {
+            school_education: {
+              state_non_fee_paying_school: 'yes',
+              current_or_most_recent_uk_school_independent_fee_paying: 'no',
+              attended_uk_school_or_college_for_post16_or_equivalent: 'yes'
+            },
+            home_area_region: {
+              imd_quintile: 'q1',
+              tundra_quintile: 'q5',
+              polar4_quintile: 'q5'
+            },
+            financial_support: {
+              free_school_meals: 'no',
+              free_school_meals_at_level3_completion: 'no'
+            },
+            personal_circumstances: {
+              care_experienced: 'no',
+              care_over_three_months: 'no',
+              estranged_from_family: 'no'
+            }
+          }
         }),
         'ucl_scottish_advanced_highers_a1aa_biology_chemistry',
         'access_ucl_a100'

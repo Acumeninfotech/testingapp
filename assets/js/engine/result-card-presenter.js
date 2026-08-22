@@ -3613,13 +3613,13 @@ function comparisonCategoryFromLabel(label = '') {
 }
 
 function publicThresholdGroup(text = '') {
+  const accessRoute = text.match(/\b(access\s+[a-z0-9&' -]+?)\s+(?:interview\s+|ucat\s+)?(?:threshold|minimum)\b/i);
+  if (accessRoute) {
+    return titleCaseGroupLabel(accessRoute[1]).replace(/\bUcl\b/g, 'UCL');
+  }
   if (/contextual|widening participation|wp\b|ukwpmed/.test(text)) return 'contextual';
   if (/overseas|international|non-uk/.test(text)) return 'Overseas';
   if (/\bhome\b|uk-domicile/.test(text)) return 'Home';
-  const accessRoute = text.match(/\b([a-z\s-]*access[a-z\s-]*)\s+(?:interview\s+|ucat\s+)?(?:threshold|minimum)\b/);
-  if (accessRoute) {
-    return titleCaseGroupLabel(accessRoute[1]);
-  }
   return null;
 }
 
@@ -4233,7 +4233,7 @@ function buildUcatSelectionMetric(ucatComparison, options = {}) {
 
   return {
     type: 'ucat',
-    label: ucatAdjustment ? `${ucatAdjustment.label} comparison` : 'UCAT comparison',
+    label: ucatAdjustment ? `${ucatAdjustment.label} comparison` : 'Your UCAT score',
     applicant_value: ucatComparison.applicant_ucat,
     comparison_value: ucatComparison.benchmark_min,
     comparison_max_value: Number.isFinite(ucatComparison.benchmark_max)
@@ -5022,6 +5022,17 @@ function deriveHistoricalBenchmark(guidancePool = {}, scoreModel = {}, matchedBa
   }
 
   if (pool.comparison_guidance?.comparison_type === 'current_guidance') {
+    const poolHistoricalCutoff = pool.historical_cutoff;
+    if (Number.isFinite(poolHistoricalCutoff?.value)) {
+      return {
+        comparison_type: 'current_guidance',
+        benchmark_min: poolHistoricalCutoff.value,
+        benchmark_max: null,
+        benchmark_label: pool.comparison_guidance?.label || null,
+        caveat: pool.comparison_guidance?.caveat || null
+      };
+    }
+
     const guidanceKey = String(pool.pool_id || '').includes('international')
       ? 'international'
       : 'home';
@@ -5111,6 +5122,13 @@ function positionAgainstBenchmark(applicantUcat, comparison) {
   return null;
 }
 
+function namedAccessApplicantPoolLabel(guidancePool = {}) {
+  const label = String(guidancePool?.comparison_guidance?.label || '').trim();
+  const match = label.match(/\b(access\s+[a-z0-9&' -]+?)\s+(?:interview\s+|ucat\s+)?(?:threshold|minimum)\b/i);
+  if (!match) return null;
+  return `${titleCaseGroupLabel(match[1])} applicants`;
+}
+
 function buildUcatComparison(options = {}) {
   const applicantUcat =
     [
@@ -5178,7 +5196,8 @@ function buildUcatComparison(options = {}) {
     prediction_band: comparison.prediction_band || null,
     difference_from_benchmark: differenceFromBenchmark,
     position,
-    applicant_pool: options.applicantPool ||
+    applicant_pool: namedAccessApplicantPoolLabel(options.guidancePool) ||
+      options.applicantPool ||
       humanApplicantPoolLabel(options.applicantGroupIds, options.applicantContext) ||
       null,
     sjt_policy: sjt.sjt_policy,
@@ -5435,6 +5454,9 @@ function buildDecisionTimeline(card, options = {}) {
   const reusableHistoricalTimelineSummary = /compares favourably/i.test(String(existingHistoricalTimelineSummary || ''))
     ? null
     : existingHistoricalTimelineSummary;
+  const existingRecommendationTimelineSummary = card.decision_timeline
+    ?.find((step) => step.step === 5 && step.title === 'Interview recommendation produced')
+    ?.summary;
 
   return [
     {
@@ -5528,7 +5550,7 @@ function buildDecisionTimeline(card, options = {}) {
             : state === 'insufficient_evidence'
               ? 'Insufficient evidence'
               : finalStatus,
-      summary: recommendationSummary(card, state, {
+      summary: existingRecommendationTimelineSummary || recommendationSummary(card, state, {
         selectionScoreComparison,
         selectionScoreText,
         insufficientEvidenceReasonCode: options.insufficientEvidenceReasonCode,

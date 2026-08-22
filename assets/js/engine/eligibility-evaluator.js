@@ -323,7 +323,8 @@ const COURSES_WITH_CONTEXTUAL_EVALUATOR_GROUP_CONTROL = [
   'glasgow-a100',
   'st-andrews-a100',
   'plymouth-a100',
-  'southampton-a100'
+  'southampton-a100',
+  'ucl-a100'
 ];
 
 const ABERDEEN_LEGACY_CONTEXTUAL_GROUP_IDS = [
@@ -414,6 +415,21 @@ const ST_ANDREWS_LEGACY_CONTEXTUAL_GROUP_IDS = [
   'refugee_or_asylum_seeker'
 ];
 
+const UCL_LEGACY_CONTEXTUAL_GROUP_IDS = [
+  'access_ucl_confirmed',
+  'contextual',
+  'widening_participation',
+  'free_school_meals',
+  'care_experienced',
+  'care_leaver',
+  'estranged_from_family',
+  'imd_quintile_1',
+  'tundra_quintile_1',
+  'polar4_quintile_1',
+  'polar_quintile_1',
+  'ucat_bursary'
+];
+
 const COURSES_WITH_ACTIVATED_CONTEXTUAL_GROUPS = [
   'aberdeen-a100',
   'aston-a100',
@@ -432,7 +448,8 @@ const COURSES_WITH_ACTIVATED_CONTEXTUAL_GROUPS = [
   'edinburgh-a100',
   'glasgow-a100',
   'st-andrews-a100',
-  'southampton-a100'
+  'southampton-a100',
+  'ucl-a100'
 ];
 
 const SCOTTISH_MEDICAL_SCHOOL_ROUTE_IDS = Object.freeze([
@@ -633,6 +650,11 @@ function applyCourseSpecificDerivedApplicantGroups(course, applicant, groupIds, 
   }
   if (course?.profile_id === 'st-andrews-a100' && contextualResult) {
     for (const groupId of ST_ANDREWS_LEGACY_CONTEXTUAL_GROUP_IDS) {
+      groups.delete(groupId);
+    }
+  }
+  if (course?.profile_id === 'ucl-a100' && contextualResult) {
+    for (const groupId of UCL_LEGACY_CONTEXTUAL_GROUP_IDS) {
       groups.delete(groupId);
     }
   }
@@ -3713,7 +3735,7 @@ function probeUnresolvedScottishContextualAcademicRoute(course, applicant, state
 }
 
 function applyContextualInformationNeededReview(course, applicant, state) {
-  if (!['aberdeen-a100', 'dundee-a100', 'glasgow-a100', 'st-andrews-a100', 'southampton-a100'].includes(course?.profile_id)) {
+  if (!['aberdeen-a100', 'dundee-a100', 'glasgow-a100', 'st-andrews-a100', 'southampton-a100', 'ucl-a100'].includes(course?.profile_id)) {
     return;
   }
   const reason = contextualInformationNeededReason(state);

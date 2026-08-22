@@ -76,7 +76,7 @@
   },
   "scenarios": [
     {
-      "scenario_id": "home_threshold_2190_ambitious",
+      "scenario_id": "home_threshold_2190_realistic",
       "overrides": {
         "admissions_tests": {
           "ucat": {
@@ -87,12 +87,12 @@
       "expected": {
         "eligibility_status": "eligible",
         "guidance_pool_id": "home_a100",
-        "interview_band": "ambitious",
+        "interview_band": "realistic",
         "ranking_value": 2190
       }
     },
     {
-      "scenario_id": "home_immediately_below_threshold_still_eligible_high_risk",
+      "scenario_id": "home_immediately_below_threshold_still_eligible_ambitious",
       "overrides": {
         "admissions_tests": {
           "ucat": {
@@ -103,7 +103,7 @@
       "expected": {
         "eligibility_status": "eligible",
         "guidance_pool_id": "home_a100",
-        "interview_band": "high_risk",
+        "interview_band": "ambitious",
         "ranking_value": 2189
       }
     },
@@ -112,7 +112,7 @@
       "overrides": {
         "admissions_tests": {
           "ucat": {
-            "total_score": 2290
+            "total_score": 2249
           }
         }
       },
@@ -120,7 +120,7 @@
         "eligibility_status": "eligible",
         "guidance_pool_id": "home_a100",
         "interview_band": "realistic",
-        "ranking_value": 2290
+        "ranking_value": 2249
       }
     },
     {
@@ -128,7 +128,7 @@
       "overrides": {
         "admissions_tests": {
           "ucat": {
-            "total_score": 2390
+            "total_score": 2250
           }
         }
       },
@@ -136,7 +136,7 @@
         "eligibility_status": "eligible",
         "guidance_pool_id": "home_a100",
         "interview_band": "interview_likely",
-        "ranking_value": 2390
+        "ranking_value": 2250
       }
     },
     {
@@ -159,21 +159,37 @@
       "expected": {
         "eligibility_status": "eligible",
         "guidance_pool_id": "home_a100",
-        "interview_band": "high_risk"
+        "interview_band": "ambitious"
       }
     },
     {
-      "scenario_id": "access_ucl_confirmed_aab_at_2080",
+      "scenario_id": "step6_access_ucl_imd_q1_aab_at_2080",
       "overrides": {
-        "applicant_group_ids": [
-          "access_ucl_confirmed"
-        ],
         "applicant_identity": {
-          "contextual": true,
-          "widening_participation": true,
-          "contextual_status_confirmed": true,
-          "contextual_flags": {
-            "access_ucl_confirmed": true
+          "contextual": false,
+          "widening_participation": false,
+          "contextual_status_confirmed": false,
+          "contextual_flags": {}
+        },
+        "contextual_profile": {
+          "school_education": {
+            "state_non_fee_paying_school": "yes",
+            "current_or_most_recent_uk_school_independent_fee_paying": "no",
+            "attended_uk_school_or_college_for_post16_or_equivalent": "yes"
+          },
+          "home_area_region": {
+            "imd_quintile": "q1",
+            "tundra_quintile": "q5",
+            "polar4_quintile": "q5"
+          },
+          "financial_support": {
+            "free_school_meals": "no",
+            "free_school_meals_at_level3_completion": "no"
+          },
+          "personal_circumstances": {
+            "care_experienced": "no",
+            "care_over_three_months": "no",
+            "estranged_from_family": "no"
           }
         },
         "a_level_profile": {
@@ -205,20 +221,36 @@
       "expected": {
         "eligibility_status": "eligible",
         "guidance_pool_id": "access_ucl_a100",
-        "interview_band": "ambitious"
+        "interview_band": "realistic"
       }
     },
     {
-      "scenario_id": "access_ucl_below_threshold_high_risk_not_not_eligible",
+      "scenario_id": "step6_access_ucl_below_threshold_high_risk_not_not_eligible",
       "overrides": {
-        "applicant_group_ids": [
-          "access_ucl_confirmed"
-        ],
         "applicant_identity": {
-          "contextual": true,
-          "widening_participation": true,
-          "contextual_flags": {
-            "access_ucl_confirmed": true
+          "contextual": false,
+          "widening_participation": false,
+          "contextual_flags": {}
+        },
+        "contextual_profile": {
+          "school_education": {
+            "state_non_fee_paying_school": "yes",
+            "current_or_most_recent_uk_school_independent_fee_paying": "no",
+            "attended_uk_school_or_college_for_post16_or_equivalent": "yes"
+          },
+          "home_area_region": {
+            "imd_quintile": "q1",
+            "tundra_quintile": "q5",
+            "polar4_quintile": "q5"
+          },
+          "financial_support": {
+            "free_school_meals": "no",
+            "free_school_meals_at_level3_completion": "no"
+          },
+          "personal_circumstances": {
+            "care_experienced": "no",
+            "care_over_three_months": "no",
+            "estranged_from_family": "no"
           }
         },
         "a_level_profile": {
@@ -243,7 +275,7 @@
         },
         "admissions_tests": {
           "ucat": {
-            "total_score": 2079
+            "total_score": 1919
           }
         }
       },
@@ -308,7 +340,7 @@
       "expected": {
         "eligibility_status": "eligible",
         "guidance_pool_id": "home_a100",
-        "interview_band": "realistic",
+        "interview_band": "interview_likely",
         "ranking_value": 2300
       }
     },
@@ -339,7 +371,7 @@
       "expected": {
         "eligibility_status": "eligible",
         "guidance_pool_id": "home_a100",
-        "interview_band": "realistic",
+        "interview_band": "interview_likely",
         "ranking_value": 2300
       }
     },
@@ -370,7 +402,7 @@
       "expected": {
         "eligibility_status": "eligible",
         "guidance_pool_id": "home_a100",
-        "interview_band": "realistic",
+        "interview_band": "interview_likely",
         "ranking_value": 2300
       }
     },
@@ -471,7 +503,7 @@
       "expected": {
         "eligibility_status": "eligible",
         "guidance_pool_id": "home_a100",
-        "interview_band": "realistic"
+        "interview_band": "interview_likely"
       }
     },
     {
@@ -502,7 +534,7 @@
       "expected": {
         "eligibility_status": "eligible",
         "guidance_pool_id": "home_a100",
-        "interview_band": "realistic"
+        "interview_band": "interview_likely"
       }
     },
     {
@@ -521,7 +553,7 @@
       "expected": {
         "eligibility_status": "eligible",
         "guidance_pool_id": "home_a100",
-        "interview_band": "realistic"
+        "interview_band": "interview_likely"
       }
     },
     {
@@ -569,42 +601,32 @@
     },
     {
       "pool": "home",
-      "ucat_total": 2089,
+      "ucat_total": 2029,
       "expected_band": "high_risk"
     },
     {
       "pool": "home",
-      "ucat_total": 2090,
-      "expected_band": "high_risk"
+      "ucat_total": 2030,
+      "expected_band": "ambitious"
     },
     {
       "pool": "home",
       "ucat_total": 2189,
-      "expected_band": "high_risk"
+      "expected_band": "ambitious"
     },
     {
       "pool": "home",
       "ucat_total": 2190,
-      "expected_band": "ambitious"
-    },
-    {
-      "pool": "home",
-      "ucat_total": 2289,
-      "expected_band": "ambitious"
-    },
-    {
-      "pool": "home",
-      "ucat_total": 2290,
       "expected_band": "realistic"
     },
     {
       "pool": "home",
-      "ucat_total": 2389,
+      "ucat_total": 2249,
       "expected_band": "realistic"
     },
     {
       "pool": "home",
-      "ucat_total": 2390,
+      "ucat_total": 2250,
       "expected_band": "interview_likely"
     },
     {
@@ -619,42 +641,32 @@
     },
     {
       "pool": "access_ucl",
-      "ucat_total": 1979,
+      "ucat_total": 1919,
       "expected_band": "high_risk"
     },
     {
       "pool": "access_ucl",
-      "ucat_total": 1980,
-      "expected_band": "high_risk"
+      "ucat_total": 1920,
+      "expected_band": "ambitious"
     },
     {
       "pool": "access_ucl",
       "ucat_total": 2079,
-      "expected_band": "high_risk"
+      "expected_band": "ambitious"
     },
     {
       "pool": "access_ucl",
       "ucat_total": 2080,
-      "expected_band": "ambitious"
-    },
-    {
-      "pool": "access_ucl",
-      "ucat_total": 2179,
-      "expected_band": "ambitious"
-    },
-    {
-      "pool": "access_ucl",
-      "ucat_total": 2180,
       "expected_band": "realistic"
     },
     {
       "pool": "access_ucl",
-      "ucat_total": 2279,
+      "ucat_total": 2139,
       "expected_band": "realistic"
     },
     {
       "pool": "access_ucl",
-      "ucat_total": 2280,
+      "ucat_total": 2140,
       "expected_band": "interview_likely"
     },
     {

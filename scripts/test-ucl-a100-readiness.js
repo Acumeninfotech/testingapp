@@ -68,7 +68,7 @@ function applicantForBoundary(boundary) {
   const international = boundary.pool === 'overseas';
   const access = boundary.pool === 'access_ucl';
   const overrides = {
-    applicant_group_ids: access ? ['access_ucl_confirmed'] : [],
+    applicant_group_ids: [],
     applicant_identity: {
       applicant_type: international
         ? 'international_standard_school_leaver'
@@ -76,10 +76,10 @@ function applicantForBoundary(boundary) {
       fee_status: international ? 'International' : 'Home',
       domicile: international ? 'International' : 'England',
       english_language_exempt: international,
-      contextual: access,
-      widening_participation: access,
-      contextual_status_confirmed: access,
-      contextual_flags: access ? { access_ucl_confirmed: true } : {}
+      contextual: false,
+      widening_participation: false,
+      contextual_status_confirmed: false,
+      contextual_flags: {}
     },
     admissions_tests: {
       ucat: {
@@ -89,6 +89,27 @@ function applicantForBoundary(boundary) {
   };
 
   if (access) {
+    overrides.contextual_profile = {
+      school_education: {
+        state_non_fee_paying_school: 'yes',
+        current_or_most_recent_uk_school_independent_fee_paying: 'no',
+        attended_uk_school_or_college_for_post16_or_equivalent: 'yes'
+      },
+      home_area_region: {
+        imd_quintile: 'q1',
+        tundra_quintile: 'q5',
+        polar4_quintile: 'q5'
+      },
+      financial_support: {
+        free_school_meals: 'no',
+        free_school_meals_at_level3_completion: 'no'
+      },
+      personal_circumstances: {
+        care_experienced: 'no',
+        care_over_three_months: 'no',
+        estranged_from_family: 'no'
+      }
+    };
     overrides.a_level_profile = {
       completed_in_one_sitting: true,
       subjects: [
@@ -243,7 +264,7 @@ for (const sjtBand of [1, 2, 3, 4]) {
   });
   const result = classifyInterviewBand(course, config, applicant);
   assert.strictEqual(result.eligibility.status, 'eligible');
-  assert.strictEqual(result.canonical_interview_band, 'realistic');
+  assert.strictEqual(result.canonical_interview_band, 'interview_likely');
   assert.strictEqual(result.ranking.value, 2300);
 }
 
@@ -258,7 +279,7 @@ assert.doesNotMatch(text, /legacy_3600_conversion_used":true/i);
 assert.doesNotMatch(text, /offer_probability|offer_prediction_status/);
 assert.doesNotMatch(text, /"guaranteed_interview"/i);
 
-assert.strictEqual(card.prediction.result_band, 'realistic');
+assert.strictEqual(card.prediction.result_band, 'interview_likely');
 assert.strictEqual(card.prediction.guidance_pool_id, 'home_a100');
 assert.strictEqual(card.prediction.score, 2300);
 assert.strictEqual(card.confidence.level, 'low');

@@ -129,16 +129,17 @@ function adjustedSelectionUcatLabel(adjustment?: UcatAdjustment | null): string 
 }
 
 function publicThresholdGroup(text = ''): string | null {
-  if (/contextual|widening participation|wp\b|ukwpmed/.test(text)) return 'contextual';
-  if (/overseas|international|non-uk/.test(text)) return 'Overseas';
-  if (/\bhome\b|uk-domicile/.test(text)) return 'Home';
-  const accessRoute = text.match(/\b([a-z\s-]*access[a-z\s-]*)\s+(?:interview\s+|ucat\s+)?(?:threshold|minimum)\b/);
+  const accessRoute = text.match(/\b(access\s+[a-z0-9&' -]+?)\s+(?:interview\s+|ucat\s+)?(?:threshold|minimum)\b/i);
   if (accessRoute) {
     return accessRoute[1]
       .trim()
       .replace(/\s+/g, ' ')
-      .replace(/\b\w/g, (char) => char.toUpperCase());
+      .replace(/\b\w/g, (char) => char.toUpperCase())
+      .replace(/\bUcl\b/g, 'UCL');
   }
+  if (/contextual|widening participation|wp\b|ukwpmed/.test(text)) return 'contextual';
+  if (/overseas|international|non-uk/.test(text)) return 'Overseas';
+  if (/\bhome\b|uk-domicile/.test(text)) return 'Home';
   return null;
 }
 
@@ -568,7 +569,7 @@ function assessmentPanelRows({
   }
   if (kind === 'ucat' && comparison) {
     return [
-      { label: 'Your UCAT', value: `${comparison.applicant} / ${comparison.max}`, emphasis: true },
+      { label: '', value: `${comparison.applicant} / ${comparison.max}`, emphasis: true },
     ];
   }
   if (kind === 'selection-score') {
@@ -981,7 +982,7 @@ export function ResultCard({ result }: { result: PredictionResult }) {
       courseIdentity?.course_name || null,
     ].filter(Boolean).join(' '),
   ) || 'Medicine assessment';
-  const applicantPoolText = publicText(applicantPoolSummary || ucatComparison?.applicant_pool || '');
+  const applicantPoolText = publicText(ucatComparison?.applicant_pool || applicantPoolSummary || '');
   const summaryLineOne =
     isUnresolvedOrNotSuitable && variant !== 'not-eligible'
       ? publicText(primaryExplanation)
@@ -1158,7 +1159,7 @@ export function ResultCard({ result }: { result: PredictionResult }) {
   const assessmentTitle = adjustedSelectionUcatApplied
     ? 'UCAT adjustment'
     : primaryAssessmentKind === 'ucat'
-    ? 'UCAT comparison'
+    ? publicText(selectionMetric?.label || 'Your UCAT score')
     : primaryAssessmentKind === 'selection-score'
       ? 'Selection score'
       : primaryAssessmentKind === 'ranking-only'

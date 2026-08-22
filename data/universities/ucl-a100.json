@@ -256,6 +256,7 @@
           },
           {
             "requirement_id": "ucl_access_ucl_a_level_aab_biology_chemistry_aa",
+            "academic_pathway": "contextual",
             "all_group_ids": [
               "home_fee",
               "access_ucl_confirmed"
@@ -373,6 +374,7 @@
           },
           {
             "route_id": "ucl_access_ucl_ib_36_17hl_biology_chemistry_6",
+            "academic_pathway": "contextual",
             "all_group_ids": [
               "home_fee",
               "access_ucl_confirmed"
@@ -714,6 +716,39 @@
       "ucl_research_doc"
     ],
     "available": true,
+    "contextual_eligibility": {
+      "evaluator_id": "ucl_contextual_medicine_a100",
+      "controls_group_routing": true,
+      "applies_to_group_ids": [
+        "home_fee"
+      ],
+      "any_group_ids": [
+        "access_ucl_confirmed",
+        "contextual",
+        "widening_participation",
+        "free_school_meals",
+        "care_experienced",
+        "care_leaver",
+        "estranged_from_family",
+        "imd_quintile_1",
+        "tundra_quintile_1"
+      ],
+      "activated_applicant_group_ids": [
+        "contextual",
+        "access_ucl_confirmed"
+      ],
+      "criteria_summary": "Access UCL is derived from Step 6 evidence: eligible UK school status plus IMD quintile 1, TUNDRA LSOA quintile 1, qualifying Free School Meals or qualifying estrangement; qualifying care-experienced applicants may include UK independent-school attendance.",
+      "manual_review_status": "information_needed",
+      "source_ids": [
+        "ucl_access_ucl_2026",
+        "ucl_research_doc"
+      ],
+      "do_not_infer_from_group_ids": [
+        "access_ucl_confirmed",
+        "contextual",
+        "widening_participation"
+      ]
+    },
     "applies_to_group_ids": [
       "home_fee",
       "contextual",
@@ -1087,7 +1122,7 @@
     "result_card_ready": true,
     "blocking_missing_fields": [],
     "engine_assumptions": [
-      "Access UCL runtime routing requires explicit applicant_group_ids entry access_ucl_confirmed; generic contextual flags alone use the Home pool.",
+      "Access UCL runtime routing derives access_ucl_confirmed from the shared UCL contextual evaluator; raw legacy group/flag input is not authoritative.",
       "A1 Scottish Advanced Higher is represented as A* in the current grade-rank model.",
       "Published UCAT interview thresholds are used for interview-band guidance, not as academic eligibility failures."
     ],
