@@ -19,6 +19,21 @@ const research = readJson('data/research/glasgow-a100-research.json');
 const resultCard = readJson('data/examples/glasgow-a100-result-card.example.json');
 const fixture = readJson('data/fixtures/glasgow-a100-international.json');
 const internationalApplicant = readJson(fixture.base_applicant_file);
+
+// Glasgow's production eligibility evaluator requires explicit English-language
+// evidence for international applicants. This regression represents an
+// applicant who meets Glasgow's published IELTS requirement.
+internationalApplicant.english_language_profile = {
+  test: 'IELTS Academic',
+  overall: 7.0,
+  scores: {
+    listening: 7.0,
+    reading: 7.0,
+    speaking: 7.0,
+    writing: 7.0
+  }
+};
+
 const homeApplicant = readJson(
   'data/fixtures/interview-band-classification/shared-standard-school-leaver.json'
 ).applicant;
