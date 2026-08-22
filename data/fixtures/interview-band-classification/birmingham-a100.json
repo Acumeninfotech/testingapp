@@ -1,0 +1,65 @@
+{
+  "schema_version": "1.0.0",
+  "course_profile_id": "birmingham-a100",
+  "description": "Canonical Birmingham A100 Home standard non-contextual A-level applicant for result-card snapshot generation, sourced from the Birmingham readiness home_standard fixture.",
+  "base_applicant": {
+    "profile_id": "birmingham_a100_home_standard_readiness_applicant",
+    "qualification_route": "a_level",
+    "application_year": 2026,
+    "applicant_identity": {
+      "applicant_type": "standard_school_leaver",
+      "fee_status": "Home",
+      "domicile": "England",
+      "contextual": false,
+      "contextual_status_confirmed": true,
+      "graduate": false,
+      "resit": {
+        "has_resits": false
+      }
+    },
+    "gcse_profile": {
+      "subjects": {
+        "english_language": "8",
+        "english_literature": "8",
+        "mathematics": "9",
+        "biology": "8",
+        "chemistry": "9",
+        "history": "9",
+        "geography": "8"
+      }
+    },
+    "a_level_profile": {
+      "subjects": [
+        {
+          "subject_id": "chemistry",
+          "predicted_grade": "A"
+        },
+        {
+          "subject_id": "biology",
+          "predicted_grade": "A"
+        },
+        {
+          "subject_id": "history",
+          "predicted_grade": "A"
+        }
+      ]
+    },
+    "admissions_tests": {
+      "ucat": {
+        "taken": true,
+        "test_year": 2026,
+        "total_score": 2300,
+        "score_scale": 2700,
+        "subtests": {
+          "verbal_reasoning": 770,
+          "decision_making": 770,
+          "quantitative_reasoning": 760
+        },
+        "sjt_band": 2
+      }
+    },
+    "graduate_profile": {
+      "is_graduate": false
+    }
+  }
+}
