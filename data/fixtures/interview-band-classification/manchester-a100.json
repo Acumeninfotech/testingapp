@@ -2,6 +2,11 @@
   "schema_version": "1.0.0",
   "fixture_id": "manchester_a100_result_card_consumer_regression",
   "course_profile_id": "manchester-a100",
+  "result_card_example_overrides": {
+    "applicant_identity": {
+      "fee_status": "International"
+    }
+  },
   "base_applicant": {
     "profile_id": "manchester_a100_standard_fixture",
     "applicant_identity": {
@@ -72,6 +77,11 @@
       "ucat": {
         "total_score": 2100,
         "score_scale": 2700,
+        "subtests": {
+          "verbal_reasoning": 700,
+          "decision_making": 700,
+          "quantitative_reasoning": 700
+        },
         "sjt_band": 2,
         "test_year": 2026
       }

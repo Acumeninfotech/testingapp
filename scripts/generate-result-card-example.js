@@ -19,6 +19,38 @@ function clone(value) {
   return JSON.parse(JSON.stringify(value));
 }
 
+function merge(base, overrides) {
+  if (
+    overrides === null ||
+    typeof overrides !== 'object' ||
+    Array.isArray(overrides)
+  ) {
+    return overrides === undefined ? clone(base) : clone(overrides);
+  }
+
+  const result =
+    base && typeof base === 'object' && !Array.isArray(base)
+      ? clone(base)
+      : {};
+
+  for (const [key, value] of Object.entries(overrides)) {
+    if (
+      value &&
+      typeof value === 'object' &&
+      !Array.isArray(value) &&
+      result[key] &&
+      typeof result[key] === 'object' &&
+      !Array.isArray(result[key])
+    ) {
+      result[key] = merge(result[key], value);
+    } else {
+      result[key] = clone(value);
+    }
+  }
+
+  return result;
+}
+
 function normalizeFeeCohort(value) {
   if (typeof value !== 'string') {
     return null;
@@ -124,13 +156,43 @@ if (!fixture.base_applicant) {
 
 const existing = readJson(examplePath);
 
-assertApplicantContextMatchesExample(profileId, fixture, existing);
+let snapshotApplicant = fixture.base_applicant;
+
+if (fixture.result_card_example_overrides) {
+  snapshotApplicant = merge(
+    fixture.base_applicant,
+    fixture.result_card_example_overrides
+  );
+} else if (fixture.result_card_example_scenario_id) {
+  const matchingScenarios = (fixture.scenarios || []).filter(
+    (scenario) =>
+      scenario.scenario_id === fixture.result_card_example_scenario_id
+  );
+
+  if (matchingScenarios.length !== 1) {
+    fail(
+      `${profileId} result_card_example_scenario_id ` +
+      `(${fixture.result_card_example_scenario_id}) must match exactly one scenario.`
+    );
+  }
+
+  snapshotApplicant = merge(
+    fixture.base_applicant,
+    matchingScenarios[0].overrides || {}
+  );
+}
+
+assertApplicantContextMatchesExample(
+  profileId,
+  { base_applicant: snapshotApplicant },
+  existing
+);
 
 let results;
 
 try {
   results = predict({
-    studentProfile: fixture.base_applicant,
+    studentProfile: snapshotApplicant,
     universityIds: [profileId]
   });
 } catch (error) {
