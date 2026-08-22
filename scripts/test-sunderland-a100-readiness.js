@@ -203,7 +203,10 @@ assert.strictEqual(card.prediction.result_band, 'realistic');
 assert.strictEqual(card.prediction.available, true);
 assert.strictEqual(card.display.primary_user_facing_recommendation, 'Possible choice for your application');
 assert.match(JSON.stringify(card), /Interview Selection Tool/);
-assert.match(JSON.stringify(card), /guidance only, not current cut-offs|guidance only, not a current cut-off/i);
+assert.match(
+  JSON.stringify(card),
+  /Historical admissions data provides a benchmark only; it is not a current cut-off or a guarantee of interview/i
+);
 assert.doesNotMatch(JSON.stringify(card), /Interview Likely|Strong Choice|Guaranteed interview|You will receive an interview|Your IST score is|offer chance|offer probability/i);
 assert.strictEqual(hasNestedKey(card, 'offer_prediction'), false);
 assert.strictEqual(hasNestedKey(card, 'offer_probability'), false);
