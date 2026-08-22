@@ -2,13 +2,13 @@
 
 const assert = require('assert');
 const fs = require('fs');
+const { predict } = require('../server/src/predict');
 const path = require('path');
 const {
   classifyInterviewBand
 } = require('../assets/js/engine/interview-band-classifier');
 const {
   buildDecisionTimeline,
-  buildDecisionTransparency,
   buildEvidenceConfidence
 } = require('../assets/js/engine/result-card-presenter');
 
@@ -154,9 +154,11 @@ assert.match(
   'guaranteed-interview override must occur only after hard-filter eligibility is confirmed'
 );
 assert.strictEqual(
-  /ucat_total_with_percentage_uplifts|exclusive_uplift_groups|total_uplift_percent/.test(presenterSource),
+  /ucat_total_with_percentage_uplifts|exclusive_uplift_groups|selection_strategy === 'highest_percent'/.test(
+    presenterSource
+  ),
   false,
-  'result-card presenter must not duplicate percentage-uplift calculation logic'
+  'result-card presenter must not duplicate percentage-uplift selection or calculation logic'
 );
 
 for (const scenario of fixture.scenarios) {
@@ -271,7 +273,20 @@ assert.strictEqual(card.prediction.result_band, 'realistic');
 assert.strictEqual(card.confidence.level, 'medium');
 assert.deepStrictEqual(card.evidence_confidence, buildEvidenceConfidence(card));
 assert.deepStrictEqual(card.decision_timeline, buildDecisionTimeline(card));
-assert.deepStrictEqual(card.decision_transparency, buildDecisionTransparency(card));
+
+const productionCard = predict({
+  studentProfile: fixture.base_applicant,
+  universityIds: [course.profile_id]
+})[0]?.result_card;
+
+assert.ok(
+  productionCard,
+  'Anglia Ruskin A100 production Result Card must be generated.'
+);
+assert.deepStrictEqual(
+  card.decision_transparency,
+  productionCard.decision_transparency
+);
 assert.match(
   JSON.stringify(card),
   /percentage UCAT uplifts/i
