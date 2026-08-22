@@ -19,6 +19,67 @@ function clone(value) {
   return JSON.parse(JSON.stringify(value));
 }
 
+function normalizeFeeCohort(value) {
+  if (typeof value !== 'string') {
+    return null;
+  }
+
+  const normalized = value.trim().toLowerCase();
+
+  if (normalized === 'home' || normalized === 'uk') {
+    return 'home';
+  }
+
+  if (normalized === 'international' || normalized === 'overseas') {
+    return 'international';
+  }
+
+  return null;
+}
+
+function exampleFeeCohort(card) {
+  const directCohort = normalizeFeeCohort(card.applicant_context?.fee_cohort);
+
+  if (directCohort) {
+    return directCohort;
+  }
+
+  const groupIds = card.applicant_context?.applies_to_group_ids;
+
+  if (!Array.isArray(groupIds)) {
+    return null;
+  }
+
+  if (groupIds.includes('international_fee')) {
+    return 'international';
+  }
+
+  if (groupIds.includes('home_fee')) {
+    return 'home';
+  }
+
+  return null;
+}
+
+function assertApplicantContextMatchesExample(profileId, fixture, example) {
+  const fixtureCohort = normalizeFeeCohort(
+    fixture.base_applicant?.applicant_identity?.fee_status
+  );
+  const exampleCohort = exampleFeeCohort(example);
+
+  if (fixtureCohort && exampleCohort && fixtureCohort !== exampleCohort) {
+    fail(
+      `${profileId} base_applicant fee cohort (${fixtureCohort}) does not ` +
+      `match the result-card example fee cohort (${exampleCohort}); ` +
+      'automatic snapshot generation is not supported for this profile yet.'
+    );
+  }
+}
+
+function hasOwn(object, field) {
+  return Object.prototype.hasOwnProperty.call(object, field);
+}
+
 const args = process.argv.slice(2);
 const profileId = args.find((arg) => !arg.startsWith('--'));
 const write = args.includes('--write');
@@ -63,16 +124,28 @@ if (!fixture.base_applicant) {
 
 const existing = readJson(examplePath);
 
-const results = predict({
-  studentProfile: fixture.base_applicant,
-  universityIds: [profileId]
-});
+assertApplicantContextMatchesExample(profileId, fixture, existing);
+
+let results;
+
+try {
+  results = predict({
+    studentProfile: fixture.base_applicant,
+    universityIds: [profileId]
+  });
+} catch (error) {
+  fail(`Production predict() failed for ${profileId}: ${error.message}`);
+}
 
 if (!Array.isArray(results) || results.length !== 1) {
   fail(`Expected exactly one prediction result for ${profileId}.`);
 }
 
 const generated = results[0].result_card;
+
+if (!generated || typeof generated !== 'object') {
+  fail(`Production predict() did not return a Result Card for ${profileId}.`);
+}
 
 /*
  * Result-card examples contain both:
@@ -136,18 +209,37 @@ function managedProjection(card) {
 
 function refreshManagedFields(existingCard, generatedCard) {
   const refreshed = clone(existingCard);
+  const existingPrediction = refreshed.prediction || {};
+  const generatedPrediction = generatedCard.prediction || {};
 
   refreshed.prediction = {
-    ...(refreshed.prediction || {}),
-    result_band: generatedCard.prediction?.result_band ?? null,
-    ranking_metric: generatedCard.prediction?.ranking_metric ?? null,
-    guidance_pool_id: generatedCard.prediction?.guidance_pool_id ?? null,
-    score: generatedCard.prediction?.score ?? null,
-    score_scale:
-      refreshed.prediction?.score_scale ??
-      generatedCard.prediction?.score_scale ??
-      null
+    ...existingPrediction
   };
+
+  for (const field of [
+    'result_band',
+    'ranking_metric',
+    'guidance_pool_id',
+    'score'
+  ]) {
+    const generatedValue = generatedPrediction[field];
+
+    if (generatedValue !== undefined && generatedValue !== null) {
+      refreshed.prediction[field] = clone(generatedValue);
+    } else if (hasOwn(existingPrediction, field)) {
+      refreshed.prediction[field] = null;
+    }
+  }
+
+  if (existingPrediction.score_scale !== undefined &&
+      existingPrediction.score_scale !== null) {
+    refreshed.prediction.score_scale = clone(existingPrediction.score_scale);
+  } else if (generatedPrediction.score_scale !== undefined &&
+      generatedPrediction.score_scale !== null) {
+    refreshed.prediction.score_scale = clone(generatedPrediction.score_scale);
+  } else if (hasOwn(existingPrediction, 'score_scale')) {
+    refreshed.prediction.score_scale = null;
+  }
 
   for (const field of [
     'primary_user_facing_recommendation',
@@ -159,7 +251,7 @@ function refreshManagedFields(existingCard, generatedCard) {
     'decision_timeline',
     'decision_transparency'
   ]) {
-    if (Object.prototype.hasOwnProperty.call(generatedCard, field)) {
+    if (hasOwn(generatedCard, field)) {
       refreshed[field] = clone(generatedCard[field]);
     }
   }
@@ -188,16 +280,45 @@ function refreshManagedFields(existingCard, generatedCard) {
   return refreshed;
 }
 
+function managedValuesMatch(left, right) {
+  return JSON.stringify(left) === JSON.stringify(right);
+}
+
+function diffManagedFields(existingValue, refreshedValue, prefix = '') {
+  if (managedValuesMatch(existingValue, refreshedValue)) {
+    return [];
+  }
+
+  if (
+    existingValue &&
+    refreshedValue &&
+    typeof existingValue === 'object' &&
+    typeof refreshedValue === 'object' &&
+    !Array.isArray(existingValue) &&
+    !Array.isArray(refreshedValue)
+  ) {
+    const fields = new Set([
+      ...Object.keys(existingValue),
+      ...Object.keys(refreshedValue)
+    ]);
+
+    return [...fields].sort().flatMap((field) => (
+      diffManagedFields(
+        existingValue[field],
+        refreshedValue[field],
+        prefix ? `${prefix}.${field}` : field
+      )
+    ));
+  }
+
+  return [prefix];
+}
+
 const refreshed = refreshManagedFields(existing, generated);
 
 const existingManaged = managedProjection(existing);
 const refreshedManaged = managedProjection(refreshed);
-
-const existingManagedJson =
-  JSON.stringify(existingManaged, null, 2);
-
-const refreshedManagedJson =
-  JSON.stringify(refreshedManaged, null, 2);
+const managedDiffs = diffManagedFields(existingManaged, refreshedManaged);
 
 console.log('===== RESULT CARD MANAGED SNAPSHOT =====');
 console.log(`Profile: ${profileId}`);
@@ -228,12 +349,17 @@ console.log({
 
 console.log();
 
-if (existingManagedJson === refreshedManagedJson) {
+if (managedDiffs.length === 0) {
   console.log('Managed snapshot status: MATCH');
   process.exit(0);
 }
 
 console.log('Managed snapshot status: DRIFT');
+console.log('Managed field drift:');
+
+for (const field of managedDiffs) {
+  console.log(`- ${field}`);
+}
 
 if (!write) {
   console.log();
