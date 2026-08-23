@@ -6462,7 +6462,8 @@ function presentResultCard({
 	  }
   const publicRiskExplanation =
     display.recommendation_display_state === 'standard' ? riskExplanation : null;
-  const hidePublicPredictionScore = hideSelectionScoreDetails(presentation);
+  const hidePublicPredictionScore =
+    presentation.hide_selection_score_details === true;
   const publicPredictionScore = hidePublicPredictionScore
     ? undefined
     : transparencyContext.prediction?.score ??
