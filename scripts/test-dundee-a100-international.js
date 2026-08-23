@@ -154,8 +154,19 @@ assert.match(
 const cardApplicant = clone(internationalApplicant);
 cardApplicant.admissions_tests.ucat.total_score = 2080;
 const cardResult = classifyInterviewBand(course, config, cardApplicant);
-assert.strictEqual(cardResult.ranking.value, resultCard.prediction.score);
-assert.strictEqual(cardResult.ranking.max, resultCard.prediction.score_scale.max);
+assert.strictEqual(
+  resultCard.prediction.score,
+  null,
+  'Dundee internal ApplySmart guidance index must not be exposed as the Result Card prediction score'
+);
+assert.strictEqual(
+  config.score_model.presentation.hide_score_breakdown,
+  true
+);
+assert.strictEqual(
+  config.score_model.presentation.hide_selection_score_details,
+  true
+);
 assert.strictEqual(cardResult.canonical_interview_band, resultCard.prediction.result_band);
 
 console.log(
