@@ -6462,6 +6462,24 @@ function presentResultCard({
 	  }
   const publicRiskExplanation =
     display.recommendation_display_state === 'standard' ? riskExplanation : null;
+  const hidePublicPredictionScore = hideSelectionScoreDetails(presentation);
+  const publicPredictionScore = hidePublicPredictionScore
+    ? undefined
+    : transparencyContext.prediction?.score ??
+      (Number.isFinite(transparencyContext.ranking?.value)
+        ? transparencyContext.ranking.value
+        : undefined);
+  const publicPredictionScoreScale = hidePublicPredictionScore
+    ? undefined
+    : transparencyContext.prediction?.score_scale ??
+      (Number.isFinite(transparencyContext.ranking?.max)
+        ? {
+          min: Number.isFinite(transparencyContext.ranking?.min)
+            ? transparencyContext.ranking.min
+            : 0,
+          max: transparencyContext.ranking.max
+        }
+        : undefined);
 
   const transparencyCard = {
     ...transparencyContext,
@@ -6522,21 +6540,8 @@ function presentResultCard({
               : null
       },
       ranking_metric: isUcatRankingContext(transparencyContext) ? 'ucat_total' : undefined,
-      score:
-        transparencyContext.prediction?.score ??
-        (Number.isFinite(transparencyContext.ranking?.value)
-          ? transparencyContext.ranking.value
-          : undefined),
-      score_scale:
-        transparencyContext.prediction?.score_scale ??
-        (Number.isFinite(transparencyContext.ranking?.max)
-          ? {
-            min: Number.isFinite(transparencyContext.ranking?.min)
-              ? transparencyContext.ranking.min
-              : 0,
-            max: transparencyContext.ranking.max
-          }
-          : undefined),
+      score: publicPredictionScore,
+      score_scale: publicPredictionScoreScale,
       guidance_pool_id:
         transparencyContext.prediction?.guidance_pool_id ??
         transparencyContext.guidance_pool_id ??

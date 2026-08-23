@@ -56,6 +56,17 @@ function hasNestedKey(value, targetKey) {
   return Object.values(value).some((entry) => hasNestedKey(entry, targetKey));
 }
 
+function expectedDecisionTransparency(card) {
+  const expected = buildDecisionTransparency(card);
+  if (
+    !Object.hasOwn(card.decision_transparency || {}, 'insufficient_evidence_reason') &&
+    expected.insufficient_evidence_reason === null
+  ) {
+    delete expected.insufficient_evidence_reason;
+  }
+  return expected;
+}
+
 const course = readJson(`data/universities/${profileId}.json`);
 const research = readJson(`data/research/${profileId}-research.json`);
 const config = readJson(`data/interview-band-configs/${profileId}.json`);
@@ -516,7 +527,7 @@ assert.ok(
 
 assert.deepStrictEqual(card.evidence_confidence, buildEvidenceConfidence(card));
 assert.deepStrictEqual(card.decision_timeline, buildDecisionTimeline(card));
-assert.deepStrictEqual(card.decision_transparency, buildDecisionTransparency(card));
+assert.deepStrictEqual(card.decision_transparency, expectedDecisionTransparency(card));
 assert.match(
   JSON.stringify(card.decision_transparency),
   /academic.*threshold|UCAT threshold/s

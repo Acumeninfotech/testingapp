@@ -225,7 +225,7 @@
     "capability": "interview_prediction",
     "prediction_type": "official_threshold_with_derived_applysmart_band",
     "prediction_status": "available",
-    "result_band": "interview_likely",
+    "result_band": "very_strong_interview_potential",
     "source_interview_band_id": "HS_A_SECURE",
     "result_card_id": "VERY_STRONG_INTERVIEW_POTENTIAL",
     "guidance_pool_id": "home_standard",
@@ -244,7 +244,8 @@
       "bsms_entry_requirements",
       "bsms_admissions_process",
       "bsms_international_entry_requirements"
-    ]
+    ],
+    "ranking_metric": "ucat_total"
   },
   "missing_data": {
     "future_cycle_thresholds": "UCAT thresholds not yet published.",
@@ -277,11 +278,11 @@
     ]
   },
   "display": {
-    "primary_user_facing_recommendation": "Strong choice for your application",
+    "primary_user_facing_recommendation": "Very strong choice for your application",
     "recommendation_display_state": "standard",
-    "primary_explanation": "Based on ApplySmart's assessment, your UCAT score appears competitive for this applicant group.",
-    "historical_guidance_caveat": "for later cycles, ApplySmart still provides the prediction using the published baseline with a drift warning and moderate confidence.",
-    "headline": "Strong choice for your application"
+    "primary_explanation": "Based on ApplySmart's assessment, your UCAT score appears highly competitive for this applicant group.",
+    "historical_guidance_caveat": "Historical admissions data provides a benchmark only; it is not a current cut-off or a guarantee of interview.",
+    "headline": "Very strong choice for your application"
   },
   "engine_notes": {
     "eligibility": true,
@@ -330,81 +331,111 @@
       "step": 3,
       "title": "Selection model applied",
       "status": "Complete",
-      "summary": "Academic requirements were treated as threshold-only, the SJT gate was checked, then the relevant published UCAT threshold or published bypass route was applied."
+      "summary": "Applicants who meet the academic requirements are assessed using their UCAT score."
     },
     {
       "step": 4,
       "title": "Historical guidance compared",
       "status": "Complete",
-      "summary": "Your result was compared with interview information from previous admissions cycles. Historical admissions data is guidance only; it provides a benchmark, not a current cut-off and not a guarantee of an interview."
+      "summary": "UCAT: 2100/2700 - 110 points above the published Home threshold of 1990/2700. Published thresholds and reference ranges can change between cycles and do not guarantee an interview."
     },
     {
       "step": 5,
       "title": "Interview recommendation produced",
-      "status": "Strong Choice",
-      "summary": "Based on ApplySmart's assessment, your academic profile appears competitive for this applicant group. Treat this as guidance for university choice, not a promised interview."
+      "status": "Very Strong Choice",
+      "summary": "Based on ApplySmart's assessment, your UCAT score appears highly competitive for this applicant group. Treat this as guidance for university choice, not a promised interview."
     }
   ],
   "decision_transparency": {
+    "factor_usage": [
+      {
+        "factor_id": "ucat",
+        "label": "UCAT",
+        "role": "ranking",
+        "detail": "Used for ranking in the university’s selection process.",
+        "evidence_status": "available"
+      },
+      {
+        "factor_id": "gcse",
+        "label": "GCSEs",
+        "role": "eligibility",
+        "detail": "Used as an academic eligibility requirement.",
+        "evidence_status": "available"
+      },
+      {
+        "factor_id": "a_level",
+        "label": "A-levels",
+        "role": "unknown",
+        "detail": "Used as part of the university’s academic review.",
+        "evidence_status": "available"
+      },
+      {
+        "factor_id": "sjt",
+        "label": "SJT",
+        "role": "eligibility",
+        "detail": "SJT is used as an eligibility gate.",
+        "evidence_status": "available"
+      }
+    ],
     "decision_path": [
       {
         "stage": "Eligibility",
         "status": "Met",
-        "summary": "The represented applicant meets BSMS academic requirements and has SJT Band 1.",
+        "summary": "The supported entry requirements are met.",
         "checks": [
           {
-            "label": "Academic threshold",
+            "label": "Entry requirements",
             "status": "Met",
-            "summary": "AAA including Biology and Chemistry; GCSE English and Maths grade 6/B. Applicant information: AAA including Biology and Chemistry; English and Maths grade 6."
-          },
-          {
-            "label": "SJT gate",
-            "status": "Met",
-            "summary": "SJT Band 1, 2 or 3; Band 4 rejects every cohort. Applicant information: SJT Band 1."
+            "summary": "The supported entry requirements have been assessed."
           }
         ]
       },
       {
         "stage": "Selection model",
         "status": "Assessed",
-        "summary": "BSMS applies academic and SJT gates, then routes to care-leaver, adjusted-offer, Home standard or Overseas rules. The represented Home standard applicant is compared with the official Home threshold of 1990.",
+        "summary": "Applicants who meet the academic requirements are assessed using their UCAT score.",
         "checks": [
           {
             "label": "Applicant pool",
             "status": "Used",
-            "summary": "The applicant group matching the supplied fee status and entry route"
+            "summary": "Home, Rest of UK applicants"
           },
           {
             "label": "UCAT",
-            "status": "Ranking only",
-            "summary": "UCAT ranking: Eligible applicants are ranked by UCAT. No reliable numerical historical comparison is available."
+            "status": "Above",
+            "summary": "UCAT: 2100/2700 - 110 points above the published Home threshold of 1990/2700."
           },
           {
             "label": "SJT requirement",
-            "status": "Ignored",
-            "summary": "SJT is not used for interview selection."
+            "status": "Met",
+            "summary": "Met - Bands 1-3 are accepted."
           },
           {
             "label": "Selection approach",
             "status": "Ranking/cut-off based",
-            "summary": "BSMS applies academic and SJT gates, then routes to care-leaver, adjusted-offer, Home standard or Overseas rules. The represented Home standard applicant is compared with the official Home threshold of 1990."
+            "summary": "Applicants who meet the academic requirements are assessed using their UCAT score."
           }
         ]
       },
       {
         "stage": "Historical guidance",
         "status": "Guidance available",
-        "summary": "The result was assessed using the available admissions evidence for this applicant group. Historical admissions data provides a benchmark only; it is not a current cut-off or a guarantee of interview.",
+        "summary": "UCAT: 2100/2700 - 110 points above the published Home threshold of 1990/2700. Published thresholds and reference ranges can change between cycles and do not guarantee an interview.",
         "checks": [
           {
             "label": "Applicant pool",
             "status": "Used",
-            "summary": "The applicant group matching the supplied fee status and entry route"
+            "summary": "Home, Rest of UK applicants"
           },
           {
             "label": "UCAT comparison",
             "status": "Compared",
-            "summary": "UCAT ranking: Eligible applicants are ranked by UCAT. No reliable numerical historical comparison is available."
+            "summary": "UCAT: 2100/2700 - 110 points above the published Home threshold of 1990/2700."
+          },
+          {
+            "label": "All Applicants",
+            "status": "Historical",
+            "summary": "~1618 applicants, ~824 interviewed, ~670 offers, ~208 places."
           },
           {
             "label": "Important limitation",
@@ -416,14 +447,14 @@
       {
         "stage": "Recommendation",
         "status": "Guidance only",
-        "summary": "Based on ApplySmart's assessment, your academic profile appears competitive for this applicant group. Treat this as guidance for university choice, not a promised interview.",
+        "summary": "Based on ApplySmart's assessment, your UCAT score appears highly competitive for this applicant group. Treat this as guidance for university choice, not a promised interview.",
         "checks": []
       }
     ],
     "key_reasons": [
-      "The represented applicant meets BSMS academic requirements and has SJT Band 1.",
-      "The result uses The applicant group matching the supplied fee status and entry route.",
-      "You meet the academic requirements. Eligible applicants are ranked by UCAT. No reliable numerical historical comparison is available."
+      "The supported entry requirements are met.",
+      "The result uses Home, Rest of UK applicants.",
+      "Your UCAT score is above the published Home threshold for this applicant group."
     ],
     "evidence_used": [
       "Official admissions policy",
@@ -441,37 +472,67 @@
     },
     "warnings": [],
     "manual_review_reason": null,
-    "insufficient_evidence_reason": null,
-    "insufficient_evidence_reason_code": null,
+    "manual_review_reason_code": null,
+    "information_needed_reason": null,
+    "missing_information": null,
+    "risk_explanation": null,
     "compact_status": {
       "label": "You meet the academic requirements.",
       "type": "academic_status",
       "tone": "positive"
     },
     "comparison_metrics_title": null,
-    "comparison_metrics": [],
-    "selection_approach_display": null,
-    "selection_metric": null,
+    "comparison_metrics": [
+      {
+        "label": "published Home threshold",
+        "value": "1990",
+        "difference": "+110"
+      }
+    ],
+    "selection_approach_display": "Applicants who meet the academic requirements are assessed using their UCAT score.",
+    "selection_metric": {
+      "type": "ucat",
+      "label": "Your UCAT score",
+      "applicant_value": 2100,
+      "comparison_value": 1990,
+      "comparison_max_value": null,
+      "comparison_label": "published Home threshold",
+      "comparison_label_type": "published_interview_threshold",
+      "comparison_context": null,
+      "difference": 110,
+      "difference_direction": "above",
+      "difference_word": "range",
+      "maximum_value": 2700,
+      "display_mode": "comparison",
+      "display_eligibility": true,
+      "entry_year": null,
+      "caveat": "Published thresholds and reference ranges can change between cycles and do not guarantee an interview."
+    },
     "score_breakdown": null,
     "ucat_comparison": {
-      "comparison_type": "ranking_only",
-      "applicant_ucat": null,
-      "benchmark_min": null,
+      "comparison_type": "current_guidance",
+      "applicant_ucat": 2100,
+      "benchmark_min": 1990,
       "benchmark_max": null,
-      "benchmark_label": null,
-      "caveat": null,
-      "difference_from_benchmark": null,
-      "position": null,
-      "applicant_pool": null,
-      "sjt_policy": "SJT is not used for interview selection.",
-      "sjt_outcome": "ignored",
-      "sjt_summary": "SJT is not used for interview selection.",
-      "applicant_sjt_band": null,
+      "comparison_operator": null,
+      "benchmark_label": "published Home threshold",
+      "caveat": "Published thresholds and reference ranges can change between cycles and do not guarantee an interview.",
+      "evidence_status": null,
+      "evidence_classification": null,
+      "prediction_band": null,
+      "difference_from_benchmark": 110,
+      "position": "above",
+      "applicant_pool": "Home, Rest of UK applicants",
+      "sjt_policy": "Band 4 rejects every cohort, including adjusted-offer and care-leaver applicants.",
+      "sjt_outcome": "met",
+      "sjt_summary": "Met - Bands 1-3 are accepted.",
+      "applicant_sjt_band": 1,
       "official_ucat_minimum": null
-    }
+    },
+    "ucat_adjustment": null
   },
-  "primary_user_facing_recommendation": "Strong choice for your application",
-  "primary_explanation": "Based on ApplySmart's assessment, your UCAT score appears competitive for this applicant group.",
+  "primary_user_facing_recommendation": "Very strong choice for your application",
+  "primary_explanation": "Based on ApplySmart's assessment, your UCAT score appears highly competitive for this applicant group.",
   "recommendation_display_state": "standard",
   "trust_statement": null,
   "historical_guidance_caveat": "Historical admissions data provides a benchmark only; it is not a current cut-off or a guarantee of interview."

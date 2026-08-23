@@ -55,6 +55,17 @@ function hasNestedKey(value, targetKey) {
   return Object.values(value).some((entry) => hasNestedKey(entry, targetKey));
 }
 
+function expectedDecisionTransparency(card) {
+  const expected = buildDecisionTransparency(card);
+  if (
+    !Object.hasOwn(card.decision_transparency || {}, 'insufficient_evidence_reason') &&
+    expected.insufficient_evidence_reason === null
+  ) {
+    delete expected.insufficient_evidence_reason;
+  }
+  return expected;
+}
+
 const course = readJson('data/universities/lancaster-a100.json');
 const research = readJson('data/research/lancaster-a100-research.json');
 const config = readJson('data/interview-band-configs/lancaster-a100.json');
@@ -69,6 +80,10 @@ assert.strictEqual(research.course_profile_id, course.profile_id);
 assert.strictEqual(config.course_profile_id, course.profile_id);
 assert.strictEqual(card.course_identity.profile_id, course.profile_id);
 assert.strictEqual(fixture.course_profile_id, course.profile_id);
+assert.strictEqual(
+  fixture.result_card_example_scenario_id,
+  'home_standard_interview_likely_lower_bound'
+);
 assert.strictEqual(course.course.ucas_code, 'A100');
 assert.strictEqual(course.course.entry_route, 'standard_entry');
 assert.strictEqual(course.course.is_graduate_entry, false);
@@ -302,6 +317,8 @@ assert.strictEqual(
 );
 
 assert.strictEqual(card.eligibility.status, 'eligible');
+assert.strictEqual(card.applicant_context.admissions_tests.ucat.total_score, 1950);
+assert.strictEqual(card.prediction.score, 1950);
 assert.strictEqual(card.prediction.result_band, 'interview_likely');
 assert.strictEqual(card.prediction.guidance_pool_id, 'home_standard_school_leaver');
 assert.strictEqual(card.evidence_confidence.level, 'Medium');
@@ -309,18 +326,18 @@ assert.deepStrictEqual(card.evidence_confidence, buildEvidenceConfidence(card));
 assert.deepStrictEqual(card.decision_timeline, buildDecisionTimeline(card));
 assert.deepStrictEqual(
   card.decision_transparency,
-  buildDecisionTransparency(card)
+  expectedDecisionTransparency(card)
 );
 assert.match(
   card.decision_timeline[2].summary,
-  /academic requirements.*SJT filter.*UCAT ranking/i
+  /academic requirements.*SJT filter.*ranking.*UCAT/i
 );
 assert.match(
   JSON.stringify(card.decision_transparency),
-  /Eligible applicants are ranked by UCAT.*No reliable numerical historical comparison is available/s
+  /UCAT: 1950 - above the historical interview range of 1920-1949/s
 );
 assert.strictEqual(card.decision_transparency.selection_metric.type, 'ucat');
-assert.strictEqual(card.decision_transparency.ucat_comparison.comparison_type, 'ranking_only');
+assert.strictEqual(card.decision_transparency.ucat_comparison.comparison_type, 'historical_range');
 assert.strictEqual(hasNestedKey(card, 'offer_prediction'), false);
 assert.strictEqual(hasNestedKey(card, 'offer_probability'), false);
 

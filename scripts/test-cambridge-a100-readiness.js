@@ -293,6 +293,16 @@ for (const scenario of completeHomeProfileScenarios) {
     scenario.expectedRecommendation,
     `${scenario.label}: public band label`
   );
+  assert.strictEqual(
+    resultCard.prediction?.score,
+    undefined,
+    `${scenario.label}: hidden holistic score must not be exposed`
+  );
+  assert.strictEqual(
+    resultCard.prediction?.score_scale,
+    undefined,
+    `${scenario.label}: hidden holistic score scale must not be exposed`
+  );
   assert.notStrictEqual(
     resultCard.primary_user_facing_recommendation,
     'More information is required',
@@ -488,7 +498,19 @@ assert.ok(
 
 const baseClassification = classifyInterviewBand(course, config, fixture.base_applicant);
 const baseCard = makeResultCard(course, config, fixture.base_applicant, baseClassification);
+const baseApiCard = predict({
+  universityIds: ['cambridge-a100'],
+  studentProfile: fixture.base_applicant
+})[0].result_card;
 const studentFacingText = JSON.stringify(baseCard);
+assert.strictEqual(baseClassification.ranking?.value, 4);
+assert.strictEqual(baseClassification.ranking?.max, 5);
+assert.strictEqual(baseApiCard.prediction?.result_band, 'interview_likely');
+assert.strictEqual(baseApiCard.prediction?.guidance_pool_id, 'cambridge_home_hidden_holistic_guidance');
+assert.strictEqual(baseApiCard.prediction?.score, undefined);
+assert.strictEqual(baseApiCard.prediction?.score_scale, undefined);
+assert.strictEqual(Object.hasOwn(baseApiCard.prediction || {}, 'score'), false);
+assert.strictEqual(Object.hasOwn(baseApiCard.prediction || {}, 'score_scale'), false);
 assert.doesNotMatch(studentFacingText, /\b(2350|2250|2150|2050|2400|2300|2200)\b/);
 assert.doesNotMatch(studentFacingText, /\d+(?:\.\d+)?\s*%/);
 assert.doesNotMatch(studentFacingText, /\boffer[- ]?(prediction|probability|likelihood|chance)\b/i);
