@@ -598,8 +598,14 @@ function evaluateHymsContextualEligibility({ applicant, evidence, helpers }) {
     }
   });
 
-  if (ordinary.markers.length === 1 && ordinary.missing.length > 0) {
-    for (const entry of ordinary.missing) {
+  const unresolvedOrdinary = ordinary.missing.filter((entry) =>
+    ['not_sure', 'prefer_not_to_say'].includes(
+      helpers.normaliseId(entry.actual)
+    )
+  );
+
+  if (ordinary.markers.length === 1 && unresolvedOrdinary.length > 0) {
+    for (const entry of unresolvedOrdinary) {
       if (!result.missing_information.includes(entry)) {
         result.missing_information.push({
           ...entry,
@@ -617,6 +623,23 @@ function evaluateHymsContextualEligibility({ applicant, evidence, helpers }) {
     alternativeWpProgrammes: programmes.alternativeWp,
     fastTrackProgrammes: programmes.fastTrackCandidates
   });
+
+  if (
+    !isContextual &&
+    ordinary.markers.length === 1 &&
+    unresolvedOrdinary.length > 0
+  ) {
+    result.consequences.reduced_offer = {
+      status: 'information_needed',
+      cycle: REDUCED_OFFER_CYCLE,
+      qualification_scope: ['a_level', 'scottish'],
+      a_level_offer: 'AAB including Biology and Chemistry',
+      ib_reduced_route_implemented: false,
+      reason: 'hyms_contextual_reduced_offer_information_needed',
+      evidence: ordinary.markers.map((entry) => entry.criterion_id),
+      missing_evidence: unresolvedOrdinary.map((entry) => entry.criterion_id)
+    };
+  }
 
   if (isContextual) {
     return {

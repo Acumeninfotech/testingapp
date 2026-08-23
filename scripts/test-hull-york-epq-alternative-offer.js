@@ -53,8 +53,17 @@ const fixture = readJson('data/fixtures/hull-york-a100-readiness.json');
 
 const EPQ_PATHWAY_ID = 'hull_york_epq_alternative';
 const STANDARD_A_LEVEL_PATHWAY_ID = 'standard_AAA_biology_chemistry';
+const CONTEXTUAL_REDUCED_PATHWAY_ID = 'hyms_contextual_reduced_AAB';
 const FIRM_CHOICE_ADVISORY =
   'This reduced EPQ offer applies only if Hull York Medical School is accepted as your firm UCAS choice.';
+const HYMS_CONTEXTUAL_REDUCED_FIRM_CHOICE_CONDITION =
+  'hyms_contextual_reduced_offer_firm_choice_required';
+const HYMS_CONTEXTUAL_REDUCED_FIRM_CHOICE_ADVISORY =
+  'HYMS states that the reduced AAB offer is only available to applicants who firmly accept their offer of a place at Hull York Medical School. If HYMS is your insurance choice, the standard AAA offer applies.';
+const HYMS_CONTEXTUAL_REDUCED_INFORMATION_NEEDED_REASON =
+  'hyms_contextual_reduced_offer_information_needed';
+const HYMS_CONTEXTUAL_REDUCED_INFORMATION_NEEDED_MESSAGE =
+  'More information is needed to confirm whether you qualify for HYMS’s contextual reduced AAB offer. You currently meet one ordinary contextual criterion. Please confirm: UCAT bursary.';
 
 function subject(subjectId, predictedGrade, sittingStatus = 'first_sitting') {
   return {
@@ -62,6 +71,54 @@ function subject(subjectId, predictedGrade, sittingStatus = 'first_sitting') {
     predicted_grade: predictedGrade,
     ...(sittingStatus ? { sitting_status: sittingStatus } : {})
   };
+}
+
+function noContextualProfile() {
+  return {
+    home_area_region: {
+      polar4_quintile: 'q5'
+    },
+    financial_support: {
+      ucat_bursary_recipient: 'no'
+    },
+    school_education: {
+      school_below_progress_8: 'no',
+      below_average_gcse_school: 'no',
+      below_average_post16_school: 'no'
+    },
+    personal_circumstances: {
+      care_experienced: 'no',
+      refugee: 'no',
+      military_family: 'no',
+      gypsy_roma_traveller: 'no',
+      first_in_family_at_university: 'no'
+    },
+    access_programmes: {
+      participation_status: 'no',
+      ukwpmed: {
+        status: 'no',
+        programme_id: '',
+        programme_status: '',
+        provider_university_id: '',
+        completion_year: ''
+      },
+      other_programmes: []
+    }
+  };
+}
+
+function contextualProfile({
+  polar4Quintile = 'q2',
+  ucatBursaryRecipient = 'yes'
+} = {}) {
+  return merge(noContextualProfile(), {
+    home_area_region: {
+      polar4_quintile: polar4Quintile
+    },
+    financial_support: {
+      ucat_bursary_recipient: ucatBursaryRecipient
+    }
+  });
 }
 
 function applicantWith({
@@ -73,7 +130,8 @@ function applicantWith({
   epq = undefined,
   completedInOneSitting = true,
   hasResits = false,
-  includeResitEvidence = true
+  includeResitEvidence = true,
+  contextual_profile = noContextualProfile()
 } = {}) {
   const aLevelProfile = {
     subjects,
@@ -88,6 +146,19 @@ function applicantWith({
 
   return merge(fixture.base_applicant, {
     applicant_identity: {
+      contextual: false,
+      contextual_status_confirmed: false,
+      contextual_flags: {
+        ucat_bursary: false,
+        recognised_wp_programme: false,
+        polar4_quintile: null,
+        care_experienced: false,
+        refugee: false,
+        military_family: false,
+        gypsy_roma_traveller: false,
+        school_below_progress_8: false,
+        first_generation_higher_education: false
+      },
       resit: includeResitEvidence
         ? {
             has_resits: hasResits,
@@ -108,6 +179,7 @@ function applicantWith({
         test_year: 2026
       }
     },
+    contextual_profile,
     a_level_profile: aLevelProfile
   });
 }
@@ -133,6 +205,7 @@ function publicPost16PathwayChecks(checks) {
     [
       'a_level_standard_offer',
       'epq_alternative_offer',
+      'a_level_contextual_reduced_offer',
       'a_level_route'
     ].includes(check.requirement_type)
   );
@@ -267,6 +340,327 @@ assertNoFirmAdvisory(
   'AAA EPQ planning',
   dedicatedCard(applicantWith({ epq: { status: 'planning', grade: null } }))
 );
+
+{
+  const applicant = applicantWith({
+    subjects: [
+      subject('chemistry', 'A'),
+      subject('biology', 'A'),
+      subject('psychology', 'B')
+    ],
+    contextual_profile: contextualProfile({
+      ucatBursaryRecipient: 'yes',
+      polar4Quintile: 'q2'
+    })
+  });
+  const result = evaluate(applicant);
+  const card = dedicatedCard(applicant);
+  const api = apiCard(applicant);
+
+  assert.strictEqual(result.eligibility.contextual_eligibility.status, 'contextual');
+  assert.strictEqual(
+    result.eligibility.contextual_eligibility.consequences.reduced_offer.status,
+    'eligible'
+  );
+  assert.strictEqual(result.eligibility.status, 'eligible');
+  assert.strictEqual(result.eligibility.academic_pathway, 'contextual_reduced_offer');
+  assert.strictEqual(result.eligibility.academic_pathway_id, CONTEXTUAL_REDUCED_PATHWAY_ID);
+  assert.strictEqual(
+    result.eligibility.failures.includes('a_level_requirements_not_met'),
+    false
+  );
+  assert.strictEqual(result.eligibility.epq_alternative_result, undefined);
+  assert.strictEqual(result.estimated_selection_score.status, 'calculated');
+  assert.notStrictEqual(result.canonical_interview_band, 'not_eligible');
+  assert.notStrictEqual(result.canonical_interview_band, 'insufficient_evidence');
+  assert.ok(result.recommendation);
+
+  assert.strictEqual(card.academic_pathway, 'contextual_reduced_offer');
+  assert.strictEqual(card.academic_pathway_id, CONTEXTUAL_REDUCED_PATHWAY_ID);
+  assert.deepStrictEqual(card.future_conditions, [
+    HYMS_CONTEXTUAL_REDUCED_FIRM_CHOICE_CONDITION
+  ]);
+  assert.deepStrictEqual(card.future_condition_advisories, [
+    HYMS_CONTEXTUAL_REDUCED_FIRM_CHOICE_ADVISORY
+  ]);
+  assert.strictEqual(card.trust_statement, HYMS_CONTEXTUAL_REDUCED_FIRM_CHOICE_ADVISORY);
+  assert.strictEqual(
+    card.alternative_academic_offer.applicable_offer,
+    'Contextual reduced offer: AAB'
+  );
+  assertPublicPost16(
+    'AAB contextual reduced offer',
+    card,
+    [['Contextual reduced offer: AAB', 'met', 'a_level_contextual_reduced_offer']]
+  );
+
+  assert.strictEqual(api.academic_pathway, 'contextual_reduced_offer');
+  assert.strictEqual(api.academic_pathway_id, CONTEXTUAL_REDUCED_PATHWAY_ID);
+  assert.deepStrictEqual(api.future_conditions, [
+    HYMS_CONTEXTUAL_REDUCED_FIRM_CHOICE_CONDITION
+  ]);
+  assert.deepStrictEqual(api.future_condition_advisories, [
+    HYMS_CONTEXTUAL_REDUCED_FIRM_CHOICE_ADVISORY
+  ]);
+  assert.strictEqual(api.trust_statement, HYMS_CONTEXTUAL_REDUCED_FIRM_CHOICE_ADVISORY);
+  assert.notStrictEqual(api.prediction.result_band, 'not_eligible');
+  assert.notStrictEqual(api.recommendation_display_state, 'not_eligible');
+  assert.doesNotMatch(JSON.stringify(api), /A-level requirements not met/i);
+  assert.doesNotMatch(JSON.stringify(api), /Not suitable/i);
+}
+
+{
+  const applicant = applicantWith({
+    subjects: [
+      subject('chemistry', 'A'),
+      subject('biology', 'A'),
+      subject('psychology', 'B')
+    ],
+    epq: { status: 'not_taken', grade: null },
+    contextual_profile: contextualProfile({
+      ucatBursaryRecipient: 'not_sure',
+      polar4Quintile: 'q2'
+    })
+  });
+  const result = evaluate(applicant);
+  const card = dedicatedCard(applicant);
+  const api = apiCard(applicant);
+
+  assert.strictEqual(
+    result.eligibility.contextual_eligibility.consequences.reduced_offer.status,
+    'information_needed',
+    'Case 4: contextual reduced-offer status'
+  );
+  assert.strictEqual(result.eligibility.status, 'manual_review', 'Case 4: HYMS eligibility');
+  assert.notStrictEqual(result.eligibility.status, 'not_eligible', 'Case 4: not hard ineligible');
+  assert.strictEqual(result.eligibility.academic_pathway, null, 'Case 4: no active HYMS pathway');
+  assert.strictEqual(result.eligibility.academic_pathway_id, null, 'Case 4: no active pathway id');
+  assert.strictEqual(result.eligibility.epq_alternative_result, undefined, 'Case 4: EPQ route not evaluated');
+  assert.strictEqual(
+    result.eligibility.failures.includes('a_level_requirements_not_met'),
+    false,
+    'Case 4: no blocking A-level failure'
+  );
+  assert.ok(
+    result.eligibility.manual_review_reasons.includes(
+      HYMS_CONTEXTUAL_REDUCED_INFORMATION_NEEDED_REASON
+    ),
+    'Case 4: HYMS contextual information-needed reason'
+  );
+  assert.strictEqual(result.estimated_selection_score.status, 'not_applied');
+  assert.strictEqual(result.canonical_interview_band, 'insufficient_evidence');
+
+  assert.strictEqual(card.eligibility.status, 'manual_review');
+  assert.strictEqual(card.academic_pathway, null);
+  assert.strictEqual(card.academic_pathway_id, null);
+  assert.strictEqual(card.alternative_academic_offer, null);
+  assertPublicPost16(
+    'Case 4 contextual reduced offer information needed',
+    card,
+    [['Contextual reduced offer: AAB', 'information_needed', 'a_level_contextual_reduced_offer']]
+  );
+  assertNoFirmAdvisory('Case 4 contextual reduced offer information needed', card);
+  assert.ok(
+    card.decision_transparency.information_needed_reason.includes(
+      HYMS_CONTEXTUAL_REDUCED_INFORMATION_NEEDED_MESSAGE
+    ),
+    'Case 4: dedicated public information-needed reason'
+  );
+
+  assert.strictEqual(api.recommendation_display_state, 'manual_review');
+  assert.strictEqual(api.academic_pathway, null);
+  assert.strictEqual(api.academic_pathway_id, null);
+  assert.strictEqual(api.alternative_academic_offer, null);
+  assertPublicPost16(
+    'API Case 4 contextual reduced offer information needed',
+    api,
+    [['Contextual reduced offer: AAB', 'information_needed', 'a_level_contextual_reduced_offer']]
+  );
+  assertNoFirmAdvisory('API Case 4 contextual reduced offer information needed', api);
+  assert.ok(
+    api.information_needed_reason.includes(HYMS_CONTEXTUAL_REDUCED_INFORMATION_NEEDED_MESSAGE),
+    'Case 4: API public information-needed reason'
+  );
+  assert.doesNotMatch(JSON.stringify(api), /EPQ Alternative AAB \+ EPQ Grade A/i);
+}
+
+for (const [label, contextual_profile] of [
+  ['AAB only UCAT bursary POLAR4 Q5', contextualProfile({
+    ucatBursaryRecipient: 'yes',
+    polar4Quintile: 'q5'
+  })],
+  ['AAB no contextual qualification', noContextualProfile()]
+]) {
+  const applicant = applicantWith({
+    subjects: [
+      subject('biology', 'A'),
+      subject('chemistry', 'A'),
+      subject('psychology', 'B')
+    ],
+    contextual_profile
+  });
+  const result = evaluate(applicant);
+  assert.notStrictEqual(
+    result.eligibility.academic_pathway,
+    'contextual_reduced_offer',
+    `${label}: no contextual reduced route`
+  );
+  assert.notStrictEqual(
+    result.eligibility.academic_pathway_id,
+    CONTEXTUAL_REDUCED_PATHWAY_ID,
+    `${label}: no contextual reduced pathway id`
+  );
+  assert.strictEqual(result.eligibility.status, 'not_eligible', `${label}: eligibility`);
+  assert.ok(
+    result.eligibility.failures.includes('a_level_requirements_not_met'),
+    `${label}: standard AAB remains insufficient`
+  );
+}
+
+{
+  const applicant = applicantWith({
+    subjects: [
+      subject('biology', 'A'),
+      subject('chemistry', 'A'),
+      subject('psychology', 'B')
+    ],
+    epq: { status: 'not_taken', grade: null },
+    contextual_profile: contextualProfile({
+      ucatBursaryRecipient: 'no',
+      polar4Quintile: 'q2'
+    })
+  });
+  const result = evaluate(applicant);
+  assert.strictEqual(
+    result.eligibility.contextual_eligibility.consequences.reduced_offer.status,
+    'not_eligible',
+    'AAB POLAR4 Q2 UCAT bursary no: no contextual reduced uncertainty'
+  );
+  assert.strictEqual(result.eligibility.status, 'not_eligible');
+  assert.strictEqual(result.eligibility.academic_pathway, null);
+  assert.ok(result.eligibility.failures.includes('a_level_requirements_not_met'));
+}
+
+
+{
+  const applicant = applicantWith({
+    subjects: [
+      subject('biology', 'A'),
+      subject('chemistry', 'A'),
+      subject('psychology', 'B')
+    ],
+    epq: { status: 'not_taken', grade: null },
+    contextual_profile: merge(noContextualProfile(), {
+      access_programmes: {
+        participation_status: 'yes',
+        ukwpmed: {
+          status: 'yes',
+          programme_id: 'birmingham_pathways_to_birmingham_medicine',
+          programme_status: 'completed',
+          provider_university_id: 'birmingham-a100',
+          completion_year: 2026
+        },
+        other_programmes: []
+      }
+    })
+  });
+
+  const result = evaluate(applicant);
+  const card = dedicatedCard(applicant);
+  const api = apiCard(applicant);
+
+  assert.strictEqual(
+    result.eligibility.contextual_eligibility.consequences.alternative_wp_offer.status,
+    'eligible',
+    'Case 6: HYMS alternative WP consequence'
+  );
+  assert.strictEqual(result.eligibility.status, 'eligible', 'Case 6: academic eligibility');
+  assert.strictEqual(result.eligibility.academic_pathway, 'alternative_wp_offer');
+  assert.strictEqual(
+    result.eligibility.academic_pathway_id,
+    'hyms_alternative_wp_a_level_abb'
+  );
+  assert.strictEqual(
+    result.eligibility.failures.includes('a_level_requirements_not_met'),
+    false
+  );
+  assert.deepStrictEqual(
+    result.eligibility.future_conditions,
+    ['hyms_alternative_wp_offer_firm_choice_required']
+  );
+
+  assert.strictEqual(card.eligibility.status, 'eligible');
+  assert.strictEqual(card.academic_pathway, 'alternative_wp_offer');
+  assert.strictEqual(
+    card.academic_pathway_id,
+    'hyms_alternative_wp_a_level_abb'
+  );
+  assert.deepStrictEqual(
+    card.future_conditions,
+    ['hyms_alternative_wp_offer_firm_choice_required']
+  );
+  assert.ok(
+    (card.future_condition_advisories || []).some((message) =>
+      message.includes('alternative ABB widening-participation offer')
+    ),
+    'Case 6: HYMS ABB firm-choice advisory'
+  );
+
+  assert.strictEqual(api.academic_pathway, 'alternative_wp_offer');
+  assert.strictEqual(
+    api.academic_pathway_id,
+    'hyms_alternative_wp_a_level_abb'
+  );
+  assert.notStrictEqual(api.recommendation_display_state, 'not_eligible');
+  assert.doesNotMatch(JSON.stringify(api), /A-level requirements not met/i);
+}
+
+assertAcademicScenario({
+  label: 'AAA non-contextual standard protection',
+  applicant: applicantWith(),
+  expectedStatus: 'eligible',
+  expectedPathway: 'standard',
+  expectedPathwayId: STANDARD_A_LEVEL_PATHWAY_ID
+});
+
+assertAcademicScenario({
+  label: 'AAA unresolved contextual evidence standard protection',
+  applicant: applicantWith({
+    contextual_profile: contextualProfile({
+      ucatBursaryRecipient: 'not_sure',
+      polar4Quintile: 'q2'
+    }),
+    epq: { status: 'not_taken', grade: null }
+  }),
+  expectedStatus: 'eligible',
+  expectedPathway: 'standard',
+  expectedPathwayId: STANDARD_A_LEVEL_PATHWAY_ID
+});
+
+{
+  const applicant = applicantWith({
+    subjects: [
+      subject('biology', 'A'),
+      subject('chemistry', 'A'),
+      subject('psychology', 'B')
+    ],
+    contextual_profile: contextualProfile({
+      ucatBursaryRecipient: 'yes',
+      polar4Quintile: 'q2'
+    }),
+    epq: { status: 'achieved', grade: 'A' }
+  });
+  const result = evaluate(applicant);
+  const card = dedicatedCard(applicant);
+  assert.strictEqual(result.eligibility.academic_pathway, 'contextual_reduced_offer');
+  assert.strictEqual(result.eligibility.academic_pathway_id, CONTEXTUAL_REDUCED_PATHWAY_ID);
+  assert.strictEqual(result.eligibility.epq_alternative_result, undefined);
+  assertPublicPost16(
+    'AAB contextual reduced offer takes precedence over EPQ',
+    card,
+    [['Contextual reduced offer: AAB', 'met', 'a_level_contextual_reduced_offer']]
+  );
+}
 
 for (const [label, epq] of [
   ['AAB EPQ A', { status: 'achieved', grade: 'A' }],
@@ -484,33 +878,51 @@ assertAcademicScenario({
   expectedManualReviewReason: 'a_level_resit_evidence_missing'
 });
 
-assertAcademicScenario({
-  label: 'AAB EPQ not taken',
-  applicant: applicantWith({
+{
+  const applicant = applicantWith({
     subjects: [
       subject('biology', 'A'),
       subject('chemistry', 'A'),
       subject('history', 'B')
     ],
     epq: { status: 'not_taken', grade: null }
-  }),
-  expectedStatus: 'not_eligible',
-  expectedPathway: null,
-  expectedPathwayId: null,
-  expectedFailure: 'a_level_requirements_not_met'
-});
-assertPublicPost16(
-  'AAB EPQ not taken',
-  dedicatedCard(applicantWith({
-    subjects: [
-      subject('biology', 'A'),
-      subject('chemistry', 'A'),
-      subject('history', 'B')
-    ],
-    epq: { status: 'not_taken', grade: null }
-  })),
-  [['A-level grades', 'not_met', 'a_level_standard_offer']]
-);
+  });
+
+  assertAcademicScenario({
+    label: 'AAB EPQ not taken',
+    applicant,
+    expectedStatus: 'not_eligible',
+    expectedPathway: null,
+    expectedPathwayId: null,
+    expectedFailure: 'a_level_requirements_not_met'
+  });
+
+  const result = evaluate(applicant);
+  const card = dedicatedCard(applicant);
+  const api = apiCard(applicant);
+
+  assert.strictEqual(result.eligibility.status, 'not_eligible');
+  assert.strictEqual(result.eligibility.academic_pathway, null);
+  assert.strictEqual(result.eligibility.academic_pathway_id, null);
+  assert.ok(result.eligibility.failures.includes('a_level_requirements_not_met'));
+  assert.strictEqual(result.eligibility.epq_alternative_result.status, 'not_applicable');
+  assert.ok(result.eligibility.epq_alternative_result.reasons.includes('epq_not_taken'));
+  assert.strictEqual(card.alternative_academic_offer, null);
+  assertPublicPost16(
+    'AAB EPQ not taken',
+    card,
+    [['A-level grades', 'not_met', 'a_level_standard_offer']]
+  );
+  assertNoFirmAdvisory('AAB EPQ not taken', card);
+
+  assert.strictEqual(api.alternative_academic_offer, null);
+  assertPublicPost16(
+    'API AAB EPQ not taken',
+    api,
+    [['A-level grades', 'not_met', 'a_level_standard_offer']]
+  );
+  assertNoFirmAdvisory('API AAB EPQ not taken', api);
+}
 
 assertAcademicScenario({
   label: 'Legacy profile without EPQ',

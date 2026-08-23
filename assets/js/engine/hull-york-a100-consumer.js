@@ -55,6 +55,11 @@ const APPLYSMART_HYMS_ANALYSIS_DISCLOSURE =
 const APPLYSMART_HYMS_SELECTION_SUMMARY =
   'ApplySmart combines HYMS published admissions information with historical admissions evidence to assess interview competitiveness for this applicant group.';
 const HYMS_STANDARD_A_LEVEL_PATHWAY_ID = 'standard_AAA_biology_chemistry';
+const HYMS_CONTEXTUAL_REDUCED_A_LEVEL_PATHWAY_ID = 'hyms_contextual_reduced_AAB';
+const HYMS_CONTEXTUAL_REDUCED_FIRM_CHOICE_CONDITION =
+  'hyms_contextual_reduced_offer_firm_choice_required';
+const HYMS_CONTEXTUAL_REDUCED_INFORMATION_NEEDED_REASON =
+  'hyms_contextual_reduced_offer_information_needed';
 const HYMS_LEGACY_CONTEXTUAL_GROUP_IDS = [
   'contextual',
   'widening_participation',
@@ -331,6 +336,52 @@ function aLevelSubjectEvidence(applicant) {
   };
 }
 
+function contextualReducedOfferEligible(contextualEligibility) {
+  return contextualEligibility?.consequences?.reduced_offer?.status === 'eligible';
+}
+
+function contextualReducedOfferInformationNeeded(contextualEligibility) {
+  return contextualEligibility?.consequences?.reduced_offer?.status === 'information_needed';
+}
+
+function contextualReducedOfferFutureConditions(contextualEligibility) {
+  return contextualEligibility?.consequences?.reduced_offer?.firm_choice_condition === true
+    ? [HYMS_CONTEXTUAL_REDUCED_FIRM_CHOICE_CONDITION]
+    : [];
+}
+
+function contextualReducedAlevelAssessment(evidence, excludedPassed) {
+  const gradeProfilePassed = gradeProfileMeets(
+    evidence.grades,
+    ['A', 'A', 'B'],
+    A_LEVEL_GRADE_RANK
+  );
+  const biologyPassed = gradeMeets(
+    evidence.subjects.biology ?? evidence.subjects.human_biology,
+    'B',
+    A_LEVEL_GRADE_RANK
+  );
+  const chemistryPassed = gradeMeets(
+    evidence.subjects.chemistry,
+    'B',
+    A_LEVEL_GRADE_RANK
+  );
+
+  return {
+    grade_profile_met: gradeProfilePassed,
+    biology_met: biologyPassed,
+    chemistry_met: chemistryPassed,
+    one_sitting_met: evidence.one_sitting,
+    excluded_subjects_present: evidence.excluded_present,
+    passed:
+      gradeProfilePassed &&
+      biologyPassed &&
+      chemistryPassed &&
+      excludedPassed &&
+      evidence.one_sitting
+  };
+}
+
 function evaluateALevel(course, applicant, state) {
   const policy = course.stage_1_eligibility?.post_16?.a_level?.epq_alternative_offer;
   const evidence = aLevelSubjectEvidence(applicant);
@@ -370,6 +421,99 @@ function evaluateALevel(course, applicant, state) {
     state.academic_pathway = 'standard';
     state.academic_pathway_id = HYMS_STANDARD_A_LEVEL_PATHWAY_ID;
     return;
+  }
+
+  if (contextualReducedOfferEligible(state.contextual_eligibility)) {
+    const contextual = contextualReducedAlevelAssessment(evidence, excludedPassed);
+
+    addCheck(state, 'a_level_contextual_reduced_offer', contextual.passed, {
+      academic_pathway: 'contextual_reduced_offer',
+      pathway_id: HYMS_CONTEXTUAL_REDUCED_A_LEVEL_PATHWAY_ID,
+      grade_profile_met: contextual.grade_profile_met,
+      biology_met: contextual.biology_met,
+      chemistry_met: contextual.chemistry_met,
+      one_sitting_met: contextual.one_sitting_met,
+      excluded_subjects_present: contextual.excluded_subjects_present,
+      future_conditions: contextual.passed
+        ? contextualReducedOfferFutureConditions(state.contextual_eligibility)
+        : []
+    });
+
+    if (contextual.passed) {
+      state.academic_pathway = 'contextual_reduced_offer';
+      state.academic_pathway_id = HYMS_CONTEXTUAL_REDUCED_A_LEVEL_PATHWAY_ID;
+      state.future_conditions = contextualReducedOfferFutureConditions(
+        state.contextual_eligibility
+      );
+      return;
+    }
+  }
+
+  if (
+    state.contextual_eligibility?.consequences?.alternative_wp_offer?.status === 'eligible'
+  ) {
+    const alternativeWpGradeProfilePassed = gradeProfileMeets(
+      evidence.grades,
+      ['A', 'B', 'B'],
+      A_LEVEL_GRADE_RANK
+    );
+    const alternativeWpBiologyPassed = gradeMeets(
+      evidence.subjects.biology ?? evidence.subjects.human_biology,
+      'B',
+      A_LEVEL_GRADE_RANK
+    );
+    const alternativeWpChemistryPassed = gradeMeets(
+      evidence.subjects.chemistry,
+      'B',
+      A_LEVEL_GRADE_RANK
+    );
+    const alternativeWpPassed =
+      alternativeWpGradeProfilePassed &&
+      alternativeWpBiologyPassed &&
+      alternativeWpChemistryPassed &&
+      excludedPassed &&
+      evidence.one_sitting;
+
+    addCheck(state, 'a_level_alternative_wp_offer', alternativeWpPassed, {
+      academic_pathway: 'alternative_wp_offer',
+      grade_profile_met: alternativeWpGradeProfilePassed,
+      biology_met: alternativeWpBiologyPassed,
+      chemistry_met: alternativeWpChemistryPassed,
+      one_sitting_met: evidence.one_sitting,
+      excluded_subjects_present: evidence.excluded_present,
+      firm_choice_condition: true
+    });
+
+    if (alternativeWpPassed) {
+      state.academic_pathway = 'alternative_wp_offer';
+      state.academic_pathway_id = 'hyms_alternative_wp_a_level_abb';
+      state.future_conditions = [
+        'hyms_alternative_wp_offer_firm_choice_required'
+      ];
+      return;
+    }
+  }
+
+  if (contextualReducedOfferInformationNeeded(state.contextual_eligibility)) {
+    const contextual = contextualReducedAlevelAssessment(evidence, excludedPassed);
+
+    if (contextual.passed) {
+      addCheck(state, 'a_level_contextual_reduced_offer', false, {
+        status: 'information_needed',
+        academic_pathway: 'contextual_reduced_offer',
+        pathway_id: HYMS_CONTEXTUAL_REDUCED_A_LEVEL_PATHWAY_ID,
+        grade_profile_met: contextual.grade_profile_met,
+        biology_met: contextual.biology_met,
+        chemistry_met: contextual.chemistry_met,
+        one_sitting_met: contextual.one_sitting_met,
+        excluded_subjects_present: contextual.excluded_subjects_present,
+        manual_review_reason: HYMS_CONTEXTUAL_REDUCED_INFORMATION_NEEDED_REASON
+      });
+      state.academic_pathway = null;
+      state.academic_pathway_id = null;
+      addManualReview(state, HYMS_CONTEXTUAL_REDUCED_INFORMATION_NEEDED_REASON);
+      return;
+    }
   }
 
   if (policy?.enabled === true) {
@@ -674,7 +818,10 @@ function evaluateOfficialEligibility(course, applicantInput) {
     checks: [],
     failures: [],
     manual_review_reasons: [],
-    future_conditions: []
+    future_conditions: [],
+    contextual_eligibility: evaluateContextualEligibility(course, applicant, {
+      evaluators: DEFAULT_CONTEXTUAL_ELIGIBILITY_EVALUATORS
+    })
   };
 
   if (!flags.graduate) {
@@ -1007,9 +1154,6 @@ function evaluateHullYorkA100(course, config, applicantInput, options = {}) {
 
   const applicant = normaliseApplicantProfile(applicantInput, { course });
   const eligibility = evaluateOfficialEligibility(course, applicant);
-  eligibility.contextual_eligibility = evaluateContextualEligibility(course, applicant, {
-    evaluators: DEFAULT_CONTEXTUAL_ELIGIBILITY_EVALUATORS
-  });
   eligibility.applicant_group_ids = canonicalHymsApplicantGroupIds(
     eligibility.applicant_group_ids,
     eligibility.contextual_eligibility
@@ -1116,12 +1260,22 @@ function buildHullYorkA100ResultCard(course, config, applicant, options = {}) {
     evaluation.eligibility.checks,
     evaluation.eligibility.status,
     {
+      course_profile_id: course.profile_id,
       academic_pathway: evaluation.eligibility.academic_pathway || null,
       academic_pathway_id: evaluation.eligibility.academic_pathway_id ?? null,
+      manual_review_reasons: evaluation.eligibility.manual_review_reasons,
       has_epq_alternative_offer:
         course.stage_1_eligibility?.post_16?.a_level?.epq_alternative_offer?.enabled === true
     }
   );
+  const academicOfferContext = {
+    academic_pathway: evaluation.eligibility.academic_pathway || null,
+    academic_pathway_id: evaluation.eligibility.academic_pathway_id ?? null,
+    course_profile_id: course.profile_id,
+    eligibility_status: evaluation.eligibility.status,
+    manual_review_reasons: evaluation.eligibility.manual_review_reasons,
+    epq_alternative_result: evaluation.eligibility.epq_alternative_result || null
+  };
   const card = {
     schema_version: '1.0.0',
     template_version: '0.1.0',
@@ -1157,11 +1311,15 @@ function buildHullYorkA100ResultCard(course, config, applicant, options = {}) {
       academic_pathway: evaluation.eligibility.academic_pathway || null,
       academic_pathway_id: evaluation.eligibility.academic_pathway_id ?? null,
       future_conditions: futureConditions,
+      epq_alternative_result: evaluation.eligibility.epq_alternative_result || null,
       contextual_eligibility: evaluation.eligibility.contextual_eligibility || null
     },
     academic_pathway: evaluation.eligibility.academic_pathway || null,
     academic_pathway_id: evaluation.eligibility.academic_pathway_id ?? null,
-    alternative_academic_offer: buildAlternativeAcademicOffer(course.stage_1_eligibility),
+    alternative_academic_offer: buildAlternativeAcademicOffer(
+      course.stage_1_eligibility,
+      academicOfferContext
+    ),
     future_conditions: futureConditions,
     future_condition_advisories: futureAdvisories,
     academic_requirement_checks: academicRequirementChecks,

@@ -703,6 +703,15 @@ function academicRequirementLabelForCheck(rawCheck, qualificationType, context =
   if (checkId === 'a_level_contextual_offer') {
     return 'Contextual A-level grades';
   }
+  if (checkId === 'a_level_contextual_reduced_offer') {
+    return 'Contextual reduced offer: AAB';
+  }
+  if (
+    checkId === 'a_level_alternative_wp_offer' &&
+    context.course_profile_id === 'hull-york-a100'
+  ) {
+    return 'Alternative widening-participation offer: ABB';
+  }
   const evaluatedRequirementIds = [
     ...(rawCheck?.evaluated_requirement_ids || []),
     ...(rawCheck?.failed_requirement_ids || [])
@@ -791,6 +800,9 @@ function academicRequirementReasonForCheck(rawCheck, status, context = {}) {
     if (checkId === 'epq_alternative_offer') {
       return 'The accepted EPQ alternative academic pathway is met.';
     }
+    if (checkId === 'a_level_contextual_reduced_offer') {
+      return 'The contextual reduced AAB academic pathway is met.';
+    }
     return 'This requirement is met.';
   }
 
@@ -839,6 +851,9 @@ function academicRequirementReasonForCheck(rawCheck, status, context = {}) {
   }
   if (checkId === 'epq_alternative_offer') {
     return 'The EPQ alternative academic pathway is not met.';
+  }
+  if (checkId === 'a_level_contextual_reduced_offer') {
+    return 'The contextual reduced AAB academic pathway is not met.';
   }
   if (checkId === 'a_level_route' || checkId.includes('a_level')) {
     return 'Predicted A-level grades are below the required grades.';
@@ -959,6 +974,27 @@ function shouldSuppressPublicAcademicRequirementCheck(rawCheck, status, context 
     context.has_epq_alternative_offer === true &&
     ['a_level_standard_offer', 'standard_offer'].includes(checkId)
   ) {
+    if (
+      context.course_profile_id === 'hull-york-a100' &&
+      context.academic_pathway === 'contextual_reduced_offer' &&
+      normaliseCheckId(context.eligibilityStatus) === 'eligible'
+    ) {
+      return true;
+    }
+    if (
+      context.course_profile_id === 'hull-york-a100' &&
+      context.academic_pathway === 'alternative_wp_offer' &&
+      normaliseCheckId(context.eligibilityStatus) === 'eligible'
+    ) {
+      return true;
+    }
+    if (
+      context.course_profile_id === 'hull-york-a100' &&
+      context.contextual_reduced_public_status === 'information_needed' &&
+      normaliseCheckId(context.eligibilityStatus) === 'manual_review'
+    ) {
+      return true;
+    }
     return context.academic_pathway === 'epq_alternative' ||
       epqAlternativePublicStatus === 'information_needed' ||
       (
@@ -1417,7 +1453,140 @@ function buildEpqAcademicOffer(stage1Eligibility = null) {
   };
 }
 
+function buildHullYorkAlternativeWpAcademicOffer(context = {}) {
+  const profileId = String(
+    context.course_profile_id ||
+    context.course_identity?.profile_id ||
+    context.profile_id ||
+    ''
+  ).trim();
+
+  const academicPathway = normaliseCheckId(context.academic_pathway);
+  const academicPathwayId = normaliseCheckId(context.academic_pathway_id);
+
+  if (
+    profileId !== 'hull-york-a100' ||
+    (
+      academicPathway !== 'alternative_wp_offer' &&
+      academicPathwayId !== 'hyms_alternative_wp_a_level_abb'
+    )
+  ) {
+    return null;
+  }
+
+  return {
+    type: 'contextual',
+    standard_offer: 'AAA',
+    alternative_offer: 'ABB',
+    standard_offer_label: 'Standard offer',
+    alternative_offer_label: 'Alternative widening-participation offer',
+    applicable_offer: 'Alternative widening-participation offer: ABB',
+    pathway_id: 'hyms_alternative_wp_a_level_abb',
+    conditions: [
+      'Biology and Chemistry must both be at least grade B',
+      'A-levels must be taken in one sitting',
+      'Successful completion of a recognised HYMS widening-participation programme is required',
+      'Alternative offer applies only when Hull York Medical School is the firm UCAS choice'
+    ],
+    explanation:
+      'HYMS alternative ABB widening-participation offer applies when the recognised programme requirements are met and Hull York Medical School is accepted as the firm UCAS choice.'
+  };
+}
+
+function buildHullYorkContextualReducedAcademicOffer(context = {}) {
+  const profileId = String(
+    context.course_profile_id ||
+    context.course_identity?.profile_id ||
+    context.profile_id ||
+    ''
+  ).trim();
+  const academicPathway = normaliseCheckId(context.academic_pathway);
+  const academicPathwayId = normaliseCheckId(context.academic_pathway_id);
+
+  if (
+    profileId !== 'hull-york-a100' ||
+    (
+      academicPathway !== 'contextual_reduced_offer' &&
+      academicPathwayId !== 'hyms_contextual_reduced_aab'
+    )
+  ) {
+    return null;
+  }
+
+  return {
+    type: 'contextual',
+    standard_offer: 'AAA',
+    alternative_offer: 'AAB',
+    standard_offer_label: 'Standard offer',
+    alternative_offer_label: 'Contextual reduced offer',
+    applicable_offer: 'Contextual reduced offer: AAB',
+    pathway_id: 'hyms_contextual_reduced_AAB',
+    conditions: ['firm_choice_required'],
+    explanation:
+      'HYMS reduced AAB offer applies only when the contextual route is met and Hull York Medical School is accepted as the firm UCAS choice.'
+  };
+}
+
+function shouldSuppressHullYorkInactiveEpqOffer(context = {}) {
+  const profileId = String(
+    context.course_profile_id ||
+    context.course_identity?.profile_id ||
+    context.profile_id ||
+    ''
+  ).trim();
+  const eligibilityStatus = normaliseCheckId(
+    context.eligibility_status ||
+    context.eligibility?.status ||
+    ''
+  );
+  const epqAlternative = context.epq_alternative_result ||
+    context.eligibility?.epq_alternative_result ||
+    null;
+  const manualReviewReasons = [
+    ...(Array.isArray(context.manual_review_reasons)
+      ? context.manual_review_reasons
+      : []),
+    ...(Array.isArray(context.eligibility?.manual_review_reasons)
+      ? context.eligibility.manual_review_reasons
+      : [])
+  ].map(normaliseCheckId);
+  const contextualReducedInformationNeeded =
+    manualReviewReasons.includes('hyms_contextual_reduced_offer_information_needed');
+
+  if (
+    profileId === 'hull-york-a100' &&
+    eligibilityStatus === 'manual_review' &&
+    !normaliseCheckId(context.academic_pathway) &&
+    !normaliseCheckId(context.academic_pathway_id) &&
+    contextualReducedInformationNeeded
+  ) {
+    return true;
+  }
+
+  return profileId === 'hull-york-a100' &&
+    eligibilityStatus === 'not_eligible' &&
+    !normaliseCheckId(context.academic_pathway) &&
+    !normaliseCheckId(context.academic_pathway_id) &&
+    normaliseCheckId(epqAlternative?.status) === 'not_applicable' &&
+    (epqAlternative?.reasons || []).includes('epq_not_taken');
+}
+
 function buildAlternativeAcademicOffer(stage1Eligibility = null, context = {}) {
+  const hullYorkAlternativeWpOffer =
+    buildHullYorkAlternativeWpAcademicOffer(context);
+  if (hullYorkAlternativeWpOffer) {
+    return hullYorkAlternativeWpOffer;
+  }
+
+  const hullYorkContextualReducedOffer =
+    buildHullYorkContextualReducedAcademicOffer(context);
+  if (hullYorkContextualReducedOffer) {
+    return hullYorkContextualReducedOffer;
+  }
+  if (shouldSuppressHullYorkInactiveEpqOffer(context)) {
+    return null;
+  }
+
   const matchedRoute = matchedAcademicOfferRoute(stage1Eligibility, context);
   const plymouthContextualOffer = buildPlymouthContextualAcademicOffer(stage1Eligibility, context);
   if (plymouthContextualOffer) {
@@ -1509,6 +1678,9 @@ function buildAcademicRequirementChecks(rawChecks = [], eligibilityStatus = null
   const rows = [];
   const seen = new Map();
   const epqCheck = epqAlternativeCheck(rawChecks);
+  const contextualReducedCheck = (rawChecks || []).find((rawCheck) => {
+    return academicRequirementCheckId(rawCheck) === 'a_level_contextual_reduced_offer';
+  }) || null;
   const buildContext = {
     ...context,
     eligibilityStatus,
@@ -1520,6 +1692,9 @@ function buildAcademicRequirementChecks(rawChecks = [], eligibilityStatus = null
     epq_alternative_status: epqCheck?.epq_status || epqCheck?.status || null,
     epq_alternative_public_status: epqCheck
       ? academicRequirementStatusForCheck(epqCheck, eligibilityStatus)
+      : null,
+    contextual_reduced_public_status: contextualReducedCheck
+      ? academicRequirementStatusForCheck(contextualReducedCheck, eligibilityStatus)
       : null
   };
 
@@ -1658,6 +1833,7 @@ const FAILURE_REASON_LABELS = {
   aberdeen_contextual_information_needed: 'Further evidence or review is needed to determine whether Aberdeen widening-access eligibility applies.',
   aberdeen_reach_program_scotland_information_needed: ABERDEEN_REACH_CONTEXTUAL_REVIEW_REASON,
   southampton_contextual_information_needed: 'More information is needed to confirm whether Southampton’s contextual AAB route applies.',
+  hyms_contextual_reduced_offer_information_needed: 'More information is needed to confirm whether you qualify for HYMS’s contextual reduced AAB offer. You currently meet one ordinary contextual criterion, but another contextual criterion still needs confirmation.',
   st_andrews_contextual_evidence_needs_review: 'More St Andrews contextual evidence is needed to confirm whether the Medicine minimum-entry route applies.',
   st_andrews_s5_same_sitting_school_exception_requires_review: 'St Andrews needs review because your S5 Highers were not all taken in one sitting and the school-availability exception must be confirmed.',
   bristol_contextual_imd_postcode_evidence_required: 'More information is needed to verify Bristol IMD eligibility from postcode-derived evidence.',
@@ -1678,6 +1854,12 @@ function futureConditionAdvisories(futureConditions = [], options = {}) {
   const universityName = options.universityName || 'this university';
   return [...new Set(futureConditions || [])]
     .map((condition) => {
+      if (condition === 'hyms_contextual_reduced_offer_firm_choice_required') {
+        return 'HYMS states that the reduced AAB offer is only available to applicants who firmly accept their offer of a place at Hull York Medical School. If HYMS is your insurance choice, the standard AAA offer applies.';
+      }
+      if (condition === 'hyms_alternative_wp_offer_firm_choice_required') {
+        return 'HYMS states that the alternative ABB widening-participation offer is only available to applicants who firmly accept their offer of a place at Hull York Medical School. If HYMS is your insurance choice, the standard AAA offer applies.';
+      }
       if (condition === 'firm_choice_required') {
         return `This reduced EPQ offer applies only if ${universityName} is accepted as your firm UCAS choice.`;
       }
@@ -5702,6 +5884,28 @@ function publicInformationNeededReason({
         `More information is needed to confirm whether you qualify for Bristol’s contextual offer.${suffix}`
       );
     }
+    if (
+      profileId === 'hull-york-a100' &&
+      hasManualReviewReason(card, 'hyms_contextual_reduced_offer_information_needed')
+    ) {
+      const missing = missingInformationEntries(
+        missingInformation,
+        card.missing_information,
+        card.decision_transparency?.missing_information,
+        contextual?.missing_information
+      );
+      const labels = [...new Set(
+        missing
+          .map((entry) => String(entry?.label || entry?.criterion_id || '').trim())
+          .filter(Boolean)
+      )];
+      const unresolvedText = labels.length > 0
+        ? ` Please confirm: ${labels.join(', ')}.`
+        : ' Another contextual criterion still needs confirmation.';
+      return appendNotARejection(
+        `More information is needed to confirm whether you qualify for HYMS’s contextual reduced AAB offer. You currently meet one ordinary contextual criterion.${unresolvedText}`
+      );
+    }
     return appendNotARejection(
       firstNonEmptyString(
         card.decision_transparency?.manual_review_reason,
@@ -5980,7 +6184,10 @@ function buildDecisionTransparency(card, options = {}) {
     academic_pathway: card.academic_pathway || card.eligibility?.academic_pathway || null,
     academic_pathway_id: card.academic_pathway_id || card.eligibility?.academic_pathway_id || null,
     selection_route_id: card.selection_route_id || card.eligibility?.selection_route_id || null,
-    course_profile_id: card.course_identity?.profile_id || card.course_profile_id || null
+    course_profile_id: card.course_identity?.profile_id || card.course_profile_id || null,
+    eligibility_status: card.eligibility?.status || card.eligibility_status || null,
+    manual_review_reasons: card.eligibility?.manual_review_reasons || card.manual_review_reasons || [],
+    epq_alternative_result: card.eligibility?.epq_alternative_result || null
   });
   const contextualRouteSummaryText = contextualOfferRouteSummary(card, contextualOffer);
   const guaranteedInterview = options.interviewOutcome === 'guaranteed_interview';
@@ -6263,7 +6470,14 @@ function presentResultCard({
         transparencyContext.contextual_eligibility?.matched_contextual_pathway ||
         null,
       selection_route_id: transparencyContext.selection_route_id || null,
-      course_profile_id: transparencyContext.course_identity?.profile_id || null
+      course_profile_id: transparencyContext.course_identity?.profile_id || null,
+      eligibility_status: eligibilityStatus,
+      manual_review_reasons:
+        transparencyContext.eligibility?.manual_review_reasons ||
+        transparencyContext.manual_review_reasons ||
+        [],
+      epq_alternative_result:
+        transparencyContext.eligibility?.epq_alternative_result || null
     }
   );
   const contextualRouteSummary = contextualOfferRouteSummary(transparencyContext, activeAlternativeAcademicOffer);
@@ -6612,8 +6826,11 @@ function presentResultCard({
   const contextualConfirmation = contextualConfirmationFor(transparencyContext, contextualStatus, {
     guaranteedInterview
   });
+  const hymsContextualReducedRoute =
+    transparencyContext.course_identity?.profile_id === 'hull-york-a100' &&
+    academicPathway === 'contextual_reduced_offer';
   const futureConditionsArePublic =
-    academicPathway === 'epq_alternative' &&
+    (academicPathway === 'epq_alternative' || hymsContextualReducedRoute) &&
     ['eligible', 'met'].includes(normaliseCheckId(eligibilityStatus));
   const futureConditions = [
     ...(futureConditionsArePublic && Array.isArray(transparencyContext.future_conditions)

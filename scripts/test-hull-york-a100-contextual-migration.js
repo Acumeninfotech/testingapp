@@ -130,6 +130,35 @@ function assertConsequence(contextualResult, key, status, label) {
   );
 }
 
+function hasEligibilityCheck(result, checkId) {
+  return result.eligibility.checks.some((check) => check.id === checkId);
+}
+
+function completedOtherProgrammeResult(programmeId) {
+  return contextual(applicantWith({
+    admissions_tests: {
+      ucat: {
+        total_score: 2800,
+        national_decile: 9,
+        sjt_band: 2,
+        test_year: 2026
+      }
+    },
+    contextual_profile: merge(noContextualProfile(), {
+      access_programmes: {
+        participation_status: 'yes',
+        other_programmes: [
+          {
+            programme_id: programmeId,
+            status: 'completed',
+            completion_year: 2026
+          }
+        ]
+      }
+    })
+  }));
+}
+
 const twoOrdinary = contextual(applicantWith({
   contextual_profile: merge(noContextualProfile(), {
     home_area_region: { polar4_quintile: 'q1' },
@@ -168,16 +197,20 @@ assert.strictEqual(legacyOnly.estimated_selection_score.contextual.points, 0);
 assert.strictEqual(legacyOnly.eligibility.applicant_group_ids.includes('contextual'), false);
 assert.strictEqual(legacyOnly.eligibility.applicant_group_ids.includes('care_experienced'), false);
 
-const oneOrdinaryUnknownSecond = contextual(applicantWith({
+const oneOrdinaryNotSureSecond = contextual(applicantWith({
   contextual_profile: merge(noContextualProfile(), {
-    home_area_region: { polar4_quintile: 'unknown' },
-    financial_support: { ucat_bursary_recipient: 'yes' }
+    home_area_region: { polar4_quintile: 'q2' },
+    personal_circumstances: {
+      first_in_family_at_university: 'not_sure'
+    }
   })
 }));
-assert.strictEqual(oneOrdinaryUnknownSecond.status, 'information_needed');
+
+assert.strictEqual(oneOrdinaryNotSureSecond.status, 'information_needed');
+
 assert.ok(
-  oneOrdinaryUnknownSecond.missing_information.some((entry) =>
-    entry.criterion_id === 'polar4_quintile_2' ||
+  oneOrdinaryNotSureSecond.missing_information.some((entry) =>
+    entry.criterion_id === 'first_generation_higher_education' ||
     entry.reason === 'hyms_second_ordinary_marker_evidence_required'
   )
 );
@@ -297,22 +330,33 @@ for (const [label, overrides, exclusion] of [
   assert.ok(result.exclusions.includes(exclusion), `${label}: exclusion`);
 }
 
-const yorkExperience = contextual(applicantWith({
-  contextual_profile: merge(noContextualProfile(), {
-    access_programmes: {
-      participation_status: 'yes',
-      other_programmes: [
-        {
-          programme_id: 'york_experience_summer_school',
-          status: 'completed',
-          completion_year: 2026
-        }
-      ]
-    }
-  })
-}));
+const yorkExperience = completedOtherProgrammeResult('york_experience_summer_school');
 assert.strictEqual(yorkExperience.status, 'contextual');
 assertConsequence(yorkExperience, 'reduced_offer', 'eligible', 'York Experience');
+assertConsequence(yorkExperience, 'alternative_wp_offer', 'not_eligible', 'York Experience');
+assertConsequence(yorkExperience, 'fast_track', 'eligible', 'York Experience');
+assert.strictEqual(yorkExperience.consequences.fast_track.required_decile, 4);
+
+const yorkBlackAccess = completedOtherProgrammeResult('york_black_access');
+assert.strictEqual(yorkBlackAccess.status, 'not_contextual');
+assertConsequence(yorkBlackAccess, 'reduced_offer', 'not_eligible', 'York Black Access');
+assertConsequence(yorkBlackAccess, 'alternative_wp_offer', 'not_eligible', 'York Black Access');
+assertConsequence(yorkBlackAccess, 'fast_track', 'eligible', 'York Black Access');
+assert.strictEqual(yorkBlackAccess.consequences.fast_track.required_decile, 4);
+
+const nextStepYork = completedOtherProgrammeResult('next_step_york');
+assert.strictEqual(nextStepYork.status, 'not_contextual');
+assertConsequence(nextStepYork, 'reduced_offer', 'not_eligible', 'Next Step York');
+assertConsequence(nextStepYork, 'alternative_wp_offer', 'not_eligible', 'Next Step York');
+assertConsequence(nextStepYork, 'fast_track', 'eligible', 'Next Step York');
+assert.strictEqual(nextStepYork.consequences.fast_track.required_decile, 4);
+
+const realisingOpportunities = completedOtherProgrammeResult('realising_opportunities');
+assert.strictEqual(realisingOpportunities.status, 'not_contextual');
+assertConsequence(realisingOpportunities, 'reduced_offer', 'not_eligible', 'Realising Opportunities');
+assertConsequence(realisingOpportunities, 'alternative_wp_offer', 'not_eligible', 'Realising Opportunities');
+assertConsequence(realisingOpportunities, 'fast_track', 'eligible', 'Realising Opportunities');
+assert.strictEqual(realisingOpportunities.consequences.fast_track.required_decile, 5);
 
 const missingFastTrackDecile = contextual(applicantWith({
   admissions_tests: { ucat: { total_score: null, sjt_band: 2, test_year: 2026 } },
@@ -323,6 +367,7 @@ const missingFastTrackDecile = contextual(applicantWith({
 assert.strictEqual(missingFastTrackDecile.consequences.fast_track.status, 'information_needed');
 
 const ibApplicant = applicantWith({
+  qualification_route: 'international_baccalaureate',
   ib_profile: {
     total_points: 36,
     higher_level_subjects: [
@@ -334,14 +379,38 @@ const ibApplicant = applicantWith({
       { subject_id: 'english_language', grade: 5 },
       { subject_id: 'mathematics', grade: 5 }
     ]
-  },
+  }
+});
+delete ibApplicant.a_level_profile;
+const ibStandard = evaluate(ibApplicant);
+assert.strictEqual(ibStandard.eligibility.qualification_route, 'international_baccalaureate');
+assert.strictEqual(ibStandard.eligibility.status, 'eligible');
+
+const ibContextualApplicant = merge(ibApplicant, {
   contextual_profile: merge(noContextualProfile(), {
     personal_circumstances: { refugee: 'yes' }
   })
 });
-delete ibApplicant.a_level_profile;
-const ibContextual = contextual(ibApplicant);
+const ibContextualEvaluation = evaluate(ibContextualApplicant);
+assert.strictEqual(
+  ibContextualEvaluation.eligibility.qualification_route,
+  'international_baccalaureate'
+);
+assert.strictEqual(ibContextualEvaluation.eligibility.status, 'eligible');
+assert.strictEqual(ibContextualEvaluation.eligibility.academic_pathway || null, null);
+assert.strictEqual(ibContextualEvaluation.eligibility.academic_pathway_id ?? null, null);
+assert.strictEqual(
+  hasEligibilityCheck(ibContextualEvaluation, 'a_level_contextual_reduced_offer'),
+  false
+);
+const ibContextual = ibContextualEvaluation.eligibility.contextual_eligibility;
+assert.strictEqual(ibContextual.status, 'contextual');
+assertConsequence(ibContextual, 'reduced_offer', 'eligible', 'IB contextual');
 assert.strictEqual(ibContextual.consequences.reduced_offer.ib_reduced_route_implemented, false);
+assert.strictEqual(
+  Object.prototype.hasOwnProperty.call(ibContextual.consequences.reduced_offer, 'ib_offer'),
+  false
+);
 
 function routeApplicant({ domicile, route }) {
   const applicant = applicantWith({
@@ -392,6 +461,98 @@ for (const [label, domicile, route] of [
   assert.strictEqual(result.eligibility.qualification_route, route, `${label}: route`);
   assert.strictEqual(result.eligibility.status, 'eligible', `${label}: eligibility`);
 }
+
+const scottishContextualApplicant = routeApplicant({
+  domicile: 'Scotland',
+  route: 'scottish'
+});
+scottishContextualApplicant.contextual_profile = merge(noContextualProfile(), {
+  personal_circumstances: { refugee: 'yes' }
+});
+const scottishContextualResult = evaluate(scottishContextualApplicant);
+assert.strictEqual(scottishContextualResult.eligibility.qualification_route, 'scottish');
+assert.strictEqual(scottishContextualResult.eligibility.status, 'eligible');
+assert.strictEqual(
+  scottishContextualResult.eligibility.contextual_eligibility.status,
+  'contextual'
+);
+assertConsequence(
+  scottishContextualResult.eligibility.contextual_eligibility,
+  'reduced_offer',
+  'eligible',
+  'Scottish contextual'
+);
+assert.strictEqual(
+  scottishContextualResult.eligibility.contextual_eligibility.consequences.reduced_offer.scottish_offer,
+  '2027 contextual Scottish reduced route'
+);
+assert.strictEqual(
+  scottishContextualResult.eligibility.contextual_eligibility.consequences.reduced_offer.qualification_scope.includes('scottish'),
+  true
+);
+assert.strictEqual(scottishContextualResult.eligibility.qualification_route === 'a_level', false);
+assert.strictEqual(scottishContextualResult.eligibility.academic_pathway || null, null);
+assert.strictEqual(scottishContextualResult.eligibility.academic_pathway_id ?? null, null);
+assert.strictEqual(
+  hasEligibilityCheck(scottishContextualResult, 'a_level_contextual_reduced_offer'),
+  false
+);
+
+const sjtBand4ContextualApplicant = applicantWith({
+  qualification_route: 'a_level',
+  a_level_profile: {
+    completed_in_one_sitting: true,
+    subjects: [
+      subject('biology', 'A'),
+      subject('chemistry', 'A'),
+      subject('history', 'A')
+    ]
+  },
+  admissions_tests: {
+    ucat: {
+      total_score: 2600,
+      score_scale: 2700,
+      national_decile: 9,
+      sjt_band: 4,
+      test_year: 2026
+    }
+  },
+  contextual_profile: merge(noContextualProfile(), {
+    personal_circumstances: { refugee: 'yes' }
+  })
+});
+const sjtBand4ContextualResult = evaluate(sjtBand4ContextualApplicant);
+assert.strictEqual(sjtBand4ContextualResult.eligibility.status, 'not_eligible');
+assert.ok(
+  sjtBand4ContextualResult.eligibility.failures.includes('disqualifying_sjt_rule')
+);
+assert.strictEqual(sjtBand4ContextualResult.canonical_interview_band, 'not_eligible');
+assert.strictEqual(
+  sjtBand4ContextualResult.eligibility.contextual_eligibility.status,
+  'contextual'
+);
+assertConsequence(
+  sjtBand4ContextualResult.eligibility.contextual_eligibility,
+  'reduced_offer',
+  'eligible',
+  'SJT Band 4 contextual'
+);
+assertConsequence(
+  sjtBand4ContextualResult.eligibility.contextual_eligibility,
+  'fast_track',
+  'eligible',
+  'SJT Band 4 contextual'
+);
+assert.strictEqual(sjtBand4ContextualResult.estimated_selection_score.status, 'not_applied');
+
+const sjtBand4ContextualCard = buildHullYorkA100ResultCard(
+  course,
+  config,
+  sjtBand4ContextualApplicant
+);
+assert.strictEqual(sjtBand4ContextualCard.eligibility.status, 'not_eligible');
+assert.strictEqual(sjtBand4ContextualCard.prediction.result_band, 'not_eligible');
+assert.strictEqual(sjtBand4ContextualCard.display.recommendation_display_state, 'not_eligible');
 
 const card = buildHullYorkA100ResultCard(course, config, applicantWith({
   contextual_profile: merge(noContextualProfile(), {
