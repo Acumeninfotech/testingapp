@@ -24,6 +24,12 @@ const {
   evaluateEpqAlternativeOffer,
   manualReviewReasonForEpqAlternative
 } = require('./epq-alternative-offer');
+const {
+  evaluateContextualEligibility
+} = require('./contextual-eligibility-framework');
+const {
+  DEFAULT_CONTEXTUAL_ELIGIBILITY_EVALUATORS
+} = require('./contextual-eligibility-evaluators');
 
 const GCSE_GRADE_RANK = {
   U: 0,
@@ -49,6 +55,24 @@ const APPLYSMART_HYMS_ANALYSIS_DISCLOSURE =
 const APPLYSMART_HYMS_SELECTION_SUMMARY =
   'ApplySmart combines HYMS published admissions information with historical admissions evidence to assess interview competitiveness for this applicant group.';
 const HYMS_STANDARD_A_LEVEL_PATHWAY_ID = 'standard_AAA_biology_chemistry';
+const HYMS_LEGACY_CONTEXTUAL_GROUP_IDS = [
+  'contextual',
+  'widening_participation',
+  'care_experienced',
+  'refugee',
+  'asylum_seeker',
+  'refugee_or_asylum_seeker',
+  'military_family',
+  'gypsy_roma_traveller',
+  'ucat_bursary',
+  'polar4_quintile_1',
+  'polar4_quintile_2',
+  'polar_quintile_1',
+  'polar_quintile_2',
+  'school_below_progress_8',
+  'first_generation_higher_education',
+  'first_generation_university'
+];
 
 const A_LEVEL_GRADE_RANK = {
   U: 0,
@@ -752,11 +776,12 @@ function contextualEstimate(config, applicant, eligibility) {
     !flags.international &&
     !flags.graduate &&
     !flags.prior_university;
-  const criteria = contextualCriteria(applicant);
+  const assessment = eligibility.contextual_eligibility || null;
+  const criteria = criteriaFromContextualAssessment(assessment);
   const officialMinimumCriteria =
     model.official_contextual_minimum_criteria ?? 2;
   const officialEligibilityMet =
-    applicable && criteria.length >= officialMinimumCriteria;
+    applicable && assessment?.is_contextual === true;
   const rawPoints = applicable
     ? criteria.reduce((total, criterion) => {
       return total + Number(model.points_by_flag?.[criterion] || 0);
@@ -775,7 +800,7 @@ function contextualEstimate(config, applicant, eligibility) {
     official_contextual_eligibility: {
       minimum_criteria: officialMinimumCriteria,
       criteria_count: criteria.length,
-      met_from_supplied_flags: officialEligibilityMet,
+      met_from_canonical_assessment: officialEligibilityMet,
       university_verification_required: true
     },
     excluded_reason:
@@ -793,6 +818,33 @@ function contextualEstimate(config, applicant, eligibility) {
     evidence_classification: 'unofficial_third_party_estimate',
     disclosure: APPLYSMART_HYMS_ANALYSIS_DISCLOSURE
   };
+}
+
+function criteriaFromContextualAssessment(assessment) {
+  if (!assessment || !Array.isArray(assessment.qualifying_criteria)) {
+    return [];
+  }
+  return assessment.qualifying_criteria
+    .map((entry) => typeof entry === 'string' ? entry : entry?.criterion_id)
+    .map((criterionId) => {
+      return criterionId === 'recognised_wp_programme_completion'
+        ? 'recognised_wp_programme'
+        : criterionId;
+    })
+    .filter(Boolean);
+}
+
+function canonicalHymsApplicantGroupIds(groupIds = [], contextualEligibility = null) {
+  const groups = new Set(groupIds);
+  for (const groupId of HYMS_LEGACY_CONTEXTUAL_GROUP_IDS) {
+    groups.delete(groupId);
+  }
+  if (contextualEligibility?.is_contextual === true) {
+    for (const groupId of contextualEligibility.activated_applicant_group_ids || []) {
+      groups.add(groupId);
+    }
+  }
+  return [...groups];
 }
 
 function scoreGcse(config, applicant) {
@@ -955,6 +1007,13 @@ function evaluateHullYorkA100(course, config, applicantInput, options = {}) {
 
   const applicant = normaliseApplicantProfile(applicantInput, { course });
   const eligibility = evaluateOfficialEligibility(course, applicant);
+  eligibility.contextual_eligibility = evaluateContextualEligibility(course, applicant, {
+    evaluators: DEFAULT_CONTEXTUAL_ELIGIBILITY_EVALUATORS
+  });
+  eligibility.applicant_group_ids = canonicalHymsApplicantGroupIds(
+    eligibility.applicant_group_ids,
+    eligibility.contextual_eligibility
+  );
   const estimatedSelectionScore = estimateSelectionScore(
     course,
     config,
@@ -1080,7 +1139,8 @@ function buildHullYorkA100ResultCard(course, config, applicant, options = {}) {
       applies_to_group_ids: evaluation.eligibility.applicant_group_ids,
       qualification_route: evaluation.eligibility.qualification_route,
       fee_cohort: route.international ? 'international' : route.home ? 'home' : 'unknown',
-      contextual: score.contextual.criteria.length > 0,
+      contextual: evaluation.eligibility.contextual_eligibility?.is_contextual === true,
+      contextual_status: evaluation.eligibility.contextual_eligibility?.status || null,
       graduate: route.graduate,
       prior_university: route.prior_university,
       applicant_summary: `Applicant assessed in the ${pool} route.`
@@ -1096,7 +1156,8 @@ function buildHullYorkA100ResultCard(course, config, applicant, options = {}) {
       manual_review_reasons: evaluation.eligibility.manual_review_reasons,
       academic_pathway: evaluation.eligibility.academic_pathway || null,
       academic_pathway_id: evaluation.eligibility.academic_pathway_id ?? null,
-      future_conditions: futureConditions
+      future_conditions: futureConditions,
+      contextual_eligibility: evaluation.eligibility.contextual_eligibility || null
     },
     academic_pathway: evaluation.eligibility.academic_pathway || null,
     academic_pathway_id: evaluation.eligibility.academic_pathway_id ?? null,
@@ -1126,6 +1187,8 @@ function buildHullYorkA100ResultCard(course, config, applicant, options = {}) {
         band === 'insufficient_evidence' ? evaluation.explanation : null
     },
     estimated_selection_score: score,
+    hyms_contextual_consequences:
+      evaluation.eligibility.contextual_eligibility?.consequences || null,
     mandatory_unofficial_estimate_disclosure: score.disclosure,
     confidence: {
       level: 'low',

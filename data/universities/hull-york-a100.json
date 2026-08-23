@@ -515,7 +515,7 @@
         {
           "component_id": "contextual",
           "factor_id": "contextual",
-          "input_field": "applicant_identity.contextual_flags",
+          "input_field": "contextual_profile",
           "calculation_method": "Up to 15 official framework points; exact official per-criterion tariff unpublished.",
           "scale": {
             "minimum": 0,
@@ -582,6 +582,14 @@
   },
   "contextual_admissions": {
     "verification_status": "official_source_verified",
+    "contextual_eligibility": {
+      "evaluator_id": "hyms_contextual_medicine_a100",
+      "source_of_truth": "step_6_contextual_profile",
+      "legacy_contextual_flags_authoritative": false,
+      "ordinary_marker_minimum": 2,
+      "high_priority_marker_independent": true,
+      "programme_completion_and_timing_required": true
+    },
     "source_ids": [
       "hyms_contextual_admissions_2027"
     ],

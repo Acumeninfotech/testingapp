@@ -255,6 +255,11 @@ export const UKWPMED_REGISTRY = {
       provider_university_id: 'lancashire-a100',
     },
     {
+      programme_id: 'leicester_accessleicester_medicine',
+      label: 'AccessLeicester: Medicine',
+      provider_university_id: 'leicester-a100',
+    },
+    {
       programme_id: 'plymouth_peninsula_pathways',
       label: 'Peninsula Pathways',
       provider_university_id: 'plymouth-a100',
@@ -270,8 +275,10 @@ export interface OtherAccessProgrammeOption {
 
 export const OTHER_ACCESS_PROGRAMMES: readonly OtherAccessProgrammeOption[] = [
   { programme_id: 'aston_pathways', label: 'Aston Pathways', requires_school_year: true },
-  { programme_id: 'leicester_accessleicester_medicine', label: 'AccessLeicester: Medicine' },
   { programme_id: 'plymouth_peninsula_pathways_plus', label: 'Peninsula Pathways PLUS' },
+  { programme_id: 'york_experience_summer_school', label: 'York Experience Summer School' },
+  { programme_id: 'york_black_access', label: 'University of York Black Access' },
+  { programme_id: 'next_step_york', label: 'Next Step York' },
   { programme_id: 'st_andrews_reach_scotland', label: 'Reach Scotland - University of St Andrews' },
   { programme_id: 'st_andrews_access_programme', label: 'St Andrews Access Programme' },
   { programme_id: 'glasgow_top_up', label: 'Top Up Programme' },

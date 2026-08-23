@@ -723,6 +723,10 @@ function normaliseApplicantProfile(applicant, options = {}) {
   if (options.course?.profile_id === 'birmingham-a100') {
     contextualProfileOptions.projectLegacyAccessProgrammes = false;
   }
+  if (options.course?.profile_id === 'hull-york-a100') {
+    contextualProfileOptions.projectLegacyContextualCriteriaFlags = false;
+    contextualProfileOptions.projectLegacyAccessProgrammes = false;
+  }
 
   const profile = applicant.a_level_profile
     ? {

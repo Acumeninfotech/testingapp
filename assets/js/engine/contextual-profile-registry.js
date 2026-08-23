@@ -43,6 +43,11 @@ const UKWPMED_REGISTRY = {
       provider_university_id: 'lancashire-a100'
     },
     {
+      programme_id: 'leicester_accessleicester_medicine',
+      label: 'AccessLeicester: Medicine',
+      provider_university_id: 'leicester-a100'
+    },
+    {
       programme_id: 'plymouth_peninsula_pathways',
       label: 'Peninsula Pathways',
       provider_university_id: 'plymouth-a100'
