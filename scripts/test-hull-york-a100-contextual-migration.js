@@ -433,6 +433,14 @@ function routeApplicant({ domicile, route }) {
   } else {
     applicant.qualification_route = 'scottish';
     applicant.scottish_profile = {
+      national_5_subjects: [
+        scottishSubject('english_language', 'B'),
+        scottishSubject('mathematics', 'B'),
+        scottishSubject('biology', 'A'),
+        scottishSubject('chemistry', 'A'),
+        scottishSubject('physics', 'A'),
+        scottishSubject('history', 'A')
+      ],
       higher_subjects: [
         scottishSubject('biology', 'A'),
         scottishSubject('chemistry', 'A'),
@@ -447,6 +455,7 @@ function routeApplicant({ domicile, route }) {
       ]
     };
     delete applicant.a_level_profile;
+    delete applicant.gcse_profile;
   }
   return applicant;
 }
@@ -457,9 +466,219 @@ for (const [label, domicile, route] of [
   ['Scotland + Scottish qualifications', 'Scotland', 'scottish'],
   ['Scotland + A levels', 'Scotland', 'a_level']
 ]) {
-  const result = evaluate(routeApplicant({ domicile, route }));
+  const applicant = routeApplicant({ domicile, route });
+  const result = evaluate(applicant);
+
   assert.strictEqual(result.eligibility.qualification_route, route, `${label}: route`);
   assert.strictEqual(result.eligibility.status, 'eligible', `${label}: eligibility`);
+
+  if (label === 'Scotland + Scottish qualifications') {
+    assert.strictEqual(
+      result.eligibility.contextual_eligibility?.status,
+      'not_contextual',
+      'Scotland + Scottish: contextual status must resolve as not contextual'
+    );
+    assert.deepStrictEqual(
+      result.eligibility.manual_review_reasons,
+      [],
+      'Scotland + Scottish: no manual-review reasons'
+    );
+    assert.deepStrictEqual(
+      result.eligibility.failures,
+      [],
+      'Scotland + Scottish: no eligibility failures'
+    );
+
+    assert.strictEqual(
+      result.estimated_selection_score?.status,
+      'unavailable',
+      'Scotland + Scottish: complete HYMS selection estimate remains unavailable without evidenced National 5 scoring conversion'
+    );
+    assert.strictEqual(
+      result.estimated_selection_score?.value,
+      null,
+      'Scotland + Scottish: no invented HYMS selection score'
+    );
+    assert.strictEqual(
+      result.estimated_selection_score?.components?.gcse?.reason,
+      'insufficient_gcse_results_for_estimate',
+      'Scotland + Scottish: unsupported academic score conversion is explicit'
+    );
+    assert.ok(
+      Number.isFinite(result.estimated_selection_score?.components?.ucat?.value),
+      'Scotland + Scottish: UCAT component is still evaluated'
+    );
+    assert.ok(
+      Number.isFinite(result.estimated_selection_score?.components?.sjt?.value),
+      'Scotland + Scottish: SJT component is still evaluated'
+    );
+    assert.strictEqual(
+      result.canonical_interview_band,
+      'insufficient_evidence',
+      'Scotland + Scottish: interview prediction remains unavailable rather than fabricated'
+    );
+
+    const card = buildHullYorkA100ResultCard(course, config, applicant);
+
+    assert.strictEqual(
+      card.eligibility?.status,
+      'eligible',
+      'Scotland + Scottish Result Card: academic eligibility remains eligible'
+    );
+    assert.strictEqual(
+      card.display?.recommendation_display_state,
+      'eligibility_only',
+      'Scotland + Scottish Result Card: must not surface Information Needed'
+    );
+    assert.strictEqual(
+      card.display?.primary_user_facing_recommendation,
+      'Eligible — interview prediction unavailable',
+      'Scotland + Scottish Result Card: correct public recommendation'
+    );
+
+    assert.ok(
+      card.academic_requirement_checks?.some(
+        (check) =>
+          check.requirement_type === 'national_5_requirements' &&
+          check.status === 'met'
+      ),
+      'Scotland + Scottish Result Card: National 5 requirement shown as met'
+    );
+    assert.ok(
+      card.academic_requirement_checks?.some(
+        (check) =>
+          check.requirement_type === 'scottish_higher_and_advanced_higher_route' &&
+          check.status === 'met'
+      ),
+      'Scotland + Scottish Result Card: Scottish Higher/AH requirement shown as met'
+    );
+
+    assert.strictEqual(
+      card.alternative_academic_offer,
+      null,
+      'Scotland + Scottish Result Card: A-level/EPQ alternative offer must not leak into Scottish route'
+    );
+
+    assert.strictEqual(
+      card.prediction?.available,
+      false,
+      'Scotland + Scottish Result Card: interview prediction unavailable'
+    );
+    assert.strictEqual(
+      card.prediction?.result_band,
+      'insufficient_evidence',
+      'Scotland + Scottish Result Card: no fabricated interview band'
+    );
+    assert.strictEqual(
+      card.prediction?.score,
+      null,
+      'Scotland + Scottish Result Card: no fabricated selection score'
+    );
+    assert.match(
+      card.prediction?.cannot_predict_explanation || '',
+      /meet HYMS's published academic requirements/i,
+      'Scotland + Scottish Result Card: explanation confirms academic requirements are met'
+    );
+    assert.match(
+      card.prediction?.cannot_predict_explanation || '',
+      /National 5-to-HYMS academic scoring conversion is not available/i,
+      'Scotland + Scottish Result Card: explanation identifies scoring-evidence limitation'
+    );
+
+    assert.strictEqual(
+      card.stage_2_selection?.primary_model,
+      'points_system',
+      'Scotland + Scottish Result Card: HYMS points-based selection model exposed'
+    );
+    assert.ok(
+      card.stage_2_selection?.ranking_factors?.some(
+        (factor) =>
+          factor.factor_id === 'ucat_decile' &&
+          factor.role === 'scored'
+      ),
+      'Scotland + Scottish Result Card: UCAT exposed as scored selection factor'
+    );
+    assert.ok(
+      card.stage_2_selection?.ranking_factors?.some(
+        (factor) =>
+          factor.factor_id === 'sjt_band' &&
+          factor.role === 'gate_and_scored'
+      ),
+      'Scotland + Scottish Result Card: SJT exposed as gate and scored factor'
+    );
+  }
+}
+
+
+// HYMS Scottish lower-secondary equivalence regression.
+// These must be enforced from National 5 evidence rather than an inherited GCSE profile.
+for (const [label, mutate, expectedFailure] of [
+  [
+    'Scottish fewer than six National 5s',
+    (applicant) => {
+      applicant.scottish_profile.national_5_subjects =
+        applicant.scottish_profile.national_5_subjects.slice(0, 5);
+    },
+    'national_5_requirements_not_met'
+  ],
+  [
+    'Scottish National 5 English below B',
+    (applicant) => {
+      applicant.scottish_profile.national_5_subjects
+        .find((subject) => subject.subject_id === 'english_language').grade = 'C';
+    },
+    'national_5_requirements_not_met'
+  ],
+  [
+    'Scottish National 5 Mathematics below B',
+    (applicant) => {
+      applicant.scottish_profile.national_5_subjects
+        .find((subject) => subject.subject_id === 'mathematics').grade = 'C';
+    },
+    'national_5_requirements_not_met'
+  ]
+]) {
+  const applicant = routeApplicant({
+    domicile: 'Scotland',
+    route: 'scottish'
+  });
+  mutate(applicant);
+
+  const result = evaluate(applicant);
+
+  assert.strictEqual(
+    result.eligibility.status,
+    'not_eligible',
+    `${label}: eligibility`
+  );
+  assert.ok(
+    result.eligibility.failures.includes(expectedFailure),
+    `${label}: expected ${expectedFailure}`
+  );
+}
+
+// Scottish post-16 compulsory Advanced Higher sciences must remain protected.
+for (const subjectId of ['biology', 'chemistry']) {
+  const applicant = routeApplicant({
+    domicile: 'Scotland',
+    route: 'scottish'
+  });
+  applicant.scottish_profile.advanced_higher_subjects =
+    applicant.scottish_profile.advanced_higher_subjects.filter(
+      (subject) => subject.subject_id !== subjectId
+    );
+
+  const result = evaluate(applicant);
+
+  assert.strictEqual(
+    result.eligibility.status,
+    'not_eligible',
+    `Scottish missing AH ${subjectId}: eligibility`
+  );
+  assert.ok(
+    result.eligibility.failures.includes('scottish_requirements_not_met'),
+    `Scottish missing AH ${subjectId}: expected Scottish requirement failure`
+  );
 }
 
 const scottishContextualApplicant = routeApplicant({

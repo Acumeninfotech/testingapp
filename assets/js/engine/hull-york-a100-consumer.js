@@ -612,6 +612,48 @@ function evaluateIb(applicant, state) {
   }
 }
 
+function evaluateNational5(applicant, state) {
+  const profile = applicant.scottish_profile || {};
+  const subjects = profileToSubjectMap({
+    subjects: profile.national_5_subjects || []
+  });
+
+  const grades = Object.values(subjects)
+    .filter((grade) => grade !== undefined && grade !== null && grade !== '');
+
+  const minimumCountPassed =
+    grades.filter((grade) => gradeMeets(grade, 'C', GCSE_GRADE_RANK)).length >= 6;
+
+  const englishGrade =
+    subjects.english_language ??
+    subjects.english;
+
+  const englishPassed =
+    gradeMeets(englishGrade, 'B', GCSE_GRADE_RANK);
+
+  const mathematicsPassed =
+    gradeMeets(subjects.mathematics, 'B', GCSE_GRADE_RANK);
+
+  const passed =
+    minimumCountPassed &&
+    englishPassed &&
+    mathematicsPassed;
+
+  addCheck(state, 'national_5_requirements', passed, {
+    minimum_count_met: minimumCountPassed,
+    english_language_minimum_met: englishPassed,
+    mathematics_minimum_met: mathematicsPassed,
+    minimum_count: 6,
+    minimum_count_grade: 'C',
+    english_language_minimum_grade: 'B',
+    mathematics_minimum_grade: 'B'
+  });
+
+  if (!passed) {
+    addFailure(state, 'national_5_requirements_not_met');
+  }
+}
+
 function evaluateScottish(applicant, state) {
   const profile = applicant.scottish_profile || {};
   const highers = profileToSubjectMap({
@@ -825,7 +867,11 @@ function evaluateOfficialEligibility(course, applicantInput) {
   };
 
   if (!flags.graduate) {
-    evaluateGcse(applicant, state);
+    if (qualificationRoute === 'scottish') {
+      evaluateNational5(applicant, state);
+    } else {
+      evaluateGcse(applicant, state);
+    }
   }
 
   if (qualificationRoute === 'a_level') {
@@ -1172,12 +1218,19 @@ function evaluateHullYorkA100(course, config, applicantInput, options = {}) {
     estimatedSelectionScore
   );
   const recommendation = RECOMMENDATION_BY_BAND[canonicalInterviewBand];
+  const scottishEligiblePredictionUnavailable =
+    eligibility.status === 'eligible' &&
+    eligibility.qualification_route === 'scottish' &&
+    canonicalInterviewBand === 'insufficient_evidence';
+
   const explanation =
     canonicalInterviewBand === 'not_eligible'
       ? 'One or more published HYMS entry requirements are not met, so ApplySmart does not calculate an interview-competitiveness score for this applicant.'
-      : canonicalInterviewBand === 'insufficient_evidence'
-        ? 'ApplySmart cannot provide a confident interview-competitiveness analysis for this applicant route because the available admissions evidence is not sufficient for this profile.'
-        : `${estimatedSelectionScore.label} ${estimatedSelectionScore.value}/${estimatedSelectionScore.max} supports the "${recommendation}" band. ${estimatedSelectionScore.disclosure}`;
+      : scottishEligiblePredictionUnavailable
+        ? "You meet HYMS's published academic requirements for the Scottish qualification route. ApplySmart cannot calculate a complete HYMS selection score because an evidenced National 5-to-HYMS academic scoring conversion is not available."
+        : canonicalInterviewBand === 'insufficient_evidence'
+          ? 'ApplySmart cannot provide a confident interview-competitiveness analysis for this applicant route because the available admissions evidence is not sufficient for this profile.'
+          : `${estimatedSelectionScore.label} ${estimatedSelectionScore.value}/${estimatedSelectionScore.max} supports the "${recommendation}" band. ${estimatedSelectionScore.disclosure}`;
 
   return {
     course_profile_id: course.profile_id,
@@ -1224,18 +1277,28 @@ function buildHullYorkA100ResultCard(course, config, applicant, options = {}) {
   const band = evaluation.canonical_interview_band;
   const score = evaluation.estimated_selection_score;
   const route = evaluation.eligibility.route_flags;
+  const scottishEligiblePredictionUnavailable =
+    evaluation.eligibility.status === 'eligible' &&
+    evaluation.eligibility.qualification_route === 'scottish' &&
+    band === 'insufficient_evidence';
+
   const displayState =
     band === 'not_eligible'
       ? 'not_eligible'
-      : band === 'insufficient_evidence'
-        ? 'insufficient_evidence'
-        : 'standard';
+      : scottishEligiblePredictionUnavailable
+        ? 'eligibility_only'
+        : band === 'insufficient_evidence'
+          ? 'insufficient_evidence'
+          : 'standard';
+
   const primaryRecommendation =
     band === 'not_eligible'
       ? 'You do not currently meet the published entry requirements'
-      : band === 'insufficient_evidence'
-        ? 'Evidence not yet available'
-        : {
+      : scottishEligiblePredictionUnavailable
+        ? 'Eligible — interview prediction unavailable'
+        : band === 'insufficient_evidence'
+          ? 'Evidence not yet available'
+          : {
           interview_likely: `${CANONICAL_BAND_LABELS.interview_likely} based on ApplySmart analysis`,
           realistic: `${CANONICAL_BAND_LABELS.realistic} based on ApplySmart analysis`,
           ambitious: `${CANONICAL_BAND_LABELS.ambitious} based on ApplySmart analysis`,
@@ -1271,6 +1334,7 @@ function buildHullYorkA100ResultCard(course, config, applicant, options = {}) {
   const academicOfferContext = {
     academic_pathway: evaluation.eligibility.academic_pathway || null,
     academic_pathway_id: evaluation.eligibility.academic_pathway_id ?? null,
+    qualification_route: evaluation.eligibility.qualification_route,
     course_profile_id: course.profile_id,
     eligibility_status: evaluation.eligibility.status,
     manual_review_reasons: evaluation.eligibility.manual_review_reasons,
@@ -1316,15 +1380,19 @@ function buildHullYorkA100ResultCard(course, config, applicant, options = {}) {
     },
     academic_pathway: evaluation.eligibility.academic_pathway || null,
     academic_pathway_id: evaluation.eligibility.academic_pathway_id ?? null,
-    alternative_academic_offer: buildAlternativeAcademicOffer(
-      course.stage_1_eligibility,
-      academicOfferContext
-    ),
+    alternative_academic_offer:
+      evaluation.eligibility.qualification_route === 'a_level'
+        ? buildAlternativeAcademicOffer(
+            course.stage_1_eligibility,
+            academicOfferContext
+          )
+        : null,
     future_conditions: futureConditions,
     future_condition_advisories: futureAdvisories,
     academic_requirement_checks: academicRequirementChecks,
     trust_statement: futureAdvisories[0] || null,
     stage_2_selection: {
+      ...course.stage_2_interview_selection,
       summary: APPLYSMART_HYMS_SELECTION_SUMMARY
     },
     prediction: {

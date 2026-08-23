@@ -5943,7 +5943,11 @@ function contextualEligibilityStatus(context = {}) {
 
 function normalizeFactorUsage(card, options = {}) {
   const stage1Eligibility = options.stage1Eligibility || card.stage_1_eligibility || null;
-  const stage2Selection = options.stage2InterviewSelection || card.stage_2_interview_selection || null;
+  const stage2Selection =
+    options.stage2InterviewSelection ||
+    card.stage_2_interview_selection ||
+    card.stage_2_selection ||
+    null;
   const applicantContext = options.applicantContext || card.applicant_context || null;
   const ucat = applicantContext?.admissions_tests?.ucat || null;
   const hasUcatEvidence = Number.isFinite(ucat?.total_score);
@@ -5951,9 +5955,45 @@ function normalizeFactorUsage(card, options = {}) {
   const aLevelRole = stage1Eligibility?.post_16?.a_level?.selection_role;
   const holisticReview = stage2Selection?.primary_model === 'holistic_review';
   const aLevelUsedInSelection = aLevelRole === 'selection' || aLevelRole === 'contextual_academic_review_only' || (holisticReview && !aLevelRole && Boolean(stage1Eligibility?.post_16?.a_level?.standard_offer));
-  const sjtUsed = stage1Eligibility?.admissions_tests?.sjt?.used === true;
-  const sjtGate = stage1Eligibility?.admissions_tests?.sjt?.used_as_gate === true;
-  const sjtScored = stage1Eligibility?.admissions_tests?.sjt?.scoring?.used_in_score === true;
+
+  const stage2RankingFactors = Array.isArray(stage2Selection?.ranking_factors)
+    ? stage2Selection.ranking_factors
+    : [];
+
+  const stage2Factor = (...factorIds) =>
+    stage2RankingFactors.find(
+      (factor) =>
+        factor &&
+        typeof factor === 'object' &&
+        factorIds.includes(factor.factor_id)
+    ) || null;
+
+  const stage2UcatFactor = stage2Factor('ucat', 'ucat_decile');
+  const stage2SjtFactor = stage2Factor('sjt', 'sjt_band');
+
+  const stage2UcatScored =
+    stage2UcatFactor?.role === 'scored' ||
+    stage2UcatFactor?.role === 'gate_and_scored';
+
+  const stage2SjtScored =
+    stage2SjtFactor?.role === 'scored' ||
+    stage2SjtFactor?.role === 'gate_and_scored';
+
+  const stage2SjtGate =
+    stage2SjtFactor?.role === 'gate' ||
+    stage2SjtFactor?.role === 'gate_and_scored';
+
+  const sjtUsed =
+    stage2SjtScored ||
+    stage2SjtGate ||
+    stage1Eligibility?.admissions_tests?.sjt?.used === true;
+  const sjtGate =
+    stage2SjtGate ||
+    stage1Eligibility?.admissions_tests?.sjt?.used_as_gate === true;
+
+  const sjtScored =
+    stage2SjtScored ||
+    stage1Eligibility?.admissions_tests?.sjt?.scoring?.used_in_score === true;
   const contextualConfirmed = contextualEligibilityStatus(card) === 'contextual';
   const ucatEligibility = stage1Eligibility?.admissions_tests?.ucat || {};
   const ucatRankingBypass = ucatRankingBypassApplies({ ...card, ...options });
@@ -5990,6 +6030,7 @@ function normalizeFactorUsage(card, options = {}) {
     stage2Selection?.primary_model === 'academic_plus_ucat_weighting' ||
     stage2Selection?.primary_model === 'academic_plus_ucat_weighting_with_international_ucat_only_pool';
   const ucatRankingUse =
+    stage2UcatScored ||
     stage2Selection?.primary_model === 'ucat_ranking' ||
     academicPlusUcatScoring ||
     (/(?:\bucat\b|\bucat cognitive total\b|\bucat total\b)/.test(ucatSelectionText) && /\branking\b/.test(ucatSelectionText));
@@ -6460,26 +6501,40 @@ function presentResultCard({
     academic_pathway: academicPathway,
     academic_pathway_id: academicPathwayId
   });
-  const activeAlternativeAcademicOffer = buildAlternativeAcademicOffer(
-    transparencyContext.stage_1_eligibility,
-    {
-      academic_pathway: academicPathway,
-      academic_pathway_id: academicPathwayId,
-      matched_contextual_pathway:
-        transparencyContext.eligibility?.contextual_eligibility?.matched_contextual_pathway ||
-        transparencyContext.contextual_eligibility?.matched_contextual_pathway ||
-        null,
-      selection_route_id: transparencyContext.selection_route_id || null,
-      course_profile_id: transparencyContext.course_identity?.profile_id || null,
-      eligibility_status: eligibilityStatus,
-      manual_review_reasons:
-        transparencyContext.eligibility?.manual_review_reasons ||
-        transparencyContext.manual_review_reasons ||
-        [],
-      epq_alternative_result:
-        transparencyContext.eligibility?.epq_alternative_result || null
-    }
-  );
+  const qualificationRoute =
+    transparencyContext.applicant_context?.qualification_route ||
+    transparencyContext.eligibility?.qualification_route ||
+    transparencyContext.qualification_route ||
+    null;
+
+  const isHymsScottishQualificationRoute =
+    transparencyContext.course_identity?.profile_id === 'hull-york-a100' &&
+    qualificationRoute === 'scottish';
+
+  const activeAlternativeAcademicOffer =
+    isHymsScottishQualificationRoute
+      ? null
+      : buildAlternativeAcademicOffer(
+          transparencyContext.stage_1_eligibility,
+          {
+            academic_pathway: academicPathway,
+            academic_pathway_id: academicPathwayId,
+            matched_contextual_pathway:
+              transparencyContext.eligibility?.contextual_eligibility?.matched_contextual_pathway ||
+              transparencyContext.contextual_eligibility?.matched_contextual_pathway ||
+              null,
+            selection_route_id: transparencyContext.selection_route_id || null,
+            course_profile_id: transparencyContext.course_identity?.profile_id || null,
+            qualification_route: qualificationRoute,
+            eligibility_status: eligibilityStatus,
+            manual_review_reasons:
+              transparencyContext.eligibility?.manual_review_reasons ||
+              transparencyContext.manual_review_reasons ||
+              [],
+            epq_alternative_result:
+              transparencyContext.eligibility?.epq_alternative_result || null
+          }
+        );
   const contextualRouteSummary = contextualOfferRouteSummary(transparencyContext, activeAlternativeAcademicOffer);
   const selectionApproachDisplay = selectionApproachForContext(
     transparencyContext.selection_approach_display,
