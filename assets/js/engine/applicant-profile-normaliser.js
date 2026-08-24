@@ -727,6 +727,10 @@ function normaliseApplicantProfile(applicant, options = {}) {
     contextualProfileOptions.projectLegacyContextualCriteriaFlags = false;
     contextualProfileOptions.projectLegacyAccessProgrammes = false;
   }
+  if (options.course?.profile_id === 'king-s-college-london-a100') {
+    contextualProfileOptions.projectLegacyContextualCriteriaFlags = false;
+    contextualProfileOptions.projectLegacyAccessProgrammes = false;
+  }
 
   const profile = applicant.a_level_profile
     ? {

@@ -325,7 +325,8 @@ const COURSES_WITH_CONTEXTUAL_EVALUATOR_GROUP_CONTROL = [
   'plymouth-a100',
   'southampton-a100',
   'ucl-a100',
-  'hull-york-a100'
+  'hull-york-a100',
+  'king-s-college-london-a100'
 ];
 
 const ABERDEEN_LEGACY_CONTEXTUAL_GROUP_IDS = [
@@ -450,6 +451,28 @@ const HYMS_LEGACY_CONTEXTUAL_GROUP_IDS = [
   'first_generation_university'
 ];
 
+const KCL_LEGACY_CONTEXTUAL_GROUP_IDS = [
+  'contextual',
+  'widening_participation',
+  'care_experienced',
+  'care_leaver',
+  'free_school_meals',
+  'estranged_from_family',
+  'young_carer',
+  'young_adult_carer',
+  'unpaid_carer',
+  'carer',
+  'refugee',
+  'asylum_seeker',
+  'refugee_or_asylum_seeker',
+  'polar4_quintile_1',
+  'polar4_quintile_2',
+  'polar_quintile_1',
+  'polar_quintile_2',
+  'acorn',
+  'school_quintile'
+];
+
 const COURSES_WITH_ACTIVATED_CONTEXTUAL_GROUPS = [
   'aberdeen-a100',
   'aston-a100',
@@ -470,7 +493,8 @@ const COURSES_WITH_ACTIVATED_CONTEXTUAL_GROUPS = [
   'st-andrews-a100',
   'southampton-a100',
   'ucl-a100',
-  'hull-york-a100'
+  'hull-york-a100',
+  'king-s-college-london-a100'
 ];
 
 const SCOTTISH_MEDICAL_SCHOOL_ROUTE_IDS = Object.freeze([
@@ -681,6 +705,11 @@ function applyCourseSpecificDerivedApplicantGroups(course, applicant, groupIds, 
   }
   if (course?.profile_id === 'hull-york-a100' && contextualResult) {
     for (const groupId of HYMS_LEGACY_CONTEXTUAL_GROUP_IDS) {
+      groups.delete(groupId);
+    }
+  }
+  if (course?.profile_id === 'king-s-college-london-a100' && contextualResult) {
+    for (const groupId of KCL_LEGACY_CONTEXTUAL_GROUP_IDS) {
       groups.delete(groupId);
     }
   }
