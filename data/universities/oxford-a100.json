@@ -303,7 +303,49 @@
           ],
           "notes": "Advanced Highers must include Chemistry and one of Biology, Physics or Mathematics."
         },
-        "grade_requirements": [],
+        "grade_requirements": [
+          {
+            "requirement_id": "oxford_scottish_highers_and_advanced_highers",
+            "qualification_level": "scottish_highers_and_advanced_highers",
+            "higher_grade_profile": [
+              "A",
+              "A",
+              "A",
+              "A",
+              "A"
+            ],
+            "advanced_higher_grade_profile": [
+              "A",
+              "A"
+            ],
+            "same_sitting_required": true,
+            "higher_required_subject_ids": [],
+            "higher_one_of_subject_groups": [],
+            "advanced_higher_required_subject_ids": [
+              "chemistry"
+            ],
+            "advanced_higher_one_of_subject_groups": [
+              {
+                "group_id": "oxford_advanced_higher_second_science_or_maths",
+                "minimum_required": 1,
+                "subject_ids": [
+                  "biology",
+                  "physics",
+                  "mathematics"
+                ]
+              }
+            ],
+            "decision_outcome_if_not_met": "not_eligible",
+            "source_ids": [
+              "oxford_medsci_academic_requirements_2026"
+            ],
+            "notes": "AAAAA Highers, with the Highers taken in the same academic year, plus AA Advanced Highers including Chemistry and one of Biology, Physics or Mathematics.",
+            "same_sitting_qualification_levels": [
+              "higher",
+              "advanced_higher"
+            ]
+          }
+        ],
         "required_subject_ids": [
           "chemistry"
         ],
@@ -318,7 +360,8 @@
             ]
           }
         ],
-        "notes": "ApplySmart can verify the AA Advanced Higher subject pair and AAAAA Higher profile when entered structurally."
+        "notes": "ApplySmart can verify the AA Advanced Higher subject pair and AAAAA Higher profile when entered structurally.",
+        "route_implemented": true
       },
       "btec": {
         "status": "official_supported_but_manual_review_in_applysmart",

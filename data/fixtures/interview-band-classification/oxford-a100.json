@@ -1000,6 +1000,413 @@
         "interview_band": "not_eligible",
         "failure": "qualification_route_explicitly_blocked:access_to_medicine"
       }
+    },
+    {
+      "scenario_id": "cross_qualification_england_a_level",
+      "overrides": {
+        "qualification_route": "a_level",
+        "applicant_identity": {
+          "fee_status": "Home",
+          "domicile": "England"
+        }
+      },
+      "expected": {
+        "eligibility_status": "eligible",
+        "guidance_pool_id": "oxford_home_modelled_composite",
+        "interview_band": "interview_likely"
+      }
+    },
+    {
+      "scenario_id": "cross_qualification_england_scottish",
+      "overrides": {
+        "qualification_route": "scottish",
+        "applicant_identity": {
+          "fee_status": "Home",
+          "domicile": "England"
+        },
+        "scottish_profile": {
+          "higher_subjects": [
+            {
+              "subject_id": "chemistry",
+              "achieved_grade": "A",
+              "sitting_id": "H1"
+            },
+            {
+              "subject_id": "biology",
+              "achieved_grade": "A",
+              "sitting_id": "H1"
+            },
+            {
+              "subject_id": "mathematics",
+              "achieved_grade": "A",
+              "sitting_id": "H1"
+            },
+            {
+              "subject_id": "english",
+              "achieved_grade": "A",
+              "sitting_id": "H1"
+            },
+            {
+              "subject_id": "history",
+              "achieved_grade": "A",
+              "sitting_id": "H1"
+            }
+          ],
+          "advanced_higher_subjects": [
+            {
+              "subject_id": "chemistry",
+              "achieved_grade": "A",
+              "sitting_id": "AH1"
+            },
+            {
+              "subject_id": "biology",
+              "achieved_grade": "A",
+              "sitting_id": "AH1"
+            }
+          ]
+        }
+      },
+      "expected": {
+        "eligibility_status": "eligible",
+        "guidance_pool_id": "oxford_home_modelled_composite",
+        "interview_band": "interview_likely"
+      }
+    },
+    {
+      "scenario_id": "cross_qualification_scotland_scottish",
+      "overrides": {
+        "qualification_route": "scottish",
+        "applicant_identity": {
+          "fee_status": "Home",
+          "domicile": "Scotland"
+        },
+        "scottish_profile": {
+          "higher_subjects": [
+            {
+              "subject_id": "chemistry",
+              "achieved_grade": "A",
+              "sitting_id": "H1"
+            },
+            {
+              "subject_id": "biology",
+              "achieved_grade": "A",
+              "sitting_id": "H1"
+            },
+            {
+              "subject_id": "mathematics",
+              "achieved_grade": "A",
+              "sitting_id": "H1"
+            },
+            {
+              "subject_id": "english",
+              "achieved_grade": "A",
+              "sitting_id": "H1"
+            },
+            {
+              "subject_id": "history",
+              "achieved_grade": "A",
+              "sitting_id": "H1"
+            }
+          ],
+          "advanced_higher_subjects": [
+            {
+              "subject_id": "chemistry",
+              "achieved_grade": "A",
+              "sitting_id": "AH1"
+            },
+            {
+              "subject_id": "biology",
+              "achieved_grade": "A",
+              "sitting_id": "AH1"
+            }
+          ]
+        }
+      },
+      "expected": {
+        "eligibility_status": "eligible",
+        "guidance_pool_id": "oxford_home_modelled_composite",
+        "interview_band": "interview_likely"
+      }
+    },
+    {
+      "scenario_id": "cross_qualification_scotland_a_level",
+      "overrides": {
+        "qualification_route": "a_level",
+        "applicant_identity": {
+          "fee_status": "Home",
+          "domicile": "Scotland"
+        }
+      },
+      "expected": {
+        "eligibility_status": "eligible",
+        "guidance_pool_id": "oxford_home_modelled_composite",
+        "interview_band": "interview_likely"
+      }
+    },
+    {
+      "scenario_id": "scottish_fail_highers_split_sittings",
+      "overrides": {
+        "qualification_route": "scottish",
+        "a_level_profile": null,
+        "scottish_profile": {
+          "higher_subjects": [
+            {
+              "subject_id": "chemistry",
+              "achieved_grade": "A",
+              "sitting_id": "H1"
+            },
+            {
+              "subject_id": "biology",
+              "achieved_grade": "A",
+              "sitting_id": "H1"
+            },
+            {
+              "subject_id": "mathematics",
+              "achieved_grade": "A",
+              "sitting_id": "H1"
+            },
+            {
+              "subject_id": "english",
+              "achieved_grade": "A",
+              "sitting_id": "H1"
+            },
+            {
+              "subject_id": "history",
+              "achieved_grade": "A",
+              "sitting_id": "H2"
+            }
+          ],
+          "advanced_higher_subjects": [
+            {
+              "subject_id": "chemistry",
+              "achieved_grade": "A",
+              "sitting_id": "AH1"
+            },
+            {
+              "subject_id": "biology",
+              "achieved_grade": "A",
+              "sitting_id": "AH1"
+            }
+          ]
+        }
+      },
+      "expected": {
+        "eligibility_status": "not_eligible",
+        "interview_band": "not_eligible",
+        "failure": "scottish_post_16_requirements_not_met"
+      }
+    },
+    {
+      "scenario_id": "scottish_fail_advanced_highers_split_sittings",
+      "overrides": {
+        "qualification_route": "scottish",
+        "a_level_profile": null,
+        "scottish_profile": {
+          "higher_subjects": [
+            {
+              "subject_id": "chemistry",
+              "achieved_grade": "A",
+              "sitting_id": "H1"
+            },
+            {
+              "subject_id": "biology",
+              "achieved_grade": "A",
+              "sitting_id": "H1"
+            },
+            {
+              "subject_id": "mathematics",
+              "achieved_grade": "A",
+              "sitting_id": "H1"
+            },
+            {
+              "subject_id": "english",
+              "achieved_grade": "A",
+              "sitting_id": "H1"
+            },
+            {
+              "subject_id": "history",
+              "achieved_grade": "A",
+              "sitting_id": "H1"
+            }
+          ],
+          "advanced_higher_subjects": [
+            {
+              "subject_id": "chemistry",
+              "achieved_grade": "A",
+              "sitting_id": "AH1"
+            },
+            {
+              "subject_id": "biology",
+              "achieved_grade": "A",
+              "sitting_id": "AH2"
+            }
+          ]
+        }
+      },
+      "expected": {
+        "eligibility_status": "not_eligible",
+        "interview_band": "not_eligible",
+        "failure": "scottish_post_16_requirements_not_met"
+      }
+    },
+    {
+      "scenario_id": "scottish_fail_advanced_higher_below_aa",
+      "overrides": {
+        "qualification_route": "scottish",
+        "a_level_profile": null,
+        "scottish_profile": {
+          "higher_subjects": [
+            {
+              "subject_id": "chemistry",
+              "achieved_grade": "A",
+              "sitting_id": "H1"
+            },
+            {
+              "subject_id": "biology",
+              "achieved_grade": "A",
+              "sitting_id": "H1"
+            },
+            {
+              "subject_id": "mathematics",
+              "achieved_grade": "A",
+              "sitting_id": "H1"
+            },
+            {
+              "subject_id": "english",
+              "achieved_grade": "A",
+              "sitting_id": "H1"
+            },
+            {
+              "subject_id": "history",
+              "achieved_grade": "A",
+              "sitting_id": "H1"
+            }
+          ],
+          "advanced_higher_subjects": [
+            {
+              "subject_id": "chemistry",
+              "achieved_grade": "A",
+              "sitting_id": "AH1"
+            },
+            {
+              "subject_id": "biology",
+              "achieved_grade": "B",
+              "sitting_id": "AH1"
+            }
+          ]
+        }
+      },
+      "expected": {
+        "eligibility_status": "not_eligible",
+        "interview_band": "not_eligible",
+        "failure": "scottish_post_16_requirements_not_met"
+      }
+    },
+    {
+      "scenario_id": "scottish_fail_missing_advanced_higher_chemistry",
+      "overrides": {
+        "qualification_route": "scottish",
+        "a_level_profile": null,
+        "scottish_profile": {
+          "higher_subjects": [
+            {
+              "subject_id": "chemistry",
+              "achieved_grade": "A",
+              "sitting_id": "H1"
+            },
+            {
+              "subject_id": "biology",
+              "achieved_grade": "A",
+              "sitting_id": "H1"
+            },
+            {
+              "subject_id": "mathematics",
+              "achieved_grade": "A",
+              "sitting_id": "H1"
+            },
+            {
+              "subject_id": "english",
+              "achieved_grade": "A",
+              "sitting_id": "H1"
+            },
+            {
+              "subject_id": "history",
+              "achieved_grade": "A",
+              "sitting_id": "H1"
+            }
+          ],
+          "advanced_higher_subjects": [
+            {
+              "subject_id": "biology",
+              "achieved_grade": "A",
+              "sitting_id": "AH1"
+            },
+            {
+              "subject_id": "physics",
+              "achieved_grade": "A",
+              "sitting_id": "AH1"
+            }
+          ]
+        }
+      },
+      "expected": {
+        "eligibility_status": "not_eligible",
+        "interview_band": "not_eligible",
+        "failure": "scottish_post_16_requirements_not_met"
+      }
+    },
+    {
+      "scenario_id": "scottish_fail_missing_second_advanced_higher_science_or_maths",
+      "overrides": {
+        "qualification_route": "scottish",
+        "a_level_profile": null,
+        "scottish_profile": {
+          "higher_subjects": [
+            {
+              "subject_id": "chemistry",
+              "achieved_grade": "A",
+              "sitting_id": "H1"
+            },
+            {
+              "subject_id": "biology",
+              "achieved_grade": "A",
+              "sitting_id": "H1"
+            },
+            {
+              "subject_id": "mathematics",
+              "achieved_grade": "A",
+              "sitting_id": "H1"
+            },
+            {
+              "subject_id": "english",
+              "achieved_grade": "A",
+              "sitting_id": "H1"
+            },
+            {
+              "subject_id": "history",
+              "achieved_grade": "A",
+              "sitting_id": "H1"
+            }
+          ],
+          "advanced_higher_subjects": [
+            {
+              "subject_id": "chemistry",
+              "achieved_grade": "A",
+              "sitting_id": "AH1"
+            },
+            {
+              "subject_id": "history",
+              "achieved_grade": "A",
+              "sitting_id": "AH1"
+            }
+          ]
+        }
+      },
+      "expected": {
+        "eligibility_status": "not_eligible",
+        "interview_band": "not_eligible",
+        "failure": "scottish_post_16_requirements_not_met"
+      }
     }
   ]
 }

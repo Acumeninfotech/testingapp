@@ -2667,20 +2667,41 @@ function evaluateScottishRoute(course, applicant, state) {
       route,
       'advanced_higher'
     );
-    const sameSittingLevel = normaliseId(route.same_sitting_qualification_level);
-    const routeSittingSubjects = sameSittingLevel === 'higher' ||
-      sameSittingLevel === 'scottish_highers'
-      ? higherSubjects
-        : sameSittingLevel === 'advanced_higher' ||
-          sameSittingLevel === 'advanced_highers'
-        ? advancedHigherSubjects
-        : allPost16ScottishSubjects;
-    const routeSittingAssessment = scottishSameSittingAssessment(
-      profile,
-      routeSittingSubjects,
-      route
+    const configuredSameSittingLevels = Array.isArray(route.same_sitting_qualification_levels)
+      ? route.same_sitting_qualification_levels.map(normaliseId).filter(Boolean)
+      : [];
+    const legacySameSittingLevel = normaliseId(route.same_sitting_qualification_level);
+    const sameSittingLevels = configuredSameSittingLevels.length > 0
+      ? configuredSameSittingLevels
+      : [legacySameSittingLevel].filter(Boolean);
+    const sameSittingAssessments = sameSittingLevels.length > 0
+      ? sameSittingLevels.map((sameSittingLevel) => {
+        const routeSittingSubjects = sameSittingLevel === 'higher' ||
+          sameSittingLevel === 'scottish_highers'
+          ? higherSubjects
+          : sameSittingLevel === 'advanced_higher' ||
+            sameSittingLevel === 'advanced_highers'
+            ? advancedHigherSubjects
+            : allPost16ScottishSubjects;
+        return scottishSameSittingAssessment(
+          profile,
+          routeSittingSubjects,
+          route
+        );
+      })
+      : [
+        scottishSameSittingAssessment(
+          profile,
+          allPost16ScottishSubjects,
+          route
+        )
+      ];
+    const routeSittingPassed = sameSittingAssessments.every(
+      (assessment) => assessment.passed
     );
-    const routeSittingPassed = routeSittingAssessment.passed;
+    const routeSittingAssessment = sameSittingAssessments.find(
+      (assessment) => assessment.requires_manual_review
+    ) || sameSittingAssessments[0];
     const sameYearSubjectRulesPassed = scottishSameYearSubjectRulesMeet(
       higherSubjects,
       advancedHigherSubjects,
