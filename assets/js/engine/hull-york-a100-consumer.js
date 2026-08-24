@@ -975,7 +975,7 @@ function contextualEstimate(config, applicant, eligibility) {
     model.official_contextual_minimum_criteria ?? 2;
   const officialEligibilityMet =
     applicable && assessment?.is_contextual === true;
-  const rawPoints = applicable
+  const rawPoints = officialEligibilityMet
     ? criteria.reduce((total, criterion) => {
       return total + Number(model.points_by_flag?.[criterion] || 0);
     }, 0)
@@ -1132,20 +1132,37 @@ function recommendationBand(config, applicant, eligibility, score) {
   }
 
   const value = score.value;
+
+  // ApplySmart HYMS Home guidance uses the actual calculated selection total.
+  // Contextual applicants may gain estimated contextual points before this
+  // classification; non-contextual applicants receive none.
+  // The Strong Choice boundary is therefore the same raw total for both.
+  if (value >= 72) {
+    return 'interview_likely';
+  }
+
   const rules = config.score_model?.estimate_mode?.home_recommendation_bands || [];
   return rules.find((rule) => {
-    return value >= (rule.min ?? -Infinity) && value <= (rule.max ?? Infinity);
+    return (
+      rule.band !== 'interview_likely' &&
+      value >= (rule.min ?? -Infinity) &&
+      value <= (rule.max ?? Infinity)
+    );
   })?.band || 'insufficient_evidence';
 }
 
 function estimateSelectionScore(course, config, applicant, eligibility, options = {}) {
   const contextual = contextualEstimate(config, applicant, eligibility);
+  const contextualScoringActive =
+    contextual.official_contextual_eligibility
+      ?.met_from_canonical_assessment === true;
+
   if (eligibility.status !== 'eligible') {
     return {
       label: APPLYSMART_HYMS_SCORE_LABEL,
       status: 'not_applied',
       value: null,
-      max: contextual.applicable ? 100 : 85,
+      max: contextualScoringActive ? 100 : 85,
       components: {},
       contextual,
       evidence_classification: 'unofficial_third_party_estimate',
@@ -1169,7 +1186,7 @@ function estimateSelectionScore(course, config, applicant, eligibility, options 
   };
   const componentValues = Object.values(components).map((component) => component.value);
   const available = componentValues.every(Number.isFinite);
-  const max = contextual.applicable ? 100 : 85;
+  const max = contextualScoringActive ? 100 : 85;
 
   return {
     label: APPLYSMART_HYMS_SCORE_LABEL,
@@ -1457,5 +1474,6 @@ module.exports = {
   contextualCriteria,
   evaluateHullYorkA100,
   evaluateOfficialEligibility,
-  estimateSelectionScore
+  estimateSelectionScore,
+  recommendationBand
 };

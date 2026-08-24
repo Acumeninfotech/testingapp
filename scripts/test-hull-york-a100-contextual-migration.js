@@ -5,7 +5,8 @@ const fs = require('fs');
 const path = require('path');
 const {
   buildHullYorkA100ResultCard,
-  evaluateHullYorkA100
+  evaluateHullYorkA100,
+  recommendationBand
 } = require('../assets/js/engine/hull-york-a100-consumer');
 
 const rootDir = path.resolve(__dirname, '..');
@@ -118,6 +119,58 @@ function evaluate(applicant) {
   return evaluateHullYorkA100(course, config, applicant);
 }
 
+
+// HYMS Home recommendation boundary.
+//
+// The score is the actual HYMS component total:
+// GCSE + UCAT + SJT + any canonically-earned contextual points.
+//
+// Contextual status does not create a separate recommendation boundary.
+// Once the calculated total reaches 72, the applicant is Strong Choice.
+const homeSchoolLeaverEligibility = {
+  status: 'eligible',
+  route_flags: {
+    home: true,
+    school_leaver: true,
+    international: false,
+    graduate: false,
+    prior_university: false
+  }
+};
+
+assert.strictEqual(
+  recommendationBand(
+    config,
+    applicantWith({}),
+    homeSchoolLeaverEligibility,
+    { status: 'calculated', value: 72, max: 85 }
+  ),
+  'interview_likely',
+  'non-contextual 72/85: Strong Choice boundary'
+);
+
+assert.notStrictEqual(
+  recommendationBand(
+    config,
+    applicantWith({}),
+    homeSchoolLeaverEligibility,
+    { status: 'calculated', value: 71.99, max: 85 }
+  ),
+  'interview_likely',
+  'non-contextual below 72/85 must remain below Strong Choice'
+);
+
+assert.strictEqual(
+  recommendationBand(
+    config,
+    applicantWith({}),
+    homeSchoolLeaverEligibility,
+    { status: 'calculated', value: 72, max: 100 }
+  ),
+  'interview_likely',
+  'contextual 72/100: same Strong Choice boundary'
+);
+
 function contextual(applicant) {
   return evaluate(applicant).eligibility.contextual_eligibility;
 }
@@ -178,7 +231,89 @@ const oneOrdinary = evaluate(applicantWith({
   })
 }));
 assert.strictEqual(oneOrdinary.eligibility.contextual_eligibility.status, 'not_contextual');
-assert.strictEqual(oneOrdinary.estimated_selection_score.contextual.points, 8);
+assert.strictEqual(
+  oneOrdinary.estimated_selection_score.contextual.points,
+  0,
+  'one ordinary marker: not contextual, so no contextual estimate points'
+);
+
+
+// ---------------------------------------------------------------------------
+// HYMS score classification must use the actual calculated total.
+//
+// This applicant has the same GCSE + UCAT + SJT evidence in both cases.
+// Without canonical contextual eligibility:
+//   28.98 + 31.5 + 10 = 70.48 -> below Strong Choice.
+// With the fixture's canonical contextual evidence:
+//   70.48 + 15 = 85.48 -> Strong Choice.
+//
+// This proves contextual status changes the score through earned contextual
+// points, not through a separate recommendation boundary.
+// ---------------------------------------------------------------------------
+
+const nonContextualCrossingCase = evaluate(applicantWith({
+  contextual_profile: noContextualProfile()
+}));
+
+assert.strictEqual(
+  nonContextualCrossingCase.eligibility.contextual_eligibility.status,
+  'not_contextual',
+  'crossing case without contextual evidence must be non-contextual'
+);
+
+assert.strictEqual(
+  nonContextualCrossingCase.estimated_selection_score.contextual.points,
+  0,
+  'crossing case without contextual evidence receives zero contextual points'
+);
+
+assert.strictEqual(
+  nonContextualCrossingCase.estimated_selection_score.value,
+  70.48,
+  'non-contextual crossing case score is GCSE + UCAT + SJT only'
+);
+
+assert.notStrictEqual(
+  nonContextualCrossingCase.canonical_interview_band,
+  'interview_likely',
+  '70.48 must remain below the 72-point Strong Choice boundary'
+);
+
+const contextualCrossingCase = evaluate(
+  applicantWith({
+    contextual_profile: clone(fixture.base_applicant.contextual_profile)
+  })
+);
+
+assert.strictEqual(
+  contextualCrossingCase.eligibility.contextual_eligibility.status,
+  'contextual',
+  'same applicant with canonical contextual evidence must be contextual'
+);
+
+assert.strictEqual(
+  contextualCrossingCase.estimated_selection_score.contextual.points,
+  15,
+  'canonical contextual applicant receives the capped 15 contextual points'
+);
+
+assert.strictEqual(
+  contextualCrossingCase.estimated_selection_score.contextual.raw_points_before_cap,
+  18,
+  'canonical contextual evidence produces 18 raw points before the 15-point cap'
+);
+
+assert.strictEqual(
+  contextualCrossingCase.estimated_selection_score.value,
+  85.48,
+  'contextual score adds earned contextual points to the same base subtotal'
+);
+
+assert.strictEqual(
+  contextualCrossingCase.canonical_interview_band,
+  'interview_likely',
+  'contextual points push the same applicant above the 72-point Strong Choice boundary'
+);
 
 const legacyOnly = evaluate(applicantWith({
   applicant_identity: {
