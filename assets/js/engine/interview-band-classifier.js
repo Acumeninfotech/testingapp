@@ -1769,7 +1769,7 @@ function isEquivalentCourseTarget(profileId, targetCourseCode) {
   return Array.isArray(allowed) && allowed.includes(targetCourseCode);
 }
 
-function applyClassificationEligibilityGuards(eligibility, config, qualificationRoute, groupIds = []) {
+function applyClassificationEligibilityGuards(eligibility, config, qualificationRoute, groupIds = [], applicant = null) {
   const configEligibility = config?.eligibility || {};
   const configuredRoutes = configEligibility.qualification_routes || {};
   const normalisedRoute = normaliseId(qualificationRoute);
@@ -1804,6 +1804,35 @@ function applyClassificationEligibilityGuards(eligibility, config, qualification
     const normalisedGroupId = normaliseId(groupId);
     if (normalisedGroupIds.includes(normalisedGroupId)) {
       addManualReview(`applicant_group_requires_manual_review:${normalisedGroupId}`);
+    }
+  }
+
+  const graduateRules = configEligibility.graduate || {};
+  if (normalisedRoute === 'graduate' || normalisedGroupIds.includes('graduate_applicant')) {
+    const maxYearsWithoutRecentHigherEducation =
+      graduateRules.maximum_years_without_recent_higher_education;
+    if (Number.isFinite(maxYearsWithoutRecentHigherEducation)) {
+      const profile = applicant?.graduate_profile || {};
+      const yearsSinceDegree = Number(
+        profile.years_since_degree_award ??
+        profile.years_since_degree ??
+        profile.years_without_recent_higher_education
+      );
+      const recentHigherEducation =
+        profile.recent_higher_education === true ||
+        profile.recent_higher_education_evidence === true ||
+        profile.postgraduate_qualification_verified === true;
+      if (
+        Number.isFinite(yearsSinceDegree) &&
+        yearsSinceDegree > maxYearsWithoutRecentHigherEducation &&
+        !recentHigherEducation
+      ) {
+        if (graduateRules.recency_fail_action === 'manual_review') {
+          addManualReview('graduate_recency_requires_manual_review');
+        } else {
+          addFailure('graduate_recent_higher_education_not_confirmed');
+        }
+      }
     }
   }
 
@@ -4953,7 +4982,8 @@ function classifyInterviewBand(course, config, applicantInput, options = {}) {
       eligibility,
       classificationConfig,
       qualificationRoute,
-      groupIds
+      groupIds,
+      applicant
     )
     : evaluateHardFilters(course, classificationConfig, applicant, groupIds);
   const base = {

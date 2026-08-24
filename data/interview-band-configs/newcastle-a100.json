@@ -13,6 +13,7 @@
   "eligibility": {
     "scope": "Automatic classifier handling covers A-level school-leaver, IB, graduate A100, verified Access to HE, guarded international-qualification and Scottish profiles with current-cycle UCAT, SJT and practical-endorsement evidence.",
     "international_english_language_required": true,
+    "contextual_evaluator_controls_group_routing": true,
     "qualification_routes": {
       "supported": [
         "a_level",
@@ -84,6 +85,40 @@
             "A",
             "A"
           ],
+          "one_of_subject_groups": [
+            {
+              "group_id": "two_from_biology_chemistry_maths_further_maths_statistics_or_physics",
+              "minimum_required": 2,
+              "subject_ids": [
+                "biology",
+                "chemistry",
+                "mathematics",
+                "further_mathematics",
+                "statistics",
+                "physics"
+              ]
+            }
+          ],
+          "required_subject_grade_options": [
+            {
+              "option_id": "biology_or_chemistry",
+              "grade_requirements": [
+                {
+                  "subject_id": "biology",
+                  "minimum_grade": "A"
+                }
+              ]
+            },
+            {
+              "option_id": "chemistry_or_biology",
+              "grade_requirements": [
+                {
+                  "subject_id": "chemistry",
+                  "minimum_grade": "A"
+                }
+              ]
+            }
+          ],
           "excluded_subject_policy": "do_not_count",
           "excluded_subject_ids": [
             "general_studies",
@@ -112,6 +147,40 @@
             "B",
             "B"
           ],
+          "one_of_subject_groups": [
+            {
+              "group_id": "two_from_biology_chemistry_maths_further_maths_statistics_or_physics",
+              "minimum_required": 2,
+              "subject_ids": [
+                "biology",
+                "chemistry",
+                "mathematics",
+                "further_mathematics",
+                "statistics",
+                "physics"
+              ]
+            }
+          ],
+          "required_subject_grade_options": [
+            {
+              "option_id": "biology_or_chemistry",
+              "grade_requirements": [
+                {
+                  "subject_id": "biology",
+                  "minimum_grade": "B"
+                }
+              ]
+            },
+            {
+              "option_id": "chemistry_or_biology",
+              "grade_requirements": [
+                {
+                  "subject_id": "chemistry",
+                  "minimum_grade": "B"
+                }
+              ]
+            }
+          ],
           "excluded_subject_policy": "do_not_count",
           "excluded_subject_ids": [
             "general_studies",
@@ -122,7 +191,7 @@
           ]
         },
         {
-          "route_id": "newcastle_partners_supported_bbb",
+          "route_id": "newcastle_partners_supported_abb",
           "applies_to_group_ids": [
             "home_fee",
             "partners_supported"
@@ -132,9 +201,43 @@
             "graduate_applicant"
           ],
           "grade_profile": [
-            "B",
+            "A",
             "B",
             "B"
+          ],
+          "one_of_subject_groups": [
+            {
+              "group_id": "two_from_biology_chemistry_maths_further_maths_statistics_or_physics",
+              "minimum_required": 2,
+              "subject_ids": [
+                "biology",
+                "chemistry",
+                "mathematics",
+                "further_mathematics",
+                "statistics",
+                "physics"
+              ]
+            }
+          ],
+          "required_subject_grade_options": [
+            {
+              "option_id": "biology_or_chemistry",
+              "grade_requirements": [
+                {
+                  "subject_id": "biology",
+                  "minimum_grade": "B"
+                }
+              ]
+            },
+            {
+              "option_id": "chemistry_or_biology",
+              "grade_requirements": [
+                {
+                  "subject_id": "chemistry",
+                  "minimum_grade": "B"
+                }
+              ]
+            }
           ],
           "excluded_subject_policy": "do_not_count",
           "excluded_subject_ids": [
@@ -158,6 +261,40 @@
             "A",
             "A"
           ],
+          "one_of_subject_groups": [
+            {
+              "group_id": "two_from_biology_chemistry_maths_further_maths_statistics_or_physics",
+              "minimum_required": 2,
+              "subject_ids": [
+                "biology",
+                "chemistry",
+                "mathematics",
+                "further_mathematics",
+                "statistics",
+                "physics"
+              ]
+            }
+          ],
+          "required_subject_grade_options": [
+            {
+              "option_id": "biology_or_chemistry",
+              "grade_requirements": [
+                {
+                  "subject_id": "biology",
+                  "minimum_grade": "A"
+                }
+              ]
+            },
+            {
+              "option_id": "chemistry_or_biology",
+              "grade_requirements": [
+                {
+                  "subject_id": "chemistry",
+                  "minimum_grade": "A"
+                }
+              ]
+            }
+          ],
           "excluded_subject_policy": "do_not_count",
           "excluded_subject_ids": [
             "general_studies",
@@ -172,16 +309,56 @@
     "international_baccalaureate": {
       "routes": [
         {
-          "route_id": "newcastle_ib_36_biology_chemistry_hl",
+          "route_id": "newcastle_ib_36_bio_or_chem_plus_second_hl",
           "total_points": 36,
           "hl_grade_profile": [
             "5",
             "5",
             "5"
           ],
-          "required_hl_subject_ids": [
-            "biology",
-            "chemistry"
+          "required_hl_subject_grade_options": [
+            {
+              "option_id": "biology_plus_chemistry",
+              "grade_requirements": [
+                { "subject_id": "biology", "minimum_grade": "5" },
+                { "subject_id": "chemistry", "minimum_grade": "5" }
+              ]
+            },
+            {
+              "option_id": "biology_plus_mathematics",
+              "grade_requirements": [
+                { "subject_id": "biology", "minimum_grade": "5" },
+                { "subject_id": "mathematics", "minimum_grade": "5" }
+              ]
+            },
+            {
+              "option_id": "biology_plus_physics",
+              "grade_requirements": [
+                { "subject_id": "biology", "minimum_grade": "5" },
+                { "subject_id": "physics", "minimum_grade": "5" }
+              ]
+            },
+            {
+              "option_id": "chemistry_plus_biology",
+              "grade_requirements": [
+                { "subject_id": "chemistry", "minimum_grade": "5" },
+                { "subject_id": "biology", "minimum_grade": "5" }
+              ]
+            },
+            {
+              "option_id": "chemistry_plus_mathematics",
+              "grade_requirements": [
+                { "subject_id": "chemistry", "minimum_grade": "5" },
+                { "subject_id": "mathematics", "minimum_grade": "5" }
+              ]
+            },
+            {
+              "option_id": "chemistry_plus_physics",
+              "grade_requirements": [
+                { "subject_id": "chemistry", "minimum_grade": "5" },
+                { "subject_id": "physics", "minimum_grade": "5" }
+              ]
+            }
           ]
         }
       ]
@@ -193,15 +370,40 @@
       },
       "post_16_routes": [
         {
-          "route_id": "newcastle_scottish_advanced_higher_aa",
+          "route_id": "newcastle_scottish_aaabb_plus_aa",
+          "higher_grade_profile": [
+            "A",
+            "A",
+            "A",
+            "B",
+            "B"
+          ],
           "grade_profile": [
             "A",
             "A"
           ],
-          "required_subject_ids": [
-            "biology",
-            "chemistry"
-          ]
+          "any_post16_subject_groups": [
+            {
+              "group_id": "biology_or_chemistry",
+              "minimum_required": 1,
+              "subject_ids": [
+                "biology",
+                "chemistry"
+              ]
+            },
+            {
+              "group_id": "second_science_or_maths",
+              "minimum_required": 2,
+              "subject_ids": [
+                "biology",
+                "chemistry",
+                "mathematics",
+                "statistics",
+                "physics"
+              ]
+            }
+          ],
+          "multiple_sittings_permitted": true
         }
       ]
     },
@@ -275,7 +477,8 @@
             "partners_supported"
           ],
           "excluded_group_ids": [
-            "international_fee"
+            "international_fee",
+            "graduate_applicant"
           ],
           "grade_profile": [
             "A",
@@ -343,11 +546,33 @@
           "qualification_routes": [
             "a_level",
             "international_baccalaureate",
-            "scottish",
             "access_to_medicine"
           ],
           "excluded_qualification_status": [
             "achieved"
+          ]
+        }
+      },
+      {
+        "component_id": "scottish_academic_score",
+        "type": "conditional_points",
+        "max": 40,
+        "conditions": [
+          {
+            "condition_id": "newcastle_scottish_aaabb_plus_aa_equivalent_academic_score",
+            "qualification_routes": [
+              "scottish"
+            ],
+            "points": 40
+          }
+        ],
+        "match": {
+          "excluded_group_ids": [
+            "international_fee",
+            "graduate_applicant"
+          ],
+          "qualification_routes": [
+            "scottish"
           ]
         }
       },
@@ -485,7 +710,8 @@
           "partners_supported"
         ],
         "excluded_group_ids": [
-          "international_fee"
+          "international_fee",
+          "graduate_applicant"
         ]
       },
       "metric": "selection_score",

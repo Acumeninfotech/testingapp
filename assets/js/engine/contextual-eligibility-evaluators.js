@@ -84,6 +84,10 @@ const {
   KCL_CONTEXTUAL_EVALUATOR_ID,
   evaluateKclContextualEligibility
 } = require('./kcl-contextual-eligibility');
+const {
+  NEWCASTLE_CONTEXTUAL_EVALUATOR_ID,
+  evaluateNewcastleContextualEligibility
+} = require('./newcastle-contextual-eligibility');
 
 const DEFAULT_CONTEXTUAL_ELIGIBILITY_EVALUATORS = {
   [ABERDEEN_CONTEXTUAL_EVALUATOR_ID]: evaluateAberdeenContextualEligibility,
@@ -106,7 +110,8 @@ const DEFAULT_CONTEXTUAL_ELIGIBILITY_EVALUATORS = {
   [NOTTINGHAM_CONTEXTUAL_EVALUATOR_ID]: evaluateNottinghamContextualEligibility,
   [UCL_CONTEXTUAL_EVALUATOR_ID]: evaluateUclContextualEligibility,
   [HYMS_CONTEXTUAL_EVALUATOR_ID]: evaluateHymsContextualEligibility,
-  [KCL_CONTEXTUAL_EVALUATOR_ID]: evaluateKclContextualEligibility
+  [KCL_CONTEXTUAL_EVALUATOR_ID]: evaluateKclContextualEligibility,
+  [NEWCASTLE_CONTEXTUAL_EVALUATOR_ID]: evaluateNewcastleContextualEligibility
 };
 
 module.exports = {
@@ -126,6 +131,7 @@ module.exports = {
   UEA_PREPARING_FOR_MEDICINE_PROGRAMME_ID,
   HYMS_CONTEXTUAL_EVALUATOR_ID,
   KCL_CONTEXTUAL_EVALUATOR_ID,
+  NEWCASTLE_CONTEXTUAL_EVALUATOR_ID,
   evaluateAberdeenContextualEligibility,
   evaluateBirminghamContextualEligibility,
   evaluateDundeeContextualEligibility,
@@ -141,5 +147,6 @@ module.exports = {
   evaluateUeaContextualEligibility,
   evaluateHymsContextualEligibility,
   evaluateKclContextualEligibility,
+  evaluateNewcastleContextualEligibility,
   DEFAULT_CONTEXTUAL_ELIGIBILITY_EVALUATORS
 };

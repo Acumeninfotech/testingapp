@@ -623,6 +623,12 @@ function academicQualificationTypeForCheck(rawCheck) {
   ) {
     return 'graduate';
   }
+  if (
+    formatAcademicAlevelGradeProfile(rawCheck?.required) ||
+    formatAcademicAlevelGradeProfile(rawCheck?.grade_profile)
+  ) {
+    return 'a_level';
+  }
 
   return null;
 }
@@ -670,9 +676,23 @@ function humanSubjectLabel(subjectId) {
     .replace(/\b\w/g, (char) => char.toUpperCase());
 }
 
+function formatAcademicAlevelGradeProfile(value) {
+  if (Array.isArray(value)) {
+    return formatAlevelGradeProfile(value);
+  }
+  const compact = String(value || '')
+    .replace(/\s+/g, '')
+    .trim()
+    .toUpperCase();
+  return /^(?:A\*|[A-E]){2,4}$/.test(compact) ? compact : null;
+}
+
 function academicRequirementLabelForCheck(rawCheck, qualificationType, context = {}) {
   const checkId = academicRequirementCheckId(rawCheck);
   const status = normaliseCheckId(context.academic_requirement_status);
+  const requiredAlevelGradeProfile = formatAcademicAlevelGradeProfile(
+    rawCheck?.required ?? rawCheck?.grade_profile
+  );
   const firstSubject =
     rawCheck?.subject_id ||
     rawCheck?.required_subject_id ||
@@ -775,6 +795,9 @@ function academicRequirementLabelForCheck(rawCheck, qualificationType, context =
   if (qualificationType === 'a_level' && (checkId === 'a_level_route' || checkId.includes('a_level'))) {
     return 'A-level grades';
   }
+  if (qualificationType === 'a_level' && requiredAlevelGradeProfile) {
+    return `A-level grades: ${requiredAlevelGradeProfile}`;
+  }
   if (checkId.includes('english_language')) {
     return 'GCSE English Language';
   }
@@ -790,6 +813,9 @@ function academicRequirementLabelForCheck(rawCheck, qualificationType, context =
 
 function academicRequirementReasonForCheck(rawCheck, status, context = {}) {
   const checkId = academicRequirementCheckId(rawCheck);
+  const requiredAlevelGradeProfile = formatAcademicAlevelGradeProfile(
+    rawCheck?.required ?? rawCheck?.grade_profile
+  );
   if (status === 'met') {
     if (checkId === 'same_sitting_requirement') {
       return 'The same-sitting requirement is met.';
@@ -802,6 +828,9 @@ function academicRequirementReasonForCheck(rawCheck, status, context = {}) {
     }
     if (checkId === 'a_level_contextual_reduced_offer') {
       return 'The contextual reduced AAB academic pathway is met.';
+    }
+    if (requiredAlevelGradeProfile) {
+      return `The A-level grade requirement (${requiredAlevelGradeProfile}) is met.`;
     }
     return 'This requirement is met.';
   }
@@ -837,6 +866,9 @@ function academicRequirementReasonForCheck(rawCheck, status, context = {}) {
         manual_review_reasons: [rawCheck.manual_review_reason]
       }) || UCL_SCOTTISH_PREDICTED_A1_CONFIRMATION_EXPLANATION;
     }
+    if (requiredAlevelGradeProfile) {
+      return 'Required A-level grade information is missing.';
+    }
     return 'Required subject information is missing.';
   }
 
@@ -857,6 +889,9 @@ function academicRequirementReasonForCheck(rawCheck, status, context = {}) {
   }
   if (checkId === 'a_level_route' || checkId.includes('a_level')) {
     return 'Predicted A-level grades are below the required grades.';
+  }
+  if (requiredAlevelGradeProfile) {
+    return `Predicted or achieved A-level grades are below ${requiredAlevelGradeProfile}.`;
   }
   if (checkId.includes('gcse')) {
     return 'A required GCSE grade does not meet the published minimum.';

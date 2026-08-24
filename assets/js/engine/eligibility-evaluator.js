@@ -326,7 +326,8 @@ const COURSES_WITH_CONTEXTUAL_EVALUATOR_GROUP_CONTROL = [
   'southampton-a100',
   'ucl-a100',
   'hull-york-a100',
-  'king-s-college-london-a100'
+  'king-s-college-london-a100',
+  'newcastle-a100'
 ];
 
 const ABERDEEN_LEGACY_CONTEXTUAL_GROUP_IDS = [
@@ -473,6 +474,27 @@ const KCL_LEGACY_CONTEXTUAL_GROUP_IDS = [
   'school_quintile'
 ];
 
+const NEWCASTLE_LEGACY_CONTEXTUAL_GROUP_IDS = [
+  'contextual',
+  'widening_participation',
+  'free_school_meals',
+  'care_experienced',
+  'care_leaver',
+  'estranged_from_family',
+  'young_carer',
+  'young_adult_carer',
+  'unpaid_carer',
+  'carer',
+  'imd_quintile_1',
+  'imd_quintile_2',
+  'tundra_quintile_1',
+  'tundra_quintile_2',
+  'polar4_quintile_1',
+  'polar4_quintile_2',
+  'polar_quintile_1',
+  'polar_quintile_2'
+];
+
 const COURSES_WITH_ACTIVATED_CONTEXTUAL_GROUPS = [
   'aberdeen-a100',
   'aston-a100',
@@ -494,7 +516,8 @@ const COURSES_WITH_ACTIVATED_CONTEXTUAL_GROUPS = [
   'southampton-a100',
   'ucl-a100',
   'hull-york-a100',
-  'king-s-college-london-a100'
+  'king-s-college-london-a100',
+  'newcastle-a100'
 ];
 
 const SCOTTISH_MEDICAL_SCHOOL_ROUTE_IDS = Object.freeze([
@@ -710,6 +733,11 @@ function applyCourseSpecificDerivedApplicantGroups(course, applicant, groupIds, 
   }
   if (course?.profile_id === 'king-s-college-london-a100' && contextualResult) {
     for (const groupId of KCL_LEGACY_CONTEXTUAL_GROUP_IDS) {
+      groups.delete(groupId);
+    }
+  }
+  if (course?.profile_id === 'newcastle-a100' && contextualResult) {
+    for (const groupId of NEWCASTLE_LEGACY_CONTEXTUAL_GROUP_IDS) {
       groups.delete(groupId);
     }
   }
@@ -1416,11 +1444,60 @@ function scottishSubjectsForCombinedRule(higherSubjects = [], advancedHigherSubj
 function combinedScottishGradeRequirementsMeet(higherSubjects, advancedHigherSubjects, rules = []) {
   return (rules || []).every((rule) => {
     const subjects = scottishSubjectsForCombinedRule(higherSubjects, advancedHigherSubjects, rule);
-    return gradeProfileOptionsMeet(
-      subjects.map(scottishSubjectGrade),
-      rule.grade_profile || [],
-      rule.grade_profile_options || []
+    const acceptedSubjectIds = uniqueNormalisedIds(
+      rule.subject_ids || [],
+      rule.accepted_subject_ids || []
     );
+    const eligibleSubjects = acceptedSubjectIds.length > 0
+      ? subjects.filter((subject) => acceptedSubjectIds.includes(normaliseScottishSubjectId(subject)))
+      : subjects;
+    const subjectGrades = {};
+    for (const subject of eligibleSubjects) {
+      const subjectId = normaliseScottishSubjectId(subject);
+      const grade = scottishSubjectGrade(subject);
+      if (!subjectId) {
+        continue;
+      }
+      if (
+        subjectGrades[subjectId] === undefined ||
+        gradeMeets(grade, subjectGrades[subjectId], 'a_level')
+      ) {
+        subjectGrades[subjectId] = grade;
+      }
+    }
+    const subjectGroupsMeet = (groups = []) => {
+      return (groups || []).every((group) => {
+        const matching = (group.subject_ids || []).filter((subjectId) => {
+          return subjectGrades[normaliseId(subjectId)] !== undefined;
+        });
+        return matching.length >= (group.minimum_required || 1);
+      });
+    };
+    const subjectOptionsMeet = (rule.required_subject_grade_options || []).length === 0 ||
+      (rule.required_subject_grade_options || []).some((option) => {
+        return subjectGradeRequirementsMeet(
+          subjectGrades,
+          option.grade_requirements || [],
+          'a_level'
+        ) && subjectGroupsMeet(option.one_of_subject_groups || []);
+      });
+    const profileRequired =
+      (rule.grade_profile || []).length > 0 ||
+      (rule.grade_profile_options || []).length > 0;
+    const profileMeet = !profileRequired ||
+      gradeProfileOptionsMeet(
+        eligibleSubjects.map(scottishSubjectGrade),
+        rule.grade_profile || [],
+        rule.grade_profile_options || []
+      );
+    return profileMeet &&
+      subjectGradeRequirementsMeet(
+        subjectGrades,
+        rule.subject_grade_requirements || rule.grade_requirements || [],
+        'a_level'
+      ) &&
+      subjectOptionsMeet &&
+      subjectGroupsMeet(rule.one_of_subject_groups || []);
   });
 }
 
