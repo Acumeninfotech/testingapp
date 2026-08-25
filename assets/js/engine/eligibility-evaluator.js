@@ -327,7 +327,8 @@ const COURSES_WITH_CONTEXTUAL_EVALUATOR_GROUP_CONTROL = [
   'ucl-a100',
   'hull-york-a100',
   'king-s-college-london-a100',
-  'newcastle-a100'
+  'newcastle-a100',
+  'brighton-and-sussex-a100'
 ];
 
 const ABERDEEN_LEGACY_CONTEXTUAL_GROUP_IDS = [
@@ -495,6 +496,11 @@ const NEWCASTLE_LEGACY_CONTEXTUAL_GROUP_IDS = [
   'polar_quintile_2'
 ];
 
+const BSMS_LEGACY_CONTEXTUAL_GROUP_IDS = [
+  'bsms_adjusted_offer_confirmed',
+  'bsms_care_leaver_confirmed'
+];
+
 const COURSES_WITH_ACTIVATED_CONTEXTUAL_GROUPS = [
   'aberdeen-a100',
   'aston-a100',
@@ -517,7 +523,8 @@ const COURSES_WITH_ACTIVATED_CONTEXTUAL_GROUPS = [
   'ucl-a100',
   'hull-york-a100',
   'king-s-college-london-a100',
-  'newcastle-a100'
+  'newcastle-a100',
+  'brighton-and-sussex-a100'
 ];
 
 const SCOTTISH_MEDICAL_SCHOOL_ROUTE_IDS = Object.freeze([
@@ -741,6 +748,12 @@ function applyCourseSpecificDerivedApplicantGroups(course, applicant, groupIds, 
       groups.delete(groupId);
     }
   }
+  if (course?.profile_id === 'brighton-and-sussex-a100' && contextualResult) {
+    for (const groupId of BSMS_LEGACY_CONTEXTUAL_GROUP_IDS) {
+      groups.delete(groupId);
+    }
+  }
+
   if (COURSES_WITH_ACTIVATED_CONTEXTUAL_GROUPS.includes(course?.profile_id)) {
     const activatedGroups = contextualResult?.is_contextual === true
       ? contextualResult.activated_applicant_group_ids
@@ -1714,13 +1727,27 @@ function evaluateGcseRules(course, applicant, state) {
       continue;
     }
     const subjectId = normaliseId(rule.subject_id);
-    if (combinedSciencePassed && ['biology', 'chemistry'].includes(subjectId)) {
+    const subjectIds = subjectIdsForRequirement(rule);
+
+    if (
+      combinedSciencePassed &&
+      subjectIds.some((candidateId) => ['biology', 'chemistry'].includes(candidateId))
+    ) {
       continue;
     }
-    const passed = gradeMeets(subjectGrades[subjectId], rule.minimum_grade, 'gcse');
+
+    const passed = subjectGradeRequirementMet(
+      subjectGrades,
+      subjectIds,
+      rule.minimum_grade,
+      'gcse'
+    );
+
     addCheck(state, rule.requirement_id || `gcse_${subjectId}`, passed, {
-      subject_id: subjectId
+      subject_id: subjectId,
+      subject_ids: subjectIds
     });
+
     if (!passed) {
       const usesIeltsForLowerEnglish =
         subjectId === 'english_language' &&
@@ -3605,7 +3632,11 @@ function evaluateAdmissionsTests(course, applicant, state) {
       score_scale: evidence.score_scale ?? null
     });
     if (!present) {
-      addFailure(state, 'required_admissions_test_missing:ucat');
+      if (normaliseId(ucat.missing_outcome) === 'manual_review') {
+        addManualReview(state, 'required_admissions_test_missing:ucat');
+      } else {
+        addFailure(state, 'required_admissions_test_missing:ucat');
+      }
     }
   }
 
@@ -3616,6 +3647,22 @@ function evaluateAdmissionsTests(course, applicant, state) {
     evidence.score_scale !== ucat.maximum_total_score
   ) {
     addManualReview(state, 'ucat_score_scale_mismatch');
+  }
+
+  if (
+    ucatApplies &&
+    Number.isFinite(evidence.total_score) &&
+    (
+      evidence.total_score < 0 ||
+      evidence.total_score > (
+        ucat.maximum_total_score ??
+        ucat.score_scale ??
+        evidence.score_scale ??
+        2700
+      )
+    )
+  ) {
+    addManualReview(state, 'ucat_total_outside_supported_range');
   }
   const minimumUcatTotalScore = resolveCourseUcatMinimumTotalScore(
     course,
@@ -3656,9 +3703,21 @@ function evaluateAdmissionsTests(course, applicant, state) {
   const groupSjtPolicy = (tests.sjt?.group_policies || []).find((policy) => {
     return groupRuleApplies(policy, state.applicant_group_ids);
   });
+  const sjtUsedAsGate =
+    groupSjtPolicy?.used_as_gate ?? tests.sjt?.used_as_gate;
   const excludedBands = groupSjtPolicy?.excluded_bands ?? tests.sjt?.excluded_bands ?? [];
   const sjtApplies = !isGraduate || graduateCompensatoryPolicy?.sjt_remains_required === true;
   if (
+    sjtApplies &&
+    sjtUsedAsGate === true &&
+    (sjtBand === undefined || sjtBand === null)
+  ) {
+    if (normaliseId(tests.sjt?.missing_outcome) === 'manual_review') {
+      addManualReview(state, 'required_admissions_test_component_missing:sjt');
+    } else {
+      addFailure(state, 'required_admissions_test_component_missing:sjt');
+    }
+  } else if (
     sjtApplies &&
     (!isInternational || Boolean(groupSjtPolicy)) &&
     excludedBands.includes(sjtBand)

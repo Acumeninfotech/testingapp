@@ -121,6 +121,7 @@ export interface UcatComparison {
     | 'historical_average'
     | 'applysmart_prediction_band'
     | 'current_guidance'
+    | 'no_published_contextual_cutoff'
     | 'ranking_only';
   applicant_ucat: number | null;
   benchmark_min: number | null;
@@ -128,6 +129,9 @@ export interface UcatComparison {
   comparison_operator?: 'greater_than' | 'greater_than_or_equal' | 'less_than' | 'less_than_or_equal' | 'between_inclusive' | string | null;
   benchmark_label?: string | null;
   caveat?: string | null;
+  public_summary?: string | null;
+  historical_summary?: string | null;
+  selection_summary?: string | null;
   evidence_status?: string | null;
   evidence_classification?: string | null;
   prediction_band?: string | null;

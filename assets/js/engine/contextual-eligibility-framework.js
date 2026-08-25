@@ -19,6 +19,7 @@ const UCL_CONTEXTUAL_EVALUATOR_ID = 'ucl_contextual_medicine_a100';
 const HYMS_CONTEXTUAL_EVALUATOR_ID = 'hyms_contextual_medicine_a100';
 const KCL_CONTEXTUAL_EVALUATOR_ID = 'kcl_contextual_medicine_a100';
 const NEWCASTLE_CONTEXTUAL_EVALUATOR_ID = 'newcastle_contextual_medicine_a100';
+const BSMS_CONTEXTUAL_EVALUATOR_ID = 'bsms_contextual_medicine_a100';
 
 function asObject(value) {
   return value && typeof value === 'object' && !Array.isArray(value)
@@ -279,6 +280,8 @@ function contextualEvidenceOptionsForCourse(course = {}, evaluatorId = null, opt
     evaluatorId === KCL_CONTEXTUAL_EVALUATOR_ID ||
     course.profile_id === 'newcastle-a100' ||
     evaluatorId === NEWCASTLE_CONTEXTUAL_EVALUATOR_ID ||
+    course.profile_id === 'brighton-and-sussex-a100' ||
+    evaluatorId === BSMS_CONTEXTUAL_EVALUATOR_ID ||
     course.profile_id === 'st-andrews-a100' ||
     evaluatorId === ST_ANDREWS_CONTEXTUAL_EVALUATOR_ID
   ) {

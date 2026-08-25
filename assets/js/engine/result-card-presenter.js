@@ -154,6 +154,8 @@ const HISTORICAL_GUIDANCE_CAVEAT =
 const ELIGIBILITY_ONLY_SELECTION_SUMMARY =
   'This result confirms eligibility only. It does not include an interview competitiveness prediction.';
 
+const NO_PUBLISHED_CONTEXTUAL_UCAT_CUTOFF = 'no_published_contextual_cutoff';
+
 const OFFICIAL_UNAVAILABLE_TRUST_STATEMENT =
   'ApplySmart does not alter university requirements or present unofficial information as an official rule. Predictions are generated only after applying the published university criteria and analysing the available admissions evidence.';
 
@@ -3858,6 +3860,9 @@ function publicUcatComparisonPhrase(comparison = {}) {
   if (comparisonType === 'official_minimum') {
     return 'published UCAT minimum';
   }
+  if (comparisonType === NO_PUBLISHED_CONTEXTUAL_UCAT_CUTOFF) {
+    return 'contextual applicant pool';
+  }
   if (comparisonType === 'applysmart_prediction_band' || evidenceStatus === 'applysmart_derived') {
     return 'ApplySmart prediction band';
   }
@@ -3912,6 +3917,9 @@ function publicSelectionScoreComparisonPhrase(comparison = {}) {
 }
 
 function publicComparisonCaveat(comparison = {}) {
+  if (comparison.comparison_type === NO_PUBLISHED_CONTEXTUAL_UCAT_CUTOFF) {
+    return comparison.caveat || 'No current-cycle contextual UCAT cutoff has been published.';
+  }
   const phrase = publicUcatComparisonPhrase(comparison);
   if (phrase.startsWith('published')) {
     return 'Published thresholds and reference ranges can change between cycles and do not guarantee an interview.';
@@ -3930,6 +3938,10 @@ function publicComparisonCaveat(comparison = {}) {
 
 function standardUcatComparisonSentence(comparison) {
   if (!comparison || comparison.position === null) {
+    if (comparison?.comparison_type === NO_PUBLISHED_CONTEXTUAL_UCAT_CUTOFF) {
+      return comparison.public_summary ||
+        'You are considered in the contextual applicant pool. Your total UCAT score is not compared with the standard applicant UCAT threshold.';
+    }
     return 'Your UCAT score was assessed for this applicant group.';
   }
   const comparator = publicUcatComparisonPhrase(comparison);
@@ -4328,6 +4340,14 @@ function ucatComparisonLabel(comparison = {}) {
     };
   }
 
+  if (comparison.comparison_type === NO_PUBLISHED_CONTEXTUAL_UCAT_CUTOFF) {
+    return {
+      comparison_label: publicUcatComparisonPhrase(comparison),
+      comparison_label_type: 'contextual_applicant_pool',
+      difference_word: 'pool'
+    };
+  }
+
   if (comparison.comparison_type === 'applysmart_prediction_band' || comparison.evidence_status === 'applysmart_derived') {
     return {
       comparison_label: 'ApplySmart prediction band',
@@ -4548,12 +4568,28 @@ function buildEligibilitySelectionMetric(state) {
   };
 }
 
+function eligibilitySelectionMetricValueLabel(card = {}, options = {}) {
+  if (
+    contextualPresentationState(card).confirmed &&
+    options.ucatComparison?.comparison_type === NO_PUBLISHED_CONTEXTUAL_UCAT_CUTOFF
+  ) {
+    return 'Contextual requirements met';
+  }
+  return 'Eligibility requirements met';
+}
+
 function buildSelectionMetric({ state, scoreBreakdown, selectionScoreComparison, ucatComparison, options }) {
   if (state === 'manual_review' || state === 'insufficient_evidence' || state === 'not_eligible') {
     return null;
   }
   if (state === 'eligibility_only') {
-    return buildEligibilitySelectionMetric(state);
+    const metric = buildEligibilitySelectionMetric(state);
+    if (metric) {
+      metric.value_label = eligibilitySelectionMetricValueLabel(options.context, {
+        ucatComparison
+      });
+    }
+    return metric;
   }
 
   return buildScoreSelectionMetric(scoreBreakdown, selectionScoreComparison) ||
@@ -4780,6 +4816,11 @@ function selectionScoreThresholdComparisonCheck(comparison) {
 
 function historicalSummary(card, state, options = {}) {
   const presentation = configuredPresentation(card, options);
+  if (options.ucatComparison?.comparison_type === NO_PUBLISHED_CONTEXTUAL_UCAT_CUTOFF) {
+    return options.ucatComparison.historical_summary ||
+      presentation.historical_summary ||
+      `Previous-cycle contextual UCAT evidence is available as context only. ${publicComparisonCaveat(options.ucatComparison)}`;
+  }
   if (ucatRankingBypassApplies({ ...card, ...options })) {
     return presentation.historical_summary ||
       'Historical UCAT ranking data is not used for this route because competitive UCAT ranking is bypassed after the minimum UCAT gate.';
@@ -5233,6 +5274,30 @@ function deriveHistoricalBenchmark(guidancePool = {}, scoreModel = {}, matchedBa
     return { comparison_type: 'ranking_only', benchmark_min: null, benchmark_max: null };
   }
 
+  if (pool.comparison_guidance?.comparison_type === NO_PUBLISHED_CONTEXTUAL_UCAT_CUTOFF) {
+    const poolPresentation = pool.presentation || {};
+    return {
+      comparison_type: NO_PUBLISHED_CONTEXTUAL_UCAT_CUTOFF,
+      benchmark_min: null,
+      benchmark_max: null,
+      benchmark_label: pool.comparison_guidance?.label || null,
+      caveat: pool.comparison_guidance?.caveat || null,
+      public_summary:
+        pool.comparison_guidance?.public_summary ||
+        poolPresentation.ucat_summary ||
+        null,
+      historical_summary:
+        pool.comparison_guidance?.historical_summary ||
+        poolPresentation.historical_summary ||
+        null,
+      selection_summary:
+        pool.comparison_guidance?.selection_summary ||
+        poolPresentation.selection_summary ||
+        null,
+      evidence_status: pool.comparison_guidance?.evidence_confidence || null
+    };
+  }
+
   const derivedBandBenchmark = derivedBandBenchmarkFromRule(matchedBandRule, pool);
   if (derivedBandBenchmark) {
     return derivedBandBenchmark;
@@ -5408,6 +5473,9 @@ function buildUcatComparison(options = {}) {
     comparison_operator: comparison.comparison_operator || null,
     benchmark_label: publicBenchmarkLabel,
     caveat: publicCaveat,
+    ...(comparison.public_summary ? { public_summary: comparison.public_summary } : {}),
+    ...(comparison.historical_summary ? { historical_summary: comparison.historical_summary } : {}),
+    ...(comparison.selection_summary ? { selection_summary: comparison.selection_summary } : {}),
     evidence_status: comparison.evidence_status || null,
     evidence_classification: comparison.evidence_classification || null,
     prediction_band: comparison.prediction_band || null,
@@ -5435,6 +5503,10 @@ function buildUcatComparison(options = {}) {
 
 function ucatComparisonAssessmentText(comparison) {
   const ucat = comparison?.applicant_ucat;
+  if (comparison?.comparison_type === NO_PUBLISHED_CONTEXTUAL_UCAT_CUTOFF) {
+    return comparison.public_summary ||
+      'You are considered in the contextual applicant pool. Your total UCAT score is not compared with the standard applicant UCAT threshold.';
+  }
   if (!comparison || !Number.isFinite(ucat)) {
     return 'UCAT ranking: Eligible applicants are ranked by UCAT. No reliable numerical historical comparison is available.';
   }
@@ -5661,7 +5733,7 @@ function buildDecisionTimeline(card, options = {}) {
       : selectionScoreThresholdText(selectionScoreComparison) ||
         existingSelectionScoreThresholdText(card);
   const ucatComparisonText =
-    ['applysmart_prediction_band', 'current_guidance', 'historical_range', 'historical_threshold', 'historical_average'].includes(options.ucatComparison?.comparison_type)
+    ['applysmart_prediction_band', 'current_guidance', 'historical_range', 'historical_threshold', 'historical_average', NO_PUBLISHED_CONTEXTUAL_UCAT_CUTOFF].includes(options.ucatComparison?.comparison_type)
       ? ucatComparisonAssessmentText(options.ucatComparison)
       : null;
   const historicalPresentationSummary = presentation.historical_summary || null;
@@ -5705,7 +5777,10 @@ function buildDecisionTimeline(card, options = {}) {
               : 'Not applied',
       summary:
         state === 'eligibility_only'
-          ? ELIGIBILITY_ONLY_SELECTION_SUMMARY
+          ? options.ucatComparison?.comparison_type === NO_PUBLISHED_CONTEXTUAL_UCAT_CUTOFF &&
+            options.ucatComparison.selection_summary
+            ? options.ucatComparison.selection_summary
+            : ELIGIBILITY_ONLY_SELECTION_SUMMARY
           : state === 'standard'
           ? existingSelectionTimelineSummary || selectionSummary
           : state === 'manual_review'
@@ -5719,7 +5794,9 @@ function buildDecisionTimeline(card, options = {}) {
       title: 'Historical guidance compared',
       status:
         state === 'eligibility_only'
-          ? 'Not used'
+          ? options.ucatComparison?.comparison_type === NO_PUBLISHED_CONTEXTUAL_UCAT_CUTOFF
+            ? 'Context only'
+            : 'Not used'
           : ucatRankingBypass
           ? 'Not used'
           : state === 'standard'
@@ -6032,6 +6109,9 @@ function normalizeFactorUsage(card, options = {}) {
   const contextualConfirmed = contextualEligibilityStatus(card) === 'contextual';
   const ucatEligibility = stage1Eligibility?.admissions_tests?.ucat || {};
   const ucatRankingBypass = ucatRankingBypassApplies({ ...card, ...options });
+  const ucatComparison = options.ucatComparison || null;
+  const contextualUcatPool =
+    ucatComparison?.comparison_type === NO_PUBLISHED_CONTEXTUAL_UCAT_CUTOFF;
   const guaranteedInterviewBypass = options.interviewOutcome === 'guaranteed_interview';
   const ucatSelectionText = [
     ucatEligibility.selection_role,
@@ -6088,7 +6168,7 @@ function normalizeFactorUsage(card, options = {}) {
   const factorUsage = [
     {
       factor_id: 'ucat',
-      label: 'UCAT',
+      label: contextualUcatPool ? 'UCAT - Contextual applicant' : 'UCAT',
       role: ucatExplicitlyNotUsed
         ? 'not_used'
         : ucatRankingBypass || ucatEligibilityUse
@@ -6098,7 +6178,9 @@ function normalizeFactorUsage(card, options = {}) {
           : ucatConsideredUse
             ? 'considered'
             : 'unknown',
-      detail: ucatRankingBypass
+      detail: contextualUcatPool
+        ? ucatComparisonAssessmentText(ucatComparison)
+        : ucatRankingBypass
         ? 'Used as a minimum eligibility gate; competitive UCAT ranking is bypassed for this route.'
         : guaranteedInterviewBypass && ucatEligibility.required !== false
           ? 'Required as an eligibility condition; competitive UCAT ranking is bypassed for this guaranteed-interview route.'
@@ -6247,7 +6329,7 @@ function buildDecisionTransparency(card, options = {}) {
       ? officialPrediction.explanation ||
         'Official interview prediction is unavailable because the university has not published enough current-cycle information for ApplySmart to reproduce it.'
       : null;
-  const selectionSummary = (
+  let selectionSummary = (
     ucatRankingBypass
       ? presentation.selection_summary ||
         options.selectionApproachDisplay
@@ -6281,6 +6363,11 @@ function buildDecisionTransparency(card, options = {}) {
     (isUcatRankingContext({ ...card, ...options }) && !guaranteedInterview
       ? buildUcatComparison(options)
       : null);
+  const contextualNoCutoffUcat =
+    ucatComparison?.comparison_type === NO_PUBLISHED_CONTEXTUAL_UCAT_CUTOFF;
+  if (contextualNoCutoffUcat && ucatComparison.selection_summary) {
+    selectionSummary = ucatComparison.selection_summary;
+  }
   const ucatAdjustment = buildUcatAdjustmentPresentation({
     ...options,
     context: card
@@ -6304,6 +6391,9 @@ function buildDecisionTransparency(card, options = {}) {
         : state === 'eligibility_only'
           ? [
             check('Selection approach', 'Not predicted', ELIGIBILITY_ONLY_SELECTION_SUMMARY),
+            ...(contextualNoCutoffUcat
+              ? [check('UCAT', 'Contextual applicant', ucatComparisonAssessmentText(ucatComparison))]
+              : []),
             check('Interview prediction', 'Unavailable', ELIGIBILITY_ONLY_SELECTION_SUMMARY)
           ]
         : state !== 'standard'
@@ -6357,6 +6447,13 @@ function buildDecisionTransparency(card, options = {}) {
   const factorUsage = normalizeFactorUsage(card, options);
   const riskExplanation =
     state === 'standard' ? options.riskExplanation || null : null;
+  const eligibilityOnlySelectionReason =
+    state === 'eligibility_only' && contextualNoCutoffUcat
+      ? ucatComparisonAssessmentText(ucatComparison)
+      : state === 'eligibility_only' &&
+    (ucatComparison || isUcatRankingContext({ ...card, ...options }))
+      ? 'UCAT is used for ranking for this course, but ApplySmart does not have a published cutoff to compare against.'
+      : 'UCAT is not required or ranked for this course.';
 
   return {
     factor_usage: factorUsage,
@@ -6382,7 +6479,9 @@ function buildDecisionTransparency(card, options = {}) {
               : 'Not applied',
         summary:
           state === 'eligibility_only'
-            ? ELIGIBILITY_ONLY_SELECTION_SUMMARY
+            ? contextualNoCutoffUcat
+              ? selectionSummary
+              : ELIGIBILITY_ONLY_SELECTION_SUMMARY
             : state === 'standard'
             ? selectionSummary
             : state === 'manual_review'
@@ -6396,7 +6495,9 @@ function buildDecisionTransparency(card, options = {}) {
         stage: 'Historical guidance',
         status:
           state === 'eligibility_only'
-            ? 'Not used'
+            ? contextualNoCutoffUcat
+              ? 'Context only'
+              : 'Not used'
             : ucatRankingBypass
             ? 'Not used'
             : state === 'standard'
@@ -6425,7 +6526,13 @@ function buildDecisionTransparency(card, options = {}) {
           ucatRankingBypass
             ? null
             : state === 'eligibility_only'
-            ? check('Interview prediction', 'Unavailable', ELIGIBILITY_ONLY_SELECTION_SUMMARY)
+            ? contextualNoCutoffUcat
+              ? check(
+                'Previous BSMS interview outcome',
+                'Previous cycle',
+                historicalSummary(card, state, { ...options, selectionScoreComparison, ucatComparison })
+              )
+              : check('Interview prediction', 'Unavailable', ELIGIBILITY_ONLY_SELECTION_SUMMARY)
             : check('Important limitation', 'Guidance only', HISTORICAL_GUIDANCE_CAVEAT)
         ].filter(Boolean)
       },
@@ -6459,7 +6566,7 @@ function buildDecisionTransparency(card, options = {}) {
           : state === 'eligibility_only'
             ? [
               eligibilitySummary,
-              'UCAT is not required or ranked for this course.',
+              eligibilityOnlySelectionReason,
               ELIGIBILITY_ONLY_SELECTION_SUMMARY
             ]
           : state === 'insufficient_evidence'
@@ -6594,7 +6701,7 @@ function presentResultCard({
     transparencyContext.score_model?.assessment_mode === 'eligibility_only' ||
     resultBand === 'eligible_to_apply';
   const ucatRankingBypass = ucatRankingBypassApplies(transparencyContext);
-  const effectiveSelectionApproachDisplay = ucatRankingBypass
+  let effectiveSelectionApproachDisplay = ucatRankingBypass
     ? presentation.selection_summary || selectionApproachDisplay
     : selectionApproachDisplay;
   const ucatRanking = isUcatRankingContext(transparencyContext);
@@ -6612,6 +6719,12 @@ function presentResultCard({
       courseProfileId: transparencyContext.course_identity?.profile_id || null
     })
     : null;
+  if (
+    ucatComparison?.comparison_type === NO_PUBLISHED_CONTEXTUAL_UCAT_CUTOFF &&
+    ucatComparison.selection_summary
+  ) {
+    effectiveSelectionApproachDisplay = ucatComparison.selection_summary;
+  }
 	  const selectionScoreComparison = hideSelectionScoreDetails(presentation) || ucatRankingBypass
 	    ? null
 	    : selectionScoreThresholdComparison({

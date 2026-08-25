@@ -88,6 +88,10 @@ const {
   NEWCASTLE_CONTEXTUAL_EVALUATOR_ID,
   evaluateNewcastleContextualEligibility
 } = require('./newcastle-contextual-eligibility');
+const {
+  BSMS_CONTEXTUAL_EVALUATOR_ID,
+  evaluateBsmsContextualEligibility
+} = require('./bsms-contextual-eligibility');
 
 const DEFAULT_CONTEXTUAL_ELIGIBILITY_EVALUATORS = {
   [ABERDEEN_CONTEXTUAL_EVALUATOR_ID]: evaluateAberdeenContextualEligibility,
@@ -111,7 +115,8 @@ const DEFAULT_CONTEXTUAL_ELIGIBILITY_EVALUATORS = {
   [UCL_CONTEXTUAL_EVALUATOR_ID]: evaluateUclContextualEligibility,
   [HYMS_CONTEXTUAL_EVALUATOR_ID]: evaluateHymsContextualEligibility,
   [KCL_CONTEXTUAL_EVALUATOR_ID]: evaluateKclContextualEligibility,
-  [NEWCASTLE_CONTEXTUAL_EVALUATOR_ID]: evaluateNewcastleContextualEligibility
+  [NEWCASTLE_CONTEXTUAL_EVALUATOR_ID]: evaluateNewcastleContextualEligibility,
+  [BSMS_CONTEXTUAL_EVALUATOR_ID]: evaluateBsmsContextualEligibility
 };
 
 module.exports = {
@@ -132,6 +137,7 @@ module.exports = {
   HYMS_CONTEXTUAL_EVALUATOR_ID,
   KCL_CONTEXTUAL_EVALUATOR_ID,
   NEWCASTLE_CONTEXTUAL_EVALUATOR_ID,
+  BSMS_CONTEXTUAL_EVALUATOR_ID,
   evaluateAberdeenContextualEligibility,
   evaluateBirminghamContextualEligibility,
   evaluateDundeeContextualEligibility,
@@ -148,5 +154,6 @@ module.exports = {
   evaluateHymsContextualEligibility,
   evaluateKclContextualEligibility,
   evaluateNewcastleContextualEligibility,
+  evaluateBsmsContextualEligibility,
   DEFAULT_CONTEXTUAL_ELIGIBILITY_EVALUATORS
 };

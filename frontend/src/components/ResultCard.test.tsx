@@ -15,6 +15,10 @@ const sheffieldFixture = require('../../../data/fixtures/interview-band-classifi
   base_applicant: Record<string, unknown>;
   scenarios: Array<{ scenario_id: string; overrides: Record<string, unknown> }>;
 };
+const bsmsFixture = require('../../../data/fixtures/interview-band-classification/brighton-and-sussex-a100.json') as {
+  base_applicant: Record<string, unknown>;
+  scenarios: Array<{ scenario_id: string; overrides: Record<string, unknown> }>;
+};
 
 const CONTEXTUAL_CONFIRMED_MESSAGE =
   "Contextual eligibility confirmed. Your application has been assessed using this university's published contextual admissions criteria.";
@@ -86,6 +90,14 @@ function sheffieldScenarioApplicant(scenarioId: string, overrides: Record<string
   const scenario = sheffieldFixture.scenarios.find((entry) => entry.scenario_id === scenarioId);
   return merge(
     merge(sheffieldFixture.base_applicant, scenario?.overrides || {}),
+    overrides,
+  );
+}
+
+function bsmsScenarioApplicant(scenarioId: string, overrides: Record<string, unknown> = {}): Record<string, unknown> {
+  const scenario = bsmsFixture.scenarios.find((entry) => entry.scenario_id === scenarioId);
+  return merge(
+    merge(bsmsFixture.base_applicant, scenario?.overrides || {}),
     overrides,
   );
 }
@@ -2081,6 +2093,69 @@ describe('ResultCard', () => {
     ).toBeInTheDocument();
     expect(screen.queryByText('Fees')).not.toBeInTheDocument();
     expect(screen.queryByText('Fee status')).not.toBeInTheDocument();
+  });
+
+  it('renders BSMS contextual UCAT ranking without implying a published contextual cut-off', () => {
+    const [result] = predict({
+      universityIds: ['brighton-and-sussex-a100'],
+      studentProfile: bsmsScenarioApplicant('adjusted_offer_low_ucat_sjt_3', {
+        profile_id: 'bsms_contextual_frontend_no_published_cutoff',
+        application_year: 2027,
+        admissions_tests: {
+          ucat: {
+            total_score: 1950,
+            score_scale: 2700,
+            subtests: {
+              verbal_reasoning: 650,
+              decision_making: 650,
+              quantitative_reasoning: 650,
+            },
+            sjt_band: 2,
+            test_year: 2026,
+          },
+        },
+      }),
+    });
+
+    expect(result.result_card.contextual_status).toBe('confirmed');
+    expect(result.result_card.factor_usage?.find((entry) => entry.factor_id === 'ucat')?.role).toBe('ranking');
+    expect(result.result_card.decision_transparency?.ucat_comparison).toMatchObject({
+      comparison_type: 'no_published_contextual_cutoff',
+      applicant_ucat: 1950,
+      benchmark_min: null,
+    });
+
+    render(<ResultCard result={result} />);
+
+    const ucatCard = screen.getAllByText('UCAT')[0].closest('.result-card-summary-card');
+    expect(ucatCard).toHaveTextContent('Contextual applicant');
+    expect(ucatCard).toHaveTextContent(
+      'You are considered in the BSMS contextual applicant pool.',
+    );
+    expect(ucatCard).toHaveTextContent(
+      'Your total UCAT score is not compared with the standard Home applicant UCAT threshold.',
+    );
+    expect(ucatCard).not.toHaveTextContent('1990');
+    expect(ucatCard).not.toHaveTextContent('published Home threshold');
+
+    expect(screen.getByText('Applicant Pool').parentElement).toHaveTextContent('Home, Rest of UK applicants');
+    expect(screen.getByText('Selection Approach').parentElement).toHaveTextContent(
+      'Contextual applicants are considered separately from standard Home applicants. For 2027 entry, BSMS has not yet published a total UCAT score that guarantees an interview for contextual applicants.',
+    );
+    expect(screen.getByText('Previous BSMS interview outcome')).toBeInTheDocument();
+    expect(document.body).toHaveTextContent(
+      'In the previous admissions cycle, Home applicants eligible for an adjusted offer who met the academic requirements and achieved SJT Band 1, 2 or 3 were invited to interview regardless of their total UCAT score.',
+    );
+    expect(document.body).toHaveTextContent(
+      'For 2027 entry, BSMS has not yet published an equivalent interview threshold.',
+    );
+    expect(screen.getByText('UCAT', { selector: '.result-card-factor-chip' })).toBeInTheDocument();
+
+    expect(document.body).not.toHaveTextContent('published Home threshold of 1990');
+    expect(document.body).not.toHaveTextContent('no_published_contextual_cutoff');
+    expect(document.body).not.toHaveTextContent('missing threshold');
+    expect(document.body).not.toHaveTextContent('internal evidence');
+    expect(document.body).not.toHaveTextContent('route flag');
   });
 
   it('does not show evidence confidence text on the public card', () => {

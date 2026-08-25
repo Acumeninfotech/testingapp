@@ -311,7 +311,7 @@
       },
       "expected": {
         "eligibility_status": "not_eligible",
-        "failure": "disqualifying_sjt_rule"
+        "failure": "sjt_band_excluded"
       }
     },
     {
@@ -585,15 +585,13 @@
       },
       "expected": {
         "eligibility_status": "not_eligible",
-        "failure": "disqualifying_sjt_rule"
+        "failure": "sjt_band_excluded"
       }
     },
     {
       "scenario_id": "adjusted_offer_low_ucat_sjt_3",
       "overrides": {
-        "applicant_group_ids": [
-          "bsms_adjusted_offer_confirmed"
-        ],
+        "applicant_group_ids": [],
         "applicant_identity": {
           "contextual": true,
           "widening_participation": true
@@ -627,27 +625,32 @@
             "sjt_band": 3
           }
         },
-        "widening_participation": {
-          "bsms_adjusted_offer": {
-            "status": "eligible",
-            "evidence_confirmed": true
+        "contextual_profile": {
+          "home_area_region": {
+            "polar4_quintile": "q1"
+          },
+          "school_education": {
+            "below_average_gcse_school": "yes"
+          },
+          "financial_support": {
+            "free_school_meals": "yes"
+          },
+          "personal_circumstances": {
+            "care_over_three_months": "no"
           }
         }
       },
       "expected": {
         "eligibility_status": "eligible",
-        "guidance_pool_id": null,
-        "source_band_id": "HA_GUARANTEED",
-        "result_card_id": "ADJUSTED_OFFER_INTERVIEW_ROUTE",
-        "interview_outcome": "adjusted_offer_interview_route"
+        "guidance_pool_id": "home_adjusted_offer",
+        "source_band_id": "HA_CONTEXTUAL_RANKED",
+        "result_card_id": "ELIGIBLE_TO_APPLY"
       }
     },
     {
       "scenario_id": "adjusted_offer_no_ucat",
       "overrides": {
-        "applicant_group_ids": [
-          "bsms_adjusted_offer_confirmed"
-        ],
+        "applicant_group_ids": [],
         "applicant_identity": {
           "contextual": true,
           "widening_participation": true
@@ -681,28 +684,31 @@
             "sjt_band": 2
           }
         },
-        "widening_participation": {
-          "bsms_adjusted_offer": {
-            "status": "eligible",
-            "evidence_confirmed": true
+        "contextual_profile": {
+          "home_area_region": {
+            "polar4_quintile": "q1"
+          },
+          "school_education": {
+            "below_average_gcse_school": "yes"
+          },
+          "financial_support": {
+            "free_school_meals": "yes"
+          },
+          "personal_circumstances": {
+            "care_over_three_months": "no"
           }
         }
       },
       "expected": {
-        "eligibility_status": "eligible",
-        "guidance_pool_id": null,
-        "source_band_id": "HA_GUARANTEED",
-        "result_card_id": "ADJUSTED_OFFER_INTERVIEW_ROUTE",
-        "interview_outcome": "adjusted_offer_interview_route",
-        "no_unresolved_ucat_placeholder": true
+        "eligibility_status": "manual_review",
+        "manual_review_required": true,
+        "manual_review_reason": "required_admissions_test_missing:ucat"
       }
     },
     {
       "scenario_id": "adjusted_offer_sjt_band_4_override",
       "overrides": {
-        "applicant_group_ids": [
-          "bsms_adjusted_offer_confirmed"
-        ],
+        "applicant_group_ids": [],
         "applicant_identity": {
           "contextual": true,
           "widening_participation": true
@@ -713,24 +719,30 @@
             "sjt_band": 4
           }
         },
-        "widening_participation": {
-          "bsms_adjusted_offer": {
-            "status": "eligible",
-            "evidence_confirmed": true
+        "contextual_profile": {
+          "home_area_region": {
+            "polar4_quintile": "q1"
+          },
+          "school_education": {
+            "below_average_gcse_school": "yes"
+          },
+          "financial_support": {
+            "free_school_meals": "yes"
+          },
+          "personal_circumstances": {
+            "care_over_three_months": "no"
           }
         }
       },
       "expected": {
         "eligibility_status": "not_eligible",
-        "failure": "disqualifying_sjt_rule"
+        "failure": "sjt_band_excluded"
       }
     },
     {
       "scenario_id": "adjusted_offer_academic_failure",
       "overrides": {
-        "applicant_group_ids": [
-          "bsms_adjusted_offer_confirmed"
-        ],
+        "applicant_group_ids": [],
         "applicant_identity": {
           "contextual": true,
           "widening_participation": true
@@ -764,25 +776,31 @@
             "sjt_band": 1
           }
         },
-        "widening_participation": {
-          "bsms_adjusted_offer": {
-            "status": "eligible",
-            "evidence_confirmed": true
+        "contextual_profile": {
+          "home_area_region": {
+            "polar4_quintile": "q1"
+          },
+          "school_education": {
+            "below_average_gcse_school": "yes"
+          },
+          "financial_support": {
+            "free_school_meals": "yes"
+          },
+          "personal_circumstances": {
+            "care_over_three_months": "no"
           }
         }
       },
       "expected": {
         "eligibility_status": "not_eligible",
-        "failure": "minimum_gcse_grade_not_met:english_language"
+        "failure": "a_level_requirements_not_met"
       }
     },
     {
       "scenario_id": "care_leaver_no_ucat",
       "overrides": {
         "applicant_identity": {
-          "contextual_flags": {
-            "care_experienced": true
-          }
+          "contextual_flags": {}
         },
         "gcse_profile": {
           "subjects": {
@@ -813,10 +831,9 @@
             "sjt_band": 1
           }
         },
-        "widening_participation": {
-          "bsms_care_leaver": {
-            "status": "eligible",
-            "evidence_confirmed": true
+        "contextual_profile": {
+          "personal_circumstances": {
+            "care_over_three_months": "yes"
           }
         }
       },
@@ -832,14 +849,13 @@
       "scenario_id": "care_leaver_academic_failure",
       "overrides": {
         "applicant_identity": {
-          "contextual_flags": {
-            "care_experienced": true
-          }
+          "contextual_flags": {}
         },
         "gcse_profile": {
           "subjects": {
             "english_language": "4",
-            "mathematics": "5"
+            "mathematics": "5",
+            "english_literature": "4"
           },
           "total_gcse_count": 2
         },
@@ -848,25 +864,22 @@
             "sjt_band": 1
           }
         },
-        "widening_participation": {
-          "bsms_care_leaver": {
-            "status": "eligible",
-            "evidence_confirmed": true
+        "contextual_profile": {
+          "personal_circumstances": {
+            "care_over_three_months": "yes"
           }
         }
       },
       "expected": {
         "eligibility_status": "not_eligible",
-        "failure": "minimum_gcse_grade_not_met:english_language"
+        "failure": "gcse_requirement_not_met:english_language"
       }
     },
     {
       "scenario_id": "care_leaver_sjt_band_4_override",
       "overrides": {
         "applicant_identity": {
-          "contextual_flags": {
-            "care_experienced": true
-          }
+          "contextual_flags": {}
         },
         "admissions_tests": {
           "ucat": {
@@ -874,16 +887,15 @@
             "sjt_band": 4
           }
         },
-        "widening_participation": {
-          "bsms_care_leaver": {
-            "status": "eligible",
-            "evidence_confirmed": true
+        "contextual_profile": {
+          "personal_circumstances": {
+            "care_over_three_months": "yes"
           }
         }
       },
       "expected": {
         "eligibility_status": "not_eligible",
-        "failure": "disqualifying_sjt_rule"
+        "failure": "sjt_band_excluded"
       }
     },
     {
@@ -913,23 +925,7 @@
       "expected": {
         "eligibility_status": "manual_review",
         "manual_review_required": true,
-        "manual_review_reason": "fee_status_requires_manual_review"
-      }
-    },
-    {
-      "scenario_id": "unknown_adjusted_offer_status_manual_review",
-      "overrides": {
-        "widening_participation": {
-          "bsms_adjusted_offer": {
-            "status": "unknown",
-            "evidence_confirmed": false
-          }
-        }
-      },
-      "expected": {
-        "eligibility_status": "manual_review",
-        "manual_review_required": true,
-        "manual_review_reason": "adjusted_offer_eligibility_requires_manual_review"
+        "manual_review_reason": "fee_status_not_resolved"
       }
     },
     {
@@ -1059,8 +1055,7 @@
         "a_level_profile": null
       },
       "expected": {
-        "eligibility_status": "eligible",
-        "source_band_id": "HS_A_SECURE"
+        "eligibility_status": "manual_review"
       }
     },
     {
@@ -1098,7 +1093,6 @@
     }
   ],
   "approved_band_to_result_card_map": {
-    "HA_GUARANTEED": "ADJUSTED_OFFER_INTERVIEW_ROUTE",
     "CARE_LEAVER": "CARE_LEAVER_INTERVIEW_ROUTE",
     "HS_A_SECURE": "VERY_STRONG_INTERVIEW_POTENTIAL",
     "HS_B_STRONG": "VERY_STRONG_INTERVIEW_POTENTIAL",
@@ -1116,7 +1110,8 @@
     "OS_F_BELOW": "BELOW_PREVIOUS_THRESHOLD",
     "OS_SJT_FAIL": "NOT_ELIGIBLE",
     "HA_SJT_FAIL": "NOT_ELIGIBLE",
-    "HA_ACADEMIC_FAIL": "NOT_ELIGIBLE"
+    "HA_ACADEMIC_FAIL": "NOT_ELIGIBLE",
+    "HA_CONTEXTUAL_RANKED": "ELIGIBLE_TO_APPLY"
   },
   "public_transparency_requirements": {
     "distinguish_official_thresholds_from_derived_bands": true,

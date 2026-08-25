@@ -4,7 +4,7 @@
   "confidence": "medium",
   "evidence": {
     "classification": "official_published_2026_thresholds_with_derived_applysmart_bands",
-    "summary": "BSMS publishes 2026-entry UCAT thresholds and the SJT Band 4 rejection rule. ApplySmart uses derived bands around the official thresholds while preserving official adjusted-offer and care-leaver bypass routing.",
+    "summary": "BSMS publishes historical Home and Overseas UCAT evidence and the SJT Band 4 rejection rule. For 2027, ApplySmart preserves separate contextual Home routing without treating the historical adjusted-offer UCAT bypass as authoritative and without inventing a contextual cutoff. The separate care-leaver route remains preserved.",
     "source_ids": [
       "bsms_v5_research_doc",
       "bsms_v5_applysmart_json",
@@ -38,37 +38,7 @@
       "missing_outcome": "manual_review",
       "manual_review_reason": "missing_academic_evidence_requires_manual_review"
     },
-    "derived_applicant_groups": [
-      {
-        "group_id": "bsms_care_leaver_confirmed",
-        "match": {
-          "all_group_ids": [
-            "home_fee"
-          ]
-        },
-        "applicant_evidence_path": "widening_participation.bsms_care_leaver",
-        "required_evidence": {
-          "status": "eligible",
-          "evidence_confirmed": true
-        }
-      },
-      {
-        "group_id": "bsms_adjusted_offer_confirmed",
-        "match": {
-          "all_group_ids": [
-            "home_fee"
-          ],
-          "excluded_group_ids": [
-            "international_fee"
-          ]
-        },
-        "applicant_evidence_path": "widening_participation.bsms_adjusted_offer",
-        "required_evidence": {
-          "status": "eligible",
-          "evidence_confirmed": true
-        }
-      }
-    ],
+    "derived_applicant_groups": [],
     "gcse": {
       "minimum_count": null,
       "use_exact_subject_list": false
@@ -186,7 +156,7 @@
       "score_min": 0,
       "score_max": 2700,
       "missing_outcome": "manual_review",
-      "minimum_basis": "UCAT is required only for standard Home and Overseas UCAT threshold routes."
+      "minimum_basis": "UCAT remains required for standard Home, contextual Home and Overseas interview-selection routes. No official 2027 contextual Home cutoff is encoded."
     },
     "sjt": {
       "used_as_gate": true,
@@ -215,55 +185,18 @@
               "bsms_care_leaver_confirmed"
             ]
           },
-          "applicant_evidence_path": "widening_participation.bsms_care_leaver",
-          "required_evidence": {
-            "status": "eligible",
-            "evidence_confirmed": true
-          },
           "applicant_facing_explanation": "BSMS publishes a separate interview route for eligible care leavers who meet academic requirements. UCAT does not determine this route."
-        },
-        {
-          "condition_id": "bsms_adjusted_offer_route",
-          "source_band_id": "HA_GUARANTEED",
-          "result_card_id": "ADJUSTED_OFFER_INTERVIEW_ROUTE",
-          "interview_outcome": "adjusted_offer_interview_route",
-          "match": {
-            "all_group_ids": [
-              "home_fee",
-              "bsms_adjusted_offer_confirmed"
-            ]
-          },
-          "applicant_evidence_path": "widening_participation.bsms_adjusted_offer",
-          "required_evidence": {
-            "status": "eligible",
-            "evidence_confirmed": true
-          },
-          "applicant_facing_explanation": "BSMS publishes that adjusted-offer-eligible Home applicants who met academic requirements and SJT Band 1-3 were invited for 2026 entry regardless of UCAT score."
         }
-      ]
+      ],
+      "requires_eligibility_status": "eligible"
     },
     "manual_review_if": [
       {
         "when": "fee_status_unresolved",
         "reason": "fee_status_requires_manual_review"
-      },
-      {
-        "when": "unknown_evidence",
-        "match": {
-          "all_group_ids": [
-            "home_fee"
-          ],
-          "excluded_group_ids": [
-            "bsms_care_leaver_confirmed",
-            "bsms_adjusted_offer_confirmed"
-          ]
-        },
-        "applicant_evidence_path": "widening_participation.bsms_adjusted_offer.status",
-        "reason": "adjusted_offer_eligibility_requires_manual_review"
       }
     ],
     "result_card_map": {
-      "HA_GUARANTEED": "ADJUSTED_OFFER_INTERVIEW_ROUTE",
       "CARE_LEAVER": "CARE_LEAVER_INTERVIEW_ROUTE",
       "HS_A_SECURE": "VERY_STRONG_INTERVIEW_POTENTIAL",
       "HS_B_STRONG": "VERY_STRONG_INTERVIEW_POTENTIAL",
@@ -281,7 +214,8 @@
       "OS_F_BELOW": "BELOW_PREVIOUS_THRESHOLD",
       "OS_SJT_FAIL": "NOT_ELIGIBLE",
       "HA_SJT_FAIL": "NOT_ELIGIBLE",
-      "HA_ACADEMIC_FAIL": "NOT_ELIGIBLE"
+      "HA_ACADEMIC_FAIL": "NOT_ELIGIBLE",
+      "HA_CONTEXTUAL_RANKED": "ELIGIBLE_TO_APPLY"
     },
     "evidence_confidence": "high",
     "prediction_confidence": "moderate",
@@ -291,9 +225,9 @@
       "unknown adjusted-offer eligibility for a Home applicant",
       "unknown GCSE equivalency",
       "unknown international qualification equivalency",
-      "missing UCAT for a standard Home or Overseas applicant",
       "missing academic evidence",
-      "UCAT outside 0-2700"
+      "UCAT outside 0-2700",
+      "missing UCAT for a standard Home, contextual Home or Overseas applicant"
     ]
   },
   "score_model": {
@@ -322,12 +256,52 @@
         "bsms_single_ucat_cycle_drift_warning"
       ]
     },
-    "result_cards": {
-      "adjusted_offer_base": "Do not render the optional UCAT explanation unless UCAT is present.",
-      "adjusted_offer_with_ucat": "UCAT does not affect the adjusted-offer route when present."
-    }
+    "result_cards": {}
   },
   "guidance_pools": [
+    {
+      "pool_id": "home_adjusted_offer",
+      "priority": 70,
+      "applicant_match": {
+        "all_group_ids": [
+          "home_fee",
+          "bsms_adjusted_offer_confirmed"
+        ],
+        "excluded_group_ids": [
+          "international_fee",
+          "bsms_care_leaver_confirmed"
+        ]
+      },
+      "metric": "ucat_total",
+      "pool_specific_output": true,
+      "selection_relevance": "Contextual Home applicants are separately ranked using UCAT for 2027 entry. No official contextual cutoff has been encoded.",
+      "comparison_guidance": {
+        "comparison_type": "no_published_contextual_cutoff",
+        "label": "BSMS contextual UCAT ranking",
+        "caveat": "BSMS uses UCAT within the contextual selection route, but ApplySmart does not have an official 2027 contextual cutoff to display.",
+        "evidence_confidence": "medium"
+      },
+      "presentation": {
+        "selection_summary": "Contextual applicants are considered separately from standard Home applicants. For 2027 entry, BSMS has not yet published a total UCAT score that guarantees an interview for contextual applicants.",
+        "ucat_summary": "You are considered in the BSMS contextual applicant pool. Your total UCAT score is not compared with the standard Home applicant UCAT threshold.",
+        "historical_summary": "Previous BSMS interview outcome: In the previous admissions cycle, Home applicants eligible for an adjusted offer who met the academic requirements and achieved SJT Band 1, 2 or 3 were invited to interview regardless of their total UCAT score. For 2027 entry, BSMS has not yet published an equivalent interview threshold."
+      },
+      "band_rules": [
+        {
+          "source_band_id": "HA_CONTEXTUAL_RANKED",
+          "result_card_id": "ELIGIBLE_TO_APPLY",
+          "band": "eligible_to_apply",
+          "operator": "between_inclusive",
+          "min": 0,
+          "max": 2700,
+          "sjt_bands": [
+            1,
+            2,
+            3
+          ]
+        }
+      ]
+    },
     {
       "pool_id": "home_standard",
       "priority": 50,

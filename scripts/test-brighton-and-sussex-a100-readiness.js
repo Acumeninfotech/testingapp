@@ -7,6 +7,9 @@ const {
   classifyInterviewBand
 } = require('../assets/js/engine/interview-band-classifier');
 const {
+  predict
+} = require('../server/src/predict');
+const {
   buildDecisionTimeline,
   buildDecisionTransparency,
   buildEvidenceConfidence
@@ -294,20 +297,27 @@ for (let score = 0; score <= 2700; score += 1) {
 
 const adjustedNoUcat = fixture.scenarios.find((scenario) => scenario.scenario_id === 'adjusted_offer_no_ucat');
 const adjustedResult = classify(adjustedNoUcat.overrides);
-assert.strictEqual(adjustedResult.result_card_id, 'ADJUSTED_OFFER_INTERVIEW_ROUTE');
-assert.strictEqual(adjustedResult.source_interview_band_id, 'HA_GUARANTEED');
-assert.strictEqual(adjustedResult.eligibility.status, 'eligible');
-assert.doesNotMatch(
-  JSON.stringify(config.score_model.result_cards),
-  /\{ucat_score\}/,
-  'Adjusted-offer no-UCAT wording must not expose an unresolved UCAT placeholder.'
+assert.strictEqual(adjustedResult.eligibility.status, 'manual_review');
+assert.ok(
+  adjustedResult.eligibility.manual_review_reasons.includes(
+    'required_admissions_test_missing:ucat'
+  ),
+  'Adjusted-offer applicants must still provide UCAT for 2027 contextual ranking.'
 );
 
 const adjustedEvidenceOnly = classify({
-  widening_participation: {
-    bsms_adjusted_offer: {
-      status: 'eligible',
-      evidence_confirmed: true
+  contextual_profile: {
+    home_area_region: {
+      polar4_quintile: 'q1'
+    },
+    school_education: {
+      below_average_gcse_school: 'yes'
+    },
+    financial_support: {
+      free_school_meals: 'yes'
+    },
+    personal_circumstances: {
+      care_over_three_months: 'no'
     }
   },
   admissions_tests: {
@@ -321,22 +331,195 @@ assert.ok(
   adjustedEvidenceOnly.applicant_group_ids.includes('bsms_adjusted_offer_confirmed'),
   'Confirmed BSMS adjusted-offer evidence must derive the canonical adjusted-offer group.'
 );
-assert.strictEqual(adjustedEvidenceOnly.result_card_id, 'ADJUSTED_OFFER_INTERVIEW_ROUTE');
-assert.strictEqual(adjustedEvidenceOnly.source_interview_band_id, 'HA_GUARANTEED');
+assert.strictEqual(adjustedEvidenceOnly.eligibility.status, 'manual_review');
+assert.ok(
+  adjustedEvidenceOnly.eligibility.manual_review_reasons.includes(
+    'required_admissions_test_missing:ucat'
+  ),
+  'Confirmed adjusted-offer applicants without UCAT must require review rather than receive a guaranteed-interview route.'
+);
 
-const adjustedUnknownEvidence = classify({
-  widening_participation: {
-    bsms_adjusted_offer: {
-      status: 'unknown',
-      evidence_confirmed: false
+const manualResultCardCase2Applicant = merge(fixture.base_applicant, {
+  profile_id: 'bsms_manual_result_card_case_2',
+  applicant_identity: {
+    applicant_type: 'standard_entry',
+    fee_status: 'home_fee',
+    domicile: 'England',
+    current_uk_residence: 'yes',
+    age_at_course_start_band: 'age_18',
+    contextual: true,
+    widening_participation: true,
+    contextual_flags: {},
+    graduate: false,
+    resit: {
+      has_resits: false
+    }
+  },
+  application_year: 2027,
+  a_level_profile: {
+    subjects: [
+      {
+        subject_id: 'chemistry',
+        predicted_grade: 'A'
+      },
+      {
+        subject_id: 'biology',
+        predicted_grade: 'A'
+      },
+      {
+        subject_id: 'psychology',
+        predicted_grade: 'B'
+      }
+    ]
+  },
+  gcse_profile: {
+    subjects: {
+      english_language: '5',
+      mathematics: '5'
+    },
+    total_gcse_count: 2
+  },
+  admissions_tests: {
+    ucat: {
+      total_score: 1950,
+      score_scale: 2700,
+      subtests: {
+        verbal_reasoning: 650,
+        decision_making: 650,
+        quantitative_reasoning: 650
+      },
+      sjt_band: 2,
+      test_year: 2026
+    }
+  },
+  contextual_profile: {
+    home_area_region: {
+      postcode: 'BN1 9PX',
+      polar4_quintile: 'q2',
+      imd_quintile: 'q3',
+      tundra_quintile: 'q5',
+      postcode_lookup: {
+        status: 'matched',
+        normalised_postcode: 'BN19PX',
+        values: {
+          polar4: {
+            value: 2,
+            source: 'postcode_lookup'
+          },
+          imd: {
+            value: 3,
+            source: 'postcode_lookup',
+            dataset_year: 2019
+          },
+          tundra: {
+            value: 5,
+            source: 'postcode_lookup'
+          }
+        }
+      }
+    },
+    school_education: {
+      below_average_gcse_school: 'yes'
+    },
+    financial_support: {
+      free_school_meals: 'yes'
+    },
+    personal_circumstances: {
+      first_in_family_at_university: 'yes',
+      care_over_three_months: 'no'
     }
   }
 });
-assert.ok(
-  !adjustedUnknownEvidence.applicant_group_ids.includes('bsms_adjusted_offer_confirmed'),
-  'Unknown BSMS adjusted-offer evidence must not derive the adjusted-offer group.'
+const manualResultCardCase2Classification = classifyApplicant(manualResultCardCase2Applicant);
+assert.strictEqual(manualResultCardCase2Classification.eligibility.status, 'eligible');
+assert.strictEqual(
+  manualResultCardCase2Classification.eligibility.contextual_eligibility.status,
+  'contextual',
+  'Manual Result Card Case 2 must activate BSMS contextual eligibility before A-level routing.'
 );
-assert.strictEqual(adjustedUnknownEvidence.eligibility.status, 'manual_review');
+assert.strictEqual(
+  manualResultCardCase2Classification.eligibility.contextual_eligibility.contextual_evidence.matched_section_count,
+  3,
+  'Manual Result Card Case 2 must preserve three distinct matched BSMS sections.'
+);
+assert.ok(
+  manualResultCardCase2Classification.applicant_group_ids.includes('bsms_adjusted_offer_confirmed'),
+  'Manual Result Card Case 2 must derive the adjusted-offer group from Step 6 evidence.'
+);
+assert.strictEqual(
+  manualResultCardCase2Classification.eligibility.academic_pathway_id,
+  'bsms_a_level_contextual_aab',
+  'Manual Result Card Case 2 must use the AAB contextual A-level requirement.'
+);
+assert.strictEqual(manualResultCardCase2Classification.guidance_pool_id, 'home_adjusted_offer');
+assert.strictEqual(manualResultCardCase2Classification.source_interview_band_id, 'HA_CONTEXTUAL_RANKED');
+assert.strictEqual(manualResultCardCase2Classification.canonical_interview_band, 'eligible_to_apply');
+
+const [manualResultCardCase2Prediction] = predict({
+  universityIds: [profileId],
+  studentProfile: manualResultCardCase2Applicant
+});
+assert.strictEqual(manualResultCardCase2Prediction.result_card.contextual_status, 'confirmed');
+assert.strictEqual(
+  manualResultCardCase2Prediction.result_card.prediction.guidance_pool_id,
+  'home_adjusted_offer'
+);
+assert.strictEqual(manualResultCardCase2Prediction.result_card.prediction.ranking_metric, 'ucat_total');
+assert.strictEqual(
+  manualResultCardCase2Prediction.result_card.decision_transparency.ucat_comparison.comparison_type,
+  'no_published_contextual_cutoff'
+);
+assert.strictEqual(manualResultCardCase2Prediction.result_card.primary_user_facing_recommendation, 'Entry requirements met');
+assert.strictEqual(
+  manualResultCardCase2Prediction.result_card.decision_transparency.compact_status.label,
+  'Contextual eligibility confirmed.'
+);
+assert.strictEqual(
+  manualResultCardCase2Prediction.result_card.decision_transparency.selection_metric.value_label,
+  'Contextual requirements met'
+);
+assert.ok(
+  manualResultCardCase2Prediction.result_card.factor_usage.some((factor) =>
+    factor.factor_id === 'ucat' &&
+    factor.label === 'UCAT - Contextual applicant' &&
+    /BSMS contextual applicant pool/.test(factor.detail) &&
+    /not compared with the standard Home applicant UCAT threshold/.test(factor.detail)
+  ),
+  'Manual Result Card Case 2 must explain the contextual UCAT pool in the UCAT row.'
+);
+const manualResultCardCase2Text = JSON.stringify(manualResultCardCase2Prediction.result_card);
+assert.match(
+  manualResultCardCase2Text,
+  /Contextual applicants are considered separately from standard Home applicants/
+);
+assert.match(
+  manualResultCardCase2Text,
+  /previous admissions cycle.*adjusted offer.*SJT Band 1, 2 or 3.*regardless of their total UCAT score/is
+);
+assert.match(
+  manualResultCardCase2Text,
+  /For 2027 entry, BSMS has not yet published an equivalent interview threshold/
+);
+assert.doesNotMatch(
+  manualResultCardCase2Text,
+  /published Home threshold of 1990|Guaranteed Interview|Interview guaranteed under the published criteria/
+);
+
+const [standardHomePrediction] = predict({
+  universityIds: [profileId],
+  studentProfile: fixture.base_applicant
+});
+const standardHomeText = JSON.stringify(standardHomePrediction.result_card);
+assert.match(
+  standardHomeText,
+  /published Home threshold of 1990/,
+  'Standard Home result-card wording must continue to use the published Home threshold.'
+);
+assert.doesNotMatch(
+  standardHomeText,
+  /Previous BSMS interview outcome|BSMS contextual applicant pool|standard Home applicant UCAT threshold/,
+  'Standard Home result card must not receive contextual historical or pool wording.'
+);
 
 const overseasAdjustedEvidence = classify({
   applicant_identity: {
@@ -345,10 +528,18 @@ const overseasAdjustedEvidence = classify({
     domicile: 'International',
     english_language_exempt: true
   },
-  widening_participation: {
-    bsms_adjusted_offer: {
-      status: 'eligible',
-      evidence_confirmed: true
+  contextual_profile: {
+    home_area_region: {
+      polar4_quintile: 'q1'
+    },
+    school_education: {
+      below_average_gcse_school: 'yes'
+    },
+    financial_support: {
+      free_school_meals: 'yes'
+    },
+    personal_circumstances: {
+      care_over_three_months: 'no'
     }
   }
 });
@@ -356,18 +547,70 @@ assert.ok(
   !overseasAdjustedEvidence.applicant_group_ids.includes('bsms_adjusted_offer_confirmed'),
   'Overseas applicants must not derive the Home adjusted-offer group.'
 );
+const [internationalPrediction] = predict({
+  universityIds: [profileId],
+  studentProfile: merge(fixture.base_applicant, {
+    applicant_identity: {
+      applicant_type: 'international_standard_school_leaver',
+      fee_status: 'International',
+      domicile: 'International',
+      english_language_exempt: true
+    },
+    admissions_tests: {
+      ucat: {
+        total_score: 2100,
+        sjt_band: 2
+      }
+    }
+  })
+});
+assert.doesNotMatch(
+  JSON.stringify(internationalPrediction.result_card),
+  /Previous BSMS interview outcome|BSMS contextual applicant pool|standard Home applicant UCAT threshold/,
+  'International result card must not receive contextual Home wording.'
+);
 
 const careResult = classify(fixture.scenarios.find((scenario) => scenario.scenario_id === 'care_leaver_no_ucat').overrides);
 assert.strictEqual(careResult.result_card_id, 'CARE_LEAVER_INTERVIEW_ROUTE');
 assert.strictEqual(careResult.source_interview_band_id, 'CARE_LEAVER');
 assert.strictEqual(careResult.interview_outcome, 'care_leaver_interview_route');
 assert.notStrictEqual(careResult.result_card_id, 'ADJUSTED_OFFER_INTERVIEW_ROUTE');
+const [carePrediction] = predict({
+  universityIds: [profileId],
+  studentProfile: merge(fixture.base_applicant, {
+    contextual_profile: {
+      personal_circumstances: {
+        care_over_three_months: 'yes'
+      }
+    },
+    admissions_tests: {
+      ucat: {
+        total_score: 1950,
+        subtests: {
+          verbal_reasoning: 650,
+          decision_making: 650,
+          quantitative_reasoning: 650
+        },
+        sjt_band: 1
+      }
+    }
+  })
+});
+assert.strictEqual(
+  carePrediction.result_card.interview_outcome,
+  'care_leaver_interview_route',
+  'Care-leaver result-card routing must remain unchanged.'
+);
+assert.doesNotMatch(
+  JSON.stringify(carePrediction.result_card),
+  /Previous BSMS interview outcome|BSMS contextual applicant pool|standard Home applicant UCAT threshold/,
+  'Care-leaver result card must not receive adjusted-offer contextual UCAT wording.'
+);
 
 const careEvidenceOnly = classify({
-  widening_participation: {
-    bsms_care_leaver: {
-      status: 'eligible',
-      evidence_confirmed: true
+  contextual_profile: {
+    personal_circumstances: {
+      care_over_three_months: 'yes'
     }
   },
   admissions_tests: {
@@ -385,14 +628,18 @@ assert.strictEqual(careEvidenceOnly.source_interview_band_id, 'CARE_LEAVER');
 assert.strictEqual(careEvidenceOnly.result_card_id, 'CARE_LEAVER_INTERVIEW_ROUTE');
 
 const bothCareAndAdjusted = classify({
-  widening_participation: {
-    bsms_adjusted_offer: {
-      status: 'eligible',
-      evidence_confirmed: true
+  contextual_profile: {
+    home_area_region: {
+      polar4_quintile: 'q1'
     },
-    bsms_care_leaver: {
-      status: 'eligible',
-      evidence_confirmed: true
+    school_education: {
+      below_average_gcse_school: 'yes'
+    },
+    financial_support: {
+      free_school_meals: 'yes'
+    },
+    personal_circumstances: {
+      care_over_three_months: 'yes'
     }
   },
   admissions_tests: {
@@ -415,7 +662,7 @@ assertHardFailure('HS_SJT_FAIL', {
       sjt_band: 4
     }
   }
-}, 'disqualifying_sjt_rule');
+}, 'sjt_band_excluded');
 
 assertHardFailure('OS_SJT_FAIL', {
   applicant_identity: {
@@ -430,13 +677,21 @@ assertHardFailure('OS_SJT_FAIL', {
       sjt_band: 4
     }
   }
-}, 'disqualifying_sjt_rule');
+}, 'sjt_band_excluded');
 
 assertHardFailure('HA_SJT_FAIL', {
-  widening_participation: {
-    bsms_adjusted_offer: {
-      status: 'eligible',
-      evidence_confirmed: true
+  contextual_profile: {
+    home_area_region: {
+      polar4_quintile: 'q1'
+    },
+    school_education: {
+      below_average_gcse_school: 'yes'
+    },
+    financial_support: {
+      free_school_meals: 'yes'
+    },
+    personal_circumstances: {
+      care_over_three_months: 'no'
     }
   },
   admissions_tests: {
@@ -445,13 +700,21 @@ assertHardFailure('HA_SJT_FAIL', {
       sjt_band: 4
     }
   }
-}, 'disqualifying_sjt_rule');
+}, 'sjt_band_excluded');
 
 assertHardFailure('HA_ACADEMIC_FAIL', {
-  widening_participation: {
-    bsms_adjusted_offer: {
-      status: 'eligible',
-      evidence_confirmed: true
+  contextual_profile: {
+    home_area_region: {
+      polar4_quintile: 'q1'
+    },
+    school_education: {
+      below_average_gcse_school: 'yes'
+    },
+    financial_support: {
+      free_school_meals: 'yes'
+    },
+    personal_circumstances: {
+      care_over_three_months: 'no'
     }
   },
   gcse_profile: {
@@ -467,13 +730,12 @@ assertHardFailure('HA_ACADEMIC_FAIL', {
       sjt_band: 1
     }
   }
-}, 'minimum_gcse_grade_not_met:english_language');
+}, 'gcse_requirement_not_met:english_language');
 
 assertHardFailure('care-leaver academic failure', {
-  widening_participation: {
-    bsms_care_leaver: {
-      status: 'eligible',
-      evidence_confirmed: true
+  contextual_profile: {
+    personal_circumstances: {
+      care_over_three_months: 'yes'
     }
   },
   gcse_profile: {
@@ -489,13 +751,12 @@ assertHardFailure('care-leaver academic failure', {
       sjt_band: 1
     }
   }
-}, 'minimum_gcse_grade_not_met:english_language');
+}, 'gcse_requirement_not_met:english_language');
 
 assertHardFailure('care-leaver SJT Band 4', {
-  widening_participation: {
-    bsms_care_leaver: {
-      status: 'eligible',
-      evidence_confirmed: true
+  contextual_profile: {
+    personal_circumstances: {
+      care_over_three_months: 'yes'
     }
   },
   admissions_tests: {
@@ -504,7 +765,7 @@ assertHardFailure('care-leaver SJT Band 4', {
       sjt_band: 4
     }
   }
-}, 'disqualifying_sjt_rule');
+}, 'sjt_band_excluded');
 
 const missingALevelApplicant = clone(fixture.base_applicant);
 missingALevelApplicant.a_level_profile = null;

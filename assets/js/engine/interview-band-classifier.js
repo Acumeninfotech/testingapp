@@ -1792,6 +1792,59 @@ function applyClassificationEligibilityGuards(eligibility, config, qualification
   }
   if ((configuredRoutes.manual_review || []).map(normaliseId).includes(normalisedRoute)) {
     addManualReview(`qualification_route_requires_manual_review:${normalisedRoute}`);
+    const routeNotVerifiedFailure = `${normalisedRoute}_route_not_verified`;
+    const failureIndex = failures.indexOf(routeNotVerifiedFailure);
+    if (failureIndex !== -1) {
+      failures.splice(failureIndex, 1);
+    }
+  }
+
+  if (
+    normalisedRoute === 'a_level' &&
+    applicant?.a_level_profile == null &&
+    normaliseId(configEligibility.academic_evidence?.missing_outcome) === 'manual_review'
+  ) {
+    const failureIndex = failures.indexOf('a_level_requirements_not_met');
+    if (failureIndex !== -1) {
+      failures.splice(failureIndex, 1);
+      addManualReview(
+        configEligibility.academic_evidence?.manual_review_reason ||
+        'missing_academic_evidence_requires_manual_review'
+      );
+    }
+  }
+
+  if (normaliseId(configEligibility.academic_evidence?.missing_outcome) === 'manual_review') {
+    const gcseGrades = getGcseGrades(applicant || {});
+    const missingGcseFailureChecks = (eligibility.checks || [])
+      .filter((check) => {
+        if (check?.status !== 'fail' || !Array.isArray(check.subject_ids)) {
+          return false;
+        }
+        return check.subject_ids.every((subjectId) => {
+          return gcseGrades[subjectId] === undefined;
+        });
+      });
+    let removedMissingGcseFailure = false;
+    for (const check of missingGcseFailureChecks) {
+      const subjectId = normaliseId(check.subject_id);
+      for (const reason of [
+        `gcse_requirement_not_met:${subjectId}`,
+        `required_gcse_subject_missing:${subjectId}`
+      ]) {
+        const failureIndex = failures.indexOf(reason);
+        if (failureIndex !== -1) {
+          failures.splice(failureIndex, 1);
+          removedMissingGcseFailure = true;
+        }
+      }
+    }
+    if (removedMissingGcseFailure) {
+      addManualReview(
+        configEligibility.academic_evidence?.manual_review_reason ||
+        'missing_academic_evidence_requires_manual_review'
+      );
+    }
   }
 
   for (const groupId of configEligibility.explicitly_blocked_applicant_groups || []) {
@@ -1838,7 +1891,7 @@ function applyClassificationEligibilityGuards(eligibility, config, qualification
 
   const status = failures.length
     ? 'not_eligible'
-    : manualReviewReasons.length && eligibility.status === 'eligible'
+    : manualReviewReasons.length
       ? 'manual_review'
       : eligibility.status;
 
@@ -1915,17 +1968,24 @@ function evaluateHardFilters(course, config, applicant, groupIds, resolvedEligib
       failures.push('required_admissions_test_missing:ucat');
     }
   }
+  const rawUcatTotal =
+    applicant.admissions_tests?.ucat?.total_score;
+
+  const supportedUcatMin =
+    config.eligibility?.ucat?.score_min ?? 0;
+
+  const supportedUcatMax =
+    config.eligibility?.ucat?.score_max ??
+    ucat.score_scale ??
+    applicant.admissions_tests?.ucat?.score_scale ??
+    2700;
+
   if (
     ucatApplies &&
-    Number.isFinite(ucatTotal) &&
+    Number.isFinite(rawUcatTotal) &&
     (
-      ucatTotal < (config.eligibility?.ucat?.score_min ?? 0) ||
-      ucatTotal > (
-        config.eligibility?.ucat?.score_max ??
-        ucat.score_scale ??
-        applicant.admissions_tests?.ucat?.score_scale ??
-        2700
-      )
+      rawUcatTotal < supportedUcatMin ||
+      rawUcatTotal > supportedUcatMax
     )
   ) {
     addManualReviewReason('ucat_total_outside_supported_range');
@@ -2133,6 +2193,13 @@ function guaranteedInterviewOverrideApplies(config, applicant, groupIds = [], re
 function resolveGuaranteedInterviewOverride(config, applicant, groupIds = [], resolvedEligibility = null) {
   const override = config.eligibility?.map_override;
   if (!override || override.apply_ucat_guidance_band !== false) {
+    return null;
+  }
+
+  if (
+    override.requires_eligibility_status === 'eligible' &&
+    resolvedEligibility?.status !== 'eligible'
+  ) {
     return null;
   }
 

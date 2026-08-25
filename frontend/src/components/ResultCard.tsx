@@ -262,8 +262,11 @@ function sjtBandFromText(value: string | null | undefined): number | null {
 function publicText(value: string | null | undefined): string {
   return String(value || '')
     .replace(/\(\s*20\d{2}\s*\)/g, '')
-    .replace(/\b20\d{2}[-\s]?entry\b/gi, '')
-    .replace(/\b20\d{2}\s+(?=published|official|current-scale|entry|admissions cycle)/gi, '')
+    .replace(/\b20\d{2}[-\s]?entry\b/gi, (match, offset, text) => {
+      const prefix = text.slice(Math.max(0, offset - 4), offset).toLowerCase();
+      return prefix === 'for ' ? match : '';
+    })
+    .replace(/\b20\d{2}\s+(?=published|official|current-scale|admissions cycle)/gi, '')
     .replace(/\(\s*\)/g, '')
     .replace(/\s{2,}/g, ' ')
     .replace(/\s+([.,;:])/g, '$1')
@@ -520,7 +523,11 @@ function assessmentKind({
   if (comparison) {
     return 'ucat';
   }
-  if (ucatComparison?.comparison_type === 'ranking_only' || /rank(?:s|ed)? by (?:raw )?ucat|eligible applicants are ranked by ucat/i.test(selectionText)) {
+  if (
+    ucatComparison?.comparison_type === 'ranking_only' ||
+    ucatComparison?.comparison_type === 'no_published_contextual_cutoff' ||
+    /rank(?:s|ed)? by (?:raw )?ucat|eligible applicants are ranked by ucat/i.test(selectionText)
+  ) {
     return 'ranking-only';
   }
   return 'eligibility-only';
@@ -780,6 +787,7 @@ function EligibilityCard({
   status,
   rows,
   tone,
+  note,
   badgeOnly = false,
 }: {
   title: string;
@@ -787,6 +795,7 @@ function EligibilityCard({
   status: string;
   rows: Array<{ label: string; value: string; tone?: 'positive' | 'negative' | 'warning' | 'neutral' }>;
   tone: 'positive' | 'negative' | 'warning' | 'neutral';
+  note?: string | null;
   badgeOnly?: boolean;
 }) {
   return (
@@ -823,6 +832,7 @@ function EligibilityCard({
           ))}
         </dl>
       ) : null}
+      {note && <p className="result-card-compact-note">{publicText(note)}</p>}
     </div>
   );
 }
@@ -1061,6 +1071,16 @@ export function ResultCard({ result }: { result: PredictionResult }) {
   const sjtPointsRow = scoreComponentRow(scoreBreakdown, /^SJT points$/i);
   const ucatRole = ucatFactor?.role;
   const ucatRows: Array<{ label: string; value: string }> = [];
+  const noPublishedContextualUcatCutoff =
+    ucatComparison?.comparison_type === 'no_published_contextual_cutoff';
+  const noPublishedContextualUcatSummary =
+    noPublishedContextualUcatCutoff
+      ? ucatComparison?.public_summary || ucatFactor?.detail || null
+      : null;
+  const noPublishedContextualHistoricalSummary =
+    noPublishedContextualUcatCutoff
+      ? ucatComparison?.historical_summary || historicalStage?.summary || null
+      : null;
   const ucatMinimumText =
     ucatRole === 'ranking'
       ? null
@@ -1078,6 +1098,8 @@ export function ResultCard({ result }: { result: PredictionResult }) {
       ? 'Not used'
       : ucatRole === 'eligibility'
         ? 'Eligibility requirement'
+        : noPublishedContextualUcatCutoff
+          ? 'Contextual applicant'
         : ucatRole === 'ranking'
           ? 'Used for ranking'
           : ucatMinimumText
@@ -1186,8 +1208,9 @@ export function ResultCard({ result }: { result: PredictionResult }) {
     variant === 'not-eligible' && historicalStage?.summary
       ? historicalStage.summary
       : ucatComparison?.comparison_type === 'ranking_only'
-      ? 'Eligible applicants are ranked by UCAT; no reliable numerical comparison is available.'
-      : ucatComparisonCheck?.summary || historicalStage?.summary || selectionApproachSummary || 'Eligible applicants are ranked by UCAT; no reliable numerical comparison is available.';
+        || ucatComparison?.comparison_type === 'no_published_contextual_cutoff'
+        ? 'Eligible applicants are ranked by UCAT; no reliable numerical comparison is available.'
+        : ucatComparisonCheck?.summary || historicalStage?.summary || selectionApproachSummary || 'Eligible applicants are ranked by UCAT; no reliable numerical comparison is available.';
   const eligibilityOnlySummary =
     eligibilityStage?.summary || summaryLineTwo || 'Eligibility has been assessed against the supported entry requirements.';
   const historicalEvidenceSummary =
@@ -1212,7 +1235,8 @@ export function ResultCard({ result }: { result: PredictionResult }) {
   const renderableHistoricalStage = hasRenderableHistoricalStage(historicalStage);
   const showHistoricalContext = Boolean(
     (!isUnresolvedOrNotSuitable || hasHistoricalContextForNotSuitable || renderableHistoricalStage) &&
-      (comparison ||
+      (noPublishedContextualUcatCutoff ||
+        comparison ||
         primaryAssessmentKind === 'selection-score' ||
         primaryAssessmentKind === 'ranking-only' ||
         (primaryAssessmentKind === 'eligibility-only' && isExplicitEligibilityOnly) ||
@@ -1226,6 +1250,12 @@ export function ResultCard({ result }: { result: PredictionResult }) {
   const historicalTitle =
     isApplySmartPredictionComparison
       ? 'UCAT PREDICTION CONTEXT'
+      : noPublishedContextualUcatCutoff
+        ? publicText(
+            historicalChecks.find((check) => check.summary === noPublishedContextualHistoricalSummary)?.label ||
+            historicalChecks.find((check) => /previous|outcome|context/i.test(check.label))?.label ||
+            'Historical Context',
+          )
       : typeof transparency?.comparison_metrics_title === 'string' && transparency.comparison_metrics_title.trim()
       ? publicText(transparency.comparison_metrics_title)
       : primaryAssessmentKind === 'selection-score'
@@ -1351,6 +1381,7 @@ export function ResultCard({ result }: { result: PredictionResult }) {
             status={ucatStatus}
             rows={ucatRows}
             tone={statusTone(ucatStatus)}
+            note={noPublishedContextualUcatSummary}
           />
           <EligibilityCard
             title="SJT"
@@ -1431,7 +1462,9 @@ export function ResultCard({ result }: { result: PredictionResult }) {
       {showHistoricalContext && (
         <section className="result-card-section result-card-historical">
           <SectionHeader title={historicalTitle} subtitle={isApplySmartPredictionComparison ? null : comparison?.label} icon="history" />
-          {primaryAssessmentKind === 'ucat' && comparison ? (
+          {noPublishedContextualHistoricalSummary ? (
+            <p className="result-card-compact-note">{publicText(noPublishedContextualHistoricalSummary)}</p>
+          ) : primaryAssessmentKind === 'ucat' && comparison ? (
             isApplySmartPredictionComparison ? (
               <div className="result-card-historical-grid result-card-historical-grid--prediction-context">
                 <section className="result-card-prediction-context-block" aria-label="Prediction Context values">
@@ -1511,7 +1544,7 @@ export function ResultCard({ result }: { result: PredictionResult }) {
               </p>
             </div>
           ) : primaryAssessmentKind === 'ranking-only' ? (
-            <p className="result-card-compact-note">{historicalNote(rankingOnlySummary)}</p>
+            <p className="result-card-compact-note">{historicalNote(noPublishedContextualHistoricalSummary || rankingOnlySummary)}</p>
           ) : primaryAssessmentKind === 'eligibility-only' && isExplicitEligibilityOnly ? (
             <p className="result-card-compact-note">{historicalNote(eligibilityOnlySummary)}</p>
           ) : (
