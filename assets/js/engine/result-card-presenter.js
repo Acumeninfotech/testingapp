@@ -39,7 +39,7 @@ const LIVERPOOL_CONTEXTUAL_CONFIRMATION = {
   expanded_heading: 'Contextual eligibility confirmed',
   consideration_label: 'Liverpool contextual consideration:',
   expanded_body:
-    'Contextual eligibility means additional consideration for Liverpool Medicine A100. It does not guarantee an interview, offer or reduced A-level offer.'
+    'Contextual consideration may allow flexibility below the standard UCAT level, but Liverpool does not publish how many UCAT points of flexibility may be applied and determines this annually.'
 };
 
 const PLYMOUTH_CONTEXTUAL_A_LEVEL_ROUTES = Object.freeze({
@@ -4293,6 +4293,17 @@ function academicStatusSummary(state, eligibilityStatus, card = {}) {
     eligibilityStatus !== 'insufficient_evidence'
   ) {
     return 'You meet the academic requirements.';
+  }
+  if (
+    profileId === 'liverpool-a100' &&
+    contextual?.status === 'contextual' &&
+    state !== 'not_eligible' &&
+    eligibilityStatus !== 'not_eligible' &&
+    state !== 'manual_review' &&
+    eligibilityStatus !== 'manual_review' &&
+    eligibilityStatus !== 'insufficient_evidence'
+  ) {
+    return 'Liverpool may apply contextual UCAT flexibility, but it does not publish how many UCAT points of flexibility may be applied.';
   }
   if (
     contextual?.status === 'contextual' &&

@@ -51,7 +51,7 @@
         "liverpool_research_team_verified_update_2026"
       ],
       "places_available": null,
-      "notes": "Standard Home applicants compete only within this pool. Scotland-domiciled and Rest of UK applicants use this pool unless eligible for the separate contextual pool. The live cut-off is dynamic."
+      "notes": "Standard Home applicants compete only within this pool. Scotland-domiciled and Rest of UK applicants use this pool unless eligible for the separate contextual pool. The official E2026 Home UCAT cut-off was 1960/2700; Liverpool's E2027 Home estimated guidance is 1880-2010/2700. The live cut-off is dynamic."
     },
     {
       "pool_id": "home_contextual_non_graduate_ucat_pool",
@@ -1263,7 +1263,7 @@
           "liverpool_admissions_faq_2027",
           "liverpool_research_team_verified_update_2026"
         ],
-        "notes": "The live cut-off varies annually. Official candidate guidance places the typical Home range in applicant-pool deciles 4 to 6, but those deciles are not executable without the live pool distribution. The E2025 cutoff of 1935 is stored as historical guidance only."
+        "notes": "The live cut-off varies annually. Liverpool's official E2026 Home UCAT cut-off was 1960/2700, and its official E2027 Home estimated guidance is 1880-2010/2700. These values are guidance for ApplySmart bands, not fixed E2027 cut-offs or guaranteed interview outcomes."
       },
       {
         "threshold_id": "home_contextual_non_graduate_ucat_cutoff_2027",
@@ -1354,6 +1354,12 @@
               "entry_year": 2025,
               "value": 1935,
               "evidence_classification": "foi_verified"
+            },
+            {
+              "entry_year": 2026,
+              "value": 1960,
+              "score_scale_max": 2700,
+              "evidence_classification": "official_verified"
             }
           ]
         },
@@ -1386,13 +1392,13 @@
       "bands": [
         {
           "band": "interview_realistic",
-          "definition": "At or above the applicable FOI-verified E2025 historical cutoff.",
-          "evidence_classification": "foi_verified_historical_guidance"
+          "definition": "At or above the applicable stored official or FOI-verified guidance boundary.",
+          "evidence_classification": "verified_guidance"
         },
         {
           "band": "interview_ambitious",
-          "definition": "Below the applicable FOI-verified E2025 historical cutoff without crossing an official hard rejection rule.",
-          "evidence_classification": "foi_verified_historical_guidance"
+          "definition": "Below the applicable stored official or FOI-verified guidance boundary without crossing an official hard rejection rule.",
+          "evidence_classification": "verified_guidance"
         },
         {
           "band": "eligible_but_insufficient_evidence",
@@ -1405,7 +1411,7 @@
         "liverpool_foi_2025_cutoffs_verified_update",
         "liverpool_a100_departmental_supplement_2027"
       ],
-      "notes": "Only the three FOI-verified E2025 cutoffs are executable as historical guidance boundaries. No unofficial likely/high-risk numeric boundaries are used. Bands are not current-cycle pass/fail thresholds or probability estimates."
+      "notes": "The standard Home pool uses the official E2026 UCAT cut-off and E2027 estimated Home guidance to form ApplySmart-derived bands. Contextual and International pools retain FOI-verified E2025 cut-offs as historical guidance. Bands are not current-cycle pass/fail thresholds or probability estimates."
     },
     "selection_adjustments": [
       {
@@ -1437,7 +1443,7 @@
           "liverpool_contextual_data_2027",
           "liverpool_research_team_verified_update_2026"
         ],
-        "notes": "The live contextual threshold is determined annually. Only the FOI-verified E2025 cutoff is retained as historical guidance. Home SJT Band 4 remains unsuccessful."
+        "notes": "The live contextual threshold is determined annually. Only the FOI-verified E2025 cutoff is retained as historical guidance. Liverpool does not publish the amount of contextual UCAT flexibility and determines it annually. Home SJT Band 4 remains unsuccessful."
       }
     ],
     "tie_breakers": [],
@@ -1585,19 +1591,15 @@
           "value": null
         },
         "guidance_effect": {
-          "approximate_lowering_points": {
-            "min": 80,
-            "max": 100
-          },
-          "approximate_guidance_score": 1730,
-          "score_scale_max": 2700,
-          "evidence_classification": "historical_guidance"
+          "published_numeric_threshold": null,
+          "published_flexibility_amount": null,
+          "evidence_classification": "unpublished_unknown"
         },
         "source_ids": [
           "liverpool_contextual_data_2027",
           "liverpool_research_team_verified_update_2026"
         ],
-        "notes": "The live threshold is determined annually. Guidance is not deterministic. Home SJT Band 4 remains unsuccessful, and this adjustment does not apply to GAMSAT."
+        "notes": "The live threshold is determined annually. Guidance is not deterministic. Liverpool does not publish the amount of contextual UCAT flexibility and determines it annually. Home SJT Band 4 remains unsuccessful, and this adjustment does not apply to GAMSAT."
       },
       {
         "adjustment_id": "contextual_interview_flexibility",
@@ -2154,12 +2156,17 @@
         "total_places": 315,
         "deferred_or_reserved_places_approximate": 40,
         "offer_to_confirmed_place_guidance": "approximately two offers per confirmed place",
+        "ucat_cutoffs_by_group": {
+          "home_standard_non_graduate": 1960
+        },
         "ucat_guidance_by_group": {
           "home_standard": {
-            "min": 1810,
-            "max": 1920
+            "cutoff": 1960
           },
-          "home_contextual_approximate_minimum": 1730,
+          "home_contextual": {
+            "published_numeric_threshold": null,
+            "published_flexibility_amount": null
+          },
           "international": {
             "min": 1980,
             "max": 2170
@@ -2171,9 +2178,10 @@
         "verification_status": "mixed_official_and_historical_guidance",
         "evidence_classification": {
           "places": "official_verified",
-          "applications_interviews_offers_and_ucat_ranges": "historical_guidance"
+          "home_standard_ucat_cutoff": "official_verified",
+          "applications_interviews_offers_and_other_ucat_ranges": "historical_guidance"
         },
-        "notes": "A100 places are official E2026 intake values. Application, interview, offer, deferred/reserved and UCAT figures are approximate historical guidance and must not become deterministic rules.",
+        "notes": "A100 places and the Home standard UCAT cut-off are official E2026 intake values. Application, interview, offer, deferred/reserved and other UCAT figures are approximate historical guidance and must not become deterministic rules.",
         "source_ids": [
           "liverpool_a100_departmental_supplement_2027",
           "liverpool_priority_2_historical_evidence_handoff_2026"
@@ -2181,20 +2189,18 @@
       }
     ],
     "current_cycle_guidance": {
-      "entry_year": 2026,
-      "classification": "historical_guidance",
+      "entry_year": 2027,
+      "classification": "official_estimated_guidance",
       "home_standard": {
         "score_range": [
-          1810,
-          1920
+          1880,
+          2010
         ]
       },
       "home_contextual": {
-        "approximate_minimum": 1730,
-        "approximate_lowering_points": [
-          80,
-          100
-        ]
+        "published_numeric_threshold": null,
+        "published_flexibility_amount": null,
+        "guidance_basis": "same_applysmart_home_guidance_bands_with_contextual_flexibility_note"
       },
       "international_eu": {
         "score_range": [
@@ -2203,9 +2209,10 @@
         ]
       },
       "source_ids": [
-        "liverpool_priority_2_historical_evidence_handoff_2026"
+        "liverpool_a100_departmental_supplement_2027",
+        "liverpool_admissions_faq_2027"
       ],
-      "notes": "E2026 estimates and guidance only. These ranges are not live or guaranteed thresholds, and performance and competition vary annually."
+      "notes": "E2027 estimates and guidance only. These ranges are not live or guaranteed thresholds, and performance and competition vary annually. Liverpool does not publish the amount of contextual UCAT flexibility and determines it annually."
     },
     "historical_gamsat_guidance": [
       {
@@ -2569,7 +2576,7 @@
       "Complete exact multi-cycle applications, interviews, offers, places and score distributions.",
       "The underlying document identifier or URL for the research-team supplied E2025 FOI cut-offs."
     ],
-    "review_notes": "Eligibility is executable for all implemented routes. Access and international qualifications require explicit Liverpool-verification evidence; unverified routes are blocked. Interview bands use only FOI-confirmed E2025 cutoffs as historical boundaries, with official candidate-decile guidance retained as non-executable context. Final-offer prediction remains disabled."
+    "review_notes": "Eligibility is executable for all implemented routes. Access and international qualifications require explicit Liverpool-verification evidence; unverified routes are blocked. Standard Home interview bands use the official E2026 UCAT cut-off and E2027 estimated guidance, while contextual and International interview bands retain FOI-confirmed E2025 cut-offs as historical boundaries. Final-offer prediction remains disabled."
   },
   "engine_notes": {
     "eligibility": true,
@@ -2604,7 +2611,7 @@
     "engine_assumptions": [],
     "do_not_infer": [
       "Do not treat E2025 FOI cut-offs as 2027 cut-offs.",
-      "Do not create numeric interview boundaries other than the FOI-verified E2025 historical cutoffs.",
+      "Do not create numeric interview boundaries other than the approved standard Home E2026/E2027 ApplySmart guidance bands and the retained FOI-verified E2025 contextual and International historical cut-offs.",
       "Do not compare E2023 or E2024 /3600 UCAT values directly with post-2025 /2700 scores.",
       "Do not convert approximate applications, interviews, offers, deferred places, GAMSAT ranges or reserve-list context into deterministic prediction inputs.",
       "Do not create a separate Scotland or Rest of UK ranking pool; Liverpool publishes a Home fee-status pool.",
