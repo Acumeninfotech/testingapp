@@ -233,8 +233,8 @@ const oneOrdinary = evaluate(applicantWith({
 assert.strictEqual(oneOrdinary.eligibility.contextual_eligibility.status, 'not_contextual');
 assert.strictEqual(
   oneOrdinary.estimated_selection_score.contextual.points,
-  0,
-  'one ordinary marker: not contextual, so no contextual estimate points'
+  8,
+  'UCAT bursary alone contributes 8 interview-selection contextual points'
 );
 
 
@@ -313,6 +313,128 @@ assert.strictEqual(
   contextualCrossingCase.canonical_interview_band,
   'interview_likely',
   'contextual points push the same applicant above the 72-point Strong Choice boundary'
+);
+
+
+// POLAR4 Q1 alone does not need the separate reduced-offer contextual
+// classification in order to contribute its published selection points.
+const polar4Q1Only = evaluate(applicantWith({
+  contextual_profile: merge(noContextualProfile(), {
+    home_area_region: { polar4_quintile: 'q1' }
+  })
+}));
+
+assert.strictEqual(
+  polar4Q1Only.eligibility.contextual_eligibility.status,
+  'not_contextual',
+  'POLAR4 Q1 alone remains separate from reduced-offer contextual eligibility'
+);
+
+assert.strictEqual(
+  polar4Q1Only.estimated_selection_score.contextual.points,
+  3,
+  'POLAR4 Q1 alone contributes 3 interview-selection points'
+);
+
+assert.strictEqual(
+  polar4Q1Only.estimated_selection_score.max,
+  100,
+  'applicant receiving contextual selection points uses the 100-point scale'
+);
+
+
+assert.strictEqual(
+  polar4Q1Only.estimated_selection_score.contextual.points,
+  3,
+  'POLAR4 Q1 browser case: contextual component is 3 points'
+);
+
+assert.strictEqual(
+  polar4Q1Only.estimated_selection_score.max,
+  100,
+  'POLAR4 Q1 browser case: score scale is /100'
+);
+
+assert.strictEqual(
+  polar4Q1Only.estimated_selection_score.value,
+  73.48,
+  'POLAR4 Q1 fixture: 70.48 base subtotal + 3 contextual points'
+);
+
+assert.strictEqual(
+  polar4Q1Only.canonical_interview_band,
+  'interview_likely',
+  'POLAR4 Q1 fixture: 73.48 crosses the 72-point Strong Choice boundary'
+);
+
+
+// Exact browser regression: POLAR4 Q1-only applicant shown in manual testing.
+const polar4Q1BrowserApplicant = applicantWith({
+  gcse_profile: {
+    subjects: [
+      subject('english_language', '8'),
+      subject('english_literature', '7'),
+      subject('mathematics', '8'),
+      subject('biology', '9'),
+      subject('chemistry', '9'),
+      subject('physics', '8'),
+      subject('other', '9'),
+      subject('history', '8'),
+      subject('further_mathematics', '7'),
+      subject('spanish', '6')
+    ]
+  },
+  a_level_profile: {
+    subjects: [
+      subject('chemistry', 'A'),
+      subject('biology', 'A*'),
+      subject('mathematics', 'A*')
+    ]
+  },
+  admissions_tests: {
+    ucat: {
+      total_score: 1950,
+      sjt_band: 2,
+      test_year: 2026
+    }
+  },
+  contextual_profile: merge(noContextualProfile(), {
+    home_area_region: {
+      polar4_quintile: 'q1'
+    }
+  })
+});
+
+const polar4Q1BrowserResult = evaluate(polar4Q1BrowserApplicant);
+
+assert.strictEqual(
+  polar4Q1BrowserResult.eligibility.contextual_eligibility.status,
+  'not_contextual',
+  'browser POLAR4 Q1-only case remains separate from reduced-offer contextual eligibility'
+);
+
+assert.strictEqual(
+  polar4Q1BrowserResult.estimated_selection_score.contextual.points,
+  3,
+  'browser POLAR4 Q1-only case receives 3 selection points'
+);
+
+assert.strictEqual(
+  polar4Q1BrowserResult.estimated_selection_score.max,
+  100,
+  'browser POLAR4 Q1-only case uses /100 once contextual selection points apply'
+);
+
+assert.strictEqual(
+  polar4Q1BrowserResult.estimated_selection_score.value,
+  69.48,
+  'browser POLAR4 Q1 case totals 69.48'
+);
+
+assert.strictEqual(
+  polar4Q1BrowserResult.canonical_interview_band,
+  'ambitious',
+  'browser POLAR4 Q1 case remains Ambitious because 69.48 is below 72'
 );
 
 const legacyOnly = evaluate(applicantWith({

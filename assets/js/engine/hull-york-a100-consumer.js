@@ -975,7 +975,10 @@ function contextualEstimate(config, applicant, eligibility) {
     model.official_contextual_minimum_criteria ?? 2;
   const officialEligibilityMet =
     applicable && assessment?.is_contextual === true;
-  const rawPoints = officialEligibilityMet
+  // HYMS interview-selection contextual points are awarded for each
+  // qualifying published circumstance independently of the separate
+  // canonical contextual/reduced-offer eligibility decision.
+  const rawPoints = applicable
     ? criteria.reduce((total, criterion) => {
       return total + Number(model.points_by_flag?.[criterion] || 0);
     }, 0)
@@ -1154,8 +1157,8 @@ function recommendationBand(config, applicant, eligibility, score) {
 function estimateSelectionScore(course, config, applicant, eligibility, options = {}) {
   const contextual = contextualEstimate(config, applicant, eligibility);
   const contextualScoringActive =
-    contextual.official_contextual_eligibility
-      ?.met_from_canonical_assessment === true;
+    contextual.applicable === true &&
+    Number(contextual.points) > 0;
 
   if (eligibility.status !== 'eligible') {
     return {
