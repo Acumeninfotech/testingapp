@@ -472,12 +472,207 @@
             "A",
             "A"
           ],
-          "required_subject_ids": [
-            "biology",
-            "chemistry"
+          "required_subject_rule": {
+            "mandatory_one_of_subject_ids": [
+              "biology",
+              "chemistry"
+            ],
+            "one_further_subject_from": [
+              "biology",
+              "chemistry",
+              "mathematics",
+              "physics"
+            ],
+            "distinct_subject_required": true
+          },
+          "source_ids": [
+            "bsms_v5_research_doc",
+            "bsms_v5_applysmart_json",
+            "bsms_applying_to_bsms_2026",
+            "bsms_entry_requirements",
+            "bsms_admissions_process",
+            "bsms_international_entry_requirements"
           ]
         },
-        "notes": "Advanced Highers accepted when Biology and Chemistry requirements are met."
+        "notes": "For 2027 entry BSMS accepts either AAA at Advanced Higher, including Biology or Chemistry plus one further distinct subject from Biology, Chemistry, Mathematics or Physics; or A at Advanced Higher in Biology or Chemistry plus A in one further distinct Advanced Higher from Biology, Chemistry, Mathematics or Physics, with A grades in two additional Higher subjects.",
+        "grade_requirements": [
+          {
+            "academic_pathway": "standard",
+            "applies_to_group_ids": [
+              "home_fee",
+              "school_leaver"
+            ],
+            "excluded_group_ids": [
+              "international_fee"
+            ],
+            "decision_outcome_if_not_met": "not_eligible",
+            "source_ids": [
+              "bsms_v5_research_doc",
+              "bsms_v5_applysmart_json",
+              "bsms_applying_to_bsms_2026",
+              "bsms_entry_requirements",
+              "bsms_admissions_process",
+              "bsms_international_entry_requirements"
+            ],
+            "requirement_id": "bsms_scottish_ah_aaa_biology_route",
+            "route_id": "bsms_scottish_ah_aaa_biology_route",
+            "qualification_level": "advanced_higher",
+            "grade_profile": [
+              "A",
+              "A",
+              "A"
+            ],
+            "required_subject_ids": [
+              "biology"
+            ],
+            "one_of_subject_groups": [
+              {
+                "group_id": "bsms_ah_second_subject_after_biology",
+                "minimum_required": 1,
+                "subject_ids": [
+                  "chemistry",
+                  "mathematics",
+                  "physics"
+                ]
+              }
+            ],
+            "notes": "2027 BSMS Scottish route: AAA at Advanced Higher, including Biology and one further distinct subject from Chemistry, Mathematics or Physics."
+          },
+          {
+            "academic_pathway": "standard",
+            "applies_to_group_ids": [
+              "home_fee",
+              "school_leaver"
+            ],
+            "excluded_group_ids": [
+              "international_fee"
+            ],
+            "decision_outcome_if_not_met": "not_eligible",
+            "source_ids": [
+              "bsms_v5_research_doc",
+              "bsms_v5_applysmart_json",
+              "bsms_applying_to_bsms_2026",
+              "bsms_entry_requirements",
+              "bsms_admissions_process",
+              "bsms_international_entry_requirements"
+            ],
+            "requirement_id": "bsms_scottish_ah_aaa_chemistry_route",
+            "route_id": "bsms_scottish_ah_aaa_chemistry_route",
+            "qualification_level": "advanced_higher",
+            "grade_profile": [
+              "A",
+              "A",
+              "A"
+            ],
+            "required_subject_ids": [
+              "chemistry"
+            ],
+            "one_of_subject_groups": [
+              {
+                "group_id": "bsms_ah_second_subject_after_chemistry",
+                "minimum_required": 1,
+                "subject_ids": [
+                  "biology",
+                  "mathematics",
+                  "physics"
+                ]
+              }
+            ],
+            "notes": "2027 BSMS Scottish route: AAA at Advanced Higher, including Chemistry and one further distinct subject from Biology, Mathematics or Physics."
+          },
+          {
+            "academic_pathway": "standard",
+            "applies_to_group_ids": [
+              "home_fee",
+              "school_leaver"
+            ],
+            "excluded_group_ids": [
+              "international_fee"
+            ],
+            "decision_outcome_if_not_met": "not_eligible",
+            "source_ids": [
+              "bsms_v5_research_doc",
+              "bsms_v5_applysmart_json",
+              "bsms_applying_to_bsms_2026",
+              "bsms_entry_requirements",
+              "bsms_admissions_process",
+              "bsms_international_entry_requirements"
+            ],
+            "requirement_id": "bsms_scottish_ah_aa_plus_higher_aa_biology_route",
+            "route_id": "bsms_scottish_ah_aa_plus_higher_aa_biology_route",
+            "qualification_level": "scottish_highers_and_advanced_highers",
+            "advanced_higher_grade_profile": [
+              "A",
+              "A"
+            ],
+            "higher_grade_profile": [
+              "A",
+              "A"
+            ],
+            "advanced_higher_required_subject_ids": [
+              "biology"
+            ],
+            "advanced_higher_one_of_subject_groups": [
+              {
+                "group_id": "bsms_ah_second_subject_after_biology",
+                "minimum_required": 1,
+                "subject_ids": [
+                  "chemistry",
+                  "mathematics",
+                  "physics"
+                ]
+              }
+            ],
+            "notes": "2027 BSMS alternative Scottish route: Advanced Higher A in Biology plus A in one further Advanced Higher from Chemistry, Mathematics or Physics, plus AA in two Higher subjects."
+          },
+          {
+            "academic_pathway": "standard",
+            "applies_to_group_ids": [
+              "home_fee",
+              "school_leaver"
+            ],
+            "excluded_group_ids": [
+              "international_fee"
+            ],
+            "decision_outcome_if_not_met": "not_eligible",
+            "source_ids": [
+              "bsms_v5_research_doc",
+              "bsms_v5_applysmart_json",
+              "bsms_applying_to_bsms_2026",
+              "bsms_entry_requirements",
+              "bsms_admissions_process",
+              "bsms_international_entry_requirements"
+            ],
+            "requirement_id": "bsms_scottish_ah_aa_plus_higher_aa_chemistry_route",
+            "route_id": "bsms_scottish_ah_aa_plus_higher_aa_chemistry_route",
+            "qualification_level": "scottish_highers_and_advanced_highers",
+            "advanced_higher_grade_profile": [
+              "A",
+              "A"
+            ],
+            "higher_grade_profile": [
+              "A",
+              "A"
+            ],
+            "advanced_higher_required_subject_ids": [
+              "chemistry"
+            ],
+            "advanced_higher_one_of_subject_groups": [
+              {
+                "group_id": "bsms_ah_second_subject_after_chemistry",
+                "minimum_required": 1,
+                "subject_ids": [
+                  "biology",
+                  "mathematics",
+                  "physics"
+                ]
+              }
+            ],
+            "notes": "2027 BSMS alternative Scottish route: Advanced Higher A in Chemistry plus A in one further Advanced Higher from Biology, Mathematics or Physics, plus AA in two Higher subjects."
+          }
+        ],
+        "execution_status": "automatic_with_complete_scottish_qualification_data",
+        "route_implemented": true
       },
       "graduate": {
         "status": "supported_threshold_route",
@@ -565,6 +760,45 @@
       "fitness_to_practise_required": true,
       "dbs_required": true,
       "occupational_health_required": true
+    },
+    "national_5": {
+      "grade_requirements": [
+        {
+          "requirement_id": "bsms_national_5_english_b",
+          "subject_id": "english_language",
+          "alternative_subject_ids": [
+            "english"
+          ],
+          "minimum_grade": "B",
+          "qualification_level": "national_5",
+          "decision_outcome_if_not_met": "not_eligible",
+          "source_ids": [
+            "bsms_v5_research_doc",
+            "bsms_v5_applysmart_json",
+            "bsms_applying_to_bsms_2026",
+            "bsms_entry_requirements",
+            "bsms_admissions_process",
+            "bsms_international_entry_requirements"
+          ],
+          "notes": "BSMS requires National 5 English at grade B or above."
+        },
+        {
+          "requirement_id": "bsms_national_5_mathematics_b",
+          "subject_id": "mathematics",
+          "minimum_grade": "B",
+          "qualification_level": "national_5",
+          "decision_outcome_if_not_met": "not_eligible",
+          "source_ids": [
+            "bsms_v5_research_doc",
+            "bsms_v5_applysmart_json",
+            "bsms_applying_to_bsms_2026",
+            "bsms_entry_requirements",
+            "bsms_admissions_process",
+            "bsms_international_entry_requirements"
+          ],
+          "notes": "BSMS requires National 5 Mathematics at grade B or above."
+        }
+      ]
     }
   },
   "stage_2_interview_selection": {

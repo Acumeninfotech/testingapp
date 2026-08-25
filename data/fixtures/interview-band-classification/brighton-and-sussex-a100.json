@@ -1023,17 +1023,113 @@
       }
     },
     {
-      "scenario_id": "scottish_supported",
+      "scenario_id": "cross_qualification_scotland_scottish_ah_aaa",
       "overrides": {
         "qualification_route": "scottish",
+        "applicant_identity": {
+          "fee_status": "Home",
+          "domicile": "Scotland"
+        },
         "scottish_profile": {
           "national_5_subjects": [
             {
               "subject_id": "english_language",
+              "grade": "B"
+            },
+            {
+              "subject_id": "mathematics",
+              "grade": "B"
+            }
+          ],
+          "higher_subjects": [],
+          "advanced_higher_subjects": [
+            {
+              "subject_id": "biology",
               "grade": "A"
             },
             {
               "subject_id": "mathematics",
+              "grade": "A"
+            },
+            {
+              "subject_id": "english",
+              "grade": "A"
+            }
+          ]
+        },
+        "a_level_profile": null
+      },
+      "expected": {
+        "eligibility_status": "eligible"
+      }
+    },
+    {
+      "scenario_id": "cross_qualification_england_scottish_ah_aaa",
+      "overrides": {
+        "qualification_route": "scottish",
+        "applicant_identity": {
+          "fee_status": "Home",
+          "domicile": "England"
+        },
+        "scottish_profile": {
+          "national_5_subjects": [
+            {
+              "subject_id": "english_language",
+              "grade": "B"
+            },
+            {
+              "subject_id": "mathematics",
+              "grade": "B"
+            }
+          ],
+          "higher_subjects": [],
+          "advanced_higher_subjects": [
+            {
+              "subject_id": "chemistry",
+              "grade": "A"
+            },
+            {
+              "subject_id": "physics",
+              "grade": "A"
+            },
+            {
+              "subject_id": "history",
+              "grade": "A"
+            }
+          ]
+        },
+        "a_level_profile": null
+      },
+      "expected": {
+        "eligibility_status": "eligible"
+      }
+    },
+    {
+      "scenario_id": "cross_qualification_scotland_scottish_ah_aa_higher_aa",
+      "overrides": {
+        "qualification_route": "scottish",
+        "applicant_identity": {
+          "fee_status": "Home",
+          "domicile": "Scotland"
+        },
+        "scottish_profile": {
+          "national_5_subjects": [
+            {
+              "subject_id": "english_language",
+              "grade": "B"
+            },
+            {
+              "subject_id": "mathematics",
+              "grade": "B"
+            }
+          ],
+          "higher_subjects": [
+            {
+              "subject_id": "english",
+              "grade": "A"
+            },
+            {
+              "subject_id": "history",
               "grade": "A"
             }
           ],
@@ -1043,11 +1139,7 @@
               "grade": "A"
             },
             {
-              "subject_id": "chemistry",
-              "grade": "A"
-            },
-            {
-              "subject_id": "physics",
+              "subject_id": "mathematics",
               "grade": "A"
             }
           ]
@@ -1055,7 +1147,131 @@
         "a_level_profile": null
       },
       "expected": {
-        "eligibility_status": "manual_review"
+        "eligibility_status": "eligible"
+      }
+    },
+    {
+      "scenario_id": "scottish_fail_missing_second_accepted_ah_subject",
+      "overrides": {
+        "qualification_route": "scottish",
+        "applicant_identity": {
+          "fee_status": "Home",
+          "domicile": "Scotland"
+        },
+        "scottish_profile": {
+          "national_5_subjects": [
+            {
+              "subject_id": "english_language",
+              "grade": "B"
+            },
+            {
+              "subject_id": "mathematics",
+              "grade": "B"
+            }
+          ],
+          "higher_subjects": [],
+          "advanced_higher_subjects": [
+            {
+              "subject_id": "biology",
+              "grade": "A"
+            },
+            {
+              "subject_id": "english",
+              "grade": "A"
+            },
+            {
+              "subject_id": "history",
+              "grade": "A"
+            }
+          ]
+        },
+        "a_level_profile": null
+      },
+      "expected": {
+        "eligibility_status": "not_eligible"
+      }
+    },
+    {
+      "scenario_id": "scottish_fail_route2_only_one_higher_a",
+      "overrides": {
+        "qualification_route": "scottish",
+        "applicant_identity": {
+          "fee_status": "Home",
+          "domicile": "Scotland"
+        },
+        "scottish_profile": {
+          "national_5_subjects": [
+            {
+              "subject_id": "english_language",
+              "grade": "B"
+            },
+            {
+              "subject_id": "mathematics",
+              "grade": "B"
+            }
+          ],
+          "higher_subjects": [
+            {
+              "subject_id": "english",
+              "grade": "A"
+            }
+          ],
+          "advanced_higher_subjects": [
+            {
+              "subject_id": "biology",
+              "grade": "A"
+            },
+            {
+              "subject_id": "mathematics",
+              "grade": "A"
+            }
+          ]
+        },
+        "a_level_profile": null
+      },
+      "expected": {
+        "eligibility_status": "not_eligible"
+      }
+    },
+    {
+      "scenario_id": "scottish_fail_national5_maths_c",
+      "overrides": {
+        "qualification_route": "scottish",
+        "applicant_identity": {
+          "fee_status": "Home",
+          "domicile": "Scotland"
+        },
+        "scottish_profile": {
+          "national_5_subjects": [
+            {
+              "subject_id": "english_language",
+              "grade": "B"
+            },
+            {
+              "subject_id": "mathematics",
+              "grade": "C"
+            }
+          ],
+          "higher_subjects": [],
+          "advanced_higher_subjects": [
+            {
+              "subject_id": "biology",
+              "grade": "A"
+            },
+            {
+              "subject_id": "mathematics",
+              "grade": "A"
+            },
+            {
+              "subject_id": "english",
+              "grade": "A"
+            }
+          ]
+        },
+        "a_level_profile": null
+      },
+      "expected": {
+        "eligibility_status": "not_eligible"
       }
     },
     {
