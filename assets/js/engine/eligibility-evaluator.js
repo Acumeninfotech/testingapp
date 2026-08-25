@@ -328,7 +328,8 @@ const COURSES_WITH_CONTEXTUAL_EVALUATOR_GROUP_CONTROL = [
   'hull-york-a100',
   'king-s-college-london-a100',
   'newcastle-a100',
-  'brighton-and-sussex-a100'
+  'brighton-and-sussex-a100',
+  'sunderland-a100'
 ];
 
 const ABERDEEN_LEGACY_CONTEXTUAL_GROUP_IDS = [
@@ -453,6 +454,21 @@ const HYMS_LEGACY_CONTEXTUAL_GROUP_IDS = [
   'first_generation_university'
 ];
 
+const SUNDERLAND_LEGACY_CONTEXTUAL_GROUP_IDS = [
+  'contextual',
+  'widening_participation',
+  'free_school_meals',
+  'ucat_bursary',
+  'polar4_quintile_1',
+  'polar4_quintile_2',
+  'polar_quintile_1',
+  'polar_quintile_2',
+  'refugee',
+  'asylum_seeker',
+  'refugee_or_asylum_seeker',
+  'military_family'
+];
+
 const KCL_LEGACY_CONTEXTUAL_GROUP_IDS = [
   'contextual',
   'widening_participation',
@@ -524,7 +540,8 @@ const COURSES_WITH_ACTIVATED_CONTEXTUAL_GROUPS = [
   'hull-york-a100',
   'king-s-college-london-a100',
   'newcastle-a100',
-  'brighton-and-sussex-a100'
+  'brighton-and-sussex-a100',
+  'sunderland-a100'
 ];
 
 const SCOTTISH_MEDICAL_SCHOOL_ROUTE_IDS = Object.freeze([
@@ -750,6 +767,11 @@ function applyCourseSpecificDerivedApplicantGroups(course, applicant, groupIds, 
   }
   if (course?.profile_id === 'brighton-and-sussex-a100' && contextualResult) {
     for (const groupId of BSMS_LEGACY_CONTEXTUAL_GROUP_IDS) {
+      groups.delete(groupId);
+    }
+  }
+  if (course?.profile_id === 'sunderland-a100' && contextualResult) {
+    for (const groupId of SUNDERLAND_LEGACY_CONTEXTUAL_GROUP_IDS) {
       groups.delete(groupId);
     }
   }
@@ -1938,6 +1960,22 @@ function aLevelRouteEpqRequirementApplies(route = {}, applicant = {}) {
   return gradeMeets(epq.grade, route.epq_minimum_grade || 'B', 'a_level');
 }
 
+function aLevelRequirementContextualPathwayApplies(requirement = {}, state = {}) {
+  const requiredPathwayIds = Array.isArray(requirement.required_contextual_pathway_ids)
+    ? requirement.required_contextual_pathway_ids.map(normaliseId).filter(Boolean)
+    : [];
+  if (requiredPathwayIds.length === 0) {
+    return true;
+  }
+
+  const matchedPathway = normaliseId(
+    state.contextual_eligibility?.matched_contextual_pathway
+  );
+  return state.contextual_eligibility?.is_contextual === true &&
+    matchedPathway &&
+    requiredPathwayIds.includes(matchedPathway);
+}
+
 function hasRoutedEpqAlternative(routeRules = {}) {
   const routes = [
     ...(Array.isArray(routeRules.grade_requirements) ? routeRules.grade_requirements : []),
@@ -2206,7 +2244,8 @@ function evaluateALevelRoute(course, applicant, state) {
       !requirement.applies_to_group_ids?.includes('graduate_applicant');
   });
   const activeApplicable = applicable.filter((requirement) => {
-    return aLevelRouteEpqRequirementApplies(requirement, applicant);
+    return aLevelRouteEpqRequirementApplies(requirement, applicant) &&
+      aLevelRequirementContextualPathwayApplies(requirement, state);
   });
 
   if (activeApplicable.length === 0) {
@@ -2254,6 +2293,9 @@ function evaluateALevelRoute(course, applicant, state) {
       state.academic_pathway = state.academic_pathway || passedRequirementPathway || 'standard';
       state.academic_pathway_id = state.academic_pathway_id ||
         academicPathwayIdForALevelRequirement(passedRequirement);
+      if (Array.isArray(passedRequirement?.future_conditions)) {
+        state.future_conditions = passedRequirement.future_conditions;
+      }
     }
   } else {
     state.checks.push(...attempts.flatMap((attempt) => attempt.checks));
@@ -3802,7 +3844,7 @@ function evaluateManualReviewTriggers(course, applicant, state) {
     addManualReview(state, 'contextual_wp_status_requires_confirmation');
   }
   if (
-    !['aberdeen-a100', 'dundee-a100', 'st-andrews-a100', 'southampton-a100'].includes(course?.profile_id) &&
+    !['aberdeen-a100', 'dundee-a100', 'st-andrews-a100', 'southampton-a100', 'sunderland-a100'].includes(course?.profile_id) &&
     state.contextual_eligibility?.status === 'information_needed' &&
     state.contextual_eligibility?.manual_review_reason
   ) {
@@ -3824,7 +3866,71 @@ function contextualInformationNeededReason(state = {}) {
     : null;
 }
 
+function sunderlandALevelRequirementByRouteId(course = {}, routeId = '') {
+  const routeRules = course.stage_1_eligibility?.post_16?.a_level || {};
+  const targetRouteId = normaliseId(routeId);
+  return resolveALevelRequirements(routeRules).find((requirement) => {
+    return normaliseId(
+      requirement.route_id ||
+      requirement.pathway_id ||
+      requirement.requirement_id
+    ) === targetRouteId;
+  }) || null;
+}
+
+function sunderlandALevelRouteGradesMet(course = {}, applicant = {}, routeId = '') {
+  const requirement = sunderlandALevelRequirementByRouteId(course, routeId);
+  if (!requirement) {
+    return false;
+  }
+  const routeRules = course.stage_1_eligibility?.post_16?.a_level || {};
+  const attempt = {
+    checks: [],
+    failures: [],
+    manual_review_reasons: []
+  };
+  evaluateALevelRequirement(requirement, applicant, attempt, routeRules);
+  return attempt.failures.length === 0;
+}
+
+function sunderlandUnresolvedContextualEligibilityIsAcademicRouteRelevant(course, applicant, state = {}) {
+  if (state.qualification_route !== 'a_level') {
+    return unresolvedContextualEligibilityIsAcademicRouteRelevant(course, applicant, state);
+  }
+
+  if (sunderlandALevelRouteGradesMet(course, applicant, 'sunderland_standard_aaa')) {
+    return false;
+  }
+
+  const possiblePathways = new Set(
+    (state.contextual_eligibility?.contextual_evidence?.possible_pathways || [])
+      .map(normaliseId)
+      .filter(Boolean)
+  );
+
+  if (
+    possiblePathways.has('sunderland_contextual_aab') &&
+    sunderlandALevelRouteGradesMet(course, applicant, 'sunderland_contextual_aab')
+  ) {
+    return true;
+  }
+
+  if (
+    !sunderlandALevelRouteGradesMet(course, applicant, 'sunderland_contextual_aab') &&
+    possiblePathways.has('sunderland_local_contextual_abb') &&
+    sunderlandALevelRouteGradesMet(course, applicant, 'sunderland_local_contextual_abb')
+  ) {
+    return true;
+  }
+
+  return false;
+}
+
 function unresolvedContextualEligibilityIsAcademicRouteRelevant(course, applicant, state = {}) {
+  if (course?.profile_id === 'sunderland-a100') {
+    return sunderlandUnresolvedContextualEligibilityIsAcademicRouteRelevant(course, applicant, state);
+  }
+
   if (state.academic_pathway === 'standard' && state.failures.length === 0) {
     return false;
   }
@@ -3947,7 +4053,7 @@ function probeUnresolvedScottishContextualAcademicRoute(course, applicant, state
 }
 
 function applyContextualInformationNeededReview(course, applicant, state) {
-  if (!['aberdeen-a100', 'dundee-a100', 'glasgow-a100', 'st-andrews-a100', 'southampton-a100', 'ucl-a100'].includes(course?.profile_id)) {
+  if (!['aberdeen-a100', 'dundee-a100', 'glasgow-a100', 'st-andrews-a100', 'southampton-a100', 'ucl-a100', 'sunderland-a100'].includes(course?.profile_id)) {
     return;
   }
   const reason = contextualInformationNeededReason(state);

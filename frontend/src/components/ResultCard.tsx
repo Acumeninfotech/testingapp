@@ -1070,6 +1070,9 @@ export function ResultCard({ result }: { result: PredictionResult }) {
   const ucatPointsRow = scoreComponentRow(scoreBreakdown, /^UCAT points$/i);
   const sjtPointsRow = scoreComponentRow(scoreBreakdown, /^SJT points$/i);
   const ucatRole = ucatFactor?.role;
+  const ucatApplicantScore = Number.isFinite(ucatFactor?.applicant_value)
+    ? Number(ucatFactor?.applicant_value)
+    : ucatContext.score;
   const ucatRows: Array<{ label: string; value: string }> = [];
   const noPublishedContextualUcatCutoff =
     ucatComparison?.comparison_type === 'no_published_contextual_cutoff';
@@ -1088,8 +1091,16 @@ export function ResultCard({ result }: { result: PredictionResult }) {
         compactUcatMinimum(ucatComparison?.official_ucat_minimum?.summary);
   if (ucatPointsRow) {
     ucatRows.push(ucatPointsRow);
-  } else if (ucatMinimumText) {
-    ucatRows.push({ label: 'Minimum', value: ucatMinimumText });
+  } else {
+    if (ucatRole === 'eligibility' && Number.isFinite(ucatApplicantScore)) {
+      ucatRows.push({
+        label: 'Applicant score',
+        value: String(ucatApplicantScore),
+      });
+    }
+    if (ucatMinimumText) {
+      ucatRows.push({ label: 'Minimum', value: ucatMinimumText });
+    }
   }
   const ucatExplicitlyNotUsed = /ucat.{0,50}(not used|not scored)|not used.{0,50}ucat/i.test(selectionText);
   const ucatStatus = ucatPointsRow

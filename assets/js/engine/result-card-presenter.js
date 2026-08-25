@@ -1455,7 +1455,10 @@ function buildRoutedAcademicOffer(stage1Eligibility = null, matchedRoute = null)
         ...(matchedRoute.explanation ? { explanation: matchedRoute.explanation } : {}),
         ...(matchedRoute.applicable_offer ? { applicable_offer: matchedRoute.applicable_offer } : {}),
         pathway_id: matchedRoute.pathway_id || matchedRoute.route_id || matchedRoute.requirement_id || null,
-        conditions: []
+        conditions: matchedRoute.contextual_offer_conditions ||
+          matchedRoute.conditions ||
+          matchedRoute.future_conditions ||
+          []
       };
     }
   }
@@ -1871,6 +1874,7 @@ const FAILURE_REASON_LABELS = {
   aberdeen_reach_program_scotland_information_needed: ABERDEEN_REACH_CONTEXTUAL_REVIEW_REASON,
   southampton_contextual_information_needed: 'More information is needed to confirm whether Southampton’s contextual AAB route applies.',
   hyms_contextual_reduced_offer_information_needed: 'More information is needed to confirm whether you qualify for HYMS’s contextual reduced AAB offer. You currently meet one ordinary contextual criterion, but another contextual criterion still needs confirmation.',
+  sunderland_contextual_information_needed: 'More information is needed to confirm whether Sunderland’s contextual AAB or local contextual ABB route applies.',
   st_andrews_contextual_evidence_needs_review: 'More St Andrews contextual evidence is needed to confirm whether the Medicine minimum-entry route applies.',
   st_andrews_s5_same_sitting_school_exception_requires_review: 'St Andrews needs review because your S5 Highers were not all taken in one sitting and the school-availability exception must be confirmed.',
   bristol_contextual_imd_postcode_evidence_required: 'More information is needed to verify Bristol IMD eligibility from postcode-derived evidence.',
@@ -1896,6 +1900,9 @@ function futureConditionAdvisories(futureConditions = [], options = {}) {
       }
       if (condition === 'hyms_alternative_wp_offer_firm_choice_required') {
         return 'HYMS states that the alternative ABB widening-participation offer is only available to applicants who firmly accept their offer of a place at Hull York Medical School. If HYMS is your insurance choice, the standard AAA offer applies.';
+      }
+      if (condition === 'sunderland_local_contextual_abb_firm_choice_required') {
+        return 'Sunderland states that the local contextual ABB offer is only available if Sunderland is accepted as your firm UCAS choice. If Sunderland is your insurance choice, the offer is AAB.';
       }
       if (condition === 'firm_choice_required') {
         return `This reduced EPQ offer applies only if ${universityName} is accepted as your firm UCAS choice.`;
@@ -2550,6 +2557,49 @@ function plymouthContextualConfirmationFor(card = {}, contextualStatus = null) {
   };
 }
 
+function sunderlandContextualConfirmationFor(card = {}, contextualStatus = null) {
+  if (contextualStatus !== 'confirmed') {
+    return null;
+  }
+
+  const profileId = card.course_identity?.profile_id ||
+    card.course_profile_id ||
+    card.profile_id ||
+    null;
+  if (profileId !== 'sunderland-a100') {
+    return null;
+  }
+
+  const routeId = normaliseCheckId(
+    card.eligibility?.contextual_eligibility?.matched_contextual_pathway ||
+      activeAcademicPathwayIdForPresentation(card)
+  );
+
+  if (routeId === 'sunderland_local_contextual_abb') {
+    return {
+      collapsed_label: 'Local contextual eligibility confirmed',
+      expanded_heading: 'Sunderland local contextual offer',
+      consideration_label: 'Sunderland local contextual route:',
+      expanded_body:
+        'Local contextual eligibility confirmed. The local contextual offer is ABB only if Sunderland is your firm UCAS choice; if Sunderland is your insurance choice, the offer is AAB.',
+      contextual_offer_grade: 'ABB'
+    };
+  }
+
+  if (routeId === 'sunderland_contextual_aab') {
+    return {
+      collapsed_label: 'Contextual eligibility confirmed',
+      expanded_heading: 'Sunderland contextual offer',
+      consideration_label: 'Sunderland contextual route:',
+      expanded_body:
+        'Contextual eligibility confirmed. The contextual offer is AAB; the standard offer is AAA.',
+      contextual_offer_grade: 'AAB'
+    };
+  }
+
+  return null;
+}
+
 function contextualConfirmationFor(card = {}, contextualStatus = null, options = {}) {
   const profileId = card.course_identity?.profile_id ||
     card.course_profile_id ||
@@ -2588,6 +2638,13 @@ function contextualConfirmationFor(card = {}, contextualStatus = null, options =
   );
   if (plymouthContextualConfirmation) {
     return plymouthContextualConfirmation;
+  }
+  const sunderlandContextualConfirmation = sunderlandContextualConfirmationFor(
+    card,
+    contextualStatus
+  );
+  if (sunderlandContextualConfirmation) {
+    return sunderlandContextualConfirmation;
   }
   if (
     profileId === 'lancaster-a100' &&
@@ -4305,6 +4362,28 @@ function academicStatusSummary(state, eligibilityStatus, card = {}) {
   ) {
     return 'Liverpool may apply contextual UCAT flexibility, but it does not publish how many UCAT points of flexibility may be applied.';
   }
+  if (
+    profileId === 'sunderland-a100' &&
+    contextual?.status === 'contextual' &&
+    state !== 'not_eligible' &&
+    eligibilityStatus !== 'not_eligible' &&
+    state !== 'manual_review' &&
+    eligibilityStatus !== 'manual_review' &&
+    eligibilityStatus !== 'insufficient_evidence'
+  ) {
+    const pathwayId =
+      contextual.matched_contextual_pathway ||
+      contextual.matched_contextual_pathway_id ||
+      card.academic_pathway_id ||
+      null;
+
+    if (pathwayId === 'sunderland_local_contextual_abb') {
+      return 'Local contextual offer: ABB if Sunderland is your firm choice; insurance offer: AAB.';
+    }
+
+    return 'Contextual offer: AAB; standard offer: AAA.';
+  }
+
   if (
     contextual?.status === 'contextual' &&
     state !== 'not_eligible' &&
@@ -6204,7 +6283,8 @@ function normalizeFactorUsage(card, options = {}) {
             : ucatExplicitlyNotUsed
               ? 'UCAT is not required for this route.'
               : 'UCAT selection role is not fully specified.',
-      evidence_status: hasUcatEvidence ? 'available' : 'missing'
+      evidence_status: hasUcatEvidence ? 'available' : 'missing',
+      applicant_value: hasUcatEvidence ? Number(ucat.total_score) : null
     },
     {
       factor_id: 'gcse',
@@ -7043,8 +7123,11 @@ function presentResultCard({
   const hymsContextualReducedRoute =
     transparencyContext.course_identity?.profile_id === 'hull-york-a100' &&
     academicPathway === 'contextual_reduced_offer';
+  const sunderlandLocalContextualRoute =
+    transparencyContext.course_identity?.profile_id === 'sunderland-a100' &&
+    normaliseCheckId(academicPathwayId) === 'sunderland_local_contextual_abb';
   const futureConditionsArePublic =
-    (academicPathway === 'epq_alternative' || hymsContextualReducedRoute) &&
+    (academicPathway === 'epq_alternative' || hymsContextualReducedRoute || sunderlandLocalContextualRoute) &&
     ['eligible', 'met'].includes(normaliseCheckId(eligibilityStatus));
   const futureConditions = [
     ...(futureConditionsArePublic && Array.isArray(transparencyContext.future_conditions)

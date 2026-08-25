@@ -20,6 +20,10 @@ const bsmsFixture = require('../../../data/fixtures/interview-band-classificatio
   scenarios: Array<{ scenario_id: string; overrides: Record<string, unknown> }>;
 };
 
+const sunderlandFixture = require('../../../data/fixtures/interview-band-classification/sunderland-a100.json') as {
+  base_applicant: Record<string, unknown>;
+};
+
 const CONTEXTUAL_CONFIRMED_MESSAGE =
   "Contextual eligibility confirmed. Your application has been assessed using this university's published contextual admissions criteria.";
 
@@ -490,6 +494,51 @@ describe('ResultCard', () => {
     const ucatCard = screen.getAllByText('UCAT')[0].closest('.result-card-summary-card');
     expect(ucatCard).toHaveTextContent('Eligibility requirement');
     expect(ucatCard).not.toHaveTextContent('Used for ranking');
+  });
+
+  it('renders the real Sunderland applicant UCAT score and SJT band for eligibility-only cards', () => {
+    const studentProfile = merge(sunderlandFixture.base_applicant, {
+      admissions_tests: {
+        ucat: {
+          total_score: 1950,
+          score_scale: 2700,
+          subtests: {
+            verbal_reasoning: 650,
+            decision_making: 650,
+            quantitative_reasoning: 650,
+          },
+          sjt_band: 2,
+          test_year: 2026,
+        },
+      },
+    });
+
+    const [result] = predict({
+      universityIds: ['sunderland-a100'],
+      studentProfile,
+    });
+
+    const publicUcatFactor = result.result_card.factor_usage?.find(
+      (entry) => entry.factor_id === 'ucat',
+    );
+
+    expect(result.result_card.applicant_context).toBeUndefined();
+    expect(publicUcatFactor).toMatchObject({
+      role: 'eligibility',
+      applicant_value: 1950,
+    });
+
+    render(<ResultCard result={result} />);
+
+    const ucatCard = screen.getAllByText('UCAT')[0].closest('.result-card-summary-card');
+    expect(ucatCard).toHaveTextContent('Eligibility requirement');
+    expect(ucatCard).toHaveTextContent('Applicant score');
+    expect(ucatCard).toHaveTextContent('1950');
+
+    const sjtCard = screen.getAllByText('SJT')[0].closest('.result-card-summary-card');
+    expect(sjtCard).toHaveTextContent('Eligibility requirement');
+    expect(sjtCard).toHaveTextContent('Applicant band');
+    expect(sjtCard).toHaveTextContent('Band 2');
   });
 
   it('does not show Lancaster EPQ alternative-used presentation for AAA applicants without EPQ', () => {

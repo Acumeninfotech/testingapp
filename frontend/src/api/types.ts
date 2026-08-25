@@ -277,6 +277,7 @@ export interface FactorUsageEntry {
   role: 'eligibility' | 'considered' | 'ranking' | 'contextual' | 'not_used' | 'unknown';
   detail?: string | null;
   evidence_status?: 'available' | 'missing' | 'met' | 'not_met' | 'not_applicable' | 'unknown' | string | null;
+  applicant_value?: number | null;
 }
 
 export interface ResultCard {

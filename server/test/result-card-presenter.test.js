@@ -25,6 +25,7 @@ const manchesterCourse = require('../../data/universities/manchester-a100.json')
 const plymouthCourse = require('../../data/universities/plymouth-a100.json');
 const queensBelfastCourse = require('../../data/universities/queen-s-belfast-a100.json');
 const sheffieldCourse = require('../../data/universities/sheffield-a100.json');
+const sunderlandCourse = require('../../data/universities/sunderland-a100.json');
 const dundeeCourse = require('../../data/universities/dundee-a100.json');
 const dundeeConfig = require('../../data/interview-band-configs/dundee-a100.json');
 const topTierApplicant = require('../../data/regression-profiles/16_top_tier_applicant.json');
@@ -479,6 +480,40 @@ function resultCardText(card) {
       conditions: []
     },
     'Lancaster active contextual pathway should expose the ABB contextual offer summary'
+  );
+  assert.deepStrictEqual(
+    buildAlternativeAcademicOffer(sunderlandCourse.stage_1_eligibility, {
+      academic_pathway: 'contextual',
+      academic_pathway_id: 'sunderland_contextual_aab'
+    }),
+    {
+      type: 'contextual',
+      standard_offer: 'AAA',
+      alternative_offer: 'AAB',
+      alternative_offer_label: 'Contextual offer',
+      explanation: 'Sunderland contextual eligibility is confirmed. The contextual offer is AAB; the standard offer is AAA.',
+      applicable_offer: 'Contextual offer: AAB',
+      pathway_id: 'sunderland_contextual_aab',
+      conditions: []
+    },
+    'Sunderland AAB contextual pathway should expose the standard vs contextual grade comparison'
+  );
+  assert.deepStrictEqual(
+    buildAlternativeAcademicOffer(sunderlandCourse.stage_1_eligibility, {
+      academic_pathway: 'contextual',
+      academic_pathway_id: 'sunderland_local_contextual_abb'
+    }),
+    {
+      type: 'contextual',
+      standard_offer: 'AAA',
+      alternative_offer: 'ABB',
+      alternative_offer_label: 'Local contextual offer',
+      explanation: 'Sunderland local contextual eligibility is confirmed. The local contextual offer is ABB only if Sunderland is the firm UCAS choice; if Sunderland is the insurance choice, the offer is AAB.',
+      applicable_offer: 'Local contextual offer: ABB',
+      pathway_id: 'sunderland_local_contextual_abb',
+      conditions: ['You must make Sunderland your firm UCAS choice to receive the ABB offer; if Sunderland is your insurance choice, the offer is AAB.']
+    },
+    'Sunderland local contextual ABB pathway should expose firm-choice structured wording'
   );
   assert.strictEqual(
     buildAlternativeAcademicOffer(lancasterCourse.stage_1_eligibility, {
@@ -953,6 +988,79 @@ function resultCardText(card) {
     null,
     'Lancaster Access to Medicine guaranteed-interview presentation should not gain the contextual ABB notice'
   );
+
+  const sunderlandAabCard = present({
+    transparencyContext: {
+      course_identity: {
+        profile_id: 'sunderland-a100',
+        university_name: 'University of Sunderland'
+      },
+      academic_pathway: 'contextual',
+      academic_pathway_id: 'sunderland_contextual_aab',
+      stage_1_eligibility: sunderlandCourse.stage_1_eligibility,
+      eligibility: {
+        status: 'eligible',
+        academic_pathway: 'contextual',
+        academic_pathway_id: 'sunderland_contextual_aab',
+        contextual_eligibility: {
+          status: 'contextual',
+          matched_contextual_pathway: 'sunderland_contextual_aab',
+          matched_contextual_pathway_label: 'Sunderland contextual offer'
+        }
+      }
+    }
+  });
+  assert.deepStrictEqual(
+    sunderlandAabCard.contextual_confirmation,
+    {
+      collapsed_label: 'Contextual eligibility confirmed',
+      expanded_heading: 'Sunderland contextual offer',
+      consideration_label: 'Sunderland contextual route:',
+      expanded_body: 'Contextual eligibility confirmed. The contextual offer is AAB; the standard offer is AAA.',
+      contextual_offer_grade: 'AAB'
+    },
+    'Sunderland AAB contextual applicants should expose the contextual offer badge'
+  );
+  assert.match(JSON.stringify(sunderlandAabCard), /Contextual offer: AAB/i);
+  assert.match(JSON.stringify(sunderlandAabCard), /standard offer is AAA/i);
+
+  const sunderlandAbbCard = present({
+    transparencyContext: {
+      course_identity: {
+        profile_id: 'sunderland-a100',
+        university_name: 'University of Sunderland'
+      },
+      academic_pathway: 'contextual',
+      academic_pathway_id: 'sunderland_local_contextual_abb',
+      future_conditions: ['sunderland_local_contextual_abb_firm_choice_required'],
+      stage_1_eligibility: sunderlandCourse.stage_1_eligibility,
+      eligibility: {
+        status: 'eligible',
+        academic_pathway: 'contextual',
+        academic_pathway_id: 'sunderland_local_contextual_abb',
+        future_conditions: ['sunderland_local_contextual_abb_firm_choice_required'],
+        contextual_eligibility: {
+          status: 'contextual',
+          matched_contextual_pathway: 'sunderland_local_contextual_abb',
+          matched_contextual_pathway_label: 'Sunderland local contextual offer'
+        }
+      }
+    }
+  });
+  assert.deepStrictEqual(
+    sunderlandAbbCard.contextual_confirmation,
+    {
+      collapsed_label: 'Local contextual eligibility confirmed',
+      expanded_heading: 'Sunderland local contextual offer',
+      consideration_label: 'Sunderland local contextual route:',
+      expanded_body: 'Local contextual eligibility confirmed. The local contextual offer is ABB only if Sunderland is your firm UCAS choice; if Sunderland is your insurance choice, the offer is AAB.',
+      contextual_offer_grade: 'ABB'
+    },
+    'Sunderland ABB contextual applicants should expose the local contextual badge'
+  );
+  assert.match(JSON.stringify(sunderlandAbbCard), /Local contextual offer: ABB/i);
+  assert.match(JSON.stringify(sunderlandAbbCard), /firm UCAS choice/i);
+  assert.match(JSON.stringify(sunderlandAbbCard), /insurance choice, the offer is AAB/i);
 }
 
 {

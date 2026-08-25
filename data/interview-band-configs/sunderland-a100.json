@@ -35,27 +35,11 @@
         "unknown"
       ]
     },
-    "derived_applicant_groups": [
-      {
-        "group_id": "contextual",
-        "match": {
-          "all_group_ids": [
-            "home_fee"
-          ],
-          "excluded_group_ids": [
-            "international_fee"
-          ]
-        },
-        "any_evidence": [
-          {
-            "applicant_evidence_path": "applicant_identity.contextual_status_confirmed"
-          },
-          {
-            "applicant_evidence_path": "applicant_identity.contextual_flags.sunderland_contextual_confirmed"
-          }
-        ]
-      }
+    "contextual_evaluator_controls_group_routing": true,
+    "use_course_eligibility_for_qualification_routes": [
+      "a_level"
     ],
+    "derived_applicant_groups": [],
     "gcse": {
       "minimum_count": 5,
       "use_exact_subject_list": false,
@@ -87,8 +71,6 @@
         {
           "route_id": "sunderland_standard_aaa",
           "excluded_group_ids": [
-            "contextual",
-            "widening_participation",
             "graduate_applicant"
           ],
           "grade_profile": [
@@ -125,7 +107,10 @@
           "route_id": "sunderland_contextual_aab",
           "applies_to_group_ids": [
             "home_fee",
-            "contextual"
+            "sunderland_contextual_aab"
+          ],
+          "required_contextual_pathway_ids": [
+            "sunderland_contextual_aab"
           ],
           "excluded_group_ids": [
             "international_fee",
@@ -160,6 +145,53 @@
           "excluded_subject_ids": [
             "general_studies"
           ]
+        },
+        {
+          "route_id": "sunderland_local_contextual_abb",
+          "applies_to_group_ids": [
+            "home_fee",
+            "sunderland_local_contextual_abb"
+          ],
+          "required_contextual_pathway_ids": [
+            "sunderland_local_contextual_abb"
+          ],
+          "excluded_group_ids": [
+            "international_fee",
+            "graduate_applicant"
+          ],
+          "grade_profile": [
+            "A",
+            "B",
+            "B"
+          ],
+          "one_of_subject_groups": [
+            {
+              "group_id": "biology_or_chemistry_primary",
+              "minimum_required": 1,
+              "subject_ids": [
+                "biology",
+                "chemistry"
+              ]
+            },
+            {
+              "group_id": "two_designated_sciences",
+              "minimum_required": 2,
+              "subject_ids": [
+                "biology",
+                "chemistry",
+                "physics",
+                "mathematics",
+                "further_mathematics"
+              ]
+            }
+          ],
+          "excluded_subject_ids": [
+            "general_studies"
+          ],
+          "future_conditions": [
+            "sunderland_local_contextual_abb_firm_choice_required"
+          ],
+          "insurance_fallback_offer": "AAB"
         }
       ]
     },
