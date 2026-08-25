@@ -37,11 +37,22 @@ assert.deepStrictEqual(decileResult, {
 });
 
 const cardiffPointRows = cardiffProfile.stage_2_interview_selection.calculation.ucat_decile_points.points;
-const cardiffUcatPoints = mapDecileToPoints(decileResult.national_decile, cardiffPointRows);
+// Cardiff publishes decile ranks 1-9, while the shared service
+// returns ten derived percentile groups. Derived group 10
+// corresponds to Cardiff's published 9th-decile rank.
+const cardiffOfficialDecileRank = Math.max(
+  1,
+  decileResult.national_decile - 1
+);
+
+const cardiffUcatPoints = mapDecileToPoints(
+  cardiffOfficialDecileRank,
+  cardiffPointRows
+);
 
 assert.strictEqual(cardiffUcatPoints.available, true);
 assert.strictEqual(cardiffUcatPoints.points, 3);
-assert.strictEqual(cardiffUcatPoints.national_decile, 10);
+assert.strictEqual(cardiffUcatPoints.national_decile, 9);
 assert.strictEqual(cardiffUcatPoints.evidence_label, EVIDENCE_LABEL);
 assert.deepStrictEqual(cardiffUcatPoints.flags, [
   'engine_derived',
