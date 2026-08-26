@@ -1288,11 +1288,67 @@ function scottishSubjectIsFirstAttempt(subject = {}) {
   return true;
 }
 
+function scottishSubjectHasAchievedEvidence(subject = {}) {
+  const status = normaliseId(
+    subject.qualification_status ||
+      subject.grade_status ||
+      subject.status ||
+      subject.evidence_status
+  );
+  const hasGrade = (grade) => {
+    return grade !== undefined &&
+      grade !== null &&
+      String(grade).trim() !== '';
+  };
+  const completedS5Grade =
+    scottishSubjectSchoolYear(subject) === 's5' &&
+    hasGrade(subject.grade);
+
+  return hasGrade(subject.achieved_grade) ||
+    subject.achieved === true ||
+    ['achieved', 'completed', 'certificated', 'final'].includes(status) ||
+    completedS5Grade;
+}
+
 function scottishSubjectGrade(subject = {}) {
   return subject.predicted_grade ??
     subject.achieved_grade ??
     subject.grade ??
     subject.higher_level_grade;
+}
+
+function scottishLevel2SubjectGrade(subject = {}) {
+  const grade = scottishSubjectGrade(subject);
+  const qualificationLevel = normaliseId(
+    subject.qualification_level ||
+      subject.qualification_type ||
+      subject.level ||
+      subject.award
+  );
+  if (qualificationLevel === 'standard_grade') {
+    const normalisedGrade = normaliseGrade(grade);
+    if (normalisedGrade === '1') return 'A';
+    if (normalisedGrade === '2') return 'B';
+  }
+  return grade;
+}
+
+function scottishLevel2SubjectMap(subjects = []) {
+  const result = {};
+  for (const subject of subjects) {
+    const subjectId = normaliseScottishSubjectId(subject);
+    const grade = scottishLevel2SubjectGrade(subject);
+    if (!subjectId || grade === undefined || grade === null || grade === '') {
+      continue;
+    }
+    if (
+      result[subjectId] === undefined ||
+      gradeMeets(grade, result[subjectId], 'gcse')
+    ) {
+      result[subjectId] = grade;
+    }
+  }
+  return result;
 }
 
 function scottishSubjectCanCount(subject, route = {}, level) {
@@ -1313,6 +1369,14 @@ function scottishSubjectCanCount(subject, route = {}, level) {
     return false;
   }
   if (route.first_attempt_required === true && !scottishSubjectIsFirstAttempt(subject)) {
+    return false;
+  }
+  const requiredEvidence = normaliseId(
+    level === 'advanced_higher'
+      ? route.advanced_higher_grade_evidence
+      : route.higher_grade_evidence
+  );
+  if (requiredEvidence === 'achieved' && !scottishSubjectHasAchievedEvidence(subject)) {
     return false;
   }
   return scottishSubjectGrade(subject) !== undefined &&
@@ -1574,6 +1638,64 @@ function scottishSameYearSubjectRuleMet(higherSubjects, advancedHigherSubjects, 
 function scottishSameYearSubjectRulesMeet(higherSubjects, advancedHigherSubjects, rules = []) {
   return (rules || []).every((rule) => {
     return scottishSameYearSubjectRuleMet(higherSubjects, advancedHigherSubjects, rule);
+  });
+}
+
+function matchingScottishSubjectGradeRuleMet(higherSubjects, advancedHigherSubjects, rule = {}) {
+  if (rule.enabled === false) {
+    return true;
+  }
+
+  const configuredLevels = rule.qualification_levels || rule.qualification_level || ['higher'];
+  const allowedLevels = (Array.isArray(configuredLevels) ? configuredLevels : [configuredLevels])
+    .map(normaliseId)
+    .filter(Boolean);
+  const schoolYear = normaliseId(rule.school_year || rule.required_school_year);
+  const acceptedSubjectIds = uniqueNormalisedIds(
+    rule.subject_ids || [],
+    rule.accepted_subject_ids || []
+  );
+  const subjects = [];
+
+  if (allowedLevels.some((level) => scottishQualificationLevelMatches(level, 'higher'))) {
+    subjects.push(...higherSubjects.map((subject) => ({ ...subject, qualification_level: 'higher' })));
+  }
+  if (allowedLevels.some((level) => scottishQualificationLevelMatches(level, 'advanced_higher'))) {
+    subjects.push(...advancedHigherSubjects.map((subject) => ({
+      ...subject,
+      qualification_level: 'advanced_higher'
+    })));
+  }
+
+  const matchingSubjects = subjects.filter((subject) => {
+    if (schoolYear && scottishSubjectSchoolYear(subject) !== schoolYear) {
+      return false;
+    }
+    if (
+      acceptedSubjectIds.length > 0 &&
+      !acceptedSubjectIds.includes(normaliseScottishSubjectId(subject))
+    ) {
+      return false;
+    }
+    return true;
+  });
+
+  if (matchingSubjects.length === 0) {
+    return rule.required_when_absent === true ? false : true;
+  }
+
+  return matchingSubjects.every((subject) => {
+    const grade = scottishSubjectGrade(subject);
+    return grade !== undefined &&
+      grade !== null &&
+      grade !== '' &&
+      gradeMeets(grade, rule.minimum_grade, 'a_level');
+  });
+}
+
+function matchingScottishSubjectGradeRulesMeet(higherSubjects, advancedHigherSubjects, rules = []) {
+  return (rules || []).every((rule) => {
+    return matchingScottishSubjectGradeRuleMet(higherSubjects, advancedHigherSubjects, rule);
   });
 }
 
@@ -2673,7 +2795,11 @@ function evaluateScottishRoute(course, applicant, state) {
   const post16Rules = course.stage_1_eligibility?.post_16?.scottish || {};
   const national5Rules = national5RulesForCourse(course);
   const profile = applicant.scottish_profile || {};
-  const national5 = profileToSubjectMap({ subjects: profile.national_5_subjects || [] });
+  const national5CountGrades = profileToSubjectMap({ subjects: profile.national_5_subjects || [] });
+  const national5 = scottishLevel2SubjectMap([
+    ...asArray(profile.national_5_subjects),
+    ...asArray(profile.standard_grade_subjects)
+  ]);
   const higherSubjects = scottishProfileSubjects(profile, 'higher_subjects');
   const advancedHigherSubjects = scottishProfileSubjects(profile, 'advanced_higher_subjects');
   const allPost16ScottishSubjects = [...higherSubjects, ...advancedHigherSubjects];
@@ -2689,7 +2815,7 @@ function evaluateScottishRoute(course, applicant, state) {
       state.applicant_group_ids
     );
   });
-  const national5MinimumCountPassed = national5MinimumCountMet(national5, national5Rules);
+  const national5MinimumCountPassed = national5MinimumCountMet(national5CountGrades, national5Rules);
   const national5Passed =
     national5MinimumCountPassed &&
     failedNational5Requirements.length === 0;
@@ -2776,6 +2902,11 @@ function evaluateScottishRoute(course, applicant, state) {
       advancedHigherSubjects,
       route.required_subject_same_school_year_rules || []
     );
+    const matchingSubjectGradeRulesPassed = matchingScottishSubjectGradeRulesMeet(
+      higherSubjects,
+      advancedHigherSubjects,
+      route.matching_subject_grade_rules || []
+    );
     const combinedGradeRequirementsPassed = combinedScottishGradeRequirementsMeet(
       higherSubjects,
       advancedHigherSubjects,
@@ -2839,7 +2970,8 @@ function evaluateScottishRoute(course, applicant, state) {
           route.advanced_higher_subject_grade_requirements || []
         ) &&
         advancedHigherSubjectOptionsPassed &&
-        sameYearSubjectRulesPassed;
+        sameYearSubjectRulesPassed &&
+        matchingSubjectGradeRulesPassed;
       if (passed && routeSittingAssessment.requires_manual_review) {
         routeManualReviewReasons.set(route, routeSittingAssessment.manual_review_reason);
       }
@@ -2872,7 +3004,8 @@ function evaluateScottishRoute(course, applicant, state) {
       subjectGroupsMeet(grades, route.one_of_subject_groups) &&
       directSubjectGradesPassed &&
       subjectOptionsPassed &&
-      sameYearSubjectRulesPassed;
+      sameYearSubjectRulesPassed &&
+      matchingSubjectGradeRulesPassed;
     if (passed && routeSittingAssessment.requires_manual_review) {
       routeManualReviewReasons.set(route, routeSittingAssessment.manual_review_reason);
     }
@@ -3895,7 +4028,7 @@ function sunderlandALevelRouteGradesMet(course = {}, applicant = {}, routeId = '
 
 function sunderlandUnresolvedContextualEligibilityIsAcademicRouteRelevant(course, applicant, state = {}) {
   if (state.qualification_route !== 'a_level') {
-    return unresolvedContextualEligibilityIsAcademicRouteRelevant(course, applicant, state);
+    return state.failures.length > 0;
   }
 
   if (sunderlandALevelRouteGradesMet(course, applicant, 'sunderland_standard_aaa')) {

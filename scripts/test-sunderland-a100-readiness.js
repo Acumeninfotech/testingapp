@@ -431,17 +431,17 @@ expectEligibility(
   'AAB with real default unanswered Step 6',
   applicantWithExactContextualProfile(['A', 'A', 'B'], realDefaultUnansweredStep6),
   {
-    status: 'manual_review',
-    manualReviewReason: 'sunderland_contextual_information_needed'
+    status: 'not_eligible',
+    failure: 'a_level_requirements_not_met'
   }
 );
 
 expectEligibility(
-  'ABB with unresolved local and WP evidence',
+  'ABB with real default unanswered Step 6',
   applicantWithExactContextualProfile(['A', 'B', 'B'], realDefaultUnansweredStep6),
   {
-    status: 'manual_review',
-    manualReviewReason: 'sunderland_contextual_information_needed'
+    status: 'not_eligible',
+    failure: 'a_level_requirements_not_met'
   }
 );
 

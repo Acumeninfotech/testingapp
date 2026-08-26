@@ -37,7 +37,8 @@
     },
     "contextual_evaluator_controls_group_routing": true,
     "use_course_eligibility_for_qualification_routes": [
-      "a_level"
+      "a_level",
+      "scottish"
     ],
     "derived_applicant_groups": [],
     "gcse": {
@@ -231,6 +232,7 @@
     "scottish": {
       "national_5": {
         "minimum_count": 5,
+        "minimum_count_grade": "A",
         "required_subject_ids": [
           "english_language",
           "mathematics",
@@ -241,14 +243,123 @@
       },
       "post_16_routes": [
         {
-          "route_id": "sunderland_advanced_higher_ab_two_sciences",
-          "grade_profile": [
+          "route_id": "sunderland_scottish_highers_and_advanced_highers",
+          "qualification_level": "scottish_highers_and_advanced_highers",
+          "higher_school_year": "s5",
+          "higher_grade_evidence": "achieved",
+          "advanced_higher_school_year": "s6",
+          "higher_grade_profile": [
+            "A",
+            "A",
+            "A",
             "A",
             "B"
           ],
-          "one_of_subject_groups": [
+          "advanced_higher_grade_profile": [
+            "A",
+            "B"
+          ],
+          "higher_required_subject_grade_options": [
             {
-              "group_id": "two_sciences",
+              "option_id": "biology_and_chemistry_at_a",
+              "grade_requirements": [
+                {
+                  "subject_id": "biology",
+                  "minimum_grade": "A"
+                },
+                {
+                  "subject_id": "chemistry",
+                  "minimum_grade": "A"
+                }
+              ]
+            },
+            {
+              "option_id": "biology_and_physics_at_a",
+              "grade_requirements": [
+                {
+                  "subject_id": "biology",
+                  "minimum_grade": "A"
+                },
+                {
+                  "subject_id": "physics",
+                  "minimum_grade": "A"
+                }
+              ]
+            },
+            {
+              "option_id": "biology_and_mathematics_at_a",
+              "grade_requirements": [
+                {
+                  "subject_id": "biology",
+                  "minimum_grade": "A"
+                },
+                {
+                  "subject_id": "mathematics",
+                  "minimum_grade": "A"
+                }
+              ]
+            },
+            {
+              "option_id": "chemistry_and_physics_at_a",
+              "grade_requirements": [
+                {
+                  "subject_id": "chemistry",
+                  "minimum_grade": "A"
+                },
+                {
+                  "subject_id": "physics",
+                  "minimum_grade": "A"
+                }
+              ]
+            },
+            {
+              "option_id": "chemistry_and_mathematics_at_a",
+              "grade_requirements": [
+                {
+                  "subject_id": "chemistry",
+                  "minimum_grade": "A"
+                },
+                {
+                  "subject_id": "mathematics",
+                  "minimum_grade": "A"
+                }
+              ]
+            }
+          ],
+          "combined_grade_requirements": [
+            {
+              "rule_id": "sunderland_s6_advanced_higher_ab_two_sciences",
+              "qualification_levels": [
+                "advanced_higher"
+              ],
+              "school_year": "s6",
+              "accepted_subject_ids": [
+                "biology",
+                "chemistry",
+                "physics",
+                "mathematics"
+              ],
+              "grade_profile": [
+                "A",
+                "B"
+              ],
+              "one_of_subject_groups": [
+                {
+                  "group_id": "two_advanced_higher_sciences",
+                  "minimum_required": 2,
+                  "subject_ids": [
+                    "biology",
+                    "chemistry",
+                    "physics",
+                    "mathematics"
+                  ]
+                }
+              ]
+            }
+          ],
+          "advanced_higher_one_of_subject_groups": [
+            {
+              "group_id": "two_advanced_higher_sciences",
               "minimum_required": 2,
               "subject_ids": [
                 "biology",
@@ -257,10 +368,19 @@
                 "mathematics"
               ]
             }
+          ],
+          "matching_subject_grade_rules": [
+            {
+              "rule_id": "sunderland_additional_s6_highers_minimum_b",
+              "qualification_level": "higher",
+              "school_year": "s6",
+              "minimum_grade": "B",
+              "required_when_absent": false
+            }
           ]
         }
       ],
-      "execution_note": "The production course JSON records the full Higher AAAAB plus Advanced Higher AB policy. The generic classifier executes the National 5 and Advanced Higher AB science route."
+      "execution_note": "Scottish applicants are forwarded through shared course eligibility. The mirrored route documents the combined S5 Higher AAAAB plus S6 Advanced Higher AB policy; it is not a separate executable implementation."
     },
     "graduate": {
       "gcse_required": false,

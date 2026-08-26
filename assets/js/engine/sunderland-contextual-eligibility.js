@@ -3,7 +3,7 @@ const SUNDERLAND_CONTEXTUAL_EVALUATOR_ID = 'sunderland_contextual_medicine_a100'
 const AAB_PATHWAY_ID = 'sunderland_contextual_aab';
 const ABB_PATHWAY_ID = 'sunderland_local_contextual_abb';
 const LOCAL_REGION = 'north_east_england_or_cumbria';
-const MISSING_VALUES = new Set(['', null, undefined, 'unknown', 'not_sure', 'prefer_not_to_say']);
+const MISSING_VALUES = new Set(['unknown', 'not_sure', 'prefer_not_to_say']);
 
 function asObject(value) {
   return value && typeof value === 'object' && !Array.isArray(value) ? value : {};
