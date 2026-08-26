@@ -271,6 +271,41 @@
       "scored_after_eligibility": false,
       "notes": "GCSEs are not competitively scored after the eligibility screen. Non-standard equivalencies not represented above require manual review."
     },
+    "national_5": {
+      "status": "official_source_verified",
+      "grade_requirements": [
+        {
+          "requirement_id": "manchester_national_5_english_b",
+          "subject_id": "english_language",
+          "alternative_subject_ids": ["english"],
+          "minimum_grade": "B",
+          "source_ids": ["manchester_a106_application_and_selection_2027"],
+          "notes": "Required at National 5/SCQF level 5 grade B/2 when English is not taken at Higher or Advanced Higher."
+        },
+        {
+          "requirement_id": "manchester_national_5_mathematics_b",
+          "subject_id": "mathematics",
+          "minimum_grade": "B",
+          "source_ids": ["manchester_a106_application_and_selection_2027"],
+          "notes": "Required at National 5/SCQF level 5 grade B/2 when Mathematics is not taken at Higher or Advanced Higher."
+        },
+        {
+          "requirement_id": "manchester_national_5_chemistry_b",
+          "subject_id": "chemistry",
+          "minimum_grade": "B",
+          "source_ids": ["manchester_a106_application_and_selection_2027"],
+          "notes": "Required at National 5/SCQF level 5 grade B/2 when Chemistry is not taken at Higher or Advanced Higher."
+        },
+        {
+          "requirement_id": "manchester_national_5_biology_b",
+          "subject_id": "biology",
+          "minimum_grade": "B",
+          "source_ids": ["manchester_a106_application_and_selection_2027"],
+          "notes": "Required at National 5/SCQF level 5 grade B/2 when Biology is not taken at Higher or Advanced Higher."
+        }
+      ],
+      "notes": "Higher or Advanced Higher evidence in the same subject satisfies the corresponding SCQF-level fallback requirement."
+    },
     "post_16": {
       "status": "official_source_verified_with_remaining_eligibility_exceptions",
       "source_ids": [
@@ -509,21 +544,17 @@
       },
       "scottish": {
         "status": "official_source_verified",
+        "route_implemented": true,
+        "execution_status": "automatic_with_complete_scottish_qualification_data",
         "source_ids": [
           "manchester_a106_application_and_selection_2027"
         ],
         "higher_offer": {
-          "grade_profile": [
-            "A",
-            "A",
-            "A",
-            "A",
-            "B"
-          ],
+          "grade_profile": ["A", "A", "A", "A"],
           "source_ids": [
             "manchester_a106_application_and_selection_2027"
           ],
-          "notes": "SQA Highers AAAAB."
+          "notes": "Four Highers at AAAA by the end of S5, achieved in the same sitting at first attempt."
         },
         "advanced_higher_offer": {
           "grade_profile": [
@@ -533,55 +564,83 @@
           "source_ids": [
             "manchester_a106_application_and_selection_2027"
           ],
-          "notes": "Chemistry and Biology are recommended Advanced Higher subjects, not encoded as compulsory subjects."
+          "notes": "At least two Advanced Highers are required by the end of S6. The fully Scottish executable pathways below encode Manchester's published subject combinations."
         },
         "grade_requirements": [
           {
-            "requirement_id": "scottish_higher_and_advanced_higher_offer",
-            "applies_to_group_ids": [
-              "scotland_domiciled",
-              "school_leaver"
+            "requirement_id": "manchester_scottish_ah_aaa",
+            "route_id": "manchester_scottish_ah_aaa",
+            "qualification_level": "scottish_highers_and_advanced_highers",
+            "academic_pathway": "standard",
+            "applies_to_group_ids": ["home_fee", "school_leaver"],
+            "excluded_group_ids": ["international_fee"],
+            "higher_school_year": "s5",
+            "higher_grade_evidence": "achieved",
+            "advanced_higher_school_year": "s6",
+            "higher_grade_profile": ["A", "A", "A", "A"],
+            "advanced_higher_grade_profile": ["A", "A", "A"],
+            "first_attempt_required": true,
+            "same_sitting_required": true,
+            "same_sitting_qualification_levels": ["higher"],
+            "advanced_higher_required_subject_grade_options": [
+              {"option_id": "chemistry_biology", "grade_requirements": [{"subject_id": "chemistry", "minimum_grade": "A"}, {"subject_id": "biology", "minimum_grade": "A"}]},
+              {"option_id": "chemistry_mathematics", "grade_requirements": [{"subject_id": "chemistry", "minimum_grade": "A"}, {"subject_id": "mathematics", "minimum_grade": "A"}]},
+              {"option_id": "chemistry_psychology", "grade_requirements": [{"subject_id": "chemistry", "minimum_grade": "A"}, {"subject_id": "psychology", "minimum_grade": "A"}]},
+              {"option_id": "chemistry_physics", "grade_requirements": [{"subject_id": "chemistry", "minimum_grade": "A"}, {"subject_id": "physics", "minimum_grade": "A"}]},
+              {"option_id": "biology_mathematics", "grade_requirements": [{"subject_id": "biology", "minimum_grade": "A"}, {"subject_id": "mathematics", "minimum_grade": "A"}]},
+              {"option_id": "biology_psychology", "grade_requirements": [{"subject_id": "biology", "minimum_grade": "A"}, {"subject_id": "psychology", "minimum_grade": "A"}]},
+              {"option_id": "biology_physics", "grade_requirements": [{"subject_id": "biology", "minimum_grade": "A"}, {"subject_id": "physics", "minimum_grade": "A"}]}
             ],
-            "higher_grade_profile": [
-              "A",
-              "A",
-              "A",
-              "A",
-              "B"
-            ],
-            "advanced_higher_grade_profile": [
-              "A",
-              "A"
-            ],
-            "required_subject_ids": [],
             "decision_outcome_if_not_met": "not_eligible",
             "source_ids": [
               "manchester_a106_application_and_selection_2027"
             ],
-            "notes": "Both published grade profiles must be evaluated for this route."
-          }
-        ],
-        "national_5_requirements": [
-          {
-            "subject_id": "english_language",
-            "minimum_grade": "B/6"
+            "notes": "Four achieved S5 Highers at AAAA in the same sitting and at first attempt, plus three S6 Advanced Highers at AAA including Chemistry or Biology, a distinct second science from Chemistry, Mathematics, Biology, Psychology or Physics, and one further rigorous academic subject."
           },
           {
-            "subject_id": "mathematics",
-            "minimum_grade": "B/6"
-          },
-          {
-            "subject_id": "science",
-            "minimum_grade": "B/6"
+            "requirement_id": "manchester_scottish_ah_aa_plus_new_higher_a",
+            "route_id": "manchester_scottish_ah_aa_plus_new_higher_a",
+            "qualification_level": "scottish_highers_and_advanced_highers",
+            "academic_pathway": "standard",
+            "applies_to_group_ids": ["home_fee", "school_leaver"],
+            "excluded_group_ids": ["international_fee"],
+            "higher_school_year": "s5",
+            "higher_grade_evidence": "achieved",
+            "advanced_higher_school_year": "s6",
+            "higher_grade_profile": ["A", "A", "A", "A"],
+            "advanced_higher_grade_profile": ["A", "A"],
+            "first_attempt_required": true,
+            "same_sitting_required": true,
+            "same_sitting_qualification_levels": ["higher"],
+            "advanced_higher_required_subject_grade_options": [
+              {"option_id": "chemistry_biology", "grade_requirements": [{"subject_id": "chemistry", "minimum_grade": "A"}, {"subject_id": "biology", "minimum_grade": "A"}]},
+              {"option_id": "chemistry_mathematics", "grade_requirements": [{"subject_id": "chemistry", "minimum_grade": "A"}, {"subject_id": "mathematics", "minimum_grade": "A"}]},
+              {"option_id": "chemistry_psychology", "grade_requirements": [{"subject_id": "chemistry", "minimum_grade": "A"}, {"subject_id": "psychology", "minimum_grade": "A"}]},
+              {"option_id": "chemistry_physics", "grade_requirements": [{"subject_id": "chemistry", "minimum_grade": "A"}, {"subject_id": "physics", "minimum_grade": "A"}]},
+              {"option_id": "biology_mathematics", "grade_requirements": [{"subject_id": "biology", "minimum_grade": "A"}, {"subject_id": "mathematics", "minimum_grade": "A"}]},
+              {"option_id": "biology_psychology", "grade_requirements": [{"subject_id": "biology", "minimum_grade": "A"}, {"subject_id": "psychology", "minimum_grade": "A"}]},
+              {"option_id": "biology_physics", "grade_requirements": [{"subject_id": "biology", "minimum_grade": "A"}, {"subject_id": "physics", "minimum_grade": "A"}]}
+            ],
+            "combined_grade_requirements": [
+              {
+                "rule_id": "manchester_new_s6_higher_a",
+                "qualification_levels": ["higher"],
+                "school_year": "s6",
+                "grade_profile": ["A"]
+              }
+            ],
+            "decision_outcome_if_not_met": "not_eligible",
+            "source_ids": ["manchester_a106_application_and_selection_2027"],
+            "notes": "Four achieved S5 Highers at AAAA in the same sitting and at first attempt, plus two S6 Advanced Highers at AA including Chemistry or Biology and a distinct second accepted science, plus one new S6 Higher at A."
           }
         ],
         "required_subject_ids": [],
-        "recommended_advanced_higher_subject_ids": [
-          "chemistry",
-          "biology"
-        ],
+        "recommended_advanced_higher_subject_ids": [],
         "one_of_subject_groups": [],
-        "notes": "Chemistry and Biology at Advanced Higher are recommendations only. They must not be turned into automatic rejection rules."
+        "manual_review_routes": [
+          "Two Advanced Highers at AA plus one A2-level subject at A requires mixed Scottish/A-level evidence and remains manual review."
+        ],
+        "notes": "English Language, Mathematics, Chemistry and Biology must each be evidenced at SCQF level 5 grade 2/B or above when not taken at Higher or Advanced Higher. The fully Scottish AAA Advanced Higher and AA plus new Higher A pathways are executable. The published mixed AA Advanced Higher plus A2-level A pathway remains manual review rather than being inferred."
       },
       "btec": {
         "status": "unsupported_no_verified_rule",
