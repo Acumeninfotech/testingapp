@@ -282,6 +282,33 @@ describe('ResultsPage', () => {
     expect(screen.queryByText(/Contextual consideration:/)).not.toBeInTheDocument();
   });
 
+  it('does not repeat an academic status that duplicates the contextual confirmation', () => {
+    const result = makeResult('leicester-a100', 'University of Leicester', {
+      contextual_status: 'confirmed',
+      contextual_confirmation: {
+        collapsed_label: 'Contextual eligibility confirmed',
+        expanded_heading: 'Leicester contextual consideration',
+        consideration_label: 'Leicester contextual selection:',
+        expanded_body:
+          'Applicants with two or more contextual markers may be prioritised over applicants with the same score who have fewer or no contextual markers. This does not guarantee an interview.',
+        contextual_offer_grade: 'AAA',
+      },
+      decision_transparency: {
+        compact_status: {
+          label: 'Contextual eligibility confirmed.',
+          type: 'academic_status',
+          tone: 'positive',
+        },
+      },
+    });
+
+    render(<ResultsPage results={[result]} onStartOver={() => {}} />);
+
+    const summary = document.querySelector('.university-result-summary');
+    expect(summary).not.toBeNull();
+    expect(within(summary as HTMLElement).getAllByText(/Contextual eligibility confirmed\.?/)).toHaveLength(1);
+  });
+
   it('expands and collapses a card when its details toggle is clicked', () => {
     render(<ResultsPage results={RESULTS} onStartOver={() => {}} />);
     const toggle = screen.getAllByText('View details')[0];

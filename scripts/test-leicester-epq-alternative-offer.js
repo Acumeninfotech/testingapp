@@ -343,7 +343,9 @@ assert.deepStrictEqual(
   [
     ['a_level_leicester_access_leicester_medicine_contextual_offer', ['A', 'B', 'B']],
     ['a_level_leicester_realising_opportunities_contextual_offer', ['A', 'A', 'A']],
-    ['a_level_leicester_imd_plus_indicator_contextual_offer', ['A', 'B', 'B']],
+    ['a_level_leicester_imd_plus_indicator_contextual_offer', ['A', 'A', 'A']],
+    ['a_level_leicester_sutton_trust_pathways_to_medicine_contextual_offer', ['A', 'A', 'A']],
+    ['a_level_leicester_ukwpmed_restricted_2027_offer', ['A', 'B', 'B']],
     ['a_level_standard_offer', ['A*', 'A', 'A']]
   ],
   'Leicester executable A-level eligibility routes should include contextual and standard pathways explicitly.'

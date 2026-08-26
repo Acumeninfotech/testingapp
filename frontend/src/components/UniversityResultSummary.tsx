@@ -236,6 +236,14 @@ export function UniversityResultSummary({
     card.contextual_confirmation.collapsed_label.trim()
       ? card.contextual_confirmation.collapsed_label.trim()
       : null;
+  const normaliseCompactStatus = (value: string | null) =>
+    (value || '').trim().replace(/[.!?]+$/, '').toLocaleLowerCase();
+  const academicStatusDuplicatesContextual =
+    Boolean(contextualCollapsedLabel) &&
+    normaliseCompactStatus(academicStatus) === normaliseCompactStatus(contextualCollapsedLabel);
+  const academicStatusDuplicatesSelectionMetric =
+    Boolean(metric) &&
+    card.decision_transparency?.compact_status?.type === 'selection_comparison';
   const detailsId = `university-result-details-${result.universityId}`;
   const addDisabled = !shortlisted && shortlistFull;
 
@@ -253,9 +261,11 @@ export function UniversityResultSummary({
         {contextualCollapsedLabel && (
           <p className="university-result-contextual-status">{contextualCollapsedLabel}</p>
         )}
-        <p className="university-result-eligibility">
-          <span className="university-result-eligibility-label">{academicStatus}</span>
-        </p>
+        {!academicStatusDuplicatesContextual && !academicStatusDuplicatesSelectionMetric && (
+          <p className="university-result-eligibility">
+            <span className="university-result-eligibility-label">{academicStatus}</span>
+          </p>
+        )}
         <SelectionMetricPanel metric={metric} ucatAdjustment={ucatAdjustment} />
       </div>
       <div className="university-result-actions">

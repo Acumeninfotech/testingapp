@@ -578,11 +578,6 @@
             ],
             "grade_profile": [
               "A",
-              "B",
-              "B"
-            ],
-            "display_offer_grade_profile": [
-              "A",
               "A",
               "A"
             ],
@@ -591,6 +586,42 @@
               "leicester_a100_entry_requirements"
             ],
             "notes": "IMD quintile 1 plus additional Leicester contextual indicator route. Contextual evidence gating is evaluated by the shared Leicester contextual evaluator."
+          },
+          {
+            "requirement_id": "a_level_leicester_sutton_trust_pathways_to_medicine_contextual_offer",
+            "pathway_id": "leicester_sutton_trust_pathways_to_medicine_contextual_offer",
+            "academic_pathway": "contextual",
+            "applies_to_group_ids": [
+              "leicester_contextual_sutton_trust_pathways_to_medicine"
+            ],
+            "grade_profile": [
+              "A",
+              "A",
+              "A"
+            ],
+            "decision_outcome_if_not_met": "not_eligible",
+            "source_ids": [
+              "leicester_a100_entry_requirements"
+            ],
+            "notes": "Exact Sutton Trust Pathways to Medicine completion route; generic Sutton Trust programmes are excluded."
+          },
+          {
+            "requirement_id": "a_level_leicester_ukwpmed_restricted_2027_offer",
+            "pathway_id": "leicester_ukwpmed_restricted_2027_offer",
+            "academic_pathway": "contextual",
+            "applies_to_group_ids": [
+              "leicester_contextual_ukwpmed_2027"
+            ],
+            "grade_profile": [
+              "A",
+              "B",
+              "B"
+            ],
+            "decision_outcome_if_not_met": "not_eligible",
+            "source_ids": [
+              "leicester_a100_entry_requirements"
+            ],
+            "notes": "Restricted 2027 first-gap-year UKWPMED route; achieved first-sitting grades and completion-year evidence are enforced by the contextual evaluator."
           },
           {
             "requirement_id": "a_level_standard_offer",
@@ -1568,6 +1599,8 @@
       "care_experienced",
       "leicester_contextual_access_leicester_medicine",
       "leicester_contextual_realising_opportunities",
+      "leicester_contextual_sutton_trust_pathways_to_medicine",
+      "leicester_contextual_ukwpmed_2027",
       "leicester_contextual_imd_plus_indicator",
       "leicester_contextual_guaranteed_interview"
     ],
@@ -1654,6 +1687,7 @@
         "adjustment_id": "contextual_a_level_offer_adjustment",
         "applies_to_group_ids": [
           "leicester_contextual_realising_opportunities",
+          "leicester_contextual_sutton_trust_pathways_to_medicine",
           "leicester_contextual_imd_plus_indicator"
         ],
         "stage": "offer_conditions",

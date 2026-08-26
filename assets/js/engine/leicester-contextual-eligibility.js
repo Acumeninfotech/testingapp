@@ -1,6 +1,8 @@
 const LEICESTER_CONTEXTUAL_EVALUATOR_ID = 'leicester_contextual_medicine_a100';
 const LEICESTER_ACCESS_LEICESTER_GROUP_ID = 'leicester_contextual_access_leicester_medicine';
 const LEICESTER_REALISING_OPPORTUNITIES_GROUP_ID = 'leicester_contextual_realising_opportunities';
+const LEICESTER_SUTTON_TRUST_GROUP_ID = 'leicester_contextual_sutton_trust_pathways_to_medicine';
+const LEICESTER_UKWPMED_2027_GROUP_ID = 'leicester_contextual_ukwpmed_2027';
 const LEICESTER_IMD_INDICATOR_GROUP_ID = 'leicester_contextual_imd_plus_indicator';
 const LEICESTER_GUARANTEED_INTERVIEW_GROUP_ID = 'leicester_contextual_guaranteed_interview';
 
@@ -136,8 +138,8 @@ function evaluateAcademicRequirement(applicant, routeAcademicRequirement) {
       ...subjectIds(subjects, 'achieved_grade')
     ]);
     const hasChemistryOrBiology = ids.has('chemistry') || ids.has('biology');
-    const hasSecondAccepted = [...ids].some((subjectId) => ACCEPTED_A_LEVEL_SUBJECTS.has(subjectId));
-    return hasChemistryOrBiology && hasSecondAccepted;
+    const acceptedSubjects = [...ids].filter((subjectId) => ACCEPTED_A_LEVEL_SUBJECTS.has(subjectId));
+    return hasChemistryOrBiology && acceptedSubjects.length >= 2;
   })();
 
   const predictedAbb = gradeProfileMeets(predictedGrades, ['A', 'B', 'B']);
@@ -387,6 +389,102 @@ function evaluateAccessProgrammeRoute(evidence, route, normaliseId) {
   };
 }
 
+function evaluateStructuredUkwpmedRoute(evidence, route, normaliseId) {
+  const record = asObject(asObject(evidence.access_programmes).ukwpmed);
+  const hasRecord = Object.keys(record).length > 0;
+  const optedIn = answerIsYes(record.status, normaliseId);
+  if (!optedIn) {
+    return {
+      status: !hasRecord || answerIsNo(record.status, normaliseId) ? 'fail' : 'unknown',
+      reason: `${route.route_id}_ukwpmed_confirmation_required`,
+      value: record.programme_id || null,
+      criterion: {
+        criterion_id: route.criterion_id,
+        label: route.criterion_label,
+        evidence_path: 'access_programmes.ukwpmed',
+        actual: record.programme_id || null
+      }
+    };
+  }
+
+  const programmeId = normaliseId(record.programme_id);
+  const provider = normaliseId(record.provider_university_id);
+  const status = normaliseId(record.programme_status);
+  const exactProgramme = programmeId === normaliseId(route.programme_id);
+  const exactProvider = provider === normaliseId(route.provider_university_id);
+  const completed = ['completed', 'confirmed'].includes(status);
+  const completionYear = Number(record.completion_year);
+  const completionYearRequired = Array.isArray(route.completion_years);
+  const completionYearKnown = Number.isInteger(completionYear);
+  const completionYearAccepted = !completionYearRequired || route.completion_years.includes(completionYear);
+
+  if (exactProgramme && exactProvider && completed && completionYearAccepted) {
+    return {
+      status: 'pass',
+      value: record.programme_id,
+      criterion: {
+        criterion_id: route.criterion_id,
+        label: route.criterion_label,
+        evidence_path: 'access_programmes.ukwpmed',
+        actual: record.programme_id,
+        details: { programme_status: status, provider_university_id: provider, completion_year: completionYearKnown ? completionYear : null }
+      }
+    };
+  }
+
+  const incomplete = !programmeId || !provider || !status ||
+    (completionYearRequired && !completionYearKnown) ||
+    ['participating', 'offered', 'not_sure'].includes(status);
+  return {
+    status: incomplete ? 'unknown' : 'fail',
+    reason: incomplete ? `${route.route_id}_programme_completion_or_provider_required` : null,
+    value: record.programme_id || null,
+    criterion: {
+      criterion_id: route.criterion_id,
+      label: route.criterion_label,
+      evidence_path: 'access_programmes.ukwpmed',
+      actual: record.programme_id || null,
+      details: { programme_status: status || null, provider_university_id: provider || null, completion_year: completionYearKnown ? completionYear : null }
+    }
+  };
+}
+
+function evaluateRestrictedUkwpmedAcademic(applicant, normaliseId) {
+  const applicationYear = Number(applicant.application_year ?? applicant.course_target?.application_year);
+  const identity = asObject(applicant.applicant_identity);
+  const feeStatus = normaliseId(identity.fee_status);
+  const firstGapYear = identity.first_gap_year;
+  const subjects = aLevelSubjects(applicant);
+  const achieved = subjects.filter((subject) => !isMissing(subject?.achieved_grade));
+  const achievedGrades = achieved.map((subject) => subject.achieved_grade);
+  const requiredScienceAtA = achieved.some((subject) =>
+    ['chemistry', 'biology'].includes(normaliseId(subject.subject_id)) && gradeRank(subject.achieved_grade) >= gradeRank('A')
+  );
+  const firstSitting = achieved.length >= 3 && achieved.every((subject) => normaliseId(subject.sitting_status) === 'first_sitting');
+  const noResits = normaliseId(applicant.a_level_profile?.sitting_status) !== 'resit' && firstSitting;
+  const home = ['home', 'home_fee', 'uk', 'united_kingdom'].includes(feeStatus);
+  const knownFirstGapYear = firstGapYear === true || firstGapYear === false || ['yes', 'no'].includes(normaliseId(firstGapYear));
+  const isFirstGapYear = firstGapYear === true || normaliseId(firstGapYear) === 'yes';
+
+  if (applicationYear !== 2027 || !home || achieved.length < 3) {
+    return {
+      status: 'fail',
+      reason: 'leicester_ukwpmed_2027_academic_or_scope_requirement_not_met',
+      details: { application_year: applicationYear, home_fee: home, achieved_grade_count: achieved.length }
+    };
+  }
+  if (!knownFirstGapYear) {
+    return { status: 'unknown', reason: 'leicester_ukwpmed_2027_first_gap_year_confirmation_required', details: {} };
+  }
+  const pass = applicationYear === 2027 && home && isFirstGapYear &&
+    achieved.length >= 3 && gradeProfileMeets(achievedGrades, ['A', 'B', 'B']) && requiredScienceAtA && noResits;
+  return {
+    status: pass ? 'pass' : 'fail',
+    reason: pass ? null : 'leicester_ukwpmed_2027_academic_or_scope_requirement_not_met',
+    details: { application_year: applicationYear, home_fee: home, first_gap_year: isFirstGapYear, required_science_at_a: requiredScienceAtA, first_sitting_no_resits: noResits }
+  };
+}
+
 function quintileIsQ1(value, normaliseId) {
   const id = normaliseId(value);
   return id === 'q1' || id === '1' || id === 'quintile_1';
@@ -420,16 +518,10 @@ function evaluateImdPlusIndicatorRoute(evidence, route, normaliseId) {
       actual: financial.free_school_meals
     },
     {
-      criterion_id: 'care_experienced',
-      label: 'Local-authority care experience',
-      evidence_path: 'personal_circumstances.care_experienced',
-      actual: personal.care_experienced
-    },
-    {
-      criterion_id: 'care_leaver',
-      label: 'Care leaver',
-      evidence_path: 'personal_circumstances.care_leaver',
-      actual: personal.care_leaver
+      criterion_id: 'care_over_three_months',
+      label: 'Looked after in local-authority care for more than three months',
+      evidence_path: 'personal_circumstances.care_over_three_months',
+      actual: personal.care_over_three_months
     }
   ];
 
@@ -502,10 +594,14 @@ function evaluateImdPlusIndicatorRoute(evidence, route, normaliseId) {
 }
 
 function evaluateRoute(route, applicant, evidence, normaliseId) {
-  const routeEvidence = route.type === 'programme'
-    ? evaluateAccessProgrammeRoute(evidence, route, normaliseId)
-    : evaluateImdPlusIndicatorRoute(evidence, route, normaliseId);
-  const academic = evaluateAcademicRequirement(applicant, route.academic_requirement);
+  const routeEvidence = route.type === 'ukwpmed'
+    ? evaluateStructuredUkwpmedRoute(evidence, route, normaliseId)
+    : route.type === 'programme'
+      ? evaluateAccessProgrammeRoute(evidence, route, normaliseId)
+      : evaluateImdPlusIndicatorRoute(evidence, route, normaliseId);
+  const academic = route.academic_requirement === 'restricted_ukwpmed_2027'
+    ? evaluateRestrictedUkwpmedAcademic(applicant, normaliseId)
+    : evaluateAcademicRequirement(applicant, route.academic_requirement);
   const gcse = evaluateGcseMinimum(applicant);
   const ucat = evaluateUcatThreshold(applicant);
   const sjt = evaluateSjtBand(applicant);
@@ -608,8 +704,9 @@ function evaluateLeicesterContextualEligibility({ applicant, evidence, helpers }
       route_label: 'Access Leicester: Medicine',
       group_id: LEICESTER_ACCESS_LEICESTER_GROUP_ID,
       bucket: 'access_leicester_medicine',
-      type: 'programme',
+      type: 'ukwpmed',
       programme_id: 'leicester_accessleicester_medicine',
+      provider_university_id: 'leicester-a100',
       criterion_id: 'access_leicester_medicine_programme',
       criterion_label: 'Access Leicester: Medicine programme confirmed',
       academic_requirement: 'abb_predicted_or_aaa_achieved',
@@ -628,6 +725,18 @@ function evaluateLeicesterContextualEligibility({ applicant, evidence, helpers }
       academic_requirement_label: 'Predicted AAA or achieved AAA'
     },
     {
+      route_id: 'leicester_sutton_trust_pathways_to_medicine_contextual',
+      route_label: 'Sutton Trust Pathways to Medicine',
+      group_id: LEICESTER_SUTTON_TRUST_GROUP_ID,
+      bucket: 'sutton_trust_pathways_to_medicine',
+      type: 'programme',
+      programme_id: 'sutton_trust_pathways_to_medicine',
+      criterion_id: 'sutton_trust_pathways_to_medicine_programme',
+      criterion_label: 'Sutton Trust Pathways to Medicine programme confirmed',
+      academic_requirement: 'aaa_predicted_or_achieved',
+      academic_requirement_label: 'Predicted AAA or achieved AAA'
+    },
+    {
       route_id: 'leicester_imd_plus_indicator_contextual',
       route_label: 'IMD Quintile 1 and an additional contextual indicator',
       group_id: LEICESTER_IMD_INDICATOR_GROUP_ID,
@@ -635,8 +744,22 @@ function evaluateLeicesterContextualEligibility({ applicant, evidence, helpers }
       type: 'imd_plus_indicator',
       criterion_id: 'imd_q1_plus_additional_indicator',
       criterion_label: 'IMD 2019 quintile 1 plus at least one additional Leicester contextual indicator',
-      academic_requirement: 'abb_predicted_or_aaa_achieved',
-      academic_requirement_label: 'Predicted ABB or achieved AAA'
+      academic_requirement: 'aaa_predicted_or_achieved',
+      academic_requirement_label: 'Predicted AAA or achieved AAA'
+    },
+    {
+      route_id: 'leicester_ukwpmed_restricted_2027',
+      route_label: 'Restricted UKWPMED 2027 route',
+      group_id: LEICESTER_UKWPMED_2027_GROUP_ID,
+      bucket: 'ukwpmed_restricted_2027',
+      type: 'ukwpmed',
+      programme_id: 'leicester_accessleicester_medicine',
+      provider_university_id: 'leicester-a100',
+      completion_years: [2025, 2026],
+      criterion_id: 'leicester_ukwpmed_2027_programme',
+      criterion_label: 'Verified AccessLeicester UKWPMED completion',
+      academic_requirement: 'restricted_ukwpmed_2027',
+      academic_requirement_label: '2027 first-gap-year achieved ABB UKWPMED route'
     }
   ];
 
@@ -652,7 +775,9 @@ function evaluateLeicesterContextualEligibility({ applicant, evidence, helpers }
     checks: {
       access_leicester_medicine: [],
       realising_opportunities: [],
-      imd_plus_indicator: []
+      sutton_trust_pathways_to_medicine: [],
+      imd_plus_indicator: [],
+      ukwpmed_restricted_2027: []
     },
     activated_applicant_group_ids: [],
     provisional_activated_applicant_group_ids: [],
@@ -692,7 +817,9 @@ function evaluateLeicesterContextualEligibility({ applicant, evidence, helpers }
       'contextual',
       'widening_participation',
       ...(selectedRoute.route.route_id === 'leicester_access_leicester_medicine_contextual' ||
-      selectedRoute.route.route_id === 'leicester_realising_opportunities_contextual'
+      selectedRoute.route.route_id === 'leicester_realising_opportunities_contextual' ||
+      selectedRoute.route.route_id === 'leicester_sutton_trust_pathways_to_medicine_contextual' ||
+      selectedRoute.route.route_id === 'leicester_ukwpmed_restricted_2027'
         ? [LEICESTER_GUARANTEED_INTERVIEW_GROUP_ID]
         : [])
     ];
@@ -714,6 +841,8 @@ module.exports = {
   LEICESTER_CONTEXTUAL_EVALUATOR_ID,
   LEICESTER_ACCESS_LEICESTER_GROUP_ID,
   LEICESTER_REALISING_OPPORTUNITIES_GROUP_ID,
+  LEICESTER_SUTTON_TRUST_GROUP_ID,
+  LEICESTER_UKWPMED_2027_GROUP_ID,
   LEICESTER_IMD_INDICATOR_GROUP_ID,
   LEICESTER_GUARANTEED_INTERVIEW_GROUP_ID,
   evaluateLeicesterContextualEligibility

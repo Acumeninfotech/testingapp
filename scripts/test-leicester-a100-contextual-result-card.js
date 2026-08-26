@@ -105,6 +105,16 @@ function programmeRecord(programmeId, status = 'completed') {
   return [{ programme_id: programmeId, status }];
 }
 
+function structuredAccessLeicester(programmeStatus = 'completed', provider = 'leicester-a100', completionYear = 2026) {
+  return {
+    status: 'yes',
+    programme_id: 'leicester_accessleicester_medicine',
+    programme_status: programmeStatus,
+    provider_university_id: provider,
+    completion_year: completionYear
+  };
+}
+
 function assertNoLeicesterContextual(result, message) {
   assert.ok(!result.applicant_group_ids.includes('leicester_contextual_access_leicester_medicine'), message);
   assert.ok(!result.applicant_group_ids.includes('leicester_contextual_realising_opportunities'), message);
@@ -330,11 +340,11 @@ const imdOnlyEligibility = eligibility({
     home_area_region: { imd_quintile: 'q1' }
   }
 });
-assert.strictEqual(imdOnlyEligibility.contextual_eligibility.status, 'information_needed');
+assert.strictEqual(imdOnlyEligibility.contextual_eligibility.status, 'not_contextual');
 
 function assertImdIndicatorRoute(indicatorPatch) {
   const result = classify({
-    a_level_profile: { subjects: predictedSubjects(['A', 'B', 'B']) },
+    a_level_profile: { subjects: predictedSubjects(['A', 'A', 'A']) },
     contextual_profile: {
       home_area_region: { imd_quintile: 'q1' },
       ...indicatorPatch
@@ -355,12 +365,117 @@ assertImdIndicatorRoute({
 assertImdIndicatorRoute({
   financial_support: { free_school_meals: 'yes' }
 });
-assertImdIndicatorRoute({
-  personal_circumstances: { care_experienced: 'yes' }
+const imdFsmScoredRoute = classify({
+  a_level_profile: { subjects: predictedSubjects(['A', 'A', 'A']) },
+  contextual_profile: {
+    home_area_region: { imd_quintile: 'q1' },
+    financial_support: { free_school_meals: 'yes' }
+  }
 });
-assertImdIndicatorRoute({
-  personal_circumstances: { care_leaver: 'yes' }
+const imdFsmPrediction = predictLeicester({
+  a_level_profile: { subjects: predictedSubjects(['A', 'A', 'A']) },
+  contextual_profile: {
+    home_area_region: { imd_quintile: 'q1' },
+    financial_support: { free_school_meals: 'yes' }
+  }
 });
+assert.strictEqual(imdFsmScoredRoute.guidance_pool_id, 'leicester_home_predicted_a_level_or_equivalent');
+assert.strictEqual(imdFsmScoredRoute.ranking.status, 'calculated');
+assert.strictEqual(imdFsmScoredRoute.ranking.max, 96);
+assert.ok(Number.isFinite(imdFsmScoredRoute.ranking.components.gcse_score.value));
+assert.ok(Number.isFinite(imdFsmScoredRoute.ranking.components.ucat_score.value));
+assert.notStrictEqual(imdFsmScoredRoute.interview_outcome, 'guaranteed_interview');
+assert.strictEqual(imdFsmPrediction.result_card.prediction.available, true);
+assert.strictEqual(imdFsmPrediction.result_card.prediction.guidance_pool_id, 'leicester_home_predicted_a_level_or_equivalent');
+assert.strictEqual(imdFsmPrediction.result_card.interview_outcome, null);
+assert.strictEqual(
+  imdFsmPrediction.result_card.contextual_confirmation.collapsed_label,
+  'Contextual eligibility confirmed'
+);
+assert.strictEqual(
+  imdFsmPrediction.result_card.contextual_confirmation.expanded_body,
+  'Applicants with two or more contextual markers may be prioritised over applicants with the same score who have fewer or no contextual markers. This does not guarantee an interview.'
+);
+assertImdIndicatorRoute({
+  personal_circumstances: { care_over_three_months: 'yes' }
+});
+
+// Broader care declarations do not satisfy Leicester's precise duration rule.
+const imdGenericCareOnly = eligibility({
+  a_level_profile: { subjects: predictedSubjects(['A', 'A', 'A']) },
+  contextual_profile: {
+    home_area_region: { imd_quintile: 'q1' },
+    personal_circumstances: { care_experienced: 'yes', care_leaver: 'yes', care_over_three_months: 'no' }
+  }
+});
+assert.strictEqual(imdGenericCareOnly.contextual_eligibility.status, 'information_needed');
+assert.ok(!imdGenericCareOnly.contextual_eligibility.activated_applicant_group_ids.includes('leicester_contextual_imd_plus_indicator'));
+
+// AccessLeicester is read from the structured UKWPMED record and provider is verified.
+const structuredAccess = classify({
+  a_level_profile: { subjects: predictedSubjects(['A', 'B', 'B']) },
+  contextual_profile: { access_programmes: { ukwpmed: structuredAccessLeicester() } }
+});
+assert.strictEqual(structuredAccess.eligibility.contextual_eligibility.matched_contextual_pathway, 'leicester_access_leicester_medicine_contextual');
+assert.strictEqual(structuredAccess.interview_outcome, 'guaranteed_interview');
+
+const wrongAccessProvider = eligibility({
+  a_level_profile: { subjects: predictedSubjects(['A', 'B', 'B']) },
+  contextual_profile: { access_programmes: { ukwpmed: structuredAccessLeicester('completed', 'other-university') } }
+});
+assert.strictEqual(wrongAccessProvider.contextual_eligibility.status, 'not_contextual');
+
+// Exact Sutton Trust Pathways to Medicine completion qualifies; generic Sutton options do not.
+const suttonTrust = classify({
+  a_level_profile: { subjects: predictedSubjects(['A', 'A', 'A']) },
+  contextual_profile: { access_programmes: { other_programmes: programmeRecord('sutton_trust_pathways_to_medicine') } }
+});
+assert.strictEqual(suttonTrust.eligibility.contextual_eligibility.matched_contextual_pathway, 'leicester_sutton_trust_pathways_to_medicine_contextual');
+assert.strictEqual(suttonTrust.interview_outcome, 'guaranteed_interview');
+
+const genericSutton = eligibility({
+  a_level_profile: { subjects: predictedSubjects(['A', 'A', 'A']) },
+  contextual_profile: { access_programmes: { other_programmes: programmeRecord('sutton_trust_online') } }
+});
+assert.strictEqual(genericSutton.contextual_eligibility.status, 'not_contextual');
+
+// Restricted UKWPMED 2027 requires the precise cycle, first-gap-year and achieved-grade evidence.
+const restrictedUkwpmed = classify({
+  application_year: 2027,
+  applicant_identity: { first_gap_year: true },
+  a_level_profile: { subjects: achievedSubjects(['A', 'B', 'B']), sitting_status: 'first_sitting' },
+  contextual_profile: { access_programmes: { ukwpmed: structuredAccessLeicester('completed', 'leicester-a100', 2026) } }
+});
+assert.strictEqual(restrictedUkwpmed.eligibility.contextual_eligibility.matched_contextual_pathway, 'leicester_ukwpmed_restricted_2027');
+assert.strictEqual(restrictedUkwpmed.interview_outcome, 'guaranteed_interview');
+
+const restrictedWrongCompletionYear = eligibility({
+  application_year: 2027,
+  applicant_identity: { first_gap_year: true },
+  a_level_profile: { subjects: achievedSubjects(['A', 'B', 'B']), sitting_status: 'first_sitting' },
+  contextual_profile: { access_programmes: { ukwpmed: structuredAccessLeicester('completed', 'leicester-a100', 2024) } }
+});
+assert.strictEqual(restrictedWrongCompletionYear.contextual_eligibility.status, 'not_contextual');
+
+const restrictedMissingFirstGapYear = eligibility({
+  application_year: 2027,
+  a_level_profile: { subjects: achievedSubjects(['A', 'B', 'B']), sitting_status: 'first_sitting' },
+  contextual_profile: { access_programmes: { ukwpmed: structuredAccessLeicester('completed', 'leicester-a100', 2026) } }
+});
+assert.strictEqual(restrictedMissingFirstGapYear.contextual_eligibility.status, 'information_needed');
+
+// One science cannot satisfy both halves of Leicester's two-subject rule.
+const oneAcceptedSubject = eligibility({
+  a_level_profile: {
+    subjects: [
+      { subject_id: 'chemistry', predicted_grade: 'A' },
+      { subject_id: 'history', predicted_grade: 'A' },
+      { subject_id: 'geography', predicted_grade: 'A' }
+    ]
+  },
+  contextual_profile: { access_programmes: { other_programmes: programmeRecord('realising_opportunities') } }
+});
+assert.strictEqual(oneAcceptedSubject.contextual_eligibility.status, 'not_contextual');
 
 const imdQ2Indicator = classify({
   a_level_profile: { subjects: predictedSubjects(['A', 'B', 'B']) },
@@ -378,13 +493,20 @@ const imdQ2IndicatorEligibility = eligibility({
 });
 assert.strictEqual(imdQ2IndicatorEligibility.contextual_eligibility.status, 'not_contextual');
 
-const indicatorWithoutImd = classify({
-  a_level_profile: { subjects: predictedSubjects(['A', 'B', 'B']) },
+const indicatorWithoutImd = eligibility({
+  a_level_profile: { subjects: predictedSubjects(['A', 'A', 'A']) },
   contextual_profile: {
     financial_support: { free_school_meals: 'yes' }
   }
 });
-assert.strictEqual(indicatorWithoutImd.eligibility.contextual_eligibility.status, 'information_needed');
+assert.strictEqual(indicatorWithoutImd.contextual_eligibility.status, 'information_needed');
+const indicatorWithoutImdPrediction = predictLeicester({
+  a_level_profile: { subjects: predictedSubjects(['A', 'A', 'A']) },
+  contextual_profile: {
+    financial_support: { free_school_meals: 'yes' }
+  }
+});
+assert.strictEqual(indicatorWithoutImdPrediction.result_card.contextual_confirmation, null);
 
 const imdUcatBelowThreshold = classify({
   admissions_tests: {

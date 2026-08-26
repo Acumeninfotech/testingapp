@@ -2647,6 +2647,21 @@ function contextualConfirmationFor(card = {}, contextualStatus = null, options =
     return sunderlandContextualConfirmation;
   }
   if (
+    profileId === 'leicester-a100' &&
+    contextualStatus === 'confirmed' &&
+    normaliseCheckId(
+      card.eligibility?.contextual_eligibility?.matched_contextual_pathway
+    ) === 'leicester_imd_plus_indicator_contextual'
+  ) {
+    return {
+      collapsed_label: 'Contextual eligibility confirmed',
+      expanded_heading: 'Leicester contextual consideration',
+      consideration_label: 'Leicester contextual selection:',
+      expanded_body: 'Applicants with two or more contextual markers may be prioritised over applicants with the same score who have fewer or no contextual markers. This does not guarantee an interview.',
+      contextual_offer_grade: 'AAA'
+    };
+  }
+  if (
     profileId === 'lancaster-a100' &&
     contextualStatus === 'confirmed' &&
     options.guaranteedInterview !== true

@@ -330,4 +330,4 @@ console.log('Leicester A100 readiness regression: PASS');
 console.log(`Scenario fixtures checked: ${fixture.scenarios.length}`);
 console.log('Official GCSE worked example (36/48) reproduced via live classifier: PASS');
 console.log('Official graduate worked examples (30/48, 40/48) arithmetically verified: PASS');
-console.log('Graduate, Access and contextual guaranteed-interview routes correctly documented as manual-review, non-executable boundaries: PASS');
+console.log('Graduate and Access scoring boundaries remain manual-review; Leicester contextual guaranteed-interview routes are executable: PASS');

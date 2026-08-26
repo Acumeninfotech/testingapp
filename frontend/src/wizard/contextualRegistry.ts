@@ -289,6 +289,7 @@ export const OTHER_ACCESS_PROGRAMMES: readonly OtherAccessProgrammeOption[] = [
   { programme_id: 'newcastle_partners', label: 'PARTNERS Programme' },
   { programme_id: 'leeds_access_to_leeds', label: 'Access to Leeds' },
   { programme_id: 'realising_opportunities', label: 'Realising Opportunities' },
+  { programme_id: 'sutton_trust_pathways_to_medicine', label: 'Sutton Trust Pathways to Medicine' },
   { programme_id: 'sheffield_access_to_sheffield_medicine', label: 'Access to Sheffield (Medicine)' },
   { programme_id: 'sheffield_widening_access_programme', label: 'University of Sheffield widening access programme' },
   { programme_id: 'sheffield_bradford_hallam_pathway', label: 'Bradford / Sheffield Hallam pathway' },
