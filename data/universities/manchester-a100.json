@@ -343,7 +343,7 @@
             "source_ids": [
               "manchester_medicine_contextual"
             ],
-            "notes": "The published subject-combination gate also applies. This route requires current UK residence, being under 21 on 1 September of the course-start year, a qualifying postcode area criterion (POLAR4 Q1/Q2 or IMD 2019 Q1 or TUNDRA Q1/Q2), and a qualifying UK school or college below the national average over multiple years."
+          "notes": "The published subject-combination gate also applies. For the 2027 cycle this route requires current UK residence, being under 21 on 1 September of the course-start year, IMD quintile 1 or TUNDRA quintile 1, and a qualifying UK school or college below the national average over multiple years. POLAR4 and TUNDRA quintile 2 do not activate this route."
           }
         ],
         "standard_offer": {
@@ -1050,7 +1050,7 @@
       "unsupported_groups": [
         "a106_prior_degree_applicant"
       ],
-      "method": "Compare the applicant's current /2700 cognitive total with the minimum and maximum of the five supplied group-specific historical minimum-invited equivalents. Scores above the observed range are labelled strong historical position, scores within it reasonable historical position, and scores below it risky historical position.",
+      "method": "Compare the applicant's current /2700 cognitive total with the configured group-specific historical guide. The contextual/WP pool uses only Manchester's published 2026-entry WP+ threshold of 1960/2700; it does not convert earlier four-subtest UCAT scores.",
       "bands_by_group": [
         {
           "group_id": "home_standard",
@@ -1090,35 +1090,30 @@
         {
           "group_id": "home_contextual_wp",
           "historical_entry_years": [
-            2022,
-            2023,
-            2024,
-            2025,
             2026
           ],
           "observed_minimum_invited_range_2700": {
-            "minimum": 1860,
-            "maximum": 1965
+            "minimum": 1960,
+            "maximum": 1960
           },
           "bands": [
             {
               "band": "strong",
               "operator": ">",
-              "value": 1965,
-              "meaning": "Above every supplied rounded historical contextual/WP minimum invited value."
+              "value": 1960,
+              "meaning": "Above Manchester's published 2026-entry WP+ threshold."
             },
             {
               "band": "reasonable",
-              "operator": "between_inclusive",
-              "minimum": 1860,
-              "maximum": 1965,
-              "meaning": "Within the supplied historical contextual/WP minimum-invited range."
+              "operator": ">=",
+              "value": 1960,
+              "meaning": "At Manchester's published 2026-entry WP+ threshold."
             },
             {
               "band": "risky",
               "operator": "<",
-              "value": 1860,
-              "meaning": "Below every supplied rounded historical contextual/WP minimum invited value."
+              "value": 1960,
+              "meaning": "Below Manchester's published 2026-entry WP+ threshold."
             }
           ]
         },
@@ -1243,11 +1238,11 @@
         "applies_to_group_ids": [
           "manchester_contextual_aab"
         ],
-        "description": "Area criterion met via postcode facts: POLAR4 quintile 1 or 2, or IMD 2019 quintile 1, or TUNDRA quintile 1 or 2.",
+      "description": "For the 2027 cycle, the area criterion is met via IMD quintile 1 or TUNDRA quintile 1. ACORN category 5 or 6 may also qualify when established by Manchester's external assessment, but ApplySmart does not infer ACORN from other evidence.",
         "source_ids": [
           "manchester_medicine_contextual"
         ],
-        "notes": "Derived directly from normalised postcode quintiles. Any one qualifying measure satisfies this criterion."
+      "notes": "Derived only from normalised IMD or TUNDRA facts. POLAR4 and TUNDRA quintile 2 must not activate Manchester's 2027 contextual route."
       },
       {
         "criterion_id": "uk_school_or_college_below_national_average",
@@ -1288,11 +1283,11 @@
           "contextual",
           "widening_participation"
         ],
-        "description": "Manchester Access Programme participant or completer.",
+      "description": "Verified Manchester Access Programme completer represented through the structured Step 6 UKWPMED programme record.",
         "source_ids": [
           "manchester_medicine_contextual"
         ],
-        "notes": "Completion plus all minimum criteria is required for the guaranteed-interview rule."
+      "notes": "Completion, all minimum criteria and verified achievement of Manchester's applicable current-cycle reduced UCAT threshold are required for the guaranteed-interview rule. Legacy MAP evidence is not accepted."
       }
     ],
     "adjustments": [
@@ -1387,16 +1382,17 @@
           "The applicant completed the Manchester Access Programme.",
           "Manchester verifies the applicant's programme status.",
           "All applicable academic minimums are met.",
-          "UCAT was taken in the application cycle.",
-          "SJT Band 1 or 2 was achieved."
+        "UCAT was taken in the application cycle.",
+        "SJT Band 1 or 2 was achieved.",
+        "Manchester's applicable current-cycle reduced UCAT threshold was met and verified."
         ],
         "source_ids": [
           "manchester_medicine_contextual"
         ],
-        "notes": "This rule bypasses competitive UCAT guidance, not the minimum eligibility gates."
+      "notes": "This rule bypasses ordinary historical guidance only after the applicable current-cycle reduced UCAT threshold is verified. Historical UCAT values cannot establish the guarantee."
       }
     ],
-    "notes": "Manchester contextual routes are derived from shared factual evidence. Generic contextual declarations, generic contextual flags and MAP must not independently prove Manchester contextual-route eligibility. Manchester external-tool verification remains required only for WP+/WP++ GCSE-count adjustment evidence."
+  "notes": "Manchester contextual routes are derived from structured Step 6 factual evidence. Generic contextual declarations, legacy contextual flags and legacy MAP evidence must not independently prove Manchester contextual-route eligibility. Manchester external-tool verification remains authoritative for WP+/WP++ treatment."
   },
   "ranking_pools": [
     {
@@ -1875,10 +1871,10 @@
             "converted_score_2700": 2033
           },
           "home_contextual_wp_minimum_invited": {
-            "original_score": 1890,
+            "original_score": 1960,
             "original_scale": 2700,
-            "raw_converted_score_2700": 1890,
-            "converted_score_2700": 1890
+            "raw_converted_score_2700": 1960,
+            "converted_score_2700": 1960
           },
           "average_interview": {
             "original_score": 2245,

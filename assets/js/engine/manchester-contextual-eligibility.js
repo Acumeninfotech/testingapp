@@ -187,15 +187,6 @@ function resolveAreaCriterion(evidence, normaliseId) {
   const postcode = asObject(evidence.postcode_measures);
   const measures = [
     {
-      measure: 'POLAR4',
-      criterion_id: 'polar4_q1_q2',
-      label: 'POLAR4 quintile 1 or 2',
-      path: 'contextual_profile.home_area_region.polar4_quintile',
-      actual: postcode.polar4_quintile,
-      quintile: normaliseQuintile(postcode.polar4_quintile, normaliseId),
-      qualifying: new Set(['q1', 'q2'])
-    },
-    {
       measure: 'IMD 2019',
       criterion_id: 'imd2019_q1',
       label: 'IMD 2019 quintile 1',
@@ -206,12 +197,12 @@ function resolveAreaCriterion(evidence, normaliseId) {
     },
     {
       measure: 'TUNDRA',
-      criterion_id: 'tundra_q1_q2',
-      label: 'TUNDRA quintile 1 or 2',
+      criterion_id: 'tundra_q1',
+      label: 'TUNDRA quintile 1',
       path: 'contextual_profile.home_area_region.tundra_quintile',
       actual: postcode.tundra_quintile,
       quintile: normaliseQuintile(postcode.tundra_quintile, normaliseId),
-      qualifying: new Set(['q1', 'q2'])
+      qualifying: new Set(['q1'])
     }
   ];
 
@@ -307,9 +298,11 @@ function evaluateManchesterContextualEligibility({ applicant, evidence, helpers 
   const normaliseId = helpers.normaliseId;
   const identity = asObject(applicant.applicant_identity);
   const school = asObject(evidence.school_education);
-  const personal = asObject(evidence.personal_circumstances);
-  const rawPersonal = asObject(asObject(applicant.contextual_profile).personal_circumstances);
-  const legacyFlags = asObject(asObject(applicant.applicant_identity).contextual_flags);
+  // Manchester consumes redesigned Step 6 personal evidence only. The shared
+  // normaliser intentionally exposes legacy compatibility values for older
+  // consumers, so reading its personal bucket here would re-enable retired
+  // applicant_identity.contextual_flags.
+  const personal = asObject(asObject(applicant.contextual_profile).personal_circumstances);
   const assessment = firstVerifiedManchesterToolAssessment(applicant, normaliseId);
   const areaCriterion = resolveAreaCriterion(evidence, normaliseId);
   const schoolCriterion = resolveSchoolCriterion(school, normaliseId);
@@ -473,15 +466,9 @@ function evaluateManchesterContextualEligibility({ applicant, evidence, helpers 
   }
 
   const careOverThreeMonths = personal.care_over_three_months;
-  const explicitCareExperienced =
-    legacyFlags.care_experienced === true
-      ? undefined
-      : rawPersonal.care_experienced;
+  const explicitCareExperienced = personal.care_experienced;
   const ukRefugeeStatusGranted = personal.uk_refugee_status_granted;
-  const explicitRefugeeStatus =
-    legacyFlags.refugee === true || legacyFlags.refugee_or_asylum_seeker === true
-      ? undefined
-      : rawPersonal.refugee;
+  const explicitRefugeeStatus = personal.refugee;
   const ukrainianVisaScheme = personal.ukrainian_visa_scheme;
   const ukrainianVisaMatch = ACCEPTED_UKRAINIAN_VISA_SCHEMES.has(normaliseId(ukrainianVisaScheme));
 

@@ -104,6 +104,19 @@ function structuredMapCompletionEvidence(overrides = {}) {
   }, overrides);
 }
 
+function structuredMapThresholdConfirmedEvidence(overrides = {}) {
+  return structuredMapCompletionEvidence(merge({
+    contextual_profile: {
+      access_programmes: {
+        ukwpmed: {
+          current_cycle_reduced_ucat_threshold_met: true,
+          ucat_threshold_verification_status: 'verified'
+        }
+      }
+    }
+  }, overrides));
+}
+
 function contextualSharedFacts(overrides = {}) {
   return merge({
     applicant_identity: {
@@ -112,8 +125,8 @@ function contextualSharedFacts(overrides = {}) {
     },
     contextual_profile: {
       home_area_region: {
-        polar4_quintile: 'q2',
-        imd_quintile: 'q3',
+        polar4_quintile: 'q4',
+        imd_quintile: 'q1',
         tundra_quintile: 'q4'
       },
       school_education: {
@@ -194,6 +207,40 @@ assert.ok(contextualAabResult.applicant_group_ids.includes('manchester_contextua
 assert.ok(contextualAabResult.applicant_group_ids.includes('contextual'));
 assert.ok(contextualAabResult.applicant_group_ids.includes('widening_participation'));
 
+for (const [label, homeArea] of Object.entries({
+  polar4_q1_is_retired: {
+    polar4_quintile: 'q1',
+    imd_quintile: 'q3',
+    tundra_quintile: 'q4'
+  },
+  tundra_q2_is_not_2027_eligible: {
+    polar4_quintile: 'q4',
+    imd_quintile: 'q3',
+    tundra_quintile: 'q2'
+  }
+})) {
+  const result = classify(merge(
+    contextualSharedFacts({ contextual_profile: { home_area_region: homeArea } }),
+    { a_level_profile: { subjects: contextualAabSubjects() } }
+  ));
+  assert.strictEqual(result.eligibility.status, 'not_eligible', `${label}: eligibility`);
+  assertNoManchesterContextualActivation(result, `${label}: no contextual activation`);
+}
+
+const tundraQ1Result = classify(merge(
+  contextualSharedFacts({
+    contextual_profile: {
+      home_area_region: {
+        polar4_quintile: 'q4',
+        imd_quintile: 'q3',
+        tundra_quintile: 'q1'
+      }
+    }
+  }),
+  { a_level_profile: { subjects: contextualAabSubjects() } }
+));
+assert.strictEqual(tundraQ1Result.eligibility.academic_pathway_id, 'manchester_contextual_aab_offer');
+
 const contextualPrediction = predictManchester(merge(
   contextualSharedFacts(),
   {
@@ -205,6 +252,18 @@ const contextualPrediction = predictManchester(merge(
 assert.strictEqual(contextualPrediction.result_card.recommendation_display_state, 'standard');
 assert.strictEqual(contextualPrediction.result_card.academic_pathway_id, 'manchester_contextual_aab_offer');
 assert.strictEqual(contextualPrediction.result_card.contextual_status, 'confirmed');
+assert.strictEqual(
+  contextualPrediction.result_card.decision_transparency.ucat_comparison.comparison_type,
+  'historical_threshold'
+);
+assert.strictEqual(
+  contextualPrediction.result_card.decision_transparency.ucat_comparison.benchmark_min,
+  1960
+);
+assert.strictEqual(
+  contextualPrediction.result_card.decision_transparency.ucat_comparison.benchmark_max,
+  null
+);
 assert.deepStrictEqual(contextualPrediction.result_card.alternative_academic_offer, {
   type: 'contextual',
   standard_offer: 'AAA',
@@ -265,8 +324,8 @@ const missingSchoolResult = classify({
   },
   contextual_profile: {
     home_area_region: {
-      polar4_quintile: 'q2',
-      imd_quintile: 'q3',
+      polar4_quintile: 'q4',
+      imd_quintile: 'q1',
       tundra_quintile: 'q4'
     }
   },
@@ -414,6 +473,22 @@ assertNoManchesterContextualActivation(
   'Generic contextual flags must not activate Manchester contextual routes.'
 );
 
+for (const [label, contextualFlags] of Object.entries({
+  legacy_care_flag_only: { care_experienced: true },
+  legacy_refugee_flag_only: { refugee: true, refugee_or_asylum_seeker: true }
+})) {
+  const result = classify({
+    applicant_identity: {
+      age_at_course_start_band: 'age_19',
+      current_uk_residence: 'yes',
+      contextual_flags: contextualFlags
+    },
+    a_level_profile: { subjects: refugeeCareAbbSubjects() }
+  });
+  assert.strictEqual(result.eligibility.status, 'not_eligible', `${label}: eligibility`);
+  assertNoManchesterContextualActivation(result, `${label}: no contextual activation`);
+}
+
 const legacyAgeResult = classify(merge(
   contextualSharedFacts({
     applicant_identity: {
@@ -446,7 +521,7 @@ const mapGuaranteedInterview = classify({
   }
 });
 assert.strictEqual(mapGuaranteedInterview.eligibility.status, 'eligible');
-assert.strictEqual(mapGuaranteedInterview.interview_outcome, 'guaranteed_interview');
+assert.notStrictEqual(mapGuaranteedInterview.interview_outcome, 'guaranteed_interview');
 assert.strictEqual(mapGuaranteedInterview.eligibility.academic_pathway_id, 'manchester_standard_offer');
 assertNoManchesterContextualActivation(
   mapGuaranteedInterview,
@@ -457,34 +532,35 @@ const structuredMapGuaranteedInterview = classify(
   structuredMapCompletionEvidence()
 );
 assert.strictEqual(structuredMapGuaranteedInterview.eligibility.status, 'eligible');
-assert.strictEqual(structuredMapGuaranteedInterview.interview_outcome, 'guaranteed_interview');
+assert.notStrictEqual(structuredMapGuaranteedInterview.interview_outcome, 'guaranteed_interview');
 assert.strictEqual(structuredMapGuaranteedInterview.eligibility.academic_pathway_id, 'manchester_standard_offer');
 assertNoManchesterContextualActivation(
   structuredMapGuaranteedInterview,
   'Structured UKWPMED MAP completion must trigger only the MAP guaranteed-interview override.'
 );
-assert.strictEqual(
-  structuredMapGuaranteedInterview.guaranteed_interview_explanation,
-  'Based on the information provided, you meet the published criteria for a guaranteed interview through the Manchester Access Programme (MAP).'
-);
+assert.strictEqual(structuredMapGuaranteedInterview.guaranteed_interview_explanation, undefined);
 
 const structuredMapPrediction = predictManchester(
   structuredMapCompletionEvidence()
 );
-assert.strictEqual(structuredMapPrediction.result_card.interview_outcome, 'guaranteed_interview');
-assert.strictEqual(
-  structuredMapPrediction.result_card.primary_explanation,
-  'Based on the information provided, you meet the published criteria for a guaranteed interview through the Manchester Access Programme (MAP).'
+assert.notStrictEqual(structuredMapPrediction.result_card.interview_outcome, 'guaranteed_interview');
+assert.strictEqual(structuredMapPrediction.result_card.guaranteed_interview_notice, null);
+assert.strictEqual(structuredMapPrediction.result_card.guaranteed_interview_badge_label, null);
+
+const verifiedMapGuaranteedInterview = classify(
+  structuredMapThresholdConfirmedEvidence()
 );
-assert.strictEqual(
-  structuredMapPrediction.result_card.guaranteed_interview_notice,
-  'You meet the published requirements for the MAP guaranteed-interview route.'
+assert.strictEqual(verifiedMapGuaranteedInterview.interview_outcome, 'guaranteed_interview');
+
+const verifiedMapPrediction = predictManchester(
+  structuredMapThresholdConfirmedEvidence()
 );
+assert.strictEqual(verifiedMapPrediction.result_card.interview_outcome, 'guaranteed_interview');
 assert.strictEqual(
-  structuredMapPrediction.result_card.guaranteed_interview_badge_label,
-  'Guaranteed Interview'
+  verifiedMapPrediction.result_card.guaranteed_interview_notice,
+  'Your verified MAP completion and confirmed current-cycle reduced UCAT threshold meet the published guaranteed-interview requirements.'
 );
-const mapSelectionStage = structuredMapPrediction.result_card.decision_transparency?.decision_path?.find((stage) => {
+const mapSelectionStage = verifiedMapPrediction.result_card.decision_transparency?.decision_path?.find((stage) => {
   return stage.stage === 'Selection model';
 });
 const mapApplicantPoolCheck = (mapSelectionStage?.checks || []).find((entry) => {

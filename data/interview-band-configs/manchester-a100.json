@@ -61,20 +61,7 @@
       "outcome": "guaranteed_interview",
       "interview_outcome": "guaranteed_interview",
       "apply_ucat_guidance_band": false,
-      "applicant_evidence_path": "contextual_evidence.manchester_access_programme",
-      "required_evidence": {
-        "completed": true,
-        "verified": true
-      },
       "any_conditions": [
-        {
-          "condition_id": "manchester_map_legacy_contextual_evidence",
-          "applicant_evidence_path": "contextual_evidence.manchester_access_programme",
-          "required_evidence": {
-            "completed": true,
-            "verified": true
-          }
-        },
         {
           "condition_id": "manchester_map_structured_ukwpmed_completion",
           "applicant_evidence_path": "contextual_profile.access_programmes.ukwpmed",
@@ -82,18 +69,20 @@
             "status": "yes",
             "programme_id": "manchester_access_programme",
             "programme_status": "completed",
-            "provider_university_id": "manchester-a100"
+            "provider_university_id": "manchester-a100",
+            "current_cycle_reduced_ucat_threshold_met": true,
+            "ucat_threshold_verification_status": "verified"
           }
         }
       ],
       "applicant_facing_explanation": "Based on the information provided, you meet the published criteria for a guaranteed interview through the Manchester Access Programme (MAP).",
-      "confirmation_notice": "You meet the published requirements for the MAP guaranteed-interview route.",
+      "confirmation_notice": "Your verified MAP completion and confirmed current-cycle reduced UCAT threshold meet the published guaranteed-interview requirements.",
       "applicant_pool_label": "Manchester Access Programme (MAP)",
       "recommendation_badge_label": "Guaranteed Interview",
       "source_ids": [
         "manchester_medicine_contextual"
       ],
-      "notes": "The result-card/consumer integration must apply this production override before ordinary historical band output."
+      "notes": "The override applies only when structured MAP completion and the current-cycle reduced UCAT threshold are both verified. Historical UCAT guidance must never prove this condition."
     },
     "derived_applicant_groups": [],
     "unsupported_and_insufficient_evidence_groups": [
@@ -170,22 +159,14 @@
       {
         "group_id": "home_contextual_wp",
         "entry_years": [
-          2022,
-          2023,
-          2024,
-          2025,
           2026
         ],
         "minimum_invited_values_2700": [
-          1860,
-          1965,
-          1875,
-          1890,
-          1890
+          1960
         ],
         "observed_range": {
-          "min": 1860,
-          "max": 1965
+          "min": 1960,
+          "max": 1960
         }
       },
       {
@@ -267,22 +248,26 @@
         ]
       },
       "metric": "ucat_total",
+      "comparison_guidance": {
+        "comparison_type": "historical_threshold",
+        "label": "2026 WP+ threshold",
+        "caveat": "Manchester's published 2026-entry WP+ threshold was 1960/2700. This is previous-cycle context only, not the 2027 threshold or an interview guarantee."
+      },
       "band_rules": [
         {
           "band": "interview_likely",
           "operator": "greater_than",
-          "value": 1965
+          "value": 1960
         },
         {
           "band": "realistic",
-          "operator": "between_inclusive",
-          "min": 1860,
-          "max": 1965
+          "operator": "greater_than_or_equal",
+          "value": 1960
         },
         {
           "band": "high_risk",
           "operator": "less_than",
-          "value": 1860
+          "value": 1960
         }
       ]
     },
