@@ -831,7 +831,7 @@
         "notes": "34 points with 7,6,6 HL (7 required in the science subject), or 36 points with 6,6,6 HL. HL subjects must include Chemistry or Biology plus one of Chemistry/Biology/Physics/Mathematics/Sports Science/Psychology. Sports Science is not in the shared subject catalogue and is recorded as a research note only."
       },
       "scottish": {
-        "status": "official_source_verified_manual_review_in_engine_v1",
+        "status": "official_source_verified_executable_academic_eligibility",
         "source_ids": [
           "leicester_a100_entry_requirements"
         ],
@@ -885,11 +885,173 @@
           "evidence_gap": true,
           "blocking": false
         },
-        "grade_requirements": [],
+        "grade_requirements": [
+          {
+            "academic_pathway": "standard",
+            "applies_to_group_ids": [
+              "home_fee",
+              "school_leaver"
+            ],
+            "excluded_group_ids": [
+              "international_fee"
+            ],
+            "decision_outcome_if_not_met": "not_eligible",
+            "source_ids": [
+              "leicester_a100_entry_requirements"
+            ],
+            "requirement_id": "leicester_scottish_ah_aaa_biology_route",
+            "route_id": "leicester_scottish_ah_aaa_biology_route",
+            "qualification_level": "advanced_higher",
+            "grade_profile": [
+              "A",
+              "A",
+              "A"
+            ],
+            "required_subject_ids": [
+              "biology"
+            ],
+            "one_of_subject_groups": [
+              {
+                "group_id": "leicester_ah_second_subject_after_biology",
+                "minimum_required": 1,
+                "subject_ids": [
+                  "chemistry",
+                  "physics",
+                  "mathematics",
+                  "psychology"
+                ]
+              }
+            ],
+            "notes": "Leicester Scottish route 1: AAA at Advanced Higher including Biology and one further distinct accepted subject."
+          },
+          {
+            "academic_pathway": "standard",
+            "applies_to_group_ids": [
+              "home_fee",
+              "school_leaver"
+            ],
+            "excluded_group_ids": [
+              "international_fee"
+            ],
+            "decision_outcome_if_not_met": "not_eligible",
+            "source_ids": [
+              "leicester_a100_entry_requirements"
+            ],
+            "requirement_id": "leicester_scottish_ah_aaa_chemistry_route",
+            "route_id": "leicester_scottish_ah_aaa_chemistry_route",
+            "qualification_level": "advanced_higher",
+            "grade_profile": [
+              "A",
+              "A",
+              "A"
+            ],
+            "required_subject_ids": [
+              "chemistry"
+            ],
+            "one_of_subject_groups": [
+              {
+                "group_id": "leicester_ah_second_subject_after_chemistry",
+                "minimum_required": 1,
+                "subject_ids": [
+                  "biology",
+                  "physics",
+                  "mathematics",
+                  "psychology"
+                ]
+              }
+            ],
+            "notes": "Leicester Scottish route 1: AAA at Advanced Higher including Chemistry and one further distinct accepted subject."
+          },
+          {
+            "academic_pathway": "standard",
+            "applies_to_group_ids": [
+              "home_fee",
+              "school_leaver"
+            ],
+            "excluded_group_ids": [
+              "international_fee"
+            ],
+            "decision_outcome_if_not_met": "not_eligible",
+            "source_ids": [
+              "leicester_a100_entry_requirements"
+            ],
+            "requirement_id": "leicester_scottish_ah_aa_plus_higher_aab_biology_route",
+            "route_id": "leicester_scottish_ah_aa_plus_higher_aab_biology_route",
+            "qualification_level": "scottish_highers_and_advanced_highers",
+            "advanced_higher_grade_profile": [
+              "A",
+              "A"
+            ],
+            "higher_grade_profile": [
+              "A",
+              "A",
+              "B"
+            ],
+            "advanced_higher_required_subject_ids": [
+              "biology"
+            ],
+            "advanced_higher_one_of_subject_groups": [
+              {
+                "group_id": "leicester_ah_second_science_after_biology",
+                "minimum_required": 1,
+                "subject_ids": [
+                  "chemistry",
+                  "physics",
+                  "mathematics",
+                  "psychology"
+                ]
+              }
+            ],
+            "notes": "Leicester Scottish route 2: AA in two Advanced Higher sciences including Biology, plus AAB in three Higher subjects."
+          },
+          {
+            "academic_pathway": "standard",
+            "applies_to_group_ids": [
+              "home_fee",
+              "school_leaver"
+            ],
+            "excluded_group_ids": [
+              "international_fee"
+            ],
+            "decision_outcome_if_not_met": "not_eligible",
+            "source_ids": [
+              "leicester_a100_entry_requirements"
+            ],
+            "requirement_id": "leicester_scottish_ah_aa_plus_higher_aab_chemistry_route",
+            "route_id": "leicester_scottish_ah_aa_plus_higher_aab_chemistry_route",
+            "qualification_level": "scottish_highers_and_advanced_highers",
+            "advanced_higher_grade_profile": [
+              "A",
+              "A"
+            ],
+            "higher_grade_profile": [
+              "A",
+              "A",
+              "B"
+            ],
+            "advanced_higher_required_subject_ids": [
+              "chemistry"
+            ],
+            "advanced_higher_one_of_subject_groups": [
+              {
+                "group_id": "leicester_ah_second_science_after_chemistry",
+                "minimum_required": 1,
+                "subject_ids": [
+                  "biology",
+                  "physics",
+                  "mathematics",
+                  "psychology"
+                ]
+              }
+            ],
+            "notes": "Leicester Scottish route 2: AA in two Advanced Higher sciences including Chemistry, plus AAB in three Higher subjects."
+          }
+        ],
         "required_subject_ids": [],
         "one_of_subject_groups": [],
-        "execution_status": "manual_review_required_engine_v1_cannot_jointly_assess_higher_and_advanced_higher_profiles",
-        "notes": "Highers alone are explicitly not accepted. Scottish Advanced-Higher-based routes are official but remain a manual-review route in the generic classifier, consistent with other universities in this engine."
+        "execution_status": "automatic_academic_route_with_manual_review_for_unpublished_gcse_equivalence_scoring",
+        "route_implemented": true,
+        "notes": "Highers alone are explicitly not accepted. ApplySmart automatically checks Leicester's two published Scottish post-16 routes. Leicester separately assesses National 5 qualifications or school transcripts for GCSE equivalence; because no numerical conversion is published, the official academic and combined selection scores remain manual review."
       },
       "btec": {
         "status": "not_supported_by_supplied_dossier",

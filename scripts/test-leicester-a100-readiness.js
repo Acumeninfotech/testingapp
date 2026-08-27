@@ -9,7 +9,8 @@ const {
 const {
   buildDecisionTimeline,
   buildDecisionTransparency,
-  buildEvidenceConfidence
+  buildEvidenceConfidence,
+  presentResultCard
 } = require('../assets/js/engine/result-card-presenter');
 const {
   loadUcatDecileData
@@ -228,6 +229,84 @@ for (const scenario of fixture.scenarios) {
   assert.strictEqual(result.offer_prediction_status, undefined);
   assert.strictEqual(hasNestedKey(result, 'offer_probability'), false);
 }
+
+// --- Phase 2 cross-qualification routing and Scottish score boundary ---
+function resultForScenario(scenarioId) {
+  const scenario = fixture.scenarios.find((entry) => entry.scenario_id === scenarioId);
+  assert.ok(scenario, `missing scenario ${scenarioId}`);
+  const applicant = merge(fixture.base_applicant, scenario.overrides);
+  return {
+    applicant,
+    result: classifyInterviewBand(course, config, applicant, {
+      ucatDecileData: ucatDeciles
+    })
+  };
+}
+
+const scotlandALevel = resultForScenario(
+  'leicester_cross_qualification_scotland_a_level_standard_scoring'
+).result;
+assert.ok(scotlandALevel.applicant_group_ids.includes('scotland_domiciled'));
+assert.strictEqual(scotlandALevel.eligibility.qualification_route, 'a_level');
+assert.strictEqual(scotlandALevel.ranking.value, 80);
+assert.strictEqual(scotlandALevel.ranking.components.gcse_score.value, 36);
+
+const scotlandScottish = resultForScenario(
+  'leicester_cross_qualification_scotland_scottish_ah_aaa'
+);
+assert.ok(scotlandScottish.result.applicant_group_ids.includes('scotland_domiciled'));
+assert.strictEqual(scotlandScottish.result.eligibility.qualification_route, 'scottish');
+assert.strictEqual(scotlandScottish.result.eligibility.status, 'manual_review');
+assert.ok(
+  scotlandScottish.result.eligibility.checks.some(
+    (check) => check.check_id === 'scottish_post_16_requirements' && check.status === 'pass'
+  )
+);
+assert.deepStrictEqual(
+  scotlandScottish.result.eligibility.manual_review_reasons,
+  ['qualification_route_requires_manual_review:scottish']
+);
+assert.strictEqual(scotlandScottish.result.ranking, null);
+assert.strictEqual(scotlandScottish.result.band_metric, null);
+
+const englandScottish = resultForScenario(
+  'leicester_cross_qualification_england_scottish_ah_aaa'
+).result;
+assert.ok(englandScottish.applicant_group_ids.includes('england_domiciled'));
+assert.ok(!englandScottish.applicant_group_ids.includes('scotland_domiciled'));
+assert.strictEqual(englandScottish.eligibility.qualification_route, 'scottish');
+assert.strictEqual(englandScottish.ranking, null);
+
+const route2Scottish = resultForScenario(
+  'leicester_cross_qualification_scotland_scottish_ah_aa_higher_aab'
+).result;
+assert.ok(
+  route2Scottish.eligibility.checks.some(
+    (check) =>
+      check.check_id === 'scottish_post_16_requirements' &&
+      check.status === 'pass' &&
+      check.qualification_level === 'scottish_highers_and_advanced_highers'
+  )
+);
+assert.strictEqual(route2Scottish.ranking, null);
+
+const scottishResultCard = presentResultCard({
+  eligibilityStatus: scotlandScottish.result.eligibility.status,
+  interviewBand: scotlandScottish.result.canonical_interview_band,
+  manualReviewRequired: true,
+  transparencyContext: {
+    ...scotlandScottish.result,
+    course_identity: { profile_id: course.profile_id },
+    applicant_context: scotlandScottish.applicant,
+    eligibility_checks: scotlandScottish.result.eligibility.checks,
+    score_model: config.score_model,
+    stage_1_eligibility: course.stage_1_eligibility
+  }
+});
+assert.match(scottishResultCard.information_needed_reason, /Scottish qualification route met/i);
+assert.match(scottishResultCard.information_needed_reason, /does not publish its equivalency conversion/i);
+assert.match(scottishResultCard.information_needed_reason, /cannot calculate the official academic or combined selection score/i);
+assert.strictEqual(scottishResultCard.prediction.available, false);
 
 // --- Official GCSE worked example reproduced exactly via the live classifier ---
 const worked = classifyInterviewBand(

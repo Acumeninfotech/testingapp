@@ -11,17 +11,20 @@
     ]
   },
   "eligibility": {
-    "scope": "Automatic classifier handling is restricted to supported predicted/achieved A-level and IB school-leaver routes, the graduate eligibility gate, and the Access to Medicine eligibility gate, with complete GCSE, UCAT and SJT evidence.",
+    "scope": "Automatic classifier handling covers supported predicted/achieved A-level and IB school-leaver routes, Leicester's published Scottish post-16 academic routes, the graduate eligibility gate, and the Access to Medicine eligibility gate. Scottish-qualified applicants require manual review only for Leicester's unpublished GCSE-equivalence scoring conversion.",
     "international_english_language_required": true,
     "qualification_routes": {
       "supported": [
         "a_level",
         "international_baccalaureate",
+        "scottish",
         "graduate",
         "access_to_medicine"
       ],
+      "manual_review": [
+        "scottish"
+      ],
       "explicitly_blocked": [
-        "scottish",
         "international_qualification",
         "access_to_he",
         "unknown"
@@ -235,7 +238,7 @@
       ]
     },
     "manual_review_routes": [
-      "Scottish Advanced Higher plus Higher joint evaluation",
+      "Scottish National 5 or school-transcript equivalency conversion and resulting /48 academic and /96 combined selection scores",
       "Irish Leaving Certificate route",
       "Country-specific international qualification equivalence (ECCTIS)",
       "Home-schooled applicant further-details review",
@@ -246,13 +249,18 @@
       "Access to Medicine diploma-provider approval and CV/employment-history verification",
       "Graduate degree/A-level bonus interaction edge cases beyond the two published worked examples"
     ],
+    "use_course_eligibility_for_qualification_routes": [
+      "scottish"
+    ],
     "do_not_infer": [
       "Do not present 2026-entry /96-scale combined-score thresholds as guaranteed 2027 official thresholds.",
       "Do not hardcode UCAT points bands below 1800; rely on the minimum_total_score gate instead.",
       "Do not invent MMI station counts, raw UCAT averages, or an exact GCSE-mitigation bonus value.",
       "Do not implement offer prediction or the re-applicant 5%-below-waitlist rule as executable logic.",
       "Do not treat the restricted 2027 UKWPMED route as a generally available contextual pathway.",
-      "Do not infer country-specific international qualification equivalence."
+      "Do not infer country-specific international qualification equivalence.",
+      "Do not convert National 5 grades or Scottish school transcripts into Leicester GCSE points because Leicester does not publish that numerical equivalency conversion.",
+      "Do not calculate or display a Leicester /48 academic score or /96 combined selection score for Scottish-qualified applicants until Leicester has completed its individual equivalency assessment."
     ]
   },
   "score_model": {

@@ -306,18 +306,105 @@
       }
     },
     {
-      "scenario_id": "leicester_scottish_route_not_implemented",
+      "scenario_id": "leicester_cross_qualification_scotland_a_level_standard_scoring",
+      "overrides": {
+        "applicant_identity": { "domicile": "Scotland" }
+      },
+      "expected": {
+        "eligibility_status": "eligible",
+        "guidance_pool_id": "leicester_home_predicted_a_level_or_equivalent",
+        "interview_band": "realistic",
+        "failure": null,
+        "review_boundary": false
+      }
+    },
+    {
+      "scenario_id": "leicester_cross_qualification_scotland_scottish_ah_aaa",
       "overrides": {
         "qualification_route": "scottish",
-        "applicant_identity": {
-          "applicant_type": "standard_school_leaver",
-          "fee_status": "Home",
-          "domicile": "Scotland"
-        },
+        "gcse_profile": null,
+        "a_level_profile": null,
+        "applicant_identity": { "domicile": "Scotland" },
         "scottish_profile": {
           "advanced_higher_subjects": [
             { "subject_id": "chemistry", "grade": "A" },
-            { "subject_id": "biology", "grade": "A" }
+            { "subject_id": "biology", "grade": "A" },
+            { "subject_id": "mathematics", "grade": "A" }
+          ]
+        }
+      },
+      "expected": {
+        "eligibility_status": "manual_review",
+        "guidance_pool_id": null,
+        "interview_band": "insufficient_evidence",
+        "failure": null,
+        "review_boundary": true
+      }
+    },
+    {
+      "scenario_id": "leicester_cross_qualification_england_scottish_ah_aaa",
+      "overrides": {
+        "qualification_route": "scottish",
+        "gcse_profile": null,
+        "a_level_profile": null,
+        "applicant_identity": { "domicile": "England" },
+        "scottish_profile": {
+          "advanced_higher_subjects": [
+            { "subject_id": "chemistry", "grade": "A" },
+            { "subject_id": "physics", "grade": "A" },
+            { "subject_id": "english", "grade": "A" }
+          ]
+        }
+      },
+      "expected": {
+        "eligibility_status": "manual_review",
+        "guidance_pool_id": null,
+        "interview_band": "insufficient_evidence",
+        "failure": null,
+        "review_boundary": true
+      }
+    },
+    {
+      "scenario_id": "leicester_cross_qualification_scotland_scottish_ah_aa_higher_aab",
+      "overrides": {
+        "qualification_route": "scottish",
+        "gcse_profile": null,
+        "a_level_profile": null,
+        "applicant_identity": { "domicile": "Scotland" },
+        "scottish_profile": {
+          "advanced_higher_subjects": [
+            { "subject_id": "biology", "grade": "A" },
+            { "subject_id": "chemistry", "grade": "A" }
+          ],
+          "higher_subjects": [
+            { "subject_id": "english", "grade": "A" },
+            { "subject_id": "history", "grade": "A" },
+            { "subject_id": "geography", "grade": "B" }
+          ]
+        }
+      },
+      "expected": {
+        "eligibility_status": "manual_review",
+        "guidance_pool_id": null,
+        "interview_band": "insufficient_evidence",
+        "failure": null,
+        "review_boundary": true
+      }
+    },
+    {
+      "scenario_id": "leicester_scottish_highers_alone_not_eligible",
+      "overrides": {
+        "qualification_route": "scottish",
+        "gcse_profile": null,
+        "a_level_profile": null,
+        "applicant_identity": { "domicile": "Scotland" },
+        "scottish_profile": {
+          "higher_subjects": [
+            { "subject_id": "biology", "grade": "A" },
+            { "subject_id": "chemistry", "grade": "A" },
+            { "subject_id": "mathematics", "grade": "A" },
+            { "subject_id": "english", "grade": "A" },
+            { "subject_id": "physics", "grade": "B" }
           ]
         }
       },
@@ -325,7 +412,57 @@
         "eligibility_status": "not_eligible",
         "guidance_pool_id": null,
         "interview_band": "not_eligible",
-        "failure": "qualification_route_explicitly_blocked:scottish",
+        "failure": "scottish_post_16_requirements_not_met",
+        "review_boundary": true
+      }
+    },
+    {
+      "scenario_id": "leicester_scottish_ah_aaa_subject_structure_not_met",
+      "overrides": {
+        "qualification_route": "scottish",
+        "gcse_profile": null,
+        "a_level_profile": null,
+        "applicant_identity": { "domicile": "England" },
+        "scottish_profile": {
+          "advanced_higher_subjects": [
+            { "subject_id": "chemistry", "grade": "A" },
+            { "subject_id": "english", "grade": "A" },
+            { "subject_id": "history", "grade": "A" }
+          ]
+        }
+      },
+      "expected": {
+        "eligibility_status": "not_eligible",
+        "guidance_pool_id": null,
+        "interview_band": "not_eligible",
+        "failure": "scottish_post_16_requirements_not_met",
+        "review_boundary": true
+      }
+    },
+    {
+      "scenario_id": "leicester_scottish_route_2_higher_aab_not_met",
+      "overrides": {
+        "qualification_route": "scottish",
+        "gcse_profile": null,
+        "a_level_profile": null,
+        "applicant_identity": { "domicile": "Scotland" },
+        "scottish_profile": {
+          "advanced_higher_subjects": [
+            { "subject_id": "biology", "grade": "A" },
+            { "subject_id": "chemistry", "grade": "A" }
+          ],
+          "higher_subjects": [
+            { "subject_id": "english", "grade": "A" },
+            { "subject_id": "history", "grade": "B" },
+            { "subject_id": "geography", "grade": "B" }
+          ]
+        }
+      },
+      "expected": {
+        "eligibility_status": "not_eligible",
+        "guidance_pool_id": null,
+        "interview_band": "not_eligible",
+        "failure": "scottish_post_16_requirements_not_met",
         "review_boundary": true
       }
     }

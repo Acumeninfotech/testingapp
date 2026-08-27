@@ -1890,6 +1890,8 @@ const FAILURE_REASON_LABELS = {
 
 const SOUTHAMPTON_SCOTTISH_CASE_BY_CASE_REVIEW_REASON =
   "You meet Southampton's published minimum Scottish academic requirements, but Southampton assesses Scottish qualification offers on a case-by-case basis. ApplySmart cannot automatically confirm final academic eligibility.";
+const LEICESTER_SCOTTISH_EQUIVALENCY_REVIEW_REASON =
+  "Scottish qualification route met: Your Advanced Higher and Higher qualifications meet Leicester's published academic requirements. Leicester will separately assess your National 5 qualifications or school transcript for GCSE equivalence and calculate the academic component of your interview-selection score. As Leicester does not publish its equivalency conversion, ApplySmart cannot calculate the official academic or combined selection score. Manual review is required.";
 
 function futureConditionAdvisories(futureConditions = [], options = {}) {
   const universityName = options.universityName || 'this university';
@@ -2114,6 +2116,43 @@ function southamptonScottishCaseByCaseReviewReason(card = {}) {
   }
 
   return SOUTHAMPTON_SCOTTISH_CASE_BY_CASE_REVIEW_REASON;
+}
+
+function leicesterScottishEquivalencyReviewReason(card = {}) {
+  const profileId = card.course_identity?.profile_id || card.course_profile_id || card.profile_id;
+  if (profileId !== 'leicester-a100') {
+    return null;
+  }
+
+  const qualificationRoute = normaliseCheckId(
+    card.applicant_context?.qualification_route ||
+    card.qualification_route ||
+    card.eligibility?.qualification_route
+  );
+  if (qualificationRoute !== 'scottish') {
+    return null;
+  }
+
+  const reasons = [
+    ...(Array.isArray(card.eligibility?.manual_review_reasons)
+      ? card.eligibility.manual_review_reasons
+      : []),
+    ...(Array.isArray(card.manual_review_reasons)
+      ? card.manual_review_reasons
+      : [])
+  ].map(normaliseCheckId);
+  if (!reasons.includes('qualification_route_requires_manual_review_scottish')) {
+    return null;
+  }
+
+  const checks = Array.isArray(card.eligibility_checks) ? card.eligibility_checks : [];
+  const scottishPost16Passed = checks.some((check) => {
+    return normaliseCheckId(check?.check_id || check?.check) === 'scottish_post_16_requirements' &&
+      normaliseCheckId(
+        check?.status || check?.decision_outcome || (check?.passed === true ? 'pass' : '')
+      ) === 'pass';
+  });
+  return scottishPost16Passed ? LEICESTER_SCOTTISH_EQUIVALENCY_REVIEW_REASON : null;
 }
 
 function titleCaseGroupLabel(groupId) {
@@ -6063,6 +6102,7 @@ function publicInformationNeededReason({
     const lancasterAccessWpReviewReason = lancasterAccessToMedicineWpReviewReason(card, missingInformation);
     const glasgowReachCompletionReason = glasgowReachCompletionInformationNeededReason(card);
     const southamptonScottishReviewReason = southamptonScottishCaseByCaseReviewReason(card);
+    const leicesterScottishReviewReason = leicesterScottishEquivalencyReviewReason(card);
     const uclScottishPredictedA1Reason = uclScottishPredictedA1ConfirmationExplanation(card);
     if (glasgowReachCompletionReason) {
       return glasgowReachCompletionReason;
@@ -6072,6 +6112,9 @@ function publicInformationNeededReason({
     }
     if (southamptonScottishReviewReason) {
       return southamptonScottishReviewReason;
+    }
+    if (leicesterScottishReviewReason) {
+      return leicesterScottishReviewReason;
     }
     if (lancasterAccessWpReviewReason) {
       return appendNotARejection(lancasterAccessWpReviewReason);
@@ -6854,6 +6897,7 @@ function presentResultCard({
     glasgowReachCompletionReason,
     uclScottishPredictedA1ConfirmationExplanation(transparencyContext),
     southamptonScottishCaseByCaseReviewReason(transparencyContext),
+    leicesterScottishEquivalencyReviewReason(transparencyContext),
     transparencyContext.decision_transparency?.manual_review_reason,
     manualReviewReason
   ) || GENERIC_MANUAL_REVIEW_EXPLANATION;
