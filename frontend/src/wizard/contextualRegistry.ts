@@ -201,6 +201,7 @@ export const UNIVERSITY_LABELS: Record<string, string> = {
   'lancashire-a100': 'University of Lancashire / UCLan',
   'leeds-a100': 'University of Leeds',
   'leicester-a100': 'University of Leicester',
+  'lincoln-a100': 'University of Lincoln',
   'manchester-a100': 'University of Manchester',
   'newcastle-a100': 'Newcastle University',
   'oxford-a100': 'University of Oxford',
@@ -300,6 +301,7 @@ export const OTHER_ACCESS_PROGRAMMES: readonly OtherAccessProgrammeOption[] = [
   { programme_id: 'bristol_virtual_summer_school', label: 'Virtual Summer School' },
   { programme_id: 'bristol_scholars', label: 'Bristol Scholars' },
   { programme_id: 'lancaster_access_to_medicine', label: 'Lancaster Access to Medicine' },
+  { programme_id: 'lincoln_lms_wp_summer_school', label: 'Lincoln Medical School WP Summer School' },
   { programme_id: 'sutton_trust_online', label: 'Sutton Trust Online' },
   {
     programme_id: 'sutton_trust_post16_non_nottingham',

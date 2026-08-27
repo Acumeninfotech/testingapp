@@ -329,7 +329,8 @@ const COURSES_WITH_CONTEXTUAL_EVALUATOR_GROUP_CONTROL = [
   'king-s-college-london-a100',
   'newcastle-a100',
   'brighton-and-sussex-a100',
-  'sunderland-a100'
+  'sunderland-a100',
+  'lincoln-a100'
 ];
 
 const ABERDEEN_LEGACY_CONTEXTUAL_GROUP_IDS = [
@@ -469,6 +470,22 @@ const SUNDERLAND_LEGACY_CONTEXTUAL_GROUP_IDS = [
   'military_family'
 ];
 
+const LINCOLN_LEGACY_CONTEXTUAL_GROUP_IDS = [
+  'contextual',
+  'widening_participation',
+  'care_experienced',
+  'care_leaver',
+  'refugee',
+  'ucat_bursary',
+  'lincoln_care_leaver',
+  'lincoln_refugee',
+  'lincoln_mem2_q1',
+  'lincoln_mem2_q2',
+  'lincoln_ucat_bursary',
+  'lincoln_lms_wp_summer_school',
+  'lincolnshire_residence'
+];
+
 const KCL_LEGACY_CONTEXTUAL_GROUP_IDS = [
   'contextual',
   'widening_participation',
@@ -541,7 +558,8 @@ const COURSES_WITH_ACTIVATED_CONTEXTUAL_GROUPS = [
   'king-s-college-london-a100',
   'newcastle-a100',
   'brighton-and-sussex-a100',
-  'sunderland-a100'
+  'sunderland-a100',
+  'lincoln-a100'
 ];
 
 const SCOTTISH_MEDICAL_SCHOOL_ROUTE_IDS = Object.freeze([
@@ -772,6 +790,11 @@ function applyCourseSpecificDerivedApplicantGroups(course, applicant, groupIds, 
   }
   if (course?.profile_id === 'sunderland-a100' && contextualResult) {
     for (const groupId of SUNDERLAND_LEGACY_CONTEXTUAL_GROUP_IDS) {
+      groups.delete(groupId);
+    }
+  }
+  if (course?.profile_id === 'lincoln-a100' && contextualResult) {
+    for (const groupId of LINCOLN_LEGACY_CONTEXTUAL_GROUP_IDS) {
       groups.delete(groupId);
     }
   }

@@ -11,6 +11,31 @@
       "contextual": false,
       "contextual_flags": {}
     },
+    "contextual_profile": {
+      "home_area_region": {
+        "specific_home_area": "none",
+        "polar4_quintile": "q5",
+        "imd_quintile": "q5",
+        "mem_quintile": "q5"
+      },
+      "financial_support": {
+        "free_school_meals": "no",
+        "ucat_bursary_recipient": "no"
+      },
+      "school_education": {
+        "below_average_gcse_school": "no",
+        "below_average_post16_school": "no",
+        "low_progression_to_higher_education_school": "no"
+      },
+      "personal_circumstances": {
+        "care_leaver": "no",
+        "refugee": "no",
+        "disability": "no"
+      },
+      "access_programmes": {
+        "other_programmes": []
+      }
+    },
     "qualification_route": "a_level",
     "qualification_status": "predicted",
     "course_target": {
@@ -130,6 +155,15 @@
     {
       "scenario_id": "model_a_contextual_cap_12",
       "overrides": {
+        "contextual_profile": {
+          "home_area_region": {
+            "specific_home_area": "lincolnshire",
+            "mem_quintile": "q1"
+          },
+          "financial_support": {
+            "ucat_bursary_recipient": "yes"
+          }
+        },
         "admissions_tests": {
           "ucat": {
             "total_score": 2310,
@@ -191,6 +225,59 @@
         "guidance_pool_id": "model_b_provisional_official_score_guidance",
         "score": 44,
         "score_max": 60
+      }
+    },
+    {
+      "scenario_id": "contextual_aab_biology_eligible",
+      "overrides": {
+        "a_level_profile": {
+          "qualification_status": "predicted",
+          "subjects": [
+            { "subject_id": "biology", "predicted_grade": "A" },
+            { "subject_id": "chemistry", "predicted_grade": "A" },
+            { "subject_id": "mathematics", "predicted_grade": "B" }
+          ]
+        },
+        "contextual_profile": {
+          "home_area_region": {
+            "specific_home_area": "lincolnshire",
+            "mem_quintile": "q1"
+          },
+          "financial_support": {
+            "ucat_bursary_recipient": "yes"
+          }
+        }
+      },
+      "expected": {
+        "eligibility_status": "eligible",
+        "interview_band": "interview_likely",
+        "guidance_pool_id": "model_a_provisional_official_score_guidance",
+        "score": 58,
+        "score_max": 60,
+        "contextual_component": 12,
+        "uncapped_score": 58,
+        "cap_applied": false
+      }
+    },
+    {
+      "scenario_id": "standard_aab_biology_rejected",
+      "overrides": {
+        "a_level_profile": {
+          "qualification_status": "predicted",
+          "subjects": [
+            { "subject_id": "biology", "predicted_grade": "A" },
+            { "subject_id": "chemistry", "predicted_grade": "A" },
+            { "subject_id": "mathematics", "predicted_grade": "B" }
+          ]
+        }
+      },
+      "expected": {
+        "eligibility_status": "not_eligible",
+        "interview_band": "not_eligible",
+        "guidance_pool_id": null,
+        "score": null,
+        "score_max": null,
+        "failure": "a_level_requirements_not_met"
       }
     },
     {

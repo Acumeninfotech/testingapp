@@ -5044,7 +5044,21 @@ function classifyInterviewBand(course, config, applicantInput, options = {}) {
   const groupIds = useCourseEligibility
     ? eligibility.applicant_group_ids
     : preliminaryGroupIds;
-  const resolvedEligibility = useCourseEligibility
+  const preserveClassifierHardFilters =
+    contextualEvaluatorControlsGroupRouting &&
+    contextualRoutingPolicy.preserve_classifier_hard_filters === true;
+  const resolvedEligibility = preserveClassifierHardFilters
+    ? {
+      ...evaluateHardFilters(
+        course,
+        classificationConfig,
+        applicant,
+        groupIds,
+        courseEligibility
+      ),
+      contextual_eligibility: courseEligibility?.contextual_eligibility || null
+    }
+    : useCourseEligibility
     ? applyClassificationEligibilityGuards(
       eligibility,
       classificationConfig,

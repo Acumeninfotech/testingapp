@@ -773,7 +773,7 @@ export function ContextualStep({ profile, updateProfile, errors }: StepProps) {
       const baseFlags = current.home_area_region.regional_flags ?? {};
       const nextFlags =
         normalised === null
-          ? baseFlags
+          ? clearLegacyFlagGroup(baseFlags, HOME_REGION_FLAG_KEYS)
           : normalised === 'unknown'
             ? applyLegacyFlagGroup(baseFlags, HOME_REGION_FLAG_KEYS, [], 'unknown')
             : normalised === 'none'
@@ -797,7 +797,7 @@ export function ContextualStep({ profile, updateProfile, errors }: StepProps) {
       const baseFlags = current.home_area_region.regional_flags ?? {};
       const nextFlags =
         normalised === null
-          ? baseFlags
+          ? clearLegacyFlagGroup(baseFlags, SPECIFIC_HOME_AREA_FLAG_KEYS)
           : normalised === 'unknown'
             ? applyLegacyFlagGroup(baseFlags, SPECIFIC_HOME_AREA_FLAG_KEYS, [], 'unknown')
             : normalised === 'none'

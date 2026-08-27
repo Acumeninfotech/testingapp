@@ -208,6 +208,7 @@
         "grade_requirements": [
           {
             "requirement_id": "lincoln_a_level_aaa_biology",
+            "academic_pathway": "standard",
             "grade_profile": [
               "A",
               "A",
@@ -221,6 +222,28 @@
                 "subject_id": "biology",
                 "minimum_grade": "A"
               }
+            ]
+          },
+          {
+            "requirement_id": "lincoln_contextual_aab_biology",
+            "academic_pathway": "contextual",
+            "grade_profile": [
+              "A",
+              "A",
+              "B"
+            ],
+            "required_subject_ids": [
+              "biology"
+            ],
+            "subject_grade_requirements": [
+              {
+                "subject_id": "biology",
+                "minimum_grade": "A"
+              }
+            ],
+            "applies_to_group_ids": [
+              "home_fee",
+              "contextual"
             ]
           }
         ],
@@ -540,6 +563,13 @@
     "notes": "The 45-50/60 competitive zone is used only as a low-confidence provisional strategic benchmark. It is not an official Lincoln cutoff, and modelled interview numbers remain display-only context."
   },
   "contextual_admissions": {
+    "contextual_eligibility": {
+      "evaluator_id": "lincoln_contextual_medicine_a100",
+      "evidence_source": "redesigned_step_6_contextual_profile",
+      "controls_group_routing": true,
+      "preserve_classifier_hard_filters": true,
+      "legacy_contextual_activation": false
+    },
     "available": true,
     "verification_status": "official_source_verified",
     "source_ids": [
@@ -577,7 +607,7 @@
       }
     ],
     "guaranteed_interview_rules": [],
-    "notes": "Lincoln contextual criteria alter Model A pre-interview scoring through an official capped matrix and may reduce offer conditions. They are not a separate pool and do not apply to degree holders.",
+    "notes": "Lincoln contextual eligibility is derived only from redesigned Step 6 factual evidence through the shared contextual framework. Legacy flags and raw applicant-group IDs cannot independently activate contextual points or the contextual offer. Confirmed Lincoln contextual criteria alter Model A pre-interview scoring through an official capped matrix and may reduce offer conditions. They are not a separate pool and do not apply to degree holders.",
     "interview_selection_adjustment": {
       "applies": true,
       "model": "additive_contextual_points_capped_at_12_for_model_a_only",

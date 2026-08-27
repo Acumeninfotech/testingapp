@@ -389,6 +389,30 @@ describe('ContextualStep', () => {
     expect(profile.contextual_profile.home_area_region.specific_home_area).toBe('none');
   });
 
+  it('clears canonical region selections and their legacy compatibility flags', () => {
+    const { profile } = renderStep();
+
+    selectValue('contextual_home_region', 'south_west_england');
+    selectValue('contextual_specific_home_area', 'lincolnshire');
+
+    expect(profile.contextual_profile.home_area_region.regional_flags).toMatchObject({
+      south_west_england_resident: 'yes',
+      lincolnshire_resident: 'yes',
+    });
+
+    selectValue('contextual_home_region', '');
+    selectValue('contextual_specific_home_area', '');
+
+    expect(profile.contextual_profile.home_area_region.home_region).toBeNull();
+    expect(profile.contextual_profile.home_area_region.specific_home_area).toBeNull();
+    expect(profile.contextual_profile.home_area_region.regional_flags).not.toHaveProperty(
+      'south_west_england_resident',
+    );
+    expect(profile.contextual_profile.home_area_region.regional_flags).not.toHaveProperty(
+      'lincolnshire_resident',
+    );
+  });
+
   it('leaves unavailable partial data manually selectable', async () => {
     lookupContextualPostcodeMock.mockResolvedValue({
       matched: true,

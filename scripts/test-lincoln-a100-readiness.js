@@ -255,6 +255,50 @@ assert.match(
   'Capped Lincoln result card must explain that raw total was capped.'
 );
 
+const legacyContextualOnlyApplicant = merge(fixture.base_applicant, {
+  applicant_group_ids: [
+    'contextual',
+    'widening_participation',
+    'lincoln_care_leaver',
+    'lincoln_mem2_q1',
+    'lincoln_ucat_bursary',
+    'lincolnshire_residence'
+  ],
+  applicant_identity: {
+    contextual: true,
+    widening_participation: true,
+    contextual_flags: {
+      care_leaver: true,
+      mem2_q1: true,
+      ucat_bursary: true,
+      lincolnshire_residence: true
+    }
+  }
+});
+const legacyContextualOnlyResult = classifyInterviewBand(
+  course,
+  config,
+  legacyContextualOnlyApplicant
+);
+assert.strictEqual(
+  legacyContextualOnlyResult.ranking.components.model_a_contextual_capped.value,
+  0,
+  'Legacy Lincoln flags and raw applicant-group IDs must not award contextual points.'
+);
+for (const groupId of [
+  'contextual',
+  'widening_participation',
+  'lincoln_care_leaver',
+  'lincoln_mem2_q1',
+  'lincoln_ucat_bursary',
+  'lincolnshire_residence'
+]) {
+  assert.ok(
+    !legacyContextualOnlyResult.applicant_group_ids.includes(groupId),
+    `Legacy-only applicant must not retain activated Lincoln contextual group ${groupId}`
+  );
+}
+
 const year13 = classifyInterviewBand(course, config, fixture.base_applicant);
 const achieved = classifyInterviewBand(
   course,
