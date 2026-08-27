@@ -87,7 +87,6 @@ function evaluateLincolnContextualEligibility({ applicant, evidence, helpers }) 
     lincolnshire
   ];
   const offerEligible = offerChecks.some((candidate) => candidate.status === 'matched');
-  const offerMissing = !offerEligible && offerChecks.filter((candidate) => candidate.status === 'missing');
 
   const mem = postcode.mem_quintile;
   const scoringChecks = [
@@ -103,10 +102,10 @@ function evaluateLincolnContextualEligibility({ applicant, evidence, helpers }) 
 
   if (!offerEligible) {
     return {
-      status: offerMissing.length ? 'information_needed' : 'not_contextual',
-      reason: offerMissing.length ? 'lincoln_contextual_offer_information_needed' : 'lincoln_contextual_offer_criteria_not_met',
-      manual_review_reason: offerMissing.length ? 'lincoln_contextual_offer_information_needed' : null,
-      is_contextual: false, qualifying_criteria: [], exclusions: [], missing_information: offerMissing,
+      status: 'not_contextual',
+      reason: 'lincoln_contextual_offer_criteria_not_met',
+      manual_review_reason: null,
+      is_contextual: false, qualifying_criteria: [], exclusions: [], missing_information: [],
       checks: { contextual_offer: offerChecks, scoring: scoringChecks }, activated_applicant_group_ids: []
     };
   }

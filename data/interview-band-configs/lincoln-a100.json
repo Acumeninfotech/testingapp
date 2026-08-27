@@ -17,10 +17,10 @@
       "supported": [
         "a_level",
         "graduate",
-        "undergraduate"
+        "undergraduate",
+        "scottish"
       ],
       "manual_review": [
-        "scottish",
         "international_baccalaureate",
         "international_qualification",
         "access_to_medicine"
@@ -29,6 +29,10 @@
         "deferred_entry"
       ]
     },
+    "use_course_eligibility_for_qualification_routes": [
+      "scottish",
+      "scottish_advanced_highers"
+    ],
     "explicitly_blocked_applicant_groups": [
       "international_fee"
     ],
@@ -102,6 +106,7 @@
       "Do not use estimated interview thresholds as band rules.",
       "Do not apply contextual points to post-qualification or graduate applicants.",
       "Do not use GCSE scoring for achieved A Level, undergraduate or graduate applicants.",
+      "Do not convert Scottish National 5 grades into Lincoln GCSE selection points; Scottish applicants use Model B.",
       "Do not treat provisional prediction bands as official current cut-offs."
     ]
   },
@@ -3607,6 +3612,114 @@
             "undergraduate"
           ]
         }
+      },
+      {
+        "component_id": "model_b_ucat_cognitive_doubled_scottish",
+        "type": "ucat_range_lookup",
+        "max": 30,
+        "ranges": [
+          {
+            "band": "b15_gt2300_2700",
+            "min": 2301,
+            "max": 2700
+          },
+          {
+            "band": "b14_2170_2290",
+            "min": 2170,
+            "max": 2290
+          },
+          {
+            "band": "b12_2050_2160",
+            "min": 2050,
+            "max": 2160
+          },
+          {
+            "band": "b11_1970_2040",
+            "min": 1970,
+            "max": 2040
+          },
+          {
+            "band": "b10_1910_1960",
+            "min": 1910,
+            "max": 1960
+          },
+          {
+            "band": "b9_1860_1900",
+            "min": 1860,
+            "max": 1900
+          },
+          {
+            "band": "b7_1810_1850",
+            "min": 1810,
+            "max": 1850
+          },
+          {
+            "band": "b6_1750_1800",
+            "min": 1750,
+            "max": 1800
+          },
+          {
+            "band": "b4_1680_1740",
+            "min": 1680,
+            "max": 1740
+          },
+          {
+            "band": "b2_1580_1670",
+            "min": 1580,
+            "max": 1670
+          },
+          {
+            "band": "b0_0_1579",
+            "min": 0,
+            "max": 1579
+          }
+        ],
+        "points_by_band": {
+          "b15_gt2300_2700": 30,
+          "b14_2170_2290": 28,
+          "b12_2050_2160": 24,
+          "b11_1970_2040": 22,
+          "b10_1910_1960": 20,
+          "b9_1860_1900": 18,
+          "b7_1810_1850": 14,
+          "b6_1750_1800": 12,
+          "b4_1680_1740": 8,
+          "b2_1580_1670": 4,
+          "b0_0_1579": 0
+        },
+        "official": true,
+        "notes": "Scottish applicants have no Lincoln GCSE score. Lincoln's published Model B UCAT cognitive points are doubled for the alternative-qualification route.",
+        "match": {
+          "excluded_group_ids": [
+            "international_fee",
+            "graduate_applicant"
+          ],
+          "qualification_routes": [
+            "scottish"
+          ]
+        }
+      },
+      {
+        "component_id": "model_b_sjt_doubled_scottish",
+        "type": "sjt_band_lookup",
+        "max": 30,
+        "points_by_band": {
+          "1": 30,
+          "2": 20,
+          "3": 10
+        },
+        "band_4_outcome": "not_eligible",
+        "official": true,
+        "notes": "Scottish applicants use Lincoln's Model B doubled SJT component.",
+        "match": {
+          "excluded_group_ids": [
+            "international_fee",
+            "graduate_applicant"
+          ],
+          "qualification_routes": [
+            "scottish"
+          ]
+        }
       }
     ],
     "official_vs_estimated_policy": {
@@ -3698,7 +3811,8 @@
         "qualification_routes": [
           "a_level",
           "graduate",
-          "undergraduate"
+          "undergraduate",
+          "scottish"
         ]
       },
       "metric": "selection_score",

@@ -157,7 +157,10 @@ assert.ok(
 );
 
 for (const scenario of fixture.scenarios) {
-  const applicant = merge(fixture.base_applicant, scenario.overrides);
+  const scenarioBase = scenario.applicant_base === 'scottish'
+    ? fixture.scottish_base_applicant
+    : fixture.base_applicant;
+  const applicant = merge(scenarioBase, scenario.overrides);
   const result = classifyInterviewBand(course, config, applicant);
   const expected = scenario.expected;
 
@@ -236,6 +239,42 @@ for (const scenario of fixture.scenarios) {
   }
 
   assert.strictEqual(result.offer_prediction_status, undefined);
+}
+
+for (const scenarioId of [
+  'model_a_year13_ambitious_zone_score',
+  'cross_qualification_scotland_a_level',
+  'cross_qualification_england_scottish',
+  'cross_qualification_scotland_scottish'
+]) {
+  assert.ok(
+    fixture.scenarios.some((scenario) => scenario.scenario_id === scenarioId),
+    `Lincoln four-route matrix must include ${scenarioId}`
+  );
+}
+
+for (const scenarioId of [
+  'cross_qualification_england_scottish',
+  'cross_qualification_scotland_scottish'
+]) {
+  const scenario = fixture.scenarios.find((candidate) => candidate.scenario_id === scenarioId);
+  const applicant = merge(fixture.scottish_base_applicant, scenario.overrides);
+  const result = classifyInterviewBand(course, config, applicant);
+  assert.strictEqual(
+    result.ranking.components.model_a_gcse_score.applicable,
+    false,
+    `${scenarioId}: Scottish applicants must not receive invented GCSE points`
+  );
+  assert.strictEqual(
+    result.ranking.components.model_b_ucat_cognitive_doubled_scottish.value,
+    24,
+    `${scenarioId}: Scottish route must use doubled Model B UCAT points`
+  );
+  assert.strictEqual(
+    result.ranking.components.model_b_sjt_doubled_scottish.value,
+    20,
+    `${scenarioId}: Scottish route must use doubled Model B SJT points`
+  );
 }
 
 const cappedScenario = fixture.scenarios.find((scenario) =>

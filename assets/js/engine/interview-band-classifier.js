@@ -5046,7 +5046,8 @@ function classifyInterviewBand(course, config, applicantInput, options = {}) {
     : preliminaryGroupIds;
   const preserveClassifierHardFilters =
     contextualEvaluatorControlsGroupRouting &&
-    contextualRoutingPolicy.preserve_classifier_hard_filters === true;
+    contextualRoutingPolicy.preserve_classifier_hard_filters === true &&
+    !routeUsesCourseEligibility;
   const resolvedEligibility = preserveClassifierHardFilters
     ? {
       ...evaluateHardFilters(
