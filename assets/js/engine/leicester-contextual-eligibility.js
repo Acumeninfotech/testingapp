@@ -826,14 +826,6 @@ function evaluateLeicesterContextualEligibility({ applicant, evidence, helpers }
     return results;
   }
 
-  const potentialRoutes = routeResults.filter((routeResult) => routeResult.couldStillApply);
-  if (potentialRoutes.length > 0) {
-    results.status = 'information_needed';
-    results.reason = 'leicester_contextual_information_needed';
-    results.manual_review_reason = 'leicester_contextual_information_needed';
-    results.provisional_activated_applicant_group_ids = [];
-  }
-
   return results;
 }
 

@@ -4914,6 +4914,7 @@ function selectionScoreThresholdText(comparison) {
 
   const difference = comparison.difference;
   const formattedThreshold = formatScorePoints(comparison.threshold);
+  const pointLabel = Math.abs(difference) === 1 ? 'point' : 'points';
   const benchmarkName = comparison.comparison_label ||
     (comparison.provisional
       ? 'ApplySmart advisory benchmark'
@@ -4922,10 +4923,10 @@ function selectionScoreThresholdText(comparison) {
     const suffix = comparison.provisional
       ? 'This result uses ApplySmart advisory modelling, not an official cut-off.'
       : 'This result does not mean the comparison point was met.';
-    return `Your selection score is ${formatScorePoints(Math.abs(difference))} points below the ${benchmarkName} of ${formattedThreshold} for this applicant pool. ${suffix}`;
+    return `Your selection score is ${formatScorePoints(Math.abs(difference))} ${pointLabel} below the ${benchmarkName} of ${formattedThreshold} for this applicant pool. ${suffix}`;
   }
   if (difference > 0) {
-    return `Your selection score is ${formatScorePoints(difference)} points above the ${benchmarkName} of ${formattedThreshold} for this applicant pool.`;
+    return `Your selection score is ${formatScorePoints(difference)} ${pointLabel} above the ${benchmarkName} of ${formattedThreshold} for this applicant pool.`;
   }
   return `Your selection score meets the ${benchmarkName} of ${formattedThreshold} for this applicant pool.`;
 }

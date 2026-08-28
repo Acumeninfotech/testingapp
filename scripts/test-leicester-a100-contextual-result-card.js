@@ -408,7 +408,7 @@ const imdGenericCareOnly = eligibility({
     personal_circumstances: { care_experienced: 'yes', care_leaver: 'yes', care_over_three_months: 'no' }
   }
 });
-assert.strictEqual(imdGenericCareOnly.contextual_eligibility.status, 'information_needed');
+assert.strictEqual(imdGenericCareOnly.contextual_eligibility.status, 'not_contextual');
 assert.ok(!imdGenericCareOnly.contextual_eligibility.activated_applicant_group_ids.includes('leicester_contextual_imd_plus_indicator'));
 
 // AccessLeicester is read from the structured UKWPMED record and provider is verified.
@@ -462,7 +462,7 @@ const restrictedMissingFirstGapYear = eligibility({
   a_level_profile: { subjects: achievedSubjects(['A', 'B', 'B']), sitting_status: 'first_sitting' },
   contextual_profile: { access_programmes: { ukwpmed: structuredAccessLeicester('completed', 'leicester-a100', 2026) } }
 });
-assert.strictEqual(restrictedMissingFirstGapYear.contextual_eligibility.status, 'information_needed');
+assert.strictEqual(restrictedMissingFirstGapYear.contextual_eligibility.status, 'not_contextual');
 
 // One science cannot satisfy both halves of Leicester's two-subject rule.
 const oneAcceptedSubject = eligibility({
@@ -499,7 +499,7 @@ const indicatorWithoutImd = eligibility({
     financial_support: { free_school_meals: 'yes' }
   }
 });
-assert.strictEqual(indicatorWithoutImd.contextual_eligibility.status, 'information_needed');
+assert.strictEqual(indicatorWithoutImd.contextual_eligibility.status, 'not_contextual');
 const indicatorWithoutImdPrediction = predictLeicester({
   a_level_profile: { subjects: predictedSubjects(['A', 'A', 'A']) },
   contextual_profile: {

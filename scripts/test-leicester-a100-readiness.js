@@ -195,6 +195,9 @@ for (const pool of config.guidance_pools) {
 }
 const homePool = config.guidance_pools.find((p) => p.pool_id === 'leicester_home_predicted_a_level_or_equivalent');
 assert.strictEqual(homePool.official_candidate_decile_guidance.min, 79);
+assert.strictEqual(homePool.historical_cutoff.value, 79);
+assert.match(JSON.stringify(card), /1 point above the historical score guide of 79/);
+assert.doesNotMatch(JSON.stringify(card), /1 points above/);
 const overseasPool = config.guidance_pools.find((p) => p.pool_id === 'leicester_overseas_predicted_a_level_or_equivalent');
 assert.strictEqual(overseasPool.official_candidate_decile_guidance.min, 88);
 
