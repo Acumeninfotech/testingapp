@@ -375,11 +375,11 @@ assert.deepStrictEqual(
 );
 assert.match(
   card.decision_timeline[2].summary,
-  /academic eligibility.*UCAT minimum.*UCAT ranking/i
+  /academic eligibility.*UCAT minimum.*ranking.*by UCAT/i
 );
 assert.match(
   JSON.stringify(card.decision_transparency),
-  /UCAT ranking.*Eligible applicants are ranked by UCAT/s
+  /"factor_id":"ucat".*"role":"ranking".*ranking most eligible applicants by UCAT/s
 );
 assert.strictEqual(hasNestedKey(card, 'offer_prediction'), false);
 assert.strictEqual(hasNestedKey(card, 'offer_probability'), false);

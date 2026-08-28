@@ -5816,9 +5816,20 @@ function normaliseExistingDecisionTransparency(card) {
     ...transparency,
     evidence_confidence: transparency.evidence_confidence || card.evidence_confidence || buildEvidenceConfidence(card),
     warnings: [],
-    manual_review_reason: transparency.manual_review_reason ?? null,
-    insufficient_evidence_reason: transparency.insufficient_evidence_reason ?? null
+    manual_review_reason: transparency.manual_review_reason ?? null
   };
+
+  for (const field of [
+    'insufficient_evidence_reason',
+    'insufficient_evidence_reason_code'
+  ]) {
+    const value = firstNonEmptyString(transparency[field]);
+    if (value) {
+      normalised[field] = value;
+    } else {
+      delete normalised[field];
+    }
+  }
 
   const scoreBreakdown = completedCardScoreBreakdown(card, normalised);
   if (scoreBreakdown) {
@@ -6786,8 +6797,12 @@ function buildDecisionTransparency(card, options = {}) {
       ? 'glasgow_reach_completion_required'
       : null,
     information_needed_reason: informationNeededReason,
-    insufficient_evidence_reason: insufficientEvidenceReason,
-    insufficient_evidence_reason_code: insufficientEvidenceReasonCode,
+    ...(insufficientEvidenceReason
+      ? { insufficient_evidence_reason: insufficientEvidenceReason }
+      : {}),
+    ...(insufficientEvidenceReasonCode
+      ? { insufficient_evidence_reason_code: insufficientEvidenceReasonCode }
+      : {}),
     missing_information: missingInformation,
     risk_explanation: riskExplanation,
     compact_status: compactStatus,

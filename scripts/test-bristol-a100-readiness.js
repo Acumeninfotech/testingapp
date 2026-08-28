@@ -428,11 +428,11 @@ assert.deepStrictEqual(
 );
 assert.match(
   card.decision_timeline[2].summary,
-  /academic eligibility.*ranked by UCAT/i
+  /academic eligibility.*ranks eligible applicants by UCAT/i
 );
 assert.match(
   JSON.stringify(card.decision_transparency),
-  /Eligible applicants are ranked by UCAT\. No reliable numerical historical comparison is available/s
+  /historical admissions data provides a benchmark only.*not a current cut-off or a guarantee of interview/i
 );
 assert.strictEqual(hasNestedKey(card, 'offer_prediction'), false);
 assert.strictEqual(hasNestedKey(card, 'offer_probability'), false);

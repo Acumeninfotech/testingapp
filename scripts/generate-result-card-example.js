@@ -3,6 +3,9 @@
 const fs = require('fs');
 const path = require('path');
 const { predict } = require('../server/src/predict');
+const {
+  buildDecisionTransparency
+} = require('../assets/js/engine/result-card-presenter');
 
 const rootDir = path.resolve(__dirname, '..');
 
@@ -219,6 +222,11 @@ if (!generated || typeof generated !== 'object') {
  * It must not replace the complete example JSON.
  */
 function managedProjection(card) {
+  const decisionTransparency = card.decision_transparency &&
+    typeof card.decision_transparency === 'object'
+      ? clone(card.decision_transparency)
+      : null;
+
   return {
     prediction: {
       result_band: card.prediction?.result_band ?? null,
@@ -264,8 +272,7 @@ function managedProjection(card) {
     decision_timeline:
       card.decision_timeline ?? null,
 
-    decision_transparency:
-      card.decision_transparency ?? null
+    decision_transparency: decisionTransparency
   };
 }
 
@@ -314,7 +321,11 @@ function refreshManagedFields(existingCard, generatedCard) {
     'decision_transparency'
   ]) {
     if (hasOwn(generatedCard, field)) {
-      refreshed[field] = clone(generatedCard[field]);
+      refreshed[field] = clone(
+        field === 'decision_transparency'
+          ? buildDecisionTransparency(generatedCard)
+          : generatedCard[field]
+      );
     }
   }
 
