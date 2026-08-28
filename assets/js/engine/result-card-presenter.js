@@ -2544,6 +2544,28 @@ function configuredContextualConfirmation(card = {}, options = {}) {
   };
 }
 
+function configuredContextualInformationNeeded(card = {}, options = {}) {
+  const advisory = configuredPresentation(card, options).contextual_information_needed;
+  if (!advisory || typeof advisory !== 'object' || Array.isArray(advisory)) {
+    return null;
+  }
+
+  const collapsedLabel = firstNonEmptyString(advisory.collapsed_label);
+  const expandedHeading = firstNonEmptyString(advisory.expanded_heading);
+  const expandedBody = firstNonEmptyString(advisory.expanded_body);
+  const considerationLabel = firstNonEmptyString(advisory.consideration_label);
+  if (!collapsedLabel && !expandedHeading && !expandedBody && !considerationLabel) {
+    return null;
+  }
+
+  return {
+    ...(collapsedLabel ? { collapsed_label: collapsedLabel } : {}),
+    ...(expandedHeading ? { expanded_heading: expandedHeading } : {}),
+    consideration_label: considerationLabel || null,
+    ...(expandedBody ? { expanded_body: expandedBody } : {})
+  };
+}
+
 function scottishContextualConfirmationFor(card = {}, contextualStatus = null) {
   if (contextualStatus !== 'confirmed') {
     return null;
@@ -2644,6 +2666,14 @@ function contextualConfirmationFor(card = {}, contextualStatus = null, options =
     card.course_profile_id ||
     card.profile_id ||
     null;
+  if (profileId === 'cambridge-a100') {
+    if (contextualStatus === 'confirmed') {
+      return configuredContextualConfirmation(card, options);
+    }
+    if (contextualStatus === 'information_needed') {
+      return configuredContextualInformationNeeded(card, options);
+    }
+  }
   const edinburghSummary = contextualStatus === 'confirmed'
     ? edinburghContextualSummary(card)
     : null;
@@ -6981,7 +7011,10 @@ function presentResultCard({
     interviewBand === 'insufficient_evidence'
   ) {
 	  display = {
-	      primary_user_facing_recommendation: STANDARD_RECOMMENDATION_HEADLINES.insufficient_evidence,
+	      primary_user_facing_recommendation:
+	        insufficientEvidenceReasonCode === 'university_methodology_gap'
+	          ? 'Prediction Unavailable'
+	          : STANDARD_RECOMMENDATION_HEADLINES.insufficient_evidence,
 	      recommendation_display_state: 'insufficient_evidence',
 	      primary_explanation: contextualRouteSummary
 	        ? `${contextualRouteSummary} ${insufficientEvidencePrimaryExplanation}`
@@ -7173,8 +7206,10 @@ function presentResultCard({
       eligibilityStatus === 'eligible'
     ) &&
     !suppressContextualStatusForUeaProgrammeRoute &&
-    contextualEligibilityConfirmed
-      ? 'confirmed'
+    (contextualEligibilityConfirmed || contextualState.information_needed)
+      ? contextualEligibilityConfirmed
+        ? 'confirmed'
+        : 'information_needed'
       : null;
   const contextualConfirmation = contextualConfirmationFor(transparencyContext, contextualStatus, {
     guaranteedInterview

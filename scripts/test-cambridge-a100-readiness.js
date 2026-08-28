@@ -17,6 +17,10 @@ const {
 const {
   predict
 } = require('../server/src/predict');
+const {
+  CAMBRIDGE_CONTEXTUAL_EVALUATOR_ID,
+  evaluateCambridgeContextualEligibility
+} = require('../assets/js/engine/cambridge-contextual-eligibility');
 
 const rootDir = path.resolve(__dirname, '..');
 
@@ -97,6 +101,7 @@ function makeResultCard(course, config, applicant, classification) {
       applicant_context: applicant,
       applicant_group_ids: classification.applicant_group_ids || [],
       readiness: course.engine_notes,
+      eligibility: classification.eligibility,
       eligibility_checks: classification.eligibility.checks || [],
       eligibility_failures: classification.eligibility.failures || [],
       stage_1_eligibility: course.stage_1_eligibility || null,
@@ -518,6 +523,470 @@ assert.doesNotMatch(studentFacingText, /\bapprox_probability\b/i);
 assert.match(
   JSON.stringify(baseCard.decision_transparency),
   /holistically by college|holistic interview guidance/i
+);
+
+assert.strictEqual(
+  course.contextual_admissions.contextual_eligibility.evaluator_id,
+  CAMBRIDGE_CONTEXTUAL_EVALUATOR_ID
+);
+assert.strictEqual(config.eligibility.contextual_evaluator_controls_group_routing, true);
+assert.strictEqual(Object.hasOwn(config.eligibility, 'derived_applicant_groups'), false);
+
+function contextualEvidence(overrides = {}) {
+  return merge({
+    financial_support: {},
+    school_education: {},
+    personal_circumstances: {},
+    postcode_measures: {}
+  }, overrides);
+}
+
+const evaluatorApplicant = merge(fixture.base_applicant, {
+  applicant_identity: {
+    fee_status: 'home_fee'
+  }
+});
+
+const confirmedFsm = evaluateCambridgeContextualEligibility({
+  applicant: evaluatorApplicant,
+  evidence: contextualEvidence({
+    financial_support: {
+      free_school_meals: 'yes'
+    }
+  })
+});
+assert.strictEqual(confirmedFsm.status, 'contextual');
+assert.strictEqual(confirmedFsm.is_contextual, true);
+assert.deepStrictEqual(confirmedFsm.qualifying_criteria, ['free_school_meals']);
+assert.deepStrictEqual(confirmedFsm.activated_applicant_group_ids, ['contextual']);
+
+const confirmedCare = evaluateCambridgeContextualEligibility({
+  applicant: evaluatorApplicant,
+  evidence: contextualEvidence({
+    personal_circumstances: {
+      care_experienced: 'yes'
+    }
+  })
+});
+assert.strictEqual(confirmedCare.status, 'contextual');
+assert.deepStrictEqual(confirmedCare.qualifying_criteria, ['care_experience']);
+
+const confirmedArea = evaluateCambridgeContextualEligibility({
+  applicant: evaluatorApplicant,
+  evidence: contextualEvidence({
+    postcode_measures: {
+      polar4_quintile: 'q2'
+    }
+  })
+});
+assert.strictEqual(confirmedArea.status, 'contextual');
+assert.deepStrictEqual(confirmedArea.qualifying_criteria, ['polar4_bottom_40_percent']);
+
+const unresolvedContextual = evaluateCambridgeContextualEligibility({
+  applicant: merge(evaluatorApplicant, {
+    contextual_profile: {
+      personal_circumstances: {
+        young_or_adult_carer: 'not_sure'
+      }
+    }
+  }),
+  evidence: contextualEvidence({
+    personal_circumstances: {
+      young_or_adult_carer: 'not_sure'
+    }
+  })
+});
+assert.strictEqual(unresolvedContextual.status, 'information_needed');
+assert.strictEqual(unresolvedContextual.is_contextual, false);
+assert.deepStrictEqual(unresolvedContextual.missing_information, ['young_or_adult_carer']);
+
+const noContextualEvidence = evaluateCambridgeContextualEligibility({
+  applicant: evaluatorApplicant,
+  evidence: contextualEvidence({
+    financial_support: {
+      free_school_meals: 'no'
+    },
+    personal_circumstances: {
+      care_experienced: 'no',
+      young_or_adult_carer: 'no',
+      first_in_family_at_university: 'no'
+    }
+  })
+});
+assert.strictEqual(noContextualEvidence.status, 'not_contextual');
+assert.strictEqual(noContextualEvidence.is_contextual, false);
+assert.deepStrictEqual(noContextualEvidence.activated_applicant_group_ids, []);
+
+const blankWizardContextualEvidence = evaluateCambridgeContextualEligibility({
+  applicant: merge(evaluatorApplicant, {
+    contextual_profile: {
+      home_area_region: {
+        postcode: '',
+        polar4_quintile: 'unknown',
+        imd_quintile: 'unknown',
+        tundra_quintile: 'unknown',
+        postcode_lookup: {
+          status: 'not_checked',
+          values: {
+            polar4: { value: null, source: 'unknown' },
+            tundra: { value: null, source: 'unknown' },
+            imd: { value: null, source: 'unknown', dataset_year: 2019 }
+          }
+        }
+      },
+      financial_support: {},
+      school_education: {},
+      personal_circumstances: {}
+    }
+  }),
+  evidence: contextualEvidence({
+    postcode_measures: {
+      polar4_quintile: 'unknown',
+      tundra_quintile: 'unknown',
+      imd_quintile: 'unknown'
+    }
+  })
+});
+assert.strictEqual(blankWizardContextualEvidence.status, 'not_contextual');
+assert.strictEqual(blankWizardContextualEvidence.is_contextual, false);
+assert.deepStrictEqual(blankWizardContextualEvidence.missing_information, []);
+
+const internationalContextualEvidence = evaluateCambridgeContextualEligibility({
+  applicant: merge(evaluatorApplicant, {
+    applicant_identity: {
+      fee_status: 'international_fee'
+    }
+  }),
+  evidence: contextualEvidence({
+    financial_support: {
+      free_school_meals: 'yes'
+    }
+  })
+});
+assert.strictEqual(internationalContextualEvidence.status, 'not_contextual');
+assert.strictEqual(internationalContextualEvidence.is_contextual, false);
+
+const restOfUkContextualEvidence = evaluateCambridgeContextualEligibility({
+  applicant: merge(evaluatorApplicant, {
+    applicant_identity: {
+      fee_status: 'rest_of_uk_roi_fee_rate'
+    }
+  }),
+  evidence: contextualEvidence({
+    financial_support: {
+      free_school_meals: 'yes'
+    }
+  })
+});
+assert.strictEqual(restOfUkContextualEvidence.status, 'contextual');
+assert.strictEqual(restOfUkContextualEvidence.is_contextual, true);
+
+const legacyOnlyApplicant = merge(fixture.base_applicant, {
+  applicant_group_ids: [
+    'contextual',
+    'widening_participation',
+    'free_school_meals',
+    'care_experienced',
+    'school_contextual_indicator',
+    'postcode_contextual_indicator'
+  ],
+  applicant_identity: {
+    contextual: true,
+    widening_participation: true,
+    contextual_flags: {
+      free_school_meals: true,
+      care_experienced: true,
+      school_contextual_indicator: true,
+      postcode_contextual_indicator: true
+    }
+  }
+});
+const legacyOnlyEligibility = evaluateCourseEligibility(course, legacyOnlyApplicant);
+const legacyOnlyClassification = classifyInterviewBand(course, config, legacyOnlyApplicant);
+assert.strictEqual(legacyOnlyEligibility.contextual_eligibility.status, 'not_contextual');
+assert.strictEqual(legacyOnlyEligibility.contextual_eligibility.is_contextual, false);
+assert.strictEqual(legacyOnlyEligibility.applicant_group_ids.includes('contextual'), false);
+assert.strictEqual(legacyOnlyEligibility.applicant_group_ids.includes('widening_participation'), false);
+assert.strictEqual(legacyOnlyEligibility.applicant_group_ids.includes('free_school_meals'), false);
+assert.strictEqual(legacyOnlyEligibility.applicant_group_ids.includes('care_experienced'), false);
+assert.strictEqual(legacyOnlyClassification.applicant_group_ids.includes('contextual'), false);
+assert.strictEqual(legacyOnlyClassification.applicant_group_ids.includes('widening_participation'), false);
+assert.strictEqual(legacyOnlyClassification.ranking?.value, baseClassification.ranking?.value);
+
+const contextualAStarAAApplicant = merge(fixture.base_applicant, {
+  contextual_profile: {
+    financial_support: {
+      free_school_meals: 'yes'
+    }
+  },
+  a_level_profile: {
+    subjects: [
+      {
+        subject_id: 'chemistry',
+        predicted_grade: 'A*',
+        practical_endorsement: 'pass'
+      },
+      {
+        subject_id: 'biology',
+        predicted_grade: 'A',
+        practical_endorsement: 'pass'
+      },
+      {
+        subject_id: 'mathematics',
+        predicted_grade: 'A'
+      }
+    ]
+  }
+});
+const contextualAStarAAEligibility = evaluateCourseEligibility(course, contextualAStarAAApplicant);
+assert.strictEqual(contextualAStarAAEligibility.contextual_eligibility.status, 'contextual');
+assert.strictEqual(contextualAStarAAEligibility.status, 'not_eligible');
+assert.ok(contextualAStarAAEligibility.failures.includes('a_level_requirements_not_met'));
+
+const confirmedContextualApplicant = merge(fixture.base_applicant, {
+  contextual_profile: {
+    financial_support: {
+      free_school_meals: 'yes'
+    }
+  }
+});
+const confirmedContextualClassification = classifyInterviewBand(
+  course,
+  config,
+  confirmedContextualApplicant
+);
+const confirmedContextualCard = makeResultCard(
+  course,
+  config,
+  confirmedContextualApplicant,
+  confirmedContextualClassification
+);
+assert.strictEqual(confirmedContextualCard.contextual_status, 'confirmed');
+assert.strictEqual(
+  confirmedContextualCard.contextual_confirmation?.collapsed_label,
+  'Contextual information may be considered'
+);
+assert.strictEqual(
+  confirmedContextualCard.contextual_confirmation?.expanded_body,
+  "Cambridge considers contextual information alongside the rest of an applicant's academic and admissions profile. The information you provided indicates that contextual factors may be considered. This does not reduce Cambridge Medicine's published academic requirements or guarantee an interview."
+);
+assert.doesNotMatch(JSON.stringify(confirmedContextualCard.contextual_confirmation), /step\s*6/i);
+assert.doesNotMatch(JSON.stringify(confirmedContextualCard.contextual_confirmation), /reduced offer|guaranteed interview|separate (?:contextual )?pool/i);
+
+const confirmedContextualApiCard = predict({
+  universityIds: ['cambridge-a100'],
+  studentProfile: confirmedContextualApplicant
+})[0].result_card;
+assert.strictEqual(confirmedContextualApiCard.contextual_status, 'confirmed');
+assert.strictEqual(
+  confirmedContextualApiCard.contextual_confirmation?.collapsed_label,
+  'Contextual information may be considered'
+);
+
+const unresolvedContextualApplicant = merge(fixture.base_applicant, {
+  contextual_profile: {
+    personal_circumstances: {
+      young_or_adult_carer: 'not_sure'
+    }
+  }
+});
+const unresolvedContextualClassification = classifyInterviewBand(
+  course,
+  config,
+  unresolvedContextualApplicant
+);
+const unresolvedContextualCard = makeResultCard(
+  course,
+  config,
+  unresolvedContextualApplicant,
+  unresolvedContextualClassification
+);
+assert.strictEqual(unresolvedContextualCard.recommendation_display_state, 'standard');
+assert.strictEqual(unresolvedContextualCard.contextual_status, 'information_needed');
+assert.strictEqual(
+  unresolvedContextualCard.contextual_confirmation?.collapsed_label,
+  'Contextual information incomplete'
+);
+assert.strictEqual(
+  unresolvedContextualCard.contextual_confirmation?.expanded_body,
+  'Some contextual information is incomplete. Cambridge may consider this information as part of its holistic review, but it does not change the published academic requirements.'
+);
+
+assert.strictEqual(baseCard.contextual_status, null);
+assert.strictEqual(baseCard.contextual_confirmation, null);
+
+const blankWizardContextualApplicant = merge(fixture.base_applicant, {
+  contextual_profile: {
+    home_area_region: {
+      postcode: '',
+      polar4_quintile: 'unknown',
+      imd_quintile: 'unknown',
+      tundra_quintile: 'unknown',
+      postcode_lookup: {
+        status: 'not_checked',
+        values: {
+          polar4: { value: null, source: 'unknown' },
+          tundra: { value: null, source: 'unknown' },
+          imd: { value: null, source: 'unknown', dataset_year: 2019 }
+        }
+      }
+    },
+    financial_support: {},
+    school_education: {},
+    personal_circumstances: {}
+  }
+});
+const blankWizardContextualClassification = classifyInterviewBand(
+  course,
+  config,
+  blankWizardContextualApplicant
+);
+const blankWizardContextualCard = makeResultCard(
+  course,
+  config,
+  blankWizardContextualApplicant,
+  blankWizardContextualClassification
+);
+assert.strictEqual(blankWizardContextualCard.contextual_status, null);
+assert.strictEqual(blankWizardContextualCard.contextual_confirmation, null);
+
+function cambridgeScottishApplicant({
+  domicile,
+  feeStatus,
+  advancedHigherSubjects
+}) {
+  return merge(fixture.base_applicant, {
+    applicant_identity: {
+      domicile,
+      fee_status: feeStatus
+    },
+    qualification_route: 'scottish',
+    a_level_profile: null,
+    gcse_profile: null,
+    scottish_profile: {
+      qualification_status: 'predicted',
+      national_5_subjects: [],
+      higher_subjects: [],
+      advanced_higher_subjects: advancedHigherSubjects
+    }
+  });
+}
+
+const qualifyingScottishSubjects = [
+  {
+    subject_id: 'chemistry',
+    predicted_grade: 'A1'
+  },
+  {
+    subject_id: 'biology',
+    predicted_grade: 'A1'
+  },
+  {
+    subject_id: 'mathematics',
+    predicted_grade: 'A2'
+  }
+];
+
+const crossQualificationCases = [
+  {
+    label: 'England domicile with A levels',
+    applicant: merge(fixture.base_applicant, {
+      applicant_identity: {
+        domicile: 'England',
+        fee_status: 'home_fee'
+      }
+    }),
+    expectedRoute: 'a_level'
+  },
+  {
+    label: 'England domicile with Scottish qualifications',
+    applicant: cambridgeScottishApplicant({
+      domicile: 'England',
+      feeStatus: 'home_fee',
+      advancedHigherSubjects: qualifyingScottishSubjects
+    }),
+    expectedRoute: 'scottish'
+  },
+  {
+    label: 'Scotland domicile with Scottish qualifications',
+    applicant: cambridgeScottishApplicant({
+      domicile: 'Scotland',
+      feeStatus: 'rest_of_uk_roi_fee_rate',
+      advancedHigherSubjects: qualifyingScottishSubjects
+    }),
+    expectedRoute: 'scottish'
+  },
+  {
+    label: 'Scotland domicile with A levels',
+    applicant: merge(fixture.base_applicant, {
+      applicant_identity: {
+        domicile: 'Scotland',
+        fee_status: 'rest_of_uk_roi_fee_rate'
+      }
+    }),
+    expectedRoute: 'a_level'
+  }
+];
+
+for (const scenario of crossQualificationCases) {
+  const eligibility = evaluateCourseEligibility(course, scenario.applicant);
+  const classification = classifyInterviewBand(course, config, scenario.applicant);
+  const resultCard = makeResultCard(course, config, scenario.applicant, classification);
+
+  assert.strictEqual(eligibility.qualification_route, scenario.expectedRoute, `${scenario.label}: evaluator route`);
+  assert.strictEqual(classification.eligibility.qualification_route, scenario.expectedRoute, `${scenario.label}: classifier route`);
+  assert.strictEqual(eligibility.status, 'eligible', `${scenario.label}: evaluator eligibility`);
+  assert.strictEqual(classification.eligibility.status, 'eligible', `${scenario.label}: classifier eligibility`);
+  assert.strictEqual(classification.guidance_pool_id, 'cambridge_home_hidden_holistic_guidance', `${scenario.label}: Home guidance pool`);
+  assert.strictEqual(classification.manual_review_required === true, false, `${scenario.label}: no manual review`);
+  assert.notStrictEqual(classification.canonical_interview_band, 'not_eligible', `${scenario.label}: interview guidance`);
+  if (scenario.expectedRoute === 'scottish') {
+    assert.strictEqual(classification.canonical_interview_band, 'insufficient_evidence', `${scenario.label}: prediction unavailable`);
+    assert.strictEqual(classification.insufficient_evidence_reason_code, 'university_methodology_gap', `${scenario.label}: methodology gap reason`);
+    assert.strictEqual(classification.missing_information, null, `${scenario.label}: no GCSE information request`);
+    assert.strictEqual(resultCard.recommendation_display_state, 'insufficient_evidence', `${scenario.label}: Result Card state`);
+    assert.strictEqual(resultCard.primary_user_facing_recommendation, 'Prediction Unavailable', `${scenario.label}: Result Card recommendation`);
+    assert.strictEqual(resultCard.decision_transparency?.insufficient_evidence_reason_code, 'university_methodology_gap', `${scenario.label}: Result Card reason`);
+  } else {
+    assert.strictEqual(resultCard.recommendation_display_state, 'standard', `${scenario.label}: Result Card state`);
+    assert.notStrictEqual(resultCard.primary_user_facing_recommendation, 'More information is required', `${scenario.label}: Result Card recommendation`);
+  }
+}
+
+const subThresholdScottishApplicant = cambridgeScottishApplicant({
+  domicile: 'Scotland',
+  feeStatus: 'rest_of_uk_roi_fee_rate',
+  advancedHigherSubjects: [
+    { subject_id: 'chemistry', predicted_grade: 'A1' },
+    { subject_id: 'biology', predicted_grade: 'A2' },
+    { subject_id: 'mathematics', predicted_grade: 'A2' }
+  ]
+});
+const subThresholdScottishEligibility = evaluateCourseEligibility(
+  course,
+  subThresholdScottishApplicant
+);
+assert.strictEqual(subThresholdScottishEligibility.status, 'not_eligible');
+assert.ok(
+  subThresholdScottishEligibility.failures.includes('scottish_post_16_requirements_not_met')
+);
+
+const missingScottishChemistryApplicant = cambridgeScottishApplicant({
+  domicile: 'England',
+  feeStatus: 'home_fee',
+  advancedHigherSubjects: [
+    { subject_id: 'biology', predicted_grade: 'A1' },
+    { subject_id: 'physics', predicted_grade: 'A1' },
+    { subject_id: 'mathematics', predicted_grade: 'A2' }
+  ]
+});
+const missingScottishChemistryEligibility = evaluateCourseEligibility(
+  course,
+  missingScottishChemistryApplicant
+);
+assert.strictEqual(missingScottishChemistryEligibility.status, 'not_eligible');
+assert.ok(
+  missingScottishChemistryEligibility.failures.includes('scottish_post_16_requirements_not_met')
 );
 
 console.log('Cambridge A100 readiness regression passed.');

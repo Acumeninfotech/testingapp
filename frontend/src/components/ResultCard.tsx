@@ -1005,8 +1005,12 @@ export function ResultCard({ result }: { result: PredictionResult }) {
   const advisoryLine = visibleTrustStatement ? compactSentence(visibleTrustStatement) : null;
   const contextualStatusConfirmed =
     card.contextual_status === 'confirmed' && card.recommendation_display_state === 'standard';
+  const contextualStatusInformationNeeded =
+    card.contextual_status === 'information_needed' && card.recommendation_display_state === 'standard';
+  const contextualPresentationVisible =
+    contextualStatusConfirmed || contextualStatusInformationNeeded;
   const contextualConfirmation =
-    contextualStatusConfirmed && card.contextual_confirmation && typeof card.contextual_confirmation === 'object'
+    contextualPresentationVisible && card.contextual_confirmation && typeof card.contextual_confirmation === 'object'
       ? card.contextual_confirmation
       : null;
   const contextualCollapsedMessage =

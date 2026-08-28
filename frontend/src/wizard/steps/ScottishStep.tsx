@@ -9,6 +9,10 @@ import {
 import type { StepProps } from './StepProps';
 
 const GRADE_OPTIONS = ['A', 'B', 'C', 'D'].map((g) => ({ value: g, label: g }));
+const ADVANCED_HIGHER_GRADE_OPTIONS = ['A1', 'A2', 'A', 'B', 'C', 'D'].map((g) => ({
+  value: g,
+  label: g,
+}));
 const SCHOOL_YEAR_OPTIONS = [
   { value: 's4', label: 'S4' },
   { value: 's5', label: 'S5' },
@@ -50,11 +54,13 @@ function padScottishSubjectRows(subjects: ScottishSubject[], minimumRows: number
 function SubjectGradeList({
   subjects,
   fieldPrefix,
+  gradeOptions = GRADE_OPTIONS,
   onUpdate,
   errors,
 }: {
   subjects: ScottishSubject[];
   fieldPrefix: string;
+  gradeOptions?: { value: string; label: string }[];
   onUpdate: (index: number, subject: ScottishSubject) => void;
   errors: StepProps['errors'];
 }) {
@@ -79,7 +85,7 @@ function SubjectGradeList({
             id={`${fieldPrefix}_${index}_grade`}
             label="Grade"
             value={subject.grade}
-            options={GRADE_OPTIONS}
+            options={gradeOptions}
             error={errors[`${fieldPrefix}_${index}_grade`]}
             onChange={(value) => onUpdate(index, { ...subject, grade: value as ScottishSubject['grade'] })}
           />
@@ -115,6 +121,7 @@ function ScottishQualificationSection({
   status,
   subjects,
   fieldPrefix,
+  gradeOptions,
   errors,
   defaultOpen = false,
   onUpdate,
@@ -123,6 +130,7 @@ function ScottishQualificationSection({
   status: 'Required' | 'Optional';
   subjects: ScottishSubject[];
   fieldPrefix: string;
+  gradeOptions?: { value: string; label: string }[];
   errors: StepProps['errors'];
   defaultOpen?: boolean;
   onUpdate: (index: number, subject: ScottishSubject) => void;
@@ -160,6 +168,7 @@ function ScottishQualificationSection({
           <SubjectGradeList
             subjects={subjects}
             fieldPrefix={fieldPrefix}
+            gradeOptions={gradeOptions}
             errors={errors}
             onUpdate={onUpdate}
           />
@@ -239,6 +248,7 @@ export function ScottishStep({ profile, updateProfile, errors }: StepProps) {
         status="Optional"
         subjects={visibleAdvancedHigherSubjects}
         fieldPrefix="advanced_higher_subjects"
+        gradeOptions={ADVANCED_HIGHER_GRADE_OPTIONS}
         errors={errors}
         onUpdate={(index, subject) =>
           updateProfile((prev) => {

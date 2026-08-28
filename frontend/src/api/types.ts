@@ -286,7 +286,7 @@ export interface ResultCard {
   primary_explanation: string;
   academic_pathway?: string | null;
   academic_pathway_id?: string | null;
-  contextual_status?: 'confirmed' | null;
+  contextual_status?: 'confirmed' | 'information_needed' | null;
   contextual_confirmation?: {
     collapsed_label?: string | null;
     expanded_heading?: string | null;

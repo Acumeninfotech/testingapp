@@ -178,7 +178,12 @@
         "notes": "HL Chemistry plus one or two of Biology, Physics and Mathematics depending on college. ApplySmart implements Chemistry plus at least one further science/maths HL route."
       },
       "scottish": {
-        "status": "official_source_verified_with_route_execution_gap",
+        "status": "official_source_verified",
+        "route_implemented": true,
+        "supported_applicant_pools": [
+          "home",
+          "ruk"
+        ],
         "advanced_higher_offer": "A1, A1, A2 including Chemistry and the same science/maths subject rules as A Level.",
         "required_subjects": [
           "chemistry",
@@ -186,7 +191,36 @@
           "physics",
           "mathematics"
         ],
-        "notes": "A1/A2 Advanced Higher precision is not represented in the current generic grade-rank engine, so Scottish profiles require manual review unless entered as equivalent A-level-style evidence."
+        "grade_requirements": [
+          {
+            "requirement_id": "cambridge_scottish_a1_a1_a2_advanced_highers",
+            "route_id": "cambridge_scottish_a1_a1_a2_advanced_highers",
+            "qualification_level": "advanced_higher",
+            "grade_profile": [
+              "A1",
+              "A1",
+              "A2"
+            ],
+            "required_subject_ids": [
+              "chemistry"
+            ],
+            "one_of_subject_groups": [
+              {
+                "group_id": "second_science_or_maths",
+                "subject_ids": [
+                  "biology",
+                  "physics",
+                  "mathematics"
+                ],
+                "minimum_required": 1
+              }
+            ],
+            "applies_to_group_ids": [
+              "home_fee"
+            ]
+          }
+        ],
+        "notes": "ApplySmart evaluates the published A1, A1, A2 Advanced Higher requirement for Home applicants, including Chemistry plus at least one further science or Mathematics. College-specific subject preferences remain applicant-facing guidance rather than universal gates."
       },
       "graduate": {
         "status": "official_source_verified_with_manual_review_boundary",
@@ -333,6 +367,13 @@
       "cambridge_a100_research_doc"
     ],
     "available": true,
+    "contextual_eligibility": {
+      "evaluator_id": "cambridge_contextual_medicine_a100",
+      "controls_group_routing": true,
+      "preserve_classifier_hard_filters": true,
+      "evidence_source": "redesigned_step_6_factual_evidence",
+      "legacy_contextual_activation": false
+    },
     "applies_to_group_ids": [
       "contextual",
       "widening_participation",

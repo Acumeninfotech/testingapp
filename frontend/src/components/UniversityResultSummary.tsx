@@ -230,7 +230,7 @@ export function UniversityResultSummary({
   const reason = firstCompleteSentence(resultCardRecommendationExplanation(card));
   const academicStatus = resultCardAcademicStatus(card);
   const contextualCollapsedLabel =
-    card.contextual_status === 'confirmed' &&
+    ['confirmed', 'information_needed'].includes(card.contextual_status || '') &&
     card.recommendation_display_state === 'standard' &&
     typeof card.contextual_confirmation?.collapsed_label === 'string' &&
     card.contextual_confirmation.collapsed_label.trim()

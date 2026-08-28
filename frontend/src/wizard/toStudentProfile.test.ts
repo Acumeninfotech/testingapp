@@ -212,6 +212,24 @@ describe('toStudentProfile A-level mapping', () => {
 });
 
 describe('toStudentProfile Scottish route filtering', () => {
+  it('preserves A1 and A2 Advanced Higher grades for Cambridge assessment', () => {
+    const profile = createEmptyProfile();
+    profile.course_target.qualification_route = 'scottish';
+    profile.scottish_profile.advanced_higher_subjects = [
+      { subject_id: 'chemistry', grade: 'A1', school_year: 's6', first_attempt: true },
+      { subject_id: 'biology', grade: 'A1', school_year: 's6', first_attempt: true },
+      { subject_id: 'mathematics', grade: 'A2', school_year: 's6', first_attempt: true },
+    ];
+
+    const studentProfile = toStudentProfile(profile);
+    const advancedHighers = (studentProfile.scottish_profile as {
+      advanced_higher_subjects: { subject_id: string; grade: string; predicted_grade: string }[];
+    }).advanced_higher_subjects;
+
+    expect(advancedHighers.map((subject) => subject.grade)).toEqual(['A1', 'A1', 'A2']);
+    expect(advancedHighers.map((subject) => subject.predicted_grade)).toEqual(['A1', 'A1', 'A2']);
+  });
+
   function profileWithScottishRouteAndStaleEnglishQualifications() {
     const profile = createEmptyProfile();
     profile.course_target.qualification_route = 'scottish';

@@ -795,6 +795,46 @@ describe('ResultCard', () => {
     expect(screen.queryByText('Contextual eligibility confirmed')).not.toBeInTheDocument();
   });
 
+  it('shows configured expanded contextual information-needed wording without changing eligibility', () => {
+    render(
+      <ResultCard
+        result={makeResult(
+          {
+            contextual_status: 'information_needed',
+            contextual_confirmation: {
+              collapsed_label: 'Contextual information incomplete',
+              expanded_heading: 'Cambridge contextual information',
+              consideration_label: 'Information needed:',
+              expanded_body:
+                'Some contextual information is incomplete. Cambridge may consider this information as part of its holistic review, but it does not change the published academic requirements.',
+            },
+          },
+          {
+            universityId: 'cambridge-a100',
+            university: 'University of Cambridge',
+          },
+        )}
+      />,
+    );
+
+    const contextualSection = document.querySelector(
+      '.result-card-contextual-confirmation',
+    );
+
+    expect(contextualSection).not.toBeNull();
+    expect(
+      within(contextualSection as HTMLElement).getByRole('heading', {
+        name: 'Cambridge contextual information',
+      }),
+    ).toBeInTheDocument();
+    expect(contextualSection).toHaveTextContent(
+      'Information needed: Some contextual information is incomplete. Cambridge may consider this information as part of its holistic review, but it does not change the published academic requirements.',
+    );
+    expect(
+      screen.queryByText(CONTEXTUAL_CONFIRMED_MESSAGE),
+    ).not.toBeInTheDocument();
+  });
+
   it('renders Aston contextual wording and offer comparison without Aston Ready wording', () => {
     render(
       <ResultCard

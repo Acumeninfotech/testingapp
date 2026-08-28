@@ -282,6 +282,33 @@ describe('ResultsPage', () => {
     expect(screen.queryByText(/Contextual consideration:/)).not.toBeInTheDocument();
   });
 
+  it('shows an unresolved Cambridge contextual advisory without changing the recommendation', () => {
+    const result = makeResult('cambridge-a100', 'University of Cambridge', {
+      contextual_status: 'information_needed',
+      contextual_confirmation: {
+        collapsed_label: 'Contextual information incomplete',
+        expanded_heading: 'Cambridge contextual information',
+        consideration_label: 'Information needed:',
+        expanded_body:
+          'Some contextual information is incomplete. Cambridge may consider this information as part of its holistic review, but it does not change the published academic requirements.',
+      },
+      decision_transparency: {
+        compact_status: {
+          label: 'You meet the academic requirements.',
+          type: 'academic_status',
+          tone: 'positive',
+        },
+      },
+    });
+
+    render(<ResultsPage results={[result]} onStartOver={() => {}} />);
+
+    expect(screen.getByText('Possible choice for your application')).toBeInTheDocument();
+    expect(screen.getByText('Contextual information incomplete')).toBeInTheDocument();
+    expect(screen.getByText('You meet the academic requirements.')).toBeInTheDocument();
+    expect(screen.queryByText(/Step 6/i)).not.toBeInTheDocument();
+  });
+
   it('does not repeat an academic status that duplicates the contextual confirmation', () => {
     const result = makeResult('leicester-a100', 'University of Leicester', {
       contextual_status: 'confirmed',

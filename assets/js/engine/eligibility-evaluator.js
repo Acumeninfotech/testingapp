@@ -22,7 +22,9 @@ const A_LEVEL_GRADE_RANK = {
   D: 2,
   C: 3,
   B: 4,
+  A2: 5,
   A: 5,
+  A1: 6,
   'A*': 6
 };
 
@@ -330,7 +332,8 @@ const COURSES_WITH_CONTEXTUAL_EVALUATOR_GROUP_CONTROL = [
   'newcastle-a100',
   'brighton-and-sussex-a100',
   'sunderland-a100',
-  'lincoln-a100'
+  'lincoln-a100',
+  'cambridge-a100'
 ];
 
 const ABERDEEN_LEGACY_CONTEXTUAL_GROUP_IDS = [
@@ -486,6 +489,28 @@ const LINCOLN_LEGACY_CONTEXTUAL_GROUP_IDS = [
   'lincolnshire_residence'
 ];
 
+const CAMBRIDGE_LEGACY_CONTEXTUAL_GROUP_IDS = [
+  'contextual',
+  'widening_participation',
+  'care_experienced',
+  'young_carer',
+  'young_adult_carer',
+  'unpaid_carer',
+  'carer',
+  'free_school_meals',
+  'first_in_family',
+  'polar4_quintile_1',
+  'polar4_quintile_2',
+  'polar_quintile_1',
+  'polar_quintile_2',
+  'imd_quintile_1',
+  'imd_quintile_2',
+  'tundra_quintile_1',
+  'tundra_quintile_2',
+  'school_contextual_indicator',
+  'postcode_contextual_indicator'
+];
+
 const KCL_LEGACY_CONTEXTUAL_GROUP_IDS = [
   'contextual',
   'widening_participation',
@@ -559,7 +584,8 @@ const COURSES_WITH_ACTIVATED_CONTEXTUAL_GROUPS = [
   'newcastle-a100',
   'brighton-and-sussex-a100',
   'sunderland-a100',
-  'lincoln-a100'
+  'lincoln-a100',
+  'cambridge-a100'
 ];
 
 const SCOTTISH_MEDICAL_SCHOOL_ROUTE_IDS = Object.freeze([
@@ -795,6 +821,11 @@ function applyCourseSpecificDerivedApplicantGroups(course, applicant, groupIds, 
   }
   if (course?.profile_id === 'lincoln-a100' && contextualResult) {
     for (const groupId of LINCOLN_LEGACY_CONTEXTUAL_GROUP_IDS) {
+      groups.delete(groupId);
+    }
+  }
+  if (course?.profile_id === 'cambridge-a100' && contextualResult) {
+    for (const groupId of CAMBRIDGE_LEGACY_CONTEXTUAL_GROUP_IDS) {
       groups.delete(groupId);
     }
   }

@@ -68,13 +68,15 @@ export type PersonalCircumstanceFieldKey =
 export type PersonalCircumstanceValue = SensitiveAnswer | UkrainianVisaScheme;
 
 // Scottish route: applicant.scottish_profile.{national_5_subjects,
-// higher_subjects, advanced_higher_subjects}, letter grades A*-U plus SQA
+// higher_subjects, advanced_higher_subjects}, SQA letter grades plus Cambridge's
+// published A1/A2 Advanced Higher bands and sitting evidence.
 // sitting evidence read by Glasgow's Scottish route implementation.
 // (eligibility-evaluator.js:820-893,1885-2020; hull-york-a100-consumer.js:406-428).
 export type ScottishSchoolYear = 's4' | 's5' | 's6' | '';
+export type ScottishGrade = ALevelGrade | 'A1' | 'A2';
 export interface ScottishSubject {
   subject_id: string;
-  grade: ALevelGrade;
+  grade: ScottishGrade;
   school_year?: ScottishSchoolYear;
   sitting_id?: string;
   first_attempt?: boolean | null;

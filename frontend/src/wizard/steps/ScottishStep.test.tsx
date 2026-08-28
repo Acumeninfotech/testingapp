@@ -71,6 +71,24 @@ describe('ScottishStep', () => {
     expect(within(section('Advanced Highers')).getAllByLabelText('Attempt')).toHaveLength(3);
   });
 
+  it('offers A1 and A2 only for Advanced Higher grades', async () => {
+    const { profile } = renderStep();
+
+    const higherGrade = within(section('Highers')).getAllByLabelText('Grade')[0] as HTMLSelectElement;
+    expect(within(higherGrade).queryByRole('option', { name: 'A1' })).not.toBeInTheDocument();
+    expect(within(higherGrade).queryByRole('option', { name: 'A2' })).not.toBeInTheDocument();
+
+    fireEvent.click(screen.getByText('Advanced Highers').closest('summary') as HTMLElement);
+    await waitFor(() => expect(section('Advanced Highers')).toHaveAttribute('open'));
+
+    const advancedHigherGrade = within(section('Advanced Highers')).getAllByLabelText('Grade')[0] as HTMLSelectElement;
+    expect(within(advancedHigherGrade).getByRole('option', { name: 'A1' })).toBeInTheDocument();
+    expect(within(advancedHigherGrade).getByRole('option', { name: 'A2' })).toBeInTheDocument();
+
+    fireEvent.change(advancedHigherGrade, { target: { value: 'A1' } });
+    expect(profile.scottish_profile.advanced_higher_subjects[0].grade).toBe('A1');
+  });
+
   it('updates same-sitting, school-year and attempt evidence', () => {
     const { profile, rerender, updateProfile } = renderStep();
 

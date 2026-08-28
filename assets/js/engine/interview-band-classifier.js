@@ -4227,6 +4227,15 @@ function resolveMissingGcseCompetitivenessInformation(config, applicant, eligibi
   };
 }
 
+function resolveQualificationRouteMethodologyGap(config, qualificationRoute) {
+  const gaps = config?.score_model?.qualification_route_methodology_gaps || [];
+  const normalisedRoute = normaliseId(qualificationRoute);
+
+  return gaps.find((gap) => {
+    return normaliseId(gap?.qualification_route) === normalisedRoute;
+  }) || null;
+}
+
 function getMetricValue(metric, score, applicant) {
   if (metric === 'selection_score') {
     return score?.value;
@@ -5076,6 +5085,36 @@ function classifyInterviewBand(course, config, applicantInput, options = {}) {
     evidence_basis: classificationConfig.evidence || null,
     confidence: classificationConfig.confidence
   };
+
+  const qualificationRouteMethodologyGap = resolveQualificationRouteMethodologyGap(
+    classificationConfig,
+    qualificationRoute
+  );
+
+  if (resolvedEligibility.status === 'eligible' && qualificationRouteMethodologyGap) {
+    const pool = selectGuidancePool(classificationConfig, groupIds, applicant);
+    const reasonCode =
+      qualificationRouteMethodologyGap.reason_code || 'university_methodology_gap';
+
+    return {
+      ...base,
+      ranking: null,
+      guidance_pool_id: pool?.pool_id || null,
+      guidance_pool: pool || null,
+      band_metric: null,
+      canonical_interview_band: 'insufficient_evidence',
+      insufficient_evidence_reason_code: reasonCode,
+      missing_information: null,
+      warnings: [
+        ...(scoreModelWarnings(classificationConfig, applicant) || []),
+        qualificationRouteMethodologyGap.warning_code || reasonCode
+      ],
+      manual_review_required: false,
+      explanation:
+        qualificationRouteMethodologyGap.applicant_facing_explanation ||
+        'Interview guidance is unavailable for this qualification route because the configured methodology cannot assess it reliably. This is not a rejection.'
+    };
+  }
 
   const missingGcseCompetitivenessInformation = resolveMissingGcseCompetitivenessInformation(
     classificationConfig,
