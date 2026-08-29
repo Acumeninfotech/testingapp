@@ -3312,6 +3312,60 @@ describe('ResultCard', () => {
     expect(ucatCard).not.toHaveTextContent('2400');
   });
 
+  it('shows Sheffield published EPQ alternative information while standard AAA remains the active pathway', () => {
+    render(
+      <ResultCard
+        result={makeResult(
+          {
+            academic_pathway: 'standard',
+            alternative_academic_offer: {
+              type: 'epq',
+              standard_offer: 'AAA',
+              alternative_offer: 'AAB + EPQ Grade A',
+              epq_minimum_grade: 'A',
+              pathway_id: 'sheffield_epq_alternative',
+              conditions: [
+                'Grade A required in the applicable mandatory science',
+                'EPQ must be taken alongside A-levels',
+                'EPQ route unavailable for A-level resits',
+              ],
+            },
+            academic_requirement_checks: [
+              {
+                qualification_type: 'a_level',
+                requirement_type: 'a_level_standard_offer',
+                label: 'A-level grades: AAA',
+                status: 'met',
+              },
+            ],
+          },
+          {
+            universityId: 'sheffield-a100',
+            university: 'University of Sheffield',
+          },
+        )}
+      />,
+    );
+
+    const academicCard = screen
+      .getByText('Academic Requirements')
+      .closest('.result-card-summary-card');
+
+    expect(academicCard).not.toBeNull();
+    expect(academicCard).toHaveTextContent('A-level grades: AAA');
+    expect(academicCard).not.toHaveTextContent('A-levels + EPQ');
+
+    const offer = screen
+      .getByRole('heading', { name: 'Alternative Academic Offer' })
+      .closest('.alternative-academic-offer');
+
+    expect(offer).not.toBeNull();
+    expect(within(offer as HTMLElement).getByText('Standard')).toBeInTheDocument();
+    expect(within(offer as HTMLElement).getByText('AAA')).toBeInTheDocument();
+    expect(within(offer as HTMLElement).getByText('EPQ Alternative')).toBeInTheDocument();
+    expect(within(offer as HTMLElement).getByText('AAB + EPQ Grade A')).toBeInTheDocument();
+  });
+
   it('preserves the Sheffield Access to Medicine UCAT minimum display when ranking is bypassed', () => {
     const [result] = predict({
       universityIds: ['sheffield-a100'],

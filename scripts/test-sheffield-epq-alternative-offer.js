@@ -69,6 +69,9 @@ const STANDARD_NOT_MET_ROWS = [
   ['A-level grades: AAA', 'not_met', STANDARD_BIOLOGY_PATHWAY_ID],
   ['A-level grades: AAA', 'not_met', STANDARD_CHEMISTRY_PATHWAY_ID]
 ];
+const EPQ_MET_ROWS = [
+  ['A-levels + EPQ', 'met', 'epq_alternative_offer']
+];
 
 function subject(subjectId, predictedGrade, sittingStatus = 'first_sitting') {
   return {
@@ -406,10 +409,7 @@ for (const [label, scenario] of [
   assertPublicPost16(
     label,
     applicantWith(scenario),
-    [
-      ...STANDARD_NOT_MET_ROWS,
-      ['A-levels + EPQ', 'met', 'epq_alternative_offer']
-    ]
+    EPQ_MET_ROWS
   );
 }
 
@@ -618,10 +618,7 @@ assertAcademicScenario({
       check.status,
       check.requirement_type
     ]),
-    [
-      ...STANDARD_NOT_MET_ROWS,
-      ['A-levels + EPQ', 'met', 'epq_alternative_offer']
-    ]
+    EPQ_MET_ROWS
   );
 }
 

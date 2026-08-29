@@ -1038,8 +1038,15 @@ export function ResultCard({ result }: { result: PredictionResult }) {
   const contextualBodyGradeParts = contextualExpandedBody
     ? splitContextualOfferGrade(contextualExpandedBody, contextualOfferGrade)
     : null;
+  const showStandardEpqOfferAsPublishedInformation =
+    result.universityId === 'sheffield-a100' &&
+    academicPathway(card) === 'standard' &&
+    card.alternative_academic_offer?.type === 'epq';
+
   const visibleAlternativeAcademicOffer =
-    academicPathway(card) === 'standard' && card.alternative_academic_offer?.type === 'epq'
+    academicPathway(card) === 'standard' &&
+    card.alternative_academic_offer?.type === 'epq' &&
+    !showStandardEpqOfferAsPublishedInformation
       ? null
       : card.alternative_academic_offer;
   const guaranteedInterviewNotice =

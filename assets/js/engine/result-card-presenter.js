@@ -988,6 +988,19 @@ function publicAcademicRequirementKey(rawCheck, qualificationType, label, status
   return `${qualificationType}:${label}`;
 }
 
+function isInactiveStandardAlevelOfferCheck(rawCheck, checkId = academicRequirementCheckId(rawCheck)) {
+  const qualificationType = academicQualificationTypeForCheck(rawCheck);
+  const pathwayId = normaliseCheckId(rawCheck?.pathway_id || rawCheck?.route_id || rawCheck?.requirement_id);
+  const pathway = normaliseCheckId(rawCheck?.academic_pathway);
+
+  return qualificationType === 'a_level' && (
+    pathway === 'standard' ||
+    ['a_level_standard_offer', 'standard_offer'].includes(checkId) ||
+    checkId.includes('standard') ||
+    pathwayId.includes('standard')
+  );
+}
+
 function shouldSuppressPublicAcademicRequirementCheck(rawCheck, status, context = {}) {
   const checkId = academicRequirementCheckId(rawCheck);
   const epqAlternativeStatus = normaliseCheckId(context.epq_alternative_status);
@@ -1056,8 +1069,7 @@ function shouldSuppressPublicAcademicRequirementCheck(rawCheck, status, context 
     return false;
   }
 
-  return rawCheck?.academic_pathway === 'standard' &&
-    ['a_level_standard_offer', 'standard_offer'].includes(checkId);
+  return isInactiveStandardAlevelOfferCheck(rawCheck, checkId);
 }
 
 function hasEnabledEpqAlternativeOffer(stage1Eligibility = null) {
@@ -1696,6 +1708,13 @@ function buildAlternativeAcademicOffer(stage1Eligibility = null, context = {}) {
     context.academic_pathway === 'standard' &&
     hasRoutedEpqAlternativePathways(stage1Eligibility)
   ) {
+    if (
+      context.course_profile_id === 'sheffield-a100' &&
+      context.qualification_route !== 'scottish'
+    ) {
+      return buildEpqAcademicOffer(stage1Eligibility);
+    }
+
     return null;
   }
 
@@ -6869,7 +6888,8 @@ function presentResultCard({
     qualificationRoute === 'scottish' &&
     [
       'hull-york-a100',
-      'lancaster-a100'
+      'lancaster-a100',
+      'sheffield-a100'
     ].includes(transparencyContext.course_identity?.profile_id);
 
   const activeAlternativeAcademicOffer =

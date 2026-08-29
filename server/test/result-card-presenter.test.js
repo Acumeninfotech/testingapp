@@ -575,6 +575,106 @@ function resultCardText(card) {
 }
 
 {
+  const sheffieldStandardCard = present({
+    transparencyContext: {
+      course_identity: { profile_id: 'sheffield-a100' },
+      stage_1_eligibility: sheffieldCourse.stage_1_eligibility,
+      academic_pathway: 'standard',
+      academic_pathway_id: 'standard_aaa_biology_route',
+      applicant_context: {
+        qualification_route: 'a_level'
+      }
+    }
+  });
+
+  assert.deepStrictEqual(
+    sheffieldStandardCard.alternative_academic_offer,
+    {
+      type: 'epq',
+      standard_offer: 'AAA',
+      alternative_offer: 'AAB + EPQ Grade A',
+      epq_minimum_grade: 'A',
+      pathway_id: 'sheffield_epq_alternative',
+      conditions: [
+        'Grade A required in the applicable mandatory science',
+        'EPQ must be taken alongside A-levels',
+        'EPQ route unavailable for A-level resits'
+      ]
+    },
+    'Sheffield standard A-level pathway should expose the published EPQ alternative as informational presentation'
+  );
+
+  const sheffieldScottishCard = present({
+    transparencyContext: {
+      course_identity: { profile_id: 'sheffield-a100' },
+      stage_1_eligibility: sheffieldCourse.stage_1_eligibility,
+      academic_pathway: 'standard',
+      academic_pathway_id: 'standard_aaa_biology_route',
+      applicant_context: {
+        qualification_route: 'scottish'
+      }
+    }
+  });
+
+  assert.strictEqual(
+    sheffieldScottishCard.alternative_academic_offer,
+    null,
+    'Sheffield Scottish qualification route should not expose the A-level EPQ alternative'
+  );
+}
+
+{
+  const card = present({
+    transparencyContext: {
+      course_identity: { profile_id: 'sheffield-a100' },
+      stage_1_eligibility: sheffieldCourse.stage_1_eligibility,
+      academic_pathway: 'epq_alternative',
+      academic_pathway_id: 'sheffield_epq_alternative',
+      eligibility_checks: [
+        {
+          check_id: 'standard_aaa_biology_route',
+          status: 'fail',
+          pathway_id: 'standard_aaa_biology_route',
+          required: 'AAA',
+          actual: 'AAB'
+        },
+        {
+          check_id: 'standard_aaa_chemistry_route',
+          status: 'fail',
+          pathway_id: 'standard_aaa_chemistry_route',
+          required: 'AAA',
+          actual: 'AAB'
+        },
+        {
+          check_id: 'a_level_standard_offer',
+          status: 'fail',
+          academic_pathway: 'standard'
+        },
+        {
+          check_id: 'epq_alternative_offer',
+          status: 'met',
+          academic_pathway: 'epq_alternative',
+          pathway_id: 'sheffield_epq_alternative'
+        }
+      ]
+    }
+  });
+
+  assert.deepStrictEqual(
+    publicAcademicChecks(card),
+    [
+      {
+        qualification_type: 'a_level',
+        requirement_type: 'epq_alternative_offer',
+        label: 'A-levels + EPQ',
+        status: 'met'
+      }
+    ],
+    'Sheffield active EPQ pathway should suppress inactive failed standard-route badges'
+  );
+}
+
+{
   for (const eligibilityStatus of ['eligible', 'manual_review', 'not_eligible']) {
     const card = present({
       eligibilityStatus,
