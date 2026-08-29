@@ -12,22 +12,65 @@
     ]
   },
   "eligibility": {
-    "scope": "Automatic classifier handling is restricted to supported standard school-leaver A-level and IB routes with complete GCSE, UCAT and SJT evidence.",
+    "scope": "Automatic classifier handling covers supported school-leaver A-level, IB and Scottish routes with complete applicable academic, UCAT and SJT evidence. Queen Mary contextual handling is delegated to the shared Step 6 evaluator.",
     "international_english_language_required": true,
+    "map_override": {
+      "override_id": "queen_mary_access_programme_guaranteed_interview",
+      "description": "Apply only when Step 6 evidence confirms completion of a recognised Queen Mary access programme and all implemented academic, GCSE, UCAT and SJT gates have passed.",
+      "apply_ucat_guidance_band": false,
+      "requires_eligibility_status": "eligible",
+      "source_band_id": "queen_mary_access_programme_guaranteed_interview",
+      "result_card_id": "queen_mary_access_programme_guaranteed_interview",
+      "interview_outcome": "guaranteed_interview",
+      "confirmation_notice": "Recognised Queen Mary access-programme completion is confirmed; the guaranteed-interview pathway applies after the published academic, GCSE, UCAT and SJT conditions are met.",
+      "applicant_facing_explanation": "Eligible verified Queen Mary access-programme completer: guaranteed-interview treatment applies because programme completion and every implemented Queen Mary eligibility gate are confirmed.",
+      "any_conditions": [
+        {
+          "condition_id": "access_to_queen_mary_completed",
+          "applicant_evidence_path": "contextual_profile.access_programmes.other_programmes",
+          "required_evidence": {
+            "programme_id": "access_to_queen_mary",
+            "status": "completed",
+            "verification_status": "confirmed"
+          }
+        },
+        {
+          "condition_id": "realising_opportunities_completed",
+          "applicant_evidence_path": "contextual_profile.access_programmes.other_programmes",
+          "required_evidence": {
+            "programme_id": "realising_opportunities",
+            "status": "completed",
+            "verification_status": "confirmed"
+          }
+        },
+        {
+          "condition_id": "bridge_the_gap_completed",
+          "applicant_evidence_path": "contextual_profile.access_programmes.other_programmes",
+          "required_evidence": {
+            "programme_id": "bridge_the_gap",
+            "status": "completed",
+            "verification_status": "confirmed"
+          }
+        }
+      ]
+    },
     "qualification_routes": {
       "supported": [
         "a_level",
-        "international_baccalaureate"
+        "international_baccalaureate",
+        "scottish"
       ],
       "explicitly_blocked": [
         "graduate",
-        "scottish",
         "international_qualification",
         "access_to_medicine",
         "access_to_he",
         "unknown"
       ]
     },
+    "use_course_eligibility_for_qualification_routes": [
+      "scottish"
+    ],
     "gcse": {
       "minimum_count": 6,
       "use_exact_subject_list": false,
@@ -180,12 +223,9 @@
       ]
     },
     "manual_review_routes": [
-      "contextual numeric adjustments",
-      "care-experienced adjustment",
-      "Bridge the Gap",
-      "Realising Opportunities",
       "graduate applying to A100",
-      "Scottish Highers plus Advanced Highers",
+      "unresolved recognised access-programme completion",
+      "Scottish lower-school evidence where National 5 equivalence is required",
       "country-specific international qualifications",
       "resit applicants",
       "combined science substitution",
@@ -195,6 +235,8 @@
       "Do not present ApplySmart-normalised QMUL interview bands as official university thresholds.",
       "Do not treat old 3600-scale cut-offs or normalised 2700-scale estimates as deterministic current cut-offs.",
       "Do not apply tariff discounts or contextual reductions.",
+      "Do not invent reduced Scottish contextual grade equivalents.",
+      "Do not invent Queen Mary National 5 conversions.",
       "Do not score SJT Bands 1-3 for current interview prediction.",
       "Do not infer the hidden UCAT/Tariff weighting as fact."
     ]
@@ -231,8 +273,6 @@
         ],
         "excluded_group_ids": [
           "international_fee",
-          "contextual",
-          "widening_participation",
           "graduate_applicant"
         ]
       },

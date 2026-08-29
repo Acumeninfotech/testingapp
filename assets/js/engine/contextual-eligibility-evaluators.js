@@ -104,6 +104,10 @@ const {
   CAMBRIDGE_CONTEXTUAL_EVALUATOR_ID,
   evaluateCambridgeContextualEligibility
 } = require('./cambridge-contextual-eligibility');
+const {
+  QUEEN_MARY_CONTEXTUAL_EVALUATOR_ID,
+  evaluateQueenMaryContextualEligibility
+} = require('./queen-mary-contextual-eligibility');
 
 const DEFAULT_CONTEXTUAL_ELIGIBILITY_EVALUATORS = {
   [ABERDEEN_CONTEXTUAL_EVALUATOR_ID]: evaluateAberdeenContextualEligibility,
@@ -131,7 +135,8 @@ const DEFAULT_CONTEXTUAL_ELIGIBILITY_EVALUATORS = {
   [BSMS_CONTEXTUAL_EVALUATOR_ID]: evaluateBsmsContextualEligibility,
   [SUNDERLAND_CONTEXTUAL_EVALUATOR_ID]: evaluateSunderlandContextualEligibility,
   [LINCOLN_CONTEXTUAL_EVALUATOR_ID]: evaluateLincolnContextualEligibility,
-  [CAMBRIDGE_CONTEXTUAL_EVALUATOR_ID]: evaluateCambridgeContextualEligibility
+  [CAMBRIDGE_CONTEXTUAL_EVALUATOR_ID]: evaluateCambridgeContextualEligibility,
+  [QUEEN_MARY_CONTEXTUAL_EVALUATOR_ID]: evaluateQueenMaryContextualEligibility
 };
 
 module.exports = {
@@ -156,6 +161,7 @@ module.exports = {
   SUNDERLAND_CONTEXTUAL_EVALUATOR_ID,
   LINCOLN_CONTEXTUAL_EVALUATOR_ID,
   CAMBRIDGE_CONTEXTUAL_EVALUATOR_ID,
+  QUEEN_MARY_CONTEXTUAL_EVALUATOR_ID,
   evaluateAberdeenContextualEligibility,
   evaluateBirminghamContextualEligibility,
   evaluateDundeeContextualEligibility,
@@ -176,5 +182,6 @@ module.exports = {
   evaluateSunderlandContextualEligibility,
   evaluateLincolnContextualEligibility,
   evaluateCambridgeContextualEligibility,
+  evaluateQueenMaryContextualEligibility,
   DEFAULT_CONTEXTUAL_ELIGIBILITY_EVALUATORS
 };
