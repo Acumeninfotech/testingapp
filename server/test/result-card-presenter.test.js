@@ -575,20 +575,50 @@ function resultCardText(card) {
 }
 
 {
-  const sheffieldStandardCard = present({
+  const sheffieldNoEpqStandardCard = present({
     transparencyContext: {
       course_identity: { profile_id: 'sheffield-a100' },
       stage_1_eligibility: sheffieldCourse.stage_1_eligibility,
       academic_pathway: 'standard',
       academic_pathway_id: 'standard_aaa_biology_route',
       applicant_context: {
-        qualification_route: 'a_level'
+        qualification_route: 'a_level',
+        a_level_profile: {
+          epq: {
+            status: 'not_taken',
+            grade: null
+          }
+        }
+      }
+    }
+  });
+
+  assert.strictEqual(
+    sheffieldNoEpqStandardCard.alternative_academic_offer,
+    null,
+    'Sheffield standard A-level pathway should not expose the EPQ alternative when no EPQ is declared'
+  );
+
+  const sheffieldDeclaredEpqStandardCard = present({
+    transparencyContext: {
+      course_identity: { profile_id: 'sheffield-a100' },
+      stage_1_eligibility: sheffieldCourse.stage_1_eligibility,
+      academic_pathway: 'standard',
+      academic_pathway_id: 'standard_aaa_biology_route',
+      applicant_context: {
+        qualification_route: 'a_level',
+        a_level_profile: {
+          epq: {
+            status: 'predicted',
+            grade: 'A'
+          }
+        }
       }
     }
   });
 
   assert.deepStrictEqual(
-    sheffieldStandardCard.alternative_academic_offer,
+    sheffieldDeclaredEpqStandardCard.alternative_academic_offer,
     {
       type: 'epq',
       standard_offer: 'AAA',
@@ -601,7 +631,7 @@ function resultCardText(card) {
         'EPQ route unavailable for A-level resits'
       ]
     },
-    'Sheffield standard A-level pathway should expose the published EPQ alternative as informational presentation'
+    'Sheffield standard A-level pathway should expose the EPQ alternative when an EPQ is declared'
   );
 
   const sheffieldScottishCard = present({

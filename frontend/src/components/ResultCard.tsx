@@ -1038,7 +1038,7 @@ export function ResultCard({ result }: { result: PredictionResult }) {
   const contextualBodyGradeParts = contextualExpandedBody
     ? splitContextualOfferGrade(contextualExpandedBody, contextualOfferGrade)
     : null;
-  const showStandardEpqOfferAsPublishedInformation =
+  const showSheffieldStandardEpqOffer =
     result.universityId === 'sheffield-a100' &&
     academicPathway(card) === 'standard' &&
     card.alternative_academic_offer?.type === 'epq';
@@ -1046,7 +1046,7 @@ export function ResultCard({ result }: { result: PredictionResult }) {
   const visibleAlternativeAcademicOffer =
     academicPathway(card) === 'standard' &&
     card.alternative_academic_offer?.type === 'epq' &&
-    !showStandardEpqOfferAsPublishedInformation
+    !showSheffieldStandardEpqOffer
       ? null
       : card.alternative_academic_offer;
   const guaranteedInterviewNotice =
@@ -1418,9 +1418,11 @@ export function ResultCard({ result }: { result: PredictionResult }) {
       <AlternativeAcademicOffer
         offer={visibleAlternativeAcademicOffer}
         contextualStatus={
-          contextualStatusConfirmed && (visibleAlternativeAcademicOffer || !contextualConfirmation)
-            ? card.contextual_status
-            : null
+          result.universityId === 'sheffield-a100' && !visibleAlternativeAcademicOffer
+            ? null
+            : contextualStatusConfirmed && (visibleAlternativeAcademicOffer || !contextualConfirmation)
+              ? card.contextual_status
+              : null
         }
       />
 

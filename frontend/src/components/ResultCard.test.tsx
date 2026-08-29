@@ -3312,39 +3312,39 @@ describe('ResultCard', () => {
     expect(ucatCard).not.toHaveTextContent('2400');
   });
 
-  it('shows Sheffield published EPQ alternative information while standard AAA remains the active pathway', () => {
-    render(
-      <ResultCard
-        result={makeResult(
-          {
-            academic_pathway: 'standard',
-            alternative_academic_offer: {
-              type: 'epq',
-              standard_offer: 'AAA',
-              alternative_offer: 'AAB + EPQ Grade A',
-              epq_minimum_grade: 'A',
-              pathway_id: 'sheffield_epq_alternative',
-              conditions: [
-                'Grade A required in the applicable mandatory science',
-                'EPQ must be taken alongside A-levels',
-                'EPQ route unavailable for A-level resits',
-              ],
+  it('hides Sheffield EPQ alternative information for standard AAA applicants without EPQ', () => {
+    const [result] = predict({
+      universityIds: ['sheffield-a100'],
+      studentProfile: sheffieldScenarioApplicant('eligible_home_above_home_cutpoint', {
+        admissions_tests: {
+          ucat: {
+            total_score: 2280,
+            score_scale: 2700,
+            subtests: {
+              verbal_reasoning: 760,
+              decision_making: 760,
+              quantitative_reasoning: 760,
             },
-            academic_requirement_checks: [
-              {
-                qualification_type: 'a_level',
-                requirement_type: 'a_level_standard_offer',
-                label: 'A-level grades: AAA',
-                status: 'met',
-              },
-            ],
+            sjt_band: 2,
+            test_year: 2026,
           },
-          {
-            universityId: 'sheffield-a100',
-            university: 'University of Sheffield',
+        },
+        a_level_profile: {
+          epq: {
+            status: 'not_taken',
+            grade: null,
+            taken_alongside_a_levels: null,
           },
-        )}
-      />,
+        },
+      }),
+    });
+
+    expect(result.result_card.academic_pathway).toBe('standard');
+    expect(result.result_card.academic_pathway_id).toBe('standard_aaa_biology_route');
+    expect(result.result_card.alternative_academic_offer).toBeNull();
+
+    render(
+      <ResultCard result={result} />,
     );
 
     const academicCard = screen
@@ -3354,6 +3354,30 @@ describe('ResultCard', () => {
     expect(academicCard).not.toBeNull();
     expect(academicCard).toHaveTextContent('A-level grades: AAA');
     expect(academicCard).not.toHaveTextContent('A-levels + EPQ');
+    expect(screen.queryByRole('heading', { name: 'Alternative Academic Offer' })).not.toBeInTheDocument();
+  });
+
+  it('shows Sheffield EPQ alternative information for standard AAA applicants with declared EPQ', () => {
+    const [result] = predict({
+      universityIds: ['sheffield-a100'],
+      studentProfile: sheffieldScenarioApplicant('eligible_home_above_home_cutpoint', {
+        a_level_profile: {
+          epq: {
+            status: 'predicted',
+            grade: 'A',
+            taken_alongside_a_levels: true,
+          },
+        },
+      }),
+    });
+
+    expect(result.result_card.academic_pathway).toBe('standard');
+    expect(result.result_card.academic_pathway_id).toBe('standard_aaa_biology_route');
+    expect(result.result_card.alternative_academic_offer?.pathway_id).toBe('sheffield_epq_alternative');
+
+    render(
+      <ResultCard result={result} />,
+    );
 
     const offer = screen
       .getByRole('heading', { name: 'Alternative Academic Offer' })

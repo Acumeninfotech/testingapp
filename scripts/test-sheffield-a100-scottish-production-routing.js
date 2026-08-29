@@ -8,6 +8,9 @@ const {
   classifyInterviewBand
 } = require('../assets/js/engine/interview-band-classifier');
 const {
+  evaluateContextualEligibility
+} = require('../assets/js/engine/eligibility-evaluator');
+const {
   predict
 } = require('../server/src/predict');
 
@@ -382,6 +385,73 @@ const tests = [
       );
       assert.ok(structured.applicant_group_ids.includes('sheffield_contextual_offer'));
       assertNoAccessMedicineBypass(structured);
+    }
+  },
+  {
+    id: 'frontend_shaped_fsm_contextual_a_level_remains_standard_aaa',
+    run() {
+      const applicant = aLevelApplicant({
+        applicant_identity: {
+          fee_status: 'home_fee',
+          domicile: 'england',
+          contextual: false,
+          contextual_flags: {
+            care_experienced: false,
+            free_school_meals: false
+          }
+        },
+        contextual_profile: {
+          financial_support: {
+            free_school_meals: 'yes'
+          }
+        },
+        a_level_profile: {
+          subjects: [
+            { subject_id: 'chemistry', predicted_grade: 'A', practical_endorsement: 'pass' },
+            { subject_id: 'biology', predicted_grade: 'A', practical_endorsement: 'pass' },
+            { subject_id: 'mathematics', predicted_grade: 'A' }
+          ],
+          sitting_status: 'first_sitting',
+          completed_in_one_sitting: true,
+          epq: {
+            status: 'not_taken',
+            grade: null,
+            taken_alongside_a_levels: null
+          }
+        },
+        admissions_tests: {
+          ucat: {
+            total_score: 2280,
+            score_scale: 2700,
+            subtests: {
+              verbal_reasoning: 760,
+              decision_making: 760,
+              quantitative_reasoning: 760
+            },
+            sjt_band: 2,
+            test_year: 2026
+          }
+        }
+      });
+      const contextual = evaluateContextualEligibility(course, applicant);
+      const classification = classify(applicant);
+      const fsmCriterion = contextual.qualifying_criteria.find((criterion) => {
+        return criterion.criterion_id === 'access_sheffield_free_school_meals';
+      });
+
+      assert.strictEqual(contextual.status, 'contextual');
+      assert.ok(fsmCriterion, `Expected confirmed FSM criterion; received ${JSON.stringify(contextual)}`);
+      assert.strictEqual(fsmCriterion.status, 'matched');
+      assert.strictEqual(fsmCriterion.actual, 'yes');
+      assert.ok(contextual.contextual_evidence.matched_criteria.includes('access_sheffield_free_school_meals'));
+      assert.deepStrictEqual(contextual.missing_information, []);
+      assert.strictEqual(classification.eligibility.status, 'eligible');
+      assert.ok(!classification.eligibility.manual_review_reasons.includes('sheffield_contextual_evidence_needs_review'));
+      assert.strictEqual(classification.eligibility.academic_pathway, 'standard');
+      assert.strictEqual(classification.eligibility.academic_pathway_id, 'standard_aaa_biology_route');
+      assert.strictEqual(classification.eligibility.epq_alternative_result ?? null, null);
+      assert.ok(classification.applicant_group_ids.includes('sheffield_contextual_offer'));
+      assert.strictEqual(classification.eligibility.checks.find((check) => check.check_id === 'sjt_policy')?.status, 'pass');
     }
   },
   {

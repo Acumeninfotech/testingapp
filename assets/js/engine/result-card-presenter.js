@@ -1513,6 +1513,15 @@ function buildEpqAcademicOffer(stage1Eligibility = null) {
   };
 }
 
+function applicantHasDeclaredEpq(context = {}) {
+  const epq = context.applicant_context?.a_level_profile?.epq ||
+    context.eligibility?.applicant_context?.a_level_profile?.epq ||
+    context.applicant_context?.epq ||
+    null;
+  const status = normaliseCheckId(epq?.status);
+  return Boolean(status && status !== 'not_taken');
+}
+
 function buildHullYorkAlternativeWpAcademicOffer(context = {}) {
   const profileId = String(
     context.course_profile_id ||
@@ -1710,11 +1719,20 @@ function buildAlternativeAcademicOffer(stage1Eligibility = null, context = {}) {
   ) {
     if (
       context.course_profile_id === 'sheffield-a100' &&
-      context.qualification_route !== 'scottish'
+      context.qualification_route !== 'scottish' &&
+      applicantHasDeclaredEpq(context)
     ) {
       return buildEpqAcademicOffer(stage1Eligibility);
     }
 
+    return null;
+  }
+
+  if (
+    context.course_profile_id === 'sheffield-a100' &&
+    context.academic_pathway === 'standard' &&
+    !applicantHasDeclaredEpq(context)
+  ) {
     return null;
   }
 
@@ -6912,6 +6930,7 @@ function presentResultCard({
               transparencyContext.eligibility?.manual_review_reasons ||
               transparencyContext.manual_review_reasons ||
               [],
+            applicant_context: transparencyContext.applicant_context || null,
             epq_alternative_result:
               transparencyContext.eligibility?.epq_alternative_result || null
           }

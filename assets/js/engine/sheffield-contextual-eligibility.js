@@ -188,15 +188,15 @@ function evaluateAccessPlusCriteria(evidence, result, normaliseId) {
   const fsm = evidence.financial_support?.free_school_meals;
   if (answerIsYes(fsm, normaliseId)) {
     const entry = check(
-      'access_sheffield_free_school_meals_timing_unresolved',
-      'Free school meals timing requires review',
+      'access_sheffield_free_school_meals',
+      'Free school meals',
       'contextual_profile.financial_support.free_school_meals',
-      'needs_review',
-      fsm,
-      { reason: 'fsm_eligibility_window_not_represented_in_step_6' }
+      'matched',
+      fsm
     );
-    result.missing_information.push(entry);
-    result.checks.manual_review.push(entry);
+    result.qualifying_criteria.push(entry);
+    result.checks.criteria.push(entry);
+    result.contextual_evidence.matched_criteria.push(entry.criterion_id);
   }
 }
 
