@@ -1300,6 +1300,14 @@ function normaliseScottishSubjectId(subject = {}) {
   ) {
     return 'applications_of_mathematics';
   }
+  if (
+    subjectId === 'lifeskills_mathematics' ||
+    subjectId === 'life_skills_mathematics' ||
+    subjectName.includes('lifeskills_mathematics') ||
+    subjectName.includes('life_skills_mathematics')
+  ) {
+    return 'lifeskills_mathematics';
+  }
   return subjectId;
 }
 
@@ -2845,10 +2853,82 @@ function evaluateGraduateRoute(course, applicant, state) {
   }
 }
 
+function ueaScottishExceptionManualReviewReason(course = {}, applicant = {}, state = {}) {
+  if (course.profile_id !== 'east-anglia-a100') {
+    return null;
+  }
+
+  const route = normaliseId(state.qualification_route);
+  if (!['scottish', 'scottish_advanced_highers'].includes(route)) {
+    return null;
+  }
+
+  const profile = applicant.scottish_profile || {};
+  const national5Subjects = asArray(profile.national_5_subjects);
+  const higherSubjects = asArray(profile.higher_subjects);
+  const advancedHigherSubjects = asArray(profile.advanced_higher_subjects);
+  const applicantResit = applicant.applicant_identity?.resit || {};
+
+  const hasAdvancedHigherResit =
+    applicantResit.has_resits === true ||
+    advancedHigherSubjects.some(
+      (subject) => !scottishSubjectIsFirstAttempt(subject)
+    );
+
+  if (hasAdvancedHigherResit) {
+    return 'uea_scottish_advanced_higher_resit_requires_manual_review';
+  }
+
+  if (national5Subjects.length === 0 && higherSubjects.length > 0) {
+    const eligibleHigherSubjects = higherSubjects.filter((subject) => {
+      const schoolYear = scottishSubjectSchoolYear(subject);
+
+      return (
+        (!schoolYear || schoolYear === 's5') &&
+        scottishSubjectIsFirstAttempt(subject)
+      );
+    });
+
+    const grades = eligibleHigherSubjects.map(scottishSubjectGrade);
+
+    const subjectIds = new Set(
+      eligibleHigherSubjects
+        .map(normaliseScottishSubjectId)
+        .filter(Boolean)
+    );
+
+    const scienceCount = [
+      'biology',
+      'human_biology',
+      'chemistry',
+      'physics'
+    ].filter((subjectId) => subjectIds.has(subjectId)).length;
+
+    const hasBypassGradeProfile =
+      gradeProfileMeets(grades, ['A', 'A', 'A', 'A', 'B']);
+
+    const hasRequiredSubjects =
+      (
+        subjectIds.has('english') ||
+        subjectIds.has('english_language')
+      ) &&
+      subjectIds.has('mathematics') &&
+      scienceCount >= 2;
+
+    if (hasBypassGradeProfile && hasRequiredSubjects) {
+      return 'uea_scottish_national_5_bypass_requires_manual_review';
+    }
+  }
+
+  return null;
+}
+
 function evaluateScottishRoute(course, applicant, state) {
   const post16Rules = course.stage_1_eligibility?.post_16?.scottish || {};
   const national5Rules = national5RulesForCourse(course);
   const profile = applicant.scottish_profile || {};
+  const ueaExceptionManualReviewReason =
+    ueaScottishExceptionManualReviewReason(course, applicant, state);
   const national5CountGrades = profileToSubjectMap({ subjects: profile.national_5_subjects || [] });
   const national5 = scottishLevel2SubjectMap([
     ...asArray(profile.national_5_subjects),
@@ -2884,8 +2964,12 @@ function evaluateScottishRoute(course, applicant, state) {
     }).filter(Boolean)
   });
   if (!national5Passed) {
-    addFailure(state, 'national_5_requirements_not_met');
-  }
+      if (ueaExceptionManualReviewReason) {
+        addManualReview(state, ueaExceptionManualReviewReason);
+      } else {
+        addFailure(state, 'national_5_requirements_not_met');
+      }
+    }
 
   const contextualScottishRoutesImplemented = post16Rules.contextual_route_implemented === true;
   const routes = (post16Rules.grade_requirements || []).filter((route) => {
@@ -3113,7 +3197,11 @@ function evaluateScottishRoute(course, applicant, state) {
     }
   }
   if (!post16Passed && !predictedManualReviewRoute) {
-    addFailure(state, 'scottish_post_16_requirements_not_met');
+    if (ueaExceptionManualReviewReason) {
+      addManualReview(state, ueaExceptionManualReviewReason);
+    } else {
+      addFailure(state, 'scottish_post_16_requirements_not_met');
+    }
   }
 }
 

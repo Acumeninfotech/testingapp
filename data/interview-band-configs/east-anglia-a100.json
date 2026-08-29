@@ -13,17 +13,16 @@
     ]
   },
   "eligibility": {
-    "scope": "Automatic banding applies only after the supported A-level or IB academic route passes, UCAT is present for the application cycle, English language evidence is resolved where required and the applicant is not a graduate-entry, Scottish, resit or country-specific international-qualification manual-review route.",
+    "scope": "Automatic banding applies only after a supported A-level, IB or standard executable Scottish academic route passes, UCAT is present for the application cycle, English language evidence is resolved where required and the applicant is not a graduate-entry, resit, unsupported Scottish-exception or country-specific international-qualification manual-review route.",
     "international_english_language_required": true,
     "qualification_routes": {
       "supported": [
         "a_level",
         "international_baccalaureate",
+        "scottish",
         "international_qualification"
       ],
-      "manual_review": [
-        "scottish"
-      ],
+      "manual_review": [],
       "explicitly_blocked": [
         "graduate",
         "access_to_medicine",
@@ -132,7 +131,8 @@
       ]
     },
     "scottish": {
-      "manual_review_reason": "UEA Advanced Higher BBB including Biology or Chemistry is recorded, but automatic Scottish eligibility is withheld because the current generic evaluator cannot safely enforce National 5 English B and Maths A thresholds."
+      "execution_status": "course_eligibility_for_standard_routes",
+      "manual_review_reason": "UEA Scottish exception routes remain manual review where the published National 5-bypass, Standard Grade / Intermediate 2, mixed-qualification or Advanced Higher resit conditions cannot be safely established automatically."
     },
     "international_qualification": {
       "unverified_outcome": "manual_review",
@@ -188,10 +188,13 @@
       "manual_review_required": true
     },
     "manual_review_routes": [
-      "Scottish qualifications because National 5 grade thresholds need manual checking",
+      "Scottish National 5-bypass, Standard Grade / Intermediate 2, mixed-qualification and Advanced Higher resit exception routes",
       "A-level or GCSE resit applicants because UEA's resit rule depends on subject-level resit evidence",
       "Country-specific international qualification equivalence without UEA verification",
       "Alternative English-language evidence or IGCSE exception cases"
+    ],
+    "use_course_eligibility_for_qualification_routes": [
+      "scottish"
     ],
     "do_not_infer": [
       "Do not create a fixed current-year UCAT threshold.",
