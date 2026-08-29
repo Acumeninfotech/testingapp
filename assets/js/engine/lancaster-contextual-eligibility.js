@@ -211,7 +211,6 @@ function evaluateAutomaticCareRoute(applicant, evidence, results, normaliseId) {
 
 function refugeeSignals(applicant, evidence, normaliseId) {
   const rawPersonal = asObject(asObject(applicant).contextual_profile).personal_circumstances;
-  const rawFlags = asObject(asObject(applicant.applicant_identity).contextual_flags);
   const personal = asObject(evidence.personal_circumstances);
 
   const explicitRefugee = rawPersonal ? rawPersonal.refugee : undefined;
@@ -226,9 +225,15 @@ function refugeeSignals(applicant, evidence, normaliseId) {
     explicitRefugee,
     explicitGranted,
     explicitAsylum,
-    rawRefugeeFlag: rawFlags.refugee === true,
-    rawAsylumFlag: rawFlags.asylum_seeker === true,
-    rawRefugeeOrAsylumFlag: rawFlags.refugee_or_asylum_seeker === true,
+
+    // Lancaster admissions decisions are now driven by canonical
+    // contextual_profile evidence only. These compatibility properties
+    // intentionally remain false so the existing downstream decision
+    // block cannot be activated by applicant_identity.contextual_flags.
+    rawRefugeeFlag: false,
+    rawAsylumFlag: false,
+    rawRefugeeOrAsylumFlag: false,
+
     normalisedRefugee: personal.refugee,
     normalisedGranted: personal.uk_refugee_status_granted,
     normalisedAsylum: personal.seeking_asylum
@@ -488,6 +493,146 @@ function hasAreaEvidence(applicant, evidence) {
   );
 }
 
+function evaluatePost16SchoolPerformanceCategory(
+  applicant,
+  evidence,
+  results,
+  normaliseId
+) {
+  const evidencePath =
+    'school_education.low_progression_to_higher_education_school';
+  const explicitValue = explicitField(applicant, evidencePath);
+
+  if (explicitValue === undefined) {
+    return categorySignalRecord(
+      'post16_school_disadvantage',
+      'Post-16 school or college performance',
+      { status: 'not_met' }
+    );
+  }
+
+  if (answerIsYes(explicitValue, normaliseId)) {
+    addMissing(
+      results,
+      'wp_categories',
+      'post16_school_disadvantage',
+      'Post-16 school or college performance',
+      evidencePath,
+      'lancaster_post16_school_performance_confirmation_required',
+      explicitValue,
+      {
+        note:
+          'The shared low-progression field does not by itself prove Lancaster\'s published below-national-average post-16 attainment criterion.'
+      }
+    );
+
+    return categorySignalRecord(
+      'post16_school_disadvantage',
+      'Post-16 school or college performance',
+      { status: 'information_needed' }
+    );
+  }
+
+  return categorySignalRecord(
+    'post16_school_disadvantage',
+    'Post-16 school or college performance',
+    { status: 'not_met' }
+  );
+}
+
+function evaluateFirstGenerationCategory(
+  applicant,
+  evidence,
+  results,
+  normaliseId
+) {
+  const evidencePath =
+    'personal_circumstances.first_in_family_at_university';
+  const explicitValue = explicitField(applicant, evidencePath);
+
+  if (explicitValue === undefined) {
+    return categorySignalRecord(
+      'first_generation_higher_education',
+      'Parent or guardian higher-education history',
+      { status: 'not_met' }
+    );
+  }
+
+  if (answerIsYes(explicitValue, normaliseId)) {
+    addMissing(
+      results,
+      'wp_categories',
+      'first_generation_higher_education',
+      'Parent or guardian higher-education history',
+      evidencePath,
+      'lancaster_parental_he_history_confirmation_required',
+      explicitValue,
+      {
+        note:
+          'Lancaster applies additional exceptions concerning mature-study history and parents or guardians who graduated as doctors or dentists.'
+      }
+    );
+
+    return categorySignalRecord(
+      'first_generation_higher_education',
+      'Parent or guardian higher-education history',
+      { status: 'information_needed' }
+    );
+  }
+
+  return categorySignalRecord(
+    'first_generation_higher_education',
+    'Parent or guardian higher-education history',
+    { status: 'not_met' }
+  );
+}
+
+function evaluateYoungCarerCategory(
+  applicant,
+  evidence,
+  results,
+  normaliseId
+) {
+  const evidencePath = 'personal_circumstances.young_or_adult_carer';
+  const explicitValue = explicitField(applicant, evidencePath);
+
+  if (explicitValue === undefined) {
+    return categorySignalRecord(
+      'young_carer',
+      'Young carer to a parent or sibling',
+      { status: 'not_met' }
+    );
+  }
+
+  if (answerIsYes(explicitValue, normaliseId)) {
+    addMissing(
+      results,
+      'wp_categories',
+      'young_carer',
+      'Young carer to a parent or sibling',
+      evidencePath,
+      'lancaster_young_carer_relationship_confirmation_required',
+      explicitValue,
+      {
+        note:
+          'The shared young-or-adult-carer field is broader than Lancaster\'s published young-carer-to-parent-or-sibling criterion.'
+      }
+    );
+
+    return categorySignalRecord(
+      'young_carer',
+      'Young carer to a parent or sibling',
+      { status: 'information_needed' }
+    );
+  }
+
+  return categorySignalRecord(
+    'young_carer',
+    'Young carer to a parent or sibling',
+    { status: 'not_met' }
+  );
+}
+
 function evaluateAreaDisadvantageCategory(applicant, evidence, results) {
   if (!hasAreaEvidence(applicant, evidence)) {
     return categorySignalRecord('area_disadvantage', 'Area / low-participation disadvantage', {
@@ -611,7 +756,25 @@ function evaluateLancasterContextualEligibility({ applicant, evidence, helpers }
   const categoryResults = [
     evaluateAreaDisadvantageCategory(applicant, evidence, results, normaliseId),
     evaluateLowIncomeCategory(applicant, evidence, results, normaliseId),
-    evaluateSchoolDisadvantageCategory(applicant, evidence, results, normaliseId)
+    evaluateSchoolDisadvantageCategory(applicant, evidence, results, normaliseId),
+    evaluatePost16SchoolPerformanceCategory(
+      applicant,
+      evidence,
+      results,
+      normaliseId
+    ),
+    evaluateFirstGenerationCategory(
+      applicant,
+      evidence,
+      results,
+      normaliseId
+    ),
+    evaluateYoungCarerCategory(
+      applicant,
+      evidence,
+      results,
+      normaliseId
+    )
   ];
   evaluateOtherWpSignals(applicant, evidence, results, normaliseId);
 

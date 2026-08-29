@@ -314,10 +314,19 @@ function uiShapedStandardApplicant(overrides = {}) {
       }
     }
   });
+
   const result = evaluateContextualEligibility(course, applicant);
-  assert.strictEqual(result.status, 'information_needed');
+
+  assert.strictEqual(result.status, 'not_contextual');
+  assert.strictEqual(result.is_contextual, false);
+  assert.deepStrictEqual(result.activated_applicant_group_ids, []);
   assert.ok(
-    result.missing_information.some((entry) => entry.reason === 'lancaster_refugee_status_confirmation_required')
+    !result.missing_information.some(
+      (entry) =>
+        entry.reason ===
+        'lancaster_refugee_status_confirmation_required'
+    ),
+    'Legacy refugee/asylum flags must not alter Lancaster contextual decision state.'
   );
 }
 
@@ -360,6 +369,55 @@ function uiShapedStandardApplicant(overrides = {}) {
   const classification = classifyInterviewBand(course, config, applicant);
   assert.strictEqual(classification.guidance_pool_id, 'home_contextual_wp_school_leaver');
   assert.notStrictEqual(classification.interview_outcome, 'guaranteed_interview');
+}
+
+{
+  const applicant = baselineApplicant({
+    contextual_profile: {
+      personal_circumstances: {
+        first_in_family_at_university: 'yes'
+      }
+    }
+  });
+
+  const result = evaluateContextualEligibility(course, applicant);
+
+  assert.strictEqual(result.status, 'information_needed');
+  assert.strictEqual(result.is_contextual, false);
+  assert.ok(
+    result.missing_information.some(
+      (entry) =>
+        entry.criterion_id ===
+          'first_generation_higher_education' &&
+        entry.reason ===
+          'lancaster_parental_he_history_confirmation_required'
+    ),
+    'Generic first-in-family evidence must not over-confirm Lancaster parental HE eligibility.'
+  );
+}
+
+{
+  const applicant = baselineApplicant({
+    contextual_profile: {
+      personal_circumstances: {
+        young_or_adult_carer: 'yes'
+      }
+    }
+  });
+
+  const result = evaluateContextualEligibility(course, applicant);
+
+  assert.strictEqual(result.status, 'information_needed');
+  assert.strictEqual(result.is_contextual, false);
+  assert.ok(
+    result.missing_information.some(
+      (entry) =>
+        entry.criterion_id === 'young_carer' &&
+        entry.reason ===
+          'lancaster_young_carer_relationship_confirmation_required'
+    ),
+    'Generic carer evidence must not over-confirm Lancaster young-carer-to-parent-or-sibling eligibility.'
+  );
 }
 
 function withLancasterAccess(status, overrides = {}) {

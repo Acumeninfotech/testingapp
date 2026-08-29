@@ -1413,6 +1413,38 @@ function scottishLevel2SubjectMap(subjects = []) {
   return result;
 }
 
+function scottishLevel2CountGradeMap(subjects = []) {
+  const result = {};
+
+  for (const [index, subject] of subjects.entries()) {
+    const subjectId = normaliseScottishSubjectId(subject);
+    const grade = scottishLevel2SubjectGrade(subject);
+
+    if (!subjectId || grade === undefined || grade === null || grade === '') {
+      continue;
+    }
+
+    /*
+     * Minimum-count checks must count qualification entries, not unique
+     * subject IDs. The wizard permits more than one generic "other" row;
+     * collapsing those rows into a subject-keyed object would incorrectly
+     * reduce a seven-subject National 5 profile to six.
+     *
+     * Keep the first key unchanged so combined-science handling continues
+     * to use the shared GCSE counting semantics. Duplicate IDs receive a
+     * deterministic suffix solely for the count calculation.
+     */
+    let key = subjectId;
+    if (Object.prototype.hasOwnProperty.call(result, key)) {
+      key = `${subjectId}__${index}`;
+    }
+
+    result[key] = grade;
+  }
+
+  return result;
+}
+
 function scottishSubjectCanCount(subject, route = {}, level) {
   const schoolYear = scottishSubjectSchoolYear(subject);
   const requiredYear = normaliseId(
@@ -2929,7 +2961,9 @@ function evaluateScottishRoute(course, applicant, state) {
   const profile = applicant.scottish_profile || {};
   const ueaExceptionManualReviewReason =
     ueaScottishExceptionManualReviewReason(course, applicant, state);
-  const national5CountGrades = profileToSubjectMap({ subjects: profile.national_5_subjects || [] });
+  const national5CountGrades = scottishLevel2CountGradeMap(
+    asArray(profile.national_5_subjects)
+  );
   const national5 = scottishLevel2SubjectMap([
     ...asArray(profile.national_5_subjects),
     ...asArray(profile.standard_grade_subjects)

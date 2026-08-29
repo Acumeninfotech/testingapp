@@ -34,6 +34,14 @@ const LANCASTER_CONTEXTUAL_CONFIRMATION = {
   contextual_offer_grade: 'ABB'
 };
 
+const LANCASTER_SCOTTISH_CONTEXTUAL_CONFIRMATION = {
+  collapsed_label: 'Contextual eligibility confirmed',
+  expanded_heading: 'Contextual eligibility confirmed',
+  consideration_label: 'Contextual consideration:',
+  expanded_body:
+    'Your contextual status may be considered during UCAT interview shortlisting. Lancaster does not publish a reduced Scottish contextual grade profile, so ApplySmart retains the standard published Scottish academic requirements.'
+};
+
 const LIVERPOOL_CONTEXTUAL_CONFIRMATION = {
   collapsed_label: 'Contextual eligibility confirmed',
   expanded_heading: 'Contextual eligibility confirmed',
@@ -2735,6 +2743,19 @@ function contextualConfirmationFor(card = {}, contextualStatus = null, options =
     contextualStatus === 'confirmed' &&
     options.guaranteedInterview !== true
   ) {
+    const qualificationRoute = normaliseCheckId(
+      card.eligibility?.qualification_route ||
+      card.applicant_context?.qualification_route ||
+      ''
+    );
+
+    if (
+      qualificationRoute === 'scottish' ||
+      qualificationRoute === 'scottish_advanced_highers'
+    ) {
+      return { ...LANCASTER_SCOTTISH_CONTEXTUAL_CONFIRMATION };
+    }
+
     return { ...LANCASTER_CONTEXTUAL_CONFIRMATION };
   }
   if (profileId === 'liverpool-a100' && contextualStatus === 'confirmed') {
@@ -6844,12 +6865,15 @@ function presentResultCard({
     transparencyContext.qualification_route ||
     null;
 
-  const isHymsScottishQualificationRoute =
-    transparencyContext.course_identity?.profile_id === 'hull-york-a100' &&
-    qualificationRoute === 'scottish';
+  const suppressAlevelAlternativeOfferForScottishRoute =
+    qualificationRoute === 'scottish' &&
+    [
+      'hull-york-a100',
+      'lancaster-a100'
+    ].includes(transparencyContext.course_identity?.profile_id);
 
   const activeAlternativeAcademicOffer =
-    isHymsScottishQualificationRoute
+    suppressAlevelAlternativeOfferForScottishRoute
       ? null
       : buildAlternativeAcademicOffer(
           transparencyContext.stage_1_eligibility,

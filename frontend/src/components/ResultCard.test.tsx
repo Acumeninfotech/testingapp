@@ -316,6 +316,67 @@ function lancasterAlevelApplicant({
   });
 }
 
+function lancasterScottishApplicant(): Record<string, unknown> {
+  const applicant = clone(lancasterFixture.base_applicant);
+
+  applicant.profile_id = 'lancaster_scottish_result_card_epq_suppression_regression';
+  applicant.qualification_route = 'scottish';
+  applicant.applicant_identity = {
+    ...(applicant.applicant_identity as Record<string, unknown>),
+    applicant_type: 'standard_school_leaver',
+    fee_status: 'Home',
+    domicile: 'England',
+    contextual: false,
+    widening_participation: false,
+    contextual_flags: {},
+    graduate: false,
+  };
+  applicant.contextual_profile = {};
+
+  delete applicant.a_level_profile;
+  delete applicant.gcse_profile;
+  delete applicant.ib_profile;
+  delete applicant.scottish_qualifications;
+  delete applicant.scottish_higher_profile;
+  delete applicant.advanced_higher_profile;
+
+  applicant.scottish_profile = {
+    national_5_subjects: [
+      { subject_id: 'english_language', grade: 'A' },
+      { subject_id: 'mathematics', grade: 'A' },
+      { subject_id: 'biology', grade: 'A' },
+      { subject_id: 'chemistry', grade: 'A' },
+      { subject_id: 'physics', grade: 'A' },
+      { subject_id: 'other', grade: 'A' },
+      { subject_id: 'other', grade: 'A' },
+    ],
+    higher_subjects: [
+      { subject_id: 'biology', grade: 'A', achieved_grade: 'A', sitting_id: 's5', school_year: 's5' },
+      { subject_id: 'chemistry', grade: 'A', achieved_grade: 'A', sitting_id: 's5', school_year: 's5' },
+      { subject_id: 'mathematics', grade: 'A', achieved_grade: 'A', sitting_id: 's5', school_year: 's5' },
+      { subject_id: 'english', grade: 'A', achieved_grade: 'A', sitting_id: 's5', school_year: 's5' },
+      { subject_id: 'history', grade: 'B', achieved_grade: 'B', sitting_id: 's5', school_year: 's5' },
+    ],
+    advanced_higher_subjects: [],
+  };
+
+  applicant.admissions_tests = {
+    ucat: {
+      total_score: 2200,
+      score_scale: 2700,
+      subtests: {
+        verbal_reasoning: 730,
+        decision_making: 730,
+        quantitative_reasoning: 740,
+      },
+      sjt_band: 1,
+      test_year: 2026,
+    },
+  };
+
+  return applicant;
+}
+
 describe('ResultCard', () => {
   it('labels a strong interview_likely band as Strong Choice', () => {
     render(<ResultCard result={makeResult({ prediction: { result_band: 'interview_likely' } })} />);
@@ -558,6 +619,23 @@ describe('ResultCard', () => {
 
     expect(screen.queryByText('Alternative Academic Offer')).not.toBeInTheDocument();
     expect(screen.queryByText('EPQ Alternative')).not.toBeInTheDocument();
+    expect(screen.queryByText(/AAB \+ EPQ Grade B/i)).not.toBeInTheDocument();
+  });
+
+  it('does not show Lancaster A-level EPQ alternative presentation for Scottish-route applicants', () => {
+    const [result] = predict({
+      universityIds: ['lancaster-a100'],
+      studentProfile: lancasterScottishApplicant(),
+    });
+
+    expect(result.result_card.recommendation_display_state).toBe('standard');
+    expect(result.result_card.alternative_academic_offer).toBeNull();
+
+    render(<ResultCard result={result} />);
+
+    expect(screen.queryByText('Alternative Academic Offer')).not.toBeInTheDocument();
+    expect(screen.queryByText('EPQ Alternative')).not.toBeInTheDocument();
+    expect(screen.queryByText('AAA')).not.toBeInTheDocument();
     expect(screen.queryByText(/AAB \+ EPQ Grade B/i)).not.toBeInTheDocument();
   });
 
