@@ -240,9 +240,11 @@ assert.strictEqual(
   'access_to_sheffield_medicine'
 );
 
+assert.strictEqual(course.stage_1_eligibility.post_16.scottish.route_implemented, true);
+assert.strictEqual(course.stage_1_eligibility.post_16.scottish.contextual_route_implemented, true);
 assert.strictEqual(
   course.stage_1_eligibility.post_16.scottish.execution_status,
-  'manual_review_required_engine_v1_cannot_jointly_assess_higher_and_advanced_higher_profiles'
+  'automatic_with_complete_scottish_qualification_data'
 );
 assert.strictEqual(
   course.stage_1_eligibility.post_16.degree.execution_status,
@@ -255,6 +257,31 @@ assert.deepStrictEqual(
 assert.deepStrictEqual(
   course.stage_1_eligibility.post_16.scottish.advanced_higher_offer.grade_profile,
   ['A', 'A']
+);
+assert.deepStrictEqual(
+  course.stage_1_eligibility.post_16.scottish.grade_requirements.map((rule) => [
+    rule.requirement_id,
+    rule.qualification_level,
+    rule.academic_pathway,
+    rule.higher_grade_profile,
+    rule.advanced_higher_grade_profile
+  ]),
+  [
+    [
+      'sheffield_scottish_standard_highers_and_advanced_highers',
+      'scottish_highers_and_advanced_highers',
+      'standard',
+      ['A', 'A', 'A', 'B', 'B'],
+      ['A', 'A']
+    ],
+    [
+      'sheffield_scottish_contextual_highers_and_advanced_highers',
+      'scottish_highers_and_advanced_highers',
+      'contextual',
+      ['A', 'A', 'B', 'B', 'B'],
+      ['A', 'B']
+    ]
+  ]
 );
 assert.strictEqual(
   course.stage_1_eligibility.post_16.degree.minimum_classification,
@@ -345,7 +372,6 @@ assert.deepStrictEqual(
   ]
 );
 for (const implementedRule of [
-  'scottish',
   'graduate',
   'resit',
   'contextual_ib',

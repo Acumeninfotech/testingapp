@@ -67,6 +67,10 @@ function recognisedProgrammeStatus(status) {
   return ['offered', 'participating', 'completed'].includes(status);
 }
 
+function programmeCompletionConfirmed(status) {
+  return status === 'completed';
+}
+
 function findOtherProgramme(evidence, programmeIds, normaliseId) {
   return asArray(evidence.access_programmes?.other_programmes)
     .map(asObject)
@@ -208,11 +212,17 @@ function evaluateNamedProgrammes(evidence, result, normaliseId) {
       'access_to_sheffield_medicine_programme',
       'Access to Sheffield (Medicine)',
       'contextual_profile.access_programmes.other_programmes',
-      recognisedProgrammeStatus(status) ? 'matched' : 'needs_review',
+      programmeCompletionConfirmed(status) ? 'matched' : 'needs_review',
       accessMedicine.programme_id,
-      { programme_status: status || null }
+      {
+        programme_status: status || null,
+        required_status: 'completed',
+        ...(!programmeCompletionConfirmed(status) ? {
+          reason: 'sheffield_access_to_sheffield_medicine_completion_required'
+        } : {})
+      }
     );
-    if (recognisedProgrammeStatus(status)) {
+    if (programmeCompletionConfirmed(status)) {
       result.qualifying_criteria.push(entry);
       result.checks.programmes.push(entry);
       result.contextual_evidence.matched_programmes.push(SHEFFIELD_ACCESS_TO_SHEFFIELD_MEDICINE_PROGRAMME_ID);
@@ -221,6 +231,9 @@ function evaluateNamedProgrammes(evidence, result, normaliseId) {
     } else {
       result.missing_information.push(entry);
       result.checks.programmes.push(entry);
+      if (recognisedProgrammeStatus(status)) {
+        result.provisional_activated_applicant_group_ids.push(SHEFFIELD_CONTEXTUAL_OFFER_GROUP_ID);
+      }
     }
   }
 

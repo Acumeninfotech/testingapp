@@ -56,6 +56,19 @@ const fixture = readJson('data/fixtures/interview-band-classification/sheffield-
 const southamptonCourse = readJson('data/universities/southampton-a100.json');
 const southamptonConfig = readJson('data/interview-band-configs/southampton-a100.json');
 const southamptonFixture = readJson('data/fixtures/interview-band-classification/southampton-a100.json');
+const STANDARD_BIOLOGY_PATHWAY_ID = 'standard_aaa_biology_route';
+const STANDARD_CHEMISTRY_PATHWAY_ID = 'standard_aaa_chemistry_route';
+const STANDARD_ROUTE_REQUIREMENT_TYPES = new Set([
+  STANDARD_BIOLOGY_PATHWAY_ID,
+  STANDARD_CHEMISTRY_PATHWAY_ID
+]);
+const STANDARD_BIOLOGY_MET_ROWS = [
+  ['A-level grades: AAA', 'met', STANDARD_BIOLOGY_PATHWAY_ID]
+];
+const STANDARD_NOT_MET_ROWS = [
+  ['A-level grades: AAA', 'not_met', STANDARD_BIOLOGY_PATHWAY_ID],
+  ['A-level grades: AAA', 'not_met', STANDARD_CHEMISTRY_PATHWAY_ID]
+];
 
 function subject(subjectId, predictedGrade, sittingStatus = 'first_sitting') {
   return {
@@ -150,7 +163,7 @@ function publicAcademicChecksFor(applicant) {
 }
 
 function publicKey(check) {
-  return `${check.qualification_type}:${check.label}`;
+  return `${check.qualification_type}:${check.requirement_type}:${check.label}`;
 }
 
 function assertNoDuplicatePublicAcademicLabels(checks, label) {
@@ -169,7 +182,7 @@ function publicPost16PathwayChecks(checks) {
       'a_level_standard_offer',
       'epq_alternative_offer',
       'a_level_route'
-    ].includes(check.requirement_type));
+    ].includes(check.requirement_type) || STANDARD_ROUTE_REQUIREMENT_TYPES.has(check.requirement_type));
 }
 
 function assertPublicPost16(label, applicant, expectedRows) {
@@ -340,13 +353,13 @@ assertAcademicScenario({
   applicant: applicantWith(),
   expectedStatus: 'eligible',
   expectedPathway: 'standard',
-  expectedPathwayId: null,
+  expectedPathwayId: STANDARD_BIOLOGY_PATHWAY_ID,
   expectedBand: 'interview_likely'
 });
 assertPublicPost16(
   'AAA no EPQ',
   applicantWith(),
-  [['A-level grades', 'met', 'a_level_standard_offer']]
+  STANDARD_BIOLOGY_MET_ROWS
 );
 
 assertAcademicScenario({
@@ -354,13 +367,13 @@ assertAcademicScenario({
   applicant: applicantWith({ epq: { status: 'planning', grade: null } }),
   expectedStatus: 'eligible',
   expectedPathway: 'standard',
-  expectedPathwayId: null,
+  expectedPathwayId: STANDARD_BIOLOGY_PATHWAY_ID,
   expectedBand: 'interview_likely'
 });
 assertPublicPost16(
   'AAA EPQ planning',
   applicantWith({ epq: { status: 'planning', grade: null } }),
-  [['A-level grades', 'met', 'a_level_standard_offer']]
+  STANDARD_BIOLOGY_MET_ROWS
 );
 
 for (const [label, scenario] of [
@@ -393,7 +406,10 @@ for (const [label, scenario] of [
   assertPublicPost16(
     label,
     applicantWith(scenario),
-    [['A-levels + EPQ', 'met', 'epq_alternative_offer']]
+    [
+      ...STANDARD_NOT_MET_ROWS,
+      ['A-levels + EPQ', 'met', 'epq_alternative_offer']
+    ]
   );
 }
 
@@ -443,7 +459,10 @@ for (const [label, scenario] of [
   assertPublicPost16(
     label,
     applicantWith(scenario),
-    [['A-levels + EPQ', 'not_met', 'epq_alternative_offer']]
+    [
+      ...STANDARD_NOT_MET_ROWS,
+      ['A-levels + EPQ', 'not_met', 'epq_alternative_offer']
+    ]
   );
 }
 
@@ -478,7 +497,10 @@ for (const [label, scenario, expectedReason, explanationPattern] of [
       check.status,
       check.requirement_type
     ]),
-    [['A-levels + EPQ', 'information_needed', 'epq_alternative_offer']],
+    [
+      ...STANDARD_NOT_MET_ROWS,
+      ['A-levels + EPQ', 'information_needed', 'epq_alternative_offer']
+    ],
     `${label}: unexpected public post-16 rows ${JSON.stringify(card.academic_requirement_checks)}`
   );
   assert.match(card.primary_explanation, explanationPattern, `${label}: explanation`);
@@ -515,7 +537,10 @@ assertPublicPost16(
     epq: { status: 'achieved', grade: 'A', taken_alongside_a_levels: true },
     hasResits: true
   }),
-  [['A-levels + EPQ', 'not_met', 'epq_alternative_offer']]
+  [
+    ...STANDARD_NOT_MET_ROWS,
+    ['A-levels + EPQ', 'not_met', 'epq_alternative_offer']
+  ]
 );
 
 assertAcademicScenario({
@@ -536,7 +561,10 @@ assertPublicPost16(
     subjects: [subject('biology', 'A'), subject('mathematics', 'A'), subject('physics', 'B')],
     epq: { status: 'not_taken', grade: null }
   }),
-  [['A-level grades', 'not_met', 'a_level_standard_offer']]
+  [
+    ...STANDARD_NOT_MET_ROWS,
+    ['A-level grades', 'not_met', 'a_level_standard_offer']
+  ]
 );
 
 assertAcademicScenario({
@@ -544,7 +572,7 @@ assertAcademicScenario({
   applicant: applicantWith(),
   expectedStatus: 'eligible',
   expectedPathway: 'standard',
-  expectedPathwayId: null,
+  expectedPathwayId: STANDARD_BIOLOGY_PATHWAY_ID,
   expectedBand: 'interview_likely'
 });
 
@@ -566,7 +594,8 @@ assertAcademicScenario({
   });
   const result = classify(invalidStandardApplicant);
   assert.strictEqual(result.eligibility.status, 'not_eligible');
-  assert.strictEqual(result.eligibility.academic_pathway ?? null, null);
+  assert.strictEqual(result.eligibility.academic_pathway ?? null, 'standard');
+  assert.strictEqual(result.eligibility.academic_pathway_id ?? null, STANDARD_BIOLOGY_PATHWAY_ID);
   assert.ok(
     result.eligibility.failures.includes('a_level_requirements_not_met'),
     'EPQ integration must not bypass Sheffield standard subject-combination failures.'
@@ -589,7 +618,10 @@ assertAcademicScenario({
       check.status,
       check.requirement_type
     ]),
-    [['A-levels + EPQ', 'met', 'epq_alternative_offer']]
+    [
+      ...STANDARD_NOT_MET_ROWS,
+      ['A-levels + EPQ', 'met', 'epq_alternative_offer']
+    ]
   );
 }
 
