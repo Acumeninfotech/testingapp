@@ -118,6 +118,23 @@ function advancedHigherSubjects(subjects = ['biology', 'chemistry']) {
   }));
 }
 
+function national5Subjects() {
+  return [
+    'chemistry',
+    'biology',
+    'mathematics',
+    'physics',
+    'english_language',
+    'other'
+  ].map((subjectId) => ({
+    subject_id: subjectId,
+    grade: 'A',
+    predicted_grade: 'A',
+    school_year: 's4',
+    sitting_id: 's4'
+  }));
+}
+
 function scottishApplicant(domicile = 'England', overrides = {}) {
   const applicant = merge(fixture.base_applicant, {
     applicant_identity: {
@@ -153,6 +170,67 @@ function scottishApplicant(domicile = 'England', overrides = {}) {
   delete applicant.ib_profile;
 
   return merge(applicant, overrides);
+}
+
+function frontendShapedScottishApplicant() {
+  return scottishApplicant('England', {
+    profile_id: 'queen_mary_frontend_scottish_home_2280',
+    applicant_identity: {
+      fee_status: 'home_fee',
+      domicile: 'england'
+    },
+    gcse_profile: {
+      subjects: {},
+      additional_subjects: [],
+      total_gcse_count: 0,
+      top_9_gcse_grades: []
+    },
+    a_level_profile: {
+      subjects: [],
+      sitting_status: 'first_sitting',
+      completed_in_one_sitting: null,
+      epq: {
+        status: 'not_taken',
+        grade: null,
+        taken_alongside_a_levels: null
+      }
+    },
+    scottish_profile: {
+      completed_in_one_sitting: null,
+      national_5_subjects: national5Subjects(),
+      higher_subjects: [
+        'chemistry',
+        'biology',
+        'mathematics',
+        'physics',
+        'english_language'
+      ].map((subjectId) => ({
+        subject_id: subjectId,
+        grade: 'A',
+        predicted_grade: 'A',
+        school_year: 's5',
+        sitting_id: 's5'
+      })),
+      advanced_higher_subjects: advancedHigherSubjects([
+        'chemistry',
+        'biology',
+        'mathematics'
+      ])
+    },
+    admissions_tests: {
+      ucat: {
+        total_score: 2280,
+        score_scale: 2700,
+        subtests: {
+          verbal_reasoning: 760,
+          decision_making: 760,
+          quantitative_reasoning: 760
+        },
+        sjt_band: 2,
+        test_year: 2026
+      }
+    }
+  });
 }
 
 function classify(applicant) {
@@ -221,6 +299,30 @@ assertEligible(
   'scottish',
   'Scotland domicile plus valid Scottish qualifications'
 );
+
+{
+  const { direct, classification } = assertEligible(
+    frontendShapedScottishApplicant(),
+    'scottish',
+    'Frontend-shaped Home Scottish qualifications payload'
+  );
+  assert.ok(
+    !direct.manual_review_reasons.includes('national_5_equivalence_requires_manual_review')
+  );
+  assert.strictEqual(
+    direct.academic_pathway_id,
+    'queen_mary_scottish_standard_highers_and_advanced_highers'
+  );
+  assert.strictEqual(
+    classification.eligibility.academic_pathway_id,
+    'queen_mary_scottish_standard_highers_and_advanced_highers'
+  );
+  assert.strictEqual(
+    classification.guidance_pool_id,
+    'qmul_home_standard_school_leaver_guidance'
+  );
+  assert.notStrictEqual(classification.canonical_interview_band, 'insufficient_evidence');
+}
 
 assertEligible(
   scottishApplicant('Scotland', {

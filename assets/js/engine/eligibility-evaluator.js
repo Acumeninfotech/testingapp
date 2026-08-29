@@ -2058,9 +2058,9 @@ function applyScottishNational5EquivalenceReview(course, applicant, state) {
     return;
   }
 
-  const equivalenceStatus = normaliseId(
-    course.stage_1_eligibility?.post_16?.scottish?.national_5_equivalence?.execution_status
-  );
+  const equivalencePolicy =
+    course.stage_1_eligibility?.post_16?.scottish?.national_5_equivalence || {};
+  const equivalenceStatus = normaliseId(equivalencePolicy.execution_status);
   if (equivalenceStatus !== 'manual_review') {
     return;
   }
@@ -2071,12 +2071,21 @@ function applyScottishNational5EquivalenceReview(course, applicant, state) {
     return;
   }
 
-  const reviewReason = 'national_5_equivalence_requires_manual_review';
+  const reviewReason =
+    equivalencePolicy.manual_review_reason || 'national_5_equivalence_requires_manual_review';
   const gcseEquivalentFailures = new Set([
     'minimum_gcse_count_not_met',
     'gcse_science_alternative_not_met',
     'minimum_gcse_points_not_met'
   ]);
+  const unresolvedGcseEquivalentFailure = state.failures.some((reason) => {
+    return gcseEquivalentFailures.has(reason) ||
+      reason.startsWith('minimum_gcse_count_at_grade_not_met:') ||
+      reason.startsWith('gcse_requirement_not_met:');
+  });
+  if (!equivalencePolicy.manual_review_reason && !unresolvedGcseEquivalentFailure) {
+    return;
+  }
   state.failures = state.failures.filter((reason) => {
     return !(
       gcseEquivalentFailures.has(reason) ||
