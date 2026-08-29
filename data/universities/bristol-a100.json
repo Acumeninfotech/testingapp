@@ -608,8 +608,8 @@
         "notes": "IB standard and contextual routes are both implemented for supported applicant groups."
       },
       "scottish": {
-        "status": "official_source_verified_manual_review",
-        "execution_status": "manual_review_required_engine_v1_cannot_jointly_assess_higher_and_advanced_higher_profiles",
+        "status": "official_source_verified",
+        "execution_status": "implemented_shared_scottish_eligibility",
         "higher_offer": {
           "grade_profile": [
             "A",
@@ -640,7 +640,83 @@
           ]
         },
         "separate_applicant_pool": false,
-        "notes": "Scottish applicants are assessed in the Home pool, but automatic Scottish eligibility remains a manual-review boundary."
+        "notes": "Scottish qualifications are evaluated through the shared Scottish eligibility route. Scottish applicants remain in the ordinary Home applicant pool; domicile does not create a separate Bristol selection pool. No Scottish contextual academic reduction is implemented because no such reduction is established by the approved evidence.",
+        "route_implemented": true,
+        "contextual_route_implemented": false,
+        "grade_requirements": [
+          {
+            "requirement_id": "bristol_scottish_standard_highers_and_advanced_highers",
+            "route_id": "bristol_scottish_standard_highers_and_advanced_highers",
+            "pathway_id": "bristol_scottish_standard_highers_and_advanced_highers",
+            "qualification_level": "scottish_highers_and_advanced_highers",
+            "academic_pathway": "standard",
+            "applies_to_group_ids": [
+              "school_leaver"
+            ],
+            "excluded_group_ids": [
+              "graduate_applicant"
+            ],
+            "higher_grade_profile": [
+              "A",
+              "A",
+              "A",
+              "A",
+              "B"
+            ],
+            "advanced_higher_grade_profile": [
+              "A",
+              "A"
+            ],
+            "advanced_higher_required_subject_grade_options": [
+              {
+                "option_id": "chemistry_biology",
+                "grade_requirements": [
+                  {
+                    "subject_id": "chemistry",
+                    "minimum_grade": "A"
+                  },
+                  {
+                    "subject_id": "biology",
+                    "minimum_grade": "A"
+                  }
+                ]
+              },
+              {
+                "option_id": "chemistry_physics",
+                "grade_requirements": [
+                  {
+                    "subject_id": "chemistry",
+                    "minimum_grade": "A"
+                  },
+                  {
+                    "subject_id": "physics",
+                    "minimum_grade": "A"
+                  }
+                ]
+              },
+              {
+                "option_id": "chemistry_mathematics",
+                "grade_requirements": [
+                  {
+                    "subject_id": "chemistry",
+                    "minimum_grade": "A"
+                  },
+                  {
+                    "subject_id": "mathematics",
+                    "minimum_grade": "A"
+                  }
+                ]
+              }
+            ],
+            "decision_outcome_if_not_met": "not_eligible",
+            "source_ids": [
+              "bristol_research_doc",
+              "bristol_course_page_2027",
+              "bristol_admissions_statement"
+            ],
+            "notes": "AAAAB at Higher plus AA at Advanced Higher. Advanced Highers must include Chemistry at grade A and one of Biology, Physics or Mathematics at grade A."
+          }
+        ]
       },
       "degree": {
         "status": "official_source_verified_manual_review",

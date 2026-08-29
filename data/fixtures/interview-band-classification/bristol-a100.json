@@ -498,7 +498,7 @@
       }
     },
     {
-      "scenario_id": "scottish_route_requires_manual_review",
+      "scenario_id": "scottish_standard_route_eligible",
       "overrides": {
         "qualification_route": "scottish",
         "applicant_identity": {
@@ -550,11 +550,10 @@
         }
       },
       "expected": {
-        "eligibility_status": "manual_review",
-        "guidance_pool_id": null,
-        "interview_band": "insufficient_evidence",
-        "failure": "scottish_prerequisites_incomplete",
-        "review_boundary": true
+        "eligibility_status": "eligible",
+        "guidance_pool_id": "home_a100",
+        "interview_band": "realistic",
+        "failure": null
       }
     },
     {

@@ -371,11 +371,31 @@ assert.strictEqual(unverifiedWpResult.canonical_interview_band, 'high_risk');
 
 assert.strictEqual(
   course.stage_1_eligibility.post_16.scottish.execution_status,
-  'manual_review_required_engine_v1_cannot_jointly_assess_higher_and_advanced_higher_profiles'
+  'implemented_shared_scottish_eligibility'
 );
 assert.strictEqual(
-  course.stage_1_eligibility.post_16.degree.execution_status,
-  'manual_review_required_engine_v1_cannot_combine_degree_and_bbb_subject_branch'
+  course.stage_1_eligibility.post_16.scottish.route_implemented,
+  true
+);
+assert.strictEqual(
+  course.stage_1_eligibility.post_16.scottish.contextual_route_implemented,
+  false
+);
+assert.deepStrictEqual(
+  config.eligibility.qualification_routes.supported,
+  [
+    'a_level',
+    'international_baccalaureate',
+    'international_qualification',
+    'scottish'
+  ]
+);
+assert.ok(
+  !config.eligibility.qualification_routes.manual_review.includes('scottish')
+);
+assert.deepStrictEqual(
+  config.eligibility.use_course_eligibility_for_qualification_routes,
+  ['scottish']
 );
 assert.deepStrictEqual(
   course.stage_1_eligibility.post_16.scottish.higher_offer.grade_profile,
@@ -384,6 +404,22 @@ assert.deepStrictEqual(
 assert.deepStrictEqual(
   course.stage_1_eligibility.post_16.scottish.advanced_higher_offer.grade_profile,
   ['A', 'A']
+);
+assert.strictEqual(
+  course.stage_1_eligibility.post_16.scottish.grade_requirements.length,
+  1
+);
+assert.strictEqual(
+  course.stage_1_eligibility.post_16.scottish.grade_requirements[0].qualification_level,
+  'scottish_highers_and_advanced_highers'
+);
+assert.strictEqual(
+  course.stage_1_eligibility.post_16.scottish.grade_requirements[0].academic_pathway,
+  'standard'
+);
+assert.strictEqual(
+  course.stage_1_eligibility.post_16.degree.execution_status,
+  'manual_review_required_engine_v1_cannot_combine_degree_and_bbb_subject_branch'
 );
 assert.strictEqual(
   course.stage_1_eligibility.post_16.degree.minimum_classification,
