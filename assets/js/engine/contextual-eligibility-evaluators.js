@@ -108,6 +108,26 @@ const {
   QUEEN_MARY_CONTEXTUAL_EVALUATOR_ID,
   evaluateQueenMaryContextualEligibility
 } = require('./queen-mary-contextual-eligibility');
+const {
+  KEELE_CONTEXTUAL_EVALUATOR_ID,
+  evaluateKeeleContextualEligibility
+} = require('./keele-contextual-eligibility');
+const {
+  KMMS_CONTEXTUAL_EVALUATOR_ID,
+  evaluateKmmsContextualEligibility
+} = require('./kmms-contextual-eligibility');
+const {
+  CITY_ST_GEORGES_CONTEXTUAL_EVALUATOR_ID,
+  evaluateCityStGeorgesContextualEligibility
+} = require('./city-st-georges-contextual-eligibility');
+const {
+  EDGE_HILL_CONTEXTUAL_EVALUATOR_ID,
+  evaluateEdgeHillContextualEligibility
+} = require('./edge-hill-contextual-eligibility');
+const {
+  ANGLIA_RUSKIN_CONTEXTUAL_EVALUATOR_ID,
+  evaluateAngliaRuskinContextualEligibility
+} = require('./anglia-ruskin-contextual-eligibility');
 
 const DEFAULT_CONTEXTUAL_ELIGIBILITY_EVALUATORS = {
   [ABERDEEN_CONTEXTUAL_EVALUATOR_ID]: evaluateAberdeenContextualEligibility,
@@ -136,7 +156,12 @@ const DEFAULT_CONTEXTUAL_ELIGIBILITY_EVALUATORS = {
   [SUNDERLAND_CONTEXTUAL_EVALUATOR_ID]: evaluateSunderlandContextualEligibility,
   [LINCOLN_CONTEXTUAL_EVALUATOR_ID]: evaluateLincolnContextualEligibility,
   [CAMBRIDGE_CONTEXTUAL_EVALUATOR_ID]: evaluateCambridgeContextualEligibility,
-  [QUEEN_MARY_CONTEXTUAL_EVALUATOR_ID]: evaluateQueenMaryContextualEligibility
+  [QUEEN_MARY_CONTEXTUAL_EVALUATOR_ID]: evaluateQueenMaryContextualEligibility,
+  [KEELE_CONTEXTUAL_EVALUATOR_ID]: evaluateKeeleContextualEligibility,
+  [KMMS_CONTEXTUAL_EVALUATOR_ID]: evaluateKmmsContextualEligibility,
+  [CITY_ST_GEORGES_CONTEXTUAL_EVALUATOR_ID]: evaluateCityStGeorgesContextualEligibility,
+  [EDGE_HILL_CONTEXTUAL_EVALUATOR_ID]: evaluateEdgeHillContextualEligibility,
+  [ANGLIA_RUSKIN_CONTEXTUAL_EVALUATOR_ID]: evaluateAngliaRuskinContextualEligibility
 };
 
 module.exports = {
@@ -162,6 +187,11 @@ module.exports = {
   LINCOLN_CONTEXTUAL_EVALUATOR_ID,
   CAMBRIDGE_CONTEXTUAL_EVALUATOR_ID,
   QUEEN_MARY_CONTEXTUAL_EVALUATOR_ID,
+  KEELE_CONTEXTUAL_EVALUATOR_ID,
+  KMMS_CONTEXTUAL_EVALUATOR_ID,
+  CITY_ST_GEORGES_CONTEXTUAL_EVALUATOR_ID,
+  EDGE_HILL_CONTEXTUAL_EVALUATOR_ID,
+  ANGLIA_RUSKIN_CONTEXTUAL_EVALUATOR_ID,
   evaluateAberdeenContextualEligibility,
   evaluateBirminghamContextualEligibility,
   evaluateDundeeContextualEligibility,
@@ -183,5 +213,10 @@ module.exports = {
   evaluateLincolnContextualEligibility,
   evaluateCambridgeContextualEligibility,
   evaluateQueenMaryContextualEligibility,
+  evaluateKeeleContextualEligibility,
+  evaluateKmmsContextualEligibility,
+  evaluateCityStGeorgesContextualEligibility,
+  evaluateEdgeHillContextualEligibility,
+  evaluateAngliaRuskinContextualEligibility,
   DEFAULT_CONTEXTUAL_ELIGIBILITY_EVALUATORS
 };

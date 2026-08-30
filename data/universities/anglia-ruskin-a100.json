@@ -215,6 +215,92 @@
       "scored_after_eligibility": false,
       "notes": "GCSEs are a strict pass/fail threshold. Higher GCSE grades are not scored after the minimum is met."
     },
+    "national_5": {
+      "status": "official_source_verified",
+      "source_ids": [
+        "aru_medicine_entry_requirements"
+      ],
+      "grade_requirements": [
+        {
+          "requirement_id": "aru_national_5_english_language_b",
+          "subject_id": "english_language",
+          "alternative_subject_ids": [
+            "english"
+          ],
+          "minimum_grade": "B",
+          "qualification_level": "national_5",
+          "decision_outcome_if_not_met": "not_eligible"
+        },
+        {
+          "requirement_id": "aru_national_5_mathematics_b",
+          "subject_id": "mathematics",
+          "minimum_grade": "B",
+          "qualification_level": "national_5",
+          "decision_outcome_if_not_met": "not_eligible"
+        },
+        {
+          "requirement_id": "aru_national_5_two_sciences_b",
+          "requirement_type": "any_of",
+          "accepted_options": [
+            {
+              "option_id": "biology_and_chemistry",
+              "grade_requirements": [
+                {
+                  "subject_id": "biology",
+                  "minimum_grade": "B"
+                },
+                {
+                  "subject_id": "chemistry",
+                  "minimum_grade": "B"
+                }
+              ]
+            },
+            {
+              "option_id": "biology_and_physics",
+              "grade_requirements": [
+                {
+                  "subject_id": "biology",
+                  "minimum_grade": "B"
+                },
+                {
+                  "subject_id": "physics",
+                  "minimum_grade": "B"
+                }
+              ]
+            },
+            {
+              "option_id": "chemistry_and_physics",
+              "grade_requirements": [
+                {
+                  "subject_id": "chemistry",
+                  "minimum_grade": "B"
+                },
+                {
+                  "subject_id": "physics",
+                  "minimum_grade": "B"
+                }
+              ]
+            },
+            {
+              "option_id": "combined_science_bb",
+              "grade_requirements": [
+                {
+                  "subject_id": "combined_science",
+                  "minimum_grade_profile": [
+                    "B",
+                    "B"
+                  ]
+                }
+              ]
+            }
+          ],
+          "qualification_level": "national_5",
+          "decision_outcome_if_not_met": "not_eligible",
+          "notes": "The Higher route also requires two science subjects at National 5 B or accepted equivalent."
+        }
+      ],
+      "notes": "National 5 English Language, Mathematics and two sciences at B or above are required for Scottish qualification applicants."
+    },
     "post_16": {
       "status": "official_source_verified_with_manual_review_boundaries",
       "source_ids": [
@@ -344,8 +430,210 @@
         "notes": "IB route is documented in the ARU specification but remains a manual-review boundary in this implementation unless complete official subject-grade execution data is supplied."
       },
       "scottish": {
-        "status": "official_source_verified_manual_review",
-        "notes": "Scottish route is documented in the ARU specification but remains a manual-review boundary in this implementation."
+        "status": "official_source_verified",
+        "route_implemented": true,
+        "contextual_route_implemented": false,
+        "execution_status": "automatic_with_complete_scottish_qualification_data",
+        "source_ids": [
+          "aru_medicine_entry_requirements"
+        ],
+        "higher_offer": {
+          "grade_profile": [
+            "A",
+            "A",
+            "A",
+            "A",
+            "A"
+          ],
+          "notes": "AAAAA including Biology and/or Chemistry plus another science subject."
+        },
+        "advanced_higher_offer": {
+          "grade_profile": [
+            "A",
+            "B",
+            "B"
+          ],
+          "notes": "ABB, with AB from Biology and/or Chemistry plus another science subject."
+        },
+        "grade_requirements": [
+          {
+            "requirement_id": "aru_scottish_highers_and_advanced_highers",
+            "route_id": "aru_scottish_highers_and_advanced_highers",
+            "pathway_id": "aru_scottish_standard",
+            "academic_pathway": "standard",
+            "applies_to_group_ids": [
+              "school_leaver"
+            ],
+            "qualification_level": "scottish_highers_and_advanced_highers",
+            "higher_grade_profile": [
+              "A",
+              "A",
+              "A",
+              "A",
+              "A"
+            ],
+            "advanced_higher_grade_profile": [
+              "A",
+              "B",
+              "B"
+            ],
+            "combined_grade_requirements": [
+              {
+                "requirement_id": "aru_advanced_higher_science_ab",
+                "qualification_levels": [
+                  "advanced_higher"
+                ],
+                "grade_profile": [
+                  "A",
+                  "B"
+                ],
+                "accepted_subject_ids": [
+                  "biology",
+                  "human_biology",
+                  "chemistry",
+                  "physics",
+                  "mathematics"
+                ],
+                "notes": "AB must come from Biology and/or Chemistry plus another science subject."
+              }
+            ],
+            "higher_required_subject_grade_options": [
+              {
+                "option_id": "higher_chemistry_plus_second_science",
+                "grade_requirements": [
+                  {
+                    "subject_id": "chemistry",
+                    "minimum_grade": "A"
+                  }
+                ],
+                "one_of_subject_groups": [
+                  {
+                    "group_id": "aru_higher_second_science",
+                    "minimum_required": 1,
+                    "subject_ids": [
+                      "biology",
+                      "human_biology",
+                      "physics",
+                      "mathematics"
+                    ]
+                  }
+                ]
+              },
+              {
+                "option_id": "higher_biology_plus_second_science",
+                "grade_requirements": [
+                  {
+                    "subject_id": "biology",
+                    "minimum_grade": "A"
+                  }
+                ],
+                "one_of_subject_groups": [
+                  {
+                    "group_id": "aru_higher_second_science",
+                    "minimum_required": 1,
+                    "subject_ids": [
+                      "chemistry",
+                      "physics",
+                      "mathematics"
+                    ]
+                  }
+                ]
+              }
+            ],
+            "advanced_higher_required_subject_grade_options": [
+              {
+                "option_id": "advanced_higher_chemistry_a_second_science_b",
+                "grade_requirements": [
+                  {
+                    "subject_id": "chemistry",
+                    "minimum_grade": "A"
+                  }
+                ],
+                "one_of_subject_groups": [
+                  {
+                    "group_id": "aru_advanced_higher_second_science_b",
+                    "minimum_required": 1,
+                    "subject_ids": [
+                      "biology",
+                      "human_biology",
+                      "physics",
+                      "mathematics"
+                    ]
+                  }
+                ]
+              },
+              {
+                "option_id": "advanced_higher_biology_a_second_science_b",
+                "grade_requirements": [
+                  {
+                    "subject_id": "biology",
+                    "minimum_grade": "A"
+                  }
+                ],
+                "one_of_subject_groups": [
+                  {
+                    "group_id": "aru_advanced_higher_second_science_b",
+                    "minimum_required": 1,
+                    "subject_ids": [
+                      "chemistry",
+                      "physics",
+                      "mathematics"
+                    ]
+                  }
+                ]
+              },
+              {
+                "option_id": "advanced_higher_chemistry_b_second_science_a",
+                "grade_requirements": [
+                  {
+                    "subject_id": "chemistry",
+                    "minimum_grade": "B"
+                  }
+                ],
+                "one_of_subject_groups": [
+                  {
+                    "group_id": "aru_advanced_higher_second_science_a",
+                    "minimum_required": 1,
+                    "subject_ids": [
+                      "biology",
+                      "human_biology",
+                      "physics",
+                      "mathematics"
+                    ]
+                  }
+                ]
+              },
+              {
+                "option_id": "advanced_higher_biology_b_second_science_a",
+                "grade_requirements": [
+                  {
+                    "subject_id": "biology",
+                    "minimum_grade": "B"
+                  }
+                ],
+                "one_of_subject_groups": [
+                  {
+                    "group_id": "aru_advanced_higher_second_science_a",
+                    "minimum_required": 1,
+                    "subject_ids": [
+                      "chemistry",
+                      "physics",
+                      "mathematics"
+                    ]
+                  }
+                ]
+              }
+            ],
+            "maximum_academic_years_prior_to_entry": 3,
+            "recency_manual_review_reason": "aru_scottish_qualification_recency_requires_review",
+            "decision_outcome_if_not_met": "not_eligible",
+            "source_ids": [
+              "aru_medicine_entry_requirements"
+            ],
+            "notes": "No reduced WAMS Scottish offer is encoded. Recency must be within three academic years before entry where timing evidence is available; missing timing evidence is a manual-review boundary."
+          }
+        ],
+        "notes": "Scottish qualification routing is deterministic for complete current evidence. Contextual/WAMS status does not reduce the Scottish grade profile."
       },
       "notes": "Automatic execution is limited to the A-level route because ARU.docx supplied enough exact A-level thresholds for deterministic checking."
     },
@@ -587,6 +875,16 @@
       "aru_medicine_entry_requirements"
     ],
     "available": true,
+    "contextual_eligibility": {
+      "evaluator_id": "anglia_ruskin_contextual_medicine_a100",
+      "evidence_source": "step_6_contextual_profile",
+      "legacy_contextual_flags_authoritative": false,
+      "activated_applicant_group_ids": [
+        "contextual",
+        "widening_participation"
+      ],
+      "notes": "WAMS eligibility, Essex/East-of-England regional uplifts and guaranteed-interview markers are evaluated separately from structured Step 6 evidence. Generic WAMS status does not imply guaranteed interview."
+    },
     "applies_to_group_ids": [
       "contextual",
       "widening_participation",

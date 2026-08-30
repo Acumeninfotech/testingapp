@@ -72,7 +72,27 @@ assert.strictEqual(course.course.entry_route, 'standard_entry');
 assert.deepStrictEqual(course.course.fee_statuses, ['home']);
 assert.strictEqual(course.stage_2_interview_selection.primary_model, 'ucat_ranking');
 assert.strictEqual(course.stage_2_interview_selection.academic_scoring.applies, false);
-assert.strictEqual(course.contextual_admissions.available, false);
+assert.strictEqual(course.contextual_admissions.available, true);
+assert.strictEqual(
+  course.contextual_admissions.adjustments.some((adjustment) =>
+    adjustment.type === 'academic_grade_reduction'
+  ),
+  false,
+  'Edge Hill A100 must not invent a contextual academic grade reduction.'
+);
+assert.deepStrictEqual(
+  course.contextual_admissions.adjustments.map((adjustment) => [
+    adjustment.type,
+    adjustment.amount,
+    adjustment.amount_published
+  ]),
+  [['selection_threshold_extension', null, false]],
+  'Edge Hill A100 WAM treatment is selection-threshold extension only, with no numerical extension invented.'
+);
+assert.match(
+  course.contextual_admissions.notes,
+  /A110 Foundation Year is a separate widening-participation course and its criteria are not copied into A100/i
+);
 assert.strictEqual(course.engine_notes.international_prediction, false);
 assert.strictEqual(course.engine_notes.contextual_logic, false);
 assert.strictEqual(course.engine_notes.prediction_confidence, 'low');

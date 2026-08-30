@@ -269,7 +269,10 @@
         "notes": "36 points with HL 6 in Biology, HL 6 in Chemistry and one other HL subject, plus three SL subjects with 5+ points each. SL subject checks are retained as metadata."
       },
       "scottish": {
-        "status": "official_source_verified_execution_partial",
+        "status": "official_source_verified",
+        "route_implemented": true,
+        "contextual_route_implemented": false,
+        "execution_status": "automatic_for_published_higher_and_advanced_higher_core_route",
         "higher_offer": {
           "grade_profile": [
             "A",
@@ -291,7 +294,45 @@
         "required_subject_ids": [
           "biology",
           "chemistry"
-        ]
+        ],
+        "grade_requirements": [
+          {
+            "requirement_id": "edge_hill_scottish_highers_and_advanced_highers",
+            "route_id": "edge_hill_scottish_highers_and_advanced_highers",
+            "pathway_id": "edge_hill_scottish_standard",
+            "academic_pathway": "standard",
+            "applies_to_group_ids": [
+              "school_leaver"
+            ],
+            "qualification_level": "scottish_highers_and_advanced_highers",
+            "higher_grade_profile": [
+              "A",
+              "A",
+              "A",
+              "A",
+              "B"
+            ],
+            "advanced_higher_grade_profile": [
+              "A",
+              "A",
+              "A"
+            ],
+            "higher_required_subject_ids": [
+              "biology",
+              "chemistry"
+            ],
+            "advanced_higher_required_subject_ids": [
+              "biology",
+              "chemistry"
+            ],
+            "decision_outcome_if_not_met": "not_eligible",
+            "source_ids": [
+              "edge_hill_medicine_a100_2027"
+            ],
+            "notes": "Published A100 Scottish core route: AAAAB+ Highers including Biology and Chemistry plus AAA Advanced Highers including Biology, Chemistry and one other. No National 5 requirement is inferred."
+          }
+        ],
+        "notes": "Scottish qualification routing is deterministic for the published Higher/Advanced Higher profile. A100 WP/WAM selection treatment does not reduce Scottish grades."
       },
       "degree": {
         "status": "official_source_verified_manual_review",
@@ -503,12 +544,32 @@
       "edge_hill_research_doc",
       "edge_hill_verified_clarifications"
     ],
-    "available": false,
+    "available": true,
+    "contextual_eligibility": {
+      "evaluator_id": "edge_hill_contextual_medicine_a100",
+      "evidence_source": "step_6_contextual_profile",
+      "legacy_contextual_flags_authoritative": false,
+      "activated_applicant_group_ids": [
+        "widening_participation"
+      ],
+      "notes": "Successful Edge Hill WAM completion can activate the verified UCAT-threshold extension. Generic contextual/WP flags and A110 criteria do not activate A100 treatment."
+    },
     "applies_to_group_ids": [],
-    "criteria": [],
-    "adjustments": [],
+    "criteria": [
+      "Successful completion of Edge Hill's Widening Access to Medicine Programme is a verified A100 route to UCAT-threshold extension.",
+      "Current A100-specific WP criteria are not sufficiently enumerated in public evidence and remain an evidence gap."
+    ],
+    "adjustments": [
+      {
+        "adjustment_id": "edge_hill_wam_ucat_threshold_extension",
+        "type": "selection_threshold_extension",
+        "amount": null,
+        "amount_published": false,
+        "notes": "No numerical threshold extension is invented."
+      }
+    ],
     "guaranteed_interview_rules": [],
-    "notes": "No contextual adjustment is applied to standard A100. Edge Hill's A110 Foundation Year is a separate widening-participation course."
+    "notes": "No contextual academic-grade adjustment is applied to standard A100. Edge Hill's A110 Foundation Year is a separate widening-participation course and its criteria are not copied into A100."
   },
   "ranking_pools": [
     {

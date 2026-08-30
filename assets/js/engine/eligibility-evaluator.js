@@ -333,7 +333,12 @@ const COURSES_WITH_CONTEXTUAL_EVALUATOR_GROUP_CONTROL = [
   'brighton-and-sussex-a100',
   'sunderland-a100',
   'lincoln-a100',
-  'cambridge-a100'
+  'cambridge-a100',
+  'keele-a100',
+  'kent-and-medway-a100',
+  'city-st-george-s-of-london-a100',
+  'edge-hill-a100',
+  'anglia-ruskin-a100'
 ];
 
 const ABERDEEN_LEGACY_CONTEXTUAL_GROUP_IDS = [
@@ -559,6 +564,34 @@ const BSMS_LEGACY_CONTEXTUAL_GROUP_IDS = [
   'bsms_care_leaver_confirmed'
 ];
 
+const BATCH_5_LEGACY_CONTEXTUAL_GROUP_IDS = [
+  'contextual',
+  'widening_participation',
+  'care_experienced',
+  'care_leaver',
+  'free_school_meals',
+  'first_generation_higher_education',
+  'first_generation_university',
+  'young_carer',
+  'young_adult_carer',
+  'unpaid_carer',
+  'carer',
+  'refugee',
+  'asylum_seeker',
+  'refugee_or_asylum_seeker',
+  'service_child',
+  'military_family',
+  'gypsy_roma_traveller',
+  'estranged_from_family',
+  'ucat_bursary',
+  'polar4_quintile_1',
+  'polar4_quintile_2',
+  'polar_quintile_1',
+  'polar_quintile_2',
+  'imd_quintile_1',
+  'imd_quintile_2'
+];
+
 const COURSES_WITH_ACTIVATED_CONTEXTUAL_GROUPS = [
   'aberdeen-a100',
   'aston-a100',
@@ -585,7 +618,12 @@ const COURSES_WITH_ACTIVATED_CONTEXTUAL_GROUPS = [
   'brighton-and-sussex-a100',
   'sunderland-a100',
   'lincoln-a100',
-  'cambridge-a100'
+  'cambridge-a100',
+  'keele-a100',
+  'kent-and-medway-a100',
+  'city-st-george-s-of-london-a100',
+  'edge-hill-a100',
+  'anglia-ruskin-a100'
 ];
 
 const SCOTTISH_MEDICAL_SCHOOL_ROUTE_IDS = Object.freeze([
@@ -826,6 +864,20 @@ function applyCourseSpecificDerivedApplicantGroups(course, applicant, groupIds, 
   }
   if (course?.profile_id === 'cambridge-a100' && contextualResult) {
     for (const groupId of CAMBRIDGE_LEGACY_CONTEXTUAL_GROUP_IDS) {
+      groups.delete(groupId);
+    }
+  }
+  if (
+    [
+      'keele-a100',
+      'kent-and-medway-a100',
+      'city-st-george-s-of-london-a100',
+      'edge-hill-a100',
+      'anglia-ruskin-a100'
+    ].includes(course?.profile_id) &&
+    contextualResult
+  ) {
+    for (const groupId of BATCH_5_LEGACY_CONTEXTUAL_GROUP_IDS) {
       groups.delete(groupId);
     }
   }
@@ -1377,6 +1429,17 @@ function scottishSubjectGrade(subject = {}) {
     subject.achieved_grade ??
     subject.grade ??
     subject.higher_level_grade;
+}
+
+function scottishSubjectCompletionYear(subject = {}) {
+  const value =
+    subject.completion_year ??
+    subject.award_year ??
+    subject.exam_year ??
+    subject.certification_year ??
+    subject.academic_year;
+  const year = Number(value);
+  return Number.isInteger(year) ? year : null;
 }
 
 function scottishLevel2SubjectGrade(subject = {}) {
@@ -2236,6 +2299,9 @@ function academicPathwayForALevelRequirement(requirement = {}) {
 
 function academicPathwayIdForALevelRequirement(requirement = {}) {
   const route = requirement || {};
+  if (route.suppress_academic_pathway_id === true) {
+    return null;
+  }
   return route.pathway_id || route.route_id || route.requirement_id || null;
 }
 
@@ -3036,11 +3102,73 @@ function evaluateScottishRoute(course, applicant, state) {
     });
   };
   const routeManualReviewReasons = new Map();
-  const routeMeets = (route) => {
-    const routeHigherGrades = scottishSubjectMap(higherSubjects, route, 'higher');
+  const routeRecencyAssessment = (route) => {
+    const maximumYears = Number(route.maximum_academic_years_prior_to_entry);
+    if (!Number.isFinite(maximumYears)) {
+      return { passed: true };
+    }
+    const entryYear = Number(
+      applicant.entry_year ||
+        applicant.course_start_year ||
+        applicant.application_year
+    );
+    if (!Number.isInteger(entryYear)) {
+      return {
+        passed: true,
+        requires_manual_review: true,
+        manual_review_reason: route.recency_manual_review_reason ||
+          'scottish_qualification_recency_requires_review'
+      };
+    }
+    const subjects = [...higherSubjects, ...advancedHigherSubjects];
+    const years = subjects.map(scottishSubjectCompletionYear).filter(Number.isInteger);
+    if (route.qualification_recency_confirmed === true || profile.qualification_recency_confirmed === true) {
+      return { passed: true };
+    }
+    if (years.length === 0) {
+      return {
+        passed: true,
+        requires_manual_review: true,
+        manual_review_reason: route.recency_manual_review_reason ||
+          'scottish_qualification_recency_requires_review'
+      };
+    }
+    const earliestAllowedYear = entryYear - maximumYears;
+    return {
+      passed: years.every((year) => year >= earliestAllowedYear),
+      earliest_allowed_year: earliestAllowedYear,
+      supplied_years: years
+    };
+  };
+  const missingRequiredSchoolYear = (subjects, requiredYear) => {
+    if (!normaliseId(requiredYear)) {
+      return false;
+    }
+    return subjects.some((subject) => {
+      return !scottishSubjectSchoolYear(subject) &&
+        scottishSubjectGrade(subject) !== undefined &&
+        scottishSubjectGrade(subject) !== null &&
+        scottishSubjectGrade(subject) !== '';
+    });
+  };
+  const routeHasMissingSchoolYearEvidence = (route) => {
+    return missingRequiredSchoolYear(higherSubjects, route.higher_school_year) ||
+      missingRequiredSchoolYear(advancedHigherSubjects, route.advanced_higher_school_year);
+  };
+  const routeMeets = (route, options = {}) => {
+    const routeForSubjectFilters = options.ignoreRequiredSchoolYears
+      ? {
+        ...route,
+        higher_school_year: undefined,
+        advanced_higher_school_year: undefined,
+        excluded_higher_school_years: [],
+        excluded_advanced_higher_school_years: []
+      }
+      : route;
+    const routeHigherGrades = scottishSubjectMap(higherSubjects, routeForSubjectFilters, 'higher');
     const routeAdvancedHigherGrades = scottishSubjectMap(
       advancedHigherSubjects,
-      route,
+      routeForSubjectFilters,
       'advanced_higher'
     );
     const configuredSameSittingLevels = Array.isArray(route.same_sitting_qualification_levels)
@@ -3083,6 +3211,7 @@ function evaluateScottishRoute(course, applicant, state) {
       advancedHigherSubjects,
       route.required_subject_same_school_year_rules || []
     );
+    const recencyAssessment = routeRecencyAssessment(route);
     const matchingSubjectGradeRulesPassed = matchingScottishSubjectGradeRulesMeet(
       higherSubjects,
       advancedHigherSubjects,
@@ -3114,6 +3243,7 @@ function evaluateScottishRoute(course, applicant, state) {
         'advanced_higher'
       );
       const passed = routeSittingPassed &&
+        recencyAssessment.passed &&
         (!higherProfileRequired || gradeProfileOptionsMeet(
           Object.values(routeHigherGrades),
           route.higher_grade_profile || [],
@@ -3155,6 +3285,8 @@ function evaluateScottishRoute(course, applicant, state) {
         matchingSubjectGradeRulesPassed;
       if (passed && routeSittingAssessment.requires_manual_review) {
         routeManualReviewReasons.set(route, routeSittingAssessment.manual_review_reason);
+      } else if (passed && recencyAssessment.requires_manual_review) {
+        routeManualReviewReasons.set(route, recencyAssessment.manual_review_reason);
       }
       return passed;
     }
@@ -3176,6 +3308,7 @@ function evaluateScottishRoute(course, applicant, state) {
       routeLevel
     );
     const passed = routeSittingPassed &&
+      recencyAssessment.passed &&
       gradeProfileOptionsMeet(
         Object.values(grades),
         route.grade_profile || [],
@@ -3189,10 +3322,19 @@ function evaluateScottishRoute(course, applicant, state) {
       matchingSubjectGradeRulesPassed;
     if (passed && routeSittingAssessment.requires_manual_review) {
       routeManualReviewReasons.set(route, routeSittingAssessment.manual_review_reason);
+    } else if (passed && recencyAssessment.requires_manual_review) {
+      routeManualReviewReasons.set(route, recencyAssessment.manual_review_reason);
     }
     return passed;
   };
   const passedRoute = routes.find(routeMeets) || null;
+  const missingSchoolYearReviewRoute = !passedRoute
+    ? routes.find((route) => {
+      return route.missing_school_year_manual_review_reason &&
+        routeHasMissingSchoolYearEvidence(route) &&
+        routeMeets(route, { ignoreRequiredSchoolYears: true });
+    }) || null
+    : null;
   const predictedManualReviewRoute = !passedRoute && deriveQualificationStatus(applicant) === 'predicted'
     ? routes
       .map((route) => ({
@@ -3240,7 +3382,9 @@ function evaluateScottishRoute(course, applicant, state) {
     }
   }
   if (!post16Passed && !predictedManualReviewRoute) {
-    if (ueaExceptionManualReviewReason) {
+    if (missingSchoolYearReviewRoute) {
+      addManualReview(state, missingSchoolYearReviewRoute.missing_school_year_manual_review_reason);
+    } else if (ueaExceptionManualReviewReason) {
       addManualReview(state, ueaExceptionManualReviewReason);
     } else {
       addFailure(state, 'scottish_post_16_requirements_not_met');
@@ -3685,10 +3829,11 @@ function evaluateQualificationRoute(course, applicant, state) {
   } else if (route === 'mixed_t_level_a_level') {
     addManualReview(state, 'mixed_t_level_a_level_case');
   } else if (route === 'scottish' || route === 'scottish_advanced_highers') {
-    if (course.stage_1_eligibility?.post_16?.scottish?.route_implemented === true) {
+    const scottishRules = course.stage_1_eligibility?.post_16?.scottish || {};
+    if (scottishRules.route_implemented === true) {
       evaluateScottishRoute(course, applicant, state);
     } else {
-      addManualReview(state, 'scottish_prerequisites_incomplete');
+      addManualReview(state, scottishRules.manual_review_reason || 'scottish_prerequisites_incomplete');
     }
   } else if (route === 'international_qualification') {
     const qualificationName = normaliseId(

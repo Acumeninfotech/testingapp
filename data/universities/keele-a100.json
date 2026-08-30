@@ -215,6 +215,81 @@
       "scored_after_eligibility": false,
       "notes": "GCSEs are eligibility gates only and are not part of Keele's numerical shortlisting score."
     },
+    "national_5": {
+      "status": "official_source_verified",
+      "source_ids": [
+        "keele_medicine_entry_requirements"
+      ],
+      "minimum_count": 5,
+      "minimum_count_grade": "A",
+      "grade_requirements": [
+        {
+          "requirement_id": "keele_national_5_english_language_b",
+          "subject_id": "english_language",
+          "alternative_subject_ids": [
+            "english"
+          ],
+          "minimum_grade": "B",
+          "qualification_level": "national_5",
+          "decision_outcome_if_not_met": "not_eligible",
+          "source_ids": [
+            "keele_medicine_entry_requirements"
+          ]
+        },
+        {
+          "requirement_id": "keele_national_5_mathematics_b",
+          "subject_id": "mathematics",
+          "minimum_grade": "B",
+          "qualification_level": "national_5",
+          "decision_outcome_if_not_met": "not_eligible",
+          "source_ids": [
+            "keele_medicine_entry_requirements"
+          ]
+        },
+        {
+          "requirement_id": "keele_national_5_science_b_if_not_post16",
+          "requirement_type": "any_of",
+          "accepted_options": [
+            {
+              "option_id": "national_5_biology_chemistry_physics",
+              "grade_requirements": [
+                {
+                  "subject_id": "biology",
+                  "minimum_grade": "B"
+                },
+                {
+                  "subject_id": "chemistry",
+                  "minimum_grade": "B"
+                },
+                {
+                  "subject_id": "physics",
+                  "minimum_grade": "B"
+                }
+              ]
+            },
+            {
+              "option_id": "national_5_combined_science_bb",
+              "grade_requirements": [
+                {
+                  "subject_id": "combined_science",
+                  "minimum_grade_profile": [
+                    "B",
+                    "B"
+                  ]
+                }
+              ]
+            }
+          ],
+          "qualification_level": "national_5",
+          "decision_outcome_if_not_met": "not_eligible",
+          "source_ids": [
+            "keele_medicine_entry_requirements"
+          ],
+          "notes": "Science subjects not offered at Higher or Advanced Higher must have National 5 grade B; ApplySmart preserves the stricter supported science-completeness rule."
+        }
+      ],
+      "notes": "Scottish applicants need at least five National 5s at A, plus English Language, Mathematics and science floors at B where applicable."
+    },
     "post_16": {
       "status": "official_source_verified_with_engine_boundaries",
       "source_ids": [
@@ -237,6 +312,7 @@
         "grade_requirements": [
           {
             "requirement_id": "standard_a_level_astar_aa_supported_subject_subset",
+            "suppress_academic_pathway_id": true,
             "applies_to_group_ids": [
               "school_leaver"
             ],
@@ -266,17 +342,65 @@
                   "psychology"
                 ]
               }
-            ],
-            "excluded_subject_ids": [
-              "general_studies"
-            ],
-            "decision_outcome_if_not_met": "not_eligible",
+          ],
+          "excluded_subject_ids": [
+            "general_studies"
+          ],
+          "decision_outcome_if_not_met": "not_eligible",
             "source_ids": [
               "keele_medicine_entry_requirements"
-            ],
-            "notes": "Economics is an accepted Keele second subject but has no Engine v1.0 canonical subject identifier; Economics-bearing profiles are a manual-review boundary."
-          }
-        ],
+          ],
+          "notes": "Economics is an accepted Keele second subject but has no Engine v1.0 canonical subject identifier; Economics-bearing profiles are a manual-review boundary."
+        },
+        {
+          "requirement_id": "keele_contextual_a_level_aab_supported_subject_subset",
+          "pathway_id": "keele_contextual_a_level_aab",
+          "academic_pathway": "contextual",
+          "applies_to_group_ids": [
+            "school_leaver",
+            "contextual",
+            "widening_participation"
+          ],
+          "required_contextual_pathway_ids": [
+            "keele_ordinary_contextual"
+          ],
+          "grade_profile": [
+            "A",
+            "A",
+            "B"
+          ],
+          "one_of_subject_groups": [
+            {
+              "group_id": "biology_or_chemistry_primary",
+              "minimum_required": 1,
+              "subject_ids": [
+                "biology",
+                "chemistry"
+              ]
+            },
+            {
+              "group_id": "second_supported_subject_engine_subset",
+              "minimum_required": 2,
+              "subject_ids": [
+                "biology",
+                "chemistry",
+                "mathematics",
+                "further_mathematics",
+                "physics",
+                "psychology"
+              ]
+            }
+          ],
+          "excluded_subject_ids": [
+            "general_studies"
+          ],
+          "decision_outcome_if_not_met": "not_eligible",
+          "source_ids": [
+            "keele_alternative_offers"
+          ],
+          "notes": "Ordinary Keele contextual eligibility gives one full grade reduction. Required subject combinations are preserved."
+        }
+      ],
         "standard_offer": {
           "grade_profile": [
             "A*",
@@ -337,7 +461,10 @@
         "notes": "Standard IB route requires 37 points including TOK/EE and 766 in HL subjects including Biology or Chemistry plus a second accepted subject."
       },
       "scottish": {
-        "status": "official_source_verified_manual_review_required",
+        "status": "official_source_verified",
+        "route_implemented": true,
+        "contextual_route_implemented": false,
+        "execution_status": "automatic_with_complete_s5_s6_scottish_qualification_data",
         "source_ids": [
           "keele_medicine_entry_requirements"
         ],
@@ -364,7 +491,123 @@
           ],
           "notes": "AB from two science subjects in S6."
         },
-        "notes": "Mapped as official evidence but left as manual review because the generic classifier cannot jointly evaluate Keele's S5/S6 profile safely."
+        "grade_requirements": [
+          {
+            "requirement_id": "keele_scottish_highers_and_advanced_highers",
+            "route_id": "keele_scottish_highers_and_advanced_highers",
+            "pathway_id": "keele_scottish_standard_s5_s6",
+            "academic_pathway": "standard",
+            "applies_to_group_ids": [
+              "school_leaver"
+            ],
+            "qualification_level": "scottish_highers_and_advanced_highers",
+            "higher_school_year": "s5",
+            "higher_grade_evidence": "achieved",
+            "advanced_higher_school_year": "s6",
+            "higher_grade_profile": [
+              "A",
+              "A",
+              "A",
+              "A",
+              "A"
+            ],
+            "advanced_higher_grade_profile": [
+              "A",
+              "B"
+            ],
+            "higher_required_subject_grade_options": [
+              {
+                "option_id": "chemistry_and_second_science",
+                "grade_requirements": [
+                  {
+                    "subject_id": "chemistry",
+                    "minimum_grade": "A"
+                  }
+                ],
+                "one_of_subject_groups": [
+                  {
+                    "group_id": "keele_higher_second_science",
+                    "minimum_required": 1,
+                    "subject_ids": [
+                      "biology",
+                      "human_biology",
+                      "physics"
+                    ]
+                  }
+                ]
+              },
+              {
+                "option_id": "biology_and_second_science",
+                "grade_requirements": [
+                  {
+                    "subject_id": "biology",
+                    "minimum_grade": "A"
+                  }
+                ],
+                "one_of_subject_groups": [
+                  {
+                    "group_id": "keele_higher_second_science",
+                    "minimum_required": 1,
+                    "subject_ids": [
+                      "chemistry",
+                      "physics"
+                    ]
+                  }
+                ]
+              },
+              {
+                "option_id": "human_biology_and_second_science",
+                "grade_requirements": [
+                  {
+                    "subject_id": "human_biology",
+                    "minimum_grade": "A"
+                  }
+                ],
+                "one_of_subject_groups": [
+                  {
+                    "group_id": "keele_higher_second_science",
+                    "minimum_required": 1,
+                    "subject_ids": [
+                      "chemistry",
+                      "physics"
+                    ]
+                  }
+                ]
+              }
+            ],
+            "advanced_higher_one_of_subject_groups": [
+              {
+                "group_id": "keele_two_advanced_higher_sciences",
+                "minimum_required": 2,
+                "subject_ids": [
+                  "biology",
+                  "human_biology",
+                  "chemistry",
+                  "physics"
+                ]
+              }
+            ],
+            "matching_subject_grade_rules": [
+              {
+                "requirement_id": "keele_additional_s6_higher_b_floor",
+                "qualification_levels": [
+                  "higher"
+                ],
+                "school_year": "s6",
+                "minimum_grade": "B"
+              }
+            ],
+            "missing_school_year_manual_review_reason": "keele_scottish_s5_s6_timing_evidence_needed",
+            "decision_outcome_if_not_met": "not_eligible",
+            "source_ids": [
+              "keele_medicine_entry_requirements"
+            ],
+            "notes": "Requires AAAAA achieved by end S5 and AB from two S6 Advanced Higher sciences. Ordinary contextual status is reported separately; no Scottish grade reduction is inferred."
+          }
+        ],
+        "required_subject_ids": [],
+        "one_of_subject_groups": [],
+        "notes": "Executable for complete S5/S6 Scottish school-leaver evidence. Steps2Medicine/UKWPMED three-grade reductions are not applied to Advanced Highers."
       },
       "degree": {
         "status": "official_source_verified_manual_review_required",
@@ -627,6 +870,16 @@
       "keele_medicine_how_to_apply"
     ],
     "available": true,
+    "contextual_eligibility": {
+      "evaluator_id": "keele_contextual_medicine_a100",
+      "evidence_source": "step_6_contextual_profile",
+      "legacy_contextual_flags_authoritative": false,
+      "activated_applicant_group_ids": [
+        "contextual",
+        "widening_participation"
+      ],
+      "notes": "Keele ordinary contextual eligibility is evaluated from structured Step 6 evidence. Keele Region, UCAT bursary and Steps2Medicine/UKWPMED are retained as distinct pathways and are not stacked as generic contextual flags."
+    },
     "applies_to_group_ids": [
       "home_fee",
       "contextual",

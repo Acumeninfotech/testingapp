@@ -25,6 +25,11 @@ const LINCOLN_CONTEXTUAL_EVALUATOR_ID = 'lincoln_contextual_medicine_a100';
 const CAMBRIDGE_CONTEXTUAL_EVALUATOR_ID = 'cambridge_contextual_medicine_a100';
 const SHEFFIELD_CONTEXTUAL_EVALUATOR_ID = 'sheffield_contextual_medicine_a100';
 const QUEEN_MARY_CONTEXTUAL_EVALUATOR_ID = 'queen_mary_contextual_medicine_a100';
+const KEELE_CONTEXTUAL_EVALUATOR_ID = 'keele_contextual_medicine_a100';
+const KMMS_CONTEXTUAL_EVALUATOR_ID = 'kmms_contextual_medicine_a100';
+const CITY_ST_GEORGES_CONTEXTUAL_EVALUATOR_ID = 'city_st_georges_contextual_medicine_a100';
+const EDGE_HILL_CONTEXTUAL_EVALUATOR_ID = 'edge_hill_contextual_medicine_a100';
+const ANGLIA_RUSKIN_CONTEXTUAL_EVALUATOR_ID = 'anglia_ruskin_contextual_medicine_a100';
 
 function asObject(value) {
   return value && typeof value === 'object' && !Array.isArray(value)
@@ -298,7 +303,17 @@ function contextualEvidenceOptionsForCourse(course = {}, evaluatorId = null, opt
     course.profile_id === 'queen-mary-a100' ||
     evaluatorId === QUEEN_MARY_CONTEXTUAL_EVALUATOR_ID ||
     course.profile_id === 'st-andrews-a100' ||
-    evaluatorId === ST_ANDREWS_CONTEXTUAL_EVALUATOR_ID
+    evaluatorId === ST_ANDREWS_CONTEXTUAL_EVALUATOR_ID ||
+    course.profile_id === 'keele-a100' ||
+    evaluatorId === KEELE_CONTEXTUAL_EVALUATOR_ID ||
+    course.profile_id === 'kent-and-medway-a100' ||
+    evaluatorId === KMMS_CONTEXTUAL_EVALUATOR_ID ||
+    course.profile_id === 'city-st-george-s-of-london-a100' ||
+    evaluatorId === CITY_ST_GEORGES_CONTEXTUAL_EVALUATOR_ID ||
+    course.profile_id === 'edge-hill-a100' ||
+    evaluatorId === EDGE_HILL_CONTEXTUAL_EVALUATOR_ID ||
+    course.profile_id === 'anglia-ruskin-a100' ||
+    evaluatorId === ANGLIA_RUSKIN_CONTEXTUAL_EVALUATOR_ID
   ) {
     evidenceOptions.projectLegacyContextualCriteriaFlags = false;
     evidenceOptions.projectLegacyAccessProgrammes = false;

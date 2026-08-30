@@ -644,11 +644,27 @@ function academicQualificationTypeForCheck(rawCheck) {
 }
 
 function academicRequirementCheckId(rawCheck) {
-  return normaliseCheckId(
+  const checkId = normaliseCheckId(
     rawCheck?.check_id ||
     rawCheck?.check ||
     rawCheck?.requirement_id
   );
+  const pathway = normaliseCheckId(rawCheck?.academic_pathway);
+  if (pathway === 'standard' && checkId.includes('standard') && checkId.includes('a_level')) {
+    return 'a_level_standard_offer';
+  }
+  return checkId;
+}
+
+function publicAcademicRequirementTypeForCheck(rawCheck, checkId, context = {}) {
+  if (
+    checkId === 'a_level_route' &&
+    normaliseCheckId(rawCheck?.academic_pathway || context.academic_pathway) === 'standard' &&
+    context.has_epq_alternative_offer === true
+  ) {
+    return 'a_level_standard_offer';
+  }
+  return checkId;
 }
 
 function isDundeeAlevelAcademicContext(context = {}) {
@@ -1799,7 +1815,8 @@ function buildAcademicRequirementChecks(rawChecks = [], eligibilityStatus = null
     if (shouldSuppressPublicAcademicRequirementCheck(rawCheck, status, buildContext)) {
       continue;
     }
-    const checkId = academicRequirementCheckId(rawCheck) || qualificationType;
+    const rawCheckId = academicRequirementCheckId(rawCheck) || qualificationType;
+    const checkId = publicAcademicRequirementTypeForCheck(rawCheck, rawCheckId, buildContext);
     const label = academicRequirementLabelForCheck(rawCheck, qualificationType, {
       ...buildContext,
       academic_requirement_status: status
