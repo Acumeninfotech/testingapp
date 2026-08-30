@@ -1442,6 +1442,11 @@ function scottishSubjectCompletionYear(subject = {}) {
   return Number.isInteger(year) ? year : null;
 }
 
+function scottishProfileCompletionYear(profile = {}) {
+  const year = Number(profile.qualification_completion_year);
+  return Number.isInteger(year) ? year : null;
+}
+
 function scottishLevel2SubjectGrade(subject = {}) {
   const grade = scottishSubjectGrade(subject);
   const qualificationLevel = normaliseId(
@@ -3121,7 +3126,9 @@ function evaluateScottishRoute(course, applicant, state) {
       };
     }
     const subjects = [...higherSubjects, ...advancedHigherSubjects];
-    const years = subjects.map(scottishSubjectCompletionYear).filter(Number.isInteger);
+    const profileCompletionYear = scottishProfileCompletionYear(profile);
+    const subjectCompletionYears = subjects.map(scottishSubjectCompletionYear).filter(Number.isInteger);
+    const years = Number.isInteger(profileCompletionYear) ? [profileCompletionYear] : subjectCompletionYears;
     if (route.qualification_recency_confirmed === true || profile.qualification_recency_confirmed === true) {
       return { passed: true };
     }

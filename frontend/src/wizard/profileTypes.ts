@@ -83,6 +83,7 @@ export interface ScottishSubject {
 }
 export interface ScottishProfile {
   completed_in_one_sitting: boolean | null;
+  qualification_completion_year: number | '';
   national_5_subjects: ScottishSubject[];
   higher_subjects: ScottishSubject[];
   advanced_higher_subjects: ScottishSubject[];
@@ -559,6 +560,7 @@ export function createEmptyProfile(): WizardProfile {
     },
     scottish_profile: {
       completed_in_one_sitting: null,
+      qualification_completion_year: '',
       national_5_subjects: [
         { subject_id: '', grade: '' },
         { subject_id: '', grade: '' },

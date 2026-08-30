@@ -257,6 +257,7 @@ describe('toStudentProfile Scottish route filtering', () => {
     profile.a_level_profile.completed_in_one_sitting = false;
     profile.a_level_profile.epq = { status: 'predicted', grade: 'A*', taken_alongside_a_levels: true };
     profile.scottish_profile.completed_in_one_sitting = true;
+    profile.scottish_profile.qualification_completion_year = 2026;
     profile.scottish_profile.national_5_subjects = [
       { subject_id: 'english_language', grade: 'A', school_year: 's4', first_attempt: true },
     ];
@@ -301,6 +302,7 @@ describe('toStudentProfile Scottish route filtering', () => {
       epq: Record<string, unknown>;
     };
     const scottishProfile = studentProfile.scottish_profile as {
+      qualification_completion_year: number;
       national_5_subjects: { subject_id: string; grade: string }[];
       higher_subjects: { subject_id: string; grade: string }[];
       advanced_higher_subjects: { subject_id: string; grade: string }[];
@@ -324,6 +326,17 @@ describe('toStudentProfile Scottish route filtering', () => {
     expect(scottishProfile.national_5_subjects).toHaveLength(1);
     expect(scottishProfile.higher_subjects).toHaveLength(5);
     expect(scottishProfile.advanced_higher_subjects).toHaveLength(2);
+    expect(scottishProfile.qualification_completion_year).toBe(2026);
+    expect(scottishProfile.higher_subjects[0]).toMatchObject({
+      school_year: 's5',
+      sitting_id: 's5',
+      first_attempt: true,
+    });
+    expect(studentProfile.scottish_profile as Record<string, unknown>).not.toHaveProperty(
+      'qualification_recency_confirmed',
+    );
+    expect(scottishProfile.higher_subjects[0]).not.toHaveProperty('completion_year');
+    expect(scottishProfile.advanced_higher_subjects[0]).not.toHaveProperty('completion_year');
     expect(JSON.stringify(studentProfile)).not.toContain('psychology');
     expect(JSON.stringify(studentProfile)).not.toContain('history');
 
@@ -333,6 +346,76 @@ describe('toStudentProfile Scottish route filtering', () => {
     })[0].result_card as { recommendation_display_state: string };
 
     expect(result.recommendation_display_state).toBe('standard');
+  });
+
+  it('passes a frontend-shaped ARU Scottish profile through profile-level recency evidence', () => {
+    const profile = createEmptyProfile();
+    profile.course_target.qualification_route = 'scottish';
+    profile.applicant_identity = {
+      ...profile.applicant_identity,
+      applicant_type: 'school_leaver',
+      fee_status: 'home',
+      domicile: 'england',
+      age_at_course_start_band: 'age_18',
+      current_uk_residence: 'yes',
+    };
+    profile.scottish_profile.completed_in_one_sitting = true;
+    profile.scottish_profile.qualification_completion_year = 2026;
+    profile.scottish_profile.national_5_subjects = [
+      { subject_id: 'english_language', grade: 'B', school_year: 's4', first_attempt: true },
+      { subject_id: 'mathematics', grade: 'B', school_year: 's4', first_attempt: true },
+      { subject_id: 'biology', grade: 'B', school_year: 's4', first_attempt: true },
+      { subject_id: 'chemistry', grade: 'B', school_year: 's4', first_attempt: true },
+    ];
+    profile.scottish_profile.higher_subjects = [
+      { subject_id: 'biology', grade: 'A', school_year: 's5', first_attempt: true },
+      { subject_id: 'chemistry', grade: 'A', school_year: 's5', first_attempt: true },
+      { subject_id: 'physics', grade: 'A', school_year: 's5', first_attempt: true },
+      { subject_id: 'mathematics', grade: 'A', school_year: 's5', first_attempt: true },
+      { subject_id: 'english', grade: 'A', school_year: 's5', first_attempt: true },
+    ];
+    profile.scottish_profile.advanced_higher_subjects = [
+      { subject_id: 'biology', grade: 'A', school_year: 's6', first_attempt: true },
+      { subject_id: 'chemistry', grade: 'B', school_year: 's6', first_attempt: true },
+      { subject_id: 'physics', grade: 'B', school_year: 's6', first_attempt: true },
+    ];
+    profile.admissions_tests.ucat = {
+      taken: true,
+      total_score: 2400,
+      score_scale: 2700,
+      subtests: {
+        verbal_reasoning: 800,
+        decision_making: 800,
+        quantitative_reasoning: 800,
+      },
+      sjt_band: 2,
+      test_year: 2026,
+    };
+
+    const studentProfile = toStudentProfile(profile);
+    const scottishProfile = studentProfile.scottish_profile as {
+      qualification_completion_year: number;
+      higher_subjects: Record<string, unknown>[];
+    };
+
+    expect(scottishProfile.qualification_completion_year).toBe(2026);
+    expect(scottishProfile.higher_subjects[0]).toMatchObject({
+      school_year: 's5',
+      sitting_id: 's5',
+      first_attempt: true,
+    });
+    expect(studentProfile.scottish_profile as Record<string, unknown>).not.toHaveProperty(
+      'qualification_recency_confirmed',
+    );
+    expect(scottishProfile.higher_subjects[0]).not.toHaveProperty('completion_year');
+
+    const result = predict({
+      universityIds: ['anglia-ruskin-a100'],
+      studentProfile,
+    })[0].result_card as { recommendation_display_state: string; academic_pathway_id: string | null };
+
+    expect(result.recommendation_display_state).toBe('standard');
+    expect(result.academic_pathway_id).toBe('aru_scottish_standard');
   });
 
   it('submits retained A-level evidence after switching back to the A-level route', () => {
@@ -517,6 +600,10 @@ describe('toStudentProfile identity mapping', () => {
 
   it('seeds seven optional National 5 rows for new Scottish profiles', () => {
     expect(createEmptyProfile().scottish_profile.national_5_subjects).toHaveLength(7);
+  });
+
+  it('seeds a blank Scottish completion year for new profiles', () => {
+    expect(createEmptyProfile().scottish_profile.qualification_completion_year).toBe('');
   });
 
   it('preserves entered National 5 rows through studentProfile mapping', () => {
@@ -820,6 +907,19 @@ describe('toStudentProfile identity mapping', () => {
       { subject_id: '', grade: '' },
       { subject_id: '', grade: '' },
     ]);
+  });
+
+  it('restores a stored Scottish qualification completion year safely', () => {
+    expect(
+      normaliseStoredProfile({
+        scottish_profile: { qualification_completion_year: '2026' },
+      }).scottish_profile.qualification_completion_year,
+    ).toBe(2026);
+    expect(
+      normaliseStoredProfile({
+        scottish_profile: { qualification_completion_year: 'not a year' },
+      }).scottish_profile.qualification_completion_year,
+    ).toBe('');
   });
 
   it('does not truncate stored National 5 rows beyond seven', () => {

@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 
 import { SelectField } from '../components/SelectField';
+import { TextField } from '../components/TextField';
 import {
   DEFAULT_SCOTTISH_ADVANCED_HIGHER_ROWS,
   DEFAULT_SCOTTISH_HIGHER_ROWS,
@@ -181,6 +182,7 @@ function ScottishQualificationSection({
 export function ScottishStep({ profile, updateProfile, errors }: StepProps) {
   const {
     completed_in_one_sitting,
+    qualification_completion_year,
     national_5_subjects,
     higher_subjects,
     advanced_higher_subjects,
@@ -207,6 +209,26 @@ export function ScottishStep({ profile, updateProfile, errors }: StepProps) {
             scottish_profile: {
               ...prev.scottish_profile,
               completed_in_one_sitting: value === '' ? null : value === 'yes',
+            },
+          }))
+        }
+      />
+
+      <TextField
+        id="scottish_qualification_completion_year"
+        label="In which year will/did you complete your Scottish school qualifications?"
+        type="number"
+        inputMode="numeric"
+        min={2000}
+        max={2035}
+        value={qualification_completion_year}
+        error={errors.scottish_qualification_completion_year}
+        onChange={(value) =>
+          updateProfile((prev) => ({
+            ...prev,
+            scottish_profile: {
+              ...prev.scottish_profile,
+              qualification_completion_year: value === '' ? '' : Number(value),
             },
           }))
         }

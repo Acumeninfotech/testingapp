@@ -95,6 +95,9 @@ describe('ScottishStep', () => {
     fireEvent.change(screen.getByLabelText('Were your required SQA subjects completed in the same sitting?'), {
       target: { value: 'yes' },
     });
+    fireEvent.change(screen.getByLabelText('In which year will/did you complete your Scottish school qualifications?'), {
+      target: { value: '2026' },
+    });
     fireEvent.change(within(section('Highers')).getAllByLabelText('School year')[0], {
       target: { value: 's5' },
     });
@@ -104,6 +107,7 @@ describe('ScottishStep', () => {
     });
 
     expect(profile.scottish_profile.completed_in_one_sitting).toBe(true);
+    expect(profile.scottish_profile.qualification_completion_year).toBe(2026);
     expect(profile.scottish_profile.higher_subjects[0].school_year).toBe('s5');
     expect(profile.scottish_profile.higher_subjects[0].first_attempt).toBe(true);
   });

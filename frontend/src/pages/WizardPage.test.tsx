@@ -494,20 +494,21 @@ describe('WizardPage submit flow', () => {
     typeValue('application_year', '2027');
     clickContinue();
 
-    selectValue('gcse_english_language', '7');
-    selectValue('gcse_mathematics', '8');
-    selectValue('gcse_biology', '9');
-    selectValue('gcse_chemistry', '9');
-    selectValue('gcse_physics', '8');
-    clickContinue();
-
     expect(screen.getByRole('heading', { name: 'Scottish qualifications' })).toBeInTheDocument();
+    selectValue('scottish_completed_in_one_sitting', 'yes');
+    typeValue('scottish_qualification_completion_year', '2026');
     selectValue('higher_subjects_0_id', 'chemistry');
     selectValue('higher_subjects_0_grade', 'A');
+    selectValue('higher_subjects_0_school_year', 's5');
+    selectValue('higher_subjects_0_first_attempt', 'yes');
     selectValue('higher_subjects_1_id', 'biology');
     selectValue('higher_subjects_1_grade', 'A');
+    selectValue('higher_subjects_1_school_year', 's5');
+    selectValue('higher_subjects_1_first_attempt', 'yes');
     selectValue('higher_subjects_2_id', 'mathematics');
     selectValue('higher_subjects_2_grade', 'B');
+    selectValue('higher_subjects_2_school_year', 's5');
+    selectValue('higher_subjects_2_first_attempt', 'yes');
     clickContinue();
 
     fireEvent.click(screen.getByLabelText(/I have taken the UCAT/i));
@@ -535,6 +536,7 @@ describe('WizardPage submit flow', () => {
 
     const submittedProfile = submitSpy.mock.calls[0][0].studentProfile as Record<string, unknown>;
     expect(submittedProfile.qualification_route).toBe('scottish');
+    expect((submittedProfile.scottish_profile as Record<string, unknown>).qualification_completion_year).toBe(2026);
   });
 
   it('walks through the graduate route including GAMSAT and shows the English language step for international applicants', async () => {

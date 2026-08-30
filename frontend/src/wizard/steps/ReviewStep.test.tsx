@@ -227,6 +227,7 @@ describe('ReviewStep Scottish display', () => {
   it('shows entered National 5s alongside Highers and Advanced Highers', () => {
     const profile = createEmptyProfile();
     profile.course_target.qualification_route = 'scottish';
+    profile.scottish_profile.qualification_completion_year = 2026;
     profile.scottish_profile.national_5_subjects = [
       { subject_id: 'english_language', grade: 'A' },
       { subject_id: 'mathematics', grade: 'B' },
@@ -244,6 +245,7 @@ describe('ReviewStep Scottish display', () => {
     render(<ReviewStep profile={profile} updateProfile={() => {}} errors={{}} />);
 
     const scottish = reviewSection('Scottish qualifications');
+    expectReviewValue(scottish, 'Scottish school qualifications completion year', '2026');
     expect(within(scottish).getByRole('heading', { name: 'National 5s' })).toBeInTheDocument();
     expectReviewValue(scottish, 'English Language', 'A');
     expect(within(scottish).getAllByText('Mathematics')[0].nextElementSibling).toHaveTextContent('B');

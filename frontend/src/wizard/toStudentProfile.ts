@@ -153,6 +153,10 @@ export function toStudentProfile(profile: WizardProfile): StudentProfile {
         },
     scottish_profile: {
       completed_in_one_sitting: profile.scottish_profile.completed_in_one_sitting,
+      qualification_completion_year:
+        profile.scottish_profile.qualification_completion_year === ''
+          ? null
+          : profile.scottish_profile.qualification_completion_year,
       national_5_subjects: scottishSubjectList(profile.scottish_profile.national_5_subjects),
       higher_subjects: scottishSubjectList(profile.scottish_profile.higher_subjects),
       advanced_higher_subjects: scottishSubjectList(profile.scottish_profile.advanced_higher_subjects),

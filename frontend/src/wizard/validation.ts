@@ -79,6 +79,7 @@ export function validateScottishStep(profile: WizardProfile): ValidationErrors {
   const errors: ValidationErrors = {};
   const {
     completed_in_one_sitting,
+    qualification_completion_year,
     national_5_subjects,
     higher_subjects,
     advanced_higher_subjects,
@@ -90,6 +91,15 @@ export function validateScottishStep(profile: WizardProfile): ValidationErrors {
   if (typeof completed_in_one_sitting !== 'boolean') {
     errors.scottish_completed_in_one_sitting =
       'Confirm whether your required SQA subjects were completed in the same sitting.';
+  }
+  if (qualification_completion_year === '' || qualification_completion_year === null || qualification_completion_year === undefined) {
+    errors.scottish_qualification_completion_year =
+      'Enter the year you completed or will complete your Scottish school qualifications.';
+  } else {
+    const year = Number(qualification_completion_year);
+    if (!Number.isInteger(year) || year < 2000 || year > 2035) {
+      errors.scottish_qualification_completion_year = 'Enter a sensible four-digit year.';
+    }
   }
 
   return errors;

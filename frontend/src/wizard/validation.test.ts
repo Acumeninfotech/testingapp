@@ -476,6 +476,7 @@ describe('validateScottishStep', () => {
   it('allows blank optional National 5 rows', () => {
     const profile = createEmptyProfile();
     profile.scottish_profile.completed_in_one_sitting = true;
+    profile.scottish_profile.qualification_completion_year = 2026;
     profile.scottish_profile.higher_subjects = [
       higher('chemistry'),
       higher('biology'),
@@ -488,6 +489,7 @@ describe('validateScottishStep', () => {
   it('requires a grade when an optional National 5 subject is entered', () => {
     const profile = createEmptyProfile();
     profile.scottish_profile.completed_in_one_sitting = true;
+    profile.scottish_profile.qualification_completion_year = 2026;
     profile.scottish_profile.national_5_subjects[0] = {
       subject_id: 'english_language',
       grade: '',
@@ -505,6 +507,7 @@ describe('validateScottishStep', () => {
 
   it('requires school year, attempt status and same-sitting evidence for Scottish rows', () => {
     const profile = createEmptyProfile();
+    profile.scottish_profile.qualification_completion_year = 2026;
     profile.scottish_profile.higher_subjects = [
       { subject_id: 'chemistry', grade: 'A' },
       higher('biology'),
@@ -517,9 +520,28 @@ describe('validateScottishStep', () => {
     expect(errors.scottish_completed_in_one_sitting).toBeTruthy();
   });
 
+  it('requires a sensible Scottish qualification completion year', () => {
+    const profile = createEmptyProfile();
+    profile.scottish_profile.completed_in_one_sitting = true;
+    profile.scottish_profile.higher_subjects = [
+      higher('chemistry'),
+      higher('biology'),
+      higher('mathematics', 'B'),
+    ];
+
+    expect(validateScottishStep(profile).scottish_qualification_completion_year).toBeTruthy();
+
+    profile.scottish_profile.qualification_completion_year = 1999;
+    expect(validateScottishStep(profile).scottish_qualification_completion_year).toBeTruthy();
+
+    profile.scottish_profile.qualification_completion_year = 2026;
+    expect(validateScottishStep(profile).scottish_qualification_completion_year).toBeUndefined();
+  });
+
   it('passes with three Highers filled in', () => {
     const profile = createEmptyProfile();
     profile.scottish_profile.completed_in_one_sitting = true;
+    profile.scottish_profile.qualification_completion_year = 2026;
     profile.scottish_profile.higher_subjects = [
       higher('chemistry'),
       higher('biology'),

@@ -213,6 +213,12 @@ function normaliseAgeBand(value: unknown): AgeAtCourseStartBand | '' {
   return '';
 }
 
+function normaliseYear(value: unknown): number | '' {
+  if (value === '' || value === null || value === undefined) return '';
+  const year = Number(value);
+  return Number.isInteger(year) ? year : '';
+}
+
 export function normaliseStoredProfile(parsed: unknown): WizardProfile {
   const empty = createEmptyProfile();
   if (!parsed || typeof parsed !== 'object') return empty;
@@ -254,6 +260,7 @@ export function normaliseStoredProfile(parsed: unknown): WizardProfile {
     scottish_profile: {
       ...empty.scottish_profile,
       ...savedScottishProfile,
+      qualification_completion_year: normaliseYear(savedScottishProfile.qualification_completion_year),
       national_5_subjects: padScottishSubjectRows(savedScottishProfile.national_5_subjects, MIN_NATIONAL_5_ROWS),
       higher_subjects: padScottishSubjectRows(savedScottishProfile.higher_subjects, DEFAULT_SCOTTISH_HIGHER_ROWS),
       advanced_higher_subjects: padScottishSubjectRows(

@@ -1538,6 +1538,22 @@ function applicantHasDeclaredEpq(context = {}) {
   return Boolean(status && status !== 'not_taken');
 }
 
+function activeQualificationRouteForPresentation(context = {}) {
+  const applicant = context.applicant_context || context.applicantContext || {};
+  return normaliseCheckId(
+    context.qualification_route ||
+    context.eligibility?.qualification_route ||
+    applicant.qualification_route ||
+    applicant.entry_route ||
+    applicant.course_target?.entry_route ||
+    ''
+  );
+}
+
+function allowsAlevelEpqAlternativeForRoute(context = {}) {
+  return activeQualificationRouteForPresentation(context) !== 'scottish';
+}
+
 function buildHullYorkAlternativeWpAcademicOffer(context = {}) {
   const profileId = String(
     context.course_profile_id ||
@@ -1707,9 +1723,11 @@ function buildAlternativeAcademicOffer(stage1Eligibility = null, context = {}) {
   }
 
   if (context.academic_pathway === 'epq_alternative') {
-    const epqOffer = buildEpqAcademicOffer(stage1Eligibility);
-    if (epqOffer) {
-      return epqOffer;
+    if (allowsAlevelEpqAlternativeForRoute(context)) {
+      const epqOffer = buildEpqAcademicOffer(stage1Eligibility);
+      if (epqOffer) {
+        return epqOffer;
+      }
     }
   }
 
@@ -1735,7 +1753,7 @@ function buildAlternativeAcademicOffer(stage1Eligibility = null, context = {}) {
   ) {
     if (
       context.course_profile_id === 'sheffield-a100' &&
-      context.qualification_route !== 'scottish' &&
+      allowsAlevelEpqAlternativeForRoute(context) &&
       applicantHasDeclaredEpq(context)
     ) {
       return buildEpqAcademicOffer(stage1Eligibility);
@@ -1752,9 +1770,11 @@ function buildAlternativeAcademicOffer(stage1Eligibility = null, context = {}) {
     return null;
   }
 
-  const epqOffer = buildEpqAcademicOffer(stage1Eligibility);
-  if (epqOffer) {
-    return epqOffer;
+  if (allowsAlevelEpqAlternativeForRoute(context)) {
+    const epqOffer = buildEpqAcademicOffer(stage1Eligibility);
+    if (epqOffer) {
+      return epqOffer;
+    }
   }
 
   if (context.academic_pathway === 'standard') {
@@ -7350,8 +7370,15 @@ function presentResultCard({
         transparencyContext.guidance_pool?.pool_id ||
         null,
       guidance_pool: transparencyContext.guidance_pool || null,
+      qualification_route: qualificationRoute,
       has_epq_alternative_offer: hasEnabledEpqAlternativeOffer(
         transparencyContext.stage_1_eligibility
+      ) && allowsAlevelEpqAlternativeForRoute(
+        {
+          qualification_route: qualificationRoute,
+          applicant_context: transparencyContext.applicant_context || null,
+          eligibility: transparencyContext.eligibility || null
+        }
       )
     }
   );

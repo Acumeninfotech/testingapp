@@ -407,6 +407,12 @@ export function ReviewStep({ profile }: StepProps) {
 
       {route === 'scottish' && (
         <ReviewSection title="Scottish qualifications">
+          <ReviewFieldGrid>
+            <ReviewField
+              label="Scottish school qualifications completion year"
+              value={displayLabel(scottish_profile.qualification_completion_year)}
+            />
+          </ReviewFieldGrid>
           <h3>National 5s</h3>
           <SubjectGradeSummary subjects={scottish_profile.national_5_subjects} />
           <h3>Highers</h3>
