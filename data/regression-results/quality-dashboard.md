@@ -4,9 +4,9 @@
 
 | Measure | Result |
 |---|---:|
-| Completed universities | 38 |
+| Completed universities | 40 |
 | Regression profiles | 16 |
-| University-profile combinations | 608 |
+| University-profile combinations | 640 |
 | Regression status | **PASS** |
 | Engine errors | 0 |
 | Result-card precedence | **PASS** |
@@ -15,9 +15,10 @@
 
 | Display state | Count |
 |---|---:|
-| Historical recommendation | 210 |
-| Entry requirements not met | 354 |
-| Needs adviser review | 24 |
+| Historical recommendation | 220 |
+| Entry requirements not met | 352 |
+| Eligibility only | 24 |
+| Needs adviser review | 35 |
 | Evidence not yet available | 9 |
 
 These states are mutually exclusive. Entry failure overrides all recommendations; adviser review overrides recommendation bands; and missing evidence is shown instead of a negative recommendation. Historical comparisons are labelled as guidance. ApplySmart result cards cover eligibility and interview guidance only.
@@ -30,11 +31,13 @@ These states are mutually exclusive. Entry failure overrides all recommendations
 | Anglia Ruskin University | Needs applicant evidence review | 2 | 0 |
 | Aston University | Ready for supported scope | 0 | 0 |
 | University of Birmingham | Needs applicant evidence review | 1 | 0 |
+| Brighton and Sussex Medical School | Ready for supported scope | 0 | 0 |
 | University of Bristol | Needs applicant evidence review | 2 | 0 |
 | Brunel University of London | Ready for supported scope | 0 | 0 |
-| University of Buckingham | Ready for supported scope | 0 | 0 |
+| University of Buckingham | Needs applicant evidence review | 2 | 0 |
 | University of Cambridge | Needs applicant evidence review | 1 | 0 |
 | Cardiff University | Ready for supported scope | 0 | 0 |
+| City St George's, University of London | Needs applicant evidence review | 9 | 0 |
 | University of Dundee | Ready for supported scope | 0 | 0 |
 | University of East Anglia | Needs applicant evidence review | 2 | 0 |
 | Edge Hill University | Ready for supported scope | 0 | 0 |
@@ -67,4 +70,4 @@ These states are mutually exclusive. Entry failure overrides all recommendations
 
 ## Validation
 
-The matrix contains 608 unique combinations across 16 profiles and 38 completed universities. The evidence-gap tracker reconciles with every adviser-review and insufficient-evidence outcome.
+The matrix contains 640 unique combinations across 16 profiles and 40 completed universities. The evidence-gap tracker reconciles with every adviser-review and insufficient-evidence outcome.
