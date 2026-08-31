@@ -3,6 +3,9 @@ const {
   deriveQualificationRoute
 } = require('./eligibility-evaluator');
 const {
+  contextualFlagApplicantGroupIds
+} = require('./applicant-group-normalisation');
+const {
   ageAtDate,
   evaluateAgeBandAgainstMinimum,
   isUcatCycleValid,
@@ -78,6 +81,11 @@ const HYMS_LEGACY_CONTEXTUAL_GROUP_IDS = [
   'first_generation_higher_education',
   'first_generation_university'
 ];
+
+const HYMS_ROUTE_CONTROL_GROUP_IDS = new Set([
+  'contextual',
+  'widening_participation'
+]);
 
 const A_LEVEL_GRADE_RANK = {
   U: 0,
@@ -1030,13 +1038,18 @@ function criteriaFromContextualAssessment(assessment) {
     .filter(Boolean);
 }
 
-function canonicalHymsApplicantGroupIds(groupIds = [], contextualEligibility = null) {
+function canonicalHymsApplicantGroupIds(groupIds = [], contextualEligibility = null, applicant = {}) {
   const groups = new Set(groupIds);
   for (const groupId of HYMS_LEGACY_CONTEXTUAL_GROUP_IDS) {
     groups.delete(groupId);
   }
   if (contextualEligibility?.is_contextual === true) {
     for (const groupId of contextualEligibility.activated_applicant_group_ids || []) {
+      groups.add(groupId);
+    }
+  }
+  for (const groupId of contextualFlagApplicantGroupIds(applicant.applicant_identity?.contextual_flags || {})) {
+    if (!HYMS_ROUTE_CONTROL_GROUP_IDS.has(groupId)) {
       groups.add(groupId);
     }
   }
@@ -1222,7 +1235,8 @@ function evaluateHullYorkA100(course, config, applicantInput, options = {}) {
   const eligibility = evaluateOfficialEligibility(course, applicant);
   eligibility.applicant_group_ids = canonicalHymsApplicantGroupIds(
     eligibility.applicant_group_ids,
-    eligibility.contextual_eligibility
+    eligibility.contextual_eligibility,
+    applicant
   );
   const estimatedSelectionScore = estimateSelectionScore(
     course,

@@ -268,6 +268,7 @@ function isApplicantInformationReasonCode(reasonCode) {
     reasonCode !== 'university_methodology_gap' &&
     reasonCode !== 'prediction_calibration_unavailable' &&
     reasonCode !== 'academic_matrix_band_unavailable' &&
+    reasonCode !== 'academic_compensation_inputs_unavailable' &&
     !/historical_evidence_gap/.test(String(reasonCode));
 }
 
@@ -870,6 +871,12 @@ function academicRequirementReasonForCheck(rawCheck, status, context = {}) {
     }
     if (checkId === 'epq_alternative_offer') {
       return 'A predicted or achieved EPQ grade is required to assess the alternative academic offer.';
+    }
+    if (
+      checkId === 'scottish_post_16_requirements' &&
+      rawCheck?.manual_review_reason === 'nottingham_scottish_advanced_highers_required'
+    ) {
+      return 'Advanced Higher Biology and Chemistry at AA are required for Nottingham Scottish applicants.';
     }
     if (
       checkId === 'scottish_post_16_requirements' &&
@@ -1957,6 +1964,7 @@ const FAILURE_REASON_LABELS = {
   southampton_contextual_information_needed: 'More information is needed to confirm whether Southampton’s contextual AAB route applies.',
   hyms_contextual_reduced_offer_information_needed: 'More information is needed to confirm whether you qualify for HYMS’s contextual reduced AAB offer. You currently meet one ordinary contextual criterion, but another contextual criterion still needs confirmation.',
   sunderland_contextual_information_needed: 'More information is needed to confirm whether Sunderland’s contextual AAB or local contextual ABB route applies.',
+  nottingham_scottish_advanced_highers_required: 'Advanced Higher Biology and Chemistry at AA are required for Nottingham Scottish applicants.',
   st_andrews_contextual_evidence_needs_review: 'More St Andrews contextual evidence is needed to confirm whether the Medicine minimum-entry route applies.',
   st_andrews_s5_same_sitting_school_exception_requires_review: 'St Andrews needs review because your S5 Highers were not all taken in one sitting and the school-availability exception must be confirmed.',
   bristol_contextual_imd_postcode_evidence_required: 'More information is needed to verify Bristol IMD eligibility from postcode-derived evidence.',
@@ -5914,16 +5922,16 @@ function normaliseExistingDecisionTransparency(card) {
     manual_review_reason: transparency.manual_review_reason ?? null
   };
 
-  for (const field of [
-    'insufficient_evidence_reason',
-    'insufficient_evidence_reason_code'
-  ]) {
-    const value = firstNonEmptyString(transparency[field]);
-    if (value) {
-      normalised[field] = value;
-    } else {
-      delete normalised[field];
-    }
+  normalised.insufficient_evidence_reason =
+    firstNonEmptyString(transparency.insufficient_evidence_reason) || null;
+
+  const insufficientEvidenceReasonCode = firstNonEmptyString(
+    transparency.insufficient_evidence_reason_code
+  );
+  if (insufficientEvidenceReasonCode) {
+    normalised.insufficient_evidence_reason_code = insufficientEvidenceReasonCode;
+  } else {
+    delete normalised.insufficient_evidence_reason_code;
   }
 
   const scoreBreakdown = completedCardScoreBreakdown(card, normalised);
@@ -6892,9 +6900,7 @@ function buildDecisionTransparency(card, options = {}) {
       ? 'glasgow_reach_completion_required'
       : null,
     information_needed_reason: informationNeededReason,
-    ...(insufficientEvidenceReason
-      ? { insufficient_evidence_reason: insufficientEvidenceReason }
-      : {}),
+    insufficient_evidence_reason: insufficientEvidenceReason,
     ...(insufficientEvidenceReasonCode
       ? { insufficient_evidence_reason_code: insufficientEvidenceReasonCode }
       : {}),

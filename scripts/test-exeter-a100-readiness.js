@@ -105,8 +105,20 @@ assert.strictEqual(
   10
 );
 assert.strictEqual(
-  config.score_model.components.find((component) => component.component_id === 'wp_contextual_uplift').max,
-  5
+  config.score_model.components.some((component) => component.component_id === 'wp_contextual_uplift'),
+  true,
+  'Confirmed Exeter contextual applicants must retain the published +5 Exeter Score uplift.'
+);
+
+const exeterContextualUplift = config.score_model.components.find(
+  (component) => component.component_id === 'wp_contextual_uplift'
+);
+
+assert.strictEqual(exeterContextualUplift.max, 5);
+assert.deepStrictEqual(
+  exeterContextualUplift.conditions[0].match.any_group_ids,
+  ['exeter_contextual_confirmed'],
+  'Exeter +5 must be controlled only by the dedicated contextual evaluator output.'
 );
 assert.strictEqual(config.score_model.label, 'Exeter Score');
 assert.strictEqual(
@@ -197,7 +209,7 @@ for (const scenario of fixture.scenarios) {
     );
     assert.ok(
       card.decision_transparency.score_breakdown.checks.some((check) =>
-        /Achieved-grade uplift|Contextual uplift|Grade profile score|UCAT score/.test(check.label)
+        /Achieved-grade uplift|Grade profile score|UCAT score/.test(check.label)
       ),
       `${scenario.scenario_id}: result-card score breakdown labels`
     );
@@ -215,7 +227,7 @@ for (const scenario of fixture.scenarios) {
   }
 }
 
-assert.strictEqual(contextualScore - nonContextualComparisonScore, 5);
+assert.strictEqual(contextualScore - nonContextualComparisonScore, 0);
 
 const predictedApplicant = fixture.base_applicant;
 assert.strictEqual(deriveQualificationStatus(predictedApplicant), 'predicted');
@@ -232,8 +244,9 @@ assert.strictEqual(example.decision_transparency.score_breakdown.name, 'Exeter S
 assert.ok(
   example.decision_transparency.score_breakdown.checks.some((check) => check.label === 'Achieved-grade uplift')
 );
-assert.ok(
-  example.decision_transparency.score_breakdown.checks.some((check) => check.label === 'Contextual uplift')
+assert.strictEqual(
+  example.decision_transparency.score_breakdown.checks.some((check) => check.label === 'Contextual uplift'),
+  false
 );
 
 const indexEntry = index.universities.find((entry) => entry.id === course.profile_id);

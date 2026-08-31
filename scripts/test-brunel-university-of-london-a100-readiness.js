@@ -139,7 +139,7 @@ assert.strictEqual(course.stage_1_eligibility.gcse.selection_role, 'eligibility_
 assert.strictEqual(course.stage_1_eligibility.gcse.scored_after_eligibility, false);
 assert.deepStrictEqual(
   config.eligibility.qualification_routes.manual_review,
-  ['graduate', 'international_qualification']
+  ['graduate', 'international_qualification', 'scottish']
 );
 assert.ok(
   config.eligibility.do_not_infer.some((entry) => /contextual UCAT/i.test(entry)),

@@ -346,7 +346,7 @@ const tests = [
       assert.ok(!result.applicant_group_ids.includes('scotland_domiciled'));
       assert.strictEqual(
         result.eligibility.academic_pathway_id,
-        'southampton_standard_home_aaa'
+        'southampton_standard_a_level_aaa'
       );
     }
   },
@@ -364,7 +364,7 @@ const tests = [
       assert.ok(result.applicant_group_ids.includes('scotland_domiciled'));
       assert.strictEqual(
         result.eligibility.academic_pathway_id,
-        'southampton_standard_home_aaa'
+        'southampton_standard_a_level_aaa'
       );
     }
   },

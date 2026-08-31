@@ -11,7 +11,7 @@
     ]
   },
   "eligibility": {
-    "scope": "Automatic interview guidance is restricted to Home A-level and IB applicants with supported GCSE evidence, current-cycle UCAT and SJT Band 1-3. International applicants receive insufficient-evidence output rather than Home UCAT guidance. Graduate, Scottish, Access and BTEC routes are blocked or manual review according to evidence limits.",
+    "scope": "Automatic interview guidance is restricted to Home A-level and IB applicants with supported GCSE evidence, current-cycle UCAT and SJT Band 1-3. Scottish applicants are routed through shared course eligibility to deliberate manual review because Brunel level-specific Scottish evidence is unresolved.",
     "international_english_language_required": true,
     "qualification_routes": {
       "supported": [
@@ -20,10 +20,10 @@
       ],
       "manual_review": [
         "graduate",
-        "international_qualification"
+        "international_qualification",
+        "scottish"
       ],
       "explicitly_blocked": [
-        "scottish",
         "access_to_medicine",
         "access_to_he",
         "btec",
@@ -230,6 +230,9 @@
       "Do not apply Home UCAT guidance to International applicants.",
       "Do not present historical lowest-interviewed scores as official future cut-offs.",
       "Do not automate science practical endorsement rejection without verified evidence."
+    ],
+    "use_course_eligibility_for_qualification_routes": [
+      "scottish"
     ]
   },
   "score_model": {

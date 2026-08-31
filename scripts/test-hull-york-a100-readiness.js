@@ -171,7 +171,7 @@ assert.match(storedText, /Estimated HYMS selection score/);
 assert.doesNotMatch(storedText, /Confirmed HYMS selection score/i);
 assert.match(storedText, /published HYMS admissions information/i);
 assert.strictEqual(storedCard.prediction.result_band, 'interview_likely');
-assert.strictEqual(storedCard.prediction.score, null);
+assert.strictEqual(storedCard.prediction.score, 85.48);
 assert.strictEqual(storedCard.prediction.score_scale.max, 100);
 assert.strictEqual(storedCard.decision_transparency.selection_metric.applicant_value, 85.48);
 assert.strictEqual(storedCard.decision_transparency.selection_metric.maximum_value, 100);

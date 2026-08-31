@@ -17,6 +17,12 @@ const ENHANCED_PROGRAMME_IDS = new Set([
 
 const MISSING_VALUES = new Set(['', null, undefined, 'unknown', 'not_sure', 'prefer_not_to_say']);
 
+const ENHANCED_SCHOOL_GATED_MISSING_CRITERION_IDS = new Set([
+  'nottingham_enhanced_access_programme_completed',
+  'enhanced_care_route_requires_verified_local_authority_or_court_ordered_care',
+  'enhanced_fsm_route_requires_ucas_verified_census_day_ks4_window'
+]);
+
 function asObject(value) {
   return value && typeof value === 'object' && !Array.isArray(value) ? value : {};
 }
@@ -329,6 +335,12 @@ function evaluateFsmRoute(evidence, result, normaliseId) {
   return false;
 }
 
+function removeEnhancedSchoolGatedMissingInformation(result) {
+  result.missing_information = result.missing_information.filter((entry) => {
+    return !ENHANCED_SCHOOL_GATED_MISSING_CRITERION_IDS.has(entry.criterion_id);
+  });
+}
+
 function confirmedResult(level) {
   const enhanced = level === 'enhanced';
   return {
@@ -390,6 +402,9 @@ function evaluateNottinghamContextualEligibility({ course, applicant, evidence, 
     normaliseId,
     { recordMissing: enhancedSignalPresent }
   );
+  if (enhancedSchoolStatus === 'excluded') {
+    removeEnhancedSchoolGatedMissingInformation(result);
+  }
 
   if (homeFeeStatus === 'matched' && enhancedSchoolStatus === 'matched' && enhancedMatches.some(Boolean)) {
     return {

@@ -38,6 +38,27 @@ const CANONICAL_BANDS = new Set([
   'eligible_to_apply',
   'insufficient_evidence'
 ]);
+
+const CONTEXTUAL_ROUTE_CONTROL_GROUP_IDS = new Set([
+  'contextual',
+  'widening_participation',
+  'access_to_leeds',
+  'access_to_leeds_confirmed',
+  'exeter_contextual_confirmed',
+  'wp2',
+  'fair_access'
+]);
+
+function applicantGroupIdsForResult(groupIds = [], applicant = {}) {
+  const groups = new Set(groupIds);
+  for (const groupId of contextualFlagApplicantGroupIds(applicant.applicant_identity?.contextual_flags || {})) {
+    if (!CONTEXTUAL_ROUTE_CONTROL_GROUP_IDS.has(groupId)) {
+      groups.add(groupId);
+    }
+  }
+  return [...groups];
+}
+
 const ABERDEEN_ADJUSTED_SELECTION_UCAT_METRIC = 'aberdeen_adjusted_selection_ucat_total';
 const CONTEXTUAL_ADJUSTED_SELECTION_UCAT_SOURCE = 'contextual_adjusted_selection_ucat_total';
 const CONTEXTUAL_ADJUSTED_SELECTION_UCAT_METRIC = 'contextual_adjusted_selection_ucat_total';
@@ -5080,7 +5101,7 @@ function classifyInterviewBand(course, config, applicantInput, options = {}) {
   const base = {
     course_profile_id: course.profile_id,
     applicant_profile_id: applicant.profile_id || null,
-    applicant_group_ids: groupIds,
+    applicant_group_ids: applicantGroupIdsForResult(groupIds, applicant),
     eligibility: resolvedEligibility,
     evidence_basis: classificationConfig.evidence || null,
     confidence: classificationConfig.confidence

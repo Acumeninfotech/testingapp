@@ -30,6 +30,8 @@ const KMMS_CONTEXTUAL_EVALUATOR_ID = 'kmms_contextual_medicine_a100';
 const CITY_ST_GEORGES_CONTEXTUAL_EVALUATOR_ID = 'city_st_georges_contextual_medicine_a100';
 const EDGE_HILL_CONTEXTUAL_EVALUATOR_ID = 'edge_hill_contextual_medicine_a100';
 const ANGLIA_RUSKIN_CONTEXTUAL_EVALUATOR_ID = 'anglia_ruskin_contextual_medicine_a100';
+const EXETER_CONTEXTUAL_EVALUATOR_ID = 'exeter_contextual_medicine_a100';
+const LEEDS_CONTEXTUAL_EVALUATOR_ID = 'leeds_contextual_medicine_a100';
 
 function asObject(value) {
   return value && typeof value === 'object' && !Array.isArray(value)
@@ -313,7 +315,11 @@ function contextualEvidenceOptionsForCourse(course = {}, evaluatorId = null, opt
     course.profile_id === 'edge-hill-a100' ||
     evaluatorId === EDGE_HILL_CONTEXTUAL_EVALUATOR_ID ||
     course.profile_id === 'anglia-ruskin-a100' ||
-    evaluatorId === ANGLIA_RUSKIN_CONTEXTUAL_EVALUATOR_ID
+    evaluatorId === ANGLIA_RUSKIN_CONTEXTUAL_EVALUATOR_ID ||
+    course.profile_id === 'exeter-a100' ||
+    evaluatorId === EXETER_CONTEXTUAL_EVALUATOR_ID ||
+    course.profile_id === 'leeds-a100' ||
+    evaluatorId === LEEDS_CONTEXTUAL_EVALUATOR_ID
   ) {
     evidenceOptions.projectLegacyContextualCriteriaFlags = false;
     evidenceOptions.projectLegacyAccessProgrammes = false;

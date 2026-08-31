@@ -205,9 +205,9 @@
         "counted_subject_limit": 8,
         "maximum_points": 24,
         "grade_points": {
-          "9_or_8": 3,
-          "7": 2,
           "6": 1,
+          "7": 2,
+          "9_or_8": 3,
           "5_and_below": 0
         },
         "public_display": false
@@ -265,7 +265,8 @@
               "biology"
             ],
             "decision_outcome_if_not_met": "not_eligible",
-            "notes": "A*A*B is not accepted instead of AAA."
+            "notes": "A*A*B is not accepted instead of AAA.",
+            "academic_pathway": "standard"
           },
           {
             "requirement_id": "leeds_international_a_level_aaa",
@@ -323,7 +324,8 @@
                 ]
               }
             ],
-            "decision_outcome_if_not_met": "not_eligible"
+            "decision_outcome_if_not_met": "not_eligible",
+            "academic_pathway": "contextual"
           }
         ],
         "required_subject_ids": [
@@ -353,8 +355,159 @@
         "notes": "Leeds does not publish enough route-specific scoring detail in the supplied specification for automatic IB scoring."
       },
       "scottish": {
-        "status": "manual_review",
-        "notes": "Scottish route eligibility and scoring require manual review until official route-specific scoring evidence is available."
+        "status": "official_source_verified",
+        "route_implemented": true,
+        "contextual_route_implemented": true,
+        "source_ids": [
+          "leeds_course_page_2027"
+        ],
+        "higher_offer": {
+          "grade_profile": [
+            "A",
+            "A",
+            "A",
+            "A",
+            "B"
+          ]
+        },
+        "advanced_higher_offer": {
+          "grade_profile": [
+            "A",
+            "A"
+          ],
+          "required_subject_ids": [
+            "chemistry",
+            "biology"
+          ]
+        },
+        "contextual_higher_offer": {
+          "grade_profile": [
+            "A",
+            "A",
+            "B",
+            "B",
+            "B"
+          ]
+        },
+        "contextual_advanced_higher_offer": {
+          "grade_profile": [
+            "B",
+            "B"
+          ],
+          "required_subject_ids": [
+            "chemistry",
+            "biology"
+          ]
+        },
+        "grade_requirements": [
+          {
+            "requirement_id": "leeds_scottish_access_to_leeds_highers_aabbb",
+            "pathway_id": "leeds_scottish_access_to_leeds_highers_aabbb",
+            "academic_pathway": "contextual",
+            "applies_to_group_ids": [
+              "access_to_leeds_confirmed"
+            ],
+            "qualification_level": "scottish_highers",
+            "grade_profile": [
+              "A",
+              "A",
+              "B",
+              "B",
+              "B"
+            ],
+            "decision_outcome_if_not_met": "not_eligible",
+            "source_ids": [
+              "leeds_course_page_2027"
+            ]
+          },
+          {
+            "requirement_id": "leeds_scottish_access_to_leeds_advanced_highers_bb",
+            "pathway_id": "leeds_scottish_access_to_leeds_advanced_highers_bb",
+            "academic_pathway": "contextual",
+            "applies_to_group_ids": [
+              "access_to_leeds_confirmed"
+            ],
+            "qualification_level": "advanced_higher",
+            "grade_profile": [
+              "B",
+              "B"
+            ],
+            "required_subject_ids": [
+              "chemistry",
+              "biology"
+            ],
+            "subject_grade_requirements": [
+              {
+                "subject_id": "chemistry",
+                "minimum_grade": "B"
+              },
+              {
+                "subject_id": "biology",
+                "minimum_grade": "B"
+              }
+            ],
+            "decision_outcome_if_not_met": "not_eligible",
+            "source_ids": [
+              "leeds_course_page_2027"
+            ]
+          },
+          {
+            "requirement_id": "leeds_scottish_standard_highers_aaaab",
+            "pathway_id": "leeds_scottish_standard_highers_aaaab",
+            "academic_pathway": "standard",
+            "excluded_group_ids": [
+              "access_to_leeds_confirmed"
+            ],
+            "qualification_level": "scottish_highers",
+            "grade_profile": [
+              "A",
+              "A",
+              "A",
+              "A",
+              "B"
+            ],
+            "decision_outcome_if_not_met": "not_eligible",
+            "source_ids": [
+              "leeds_course_page_2027"
+            ]
+          },
+          {
+            "requirement_id": "leeds_scottish_standard_advanced_highers_aa_biology_chemistry",
+            "pathway_id": "leeds_scottish_standard_advanced_highers_aa_biology_chemistry",
+            "academic_pathway": "standard",
+            "excluded_group_ids": [
+              "access_to_leeds_confirmed"
+            ],
+            "qualification_level": "advanced_higher",
+            "grade_profile": [
+              "A",
+              "A"
+            ],
+            "required_subject_ids": [
+              "chemistry",
+              "biology"
+            ],
+            "subject_grade_requirements": [
+              {
+                "subject_id": "chemistry",
+                "minimum_grade": "A"
+              },
+              {
+                "subject_id": "biology",
+                "minimum_grade": "A"
+              }
+            ],
+            "decision_outcome_if_not_met": "not_eligible",
+            "source_ids": [
+              "leeds_course_page_2027"
+            ]
+          }
+        ],
+        "required_subject_ids": [
+          "chemistry",
+          "biology"
+        ],
+        "notes": "Access to Leeds Scottish reductions activate only from confirmed Access to Leeds evaluator output. EPQ is not considered for this route."
       },
       "degree": {
         "status": "manual_review",
@@ -651,7 +804,7 @@
     "criteria": [
       {
         "criterion_id": "access_to_leeds",
-        "description": "Verified Access to Leeds eligibility."
+        "description": "Confirmed Access to Leeds eligibility from structured Step 6 programme evidence."
       }
     ],
     "adjustments": [
@@ -663,7 +816,15 @@
       }
     ],
     "guaranteed_interview_rules": [],
-    "notes": "No numerical contextual uplift, bonus score or UCAT reduction is implemented."
+    "notes": "Only confirmed structured Access to Leeds evidence activates the ABB A-level route or Scottish contextual route. Generic contextual flags and old direct legacy flags are ignored.",
+    "contextual_eligibility": {
+      "evaluator_id": "leeds_contextual_medicine_a100",
+      "controls_group_routing": true,
+      "applies_to_group_ids": [
+        "home_fee"
+      ],
+      "preserve_classifier_hard_filters": true
+    }
   },
   "ranking_pools": [
     {

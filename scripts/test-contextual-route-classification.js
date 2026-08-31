@@ -27,43 +27,35 @@ const EXPECTED_FLAG_ROUTE_CHANGES = {
   care_experienced: [
     'anglia-ruskin-a100',
     'aston-a100',
-    'birmingham-a100',
     'bristol-a100',
-    'cambridge-a100',
     'imperial-college-london-a100',
     'keele-a100',
-    'leicester-a100',
-    'liverpool-a100'
+    'king-s-college-london-a100'
   ],
   refugee_or_asylum_seeker: [
-    'aston-a100',
     'bristol-a100',
     'keele-a100',
-    'lancaster-a100'
+    'king-s-college-london-a100'
   ],
   free_school_meals: [
     'anglia-ruskin-a100',
-    'birmingham-a100',
+    'aston-a100',
     'bristol-a100',
-    'cambridge-a100',
     'imperial-college-london-a100',
     'keele-a100',
-    'leicester-a100'
+    'king-s-college-london-a100'
   ],
   first_generation_higher_education: [
     'aston-a100',
     'bristol-a100',
-    'keele-a100',
-    'liverpool-a100'
+    'keele-a100'
   ],
   school_contextual_indicator: [
-    'bristol-a100',
-    'cambridge-a100'
+    'bristol-a100'
   ],
   ucat_bursary: [
     'aston-a100',
-    'bristol-a100',
-    'leicester-a100'
+    'bristol-a100'
   ]
 };
 

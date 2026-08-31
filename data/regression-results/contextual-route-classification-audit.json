@@ -1,20 +1,20 @@
 {
   "counts": {
     "standard": {
-      "Recommended": 32,
+      "Recommended": 33,
       "Information Needed": 4,
       "Not Eligible": 1,
-      "Consider": 3
+      "Consider": 2
     },
     "top_level_only": {
-      "Recommended": 31,
+      "Recommended": 32,
       "Information Needed": 5,
       "Not Eligible": 1,
-      "Consider": 3
+      "Consider": 2
     },
     "all_flags": {
-      "Recommended": 29,
-      "Information Needed": 8,
+      "Recommended": 32,
+      "Information Needed": 5,
       "Not Eligible": 1,
       "Consider": 2
     }
@@ -28,13 +28,13 @@
         "result_band": "interview_likely",
         "display_state": "standard",
         "applicant_group_ids": [
+          "home_fee",
           "england_domiciled",
           "rest_of_uk",
-          "home_fee",
           "school_leaver"
         ],
         "guidance_pool_id": "home_rest_of_uk_school_leaver",
-        "selection_route_id": null,
+        "selection_route_id": "ruk_standard",
         "canonical_interview_band": "interview_likely",
         "academic_pathway": "standard",
         "academic_pathway_id": "a_level_standard_offer",
@@ -45,13 +45,13 @@
         "result_band": "interview_likely",
         "display_state": "standard",
         "applicant_group_ids": [
+          "home_fee",
           "england_domiciled",
           "rest_of_uk",
-          "home_fee",
           "school_leaver"
         ],
         "guidance_pool_id": "home_rest_of_uk_school_leaver",
-        "selection_route_id": null,
+        "selection_route_id": "ruk_standard",
         "canonical_interview_band": "interview_likely",
         "academic_pathway": "standard",
         "academic_pathway_id": "a_level_standard_offer",
@@ -62,9 +62,9 @@
         "result_band": "interview_likely",
         "display_state": "standard",
         "applicant_group_ids": [
+          "home_fee",
           "england_domiciled",
           "rest_of_uk",
-          "home_fee",
           "care_experienced",
           "refugee_or_asylum_seeker",
           "refugee",
@@ -76,7 +76,7 @@
           "school_leaver"
         ],
         "guidance_pool_id": "home_rest_of_uk_school_leaver",
-        "selection_route_id": null,
+        "selection_route_id": "ruk_standard",
         "canonical_interview_band": "interview_likely",
         "academic_pathway": "standard",
         "academic_pathway_id": "a_level_standard_offer",
@@ -192,9 +192,9 @@
         "result_band": "interview_likely",
         "display_state": "standard",
         "applicant_group_ids": [
-          "home_fee",
           "england_domiciled",
           "rest_of_uk",
+          "home_fee",
           "care_experienced",
           "refugee_or_asylum_seeker",
           "refugee",
@@ -204,7 +204,8 @@
           "school_contextual_indicator",
           "ucat_bursary",
           "school_leaver",
-          "contextual"
+          "contextual",
+          "widening_participation"
         ],
         "guidance_pool_id": "home_wp",
         "selection_route_id": null,
@@ -254,14 +255,13 @@
         "interview_outcome": null
       },
       "all_flags": {
-        "public_group": "Information Needed",
-        "result_band": "insufficient_evidence",
-        "display_state": "manual_review",
+        "public_group": "Recommended",
+        "result_band": "interview_likely",
+        "display_state": "standard",
         "applicant_group_ids": [
           "home_fee",
           "england_domiciled",
           "rest_of_uk",
-          "care_experienced",
           "refugee_or_asylum_seeker",
           "refugee",
           "asylum_seeker",
@@ -270,17 +270,17 @@
           "school_contextual_indicator",
           "ucat_bursary",
           "school_leaver",
-          "contextual"
+          "care_experienced"
         ],
-        "guidance_pool_id": null,
+        "guidance_pool_id": "home_standard",
         "selection_route_id": null,
-        "canonical_interview_band": "insufficient_evidence",
-        "academic_pathway": "contextual",
-        "academic_pathway_id": "home_contextual_a_level",
+        "canonical_interview_band": "interview_likely",
+        "academic_pathway": "standard",
+        "academic_pathway_id": "home_standard_a_level",
         "interview_outcome": null
       },
-      "contextual_route_legitimately_activated": true,
-      "change_reason": "evidence_specific_contextual_or_wp_route"
+      "contextual_route_legitimately_activated": false,
+      "change_reason": "no_route_or_prediction_change"
     },
     {
       "university_id": "brighton-and-sussex-a100",
@@ -290,16 +290,16 @@
         "result_band": "very_strong_interview_potential",
         "display_state": "standard",
         "applicant_group_ids": [
+          "home_fee",
           "england_domiciled",
           "rest_of_uk",
-          "home_fee",
           "school_leaver"
         ],
         "guidance_pool_id": "home_standard",
         "selection_route_id": null,
         "canonical_interview_band": "very_strong_interview_potential",
         "academic_pathway": "standard",
-        "academic_pathway_id": "bsms_standard_a_level_aaa",
+        "academic_pathway_id": "bsms_a_level_standard_aaa",
         "interview_outcome": null
       },
       "top_level_only": {
@@ -307,16 +307,16 @@
         "result_band": "very_strong_interview_potential",
         "display_state": "standard",
         "applicant_group_ids": [
+          "home_fee",
           "england_domiciled",
           "rest_of_uk",
-          "home_fee",
           "school_leaver"
         ],
         "guidance_pool_id": "home_standard",
         "selection_route_id": null,
         "canonical_interview_band": "very_strong_interview_potential",
         "academic_pathway": "standard",
-        "academic_pathway_id": "bsms_standard_a_level_aaa",
+        "academic_pathway_id": "bsms_a_level_standard_aaa",
         "interview_outcome": null
       },
       "all_flags": {
@@ -324,10 +324,9 @@
         "result_band": "very_strong_interview_potential",
         "display_state": "standard",
         "applicant_group_ids": [
+          "home_fee",
           "england_domiciled",
           "rest_of_uk",
-          "home_fee",
-          "care_experienced",
           "refugee_or_asylum_seeker",
           "refugee",
           "asylum_seeker",
@@ -335,13 +334,14 @@
           "first_generation_higher_education",
           "school_contextual_indicator",
           "ucat_bursary",
-          "school_leaver"
+          "school_leaver",
+          "care_experienced"
         ],
         "guidance_pool_id": "home_standard",
         "selection_route_id": null,
         "canonical_interview_band": "very_strong_interview_potential",
         "academic_pathway": "standard",
-        "academic_pathway_id": "bsms_standard_a_level_aaa",
+        "academic_pathway_id": "bsms_a_level_standard_aaa",
         "interview_outcome": null
       },
       "contextual_route_legitimately_activated": false,
@@ -556,9 +556,9 @@
         "result_band": "not_eligible",
         "display_state": "not_eligible",
         "applicant_group_ids": [
+          "home_fee",
           "england_domiciled",
           "rest_of_uk",
-          "home_fee",
           "school_leaver"
         ],
         "guidance_pool_id": null,
@@ -573,9 +573,9 @@
         "result_band": "not_eligible",
         "display_state": "not_eligible",
         "applicant_group_ids": [
+          "home_fee",
           "england_domiciled",
           "rest_of_uk",
-          "home_fee",
           "school_leaver"
         ],
         "guidance_pool_id": null,
@@ -590,20 +590,18 @@
         "result_band": "not_eligible",
         "display_state": "not_eligible",
         "applicant_group_ids": [
+          "home_fee",
           "england_domiciled",
           "rest_of_uk",
-          "home_fee",
-          "care_experienced",
           "refugee_or_asylum_seeker",
           "refugee",
           "asylum_seeker",
-          "free_school_meals",
           "first_generation_higher_education",
-          "school_contextual_indicator",
           "ucat_bursary",
           "school_leaver",
-          "contextual",
-          "widening_participation"
+          "care_experienced",
+          "free_school_meals",
+          "school_contextual_indicator"
         ],
         "guidance_pool_id": null,
         "selection_route_id": null,
@@ -753,16 +751,16 @@
         "result_band": "interview_likely",
         "display_state": "standard",
         "applicant_group_ids": [
+          "home_fee",
           "england_domiciled",
           "rest_of_uk",
-          "home_fee",
           "school_leaver"
         ],
-        "guidance_pool_id": "home_rest_of_uk_school_leaver",
-        "selection_route_id": null,
+        "guidance_pool_id": "home_rest_of_uk_standard_school_leaver",
+        "selection_route_id": "ruk_standard",
         "canonical_interview_band": "interview_likely",
         "academic_pathway": "standard",
-        "academic_pathway_id": "a_level_standard_offer",
+        "academic_pathway_id": "dundee_ruk_standard_a_level",
         "interview_outcome": null
       },
       "top_level_only": {
@@ -770,16 +768,16 @@
         "result_band": "interview_likely",
         "display_state": "standard",
         "applicant_group_ids": [
+          "home_fee",
           "england_domiciled",
           "rest_of_uk",
-          "home_fee",
           "school_leaver"
         ],
-        "guidance_pool_id": "home_rest_of_uk_school_leaver",
-        "selection_route_id": null,
+        "guidance_pool_id": "home_rest_of_uk_standard_school_leaver",
+        "selection_route_id": "ruk_standard",
         "canonical_interview_band": "interview_likely",
         "academic_pathway": "standard",
-        "academic_pathway_id": "a_level_standard_offer",
+        "academic_pathway_id": "dundee_ruk_standard_a_level",
         "interview_outcome": null
       },
       "all_flags": {
@@ -787,24 +785,24 @@
         "result_band": "interview_likely",
         "display_state": "standard",
         "applicant_group_ids": [
+          "home_fee",
           "england_domiciled",
           "rest_of_uk",
-          "home_fee",
-          "care_experienced",
-          "refugee_or_asylum_seeker",
-          "refugee",
-          "asylum_seeker",
           "free_school_meals",
           "first_generation_higher_education",
           "school_contextual_indicator",
           "ucat_bursary",
-          "school_leaver"
+          "school_leaver",
+          "care_experienced",
+          "refugee_or_asylum_seeker",
+          "refugee",
+          "asylum_seeker"
         ],
-        "guidance_pool_id": "home_rest_of_uk_school_leaver",
-        "selection_route_id": null,
+        "guidance_pool_id": "home_rest_of_uk_standard_school_leaver",
+        "selection_route_id": "ruk_standard",
         "canonical_interview_band": "interview_likely",
         "academic_pathway": "standard",
-        "academic_pathway_id": "a_level_standard_offer",
+        "academic_pathway_id": "dundee_ruk_standard_a_level",
         "interview_outcome": null
       },
       "contextual_route_legitimately_activated": false,
@@ -948,16 +946,16 @@
         "result_band": "interview_likely",
         "display_state": "standard",
         "applicant_group_ids": [
+          "home_fee",
           "england_domiciled",
           "rest_of_uk",
-          "home_fee",
           "school_leaver"
         ],
-        "guidance_pool_id": "home_rest_of_uk_school_leaver",
-        "selection_route_id": null,
+        "guidance_pool_id": "ruk_standard",
+        "selection_route_id": "ruk_standard",
         "canonical_interview_band": "interview_likely",
         "academic_pathway": "standard",
-        "academic_pathway_id": "a_level_standard_offer",
+        "academic_pathway_id": "edinburgh_a_level_standard_offer",
         "interview_outcome": null
       },
       "top_level_only": {
@@ -965,16 +963,16 @@
         "result_band": "interview_likely",
         "display_state": "standard",
         "applicant_group_ids": [
+          "home_fee",
           "england_domiciled",
           "rest_of_uk",
-          "home_fee",
           "school_leaver"
         ],
-        "guidance_pool_id": "home_rest_of_uk_school_leaver",
-        "selection_route_id": null,
+        "guidance_pool_id": "ruk_standard",
+        "selection_route_id": "ruk_standard",
         "canonical_interview_band": "interview_likely",
         "academic_pathway": "standard",
-        "academic_pathway_id": "a_level_standard_offer",
+        "academic_pathway_id": "edinburgh_a_level_standard_offer",
         "interview_outcome": null
       },
       "all_flags": {
@@ -982,24 +980,24 @@
         "result_band": "interview_likely",
         "display_state": "standard",
         "applicant_group_ids": [
+          "home_fee",
           "england_domiciled",
           "rest_of_uk",
-          "home_fee",
-          "care_experienced",
           "refugee_or_asylum_seeker",
           "refugee",
           "asylum_seeker",
           "free_school_meals",
           "first_generation_higher_education",
           "school_contextual_indicator",
-          "ucat_bursary",
-          "school_leaver"
+          "school_leaver",
+          "care_experienced",
+          "ucat_bursary"
         ],
-        "guidance_pool_id": "home_rest_of_uk_school_leaver",
-        "selection_route_id": null,
+        "guidance_pool_id": "ruk_standard",
+        "selection_route_id": "ruk_standard",
         "canonical_interview_band": "interview_likely",
         "academic_pathway": "standard",
-        "academic_pathway_id": "a_level_standard_offer",
+        "academic_pathway_id": "edinburgh_a_level_standard_offer",
         "interview_outcome": null
       },
       "contextual_route_legitimately_activated": false,
@@ -1013,9 +1011,9 @@
         "result_band": "realistic",
         "display_state": "standard",
         "applicant_group_ids": [
+          "home_fee",
           "england_domiciled",
           "rest_of_uk",
-          "home_fee",
           "school_leaver"
         ],
         "guidance_pool_id": "exeter_home_direct_school_leaver",
@@ -1030,9 +1028,9 @@
         "result_band": "realistic",
         "display_state": "standard",
         "applicant_group_ids": [
+          "home_fee",
           "england_domiciled",
           "rest_of_uk",
-          "home_fee",
           "school_leaver"
         ],
         "guidance_pool_id": "exeter_home_direct_school_leaver",
@@ -1047,18 +1045,18 @@
         "result_band": "realistic",
         "display_state": "standard",
         "applicant_group_ids": [
+          "home_fee",
           "england_domiciled",
           "rest_of_uk",
-          "home_fee",
+          "school_contextual_indicator",
+          "school_leaver",
           "care_experienced",
           "refugee_or_asylum_seeker",
           "refugee",
           "asylum_seeker",
           "free_school_meals",
           "first_generation_higher_education",
-          "school_contextual_indicator",
-          "ucat_bursary",
-          "school_leaver"
+          "ucat_bursary"
         ],
         "guidance_pool_id": "exeter_home_direct_school_leaver",
         "selection_route_id": null,
@@ -1078,13 +1076,13 @@
         "result_band": "interview_likely",
         "display_state": "standard",
         "applicant_group_ids": [
+          "home_fee",
           "england_domiciled",
           "rest_of_uk",
-          "home_fee",
           "school_leaver"
         ],
         "guidance_pool_id": "home_rest_of_uk_school_leaver",
-        "selection_route_id": null,
+        "selection_route_id": "ruk_standard",
         "canonical_interview_band": "interview_likely",
         "academic_pathway": "standard",
         "academic_pathway_id": "a_level_uk_standard_offer",
@@ -1095,13 +1093,13 @@
         "result_band": "interview_likely",
         "display_state": "standard",
         "applicant_group_ids": [
+          "home_fee",
           "england_domiciled",
           "rest_of_uk",
-          "home_fee",
           "school_leaver"
         ],
         "guidance_pool_id": "home_rest_of_uk_school_leaver",
-        "selection_route_id": null,
+        "selection_route_id": "ruk_standard",
         "canonical_interview_band": "interview_likely",
         "academic_pathway": "standard",
         "academic_pathway_id": "a_level_uk_standard_offer",
@@ -1112,21 +1110,21 @@
         "result_band": "interview_likely",
         "display_state": "standard",
         "applicant_group_ids": [
+          "home_fee",
           "england_domiciled",
           "rest_of_uk",
-          "home_fee",
-          "care_experienced",
-          "refugee_or_asylum_seeker",
-          "refugee",
-          "asylum_seeker",
           "free_school_meals",
           "first_generation_higher_education",
           "school_contextual_indicator",
           "ucat_bursary",
-          "school_leaver"
+          "school_leaver",
+          "care_experienced",
+          "refugee_or_asylum_seeker",
+          "refugee",
+          "asylum_seeker"
         ],
         "guidance_pool_id": "home_rest_of_uk_school_leaver",
-        "selection_route_id": null,
+        "selection_route_id": "ruk_standard",
         "canonical_interview_band": "interview_likely",
         "academic_pathway": "standard",
         "academic_pathway_id": "a_level_uk_standard_offer",
@@ -1152,7 +1150,7 @@
         "selection_route_id": null,
         "canonical_interview_band": "insufficient_evidence",
         "academic_pathway": "standard",
-        "academic_pathway_id": null,
+        "academic_pathway_id": "standard_AAA_biology_chemistry",
         "interview_outcome": null
       },
       "top_level_only": {
@@ -1169,7 +1167,7 @@
         "selection_route_id": null,
         "canonical_interview_band": "insufficient_evidence",
         "academic_pathway": "standard",
-        "academic_pathway_id": null,
+        "academic_pathway_id": "standard_AAA_biology_chemistry",
         "interview_outcome": null
       },
       "all_flags": {
@@ -1180,21 +1178,21 @@
           "home_fee",
           "england_domiciled",
           "rest_of_uk",
+          "free_school_meals",
+          "school_contextual_indicator",
+          "school_leaver",
           "care_experienced",
           "refugee_or_asylum_seeker",
           "refugee",
           "asylum_seeker",
-          "free_school_meals",
           "first_generation_higher_education",
-          "school_contextual_indicator",
-          "ucat_bursary",
-          "school_leaver"
+          "ucat_bursary"
         ],
         "guidance_pool_id": null,
         "selection_route_id": null,
         "canonical_interview_band": "insufficient_evidence",
         "academic_pathway": "standard",
-        "academic_pathway_id": null,
+        "academic_pathway_id": "standard_AAA_biology_chemistry",
         "interview_outcome": null
       },
       "contextual_route_legitimately_activated": false,
@@ -1204,8 +1202,8 @@
       "university_id": "imperial-college-london-a100",
       "university_name": "Imperial College London",
       "standard": {
-        "public_group": "Consider",
-        "result_band": "realistic",
+        "public_group": "Recommended",
+        "result_band": "interview_likely",
         "display_state": "standard",
         "applicant_group_ids": [
           "england_domiciled",
@@ -1215,14 +1213,14 @@
         ],
         "guidance_pool_id": "home_a100",
         "selection_route_id": null,
-        "canonical_interview_band": "realistic",
+        "canonical_interview_band": "interview_likely",
         "academic_pathway": "standard",
         "academic_pathway_id": "imperial_standard_a_level_astar_aa_biology_chemistry",
         "interview_outcome": null
       },
       "top_level_only": {
-        "public_group": "Consider",
-        "result_band": "realistic",
+        "public_group": "Recommended",
+        "result_band": "interview_likely",
         "display_state": "standard",
         "applicant_group_ids": [
           "england_domiciled",
@@ -1232,7 +1230,7 @@
         ],
         "guidance_pool_id": "home_a100",
         "selection_route_id": null,
-        "canonical_interview_band": "realistic",
+        "canonical_interview_band": "interview_likely",
         "academic_pathway": "standard",
         "academic_pathway_id": "imperial_standard_a_level_astar_aa_biology_chemistry",
         "interview_outcome": null
@@ -1442,28 +1440,28 @@
         "result_band": "interview_likely",
         "display_state": "standard",
         "applicant_group_ids": [
+          "home_fee",
           "england_domiciled",
           "rest_of_uk",
-          "home_fee",
+          "first_generation_higher_education",
+          "school_contextual_indicator",
+          "ucat_bursary",
+          "school_leaver",
           "care_experienced",
           "refugee_or_asylum_seeker",
           "refugee",
           "asylum_seeker",
-          "free_school_meals",
-          "first_generation_higher_education",
-          "school_contextual_indicator",
-          "ucat_bursary",
-          "school_leaver"
+          "free_school_meals"
         ],
         "guidance_pool_id": "kcl_home_historical_percentile_guidance",
         "selection_route_id": null,
         "canonical_interview_band": "interview_likely",
         "academic_pathway": "standard",
-        "academic_pathway_id": null,
+        "academic_pathway_id": "kcl_a_level_astar_aa_biology_chemistry_a",
         "interview_outcome": null
       },
       "contextual_route_legitimately_activated": false,
-      "change_reason": "no_route_or_prediction_change"
+      "change_reason": "evidence_specific_contextual_or_wp_route"
     },
     {
       "university_id": "lancashire-a100",
@@ -1568,9 +1566,9 @@
         "interview_outcome": null
       },
       "all_flags": {
-        "public_group": "Information Needed",
-        "result_band": "insufficient_evidence",
-        "display_state": "manual_review",
+        "public_group": "Recommended",
+        "result_band": "very_strong_interview_potential",
+        "display_state": "standard",
         "applicant_group_ids": [
           "home_fee",
           "england_domiciled",
@@ -1585,15 +1583,15 @@
           "ucat_bursary",
           "school_leaver"
         ],
-        "guidance_pool_id": null,
+        "guidance_pool_id": "home_standard_school_leaver",
         "selection_route_id": null,
-        "canonical_interview_band": "insufficient_evidence",
+        "canonical_interview_band": "very_strong_interview_potential",
         "academic_pathway": "standard",
         "academic_pathway_id": "lancaster_standard_offer",
         "interview_outcome": null
       },
       "contextual_route_legitimately_activated": false,
-      "change_reason": "evidence_specific_contextual_or_wp_route"
+      "change_reason": "no_route_or_prediction_change"
     },
     {
       "university_id": "leeds-a100",
@@ -1603,9 +1601,9 @@
         "result_band": "interview_likely",
         "display_state": "standard",
         "applicant_group_ids": [
+          "home_fee",
           "england_domiciled",
           "rest_of_uk",
-          "home_fee",
           "school_leaver"
         ],
         "guidance_pool_id": "home_a100",
@@ -1620,9 +1618,9 @@
         "result_band": "interview_likely",
         "display_state": "standard",
         "applicant_group_ids": [
+          "home_fee",
           "england_domiciled",
           "rest_of_uk",
-          "home_fee",
           "school_leaver"
         ],
         "guidance_pool_id": "home_a100",
@@ -1637,18 +1635,18 @@
         "result_band": "interview_likely",
         "display_state": "standard",
         "applicant_group_ids": [
+          "home_fee",
           "england_domiciled",
           "rest_of_uk",
-          "home_fee",
+          "school_contextual_indicator",
+          "school_leaver",
           "care_experienced",
           "refugee_or_asylum_seeker",
           "refugee",
           "asylum_seeker",
           "free_school_meals",
           "first_generation_higher_education",
-          "school_contextual_indicator",
-          "ucat_bursary",
-          "school_leaver"
+          "ucat_bursary"
         ],
         "guidance_pool_id": "home_a100",
         "selection_route_id": null,
@@ -1698,13 +1696,13 @@
         "interview_outcome": null
       },
       "all_flags": {
-        "public_group": "Information Needed",
-        "result_band": "insufficient_evidence",
-        "display_state": "manual_review",
+        "public_group": "Recommended",
+        "result_band": "interview_likely",
+        "display_state": "standard",
         "applicant_group_ids": [
-          "home_fee",
           "england_domiciled",
           "rest_of_uk",
+          "home_fee",
           "care_experienced",
           "refugee_or_asylum_seeker",
           "refugee",
@@ -1715,15 +1713,15 @@
           "ucat_bursary",
           "school_leaver"
         ],
-        "guidance_pool_id": null,
+        "guidance_pool_id": "leicester_home_predicted_a_level_or_equivalent",
         "selection_route_id": null,
-        "canonical_interview_band": "insufficient_evidence",
+        "canonical_interview_band": "interview_likely",
         "academic_pathway": "standard",
         "academic_pathway_id": "a_level_standard_offer",
         "interview_outcome": null
       },
       "contextual_route_legitimately_activated": false,
-      "change_reason": "evidence_specific_contextual_or_wp_route"
+      "change_reason": "no_route_or_prediction_change"
     },
     {
       "university_id": "lincoln-a100",
@@ -1733,9 +1731,9 @@
         "result_band": "interview_likely",
         "display_state": "standard",
         "applicant_group_ids": [
+          "home_fee",
           "england_domiciled",
           "rest_of_uk",
-          "home_fee",
           "school_leaver"
         ],
         "guidance_pool_id": "model_a_provisional_official_score_guidance",
@@ -1750,9 +1748,9 @@
         "result_band": "interview_likely",
         "display_state": "standard",
         "applicant_group_ids": [
+          "home_fee",
           "england_domiciled",
           "rest_of_uk",
-          "home_fee",
           "school_leaver"
         ],
         "guidance_pool_id": "model_a_provisional_official_score_guidance",
@@ -1767,18 +1765,18 @@
         "result_band": "interview_likely",
         "display_state": "standard",
         "applicant_group_ids": [
+          "home_fee",
           "england_domiciled",
           "rest_of_uk",
-          "home_fee",
-          "care_experienced",
           "refugee_or_asylum_seeker",
-          "refugee",
           "asylum_seeker",
           "free_school_meals",
           "first_generation_higher_education",
           "school_contextual_indicator",
-          "ucat_bursary",
-          "school_leaver"
+          "school_leaver",
+          "care_experienced",
+          "refugee",
+          "ucat_bursary"
         ],
         "guidance_pool_id": "model_a_provisional_official_score_guidance",
         "selection_route_id": null,
@@ -1798,16 +1796,16 @@
         "result_band": "very_strong_interview_potential",
         "display_state": "standard",
         "applicant_group_ids": [
+          "home_fee",
           "england_domiciled",
           "rest_of_uk",
-          "home_fee",
           "school_leaver"
         ],
         "guidance_pool_id": "home_standard_non_graduate",
         "selection_route_id": null,
         "canonical_interview_band": "very_strong_interview_potential",
         "academic_pathway": "standard",
-        "academic_pathway_id": "standard_aaa",
+        "academic_pathway_id": "a_level_standard_offer",
         "interview_outcome": null
       },
       "top_level_only": {
@@ -1815,16 +1813,16 @@
         "result_band": "very_strong_interview_potential",
         "display_state": "standard",
         "applicant_group_ids": [
+          "home_fee",
           "england_domiciled",
           "rest_of_uk",
-          "home_fee",
           "school_leaver"
         ],
         "guidance_pool_id": "home_standard_non_graduate",
         "selection_route_id": null,
         "canonical_interview_band": "very_strong_interview_potential",
         "academic_pathway": "standard",
-        "academic_pathway_id": "standard_aaa",
+        "academic_pathway_id": "a_level_standard_offer",
         "interview_outcome": null
       },
       "all_flags": {
@@ -1832,9 +1830,9 @@
         "result_band": "very_strong_interview_potential",
         "display_state": "standard",
         "applicant_group_ids": [
+          "home_fee",
           "england_domiciled",
           "rest_of_uk",
-          "home_fee",
           "care_experienced",
           "refugee_or_asylum_seeker",
           "refugee",
@@ -1843,19 +1841,17 @@
           "first_generation_higher_education",
           "school_contextual_indicator",
           "ucat_bursary",
-          "school_leaver",
-          "contextual",
-          "widening_participation"
+          "school_leaver"
         ],
-        "guidance_pool_id": "home_contextual_non_graduate",
+        "guidance_pool_id": "home_standard_non_graduate",
         "selection_route_id": null,
         "canonical_interview_band": "very_strong_interview_potential",
         "academic_pathway": "standard",
-        "academic_pathway_id": "standard_aaa",
+        "academic_pathway_id": "a_level_standard_offer",
         "interview_outcome": null
       },
-      "contextual_route_legitimately_activated": true,
-      "change_reason": "evidence_specific_contextual_or_wp_route"
+      "contextual_route_legitimately_activated": false,
+      "change_reason": "no_route_or_prediction_change"
     },
     {
       "university_id": "manchester-a100",
@@ -1930,9 +1926,9 @@
         "result_band": "interview_likely",
         "display_state": "standard",
         "applicant_group_ids": [
+          "home_fee",
           "england_domiciled",
           "rest_of_uk",
-          "home_fee",
           "school_leaver"
         ],
         "guidance_pool_id": "newcastle_standard_home",
@@ -1947,9 +1943,9 @@
         "result_band": "interview_likely",
         "display_state": "standard",
         "applicant_group_ids": [
+          "home_fee",
           "england_domiciled",
           "rest_of_uk",
-          "home_fee",
           "school_leaver"
         ],
         "guidance_pool_id": "newcastle_standard_home",
@@ -1964,18 +1960,18 @@
         "result_band": "interview_likely",
         "display_state": "standard",
         "applicant_group_ids": [
+          "home_fee",
           "england_domiciled",
           "rest_of_uk",
-          "home_fee",
-          "care_experienced",
           "refugee_or_asylum_seeker",
           "refugee",
           "asylum_seeker",
-          "free_school_meals",
           "first_generation_higher_education",
           "school_contextual_indicator",
           "ucat_bursary",
-          "school_leaver"
+          "school_leaver",
+          "care_experienced",
+          "free_school_meals"
         ],
         "guidance_pool_id": "newcastle_standard_home",
         "selection_route_id": null,
@@ -2003,8 +1999,8 @@
         "guidance_pool_id": null,
         "selection_route_id": null,
         "canonical_interview_band": null,
-        "academic_pathway": null,
-        "academic_pathway_id": null,
+        "academic_pathway": "standard",
+        "academic_pathway_id": "nottingham_standard_aaa_offer",
         "interview_outcome": null
       },
       "top_level_only": {
@@ -2020,8 +2016,8 @@
         "guidance_pool_id": null,
         "selection_route_id": null,
         "canonical_interview_band": null,
-        "academic_pathway": null,
-        "academic_pathway_id": null,
+        "academic_pathway": "standard",
+        "academic_pathway_id": "nottingham_standard_aaa_offer",
         "interview_outcome": null
       },
       "all_flags": {
@@ -2045,8 +2041,8 @@
         "guidance_pool_id": null,
         "selection_route_id": null,
         "canonical_interview_band": null,
-        "academic_pathway": null,
-        "academic_pathway_id": null,
+        "academic_pathway": "standard",
+        "academic_pathway_id": "nottingham_standard_aaa_offer",
         "interview_outcome": null
       },
       "contextual_route_legitimately_activated": false,
@@ -2125,16 +2121,16 @@
         "result_band": "interview_likely",
         "display_state": "standard",
         "applicant_group_ids": [
+          "home_fee",
           "england_domiciled",
           "rest_of_uk",
-          "home_fee",
           "school_leaver"
         ],
         "guidance_pool_id": "home_a100",
         "selection_route_id": null,
         "canonical_interview_band": "interview_likely",
         "academic_pathway": "standard",
-        "academic_pathway_id": "plymouth_standard_a_star_aa",
+        "academic_pathway_id": "plymouth_standard_a_level_a_star_aa",
         "interview_outcome": null
       },
       "top_level_only": {
@@ -2142,16 +2138,16 @@
         "result_band": "interview_likely",
         "display_state": "standard",
         "applicant_group_ids": [
+          "home_fee",
           "england_domiciled",
           "rest_of_uk",
-          "home_fee",
           "school_leaver"
         ],
         "guidance_pool_id": "home_a100",
         "selection_route_id": null,
         "canonical_interview_band": "interview_likely",
         "academic_pathway": "standard",
-        "academic_pathway_id": "plymouth_standard_a_star_aa",
+        "academic_pathway_id": "plymouth_standard_a_level_a_star_aa",
         "interview_outcome": null
       },
       "all_flags": {
@@ -2159,9 +2155,9 @@
         "result_band": "interview_likely",
         "display_state": "standard",
         "applicant_group_ids": [
+          "home_fee",
           "england_domiciled",
           "rest_of_uk",
-          "home_fee",
           "care_experienced",
           "refugee_or_asylum_seeker",
           "refugee",
@@ -2176,7 +2172,7 @@
         "selection_route_id": null,
         "canonical_interview_band": "interview_likely",
         "academic_pathway": "standard",
-        "academic_pathway_id": "plymouth_standard_a_star_aa",
+        "academic_pathway_id": "plymouth_standard_a_level_a_star_aa",
         "interview_outcome": null
       },
       "contextual_route_legitimately_activated": false,
@@ -2320,9 +2316,9 @@
         "result_band": "very_strong_interview_potential",
         "display_state": "standard",
         "applicant_group_ids": [
+          "home_fee",
           "england_domiciled",
           "rest_of_uk",
-          "home_fee",
           "school_leaver"
         ],
         "guidance_pool_id": "home_a100",
@@ -2337,9 +2333,9 @@
         "result_band": "very_strong_interview_potential",
         "display_state": "standard",
         "applicant_group_ids": [
+          "home_fee",
           "england_domiciled",
           "rest_of_uk",
-          "home_fee",
           "school_leaver"
         ],
         "guidance_pool_id": "home_a100",
@@ -2354,9 +2350,9 @@
         "result_band": "very_strong_interview_potential",
         "display_state": "standard",
         "applicant_group_ids": [
+          "home_fee",
           "england_domiciled",
           "rest_of_uk",
-          "home_fee",
           "care_experienced",
           "refugee_or_asylum_seeker",
           "refugee",
@@ -2385,16 +2381,16 @@
         "result_band": "interview_likely",
         "display_state": "standard",
         "applicant_group_ids": [
+          "home_fee",
           "england_domiciled",
           "rest_of_uk",
-          "home_fee",
           "school_leaver"
         ],
         "guidance_pool_id": "home_a100",
         "selection_route_id": null,
         "canonical_interview_band": "interview_likely",
         "academic_pathway": "standard",
-        "academic_pathway_id": "southampton_standard_home_aaa",
+        "academic_pathway_id": "southampton_standard_a_level_aaa",
         "interview_outcome": null
       },
       "top_level_only": {
@@ -2402,16 +2398,16 @@
         "result_band": "interview_likely",
         "display_state": "standard",
         "applicant_group_ids": [
+          "home_fee",
           "england_domiciled",
           "rest_of_uk",
-          "home_fee",
           "school_leaver"
         ],
         "guidance_pool_id": "home_a100",
         "selection_route_id": null,
         "canonical_interview_band": "interview_likely",
         "academic_pathway": "standard",
-        "academic_pathway_id": "southampton_standard_home_aaa",
+        "academic_pathway_id": "southampton_standard_a_level_aaa",
         "interview_outcome": null
       },
       "all_flags": {
@@ -2419,9 +2415,9 @@
         "result_band": "interview_likely",
         "display_state": "standard",
         "applicant_group_ids": [
+          "home_fee",
           "england_domiciled",
           "rest_of_uk",
-          "home_fee",
           "care_experienced",
           "refugee_or_asylum_seeker",
           "refugee",
@@ -2430,18 +2426,17 @@
           "first_generation_higher_education",
           "school_contextual_indicator",
           "ucat_bursary",
-          "school_leaver",
-          "contextual"
+          "school_leaver"
         ],
         "guidance_pool_id": "home_a100",
         "selection_route_id": null,
         "canonical_interview_band": "interview_likely",
-        "academic_pathway": "contextual",
-        "academic_pathway_id": "southampton_contextual_home_aab",
+        "academic_pathway": "standard",
+        "academic_pathway_id": "southampton_standard_a_level_aaa",
         "interview_outcome": null
       },
-      "contextual_route_legitimately_activated": true,
-      "change_reason": "evidence_specific_contextual_or_wp_route"
+      "contextual_route_legitimately_activated": false,
+      "change_reason": "no_route_or_prediction_change"
     },
     {
       "university_id": "st-andrews-a100",
@@ -2451,13 +2446,13 @@
         "result_band": "interview_likely",
         "display_state": "standard",
         "applicant_group_ids": [
+          "home_fee",
           "england_domiciled",
           "rest_of_uk",
-          "home_fee",
           "school_leaver"
         ],
         "guidance_pool_id": "rest_of_uk_non_contextual_a_level_school_leaver",
-        "selection_route_id": null,
+        "selection_route_id": "ruk_standard",
         "canonical_interview_band": "interview_likely",
         "academic_pathway": "standard",
         "academic_pathway_id": "a_level_standard_entry",
@@ -2468,13 +2463,13 @@
         "result_band": "interview_likely",
         "display_state": "standard",
         "applicant_group_ids": [
+          "home_fee",
           "england_domiciled",
           "rest_of_uk",
-          "home_fee",
           "school_leaver"
         ],
         "guidance_pool_id": "rest_of_uk_non_contextual_a_level_school_leaver",
-        "selection_route_id": null,
+        "selection_route_id": "ruk_standard",
         "canonical_interview_band": "interview_likely",
         "academic_pathway": "standard",
         "academic_pathway_id": "a_level_standard_entry",
@@ -2485,21 +2480,21 @@
         "result_band": "interview_likely",
         "display_state": "standard",
         "applicant_group_ids": [
+          "home_fee",
           "england_domiciled",
           "rest_of_uk",
-          "home_fee",
-          "care_experienced",
-          "refugee_or_asylum_seeker",
-          "refugee",
-          "asylum_seeker",
           "free_school_meals",
           "first_generation_higher_education",
           "school_contextual_indicator",
           "ucat_bursary",
-          "school_leaver"
+          "school_leaver",
+          "care_experienced",
+          "refugee_or_asylum_seeker",
+          "refugee",
+          "asylum_seeker"
         ],
         "guidance_pool_id": "rest_of_uk_non_contextual_a_level_school_leaver",
-        "selection_route_id": null,
+        "selection_route_id": "ruk_standard",
         "canonical_interview_band": "interview_likely",
         "academic_pathway": "standard",
         "academic_pathway_id": "a_level_standard_entry",
@@ -2516,9 +2511,9 @@
         "result_band": "realistic",
         "display_state": "standard",
         "applicant_group_ids": [
+          "home_fee",
           "england_domiciled",
           "rest_of_uk",
-          "home_fee",
           "school_leaver"
         ],
         "guidance_pool_id": "home_a100_eligibility_gate",
@@ -2533,9 +2528,9 @@
         "result_band": "realistic",
         "display_state": "standard",
         "applicant_group_ids": [
+          "home_fee",
           "england_domiciled",
           "rest_of_uk",
-          "home_fee",
           "school_leaver"
         ],
         "guidance_pool_id": "home_a100_eligibility_gate",
@@ -2550,18 +2545,18 @@
         "result_band": "realistic",
         "display_state": "standard",
         "applicant_group_ids": [
+          "home_fee",
           "england_domiciled",
           "rest_of_uk",
-          "home_fee",
           "care_experienced",
+          "first_generation_higher_education",
+          "school_contextual_indicator",
+          "school_leaver",
           "refugee_or_asylum_seeker",
           "refugee",
           "asylum_seeker",
           "free_school_meals",
-          "first_generation_higher_education",
-          "school_contextual_indicator",
-          "ucat_bursary",
-          "school_leaver"
+          "ucat_bursary"
         ],
         "guidance_pool_id": "home_a100_eligibility_gate",
         "selection_route_id": null,
@@ -2615,18 +2610,18 @@
         "result_band": "interview_likely",
         "display_state": "standard",
         "applicant_group_ids": [
+          "home_fee",
           "england_domiciled",
           "rest_of_uk",
-          "home_fee",
-          "care_experienced",
           "refugee_or_asylum_seeker",
           "refugee",
           "asylum_seeker",
-          "free_school_meals",
           "first_generation_higher_education",
           "school_contextual_indicator",
-          "ucat_bursary",
-          "school_leaver"
+          "school_leaver",
+          "care_experienced",
+          "free_school_meals",
+          "ucat_bursary"
         ],
         "guidance_pool_id": "home_a100",
         "selection_route_id": null,

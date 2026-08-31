@@ -16,13 +16,13 @@
     "international_english_language_required": false,
     "qualification_routes": {
       "supported": [
-        "a_level"
+        "a_level",
+        "scottish"
       ],
       "manual_review": [
         "graduate",
         "international_baccalaureate",
         "ib",
-        "scottish",
         "international_qualification",
         "access_to_medicine"
       ],
@@ -34,31 +34,6 @@
         "unknown"
       ]
     },
-    "derived_applicant_groups": [
-      {
-        "group_ids": [
-          "contextual",
-          "widening_participation"
-        ],
-        "match": {
-          "all_group_ids": [
-            "home_fee"
-          ],
-          "excluded_group_ids": [
-            "international_fee",
-            "graduate_applicant"
-          ]
-        },
-        "any_evidence": [
-          {
-            "applicant_evidence_path": "applicant_identity.contextual_flags.access_to_leeds"
-          },
-          {
-            "applicant_evidence_path": "contextual_evidence.access_to_leeds.verified"
-          }
-        ]
-      }
-    ],
     "gcse": {
       "minimum_count": 6,
       "use_exact_subject_list": false,
@@ -94,7 +69,8 @@
           "required_subject_ids": [
             "chemistry",
             "biology"
-          ]
+          ],
+          "academic_pathway": "standard"
         },
         {
           "route_id": "leeds_international_aaa",
@@ -150,7 +126,8 @@
                 }
               ]
             }
-          ]
+          ],
+          "academic_pathway": "contextual"
         }
       ],
       "science_practical_endorsement": {
@@ -220,18 +197,21 @@
     },
     "manual_review_routes": [
       "Graduate A100 applicants",
-      "IB, Scottish and alternative qualification routes",
-      "International qualification equivalence",
-      "Unverified contextual/WP status"
+      "International qualification equivalence"
     ],
     "do_not_infer": [
       "Do not expose or label the ApplySmart academic score as official Leeds policy.",
       "Do not apply an achieved-grade uplift.",
       "Do not award SJT points for Bands 1-3.",
       "Do not reuse Home UCAT guidance for WP or International applicants.",
-      "Do not create graduate, IB, Scottish or alternative-route conversion formulas.",
-      "Do not predict offers."
-    ]
+      "Do not predict offers.",
+      "Do not treat generic contextual or legacy direct Access to Leeds flags as confirmed Access to Leeds evidence.",
+      "Do not create an EPQ alternative for Leeds A100 or apply EPQ to Scottish routes."
+    ],
+    "use_course_eligibility_for_qualification_routes": [
+      "scottish"
+    ],
+    "contextual_evaluator_controls_group_routing": true
   },
   "score_model": {
     "type": "component_sum",
@@ -244,6 +224,14 @@
       "min": 1,
       "max": 3
     },
+    "qualification_route_methodology_gaps": [
+      {
+        "qualification_route": "scottish",
+        "reason_code": "university_methodology_gap",
+        "warning_code": "leeds_scottish_academic_scoring_conversion_unavailable",
+        "applicant_facing_explanation": "You meet Leeds' supported Scottish academic requirements. ApplySmart cannot provide a Leeds interview prediction because Leeds has not published a Scottish conversion for the internal GCSE and A-level academic-strength model. This is not a rejection."
+      }
+    ],
     "components": [
       {
         "component_id": "leeds_hidden_compensation_matrix",
@@ -444,6 +432,9 @@
       "not_eligible_explanation": "Your profile does not currently meet one or more of Leeds' published academic entry requirements.",
       "insufficient_evidence_recommendation": "Evidence not yet available",
       "insufficient_evidence_explanation": "Leeds publishes separate historical observations for this applicant pool, but ApplySmart has not yet approved public prediction calibration for it.",
+      "insufficient_evidence_reason_messages": {
+        "university_methodology_gap": "You meet Leeds' supported Scottish academic requirements. ApplySmart cannot provide a Leeds interview prediction because Leeds has not published a Scottish conversion for the internal GCSE and A-level academic-strength model. This is not a rejection."
+      },
       "evidence_used": [
         "Official admissions policy",
         "University selection methodology",

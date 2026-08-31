@@ -142,7 +142,8 @@
         "a_level",
         "international_baccalaureate",
         "degree",
-        "international_qualification"
+        "international_qualification",
+        "scottish"
       ],
       "a_level": {
         "status": "official_source_verified",
@@ -256,7 +257,185 @@
         "unverified_outcome": "manual_review",
         "notes": "International qualifications are assessed by the university against the published 144 UCAS Tariff/equivalence benchmark. ApplySmart only accepts applicant-supplied institution-verified equivalence."
       },
-      "notes": "Supported automatic routes are A-level, IB, institution-verified international qualification and the representable part of the graduate route."
+      "notes": "Supported automatic routes are A-level, IB, institution-verified international qualification and the representable part of the graduate route.",
+      "scottish": {
+        "status": "official_source_verified",
+        "route_implemented": true,
+        "contextual_route_implemented": false,
+        "source_ids": [
+          "msc_lancashire_medicine_a100_2027"
+        ],
+        "higher_offer": {
+          "grade_profile": [
+            "A",
+            "A",
+            "A",
+            "A",
+            "B"
+          ],
+          "notes": "AAAAB at Higher including Chemistry and a second accepted science."
+        },
+        "advanced_higher_offer": {
+          "grade_profile": [
+            "A",
+            "A",
+            "A"
+          ],
+          "notes": "AAA at Advanced Higher including Chemistry and a second accepted science."
+        },
+        "mixed_offer": {
+          "advanced_higher_grade_profile": [
+            "A",
+            "A"
+          ],
+          "higher_grade_profile": [
+            "A"
+          ],
+          "notes": "AA at Advanced Higher plus A at Higher, preserving Chemistry plus second-science structure."
+        },
+        "grade_requirements": [
+          {
+            "requirement_id": "lancashire_scottish_highers_aaaab_chemistry_second_science",
+            "pathway_id": "lancashire_scottish_highers_aaaab",
+            "qualification_level": "scottish_highers",
+            "grade_profile": [
+              "A",
+              "A",
+              "A",
+              "A",
+              "B"
+            ],
+            "required_subject_ids": [
+              "chemistry"
+            ],
+            "one_of_subject_groups": [
+              {
+                "group_id": "second_science",
+                "minimum_required": 1,
+                "subject_ids": [
+                  "biology",
+                  "human_biology",
+                  "physics",
+                  "mathematics"
+                ]
+              }
+            ],
+            "subject_grade_requirements": [
+              {
+                "subject_id": "chemistry",
+                "minimum_grade": "A"
+              }
+            ],
+            "decision_outcome_if_not_met": "not_eligible",
+            "source_ids": [
+              "msc_lancashire_medicine_a100_2027"
+            ]
+          },
+          {
+            "requirement_id": "lancashire_scottish_advanced_highers_aaa_chemistry_second_science",
+            "pathway_id": "lancashire_scottish_advanced_highers_aaa",
+            "qualification_level": "advanced_higher",
+            "grade_profile": [
+              "A",
+              "A",
+              "A"
+            ],
+            "required_subject_ids": [
+              "chemistry"
+            ],
+            "one_of_subject_groups": [
+              {
+                "group_id": "second_science",
+                "minimum_required": 1,
+                "subject_ids": [
+                  "biology",
+                  "human_biology",
+                  "physics",
+                  "mathematics"
+                ]
+              }
+            ],
+            "subject_grade_requirements": [
+              {
+                "subject_id": "chemistry",
+                "minimum_grade": "A"
+              }
+            ],
+            "decision_outcome_if_not_met": "not_eligible",
+            "source_ids": [
+              "msc_lancashire_medicine_a100_2027"
+            ]
+          },
+          {
+            "requirement_id": "lancashire_scottish_mixed_aa_advanced_higher_plus_a_higher",
+            "pathway_id": "lancashire_scottish_mixed_aa_ah_plus_a_higher",
+            "qualification_level": "scottish_highers_and_advanced_highers",
+            "advanced_higher_grade_profile": [
+              "A",
+              "A"
+            ],
+            "higher_grade_profile": [
+              "A"
+            ],
+            "combined_grade_requirements": [
+              {
+                "rule_id": "lancashire_mixed_chemistry_plus_second_science_across_scottish_levels",
+                "qualification_levels": [
+                  "higher",
+                  "advanced_higher"
+                ],
+                "accepted_subject_ids": [
+                  "chemistry",
+                  "biology",
+                  "human_biology",
+                  "physics",
+                  "mathematics"
+                ],
+                "grade_profile": [
+                  "A",
+                  "A"
+                ],
+                "required_subject_ids": [
+                  "chemistry"
+                ],
+                "one_of_subject_groups": [
+                  {
+                    "group_id": "second_science",
+                    "minimum_required": 1,
+                    "subject_ids": [
+                      "biology",
+                      "human_biology",
+                      "physics",
+                      "mathematics"
+                    ]
+                  }
+                ]
+              }
+            ],
+            "decision_outcome_if_not_met": "not_eligible",
+            "source_ids": [
+              "msc_lancashire_medicine_a100_2027"
+            ],
+            "notes": "Mixed route keeps Higher and Advanced Higher distinct and does not convert grades between levels."
+          }
+        ],
+        "required_subject_ids": [
+          "chemistry"
+        ],
+        "one_of_subject_groups": [
+          {
+            "group_id": "second_science",
+            "minimum_required": 1,
+            "subject_ids": [
+              "biology",
+              "human_biology",
+              "physics",
+              "mathematics"
+            ]
+          }
+        ],
+        "notes": "No deterministic Lancashire A100 Scottish contextual grade reduction is configured."
+      }
     },
     "admissions_tests": {
       "ucat": {
@@ -405,11 +584,12 @@
         "adjustment_id": "medicine_tariff_reduction",
         "stage": "offer_condition",
         "value": "Up to 8 UCAS Tariff points for eligible Medicine applicants.",
-        "execution_status": "documented_not_used_for_interview_prediction"
+        "execution_status": "manual_review_metadata_only",
+        "notes": "Not converted into an executable A100 grade reduction because the exact 2027 Medicine consequence is unresolved."
       }
     ],
     "guaranteed_interview_rules": [],
-    "notes": "Contextual policy is documented for eligibility transparency but not used to create an interview prediction or lower UCAT guidance threshold."
+    "notes": "Fair Access evidence is retained as contextual metadata/review only. No deterministic A100 reduced academic route is manufactured from the unresolved Medicine-specific consequence."
   },
   "ranking_pools": [
     {

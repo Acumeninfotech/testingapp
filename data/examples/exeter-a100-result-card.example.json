@@ -108,7 +108,7 @@
   "stage_2_selection": {
     "verification_status": "official_exeter_score_verified",
     "primary_model": "academic_plus_ucat_weighting",
-    "summary": "Exeter ranks direct school leavers using the official Exeter Score: grade profile plus UCAT decile, with +10 for achieved grades and +5 for WP/contextual eligibility. This example is non-contextual and predicted, so neither uplift is added.",
+    "summary": "Exeter ranks direct school leavers using the official Exeter Score: grade profile plus UCAT decile, with +10 for achieved grades where evidenced. This example is non-contextual and predicted, so no achieved-grade uplift is added. Contextual treatment is handled through AAB academic eligibility only.",
     "represented_ranking_input": {
       "score": 70,
       "max": 90,
@@ -138,12 +138,6 @@
         "label": "Achieved-grade uplift",
         "calculation_status": "calculated",
         "notes": "0/10 because the applicant is predicted, not achieved."
-      },
-      {
-        "factor_id": "wp_contextual_uplift",
-        "label": "Contextual uplift",
-        "calculation_status": "calculated",
-        "notes": "0/5 because the applicant is not WP/contextual. Contextual applicants receive the +5 score uplift only; ApplySmart does not also lower the threshold."
       }
     ],
     "selection_adjustments": [],
@@ -239,7 +233,7 @@
       "step": 3,
       "title": "Selection model applied",
       "status": "Complete",
-      "summary": "Home direct school-leaver applicants are ranked using the Exeter Score, combining academic profile, UCAT decile and any verified achieved-grade or WP/contextual uplift."
+      "summary": "Home direct school-leaver applicants are ranked using the Exeter Score, combining academic profile, UCAT decile and any verified achieved-grade uplift. Contextual treatment is handled as AAB academic eligibility only."
     },
     {
       "step": 4,
@@ -261,7 +255,8 @@
         "label": "UCAT",
         "role": "ranking",
         "detail": "Used for ranking in the university’s selection process.",
-        "evidence_status": "available"
+        "evidence_status": "available",
+        "applicant_value": 2220
       },
       {
         "factor_id": "gcse",
@@ -301,7 +296,7 @@
       {
         "stage": "Selection model",
         "status": "Assessed",
-        "summary": "Home direct school-leaver applicants are ranked using the Exeter Score, combining academic profile, UCAT decile and any verified achieved-grade or WP/contextual uplift.",
+        "summary": "Home direct school-leaver applicants are ranked using the Exeter Score, combining academic profile, UCAT decile and any verified achieved-grade uplift. Contextual treatment is handled as AAB academic eligibility only.",
         "checks": [
           {
             "label": "Applicant pool",
@@ -322,11 +317,6 @@
             "label": "Achieved-grade uplift",
             "status": "Counted",
             "summary": "0 out of 10."
-          },
-          {
-            "label": "Contextual uplift",
-            "status": "Counted",
-            "summary": "0 out of 5."
           },
           {
             "label": "Selection score guide",
@@ -398,7 +388,7 @@
         "difference": "-4"
       }
     ],
-    "selection_approach_display": "Home direct school-leaver applicants are ranked using the Exeter Score, combining academic profile, UCAT decile and any verified achieved-grade or WP/contextual uplift.",
+    "selection_approach_display": "Home direct school-leaver applicants are ranked using the Exeter Score, combining academic profile, UCAT decile and any verified achieved-grade uplift. Contextual treatment is handled as AAB academic eligibility only.",
     "selection_metric": {
       "type": "selection_score",
       "label": "Selection score",
@@ -422,7 +412,7 @@
       "value": 70,
       "max": 90,
       "status": "calculated",
-      "explanation": "Official Exeter Score for direct school leavers: grade-profile base score plus UCAT national-decile points, achieved-grade uplift and WP/contextual uplift.",
+      "explanation": "Official Exeter Score for direct school leavers: grade-profile base score plus UCAT national-decile points and achieved-grade uplift. The historical contextual/WP score uplift is not retained as executable 2027 policy.",
       "checks": [
         {
           "label": "Grade profile score",
@@ -438,19 +428,15 @@
           "label": "Achieved-grade uplift",
           "status": "Counted",
           "summary": "0 out of 10."
-        },
-        {
-          "label": "Contextual uplift",
-          "status": "Counted",
-          "summary": "0 out of 5."
         }
       ],
       "applicable_max_score": 90,
       "selection_score_max": 90,
-      "global_max": 105
+      "global_max": 100
     },
     "ucat_comparison": null,
-    "ucat_adjustment": null
+    "ucat_adjustment": null,
+    "insufficient_evidence_reason": null
   },
   "engine_notes": {
     "offer_prediction_scope": "out_of_scope",

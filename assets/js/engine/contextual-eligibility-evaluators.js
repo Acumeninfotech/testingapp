@@ -128,6 +128,14 @@ const {
   ANGLIA_RUSKIN_CONTEXTUAL_EVALUATOR_ID,
   evaluateAngliaRuskinContextualEligibility
 } = require('./anglia-ruskin-contextual-eligibility');
+const {
+  EXETER_CONTEXTUAL_EVALUATOR_ID,
+  evaluateExeterContextualEligibility
+} = require('./exeter-contextual-eligibility');
+const {
+  LEEDS_CONTEXTUAL_EVALUATOR_ID,
+  evaluateLeedsContextualEligibility
+} = require('./leeds-contextual-eligibility');
 
 const DEFAULT_CONTEXTUAL_ELIGIBILITY_EVALUATORS = {
   [ABERDEEN_CONTEXTUAL_EVALUATOR_ID]: evaluateAberdeenContextualEligibility,
@@ -161,7 +169,9 @@ const DEFAULT_CONTEXTUAL_ELIGIBILITY_EVALUATORS = {
   [KMMS_CONTEXTUAL_EVALUATOR_ID]: evaluateKmmsContextualEligibility,
   [CITY_ST_GEORGES_CONTEXTUAL_EVALUATOR_ID]: evaluateCityStGeorgesContextualEligibility,
   [EDGE_HILL_CONTEXTUAL_EVALUATOR_ID]: evaluateEdgeHillContextualEligibility,
-  [ANGLIA_RUSKIN_CONTEXTUAL_EVALUATOR_ID]: evaluateAngliaRuskinContextualEligibility
+  [ANGLIA_RUSKIN_CONTEXTUAL_EVALUATOR_ID]: evaluateAngliaRuskinContextualEligibility,
+  [EXETER_CONTEXTUAL_EVALUATOR_ID]: evaluateExeterContextualEligibility,
+  [LEEDS_CONTEXTUAL_EVALUATOR_ID]: evaluateLeedsContextualEligibility
 };
 
 module.exports = {
@@ -192,6 +202,8 @@ module.exports = {
   CITY_ST_GEORGES_CONTEXTUAL_EVALUATOR_ID,
   EDGE_HILL_CONTEXTUAL_EVALUATOR_ID,
   ANGLIA_RUSKIN_CONTEXTUAL_EVALUATOR_ID,
+  EXETER_CONTEXTUAL_EVALUATOR_ID,
+  LEEDS_CONTEXTUAL_EVALUATOR_ID,
   evaluateAberdeenContextualEligibility,
   evaluateBirminghamContextualEligibility,
   evaluateDundeeContextualEligibility,
@@ -218,5 +230,7 @@ module.exports = {
   evaluateCityStGeorgesContextualEligibility,
   evaluateEdgeHillContextualEligibility,
   evaluateAngliaRuskinContextualEligibility,
+  evaluateExeterContextualEligibility,
+  evaluateLeedsContextualEligibility,
   DEFAULT_CONTEXTUAL_ELIGIBILITY_EVALUATORS
 };

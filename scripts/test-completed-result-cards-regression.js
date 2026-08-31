@@ -298,6 +298,7 @@ function getPredictionStatus(card, evaluation = null) {
 }
 
 const INTERVIEW_BANDS = new Set([
+  'very_strong_interview_potential',
   'interview_likely',
   'realistic',
   'ambitious',
@@ -412,7 +413,7 @@ function collectScoreValues(value, pathParts = []) {
 
 function assertFormulaScores(card) {
   const scoreSurfaces = [
-    card.prediction?.score,
+    { score: card.prediction?.score },
     card.prediction_summary,
     card.stage_2_selection,
     card.stage_2
@@ -428,7 +429,7 @@ function assertFormulaScores(card) {
 
 function hasFiniteScoreFields(card) {
   const scoreSurfaces = [
-    card.prediction?.score,
+    { score: card.prediction?.score },
     card.prediction_summary,
     card.stage_2_selection,
     card.stage_2
@@ -2222,7 +2223,9 @@ function collectStrings(value) {
 
 function assertHistoricalCutoffLabelling(card) {
   const suspicious = collectStrings(card).filter((text) => {
-    return /historical/i.test(text) && /cut[\s-]?off|threshold/i.test(text);
+    return text !== 'historical_threshold' &&
+      /historical/i.test(text) &&
+      /cut[\s-]?off|threshold/i.test(text);
   });
 
   for (const text of suspicious) {

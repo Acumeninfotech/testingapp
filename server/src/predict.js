@@ -187,6 +187,7 @@ function evaluateNottingham(studentProfile, university) {
       officialScore: evaluation.official_score,
       applicantGroupIds: evaluation.eligibility.applicant_group_ids,
       insufficientEvidenceReasonCode: evaluation.insufficient_evidence_reason_code || null,
+      insufficientEvidenceReason: evaluation.insufficient_evidence_reason || null,
       missingInformation: evaluation.missing_information || null
     }
   );
@@ -230,6 +231,7 @@ function makeResultCard(studentProfile, university, eligibilityStatus, band, man
         guidancePoolId: scoreContext.guidancePoolId ?? null
       }) ||
       null,
+    insufficientEvidenceReason: scoreContext.insufficientEvidenceReason || null,
     missingInformation: scoreContext.missingInformation || null,
     transparencyContext: {
       course_identity: {
@@ -302,8 +304,10 @@ function makeResultCard(studentProfile, university, eligibilityStatus, band, man
 function sanitisePublicResultCard(resultCard) {
   const card = JSON.parse(JSON.stringify(resultCard));
   if (card.prediction?.result_band !== 'insufficient_evidence') {
-    delete card.decision_transparency?.insufficient_evidence_reason;
     delete card.decision_transparency?.insufficient_evidence_reason_code;
+  }
+  if (card.decision_transparency && !Object.prototype.hasOwnProperty.call(card.decision_transparency, 'insufficient_evidence_reason')) {
+    card.decision_transparency.insufficient_evidence_reason = null;
   }
   return card;
 }
