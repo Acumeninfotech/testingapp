@@ -99,12 +99,32 @@ assert.strictEqual(
 const gcseComponent = config.score_model.components.find((component) => {
   return component.component_id === 'gcse_points';
 });
+const scottishHigherComponent = config.score_model.components.find((component) => {
+  return component.component_id === 'scottish_higher_academic_points';
+});
 const ucatComponent = config.score_model.components.find((component) => {
   return component.component_id === 'ucat_decile_points';
 });
 assert.strictEqual(gcseComponent.type, 'gcse_mandatory_then_best');
+assert.deepStrictEqual(gcseComponent.match.excluded_qualification_routes, ['scottish']);
 assert.strictEqual(gcseComponent.subject_count, 9);
 assert.strictEqual(gcseComponent.max, 36);
+assert.strictEqual(scottishHigherComponent.type, 'academic_profile_matrix');
+assert.deepStrictEqual(scottishHigherComponent.match.qualification_routes, ['scottish']);
+assert.strictEqual(scottishHigherComponent.max, 36);
+assert.deepStrictEqual(
+  scottishHigherComponent.scottish.higher_advanced_higher.bands.map((band) => ({
+    profile: band.higher_profile.join(''),
+    points: band.points
+  })),
+  [
+    { profile: 'AAAAA', points: 36 },
+    { profile: 'AAAAB', points: 34 },
+    { profile: 'AAABB', points: 32 },
+    { profile: 'AABBB', points: 30 },
+    { profile: 'ABBBB', points: 28 }
+  ]
+);
 assert.deepStrictEqual(ucatComponent.points_by_decile, {
   1: 0,
   2: 1,
@@ -189,6 +209,18 @@ for (const scenario of fixture.scenarios) {
       result.ranking.components.gcse_points.value,
       expected.gcse_points,
       `${scenario.scenario_id}: GCSE points`
+    );
+  }
+  if (Number.isFinite(expected.scottish_higher_points)) {
+    assert.strictEqual(
+      result.ranking.components.scottish_higher_academic_points.value,
+      expected.scottish_higher_points,
+      `${scenario.scenario_id}: Scottish Higher academic points`
+    );
+    assert.strictEqual(
+      result.ranking.components.gcse_points.applicable,
+      false,
+      `${scenario.scenario_id}: GCSE component bypassed`
     );
   }
   if (Number.isFinite(expected.ucat_points)) {

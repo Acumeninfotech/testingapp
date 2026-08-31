@@ -4,7 +4,7 @@
   "confidence": "medium",
   "evidence": {
     "classification": "official_formula_with_applysmart_derived_prediction_bands",
-    "summary": "QUB's GCSE scoring, UCAT decile-points scoring, combined formula and 45-point maximum are official. The public prediction band labels are ApplySmart-derived from historical thresholds because the official 2026 interview threshold is not yet published.",
+    "summary": "QUB's GCSE/Higher academic scoring, UCAT decile-points scoring, combined formula and 45-point maximum are official for represented Home school-leaver routes. The public prediction band labels are ApplySmart-derived from historical thresholds because the official 2026 interview threshold is not yet published.",
     "source_ids": [
       "qub_policy_2026",
       "qub_foi_21_282",
@@ -13,7 +13,8 @@
     ]
   },
   "eligibility": {
-    "scope": "Automatic prediction applies to eligible standard Home school-leaver applicants with complete GCSE scoring and UCAT decile evidence. Contextual NI BT-postcode, international, Scottish-only, Irish-only and graduate-entry routes do not receive the standard Home GCSE+UCAT prediction.",
+    "scope": "Automatic prediction applies to eligible standard Home school-leaver applicants with complete route-specific academic scoring and UCAT decile evidence. Scottish-qualified Home applicants use the official Higher academic-points table instead of GCSE scoring. Contextual NI BT-postcode, international, Irish-only and graduate-entry routes do not receive the standard Home prediction.",
+    "contextual_evaluator_controls_group_routing": false,
     "international_english_language_required": false,
     "qualification_routes": {
       "supported": [
@@ -168,6 +169,126 @@
       },
       "post_16_routes": [
         {
+          "route_id": "qub_scottish_abbbb_highers_aa_advanced_highers",
+          "qualification_level": "scottish_advanced_highers",
+          "higher_grade_profile": [
+            "A",
+            "B",
+            "B",
+            "B",
+            "B"
+          ],
+          "grade_profile": [
+            "A",
+            "A"
+          ],
+          "required_subject_ids": [
+            "chemistry"
+          ],
+          "one_of_subject_groups": [
+            {
+              "group_id": "second_science_or_maths",
+              "minimum_required": 1,
+              "subject_ids": [
+                "biology",
+                "human_biology",
+                "mathematics",
+                "physics"
+              ]
+            }
+          ]
+        },
+        {
+          "route_id": "qub_scottish_aabbb_highers_aa_advanced_highers",
+          "qualification_level": "scottish_advanced_highers",
+          "higher_grade_profile": [
+            "A",
+            "A",
+            "B",
+            "B",
+            "B"
+          ],
+          "grade_profile": [
+            "A",
+            "A"
+          ],
+          "required_subject_ids": [
+            "chemistry"
+          ],
+          "one_of_subject_groups": [
+            {
+              "group_id": "second_science_or_maths",
+              "minimum_required": 1,
+              "subject_ids": [
+                "biology",
+                "human_biology",
+                "mathematics",
+                "physics"
+              ]
+            }
+          ]
+        },
+        {
+          "route_id": "qub_scottish_aaabb_highers_aa_advanced_highers",
+          "qualification_level": "scottish_advanced_highers",
+          "higher_grade_profile": [
+            "A",
+            "A",
+            "A",
+            "B",
+            "B"
+          ],
+          "grade_profile": [
+            "A",
+            "A"
+          ],
+          "required_subject_ids": [
+            "chemistry"
+          ],
+          "one_of_subject_groups": [
+            {
+              "group_id": "second_science_or_maths",
+              "minimum_required": 1,
+              "subject_ids": [
+                "biology",
+                "human_biology",
+                "mathematics",
+                "physics"
+              ]
+            }
+          ]
+        },
+        {
+          "route_id": "qub_scottish_aaaab_highers_aa_advanced_highers",
+          "qualification_level": "scottish_advanced_highers",
+          "higher_grade_profile": [
+            "A",
+            "A",
+            "A",
+            "A",
+            "B"
+          ],
+          "grade_profile": [
+            "A",
+            "A"
+          ],
+          "required_subject_ids": [
+            "chemistry"
+          ],
+          "one_of_subject_groups": [
+            {
+              "group_id": "second_science_or_maths",
+              "minimum_required": 1,
+              "subject_ids": [
+                "biology",
+                "human_biology",
+                "mathematics",
+                "physics"
+              ]
+            }
+          ]
+        },
+        {
           "route_id": "qub_scottish_aaaaa_highers_aa_advanced_highers",
           "qualification_level": "scottish_advanced_highers",
           "higher_grade_profile": [
@@ -279,13 +400,14 @@
       "Do not infer raw UCAT cut-offs or raw-score conversions.",
       "Do not apply standard GCSE+UCAT prediction to NI BT-postcode contextual applicants.",
       "Do not apply standard GCSE+UCAT prediction to international applicants.",
+      "Do not convert National 5 grades into GCSE scoring points.",
       "Do not score SJT or reject Band 4 automatically.",
       "Do not predict offers."
     ]
   },
   "score_model": {
     "type": "component_sum",
-    "basis": "Official QUB 2026 pre-interview score: GCSE points plus UCAT decile points on the official 45-point scale. ApplySmart band labels are derived.",
+    "basis": "Official QUB 2026 pre-interview score: route-specific academic points plus UCAT decile points on the official 45-point scale. Standard GCSE applicants use GCSE points; Scottish-qualified applicants use the Higher academic-points table. ApplySmart band labels are derived.",
     "scale": {
       "min": 0,
       "max": 45
@@ -303,6 +425,11 @@
       {
         "component_id": "gcse_points",
         "type": "gcse_mandatory_then_best",
+        "match": {
+          "excluded_qualification_routes": [
+            "scottish"
+          ]
+        },
         "subject_count": 9,
         "bands": [
           {
@@ -325,6 +452,88 @@
         "max": 36,
         "official": true,
         "notes": "Numeric grades 7 and 8 both receive 3 points; grade 9 receives 4 points. Letter equivalents are handled by the generic grade comparison logic."
+      },
+      {
+        "component_id": "scottish_higher_academic_points",
+        "type": "academic_profile_matrix",
+        "match": {
+          "qualification_routes": [
+            "scottish"
+          ]
+        },
+        "max": 36,
+        "hard_cap": 36,
+        "official": true,
+        "notes": "For Scottish-qualified QUB applicants, the best eligible five Highers map directly to the official academic points table and replace the GCSE academic component. National 5 grades are used for eligibility only and add 0 selection points.",
+        "scottish": {
+          "national_5": {
+            "bands": [
+              {
+                "band_id": "national_5_eligibility_only",
+                "points": 0
+              }
+            ]
+          },
+          "higher_advanced_higher": {
+            "bands": [
+              {
+                "band_id": "qub_scottish_aaaaa_highers_36_points",
+                "higher_profile": [
+                  "A",
+                  "A",
+                  "A",
+                  "A",
+                  "A"
+                ],
+                "points": 36
+              },
+              {
+                "band_id": "qub_scottish_aaaab_highers_34_points",
+                "higher_profile": [
+                  "A",
+                  "A",
+                  "A",
+                  "A",
+                  "B"
+                ],
+                "points": 34
+              },
+              {
+                "band_id": "qub_scottish_aaabb_highers_32_points",
+                "higher_profile": [
+                  "A",
+                  "A",
+                  "A",
+                  "B",
+                  "B"
+                ],
+                "points": 32
+              },
+              {
+                "band_id": "qub_scottish_aabbb_highers_30_points",
+                "higher_profile": [
+                  "A",
+                  "A",
+                  "B",
+                  "B",
+                  "B"
+                ],
+                "points": 30
+              },
+              {
+                "band_id": "qub_scottish_abbbb_highers_28_points",
+                "higher_profile": [
+                  "A",
+                  "B",
+                  "B",
+                  "B",
+                  "B"
+                ],
+                "points": 28
+              }
+            ]
+          }
+        }
       },
       {
         "component_id": "ucat_decile_points",
@@ -445,6 +654,63 @@
         "comparison_type": "historical_threshold",
         "label": "ApplySmart-derived prediction band on QUB's official 45-point pre-interview score",
         "caveat": "The 45-point score is official QUB methodology. The band labels are ApplySmart-derived because QUB has not published a 2026 interview threshold.",
+        "evidence_confidence": "medium"
+      },
+      "band_rules": [
+        {
+          "band": "interview_likely",
+          "operator": "between_inclusive",
+          "min": 41,
+          "max": 45
+        },
+        {
+          "band": "realistic",
+          "operator": "between_inclusive",
+          "min": 38,
+          "max": 40
+        },
+        {
+          "band": "ambitious",
+          "operator": "between_inclusive",
+          "min": 34,
+          "max": 37
+        },
+        {
+          "band": "high_risk",
+          "operator": "between_inclusive",
+          "min": 32,
+          "max": 33
+        },
+        {
+          "band": "high_risk",
+          "operator": "between_inclusive",
+          "min": 0,
+          "max": 31
+        }
+      ]
+    },
+    {
+      "pool_id": "qub_home_standard_scottish_higher_ucat_45_scale",
+      "priority": 30,
+      "applicant_match": {
+        "all_group_ids": [
+          "home_fee",
+          "school_leaver"
+        ],
+        "excluded_group_ids": [
+          "international_fee",
+          "qub_ni_bt_postcode_contextual_route",
+          "graduate_applicant"
+        ],
+        "qualification_routes": [
+          "scottish"
+        ]
+      },
+      "metric": "selection_score",
+      "comparison_guidance": {
+        "comparison_type": "historical_threshold",
+        "label": "ApplySmart-derived prediction band on QUB's official 45-point pre-interview score",
+        "caveat": "The 45-point score is official QUB methodology. Scottish academic points use the official 2026 Higher profile table. The band labels are ApplySmart-derived because QUB has not published a 2026 interview threshold.",
         "evidence_confidence": "medium"
       },
       "band_rules": [

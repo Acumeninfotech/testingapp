@@ -186,6 +186,10 @@
         {
           "requirement_id": "english_or_welsh_language_minimum",
           "subject": "English language or Welsh language",
+          "accepted_subject_ids": [
+            "english_language",
+            "welsh_language"
+          ],
           "minimum_grade": "B/6",
           "evidence_classification": "official",
           "source_ids": [
@@ -195,6 +199,10 @@
         {
           "requirement_id": "mathematics_minimum",
           "subject": "Mathematics or Numeracy",
+          "accepted_subject_ids": [
+            "mathematics",
+            "numeracy"
+          ],
           "minimum_grade": "B/6",
           "evidence_classification": "official",
           "source_ids": [
@@ -205,6 +213,7 @@
         {
           "requirement_id": "science_minimum",
           "subject": "Biology and Chemistry or Double Science",
+          "subject_id": "biology",
           "minimum_grade": "A/7",
           "evidence_classification": "official",
           "accepted_routes": [
@@ -235,8 +244,27 @@
           ]
         },
         {
+          "requirement_id": "chemistry_minimum",
+          "subject": "Chemistry or Double Science",
+          "subject_id": "chemistry",
+          "minimum_grade": "A/7",
+          "evidence_classification": "official",
+          "exact_value": "GCSE Double Science AA/77, or GCSE Biology A/7 and GCSE Chemistry A/7.",
+          "source_ids": [
+            "cardiff_course_2026"
+          ]
+        },
+        {
           "requirement_id": "other_gcse_minimum",
           "subject": "Other GCSEs",
+          "accepted_subject_ids": [
+            "physics",
+            "history",
+            "geography",
+            "computer_science",
+            "french",
+            "religious_studies"
+          ],
           "minimum_grade": "B/6",
           "evidence_classification": "official",
           "exact_value": "Eight GCSEs are scored for Cardiff A100 selection.",
@@ -305,6 +333,11 @@
           "cardiff_medicine_policy_2026"
         ],
         "standard_offer": [
+          "A",
+          "A",
+          "A"
+        ],
+        "grade_profile": [
           "A",
           "A",
           "A"
@@ -1196,6 +1229,16 @@
       "cardiff_contextual_admissions"
     ],
     "available": true,
+    "contextual_eligibility": {
+      "evaluator_id": "cardiff_contextual_medicine_a100",
+      "controls_group_routing": false,
+      "activated_applicant_group_ids": [
+        "contextual",
+        "wales_domiciled",
+        "widening_participation"
+      ],
+      "notes": "Evaluator confirms Cardiff contextual, Welsh-domiciled and named widening-participation routes. Named WP programme evidence can support guaranteed-interview handling once minimum entry requirements are met."
+    },
     "applies_to_group_ids": [
       "contextual",
       "wales_domiciled",
@@ -1761,7 +1804,7 @@
     "interview_prediction": true,
     "historical_guidance": true,
     "international_prediction": true,
-    "contextual_logic": false,
+    "contextual_logic": true,
     "result_card": true,
     "regression": true,
     "research_completeness": "complete_for_supported_scope_with_documented_gaps",

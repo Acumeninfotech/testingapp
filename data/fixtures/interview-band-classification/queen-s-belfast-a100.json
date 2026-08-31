@@ -471,18 +471,47 @@
       }
     },
     {
-      "scenario_id": "scottish_route_prediction_suppressed",
+      "scenario_id": "scottish_route_higher_tariff_replaces_gcse_scoring",
       "overrides": {
         "qualification_route": "scottish",
         "applicant_identity": {
           "domicile": "Scotland"
         },
         "gcse_profile": {
-          "subjects": {},
+          "subjects": {
+            "english_language": null,
+            "mathematics": null,
+            "physics": null,
+            "biology": null,
+            "chemistry": null
+          },
           "additional_subjects": [],
-          "total_gcse_count": 0
+          "total_gcse_count": 0,
+          "top_9_gcse_grades": []
         },
         "scottish_profile": {
+          "national_5_subjects": [
+            {
+              "subject_id": "chemistry",
+              "grade": "A"
+            },
+            {
+              "subject_id": "biology",
+              "grade": "A"
+            },
+            {
+              "subject_id": "mathematics",
+              "grade": "A"
+            },
+            {
+              "subject_id": "physics",
+              "grade": "A"
+            },
+            {
+              "subject_id": "english_language",
+              "grade": "A"
+            }
+          ],
           "higher_subjects": [
             {
               "subject_id": "chemistry",
@@ -519,10 +548,12 @@
       },
       "expected": {
         "eligibility_status": "eligible",
-        "guidance_pool_id": null,
-        "score": null,
-        "canonical_band": "insufficient_evidence",
-        "public_band": "Strong"
+        "guidance_pool_id": "qub_home_standard_scottish_higher_ucat_45_scale",
+        "score": 44,
+        "scottish_higher_points": 36,
+        "ucat_points": 8,
+        "canonical_band": "interview_likely",
+        "public_band": "Interview Likely"
       }
     },
     {
@@ -556,7 +587,8 @@
           "contextual": true,
           "widening_participation": true,
           "contextual_flags": {
-            "school_contextual_indicator": true
+            "school_contextual_indicator": true,
+            "qub_ni_bt_postcode_contextual_route": true
           }
         },
         "contextual_profile": {

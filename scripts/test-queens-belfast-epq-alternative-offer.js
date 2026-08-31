@@ -108,12 +108,20 @@ function assertAcademicScenario({
   expectedStatus,
   expectedPathway,
   expectedPathwayId,
+  expectedGenericPathwayId,
+  expectedClassifierPathwayId,
   expectedBand,
   expectedFailure,
   expectedManualReviewReason
 }) {
   const eligibility = evaluateCourseEligibility(course, applicant);
   const classification = classify(applicant);
+  const genericPathwayId = expectedGenericPathwayId !== undefined
+    ? expectedGenericPathwayId
+    : expectedPathwayId;
+  const classifierPathwayId = expectedClassifierPathwayId !== undefined
+    ? expectedClassifierPathwayId
+    : expectedPathwayId;
 
   assert.strictEqual(
     classification.eligibility.status,
@@ -132,12 +140,12 @@ function assertAcademicScenario({
   );
   assert.strictEqual(
     eligibility.academic_pathway_id ?? null,
-    expectedPathwayId,
+    genericPathwayId,
     `${label}: generic academic pathway id`
   );
   assert.strictEqual(
     classification.eligibility.academic_pathway_id ?? null,
-    expectedPathwayId,
+    classifierPathwayId,
     `${label}: classifier academic pathway id`
   );
   assert.strictEqual(
@@ -272,6 +280,7 @@ assertAcademicScenario({
   expectedStatus: 'eligible',
   expectedPathway: 'standard',
   expectedPathwayId: null,
+  expectedGenericPathwayId: 'qub_a_star_aa_chemistry_biology_route',
   expectedBand: 'realistic'
 });
 assertPublicPost16(
@@ -286,6 +295,7 @@ assertAcademicScenario({
   expectedStatus: 'eligible',
   expectedPathway: 'standard',
   expectedPathwayId: null,
+  expectedGenericPathwayId: 'qub_a_star_aa_chemistry_biology_route',
   expectedBand: 'realistic'
 });
 assertPublicPost16(
@@ -396,6 +406,7 @@ assertAcademicScenario({
   expectedStatus: 'eligible',
   expectedPathway: 'standard',
   expectedPathwayId: null,
+  expectedGenericPathwayId: 'qub_a_star_aa_chemistry_biology_route',
   expectedBand: 'realistic'
 });
 

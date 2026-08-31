@@ -3,9 +3,10 @@
   "profile_id": "queen-s-belfast-a100",
   "profile_status": "production_ready_eligibility_and_interview_guidance",
   "selection_approach_display": {
-    "default": "Queen's University Belfast uses route-specific interview selection processes, including a published GCSE and UCAT points system for standard Home school-leaver applicants.",
+    "default": "Queen's University Belfast uses route-specific interview selection processes, including published academic and UCAT points systems for represented standard Home school-leaver routes.",
     "by_applicant_pool": {
-      "qub_home_standard_gcse_ucat_45_scale": "Queen's University Belfast ranks standard Home school-leaver applicants using its published GCSE and UCAT points score, with SJT used only as a tie-break."
+      "qub_home_standard_gcse_ucat_45_scale": "Queen's University Belfast ranks standard Home school-leaver applicants using its published GCSE and UCAT points score, with SJT used only as a tie-break.",
+      "qub_home_standard_scottish_higher_ucat_45_scale": "Queen's University Belfast ranks standard Home Scottish-qualified school-leaver applicants using its published Higher academic points and UCAT points score, with SJT used only as a tie-break."
     }
   },
   "verification_status": "official_pre_interview_formula_verified",
@@ -53,7 +54,7 @@
         "qub_ni_bt_postcode_contextual_route",
         "graduate_applicant"
       ],
-      "selection_relevance": "Eligible standard Home school-leavers with a representable A-level or IB route use the official GCSE points plus UCAT decile-points formula on the official 45-point scale."
+      "selection_relevance": "Eligible standard Home school-leavers with a representable A-level or IB route use the official GCSE points plus UCAT decile-points formula on the official 45-point scale. Scottish-qualified Home school-leavers use the official Higher academic-points table plus UCAT decile points."
     },
     {
       "pool_id": "qub_contextual_ni_bt_postcode",
@@ -102,7 +103,7 @@
     ],
     "overall_policy": {
       "status": "official_rules_mapped_with_route_boundaries",
-      "description": "QUB checks minimum academic requirements before interview shortlisting. For standard Home applicants, the official interview-selection score is GCSE points plus UCAT decile points on a maximum 45-point scale.",
+      "description": "QUB checks minimum academic requirements before interview shortlisting. For represented standard Home applicants, the official interview-selection score is route-specific academic points plus UCAT decile points on a maximum 45-point scale.",
       "not_eligible_if": [
         "Minimum GCSE subject requirements are not met.",
         "The represented post-16 route does not meet a documented QUB route.",
@@ -158,7 +159,7 @@
         },
         {
           "requirement_id": "gcse_physics_or_double_award_minimum",
-          "subject_id": "science",
+          "subject_id": "physics",
           "minimum_grade": "4/C",
           "qualification_level": "gcse_or_igcse",
           "decision_outcome_if_not_met": "not_eligible",
@@ -397,7 +398,7 @@
         "notes": "IB applicants still require route-specific evidence and GCSE/Junior Cert scoring evidence before a standard score can be calculated."
       },
       "scottish": {
-        "status": "official_source_verified_prediction_manual_review",
+        "status": "official_source_verified_prediction_supported",
         "source_ids": [
           "qub_policy_2026"
         ],
@@ -425,6 +426,146 @@
           "notes": "Advanced Higher offer depends on Higher performance and must include Chemistry plus one of Biology/Human Biology, Mathematics or Physics at A."
         },
         "grade_requirements": [
+          {
+            "requirement_id": "qub_scottish_abbbb_highers_aa_advanced_highers",
+            "qualification_level": "scottish_advanced_highers",
+            "higher_grade_profile": [
+              "A",
+              "B",
+              "B",
+              "B",
+              "B"
+            ],
+            "grade_profile": [
+              "A",
+              "A"
+            ],
+            "required_subject_ids": [
+              "chemistry"
+            ],
+            "one_of_subject_groups": [
+              {
+                "group_id": "second_science_or_maths",
+                "minimum_required": 1,
+                "subject_ids": [
+                  "biology",
+                  "human_biology",
+                  "mathematics",
+                  "physics"
+                ]
+              }
+            ],
+            "decision_outcome_if_not_met": "not_eligible",
+            "source_ids": [
+              "qub_policy_2026"
+            ],
+            "notes": "Higher profile maps to 28 academic points for QUB scoring. Advanced Higher requirements remain Chemistry plus one of Biology/Human Biology, Mathematics or Physics at A."
+          },
+          {
+            "requirement_id": "qub_scottish_aabbb_highers_aa_advanced_highers",
+            "qualification_level": "scottish_advanced_highers",
+            "higher_grade_profile": [
+              "A",
+              "A",
+              "B",
+              "B",
+              "B"
+            ],
+            "grade_profile": [
+              "A",
+              "A"
+            ],
+            "required_subject_ids": [
+              "chemistry"
+            ],
+            "one_of_subject_groups": [
+              {
+                "group_id": "second_science_or_maths",
+                "minimum_required": 1,
+                "subject_ids": [
+                  "biology",
+                  "human_biology",
+                  "mathematics",
+                  "physics"
+                ]
+              }
+            ],
+            "decision_outcome_if_not_met": "not_eligible",
+            "source_ids": [
+              "qub_policy_2026"
+            ],
+            "notes": "Higher profile maps to 30 academic points for QUB scoring. Advanced Higher requirements remain Chemistry plus one of Biology/Human Biology, Mathematics or Physics at A."
+          },
+          {
+            "requirement_id": "qub_scottish_aaabb_highers_aa_advanced_highers",
+            "qualification_level": "scottish_advanced_highers",
+            "higher_grade_profile": [
+              "A",
+              "A",
+              "A",
+              "B",
+              "B"
+            ],
+            "grade_profile": [
+              "A",
+              "A"
+            ],
+            "required_subject_ids": [
+              "chemistry"
+            ],
+            "one_of_subject_groups": [
+              {
+                "group_id": "second_science_or_maths",
+                "minimum_required": 1,
+                "subject_ids": [
+                  "biology",
+                  "human_biology",
+                  "mathematics",
+                  "physics"
+                ]
+              }
+            ],
+            "decision_outcome_if_not_met": "not_eligible",
+            "source_ids": [
+              "qub_policy_2026"
+            ],
+            "notes": "Higher profile maps to 32 academic points for QUB scoring. Advanced Higher requirements remain Chemistry plus one of Biology/Human Biology, Mathematics or Physics at A."
+          },
+          {
+            "requirement_id": "qub_scottish_aaaab_highers_aa_advanced_highers",
+            "qualification_level": "scottish_advanced_highers",
+            "higher_grade_profile": [
+              "A",
+              "A",
+              "A",
+              "A",
+              "B"
+            ],
+            "grade_profile": [
+              "A",
+              "A"
+            ],
+            "required_subject_ids": [
+              "chemistry"
+            ],
+            "one_of_subject_groups": [
+              {
+                "group_id": "second_science_or_maths",
+                "minimum_required": 1,
+                "subject_ids": [
+                  "biology",
+                  "human_biology",
+                  "mathematics",
+                  "physics"
+                ]
+              }
+            ],
+            "decision_outcome_if_not_met": "not_eligible",
+            "source_ids": [
+              "qub_policy_2026"
+            ],
+            "notes": "Higher profile maps to 34 academic points for QUB scoring. Advanced Higher requirements remain Chemistry plus one of Biology/Human Biology, Mathematics or Physics at A."
+          },
           {
             "requirement_id": "qub_scottish_aaaaa_highers_aa_advanced_highers",
             "qualification_level": "scottish_advanced_highers",
@@ -458,15 +599,16 @@
             "source_ids": [
               "qub_policy_2026"
             ],
-            "notes": "Engine v1.0 can check the represented top Higher route, but QUB's Higher-to-academic-point scoring is not used for a standard GCSE+UCAT prediction."
+            "notes": "Higher profile maps to 36 academic points for QUB scoring. Advanced Higher requirements remain Chemistry plus one of Biology/Human Biology, Mathematics or Physics at A."
           }
         ],
         "required_subject_ids": [
           "chemistry"
         ],
         "one_of_subject_groups": [],
-        "execution_status": "eligibility_represented_prediction_suppressed_without_gcse_junior_cert_score",
-        "notes": "QUB publishes Higher profiles from ABBBB to AAAAA mapping to 28-36 academic points. The generic component-sum scorer does not execute that Scottish academic-points table, so prediction is suppressed for Scottish-only profiles."
+        "execution_status": "eligibility_and_scottish_higher_selection_scoring_represented",
+        "selection_role": "eligibility_and_ranked_higher_academic_points",
+        "notes": "QUB publishes Higher profiles from ABBBB to AAAAA mapping to 28-36 academic points. ApplySmart uses the Higher academic-points table for represented Scottish-qualified Home applicants instead of requiring nine GCSEs for the selection score."
       },
       "btec": {
         "status": "route_limited_to_level_2_gcse_equivalence_only",
@@ -653,6 +795,17 @@
         "notes": "Best nine eligible GCSEs are scored on the official QUB scale."
       },
       {
+        "factor_id": "scottish_higher_academic_points",
+        "factor": "academic_score",
+        "role": "ranked_component",
+        "points_available": 36,
+        "weight_percent": null,
+        "source_ids": [
+          "qub_policy_2026"
+        ],
+        "notes": "For represented Scottish-qualified Home applicants, the five-Higher academic-points table replaces the GCSE academic component."
+      },
+      {
         "factor_id": "ucat_decile_points",
         "factor": "ucat",
         "role": "ranked_component",
@@ -698,6 +851,22 @@
           ]
         },
         {
+          "component_id": "scottish_higher_academic_component",
+          "factor_id": "scottish_higher_academic_points",
+          "input_field": "scottish_profile.higher_subjects",
+          "calculation_method": "map best eligible five Highers to official QUB academic points: ABBBB=28, AABBB=30, AAABB=32, AAAAB=34, AAAAA=36",
+          "scale": {
+            "min": 0,
+            "max": 36
+          },
+          "weight_percent": null,
+          "rounding": "none",
+          "notes": "Official Scottish Higher academic component for represented Scottish-qualified Home applicants. National 5 grades remain eligibility evidence and are not converted to GCSE points.",
+          "source_ids": [
+            "qub_policy_2026"
+          ]
+        },
+        {
           "component_id": "ucat_component",
           "factor_id": "ucat_decile_points",
           "input_field": "admissions_tests.ucat.total_score",
@@ -716,9 +885,10 @@
         }
       ],
       "total_score": {
-        "calculation_method": "gcse_component + ucat_component",
+        "calculation_method": "route_specific_academic_component + ucat_component",
         "components": [
           "gcse_component",
+          "scottish_higher_academic_component",
           "ucat_component"
         ],
         "scale": {
@@ -813,6 +983,16 @@
       "qub_policy_2026"
     ],
     "available": true,
+    "contextual_eligibility": {
+      "evaluator_id": "queen_s_belfast_contextual_medicine_a100",
+      "controls_group_routing": false,
+      "activated_applicant_group_ids": [
+        "qub_ni_bt_postcode_contextual_route",
+        "contextual",
+        "widening_participation"
+      ],
+      "notes": "Evaluator confirms the NI BT-postcode contextual route and verified QUB POP guaranteed-interview route. Generic contextual declarations alone do not activate POP handling."
+    },
     "applies_to_group_ids": [
       "contextual",
       "widening_participation"
@@ -1158,7 +1338,8 @@
     "engine_assumptions": [
       "The active ApplySmart band source is stored as derived_prediction_bands_45_scale to match the supplied band configuration key.",
       "QUB public band labels are mapped to ApplySmart canonical internal bands only for schema compatibility.",
-      "AS-level Biology/Human Biology branches and Scottish/Irish academic-point tables are routed to review or prediction suppression where Engine v1.0 cannot execute them without shared-engine changes."
+      "AS-level Biology/Human Biology branches and Irish academic-point tables are routed to review or prediction suppression where Engine v1.0 cannot execute them without shared-engine changes.",
+      "Scottish-qualified Home school-leaver scoring uses the official 2026 Higher academic-points table in place of the GCSE academic component."
     ],
     "do_not_infer": [
       "Do not describe the official 45-point score scale as derived.",

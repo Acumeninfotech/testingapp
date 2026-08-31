@@ -635,7 +635,8 @@ const COURSES_WITH_ACTIVATED_CONTEXTUAL_GROUPS = [
   'edge-hill-a100',
   'anglia-ruskin-a100',
   'exeter-a100',
-  'leeds-a100'
+  'leeds-a100',
+  'cardiff-a100'
 ];
 
 const SCOTTISH_MEDICAL_SCHOOL_ROUTE_IDS = Object.freeze([
