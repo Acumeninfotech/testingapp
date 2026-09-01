@@ -2,19 +2,17 @@
   "schema_version": "1.0.0",
   "fixture_id": "manchester_a100_result_card_consumer_regression",
   "course_profile_id": "manchester-a100",
+  "result_card_example_overrides": {
+    "applicant_identity": {
+      "fee_status": "International"
+    }
+  },
   "base_applicant": {
     "profile_id": "manchester_a100_standard_fixture",
     "applicant_identity": {
       "applicant_type": "standard_school_leaver",
       "fee_status": "Home",
       "domicile": "England",
-      "contextual": false,
-      "widening_participation": false,
-      "contextual_flags": {
-        "care_experienced": false,
-        "free_school_meals": false,
-        "first_generation_higher_education": false
-      },
       "graduate": false,
       "resit": {
         "has_resits": false
@@ -72,14 +70,13 @@
       "ucat": {
         "total_score": 2100,
         "score_scale": 2700,
+        "subtests": {
+          "verbal_reasoning": 700,
+          "decision_making": 700,
+          "quantitative_reasoning": 700
+        },
         "sjt_band": 2,
         "test_year": 2026
-      }
-    },
-    "contextual_evidence": {
-      "manchester_access_programme": {
-        "completed": false,
-        "verified": false
       }
     },
     "graduate_profile": {
@@ -102,11 +99,27 @@
     {
       "scenario_id": "eligible_home_contextual_wp",
       "overrides": {
-        "applicant_identity": {
-          "contextual": true,
-          "widening_participation": true,
-          "contextual_flags": {
-            "free_school_meals": true
+        "contextual_evidence": {
+          "external_assessments": [
+            {
+              "provider_university_id": "manchester",
+              "assessment_id": "contextual_eligibility_tool",
+              "verification_status": "verified",
+              "criteria": {
+                "wp_band": "wp_plus"
+              }
+            }
+          ]
+        },
+        "contextual_profile": {
+          "home_area_region": {
+            "polar4_quintile": "q4",
+            "imd_quintile": "q1",
+            "tundra_quintile": "q4"
+          },
+          "school_education": {
+            "attended_uk_school_or_college_for_gcse_or_equivalent": "yes",
+            "below_average_gcse_school": "yes"
           }
         },
         "gcse_profile": {
@@ -141,18 +154,44 @@
       "expected": {
         "eligibility_status": "eligible",
         "guidance_pool_id": "a106_home_contextual_wp_school_leaver",
-        "interview_band": "realistic",
+        "interview_band": "high_risk",
         "ranking_value": 1900
       }
     },
     {
       "scenario_id": "map_guaranteed_interview_override",
       "overrides": {
-        "applicant_identity": {
-          "contextual": true,
-          "widening_participation": true,
-          "contextual_flags": {
-            "free_school_meals": true
+        "contextual_evidence": {
+          "external_assessments": [
+            {
+              "provider_university_id": "manchester",
+              "assessment_id": "contextual_eligibility_tool",
+              "verification_status": "verified",
+              "criteria": {
+                "wp_band": "wp_plus"
+              }
+            }
+          ]
+        },
+        "contextual_profile": {
+          "home_area_region": {
+            "polar4_quintile": "q4",
+            "imd_quintile": "q1",
+            "tundra_quintile": "q4"
+          },
+          "school_education": {
+            "attended_uk_school_or_college_for_gcse_or_equivalent": "yes",
+            "below_average_gcse_school": "yes"
+          },
+          "access_programmes": {
+            "ukwpmed": {
+              "status": "yes",
+              "programme_id": "manchester_access_programme",
+              "programme_status": "completed",
+              "provider_university_id": "manchester-a100",
+              "current_cycle_reduced_ucat_threshold_met": true,
+              "ucat_threshold_verification_status": "verified"
+            }
           }
         },
         "gcse_profile": {
@@ -181,12 +220,6 @@
         "admissions_tests": {
           "ucat": {
             "total_score": 1700
-          }
-        },
-        "contextual_evidence": {
-          "manchester_access_programme": {
-            "completed": true,
-            "verified": true
           }
         }
       },

@@ -79,7 +79,8 @@
         "partners_supported"
       ],
       "excluded_group_ids": [
-        "international_fee"
+        "international_fee",
+        "graduate_applicant"
       ],
       "selection_relevance": "PARTNERS and supported-entry applicants use a separate supported-entry profile."
     },
@@ -207,11 +208,6 @@
         },
         "partners_supported_offer": {
           "grade_profile": [
-            "B",
-            "B",
-            "B"
-          ],
-          "upper_supported_profile": [
             "A",
             "B",
             "B"
@@ -220,6 +216,407 @@
             "newcastle_a100_research_spec"
           ]
         },
+        "grade_requirements": [
+          {
+            "requirement_id": "newcastle_standard_home_aaa",
+            "applies_to_group_ids": [
+              "home_fee"
+            ],
+            "excluded_group_ids": [
+              "international_fee",
+              "contextual",
+              "widening_participation",
+              "partners_supported",
+              "resit_applicant",
+              "graduate_applicant"
+            ],
+            "grade_profile": [
+              "A",
+              "A",
+              "A"
+            ],
+            "excluded_subject_ids": [
+              "general_studies",
+              "use_of_mathematics",
+              "world_development",
+              "communication_and_culture",
+              "critical_thinking"
+            ],
+            "one_of_subject_groups": [
+              {
+                "group_id": "two_from_biology_chemistry_maths_further_maths_statistics_or_physics",
+                "minimum_required": 2,
+                "subject_ids": [
+                  "biology",
+                  "chemistry",
+                  "mathematics",
+                  "further_mathematics",
+                  "statistics",
+                  "physics"
+                ]
+              }
+            ],
+            "required_subject_grade_options": [
+              {
+                "option_id": "biology_plus_second_science_or_maths",
+                "grade_requirements": [
+                  {
+                    "subject_id": "biology",
+                    "minimum_grade": "A"
+                  }
+                ],
+                "one_of_subject_groups": [
+                  {
+                    "group_id": "chemistry_maths_further_maths_statistics_or_physics",
+                    "minimum_required": 1,
+                    "subject_ids": [
+                      "chemistry",
+                      "mathematics",
+                      "further_mathematics",
+                      "statistics",
+                      "physics"
+                    ]
+                  }
+                ]
+              },
+              {
+                "option_id": "chemistry_plus_second_science_or_maths",
+                "grade_requirements": [
+                  {
+                    "subject_id": "chemistry",
+                    "minimum_grade": "A"
+                  }
+                ],
+                "one_of_subject_groups": [
+                  {
+                    "group_id": "biology_maths_further_maths_statistics_or_physics",
+                    "minimum_required": 1,
+                    "subject_ids": [
+                      "biology",
+                      "mathematics",
+                      "further_mathematics",
+                      "statistics",
+                      "physics"
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "requirement_id": "newcastle_standard_home_resit_astar_aa",
+            "applies_to_group_ids": [
+              "home_fee",
+              "resit_applicant"
+            ],
+            "excluded_group_ids": [
+              "international_fee",
+              "contextual",
+              "widening_participation",
+              "partners_supported",
+              "graduate_applicant"
+            ],
+            "grade_profile": [
+              "A*",
+              "A",
+              "A"
+            ],
+            "excluded_subject_ids": [
+              "general_studies",
+              "use_of_mathematics",
+              "world_development",
+              "communication_and_culture",
+              "critical_thinking"
+            ],
+            "one_of_subject_groups": [
+              {
+                "group_id": "two_from_biology_chemistry_maths_further_maths_statistics_or_physics",
+                "minimum_required": 2,
+                "subject_ids": [
+                  "biology",
+                  "chemistry",
+                  "mathematics",
+                  "further_mathematics",
+                  "statistics",
+                  "physics"
+                ]
+              }
+            ],
+            "required_subject_grade_options": [
+              {
+                "option_id": "biology_or_chemistry",
+                "grade_requirements": [
+                  {
+                    "subject_id": "biology",
+                    "minimum_grade": "A"
+                  }
+                ]
+              },
+              {
+                "option_id": "chemistry_or_biology",
+                "grade_requirements": [
+                  {
+                    "subject_id": "chemistry",
+                    "minimum_grade": "A"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "requirement_id": "newcastle_contextual_home_abb",
+            "applies_to_group_ids": [
+              "home_fee"
+            ],
+            "any_group_ids": [
+              "contextual",
+              "widening_participation"
+            ],
+            "excluded_group_ids": [
+              "international_fee",
+              "partners_supported",
+              "resit_applicant",
+              "graduate_applicant"
+            ],
+            "grade_profile": [
+              "A",
+              "B",
+              "B"
+            ],
+            "excluded_subject_ids": [
+              "general_studies",
+              "use_of_mathematics",
+              "world_development",
+              "communication_and_culture",
+              "critical_thinking"
+            ],
+            "one_of_subject_groups": [
+              {
+                "group_id": "two_from_biology_chemistry_maths_further_maths_statistics_or_physics",
+                "minimum_required": 2,
+                "subject_ids": [
+                  "biology",
+                  "chemistry",
+                  "mathematics",
+                  "further_mathematics",
+                  "statistics",
+                  "physics"
+                ]
+              }
+            ],
+            "required_subject_grade_options": [
+              {
+                "option_id": "biology_plus_second_science_or_maths",
+                "grade_requirements": [
+                  {
+                    "subject_id": "biology",
+                    "minimum_grade": "B"
+                  }
+                ],
+                "one_of_subject_groups": [
+                  {
+                    "group_id": "chemistry_maths_further_maths_statistics_or_physics",
+                    "minimum_required": 1,
+                    "subject_ids": [
+                      "chemistry",
+                      "mathematics",
+                      "further_mathematics",
+                      "statistics",
+                      "physics"
+                    ]
+                  }
+                ]
+              },
+              {
+                "option_id": "chemistry_plus_second_science_or_maths",
+                "grade_requirements": [
+                  {
+                    "subject_id": "chemistry",
+                    "minimum_grade": "B"
+                  }
+                ],
+                "one_of_subject_groups": [
+                  {
+                    "group_id": "biology_maths_further_maths_statistics_or_physics",
+                    "minimum_required": 1,
+                    "subject_ids": [
+                      "biology",
+                      "mathematics",
+                      "further_mathematics",
+                      "statistics",
+                      "physics"
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "requirement_id": "newcastle_partners_supported_abb",
+            "applies_to_group_ids": [
+              "home_fee",
+              "partners_supported"
+            ],
+            "excluded_group_ids": [
+              "international_fee",
+              "resit_applicant",
+              "graduate_applicant"
+            ],
+            "grade_profile": [
+              "A",
+              "B",
+              "B"
+            ],
+            "excluded_subject_ids": [
+              "general_studies",
+              "use_of_mathematics",
+              "world_development",
+              "communication_and_culture",
+              "critical_thinking"
+            ],
+            "one_of_subject_groups": [
+              {
+                "group_id": "two_from_biology_chemistry_maths_further_maths_statistics_or_physics",
+                "minimum_required": 2,
+                "subject_ids": [
+                  "biology",
+                  "chemistry",
+                  "mathematics",
+                  "further_mathematics",
+                  "statistics",
+                  "physics"
+                ]
+              }
+            ],
+            "required_subject_grade_options": [
+              {
+                "option_id": "biology_plus_second_science_or_maths",
+                "grade_requirements": [
+                  {
+                    "subject_id": "biology",
+                    "minimum_grade": "B"
+                  }
+                ],
+                "one_of_subject_groups": [
+                  {
+                    "group_id": "chemistry_maths_further_maths_statistics_or_physics",
+                    "minimum_required": 1,
+                    "subject_ids": [
+                      "chemistry",
+                      "mathematics",
+                      "further_mathematics",
+                      "statistics",
+                      "physics"
+                    ]
+                  }
+                ]
+              },
+              {
+                "option_id": "chemistry_plus_second_science_or_maths",
+                "grade_requirements": [
+                  {
+                    "subject_id": "chemistry",
+                    "minimum_grade": "B"
+                  }
+                ],
+                "one_of_subject_groups": [
+                  {
+                    "group_id": "biology_maths_further_maths_statistics_or_physics",
+                    "minimum_required": 1,
+                    "subject_ids": [
+                      "biology",
+                      "mathematics",
+                      "further_mathematics",
+                      "statistics",
+                      "physics"
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "requirement_id": "newcastle_international_a_level_aaa",
+            "applies_to_group_ids": [
+              "international_fee"
+            ],
+            "excluded_group_ids": [
+              "graduate_applicant"
+            ],
+            "grade_profile": [
+              "A",
+              "A",
+              "A"
+            ],
+            "excluded_subject_ids": [
+              "general_studies",
+              "use_of_mathematics",
+              "world_development",
+              "communication_and_culture",
+              "critical_thinking"
+            ],
+            "one_of_subject_groups": [
+              {
+                "group_id": "two_from_biology_chemistry_maths_further_maths_statistics_or_physics",
+                "minimum_required": 2,
+                "subject_ids": [
+                  "biology",
+                  "chemistry",
+                  "mathematics",
+                  "further_mathematics",
+                  "statistics",
+                  "physics"
+                ]
+              }
+            ],
+            "required_subject_grade_options": [
+              {
+                "option_id": "biology_plus_second_science_or_maths",
+                "grade_requirements": [
+                  {
+                    "subject_id": "biology",
+                    "minimum_grade": "A"
+                  }
+                ],
+                "one_of_subject_groups": [
+                  {
+                    "group_id": "chemistry_maths_further_maths_statistics_or_physics",
+                    "minimum_required": 1,
+                    "subject_ids": [
+                      "chemistry",
+                      "mathematics",
+                      "further_mathematics",
+                      "statistics",
+                      "physics"
+                    ]
+                  }
+                ]
+              },
+              {
+                "option_id": "chemistry_plus_second_science_or_maths",
+                "grade_requirements": [
+                  {
+                    "subject_id": "chemistry",
+                    "minimum_grade": "A"
+                  }
+                ],
+                "one_of_subject_groups": [
+                  {
+                    "group_id": "biology_maths_further_maths_statistics_or_physics",
+                    "minimum_required": 1,
+                    "subject_ids": [
+                      "biology",
+                      "mathematics",
+                      "further_mathematics",
+                      "statistics",
+                      "physics"
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ],
         "required_subject_ids": [],
         "excluded_subject_names": [
           "General Studies",
@@ -248,27 +645,240 @@
           },
           "maximum_score": 40
         },
-        "notes": "No mandatory or preferred A-level subjects are specified for standard A100 entry. Excluded subjects do not count toward the required profile."
+        "notes": "2027 entry requires Biology or Chemistry plus one of Biology, Chemistry, Mathematics, Further Mathematics, Statistics or Physics. Excluded subjects do not count toward the required profile."
       },
       "ib": {
         "status": "official_source_verified",
         "total_points": 36,
         "individual_subject_floor": 5,
-        "required_hl_subjects": [
-          "biology",
-          "chemistry"
+        "hl_grade_profile": [
+          "5",
+          "5",
+          "5"
         ],
-        "notes": "IB Diploma requires 36 points, individual subject floor 5 and Higher Level Biology and Chemistry."
+        "required_hl_subject_grade_options": [
+          {
+            "option_id": "biology_plus_chemistry",
+            "grade_requirements": [
+              { "subject_id": "biology", "minimum_grade": "5" },
+              { "subject_id": "chemistry", "minimum_grade": "5" }
+            ]
+          },
+          {
+            "option_id": "biology_plus_mathematics",
+            "grade_requirements": [
+              { "subject_id": "biology", "minimum_grade": "5" },
+              { "subject_id": "mathematics", "minimum_grade": "5" }
+            ]
+          },
+          {
+            "option_id": "biology_plus_physics",
+            "grade_requirements": [
+              { "subject_id": "biology", "minimum_grade": "5" },
+              { "subject_id": "physics", "minimum_grade": "5" }
+            ]
+          },
+          {
+            "option_id": "chemistry_plus_biology",
+            "grade_requirements": [
+              { "subject_id": "chemistry", "minimum_grade": "5" },
+              { "subject_id": "biology", "minimum_grade": "5" }
+            ]
+          },
+          {
+            "option_id": "chemistry_plus_mathematics",
+            "grade_requirements": [
+              { "subject_id": "chemistry", "minimum_grade": "5" },
+              { "subject_id": "mathematics", "minimum_grade": "5" }
+            ]
+          },
+          {
+            "option_id": "chemistry_plus_physics",
+            "grade_requirements": [
+              { "subject_id": "chemistry", "minimum_grade": "5" },
+              { "subject_id": "physics", "minimum_grade": "5" }
+            ]
+          }
+        ],
+        "required_hl_subjects": [],
+        "notes": "IB Diploma requires 36 points, individual subject floor 5 and Higher Level Biology or Chemistry plus another Higher Level from Biology, Chemistry, Mathematics or Physics."
       },
       "scottish": {
         "status": "official_source_verified",
-        "higher_offer": "AAAAA",
+        "route_implemented": true,
+        "contextual_route_implemented": false,
+        "higher_offer": "AAABB",
         "advanced_higher_offer": "AA",
-        "required_subjects": [
-          "biology",
-          "chemistry"
+        "required_subject_grade_options": [
+          {
+            "option_id": "biology_plus_chemistry_maths_statistics_or_physics",
+            "grade_requirements": [
+              {
+                "subject_id": "biology",
+                "minimum_grade": "A"
+              }
+            ],
+            "one_of_subject_groups": [
+              {
+                "group_id": "chemistry_maths_statistics_or_physics",
+                "minimum_required": 1,
+                "subject_ids": [
+                  "chemistry",
+                  "mathematics",
+                  "statistics",
+                  "physics"
+                ]
+              }
+            ]
+          },
+          {
+            "option_id": "chemistry_plus_biology_maths_statistics_or_physics",
+            "grade_requirements": [
+              {
+                "subject_id": "chemistry",
+                "minimum_grade": "A"
+              }
+            ],
+            "one_of_subject_groups": [
+              {
+                "group_id": "biology_maths_statistics_or_physics",
+                "minimum_required": 1,
+                "subject_ids": [
+                  "biology",
+                  "mathematics",
+                  "statistics",
+                  "physics"
+                ]
+              }
+            ]
+          }
         ],
-        "notes": "Biology and Chemistry are mandatory within the Scottish route; secondary science pool includes Mathematics, Statistics and Physics."
+        "sitting_policy": "Scottish qualifications may be taken in more than one sitting.",
+        "grade_requirements": [
+          {
+            "requirement_id": "newcastle_2027_scottish_highers_and_advanced_highers",
+            "route_id": "newcastle_scottish_aaabb_plus_aa",
+            "academic_pathway": "standard",
+            "applies_to_group_ids": [
+              "home_fee"
+            ],
+            "excluded_group_ids": [
+              "international_fee"
+            ],
+            "qualification_level": "scottish_highers_and_advanced_highers",
+            "higher_grade_profile": [
+              "A",
+              "A",
+              "A",
+              "B",
+              "B"
+            ],
+            "advanced_higher_grade_profile": [
+              "A",
+              "A"
+            ],
+            "combined_grade_requirements": [
+              {
+                "requirement_id": "newcastle_required_scottish_subjects",
+                "qualification_levels": [
+                  "higher",
+                  "advanced_higher"
+                ],
+                "required_subject_grade_options": [
+                  {
+                    "option_id": "biology_plus_chemistry_maths_statistics_or_physics",
+                    "grade_requirements": [
+                      {
+                        "subject_id": "biology",
+                        "minimum_grade": "A"
+                      }
+                    ],
+                    "one_of_subject_groups": [
+                      {
+                        "group_id": "chemistry_maths_statistics_or_physics",
+                        "minimum_required": 1,
+                        "subject_ids": [
+                          "chemistry",
+                          "mathematics",
+                          "statistics",
+                          "physics"
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "option_id": "chemistry_plus_biology_maths_statistics_or_physics",
+                    "grade_requirements": [
+                      {
+                        "subject_id": "chemistry",
+                        "minimum_grade": "A"
+                      }
+                    ],
+                    "one_of_subject_groups": [
+                      {
+                        "group_id": "biology_maths_statistics_or_physics",
+                        "minimum_required": 1,
+                        "subject_ids": [
+                          "biology",
+                          "mathematics",
+                          "statistics",
+                          "physics"
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              }
+            ],
+            "required_subject_grade_options": [
+              {
+                "option_id": "biology_plus_chemistry_maths_statistics_or_physics",
+                "grade_requirements": [
+                  {
+                    "subject_id": "biology",
+                    "minimum_grade": "A"
+                  }
+                ],
+                "one_of_subject_groups": [
+                  {
+                    "group_id": "chemistry_maths_statistics_or_physics",
+                    "minimum_required": 1,
+                    "subject_ids": [
+                      "chemistry",
+                      "mathematics",
+                      "statistics",
+                      "physics"
+                    ]
+                  }
+                ]
+              },
+              {
+                "option_id": "chemistry_plus_biology_maths_statistics_or_physics",
+                "grade_requirements": [
+                  {
+                    "subject_id": "chemistry",
+                    "minimum_grade": "A"
+                  }
+                ],
+                "one_of_subject_groups": [
+                  {
+                    "group_id": "biology_maths_statistics_or_physics",
+                    "minimum_required": 1,
+                    "subject_ids": [
+                      "biology",
+                      "mathematics",
+                      "statistics",
+                      "physics"
+                    ]
+                  }
+                ]
+              }
+            ],
+            "multiple_sittings_permitted": true,
+            "notes": "2027 Newcastle Scottish route: Highers AAABB plus Advanced Highers AA. Required subjects may be at Higher or Advanced Higher level, and Scottish qualifications may be taken in more than one sitting."
+          }
+        ],
+        "notes": "2027 Newcastle Scottish route: Biology or Chemistry plus one of Biology, Chemistry, Mathematics, Statistics or Physics. The exact reduced Scottish requirement for ordinary contextual or PARTNERS is unresolved for 2027, so ApplySmart must not infer a reduced Scottish grade combination."
       },
       "irish_leaving_certificate": {
         "status": "official_source_verified",
@@ -284,6 +894,20 @@
           "biology",
           "chemistry"
         ]
+      },
+      "degree": {
+        "status": "official_source_verified",
+        "minimum_classification": "2_1",
+        "degree_requirement": {
+          "accepted_classifications": [
+            "2_1",
+            "upper_second",
+            "first",
+            "first_class"
+          ],
+          "achieved_or_predicted": false
+        },
+        "notes": "Graduate A100 applicants require a 2:1 or First / integrated Master's profile. Degree achievement feeds the Home academic score."
       },
       "access_to_he": {
         "status": "conditionally_accepted",
@@ -329,6 +953,7 @@
     "resits": {
       "allowed": true,
       "maximum_resits": 1,
+      "maximum_resit_year_attempt_cycles": 1,
       "grade_uplift_required": true,
       "rules": {
         "standard_home": "A*AA",
@@ -511,6 +1136,14 @@
       "newcastle_a100_research_spec"
     ],
     "available": true,
+    "contextual_eligibility": {
+      "evaluator_id": "newcastle_contextual_medicine_a100",
+      "controls_group_routing": true,
+      "source_ids": [
+        "newcastle_a100_research_spec"
+      ],
+      "notes": "Ordinary Newcastle contextual routing is driven by shared Step 6 contextual evidence. Legacy self-declared contextual flags are retained as evidence only and do not independently activate the contextual route."
+    },
     "applies_to_group_ids": [
       "home_fee",
       "contextual",
@@ -522,10 +1155,10 @@
     ],
     "adjustments": [
       "Contextual A-level profile ABB.",
-      "PARTNERS supported profile BBB, with resit requirement ABB."
+      "PARTNERS supported profile ABB."
     ],
     "guaranteed_interview_rules": [],
-    "notes": "Contextual, widening and PARTNERS applicants are routed to separate pools. No guaranteed interview is implemented."
+    "notes": "Contextual, widening and PARTNERS applicants are routed to separate pools. Completed higher-education applicants are not routed through PARTNERS. No guaranteed interview is implemented."
   },
   "ranking_pools": [
     {

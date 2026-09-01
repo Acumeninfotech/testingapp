@@ -136,7 +136,7 @@
     "available": true,
     "result_band": "interview_likely",
     "prediction_type": "modelled_holistic_interview_guidance",
-    "ranking_metric": "hidden_holistic_guidance_index",
+    "ranking_metric": null,
     "guidance_pool_id": "cambridge_home_hidden_holistic_guidance",
     "fixed_current_cutoff": false,
     "internal_calculations_hidden": true,
@@ -168,8 +168,8 @@
   "display": {
     "primary_user_facing_recommendation": "Strong choice for your application",
     "recommendation_display_state": "standard",
-    "primary_explanation": "Based on ApplySmart's assessment, your academic profile appears competitive for this applicant group.",
-    "historical_guidance_caveat": "Interview thresholds may change each admissions cycle depending on applicant competition and interview capacity. Historical figures are guidance only, not a current cut-off, and do not guarantee an interview.",
+    "primary_explanation": "Based on ApplySmart's assessment, your academic profile and UCAT appear competitive for this applicant group.",
+    "historical_guidance_caveat": "Historical admissions data provides a benchmark only; it is not a current cut-off or a guarantee of interview.",
     "headline": "Strong choice for your application"
   },
   "decision_timeline": [
@@ -189,74 +189,79 @@
       "step": 3,
       "title": "Selection model applied",
       "status": "Complete",
-      "summary": "Published academic and UCAT requirements were checked before Cambridge-specific holistic interview guidance was applied with internal thresholds hidden."
+      "summary": "Cambridge considers academic achievement, UCAT and contextual information together when selecting eligible applicants for interview."
     },
     {
       "step": 4,
       "title": "Historical guidance compared",
       "status": "Complete",
-      "summary": "Your result was compared with interview information from previous admissions cycles. Interview thresholds may change each admissions cycle depending on applicant competition and interview capacity. Historical figures are guidance only, not a current cut-off, and do not guarantee an interview."
+      "summary": "Your result was compared with historical admissions data. Historical admissions data provides a benchmark only; it is not a current cut-off or a guarantee of interview."
     },
     {
       "step": 5,
       "title": "Interview recommendation produced",
       "status": "Strong Choice",
-      "summary": "Based on ApplySmart's assessment, your academic profile appears competitive for this applicant group. Treat this as guidance for university choice, not a promised interview."
+      "summary": "Based on ApplySmart's assessment, your academic profile and UCAT appear competitive for this applicant group. Treat this as guidance for university choice, not a promised interview."
     }
   ],
   "decision_transparency": {
+    "factor_usage": [
+      {
+        "factor_id": "ucat",
+        "label": "UCAT",
+        "role": "considered",
+        "detail": "Used as part of the university’s holistic selection review.",
+        "evidence_status": "available"
+      },
+      {
+        "factor_id": "gcse",
+        "label": "GCSEs",
+        "role": "considered",
+        "detail": "Used as part of the university’s academic context review.",
+        "evidence_status": "available"
+      },
+      {
+        "factor_id": "a_level",
+        "label": "A-levels",
+        "role": "considered",
+        "detail": "Used as part of the university’s academic review.",
+        "evidence_status": "available"
+      },
+      {
+        "factor_id": "sjt",
+        "label": "SJT",
+        "role": "not_used",
+        "detail": "SJT is not used for interview selection.",
+        "evidence_status": "not_applicable"
+      }
+    ],
     "decision_path": [
       {
         "stage": "Eligibility",
         "status": "Met",
-        "summary": "The represented applicant meets the supported Cambridge A100 academic, UCAT, practical endorsement and age gates.",
+        "summary": "The supported entry requirements are met.",
         "checks": [
           {
-            "label": "A Level requirements",
+            "label": "Entry requirements",
             "status": "Met",
-            "summary": "A*A*A including Chemistry and at least one of Biology, Physics or Mathematics. Applicant information: A*A*A predicted including Chemistry, Biology and Mathematics."
-          },
-          {
-            "label": "Science practical endorsement",
-            "status": "Met",
-            "summary": "Pass required in all science A Levels. Applicant information: Chemistry and Biology practical endorsements recorded as pass."
-          },
-          {
-            "label": "UCAT requirement",
-            "status": "Met",
-            "summary": "UCAT cognitive total required; SJT not used for A100. Applicant information: Current-cycle UCAT supplied; SJT Band 2 ignored."
-          },
-          {
-            "label": "Minimum age",
-            "status": "Met",
-            "summary": "Student must be 18 by course start. Applicant information: Age 18 by the reference date."
+            "summary": "The supported entry requirements have been assessed."
           }
         ]
       },
       {
         "stage": "Selection model",
         "status": "Assessed",
-        "summary": "The university selection approach is applied after eligibility checks.",
+        "summary": "Cambridge considers academic achievement, UCAT and contextual information together when selecting eligible applicants for interview.",
         "checks": [
           {
             "label": "Applicant pool",
             "status": "Used",
-            "summary": "The applicant group matching the supplied fee status and entry route"
-          },
-          {
-            "label": "UCAT total entered",
-            "status": "Used for ranking",
-            "summary": "2360 out of 2700."
-          },
-          {
-            "label": "SJT band",
-            "status": "On file",
-            "summary": "Band 2."
+            "summary": "Home, Rest of UK applicants"
           },
           {
             "label": "Selection approach",
-            "status": "Ranking/cut-off based",
-            "summary": "The university selection approach is applied after eligibility checks."
+            "status": "Assessed",
+            "summary": "Cambridge considers academic achievement, UCAT and contextual information together when selecting eligible applicants for interview."
           }
         ]
       },
@@ -268,7 +273,12 @@
           {
             "label": "Applicant pool",
             "status": "Used",
-            "summary": "The applicant group matching the supplied fee status and entry route"
+            "summary": "Home, Rest of UK applicants"
+          },
+          {
+            "label": "All Applicants",
+            "status": "Historical",
+            "summary": "~1791 applicants, ~288 offers."
           },
           {
             "label": "Important limitation",
@@ -280,20 +290,22 @@
       {
         "stage": "Recommendation",
         "status": "Guidance only",
-        "summary": "Based on ApplySmart's assessment, your academic profile appears competitive for this applicant group. Treat this as guidance for university choice, not a promised interview.",
+        "summary": "Based on ApplySmart's assessment, your academic profile and UCAT appear competitive for this applicant group. Treat this as guidance for university choice, not a promised interview.",
         "checks": []
       }
     ],
     "key_reasons": [
-      "The represented applicant meets the supported Cambridge A100 academic, UCAT, practical endorsement and age gates.",
-      "The result uses The applicant group matching the supplied fee status and entry route.",
-      "The university selection approach is applied after eligibility checks."
+      "The supported entry requirements are met.",
+      "The result uses Home, Rest of UK applicants.",
+      "Cambridge considers academic achievement, UCAT and contextual information together when selecting eligible applicants for interview."
     ],
     "evidence_used": [
       "Official admissions policy",
       "University selection methodology",
       "UCAT policy",
-      "Historical interview data"
+      "Historical interview data",
+      "Contextual admissions policy",
+      "International admissions policy"
     ],
     "evidence_confidence": {
       "level": "Medium",
@@ -306,8 +318,10 @@
     },
     "warnings": [],
     "manual_review_reason": null,
-    "insufficient_evidence_reason": null,
-    "insufficient_evidence_reason_code": null,
+    "manual_review_reason_code": null,
+    "information_needed_reason": null,
+    "missing_information": null,
+    "risk_explanation": null,
     "compact_status": {
       "label": "You meet the academic requirements.",
       "type": "academic_status",
@@ -315,10 +329,11 @@
     },
     "comparison_metrics_title": null,
     "comparison_metrics": [],
-    "selection_approach_display": null,
+    "selection_approach_display": "Cambridge considers academic achievement, UCAT and contextual information together when selecting eligible applicants for interview.",
     "selection_metric": null,
     "score_breakdown": null,
-    "ucat_comparison": null
+    "ucat_comparison": null,
+    "ucat_adjustment": null
   },
   "engine_notes": {
     "eligibility": true,
@@ -354,7 +369,7 @@
     ]
   },
   "primary_user_facing_recommendation": "Strong choice for your application",
-  "primary_explanation": "Based on ApplySmart's assessment, your academic profile appears competitive for this applicant group.",
+  "primary_explanation": "Based on ApplySmart's assessment, your academic profile and UCAT appear competitive for this applicant group.",
   "recommendation_display_state": "standard",
   "trust_statement": null,
   "historical_guidance_caveat": "Historical admissions data provides a benchmark only; it is not a current cut-off or a guarantee of interview."

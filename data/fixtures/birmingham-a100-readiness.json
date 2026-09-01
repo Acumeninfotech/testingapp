@@ -54,7 +54,7 @@
       }
     },
     "ukwpmed": {
-      "qualification_route": "ukwpmed",
+      "qualification_route": "a_level",
       "applicant_identity": {
         "applicant_type": "standard_school_leaver",
         "fee_status": "Home",
@@ -64,6 +64,16 @@
         "graduate": false,
         "resit": {
           "has_resits": false
+        }
+      },
+      "contextual_profile": {
+        "access_programmes": {
+          "ukwpmed": {
+            "status": "yes",
+            "programme_id": "keele_steps2medicine",
+            "programme_status": "completed",
+            "provider_university_id": "keele-a100"
+          }
         }
       },
       "gcse_profile": {
@@ -100,11 +110,6 @@
           "total_score": 1900,
           "sjt_band": 4
         }
-      },
-      "ukwpmed": {
-        "programme": "Routes to the Professions: Medicine — Birmingham",
-        "successfully_completed": true,
-        "declared_in_ucas_extra_activities": true
       }
     },
     "ib": {
@@ -599,10 +604,13 @@
       "requirement_number": 11,
       "base": "home_standard",
       "overrides": {
-        "applicant_identity": {
-          "contextual": true,
-          "contextual_status_confirmed": true,
-          "polar4_quintile": "Q1"
+        "contextual_profile": {
+          "home_area_region": {
+            "polar4_quintile": "q1"
+          },
+          "financial_support": {
+            "free_school_meals": "yes"
+          }
         },
         "a_level_profile": {
           "subjects": [
@@ -635,10 +643,13 @@
       "requirement_number": 12,
       "base": "home_standard",
       "overrides": {
-        "applicant_identity": {
-          "contextual": true,
-          "contextual_status_confirmed": true,
-          "polar4_quintile": "Q1"
+        "contextual_profile": {
+          "home_area_region": {
+            "polar4_quintile": "q1"
+          },
+          "personal_circumstances": {
+            "care_experienced": "yes"
+          }
         },
         "gcse_profile": {
           "subjects": {
@@ -679,17 +690,21 @@
       }
     },
     {
-      "case_id": "ukwpmed_completed_not_declared_not_guaranteed",
+      "case_id": "ukwpmed_programme_not_completed_not_guaranteed",
       "requirement_number": 14,
       "base": "ukwpmed",
       "overrides": {
-        "ukwpmed": {
-          "declared_in_ucas_extra_activities": false
+        "contextual_profile": {
+          "access_programmes": {
+            "ukwpmed": {
+              "programme_status": "participating"
+            }
+          }
         }
       },
       "expected": {
         "status": "not_eligible",
-        "reason": "ukwpmed_declaration_missing",
+        "reason": "ukwpmed_completion_not_verified",
         "guaranteed_interview": false
       }
     },

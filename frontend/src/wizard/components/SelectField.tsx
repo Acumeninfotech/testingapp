@@ -10,7 +10,7 @@ interface SelectFieldProps {
   id: string;
   label: string;
   value: string;
-  options: Option[];
+  options: readonly Option[];
   onChange: (value: string) => void;
   error?: string;
   hint?: string;

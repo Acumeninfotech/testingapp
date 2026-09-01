@@ -3,35 +3,14 @@ const {
   deriveQualificationRoute
 } = require('./eligibility-evaluator');
 const {
+  contextualFlagApplicantGroupIds
+} = require('./applicant-group-normalisation');
+const {
   ageAtDate,
+  evaluateAgeBandAgainstMinimum,
   isUcatCycleValid,
   normaliseApplicantProfile
-} = (() => {
-  const normaliser = require('./applicant-profile-normaliser');
-  return {
-    ...normaliser,
-    ageAtDate(dateOfBirth, referenceDate) {
-      if (!dateOfBirth) {
-        return null;
-      }
-      const birth = new Date(`${dateOfBirth}T00:00:00Z`);
-      if (Number.isNaN(birth.getTime()) || birth > referenceDate) {
-        return null;
-      }
-      let age = referenceDate.getUTCFullYear() - birth.getUTCFullYear();
-      if (
-        referenceDate.getUTCMonth() < birth.getUTCMonth() ||
-        (
-          referenceDate.getUTCMonth() === birth.getUTCMonth() &&
-          referenceDate.getUTCDate() < birth.getUTCDate()
-        )
-      ) {
-        age -= 1;
-      }
-      return age;
-    }
-  };
-})();
+} = require('./applicant-profile-normaliser');
 const {
   resolveUcatDecile
 } = require('./ucat-decile-service');
@@ -39,8 +18,21 @@ const {
   buildDecisionTimeline,
   buildDecisionTransparency,
   buildEvidenceConfidence,
+  buildAcademicRequirementChecks,
+  buildAlternativeAcademicOffer,
+  futureConditionAdvisories,
   CANONICAL_BAND_LABELS
 } = require('./result-card-presenter');
+const {
+  evaluateEpqAlternativeOffer,
+  manualReviewReasonForEpqAlternative
+} = require('./epq-alternative-offer');
+const {
+  evaluateContextualEligibility
+} = require('./contextual-eligibility-framework');
+const {
+  DEFAULT_CONTEXTUAL_ELIGIBILITY_EVALUATORS
+} = require('./contextual-eligibility-evaluators');
 
 const GCSE_GRADE_RANK = {
   U: 0,
@@ -65,6 +57,35 @@ const APPLYSMART_HYMS_ANALYSIS_DISCLOSURE =
   "ApplySmart uses published HYMS admissions information and historical evidence to guide interview competitiveness alongside HYMS's published admissions policy. This is not a guarantee of interview.";
 const APPLYSMART_HYMS_SELECTION_SUMMARY =
   'ApplySmart combines HYMS published admissions information with historical admissions evidence to assess interview competitiveness for this applicant group.';
+const HYMS_STANDARD_A_LEVEL_PATHWAY_ID = 'standard_AAA_biology_chemistry';
+const HYMS_CONTEXTUAL_REDUCED_A_LEVEL_PATHWAY_ID = 'hyms_contextual_reduced_AAB';
+const HYMS_CONTEXTUAL_REDUCED_FIRM_CHOICE_CONDITION =
+  'hyms_contextual_reduced_offer_firm_choice_required';
+const HYMS_CONTEXTUAL_REDUCED_INFORMATION_NEEDED_REASON =
+  'hyms_contextual_reduced_offer_information_needed';
+const HYMS_LEGACY_CONTEXTUAL_GROUP_IDS = [
+  'contextual',
+  'widening_participation',
+  'care_experienced',
+  'refugee',
+  'asylum_seeker',
+  'refugee_or_asylum_seeker',
+  'military_family',
+  'gypsy_roma_traveller',
+  'ucat_bursary',
+  'polar4_quintile_1',
+  'polar4_quintile_2',
+  'polar_quintile_1',
+  'polar_quintile_2',
+  'school_below_progress_8',
+  'first_generation_higher_education',
+  'first_generation_university'
+];
+
+const HYMS_ROUTE_CONTROL_GROUP_IDS = new Set([
+  'contextual',
+  'widening_participation'
+]);
 
 const A_LEVEL_GRADE_RANK = {
   U: 0,
@@ -323,7 +344,54 @@ function aLevelSubjectEvidence(applicant) {
   };
 }
 
-function evaluateALevel(applicant, state) {
+function contextualReducedOfferEligible(contextualEligibility) {
+  return contextualEligibility?.consequences?.reduced_offer?.status === 'eligible';
+}
+
+function contextualReducedOfferInformationNeeded(contextualEligibility) {
+  return contextualEligibility?.consequences?.reduced_offer?.status === 'information_needed';
+}
+
+function contextualReducedOfferFutureConditions(contextualEligibility) {
+  return contextualEligibility?.consequences?.reduced_offer?.firm_choice_condition === true
+    ? [HYMS_CONTEXTUAL_REDUCED_FIRM_CHOICE_CONDITION]
+    : [];
+}
+
+function contextualReducedAlevelAssessment(evidence, excludedPassed) {
+  const gradeProfilePassed = gradeProfileMeets(
+    evidence.grades,
+    ['A', 'A', 'B'],
+    A_LEVEL_GRADE_RANK
+  );
+  const biologyPassed = gradeMeets(
+    evidence.subjects.biology ?? evidence.subjects.human_biology,
+    'B',
+    A_LEVEL_GRADE_RANK
+  );
+  const chemistryPassed = gradeMeets(
+    evidence.subjects.chemistry,
+    'B',
+    A_LEVEL_GRADE_RANK
+  );
+
+  return {
+    grade_profile_met: gradeProfilePassed,
+    biology_met: biologyPassed,
+    chemistry_met: chemistryPassed,
+    one_sitting_met: evidence.one_sitting,
+    excluded_subjects_present: evidence.excluded_present,
+    passed:
+      gradeProfilePassed &&
+      biologyPassed &&
+      chemistryPassed &&
+      excludedPassed &&
+      evidence.one_sitting
+  };
+}
+
+function evaluateALevel(course, applicant, state) {
+  const policy = course.stage_1_eligibility?.post_16?.a_level?.epq_alternative_offer;
   const evidence = aLevelSubjectEvidence(applicant);
   const gradeProfilePassed = gradeProfileMeets(
     evidence.grades,
@@ -348,13 +416,149 @@ function evaluateALevel(applicant, state) {
     excludedPassed &&
     evidence.one_sitting;
 
-  addCheck(state, 'a_level_AAA_biology_chemistry_one_sitting', passed, {
+  addCheck(state, 'a_level_standard_offer', passed, {
+    academic_pathway: 'standard',
     grade_profile_met: gradeProfilePassed,
     biology_met: biologyPassed,
     chemistry_met: chemistryPassed,
     one_sitting_met: evidence.one_sitting,
     excluded_subjects_present: evidence.excluded_present
   });
+
+  if (passed) {
+    state.academic_pathway = 'standard';
+    state.academic_pathway_id = HYMS_STANDARD_A_LEVEL_PATHWAY_ID;
+    return;
+  }
+
+  if (contextualReducedOfferEligible(state.contextual_eligibility)) {
+    const contextual = contextualReducedAlevelAssessment(evidence, excludedPassed);
+
+    addCheck(state, 'a_level_contextual_reduced_offer', contextual.passed, {
+      academic_pathway: 'contextual_reduced_offer',
+      pathway_id: HYMS_CONTEXTUAL_REDUCED_A_LEVEL_PATHWAY_ID,
+      grade_profile_met: contextual.grade_profile_met,
+      biology_met: contextual.biology_met,
+      chemistry_met: contextual.chemistry_met,
+      one_sitting_met: contextual.one_sitting_met,
+      excluded_subjects_present: contextual.excluded_subjects_present,
+      future_conditions: contextual.passed
+        ? contextualReducedOfferFutureConditions(state.contextual_eligibility)
+        : []
+    });
+
+    if (contextual.passed) {
+      state.academic_pathway = 'contextual_reduced_offer';
+      state.academic_pathway_id = HYMS_CONTEXTUAL_REDUCED_A_LEVEL_PATHWAY_ID;
+      state.future_conditions = contextualReducedOfferFutureConditions(
+        state.contextual_eligibility
+      );
+      return;
+    }
+  }
+
+  if (
+    state.contextual_eligibility?.consequences?.alternative_wp_offer?.status === 'eligible'
+  ) {
+    const alternativeWpGradeProfilePassed = gradeProfileMeets(
+      evidence.grades,
+      ['A', 'B', 'B'],
+      A_LEVEL_GRADE_RANK
+    );
+    const alternativeWpBiologyPassed = gradeMeets(
+      evidence.subjects.biology ?? evidence.subjects.human_biology,
+      'B',
+      A_LEVEL_GRADE_RANK
+    );
+    const alternativeWpChemistryPassed = gradeMeets(
+      evidence.subjects.chemistry,
+      'B',
+      A_LEVEL_GRADE_RANK
+    );
+    const alternativeWpPassed =
+      alternativeWpGradeProfilePassed &&
+      alternativeWpBiologyPassed &&
+      alternativeWpChemistryPassed &&
+      excludedPassed &&
+      evidence.one_sitting;
+
+    addCheck(state, 'a_level_alternative_wp_offer', alternativeWpPassed, {
+      academic_pathway: 'alternative_wp_offer',
+      grade_profile_met: alternativeWpGradeProfilePassed,
+      biology_met: alternativeWpBiologyPassed,
+      chemistry_met: alternativeWpChemistryPassed,
+      one_sitting_met: evidence.one_sitting,
+      excluded_subjects_present: evidence.excluded_present,
+      firm_choice_condition: true
+    });
+
+    if (alternativeWpPassed) {
+      state.academic_pathway = 'alternative_wp_offer';
+      state.academic_pathway_id = 'hyms_alternative_wp_a_level_abb';
+      state.future_conditions = [
+        'hyms_alternative_wp_offer_firm_choice_required'
+      ];
+      return;
+    }
+  }
+
+  if (contextualReducedOfferInformationNeeded(state.contextual_eligibility)) {
+    const contextual = contextualReducedAlevelAssessment(evidence, excludedPassed);
+
+    if (contextual.passed) {
+      addCheck(state, 'a_level_contextual_reduced_offer', false, {
+        status: 'information_needed',
+        academic_pathway: 'contextual_reduced_offer',
+        pathway_id: HYMS_CONTEXTUAL_REDUCED_A_LEVEL_PATHWAY_ID,
+        grade_profile_met: contextual.grade_profile_met,
+        biology_met: contextual.biology_met,
+        chemistry_met: contextual.chemistry_met,
+        one_sitting_met: contextual.one_sitting_met,
+        excluded_subjects_present: contextual.excluded_subjects_present,
+        manual_review_reason: HYMS_CONTEXTUAL_REDUCED_INFORMATION_NEEDED_REASON
+      });
+      state.academic_pathway = null;
+      state.academic_pathway_id = null;
+      addManualReview(state, HYMS_CONTEXTUAL_REDUCED_INFORMATION_NEEDED_REASON);
+      return;
+    }
+  }
+
+  if (policy?.enabled === true) {
+    const epqAlternative = evaluateEpqAlternativeOffer(applicant, policy);
+    addCheck(state, 'epq_alternative_offer', epqAlternative.status === 'met', {
+      status: epqAlternative.status,
+      academic_pathway: 'epq_alternative',
+      pathway_id: epqAlternative.pathway_id,
+      epq_status: epqAlternative.status,
+      a_level_requirement_met: epqAlternative.a_level_requirement_met,
+      epq_requirement_met: epqAlternative.epq_requirement_met,
+      future_conditions: epqAlternative.status === 'met'
+        ? epqAlternative.future_conditions
+        : []
+    });
+    state.academic_pathway = epqAlternative.status === 'met' ||
+      epqAlternative.status === 'information_needed'
+      ? 'epq_alternative'
+      : null;
+    state.academic_pathway_id = epqAlternative.status === 'met' ||
+      epqAlternative.status === 'information_needed'
+      ? epqAlternative.pathway_id
+      : null;
+    state.epq_alternative_result = epqAlternative;
+    state.future_conditions = epqAlternative.status === 'met'
+      ? epqAlternative.future_conditions
+      : [];
+
+    if (epqAlternative.status === 'met') {
+      return;
+    }
+    if (epqAlternative.status === 'information_needed') {
+      addManualReview(state, manualReviewReasonForEpqAlternative(epqAlternative));
+      return;
+    }
+  }
+
   if (!passed) {
     addFailure(state, 'a_level_requirements_not_met');
   }
@@ -413,6 +617,48 @@ function evaluateIb(applicant, state) {
   });
   if (!passed) {
     addFailure(state, 'international_baccalaureate_requirements_not_met');
+  }
+}
+
+function evaluateNational5(applicant, state) {
+  const profile = applicant.scottish_profile || {};
+  const subjects = profileToSubjectMap({
+    subjects: profile.national_5_subjects || []
+  });
+
+  const grades = Object.values(subjects)
+    .filter((grade) => grade !== undefined && grade !== null && grade !== '');
+
+  const minimumCountPassed =
+    grades.filter((grade) => gradeMeets(grade, 'C', GCSE_GRADE_RANK)).length >= 6;
+
+  const englishGrade =
+    subjects.english_language ??
+    subjects.english;
+
+  const englishPassed =
+    gradeMeets(englishGrade, 'B', GCSE_GRADE_RANK);
+
+  const mathematicsPassed =
+    gradeMeets(subjects.mathematics, 'B', GCSE_GRADE_RANK);
+
+  const passed =
+    minimumCountPassed &&
+    englishPassed &&
+    mathematicsPassed;
+
+  addCheck(state, 'national_5_requirements', passed, {
+    minimum_count_met: minimumCountPassed,
+    english_language_minimum_met: englishPassed,
+    mathematics_minimum_met: mathematicsPassed,
+    minimum_count: 6,
+    minimum_count_grade: 'C',
+    english_language_minimum_grade: 'B',
+    mathematics_minimum_grade: 'B'
+  });
+
+  if (!passed) {
+    addFailure(state, 'national_5_requirements_not_met');
   }
 }
 
@@ -561,15 +807,29 @@ function evaluateAgeAndTransfer(course, applicant, state) {
     applicant.entry_year ??
     course.course?.entry_year ??
     2027;
-  const suppliedAge = applicant.applicant_identity?.age_on_1_october;
-  const age = Number.isFinite(suppliedAge)
-    ? suppliedAge
-    : ageAtDate(
-      applicant.applicant_identity?.date_of_birth,
-      new Date(Date.UTC(entryYear, 9, 1))
-    );
+  const identity = applicant.applicant_identity || {};
+  const bandAssessment = evaluateAgeBandAgainstMinimum(
+    identity.age_at_course_start_band,
+    18
+  );
+  const suppliedAge = identity.age_on_1_october;
+  const age = bandAssessment && bandAssessment.status !== 'manual_review'
+    ? bandAssessment.age
+    : Number.isFinite(suppliedAge)
+      ? suppliedAge
+      : ageAtDate(
+        identity.date_of_birth,
+        new Date(Date.UTC(entryYear, 9, 1))
+      );
 
-  if (Number.isFinite(age)) {
+  if (bandAssessment?.status === 'manual_review') {
+    addManualReview(state, 'age_on_1_october_requires_confirmation');
+  } else if (bandAssessment?.status === 'pass') {
+    addCheck(state, 'minimum_age_18_on_1_october', true, { age: bandAssessment.age });
+  } else if (bandAssessment?.status === 'fail') {
+    addCheck(state, 'minimum_age_18_on_1_october', false, { age: bandAssessment.age });
+    addFailure(state, 'minimum_age_not_met');
+  } else if (Number.isFinite(age)) {
     const passed = age >= 18;
     addCheck(state, 'minimum_age_18_on_1_october', passed, { age });
     if (!passed) {
@@ -607,15 +867,23 @@ function evaluateOfficialEligibility(course, applicantInput) {
     route_flags: flags,
     checks: [],
     failures: [],
-    manual_review_reasons: []
+    manual_review_reasons: [],
+    future_conditions: [],
+    contextual_eligibility: evaluateContextualEligibility(course, applicant, {
+      evaluators: DEFAULT_CONTEXTUAL_ELIGIBILITY_EVALUATORS
+    })
   };
 
   if (!flags.graduate) {
-    evaluateGcse(applicant, state);
+    if (qualificationRoute === 'scottish') {
+      evaluateNational5(applicant, state);
+    } else {
+      evaluateGcse(applicant, state);
+    }
   }
 
   if (qualificationRoute === 'a_level') {
-    evaluateALevel(applicant, state);
+    evaluateALevel(course, applicant, state);
   } else if (qualificationRoute === 'graduate') {
     evaluateGraduate(applicant, state);
   } else if (qualificationRoute === 'international_baccalaureate') {
@@ -709,11 +977,15 @@ function contextualEstimate(config, applicant, eligibility) {
     !flags.international &&
     !flags.graduate &&
     !flags.prior_university;
-  const criteria = contextualCriteria(applicant);
+  const assessment = eligibility.contextual_eligibility || null;
+  const criteria = criteriaFromContextualAssessment(assessment);
   const officialMinimumCriteria =
     model.official_contextual_minimum_criteria ?? 2;
   const officialEligibilityMet =
-    applicable && criteria.length >= officialMinimumCriteria;
+    applicable && assessment?.is_contextual === true;
+  // HYMS interview-selection contextual points are awarded for each
+  // qualifying published circumstance independently of the separate
+  // canonical contextual/reduced-offer eligibility decision.
   const rawPoints = applicable
     ? criteria.reduce((total, criterion) => {
       return total + Number(model.points_by_flag?.[criterion] || 0);
@@ -732,7 +1004,7 @@ function contextualEstimate(config, applicant, eligibility) {
     official_contextual_eligibility: {
       minimum_criteria: officialMinimumCriteria,
       criteria_count: criteria.length,
-      met_from_supplied_flags: officialEligibilityMet,
+      met_from_canonical_assessment: officialEligibilityMet,
       university_verification_required: true
     },
     excluded_reason:
@@ -750,6 +1022,38 @@ function contextualEstimate(config, applicant, eligibility) {
     evidence_classification: 'unofficial_third_party_estimate',
     disclosure: APPLYSMART_HYMS_ANALYSIS_DISCLOSURE
   };
+}
+
+function criteriaFromContextualAssessment(assessment) {
+  if (!assessment || !Array.isArray(assessment.qualifying_criteria)) {
+    return [];
+  }
+  return assessment.qualifying_criteria
+    .map((entry) => typeof entry === 'string' ? entry : entry?.criterion_id)
+    .map((criterionId) => {
+      return criterionId === 'recognised_wp_programme_completion'
+        ? 'recognised_wp_programme'
+        : criterionId;
+    })
+    .filter(Boolean);
+}
+
+function canonicalHymsApplicantGroupIds(groupIds = [], contextualEligibility = null, applicant = {}) {
+  const groups = new Set(groupIds);
+  for (const groupId of HYMS_LEGACY_CONTEXTUAL_GROUP_IDS) {
+    groups.delete(groupId);
+  }
+  if (contextualEligibility?.is_contextual === true) {
+    for (const groupId of contextualEligibility.activated_applicant_group_ids || []) {
+      groups.add(groupId);
+    }
+  }
+  for (const groupId of contextualFlagApplicantGroupIds(applicant.applicant_identity?.contextual_flags || {})) {
+    if (!HYMS_ROUTE_CONTROL_GROUP_IDS.has(groupId)) {
+      groups.add(groupId);
+    }
+  }
+  return [...groups];
 }
 
 function scoreGcse(config, applicant) {
@@ -844,20 +1148,37 @@ function recommendationBand(config, applicant, eligibility, score) {
   }
 
   const value = score.value;
+
+  // ApplySmart HYMS Home guidance uses the actual calculated selection total.
+  // Contextual applicants may gain estimated contextual points before this
+  // classification; non-contextual applicants receive none.
+  // The Strong Choice boundary is therefore the same raw total for both.
+  if (value >= 72) {
+    return 'interview_likely';
+  }
+
   const rules = config.score_model?.estimate_mode?.home_recommendation_bands || [];
   return rules.find((rule) => {
-    return value >= (rule.min ?? -Infinity) && value <= (rule.max ?? Infinity);
+    return (
+      rule.band !== 'interview_likely' &&
+      value >= (rule.min ?? -Infinity) &&
+      value <= (rule.max ?? Infinity)
+    );
   })?.band || 'insufficient_evidence';
 }
 
 function estimateSelectionScore(course, config, applicant, eligibility, options = {}) {
   const contextual = contextualEstimate(config, applicant, eligibility);
+  const contextualScoringActive =
+    contextual.applicable === true &&
+    Number(contextual.points) > 0;
+
   if (eligibility.status !== 'eligible') {
     return {
       label: APPLYSMART_HYMS_SCORE_LABEL,
       status: 'not_applied',
       value: null,
-      max: contextual.applicable ? 100 : 85,
+      max: contextualScoringActive ? 100 : 85,
       components: {},
       contextual,
       evidence_classification: 'unofficial_third_party_estimate',
@@ -881,7 +1202,7 @@ function estimateSelectionScore(course, config, applicant, eligibility, options 
   };
   const componentValues = Object.values(components).map((component) => component.value);
   const available = componentValues.every(Number.isFinite);
-  const max = contextual.applicable ? 100 : 85;
+  const max = contextualScoringActive ? 100 : 85;
 
   return {
     label: APPLYSMART_HYMS_SCORE_LABEL,
@@ -912,6 +1233,11 @@ function evaluateHullYorkA100(course, config, applicantInput, options = {}) {
 
   const applicant = normaliseApplicantProfile(applicantInput, { course });
   const eligibility = evaluateOfficialEligibility(course, applicant);
+  eligibility.applicant_group_ids = canonicalHymsApplicantGroupIds(
+    eligibility.applicant_group_ids,
+    eligibility.contextual_eligibility,
+    applicant
+  );
   const estimatedSelectionScore = estimateSelectionScore(
     course,
     config,
@@ -926,12 +1252,19 @@ function evaluateHullYorkA100(course, config, applicantInput, options = {}) {
     estimatedSelectionScore
   );
   const recommendation = RECOMMENDATION_BY_BAND[canonicalInterviewBand];
+  const scottishEligiblePredictionUnavailable =
+    eligibility.status === 'eligible' &&
+    eligibility.qualification_route === 'scottish' &&
+    canonicalInterviewBand === 'insufficient_evidence';
+
   const explanation =
     canonicalInterviewBand === 'not_eligible'
       ? 'One or more published HYMS entry requirements are not met, so ApplySmart does not calculate an interview-competitiveness score for this applicant.'
-      : canonicalInterviewBand === 'insufficient_evidence'
-        ? 'ApplySmart cannot provide a confident interview-competitiveness analysis for this applicant route because the available admissions evidence is not sufficient for this profile.'
-        : `${estimatedSelectionScore.label} ${estimatedSelectionScore.value}/${estimatedSelectionScore.max} supports the "${recommendation}" band. ${estimatedSelectionScore.disclosure}`;
+      : scottishEligiblePredictionUnavailable
+        ? "You meet HYMS's published academic requirements for the Scottish qualification route. ApplySmart cannot calculate a complete HYMS selection score because an evidenced National 5-to-HYMS academic scoring conversion is not available."
+        : canonicalInterviewBand === 'insufficient_evidence'
+          ? 'ApplySmart cannot provide a confident interview-competitiveness analysis for this applicant route because the available admissions evidence is not sufficient for this profile.'
+          : `${estimatedSelectionScore.label} ${estimatedSelectionScore.value}/${estimatedSelectionScore.max} supports the "${recommendation}" band. ${estimatedSelectionScore.disclosure}`;
 
   return {
     course_profile_id: course.profile_id,
@@ -978,18 +1311,28 @@ function buildHullYorkA100ResultCard(course, config, applicant, options = {}) {
   const band = evaluation.canonical_interview_band;
   const score = evaluation.estimated_selection_score;
   const route = evaluation.eligibility.route_flags;
+  const scottishEligiblePredictionUnavailable =
+    evaluation.eligibility.status === 'eligible' &&
+    evaluation.eligibility.qualification_route === 'scottish' &&
+    band === 'insufficient_evidence';
+
   const displayState =
     band === 'not_eligible'
       ? 'not_eligible'
-      : band === 'insufficient_evidence'
-        ? 'insufficient_evidence'
-        : 'standard';
+      : scottishEligiblePredictionUnavailable
+        ? 'eligibility_only'
+        : band === 'insufficient_evidence'
+          ? 'insufficient_evidence'
+          : 'standard';
+
   const primaryRecommendation =
     band === 'not_eligible'
       ? 'You do not currently meet the published entry requirements'
-      : band === 'insufficient_evidence'
-        ? 'Evidence not yet available'
-        : {
+      : scottishEligiblePredictionUnavailable
+        ? 'Eligible — interview prediction unavailable'
+        : band === 'insufficient_evidence'
+          ? 'Evidence not yet available'
+          : {
           interview_likely: `${CANONICAL_BAND_LABELS.interview_likely} based on ApplySmart analysis`,
           realistic: `${CANONICAL_BAND_LABELS.realistic} based on ApplySmart analysis`,
           ambitious: `${CANONICAL_BAND_LABELS.ambitious} based on ApplySmart analysis`,
@@ -1004,6 +1347,33 @@ function buildHullYorkA100ResultCard(course, config, applicant, options = {}) {
         : score.contextual.applicable
           ? 'Home UK school-leavers'
           : 'Supported HYMS A100 applicants';
+  const futureConditions = Array.isArray(evaluation.eligibility.future_conditions)
+    ? evaluation.eligibility.future_conditions
+    : [];
+  const futureAdvisories = futureConditionAdvisories(futureConditions, {
+    universityName: course.university?.name
+  });
+  const academicRequirementChecks = buildAcademicRequirementChecks(
+    evaluation.eligibility.checks,
+    evaluation.eligibility.status,
+    {
+      course_profile_id: course.profile_id,
+      academic_pathway: evaluation.eligibility.academic_pathway || null,
+      academic_pathway_id: evaluation.eligibility.academic_pathway_id ?? null,
+      manual_review_reasons: evaluation.eligibility.manual_review_reasons,
+      has_epq_alternative_offer:
+        course.stage_1_eligibility?.post_16?.a_level?.epq_alternative_offer?.enabled === true
+    }
+  );
+  const academicOfferContext = {
+    academic_pathway: evaluation.eligibility.academic_pathway || null,
+    academic_pathway_id: evaluation.eligibility.academic_pathway_id ?? null,
+    qualification_route: evaluation.eligibility.qualification_route,
+    course_profile_id: course.profile_id,
+    eligibility_status: evaluation.eligibility.status,
+    manual_review_reasons: evaluation.eligibility.manual_review_reasons,
+    epq_alternative_result: evaluation.eligibility.epq_alternative_result || null
+  };
   const card = {
     schema_version: '1.0.0',
     template_version: '0.1.0',
@@ -1021,7 +1391,8 @@ function buildHullYorkA100ResultCard(course, config, applicant, options = {}) {
       applies_to_group_ids: evaluation.eligibility.applicant_group_ids,
       qualification_route: evaluation.eligibility.qualification_route,
       fee_cohort: route.international ? 'international' : route.home ? 'home' : 'unknown',
-      contextual: score.contextual.criteria.length > 0,
+      contextual: evaluation.eligibility.contextual_eligibility?.is_contextual === true,
+      contextual_status: evaluation.eligibility.contextual_eligibility?.status || null,
       graduate: route.graduate,
       prior_university: route.prior_university,
       applicant_summary: `Applicant assessed in the ${pool} route.`
@@ -1034,9 +1405,28 @@ function buildHullYorkA100ResultCard(course, config, applicant, options = {}) {
       summary: evaluation.eligibility.message,
       stage_1_checks: evaluation.eligibility.checks,
       blocking_reasons: evaluation.eligibility.failures,
-      manual_review_reasons: evaluation.eligibility.manual_review_reasons
+      manual_review_reasons: evaluation.eligibility.manual_review_reasons,
+      academic_pathway: evaluation.eligibility.academic_pathway || null,
+      academic_pathway_id: evaluation.eligibility.academic_pathway_id ?? null,
+      future_conditions: futureConditions,
+      epq_alternative_result: evaluation.eligibility.epq_alternative_result || null,
+      contextual_eligibility: evaluation.eligibility.contextual_eligibility || null
     },
+    academic_pathway: evaluation.eligibility.academic_pathway || null,
+    academic_pathway_id: evaluation.eligibility.academic_pathway_id ?? null,
+    alternative_academic_offer:
+      evaluation.eligibility.qualification_route === 'a_level'
+        ? buildAlternativeAcademicOffer(
+            course.stage_1_eligibility,
+            academicOfferContext
+          )
+        : null,
+    future_conditions: futureConditions,
+    future_condition_advisories: futureAdvisories,
+    academic_requirement_checks: academicRequirementChecks,
+    trust_statement: futureAdvisories[0] || null,
     stage_2_selection: {
+      ...course.stage_2_interview_selection,
       summary: APPLYSMART_HYMS_SELECTION_SUMMARY
     },
     prediction: {
@@ -1057,6 +1447,8 @@ function buildHullYorkA100ResultCard(course, config, applicant, options = {}) {
         band === 'insufficient_evidence' ? evaluation.explanation : null
     },
     estimated_selection_score: score,
+    hyms_contextual_consequences:
+      evaluation.eligibility.contextual_eligibility?.consequences || null,
     mandatory_unofficial_estimate_disclosure: score.disclosure,
     confidence: {
       level: 'low',
@@ -1099,5 +1491,6 @@ module.exports = {
   contextualCriteria,
   evaluateHullYorkA100,
   evaluateOfficialEligibility,
-  estimateSelectionScore
+  estimateSelectionScore,
+  recommendationBand
 };

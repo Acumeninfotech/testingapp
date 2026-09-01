@@ -11,6 +11,31 @@
       "contextual": false,
       "contextual_flags": {}
     },
+    "contextual_profile": {
+      "home_area_region": {
+        "specific_home_area": "none",
+        "polar4_quintile": "q5",
+        "imd_quintile": "q5",
+        "mem_quintile": "q5"
+      },
+      "financial_support": {
+        "free_school_meals": "no",
+        "ucat_bursary_recipient": "no"
+      },
+      "school_education": {
+        "below_average_gcse_school": "no",
+        "below_average_post16_school": "no",
+        "low_progression_to_higher_education_school": "no"
+      },
+      "personal_circumstances": {
+        "care_leaver": "no",
+        "refugee": "no",
+        "disability": "no"
+      },
+      "access_programmes": {
+        "other_programmes": []
+      }
+    },
     "qualification_route": "a_level",
     "qualification_status": "predicted",
     "course_target": {
@@ -64,6 +89,83 @@
       "ucat": {
         "total_score": 2050,
         "score_scale": 2700,
+        "subtests": {
+          "verbal_reasoning": 683,
+          "decision_making": 683,
+          "quantitative_reasoning": 684
+        },
+        "sjt_band": 2,
+        "test_year": 2026
+      }
+    }
+  },
+  "scottish_base_applicant": {
+    "profile_id": "lincoln-scottish-school-leaver",
+    "application_year": 2026,
+    "applicant_identity": {
+      "domicile": "Scotland",
+      "fee_status": "Home",
+      "applicant_type": "school_leaver",
+      "contextual": false,
+      "contextual_flags": {}
+    },
+    "contextual_profile": {
+      "home_area_region": {
+        "specific_home_area": "none",
+        "polar4_quintile": "q5",
+        "imd_quintile": "q5",
+        "mem_quintile": "q5"
+      },
+      "financial_support": {
+        "free_school_meals": "no",
+        "ucat_bursary_recipient": "no"
+      },
+      "school_education": {
+        "below_average_gcse_school": "no",
+        "below_average_post16_school": "no",
+        "low_progression_to_higher_education_school": "no"
+      },
+      "personal_circumstances": {
+        "care_leaver": "no",
+        "refugee": "no",
+        "disability": "no"
+      },
+      "access_programmes": {
+        "other_programmes": []
+      }
+    },
+    "qualification_route": "scottish",
+    "qualification_status": "predicted",
+    "course_target": {
+      "ucas_code": "A100"
+    },
+    "scottish_profile": {
+      "qualification_status": "predicted",
+      "national_5_subjects": [
+        { "subject_id": "biology", "grade": "A" },
+        { "subject_id": "chemistry", "grade": "A" },
+        { "subject_id": "physics", "grade": "A" },
+        { "subject_id": "geography", "grade": "A" },
+        { "subject_id": "history", "grade": "A" },
+        { "subject_id": "computing_science", "grade": "A" },
+        { "subject_id": "mathematics", "grade": "B" },
+        { "subject_id": "english_language", "grade": "B" }
+      ],
+      "higher_subjects": [
+        { "subject_id": "biology", "predicted_grade": "A" },
+        { "subject_id": "chemistry", "predicted_grade": "A" },
+        { "subject_id": "mathematics", "predicted_grade": "A" },
+        { "subject_id": "english_language", "predicted_grade": "B" },
+        { "subject_id": "physics", "predicted_grade": "B" }
+      ],
+      "advanced_higher_subjects": [
+        { "subject_id": "biology", "predicted_grade": "A" }
+      ]
+    },
+    "admissions_tests": {
+      "ucat": {
+        "total_score": 2050,
+        "score_scale": 2700,
         "sjt_band": 2,
         "test_year": 2026
       }
@@ -96,7 +198,7 @@
       "expected": {
         "eligibility_status": "eligible",
         "interview_band": "ambitious",
-        "public_recommendation": "Ambitious choice based on your selection score",
+        "public_recommendation": "More cautious choice for your application",
         "guidance_pool_id": "model_a_provisional_official_score_guidance",
         "score": 46,
         "score_max": 60
@@ -125,6 +227,15 @@
     {
       "scenario_id": "model_a_contextual_cap_12",
       "overrides": {
+        "contextual_profile": {
+          "home_area_region": {
+            "specific_home_area": "lincolnshire",
+            "mem_quintile": "q1"
+          },
+          "financial_support": {
+            "ucat_bursary_recipient": "yes"
+          }
+        },
         "admissions_tests": {
           "ucat": {
             "total_score": 2310,
@@ -186,6 +297,59 @@
         "guidance_pool_id": "model_b_provisional_official_score_guidance",
         "score": 44,
         "score_max": 60
+      }
+    },
+    {
+      "scenario_id": "contextual_aab_biology_eligible",
+      "overrides": {
+        "a_level_profile": {
+          "qualification_status": "predicted",
+          "subjects": [
+            { "subject_id": "biology", "predicted_grade": "A" },
+            { "subject_id": "chemistry", "predicted_grade": "A" },
+            { "subject_id": "mathematics", "predicted_grade": "B" }
+          ]
+        },
+        "contextual_profile": {
+          "home_area_region": {
+            "specific_home_area": "lincolnshire",
+            "mem_quintile": "q1"
+          },
+          "financial_support": {
+            "ucat_bursary_recipient": "yes"
+          }
+        }
+      },
+      "expected": {
+        "eligibility_status": "eligible",
+        "interview_band": "interview_likely",
+        "guidance_pool_id": "model_a_provisional_official_score_guidance",
+        "score": 58,
+        "score_max": 60,
+        "contextual_component": 12,
+        "uncapped_score": 58,
+        "cap_applied": false
+      }
+    },
+    {
+      "scenario_id": "standard_aab_biology_rejected",
+      "overrides": {
+        "a_level_profile": {
+          "qualification_status": "predicted",
+          "subjects": [
+            { "subject_id": "biology", "predicted_grade": "A" },
+            { "subject_id": "chemistry", "predicted_grade": "A" },
+            { "subject_id": "mathematics", "predicted_grade": "B" }
+          ]
+        }
+      },
+      "expected": {
+        "eligibility_status": "not_eligible",
+        "interview_band": "not_eligible",
+        "guidance_pool_id": null,
+        "score": null,
+        "score_max": null,
+        "failure": "a_level_requirements_not_met"
       }
     },
     {
@@ -292,6 +456,170 @@
         "score": null,
         "score_max": null,
         "failure": "gcse_science_alternative_not_met"
+      }
+    },
+    {
+      "scenario_id": "cross_qualification_scotland_a_level",
+      "overrides": {
+        "applicant_identity": {
+          "domicile": "Scotland"
+        }
+      },
+      "expected": {
+        "eligibility_status": "eligible",
+        "interview_band": "ambitious",
+        "guidance_pool_id": "model_a_provisional_official_score_guidance",
+        "score": 46,
+        "score_max": 60
+      }
+    },
+    {
+      "scenario_id": "cross_qualification_england_scottish",
+      "applicant_base": "scottish",
+      "overrides": {
+        "applicant_identity": {
+          "domicile": "England"
+        }
+      },
+      "expected": {
+        "eligibility_status": "eligible",
+        "interview_band": "high_risk",
+        "guidance_pool_id": "model_b_provisional_official_score_guidance",
+        "score": 44,
+        "score_max": 60
+      }
+    },
+    {
+      "scenario_id": "cross_qualification_scotland_scottish",
+      "applicant_base": "scottish",
+      "overrides": {},
+      "expected": {
+        "eligibility_status": "eligible",
+        "interview_band": "high_risk",
+        "guidance_pool_id": "model_b_provisional_official_score_guidance",
+        "score": 44,
+        "score_max": 60
+      }
+    },
+    {
+      "scenario_id": "scottish_standard_optional_contextual_unanswered",
+      "applicant_base": "scottish",
+      "overrides": {
+        "contextual_profile": {
+          "home_area_region": {
+            "specific_home_area": null
+          },
+          "financial_support": {
+            "free_school_meals": null
+          },
+          "school_education": {
+            "below_average_gcse_school": null,
+            "below_average_post16_school": null,
+            "low_progression_to_higher_education_school": null
+          },
+          "personal_circumstances": {
+            "care_leaver": null,
+            "disability": null
+          }
+        }
+      },
+      "expected": {
+        "eligibility_status": "eligible",
+        "interview_band": "high_risk",
+        "guidance_pool_id": "model_b_provisional_official_score_guidance",
+        "score": 44,
+        "score_max": 60
+      }
+    },
+    {
+      "scenario_id": "scottish_national_5_six_as_required",
+      "applicant_base": "scottish",
+      "overrides": {
+        "scottish_profile": {
+          "national_5_subjects": [
+            { "subject_id": "biology", "grade": "A" },
+            { "subject_id": "chemistry", "grade": "A" },
+            { "subject_id": "physics", "grade": "A" },
+            { "subject_id": "geography", "grade": "A" },
+            { "subject_id": "history", "grade": "A" },
+            { "subject_id": "computing_science", "grade": "B" },
+            { "subject_id": "mathematics", "grade": "B" },
+            { "subject_id": "english_language", "grade": "B" }
+          ]
+        }
+      },
+      "expected": {
+        "eligibility_status": "not_eligible",
+        "interview_band": "not_eligible",
+        "guidance_pool_id": null,
+        "score": null,
+        "score_max": null,
+        "failure": "national_5_requirements_not_met"
+      }
+    },
+    {
+      "scenario_id": "scottish_higher_required_subject_missing",
+      "applicant_base": "scottish",
+      "overrides": {
+        "scottish_profile": {
+          "higher_subjects": [
+            { "subject_id": "biology", "predicted_grade": "A" },
+            { "subject_id": "chemistry", "predicted_grade": "A" },
+            { "subject_id": "physics", "predicted_grade": "A" },
+            { "subject_id": "english_language", "predicted_grade": "B" },
+            { "subject_id": "geography", "predicted_grade": "B" }
+          ]
+        }
+      },
+      "expected": {
+        "eligibility_status": "not_eligible",
+        "interview_band": "not_eligible",
+        "guidance_pool_id": null,
+        "score": null,
+        "score_max": null,
+        "failure": "scottish_post_16_requirements_not_met"
+      }
+    },
+    {
+      "scenario_id": "scottish_higher_biology_a_required",
+      "applicant_base": "scottish",
+      "overrides": {
+        "scottish_profile": {
+          "higher_subjects": [
+            { "subject_id": "chemistry", "predicted_grade": "A" },
+            { "subject_id": "mathematics", "predicted_grade": "A" },
+            { "subject_id": "physics", "predicted_grade": "A" },
+            { "subject_id": "biology", "predicted_grade": "B" },
+            { "subject_id": "english_language", "predicted_grade": "B" }
+          ]
+        }
+      },
+      "expected": {
+        "eligibility_status": "not_eligible",
+        "interview_band": "not_eligible",
+        "guidance_pool_id": null,
+        "score": null,
+        "score_max": null,
+        "failure": "scottish_post_16_requirements_not_met"
+      }
+    },
+    {
+      "scenario_id": "scottish_advanced_higher_biology_a_required",
+      "applicant_base": "scottish",
+      "overrides": {
+        "scottish_profile": {
+          "advanced_higher_subjects": [
+            { "subject_id": "biology", "predicted_grade": "B" }
+          ]
+        }
+      },
+      "expected": {
+        "eligibility_status": "not_eligible",
+        "interview_band": "not_eligible",
+        "guidance_pool_id": null,
+        "score": null,
+        "score_max": null,
+        "failure": "scottish_post_16_requirements_not_met"
       }
     }
   ]

@@ -60,7 +60,7 @@
       "excluded_group_ids": [
         "international_fee"
       ],
-      "selection_relevance": "Confirmed adjusted-offer applicants bypass the UCAT threshold when academic and SJT requirements are met."
+      "selection_relevance": "Confirmed adjusted-offer applicants use a separate Home contextual UCAT ranking route after academic and SJT eligibility. No official 2027 contextual UCAT cutoff is encoded."
     },
     {
       "pool_id": "care_leaver",
@@ -137,14 +137,13 @@
       "minimum_count": null,
       "counted_subject_limit": null,
       "mandatory_subject_ids": [
-        "english_language",
         "mathematics"
       ],
       "grade_requirements": [
         {
           "requirement_id": "gcse_english_standard",
           "subject_id": "english_language",
-          "minimum_grade": "6/B",
+          "minimum_grade": "6",
           "excluded_group_ids": [
             "bsms_adjusted_offer_confirmed",
             "care_experienced"
@@ -158,12 +157,15 @@
             "bsms_entry_requirements",
             "bsms_admissions_process",
             "bsms_international_entry_requirements"
+          ],
+          "alternative_subject_ids": [
+            "english_literature"
           ]
         },
         {
           "requirement_id": "gcse_maths_standard",
           "subject_id": "mathematics",
-          "minimum_grade": "6/B",
+          "minimum_grade": "6",
           "excluded_group_ids": [
             "bsms_adjusted_offer_confirmed",
             "care_experienced"
@@ -182,7 +184,7 @@
         {
           "requirement_id": "gcse_english_adjusted_or_care",
           "subject_id": "english_language",
-          "minimum_grade": "5/C",
+          "minimum_grade": "5",
           "any_group_ids": [
             "bsms_adjusted_offer_confirmed",
             "care_experienced"
@@ -196,12 +198,15 @@
             "bsms_entry_requirements",
             "bsms_admissions_process",
             "bsms_international_entry_requirements"
+          ],
+          "alternative_subject_ids": [
+            "english_literature"
           ]
         },
         {
           "requirement_id": "gcse_maths_adjusted_or_care",
           "subject_id": "mathematics",
-          "minimum_grade": "5/C",
+          "minimum_grade": "5",
           "any_group_ids": [
             "bsms_adjusted_offer_confirmed",
             "care_experienced"
@@ -278,10 +283,7 @@
             "bsms_international_entry_requirements"
           ]
         },
-        "required_subject_ids": [
-          "biology",
-          "chemistry"
-        ],
+        "required_subject_ids": [],
         "excluded_subject_ids": [
           "general_studies",
           "thinking_skills"
@@ -293,7 +295,130 @@
         "predicted_grades_accepted": true,
         "predicted_grades_scored": false,
         "achieved_grades_scored": false,
-        "notes": "2026-entry standard route: AAA including Biology and Chemistry. Adjusted-offer route: AAB including Biology and Chemistry."
+        "notes": "2027-entry standard route: AAA including Biology or Chemistry plus one further distinct subject from Biology, Chemistry, Mathematics or Physics. Adjusted-offer route: AAB with the same subject requirements.",
+        "subject_combination_rule": {
+          "minimum_subjects": 2,
+          "primary_subject_condition": {
+            "options": [
+              {
+                "option_id": "biology_or_chemistry",
+                "subject_ids": [
+                  "biology",
+                  "chemistry"
+                ],
+                "minimum_required": 1
+              }
+            ]
+          },
+          "second_subject_group": {
+            "minimum_required": 1,
+            "subject_ids": [
+              "biology",
+              "chemistry",
+              "mathematics",
+              "physics"
+            ]
+          },
+          "subjects_must_be_distinct": true
+        },
+        "one_of_subject_groups": [
+          {
+            "group_id": "bsms_biology_or_chemistry_primary",
+            "minimum_required": 1,
+            "subject_ids": [
+              "biology",
+              "chemistry"
+            ]
+          },
+          {
+            "group_id": "bsms_two_supported_science_or_maths",
+            "minimum_required": 2,
+            "subject_ids": [
+              "biology",
+              "chemistry",
+              "mathematics",
+              "physics"
+            ]
+          }
+        ],
+        "grade_requirements": [
+          {
+            "requirement_id": "bsms_a_level_standard_aaa",
+            "excluded_group_ids": [
+              "bsms_adjusted_offer_confirmed",
+              "care_experienced"
+            ],
+            "grade_profile": [
+              "A",
+              "A",
+              "A"
+            ],
+            "required_subject_ids": [],
+            "one_of_subject_groups": [
+              {
+                "group_id": "bsms_biology_or_chemistry_primary",
+                "minimum_required": 1,
+                "subject_ids": [
+                  "biology",
+                  "chemistry"
+                ]
+              },
+              {
+                "group_id": "bsms_two_supported_science_or_maths",
+                "minimum_required": 2,
+                "subject_ids": [
+                  "biology",
+                  "chemistry",
+                  "mathematics",
+                  "physics"
+                ]
+              }
+            ],
+            "excluded_subject_ids": [
+              "general_studies",
+              "thinking_skills"
+            ],
+            "decision_outcome_if_not_met": "not_eligible"
+          },
+          {
+            "requirement_id": "bsms_a_level_contextual_aab",
+            "any_group_ids": [
+              "bsms_adjusted_offer_confirmed",
+              "care_experienced"
+            ],
+            "grade_profile": [
+              "A",
+              "A",
+              "B"
+            ],
+            "required_subject_ids": [],
+            "one_of_subject_groups": [
+              {
+                "group_id": "bsms_biology_or_chemistry_primary",
+                "minimum_required": 1,
+                "subject_ids": [
+                  "biology",
+                  "chemistry"
+                ]
+              },
+              {
+                "group_id": "bsms_two_supported_science_or_maths",
+                "minimum_required": 2,
+                "subject_ids": [
+                  "biology",
+                  "chemistry",
+                  "mathematics",
+                  "physics"
+                ]
+              }
+            ],
+            "excluded_subject_ids": [
+              "general_studies",
+              "thinking_skills"
+            ],
+            "decision_outcome_if_not_met": "not_eligible"
+          }
+        ]
       },
       "international_baccalaureate": {
         "status": "official_source_verified",
@@ -303,7 +428,41 @@
           "biology",
           "chemistry"
         ],
-        "notes": "Standard IB route requires 36 points with Biology and Chemistry at grade 6 Higher Level; adjusted route requires 35 points."
+        "notes": "Standard IB route requires 36 points with Biology and Chemistry at grade 6 Higher Level; adjusted route requires 35 points.",
+        "routes": [
+          {
+            "route_id": "bsms_standard_ib_36",
+            "excluded_group_ids": [
+              "bsms_adjusted_offer_confirmed",
+              "care_experienced"
+            ],
+            "total_points": 36,
+            "hl_grade_profile": [
+              "6",
+              "6"
+            ],
+            "required_hl_subject_ids": [
+              "biology",
+              "chemistry"
+            ]
+          },
+          {
+            "route_id": "bsms_adjusted_or_care_ib_35",
+            "any_group_ids": [
+              "bsms_adjusted_offer_confirmed",
+              "care_experienced"
+            ],
+            "total_points": 35,
+            "hl_grade_profile": [
+              "6",
+              "6"
+            ],
+            "required_hl_subject_ids": [
+              "biology",
+              "chemistry"
+            ]
+          }
+        ]
       },
       "scottish": {
         "status": "official_source_verified",
@@ -313,12 +472,207 @@
             "A",
             "A"
           ],
-          "required_subject_ids": [
-            "biology",
-            "chemistry"
+          "required_subject_rule": {
+            "mandatory_one_of_subject_ids": [
+              "biology",
+              "chemistry"
+            ],
+            "one_further_subject_from": [
+              "biology",
+              "chemistry",
+              "mathematics",
+              "physics"
+            ],
+            "distinct_subject_required": true
+          },
+          "source_ids": [
+            "bsms_v5_research_doc",
+            "bsms_v5_applysmart_json",
+            "bsms_applying_to_bsms_2026",
+            "bsms_entry_requirements",
+            "bsms_admissions_process",
+            "bsms_international_entry_requirements"
           ]
         },
-        "notes": "Advanced Highers accepted when Biology and Chemistry requirements are met."
+        "notes": "For 2027 entry BSMS accepts either AAA at Advanced Higher, including Biology or Chemistry plus one further distinct subject from Biology, Chemistry, Mathematics or Physics; or A at Advanced Higher in Biology or Chemistry plus A in one further distinct Advanced Higher from Biology, Chemistry, Mathematics or Physics, with A grades in two additional Higher subjects.",
+        "grade_requirements": [
+          {
+            "academic_pathway": "standard",
+            "applies_to_group_ids": [
+              "home_fee",
+              "school_leaver"
+            ],
+            "excluded_group_ids": [
+              "international_fee"
+            ],
+            "decision_outcome_if_not_met": "not_eligible",
+            "source_ids": [
+              "bsms_v5_research_doc",
+              "bsms_v5_applysmart_json",
+              "bsms_applying_to_bsms_2026",
+              "bsms_entry_requirements",
+              "bsms_admissions_process",
+              "bsms_international_entry_requirements"
+            ],
+            "requirement_id": "bsms_scottish_ah_aaa_biology_route",
+            "route_id": "bsms_scottish_ah_aaa_biology_route",
+            "qualification_level": "advanced_higher",
+            "grade_profile": [
+              "A",
+              "A",
+              "A"
+            ],
+            "required_subject_ids": [
+              "biology"
+            ],
+            "one_of_subject_groups": [
+              {
+                "group_id": "bsms_ah_second_subject_after_biology",
+                "minimum_required": 1,
+                "subject_ids": [
+                  "chemistry",
+                  "mathematics",
+                  "physics"
+                ]
+              }
+            ],
+            "notes": "2027 BSMS Scottish route: AAA at Advanced Higher, including Biology and one further distinct subject from Chemistry, Mathematics or Physics."
+          },
+          {
+            "academic_pathway": "standard",
+            "applies_to_group_ids": [
+              "home_fee",
+              "school_leaver"
+            ],
+            "excluded_group_ids": [
+              "international_fee"
+            ],
+            "decision_outcome_if_not_met": "not_eligible",
+            "source_ids": [
+              "bsms_v5_research_doc",
+              "bsms_v5_applysmart_json",
+              "bsms_applying_to_bsms_2026",
+              "bsms_entry_requirements",
+              "bsms_admissions_process",
+              "bsms_international_entry_requirements"
+            ],
+            "requirement_id": "bsms_scottish_ah_aaa_chemistry_route",
+            "route_id": "bsms_scottish_ah_aaa_chemistry_route",
+            "qualification_level": "advanced_higher",
+            "grade_profile": [
+              "A",
+              "A",
+              "A"
+            ],
+            "required_subject_ids": [
+              "chemistry"
+            ],
+            "one_of_subject_groups": [
+              {
+                "group_id": "bsms_ah_second_subject_after_chemistry",
+                "minimum_required": 1,
+                "subject_ids": [
+                  "biology",
+                  "mathematics",
+                  "physics"
+                ]
+              }
+            ],
+            "notes": "2027 BSMS Scottish route: AAA at Advanced Higher, including Chemistry and one further distinct subject from Biology, Mathematics or Physics."
+          },
+          {
+            "academic_pathway": "standard",
+            "applies_to_group_ids": [
+              "home_fee",
+              "school_leaver"
+            ],
+            "excluded_group_ids": [
+              "international_fee"
+            ],
+            "decision_outcome_if_not_met": "not_eligible",
+            "source_ids": [
+              "bsms_v5_research_doc",
+              "bsms_v5_applysmart_json",
+              "bsms_applying_to_bsms_2026",
+              "bsms_entry_requirements",
+              "bsms_admissions_process",
+              "bsms_international_entry_requirements"
+            ],
+            "requirement_id": "bsms_scottish_ah_aa_plus_higher_aa_biology_route",
+            "route_id": "bsms_scottish_ah_aa_plus_higher_aa_biology_route",
+            "qualification_level": "scottish_highers_and_advanced_highers",
+            "advanced_higher_grade_profile": [
+              "A",
+              "A"
+            ],
+            "higher_grade_profile": [
+              "A",
+              "A"
+            ],
+            "advanced_higher_required_subject_ids": [
+              "biology"
+            ],
+            "advanced_higher_one_of_subject_groups": [
+              {
+                "group_id": "bsms_ah_second_subject_after_biology",
+                "minimum_required": 1,
+                "subject_ids": [
+                  "chemistry",
+                  "mathematics",
+                  "physics"
+                ]
+              }
+            ],
+            "notes": "2027 BSMS alternative Scottish route: Advanced Higher A in Biology plus A in one further Advanced Higher from Chemistry, Mathematics or Physics, plus AA in two Higher subjects."
+          },
+          {
+            "academic_pathway": "standard",
+            "applies_to_group_ids": [
+              "home_fee",
+              "school_leaver"
+            ],
+            "excluded_group_ids": [
+              "international_fee"
+            ],
+            "decision_outcome_if_not_met": "not_eligible",
+            "source_ids": [
+              "bsms_v5_research_doc",
+              "bsms_v5_applysmart_json",
+              "bsms_applying_to_bsms_2026",
+              "bsms_entry_requirements",
+              "bsms_admissions_process",
+              "bsms_international_entry_requirements"
+            ],
+            "requirement_id": "bsms_scottish_ah_aa_plus_higher_aa_chemistry_route",
+            "route_id": "bsms_scottish_ah_aa_plus_higher_aa_chemistry_route",
+            "qualification_level": "scottish_highers_and_advanced_highers",
+            "advanced_higher_grade_profile": [
+              "A",
+              "A"
+            ],
+            "higher_grade_profile": [
+              "A",
+              "A"
+            ],
+            "advanced_higher_required_subject_ids": [
+              "chemistry"
+            ],
+            "advanced_higher_one_of_subject_groups": [
+              {
+                "group_id": "bsms_ah_second_subject_after_chemistry",
+                "minimum_required": 1,
+                "subject_ids": [
+                  "biology",
+                  "mathematics",
+                  "physics"
+                ]
+              }
+            ],
+            "notes": "2027 BSMS alternative Scottish route: Advanced Higher A in Chemistry plus A in one further Advanced Higher from Biology, Mathematics or Physics, plus AA in two Higher subjects."
+          }
+        ],
+        "execution_status": "automatic_with_complete_scottish_qualification_data",
+        "route_implemented": true
       },
       "graduate": {
         "status": "supported_threshold_route",
@@ -340,7 +694,12 @@
         "score_scale": 2700,
         "validity_window": "current admissions cycle",
         "role": "ranking_metric_after_academic_and_sjt_gates",
-        "notes": "UCAT is not required for confirmed adjusted-offer or eligible care-leaver bypass routes once academic and SJT gates pass."
+        "notes": "UCAT is used for interview selection after academic and SJT eligibility. Standard Home, contextual Home and Overseas applicants are routed separately; no official 2027 contextual UCAT cutoff is encoded.",
+        "missing_outcome": "manual_review",
+        "excluded_group_ids": [
+          "care_experienced",
+          "bsms_care_leaver_confirmed"
+        ]
       },
       "sjt": {
         "used_as_gate": true,
@@ -356,7 +715,25 @@
         "scoring": {
           "used_in_score": false
         },
-        "notes": "Band 4 rejects every cohort, including adjusted-offer and care-leaver applicants."
+        "notes": "Band 4 rejects every cohort, including adjusted-offer and care-leaver applicants.",
+        "group_policies": [
+          {
+            "policy_id": "bsms_international_sjt_gate",
+            "any_group_ids": [
+              "international_fee"
+            ],
+            "used_as_gate": true,
+            "accepted_bands": [
+              1,
+              2,
+              3
+            ],
+            "excluded_bands": [
+              4
+            ]
+          }
+        ],
+        "missing_outcome": "manual_review"
       }
     },
     "resits": {
@@ -383,6 +760,45 @@
       "fitness_to_practise_required": true,
       "dbs_required": true,
       "occupational_health_required": true
+    },
+    "national_5": {
+      "grade_requirements": [
+        {
+          "requirement_id": "bsms_national_5_english_b",
+          "subject_id": "english_language",
+          "alternative_subject_ids": [
+            "english"
+          ],
+          "minimum_grade": "B",
+          "qualification_level": "national_5",
+          "decision_outcome_if_not_met": "not_eligible",
+          "source_ids": [
+            "bsms_v5_research_doc",
+            "bsms_v5_applysmart_json",
+            "bsms_applying_to_bsms_2026",
+            "bsms_entry_requirements",
+            "bsms_admissions_process",
+            "bsms_international_entry_requirements"
+          ],
+          "notes": "BSMS requires National 5 English at grade B or above."
+        },
+        {
+          "requirement_id": "bsms_national_5_mathematics_b",
+          "subject_id": "mathematics",
+          "minimum_grade": "B",
+          "qualification_level": "national_5",
+          "decision_outcome_if_not_met": "not_eligible",
+          "source_ids": [
+            "bsms_v5_research_doc",
+            "bsms_v5_applysmart_json",
+            "bsms_applying_to_bsms_2026",
+            "bsms_entry_requirements",
+            "bsms_admissions_process",
+            "bsms_international_entry_requirements"
+          ],
+          "notes": "BSMS requires National 5 Mathematics at grade B or above."
+        }
+      ]
     }
   },
   "stage_2_interview_selection": {
@@ -477,7 +893,7 @@
           "bsms_international_entry_requirements"
         ]
       },
-      "notes": "Adjusted-offer and care-leaver routes bypass UCAT threshold classification after academic and SJT gates."
+      "notes": "Adjusted-offer applicants use the separate contextual Home UCAT-ranking route after academic and SJT eligibility. The separately validated care-leaver route remains distinct."
     },
     "thresholds": [
       {
@@ -530,7 +946,7 @@
           "home_fee",
           "contextual"
         ],
-        "notes": "Confirmed adjusted-offer applicants with academic requirements met and SJT Band 1-3 were invited regardless of UCAT score."
+        "notes": "For 2027 entry, confirmed adjusted-offer applicants remain subject to contextual Home UCAT ranking after academic and SJT eligibility; no official contextual UCAT cutoff is encoded."
       },
       {
         "modifier_id": "guaranteed_interview",
@@ -609,7 +1025,13 @@
         ]
       }
     ],
-    "notes": "Care-leaver routing remains separate from the general adjusted-offer route."
+    "notes": "Care-leaver routing remains separate from the general adjusted-offer route.",
+    "contextual_eligibility": {
+      "evaluator_id": "bsms_contextual_medicine_a100",
+      "controls_group_routing": true,
+      "source_of_truth": "step_6_contextual_profile",
+      "legacy_contextual_flags_authoritative": false
+    }
   },
   "ranking_pools": [
     {

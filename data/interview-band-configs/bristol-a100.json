@@ -19,10 +19,10 @@
       "supported": [
         "a_level",
         "international_baccalaureate",
-        "international_qualification"
+        "international_qualification",
+        "scottish"
       ],
       "manual_review": [
-        "scottish",
         "graduate"
       ],
       "explicitly_blocked": [
@@ -33,6 +33,53 @@
         "unknown"
       ]
     },
+    "derived_applicant_groups": [
+      {
+        "group_ids": [
+          "contextual",
+          "widening_participation"
+        ],
+        "match": {
+          "all_group_ids": [
+            "home_fee",
+            "bristol_wp_guaranteed_interview_verified"
+          ],
+          "excluded_group_ids": [
+            "international_fee"
+          ]
+        },
+        "applicant_evidence_path": "widening_participation.bristol_guaranteed_interview",
+        "required_evidence": {
+          "recognised_university_of_bristol_programme_completed": true,
+          "programme_completion_verified_by_bristol_or_partner": true,
+          "guaranteed_interview_policy_conditions_declared_met": true
+        }
+      },
+      {
+        "group_ids": [
+          "contextual"
+        ],
+        "match": {
+          "all_group_ids": [
+            "home_fee"
+          ],
+          "excluded_group_ids": [
+            "international_fee"
+          ]
+        },
+        "any_evidence": [
+          {
+            "applicant_evidence_path": "applicant_identity.contextual_flags.care_experienced"
+          },
+          {
+            "applicant_evidence_path": "applicant_identity.contextual_flags.free_school_meals"
+          },
+          {
+            "applicant_evidence_path": "applicant_identity.contextual_flags.school_contextual_indicator"
+          }
+        ]
+      }
+    ],
     "gcse": {
       "minimum_count": null,
       "use_exact_subject_list": false,
@@ -342,6 +389,9 @@
       "Do not treat converted historical UCAT values as exact current-scale cut-offs.",
       "Do not use personal statements for selection or tie-breaking.",
       "Do not predict final offers."
+    ],
+    "use_course_eligibility_for_qualification_routes": [
+      "scottish"
     ]
   },
   "score_model": {
@@ -376,9 +426,21 @@
       },
       "band_rules": [
         {
-          "band": "realistic",
+          "band": "very_strong_interview_potential",
           "operator": "greater_than_or_equal",
-          "value": 2270
+          "value": 2370
+        },
+        {
+          "band": "interview_likely",
+          "operator": "between_inclusive",
+          "min": 2300,
+          "max": 2369
+        },
+        {
+          "band": "realistic",
+          "operator": "between_inclusive",
+          "min": 2270,
+          "max": 2299
         },
         {
           "band": "high_risk",

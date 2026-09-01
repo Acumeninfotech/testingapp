@@ -99,7 +99,7 @@
   "prediction": {
     "available": true,
     "result_band": "interview_likely",
-    "score": 91.28,
+    "score": null,
     "score_scale": 100,
     "metric": "ucat_national_percentile",
     "guidance_pool_id": "kcl_home_historical_percentile_guidance",
@@ -136,9 +136,9 @@
   "display": {
     "primary_user_facing_recommendation": "Strong choice for your application",
     "recommendation_display_state": "standard",
-    "primary_explanation": "Based on ApplySmart's assessment, your academic profile appears competitive for this applicant group.",
+    "primary_explanation": "Based on ApplySmart's assessment, your selection score appears competitive for this applicant group.",
     "trust_statement": "Interview decisions vary each year depending on the applicant pool, available interview capacity and university selection decisions. ApplySmart provides an evidence-based interview prediction, not a guarantee of interview.",
-    "historical_guidance_caveat": "Historical figures are guidance only, not current thresholds, and do not guarantee an interview.",
+    "historical_guidance_caveat": "Historical admissions data provides a benchmark only; it is not a current cut-off or a guarantee of interview.",
     "headline": "Strong choice for your application"
   },
   "decision_timeline": [
@@ -158,71 +158,96 @@
       "step": 3,
       "title": "Selection model applied",
       "status": "Complete",
-      "summary": "King's College London assesses applicants using academic eligibility together with UCAT performance, GCSE attainment, Situational Judgement Test performance and contextual information during interview shortlisting. Your prediction has been assessed against this published selection approach and available historical admissions evidence."
+      "summary": "King's considers UCAT, academic strength, SJT and contextual information together when selecting applicants for interview, but does not publish the current numerical weighting."
     },
     {
       "step": 4,
       "title": "Historical guidance compared",
       "status": "Complete",
-      "summary": "Your result was compared with historical admissions data. Historical admissions data provides a benchmark only; it is not a current cut-off or a guarantee of interview."
+      "summary": "Your UCAT performance compares favourably with applicants who have historically been invited to interview at King's College London. Interview thresholds can vary between admissions cycles depending on applicant competition and interview capacity, but your profile falls within a historically competitive range for interview consideration."
     },
     {
       "step": 5,
       "title": "Interview recommendation produced",
       "status": "Strong Choice",
-      "summary": "Based on ApplySmart's assessment, your academic profile appears competitive for this applicant group. Treat this as guidance for university choice, not a promised interview."
+      "summary": "Based on ApplySmart's assessment, your selection score appears competitive for this applicant group. Treat this as guidance for university choice, not a promised interview."
     }
   ],
   "decision_transparency": {
+    "factor_usage": [
+      {
+        "factor_id": "ucat",
+        "label": "UCAT",
+        "role": "unknown",
+        "detail": "UCAT selection role is not fully specified.",
+        "evidence_status": "available"
+      },
+      {
+        "factor_id": "gcse",
+        "label": "GCSEs",
+        "role": "unknown",
+        "detail": "GCSEs are part of the university’s academic review.",
+        "evidence_status": "available"
+      },
+      {
+        "factor_id": "a_level",
+        "label": "A-levels",
+        "role": "unknown",
+        "detail": "Used as part of the university’s academic review.",
+        "evidence_status": "available"
+      },
+      {
+        "factor_id": "sjt",
+        "label": "SJT",
+        "role": "not_used",
+        "detail": "SJT is not used for interview selection.",
+        "evidence_status": "not_applicable"
+      }
+    ],
     "decision_path": [
       {
         "stage": "Eligibility",
         "status": "Met",
-        "summary": "The represented applicant meets the supported KCL GCSE, A-level, science practical and UCAT evidence requirements.",
+        "summary": "The supported entry requirements are met.",
         "checks": [
           {
             "label": "Entry requirements",
             "status": "Met",
-            "summary": "The represented applicant meets the supported KCL GCSE, A-level, science practical and UCAT evidence requirements."
+            "summary": "The supported entry requirements have been assessed."
           }
         ]
       },
       {
         "stage": "Selection model",
         "status": "Assessed",
-        "summary": "King's College London assesses applicants using academic eligibility together with UCAT performance, GCSE attainment, Situational Judgement Test performance and contextual information during interview shortlisting. Your prediction has been assessed against this published selection approach and available historical admissions evidence.",
+        "summary": "King's considers UCAT, academic strength, SJT and contextual information together when selecting applicants for interview, but does not publish the current numerical weighting.",
         "checks": [
           {
             "label": "Applicant pool",
             "status": "Used",
-            "summary": "The applicant group matching the supplied fee status and entry route"
-          },
-          {
-            "label": "UCAT total entered",
-            "status": "Used for ranking",
-            "summary": "2281 out of 2700."
-          },
-          {
-            "label": "SJT band",
-            "status": "On file",
-            "summary": "Band 2."
+            "summary": "Home, Rest of UK applicants"
           },
           {
             "label": "Selection approach",
-            "status": "Ranking/cut-off based",
-            "summary": "King's College London assesses applicants using academic eligibility together with UCAT performance, GCSE attainment, Situational Judgement Test performance and contextual information during interview shortlisting. Your prediction has been assessed against this published selection approach and available historical admissions evidence."
+            "status": "Assessed",
+            "summary": "King's considers UCAT, academic strength, SJT and contextual information together when selecting applicants for interview, but does not publish the current numerical weighting."
           }
         ]
       },
       {
         "stage": "Historical guidance",
         "status": "Guidance available",
-        "summary": "The result was assessed using the available admissions evidence for this applicant group. Historical admissions data provides a benchmark only; it is not a current cut-off or a guarantee of interview.",
+        "summary": "Your UCAT performance compares favourably with applicants who have historically been invited to interview at King's College London. Interview thresholds can vary between admissions cycles depending on applicant competition and interview capacity, but your profile falls within a historically competitive range for interview consideration.",
         "checks": [
           {
             "label": "Applicant pool",
             "status": "Used",
-            "summary": "The applicant group matching the supplied fee status and entry route"
+            "summary": "Home, Rest of UK applicants"
+          },
+          {
+            "label": "Recent admissions data",
+            "status": "Historical",
+            "summary": "approximately 2,810 applicants, 982 interviewed and 762 offers."
           },
           {
             "label": "Important limitation",
@@ -234,20 +259,23 @@
       {
         "stage": "Recommendation",
         "status": "Guidance only",
-        "summary": "Based on ApplySmart's assessment, your academic profile appears competitive for this applicant group. Treat this as guidance for university choice, not a promised interview.",
+        "summary": "Based on ApplySmart's assessment, your selection score appears competitive for this applicant group. Treat this as guidance for university choice, not a promised interview.",
         "checks": []
       }
     ],
     "key_reasons": [
-      "The represented applicant meets the supported KCL GCSE, A-level, science practical and UCAT evidence requirements.",
-      "The result uses The applicant group matching the supplied fee status and entry route.",
-      "King's College London assesses applicants using academic eligibility together with UCAT performance, GCSE attainment, Situational Judgement Test performance and contextual information during interview shortlisting. Your prediction has been assessed against this published selection approach and available historical admissions evidence."
+      "The supported entry requirements are met.",
+      "The result uses Home, Rest of UK applicants.",
+      "King's considers UCAT, academic strength, SJT and contextual information together when selecting applicants for interview, but does not publish the current numerical weighting."
     ],
     "evidence_used": [
       "Official admissions policy",
       "University selection methodology",
       "UCAT policy",
-      "Historical interview data"
+      "Historical interview data",
+      "FOI evidence",
+      "Contextual admissions policy",
+      "International admissions policy"
     ],
     "evidence_confidence": {
       "level": "Medium",
@@ -260,8 +288,10 @@
     },
     "warnings": [],
     "manual_review_reason": null,
-    "insufficient_evidence_reason": null,
-    "insufficient_evidence_reason_code": null,
+    "manual_review_reason_code": null,
+    "information_needed_reason": null,
+    "missing_information": null,
+    "risk_explanation": null,
     "compact_status": {
       "label": "You meet the academic requirements.",
       "type": "academic_status",
@@ -269,10 +299,11 @@
     },
     "comparison_metrics_title": null,
     "comparison_metrics": [],
-    "selection_approach_display": null,
+    "selection_approach_display": "King's considers UCAT, academic strength, SJT and contextual information together when selecting applicants for interview, but does not publish the current numerical weighting.",
     "selection_metric": null,
     "score_breakdown": null,
-    "ucat_comparison": null
+    "ucat_comparison": null,
+    "ucat_adjustment": null
   },
   "engine_notes": {
     "public_result_card_compliance": true,
@@ -312,8 +343,8 @@
     ]
   },
   "primary_user_facing_recommendation": "Strong choice for your application",
-  "primary_explanation": "Based on ApplySmart's assessment, your academic profile appears competitive for this applicant group.",
+  "primary_explanation": "Based on ApplySmart's assessment, your selection score appears competitive for this applicant group.",
   "recommendation_display_state": "standard",
-  "trust_statement": null,
+  "trust_statement": "Interview decisions vary each year depending on the applicant pool, available interview capacity and university selection decisions. ApplySmart provides an evidence-based interview prediction, not a guarantee of interview.",
   "historical_guidance_caveat": "Historical admissions data provides a benchmark only; it is not a current cut-off or a guarantee of interview."
 }

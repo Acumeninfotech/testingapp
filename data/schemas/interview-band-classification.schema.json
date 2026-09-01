@@ -166,7 +166,9 @@
                     "gcse_profile_modifier",
                     "academic_ucat_compensation_matrix",
                     "ucat_total_with_percentage_uplifts",
-                    "gcse_ucat_weighted_composite"
+                    "gcse_ucat_weighted_composite",
+                    "scottish_academic_score",
+                    "school_leaver_academic_ucat_guidance_index"
                   ]
               },
               "uplifts": {
@@ -235,6 +237,7 @@
           "enum": [
             "selection_score",
             "ucat_total",
+            "contextual_adjusted_selection_ucat_total",
             "ucat_national_percentile",
             "gamsat_total",
             "eligibility_gate"
@@ -413,7 +416,8 @@
           "enum": [
             "current_guidance",
             "historical_threshold",
-            "historical_range"
+            "historical_range",
+            "no_published_contextual_cutoff"
           ]
         },
         "label": {
@@ -436,10 +440,6 @@
     "guaranteed_interview_condition": {
       "type": "object",
       "additionalProperties": true,
-      "required": [
-        "applicant_evidence_path",
-        "required_evidence"
-      ],
       "properties": {
         "match": {
           "$ref": "#/$defs/applicant_match"
@@ -455,7 +455,20 @@
           "type": "string",
           "minLength": 1
         }
-      }
+      },
+      "anyOf": [
+        {
+          "required": [
+            "applicant_evidence_path",
+            "required_evidence"
+          ]
+        },
+        {
+          "required": [
+            "match"
+          ]
+        }
+      ]
     },
     "guaranteed_interview_override": {
       "type": "object",

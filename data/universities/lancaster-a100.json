@@ -289,7 +289,11 @@
         },
         "grade_requirements": [
           {
-            "requirement_id": "a_level_stage_1_predicted_minimum",
+            "requirement_id": "a_level_epq_alternative",
+            "academic_pathway": "epq_alternative",
+            "pathway_id": "lancaster_epq_alternative",
+            "requires_epq": true,
+            "epq_minimum_grade": "B",
             "applies_to_group_ids": [
               "school_leaver"
             ],
@@ -317,7 +321,41 @@
             "source_ids": [
               "lancaster_admissions_policy_2026"
             ],
-            "notes": "Stage 1 predicted-grade gate for interview consideration."
+            "notes": "Active A-level plus EPQ pathway. This standard AAB plus EPQ route remains available irrespective of contextual status."
+          },
+          {
+            "requirement_id": "a_level_standard_offer",
+            "academic_pathway": "standard",
+            "pathway_id": "lancaster_standard_offer",
+            "applies_to_group_ids": [
+              "school_leaver"
+            ],
+            "excluded_group_ids": [
+              "resit_applicant"
+            ],
+            "grade_profile": [
+              "A",
+              "A",
+              "A"
+            ],
+            "required_subject_ids": [],
+            "one_of_subject_groups": [
+              {
+                "group_id": "two_of_biology_chemistry_psychology",
+                "minimum_required": 2,
+                "subject_ids": [
+                  "biology",
+                  "chemistry",
+                  "psychology"
+                ]
+              }
+            ],
+            "decision_outcome_if_not_met": "not_eligible",
+            "source_ids": [
+              "lancaster_admissions_policy_2026",
+              "lancaster_course_2027"
+            ],
+            "notes": "Standard active A-level offer pathway for school-leaver applicants. Contextual status does not lower the pre-interview Stage 1 academic screen."
           },
           {
             "requirement_id": "a_level_resit_profile",
@@ -360,6 +398,16 @@
           ],
           "notes": "The evidenced alternative is AAB where a fourth AS/A-level subject or EPQ is presented."
         },
+        "epq_alternative_offer": {
+          "enabled": true,
+          "pathway_id": "lancaster_epq_alternative",
+          "a_level_grades": [
+            "A",
+            "A",
+            "B"
+          ],
+          "epq_minimum_grade": "B"
+        },
         "alternative_offer": {
           "grade_profile": [
             "A",
@@ -377,6 +425,7 @@
           ]
         },
         "contextual_offer": {
+          "pathway_id": "lancaster_contextual_offer",
           "applies_to_group_ids": [
             "contextual",
             "widening_participation"
@@ -505,8 +554,9 @@
         "grade_requirements": [
           {
             "requirement_id": "scottish_highers_route",
+            "pathway_id": "lancaster_scottish_highers_aaaab",
             "applies_to_group_ids": [
-              "scotland_domiciled"
+              "school_leaver"
             ],
             "qualification_level": "scottish_highers",
             "grade_profile": [
@@ -530,17 +580,21 @@
                 "minimum_grade": "A"
               }
             ],
+            "same_sitting_required": true,
+            "same_sitting_qualification_level": "scottish_highers",
             "decision_outcome_if_not_met": "not_eligible",
             "source_ids": [
               "lancaster_entry_requirements"
-            ]
+            ],
+            "notes": "Five Highers AAAAB in one sitting after one year, with Biology and Chemistry both at A."
           },
           {
             "requirement_id": "scottish_advanced_highers_route",
+            "pathway_id": "lancaster_scottish_advanced_highers_aa",
             "applies_to_group_ids": [
-              "scotland_domiciled"
+              "school_leaver"
             ],
-            "qualification_level": "advanced_highers",
+            "qualification_level": "advanced_higher",
             "grade_profile": [
               "A",
               "A"
@@ -549,10 +603,23 @@
               "biology",
               "chemistry"
             ],
+            "subject_grade_requirements": [
+              {
+                "subject_id": "biology",
+                "minimum_grade": "A"
+              },
+              {
+                "subject_id": "chemistry",
+                "minimum_grade": "A"
+              }
+            ],
+            "same_sitting_required": true,
+            "same_sitting_qualification_level": "advanced_highers",
             "decision_outcome_if_not_met": "not_eligible",
             "source_ids": [
               "lancaster_entry_requirements"
-            ]
+            ],
+            "notes": "Advanced Higher Biology and Chemistry AA in one sitting after one year."
           }
         ],
         "required_subject_ids": [
@@ -560,8 +627,10 @@
           "chemistry"
         ],
         "one_of_subject_groups": [],
-        "execution_status": "metadata_complete_current_engine_does_not_enforce_subject_specific_grades_and_sitting_timing",
-        "notes": "National 5 English and Mathematics require A or B. Full route eligibility requires review of timing and subject-specific grades."
+        "execution_status": "official_source_verified_standard_scottish_routes_executable",
+        "notes": "Scottish academic eligibility is qualification-driven rather than domicile-driven. No reduced Scottish contextual grade profile is published; confirmed contextual status affects Lancaster selection treatment only.",
+        "route_implemented": true,
+        "contextual_route_implemented": false
       },
       "degree": {
         "status": "official_source_verified_execution_partial",
@@ -766,6 +835,74 @@
       "occupational_health_required": true,
       "decision_outcome_if_not_met": "not_eligible",
       "notes": "Enhanced DBS, occupational health and immunisation checks apply. No numeric minimum age was supplied."
+    },
+    "national_5": {
+      "status": "official_source_verified_standard_route_executable",
+      "source_ids": [
+        "lancaster_entry_requirements"
+      ],
+      "minimum_count": 7,
+      "minimum_grade": "B",
+      "required_subject_ids": [
+        "english_language",
+        "mathematics",
+        "biology",
+        "chemistry",
+        "physics"
+      ],
+      "grade_requirements": [
+        {
+          "requirement_id": "national_5_english_language_minimum",
+          "qualification_level": "national_5",
+          "subject_id": "english_language",
+          "minimum_grade": "B",
+          "decision_outcome_if_not_met": "not_eligible",
+          "source_ids": [
+            "lancaster_entry_requirements"
+          ]
+        },
+        {
+          "requirement_id": "national_5_mathematics_minimum",
+          "qualification_level": "national_5",
+          "subject_id": "mathematics",
+          "minimum_grade": "B",
+          "decision_outcome_if_not_met": "not_eligible",
+          "source_ids": [
+            "lancaster_entry_requirements"
+          ]
+        },
+        {
+          "requirement_id": "national_5_biology_minimum",
+          "qualification_level": "national_5",
+          "subject_id": "biology",
+          "minimum_grade": "B",
+          "decision_outcome_if_not_met": "not_eligible",
+          "source_ids": [
+            "lancaster_entry_requirements"
+          ]
+        },
+        {
+          "requirement_id": "national_5_chemistry_minimum",
+          "qualification_level": "national_5",
+          "subject_id": "chemistry",
+          "minimum_grade": "B",
+          "decision_outcome_if_not_met": "not_eligible",
+          "source_ids": [
+            "lancaster_entry_requirements"
+          ]
+        },
+        {
+          "requirement_id": "national_5_physics_minimum",
+          "qualification_level": "national_5",
+          "subject_id": "physics",
+          "minimum_grade": "B",
+          "decision_outcome_if_not_met": "not_eligible",
+          "source_ids": [
+            "lancaster_entry_requirements"
+          ]
+        }
+      ],
+      "notes": "Automatic execution covers the standard published seven-subject National 5 route. School-entry exceptions and other Scottish Level 2 equivalents remain review cases."
     }
   },
   "stage_2_interview_selection": {
@@ -970,6 +1107,9 @@
       "lancaster_admissions_data"
     ],
     "available": true,
+    "contextual_eligibility": {
+      "evaluator_id": "lancaster_contextual_medicine_a100"
+    },
     "applies_to_group_ids": [
       "home_fee",
       "contextual",
@@ -982,7 +1122,7 @@
         "applies_to_group_ids": [
           "home_fee"
         ],
-        "description": "Care experience or care-leaver status of at least three months, or refugee status, qualifies automatically subject to Lancaster verification.",
+        "description": "Care experienced, care leaver or local-authority care for 3 months or more, or confirmed refugee status, qualifies automatically subject to Lancaster verification.",
         "source_ids": [
           "lancaster_admissions_policy_2026"
         ],
@@ -993,11 +1133,11 @@
         "applies_to_group_ids": [
           "home_fee"
         ],
-        "description": "Otherwise at least two published widening-participation criteria are required, including supported neighbourhood, household-income, bursary and related evidence categories.",
+        "description": "Otherwise at least two distinct Lancaster widening-participation criteria are required. ApplySmart safely confirms criteria only where the shared Step 6 evidence proves Lancaster’s published condition; broader or incomplete evidence remains Information Needed.",
         "source_ids": [
           "lancaster_admissions_policy_2026"
         ],
-        "notes": "The full evidence list is university-verified; ApplySmart does not infer eligibility from a postcode alone."
+        "notes": "Low-income alternatives remain one criterion. Area disadvantage remains review-only where no executable Lancaster cutoff is published. Post-16 school performance, Lancaster-specific parental HE exceptions and the young-carer relationship condition remain Information Needed where Step 6 evidence is not precise enough to confirm the published rule."
       }
     ],
     "adjustments": [
@@ -1212,6 +1352,7 @@
       "notes": "AAB may apply with a fourth AS/A level or EPQ under the published rule."
     },
     "contextual_offer": {
+      "pathway_id": "lancaster_contextual_offer",
       "applies_to_group_ids": [
         "contextual",
         "widening_participation"

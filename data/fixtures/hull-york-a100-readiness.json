@@ -10,12 +10,12 @@
       "fee_status": "Home",
       "domicile": "England",
       "age_on_1_october": 18,
-      "contextual": true,
-      "contextual_status_confirmed": true,
+      "contextual": false,
+      "contextual_status_confirmed": false,
       "contextual_flags": {
-        "ucat_bursary": true,
-        "recognised_wp_programme": true,
-        "polar4_quintile": 1,
+        "ucat_bursary": false,
+        "recognised_wp_programme": false,
+        "polar4_quintile": null,
         "care_experienced": false,
         "refugee": false,
         "military_family": false,
@@ -28,6 +28,32 @@
       "resit": {
         "has_resits": false,
         "subjects_resat": []
+      }
+    },
+    "contextual_profile": {
+      "home_area_region": {
+        "polar4_quintile": "q1"
+      },
+      "financial_support": {
+        "ucat_bursary_recipient": "yes"
+      },
+      "personal_circumstances": {
+        "care_experienced": "no",
+        "refugee": "no",
+        "military_family": "no",
+        "gypsy_roma_traveller": "no",
+        "first_in_family_at_university": "no"
+      },
+      "access_programmes": {
+        "participation_status": "yes",
+        "ukwpmed": {
+          "status": "yes",
+          "programme_id": "hyms_pathways_to_medicine",
+          "programme_status": "completed",
+          "provider_university_id": "hull-york-a100",
+          "completion_year": 2026
+        },
+        "other_programmes": []
       }
     },
     "course_target": {
@@ -213,6 +239,32 @@
             "recognised_wp_programme": false,
             "polar4_quintile": null
           }
+        },
+        "contextual_profile": {
+          "home_area_region": {
+            "polar4_quintile": "q5"
+          },
+          "financial_support": {
+            "ucat_bursary_recipient": "no"
+          },
+          "personal_circumstances": {
+            "care_experienced": "no",
+            "refugee": "no",
+            "military_family": "no",
+            "gypsy_roma_traveller": "no",
+            "first_in_family_at_university": "no"
+          },
+          "access_programmes": {
+            "participation_status": "no",
+            "ukwpmed": {
+              "status": "no",
+              "programme_id": "",
+              "programme_status": "",
+              "provider_university_id": "",
+              "completion_year": ""
+            },
+            "other_programmes": []
+          }
         }
       },
       "expected": {
@@ -220,7 +272,7 @@
         "contextual_applicable": true,
         "contextual_points": 0,
         "score": 70.48,
-        "score_max": 100,
+        "score_max": 85,
         "band": "ambitious"
       }
     }

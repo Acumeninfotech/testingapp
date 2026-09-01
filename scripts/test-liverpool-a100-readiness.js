@@ -9,6 +9,9 @@ const {
 const {
   evaluateCourseEligibility
 } = require('../assets/js/engine/eligibility-evaluator');
+const {
+  presentResultCard
+} = require('../assets/js/engine/result-card-presenter');
 
 const rootDir = path.resolve(__dirname, '..');
 const readJson = (relativePath) => JSON.parse(
@@ -70,9 +73,13 @@ const builders = {
   },
   contextual_12_points() {
     const applicant = baseApplicant();
+    applicant.applicant_group_ids = ['contextual', 'widening_participation'];
     applicant.applicant_identity.contextual = true;
+    applicant.applicant_identity.contextual_flags = {
+      first_generation_higher_education: true
+    };
     setNineGcsePoints(applicant, ['6', '6', '6', '6', '6', '7', '7', '7', '6']);
-    applicant.admissions_tests.ucat.total_score = 1733;
+    applicant.admissions_tests.ucat.total_score = 1950;
     return applicant;
   },
   contextual_11_points() {
@@ -206,6 +213,13 @@ const builders = {
         { subject_id: 'geography', grade: 'C' },
         { subject_id: 'french', grade: 'C' }
       ],
+      higher_subjects: [
+        { subject_id: 'chemistry', grade: 'A', sitting_id: '2025' },
+        { subject_id: 'biology', grade: 'A', sitting_id: '2025' },
+        { subject_id: 'mathematics', grade: 'A', sitting_id: '2025' },
+        { subject_id: 'english', grade: 'A', sitting_id: '2025' },
+        { subject_id: 'history', grade: 'B', sitting_id: '2025' }
+      ],
       advanced_higher_subjects: [
         { subject_id: 'chemistry', grade: 'A' },
         { subject_id: 'biology', grade: 'A' }
@@ -287,27 +301,120 @@ assert.deepStrictEqual(
     .filter((pool) => pool.historical_cutoff)
     .map((pool) => pool.historical_cutoff.value)
     .sort((a, b) => a - b),
-  [1733, 1935, 2108]
+  [1960, 2108]
 );
-const OFFICIAL_LIVERPOOL_CUTOFFS = [1733, 1935, 2108];
-const APPROVED_APPLYSMART_OFFSETS = [0, 30, 100];
-const APPROVED_BAND_BOUNDARIES = new Set(
-  OFFICIAL_LIVERPOOL_CUTOFFS.flatMap((cutoff) =>
-    APPROVED_APPLYSMART_OFFSETS.flatMap((offset) => [cutoff + offset, cutoff + offset - 1])
-  )
-);
+const APPROVED_BAND_BOUNDARIES = new Set([
+  1879, 1880, 1959, 1960, 2009, 2010, 2099, 2100,
+  2107, 2108, 2137, 2138, 2207, 2208
+]);
 assert.ok(config.guidance_pools.every((pool) => {
   return pool.band_rules.every((rule) => {
     const values = [rule.value, rule.min, rule.max].filter((v) => Number.isFinite(v));
     return values.every((value) => APPROVED_BAND_BOUNDARIES.has(value));
   });
-}), 'Liverpool config must only use the official FOI-verified cutoffs and the approved ApplySmart point-offset boundaries (+30, +100) derived from them.');
+}), 'Liverpool config must only use the approved Liverpool UCAT guidance boundaries.');
+
+for (const boundary of [
+  ['contextual_12_points', 1879, 'high_risk'],
+  ['contextual_12_points', 1880, 'ambitious'],
+  ['contextual_12_points', 1950, 'ambitious'],
+  ['contextual_12_points', 1960, 'realistic'],
+  ['contextual_12_points', 2010, 'interview_likely'],
+  ['contextual_12_points', 2100, 'very_strong_interview_potential'],
+  ['home_at_E2025_cutoff', 1879, 'high_risk'],
+  ['home_at_E2025_cutoff', 1880, 'ambitious'],
+  ['home_at_E2025_cutoff', 1935, 'ambitious'],
+  ['home_at_E2025_cutoff', 1959, 'ambitious'],
+  ['home_at_E2025_cutoff', 1960, 'realistic'],
+  ['home_at_E2025_cutoff', 2000, 'realistic'],
+  ['home_at_E2025_cutoff', 2009, 'realistic'],
+  ['home_at_E2025_cutoff', 2010, 'interview_likely'],
+  ['home_at_E2025_cutoff', 2099, 'interview_likely'],
+  ['home_at_E2025_cutoff', 2100, 'very_strong_interview_potential'],
+  ['international_band4_at_E2025_cutoff', 2107, 'ambitious'],
+  ['international_band4_at_E2025_cutoff', 2108, 'realistic'],
+  ['international_band4_at_E2025_cutoff', 2137, 'realistic'],
+  ['international_band4_at_E2025_cutoff', 2138, 'interview_likely'],
+  ['international_band4_at_E2025_cutoff', 2207, 'interview_likely'],
+  ['international_band4_at_E2025_cutoff', 2208, 'very_strong_interview_potential']
+]) {
+  const [builderId, ucatTotal, expectedBand] = boundary;
+  const applicant = builders[builderId]();
+  applicant.admissions_tests.ucat.total_score = ucatTotal;
+  const classification = classifyInterviewBand(course, config, applicant);
+  assert.strictEqual(
+    classification.canonical_interview_band,
+    expectedBand,
+    `${builderId} UCAT ${ucatTotal}: boundary band`
+  );
+}
 assert.strictEqual(config.offer_prediction, undefined);
 assert.strictEqual(course.engine_notes.offer_prediction_scope, 'out_of_scope');
 assert.strictEqual(course.engine_notes.offer_prediction_ready, undefined);
 assert.strictEqual(course.engine_notes.production_ready, true);
 assert.deepStrictEqual(course.engine_notes.activation_blockers, []);
-assert.strictEqual(resultCard.prediction.result_band, 'interview_likely');
+assert.strictEqual(resultCard.prediction.result_band, 'realistic');
+assert.strictEqual(
+  resultCard.decision_timeline.find((step) => step.step === 5).status,
+  'Realistic Choice'
+);
+assert.strictEqual(resultCard.contextual_confirmation ?? null, null);
+const standardApplicant1950 = builders.home_at_E2025_cutoff();
+standardApplicant1950.admissions_tests.ucat.total_score = 1950;
+const standardClassification1950 = classifyInterviewBand(course, config, standardApplicant1950);
+const standardResultCard1950 = presentResultCard({
+  eligibilityStatus: standardClassification1950.eligibility.status,
+  interviewBand: standardClassification1950.canonical_interview_band,
+  transparencyContext: {
+    course_identity: {
+      profile_id: 'liverpool-a100',
+      university_name: 'University of Liverpool',
+      course_name: 'Medicine and Surgery MBChB',
+      ucas_code: 'A100'
+    },
+    applicant_context: standardApplicant1950,
+    applicant_group_ids: standardClassification1950.applicant_group_ids,
+    eligibility_checks: standardClassification1950.eligibility.checks || [],
+    eligibility_failures: standardClassification1950.eligibility.failures || [],
+    academic_pathway: standardClassification1950.eligibility.academic_pathway || null,
+    academic_pathway_id: standardClassification1950.eligibility.academic_pathway_id || null,
+    eligibility: standardClassification1950.eligibility,
+    stage_1_eligibility: course.stage_1_eligibility,
+    historical_admissions: course.historical_admissions,
+    selection_approach_display: course.selection_approach_display,
+    ranking: standardClassification1950.ranking,
+    band_metric: standardClassification1950.band_metric,
+    guidance_pool: standardClassification1950.guidance_pool,
+    matched_band_rule: standardClassification1950.matched_band_rule,
+    score_model: config.score_model,
+    guidance_pool_id: standardClassification1950.guidance_pool_id,
+    warnings: standardClassification1950.warnings || []
+  }
+});
+const standardResultCardText = JSON.stringify(standardResultCard1950);
+assert.strictEqual(standardClassification1950.canonical_interview_band, 'ambitious');
+assert.strictEqual(
+  standardResultCard1950.decision_timeline.find((step) => step.step === 5).status,
+  'Ambitious Choice'
+);
+assert.ok(standardResultCardText.includes('1880-1959'));
+assert.strictEqual(standardResultCard1950.contextual_confirmation ?? null, null);
+assert.strictEqual(
+  presentResultCard({
+    eligibilityStatus: 'eligible',
+    interviewBand: 'interview_likely',
+    transparencyContext: { course_identity: { profile_id: 'liverpool-a100' } }
+  }).decision_timeline.find((step) => step.step === 5).status,
+  'Strong Choice'
+);
+assert.strictEqual(
+  presentResultCard({
+    eligibilityStatus: 'eligible',
+    interviewBand: 'very_strong_interview_potential',
+    transparencyContext: { course_identity: { profile_id: 'liverpool-a100' } }
+  }).decision_timeline.find((step) => step.step === 5).status,
+  'Very Strong Choice'
+);
 assert.strictEqual(resultCard.readiness.result_card_ready, true);
 assert.strictEqual(resultCard.readiness.offer_prediction_scope, 'out_of_scope');
 assert.strictEqual(resultCard.readiness.production_ready, true);
@@ -316,5 +423,96 @@ assert.strictEqual(research.readiness.offer_prediction_scope, 'out_of_scope');
 const indexEntry = index.universities.find((entry) => entry.id === 'liverpool-a100');
 assert.strictEqual(indexEntry.production_ready, true);
 assert.match(readme, /\| Liverpool \| Ready/);
+
+const contextualApplicant1950 = builders.contextual_12_points();
+contextualApplicant1950.admissions_tests.ucat.total_score = 1950;
+contextualApplicant1950.applicant_identity.contextual_flags.care_experienced = true;
+contextualApplicant1950.contextual_profile = contextualApplicant1950.contextual_profile || {};
+contextualApplicant1950.contextual_profile.personal_circumstances = contextualApplicant1950.contextual_profile.personal_circumstances || {};
+contextualApplicant1950.contextual_profile.personal_circumstances.care_experienced = 'yes';
+const contextualClassification1950 = classifyInterviewBand(course, config, contextualApplicant1950);
+const contextualResultCard1950 = presentResultCard({
+  eligibilityStatus: contextualClassification1950.eligibility.status,
+  interviewBand: contextualClassification1950.canonical_interview_band,
+  transparencyContext: {
+    course_identity: {
+      profile_id: 'liverpool-a100',
+      university_name: 'University of Liverpool',
+      course_name: 'Medicine and Surgery MBChB',
+      ucas_code: 'A100'
+    },
+    applicant_context: contextualApplicant1950,
+    applicant_group_ids: contextualClassification1950.applicant_group_ids,
+    eligibility_checks: contextualClassification1950.eligibility.checks || [],
+    eligibility_failures: contextualClassification1950.eligibility.failures || [],
+    academic_pathway: contextualClassification1950.eligibility.academic_pathway || null,
+    academic_pathway_id: contextualClassification1950.eligibility.academic_pathway_id || null,
+    eligibility: contextualClassification1950.eligibility,
+    stage_1_eligibility: course.stage_1_eligibility,
+    historical_admissions: course.historical_admissions,
+    selection_approach_display: course.selection_approach_display,
+    ranking: contextualClassification1950.ranking,
+    band_metric: contextualClassification1950.band_metric,
+    guidance_pool: contextualClassification1950.guidance_pool,
+    matched_band_rule: contextualClassification1950.matched_band_rule,
+    score_model: config.score_model,
+    guidance_pool_id: contextualClassification1950.guidance_pool_id,
+    warnings: contextualClassification1950.warnings || []
+  }
+});
+const contextualResultCardText = JSON.stringify(contextualResultCard1950);
+const liverpoolContextualCollapsedHeading = 'Contextual eligibility confirmed';
+const liverpoolContextualCollapsedSupportingText = 'Liverpool may apply contextual UCAT flexibility, but it does not publish how many UCAT points of flexibility may be applied.';
+const liverpoolContextualExpandedBody = 'Contextual consideration may allow flexibility below the standard UCAT level, but Liverpool does not publish how many UCAT points of flexibility may be applied and determines this annually.';
+assert.strictEqual(contextualClassification1950.canonical_interview_band, 'ambitious');
+assert.strictEqual(contextualResultCard1950.prediction.result_band, 'ambitious');
+assert.strictEqual(
+  contextualResultCard1950.decision_timeline.find((step) => step.step === 5).status,
+  'Ambitious Choice'
+);
+assert.strictEqual(contextualResultCard1950.contextual_confirmation.collapsed_label, liverpoolContextualCollapsedHeading);
+assert.strictEqual(
+  contextualResultCard1950.decision_transparency.compact_status.label,
+  liverpoolContextualCollapsedSupportingText
+);
+assert.strictEqual(
+  [
+    contextualResultCard1950.contextual_confirmation.collapsed_label,
+    contextualResultCard1950.decision_transparency.compact_status.label
+  ].filter((text) => text === liverpoolContextualCollapsedHeading).length,
+  1
+);
+assert.ok(contextualResultCardText.includes('Ambitious Choice'));
+assert.ok(contextualResultCardText.includes('1880-1959'));
+assert.ok(
+  contextualResultCard1950.contextual_confirmation.expanded_body.includes(
+    liverpoolContextualExpandedBody
+  )
+);
+assert.strictEqual(contextualResultCard1950.contextual_confirmation.warning, undefined);
+for (const forbiddenText of [
+  '1733-1762',
+  '+217',
+  'historical interview range',
+  'highly competitive'
+]) {
+  assert.ok(!contextualResultCardText.includes(forbiddenText), `contextual 1950 Result Card must not include ${forbiddenText}`);
+}
+
+const contextualPresentation = presentResultCard({
+  eligibilityStatus: 'eligible',
+  interviewBand: 'ambitious',
+  transparencyContext: {
+    course_identity: { profile_id: 'liverpool-a100' },
+    eligibility: {
+      contextual_eligibility: {
+        status: 'contextual'
+      }
+    }
+  }
+});
+assert.strictEqual(contextualPresentation.prediction.result_band, 'ambitious');
+assert.strictEqual(contextualPresentation.contextual_confirmation.expanded_body, liverpoolContextualExpandedBody);
+assert.strictEqual(contextualPresentation.contextual_confirmation.warning, undefined);
 
 console.log(`Liverpool A100 readiness regression: PASS (${fixture.cases.length} cases)`);

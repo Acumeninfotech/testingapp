@@ -381,9 +381,250 @@
             ]
           }
         ],
+        "epq_alternative_offer": {
+          "enabled": true,
+          "pathway_id": "leicester_epq_alternative",
+          "a_level_grades": [
+            "A",
+            "A",
+            "A"
+          ],
+          "epq_minimum_grade": "B",
+          "required_subject_grade_options": [
+            {
+              "option_id": "biology_and_chemistry_grade_a",
+              "required_subject_ids": [
+                "biology",
+                "chemistry"
+              ],
+              "grade_requirements": [
+                {
+                  "subject_id": "biology",
+                  "minimum_grade": "A"
+                },
+                {
+                  "subject_id": "chemistry",
+                  "minimum_grade": "A"
+                }
+              ]
+            },
+            {
+              "option_id": "biology_and_physics_grade_a",
+              "required_subject_ids": [
+                "biology",
+                "physics"
+              ],
+              "grade_requirements": [
+                {
+                  "subject_id": "biology",
+                  "minimum_grade": "A"
+                },
+                {
+                  "subject_id": "physics",
+                  "minimum_grade": "A"
+                }
+              ]
+            },
+            {
+              "option_id": "biology_and_mathematics_grade_a",
+              "required_subject_ids": [
+                "biology",
+                "mathematics"
+              ],
+              "grade_requirements": [
+                {
+                  "subject_id": "biology",
+                  "minimum_grade": "A"
+                },
+                {
+                  "subject_id": "mathematics",
+                  "minimum_grade": "A"
+                }
+              ]
+            },
+            {
+              "option_id": "biology_and_psychology_grade_a",
+              "required_subject_ids": [
+                "biology",
+                "psychology"
+              ],
+              "grade_requirements": [
+                {
+                  "subject_id": "biology",
+                  "minimum_grade": "A"
+                },
+                {
+                  "subject_id": "psychology",
+                  "minimum_grade": "A"
+                }
+              ]
+            },
+            {
+              "option_id": "chemistry_and_biology_grade_a",
+              "required_subject_ids": [
+                "chemistry",
+                "biology"
+              ],
+              "grade_requirements": [
+                {
+                  "subject_id": "chemistry",
+                  "minimum_grade": "A"
+                },
+                {
+                  "subject_id": "biology",
+                  "minimum_grade": "A"
+                }
+              ]
+            },
+            {
+              "option_id": "chemistry_and_physics_grade_a",
+              "required_subject_ids": [
+                "chemistry",
+                "physics"
+              ],
+              "grade_requirements": [
+                {
+                  "subject_id": "chemistry",
+                  "minimum_grade": "A"
+                },
+                {
+                  "subject_id": "physics",
+                  "minimum_grade": "A"
+                }
+              ]
+            },
+            {
+              "option_id": "chemistry_and_mathematics_grade_a",
+              "required_subject_ids": [
+                "chemistry",
+                "mathematics"
+              ],
+              "grade_requirements": [
+                {
+                  "subject_id": "chemistry",
+                  "minimum_grade": "A"
+                },
+                {
+                  "subject_id": "mathematics",
+                  "minimum_grade": "A"
+                }
+              ]
+            },
+            {
+              "option_id": "chemistry_and_psychology_grade_a",
+              "required_subject_ids": [
+                "chemistry",
+                "psychology"
+              ],
+              "grade_requirements": [
+                {
+                  "subject_id": "chemistry",
+                  "minimum_grade": "A"
+                },
+                {
+                  "subject_id": "psychology",
+                  "minimum_grade": "A"
+                }
+              ]
+            }
+          ],
+          "conditions": {
+            "equivalent_grade_combinations_allowed": false
+          }
+        },
         "grade_requirements": [
           {
-            "requirement_id": "leicester_predicted_route_aab_scoring_floor",
+            "requirement_id": "a_level_leicester_access_leicester_medicine_contextual_offer",
+            "pathway_id": "leicester_access_leicester_medicine_contextual_offer",
+            "academic_pathway": "contextual",
+            "applies_to_group_ids": [
+              "leicester_contextual_access_leicester_medicine"
+            ],
+            "grade_profile": [
+              "A",
+              "B",
+              "B"
+            ],
+            "decision_outcome_if_not_met": "not_eligible",
+            "source_ids": [
+              "leicester_a100_entry_requirements"
+            ],
+            "notes": "Access Leicester: Medicine contextual route. Programme confirmation and contextual-route gating are evaluated by the shared Leicester contextual evaluator."
+          },
+          {
+            "requirement_id": "a_level_leicester_realising_opportunities_contextual_offer",
+            "pathway_id": "leicester_realising_opportunities_contextual_offer",
+            "academic_pathway": "contextual",
+            "applies_to_group_ids": [
+              "leicester_contextual_realising_opportunities"
+            ],
+            "grade_profile": [
+              "A",
+              "A",
+              "A"
+            ],
+            "decision_outcome_if_not_met": "not_eligible",
+            "source_ids": [
+              "leicester_a100_entry_requirements"
+            ],
+            "notes": "Realising Opportunities contextual route. Programme confirmation and contextual-route gating are evaluated by the shared Leicester contextual evaluator."
+          },
+          {
+            "requirement_id": "a_level_leicester_imd_plus_indicator_contextual_offer",
+            "pathway_id": "leicester_imd_plus_indicator_contextual_offer",
+            "academic_pathway": "contextual",
+            "applies_to_group_ids": [
+              "leicester_contextual_imd_plus_indicator"
+            ],
+            "grade_profile": [
+              "A",
+              "A",
+              "A"
+            ],
+            "decision_outcome_if_not_met": "not_eligible",
+            "source_ids": [
+              "leicester_a100_entry_requirements"
+            ],
+            "notes": "IMD quintile 1 plus additional Leicester contextual indicator route. Contextual evidence gating is evaluated by the shared Leicester contextual evaluator."
+          },
+          {
+            "requirement_id": "a_level_leicester_sutton_trust_pathways_to_medicine_contextual_offer",
+            "pathway_id": "leicester_sutton_trust_pathways_to_medicine_contextual_offer",
+            "academic_pathway": "contextual",
+            "applies_to_group_ids": [
+              "leicester_contextual_sutton_trust_pathways_to_medicine"
+            ],
+            "grade_profile": [
+              "A",
+              "A",
+              "A"
+            ],
+            "decision_outcome_if_not_met": "not_eligible",
+            "source_ids": [
+              "leicester_a100_entry_requirements"
+            ],
+            "notes": "Exact Sutton Trust Pathways to Medicine completion route; generic Sutton Trust programmes are excluded."
+          },
+          {
+            "requirement_id": "a_level_leicester_ukwpmed_restricted_2027_offer",
+            "pathway_id": "leicester_ukwpmed_restricted_2027_offer",
+            "academic_pathway": "contextual",
+            "applies_to_group_ids": [
+              "leicester_contextual_ukwpmed_2027"
+            ],
+            "grade_profile": [
+              "A",
+              "B",
+              "B"
+            ],
+            "decision_outcome_if_not_met": "not_eligible",
+            "source_ids": [
+              "leicester_a100_entry_requirements"
+            ],
+            "notes": "Restricted 2027 first-gap-year UKWPMED route; achieved first-sitting grades and completion-year evidence are enforced by the contextual evaluator."
+          },
+          {
+            "requirement_id": "a_level_standard_offer",
             "applies_to_group_ids": [
               "school_leaver"
             ],
@@ -391,9 +632,9 @@
               "graduate_applicant"
             ],
             "grade_profile": [
+              "A*",
               "A",
-              "A",
-              "B"
+              "A"
             ],
             "one_of_subject_groups": [
               {
@@ -418,9 +659,9 @@
             ],
             "decision_outcome_if_not_met": "not_eligible",
             "source_ids": [
-              "leicester_a100_2027_scoring_document"
+              "leicester_a100_entry_requirements"
             ],
-            "notes": "AAB is the minimum floor to be scored under the predicted-route formula, reflecting the official acknowledgement that predictions can be inaccurate."
+            "notes": "Executable academic eligibility route for the standard Leicester A100 offer. The separate AAB scoring floor is not an academic eligibility route and must not independently establish eligibility."
           }
         ],
         "required_subject_ids": [],
@@ -590,7 +831,7 @@
         "notes": "34 points with 7,6,6 HL (7 required in the science subject), or 36 points with 6,6,6 HL. HL subjects must include Chemistry or Biology plus one of Chemistry/Biology/Physics/Mathematics/Sports Science/Psychology. Sports Science is not in the shared subject catalogue and is recorded as a research note only."
       },
       "scottish": {
-        "status": "official_source_verified_manual_review_in_engine_v1",
+        "status": "official_source_verified_executable_academic_eligibility",
         "source_ids": [
           "leicester_a100_entry_requirements"
         ],
@@ -644,11 +885,173 @@
           "evidence_gap": true,
           "blocking": false
         },
-        "grade_requirements": [],
+        "grade_requirements": [
+          {
+            "academic_pathway": "standard",
+            "applies_to_group_ids": [
+              "home_fee",
+              "school_leaver"
+            ],
+            "excluded_group_ids": [
+              "international_fee"
+            ],
+            "decision_outcome_if_not_met": "not_eligible",
+            "source_ids": [
+              "leicester_a100_entry_requirements"
+            ],
+            "requirement_id": "leicester_scottish_ah_aaa_biology_route",
+            "route_id": "leicester_scottish_ah_aaa_biology_route",
+            "qualification_level": "advanced_higher",
+            "grade_profile": [
+              "A",
+              "A",
+              "A"
+            ],
+            "required_subject_ids": [
+              "biology"
+            ],
+            "one_of_subject_groups": [
+              {
+                "group_id": "leicester_ah_second_subject_after_biology",
+                "minimum_required": 1,
+                "subject_ids": [
+                  "chemistry",
+                  "physics",
+                  "mathematics",
+                  "psychology"
+                ]
+              }
+            ],
+            "notes": "Leicester Scottish route 1: AAA at Advanced Higher including Biology and one further distinct accepted subject."
+          },
+          {
+            "academic_pathway": "standard",
+            "applies_to_group_ids": [
+              "home_fee",
+              "school_leaver"
+            ],
+            "excluded_group_ids": [
+              "international_fee"
+            ],
+            "decision_outcome_if_not_met": "not_eligible",
+            "source_ids": [
+              "leicester_a100_entry_requirements"
+            ],
+            "requirement_id": "leicester_scottish_ah_aaa_chemistry_route",
+            "route_id": "leicester_scottish_ah_aaa_chemistry_route",
+            "qualification_level": "advanced_higher",
+            "grade_profile": [
+              "A",
+              "A",
+              "A"
+            ],
+            "required_subject_ids": [
+              "chemistry"
+            ],
+            "one_of_subject_groups": [
+              {
+                "group_id": "leicester_ah_second_subject_after_chemistry",
+                "minimum_required": 1,
+                "subject_ids": [
+                  "biology",
+                  "physics",
+                  "mathematics",
+                  "psychology"
+                ]
+              }
+            ],
+            "notes": "Leicester Scottish route 1: AAA at Advanced Higher including Chemistry and one further distinct accepted subject."
+          },
+          {
+            "academic_pathway": "standard",
+            "applies_to_group_ids": [
+              "home_fee",
+              "school_leaver"
+            ],
+            "excluded_group_ids": [
+              "international_fee"
+            ],
+            "decision_outcome_if_not_met": "not_eligible",
+            "source_ids": [
+              "leicester_a100_entry_requirements"
+            ],
+            "requirement_id": "leicester_scottish_ah_aa_plus_higher_aab_biology_route",
+            "route_id": "leicester_scottish_ah_aa_plus_higher_aab_biology_route",
+            "qualification_level": "scottish_highers_and_advanced_highers",
+            "advanced_higher_grade_profile": [
+              "A",
+              "A"
+            ],
+            "higher_grade_profile": [
+              "A",
+              "A",
+              "B"
+            ],
+            "advanced_higher_required_subject_ids": [
+              "biology"
+            ],
+            "advanced_higher_one_of_subject_groups": [
+              {
+                "group_id": "leicester_ah_second_science_after_biology",
+                "minimum_required": 1,
+                "subject_ids": [
+                  "chemistry",
+                  "physics",
+                  "mathematics",
+                  "psychology"
+                ]
+              }
+            ],
+            "notes": "Leicester Scottish route 2: AA in two Advanced Higher sciences including Biology, plus AAB in three Higher subjects."
+          },
+          {
+            "academic_pathway": "standard",
+            "applies_to_group_ids": [
+              "home_fee",
+              "school_leaver"
+            ],
+            "excluded_group_ids": [
+              "international_fee"
+            ],
+            "decision_outcome_if_not_met": "not_eligible",
+            "source_ids": [
+              "leicester_a100_entry_requirements"
+            ],
+            "requirement_id": "leicester_scottish_ah_aa_plus_higher_aab_chemistry_route",
+            "route_id": "leicester_scottish_ah_aa_plus_higher_aab_chemistry_route",
+            "qualification_level": "scottish_highers_and_advanced_highers",
+            "advanced_higher_grade_profile": [
+              "A",
+              "A"
+            ],
+            "higher_grade_profile": [
+              "A",
+              "A",
+              "B"
+            ],
+            "advanced_higher_required_subject_ids": [
+              "chemistry"
+            ],
+            "advanced_higher_one_of_subject_groups": [
+              {
+                "group_id": "leicester_ah_second_science_after_chemistry",
+                "minimum_required": 1,
+                "subject_ids": [
+                  "biology",
+                  "physics",
+                  "mathematics",
+                  "psychology"
+                ]
+              }
+            ],
+            "notes": "Leicester Scottish route 2: AA in two Advanced Higher sciences including Chemistry, plus AAB in three Higher subjects."
+          }
+        ],
         "required_subject_ids": [],
         "one_of_subject_groups": [],
-        "execution_status": "manual_review_required_engine_v1_cannot_jointly_assess_higher_and_advanced_higher_profiles",
-        "notes": "Highers alone are explicitly not accepted. Scottish Advanced-Higher-based routes are official but remain a manual-review route in the generic classifier, consistent with other universities in this engine."
+        "execution_status": "automatic_academic_route_with_manual_review_for_unpublished_gcse_equivalence_scoring",
+        "route_implemented": true,
+        "notes": "Highers alone are explicitly not accepted. ApplySmart automatically checks Leicester's two published Scottish post-16 routes. Leicester separately assesses National 5 qualifications or school transcripts for GCSE equivalence; because no numerical conversion is published, the official academic and combined selection scores remain manual review."
       },
       "btec": {
         "status": "not_supported_by_supplied_dossier",
@@ -1351,10 +1754,17 @@
       "leicester_a100_2027_scoring_document"
     ],
     "available": true,
+    "evaluator_id": "leicester_contextual_medicine_a100",
     "applies_to_group_ids": [
       "contextual",
       "widening_participation",
-      "care_experienced"
+      "care_experienced",
+      "leicester_contextual_access_leicester_medicine",
+      "leicester_contextual_realising_opportunities",
+      "leicester_contextual_sutton_trust_pathways_to_medicine",
+      "leicester_contextual_ukwpmed_2027",
+      "leicester_contextual_imd_plus_indicator",
+      "leicester_contextual_guaranteed_interview"
     ],
     "criteria": [
       "Access Leicester: Medicine (AL Med) programme completion by 1 December in year of application.",
@@ -1416,12 +1826,33 @@
     ],
     "adjustments": [
       {
+        "adjustment_id": "access_leicester_contextual_a_level_offer_adjustment",
+        "applies_to_group_ids": [
+          "leicester_contextual_access_leicester_medicine"
+        ],
+        "stage": "offer_conditions",
+        "policy_description": "Access Leicester: Medicine contextual route applies the ABB academic pathway after Leicester contextual-route confirmation.",
+        "effect": {
+          "type": "replace_offer",
+          "target": "a_level.grade_profile",
+          "value": [
+            "A",
+            "B",
+            "B"
+          ]
+        },
+        "source_ids": [
+          "leicester_a100_entry_requirements"
+        ]
+      },
+      {
         "adjustment_id": "contextual_a_level_offer_adjustment",
         "applies_to_group_ids": [
-          "contextual",
-          "widening_participation"
+          "leicester_contextual_realising_opportunities",
+          "leicester_contextual_sutton_trust_pathways_to_medicine",
+          "leicester_contextual_imd_plus_indicator"
         ],
-        "stage": "stage_1_eligibility",
+        "stage": "offer_conditions",
         "policy_description": "Verified AL Med, ROP, Sutton Trust completers and IMD quintile-1 applicants meeting bursary/FSM/care criteria receive the adjusted AAA A-level offer instead of the standard A*AA offer.",
         "effect": {
           "type": "adjusted_grade_offer",
@@ -1435,11 +1866,11 @@
       }
     ],
     "manual_review_required": true,
-    "qualitative_flag_only": true,
+    "qualitative_flag_only": false,
     "no_numeric_adjustment": true,
-    "engine_execution_status": "published_and_officially_documented_but_not_an_automatic_classifier_override_in_engine_v1",
-    "engine_execution_reason": "Leicester's guaranteed-interview routes (AL Med, ROP, Sutton Trust, restricted UKWPMED) are official and fully documented above, but the shared generic classifier's guaranteed-interview override mechanism is wired only for one other university's bespoke route function in this engine, not as a general-purpose declarative override. Applying that would require either a new bespoke Leicester route function or a generic engine change, both outside this implementation's scope without separate architecture-freeze approval. Verified AL Med/ROP/Sutton Trust/UKWPMED completers are therefore surfaced as a qualitative manual-review flag: an adviser confirms programme completion and the contextual offer criteria, rather than the engine auto-applying a guaranteed interview. This is a non-blocking, documented engine-execution gap, not a missing research finding.",
-    "notes": "Leicester's contextual/WP routes carry a published, official guaranteed-interview outcome once verified programme completion and the contextual offer criteria are confirmed met. In this engine, that verification and the resulting guaranteed-interview decision are manual-review boundaries rather than automatic classifier output, because ApplySmart cannot independently verify programme completion, IMD quintile/decile or bursary/FSM/care evidence, and the generic classifier does not yet expose a declarative guaranteed-interview override for this university."
+    "engine_execution_status": "official_routes_partially_automatic_via_shared_contextual_evaluator",
+    "engine_execution_reason": "Leicester contextual routes are evaluated through the shared contextual framework and activate route-specific applicant groups. Access Leicester: Medicine and Realising Opportunities guaranteed-interview outcomes are applied via Leicester interview-classification override once a contextual route is confirmed.",
+    "notes": "Leicester contextual routes use structured contextual-profile evidence and the Leicester contextual evaluator. Generic contextual declarations or generic flags do not independently activate Leicester contextual routes."
   },
   "ranking_pools": [
     {
@@ -1787,7 +2218,7 @@
     "interview_prediction": true,
     "historical_guidance": true,
     "international_prediction": true,
-    "contextual_logic": false,
+    "contextual_logic": true,
     "result_card": true,
     "regression": true,
     "research_completeness": "complete_for_supported_scope_with_documented_gaps",

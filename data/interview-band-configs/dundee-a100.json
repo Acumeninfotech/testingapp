@@ -3,8 +3,8 @@
   "course_profile_id": "dundee-a100",
   "confidence": "medium",
   "evidence": {
-    "classification": "mixed_verified_international_foi_derived_and_predictor_estimate",
-    "summary": "Verified international 60% academic and 40% national-decile UCAT selection evidence with historical international UCAT guidance, not a fixed cut-off; Home guidance and the academic point matrix remain unchanged and research-derived.",
+    "classification": "mixed_foi_supported_school_leaver_and_applysmart_home_guidance",
+    "summary": "FOI-supported school-leaver selection structure uses 60% academic performance and 40% UCAT. ApplySmart Home guidance produces prediction tiers only because Dundee's exact academic scoring conversion and current applicant-pool UCAT decile boundaries are not published. The Scottish Higher proxy treats a confirmed qualifying Dundee Standard or Contextual Higher route as satisfying the Higher academic-strength component; it does not claim Dundee awards identical official academic scores to all eligible applicants. International behaviour remains separately configured.",
     "source_ids": [
       "dundee_all_entry_requirements",
       "dundee_entry_requirements",
@@ -12,20 +12,36 @@
       "dundee_verified_international_admissions_evidence"
     ]
   },
-  "eligibility": {},
+  "eligibility": {
+    "use_course_eligibility_for_qualification_routes": [
+      "scottish"
+    ]
+  },
   "score_model": {
     "type": "component_sum",
-    "basis": "Academic plus national UCAT decile score; international 60/40 weighting is verified and the academic point matrix remains research-derived",
+    "label": "Dundee ApplySmart pre-interview guidance model",
+    "basis": "School-leaver weighting is FOI-supported at 60% academic and 40% UCAT. Home guidance uses an internal ApplySmart 0-100 guidance index for classification only because Dundee's exact academic scoring conversion and annual applicant-pool UCAT decile boundaries are not public; International scoring remains separately evidenced. The index is not Dundee's official score.",
     "scale": {
       "min": 0,
       "max": 100
     },
     "pool_specific_output": true,
+    "presentation": {
+      "trust_statement": "Dundee uses academic performance and UCAT in pre-interview ranking. ApplySmart cannot reproduce Dundee's exact internal score because the complete academic scoring table and current Dundee applicant-pool UCAT decile boundaries are not published. The internal guidance index is hidden from Result Cards and is not Dundee's official score.",
+      "selection_summary": "Dundee ranks school-leaver applicants before interview using academic performance and UCAT. The school-leaver weighting is 60% academic and 40% UCAT; this result is an ApplySmart-derived prediction tier, not a Dundee cut-off or official ranking score.",
+      "hide_score_breakdown": true,
+      "hide_selection_score_details": true
+    },
     "components": [
       {
         "component_id": "academic_score",
         "type": "academic_profile_matrix",
         "max": 60,
+        "match": {
+          "all_group_ids": [
+            "international_fee"
+          ]
+        },
         "gcse": {
           "subject_count": 8,
           "bands": [
@@ -76,6 +92,11 @@
       {
         "component_id": "ucat_score",
         "type": "ucat_national_decile_lookup",
+        "match": {
+          "all_group_ids": [
+            "international_fee"
+          ]
+        },
         "points_by_decile": {
           "1": 4,
           "2": 8,
@@ -89,6 +110,250 @@
           "10": 40
         },
         "output_max": 40
+      },
+      {
+        "component_id": "home_school_leaver_guidance_index",
+        "type": "school_leaver_academic_ucat_guidance_index",
+        "max": 100,
+        "match": {
+          "all_group_ids": [
+            "home_fee",
+            "school_leaver"
+          ],
+          "excluded_group_ids": [
+            "international_fee",
+            "graduate_applicant"
+          ]
+        },
+        "evidence_label": "applysmart_derived_guidance",
+        "official_university_score": false,
+        "unsupported_route_reason_code": "home_school_leaver_pool_unavailable",
+        "inputs_unavailable_reason_code": "school_leaver_guidance_inputs_unavailable",
+        "weighting": {
+          "academic_weight_percent": 60,
+          "ucat_weight_percent": 40,
+          "weighting_source": "foi_supported"
+        },
+        "scottish_academic": {
+          "evidence_label": "predictor_estimate",
+          "assumption_note": "Dundee's exact Scottish academic scoring conversion is unpublished. ApplySmart conservatively treats a confirmed qualifying Dundee Standard or Contextual Higher route as satisfying the Higher academic-strength component, while National 5 strength may provide the existing estimated differentiation. This does not claim Dundee awards identical official academic scores to all eligible Higher profiles.",
+          "national_5_minimum_count": 5,
+          "national_5_science_subject_ids": [
+            "biology",
+            "chemistry"
+          ],
+          "confirmed_higher_route_match": {
+            "requires_eligibility_status": "eligible",
+            "academic_pathways": [
+              "standard",
+              "contextual"
+            ]
+          },
+          "contextual_higher_route_match": {
+            "academic_pathways": [
+              "contextual"
+            ]
+          },
+          "standard_higher_profiles": [
+            [
+              "A",
+              "A",
+              "A",
+              "A",
+              "B"
+            ]
+          ],
+          "contextual_higher_profiles": [
+            [
+              "A",
+              "A",
+              "A",
+              "B",
+              "B"
+            ]
+          ]
+        },
+        "ruk_academic_profile_matrix": {
+          "max": 60,
+          "gcse": {
+            "subject_count": 8,
+            "bands": [
+              {
+                "band_id": "eight_grades_8_or_9",
+                "all_minimum_grade": "8",
+                "points": 30
+              },
+              {
+                "band_id": "six_grades_8_or_9",
+                "all_minimum_grade": "7",
+                "minimum_count_at_or_above": {
+                  "grade": "8",
+                  "count": 6
+                },
+                "points": 24
+              },
+              {
+                "band_id": "five_grades_7_or_above",
+                "all_minimum_grade": "6",
+                "minimum_count_at_or_above": {
+                  "grade": "7",
+                  "count": 5
+                },
+                "points": 18
+              },
+              {
+                "band_id": "minimum_prerequisites",
+                "all_minimum_grade": "6",
+                "points": 12
+              }
+            ]
+          },
+          "a_level": {
+            "bands": [
+              {
+                "band_id": "aaa",
+                "minimum_profile": [
+                  "A",
+                  "A",
+                  "A"
+                ],
+                "points": 30
+              }
+            ]
+          }
+        },
+        "contextual_route_match": {
+          "requires_eligibility_status": "eligible",
+          "academic_pathways": [
+            "contextual"
+          ],
+          "academic_pathway_id_fragments": [
+            "dundee_ruk_contextual_widening_access_a_level"
+          ]
+        },
+        "contextual_route_assumption_note": "Dundee's exact RUK contextual academic scoring conversion is unpublished. ApplySmart treats a confirmed qualifying Dundee RUK contextual A-level route as satisfying the A-level academic-strength component for guidance only.",
+        "ucat_competitiveness_proxy": {
+          "source": "ApplySmart-derived historical guidance benchmarks from Dundee admissions-statistics context; not Dundee published cut-offs, deciles or scoring boundaries",
+          "benchmark_values_label": "Scotland Standard, Scotland Contextual, RUK Standard and RUK Contextual benchmark values are ApplySmart-derived historical guidance only.",
+          "proxy_points_label": "12/20/28/34/40 are ApplySmart proxy points for this guidance index, not Dundee published UCAT points.",
+          "final_tier_boundaries_label": "60/76/88 are ApplySmart policy thresholds for prediction tiers, not Dundee published cut-offs, deciles or scoring boundaries.",
+          "near_minimum_margin": 150,
+          "unavailable_reason_code": "home_ucat_proxy_unavailable",
+          "benchmark_routing": [
+            {
+              "benchmark_key": "scotland_contextual_category_1",
+              "match": {
+                "all_group_ids": [
+                  "scotland_domiciled"
+                ],
+                "any_group_ids": [
+                  "contextual",
+                  "widening_participation"
+                ]
+              },
+              "contextual_categories": [
+                "category_1"
+              ]
+            },
+            {
+              "benchmark_key": "scotland_contextual_category_2",
+              "match": {
+                "all_group_ids": [
+                  "scotland_domiciled"
+                ],
+                "any_group_ids": [
+                  "contextual",
+                  "widening_participation"
+                ]
+              },
+              "contextual_categories": [
+                "category_2"
+              ]
+            },
+            {
+              "benchmark_key": "scotland_contextual",
+              "match": {
+                "all_group_ids": [
+                  "scotland_domiciled"
+                ],
+                "any_group_ids": [
+                  "contextual",
+                  "widening_participation"
+                ]
+              }
+            },
+            {
+              "benchmark_key": "scotland_standard",
+              "match": {
+                "all_group_ids": [
+                  "scotland_domiciled"
+                ],
+                "excluded_group_ids": [
+                  "contextual",
+                  "widening_participation"
+                ]
+              }
+            },
+            {
+              "benchmark_key": "ruk_contextual",
+              "match": {
+                "all_group_ids": [
+                  "rest_of_uk"
+                ],
+                "any_group_ids": [
+                  "contextual",
+                  "widening_participation"
+                ]
+              }
+            },
+            {
+              "benchmark_key": "ruk_standard",
+              "match": {
+                "all_group_ids": [
+                  "rest_of_uk"
+                ],
+                "excluded_group_ids": [
+                  "contextual",
+                  "widening_participation"
+                ]
+              }
+            }
+          ],
+          "benchmarks": {
+            "scotland_standard": {
+              "minimum_competitive": 1850,
+              "strong": 2000,
+              "very_strong": 2150
+            },
+            "scotland_contextual": {
+              "minimum_competitive": 1800,
+              "strong": 1950,
+              "very_strong": 2100
+            },
+            "scotland_contextual_category_1": {
+              "minimum_competitive": 1800,
+              "strong": 1950,
+              "very_strong": 2100,
+              "category_source": "applysmart_mapped_from_published_dundee_contextual_evidence"
+            },
+            "scotland_contextual_category_2": {
+              "minimum_competitive": 1800,
+              "strong": 1950,
+              "very_strong": 2100,
+              "category_source": "applysmart_mapped_from_published_dundee_contextual_evidence"
+            },
+            "ruk_standard": {
+              "minimum_competitive": 1950,
+              "strong": 2100,
+              "very_strong": 2250
+            },
+            "ruk_contextual": {
+              "minimum_competitive": 1800,
+              "strong": 1950,
+              "very_strong": 2100
+            }
+          }
+        }
       }
     ]
   },
@@ -129,41 +394,240 @@
       ]
     },
     {
-      "pool_id": "home_rest_of_uk_school_leaver",
-      "pool_specific_output": false,
-      "priority": 10,
+      "pool_id": "home_scotland_standard_school_leaver",
+      "priority": 80,
+      "applicant_match": {
+        "all_group_ids": [
+          "home_fee",
+          "scotland_domiciled",
+          "school_leaver"
+        ],
+        "excluded_group_ids": [
+          "contextual",
+          "widening_participation",
+          "international_fee",
+          "graduate_applicant",
+          "rest_of_uk"
+        ]
+      },
+      "metric": "selection_score",
+      "comparison_guidance": {
+        "comparison_type": "current_guidance",
+        "label": "ApplySmart-derived Dundee Scotland Standard guidance tier",
+        "caveat": "This is not Dundee's official ranking score or a current-cycle cut-off; Dundee uses its own applicant-pool UCAT deciles and unpublished academic conversion. ApplySmart UCAT proxy points and tier thresholds are guidance-only policy values."
+      },
+      "presentation": {
+        "pool_label": "Home, Scotland-domiciled Standard school-leaver applicants",
+        "selection_summary": "Dundee ranks school-leaver applicants before interview using academic performance and UCAT. The school-leaver weighting is 60% academic and 40% UCAT; this Home, Scotland-domiciled Standard prediction is ApplySmart-derived guidance, not a Dundee cut-off or official ranking score.",
+        "historical_summary": "ApplySmart uses the evaluated academic route result and ApplySmart-derived historical Scotland UCAT guidance as a proxy because Dundee's exact academic scoring conversion and current applicant-pool decile boundaries are not public.",
+        "trust_statement": "ApplySmart cannot reproduce Dundee's exact internal score because the complete academic scoring table and current Dundee applicant-pool UCAT decile boundaries are not published. The internal guidance index is used for classification only and is hidden from the Result Card.",
+        "hide_score_breakdown": true,
+        "hide_selection_score_details": true
+      },
+      "band_rules": [
+        {
+          "band": "interview_likely",
+          "operator": "greater_than_or_equal",
+          "value": 88
+        },
+        {
+          "band": "realistic",
+          "operator": "between_inclusive",
+          "min": 76,
+          "max": 87.99
+        },
+        {
+          "band": "ambitious",
+          "operator": "between_inclusive",
+          "min": 60,
+          "max": 75.99
+        },
+        {
+          "band": "high_risk",
+          "operator": "less_than",
+          "value": 60
+        }
+      ]
+    },
+    {
+      "pool_id": "home_scotland_contextual_school_leaver",
+      "priority": 90,
+      "applicant_match": {
+        "all_group_ids": [
+          "home_fee",
+          "scotland_domiciled",
+          "school_leaver",
+          "contextual"
+        ],
+        "excluded_group_ids": [
+          "international_fee",
+          "graduate_applicant",
+          "rest_of_uk"
+        ]
+      },
+      "metric": "selection_score",
+      "comparison_guidance": {
+        "comparison_type": "current_guidance",
+        "label": "ApplySmart-derived Dundee Scotland Contextual guidance tier",
+        "caveat": "ApplySmart contextual UCAT benchmarks, proxy points and tier thresholds are guidance-only policy values; they are not Dundee published cut-offs, deciles or scoring boundaries."
+      },
+      "presentation": {
+        "pool_label": "Home, Scotland-domiciled Contextual school-leaver applicants",
+        "selection_summary": "Dundee ranks school-leaver applicants before interview using academic performance and UCAT. The school-leaver weighting is 60% academic and 40% UCAT; this Home, Scotland-domiciled Contextual prediction is ApplySmart-derived guidance, not a Dundee cut-off or official ranking score.",
+        "historical_summary": "ApplySmart uses the confirmed contextual academic route plus ApplySmart-derived historical Scotland/contextual UCAT guidance as a proxy because Dundee's exact academic scoring conversion and current applicant-pool decile boundaries are not public.",
+        "compact_contextual_status": "You meet the academic requirements.",
+        "hide_score_breakdown": true,
+        "hide_selection_score_details": true
+      },
+      "band_rules": [
+        {
+          "band": "interview_likely",
+          "operator": "greater_than_or_equal",
+          "value": 88
+        },
+        {
+          "band": "realistic",
+          "operator": "between_inclusive",
+          "min": 76,
+          "max": 87.99
+        },
+        {
+          "band": "ambitious",
+          "operator": "between_inclusive",
+          "min": 60,
+          "max": 75.99
+        },
+        {
+          "band": "high_risk",
+          "operator": "less_than",
+          "value": 60
+        }
+      ]
+    },
+    {
+      "pool_id": "home_rest_of_uk_standard_school_leaver",
+      "priority": 60,
       "applicant_match": {
         "all_group_ids": [
           "home_fee",
           "rest_of_uk",
           "school_leaver"
+        ],
+        "excluded_group_ids": [
+          "contextual",
+          "widening_participation",
+          "international_fee",
+          "graduate_applicant"
         ]
       },
-      "metric": "ucat_total",
+      "metric": "selection_score",
+      "comparison_guidance": {
+        "comparison_type": "current_guidance",
+        "label": "ApplySmart-derived Dundee RUK Standard guidance tier",
+        "caveat": "This is not Dundee's official ranking score or a current-cycle cut-off; Dundee uses its own applicant-pool UCAT deciles and unpublished academic conversion. ApplySmart UCAT proxy points and tier thresholds are guidance-only policy values."
+      },
+      "presentation": {
+        "pool_label": "Home/RUK Standard school-leaver applicants",
+        "selection_summary": "Dundee ranks school-leaver applicants before interview using academic performance and UCAT. The school-leaver weighting is 60% academic and 40% UCAT; this Home/RUK Standard prediction is ApplySmart-derived guidance, not a Dundee cut-off or official ranking score.",
+        "historical_summary": "ApplySmart uses the evaluated academic route result and ApplySmart-derived historical RUK UCAT guidance as a proxy because Dundee's exact academic scoring conversion and current applicant-pool decile boundaries are not public. This is not a Dundee cut-off or official ranking score.",
+        "hide_score_breakdown": true,
+        "hide_selection_score_details": true
+      },
       "band_rules": [
         {
           "band": "interview_likely",
           "operator": "greater_than_or_equal",
-          "value": 2100
+          "value": 88
         },
         {
           "band": "realistic",
           "operator": "between_inclusive",
-          "min": 1950,
-          "max": 2099
+          "min": 76,
+          "max": 87.99
         },
         {
           "band": "ambitious",
           "operator": "between_inclusive",
-          "min": 1800,
-          "max": 1949
+          "min": 60,
+          "max": 75.99
         },
         {
           "band": "high_risk",
           "operator": "less_than",
-          "value": 1800
+          "value": 60
         }
       ]
+    },
+    {
+      "pool_id": "home_rest_of_uk_contextual_school_leaver",
+      "priority": 70,
+      "applicant_match": {
+        "all_group_ids": [
+          "home_fee",
+          "rest_of_uk",
+          "school_leaver",
+          "contextual"
+        ],
+        "excluded_group_ids": [
+          "international_fee",
+          "graduate_applicant"
+        ]
+      },
+      "metric": "selection_score",
+      "comparison_guidance": {
+        "comparison_type": "current_guidance",
+        "label": "ApplySmart-derived Dundee RUK Contextual guidance tier",
+        "caveat": "This is not Dundee's official ranking score or a current-cycle cut-off; Dundee uses its own applicant-pool UCAT deciles and unpublished academic conversion. ApplySmart UCAT proxy points and tier thresholds are guidance-only policy values."
+      },
+      "presentation": {
+        "pool_label": "Home/RUK Contextual school-leaver applicants",
+        "selection_summary": "Dundee ranks school-leaver applicants before interview using academic performance and UCAT. The school-leaver weighting is 60% academic and 40% UCAT; this Home/RUK Contextual prediction is ApplySmart-derived guidance, not a Dundee cut-off or official ranking score.",
+        "historical_summary": "ApplySmart uses the confirmed contextual academic route and ApplySmart-derived historical RUK contextual UCAT guidance as a proxy because Dundee's exact academic scoring conversion and current applicant-pool decile boundaries are not public. This is not a Dundee cut-off or official ranking score.",
+        "hide_score_breakdown": true,
+        "hide_selection_score_details": true
+      },
+      "band_rules": [
+        {
+          "band": "interview_likely",
+          "operator": "greater_than_or_equal",
+          "value": 88
+        },
+        {
+          "band": "realistic",
+          "operator": "between_inclusive",
+          "min": 76,
+          "max": 87.99
+        },
+        {
+          "band": "ambitious",
+          "operator": "between_inclusive",
+          "min": 60,
+          "max": 75.99
+        },
+        {
+          "band": "high_risk",
+          "operator": "less_than",
+          "value": 60
+        }
+      ]
+    },
+    {
+      "pool_id": "graduate",
+      "priority": 40,
+      "applicant_match": {
+        "all_group_ids": [
+          "graduate_applicant"
+        ],
+        "excluded_group_ids": [
+          "international_fee"
+        ]
+      },
+      "metric": "eligibility_gate",
+      "presentation": {
+        "pool_label": "Graduate applicants",
+        "selection_summary": "Dundee graduate ranking is kept separate. ApplySmart does not currently publish a Dundee graduate pre-interview prediction tier because complete graduate academic scoring and applicant-pool UCAT evidence are not public."
+      },
+      "band_rules": []
     }
   ]
 }

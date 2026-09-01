@@ -127,11 +127,18 @@ export const UNRESOLVED_LABELS = {
   predictionUnavailable: 'Prediction Unavailable',
 } as const;
 
+const GLASGOW_REACH_COMPLETION_REQUIRED_REASON = 'glasgow_reach_completion_required';
+
 function isPredictionUnavailableReasonCode(reasonCode?: string | null): boolean {
   return reasonCode === 'university_methodology_gap' ||
     reasonCode === 'prediction_calibration_unavailable' ||
     reasonCode === 'academic_matrix_band_unavailable' ||
     /historical_evidence_gap/.test(reasonCode ?? '');
+}
+
+function manualReviewReasonCode(card: PredictionResult['result_card']): string | null {
+  const code = card.decision_transparency?.manual_review_reason_code;
+  return typeof code === 'string' && code.trim().length > 0 ? code.trim() : null;
 }
 
 function firstNonEmptyString(...values: Array<string | null | undefined>): string | null {
@@ -199,7 +206,8 @@ export function presentResult(card: PredictionResult['result_card']): ResultPres
     // cannot safely calculate (e.g. a qualification route needing adviser
     // review) - distinct from missing applicant data.
     const manualReason = card.decision_transparency?.manual_review_reason || '';
-    const label = /please confirm|missing|required applicant information|more information/i.test(manualReason)
+    const label = manualReviewReasonCode(card) === GLASGOW_REACH_COMPLETION_REQUIRED_REASON ||
+      /please confirm|missing|required applicant information|more information/i.test(manualReason)
       ? UNRESOLVED_LABELS.informationNeeded
       : UNRESOLVED_LABELS.needsReview;
     return {
@@ -245,9 +253,14 @@ export function presentResult(card: PredictionResult['result_card']): ResultPres
     throw new Error('Result card contract violation: standard result_card is missing prediction.result_band.');
   }
   if (card.interview_outcome === 'guaranteed_interview') {
+    const guaranteedBadgeLabel =
+      typeof card.guaranteed_interview_badge_label === 'string' &&
+      card.guaranteed_interview_badge_label.trim().length > 0
+        ? card.guaranteed_interview_badge_label.trim()
+        : 'Guaranteed';
     return {
       variant: 'safe',
-      label: 'Guaranteed',
+      label: guaranteedBadgeLabel,
       category: 'very_strong',
       officialPredictionUnavailable,
     };
@@ -306,6 +319,7 @@ function publicComparisonLabel(card: PredictionResult['result_card']): string | 
     metricLabel,
     ucatComparison?.benchmark_label,
     ucatComparison?.caveat,
+    ucatComparison?.evidence_status,
     ucatComparison?.comparison_type,
   ]
     .filter(Boolean)
@@ -313,6 +327,9 @@ function publicComparisonLabel(card: PredictionResult['result_card']): string | 
     .toLowerCase();
 
   if (!text.trim()) return null;
+  if (ucatComparison?.comparison_type === 'applysmart_prediction_band' || ucatComparison?.evidence_status === 'applysmart_derived') {
+    return 'ApplySmart prediction band';
+  }
   if (/\bhome\b/.test(text) && /published|official/.test(text) && /threshold|minimum/.test(text)) {
     return 'published Home threshold';
   }
@@ -430,7 +447,10 @@ export function resultCardRecommendationExplanation(card: PredictionResult['resu
   const band = card.prediction?.result_band;
 
   if (card.interview_outcome === 'guaranteed_interview') {
-    return 'Based on ApplySmart\'s assessment, this applicant group meets the published guaranteed-interview evidence available for this route.';
+    return (
+      firstNonEmptyString(card.primary_explanation) ||
+      "Based on ApplySmart's assessment, this applicant group meets the published guaranteed-interview evidence available for this route."
+    );
   }
   if (state === 'not_eligible' || band === 'not_eligible') {
     return card.primary_explanation || 'Based on the information entered, one or more supported entry requirements are not met.';
@@ -467,6 +487,14 @@ export function resultCardRecommendationExplanation(card: PredictionResult['resu
 }
 
 export function resultCardAcademicStatus(card: PredictionResult['result_card']): string {
+  const compactStatusLabel =
+    typeof card.decision_transparency?.compact_status?.label === 'string'
+      ? card.decision_transparency.compact_status.label.trim()
+      : '';
+  if (compactStatusLabel) {
+    return compactStatusLabel;
+  }
+
   const state = card.recommendation_display_state;
   const eligibilityStatus = card.eligibility?.status;
   const eligibilityStage = card.decision_transparency?.decision_path?.find((s) => s.stage === 'Eligibility');
@@ -514,6 +542,17 @@ export function strongestPopulatedFilterGroup(
   for (const group of FILTER_GROUP_PRIORITY) {
     if ((counts[group] || 0) > 0) {
       return group;
+    }
+  }
+  return 'all';
+}
+
+export function strongestPopulatedCategory(
+  counts: Partial<Record<ResultCategory, number>>,
+): ResultCategory | 'all' {
+  for (const category of CATEGORY_PRIORITY) {
+    if ((counts[category] || 0) > 0) {
+      return category;
     }
   }
   return 'all';

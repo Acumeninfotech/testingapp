@@ -3,7 +3,7 @@
   "profile_id": "sheffield-a100",
   "profile_status": "activated_for_scoped_eligibility_and_interview_guidance",
   "verification_status": "official_source_verified_with_remaining_eligibility_exceptions",
-  "last_updated": "2026-07-06",
+  "last_updated": "2026-08-09",
   "selection_approach_display": "Sheffield checks academic eligibility and the UCAT minimum before ranking most eligible applicants by UCAT cognitive total within separate Home and International pools.",
   "university": {
     "name": "University of Sheffield",
@@ -60,14 +60,13 @@
       "pool_id": "access_to_sheffield_medicine",
       "applies_to_group_ids": [
         "home_fee",
-        "contextual",
-        "widening_participation"
+        "sheffield_access_to_sheffield_medicine"
       ],
       "excluded_group_ids": [
         "international_fee",
         "graduate_applicant"
       ],
-      "selection_relevance": "Verified Access to Sheffield Medicine or approved pathway applicants must meet the UCAT minimum but bypass ordinary UCAT ranking."
+      "selection_relevance": "Verified Access to Sheffield (Medicine) applicants must meet the UCAT minimum but progress to the next stage without competitive UCAT ranking."
     },
     {
       "pool_id": "graduate_a100_manual_review",
@@ -87,6 +86,9 @@
     "rest_of_uk",
     "contextual",
     "widening_participation",
+    "sheffield_contextual_offer",
+    "sheffield_access_to_sheffield_medicine",
+    "sheffield_bradford_hallam_pathway",
     "care_experienced",
     "graduate_applicant",
     "school_leaver",
@@ -132,19 +134,40 @@
         "mathematics",
         "science"
       ],
-      "minimum_count_at_or_above_grade": {
-        "requirement_id": "five_gcse_grade_7_minimum",
-        "count": 5,
-        "minimum_grade": "7/A",
-        "decision_outcome_if_not_met": "not_eligible",
-        "source_ids": [
-          "sheffield_course_page_2027",
-          "sheffield_a100_policy_2027"
-        ]
-      },
+      "minimum_count_at_or_above_grade": [
+        {
+          "requirement_id": "five_gcse_grade_7_minimum",
+          "excluded_group_ids": [
+            "sheffield_access_to_sheffield_medicine"
+          ],
+          "count": 5,
+          "minimum_grade": "7/A",
+          "decision_outcome_if_not_met": "not_eligible",
+          "source_ids": [
+            "sheffield_course_page_2027",
+            "sheffield_a100_policy_2027"
+          ]
+        },
+        {
+          "requirement_id": "access_to_sheffield_medicine_five_gcse_grade_6_minimum",
+          "applies_to_group_ids": [
+            "sheffield_access_to_sheffield_medicine"
+          ],
+          "count": 5,
+          "minimum_grade": "6/B",
+          "decision_outcome_if_not_met": "not_eligible",
+          "source_ids": [
+            "sheffield_widening_access",
+            "sheffield_a100_policy_2027"
+          ]
+        }
+      ],
       "grade_requirements": [
         {
           "requirement_id": "gcse_english_language_minimum",
+          "excluded_group_ids": [
+            "sheffield_access_to_sheffield_medicine"
+          ],
           "subject_id": "english_language",
           "minimum_grade": "6/B",
           "qualification_level": "gcse_or_igcse",
@@ -156,12 +179,43 @@
         },
         {
           "requirement_id": "gcse_mathematics_minimum",
+          "excluded_group_ids": [
+            "sheffield_access_to_sheffield_medicine"
+          ],
           "subject_id": "mathematics",
           "minimum_grade": "6/B",
           "qualification_level": "gcse_or_igcse",
           "decision_outcome_if_not_met": "not_eligible",
           "source_ids": [
             "sheffield_course_page_2027",
+            "sheffield_a100_policy_2027"
+          ]
+        },
+        {
+          "requirement_id": "access_to_sheffield_medicine_gcse_english_language_minimum",
+          "applies_to_group_ids": [
+            "sheffield_access_to_sheffield_medicine"
+          ],
+          "subject_id": "english_language",
+          "minimum_grade": "4/C",
+          "qualification_level": "gcse_or_igcse",
+          "decision_outcome_if_not_met": "not_eligible",
+          "source_ids": [
+            "sheffield_widening_access",
+            "sheffield_a100_policy_2027"
+          ]
+        },
+        {
+          "requirement_id": "access_to_sheffield_medicine_gcse_mathematics_minimum",
+          "applies_to_group_ids": [
+            "sheffield_access_to_sheffield_medicine"
+          ],
+          "subject_id": "mathematics",
+          "minimum_grade": "4/C",
+          "qualification_level": "gcse_or_igcse",
+          "decision_outcome_if_not_met": "not_eligible",
+          "source_ids": [
+            "sheffield_widening_access",
             "sheffield_a100_policy_2027"
           ]
         }
@@ -173,6 +227,9 @@
         "accepted_options": [
           {
             "option_id": "single_named_science",
+            "excluded_group_ids": [
+              "sheffield_access_to_sheffield_medicine"
+            ],
             "minimum_subjects_required": 1,
             "accepted_subject_ids": [
               "biology",
@@ -185,6 +242,9 @@
           },
           {
             "option_id": "combined_science",
+            "excluded_group_ids": [
+              "sheffield_access_to_sheffield_medicine"
+            ],
             "subject_id": "combined_science",
             "minimum_grade_profile": [
               "6",
@@ -193,6 +253,37 @@
             "accepted_equivalent_profile": [
               "B",
               "B"
+            ],
+            "counts_as_gcse_subjects": 2
+          },
+          {
+            "option_id": "access_to_sheffield_medicine_single_named_science",
+            "applies_to_group_ids": [
+              "sheffield_access_to_sheffield_medicine"
+            ],
+            "minimum_subjects_required": 1,
+            "accepted_subject_ids": [
+              "biology",
+              "chemistry",
+              "physics",
+              "psychology",
+              "science"
+            ],
+            "minimum_grade": "4/C"
+          },
+          {
+            "option_id": "access_to_sheffield_medicine_combined_science",
+            "applies_to_group_ids": [
+              "sheffield_access_to_sheffield_medicine"
+            ],
+            "subject_id": "combined_science",
+            "minimum_grade_profile": [
+              "4",
+              "4"
+            ],
+            "accepted_equivalent_profile": [
+              "C",
+              "C"
             ],
             "counts_as_gcse_subjects": 2
           }
@@ -241,8 +332,6 @@
               "school_leaver"
             ],
             "excluded_group_ids": [
-              "contextual",
-              "widening_participation",
               "graduate_applicant"
             ],
             "grade_profile": [
@@ -278,8 +367,6 @@
               "school_leaver"
             ],
             "excluded_group_ids": [
-              "contextual",
-              "widening_participation",
               "graduate_applicant"
             ],
             "grade_profile": [
@@ -313,8 +400,7 @@
             "requirement_id": "contextual_aab_biology_route",
             "applies_to_group_ids": [
               "home_fee",
-              "contextual",
-              "widening_participation",
+              "sheffield_contextual_offer",
               "school_leaver"
             ],
             "excluded_group_ids": [
@@ -358,8 +444,7 @@
             "requirement_id": "contextual_aab_chemistry_route",
             "applies_to_group_ids": [
               "home_fee",
-              "contextual",
-              "widening_participation",
+              "sheffield_contextual_offer",
               "school_leaver"
             ],
             "excluded_group_ids": [
@@ -415,8 +500,7 @@
         "contextual_offer": {
           "applies_to_group_ids": [
             "home_fee",
-            "contextual",
-            "widening_participation"
+            "sheffield_contextual_offer"
           ],
           "grade_profile": [
             "A",
@@ -429,15 +513,72 @@
           ],
           "notes": "Requires grade A in Chemistry or Biology."
         },
-        "epq_alternative": {
-          "grade_profile": [
+        "epq_alternative_offer": {
+          "enabled": true,
+          "pathway_id": "sheffield_epq_alternative",
+          "a_level_grades": [
             "A",
             "A",
             "B"
           ],
-          "epq_grade": "A",
-          "primary_science_grade": "A",
-          "execution_status": "manual_review_required_epq_not_read_by_generic_qualification_evaluator",
+          "epq_minimum_grade": "A",
+          "required_subject_grade_options": [
+            {
+              "option_id": "biology_mandatory_science_grade_a",
+              "required_subject_ids": [
+                "biology"
+              ],
+              "grade_requirements": [
+                {
+                  "subject_id": "biology",
+                  "minimum_grade": "A"
+                }
+              ],
+              "one_of_subject_groups": [
+                {
+                  "group_id": "epq_second_science_with_biology",
+                  "minimum_required": 1,
+                  "subject_ids": [
+                    "chemistry",
+                    "mathematics",
+                    "physics",
+                    "psychology",
+                    "human_biology"
+                  ]
+                }
+              ]
+            },
+            {
+              "option_id": "chemistry_mandatory_science_grade_a",
+              "required_subject_ids": [
+                "chemistry"
+              ],
+              "grade_requirements": [
+                {
+                  "subject_id": "chemistry",
+                  "minimum_grade": "A"
+                }
+              ],
+              "one_of_subject_groups": [
+                {
+                  "group_id": "epq_second_science_with_chemistry",
+                  "minimum_required": 1,
+                  "subject_ids": [
+                    "biology",
+                    "human_biology",
+                    "mathematics",
+                    "physics",
+                    "psychology"
+                  ]
+                }
+              ]
+            }
+          ],
+          "conditions": {
+            "a_level_resits_allowed": false,
+            "must_be_taken_alongside_a_levels": true,
+            "equivalent_grade_combinations_allowed": false
+          },
           "source_ids": [
             "sheffield_a100_policy_2027"
           ]
@@ -456,8 +597,8 @@
         "science_practical_endorsement_required": true,
         "predicted_grades_accepted": true,
         "sitting_policy": "Three A-levels must normally be studied within two years and taken in the same first sitting.",
-        "execution_status": "grade_subject_and_practical_requirements_executable_timing_epq_and_resit_conditions_manual",
-        "notes": "The ordinary AAA and verified contextual AAB routes are executable for complete school-leaver profiles."
+        "execution_status": "grade_subject_practical_and_epq_alternative_requirements_executable_timing_and_resit_conditions_manual",
+        "notes": "The ordinary AAA, verified contextual AAB and EPQ alternative AAB routes are executable for complete school-leaver profiles. Sheffield's ordinary two-year same-first-sitting condition remains outside the automatic route check."
       },
       "ib": {
         "status": "official_source_verified_execution_partial",
@@ -471,6 +612,11 @@
           {
             "requirement_id": "ib_standard_36",
             "total_points": 36,
+            "hl_grade_profile": [
+              "6",
+              "6",
+              "6"
+            ],
             "required_hl_subject_ids": [],
             "one_of_hl_subject_groups": [
               {
@@ -490,7 +636,7 @@
               "sheffield_course_page_2027",
               "sheffield_a100_policy_2027"
             ],
-            "notes": "Chemistry or Biology plus a second science at Higher Level, both at grade 6."
+            "notes": "Three Higher Level subjects at grade 6, including Chemistry or Biology and a second accepted science."
           }
         ],
         "required_hl_subject_ids": [],
@@ -503,7 +649,10 @@
         "notes": "The standard 36-point route is executable. Contextual IB and SL minimums remain review paths."
       },
       "scottish": {
-        "status": "official_source_verified_manual_review",
+        "status": "official_source_verified",
+        "route_implemented": true,
+        "contextual_route_implemented": true,
+        "execution_status": "automatic_with_complete_scottish_qualification_data",
         "source_ids": [
           "sheffield_course_page_2027",
           "sheffield_a100_policy_2027"
@@ -533,12 +682,359 @@
           ],
           "notes": "AA in Chemistry or Biology and a second science."
         },
-        "grade_requirements": [],
+        "contextual_offer": {
+          "applies_to_group_ids": [
+            "home_fee",
+            "sheffield_contextual_offer"
+          ],
+          "higher_grade_profile": [
+            "A",
+            "A",
+            "B",
+            "B",
+            "B"
+          ],
+          "advanced_higher_grade_profile": [
+            "A",
+            "B"
+          ],
+          "source_ids": [
+            "sheffield_course_page_2027",
+            "sheffield_widening_access"
+          ],
+          "notes": "AABBB at Higher plus AB at Advanced Higher. Chemistry or Biology must be at grade A at Advanced Higher, with a second accepted science at grade B or better."
+        },
+        "grade_requirements": [
+          {
+            "requirement_id": "sheffield_scottish_standard_highers_and_advanced_highers",
+            "route_id": "sheffield_scottish_standard_highers_and_advanced_highers",
+            "qualification_level": "scottish_highers_and_advanced_highers",
+            "academic_pathway": "standard",
+            "applies_to_group_ids": [
+              "school_leaver"
+            ],
+            "excluded_group_ids": [
+              "sheffield_contextual_offer",
+              "graduate_applicant"
+            ],
+            "higher_grade_profile": [
+              "A",
+              "A",
+              "A",
+              "B",
+              "B"
+            ],
+            "advanced_higher_grade_profile": [
+              "A",
+              "A"
+            ],
+            "advanced_higher_required_subject_grade_options": [
+              {
+                "option_id": "chemistry_biology",
+                "grade_requirements": [
+                  {
+                    "subject_id": "chemistry",
+                    "minimum_grade": "A"
+                  },
+                  {
+                    "subject_id": "biology",
+                    "minimum_grade": "A"
+                  }
+                ]
+              },
+              {
+                "option_id": "chemistry_human_biology",
+                "grade_requirements": [
+                  {
+                    "subject_id": "chemistry",
+                    "minimum_grade": "A"
+                  },
+                  {
+                    "subject_id": "human_biology",
+                    "minimum_grade": "A"
+                  }
+                ]
+              },
+              {
+                "option_id": "chemistry_mathematics",
+                "grade_requirements": [
+                  {
+                    "subject_id": "chemistry",
+                    "minimum_grade": "A"
+                  },
+                  {
+                    "subject_id": "mathematics",
+                    "minimum_grade": "A"
+                  }
+                ]
+              },
+              {
+                "option_id": "chemistry_physics",
+                "grade_requirements": [
+                  {
+                    "subject_id": "chemistry",
+                    "minimum_grade": "A"
+                  },
+                  {
+                    "subject_id": "physics",
+                    "minimum_grade": "A"
+                  }
+                ]
+              },
+              {
+                "option_id": "chemistry_psychology",
+                "grade_requirements": [
+                  {
+                    "subject_id": "chemistry",
+                    "minimum_grade": "A"
+                  },
+                  {
+                    "subject_id": "psychology",
+                    "minimum_grade": "A"
+                  }
+                ]
+              },
+              {
+                "option_id": "biology_chemistry",
+                "grade_requirements": [
+                  {
+                    "subject_id": "biology",
+                    "minimum_grade": "A"
+                  },
+                  {
+                    "subject_id": "chemistry",
+                    "minimum_grade": "A"
+                  }
+                ]
+              },
+              {
+                "option_id": "biology_human_biology",
+                "grade_requirements": [
+                  {
+                    "subject_id": "biology",
+                    "minimum_grade": "A"
+                  },
+                  {
+                    "subject_id": "human_biology",
+                    "minimum_grade": "A"
+                  }
+                ]
+              },
+              {
+                "option_id": "biology_mathematics",
+                "grade_requirements": [
+                  {
+                    "subject_id": "biology",
+                    "minimum_grade": "A"
+                  },
+                  {
+                    "subject_id": "mathematics",
+                    "minimum_grade": "A"
+                  }
+                ]
+              },
+              {
+                "option_id": "biology_physics",
+                "grade_requirements": [
+                  {
+                    "subject_id": "biology",
+                    "minimum_grade": "A"
+                  },
+                  {
+                    "subject_id": "physics",
+                    "minimum_grade": "A"
+                  }
+                ]
+              },
+              {
+                "option_id": "biology_psychology",
+                "grade_requirements": [
+                  {
+                    "subject_id": "biology",
+                    "minimum_grade": "A"
+                  },
+                  {
+                    "subject_id": "psychology",
+                    "minimum_grade": "A"
+                  }
+                ]
+              }
+            ],
+            "decision_outcome_if_not_met": "not_eligible",
+            "source_ids": [
+              "sheffield_course_page_2027",
+              "sheffield_a100_policy_2027"
+            ],
+            "notes": "AAABB at Higher plus AA at Advanced Higher. Advanced Highers must include Chemistry or Biology and a second accepted science from Biology/Human Biology, Chemistry, Mathematics, Physics or Psychology."
+          },
+          {
+            "requirement_id": "sheffield_scottish_contextual_highers_and_advanced_highers",
+            "route_id": "sheffield_scottish_contextual_highers_and_advanced_highers",
+            "qualification_level": "scottish_highers_and_advanced_highers",
+            "academic_pathway": "contextual",
+            "applies_to_group_ids": [
+              "home_fee",
+              "sheffield_contextual_offer",
+              "school_leaver"
+            ],
+            "excluded_group_ids": [
+              "international_fee",
+              "graduate_applicant"
+            ],
+            "higher_grade_profile": [
+              "A",
+              "A",
+              "B",
+              "B",
+              "B"
+            ],
+            "advanced_higher_grade_profile": [
+              "A",
+              "B"
+            ],
+            "advanced_higher_required_subject_grade_options": [
+              {
+                "option_id": "chemistry_biology",
+                "grade_requirements": [
+                  {
+                    "subject_id": "chemistry",
+                    "minimum_grade": "A"
+                  },
+                  {
+                    "subject_id": "biology",
+                    "minimum_grade": "B"
+                  }
+                ]
+              },
+              {
+                "option_id": "chemistry_human_biology",
+                "grade_requirements": [
+                  {
+                    "subject_id": "chemistry",
+                    "minimum_grade": "A"
+                  },
+                  {
+                    "subject_id": "human_biology",
+                    "minimum_grade": "B"
+                  }
+                ]
+              },
+              {
+                "option_id": "chemistry_mathematics",
+                "grade_requirements": [
+                  {
+                    "subject_id": "chemistry",
+                    "minimum_grade": "A"
+                  },
+                  {
+                    "subject_id": "mathematics",
+                    "minimum_grade": "B"
+                  }
+                ]
+              },
+              {
+                "option_id": "chemistry_physics",
+                "grade_requirements": [
+                  {
+                    "subject_id": "chemistry",
+                    "minimum_grade": "A"
+                  },
+                  {
+                    "subject_id": "physics",
+                    "minimum_grade": "B"
+                  }
+                ]
+              },
+              {
+                "option_id": "chemistry_psychology",
+                "grade_requirements": [
+                  {
+                    "subject_id": "chemistry",
+                    "minimum_grade": "A"
+                  },
+                  {
+                    "subject_id": "psychology",
+                    "minimum_grade": "B"
+                  }
+                ]
+              },
+              {
+                "option_id": "biology_chemistry",
+                "grade_requirements": [
+                  {
+                    "subject_id": "biology",
+                    "minimum_grade": "A"
+                  },
+                  {
+                    "subject_id": "chemistry",
+                    "minimum_grade": "B"
+                  }
+                ]
+              },
+              {
+                "option_id": "biology_human_biology",
+                "grade_requirements": [
+                  {
+                    "subject_id": "biology",
+                    "minimum_grade": "A"
+                  },
+                  {
+                    "subject_id": "human_biology",
+                    "minimum_grade": "B"
+                  }
+                ]
+              },
+              {
+                "option_id": "biology_mathematics",
+                "grade_requirements": [
+                  {
+                    "subject_id": "biology",
+                    "minimum_grade": "A"
+                  },
+                  {
+                    "subject_id": "mathematics",
+                    "minimum_grade": "B"
+                  }
+                ]
+              },
+              {
+                "option_id": "biology_physics",
+                "grade_requirements": [
+                  {
+                    "subject_id": "biology",
+                    "minimum_grade": "A"
+                  },
+                  {
+                    "subject_id": "physics",
+                    "minimum_grade": "B"
+                  }
+                ]
+              },
+              {
+                "option_id": "biology_psychology",
+                "grade_requirements": [
+                  {
+                    "subject_id": "biology",
+                    "minimum_grade": "A"
+                  },
+                  {
+                    "subject_id": "psychology",
+                    "minimum_grade": "B"
+                  }
+                ]
+              }
+            ],
+            "decision_outcome_if_not_met": "not_eligible",
+            "source_ids": [
+              "sheffield_course_page_2027",
+              "sheffield_widening_access"
+            ],
+            "notes": "Contextual Scottish route: AABBB at Higher plus AB at Advanced Higher. Chemistry or Biology must be grade A at Advanced Higher, with a second accepted science at grade B or better."
+          }
+        ],
         "required_subject_ids": [],
         "one_of_subject_groups": [],
-        "contextual_offer": "AABBB Highers plus AB Advanced Higher",
-        "execution_status": "manual_review_required_engine_v1_cannot_jointly_assess_higher_and_advanced_higher_profiles",
-        "notes": "Scottish qualifications are an alternative qualification route, not a separate Sheffield applicant pool."
+        "notes": "Scottish qualifications are an alternative qualification route, not a separate Sheffield applicant pool. No National 5 GCSE-equivalence requirement is inferred; published SQA English equivalence remains represented under English-language exemptions."
       },
       "degree": {
         "status": "official_source_verified_manual_review",
@@ -664,7 +1160,7 @@
     "primary_model": "ucat_ranking",
     "modifiers": [
       "widening_participation_scheme",
-      "guaranteed_interview",
+      "ucat_ranking_bypass",
       "separate_applicant_pool"
     ],
     "ranking_factors": [
@@ -707,7 +1203,7 @@
     },
     "thresholds": [
       {
-        "threshold_id": "ucat_minimum_2026_entry",
+        "threshold_id": "ucat_minimum_2027_entry",
         "applies_to_group_ids": [],
         "metric": "ucat_total",
         "operator": "greater_than_or_equal",
@@ -750,16 +1246,15 @@
     "selection_adjustments": [
       {
         "adjustment_id": "access_to_sheffield_medicine_ranking_bypass",
-        "modifier_id": "guaranteed_interview",
+        "modifier_id": "ucat_ranking_bypass",
         "applies_to_group_ids": [
           "home_fee",
-          "contextual",
-          "widening_participation"
+          "sheffield_access_to_sheffield_medicine"
         ],
         "condition": {
-          "field": "access_to_medicine_profile",
-          "operator": "verified_pathway",
-          "value": true
+          "field": "applicant_group_ids",
+          "operator": "includes",
+          "value": "sheffield_access_to_sheffield_medicine"
         },
         "effect": {
           "type": "bypass_ranking",
@@ -771,7 +1266,7 @@
           "sheffield_widening_access",
           "sheffield_a100_policy_2027"
         ],
-        "notes": "The UCAT minimum still applies. The pathway is represented as interview-likely only after its academic requirements are verified."
+        "notes": "The UCAT minimum still applies. Verified Access to Sheffield (Medicine) applicants progress to the next stage without competitive UCAT ranking after academic requirements are verified."
       }
     ],
     "tie_breakers": [],
@@ -797,20 +1292,46 @@
     "available": true,
     "applies_to_group_ids": [
       "home_fee",
-      "contextual",
-      "widening_participation"
+      "sheffield_contextual_offer"
     ],
+    "contextual_eligibility": {
+      "evaluator_id": "sheffield_contextual_medicine_a100",
+      "controls_group_routing": true,
+      "activated_applicant_group_ids": [
+        "sheffield_contextual_offer",
+        "sheffield_access_to_sheffield_medicine",
+        "sheffield_bradford_hallam_pathway"
+      ],
+      "evidence_source": "step_6_contextual_profile",
+      "manual_review_when_evidence_incomplete": true,
+      "notes": "Sheffield A100 contextual groups must be activated from Step 6 structured contextual evidence via the shared contextual evidence framework. Generic access_to_medicine academic routes and access_to_medicine_profile are not valid evidence for Access to Sheffield (Medicine)."
+    },
     "criteria": [
       {
         "criterion_id": "access_sheffield_verified_status",
-        "description": "Access Sheffield or Access+ eligibility must be verified by the university.",
+        "description": "Access Sheffield or Access+ eligibility may activate the published 2027 AAB contextual A-level offer where Step 6 evidence establishes a qualifying criterion.",
         "source_ids": [
           "sheffield_widening_access"
         ]
       },
       {
         "criterion_id": "access_to_sheffield_medicine_completion",
-        "description": "The specific Access to Sheffield Medicine programme or approved pathway must be completed and verified for the UCAT-ranking bypass.",
+        "description": "The specific Access to Sheffield (Medicine) programme must be represented through named Step 6 access/WP programme evidence for the special GCSE branch and UCAT-ranking bypass.",
+        "source_ids": [
+          "sheffield_widening_access",
+          "sheffield_a100_policy_2027"
+        ]
+      },
+      {
+        "criterion_id": "realising_opportunities_manual_review",
+        "description": "Realising Opportunities evidence requires manual review until cohort and completion timing can be established in structured Step 6 evidence.",
+        "source_ids": [
+          "sheffield_widening_access"
+        ]
+      },
+      {
+        "criterion_id": "bradford_hallam_pathway_manual_review",
+        "description": "Recognised Bradford / Sheffield Hallam pathway evidence requires manual review unless pathway marks, module thresholds and widening-participation criteria are established.",
         "source_ids": [
           "sheffield_widening_access",
           "sheffield_a100_policy_2027"
@@ -822,8 +1343,7 @@
         "adjustment_id": "contextual_a_level_offer",
         "applies_to_group_ids": [
           "home_fee",
-          "contextual",
-          "widening_participation"
+          "sheffield_contextual_offer"
         ],
         "stage": "academic_eligibility",
         "policy_description": "AAB including grade A in Chemistry or Biology.",
@@ -838,17 +1358,16 @@
         ]
       }
     ],
-    "guaranteed_interview_rules": [
+    "ranking_bypass_rules": [
       {
         "rule_id": "access_to_sheffield_medicine_ucat_ranking_bypass",
         "applies_to_group_ids": [
           "home_fee",
-          "contextual",
-          "widening_participation"
+          "sheffield_access_to_sheffield_medicine"
         ],
         "minimum_requirements_must_be_met": true,
         "conditions": [
-          "Specific programme or pathway completion is verified.",
+          "Specific Access to Sheffield (Medicine) programme evidence is verified.",
           "Applicable academic requirements are met.",
           "UCAT total is at least 1800 out of 2700."
         ],
@@ -856,7 +1375,7 @@
           "sheffield_widening_access",
           "sheffield_a100_policy_2027"
         ],
-        "notes": "Ordinary UCAT ranking is bypassed; no contextual points or invented uplift are applied."
+        "notes": "Ordinary UCAT ranking is bypassed after the minimum UCAT gate; no contextual points, guaranteed-interview label, or invented uplift is applied."
       }
     ],
     "notes": "General Access Sheffield contextual applicants receive the academic adjustment but remain in the ordinary Home UCAT ranking pool."
@@ -982,8 +1501,7 @@
     "contextual_offer": {
       "applies_to_group_ids": [
         "home_fee",
-        "contextual",
-        "widening_participation"
+        "sheffield_contextual_offer"
       ],
       "grade_profile": [
         "A",
@@ -994,7 +1512,7 @@
         "sheffield_course_page_2027",
         "sheffield_widening_access"
       ],
-      "notes": "Stored as academic eligibility information only."
+      "notes": "Stored as academic eligibility information only. The 2027 AAB Access Sheffield A-level offer is explicitly published on the Sheffield course page."
     },
     "notes": "ApplySmart does not predict offers, interview performance, MMI scores, SJT interview scores, waiting-list outcomes or post-interview ranking."
   },
@@ -1049,7 +1567,7 @@
       "url": "https://sheffield.ac.uk/smph/undergraduate/medicine-admissions",
       "source_type": "official_selection_page",
       "published_date": null,
-      "accessed_date": "2026-07-06",
+      "accessed_date": "2026-08-09",
       "applies_to_sections": [
         "course_identity",
         "stage_1_eligibility",
@@ -1067,7 +1585,7 @@
       "url": "https://sheffield.ac.uk/undergraduate/courses/2027/medicine-mbchb",
       "source_type": "official_course_page",
       "published_date": null,
-      "accessed_date": "2026-07-06",
+      "accessed_date": "2026-08-09",
       "applies_to_sections": [
         "course_identity",
         "stage_1_eligibility",
@@ -1084,7 +1602,7 @@
       "url": "https://sheffield.ac.uk/media/69386/download",
       "source_type": "official_admissions_policy",
       "published_date": null,
-      "accessed_date": "2026-07-06",
+      "accessed_date": "2026-08-09",
       "applies_to_sections": [
         "stage_1_eligibility",
         "stage_2_interview_selection",
@@ -1101,7 +1619,7 @@
       "url": "https://sheffield.ac.uk/smph/undergraduate/widening-access",
       "source_type": "official_contextual_policy",
       "published_date": null,
-      "accessed_date": "2026-07-06",
+      "accessed_date": "2026-08-09",
       "applies_to_sections": [
         "stage_1_eligibility",
         "contextual_admissions",
@@ -1128,7 +1646,7 @@
   ],
   "validation": {
     "source_status": "official_source_verified_with_remaining_eligibility_exceptions",
-    "last_verified": "2026-07-06",
+    "last_verified": "2026-08-09",
     "confidence_level": "Medium",
     "completion_status": "production_ready_for_supported_scope_with_documented_gaps",
     "section_completion_status": {
@@ -1150,10 +1668,8 @@
     ],
     "review_notes": "Sheffield fits the frozen sequential-gate and UCAT-ranking architecture. Production guidance uses only the native 2025-26 2700-scale pool cutpoints and does not execute offer-stage evidence. Engine execution boundaries are recorded separately from genuine evidence gaps.",
     "engine_execution_boundaries": [
-      "Scottish Higher plus Advanced Higher eligibility is source-complete and mapped but requires manual review.",
       "Graduate A100 2:1 degree plus BBB eligibility is source-complete and mapped but requires manual review.",
       "GCSE and A-level resit conditions are source-complete and mapped but require manual review.",
-      "The EPQ route is source-complete and mapped but requires manual review.",
       "The contextual IB offer is source-complete and mapped but requires manual review.",
       "Environmental Science GCSE acceptance is source-complete and mapped but requires manual review because the subject is not canonical in Engine v1.0.",
       "The A-level two-year and same-first-sitting condition is source-complete but not automatically verified.",
@@ -1184,9 +1700,7 @@
       "Documented evidence or automation gap retained as non-blocking for activation-ready production scope: environmental_science_subject_normalisation",
       "Documented evidence or automation gap retained as non-blocking for activation-ready production scope: a_level_two_year_and_same_sitting_execution",
       "Documented evidence or automation gap retained as non-blocking for activation-ready production scope: sheffield_specific_resit_execution",
-      "Documented evidence or automation gap retained as non-blocking for activation-ready production scope: epq_alternative_execution",
       "Documented evidence or automation gap retained as non-blocking for activation-ready production scope: contextual_ib_group_filtering",
-      "Documented evidence or automation gap retained as non-blocking for activation-ready production scope: joint_higher_advanced_higher_execution",
       "Documented evidence or automation gap retained as non-blocking for activation-ready production scope: graduate_degree_plus_bbb_execution",
       "Documented evidence or automation gap retained as non-blocking for activation-ready production scope: country_specific_international_equivalences",
       "Documented evidence or automation gap retained as non-blocking for activation-ready production scope: sheffield_ielts_7_5_threshold_execution",
@@ -1206,14 +1720,16 @@
       "Do not apply A101 rules to A100.",
       "Do not predict offers, interview performance, waiting-list outcomes or post-interview ranking."
     ],
-    "approved_activation_scope": "Complete standard or verified contextual A-level school-leaver profiles, standard IB profiles, verified Access to Sheffield Medicine/pathway profiles, and International applicants with a supported qualification and a confirmed published English-language exemption.",
-    "prediction_scope": "Medium-confidence interview guidance using the native 2025-26 Home and International UCAT cutpoints after academic and 1800 UCAT gates. Verified Access to Sheffield Medicine/pathway applicants use threshold-only interview-likely logic.",
+    "approved_activation_scope": "Complete standard A-level school-leaver profiles, complete Scottish Highers plus Advanced Highers school-leaver profiles, Step 6-verified Sheffield contextual A-level or Scottish school-leaver profiles, standard IB profiles, and International applicants with a supported qualification and a confirmed published English-language exemption. Incomplete Realising Opportunities and Bradford/Hallam pathway evidence remains manual review.",
+    "prediction_scope": "Medium-confidence interview guidance using the native 2025-26 Home and International UCAT cutpoints after academic and 1800 UCAT gates. Step 6-verified Access to Sheffield (Medicine) applicants use threshold-only interview-likely logic after the minimum UCAT gate because competitive UCAT ranking is bypassed.",
     "blocking_missing_fields_scope": "Automatic Engine v1.0 execution boundaries only; these are not missing Sheffield admissions evidence. Genuine evidence gaps are listed in validation.known_unknowns and the research profile evidence_gaps array.",
     "course_specific_notes": [
       "Sheffield first checks academic eligibility, then the 1800 UCAT minimum, then ranks most applicants by UCAT within separate Home and International pools.",
       "GCSEs and A-levels are threshold-only.",
       "General Access Sheffield contextual applicants use the Home UCAT ranking pool.",
-      "Verified Access to Sheffield Medicine and approved pathway applicants bypass ordinary UCAT ranking after meeting the minimum UCAT and academic requirements.",
+      "Step 6-verified Access to Sheffield (Medicine) applicants bypass ordinary UCAT ranking after meeting the minimum UCAT and academic requirements.",
+      "Access Sheffield / Access+ contextual applicants can receive the published 2027 AAB A-level offer but remain subject to standard GCSE requirements and competitive UCAT ranking.",
+      "Realising Opportunities and Bradford/Hallam pathway cases remain manual review when Step 6 evidence cannot establish the required cohort, completion timing, pathway marks or pathway-specific WP criteria.",
       "SJT is not used for interview shortlisting."
     ]
   }

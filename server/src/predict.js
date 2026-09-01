@@ -144,11 +144,15 @@ function evaluateGenericUniversity(studentProfile, university) {
       ranking: classification.ranking,
       bandMetric: classification.band_metric,
       guidancePool: classification.guidance_pool,
+      matchedBandRule: classification.matched_band_rule || null,
       scoreModel: university.config?.score_model,
       guidancePoolId: classification.guidance_pool_id,
       selectionRouteId: classification.selection_route_id,
       interviewOutcome: classification.interview_outcome,
       guaranteedInterviewExplanation: classification.guaranteed_interview_explanation,
+      guaranteedInterviewNotice: classification.guaranteed_interview_notice,
+      guaranteedInterviewPoolLabel: classification.guaranteed_interview_pool_label,
+      guaranteedInterviewBadgeLabel: classification.guaranteed_interview_badge_label,
       officialPrediction: classification.official_prediction,
       warnings: classification.warnings,
       applicantGroupIds: classification.applicant_group_ids,
@@ -183,6 +187,7 @@ function evaluateNottingham(studentProfile, university) {
       officialScore: evaluation.official_score,
       applicantGroupIds: evaluation.eligibility.applicant_group_ids,
       insufficientEvidenceReasonCode: evaluation.insufficient_evidence_reason_code || null,
+      insufficientEvidenceReason: evaluation.insufficient_evidence_reason || null,
       missingInformation: evaluation.missing_information || null
     }
   );
@@ -226,10 +231,14 @@ function makeResultCard(studentProfile, university, eligibilityStatus, band, man
         guidancePoolId: scoreContext.guidancePoolId ?? null
       }) ||
       null,
+    insufficientEvidenceReason: scoreContext.insufficientEvidenceReason || null,
     missingInformation: scoreContext.missingInformation || null,
     transparencyContext: {
       course_identity: {
-        profile_id: university.id
+        profile_id: university.id,
+        university_name: university.university,
+        course_name: university.course.course?.name || null,
+        ucas_code: university.course.course?.ucas_code || null
       },
       applicant_context: studentProfile,
       // Real evaluated applicant-group facts (fee status, domicile,
@@ -241,6 +250,10 @@ function makeResultCard(studentProfile, university, eligibilityStatus, band, man
       readiness: university.course.engine_notes,
       eligibility_checks: eligibility?.checks || [],
       eligibility_failures: eligibility?.failures || [],
+      academic_pathway: eligibility?.academic_pathway || null,
+      academic_pathway_id: eligibility?.academic_pathway_id ?? null,
+      future_conditions: eligibility?.future_conditions || [],
+      eligibility,
       stage_1_eligibility: university.course.stage_1_eligibility || null,
       stage_2_interview_selection: university.course.stage_2_interview_selection || null,
       contextual_admissions: university.course.contextual_admissions || null,
@@ -255,6 +268,7 @@ function makeResultCard(studentProfile, university, eligibilityStatus, band, man
       ranking: scoreContext.ranking || null,
       band_metric: scoreContext.bandMetric || null,
       guidance_pool: scoreContext.guidancePool || null,
+      matched_band_rule: scoreContext.matchedBandRule || null,
       score_model: scoreContext.scoreModel || null,
       missing_information: scoreContext.missingInformation || null,
       official_score: scoreContext.officialScore || null,
@@ -269,6 +283,12 @@ function makeResultCard(studentProfile, university, eligibilityStatus, band, man
       interview_outcome: scoreContext.interviewOutcome || null,
       guaranteed_interview_explanation:
         scoreContext.guaranteedInterviewExplanation || null,
+      guaranteed_interview_notice:
+        scoreContext.guaranteedInterviewNotice || null,
+      guaranteed_interview_pool_label:
+        scoreContext.guaranteedInterviewPoolLabel || null,
+      guaranteed_interview_badge_label:
+        scoreContext.guaranteedInterviewBadgeLabel || null,
       official_prediction: scoreContext.officialPrediction || null,
       warnings: scoreContext.warnings || []
     }
@@ -284,8 +304,10 @@ function makeResultCard(studentProfile, university, eligibilityStatus, band, man
 function sanitisePublicResultCard(resultCard) {
   const card = JSON.parse(JSON.stringify(resultCard));
   if (card.prediction?.result_band !== 'insufficient_evidence') {
-    delete card.decision_transparency?.insufficient_evidence_reason;
     delete card.decision_transparency?.insufficient_evidence_reason_code;
+  }
+  if (card.decision_transparency && !Object.prototype.hasOwnProperty.call(card.decision_transparency, 'insufficient_evidence_reason')) {
+    card.decision_transparency.insufficient_evidence_reason = null;
   }
   return card;
 }

@@ -9,7 +9,8 @@ const {
 const {
   buildDecisionTimeline,
   buildDecisionTransparency,
-  buildEvidenceConfidence
+  buildEvidenceConfidence,
+  presentResultCard
 } = require('../assets/js/engine/result-card-presenter');
 const {
   loadUcatDecileData
@@ -150,17 +151,18 @@ assert.strictEqual(achievedTotal, 40);
 const accessScoring = course.stage_1_eligibility.post_16.access_to_medicine;
 assert.match(accessScoring.execution_status_manual_review_note, /manual-review/i);
 
-// --- Contextual/WP guaranteed-interview routes: documented, non-executable in Engine v1 ---
+// --- Contextual/WP routes: shared evaluator + guaranteed-interview overrides ---
 assert.strictEqual(course.contextual_admissions.guaranteed_interview_rules.length, 4);
 assert.ok(
   course.contextual_admissions.guaranteed_interview_rules.some(
     (rule) => rule.route_id === 'ukwpmed_restricted_guaranteed_interview_2027'
   )
 );
-assert.strictEqual(course.contextual_admissions.qualitative_flag_only, true);
-assert.match(course.contextual_admissions.engine_execution_status, /not_an_automatic_classifier_override/i);
-assert.strictEqual(course.engine_notes.contextual_logic, false);
-assert.strictEqual(research.readiness.contextual_logic, false);
+assert.strictEqual(course.contextual_admissions.evaluator_id, 'leicester_contextual_medicine_a100');
+assert.strictEqual(course.contextual_admissions.qualitative_flag_only, false);
+assert.match(course.contextual_admissions.engine_execution_status, /partially_automatic/i);
+assert.strictEqual(course.engine_notes.contextual_logic, true);
+assert.strictEqual(config.eligibility.map_override.apply_ucat_guidance_band, false);
 
 // --- Achieved-route auto-interview: documented, non-executable in Engine v1 ---
 assert.match(
@@ -193,6 +195,9 @@ for (const pool of config.guidance_pools) {
 }
 const homePool = config.guidance_pools.find((p) => p.pool_id === 'leicester_home_predicted_a_level_or_equivalent');
 assert.strictEqual(homePool.official_candidate_decile_guidance.min, 79);
+assert.strictEqual(homePool.historical_cutoff.value, 79);
+assert.match(JSON.stringify(card), /1 point above the historical score guide of 79/);
+assert.doesNotMatch(JSON.stringify(card), /1 points above/);
 const overseasPool = config.guidance_pools.find((p) => p.pool_id === 'leicester_overseas_predicted_a_level_or_equivalent');
 assert.strictEqual(overseasPool.official_candidate_decile_guidance.min, 88);
 
@@ -227,6 +232,84 @@ for (const scenario of fixture.scenarios) {
   assert.strictEqual(result.offer_prediction_status, undefined);
   assert.strictEqual(hasNestedKey(result, 'offer_probability'), false);
 }
+
+// --- Phase 2 cross-qualification routing and Scottish score boundary ---
+function resultForScenario(scenarioId) {
+  const scenario = fixture.scenarios.find((entry) => entry.scenario_id === scenarioId);
+  assert.ok(scenario, `missing scenario ${scenarioId}`);
+  const applicant = merge(fixture.base_applicant, scenario.overrides);
+  return {
+    applicant,
+    result: classifyInterviewBand(course, config, applicant, {
+      ucatDecileData: ucatDeciles
+    })
+  };
+}
+
+const scotlandALevel = resultForScenario(
+  'leicester_cross_qualification_scotland_a_level_standard_scoring'
+).result;
+assert.ok(scotlandALevel.applicant_group_ids.includes('scotland_domiciled'));
+assert.strictEqual(scotlandALevel.eligibility.qualification_route, 'a_level');
+assert.strictEqual(scotlandALevel.ranking.value, 80);
+assert.strictEqual(scotlandALevel.ranking.components.gcse_score.value, 36);
+
+const scotlandScottish = resultForScenario(
+  'leicester_cross_qualification_scotland_scottish_ah_aaa'
+);
+assert.ok(scotlandScottish.result.applicant_group_ids.includes('scotland_domiciled'));
+assert.strictEqual(scotlandScottish.result.eligibility.qualification_route, 'scottish');
+assert.strictEqual(scotlandScottish.result.eligibility.status, 'manual_review');
+assert.ok(
+  scotlandScottish.result.eligibility.checks.some(
+    (check) => check.check_id === 'scottish_post_16_requirements' && check.status === 'pass'
+  )
+);
+assert.deepStrictEqual(
+  scotlandScottish.result.eligibility.manual_review_reasons,
+  ['qualification_route_requires_manual_review:scottish']
+);
+assert.strictEqual(scotlandScottish.result.ranking, null);
+assert.strictEqual(scotlandScottish.result.band_metric, null);
+
+const englandScottish = resultForScenario(
+  'leicester_cross_qualification_england_scottish_ah_aaa'
+).result;
+assert.ok(englandScottish.applicant_group_ids.includes('england_domiciled'));
+assert.ok(!englandScottish.applicant_group_ids.includes('scotland_domiciled'));
+assert.strictEqual(englandScottish.eligibility.qualification_route, 'scottish');
+assert.strictEqual(englandScottish.ranking, null);
+
+const route2Scottish = resultForScenario(
+  'leicester_cross_qualification_scotland_scottish_ah_aa_higher_aab'
+).result;
+assert.ok(
+  route2Scottish.eligibility.checks.some(
+    (check) =>
+      check.check_id === 'scottish_post_16_requirements' &&
+      check.status === 'pass' &&
+      check.qualification_level === 'scottish_highers_and_advanced_highers'
+  )
+);
+assert.strictEqual(route2Scottish.ranking, null);
+
+const scottishResultCard = presentResultCard({
+  eligibilityStatus: scotlandScottish.result.eligibility.status,
+  interviewBand: scotlandScottish.result.canonical_interview_band,
+  manualReviewRequired: true,
+  transparencyContext: {
+    ...scotlandScottish.result,
+    course_identity: { profile_id: course.profile_id },
+    applicant_context: scotlandScottish.applicant,
+    eligibility_checks: scotlandScottish.result.eligibility.checks,
+    score_model: config.score_model,
+    stage_1_eligibility: course.stage_1_eligibility
+  }
+});
+assert.match(scottishResultCard.information_needed_reason, /Scottish qualification route met/i);
+assert.match(scottishResultCard.information_needed_reason, /does not publish its equivalency conversion/i);
+assert.match(scottishResultCard.information_needed_reason, /cannot calculate the official academic or combined selection score/i);
+assert.strictEqual(scottishResultCard.prediction.available, false);
 
 // --- Official GCSE worked example reproduced exactly via the live classifier ---
 const worked = classifyInterviewBand(
@@ -263,7 +346,30 @@ assert.strictEqual(card.display.recommendation_display_state, 'standard');
 assert.strictEqual(card.evidence_confidence.level, 'Medium');
 assert.deepStrictEqual(card.evidence_confidence, buildEvidenceConfidence(card));
 assert.deepStrictEqual(card.decision_timeline, buildDecisionTimeline(card));
-assert.deepStrictEqual(card.decision_transparency, buildDecisionTransparency(card));
+assert.strictEqual(
+  card.decision_transparency.selection_metric.type,
+  'selection_score'
+);
+assert.strictEqual(
+  card.decision_transparency.selection_metric.applicant_value,
+  80
+);
+assert.strictEqual(
+  card.decision_transparency.score_breakdown.value,
+  80
+);
+assert.strictEqual(
+  card.decision_transparency.score_breakdown.max,
+  96
+);
+assert.strictEqual(
+  card.decision_transparency.score_breakdown.checks[0].label,
+  'GCSE score'
+);
+assert.strictEqual(
+  card.decision_transparency.score_breakdown.checks[1].label,
+  'UCAT score'
+);
 assert.match(
   card.stage_2_selection.summary,
   /Leicester's own published formula, not an ApplySmart estimate/i
@@ -287,7 +393,7 @@ for (const [field, expected] of Object.entries({
   interview_band_config_ready: true,
   metadata_activation_ready: true,
   result_card_ready: true,
-  contextual_logic: false,
+  contextual_logic: true,
   international_prediction: true,
   regression: true
 })) {
@@ -306,4 +412,4 @@ console.log('Leicester A100 readiness regression: PASS');
 console.log(`Scenario fixtures checked: ${fixture.scenarios.length}`);
 console.log('Official GCSE worked example (36/48) reproduced via live classifier: PASS');
 console.log('Official graduate worked examples (30/48, 40/48) arithmetically verified: PASS');
-console.log('Graduate, Access and contextual guaranteed-interview routes correctly documented as manual-review, non-executable boundaries: PASS');
+console.log('Graduate and Access scoring boundaries remain manual-review; Leicester contextual guaranteed-interview routes are executable: PASS');

@@ -323,38 +323,17 @@
         "notes": "Achieved IB only for Group B/post-IB applicants."
       },
       "scottish": {
-        "status": "official_source_verified_with_documented_gaps",
+        "status": "official_source_verified_manual_review",
+        "route_implemented": false,
+        "execution_status": "manual_review_group_c_equivalence_boundary",
         "source_ids": [
-          "msc_kmms_course_page"
+          "kmms_entry_requirements_2027"
         ],
-        "higher_offer": {
-          "grade_profile": [
-            "A",
-            "A",
-            "A",
-            "A",
-            "B"
-          ],
-          "source_ids": [
-            "msc_kmms_course_page"
-          ],
-          "notes": "Scottish applicants are generally Group C because KMMS cannot contextualise them in the English/Welsh school-data format."
-        },
-        "advanced_higher_offer": {
-          "grade_profile": [
-            "A",
-            "A",
-            "B"
-          ],
-          "source_ids": [
-            "msc_kmms_course_page"
-          ],
-          "notes": "Advanced Higher AAB listed by MSC."
-        },
+        "manual_review_reason": "kmms_scottish_group_c_manual_equivalence",
         "grade_requirements": [],
         "required_subject_ids": [],
         "one_of_subject_groups": [],
-        "notes": "Group C route; CASPer/manual-review handling preserved where ApplySmart lacks subjective scoring data."
+        "notes": "Scottish qualifications are recognised, but current 2027 KMMS evidence routes applicants without reliable English/Welsh school contextualisation data to Group C subjective scoring/manual equivalence. No deterministic Scottish Higher or Advanced Higher grade threshold is encoded."
       },
       "access_to_he": {
         "status": "official_source_verified",
@@ -569,6 +548,13 @@
       "kmms_admissions_policy_2024"
     ],
     "available": true,
+    "contextual_eligibility": {
+      "evaluator_id": "kmms_contextual_medicine_a100",
+      "evidence_source": "step_6_contextual_profile",
+      "legacy_contextual_flags_authoritative": false,
+      "activated_applicant_group_ids": [],
+      "notes": "KMMS is modelled through school-relative Groups A/B and Group C manual scoring. Ordinary FSM/IMD/POLAR/first-generation Step 6 markers do not independently create a lower offer."
+    },
     "applies_to_group_ids": [
       "home_fee",
       "school_leaver",

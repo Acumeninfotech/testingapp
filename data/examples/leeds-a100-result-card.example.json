@@ -256,7 +256,12 @@
     "source_ids": [
       "leeds_understanding_ucat",
       "leeds_master_spec_2026_07_20"
-    ]
+    ],
+    "score": null,
+    "score_scale": {
+      "min": 0,
+      "max": 3
+    }
   },
   "missing_data": {
     "exact_official_academic_formula": "not_published",
@@ -291,8 +296,8 @@
   "display": {
     "primary_user_facing_recommendation": "Strong choice for your application",
     "recommendation_display_state": "standard",
-    "primary_explanation": "Based on ApplySmart's assessment, your academic profile appears competitive for this applicant group.",
-    "historical_guidance_caveat": "Interview thresholds may change each admissions cycle depending on applicant competition and interview capacity. Historical figures are guidance only, not a current cut-off, and do not guarantee an interview.",
+    "primary_explanation": "Based on ApplySmart's assessment, your academic profile and UCAT appear competitive for this applicant group.",
+    "historical_guidance_caveat": "Historical admissions data provides a benchmark only; it is not a current cut-off or a guarantee of interview.",
     "headline": "Strong choice for your application"
   },
   "decision_timeline": [
@@ -312,64 +317,80 @@
       "step": 3,
       "title": "Selection model applied",
       "status": "Complete",
-      "summary": "Published entry requirements were checked before academics and UCAT were considered together using Leeds-specific historical Home guidance."
+      "summary": "Leeds checks academic eligibility, then considers academic performance and UCAT together when selecting Home applicants for interview."
     },
     {
       "step": 4,
       "title": "Historical guidance compared",
       "status": "Complete",
-      "summary": "Your result was compared with interview information from previous admissions cycles. Interview thresholds may change each admissions cycle depending on applicant competition and interview capacity. Historical figures are guidance only, not a current cut-off, and do not guarantee an interview."
+      "summary": "Your result was compared with historical admissions data. Historical admissions data provides a benchmark only; it is not a current cut-off or a guarantee of interview."
     },
     {
       "step": 5,
       "title": "Interview recommendation produced",
       "status": "Strong Choice",
-      "summary": "Based on ApplySmart's assessment, your academic profile appears competitive for this applicant group. Treat this as guidance for university choice, not a promised interview."
+      "summary": "Based on ApplySmart's assessment, your academic profile and UCAT appear competitive for this applicant group. Treat this as guidance for university choice, not a promised interview."
     }
   ],
   "decision_transparency": {
+    "factor_usage": [
+      {
+        "factor_id": "ucat",
+        "label": "UCAT",
+        "role": "ranking",
+        "detail": "Used for ranking in the university’s selection process.",
+        "evidence_status": "available",
+        "applicant_value": 2050
+      },
+      {
+        "factor_id": "gcse",
+        "label": "GCSEs",
+        "role": "unknown",
+        "detail": "GCSEs are part of the university’s academic review.",
+        "evidence_status": "available"
+      },
+      {
+        "factor_id": "a_level",
+        "label": "A-levels",
+        "role": "unknown",
+        "detail": "Used as part of the university’s academic review.",
+        "evidence_status": "available"
+      },
+      {
+        "factor_id": "sjt",
+        "label": "SJT",
+        "role": "eligibility",
+        "detail": "SJT is used as an eligibility gate.",
+        "evidence_status": "available"
+      }
+    ],
     "decision_path": [
       {
         "stage": "Eligibility",
         "status": "Met",
-        "summary": "The represented Home standard school-leaver meets Leeds published GCSE, A-level, UCAT, SJT and science practical endorsement requirements.",
+        "summary": "The supported entry requirements are met.",
         "checks": [
           {
-            "label": "GCSE minimums",
+            "label": "Entry requirements",
             "status": "Met",
-            "summary": "At least six GCSEs at grade 4 or above, including English Language, Mathematics and accepted science subjects. Applicant information: Eight GCSEs are represented, including English Language, Mathematics, Biology and Chemistry at grade 7 or above."
-          },
-          {
-            "label": "A-level threshold and subjects",
-            "status": "Met",
-            "summary": "AAA including Chemistry and Biology; A*A*B is not accepted instead of AAA. Applicant information: AAA in Biology, Chemistry and Mathematics."
-          },
-          {
-            "label": "UCAT and SJT",
-            "status": "Met",
-            "summary": "UCAT is required in the application year; SJT Band 4 is excluded. Applicant information: UCAT 2050/2700 with SJT Band 2."
-          },
-          {
-            "label": "Science practical endorsements",
-            "status": "Met",
-            "summary": "Science practical endorsements must be passed where applicable. Applicant information: Biology and Chemistry practical endorsements are passed."
+            "summary": "The supported entry requirements have been assessed."
           }
         ]
       },
       {
         "stage": "Selection model",
         "status": "Assessed",
-        "summary": "Leeds considers academics and UCAT together and does not publish a fixed cut-off. ApplySmart applies the approved Home historical-guidance compensation model without showing internal calculations.",
+        "summary": "Leeds checks academic eligibility, then considers academic performance and UCAT together when selecting Home applicants for interview.",
         "checks": [
           {
             "label": "Applicant pool",
             "status": "Used",
-            "summary": "The applicant group matching the supplied fee status and entry route"
+            "summary": "Home, Rest of UK applicants"
           },
           {
             "label": "Selection approach",
-            "status": "Ranking/cut-off based",
-            "summary": "Leeds considers academics and UCAT together and does not publish a fixed cut-off. ApplySmart applies the approved Home historical-guidance compensation model without showing internal calculations."
+            "status": "Assessed",
+            "summary": "Leeds checks academic eligibility, then considers academic performance and UCAT together when selecting Home applicants for interview."
           }
         ]
       },
@@ -381,7 +402,17 @@
           {
             "label": "Applicant pool",
             "status": "Used",
-            "summary": "The applicant group matching the supplied fee status and entry route"
+            "summary": "Home, Rest of UK applicants"
+          },
+          {
+            "label": "Home",
+            "status": "Historical",
+            "summary": "UCAT interview threshold ~1927.5 (2700 scale)."
+          },
+          {
+            "label": "Widening Participation",
+            "status": "Historical",
+            "summary": "UCAT interview threshold ~1837.5 (2700 scale)."
           },
           {
             "label": "Important limitation",
@@ -393,20 +424,22 @@
       {
         "stage": "Recommendation",
         "status": "Guidance only",
-        "summary": "Based on ApplySmart's assessment, your academic profile appears competitive for this applicant group. Treat this as guidance for university choice, not a promised interview.",
+        "summary": "Based on ApplySmart's assessment, your academic profile and UCAT appear competitive for this applicant group. Treat this as guidance for university choice, not a promised interview.",
         "checks": []
       }
     ],
     "key_reasons": [
-      "The represented Home standard school-leaver meets Leeds published GCSE, A-level, UCAT, SJT and science practical endorsement requirements.",
-      "The result uses The applicant group matching the supplied fee status and entry route.",
-      "Leeds considers academics and UCAT together and does not publish a fixed cut-off. ApplySmart applies the approved Home historical-guidance compensation model without showing internal calculations."
+      "The supported entry requirements are met.",
+      "The result uses Home, Rest of UK applicants.",
+      "Leeds checks academic eligibility, then considers academic performance and UCAT together when selecting Home applicants for interview."
     ],
     "evidence_used": [
       "Official admissions policy",
       "University selection methodology",
       "UCAT policy",
-      "Historical interview data"
+      "Historical interview data",
+      "Contextual admissions policy",
+      "International admissions policy"
     ],
     "evidence_confidence": {
       "level": "Medium",
@@ -419,8 +452,10 @@
     },
     "warnings": [],
     "manual_review_reason": null,
-    "insufficient_evidence_reason": null,
-    "insufficient_evidence_reason_code": null,
+    "manual_review_reason_code": null,
+    "information_needed_reason": null,
+    "missing_information": null,
+    "risk_explanation": null,
     "compact_status": {
       "label": "You meet the academic requirements.",
       "type": "academic_status",
@@ -428,10 +463,12 @@
     },
     "comparison_metrics_title": null,
     "comparison_metrics": [],
-    "selection_approach_display": null,
+    "selection_approach_display": "Leeds checks academic eligibility, then considers academic performance and UCAT together when selecting Home applicants for interview.",
     "selection_metric": null,
     "score_breakdown": null,
-    "ucat_comparison": null
+    "ucat_comparison": null,
+    "ucat_adjustment": null,
+    "insufficient_evidence_reason": null
   },
   "engine_notes": {
     "eligibility": true,
@@ -480,7 +517,7 @@
     "example_only": true
   },
   "primary_user_facing_recommendation": "Strong choice for your application",
-  "primary_explanation": "Based on ApplySmart's assessment, your academic profile appears competitive for this applicant group.",
+  "primary_explanation": "Based on ApplySmart's assessment, your academic profile and UCAT appear competitive for this applicant group.",
   "recommendation_display_state": "standard",
   "trust_statement": null,
   "historical_guidance_caveat": "Historical admissions data provides a benchmark only; it is not a current cut-off or a guarantee of interview."

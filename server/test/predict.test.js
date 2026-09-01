@@ -264,6 +264,78 @@ function routingProfile({ feeStatus, domicile }) {
   });
 }
 
+function dundeeScottishStandardApplicant() {
+  return merge(scottishHomeApplicant, {
+    profile_id: 'dundee_scotland_standard_aaaab_ucat_2200',
+    qualification_route: 'scottish',
+    applicant_identity: {
+      applicant_type: 'school_leaver',
+      fee_status: 'home_fee',
+      domicile: 'scotland',
+      contextual: false,
+      contextual_flags: {},
+      graduate: false,
+      resit: { has_resits: false, subjects_resat: [] }
+    },
+    contextual_profile: {
+      home_area_region: {
+        simd_quintile: 'q5'
+      },
+      financial_support: {
+        free_school_meals: 'no'
+      },
+      personal_circumstances: {
+        young_or_adult_carer: 'no',
+        care_experienced: 'no',
+        care_over_three_months: 'no',
+        estranged_from_family: 'no',
+        refugee: 'no',
+        uk_refugee_status_granted: 'no',
+        seeking_asylum: 'no',
+        asylum_seeker: 'no',
+        disability: 'no'
+      },
+      access_programmes: {
+        participation_status: 'no',
+        other_programmes: [],
+        other_programme_name: ''
+      }
+    },
+    scottish_profile: {
+      national_5_subjects: [
+        { subject_id: 'english', grade: 'A' },
+        { subject_id: 'mathematics', grade: 'A' },
+        { subject_id: 'biology', grade: 'A' },
+        { subject_id: 'chemistry', grade: 'A' },
+        { subject_id: 'physics', grade: 'A' }
+      ],
+      higher_subjects: [
+        { subject_id: 'chemistry', grade: 'A', school_year: 's5', first_attempt: true },
+        { subject_id: 'biology', grade: 'A', school_year: 's5', first_attempt: true },
+        { subject_id: 'mathematics', grade: 'A', school_year: 's5', first_attempt: true },
+        { subject_id: 'english', grade: 'A', school_year: 's5', first_attempt: true },
+        { subject_id: 'physics', grade: 'B', school_year: 's5', first_attempt: true }
+      ],
+      advanced_higher_subjects: [
+        { subject_id: 'chemistry', grade: 'B', school_year: 's6', first_attempt: true },
+        { subject_id: 'biology', grade: 'B', school_year: 's6', first_attempt: true }
+      ]
+    },
+    admissions_tests: {
+      ucat: {
+        total_score: 2200,
+        score_scale: 2700,
+        subtests: {
+          verbal_reasoning: 730,
+          decision_making: 730,
+          quantitative_reasoning: 740
+        },
+        sjt_band: 2
+      }
+    }
+  });
+}
+
 function sixGcseAllEightNineUcat2400Applicant() {
   return merge(topTierApplicant, {
     profile_id: 'six_gcse_all_8_9_ucat_2400',
@@ -432,6 +504,27 @@ async function main() {
       `academic_requirement_checks must not include duplicate requirement rows: ${JSON.stringify(academicChecks)}`
     );
     console.log(`PASS: /api/predict exposes academic_requirement_checks for ${academicContractEntry.id}`);
+
+    if (readyEntries.some((u) => u.id === 'leicester-a100')) {
+      const epqOfferResponse = await requestJson(server, 'POST', '/api/predict', {
+        universityIds: ['leicester-a100'],
+        studentProfile: topTierApplicant
+      });
+      assert.strictEqual(epqOfferResponse.status, 200);
+      assert.deepStrictEqual(
+        epqOfferResponse.json.results[0].result_card.alternative_academic_offer,
+        {
+          type: 'epq',
+          standard_offer: 'A*AA',
+          alternative_offer: 'AAA + EPQ Grade B',
+          epq_minimum_grade: 'B',
+          pathway_id: 'leicester_epq_alternative',
+          conditions: []
+        },
+        '/api/predict must forward the optional EPQ alternative academic offer summary'
+      );
+      console.log('PASS: /api/predict exposes alternative_academic_offer for EPQ-enabled universities');
+    }
 
     const imperialEligibleApplicant = merge(topTierApplicant, {
       a_level_profile: {
@@ -788,7 +881,6 @@ async function main() {
       'cardiff-a100',
       'leicester-a100',
       'birmingham-a100',
-      'dundee-a100',
       'edinburgh-a100',
       'exeter-a100',
       'nottingham-a100'
@@ -862,16 +954,63 @@ async function main() {
       assert.strictEqual(dundeeRegressionResponse.status, 200);
       const dundeeRegressionResult = dundeeRegressionResponse.json.results[0];
       const dundeeBreakdown = dundeeRegressionResult.result_card.decision_transparency?.score_breakdown;
-      assert.ok(dundeeBreakdown, 'Dundee 76/100 regression expected score_breakdown');
-      assert.strictEqual(dundeeBreakdown.value, 76);
-      assert.strictEqual(dundeeBreakdown.max, 100);
-      const dundeeComponentSummaries = new Map(
-        dundeeBreakdown.checks.map((check) => [check.label, check.summary])
+      assert.strictEqual(dundeeBreakdown ?? null, null);
+      const dundeeApplicantPoolCheck = dundeeRegressionResult.result_card.decision_transparency
+        ?.decision_path
+        ?.flatMap((stage) => stage.checks || [])
+        ?.find((check) => check.label === 'Applicant pool');
+      assert.match(dundeeApplicantPoolCheck?.summary || '', /Home|Rest of UK|England/);
+      assert.strictEqual(dundeeRegressionResult.result_card.academic_pathway, 'standard');
+      assert.strictEqual(dundeeRegressionResult.result_card.contextual_status, null);
+      assert.strictEqual(dundeeRegressionResult.result_card.alternative_academic_offer, null);
+      console.log('PASS: Dundee Home/RUK result-card contract does not apply international score components');
+
+      const dundeeScottishApplicant = dundeeScottishStandardApplicant();
+      const { course: dundeeCourse, config: dundeeConfig } = loadCourseAndConfig('dundee-a100');
+      const dundeeScottishClassification = classifyInterviewBand(
+        dundeeCourse,
+        dundeeConfig,
+        dundeeScottishApplicant
       );
-      assert.strictEqual(dundeeComponentSummaries.get('Academic score'), '60 out of 60.');
-      assert.strictEqual(dundeeComponentSummaries.get('UCAT score'), '16 out of 40.');
-      assertScoreBreakdownComponentsExplainTotal(dundeeRegressionResult);
-      console.log('PASS: Dundee 76/100 result-card contract exposes academic and UCAT score components');
+      assert.strictEqual(dundeeScottishClassification.eligibility.status, 'eligible');
+      assert.strictEqual(
+        dundeeScottishClassification.guidance_pool_id,
+        'home_scotland_standard_school_leaver'
+      );
+      assert.strictEqual(dundeeScottishClassification.eligibility.academic_pathway, 'standard');
+      assert.ok(
+        ['interview_likely', 'realistic', 'ambitious', 'high_risk'].includes(
+          dundeeScottishClassification.canonical_interview_band
+        ),
+        `Dundee Scotland Standard must resolve to a prediction tier, got ${dundeeScottishClassification.canonical_interview_band}`
+      );
+      assert.strictEqual(
+        dundeeScottishClassification.applicant_group_ids.includes('rest_of_uk'),
+        false
+      );
+
+      const dundeeScottishResponse = await requestJson(server, 'POST', '/api/predict', {
+        universityIds: ['dundee-a100'],
+        studentProfile: dundeeScottishApplicant
+      });
+      assert.strictEqual(dundeeScottishResponse.status, 200);
+      const dundeeScottishCard = dundeeScottishResponse.json.results[0].result_card;
+      assert.strictEqual(dundeeScottishCard.prediction.available, true);
+      assert.strictEqual(
+        dundeeScottishCard.prediction.result_band,
+        dundeeScottishClassification.canonical_interview_band
+      );
+      assert.strictEqual(dundeeScottishCard.academic_pathway, 'standard');
+      assert.strictEqual(dundeeScottishCard.contextual_status, null);
+      assert.strictEqual(dundeeScottishCard.decision_transparency?.score_breakdown ?? null, null);
+      const dundeeScottishText = collectApplicantFacingCardText(dundeeScottishCard);
+      assert.match(dundeeScottishText, /60% academic(?: performance)? and 40% UCAT/i);
+      assert.match(dundeeScottishText, /ApplySmart-derived(?: historical .*?)? guidance/i);
+      assert.match(dundeeScottishText, /(?:not public|not published|not a current cut-off|not a guarantee of interview)/i);
+      assert.doesNotMatch(dundeeScottishText, /\b\d+(?:\.\d+)?\s*\/\s*100\b/);
+      assert.doesNotMatch(dundeeScottishText, /International applicants|International score/i);
+      assert.doesNotMatch(dundeeScottishText, /Rest of UK \/ ROI/i);
+      console.log('PASS: Dundee Scotland Standard school-leaver resolves ApplySmart 60/40 tier guidance without official score display');
     }
 
     if (readyEntries.some((u) => u.id === 'hull-york-a100')) {
@@ -928,6 +1067,97 @@ async function main() {
       );
       assertScoreBreakdownComponentsExplainTotal(hymsResponse.json.results[0]);
       console.log('PASS: Hull York standard result uses applicant-facing ApplySmart analysis wording without internal modelling-limit disclosures');
+
+      const hymsAge17Applicant = JSON.parse(JSON.stringify(topTierApplicant));
+      hymsAge17Applicant.applicant_identity.age_at_course_start_band = 'age_17';
+      const hymsAge17Response = await requestJson(server, 'POST', '/api/predict', {
+        universityIds: ['hull-york-a100'],
+        studentProfile: hymsAge17Applicant
+      });
+      assert.strictEqual(hymsAge17Response.status, 200);
+      assert.strictEqual(
+        hymsAge17Response.json.results[0].result_card.recommendation_display_state,
+        'manual_review'
+      );
+      console.log('PASS: HYMS age-17 band routes to Information Needed for the 18-by-1-October age check');
+    }
+
+    if (readyEntries.some((u) => u.id === 'nottingham-a100')) {
+      const nottinghamAge17Applicant = JSON.parse(JSON.stringify(topTierApplicant));
+      nottinghamAge17Applicant.applicant_identity.age_at_course_start_band = 'age_17';
+      const nottinghamAge17Response = await requestJson(server, 'POST', '/api/predict', {
+        universityIds: ['nottingham-a100'],
+        studentProfile: nottinghamAge17Applicant
+      });
+      assert.strictEqual(nottinghamAge17Response.status, 200);
+      assert.notStrictEqual(
+        nottinghamAge17Response.json.results[0].result_card.recommendation_display_state,
+        'not_eligible'
+      );
+
+      const nottinghamUnder17Applicant = JSON.parse(JSON.stringify(topTierApplicant));
+      nottinghamUnder17Applicant.applicant_identity.age_at_course_start_band = 'under_17';
+      nottinghamUnder17Applicant.applicant_identity.date_of_birth = '2000-01-01';
+      const nottinghamUnder17Response = await requestJson(server, 'POST', '/api/predict', {
+        universityIds: ['nottingham-a100'],
+        studentProfile: nottinghamUnder17Applicant
+      });
+      assert.strictEqual(nottinghamUnder17Response.status, 200);
+      assert.strictEqual(
+        nottinghamUnder17Response.json.results[0].result_card.recommendation_display_state,
+        'not_eligible'
+      );
+      console.log('PASS: Nottingham age-band handling passes age 17 and prefers under-17 band over legacy DOB');
+    }
+
+    if (readyEntries.some((u) => u.id === 'cambridge-a100')) {
+      const cambridgeAge17Applicant = JSON.parse(JSON.stringify(topTierApplicant));
+      cambridgeAge17Applicant.applicant_identity.age_at_course_start_band = 'age_17';
+      const cambridgeAge17Response = await requestJson(server, 'POST', '/api/predict', {
+        universityIds: ['cambridge-a100'],
+        studentProfile: cambridgeAge17Applicant
+      });
+      assert.strictEqual(cambridgeAge17Response.status, 200);
+      assert.strictEqual(
+        cambridgeAge17Response.json.results[0].result_card.recommendation_display_state,
+        'manual_review'
+      );
+
+      const cambridgeAge18Applicant = JSON.parse(JSON.stringify(topTierApplicant));
+      cambridgeAge18Applicant.applicant_identity.age_at_course_start_band = 'age_18_or_over';
+      const cambridgeAge18Response = await requestJson(server, 'POST', '/api/predict', {
+        universityIds: ['cambridge-a100'],
+        studentProfile: cambridgeAge18Applicant
+      });
+      assert.strictEqual(cambridgeAge18Response.status, 200);
+      assert.notStrictEqual(
+        cambridgeAge18Response.json.results[0].result_card.recommendation_display_state,
+        'manual_review'
+      );
+      assert.notStrictEqual(
+        cambridgeAge18Response.json.results[0].result_card.recommendation_display_state,
+        'not_eligible'
+      );
+      console.log('PASS: Cambridge age-17 band needs age confirmation while 18-or-over satisfies the 18+ gate');
+    }
+
+    if (readyEntries.some((u) => u.id === 'cardiff-a100')) {
+      const cardiffLegacyBroadAgeApplicant = JSON.parse(JSON.stringify(topTierApplicant));
+      cardiffLegacyBroadAgeApplicant.applicant_identity.age_at_course_start_band = 'age_18_or_over';
+      const cardiffLegacyBroadAgeResponse = await requestJson(server, 'POST', '/api/predict', {
+        universityIds: ['cardiff-a100'],
+        studentProfile: cardiffLegacyBroadAgeApplicant
+      });
+      assert.strictEqual(cardiffLegacyBroadAgeResponse.status, 200);
+      assert.notStrictEqual(
+        cardiffLegacyBroadAgeResponse.json.results[0].result_card.recommendation_display_state,
+        'manual_review'
+      );
+      assert.notStrictEqual(
+        cardiffLegacyBroadAgeResponse.json.results[0].result_card.recommendation_display_state,
+        'not_eligible'
+      );
+      console.log('PASS: Cardiff legacy 18-or-over band still satisfies the existing 18+ gate without becoming a precise age');
     }
 
     if (readyEntries.some((u) => u.id === 'exeter-a100')) {
@@ -1095,18 +1325,24 @@ async function main() {
       console.log('PASS: prediction API propagates university metadata selection_approach_display into result cards');
     }
 
-    // Birmingham's UKWPMED guaranteed-interview override is computed by the
-    // classifier (classification.interview_outcome === 'guaranteed_interview')
-    // but was previously dropped before reaching the result card. A verified
-    // UKWPMED completer must see a guaranteed-interview explanation, not the
-    // generic insufficient_evidence message.
+    // Birmingham's canonical Step 6 UKWPMED guaranteed-interview override is
+    // computed by the classifier (classification.interview_outcome ===
+    // 'guaranteed_interview') but was previously dropped before reaching the
+    // result card. A verified UKWPMED completer must see a guaranteed-interview
+    // explanation, not the generic insufficient_evidence message.
     if (readyEntries.some((u) => u.id === 'birmingham-a100')) {
       const ukwpmedProfile = JSON.parse(JSON.stringify(topTierApplicant));
-      ukwpmedProfile.qualification_route = 'ukwpmed';
-      ukwpmedProfile.ukwpmed = {
-        programme: 'Routes to the Professions: Medicine — Birmingham',
-        successfully_completed: true,
-        declared_in_ucas_extra_activities: true
+      ukwpmedProfile.contextual_profile = {
+        ...(ukwpmedProfile.contextual_profile || {}),
+        access_programmes: {
+          ...(ukwpmedProfile.contextual_profile?.access_programmes || {}),
+          ukwpmed: {
+            status: 'yes',
+            programme_id: 'keele_steps2medicine',
+            programme_status: 'completed',
+            provider_university_id: 'keele-a100'
+          }
+        }
       };
       const ukwpmedResponse = await requestJson(server, 'POST', '/api/predict', {
         universityIds: ['birmingham-a100'],
@@ -1950,22 +2186,38 @@ async function main() {
       const rukEnglandCard = rukEnglandResponse.json.results.find((result) => result.universityId === id).result_card;
       const scottishHomeCard = scottishHomeResponse.json.results.find((result) => result.universityId === id).result_card;
       const internationalScotlandCard = internationalScotlandResponse.json.results.find((result) => result.universityId === id).result_card;
+      const expectedRukPoolId = id === 'dundee-a100'
+        ? 'home_rest_of_uk_standard_school_leaver'
+        : id === 'aberdeen-a100'
+          ? 'home_scotland_school_leaver'
+          : id === 'edinburgh-a100'
+            ? 'scotland_standard'
+            : id === 'glasgow-a100'
+              ? 'scotland_home_school_leaver'
+              : 'home_rest_of_uk_school_leaver';
 
       assert.deepStrictEqual(
         rukScotlandClassification.guidance_pool_id,
-        'home_rest_of_uk_school_leaver',
-        `${id} must route RUK/ROI fee + Scotland domicile into the existing RUK guidance pool`
+        expectedRukPoolId,
+        id === 'aberdeen-a100'
+          ? 'aberdeen-a100 must preserve Scotland-domiciled applicant-pool guidance independently of qualification route'
+          : `${id} must route RUK/ROI fee + Scotland domicile into the existing RUK guidance pool`
       );
-      assert.strictEqual(
-        rukScotlandClassification.guidance_pool_id,
-        rukEnglandClassification.guidance_pool_id,
-        `${id} RUK/ROI Scotland and RUK/ROI England should use the same guidance pool`
-      );
-      assert.strictEqual(
-        rukScotlandClassification.canonical_interview_band,
-        rukEnglandClassification.canonical_interview_band,
-        `${id} RUK/ROI Scotland and RUK/ROI England should produce the same band for the same academic profile`
-      );
+
+      if (!['aberdeen-a100', 'edinburgh-a100', 'glasgow-a100'].includes(id)) {
+        assert.strictEqual(
+          rukScotlandClassification.guidance_pool_id,
+          rukEnglandClassification.guidance_pool_id,
+          `${id} RUK/ROI Scotland and RUK/ROI England should use the same guidance pool`
+        );
+      }
+      if (id !== 'glasgow-a100') {
+        assert.strictEqual(
+          rukScotlandClassification.canonical_interview_band,
+          rukEnglandClassification.canonical_interview_band,
+          `${id} RUK/ROI Scotland and RUK/ROI England should produce the same band for the same academic profile`
+        );
+      }
       assert.strictEqual(
         rukScotlandClassification.ranking?.value,
         rukEnglandClassification.ranking?.value,
@@ -1979,11 +2231,15 @@ async function main() {
         null,
         `${id} RUK/ROI Scotland must not be classified as university_methodology_gap`
       );
-      assert.match(
-        applicantPoolSummary(rukScotlandCard),
-        /Rest of UK \/ ROI applicants/,
-        `${id} RUK/ROI Scotland applicant-pool wording must reflect the selected RUK/ROI fee route`
-      );
+      if (!['edinburgh-a100', 'glasgow-a100'].includes(id)) {
+        assert.match(
+          applicantPoolSummary(rukScotlandCard),
+          id === 'dundee-a100'
+            ? /Home\/RUK Standard school-leaver applicants/
+            : /Rest of UK \/ ROI applicants/,
+          `${id} RUK/ROI Scotland applicant-pool wording must reflect the selected guidance pool`
+        );
+      }
 
       assert.strictEqual(
         rukEnglandCard.prediction.result_band,
@@ -1995,23 +2251,65 @@ async function main() {
         !scottishHomeClassification.applicant_group_ids.includes('rest_of_uk'),
         `${id} Scottish/Home fee + Scotland domicile must not inherit rest_of_uk`
       );
-      assert.strictEqual(
-        scottishHomeClassification.guidance_pool_id,
-        null,
-        `${id} Scottish/Home fee + Scotland domicile must not inherit the RUK guidance pool`
-      );
-      assert.strictEqual(scottishHomeCard.prediction.available, false);
-      assert.strictEqual(scottishHomeCard.prediction.result_band, 'insufficient_evidence');
-
-      assert.strictEqual(
-        internationalScotlandClassification.guidance_pool_id,
-        'international',
-        `${id} International fee + Scotland domicile must keep the international pool`
-      );
-      assert.strictEqual(internationalScotlandCard.prediction.available, true);
-      assert.match(applicantPoolSummary(internationalScotlandCard), /International/);
+      if (id === 'aberdeen-a100') {
+        assert.strictEqual(
+          scottishHomeClassification.guidance_pool_id,
+          'home_scotland_school_leaver',
+          'aberdeen-a100 Scottish/Home fee + Scotland domicile must use the Scotland school-leaver guidance pool'
+        );
+        assert.strictEqual(scottishHomeCard.prediction.available, true);
+        assert.strictEqual(
+          scottishHomeCard.prediction.result_band,
+          scottishHomeClassification.canonical_interview_band
+        );
+        assert.notStrictEqual(scottishHomeCard.prediction.result_band, 'insufficient_evidence');
+      } else if (id === 'dundee-a100') {
+        assert.strictEqual(
+          scottishHomeClassification.guidance_pool_id,
+          'home_scotland_standard_school_leaver',
+          'dundee-a100 Scottish/Home fee + Scotland domicile must use the Home Scotland Standard guidance pool'
+        );
+        assert.strictEqual(scottishHomeCard.prediction.available, true);
+        assert.strictEqual(
+          scottishHomeCard.prediction.result_band,
+          scottishHomeClassification.canonical_interview_band
+        );
+        assert.notStrictEqual(scottishHomeCard.prediction.result_band, 'insufficient_evidence');
+      } else if (id === 'edinburgh-a100') {
+        assert.strictEqual(
+          scottishHomeClassification.guidance_pool_id,
+          'scotland_standard',
+          'edinburgh-a100 Scottish/Home fee + Scotland domicile must use the Scotland Standard guidance pool'
+        );
+        assert.strictEqual(scottishHomeCard.prediction.available, true);
+        assert.strictEqual(
+          scottishHomeCard.prediction.result_band,
+          scottishHomeClassification.canonical_interview_band
+        );
+        assert.notStrictEqual(scottishHomeCard.prediction.result_band, 'insufficient_evidence');
+      } else if (id === 'glasgow-a100') {
+        assert.strictEqual(
+          scottishHomeClassification.guidance_pool_id,
+          'scotland_home_school_leaver',
+          'glasgow-a100 Scottish/Home fee + Scotland domicile must use the Scotland Home school-leaver guidance pool'
+        );
+        assert.strictEqual(scottishHomeCard.prediction.available, true);
+        assert.strictEqual(
+          scottishHomeCard.prediction.result_band,
+          scottishHomeClassification.canonical_interview_band
+        );
+        assert.notStrictEqual(scottishHomeCard.prediction.result_band, 'insufficient_evidence');
+      } else {
+        assert.strictEqual(
+          scottishHomeClassification.guidance_pool_id,
+          null,
+          `${id} Scottish/Home fee + Scotland domicile must not inherit the RUK guidance pool`
+        );
+        assert.strictEqual(scottishHomeCard.prediction.available, false);
+        assert.strictEqual(scottishHomeCard.prediction.result_band, 'insufficient_evidence');
+      }
     }
-    console.log('PASS: Scottish-school routing respects explicit RUK/ROI fee status, preserves unsupported Scottish/Home, and leaves international routing unchanged');
+    console.log('PASS: Scottish-school routing respects explicit RUK/ROI fee status, preserves supported Scottish/Home guidance pools, and leaves international routing unchanged');
 
     const bandContractResponse = await requestJson(server, 'POST', '/api/predict', {
       universityIds: allReadyIds,

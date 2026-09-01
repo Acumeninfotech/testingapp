@@ -51,7 +51,7 @@
         "liverpool_research_team_verified_update_2026"
       ],
       "places_available": null,
-      "notes": "Standard Home applicants compete only within this pool. Scotland-domiciled and Rest of UK applicants use this pool unless eligible for the separate contextual pool. The live cut-off is dynamic."
+      "notes": "Standard Home applicants compete only within this pool. Scotland-domiciled and Rest of UK applicants use this pool unless eligible for the separate contextual pool. The official E2026 Home UCAT cut-off was 1960/2700; Liverpool's E2027 Home estimated guidance is 1880-2010/2700. The live cut-off is dynamic."
     },
     {
       "pool_id": "home_contextual_non_graduate_ucat_pool",
@@ -572,15 +572,12 @@
           "notes": "Chemistry plus one of Biology, Physics or Mathematics and a third academic subject."
         },
         "contextual_offer": {
-          "applies_to_group_ids": [
-            "contextual",
-            "widening_participation"
-          ],
+          "applies_to_group_ids": [],
           "grade_profile": [],
           "source_ids": [
             "liverpool_contextual_data_2027"
           ],
-          "notes": "The general contextual policy states a reduction of up to two grades, not one universal grade profile. Liverpool Scholars and Liverpool Pathways have separately published likely offers."
+          "notes": "No automatic Liverpool A100 contextual A-level reduction is applied. Liverpool Scholars and Liverpool Pathways have separately published likely offer guidance."
         },
         "required_subject_ids": [
           "chemistry"
@@ -729,23 +726,26 @@
         },
         "grade_requirements": [
           {
-            "requirement_id": "scottish_higher_requirement",
+            "requirement_id": "liverpool_scottish_highers_and_advanced_highers",
             "applies_to_group_ids": [
-              "scotland_domiciled",
               "school_leaver"
             ],
-            "qualification_level": "scottish_higher",
-            "grade_profile": [
+            "qualification_level": "scottish_highers_and_advanced_highers",
+            "higher_grade_profile": [
               "A",
               "A",
               "A",
               "A",
               "B"
             ],
-            "required_subject_ids": [
+            "advanced_higher_grade_profile": [
+              "A",
+              "A"
+            ],
+            "higher_required_subject_ids": [
               "chemistry"
             ],
-            "one_of_subject_groups": [
+            "higher_one_of_subject_groups": [
               {
                 "group_id": "scottish_higher_second_science_or_maths",
                 "minimum_required": 1,
@@ -757,27 +757,10 @@
                 "notes": "One of Biology, Physics or Mathematics is required alongside Chemistry."
               }
             ],
-            "decision_outcome_if_not_met": "not_eligible",
-            "source_ids": [
-              "liverpool_scottish_guidelines_2027"
-            ],
-            "notes": "Five Highers must be taken at one sitting after one year of study."
-          },
-          {
-            "requirement_id": "advanced_higher_requirement",
-            "applies_to_group_ids": [
-              "scotland_domiciled",
-              "school_leaver"
-            ],
-            "qualification_level": "advanced_higher",
-            "grade_profile": [
-              "A",
-              "A"
-            ],
-            "required_subject_ids": [
+            "advanced_higher_required_subject_ids": [
               "chemistry"
             ],
-            "one_of_subject_groups": [
+            "advanced_higher_one_of_subject_groups": [
               {
                 "group_id": "advanced_higher_second_science_or_maths",
                 "minimum_required": 1,
@@ -793,7 +776,7 @@
             "source_ids": [
               "liverpool_scottish_guidelines_2027"
             ],
-            "notes": "The Scottish Science Baccalaureate is not by itself sufficient."
+            "notes": "Five Highers must be taken at one sitting after one year of study. Advanced Highers must include Chemistry and one of Biology, Physics or Mathematics. The Scottish Science Baccalaureate is not by itself sufficient."
           }
         ],
         "required_subject_ids": [
@@ -1280,7 +1263,7 @@
           "liverpool_admissions_faq_2027",
           "liverpool_research_team_verified_update_2026"
         ],
-        "notes": "The live cut-off varies annually. Official candidate guidance places the typical Home range in applicant-pool deciles 4 to 6, but those deciles are not executable without the live pool distribution. The E2025 cutoff of 1935 is stored as historical guidance only."
+        "notes": "The live cut-off varies annually. Liverpool's official E2026 Home UCAT cut-off was 1960/2700, and its official E2027 Home estimated guidance is 1880-2010/2700. These values are guidance for ApplySmart bands, not fixed E2027 cut-offs or guaranteed interview outcomes."
       },
       {
         "threshold_id": "home_contextual_non_graduate_ucat_cutoff_2027",
@@ -1371,6 +1354,12 @@
               "entry_year": 2025,
               "value": 1935,
               "evidence_classification": "foi_verified"
+            },
+            {
+              "entry_year": 2026,
+              "value": 1960,
+              "score_scale_max": 2700,
+              "evidence_classification": "official_verified"
             }
           ]
         },
@@ -1403,13 +1392,13 @@
       "bands": [
         {
           "band": "interview_realistic",
-          "definition": "At or above the applicable FOI-verified E2025 historical cutoff.",
-          "evidence_classification": "foi_verified_historical_guidance"
+          "definition": "At or above the applicable stored official or FOI-verified guidance boundary.",
+          "evidence_classification": "verified_guidance"
         },
         {
           "band": "interview_ambitious",
-          "definition": "Below the applicable FOI-verified E2025 historical cutoff without crossing an official hard rejection rule.",
-          "evidence_classification": "foi_verified_historical_guidance"
+          "definition": "Below the applicable stored official or FOI-verified guidance boundary without crossing an official hard rejection rule.",
+          "evidence_classification": "verified_guidance"
         },
         {
           "band": "eligible_but_insufficient_evidence",
@@ -1422,7 +1411,7 @@
         "liverpool_foi_2025_cutoffs_verified_update",
         "liverpool_a100_departmental_supplement_2027"
       ],
-      "notes": "Only the three FOI-verified E2025 cutoffs are executable as historical guidance boundaries. No unofficial likely/high-risk numeric boundaries are used. Bands are not current-cycle pass/fail thresholds or probability estimates."
+      "notes": "The standard Home pool uses the official E2026 UCAT cut-off and E2027 estimated Home guidance to form ApplySmart-derived bands. Contextual and International pools retain FOI-verified E2025 cut-offs as historical guidance. Bands are not current-cycle pass/fail thresholds or probability estimates."
     },
     "selection_adjustments": [
       {
@@ -1454,7 +1443,7 @@
           "liverpool_contextual_data_2027",
           "liverpool_research_team_verified_update_2026"
         ],
-        "notes": "The live contextual threshold is determined annually. Only the FOI-verified E2025 cutoff is retained as historical guidance. Home SJT Band 4 remains unsuccessful."
+        "notes": "The live contextual threshold is determined annually. Only the FOI-verified E2025 cutoff is retained as historical guidance. Liverpool does not publish the amount of contextual UCAT flexibility and determines it annually. Home SJT Band 4 remains unsuccessful."
       }
     ],
     "tie_breakers": [],
@@ -1518,6 +1507,10 @@
       "liverpool_research_team_verified_update_2026"
     ],
     "available": true,
+    "contextual_eligibility": {
+      "evaluator_id": "liverpool_contextual_medicine_a100",
+      "controls_group_routing": true
+    },
     "applies_to_group_ids": [
       "home_fee",
       "contextual",
@@ -1540,33 +1533,7 @@
         "source_ids": [
           "liverpool_contextual_data_2027"
         ],
-        "notes": "Used for the intended reduced contextual offer cohort."
-      },
-      {
-        "criterion_id": "polar4_or_polar5_quintile_1_or_2",
-        "applies_to_group_ids": [
-          "home_fee",
-          "contextual",
-          "widening_participation"
-        ],
-        "description": "Eligible Home applicant in POLAR4 or POLAR5 quintile 1 or 2.",
-        "source_ids": [
-          "liverpool_research_team_verified_update_2026"
-        ],
-        "evidence_classification": "official_verified"
-      },
-      {
-        "criterion_id": "first_generation_higher_education",
-        "applies_to_group_ids": [
-          "home_fee",
-          "contextual",
-          "widening_participation"
-        ],
-        "description": "Eligible Home applicant who is first generation in higher education.",
-        "source_ids": [
-          "liverpool_research_team_verified_update_2026"
-        ],
-        "evidence_classification": "official_verified"
+        "notes": "Liverpool IMD Deciles 1-2 are represented in ApplySmart by canonical IMD Quintile 1."
       },
       {
         "criterion_id": "care_experienced",
@@ -1578,60 +1545,7 @@
         "source_ids": [
           "liverpool_contextual_data_2027"
         ],
-        "notes": "Used for the intended reduced contextual offer cohort."
-      },
-      {
-        "criterion_id": "estranged",
-        "applies_to_group_ids": [
-          "home_fee",
-          "contextual",
-          "widening_participation"
-        ],
-        "description": "Eligible estranged Home applicant.",
-        "source_ids": [
-          "liverpool_research_team_verified_update_2026"
-        ],
-        "evidence_classification": "official_verified"
-      },
-      {
-        "criterion_id": "household_income_below_25000",
-        "applies_to_group_ids": [
-          "home_fee",
-          "contextual",
-          "widening_participation"
-        ],
-        "description": "Eligible Home applicant with household income below \u00a325,000.",
-        "source_ids": [
-          "liverpool_research_team_verified_update_2026"
-        ],
-        "evidence_classification": "official_verified"
-      },
-      {
-        "criterion_id": "liverpool_scholars_or_pathways",
-        "applies_to_group_ids": [
-          "home_fee",
-          "widening_participation"
-        ],
-        "description": "Eligible Liverpool Scholars or Liverpool Pathways to Medicine participant.",
-        "source_ids": [
-          "liverpool_contextual_data_2027",
-          "liverpool_admissions_faq_2027",
-          "liverpool_pathways_guidelines_2027"
-        ],
-        "notes": "Programme-specific academic and offer guidance applies."
-      },
-      {
-        "criterion_id": "realising_opportunities",
-        "applies_to_group_ids": [
-          "home_fee",
-          "contextual",
-          "widening_participation"
-        ],
-        "description": "Eligible Realising Opportunities participant.",
-        "source_ids": [
-          "liverpool_research_team_verified_update_2026"
-        ],
-        "evidence_classification": "official_verified"
+        "notes": "Care-experienced applicants can qualify for Liverpool Medicine contextual consideration. This does not guarantee an interview, offer or reduced A-level offer."
       }
     ],
     "adjustments": [
@@ -1652,13 +1566,14 @@
         },
         "retained_core_requirements": [
           "English Language grade 6/B",
-          "Mathematics grade 6/B"
+          "Mathematics grade 6/B",
+          "required sciences grade 6/B"
         ],
-        "other_core_subject_requirements": "unknown",
+        "other_core_subject_requirements": "retained",
         "source_ids": [
           "liverpool_contextual_data_2027"
         ],
-        "notes": "The contextual policy explicitly retains English Language and Mathematics at grade 6. It does not clearly resolve whether or how the standard science core minima are adjusted."
+        "notes": "The contextual GCSE points threshold is 12 rather than 15 for confirmed Liverpool contextual applicants. Mandatory GCSE subject and grade requirements remain independently enforced."
       },
       {
         "adjustment_id": "contextual_ucat_flexibility",
@@ -1676,19 +1591,15 @@
           "value": null
         },
         "guidance_effect": {
-          "approximate_lowering_points": {
-            "min": 80,
-            "max": 100
-          },
-          "approximate_guidance_score": 1730,
-          "score_scale_max": 2700,
-          "evidence_classification": "historical_guidance"
+          "published_numeric_threshold": null,
+          "published_flexibility_amount": null,
+          "evidence_classification": "unpublished_unknown"
         },
         "source_ids": [
           "liverpool_contextual_data_2027",
           "liverpool_research_team_verified_update_2026"
         ],
-        "notes": "The live threshold is determined annually. Guidance is not deterministic. Home SJT Band 4 remains unsuccessful, and this adjustment does not apply to GAMSAT."
+        "notes": "The live threshold is determined annually. Guidance is not deterministic. Liverpool does not publish the amount of contextual UCAT flexibility and determines it annually. Home SJT Band 4 remains unsuccessful, and this adjustment does not apply to GAMSAT."
       },
       {
         "adjustment_id": "contextual_interview_flexibility",
@@ -1709,26 +1620,6 @@
           "liverpool_contextual_data_2027"
         ],
         "notes": "Flexibility is determined annually after all scores are available and does not guarantee an offer."
-      },
-      {
-        "adjustment_id": "reduced_contextual_offer",
-        "applies_to_group_ids": [
-          "home_fee",
-          "contextual",
-          "widening_participation",
-          "care_experienced"
-        ],
-        "stage": "offer_selection",
-        "policy_description": "The School intends to make up to 50 reduced contextual offers in 2027 to the most competitive eligible applicants from the named under-represented groups.",
-        "effect": {
-          "type": "lower_offer_requirement",
-          "target": "offer_selection.contextual_offer",
-          "value": "up to two A-level grades below the standard offer"
-        },
-        "source_ids": [
-          "liverpool_contextual_data_2027"
-        ],
-        "notes": "Eligibility and special consideration do not guarantee an interview, offer or reduced offer."
       }
     ],
     "guaranteed_interview_rules": [],
@@ -2015,23 +1906,6 @@
         "liverpool_a100_departmental_supplement_2027"
       ],
       "notes": "May change with application volume and quality."
-    },
-    {
-      "quota_id": "intended_reduced_contextual_offers_2027",
-      "name": "Intended reduced contextual offers",
-      "applies_to_group_ids": [
-        "home_fee",
-        "contextual",
-        "widening_participation",
-        "care_experienced"
-      ],
-      "stage": "offer_selection",
-      "quota_type": "intended_maximum",
-      "value": 50,
-      "source_ids": [
-        "liverpool_contextual_data_2027"
-      ],
-      "notes": "Up to 50 reduced offers are intended for the most competitive eligible applicants from the named under-represented groups. This is not a guarantee."
     }
   ],
   "offer_selection": {
@@ -2130,18 +2004,13 @@
       "notes": "Subject requirements remain Chemistry plus one of Biology, Physics or Mathematics and a third academic subject. For A*AB, the A* and A must be in the two required science/mathematics subjects."
     },
     "contextual_offer": {
-      "applies_to_group_ids": [
-        "home_fee",
-        "contextual",
-        "widening_participation",
-        "care_experienced"
-      ],
+      "applies_to_group_ids": [],
       "grade_profile": [],
-      "maximum_reduction": "up to two A-level grades below the standard offer",
+      "maximum_reduction": null,
       "source_ids": [
         "liverpool_contextual_data_2027"
       ],
-      "notes": "No single universal contextual grade profile is published. Liverpool Scholars and Pathways have named likely offer profiles stored under contextual admissions."
+      "notes": "No automatic Liverpool A100 contextual A-level reduction is applied. Liverpool Scholars and Pathways have named likely offer profiles stored under contextual admissions."
     },
     "notes": "Offer prediction is disabled. Only the official MMI ranking method and official borderline decision hierarchy are stored. No annual pass mark, offer boundary, weights or probability are inferred."
   },
@@ -2287,12 +2156,17 @@
         "total_places": 315,
         "deferred_or_reserved_places_approximate": 40,
         "offer_to_confirmed_place_guidance": "approximately two offers per confirmed place",
+        "ucat_cutoffs_by_group": {
+          "home_standard_non_graduate": 1960
+        },
         "ucat_guidance_by_group": {
           "home_standard": {
-            "min": 1810,
-            "max": 1920
+            "cutoff": 1960
           },
-          "home_contextual_approximate_minimum": 1730,
+          "home_contextual": {
+            "published_numeric_threshold": null,
+            "published_flexibility_amount": null
+          },
           "international": {
             "min": 1980,
             "max": 2170
@@ -2304,9 +2178,10 @@
         "verification_status": "mixed_official_and_historical_guidance",
         "evidence_classification": {
           "places": "official_verified",
-          "applications_interviews_offers_and_ucat_ranges": "historical_guidance"
+          "home_standard_ucat_cutoff": "official_verified",
+          "applications_interviews_offers_and_other_ucat_ranges": "historical_guidance"
         },
-        "notes": "A100 places are official E2026 intake values. Application, interview, offer, deferred/reserved and UCAT figures are approximate historical guidance and must not become deterministic rules.",
+        "notes": "A100 places and the Home standard UCAT cut-off are official E2026 intake values. Application, interview, offer, deferred/reserved and other UCAT figures are approximate historical guidance and must not become deterministic rules.",
         "source_ids": [
           "liverpool_a100_departmental_supplement_2027",
           "liverpool_priority_2_historical_evidence_handoff_2026"
@@ -2314,20 +2189,18 @@
       }
     ],
     "current_cycle_guidance": {
-      "entry_year": 2026,
-      "classification": "historical_guidance",
+      "entry_year": 2027,
+      "classification": "official_estimated_guidance",
       "home_standard": {
         "score_range": [
-          1810,
-          1920
+          1880,
+          2010
         ]
       },
       "home_contextual": {
-        "approximate_minimum": 1730,
-        "approximate_lowering_points": [
-          80,
-          100
-        ]
+        "published_numeric_threshold": null,
+        "published_flexibility_amount": null,
+        "guidance_basis": "same_applysmart_home_guidance_bands_with_contextual_flexibility_note"
       },
       "international_eu": {
         "score_range": [
@@ -2336,9 +2209,10 @@
         ]
       },
       "source_ids": [
-        "liverpool_priority_2_historical_evidence_handoff_2026"
+        "liverpool_a100_departmental_supplement_2027",
+        "liverpool_admissions_faq_2027"
       ],
-      "notes": "E2026 estimates and guidance only. These ranges are not live or guaranteed thresholds, and performance and competition vary annually."
+      "notes": "E2027 estimates and guidance only. These ranges are not live or guaranteed thresholds, and performance and competition vary annually. Liverpool does not publish the amount of contextual UCAT flexibility and determines it annually."
     },
     "historical_gamsat_guidance": [
       {
@@ -2702,7 +2576,7 @@
       "Complete exact multi-cycle applications, interviews, offers, places and score distributions.",
       "The underlying document identifier or URL for the research-team supplied E2025 FOI cut-offs."
     ],
-    "review_notes": "Eligibility is executable for all implemented routes. Access and international qualifications require explicit Liverpool-verification evidence; unverified routes are blocked. Interview bands use only FOI-confirmed E2025 cutoffs as historical boundaries, with official candidate-decile guidance retained as non-executable context. Final-offer prediction remains disabled."
+    "review_notes": "Eligibility is executable for all implemented routes. Access and international qualifications require explicit Liverpool-verification evidence; unverified routes are blocked. Standard Home interview bands use the official E2026 UCAT cut-off and E2027 estimated guidance, while contextual and International interview bands retain FOI-confirmed E2025 cut-offs as historical boundaries. Final-offer prediction remains disabled."
   },
   "engine_notes": {
     "eligibility": true,
@@ -2737,7 +2611,7 @@
     "engine_assumptions": [],
     "do_not_infer": [
       "Do not treat E2025 FOI cut-offs as 2027 cut-offs.",
-      "Do not create numeric interview boundaries other than the FOI-verified E2025 historical cutoffs.",
+      "Do not create numeric interview boundaries other than the approved standard Home E2026/E2027 ApplySmart guidance bands and the retained FOI-verified E2025 contextual and International historical cut-offs.",
       "Do not compare E2023 or E2024 /3600 UCAT values directly with post-2025 /2700 scores.",
       "Do not convert approximate applications, interviews, offers, deferred places, GAMSAT ranges or reserve-list context into deterministic prediction inputs.",
       "Do not create a separate Scotland or Rest of UK ranking pool; Liverpool publishes a Home fee-status pool.",

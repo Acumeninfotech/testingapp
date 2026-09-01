@@ -126,10 +126,14 @@ for (const testCase of fixture.cases) {
 
 const homeResult = classifyInterviewBand(course, config, homeApplicant);
 assert.strictEqual(homeResult.eligibility.status, 'eligible');
-assert.strictEqual(homeResult.guidance_pool_id, 'home_rest_of_uk_school_leaver');
+assert.strictEqual(homeResult.guidance_pool_id, 'home_rest_of_uk_standard_school_leaver');
 assert.strictEqual(homeResult.canonical_interview_band, 'realistic');
 assert.strictEqual(homeResult.ranking.value, 76);
 assert.strictEqual(homeResult.ranking.max, 100);
+assert.strictEqual(
+  homeResult.ranking.components.home_school_leaver_guidance_index.official,
+  false
+);
 
 assert.deepStrictEqual(
   resultCard.applicant_context.applies_to_group_ids,
@@ -150,8 +154,19 @@ assert.match(
 const cardApplicant = clone(internationalApplicant);
 cardApplicant.admissions_tests.ucat.total_score = 2080;
 const cardResult = classifyInterviewBand(course, config, cardApplicant);
-assert.strictEqual(cardResult.ranking.value, resultCard.prediction.score);
-assert.strictEqual(cardResult.ranking.max, resultCard.prediction.score_scale.max);
+assert.strictEqual(
+  resultCard.prediction.score,
+  null,
+  'Dundee internal ApplySmart guidance index must not be exposed as the Result Card prediction score'
+);
+assert.strictEqual(
+  config.score_model.presentation.hide_score_breakdown,
+  true
+);
+assert.strictEqual(
+  config.score_model.presentation.hide_selection_score_details,
+  true
+);
 assert.strictEqual(cardResult.canonical_interview_band, resultCard.prediction.result_band);
 
 console.log(

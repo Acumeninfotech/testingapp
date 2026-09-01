@@ -102,7 +102,7 @@
         "The applicant is applying as a graduate-entry Medicine applicant, which belongs to UEA A101 rather than A100."
       ],
       "manual_review_if": [
-        "The applicant is using Scottish qualifications because the current generic evaluator cannot safely enforce UEA's National 5 grade thresholds.",
+        "The applicant is using a Scottish exception route that is not fully represented automatically, such as National 5 bypass, Standard Grade evidence, a mixed qualification combination or an Advanced Higher resit.",
         "The applicant is using country-specific international qualifications without verified UEA equivalence.",
         "The applicant is a resit applicant because UEA's resit rule depends on subject-level resit evidence not fully represented by the generic route."
       ],
@@ -197,6 +197,86 @@
       "scored_after_eligibility": false,
       "notes": "GCSEs are threshold-only. UEA FOI evidence confirms GCSEs are not scored."
     },
+    "national_5": {
+      "status": "official_source_verified_executable_for_standard_national_5_route",
+      "source_ids": [
+        "uea_research_doc",
+        "uea_course_page_2026"
+      ],
+      "minimum_count": 6,
+      "minimum_count_grade": "A",
+      "grade_requirements": [
+        {
+          "requirement_id": "uea_national_5_mathematics_a",
+          "subject_id": "mathematics",
+          "minimum_grade": "A",
+          "qualification_level": "national_5",
+          "post16_equivalency_allowed": false,
+          "decision_outcome_if_not_met": "not_eligible",
+          "notes": "National 5 Mathematics must be grade A. Lifeskills Mathematics is not accepted."
+        },
+        {
+          "requirement_id": "uea_national_5_english_language_b",
+          "subject_id": "english_language",
+          "alternative_subject_ids": [
+            "english"
+          ],
+          "minimum_grade": "B",
+          "qualification_level": "national_5",
+          "post16_equivalency_allowed": false,
+          "decision_outcome_if_not_met": "not_eligible"
+        }
+      ],
+      "science_requirement": {
+        "requirement_id": "uea_national_5_two_sciences_a",
+        "requirement_type": "any_of",
+        "minimum_options_required": 1,
+        "accepted_options": [
+          {
+            "option_id": "biology_and_chemistry",
+            "grade_requirements": [
+              {
+                "subject_id": "biology",
+                "minimum_grade": "A"
+              },
+              {
+                "subject_id": "chemistry",
+                "minimum_grade": "A"
+              }
+            ]
+          },
+          {
+            "option_id": "biology_and_physics",
+            "grade_requirements": [
+              {
+                "subject_id": "biology",
+                "minimum_grade": "A"
+              },
+              {
+                "subject_id": "physics",
+                "minimum_grade": "A"
+              }
+            ]
+          },
+          {
+            "option_id": "chemistry_and_physics",
+            "grade_requirements": [
+              {
+                "subject_id": "chemistry",
+                "minimum_grade": "A"
+              },
+              {
+                "subject_id": "physics",
+                "minimum_grade": "A"
+              }
+            ]
+          }
+        ],
+        "decision_outcome_if_not_met": "not_eligible",
+        "notes": "At least two National 5 science subjects must be grade A."
+      },
+      "notes": "Executable standard National 5 route: at least six subjects at grade A, including Mathematics and two sciences, with English Language at grade B or above. Lifeskills Mathematics is excluded. The published Higher-only bypass and Standard Grade alternative remain outside this automatic National 5 route."
+    },
     "post_16": {
       "status": "official_source_verified_with_documented_gaps",
       "source_ids": [
@@ -288,7 +368,9 @@
         "notes": "34 overall with 6,6,6 at Higher Level including Biology or Chemistry."
       },
       "scottish": {
-        "status": "official_source_verified_manual_review_required_for_runtime",
+        "status": "official_source_verified_partially_executable",
+        "route_implemented": true,
+        "execution_status": "automatic_for_standard_first_sitting_s6_routes_with_national_5_evidence",
         "higher_offer": null,
         "advanced_higher_offer": [
           "B",
@@ -298,7 +380,85 @@
         "required_subjects": [
           "Biology or Chemistry"
         ],
-        "notes": "Advanced Higher BBB including Biology or Chemistry is recorded. Automatic Scottish eligibility is withheld because National 5 grade thresholds cannot be safely enforced by the current generic evaluator."
+        "grade_requirements": [
+          {
+            "requirement_id": "uea_scottish_s6_advanced_highers_bbb",
+            "route_id": "uea_scottish_s6_advanced_highers_bbb",
+            "academic_pathway": "standard",
+            "qualification_level": "advanced_higher",
+            "advanced_higher_school_year": "s6",
+            "grade_profile": [
+              "B",
+              "B",
+              "B"
+            ],
+            "one_of_subject_groups": [
+              {
+                "group_id": "uea_advanced_higher_biology_or_chemistry",
+                "minimum_required": 1,
+                "subject_ids": [
+                  "biology",
+                  "chemistry"
+                ]
+              }
+            ],
+            "first_attempt_required": true,
+            "same_sitting_required": true,
+            "same_sitting_qualification_level": "advanced_higher",
+            "same_sitting_school_year": "s6",
+            "decision_outcome_if_not_met": "not_eligible",
+            "source_ids": [
+              "uea_research_doc",
+              "uea_course_page_2026"
+            ],
+            "notes": "First-sitting S6 route: BBB Advanced Highers including Biology or Chemistry."
+          },
+          {
+            "requirement_id": "uea_scottish_s6_advanced_highers_ab_plus_higher_a",
+            "route_id": "uea_scottish_s6_advanced_highers_ab_plus_higher_a",
+            "academic_pathway": "standard",
+            "qualification_level": "scottish_highers_and_advanced_highers",
+            "higher_school_year": "s6",
+            "advanced_higher_school_year": "s6",
+            "higher_grade_profile": [
+              "A"
+            ],
+            "advanced_higher_grade_profile": [
+              "A",
+              "B"
+            ],
+            "advanced_higher_one_of_subject_groups": [
+              {
+                "group_id": "uea_advanced_higher_biology_or_chemistry",
+                "minimum_required": 1,
+                "subject_ids": [
+                  "biology",
+                  "chemistry"
+                ]
+              }
+            ],
+            "first_attempt_required": true,
+            "same_sitting_required": true,
+            "same_sitting_qualification_levels": [
+              "higher",
+              "advanced_higher"
+            ],
+            "same_sitting_school_year": "s6",
+            "decision_outcome_if_not_met": "not_eligible",
+            "source_ids": [
+              "uea_research_doc",
+              "uea_course_page_2026"
+            ],
+            "notes": "First-sitting S6 alternative: AB Advanced Highers including Biology or Chemistry plus one additional Higher at grade A. The three S6 subjects are represented by two Advanced Highers plus one Higher."
+          }
+        ],
+        "manual_review_routes": [
+          "Advanced Higher resits under UEA's first-sitting BCC/BBD compensation policy.",
+          "Applicants using the published AAAAB Higher route because they bypassed National 5 qualifications.",
+          "Applicants using Standard Grade / Intermediate 2 evidence in lieu of National 5 qualifications.",
+          "Mixed Scottish and A-level combinations that cannot be established from one supported automatic route."
+        ],
+        "notes": "ApplySmart automatically evaluates UEA's two standard first-sitting S6 Scottish routes when complete National 5 evidence is supplied. Published National 5-bypass, Standard Grade, mixed-qualification and Advanced Higher resit variants remain manual-review boundaries rather than being inferred."
       },
       "btec": {
         "status": "not_supported_for_a100_from_supplied_evidence",
@@ -461,11 +621,29 @@
       "uea_foi_24_267"
     ],
     "available": false,
-    "applies_to_group_ids": [],
+    "evaluator_id": "uea_a100_contextual_screening_excluded",
+    "applies_to_group_ids": [
+      "uea_preparing_for_medicine_programme"
+    ],
     "criteria": [],
     "adjustments": [],
-    "guaranteed_interview_rules": [],
-    "notes": "UEA A100 has no standard contextual admissions adjustment. A104 Gateway Medicine is a separate course and is not implemented inside this A100 profile. The Preparing for Medicine outreach interview guarantee is not implemented because the current profile does not contain verified programme-specific evidence inputs."
+    "guaranteed_interview_rules": [
+      {
+        "rule_id": "uea_preparing_for_medicine_programme_guaranteed_interview",
+        "programme": "UEA Preparing for Medicine Programme",
+        "minimum_requirements_must_be_met": true,
+        "conditions": [
+          "Explicit UEA Outreach / Pathways programme evidence is provided in the redesigned Step 6 contextual profile.",
+          "Programme engagement is confirmed.",
+          "Normal UEA A100 minimum entry requirements are met or predicted to be met."
+        ],
+        "source_ids": [
+          "uea_preparing_for_medicine_programme"
+        ],
+        "notes": "General contextual admissions evidence remains excluded from A100 screening."
+      }
+    ],
+    "notes": "UEA A100 general contextual policy remains an explicit screening exclusion: non-programme contextual evidence may be collected but does not activate contextual screening, academic reductions or UCAT adjustments. A separate programme-specific guaranteed-interview pathway applies only to confirmed UEA Preparing for Medicine Programme participants who also meet the normal A100 entry requirements. A104 Gateway Medicine is a separate course and is not implemented inside this A100 profile."
   },
   "ranking_pools": [
     {
@@ -831,13 +1009,13 @@
       "International-only UCAT interview statistics are not published in the supplied evidence.",
       "Country-specific international qualification equivalency tables are not itemised.",
       "UEA 2025 FOI UCAT values reported in the research exceed the stated 2700-point scale and require source-level validation before use.",
-      "Scottish National 5 grade thresholds are recorded but require manual review in the current generic runtime."
+      "UEA's National 5-bypass, Standard Grade / Intermediate 2, mixed-qualification and Advanced Higher resit variants remain manual-review boundaries."
     ],
     "known_unknowns": [
       "International-only UCAT interview statistics are not published in the supplied evidence.",
       "Country-specific international qualification equivalency tables are not itemised.",
       "UEA 2025 FOI UCAT values reported in the research exceed the stated 2700-point scale and require source-level validation before use.",
-      "Scottish National 5 grade thresholds are recorded but require manual review in the current generic runtime."
+      "UEA's National 5-bypass, Standard Grade / Intermediate 2, mixed-qualification and Advanced Higher resit variants remain manual-review boundaries."
     ],
     "review_notes": "UEA A100 fits the existing UCAT-ranking architecture without shared-engine changes. The implemented runtime excludes anomalous or unverified historical values from band calibration."
   },

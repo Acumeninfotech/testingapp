@@ -1,4 +1,4 @@
-import type { PredictionResult, SelectionMetric } from '../api/types';
+import type { PredictionResult, SelectionMetric, UcatAdjustment } from '../api/types';
 import {
   presentResult,
   resultCardAcademicStatus,
@@ -65,8 +65,34 @@ function formatMetricValue(value: number | null, max: number | null): string {
   return Number.isFinite(max) ? `${formattedValue} / ${formatMetricNumber(Number(max))}` : formattedValue;
 }
 
+function hasAppliedUcatAdjustment(adjustment?: UcatAdjustment | null): adjustment is UcatAdjustment {
+  return Boolean(
+    adjustment &&
+      Number.isFinite(adjustment.raw_ucat) &&
+      Number.isFinite(adjustment.uplift_percent) &&
+      Number(adjustment.uplift_percent) > 0 &&
+      Number.isFinite(adjustment.adjusted_selection_ucat),
+  );
+}
+
+function contextualUpliftValue(adjustment: UcatAdjustment): string {
+  const reason = typeof adjustment.uplift_reason_label === 'string' && adjustment.uplift_reason_label.trim()
+    ? ` (${adjustment.uplift_reason_label.trim()})`
+    : '';
+  return `+${Number(adjustment.uplift_percent)}%${reason}`;
+}
+
+function adjustedSelectionUcatLabel(adjustment?: UcatAdjustment | null): string {
+  return typeof adjustment?.label === 'string' && adjustment.label.trim()
+    ? adjustment.label.trim()
+    : 'Adjusted selection UCAT';
+}
+
 function inlineComparisonLabel(metric: SelectionMetric): string {
   const label = metric.comparison_label || 'Comparison value';
+  if (/^ApplySmart\b/.test(label)) {
+    return label;
+  }
   return label.charAt(0).toLowerCase() + label.slice(1);
 }
 
@@ -91,7 +117,39 @@ function differenceParts(metric: SelectionMetric): { value: string; label: strin
   return { value, label: `${metric.difference_direction} ${word}` };
 }
 
-function SelectionMetricPanel({ metric }: { metric: SelectionMetric | null }) {
+function SelectionMetricPanel({
+  metric,
+  ucatAdjustment,
+}: {
+  metric: SelectionMetric | null;
+  ucatAdjustment?: UcatAdjustment | null;
+}) {
+  if (hasAppliedUcatAdjustment(ucatAdjustment)) {
+    const adjustedUcatLabel = adjustedSelectionUcatLabel(ucatAdjustment);
+    return (
+      <div
+        className="university-result-selection-metric university-result-selection-metric--ucat-adjustment"
+        aria-label={`Your UCAT ${ucatAdjustment.raw_ucat}, contextual uplift ${contextualUpliftValue(ucatAdjustment)}, ${adjustedUcatLabel} ${ucatAdjustment.adjusted_selection_ucat}`}
+      >
+        <span className="university-result-selection-label">UCAT adjustment</span>
+        <dl className="university-result-ucat-adjustment-list">
+          <div>
+            <dt>Your UCAT</dt>
+            <dd>{ucatAdjustment.raw_ucat}</dd>
+          </div>
+          <div>
+            <dt>Contextual uplift</dt>
+            <dd>{contextualUpliftValue(ucatAdjustment)}</dd>
+          </div>
+          <div>
+            <dt>{adjustedUcatLabel}</dt>
+            <dd>{ucatAdjustment.adjusted_selection_ucat}</dd>
+          </div>
+        </dl>
+      </div>
+    );
+  }
+
   if (!metric) {
     return (
       <div
@@ -167,9 +225,25 @@ export function UniversityResultSummary({
   const card = result.result_card;
   const { variant, label } = presentResult(card);
   const metric = keyMetric(card);
+  const ucatAdjustment = card.decision_transparency?.ucat_adjustment || null;
   const headline = resultCardRecommendationHeadline(card);
   const reason = firstCompleteSentence(resultCardRecommendationExplanation(card));
   const academicStatus = resultCardAcademicStatus(card);
+  const contextualCollapsedLabel =
+    ['confirmed', 'information_needed'].includes(card.contextual_status || '') &&
+    card.recommendation_display_state === 'standard' &&
+    typeof card.contextual_confirmation?.collapsed_label === 'string' &&
+    card.contextual_confirmation.collapsed_label.trim()
+      ? card.contextual_confirmation.collapsed_label.trim()
+      : null;
+  const normaliseCompactStatus = (value: string | null) =>
+    (value || '').trim().replace(/[.!?]+$/, '').toLocaleLowerCase();
+  const academicStatusDuplicatesContextual =
+    Boolean(contextualCollapsedLabel) &&
+    normaliseCompactStatus(academicStatus) === normaliseCompactStatus(contextualCollapsedLabel);
+  const academicStatusDuplicatesSelectionMetric =
+    Boolean(metric) &&
+    card.decision_transparency?.compact_status?.type === 'selection_comparison';
   const detailsId = `university-result-details-${result.universityId}`;
   const addDisabled = !shortlisted && shortlistFull;
 
@@ -184,10 +258,15 @@ export function UniversityResultSummary({
         <p className={`university-result-reason${reason ? '' : ' university-result-reason--empty'}`}>
           {reason}
         </p>
-        <p className="university-result-eligibility">
-          <span className="university-result-eligibility-label">{academicStatus}</span>
-        </p>
-        <SelectionMetricPanel metric={metric} />
+        {contextualCollapsedLabel && (
+          <p className="university-result-contextual-status">{contextualCollapsedLabel}</p>
+        )}
+        {!academicStatusDuplicatesContextual && !academicStatusDuplicatesSelectionMetric && (
+          <p className="university-result-eligibility">
+            <span className="university-result-eligibility-label">{academicStatus}</span>
+          </p>
+        )}
+        <SelectionMetricPanel metric={metric} ucatAdjustment={ucatAdjustment} />
       </div>
       <div className="university-result-actions">
         <button

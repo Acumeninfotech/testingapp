@@ -145,6 +145,58 @@
         "edinburgh_ucat_2027"
       ]
     },
+    "national_5": {
+      "status": "verified",
+      "source_ids": [
+        "edinburgh_entry_requirements_2027"
+      ],
+      "grade_requirements": [
+        {
+          "requirement_id": "national_5_biology",
+          "subject_id": "biology",
+          "minimum_grade": "B",
+          "source_ids": [
+            "edinburgh_entry_requirements_2027"
+          ]
+        },
+        {
+          "requirement_id": "national_5_chemistry",
+          "subject_id": "chemistry",
+          "minimum_grade": "B",
+          "source_ids": [
+            "edinburgh_entry_requirements_2027"
+          ]
+        },
+        {
+          "requirement_id": "national_5_english",
+          "subject_id": "english_language",
+          "minimum_grade": "B",
+          "source_ids": [
+            "edinburgh_entry_requirements_2027"
+          ]
+        },
+        {
+          "requirement_id": "national_5_mathematics",
+          "subject_id": "mathematics",
+          "minimum_grade": "B",
+          "satisfied_by": [
+            {
+              "qualification_levels": [
+                "higher"
+              ],
+              "subject_ids": [
+                "applications_of_mathematics"
+              ],
+              "minimum_grade": "C"
+            }
+          ],
+          "source_ids": [
+            "edinburgh_entry_requirements_2027"
+          ],
+          "accepted_equivalency": "Higher Applications of Mathematics at C may replace National 5 Mathematics at B."
+        }
+      ]
+    },
     "gcse": {
       "status": "verified",
       "source_ids": [
@@ -162,6 +214,9 @@
         {
           "requirement_id": "gcse_biology_standard",
           "applies_to_group_ids": [],
+          "excluded_group_ids": [
+            "edinburgh_plus_flag"
+          ],
           "subject_id": "biology",
           "minimum_grade": "A/7",
           "qualification_level": "gcse",
@@ -174,6 +229,9 @@
         {
           "requirement_id": "gcse_chemistry_standard",
           "applies_to_group_ids": [],
+          "excluded_group_ids": [
+            "edinburgh_plus_flag"
+          ],
           "subject_id": "chemistry",
           "minimum_grade": "A/7",
           "qualification_level": "gcse",
@@ -186,6 +244,9 @@
         {
           "requirement_id": "gcse_english_standard",
           "applies_to_group_ids": [],
+          "excluded_group_ids": [
+            "edinburgh_plus_flag"
+          ],
           "subject_id": "english_language",
           "minimum_grade": "A/7",
           "qualification_level": "gcse",
@@ -198,6 +259,9 @@
         {
           "requirement_id": "gcse_mathematics_standard",
           "applies_to_group_ids": [],
+          "excluded_group_ids": [
+            "edinburgh_plus_flag"
+          ],
           "subject_id": "mathematics",
           "minimum_grade": "A/7",
           "qualification_level": "gcse",
@@ -208,17 +272,53 @@
           "notes": "Standard GCSE requirement for A-level applicants."
         },
         {
-          "requirement_id": "gcse_widening_access_minimums",
+          "requirement_id": "gcse_biology_widening_access",
           "applies_to_group_ids": [
-            "widening_participation",
-            "contextual"
+            "edinburgh_plus_flag"
           ],
-          "subject_ids": [
-            "biology",
-            "chemistry",
-            "english_language",
-            "mathematics"
+          "subject_id": "biology",
+          "minimum_grade": "B/6",
+          "qualification_level": "gcse",
+          "decision_outcome_if_not_met": "not_eligible",
+          "source_ids": [
+            "edinburgh_entry_requirements_2027"
           ],
+          "notes": "Minimum GCSE requirements for widening access applicants are Biology, Chemistry, English and Mathematics at B/6."
+        },
+        {
+          "requirement_id": "gcse_chemistry_widening_access",
+          "applies_to_group_ids": [
+            "edinburgh_plus_flag"
+          ],
+          "subject_id": "chemistry",
+          "minimum_grade": "B/6",
+          "qualification_level": "gcse",
+          "decision_outcome_if_not_met": "not_eligible",
+          "source_ids": [
+            "edinburgh_entry_requirements_2027"
+          ],
+          "notes": "Minimum GCSE requirements for widening access applicants are Biology, Chemistry, English and Mathematics at B/6."
+        },
+        {
+          "requirement_id": "gcse_english_widening_access",
+          "applies_to_group_ids": [
+            "edinburgh_plus_flag"
+          ],
+          "subject_id": "english_language",
+          "minimum_grade": "B/6",
+          "qualification_level": "gcse",
+          "decision_outcome_if_not_met": "not_eligible",
+          "source_ids": [
+            "edinburgh_entry_requirements_2027"
+          ],
+          "notes": "Minimum GCSE requirements for widening access applicants are Biology, Chemistry, English and Mathematics at B/6."
+        },
+        {
+          "requirement_id": "gcse_mathematics_widening_access",
+          "applies_to_group_ids": [
+            "edinburgh_plus_flag"
+          ],
+          "subject_id": "mathematics",
           "minimum_grade": "B/6",
           "qualification_level": "gcse",
           "decision_outcome_if_not_met": "not_eligible",
@@ -270,6 +370,11 @@
           {
             "requirement_id": "a_level_standard_offer",
             "applies_to_group_ids": [],
+            "excluded_group_ids": [
+              "edinburgh_plus_flag"
+            ],
+            "academic_pathway": "standard",
+            "pathway_id": "edinburgh_a_level_standard_offer",
             "grade_profile": [
               "A",
               "A",
@@ -301,9 +406,10 @@
           {
             "requirement_id": "a_level_widening_access_minimum",
             "applies_to_group_ids": [
-              "widening_participation",
-              "contextual"
+              "edinburgh_plus_flag"
             ],
+            "academic_pathway": "contextual",
+            "pathway_id": "edinburgh_a_level_plus_flag_minimum",
             "grade_profile": [
               "A",
               "A",
@@ -346,9 +452,9 @@
         },
         "contextual_offer": {
           "applies_to_group_ids": [
-            "widening_participation",
-            "contextual"
+            "edinburgh_plus_flag"
           ],
+          "pathway_id": "edinburgh_a_level_plus_flag_minimum",
           "grade_profile": [
             "A",
             "A",
@@ -392,6 +498,9 @@
           {
             "requirement_id": "ib_standard_offer",
             "applies_to_group_ids": [],
+            "excluded_group_ids": [
+              "edinburgh_plus_flag"
+            ],
             "total_points": 38,
             "hl_grade_profile": [
               "6",
@@ -422,9 +531,10 @@
           {
             "requirement_id": "ib_widening_access_minimum",
             "applies_to_group_ids": [
-              "widening_participation",
-              "contextual"
+              "edinburgh_plus_flag"
             ],
+            "academic_pathway": "contextual",
+            "pathway_id": "edinburgh_ib_plus_flag_minimum",
             "total_points": 34,
             "hl_grade_profile": [
               "6",
@@ -528,6 +638,11 @@
           {
             "requirement_id": "sqa_standard_offer",
             "applies_to_group_ids": [],
+            "excluded_group_ids": [
+              "edinburgh_plus_flag"
+            ],
+            "academic_pathway": "standard",
+            "pathway_id": "edinburgh_sqa_standard_offer",
             "qualification_level": "scottish_highers_and_advanced_highers",
             "higher_grade_profile": [
               "A",
@@ -565,9 +680,10 @@
           {
             "requirement_id": "sqa_widening_access_minimum",
             "applies_to_group_ids": [
-              "widening_participation",
-              "contextual"
+              "edinburgh_plus_flag"
             ],
+            "academic_pathway": "contextual",
+            "pathway_id": "edinburgh_sqa_plus_flag_minimum",
             "qualification_level": "scottish_highers_and_advanced_highers",
             "higher_grade_profile": [
               "A",
@@ -619,41 +735,8 @@
             "notes": "Only one of Mathematics/Applications of Mathematics can be accepted as part of the three required subjects. Only one of Biology or Human Biology is considered."
           }
         ],
-        "national_5_requirements": [
-          {
-            "requirement_id": "national_5_biology",
-            "subject_id": "biology",
-            "minimum_grade": "B",
-            "source_ids": [
-              "edinburgh_entry_requirements_2027"
-            ]
-          },
-          {
-            "requirement_id": "national_5_chemistry",
-            "subject_id": "chemistry",
-            "minimum_grade": "B",
-            "source_ids": [
-              "edinburgh_entry_requirements_2027"
-            ]
-          },
-          {
-            "requirement_id": "national_5_english",
-            "subject_id": "english_language",
-            "minimum_grade": "B",
-            "source_ids": [
-              "edinburgh_entry_requirements_2027"
-            ]
-          },
-          {
-            "requirement_id": "national_5_mathematics",
-            "subject_id": "mathematics",
-            "minimum_grade": "B",
-            "source_ids": [
-              "edinburgh_entry_requirements_2027"
-            ],
-            "accepted_equivalency": "Higher Applications of Mathematics at C may replace National 5 Mathematics at B."
-          }
-        ],
+        "route_implemented": true,
+        "contextual_route_implemented": true,
         "notes": "Scottish requirements are official. FOI-derived scoring is stored under Stage 2; do not infer missing intermediate academic bands."
       },
       "btec": {
@@ -765,9 +848,9 @@
         "scoring": {
           "used_in_score": true,
           "points_by_band": {
-            "1": 7.5,
-            "2": 5,
-            "3": 2.5,
+            "1": 6,
+            "2": 4.5,
+            "3": 3,
             "4": 0
           },
           "source_ids": [
@@ -1687,6 +1770,25 @@
       "edinburgh_admissions_stats_2025_pdf"
     ],
     "available": true,
+    "contextual_eligibility": {
+      "evaluator_id": "edinburgh_contextual_medicine_a100",
+      "controls_group_routing": true,
+      "applies_to_group_ids": [
+        "home_fee"
+      ],
+      "excluded_group_ids": [
+        "international_fee"
+      ],
+      "activated_applicant_group_ids": [
+        "contextual",
+        "widening_participation",
+        "edinburgh_flag",
+        "edinburgh_plus_flag"
+      ],
+      "evidence_source": "shared_step_6_contextual_profile",
+      "manual_review_when_evidence_incomplete": true,
+      "notes": "Edinburgh A100 contextual routing is activated only from structured Step 6 contextual evidence via the shared contextual eligibility framework and Edinburgh evaluator. Confirmed Flag activates the contextual route but keeps standard academic requirements. Confirmed Plus Flag activates the contextual route and the reduced academic threshold. UCAT bursary and Scotland SIMD40 UCAT treatment remain separate from academic Plus Flag treatment. Raw legacy contextual flags or applicant-group IDs must not independently unlock Edinburgh contextual routing or reduced academic requirements."
+    },
     "applies_to_group_ids": [
       "contextual",
       "widening_participation",
@@ -1759,8 +1861,7 @@
       {
         "adjustment_id": "sqa_widening_access_minimum",
         "applies_to_group_ids": [
-          "widening_participation",
-          "contextual"
+          "edinburgh_plus_flag"
         ],
         "stage": "stage_1_eligibility",
         "policy_description": "Adjusted SQA minimum AAABB by end of S5 and CC at Advanced Higher in S6 for eligible widening access Plus Flag applicants.",
@@ -1777,8 +1878,7 @@
       {
         "adjustment_id": "a_level_widening_access_minimum",
         "applies_to_group_ids": [
-          "widening_participation",
-          "contextual"
+          "edinburgh_plus_flag"
         ],
         "stage": "stage_1_eligibility",
         "policy_description": "Adjusted A-level minimum AAB in one sitting for eligible widening access Plus Flag applicants.",
@@ -1795,8 +1895,7 @@
       {
         "adjustment_id": "ib_widening_access_minimum",
         "applies_to_group_ids": [
-          "widening_participation",
-          "contextual"
+          "edinburgh_plus_flag"
         ],
         "stage": "stage_1_eligibility",
         "policy_description": "Adjusted IB minimum 34 points with 655 at HL for eligible widening access Plus Flag applicants.",
@@ -2539,14 +2638,14 @@
       "Whether UCAT contextual uplift is applied before or after decile ranking remains unresolved unless separately evidenced.",
       "Exact route-specific scoring bands for recognised international equivalents beyond the verified universal 20-point cap are not supplied."
     ],
-    "review_notes": "Verified international evidence adds a separate 20 academic + 14 UCAT cognitive + 6 SJT pre-interview score, 40-point Assessment Day and 80-point final total. International UCAT bands are historical guidance, not a fixed interview cut-off, and ranking uses total pre-interview score rather than UCAT alone. Home, Scottish and Rest of UK logic is unchanged."
+    "review_notes": "Verified international evidence adds a separate 20 academic + 14 UCAT cognitive + 6 SJT pre-interview score, 40-point Assessment Day and 80-point final total. International UCAT bands are historical guidance, not a fixed interview cut-off, and ranking uses total pre-interview score rather than UCAT alone. Domestic Scotland/RUK routing now uses the shared Scottish four-route foundation."
   },
   "engine_notes": {
     "eligibility": true,
     "interview_prediction": true,
     "historical_guidance": true,
     "international_prediction": true,
-    "contextual_logic": false,
+    "contextual_logic": true,
     "result_card": true,
     "regression": true,
     "research_completeness": "complete_for_supported_scope_with_documented_gaps",

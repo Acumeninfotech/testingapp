@@ -101,11 +101,70 @@ function setALevels(applicant, grades) {
   return applicant;
 }
 
+function standardNational5Subjects() {
+  return [
+    { subject_id: 'english_language', grade: 'B' },
+    { subject_id: 'mathematics', grade: 'B' },
+    { subject_id: 'chemistry', grade: 'B' },
+    { subject_id: 'biology', grade: 'B' },
+    { subject_id: 'history', grade: 'B' },
+    { subject_id: 'geography', grade: 'B' }
+  ];
+}
+
+function scottishApplicant({
+  domicile = 'England',
+  advancedHighers = {
+    chemistry: 'A',
+    biology: 'A',
+    mathematics: 'A'
+  },
+  contextual = false,
+  includeGcse = true,
+  includeNational5 = true,
+  national5Subjects = standardNational5Subjects()
+} = {}) {
+  const applicant = baseApplicant();
+  applicant.qualification_route = 'scottish';
+  applicant.applicant_identity.domicile = domicile;
+  delete applicant.a_level_profile;
+  if (!includeGcse) {
+    delete applicant.gcse_profile;
+  }
+  if (contextual) {
+    applicant.contextual_profile = {
+      school_education: {
+        independent_school: 'no'
+      },
+      financial_support: {
+        ucat_bursary_recipient: 'yes'
+      }
+    };
+  }
+  applicant.scottish_profile = {
+    ...(includeNational5
+      ? {
+          national_5_subjects: national5Subjects
+        }
+      : {}),
+    advanced_higher_subjects: Object.entries(advancedHighers).map(([subjectId, grade]) => ({
+      subject_id: subjectId,
+      grade
+    }))
+  };
+  return applicant;
+}
+
 function contextualApplicant(grades) {
   const applicant = setALevels(baseApplicant(), grades);
-  applicant.applicant_identity.contextual = true;
-  applicant.applicant_identity.widening_participation = true;
-  applicant.applicant_identity.contextual_status_confirmed = true;
+  applicant.contextual_profile = {
+    school_education: {
+      state_non_fee_paying_school: 'yes'
+    },
+    financial_support: {
+      ucat_bursary_recipient: 'yes'
+    }
+  };
   return applicant;
 }
 
@@ -208,7 +267,217 @@ const cases = [
   {
     id: 'standard_a_level_eligible',
     expected: ELIGIBLE,
+    assertResult(result) {
+      assert.strictEqual(result.qualification_route, 'a_level');
+      assert.ok(result.applicant_group_ids.includes('england_domiciled'));
+    },
     applicant: baseApplicant()
+  },
+  {
+    id: 'scotland_domicile_a_level_uses_a_level_route',
+    expected: ELIGIBLE,
+    mutate(applicant) {
+      applicant.applicant_identity.domicile = 'Scotland';
+      return applicant;
+    },
+    assertResult(result) {
+      assert.strictEqual(result.qualification_route, 'a_level');
+      assert.ok(result.applicant_group_ids.includes('scotland_domiciled'));
+      assert.ok(!result.applicant_group_ids.includes('england_domiciled'));
+      assert.strictEqual(result.academic_pathway_id, 'standard_school_leaver_a_level');
+    }
+  },
+  {
+    id: 'england_domicile_scottish_advanced_highers_eligible',
+    expected: ELIGIBLE,
+    applicant: scottishApplicant({
+      domicile: 'England',
+      includeGcse: false
+    }),
+    assertResult(result) {
+      assert.strictEqual(result.qualification_route, 'scottish');
+      assert.ok(result.applicant_group_ids.includes('england_domiciled'));
+      assert.ok(result.applicant_group_ids.includes('rest_of_uk'));
+      assert.ok(!result.applicant_group_ids.includes('scotland_domiciled'));
+      assert.strictEqual(result.academic_pathway_id, 'scottish_advanced_higher');
+    }
+  },
+  {
+    id: 'scotland_domicile_scottish_advanced_highers_eligible',
+    expected: ELIGIBLE,
+    applicant: scottishApplicant({
+      domicile: 'Scotland',
+      includeGcse: false
+    }),
+    assertResult(result) {
+      assert.strictEqual(result.qualification_route, 'scottish');
+      assert.ok(result.applicant_group_ids.includes('scotland_domiciled'));
+      assert.ok(!result.applicant_group_ids.includes('rest_of_uk'));
+      assert.strictEqual(result.academic_pathway_id, 'scottish_advanced_higher');
+    }
+  },
+  {
+    id: 'scottish_national_5_combined_science_counts_as_two_awards',
+    expected: ELIGIBLE,
+    applicant: scottishApplicant({
+      domicile: 'Scotland',
+      includeGcse: false,
+      national5Subjects: [
+        { subject_id: 'english_language', grade: 'B' },
+        { subject_id: 'mathematics', grade: 'B' },
+        { subject_id: 'combined_science', grade: 'B/B' },
+        { subject_id: 'history', grade: 'B' },
+        { subject_id: 'geography', grade: 'B' }
+      ]
+    }),
+    assertResult(result) {
+      const check = result.checks.find((entry) => entry.check_id === 'national_5_requirements');
+      assert.strictEqual(check.minimum_count_met, true);
+      assert.deepStrictEqual(check.failed_requirement_ids, []);
+    }
+  },
+  {
+    id: 'scottish_only_five_qualifying_national_5_awards_not_eligible',
+    expected: NOT_ELIGIBLE,
+    expectedFailure: 'national_5_requirements_not_met',
+    applicant: scottishApplicant({
+      domicile: 'Scotland',
+      includeGcse: false,
+      national5Subjects: [
+        { subject_id: 'english_language', grade: 'B' },
+        { subject_id: 'mathematics', grade: 'B' },
+        { subject_id: 'chemistry', grade: 'B' },
+        { subject_id: 'biology', grade: 'B' },
+        { subject_id: 'history', grade: 'B' }
+      ]
+    })
+  },
+  {
+    id: 'scottish_national_5_english_below_b_not_eligible',
+    expected: NOT_ELIGIBLE,
+    expectedFailure: 'national_5_requirements_not_met',
+    applicant: scottishApplicant({
+      domicile: 'Scotland',
+      includeGcse: false,
+      national5Subjects: [
+        { subject_id: 'english_language', grade: 'C' },
+        { subject_id: 'mathematics', grade: 'B' },
+        { subject_id: 'chemistry', grade: 'B' },
+        { subject_id: 'biology', grade: 'B' },
+        { subject_id: 'history', grade: 'B' },
+        { subject_id: 'geography', grade: 'B' }
+      ]
+    })
+  },
+  {
+    id: 'scottish_national_5_mathematics_below_b_not_eligible',
+    expected: NOT_ELIGIBLE,
+    expectedFailure: 'national_5_requirements_not_met',
+    applicant: scottishApplicant({
+      domicile: 'Scotland',
+      includeGcse: false,
+      national5Subjects: [
+        { subject_id: 'english_language', grade: 'B' },
+        { subject_id: 'mathematics', grade: 'C' },
+        { subject_id: 'chemistry', grade: 'B' },
+        { subject_id: 'biology', grade: 'B' },
+        { subject_id: 'history', grade: 'B' },
+        { subject_id: 'geography', grade: 'B' }
+      ]
+    })
+  },
+  {
+    id: 'scottish_national_5_missing_science_route_not_eligible',
+    expected: NOT_ELIGIBLE,
+    expectedFailure: 'national_5_requirements_not_met',
+    applicant: scottishApplicant({
+      domicile: 'Scotland',
+      includeGcse: false,
+      national5Subjects: [
+        { subject_id: 'english_language', grade: 'B' },
+        { subject_id: 'mathematics', grade: 'B' },
+        { subject_id: 'physics', grade: 'B' },
+        { subject_id: 'history', grade: 'B' },
+        { subject_id: 'geography', grade: 'B' },
+        { subject_id: 'modern_studies', grade: 'B' }
+      ]
+    })
+  },
+  {
+    id: 'scottish_advanced_highers_below_aaa_not_eligible',
+    expected: NOT_ELIGIBLE,
+    expectedFailure: 'scottish_post_16_requirements_not_met',
+    applicant: scottishApplicant({
+      domicile: 'Scotland',
+      includeGcse: false,
+      advancedHighers: {
+        chemistry: 'A',
+        biology: 'A',
+        mathematics: 'B'
+      }
+    })
+  },
+  {
+    id: 'scottish_advanced_highers_missing_chemistry_not_eligible',
+    expected: NOT_ELIGIBLE,
+    expectedFailure: 'scottish_post_16_requirements_not_met',
+    applicant: scottishApplicant({
+      domicile: 'England',
+      includeGcse: false,
+      advancedHighers: {
+        biology: 'A',
+        mathematics: 'A',
+        physics: 'A'
+      }
+    })
+  },
+  {
+    id: 'scottish_advanced_highers_missing_biology_not_eligible',
+    expected: NOT_ELIGIBLE,
+    expectedFailure: 'scottish_post_16_requirements_not_met',
+    applicant: scottishApplicant({
+      domicile: 'England',
+      advancedHighers: {
+        chemistry: 'A',
+        mathematics: 'A',
+        physics: 'A'
+      }
+    })
+  },
+  {
+    id: 'scottish_contextual_aab_not_inferred',
+    expected: NOT_ELIGIBLE,
+    expectedFailure: 'scottish_post_16_requirements_not_met',
+    applicant: scottishApplicant({
+      domicile: 'Scotland',
+      contextual: true,
+      advancedHighers: {
+        chemistry: 'A',
+        biology: 'A',
+        mathematics: 'B'
+      }
+    }),
+    assertResult(result) {
+      assert.strictEqual(result.contextual_eligibility.is_contextual, true);
+      assert.ok(result.applicant_group_ids.includes('contextual'));
+      assert.notStrictEqual(result.academic_pathway, 'contextual');
+    }
+  },
+  {
+    id: 'national_5_equivalence_manual_review_retired',
+    expected: ELIGIBLE,
+    applicant: scottishApplicant({
+      domicile: 'Scotland',
+      includeGcse: false,
+      includeNational5: true
+    }),
+    assertResult(result) {
+      assert.strictEqual(
+        result.manual_review_reasons.includes('national_5_equivalence_requires_manual_review'),
+        false
+      );
+      assert.strictEqual(result.academic_pathway_id, 'scottish_advanced_higher');
+    }
   },
   {
     id: 'a_level_a_star_outside_chemistry_biology',
@@ -281,9 +550,14 @@ const cases = [
     expected: MANUAL_REVIEW,
     expectedManualReview: 'wp_ib_overall_score_unknown',
     mutate(applicant) {
-      applicant.applicant_identity.contextual = true;
-      applicant.applicant_identity.widening_participation = true;
-      applicant.applicant_identity.contextual_status_confirmed = true;
+      applicant.contextual_profile = {
+        school_education: {
+          state_non_fee_paying_school: 'yes'
+        },
+        financial_support: {
+          ucat_bursary_recipient: 'yes'
+        }
+      };
       return applicant;
     },
     applicant: ibApplicant()
@@ -420,16 +694,6 @@ const cases = [
     mutate(applicant) {
       applicant.qualification_route = 'foundation';
       applicant.foundation_profile = { programme: 'unlisted_foundation' };
-      return applicant;
-    }
-  },
-  {
-    id: 'scottish_prerequisites_manual_review',
-    expected: MANUAL_REVIEW,
-    expectedManualReview: 'scottish_prerequisites_incomplete',
-    mutate(applicant) {
-      applicant.qualification_route = 'scottish';
-      applicant.scottish_profile = { advanced_highers: {} };
       return applicant;
     }
   },

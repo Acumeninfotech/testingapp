@@ -1,4 +1,4 @@
-import { render, screen } from '@testing-library/react';
+import { render, screen, within } from '@testing-library/react';
 import { createRequire } from 'node:module';
 import { describe, expect, it } from 'vitest';
 import { ResultCard } from './ResultCard';
@@ -8,6 +8,24 @@ const require = createRequire(import.meta.url);
 const { predict } = require('../../../server/src/predict') as {
   predict: (request: { universityIds: string[]; studentProfile: Record<string, unknown> }) => PredictionResult[];
 };
+const lancasterFixture = require('../../../data/fixtures/interview-band-classification/lancaster-a100.json') as {
+  base_applicant: Record<string, unknown>;
+};
+const sheffieldFixture = require('../../../data/fixtures/interview-band-classification/sheffield-a100.json') as {
+  base_applicant: Record<string, unknown>;
+  scenarios: Array<{ scenario_id: string; overrides: Record<string, unknown> }>;
+};
+const bsmsFixture = require('../../../data/fixtures/interview-band-classification/brighton-and-sussex-a100.json') as {
+  base_applicant: Record<string, unknown>;
+  scenarios: Array<{ scenario_id: string; overrides: Record<string, unknown> }>;
+};
+
+const sunderlandFixture = require('../../../data/fixtures/interview-band-classification/sunderland-a100.json') as {
+  base_applicant: Record<string, unknown>;
+};
+
+const CONTEXTUAL_CONFIRMED_MESSAGE =
+  "Contextual eligibility confirmed. Your application has been assessed using this university's published contextual admissions criteria.";
 
 function makeResult(
   overrides: Partial<PredictionResult['result_card']>,
@@ -49,6 +67,314 @@ function merge(base: Record<string, unknown>, overrides: Record<string, unknown>
     }
   });
   return result;
+}
+
+function lancasterApplicant(overrides: Record<string, unknown> = {}): Record<string, unknown> {
+  return merge(
+    lancasterFixture.base_applicant,
+    merge({
+      admissions_tests: {
+        ucat: {
+          total_score: 1920,
+          score_scale: 2700,
+          subtests: {
+            verbal_reasoning: 640,
+            decision_making: 640,
+            quantitative_reasoning: 640,
+          },
+          sjt_band: 2,
+          test_year: 2026,
+        },
+      },
+    }, overrides),
+  );
+}
+
+function sheffieldScenarioApplicant(scenarioId: string, overrides: Record<string, unknown> = {}): Record<string, unknown> {
+  const scenario = sheffieldFixture.scenarios.find((entry) => entry.scenario_id === scenarioId);
+  return merge(
+    merge(sheffieldFixture.base_applicant, scenario?.overrides || {}),
+    overrides,
+  );
+}
+
+function bsmsScenarioApplicant(scenarioId: string, overrides: Record<string, unknown> = {}): Record<string, unknown> {
+  const scenario = bsmsFixture.scenarios.find((entry) => entry.scenario_id === scenarioId);
+  return merge(
+    merge(bsmsFixture.base_applicant, scenario?.overrides || {}),
+    overrides,
+  );
+}
+
+function dundeeScottishContextualApplicant(): Record<string, unknown> {
+  return {
+    profile_id: 'dundee_scotland_contextual_aaabb_ucat_2100',
+    qualification_route: 'scottish',
+    application_year: 2027,
+    applicant_identity: {
+      applicant_type: 'school_leaver',
+      fee_status: 'home_fee',
+      domicile: 'scotland',
+      contextual: true,
+      contextual_flags: {},
+      graduate: false,
+      resit: { has_resits: false, subjects_resat: [] },
+    },
+    contextual_profile: {
+      home_area_region: { simd_quintile: 'q2' },
+      financial_support: { free_school_meals: 'no' },
+      personal_circumstances: {
+        young_or_adult_carer: 'no',
+        care_experienced: 'no',
+        care_over_three_months: 'no',
+        estranged_from_family: 'no',
+        refugee: 'no',
+        uk_refugee_status_granted: 'no',
+        seeking_asylum: 'no',
+        asylum_seeker: 'no',
+        disability: 'no',
+      },
+      access_programmes: {
+        participation_status: 'no',
+        other_programmes: [],
+        other_programme_name: '',
+      },
+    },
+    scottish_profile: {
+      national_5_subjects: [
+        { subject_id: 'english', grade: 'A' },
+        { subject_id: 'mathematics', grade: 'A' },
+        { subject_id: 'biology', grade: 'A' },
+        { subject_id: 'chemistry', grade: 'A' },
+        { subject_id: 'physics', grade: 'A' },
+      ],
+      higher_subjects: [
+        { subject_id: 'chemistry', grade: 'A', school_year: 's5', first_attempt: true },
+        { subject_id: 'biology', grade: 'A', school_year: 's5', first_attempt: true },
+        { subject_id: 'mathematics', grade: 'A', school_year: 's5', first_attempt: true },
+        { subject_id: 'english', grade: 'B', school_year: 's5', first_attempt: true },
+        { subject_id: 'physics', grade: 'B', school_year: 's5', first_attempt: true },
+      ],
+      advanced_higher_subjects: [
+        { subject_id: 'chemistry', grade: 'B', school_year: 's6', first_attempt: true },
+        { subject_id: 'biology', grade: 'B', school_year: 's6', first_attempt: true },
+      ],
+    },
+    admissions_tests: {
+      ucat: {
+        total_score: 2100,
+        score_scale: 2700,
+        subtests: {
+          verbal_reasoning: 700,
+          decision_making: 700,
+          quantitative_reasoning: 700,
+        },
+        sjt_band: 2,
+      },
+    },
+    graduate_profile: {
+      is_graduate: false,
+    },
+  };
+}
+
+function dundeeScottishStandardApplicant(): Record<string, unknown> {
+  return merge(dundeeScottishContextualApplicant(), {
+    profile_id: 'dundee_scotland_standard_aaaab_ucat_2200',
+    applicant_identity: {
+      contextual: false,
+      widening_participation: false,
+    },
+    contextual_profile: {
+      home_area_region: { simd_quintile: 'q4' },
+    },
+    scottish_profile: {
+      higher_subjects: [
+        { subject_id: 'chemistry', grade: 'A', school_year: 's5', first_attempt: true },
+        { subject_id: 'biology', grade: 'A', school_year: 's5', first_attempt: true },
+        { subject_id: 'mathematics', grade: 'A', school_year: 's5', first_attempt: true },
+        { subject_id: 'english', grade: 'A', school_year: 's5', first_attempt: true },
+        { subject_id: 'physics', grade: 'B', school_year: 's5', first_attempt: true },
+      ],
+    },
+    admissions_tests: {
+      ucat: {
+        total_score: 2200,
+        score_scale: 2700,
+        subtests: {
+          verbal_reasoning: 733,
+          decision_making: 733,
+          quantitative_reasoning: 734,
+        },
+        sjt_band: 2,
+      },
+    },
+  });
+}
+
+function dundeeRukAlevelApplicant({
+  contextual = false,
+  grades = ['A', 'A', 'A'],
+  feeStatus = 'rest_of_uk_roi_fee_rate',
+}: {
+  contextual?: boolean;
+  grades?: string[];
+  feeStatus?: string;
+} = {}): Record<string, unknown> {
+  const topTierApplicant = require('../../../data/regression-profiles/16_top_tier_applicant.json') as Record<string, unknown>;
+  return merge(topTierApplicant, {
+    profile_id: contextual
+      ? 'dundee_ruk_contextual_a_level_wording_regression'
+      : 'dundee_ruk_standard_a_level_badge_regression',
+    qualification_route: 'a_level',
+    applicant_identity: {
+      applicant_type: 'school_leaver',
+      fee_status: feeStatus,
+      domicile: 'england',
+      contextual,
+      widening_participation: contextual,
+      contextual_flags: contextual ? { free_school_meals: true } : {},
+      graduate: false,
+      resit: { has_resits: false, subjects_resat: [] },
+    },
+    contextual_profile: {
+      financial_support: { free_school_meals: contextual ? 'yes' : 'no' },
+      personal_circumstances: {
+        care_over_three_months: 'no',
+        care_experienced: 'no',
+        uk_refugee_status_granted: 'no',
+        refugee: 'no',
+        ukrainian_visa_scheme: 'no',
+      },
+    },
+    a_level_profile: {
+      subjects: [
+        ['chemistry', grades[0]],
+        ['biology', grades[1]],
+        ['mathematics', grades[2]],
+      ].map(([subjectId, predictedGrade]) => ({
+        subject_id: subjectId,
+        predicted_grade: predictedGrade,
+        achieved_grade: null,
+        sitting_status: 'first_sitting',
+        practical_endorsement: subjectId === 'mathematics' ? null : 'pass',
+      })),
+    },
+    admissions_tests: {
+      ucat: {
+        total_score: 2200,
+        score_scale: 2700,
+        subtests: {
+          verbal_reasoning: 733,
+          decision_making: 733,
+          quantitative_reasoning: 734,
+        },
+        sjt_band: 2,
+      },
+    },
+  });
+}
+
+function lancasterAlevelApplicant({
+  grades,
+  epq,
+}: {
+  grades: string[];
+  epq?: Record<string, unknown>;
+}): Record<string, unknown> {
+  const subjects = [
+    ['biology', grades[0]],
+    ['chemistry', grades[1]],
+    ['mathematics', grades[2]],
+  ].map(([subjectId, predictedGrade], index) => ({
+    subject_id: subjectId,
+    predicted_grade: predictedGrade,
+    sitting_status: 'first_sitting',
+    ...(index < 2 ? { practical_endorsement: 'pass' } : {}),
+  }));
+
+  return merge(lancasterFixture.base_applicant, {
+    contextual_profile: {},
+    a_level_profile: {
+      subjects,
+      sitting_status: 'first_sitting',
+      ...(epq ? { epq } : {}),
+    },
+    admissions_tests: {
+      ucat: {
+        total_score: 2200,
+        score_scale: 2700,
+        subtests: {
+          verbal_reasoning: 730,
+          decision_making: 730,
+          quantitative_reasoning: 740,
+        },
+        sjt_band: 1,
+        test_year: 2026,
+      },
+    },
+  });
+}
+
+function lancasterScottishApplicant(): Record<string, unknown> {
+  const applicant = clone(lancasterFixture.base_applicant);
+
+  applicant.profile_id = 'lancaster_scottish_result_card_epq_suppression_regression';
+  applicant.qualification_route = 'scottish';
+  applicant.applicant_identity = {
+    ...(applicant.applicant_identity as Record<string, unknown>),
+    applicant_type: 'standard_school_leaver',
+    fee_status: 'Home',
+    domicile: 'England',
+    contextual: false,
+    widening_participation: false,
+    contextual_flags: {},
+    graduate: false,
+  };
+  applicant.contextual_profile = {};
+
+  delete applicant.a_level_profile;
+  delete applicant.gcse_profile;
+  delete applicant.ib_profile;
+  delete applicant.scottish_qualifications;
+  delete applicant.scottish_higher_profile;
+  delete applicant.advanced_higher_profile;
+
+  applicant.scottish_profile = {
+    national_5_subjects: [
+      { subject_id: 'english_language', grade: 'A' },
+      { subject_id: 'mathematics', grade: 'A' },
+      { subject_id: 'biology', grade: 'A' },
+      { subject_id: 'chemistry', grade: 'A' },
+      { subject_id: 'physics', grade: 'A' },
+      { subject_id: 'other', grade: 'A' },
+      { subject_id: 'other', grade: 'A' },
+    ],
+    higher_subjects: [
+      { subject_id: 'biology', grade: 'A', achieved_grade: 'A', sitting_id: 's5', school_year: 's5' },
+      { subject_id: 'chemistry', grade: 'A', achieved_grade: 'A', sitting_id: 's5', school_year: 's5' },
+      { subject_id: 'mathematics', grade: 'A', achieved_grade: 'A', sitting_id: 's5', school_year: 's5' },
+      { subject_id: 'english', grade: 'A', achieved_grade: 'A', sitting_id: 's5', school_year: 's5' },
+      { subject_id: 'history', grade: 'B', achieved_grade: 'B', sitting_id: 's5', school_year: 's5' },
+    ],
+    advanced_higher_subjects: [],
+  };
+
+  applicant.admissions_tests = {
+    ucat: {
+      total_score: 2200,
+      score_scale: 2700,
+      subtests: {
+        verbal_reasoning: 730,
+        decision_making: 730,
+        quantitative_reasoning: 740,
+      },
+      sjt_band: 1,
+      test_year: 2026,
+    },
+  };
+
+  return applicant;
 }
 
 describe('ResultCard', () => {
@@ -96,6 +422,775 @@ describe('ResultCard', () => {
     const badge = document.querySelector('.result-card-head .result-card-status--recommendation-badge');
     expect(badge).toHaveTextContent('Strong Choice');
     expect(badge?.querySelector('.result-card-icon')).not.toBeInTheDocument();
+  });
+
+  it('does not show a positive eligibility subtitle when the compact academic status is not eligible', () => {
+    render(
+      <ResultCard
+        result={makeResult({
+          recommendation_display_state: 'not_eligible',
+          primary_user_facing_recommendation: 'Not suitable',
+          prediction: { result_band: 'not_eligible' },
+          eligibility: { status: 'not_eligible' },
+          decision_transparency: {
+            compact_status: {
+              label: 'You do not currently meet the academic requirements.',
+              type: 'academic_status',
+              tone: 'negative',
+            },
+            decision_path: [
+              {
+                stage: 'Eligibility',
+                status: 'Not met',
+                summary: 'You do not currently meet the academic requirements.',
+                checks: [],
+              },
+            ],
+          },
+        })}
+      />,
+    );
+
+    expect(screen.getAllByText('You do not currently meet the academic requirements.').length).toBeGreaterThan(0);
+    expect(screen.queryByText('You meet the published requirements')).not.toBeInTheDocument();
+  });
+
+  it('renders the reusable EPQ alternative academic offer summary', () => {
+    render(
+      <ResultCard
+        result={makeResult({
+          alternative_academic_offer: {
+            type: 'epq',
+            standard_offer: 'AAA',
+            alternative_offer: 'AAB + EPQ Grade A',
+            epq_minimum_grade: 'A',
+            pathway_id: 'sheffield_epq_alternative',
+            conditions: [
+              'Grade A required in the applicable mandatory science',
+              'EPQ must be taken alongside A-levels',
+            ],
+          },
+          academic_requirement_checks: [
+            {
+              qualification_type: 'a_level',
+              requirement_type: 'epq_alternative_offer',
+              label: 'A-levels + EPQ',
+              status: 'met',
+              reason: 'The accepted EPQ alternative academic pathway is met.',
+            },
+          ],
+        })}
+      />,
+    );
+
+    expect(screen.getByRole('heading', { name: 'Alternative Academic Offer' })).toBeInTheDocument();
+    expect(screen.getByText('Standard')).toBeInTheDocument();
+    expect(screen.getByText('AAA')).toBeInTheDocument();
+    expect(screen.getByText('EPQ Alternative')).toBeInTheDocument();
+    expect(screen.getByText('AAB + EPQ Grade A')).toBeInTheDocument();
+    expect(screen.getByText('Grade A required in the applicable mandatory science')).toBeInTheDocument();
+    expect(screen.getByText('EPQ must be taken alongside A-levels')).toBeInTheDocument();
+  });
+
+  it('renders routed alternative academic offers and keeps UCAT as an eligibility requirement when ranking is bypassed', () => {
+    render(
+      <ResultCard
+        result={makeResult({
+          interview_outcome: 'guaranteed_interview',
+          selection_approach_display:
+            "Applicants on the completed Pathways to Birmingham Medicine guaranteed-interview route are not ranked by Birmingham's ordinary GCSE/UCAT selection score once the verified Pathways conditions are met.",
+          alternative_academic_offer: {
+            type: 'routed_offer',
+            standard_offer: 'A*AA',
+            alternative_offer: 'AAB',
+            pathway_id: 'pathways_to_birmingham_a_level',
+            conditions: [],
+          },
+          factor_usage: [
+            {
+              factor_id: 'ucat',
+              label: 'UCAT',
+              role: 'eligibility',
+              detail:
+                'Required as an eligibility condition; competitive UCAT ranking is bypassed for this guaranteed-interview route.',
+              evidence_status: 'available',
+            },
+          ],
+          decision_transparency: {
+            factor_usage: [
+              {
+                factor_id: 'ucat',
+                label: 'UCAT',
+                role: 'eligibility',
+                evidence_status: 'available',
+              },
+            ],
+            decision_path: [
+              {
+                stage: 'Eligibility',
+                status: 'Met',
+                summary: 'You meet the published requirements.',
+                checks: [],
+              },
+              {
+                stage: 'Selection model',
+                status: 'Assessed',
+                summary:
+                  "Applicants on the completed Pathways to Birmingham Medicine guaranteed-interview route are not ranked by Birmingham's ordinary GCSE/UCAT selection score once the verified Pathways conditions are met.",
+                checks: [],
+              },
+            ],
+          },
+        })}
+      />,
+    );
+
+    expect(screen.getByRole('heading', { name: 'Alternative Academic Offer' })).toBeInTheDocument();
+    expect(screen.getByText('Pathways to Birmingham')).toBeInTheDocument();
+    expect(screen.getByText('Standard')).toBeInTheDocument();
+    expect(screen.getByText('A*AA')).toBeInTheDocument();
+    expect(screen.getByText('Alternative offer')).toBeInTheDocument();
+    expect(screen.getByText('AAB')).toBeInTheDocument();
+
+    const ucatCard = screen.getAllByText('UCAT')[0].closest('.result-card-summary-card');
+    expect(ucatCard).toHaveTextContent('Eligibility requirement');
+    expect(ucatCard).not.toHaveTextContent('Used for ranking');
+  });
+
+  it('renders the real Sunderland applicant UCAT score and SJT band for eligibility-only cards', () => {
+    const studentProfile = merge(sunderlandFixture.base_applicant, {
+      admissions_tests: {
+        ucat: {
+          total_score: 1950,
+          score_scale: 2700,
+          subtests: {
+            verbal_reasoning: 650,
+            decision_making: 650,
+            quantitative_reasoning: 650,
+          },
+          sjt_band: 2,
+          test_year: 2026,
+        },
+      },
+    });
+
+    const [result] = predict({
+      universityIds: ['sunderland-a100'],
+      studentProfile,
+    });
+
+    const publicUcatFactor = result.result_card.factor_usage?.find(
+      (entry) => entry.factor_id === 'ucat',
+    );
+
+    expect(result.result_card.applicant_context).toBeUndefined();
+    expect(publicUcatFactor).toMatchObject({
+      role: 'eligibility',
+      applicant_value: 1950,
+    });
+
+    render(<ResultCard result={result} />);
+
+    const ucatCard = screen.getAllByText('UCAT')[0].closest('.result-card-summary-card');
+    expect(ucatCard).toHaveTextContent('Eligibility requirement');
+    expect(ucatCard).toHaveTextContent('Applicant score');
+    expect(ucatCard).toHaveTextContent('1950');
+
+    const sjtCard = screen.getAllByText('SJT')[0].closest('.result-card-summary-card');
+    expect(sjtCard).toHaveTextContent('Eligibility requirement');
+    expect(sjtCard).toHaveTextContent('Applicant band');
+    expect(sjtCard).toHaveTextContent('Band 2');
+  });
+
+  it('does not show Lancaster EPQ alternative-used presentation for AAA applicants without EPQ', () => {
+    const [result] = predict({
+      universityIds: ['lancaster-a100'],
+      studentProfile: lancasterAlevelApplicant({
+        grades: ['A', 'A', 'A'],
+        epq: { status: 'not_taken', grade: null },
+      }),
+    });
+
+    expect(result.result_card.recommendation_display_state).toBe('standard');
+    expect(result.result_card.academic_pathway).toBe('standard');
+    expect(result.result_card.alternative_academic_offer).toBeNull();
+
+    render(<ResultCard result={result} />);
+
+    expect(screen.queryByText('Alternative Academic Offer')).not.toBeInTheDocument();
+    expect(screen.queryByText('EPQ Alternative')).not.toBeInTheDocument();
+    expect(screen.queryByText(/AAB \+ EPQ Grade B/i)).not.toBeInTheDocument();
+  });
+
+  it('does not show Lancaster A-level EPQ alternative presentation for Scottish-route applicants', () => {
+    const [result] = predict({
+      universityIds: ['lancaster-a100'],
+      studentProfile: lancasterScottishApplicant(),
+    });
+
+    expect(result.result_card.recommendation_display_state).toBe('standard');
+    expect(result.result_card.alternative_academic_offer).toBeNull();
+
+    render(<ResultCard result={result} />);
+
+    expect(screen.queryByText('Alternative Academic Offer')).not.toBeInTheDocument();
+    expect(screen.queryByText('EPQ Alternative')).not.toBeInTheDocument();
+    expect(screen.queryByText('AAA')).not.toBeInTheDocument();
+    expect(screen.queryByText(/AAB \+ EPQ Grade B/i)).not.toBeInTheDocument();
+  });
+
+  it('suppresses stale EPQ presentation for contextual Lancaster standard-route applicants', () => {
+    render(
+      <ResultCard
+        result={makeResult(
+          {
+            academic_pathway: 'standard',
+            contextual_status: 'confirmed',
+            contextual_confirmation: {
+              collapsed_label: 'Contextual eligibility confirmed',
+              expanded_heading: 'Contextual eligibility confirmed',
+              consideration_label: 'Contextual consideration:',
+              expanded_body:
+                'Your contextual status may be considered during UCAT interview shortlisting. If successful at interview, you may be considered for a contextual offer of ABB.',
+              contextual_offer_grade: 'ABB',
+            },
+            alternative_academic_offer: {
+              type: 'epq',
+              standard_offer: 'AAA',
+              alternative_offer: 'AAB + EPQ Grade B',
+              epq_minimum_grade: 'B',
+              pathway_id: 'lancaster_epq_alternative',
+              conditions: [],
+            },
+            academic_requirement_checks: [
+              {
+                qualification_type: 'a_level',
+                requirement_type: 'a_level_epq_alternative',
+                label: 'A-levels + EPQ',
+                status: 'met',
+              },
+              {
+                qualification_type: 'a_level',
+                requirement_type: 'a_level_standard_offer',
+                label: 'A-level grades',
+                status: 'met',
+              },
+            ],
+          },
+          { universityId: 'lancaster-a100', university: 'Lancaster University' },
+        )}
+      />,
+    );
+
+    expect(screen.getByText('A-level grades')).toBeInTheDocument();
+    expect(screen.queryByText('A-levels + EPQ')).not.toBeInTheDocument();
+    expect(screen.queryByText('Alternative Academic Offer')).not.toBeInTheDocument();
+    expect(screen.queryByText(/AAB \+ EPQ Grade B/i)).not.toBeInTheDocument();
+    expect(screen.getByRole('heading', { name: 'Contextual eligibility confirmed' })).toBeInTheDocument();
+    expect(screen.getByText(/Contextual consideration:/)).toBeInTheDocument();
+    expect(screen.getByText('ABB')).toBeInTheDocument();
+  });
+
+  it('shows Lancaster EPQ alternative-used presentation for AAB plus EPQ Grade B applicants', () => {
+    const [result] = predict({
+      universityIds: ['lancaster-a100'],
+      studentProfile: lancasterAlevelApplicant({
+        grades: ['A', 'A', 'B'],
+        epq: { status: 'predicted', grade: 'B' },
+      }),
+    });
+
+    expect(result.result_card.recommendation_display_state).toBe('standard');
+    expect(result.result_card.academic_pathway).toBe('epq_alternative');
+    expect(result.result_card.alternative_academic_offer).toEqual({
+      type: 'epq',
+      standard_offer: 'AAA',
+      alternative_offer: 'AAB + EPQ Grade B',
+      epq_minimum_grade: 'B',
+      pathway_id: 'lancaster_epq_alternative',
+      conditions: [],
+    });
+
+    render(<ResultCard result={result} />);
+
+    const offer = screen
+      .getByRole('heading', { name: 'Alternative Academic Offer' })
+      .closest('.alternative-academic-offer');
+    expect(offer).not.toBeNull();
+    expect(within(offer as HTMLElement).getByText('EPQ')).toBeInTheDocument();
+    expect(within(offer as HTMLElement).getByText('EPQ Alternative')).toBeInTheDocument();
+    expect(within(offer as HTMLElement).getByText('AAB + EPQ Grade B')).toBeInTheDocument();
+  });
+
+  it('keeps Lancaster AAB without EPQ as the existing unmet academic result', () => {
+    const [result] = predict({
+      universityIds: ['lancaster-a100'],
+      studentProfile: lancasterAlevelApplicant({
+        grades: ['A', 'A', 'B'],
+        epq: { status: 'not_taken', grade: null },
+      }),
+    });
+
+    expect(result.result_card.recommendation_display_state).toBe('not_eligible');
+    expect(result.result_card.academic_pathway).toBe('standard');
+    expect(result.result_card.alternative_academic_offer).toBeNull();
+    expect(
+      result.result_card.academic_requirement_checks?.some(
+        (check) =>
+          check.requirement_type === 'a_level_standard_offer' &&
+          check.status === 'not_met' &&
+          check.required_value === 'AAA' &&
+          check.applicant_value === 'AAB',
+      ),
+    ).toBe(true);
+  });
+
+  it('renders a contextual academic offer summary', () => {
+    render(
+      <ResultCard
+        result={makeResult({
+          alternative_academic_offer: {
+            type: 'contextual',
+            standard_offer: 'AAA',
+            alternative_offer: 'AAB',
+            pathway_id: 'lancaster_contextual_offer',
+            conditions: [],
+          },
+          academic_requirement_checks: [
+            {
+              qualification_type: 'a_level',
+              requirement_type: 'a_level_contextual_offer',
+              label: 'A-level grades',
+              status: 'met',
+              required_value: 'AAB',
+              applicant_value: 'AAB',
+              reason: 'This requirement is met.',
+            },
+          ],
+        })}
+      />,
+    );
+
+    const offer = screen
+      .getByRole('heading', { name: 'Academic Offer' })
+      .closest('.alternative-academic-offer');
+    expect(offer).not.toBeNull();
+    expect(within(offer as HTMLElement).getByText('Contextual')).toBeInTheDocument();
+    expect(within(offer as HTMLElement).getByText('Contextual offer')).toBeInTheDocument();
+    expect(within(offer as HTMLElement).getByText('AAB')).toBeInTheDocument();
+  });
+
+  it('renders St Andrews minimum-entry wording without internal route terms', () => {
+    render(
+      <ResultCard
+        result={makeResult({
+          contextual_status: 'confirmed',
+          contextual_confirmation: {
+            collapsed_label: 'Minimum entry requirements apply',
+            expanded_heading: 'Minimum entry requirements apply',
+            consideration_label: null,
+            expanded_body:
+              "You qualify for St Andrews' minimum entry requirements. Applicants who meet the academic requirements are then ranked by UCAT for interview.",
+          },
+          alternative_academic_offer: {
+            type: 'contextual',
+            standard_offer: 'AAAAB in S5 + BBB in S6 (Highers, Advanced Highers or a mixture)',
+            alternative_offer: 'AAABB in S5 + BB in S6 (Highers, Advanced Highers or a mixture)',
+            alternative_offer_label: 'Your minimum requirements',
+            pathway_id: 'st_andrews_sqa_minimum_contextual_entry',
+            conditions: [
+              'Minimum entry requirements apply to eligible applicants based on their circumstances.',
+            ],
+          },
+          academic_requirement_checks: [
+            {
+              qualification_type: 'scottish',
+              requirement_type: 'scottish_post_16_requirements',
+              label: 'Scottish Highers',
+              status: 'met',
+              required_value: 'AAABB in S5 + BB in S6',
+              applicant_value: 'AAABB in S5 + BB in S6',
+              reason: 'This requirement is met.',
+            },
+            {
+              qualification_type: 'scottish',
+              requirement_type: 'national_5_requirements',
+              label: 'National 5s',
+              status: 'met',
+              required_value: 'Met',
+              applicant_value: 'Met',
+              reason: 'This requirement is met.',
+            },
+          ],
+        })}
+      />,
+    );
+
+    expect(screen.getAllByText('Scottish Highers').length).toBeGreaterThan(0);
+    expect(screen.getAllByText('National 5s').length).toBeGreaterThan(0);
+    expect(screen.getByRole('heading', { name: 'Minimum entry requirements apply' })).toBeInTheDocument();
+    expect(
+      screen.getByText(
+        "You qualify for St Andrews' minimum entry requirements. Applicants who meet the academic requirements are then ranked by UCAT for interview.",
+      ),
+    ).toBeInTheDocument();
+
+    const offer = screen
+      .getByRole('heading', { name: 'Academic Offer' })
+      .closest('.alternative-academic-offer');
+    expect(offer).not.toBeNull();
+    expect(within(offer as HTMLElement).getByText('Your minimum requirements')).toBeInTheDocument();
+    expect(within(offer as HTMLElement).queryByText('Contextual offer')).not.toBeInTheDocument();
+    expect(
+      within(offer as HTMLElement).getByText(
+        'Minimum entry requirements apply to eligible applicants based on their circumstances.',
+      ),
+    ).toBeInTheDocument();
+
+    const text = document.body.textContent || '';
+    expect(text).not.toMatch(/Step 6|structured evidence|route activated|contextual route confirmed/i);
+    expect(text).not.toContain('St Andrews SQA minimum/contextual route: AAABB in S5 + BB in S6');
+  });
+
+  it('shows contextual confirmation messaging for confirmed contextual applicants', () => {
+    render(
+      <ResultCard
+        result={makeResult({
+          contextual_status: 'confirmed',
+          alternative_academic_offer: {
+            type: 'contextual',
+            standard_offer: 'AAA',
+            alternative_offer: 'AAB',
+            pathway_id: 'lancaster_contextual_offer',
+            conditions: [],
+          },
+        })}
+      />,
+    );
+
+    expect(screen.getByText(CONTEXTUAL_CONFIRMED_MESSAGE)).toBeInTheDocument();
+    expect(screen.queryByText('Contextual Status')).not.toBeInTheDocument();
+    expect(screen.queryByText('Contextual eligibility confirmed')).not.toBeInTheDocument();
+  });
+
+  it('shows configured expanded contextual information-needed wording without changing eligibility', () => {
+    render(
+      <ResultCard
+        result={makeResult(
+          {
+            contextual_status: 'information_needed',
+            contextual_confirmation: {
+              collapsed_label: 'Contextual information incomplete',
+              expanded_heading: 'Cambridge contextual information',
+              consideration_label: 'Information needed:',
+              expanded_body:
+                'Some contextual information is incomplete. Cambridge may consider this information as part of its holistic review, but it does not change the published academic requirements.',
+            },
+          },
+          {
+            universityId: 'cambridge-a100',
+            university: 'University of Cambridge',
+          },
+        )}
+      />,
+    );
+
+    const contextualSection = document.querySelector(
+      '.result-card-contextual-confirmation',
+    );
+
+    expect(contextualSection).not.toBeNull();
+    expect(
+      within(contextualSection as HTMLElement).getByRole('heading', {
+        name: 'Cambridge contextual information',
+      }),
+    ).toBeInTheDocument();
+    expect(contextualSection).toHaveTextContent(
+      'Information needed: Some contextual information is incomplete. Cambridge may consider this information as part of its holistic review, but it does not change the published academic requirements.',
+    );
+    expect(
+      screen.queryByText(CONTEXTUAL_CONFIRMED_MESSAGE),
+    ).not.toBeInTheDocument();
+  });
+
+  it('renders Aston contextual wording and offer comparison without Aston Ready wording', () => {
+    render(
+      <ResultCard
+        result={makeResult(
+          {
+            contextual_status: 'confirmed',
+            contextual_confirmation: {
+              collapsed_label: "You meet Aston's contextual admissions criteria.",
+              expanded_heading: "You meet Aston's contextual admissions criteria.",
+              consideration_label: null,
+              expanded_body:
+                "Your application has been assessed using Aston's published contextual admissions criteria.",
+            },
+            alternative_academic_offer: {
+              type: 'contextual',
+              standard_offer: 'AAA',
+              alternative_offer: 'ABB',
+              standard_offer_label: 'Standard offer',
+              alternative_offer_label: 'Contextual offer',
+              explanation:
+                "You are eligible for Aston's contextual offer. You must still meet all required subject and GCSE requirements.",
+              applicable_offer: 'alternative',
+              pathway_id: 'contextual_school_leaver_a_level',
+              conditions: [],
+            },
+          },
+          { universityId: 'aston-a100', university: 'Aston University' },
+        )}
+      />,
+    );
+
+    expect(screen.getByRole('heading', { name: "You meet Aston's contextual admissions criteria." })).toBeInTheDocument();
+    expect(
+      screen.getByText("Your application has been assessed using Aston's published contextual admissions criteria."),
+    ).toBeInTheDocument();
+
+    const offer = screen
+      .getByRole('heading', { name: 'Academic Offer' })
+      .closest('.alternative-academic-offer');
+    expect(offer).not.toBeNull();
+    expect(within(offer as HTMLElement).getByText('Standard offer')).toBeInTheDocument();
+    expect(within(offer as HTMLElement).getByText('AAA')).toBeInTheDocument();
+    expect(within(offer as HTMLElement).getByText('Contextual offer')).toBeInTheDocument();
+    expect(within(offer as HTMLElement).getByText('ABB')).toBeInTheDocument();
+    expect(
+      within(offer as HTMLElement).getByText(
+        "You are eligible for Aston's contextual offer. You must still meet all required subject and GCSE requirements.",
+      ),
+    ).toBeInTheDocument();
+    expect(offer?.querySelector('.alternative-academic-offer__option--applicable')).toHaveTextContent('Contextual offer');
+    expect(screen.queryByText(/Aston Ready/i)).not.toBeInTheDocument();
+    expect(screen.queryByText('Contextual Status')).not.toBeInTheDocument();
+  });
+
+  it('shows Lancaster contextual wording only in the dedicated expanded contextual section', () => {
+    const [result] = predict({
+      universityIds: ['lancaster-a100'],
+      studentProfile: lancasterApplicant({
+        contextual_profile: {
+          financial_support: {
+            free_school_meals: 'yes',
+          },
+          school_education: {
+            low_progression_to_higher_education_school: 'yes',
+          },
+        },
+      }),
+    });
+
+    render(<ResultCard result={result} />);
+
+    const header = document.querySelector('.result-card-head');
+    expect(header).not.toBeNull();
+    expect(within(header as HTMLElement).queryByText('Contextual eligibility confirmed')).not.toBeInTheDocument();
+    expect(header).not.toHaveTextContent('ABB');
+
+    const contextualSection = document.querySelector('.result-card-contextual-confirmation');
+    expect(contextualSection).not.toBeNull();
+    expect(within(contextualSection as HTMLElement).getByRole('heading', { name: 'Contextual eligibility confirmed' })).toBeInTheDocument();
+    expect(contextualSection).toHaveTextContent(
+      'Contextual consideration: Your contextual status may be considered during UCAT interview shortlisting. If successful at interview, you may be considered for a contextual offer of ABB.',
+    );
+  });
+
+  it('does not show Lancaster contextual wording for standard Lancaster applicants', () => {
+    const [result] = predict({
+      universityIds: ['lancaster-a100'],
+      studentProfile: lancasterApplicant(),
+    });
+
+    render(<ResultCard result={result} />);
+
+    const header = document.querySelector('.result-card-head');
+    expect(header).not.toBeNull();
+    expect(within(header as HTMLElement).queryByText('Contextual eligibility confirmed')).not.toBeInTheDocument();
+    expect(screen.queryByText(/Contextual consideration:/)).not.toBeInTheDocument();
+    expect(screen.queryByText(/contextual offer of ABB/i)).not.toBeInTheDocument();
+  });
+
+  it('keeps Lancaster Access to Medicine guaranteed-interview presentation free of the contextual ABB notice', () => {
+    const [result] = predict({
+      universityIds: ['lancaster-a100'],
+      studentProfile: lancasterApplicant({
+        contextual_profile: {
+          personal_circumstances: {
+            care_experienced: 'yes',
+          },
+          access_programmes: {
+            other_programmes: [
+              {
+                programme_id: 'lancaster_access_to_medicine',
+                status: 'completed',
+              },
+            ],
+          },
+        },
+      }),
+    });
+
+    render(<ResultCard result={result} />);
+
+    expect(result.result_card.interview_outcome).toBe('guaranteed_interview');
+    expect(result.result_card.contextual_confirmation).toBeNull();
+    expect(screen.getAllByText(/Every published guaranteed-interview condition/).length).toBeGreaterThan(0);
+    expect(screen.queryByText(/Contextual consideration:/)).not.toBeInTheDocument();
+    expect(screen.queryByText(/contextual offer of ABB/i)).not.toBeInTheDocument();
+  });
+
+  it('does not show contextual confirmation messaging for standard applicants', () => {
+    render(
+      <ResultCard
+        result={makeResult({
+          alternative_academic_offer: {
+            type: 'contextual',
+            standard_offer: 'AAA',
+            alternative_offer: 'AAB',
+            pathway_id: 'lancaster_contextual_offer',
+            conditions: [],
+          },
+        })}
+      />,
+    );
+
+    expect(screen.queryByText(CONTEXTUAL_CONFIRMED_MESSAGE)).not.toBeInTheDocument();
+    expect(screen.queryByText('Contextual Status')).not.toBeInTheDocument();
+    expect(screen.queryByText('✅ Contextual eligibility confirmed')).not.toBeInTheDocument();
+  });
+
+  it('does not show contextual confirmation messaging for information-needed outcomes', () => {
+    const reason = 'ApplySmart needs more information.';
+    render(
+      <ResultCard
+        result={makeResult({
+          recommendation_display_state: 'insufficient_evidence',
+          contextual_status: 'confirmed',
+          information_needed_reason: reason,
+          decision_transparency: {
+            information_needed_reason: reason,
+          },
+          alternative_academic_offer: {
+            type: 'contextual',
+            standard_offer: 'AAA',
+            alternative_offer: 'AAB',
+            pathway_id: 'lancaster_contextual_offer',
+            conditions: [],
+          },
+        })}
+      />,
+    );
+
+    expect(screen.queryByText(CONTEXTUAL_CONFIRMED_MESSAGE)).not.toBeInTheDocument();
+    expect(screen.queryByText('Contextual Status')).not.toBeInTheDocument();
+    expect(screen.queryByText('✅ Contextual eligibility confirmed')).not.toBeInTheDocument();
+  });
+
+  it('does not show contextual confirmation messaging for not-eligible outcomes', () => {
+    render(
+      <ResultCard
+        result={makeResult({
+          recommendation_display_state: 'not_eligible',
+          contextual_status: 'confirmed',
+          alternative_academic_offer: {
+            type: 'contextual',
+            standard_offer: 'AAA',
+            alternative_offer: 'AAB',
+            pathway_id: 'lancaster_contextual_offer',
+            conditions: [],
+          },
+        })}
+      />,
+    );
+
+    expect(screen.queryByText(CONTEXTUAL_CONFIRMED_MESSAGE)).not.toBeInTheDocument();
+    expect(screen.queryByText('Contextual Status')).not.toBeInTheDocument();
+    expect(screen.queryByText('✅ Contextual eligibility confirmed')).not.toBeInTheDocument();
+  });
+
+  it('renders a contextual EPQ academic offer summary', () => {
+    render(
+      <ResultCard
+        result={makeResult({
+          alternative_academic_offer: {
+            type: 'contextual_epq',
+            standard_offer: 'AAB',
+            alternative_offer: 'ABB + EPQ Grade B',
+            epq_minimum_grade: 'B',
+            pathway_id: 'lancaster_contextual_epq_alternative',
+            conditions: [],
+          },
+        })}
+      />,
+    );
+
+    const offer = screen
+      .getByRole('heading', { name: 'Alternative Academic Offer' })
+      .closest('.alternative-academic-offer');
+    expect(offer).not.toBeNull();
+    expect(within(offer as HTMLElement).getByText('Contextual + EPQ')).toBeInTheDocument();
+    expect(within(offer as HTMLElement).getByText('Contextual EPQ Alternative')).toBeInTheDocument();
+    expect(within(offer as HTMLElement).getByText('ABB + EPQ Grade B')).toBeInTheDocument();
+  });
+
+  it('omits the EPQ alternative summary for non-EPQ or malformed contracts', () => {
+    const { rerender } = render(<ResultCard result={makeResult({ alternative_academic_offer: null })} />);
+    expect(screen.queryByText('Alternative Academic Offer')).not.toBeInTheDocument();
+
+    rerender(
+      <ResultCard
+        result={makeResult({
+          alternative_academic_offer: {
+            type: 'epq',
+            standard_offer: '',
+            alternative_offer: 'AAA + EPQ Grade A',
+            epq_minimum_grade: 'A',
+            pathway_id: 'keele_epq_alternative',
+          },
+        })}
+      />,
+    );
+    expect(screen.queryByText('Alternative Academic Offer')).not.toBeInTheDocument();
+  });
+
+  it('keeps academic requirement badges unchanged when the EPQ summary is present', () => {
+    render(
+      <ResultCard
+        result={makeResult({
+          alternative_academic_offer: {
+            type: 'epq',
+            standard_offer: 'AAA',
+            alternative_offer: 'AAB + EPQ Grade B',
+            epq_minimum_grade: 'B',
+            pathway_id: 'lancaster_epq_alternative',
+            conditions: [],
+          },
+          academic_requirement_checks: [
+            {
+              qualification_type: 'gcse',
+              requirement_type: 'gcse',
+              label: 'GCSEs',
+              status: 'met',
+              reason: 'This requirement is met.',
+            },
+            {
+              qualification_type: 'a_level',
+              requirement_type: 'a_level_standard_offer',
+              label: 'A-level grades',
+              status: 'met',
+              reason: 'This requirement is met.',
+            },
+          ],
+        })}
+      />,
+    );
+
+    const academicCard = screen.getByText('Academic Requirements').closest('.result-card-summary-card');
+    expect(academicCard).toHaveTextContent('GCSEs');
+    expect(academicCard).toHaveTextContent('A-level grades');
+    expect(academicCard?.querySelectorAll('.result-card-requirement-badge')).toHaveLength(2);
   });
 
   it('labels a high_risk band as High Risk, distinct from Ambitious Choice', () => {
@@ -307,6 +1402,37 @@ describe('ResultCard', () => {
     expect(screen.getAllByText('Needs Review').length).toBeGreaterThan(0);
     expect(screen.queryByText('Verify')).not.toBeInTheDocument();
     expect(screen.getByRole('status')).toHaveTextContent('not a rejection');
+  });
+
+  it('shows Glasgow incomplete Reach as Information Needed without the generic academic subtitle', () => {
+    const reason =
+      'Successful completion of Reach is required to confirm the Glasgow adjusted/contextual route.';
+    render(
+      <ResultCard
+        result={makeResult({
+          recommendation_display_state: 'manual_review',
+          primary_explanation: reason,
+          information_needed_reason: reason,
+          decision_transparency: {
+            manual_review_reason_code: 'glasgow_reach_completion_required',
+            manual_review_reason: reason,
+            information_needed_reason: reason,
+            compact_status: {
+              label: 'ApplySmart needs more information to assess the academic requirements.',
+              type: 'academic_status',
+              tone: 'warning',
+            },
+          },
+        })}
+      />,
+    );
+
+    expect(screen.getAllByText('Information Needed').length).toBeGreaterThan(0);
+    expect(screen.queryByText('Needs Review')).not.toBeInTheDocument();
+    expect(screen.getByRole('status')).toHaveTextContent(reason);
+    expect(
+      screen.queryByText('ApplySmart needs more information to assess the academic requirements.'),
+    ).not.toBeInTheDocument();
   });
 
   it('shows Prediction Unavailable for insufficient_evidence with a university_methodology_gap reason code', () => {
@@ -847,6 +1973,264 @@ describe('ResultCard', () => {
     expect(screen.queryByText('Fees')).not.toBeInTheDocument();
   });
 
+  it('presents ApplySmart-derived UCAT bands separately from university historical evidence', () => {
+    render(
+      <ResultCard
+        result={makeResult(
+          {
+            primary_user_facing_recommendation: 'Possible choice for your application',
+            prediction: {
+              result_band: 'realistic',
+              guidance_pool_id: 'home_scotland_school_leaver',
+            },
+            decision_transparency: {
+              decision_path: [
+                {
+                  stage: 'Eligibility',
+                  status: 'Met',
+                  summary: 'You meet the published entry requirements covered by ApplySmart.',
+                  checks: [],
+                },
+                {
+                  stage: 'Historical guidance',
+                  status: 'Guidance available',
+                  summary:
+                    'UCAT: 1950 - within the ApplySmart prediction band of 1850-1999. ApplySmart prediction bands are derived from admissions evidence; they are not university-published ranges, thresholds or guarantees.',
+                  checks: [],
+                },
+              ],
+              ucat_comparison: {
+                comparison_type: 'applysmart_prediction_band',
+                applicant_ucat: 1950,
+                benchmark_min: 1850,
+                benchmark_max: 1999,
+                comparison_operator: 'between_inclusive',
+                benchmark_label: 'ApplySmart prediction band',
+                caveat:
+                  'ApplySmart prediction bands are derived from admissions evidence; they are not university-published ranges, thresholds or guarantees.',
+                evidence_status: 'applysmart_derived',
+                prediction_band: 'realistic',
+                difference_from_benchmark: null,
+                position: 'within',
+                applicant_pool: 'Home Scotland school-leaver applicants',
+                sjt_policy: 'SJT recorded.',
+                sjt_outcome: 'ignored',
+                sjt_summary: 'SJT recorded but not modelled.',
+                applicant_sjt_band: 2,
+                official_ucat_minimum: null,
+              },
+              comparison_metrics: [
+                { label: 'Lowest interviewed UCAT', value: '1700', difference: '+250' },
+                { label: 'Average interviewed UCAT', value: '1970', difference: '-20' },
+              ],
+            },
+          },
+          { universityId: 'aberdeen-a100', university: 'University of Aberdeen' },
+        )}
+      />,
+    );
+
+    expect(screen.getByRole('heading', { name: 'UCAT PREDICTION CONTEXT' })).toBeInTheDocument();
+    const predictionContext = screen.getByLabelText('Prediction Context values');
+    expect(within(predictionContext).getByText('ApplySmart Prediction Band')).toBeInTheDocument();
+    expect(within(predictionContext).getByText('1850-1999')).toBeInTheDocument();
+    expect(within(predictionContext).getByText('Lowest interviewed UCAT')).toBeInTheDocument();
+    expect(within(predictionContext).getByText('Average interviewed UCAT')).toBeInTheDocument();
+    expect(within(predictionContext).getByText('1700')).toBeInTheDocument();
+    expect(within(predictionContext).getByText('1970')).toBeInTheDocument();
+    expect(within(predictionContext).queryByText('Your UCAT')).not.toBeInTheDocument();
+    expect(within(predictionContext).queryByText('Difference')).not.toBeInTheDocument();
+    expect(screen.getAllByText('Your UCAT').length).toBeGreaterThan(0);
+    expect(screen.getByText('Difference')).toBeInTheDocument();
+    expect(screen.getByText('Within prediction band')).toBeInTheDocument();
+    expect(screen.queryByText('Historical UCAT Guide')).not.toBeInTheDocument();
+    expect(screen.queryByText(/historical UCAT range 1850-1999/i)).not.toBeInTheDocument();
+    expect(screen.queryByText('Historical Interview Data · ApplySmart prediction band')).not.toBeInTheDocument();
+  });
+
+  it('labels Glasgow Scotland/Home UCAT guidance as an ApplySmart prediction band', () => {
+    const [result] = predict({
+      universityIds: ['glasgow-a100'],
+      studentProfile: {
+        profile_id: 'glasgow_scottish_result_card_test_applicant',
+        qualification_route: 'scottish',
+        applicant_identity: {
+          applicant_type: 'standard_school_leaver',
+          domicile: 'Scotland',
+          fee_status: 'Home',
+          contextual_flags: {},
+          resit: {
+            has_resits: false,
+          },
+        },
+        scottish_profile: {
+          completed_in_one_sitting: true,
+          national_5_subjects: [
+            { subject_id: 'english_language', grade: 'B' },
+          ],
+          advanced_higher_subjects: [
+            { subject_id: 'chemistry', predicted_grade: 'B', school_year: 's6', sitting_id: 's6', first_attempt: true },
+            { subject_id: 'biology', predicted_grade: 'B', school_year: 's6', sitting_id: 's6', first_attempt: true },
+          ],
+          higher_subjects: [
+            { subject_id: 'chemistry', predicted_grade: 'A', school_year: 's5', sitting_id: 's5', first_attempt: true },
+            { subject_id: 'biology', predicted_grade: 'A', school_year: 's5', sitting_id: 's5', first_attempt: true },
+            { subject_id: 'mathematics', predicted_grade: 'A', school_year: 's5', sitting_id: 's5', first_attempt: true },
+            { subject_id: 'physics', predicted_grade: 'A', school_year: 's5', sitting_id: 's5', first_attempt: true },
+            { subject_id: 'history', predicted_grade: 'B', school_year: 's5', sitting_id: 's5', first_attempt: true },
+          ],
+        },
+        admissions_tests: {
+          ucat: {
+            total_score: 2000,
+            score_scale: 2700,
+            sjt_band: 4,
+            subtests: {
+              verbal_reasoning: 670,
+              decision_making: 665,
+              quantitative_reasoning: 665,
+              abstract_reasoning: 0,
+            },
+          },
+        },
+        contextual_profile: {
+          home_area_region: {
+            simd_quintile: 'unknown',
+          },
+          personal_circumstances: {},
+          access_programmes: {
+            participation_status: 'no',
+            ukwpmed: {
+              status: 'no',
+              programme_id: '',
+              programme_status: '',
+              provider_university_id: '',
+            },
+            other_programmes: [],
+            other_programme_name: '',
+          },
+        },
+      },
+    });
+
+    expect(result.result_card.prediction.result_band).toBe('interview_likely');
+    expect(result.result_card.primary_user_facing_recommendation).toBe('Strong choice for your application');
+    expect(result.result_card.decision_transparency?.ucat_comparison).toMatchObject({
+      benchmark_min: 1900,
+      benchmark_max: 1974,
+      benchmark_label: 'ApplySmart prediction band',
+      evidence_status: 'applysmart_derived',
+    });
+    expect(result.result_card.decision_transparency?.selection_metric).toMatchObject({
+      comparison_value: 1900,
+      comparison_max_value: 1974,
+      comparison_label: 'ApplySmart prediction band',
+      comparison_label_type: 'applysmart_advisory_guide',
+      difference_word: 'prediction band',
+    });
+
+    render(<ResultCard result={result} />);
+
+    expect(screen.getByRole('heading', { name: 'UCAT PREDICTION CONTEXT' })).toBeInTheDocument();
+    const predictionContext = screen.getByLabelText('Prediction Context values');
+    expect(within(predictionContext).getAllByText('ApplySmart Prediction Band')).toHaveLength(1);
+    expect(within(predictionContext).getAllByText('1900-1974')).toHaveLength(1);
+    expect(within(predictionContext).queryByText('ApplySmart prediction band')).not.toBeInTheDocument();
+    expect(screen.getByText(/not a Glasgow-published current 2027 cutoff/i)).toBeInTheDocument();
+    expect(screen.getByText(/does not guarantee an interview/i)).toBeInTheDocument();
+    expect(screen.queryByText('Historical UCAT Guide')).not.toBeInTheDocument();
+    expect(screen.queryByText(/historical interview range/i)).not.toBeInTheDocument();
+  });
+
+  it('renders Glasgow RUK A-level grades once in Academic Requirements', () => {
+    const [result] = predict({
+      universityIds: ['glasgow-a100'],
+      studentProfile: {
+        profile_id: 'glasgow_ruk_result_card_test_applicant',
+        qualification_route: 'a_level',
+        applicant_identity: {
+          applicant_type: 'standard_school_leaver',
+          domicile: 'England',
+          fee_status: 'RUK',
+          contextual_flags: {},
+          resit: {
+            has_resits: false,
+          },
+        },
+        a_level_profile: {
+          completed_in_one_sitting: true,
+          subjects: [
+            { subject_id: 'chemistry', predicted_grade: 'A' },
+            { subject_id: 'biology', predicted_grade: 'A' },
+            { subject_id: 'mathematics', predicted_grade: 'A' },
+          ],
+        },
+        gcse_profile: {
+          subjects: {
+            english_language: '6',
+            biology: '6',
+          },
+        },
+        admissions_tests: {
+          ucat: {
+            total_score: 2000,
+            score_scale: 2700,
+            sjt_band: 4,
+            subtests: {
+              verbal_reasoning: 2000,
+              decision_making: 0,
+              quantitative_reasoning: 0,
+              abstract_reasoning: 0,
+            },
+          },
+        },
+        contextual_profile: {
+          home_area_region: {
+            simd_quintile: 'unknown',
+          },
+          personal_circumstances: {},
+          access_programmes: {
+            participation_status: 'no',
+            ukwpmed: {
+              status: 'no',
+              programme_id: '',
+              programme_status: '',
+              provider_university_id: '',
+            },
+            other_programmes: [],
+            other_programme_name: '',
+          },
+        },
+      },
+    });
+
+    expect(result.result_card.decision_transparency?.ucat_comparison).toMatchObject({
+      benchmark_label: 'ApplySmart prediction band',
+      caveat:
+        'This prediction band is ApplySmart-derived guidance informed by Glasgow historical RUK evidence; it is not a Glasgow-published current 2027 cutoff and does not guarantee an interview.',
+      evidence_status: 'applysmart_derived',
+    });
+    expect(result.result_card.decision_transparency?.selection_metric).toMatchObject({
+      comparison_label: 'ApplySmart prediction band',
+      comparison_label_type: 'applysmart_advisory_guide',
+      difference_word: 'prediction band',
+    });
+    expect(result.result_card.academic_requirement_checks?.filter((check) => check.label === 'A-level grades')).toHaveLength(1);
+
+    render(<ResultCard result={result} />);
+
+    expect(screen.getByRole('heading', { name: 'UCAT PREDICTION CONTEXT' })).toBeInTheDocument();
+    const predictionContext = screen.getByLabelText('Prediction Context values');
+    expect(within(predictionContext).getAllByText('ApplySmart Prediction Band')).toHaveLength(1);
+    expect(screen.getByText(/ApplySmart-derived guidance informed by Glasgow historical RUK evidence/i)).toBeInTheDocument();
+    expect(screen.getByText(/not a Glasgow-published current 2027 cutoff/i)).toBeInTheDocument();
+    expect(screen.getByText(/does not guarantee an interview/i)).toBeInTheDocument();
+    expect(screen.queryByText('Historical UCAT Guide')).not.toBeInTheDocument();
+    expect(screen.queryByText(/historical interview range/i)).not.toBeInTheDocument();
+    const academicCard = screen.getByText('Academic Requirements').closest('.result-card-summary-card');
+    expect(within(academicCard as HTMLElement).getAllByText('A-level grades')).toHaveLength(1);
+  });
+
   it('renders BSMS with simplified applicant-facing wording and no fees section', () => {
     const [result] = predict({
       universityIds: ['brighton-and-sussex-a100'],
@@ -876,6 +2260,69 @@ describe('ResultCard', () => {
     ).toBeInTheDocument();
     expect(screen.queryByText('Fees')).not.toBeInTheDocument();
     expect(screen.queryByText('Fee status')).not.toBeInTheDocument();
+  });
+
+  it('renders BSMS contextual UCAT ranking without implying a published contextual cut-off', () => {
+    const [result] = predict({
+      universityIds: ['brighton-and-sussex-a100'],
+      studentProfile: bsmsScenarioApplicant('adjusted_offer_low_ucat_sjt_3', {
+        profile_id: 'bsms_contextual_frontend_no_published_cutoff',
+        application_year: 2027,
+        admissions_tests: {
+          ucat: {
+            total_score: 1950,
+            score_scale: 2700,
+            subtests: {
+              verbal_reasoning: 650,
+              decision_making: 650,
+              quantitative_reasoning: 650,
+            },
+            sjt_band: 2,
+            test_year: 2026,
+          },
+        },
+      }),
+    });
+
+    expect(result.result_card.contextual_status).toBe('confirmed');
+    expect(result.result_card.factor_usage?.find((entry) => entry.factor_id === 'ucat')?.role).toBe('ranking');
+    expect(result.result_card.decision_transparency?.ucat_comparison).toMatchObject({
+      comparison_type: 'no_published_contextual_cutoff',
+      applicant_ucat: 1950,
+      benchmark_min: null,
+    });
+
+    render(<ResultCard result={result} />);
+
+    const ucatCard = screen.getAllByText('UCAT')[0].closest('.result-card-summary-card');
+    expect(ucatCard).toHaveTextContent('Contextual applicant');
+    expect(ucatCard).toHaveTextContent(
+      'You are considered in the BSMS contextual applicant pool.',
+    );
+    expect(ucatCard).toHaveTextContent(
+      'Your total UCAT score is not compared with the standard Home applicant UCAT threshold.',
+    );
+    expect(ucatCard).not.toHaveTextContent('1990');
+    expect(ucatCard).not.toHaveTextContent('published Home threshold');
+
+    expect(screen.getByText('Applicant Pool').parentElement).toHaveTextContent('Home, Rest of UK applicants');
+    expect(screen.getByText('Selection Approach').parentElement).toHaveTextContent(
+      'Contextual applicants are considered separately from standard Home applicants. For 2027 entry, BSMS has not yet published a total UCAT score that guarantees an interview for contextual applicants.',
+    );
+    expect(screen.getByText('Previous BSMS interview outcome')).toBeInTheDocument();
+    expect(document.body).toHaveTextContent(
+      'In the previous admissions cycle, Home applicants eligible for an adjusted offer who met the academic requirements and achieved SJT Band 1, 2 or 3 were invited to interview regardless of their total UCAT score.',
+    );
+    expect(document.body).toHaveTextContent(
+      'For 2027 entry, BSMS has not yet published an equivalent interview threshold.',
+    );
+    expect(screen.getByText('UCAT', { selector: '.result-card-factor-chip' })).toBeInTheDocument();
+
+    expect(document.body).not.toHaveTextContent('published Home threshold of 1990');
+    expect(document.body).not.toHaveTextContent('no_published_contextual_cutoff');
+    expect(document.body).not.toHaveTextContent('missing threshold');
+    expect(document.body).not.toHaveTextContent('internal evidence');
+    expect(document.body).not.toHaveTextContent('route flag');
   });
 
   it('does not show evidence confidence text on the public card', () => {
@@ -1322,6 +2769,40 @@ describe('ResultCard', () => {
     expect(badgeText).toEqual(['GCSEs', 'A-levels']);
   });
 
+  it('keeps A-level academic status visible after detailed GCSE badges', () => {
+    type AcademicRequirementChecks = NonNullable<PredictionResult['result_card']['academic_requirement_checks']>;
+    const gcseChecks: AcademicRequirementChecks = [
+      { qualification_type: 'gcse', requirement_type: 'gcse_minimum_count', label: 'GCSEs', status: 'met' },
+      { qualification_type: 'gcse', requirement_type: 'gcse_english_language_minimum', label: 'GCSE English Language', status: 'met' },
+      { qualification_type: 'gcse', requirement_type: 'gcse_mathematics_minimum', label: 'GCSE Mathematics', status: 'met' },
+      { qualification_type: 'gcse', requirement_type: 'gcse_biology_minimum', label: 'GCSE Biology', status: 'met' },
+      { qualification_type: 'gcse', requirement_type: 'gcse_chemistry_minimum', label: 'GCSE Chemistry', status: 'met' },
+    ];
+    const resultWithAlevels = (status: 'met' | 'not_met') => makeResult({
+      academic_requirement_checks: [
+        ...gcseChecks,
+        {
+          qualification_type: 'a_level',
+          requirement_type: 'a_level_standard_offer',
+          label: 'A-level grades',
+          status,
+        },
+      ],
+    });
+
+    const { rerender } = render(<ResultCard result={resultWithAlevels('not_met')} />);
+    let academicCard = screen.getByText('Academic Requirements').closest('.result-card-summary-card');
+    expect(academicCard).toHaveTextContent('A-level grades');
+    expect(within(academicCard as HTMLElement).getByText('A-level grades').closest('.result-card-requirement-badge'))
+      .toHaveClass('result-card-requirement-badge--negative');
+
+    rerender(<ResultCard result={resultWithAlevels('met')} />);
+    academicCard = screen.getByText('Academic Requirements').closest('.result-card-summary-card');
+    expect(academicCard).toHaveTextContent('A-level grades');
+    expect(within(academicCard as HTMLElement).getByText('A-level grades').closest('.result-card-requirement-badge'))
+      .toHaveClass('result-card-requirement-badge--positive');
+  });
+
   it('shows More information needed fallback when only overall warning academic status is exposed', () => {
     const reason = 'More information is needed for this qualification route. This is not a rejection.';
     render(
@@ -1475,14 +2956,14 @@ describe('ResultCard', () => {
     expect(screen.getAllByText('70 / 90').length).toBeGreaterThan(0);
   });
 
-  it('renders Dundee academic score from the presenter contract', () => {
+  it('renders Dundee international academic score from the presenter contract', () => {
     const topTierApplicant = require('../../../data/regression-profiles/16_top_tier_applicant.json');
     const dundeeApplicant = merge(topTierApplicant, {
       applicant_identity: {
-        fee_status: 'Home',
-        domicile: 'England',
-        contextual: true,
-        widening_participation: true,
+        fee_status: 'International',
+        domicile: 'International',
+        contextual: false,
+        widening_participation: false,
       },
       admissions_tests: {
         ucat: {
@@ -1503,7 +2984,7 @@ describe('ResultCard', () => {
     });
 
     expect(result.result_card.decision_transparency?.score_breakdown).toMatchObject({
-      name: 'Selection score',
+      name: 'International pre-interview score',
       value: 76,
       max: 100,
     });
@@ -1516,6 +2997,167 @@ describe('ResultCard', () => {
     expect(screen.getAllByText('16 / 40').length).toBeGreaterThan(0);
     expect(screen.getByText('Total Selection Score')).toBeInTheDocument();
     expect(screen.getAllByText('76 / 100').length).toBeGreaterThan(0);
+  });
+
+  it('renders Dundee RUK A-level academic badges once with GCSE wording', () => {
+    const [result] = predict({
+      universityIds: ['dundee-a100'],
+      studentProfile: dundeeRukAlevelApplicant(),
+    });
+
+    const badgeLabels = result.result_card.academic_requirement_checks?.map((check) => check.label);
+    expect(badgeLabels).toEqual(['A-level requirements', 'GCSE requirements']);
+    expect(badgeLabels?.filter((label) => label === 'A-level requirements')).toHaveLength(1);
+    expect(badgeLabels).not.toContain('Dundee National 5 requirements');
+
+    render(<ResultCard result={result} />);
+
+    const academicCard = screen.getByText('Academic Requirements').closest('.result-card-summary-card');
+    const renderedBadges = Array.from(academicCard?.querySelectorAll('.result-card-requirement-badge') || [])
+      .map((badge) => badge.textContent);
+    expect(renderedBadges).toEqual(['A-level requirements', 'GCSE requirements']);
+    expect(within(academicCard as HTMLElement).queryByText('Dundee National 5 requirements')).not.toBeInTheDocument();
+  });
+
+  it('renders Dundee RUK contextual wording once while keeping the AAA/ABB comparison', () => {
+    const [result] = predict({
+      universityIds: ['dundee-a100'],
+      studentProfile: dundeeRukAlevelApplicant({
+        contextual: true,
+        grades: ['A', 'B', 'B'],
+        feeStatus: 'home_fee',
+      }),
+    });
+
+    expect(result.result_card.contextual_status).toBe('confirmed');
+    expect(result.result_card.contextual_confirmation).toMatchObject({
+      expanded_heading: 'Contextual Route',
+      expanded_body: "You meet Dundee's contextual admissions criteria and widening-access academic requirements.",
+    });
+    expect(result.result_card.primary_explanation).not.toMatch(/Contextual eligibility confirmed|Standard offer AAA; applied contextual offer ABB/i);
+    expect(result.result_card.decision_transparency?.compact_status?.label).toBe('You meet the academic requirements.');
+    expect(result.result_card.alternative_academic_offer).toMatchObject({
+      standard_offer: 'AAA',
+      alternative_offer: 'ABB',
+    });
+    expect(result.result_card.academic_requirement_checks?.map((check) => check.label)).toEqual([
+      'A-level requirements',
+      'GCSE requirements',
+    ]);
+
+    render(<ResultCard result={result} />);
+
+    const contextualSection = document.querySelector('.result-card-contextual-confirmation');
+    expect(contextualSection).not.toBeNull();
+    expect(within(contextualSection as HTMLElement).getByRole('heading', { name: 'Contextual Route' })).toBeInTheDocument();
+    expect(
+      within(contextualSection as HTMLElement).getByText(
+        "You meet Dundee's contextual admissions criteria and widening-access academic requirements.",
+      ),
+    ).toBeInTheDocument();
+    expect(screen.queryByText(/Contextual eligibility confirmed/i)).not.toBeInTheDocument();
+    expect(screen.queryByText('Contextual Status')).not.toBeInTheDocument();
+
+    const offer = screen
+      .getByRole('heading', { name: 'Academic Offer' })
+      .closest('.alternative-academic-offer');
+    expect(offer).not.toBeNull();
+    expect(within(offer as HTMLElement).getByText('Standard offer')).toBeInTheDocument();
+    expect(within(offer as HTMLElement).getByText('AAA')).toBeInTheDocument();
+    expect(within(offer as HTMLElement).getByText('Contextual offer')).toBeInTheDocument();
+    expect(within(offer as HTMLElement).getByText('ABB')).toBeInTheDocument();
+  });
+
+  it('hides Dundee Scottish Standard technical trust wording from the primary Result Card summary', () => {
+    const [result] = predict({
+      universityIds: ['dundee-a100'],
+      studentProfile: dundeeScottishStandardApplicant(),
+    });
+
+    expect(result.result_card.primary_explanation).toBe(
+      "Based on ApplySmart's assessment, your academic profile appears competitive for this applicant group.",
+    );
+    expect(result.result_card.trust_statement).toBeNull();
+    expect(result.result_card.academic_requirement_checks?.map((check) => check.label)).toEqual([
+      'Dundee National 5 requirements',
+      'Dundee Scottish standard route',
+    ]);
+
+    render(<ResultCard result={result} />);
+
+    const header = document.querySelector('.result-card-head');
+    expect(header).not.toBeNull();
+    expect(
+      within(header as HTMLElement).getByText(
+        "Based on ApplySmart's assessment, your academic profile appears competitive for this applicant group.",
+      ),
+    ).toBeInTheDocument();
+    expect(
+      within(header as HTMLElement).queryByText(/ApplySmart cannot reproduce Dundee's exact internal score/i),
+    ).not.toBeInTheDocument();
+    expect(
+      screen.queryByText(/complete academic scoring table and current Dundee applicant-pool UCAT decile boundaries/i),
+    ).not.toBeInTheDocument();
+    const academicCard = screen.getByText('Academic Requirements').closest('.result-card-summary-card');
+    expect(academicCard).toHaveTextContent('Dundee National 5 requirements');
+    expect(academicCard).toHaveTextContent('Dundee Scottish standard route');
+  });
+
+  it('renders Dundee Scottish contextual confirmation once without public Category 1/2 wording', () => {
+    const [result] = predict({
+      universityIds: ['dundee-a100'],
+      studentProfile: dundeeScottishContextualApplicant(),
+    });
+
+    expect(result.result_card.contextual_status).toBe('confirmed');
+    expect(result.result_card.contextual_confirmation).toMatchObject({
+      expanded_heading: 'Contextual Route',
+      expanded_body: "You meet Dundee's contextual admissions criteria and widening-access academic requirements.",
+    });
+    expect(result.result_card.trust_statement).toBeNull();
+    expect(result.result_card.alternative_academic_offer).toMatchObject({
+      standard_offer: 'AAAAB Scottish Highers + BB Advanced Highers',
+      alternative_offer: 'AAABB Scottish Highers + BB Advanced Highers',
+    });
+    expect(result.result_card.academic_requirement_checks?.map((check) => check.label)).toEqual([
+      'Dundee National 5 requirements',
+      'Dundee Scottish widening-access route',
+    ]);
+
+    render(<ResultCard result={result} />);
+
+    const header = document.querySelector('.result-card-head');
+    expect(header).not.toBeNull();
+    expect(within(header as HTMLElement).queryByText(/Contextual eligibility confirmed/i)).not.toBeInTheDocument();
+    expect(within(header as HTMLElement).queryByText(/Category 1\/2|ApplySmart-mapped/i)).not.toBeInTheDocument();
+
+    const contextualSection = document.querySelector('.result-card-contextual-confirmation');
+    expect(contextualSection).not.toBeNull();
+    expect(within(contextualSection as HTMLElement).getByRole('heading', { name: 'Contextual Route' })).toBeInTheDocument();
+    expect(
+      within(contextualSection as HTMLElement).getByText(
+        "You meet Dundee's contextual admissions criteria and widening-access academic requirements.",
+      ),
+    ).toBeInTheDocument();
+    expect(screen.queryByText(/Contextual eligibility confirmed/i)).not.toBeInTheDocument();
+    expect(
+      screen.queryByText(
+        /This is an ApplySmart prediction based on published contextual admissions evidence and historical UCAT guidance/i,
+      ),
+    ).not.toBeInTheDocument();
+    expect(screen.queryByText(/Category 1\/2|ApplySmart-mapped/i)).not.toBeInTheDocument();
+    expect(screen.queryByText('Contextual Status')).not.toBeInTheDocument();
+
+    const offer = screen
+      .getByRole('heading', { name: 'Academic Offer' })
+      .closest('.alternative-academic-offer');
+    expect(offer).not.toBeNull();
+    expect(within(offer as HTMLElement).getByText('Standard offer')).toBeInTheDocument();
+    expect(within(offer as HTMLElement).getByText('AAAAB Scottish Highers + BB Advanced Highers')).toBeInTheDocument();
+    const academicCard = screen.getByText('Academic Requirements').closest('.result-card-summary-card');
+    expect(academicCard).toHaveTextContent('Dundee National 5 requirements');
+    expect(academicCard).toHaveTextContent('Dundee Scottish widening-access route');
+    expect(within(offer as HTMLElement).getByText('AAABB Scottish Highers + BB Advanced Highers')).toBeInTheDocument();
   });
 
   it('renders Lincoln applicant-facing score and SJT wording without public route labels or fees', () => {
@@ -1638,6 +3280,145 @@ describe('ResultCard', () => {
     expect(screen.getAllByText('historical interview range').length).toBeGreaterThan(0);
     expect(screen.getAllByText('Difference').length).toBeGreaterThan(0);
     expect(screen.getAllByText('+485 above guide').length).toBeGreaterThan(0);
+  });
+
+  it('does not present an applicant UCAT score as a university minimum when UCAT is used for ranking', () => {
+    const [result] = predict({
+      universityIds: ['sheffield-a100'],
+      studentProfile: sheffieldScenarioApplicant('access_plus_imd_contextual_aab_home_pool', {
+        admissions_tests: {
+          ucat: {
+            total_score: 2400,
+            score_scale: 2700,
+            subtests: {
+              verbal_reasoning: 800,
+              decision_making: 800,
+              quantitative_reasoning: 800,
+            },
+            sjt_band: 2,
+            test_year: 2026,
+          },
+        },
+      }),
+    });
+
+    expect(result.result_card.factor_usage?.find((entry) => entry.factor_id === 'ucat')?.role).toBe('ranking');
+
+    render(<ResultCard result={result} />);
+
+    const ucatCard = screen.getAllByText('UCAT')[0].closest('.result-card-summary-card');
+    expect(ucatCard).toHaveTextContent('Used for ranking');
+    expect(ucatCard).not.toHaveTextContent('Minimum');
+    expect(ucatCard).not.toHaveTextContent('2400');
+  });
+
+  it('hides Sheffield EPQ alternative information for standard AAA applicants without EPQ', () => {
+    const [result] = predict({
+      universityIds: ['sheffield-a100'],
+      studentProfile: sheffieldScenarioApplicant('eligible_home_above_home_cutpoint', {
+        admissions_tests: {
+          ucat: {
+            total_score: 2280,
+            score_scale: 2700,
+            subtests: {
+              verbal_reasoning: 760,
+              decision_making: 760,
+              quantitative_reasoning: 760,
+            },
+            sjt_band: 2,
+            test_year: 2026,
+          },
+        },
+        a_level_profile: {
+          epq: {
+            status: 'not_taken',
+            grade: null,
+            taken_alongside_a_levels: null,
+          },
+        },
+      }),
+    });
+
+    expect(result.result_card.academic_pathway).toBe('standard');
+    expect(result.result_card.academic_pathway_id).toBe('standard_aaa_biology_route');
+    expect(result.result_card.alternative_academic_offer).toBeNull();
+
+    render(
+      <ResultCard result={result} />,
+    );
+
+    const academicCard = screen
+      .getByText('Academic Requirements')
+      .closest('.result-card-summary-card');
+
+    expect(academicCard).not.toBeNull();
+    expect(academicCard).toHaveTextContent('A-level grades: AAA');
+    expect(academicCard).not.toHaveTextContent('A-levels + EPQ');
+    expect(screen.queryByRole('heading', { name: 'Alternative Academic Offer' })).not.toBeInTheDocument();
+  });
+
+  it('shows Sheffield EPQ alternative information for standard AAA applicants with declared EPQ', () => {
+    const [result] = predict({
+      universityIds: ['sheffield-a100'],
+      studentProfile: sheffieldScenarioApplicant('eligible_home_above_home_cutpoint', {
+        a_level_profile: {
+          epq: {
+            status: 'predicted',
+            grade: 'A',
+            taken_alongside_a_levels: true,
+          },
+        },
+      }),
+    });
+
+    expect(result.result_card.academic_pathway).toBe('standard');
+    expect(result.result_card.academic_pathway_id).toBe('standard_aaa_biology_route');
+    expect(result.result_card.alternative_academic_offer?.pathway_id).toBe('sheffield_epq_alternative');
+
+    render(
+      <ResultCard result={result} />,
+    );
+
+    const offer = screen
+      .getByRole('heading', { name: 'Alternative Academic Offer' })
+      .closest('.alternative-academic-offer');
+
+    expect(offer).not.toBeNull();
+    expect(within(offer as HTMLElement).getByText('Standard')).toBeInTheDocument();
+    expect(within(offer as HTMLElement).getByText('AAA')).toBeInTheDocument();
+    expect(within(offer as HTMLElement).getByText('EPQ Alternative')).toBeInTheDocument();
+    expect(within(offer as HTMLElement).getByText('AAB + EPQ Grade A')).toBeInTheDocument();
+  });
+
+  it('preserves the Sheffield Access to Medicine UCAT minimum display when ranking is bypassed', () => {
+    const [result] = predict({
+      universityIds: ['sheffield-a100'],
+      studentProfile: sheffieldScenarioApplicant('verified_access_to_sheffield_medicine_step6', {
+        admissions_tests: {
+          ucat: {
+            total_score: 2400,
+            score_scale: 2700,
+            subtests: {
+              verbal_reasoning: 800,
+              decision_making: 800,
+              quantitative_reasoning: 800,
+            },
+            sjt_band: 2,
+            test_year: 2026,
+          },
+        },
+      }),
+    });
+
+    expect(result.result_card.factor_usage?.find((entry) => entry.factor_id === 'ucat')?.role).toBe('eligibility');
+
+    render(<ResultCard result={result} />);
+
+    const ucatCard = screen.getAllByText('UCAT')[0].closest('.result-card-summary-card');
+    expect(ucatCard).toHaveTextContent('Eligibility requirement');
+    expect(ucatCard).toHaveTextContent('Minimum');
+    expect(ucatCard).toHaveTextContent('1800');
+    expect(ucatCard).not.toHaveTextContent('2700');
   });
 
   it("renders City St George's with cleaner applicant-facing wording and no fees", () => {

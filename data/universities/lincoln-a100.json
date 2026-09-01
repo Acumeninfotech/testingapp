@@ -208,6 +208,7 @@
         "grade_requirements": [
           {
             "requirement_id": "lincoln_a_level_aaa_biology",
+            "academic_pathway": "standard",
             "grade_profile": [
               "A",
               "A",
@@ -221,6 +222,28 @@
                 "subject_id": "biology",
                 "minimum_grade": "A"
               }
+            ]
+          },
+          {
+            "requirement_id": "lincoln_contextual_aab_biology",
+            "academic_pathway": "contextual",
+            "grade_profile": [
+              "A",
+              "A",
+              "B"
+            ],
+            "required_subject_ids": [
+              "biology"
+            ],
+            "subject_grade_requirements": [
+              {
+                "subject_id": "biology",
+                "minimum_grade": "A"
+              }
+            ],
+            "applies_to_group_ids": [
+              "home_fee",
+              "contextual"
             ]
           }
         ],
@@ -245,11 +268,78 @@
         "notes": "IB applicants also need supporting GCSE/IB Middle Years science, English and Maths evidence. Route-specific scoring is not separately calibrated beyond the GCSE-recent versus post-qualification rule."
       },
       "scottish": {
-        "status": "official_source_verified_with_route_execution_gap",
+        "status": "official_source_verified",
         "national_5": "At least 6 Grade As or GCSE equivalent including Biology and Chemistry; Maths and English Language at Grade B minimum.",
         "highers": "AAABB including Biology, Chemistry, Maths and English Language, with A in Biology.",
         "advanced_highers": "Grade A in Biology.",
-        "notes": "The generic evaluator can record Scottish requirements but Lincoln-specific National 5 scoring equivalence requires manual review if GCSE-equivalent grades are not supplied in gcse_profile."
+        "grade_requirements": [
+          {
+            "requirement_id": "lincoln_scottish_aaabb_plus_advanced_higher_biology_a",
+            "route_id": "lincoln_scottish_aaabb_plus_advanced_higher_biology_a",
+            "academic_pathway": "standard",
+            "qualification_level": "scottish_highers_and_advanced_highers",
+            "higher_grade_profile": [
+              "A",
+              "A",
+              "A",
+              "B",
+              "B"
+            ],
+            "higher_required_subject_ids": [
+              "biology",
+              "chemistry",
+              "mathematics",
+              "english_language"
+            ],
+            "advanced_higher_grade_profile": [
+              "A"
+            ],
+            "advanced_higher_required_subject_ids": [
+              "biology"
+            ],
+            "matching_subject_grade_rules": [
+              {
+                "rule_id": "lincoln_higher_biology_a",
+                "qualification_levels": [
+                  "higher"
+                ],
+                "subject_ids": [
+                  "biology"
+                ],
+                "minimum_grade": "A",
+                "required_when_absent": true
+              },
+              {
+                "rule_id": "lincoln_advanced_higher_biology_a",
+                "qualification_levels": [
+                  "advanced_higher"
+                ],
+                "subject_ids": [
+                  "biology"
+                ],
+                "minimum_grade": "A",
+                "required_when_absent": true
+              }
+            ],
+            "applies_to_group_ids": [
+              "home_fee",
+              "school_leaver"
+            ],
+            "excluded_group_ids": [
+              "international_fee"
+            ],
+            "decision_outcome_if_not_met": "not_eligible",
+            "source_ids": [
+              "lincoln_admissions_guidance_2026"
+            ],
+            "notes": "Lincoln requires Highers AAABB including Biology, Chemistry, Mathematics and English Language, with A in Biology, plus Advanced Higher Biology at A."
+          }
+        ],
+        "route_implemented": true,
+        "execution_status": "automatic_with_complete_scottish_qualification_data",
+        "contextual_route_implemented": false,
+        "selection_scoring_route": "model_b_doubled_ucat_and_sjt_without_national_5_points",
+        "notes": "ApplySmart checks Lincoln's published Scottish academic thresholds automatically. National 5 qualifications are eligibility gates only and are not converted into GCSE selection points. Scottish applicants use Lincoln's alternative-qualification Model B score based on doubled UCAT cognitive and SJT points."
       },
       "graduate": {
         "status": "official_source_verified_with_subject_relevance_manual_review_boundary",
@@ -262,6 +352,43 @@
         "degree_conferred_deadline": "Early August of entry year; final-year students may hold conditional offers."
       },
       "notes": "A Levels are not scored. Completed A Levels, current/completed undergraduate study and graduate status switch applicants to Model B."
+    },
+    "national_5": {
+      "minimum_count": 6,
+      "minimum_count_grade": "A",
+      "grade_requirements": [
+        {
+          "requirement_id": "lincoln_national_5_biology_a",
+          "subject_id": "biology",
+          "minimum_grade": "A",
+          "post16_equivalency_allowed": false,
+          "decision_outcome_if_not_met": "not_eligible"
+        },
+        {
+          "requirement_id": "lincoln_national_5_chemistry_a",
+          "subject_id": "chemistry",
+          "minimum_grade": "A",
+          "post16_equivalency_allowed": false,
+          "decision_outcome_if_not_met": "not_eligible"
+        },
+        {
+          "requirement_id": "lincoln_national_5_mathematics_b",
+          "subject_id": "mathematics",
+          "minimum_grade": "B",
+          "post16_equivalency_allowed": false,
+          "decision_outcome_if_not_met": "not_eligible"
+        },
+        {
+          "requirement_id": "lincoln_national_5_english_language_b",
+          "subject_id": "english_language",
+          "alternative_subject_ids": [
+            "english"
+          ],
+          "minimum_grade": "B",
+          "post16_equivalency_allowed": false,
+          "decision_outcome_if_not_met": "not_eligible"
+        }
+      ]
     },
     "admissions_tests": {
       "ucat": {
@@ -540,6 +667,13 @@
     "notes": "The 45-50/60 competitive zone is used only as a low-confidence provisional strategic benchmark. It is not an official Lincoln cutoff, and modelled interview numbers remain display-only context."
   },
   "contextual_admissions": {
+    "contextual_eligibility": {
+      "evaluator_id": "lincoln_contextual_medicine_a100",
+      "evidence_source": "redesigned_step_6_contextual_profile",
+      "controls_group_routing": true,
+      "preserve_classifier_hard_filters": true,
+      "legacy_contextual_activation": false
+    },
     "available": true,
     "verification_status": "official_source_verified",
     "source_ids": [
@@ -577,7 +711,7 @@
       }
     ],
     "guaranteed_interview_rules": [],
-    "notes": "Lincoln contextual criteria alter Model A pre-interview scoring through an official capped matrix and may reduce offer conditions. They are not a separate pool and do not apply to degree holders.",
+    "notes": "Lincoln contextual eligibility is derived only from redesigned Step 6 factual evidence through the shared contextual framework. Legacy flags and raw applicant-group IDs cannot independently activate contextual points or the contextual offer. Confirmed Lincoln contextual criteria alter Model A pre-interview scoring through an official capped matrix and may reduce offer conditions. They are not a separate pool and do not apply to degree holders.",
     "interview_selection_adjustment": {
       "applies": true,
       "model": "additive_contextual_points_capped_at_12_for_model_a_only",

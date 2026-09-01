@@ -160,7 +160,7 @@
     "primary_user_facing_recommendation": "Strong choice for your application",
     "recommendation_display_state": "standard",
     "primary_explanation": "Based on ApplySmart's assessment, your academic profile appears competitive for this applicant group.",
-    "historical_guidance_caveat": "This is unofficial estimate-mode guidance, not a current HYMS cut-off or a guarantee of an interview.",
+    "historical_guidance_caveat": "Historical admissions data provides a benchmark only; it is not a current cut-off or a guarantee of interview.",
     "score_label": "Estimated HYMS selection score",
     "mandatory_disclosure": "ApplySmart uses published HYMS admissions information and historical evidence to guide interview competitiveness alongside HYMS's published admissions policy. This is not a guarantee of interview."
   },
@@ -181,13 +181,13 @@
       "step": 3,
       "title": "Selection model applied",
       "status": "Complete",
-      "summary": "HYMS ranks eligible applicants using GCSE, UCAT decile and SJT components, with contextual points available only to qualifying Home UK school-leavers. ApplySmart labels every calculated tariff and recommendation as an unofficial estimate."
+      "summary": "Applicants are assessed using the university's published selection score."
     },
     {
       "step": 4,
       "title": "Historical guidance compared",
       "status": "Complete",
-      "summary": "Your result was compared with interview information from previous admissions cycles. Interview thresholds may change each admissions cycle depending on applicant competition and interview capacity. Historical figures are guidance only, not a current cut-off, and do not guarantee an interview."
+      "summary": "Your result was compared with historical admissions data. Historical admissions data provides a benchmark only; it is not a current cut-off or a guarantee of interview."
     },
     {
       "step": 5,
@@ -197,43 +197,80 @@
     }
   ],
   "decision_transparency": {
+    "factor_usage": [
+      {
+        "factor_id": "ucat",
+        "label": "UCAT",
+        "role": "ranking",
+        "detail": "Used for ranking in the university’s selection process.",
+        "evidence_status": "available"
+      },
+      {
+        "factor_id": "gcse",
+        "label": "GCSEs",
+        "role": "unknown",
+        "detail": "GCSEs are part of the university’s academic review.",
+        "evidence_status": "available"
+      },
+      {
+        "factor_id": "a_level",
+        "label": "A-levels",
+        "role": "unknown",
+        "detail": "Used as part of the university’s academic review.",
+        "evidence_status": "available"
+      },
+      {
+        "factor_id": "sjt",
+        "label": "SJT",
+        "role": "ranking",
+        "detail": "SJT contributes to the university’s selection scoring.",
+        "evidence_status": "available"
+      },
+      {
+        "factor_id": "contextual",
+        "label": "Contextual",
+        "role": "contextual",
+        "detail": "Contextual information is used as part of the university’s contextual review.",
+        "evidence_status": "available"
+      }
+    ],
     "decision_path": [
       {
         "stage": "Eligibility",
         "status": "Met",
-        "summary": "The applicant meets every supported official HYMS eligibility rule represented by the supplied evidence.",
+        "summary": "The supported entry requirements are met.",
         "checks": [
           {
             "label": "Entry requirement",
             "status": "Met",
-            "summary": "This requirement was assessed."
+            "summary": "This requirement was assessed and met."
           },
           {
             "label": "Entry requirement",
             "status": "Met",
-            "summary": "This requirement was assessed."
+            "summary": "This requirement was assessed and met."
           },
           {
             "label": "Entry requirement",
             "status": "Met",
-            "summary": "This requirement was assessed."
+            "summary": "This requirement was assessed and met."
           },
           {
             "label": "Entry requirement",
             "status": "Met",
-            "summary": "This requirement was assessed."
+            "summary": "This requirement was assessed and met."
           }
         ]
       },
       {
         "stage": "Selection model",
         "status": "Assessed",
-        "summary": "HYMS ranks eligible applicants using GCSE, UCAT decile and SJT components, with contextual points available only to qualifying Home UK school-leavers. ApplySmart labels every calculated tariff and recommendation as an unofficial estimate.",
+        "summary": "Applicants are assessed using the university's published selection score.",
         "checks": [
           {
             "label": "Applicant pool",
             "status": "Used",
-            "summary": "The applicant group matching the supplied fee status and entry route"
+            "summary": "Home, Rest of UK applicants (contextual/widening participation)"
           },
           {
             "label": "GCSE score",
@@ -265,7 +302,12 @@
           {
             "label": "Applicant pool",
             "status": "Used",
-            "summary": "The applicant group matching the supplied fee status and entry route"
+            "summary": "Home, Rest of UK applicants (contextual/widening participation)"
+          },
+          {
+            "label": "All Applicants",
+            "status": "Historical",
+            "summary": "~1625 applicants, ~904 interviewed, ~796 offers."
           },
           {
             "label": "Important limitation",
@@ -282,8 +324,8 @@
       }
     ],
     "key_reasons": [
-      "The applicant meets every supported official HYMS eligibility rule represented by the supplied evidence.",
-      "The result uses The applicant group matching the supplied fee status and entry route.",
+      "The supported entry requirements are met.",
+      "The result uses Home, Rest of UK applicants (contextual/widening participation).",
       "Estimated HYMS selection score is 85.48 out of 100."
     ],
     "evidence_used": [
@@ -303,16 +345,18 @@
     },
     "warnings": [],
     "manual_review_reason": null,
-    "insufficient_evidence_reason": null,
-    "insufficient_evidence_reason_code": null,
+    "manual_review_reason_code": null,
+    "information_needed_reason": null,
+    "missing_information": null,
+    "risk_explanation": null,
     "compact_status": {
-      "label": "You meet the academic requirements.",
+      "label": "Contextual eligibility confirmed.",
       "type": "academic_status",
       "tone": "positive"
     },
     "comparison_metrics_title": null,
     "comparison_metrics": [],
-    "selection_approach_display": null,
+    "selection_approach_display": "Applicants are assessed using the university's published selection score.",
     "selection_metric": {
       "type": "selection_score",
       "label": "Selection score",
@@ -361,7 +405,8 @@
         }
       ]
     },
-    "ucat_comparison": null
+    "ucat_comparison": null,
+    "ucat_adjustment": null
   },
   "engine_notes": {
     "generated_from_profile_id": "hull-york-a100",

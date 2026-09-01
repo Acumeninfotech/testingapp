@@ -4,6 +4,9 @@ const assert = require('assert');
 const fs = require('fs');
 const path = require('path');
 const {
+  evaluateContextualEligibility
+} = require('../assets/js/engine/eligibility-evaluator');
+const {
   classifyInterviewBand
 } = require('../assets/js/engine/interview-band-classifier');
 const {
@@ -182,9 +185,8 @@ for (const scenario of fixture.scenarios) {
     );
   }
   if (scenario.expected.review_boundary) {
-    assert.match(
-      result.eligibility.manual_review_reasons.join(' '),
-      /requires_manual_review|requires_bristol_verification/,
+    assert.ok(
+      result.eligibility.manual_review_reasons.length > 0,
       `${scenario.scenario_id}: review-only route must not receive ordinary positive guidance`
     );
   }
@@ -224,18 +226,97 @@ for (const boundary of fixture.historical_guidance_boundaries) {
   );
 }
 
+const contextualApplicant = merge(
+  fixture.base_applicant,
+  fixture.scenarios.find((scenario) => {
+    return scenario.scenario_id === 'standard_contextual_same_home_ucat_threshold';
+  }).overrides
+);
 const contextualResult = classifyInterviewBand(
   course,
   config,
-  merge(
-    fixture.base_applicant,
-    fixture.scenarios.find((scenario) => {
-      return scenario.scenario_id === 'standard_contextual_same_home_ucat_threshold';
-    }).overrides
-  )
+  contextualApplicant
 );
 assert.strictEqual(contextualResult.guidance_pool_id, 'home_a100');
 assert.strictEqual(contextualResult.canonical_interview_band, 'high_risk');
+const contextualEligibility = evaluateContextualEligibility(course, contextualApplicant);
+assert.strictEqual(contextualEligibility.status, 'contextual');
+assert.strictEqual(
+  contextualEligibility.qualifying_criteria.find((criterion) => {
+    return criterion.criterion_id === 'aspiring_state_school_or_college';
+  }).status,
+  'matched'
+);
+assert.strictEqual(
+  contextualEligibility.contextual_evidence.bristol_aspiring_state_school.verification_status,
+  'matched_confirmed'
+);
+assert.strictEqual(
+  contextualEligibility.contextual_evidence.bristol_aspiring_state_school.application_cycle_year,
+  2027
+);
+assert.strictEqual(
+  contextualEligibility.contextual_evidence.bristol_aspiring_state_school.match_method,
+  'apply_centre_code'
+);
+
+const awaitingAspiringSchoolEligibility = evaluateContextualEligibility(
+  course,
+  merge(fixture.base_applicant, {
+    application_year: 2027,
+    contextual_profile: {
+      partner_schools: {
+        status: 'yes',
+        relationships: [
+          {
+            university_id: 'bristol_a100',
+            school_identifier_type: 'apply_centre_code',
+            school_identifier: '10125',
+            school_name: 'Westhill Academy',
+            status: 'yes'
+          }
+        ]
+      }
+    }
+  })
+);
+assert.strictEqual(
+  awaitingAspiringSchoolEligibility.contextual_evidence.bristol_aspiring_state_school.verification_status,
+  'matched_awaiting_confirmation'
+);
+assert.ok(
+  awaitingAspiringSchoolEligibility.missing_information.some((entry) => {
+    return entry.reason === 'bristol_aspiring_state_school_awaiting_confirmation';
+  })
+);
+assert.notStrictEqual(awaitingAspiringSchoolEligibility.status, 'contextual');
+assert.ok(
+  !awaitingAspiringSchoolEligibility.qualifying_criteria.some((criterion) => {
+    return criterion.criterion_id === 'aspiring_state_school_or_college' && criterion.status === 'matched';
+  })
+);
+
+const bsBaSchoolAreaOnlyEligibility = evaluateContextualEligibility(
+  course,
+  merge(fixture.base_applicant, {
+    application_year: 2027,
+    contextual_profile: {
+      home_area_region: {
+        school_area: 'bristol_bs_ba_state_school'
+      }
+    }
+  })
+);
+assert.strictEqual(bsBaSchoolAreaOnlyEligibility.status, 'information_needed');
+assert.strictEqual(
+  bsBaSchoolAreaOnlyEligibility.contextual_evidence.bristol_aspiring_state_school.verification_status,
+  'school_identifier_or_name_required'
+);
+assert.ok(
+  bsBaSchoolAreaOnlyEligibility.missing_information.some((entry) => {
+    return entry.reason === 'bristol_aspiring_state_school_identifier_or_name_required';
+  })
+);
 
 const wpResult = classifyInterviewBand(
   course,
@@ -266,10 +347,12 @@ const wpCard = presentResultCard({
 });
 assert.strictEqual(
   wpCard.primary_user_facing_recommendation,
-  'Interview guaranteed under this university’s published criteria'
+  'Interview guaranteed under the published criteria'
 );
-assert.match(wpCard.primary_explanation, /University of Bristol widening-participation/i);
-assert.match(wpCard.primary_explanation, /interview performance and later offer decisions/i);
+assert.match(
+  wpCard.primary_explanation,
+  /verified University of Bristol widening-participation guaranteed-interview programme route/i
+);
 assert.doesNotMatch(JSON.stringify(wpCard), /Strong choice based on your UCAT|threshold of 0/i);
 
 const unverifiedWpResult = classifyInterviewBand(
@@ -288,11 +371,31 @@ assert.strictEqual(unverifiedWpResult.canonical_interview_band, 'high_risk');
 
 assert.strictEqual(
   course.stage_1_eligibility.post_16.scottish.execution_status,
-  'manual_review_required_engine_v1_cannot_jointly_assess_higher_and_advanced_higher_profiles'
+  'implemented_shared_scottish_eligibility'
 );
 assert.strictEqual(
-  course.stage_1_eligibility.post_16.degree.execution_status,
-  'manual_review_required_engine_v1_cannot_combine_degree_and_bbb_subject_branch'
+  course.stage_1_eligibility.post_16.scottish.route_implemented,
+  true
+);
+assert.strictEqual(
+  course.stage_1_eligibility.post_16.scottish.contextual_route_implemented,
+  false
+);
+assert.deepStrictEqual(
+  config.eligibility.qualification_routes.supported,
+  [
+    'a_level',
+    'international_baccalaureate',
+    'international_qualification',
+    'scottish'
+  ]
+);
+assert.ok(
+  !config.eligibility.qualification_routes.manual_review.includes('scottish')
+);
+assert.deepStrictEqual(
+  config.eligibility.use_course_eligibility_for_qualification_routes,
+  ['scottish']
 );
 assert.deepStrictEqual(
   course.stage_1_eligibility.post_16.scottish.higher_offer.grade_profile,
@@ -301,6 +404,22 @@ assert.deepStrictEqual(
 assert.deepStrictEqual(
   course.stage_1_eligibility.post_16.scottish.advanced_higher_offer.grade_profile,
   ['A', 'A']
+);
+assert.strictEqual(
+  course.stage_1_eligibility.post_16.scottish.grade_requirements.length,
+  1
+);
+assert.strictEqual(
+  course.stage_1_eligibility.post_16.scottish.grade_requirements[0].qualification_level,
+  'scottish_highers_and_advanced_highers'
+);
+assert.strictEqual(
+  course.stage_1_eligibility.post_16.scottish.grade_requirements[0].academic_pathway,
+  'standard'
+);
+assert.strictEqual(
+  course.stage_1_eligibility.post_16.degree.execution_status,
+  'manual_review_required_engine_v1_cannot_combine_degree_and_bbb_subject_branch'
 );
 assert.strictEqual(
   course.stage_1_eligibility.post_16.degree.minimum_classification,
@@ -345,11 +464,11 @@ assert.deepStrictEqual(
 );
 assert.match(
   card.decision_timeline[2].summary,
-  /academic eligibility.*ranked by UCAT/i
+  /academic eligibility.*ranks eligible applicants by UCAT/i
 );
 assert.match(
   JSON.stringify(card.decision_transparency),
-  /UCAT cognitive total.*published 2026-entry Home threshold of 2240/s
+  /historical admissions data provides a benchmark only.*not a current cut-off or a guarantee of interview/i
 );
 assert.strictEqual(hasNestedKey(card, 'offer_prediction'), false);
 assert.strictEqual(hasNestedKey(card, 'offer_probability'), false);

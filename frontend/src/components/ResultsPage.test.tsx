@@ -249,6 +249,93 @@ describe('ResultsPage', () => {
     expect(screen.getAllByText('View details').length).toBeGreaterThan(0);
   });
 
+  it('shows Lancaster contextual confirmation on the compact card before the academic status', () => {
+    const result = makeResult('lancaster-a100', 'Lancaster University', {
+      contextual_status: 'confirmed',
+      contextual_confirmation: {
+        collapsed_label: 'Contextual eligibility confirmed',
+        expanded_heading: 'Contextual eligibility confirmed',
+        consideration_label: 'Contextual consideration:',
+        expanded_body:
+          'Your contextual status may be considered during UCAT interview shortlisting. If successful at interview, you may be considered for a contextual offer of ABB.',
+        contextual_offer_grade: 'ABB',
+      },
+      decision_transparency: {
+        compact_status: {
+          label: 'You meet the academic requirements.',
+          type: 'academic_status',
+          tone: 'positive',
+        },
+      },
+    });
+
+    render(<ResultsPage results={[result]} onStartOver={() => {}} />);
+
+    const summary = document.querySelector('.university-result-summary');
+    expect(summary).not.toBeNull();
+    expect(within(summary as HTMLElement).getByText('Contextual eligibility confirmed')).toBeInTheDocument();
+    expect(summary).not.toHaveTextContent('ABB');
+    const summaryText = summary?.textContent || '';
+    expect(summaryText.indexOf('Contextual eligibility confirmed')).toBeLessThan(
+      summaryText.indexOf('You meet the academic requirements.'),
+    );
+    expect(screen.queryByText(/Contextual consideration:/)).not.toBeInTheDocument();
+  });
+
+  it('shows an unresolved Cambridge contextual advisory without changing the recommendation', () => {
+    const result = makeResult('cambridge-a100', 'University of Cambridge', {
+      contextual_status: 'information_needed',
+      contextual_confirmation: {
+        collapsed_label: 'Contextual information incomplete',
+        expanded_heading: 'Cambridge contextual information',
+        consideration_label: 'Information needed:',
+        expanded_body:
+          'Some contextual information is incomplete. Cambridge may consider this information as part of its holistic review, but it does not change the published academic requirements.',
+      },
+      decision_transparency: {
+        compact_status: {
+          label: 'You meet the academic requirements.',
+          type: 'academic_status',
+          tone: 'positive',
+        },
+      },
+    });
+
+    render(<ResultsPage results={[result]} onStartOver={() => {}} />);
+
+    expect(screen.getByText('Possible choice for your application')).toBeInTheDocument();
+    expect(screen.getByText('Contextual information incomplete')).toBeInTheDocument();
+    expect(screen.getByText('You meet the academic requirements.')).toBeInTheDocument();
+    expect(screen.queryByText(/Step 6/i)).not.toBeInTheDocument();
+  });
+
+  it('does not repeat an academic status that duplicates the contextual confirmation', () => {
+    const result = makeResult('leicester-a100', 'University of Leicester', {
+      contextual_status: 'confirmed',
+      contextual_confirmation: {
+        collapsed_label: 'Contextual eligibility confirmed',
+        expanded_heading: 'Leicester contextual consideration',
+        consideration_label: 'Leicester contextual selection:',
+        expanded_body:
+          'Applicants with two or more contextual markers may be prioritised over applicants with the same score who have fewer or no contextual markers. This does not guarantee an interview.',
+        contextual_offer_grade: 'AAA',
+      },
+      decision_transparency: {
+        compact_status: {
+          label: 'Contextual eligibility confirmed.',
+          type: 'academic_status',
+          tone: 'positive',
+        },
+      },
+    });
+
+    render(<ResultsPage results={[result]} onStartOver={() => {}} />);
+
+    const summary = document.querySelector('.university-result-summary');
+    expect(summary).not.toBeNull();
+    expect(within(summary as HTMLElement).getAllByText(/Contextual eligibility confirmed\.?/)).toHaveLength(1);
+  });
+
   it('expands and collapses a card when its details toggle is clicked', () => {
     render(<ResultsPage results={RESULTS} onStartOver={() => {}} />);
     const toggle = screen.getAllByText('View details')[0];
@@ -394,6 +481,118 @@ describe('ResultsPage', () => {
     ).toBeInTheDocument();
     expect(screen.getByText('+260')).toBeInTheDocument();
     expect(screen.getByText('above guide')).toBeInTheDocument();
+  });
+
+  it('labels Glasgow Scotland/Home UCAT range as an ApplySmart prediction band in the result summary', () => {
+    render(
+      <ResultsPage
+        results={[
+          makeResult('glasgow-a100', 'University of Glasgow', {
+            prediction: { result_band: 'interview_likely' },
+            decision_transparency: {
+              selection_metric: selectionMetric({
+                applicant_value: 2000,
+                comparison_value: 1900,
+                comparison_max_value: 1974,
+                comparison_label: 'ApplySmart prediction band',
+                comparison_label_type: 'applysmart_advisory_guide',
+                difference: 100,
+                difference_direction: 'above',
+                difference_word: 'prediction band',
+                caveat:
+                  'This prediction band is ApplySmart-derived guidance, not a Glasgow-published current 2027 cutoff; it does not guarantee an interview.',
+              }),
+              ucat_comparison: {
+                comparison_type: 'historical_range',
+                applicant_ucat: 2000,
+                benchmark_min: 1900,
+                benchmark_max: 1974,
+                comparison_operator: null,
+                benchmark_label: 'ApplySmart prediction band',
+                caveat:
+                  'This prediction band is ApplySmart-derived guidance, not a Glasgow-published current 2027 cutoff; it does not guarantee an interview.',
+                evidence_status: 'applysmart_derived',
+                evidence_classification: 'applysmart_prediction_guidance',
+                prediction_band: 'realistic',
+                difference_from_benchmark: null,
+                position: 'above',
+                applicant_pool: 'Home, Scotland-domiciled applicants',
+                sjt_policy: 'SJT is not used for interview selection.',
+                sjt_outcome: 'ignored',
+                sjt_summary: 'SJT is not used for interview selection.',
+                applicant_sjt_band: 2,
+                official_ucat_minimum: null,
+              },
+            },
+          }),
+        ]}
+        onStartOver={() => {}}
+      />,
+    );
+
+    const ucatSummary = screen.getByLabelText(
+      /UCAT comparison, 2000 \/ 2700, versus ApplySmart prediction band 1900-1974/i,
+    );
+    expect(ucatSummary).toBeInTheDocument();
+    expect(ucatSummary).toHaveTextContent(/vs\s+ApplySmart prediction band\s+1900-1974/i);
+    expect(screen.getByText('above prediction band')).toBeInTheDocument();
+    expect(screen.queryByText(/vs historical interview range 1900-1974/i)).not.toBeInTheDocument();
+  });
+
+  it('labels Glasgow RUK UCAT range as an ApplySmart prediction band in the result summary', () => {
+    render(
+      <ResultsPage
+        results={[
+          makeResult('glasgow-a100', 'University of Glasgow', {
+            prediction: { result_band: 'interview_likely' },
+            decision_transparency: {
+              selection_metric: selectionMetric({
+                applicant_value: 2000,
+                comparison_value: 1855,
+                comparison_max_value: 1864,
+                comparison_label: 'ApplySmart prediction band',
+                comparison_label_type: 'applysmart_advisory_guide',
+                difference: 145,
+                difference_direction: 'above',
+                difference_word: 'prediction band',
+                caveat:
+                  'This prediction band is ApplySmart-derived guidance informed by Glasgow historical RUK evidence; it is not a Glasgow-published current 2027 cutoff and does not guarantee an interview.',
+              }),
+              ucat_comparison: {
+                comparison_type: 'historical_range',
+                applicant_ucat: 2000,
+                benchmark_min: 1855,
+                benchmark_max: 1864,
+                comparison_operator: null,
+                benchmark_label: 'ApplySmart prediction band',
+                caveat:
+                  'This prediction band is ApplySmart-derived guidance informed by Glasgow historical RUK evidence; it is not a Glasgow-published current 2027 cutoff and does not guarantee an interview.',
+                evidence_status: 'applysmart_derived',
+                evidence_classification: 'applysmart_prediction_guidance',
+                prediction_band: 'realistic',
+                difference_from_benchmark: null,
+                position: 'above',
+                applicant_pool: 'Home, Rest of UK applicants',
+                sjt_policy: 'SJT is not used for interview selection.',
+                sjt_outcome: 'ignored',
+                sjt_summary: 'SJT is not used for interview selection.',
+                applicant_sjt_band: 2,
+                official_ucat_minimum: null,
+              },
+            },
+          }),
+        ]}
+        onStartOver={() => {}}
+      />,
+    );
+
+    const ucatSummary = screen.getByLabelText(
+      /UCAT comparison, 2000 \/ 2700, versus ApplySmart prediction band 1855-1864/i,
+    );
+    expect(ucatSummary).toBeInTheDocument();
+    expect(ucatSummary).toHaveTextContent(/vs\s+ApplySmart prediction band\s+1855-1864/i);
+    expect(screen.getByText('above prediction band')).toBeInTheDocument();
+    expect(screen.queryByText(/vs historical interview range 1855-1864/i)).not.toBeInTheDocument();
   });
 
   it('keeps decimal score differences visible without showing duplicate comparison labels in the top section', () => {

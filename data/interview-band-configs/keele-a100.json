@@ -17,11 +17,11 @@
     "qualification_routes": {
       "supported": [
         "a_level",
-        "international_baccalaureate"
+        "international_baccalaureate",
+        "scottish"
       ],
       "explicitly_blocked": [
         "graduate",
-        "scottish",
         "international_qualification",
         "access_to_medicine",
         "access_to_he",
@@ -29,6 +29,40 @@
         "unknown"
       ]
     },
+    "use_course_eligibility_for_qualification_routes": [
+      "scottish"
+    ],
+    "derived_applicant_groups": [
+      {
+        "group_ids": [
+          "contextual",
+          "widening_participation"
+        ],
+        "match": {
+          "all_group_ids": [
+            "home_fee"
+          ],
+          "excluded_group_ids": [
+            "international_fee",
+            "graduate_applicant"
+          ]
+        },
+        "any_evidence": [
+          {
+            "applicant_evidence_path": "applicant_identity.contextual_flags.care_experienced"
+          },
+          {
+            "applicant_evidence_path": "applicant_identity.contextual_flags.refugee_or_asylum_seeker"
+          },
+          {
+            "applicant_evidence_path": "applicant_identity.contextual_flags.free_school_meals"
+          },
+          {
+            "applicant_evidence_path": "applicant_identity.contextual_flags.first_generation_higher_education"
+          }
+        ]
+      }
+    ],
     "gcse": {
       "minimum_count": 5,
       "use_exact_subject_list": true
@@ -261,7 +295,6 @@
     "manual_review_routes": [
       "Home /25 score where Keele personal-statement score is not supplied by Keele",
       "A-level Economics as accepted second subject because Engine v1.0 has no canonical Economics subject identifier",
-      "Scottish Higher plus Advanced Higher route",
       "Graduate A100 route",
       "EPQ alternative offer",
       "A-level completion timing/resit cases",

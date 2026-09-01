@@ -58,6 +58,11 @@
       "ucat": {
         "total_score": 2360,
         "score_scale": 2700,
+        "subtests": {
+          "verbal_reasoning": 786,
+          "decision_making": 786,
+          "quantitative_reasoning": 788
+        },
         "sjt_band": 2,
         "test_year": 2026
       }
@@ -240,7 +245,7 @@
       }
     },
     {
-      "scenario_id": "contextual_a_star_aa_manual_review_capped_to_borderline_equivalent",
+      "scenario_id": "contextual_applicant_aaa_not_eligible_despite_contextual_status",
       "overrides": {
         "applicant_identity": {
           "contextual": true,
@@ -275,11 +280,9 @@
         }
       },
       "expected": {
-        "eligibility_status": "manual_review",
-        "interview_band": "ambitious",
-        "score": 5,
-        "manual_review_required": true,
-        "manual_review_reason": "contextual_a_level_gate_exception_requires_manual_review"
+        "eligibility_status": "not_eligible",
+        "interview_band": "not_eligible",
+        "failure": "a_level_requirements_not_met"
       }
     },
     {

@@ -44,12 +44,9 @@
       ],
       "excluded_group_ids": [
         "international_fee",
-        "contextual",
-        "widening_participation",
-        "care_experienced",
         "graduate_applicant"
       ],
-      "selection_relevance": "Eligible standard Home school-leavers are considered in the Home pool. ApplySmart may show Limited/Medium-confidence predictive interview guidance derived from official historical admissions statistics; this is not an official QMUL threshold."
+      "selection_relevance": "Eligible Home school-leavers, including ordinary contextual applicants, are considered in the Home pool. ApplySmart may show Limited/Medium-confidence predictive interview guidance derived from official historical admissions statistics; this is not an official QMUL threshold."
     },
     {
       "pool_id": "qmul_overseas_school_leaver_guidance",
@@ -67,11 +64,12 @@
     {
       "pool_id": "qmul_contextual_qualitative_manual_review",
       "applies_to_group_ids": [
-        "contextual",
-        "widening_participation",
+        "queen_mary_contextual_aaa",
+        "queen_mary_access_programme_guaranteed_interview",
+        "queen_mary_care_leaver_aab",
         "care_experienced"
       ],
-      "selection_relevance": "Contextual, care-experienced and widening-participation flags are qualitative manual-review overlays only."
+      "selection_relevance": "Step 6-confirmed contextual status is an academic-offer overlay. Ordinary Home contextual applicants remain in the Home historical guidance model unless the recognised access-programme guaranteed-interview pathway is confirmed."
     },
     {
       "pool_id": "qmul_graduate_a100_manual_review",
@@ -243,17 +241,24 @@
         },
         "contextual_offer": {
           "applies_to_group_ids": [
-            "contextual"
+            "queen_mary_contextual_aaa",
+            "queen_mary_access_programme_guaranteed_interview"
           ],
-          "grade_profile": [],
+          "grade_profile": [
+            "A",
+            "A",
+            "A"
+          ],
           "source_ids": [
             "qmul_contextual_admissions"
           ],
-          "notes": "No stable lower Medicine A100 contextual offer is published in the supplied dossier."
+          "notes": "Ordinary Step 6-confirmed Queen Mary contextual applicants and completed recognised access-programme applicants are assessed against AAA. UCAT and SJT thresholds are unchanged."
         },
         "grade_requirements": [
           {
             "requirement_id": "standard_a_star_aa_science_route",
+            "route_id": "qmul_a_level_a_star_aa_science_route",
+            "academic_pathway": "standard",
             "applies_to_group_ids": [
               "school_leaver"
             ],
@@ -290,6 +295,97 @@
               "qmul_a100_entry_requirements"
             ],
             "notes": "Requires Chemistry or Biology plus one further distinct science from Chemistry, Biology, Physics or Mathematics."
+          },
+          {
+            "requirement_id": "queen_mary_contextual_aaa",
+            "route_id": "queen_mary_contextual_aaa",
+            "academic_pathway": "contextual",
+            "required_contextual_pathway_ids": [
+              "queen_mary_contextual_aaa",
+              "queen_mary_access_programme_guaranteed_interview"
+            ],
+            "applies_to_group_ids": [
+              "school_leaver"
+            ],
+            "excluded_group_ids": [
+              "graduate_applicant"
+            ],
+            "grade_profile": [
+              "A",
+              "A",
+              "A"
+            ],
+            "one_of_subject_groups": [
+              {
+                "group_id": "chemistry_or_biology",
+                "minimum_required": 1,
+                "subject_ids": [
+                  "chemistry",
+                  "biology"
+                ]
+              },
+              {
+                "group_id": "two_accepted_sciences",
+                "minimum_required": 2,
+                "subject_ids": [
+                  "chemistry",
+                  "biology",
+                  "physics",
+                  "mathematics"
+                ]
+              }
+            ],
+            "decision_outcome_if_not_met": "not_eligible",
+            "source_ids": [
+              "qmul_contextual_admissions",
+              "qmul_a100_entry_requirements"
+            ],
+            "notes": "Step 6-confirmed ordinary contextual and recognised access-programme applicants may meet the A-level academic gate at AAA. UCAT and SJT gates are unchanged."
+          },
+          {
+            "requirement_id": "queen_mary_care_leaver_aab",
+            "route_id": "queen_mary_care_leaver_aab",
+            "academic_pathway": "contextual",
+            "required_contextual_pathway_ids": [
+              "queen_mary_care_leaver_aab"
+            ],
+            "applies_to_group_ids": [
+              "school_leaver"
+            ],
+            "excluded_group_ids": [
+              "graduate_applicant"
+            ],
+            "grade_profile": [
+              "A",
+              "A",
+              "B"
+            ],
+            "one_of_subject_groups": [
+              {
+                "group_id": "chemistry_or_biology",
+                "minimum_required": 1,
+                "subject_ids": [
+                  "chemistry",
+                  "biology"
+                ]
+              },
+              {
+                "group_id": "two_accepted_sciences",
+                "minimum_required": 2,
+                "subject_ids": [
+                  "chemistry",
+                  "biology",
+                  "physics",
+                  "mathematics"
+                ]
+              }
+            ],
+            "decision_outcome_if_not_met": "not_eligible",
+            "source_ids": [
+              "qmul_contextual_admissions",
+              "qmul_a100_entry_requirements"
+            ],
+            "notes": "Restricted to confirmed Queen Mary care-leaver evidence; generic care-experienced declarations do not activate this AAB offer."
           }
         ],
         "required_subject_ids": [],
@@ -447,7 +543,10 @@
         "notes": "37 overall with 666 at Higher Level, including Chemistry or Biology plus one further science."
       },
       "scottish": {
-        "status": "official_source_verified_manual_review_in_engine_v1",
+        "status": "official_source_verified",
+        "route_implemented": true,
+        "contextual_route_implemented": false,
+        "execution_status": "automatic_with_complete_scottish_higher_and_advanced_higher_data",
         "source_ids": [
           "qmul_a100_entry_requirements"
         ],
@@ -476,11 +575,111 @@
           ],
           "notes": "Two Advanced Highers at AA including Chemistry or Biology plus one further science."
         },
-        "grade_requirements": [],
+        "national_5_equivalence": {
+          "execution_status": "manual_review",
+          "notes": "No Queen Mary National 5 conversion is implemented; Scottish post-16 eligibility must not fabricate GCSE-format lower-school requirements."
+        },
+        "grade_requirements": [
+          {
+            "requirement_id": "queen_mary_scottish_standard_highers_and_advanced_highers",
+            "route_id": "queen_mary_scottish_standard_highers_and_advanced_highers",
+            "qualification_level": "scottish_highers_and_advanced_highers",
+            "academic_pathway": "standard",
+            "applies_to_group_ids": [
+              "school_leaver"
+            ],
+            "excluded_group_ids": [
+              "graduate_applicant"
+            ],
+            "higher_grade_profile": [
+              "A",
+              "A",
+              "A"
+            ],
+            "higher_required_subject_ids": [
+              "biology",
+              "chemistry"
+            ],
+            "advanced_higher_grade_profile": [
+              "A",
+              "A"
+            ],
+            "advanced_higher_required_subject_grade_options": [
+              {
+                "option_id": "biology_and_chemistry",
+                "grade_requirements": [
+                  {
+                    "subject_id": "biology",
+                    "minimum_grade": "A"
+                  },
+                  {
+                    "subject_id": "chemistry",
+                    "minimum_grade": "A"
+                  }
+                ]
+              },
+              {
+                "option_id": "biology_and_physics",
+                "grade_requirements": [
+                  {
+                    "subject_id": "biology",
+                    "minimum_grade": "A"
+                  },
+                  {
+                    "subject_id": "physics",
+                    "minimum_grade": "A"
+                  }
+                ]
+              },
+              {
+                "option_id": "biology_and_mathematics",
+                "grade_requirements": [
+                  {
+                    "subject_id": "biology",
+                    "minimum_grade": "A"
+                  },
+                  {
+                    "subject_id": "mathematics",
+                    "minimum_grade": "A"
+                  }
+                ]
+              },
+              {
+                "option_id": "chemistry_and_physics",
+                "grade_requirements": [
+                  {
+                    "subject_id": "chemistry",
+                    "minimum_grade": "A"
+                  },
+                  {
+                    "subject_id": "physics",
+                    "minimum_grade": "A"
+                  }
+                ]
+              },
+              {
+                "option_id": "chemistry_and_mathematics",
+                "grade_requirements": [
+                  {
+                    "subject_id": "chemistry",
+                    "minimum_grade": "A"
+                  },
+                  {
+                    "subject_id": "mathematics",
+                    "minimum_grade": "A"
+                  }
+                ]
+              }
+            ],
+            "source_ids": [
+              "qmul_a100_entry_requirements"
+            ],
+            "notes": "Requires AAA at Higher including Biology and Chemistry, plus AA at Advanced Higher including Biology or Chemistry and one further distinct accepted science from Biology, Chemistry, Physics or Mathematics."
+          }
+        ],
         "required_subject_ids": [],
         "one_of_subject_groups": [],
-        "execution_status": "manual_review_required_engine_v1_cannot_jointly_assess_higher_and_advanced_higher_profiles",
-        "notes": "Scottish qualifications are official but remain a manual-review route in the generic classifier."
+        "notes": "Scottish applicants are assessed by qualification route, not domicile. Contextual status may be recognised, but no reduced Scottish contextual grade profile or National 5 conversion is inferred."
       },
       "btec": {
         "status": "not_supported_by_supplied_dossier",
@@ -693,22 +892,107 @@
     ],
     "available": true,
     "applies_to_group_ids": [
-      "contextual",
-      "widening_participation",
-      "care_experienced"
+      "queen_mary_contextual_aaa",
+      "queen_mary_access_programme_guaranteed_interview",
+      "queen_mary_care_leaver_aab"
     ],
     "criteria": [
-      "Care experience",
-      "Bridge the Gap",
-      "Realising Opportunities",
-      "Other verified contextual or widening-participation flags"
+      "Step 6-confirmed Queen Mary contextual eligibility",
+      "Confirmed Queen Mary care-leaver status",
+      "Completed Access to Queen Mary",
+      "Completed Realising Opportunities",
+      "Completed Bridge the Gap"
     ],
-    "adjustments": [],
-    "guaranteed_interview_rules": [],
-    "manual_review_required": true,
-    "qualitative_flag_only": true,
+    "contextual_eligibility": {
+      "evaluator_id": "queen_mary_contextual_medicine_a100",
+      "controls_group_routing": false,
+      "preserve_classifier_hard_filters": false,
+      "evidence_source": "step_6_contextual_profile",
+      "activated_applicant_group_ids": [
+        "queen_mary_contextual_aaa",
+        "queen_mary_access_programme_guaranteed_interview",
+        "queen_mary_care_leaver_aab"
+      ],
+      "notes": "Queen Mary contextual status is determined by the shared Step 6 contextual evaluator. Legacy applicant_identity contextual booleans and generic care-experienced flags are diagnostic only and do not independently activate the lowered offers."
+    },
+    "academic_adjustments": [
+      {
+        "adjustment_id": "queen_mary_ordinary_contextual_aaa",
+        "applies_to_group_ids": [
+          "queen_mary_contextual_aaa"
+        ],
+        "qualification": "a_level",
+        "standard_offer": "A*AA",
+        "contextual_offer": "AAA",
+        "notes": "No UCAT or SJT threshold reduction applies."
+      },
+      {
+        "adjustment_id": "queen_mary_care_leaver_aab",
+        "applies_to_group_ids": [
+          "queen_mary_care_leaver_aab"
+        ],
+        "qualification": "a_level",
+        "standard_offer": "A*AA",
+        "contextual_offer": "AAB",
+        "notes": "Only confirmed Queen Mary care-leaver evidence activates this route; generic care-experienced evidence is not sufficient."
+      },
+      {
+        "adjustment_id": "queen_mary_access_programme_aaa_guaranteed_interview",
+        "applies_to_group_ids": [
+          "queen_mary_access_programme_guaranteed_interview"
+        ],
+        "qualification": "a_level",
+        "standard_offer": "A*AA",
+        "contextual_offer": "AAA",
+        "notes": "Completed recognised access-programme applicants may receive the guaranteed-interview pathway only after the published academic, GCSE, UCAT and SJT gates are satisfied."
+      }
+    ],
+    "adjustments": [
+      {
+        "adjustment_id": "queen_mary_contextual_no_ucat_reduction",
+        "applies_to_group_ids": [
+          "queen_mary_contextual_aaa",
+          "queen_mary_care_leaver_aab",
+          "queen_mary_access_programme_guaranteed_interview"
+        ],
+        "stage": "interview_selection",
+        "policy_description": "Contextual status does not create a published UCAT reduction or altered SJT gate.",
+        "effect": {
+          "type": "no_selection_adjustment",
+          "target": "ucat_or_sjt_gate",
+          "value": "same_as_standard"
+        },
+        "source_ids": [
+          "qmul_contextual_admissions",
+          "qmul_a100_selection_criteria"
+        ]
+      }
+    ],
+    "guaranteed_interview_rules": [
+      {
+        "rule_id": "queen_mary_recognised_access_programme_guaranteed_interview",
+        "applies_to_group_ids": [
+          "queen_mary_access_programme_guaranteed_interview"
+        ],
+        "minimum_requirements_must_be_met": true,
+        "conditions": [
+          "Recognised programme completion is confirmed.",
+          "Published GCSE and academic eligibility gates are met.",
+          "UCAT is at or above the official fourth-decile boundary.",
+          "SJT Band 4 is not supplied."
+        ],
+        "source_ids": [
+          "qmul_contextual_admissions",
+          "qmul_a100_selection_criteria",
+          "qmul_a100_entry_requirements"
+        ],
+        "notes": "Programme completion does not bypass academic, UCAT or SJT eligibility."
+      }
+    ],
+    "manual_review_required": false,
+    "qualitative_flag_only": false,
     "no_numeric_adjustment": true,
-    "notes": "Contextual status may be shown qualitatively, but no A100 numeric UCAT reduction, lower offer or guaranteed interview is encoded."
+    "notes": "Contextual migration is executable for Step 6-confirmed A-level contextual, care-leaver and recognised access-programme routes. Scottish contextual status is recognised without inventing a reduced Scottish grade profile."
   },
   "ranking_pools": [
     {
@@ -720,8 +1004,6 @@
       ],
       "excluded_group_ids": [
         "international_fee",
-        "contextual",
-        "widening_participation",
         "care_experienced",
         "graduate_applicant"
       ],
@@ -749,7 +1031,6 @@
       ],
       "excluded_group_ids": [
         "home_fee",
-        "contextual",
         "graduate_applicant"
       ],
       "fee_statuses": [
@@ -1039,7 +1320,7 @@
     "interview_prediction": true,
     "historical_guidance": true,
     "international_prediction": false,
-    "contextual_logic": false,
+    "contextual_logic": true,
     "result_card": true,
     "regression": true,
     "research_completeness": "complete_for_supported_scope_with_documented_gaps",

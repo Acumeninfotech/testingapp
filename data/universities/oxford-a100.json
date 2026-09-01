@@ -303,7 +303,49 @@
           ],
           "notes": "Advanced Highers must include Chemistry and one of Biology, Physics or Mathematics."
         },
-        "grade_requirements": [],
+        "grade_requirements": [
+          {
+            "requirement_id": "oxford_scottish_highers_and_advanced_highers",
+            "qualification_level": "scottish_highers_and_advanced_highers",
+            "higher_grade_profile": [
+              "A",
+              "A",
+              "A",
+              "A",
+              "A"
+            ],
+            "advanced_higher_grade_profile": [
+              "A",
+              "A"
+            ],
+            "same_sitting_required": true,
+            "higher_required_subject_ids": [],
+            "higher_one_of_subject_groups": [],
+            "advanced_higher_required_subject_ids": [
+              "chemistry"
+            ],
+            "advanced_higher_one_of_subject_groups": [
+              {
+                "group_id": "oxford_advanced_higher_second_science_or_maths",
+                "minimum_required": 1,
+                "subject_ids": [
+                  "biology",
+                  "physics",
+                  "mathematics"
+                ]
+              }
+            ],
+            "decision_outcome_if_not_met": "not_eligible",
+            "source_ids": [
+              "oxford_medsci_academic_requirements_2026"
+            ],
+            "notes": "AAAAA Highers, with the Highers taken in the same academic year, plus AA Advanced Highers including Chemistry and one of Biology, Physics or Mathematics.",
+            "same_sitting_qualification_levels": [
+              "higher",
+              "advanced_higher"
+            ]
+          }
+        ],
         "required_subject_ids": [
           "chemistry"
         ],
@@ -318,7 +360,8 @@
             ]
           }
         ],
-        "notes": "ApplySmart can verify the AA Advanced Higher subject pair and AAAAA Higher profile when entered structurally."
+        "notes": "ApplySmart can verify the AA Advanced Higher subject pair and AAAAA Higher profile when entered structurally.",
+        "route_implemented": true
       },
       "btec": {
         "status": "official_supported_but_manual_review_in_applysmart",
@@ -447,9 +490,7 @@
       "oxford_a100_technical_spec_v3"
     ],
     "primary_model": "academic_plus_ucat_weighting",
-    "modifiers": [
-      "contextual_adjustment"
-    ],
+    "modifiers": [],
     "ranking_factors": [
       {
         "factor_id": "ucat_cognitive_total",
@@ -501,14 +542,14 @@
           "component_id": "gcse_component",
           "factor_id": "contextualised_gcse_performance",
           "input_field": "gcse_profile",
-          "calculation_method": "((top_grade_count_score * 0.5) + (top_grade_proportion_score * 0.5) + bounded_contextual_adjustment - fallback_penalty) scaled to 50",
+          "calculation_method": "((top_grade_count_score * 0.5) + (top_grade_proportion_score * 0.5)) scaled to 50",
           "scale": {
             "min": 0,
             "max": 50
           },
           "weight_percent": 50,
           "rounding": "round_to_2_decimal_places_after_total",
-          "notes": "ApplySmart proxy because Oxford does not publish its internal GCSE contextualisation algorithm.",
+          "notes": "ApplySmart does not implement an executable Oxford-specific contextual GCSE uplift because Oxford's internal contextual algorithm is unpublished.",
           "source_ids": [
             "oxford_medsci_shortlisting_statistics_2025",
             "oxford_a100_technical_spec_v3"
@@ -548,30 +589,7 @@
         "notes": "ApplySmart modelled guidance boundary, not official Oxford cut-off."
       }
     ],
-    "selection_adjustments": [
-      {
-        "adjustment_id": "school_context_proxy",
-        "modifier_id": "contextual_adjustment",
-        "applies_to_group_ids": [
-          "home_fee"
-        ],
-        "condition": {
-          "field": "school_context.attainment_8_score",
-          "operator": "available",
-          "value": true
-        },
-        "effect": {
-          "type": "bounded_modelled_adjustment",
-          "target": "gcse_component",
-          "value": "+/-5 points maximum on GCSE 0-100 subscale"
-        },
-        "decision_outcome": "unknown",
-        "source_ids": [
-          "oxford_a100_technical_spec_v3"
-        ],
-        "notes": "Proxy only; Oxford's exact school-context method is unpublished."
-      }
-    ],
+    "selection_adjustments": [],
     "tie_breakers": [],
     "output_band_policy": {
       "bands": [
@@ -622,27 +640,9 @@
         "notes": "ApplySmart uses an Attainment 8 proxy only when supplied; missing data lowers confidence."
       }
     ],
-    "adjustments": [
-      {
-        "adjustment_id": "modelled_contextual_gcse_adjustment",
-        "applies_to_group_ids": [
-          "home_fee"
-        ],
-        "stage": "interview_shortlisting_guidance",
-        "policy_description": "Bounded ApplySmart proxy for school-context GCSE adjustment.",
-        "effect": {
-          "type": "bounded_modelled_adjustment",
-          "target": "gcse_score",
-          "value": "+/-5 points on GCSE 0-100 subscale"
-        },
-        "source_ids": [
-          "oxford_a100_technical_spec_v3"
-        ],
-        "notes": "This is not Oxford's internal algorithm."
-      }
-    ],
+    "adjustments": [],
     "guaranteed_interview_rules": [],
-    "notes": "Contextual indicators can increase uncertainty or support review; they do not guarantee an Oxford interview in ApplySmart."
+    "notes": "Contextual indicators are retained as evidence only for Oxford A100 in ApplySmart v1. They do not execute an automatic eligibility route, score adjustment, or guaranteed interview outcome."
   },
   "ranking_pools": [
     {
@@ -963,7 +963,7 @@
     "interview_prediction": true,
     "historical_guidance": true,
     "international_prediction": true,
-    "contextual_logic": true,
+    "contextual_logic": false,
     "result_card": true,
     "regression": true,
     "research_completeness": "complete_for_supported_scope_with_documented_gaps",
@@ -978,8 +978,7 @@
     "blocking_missing_fields": [],
     "engine_assumptions": [
       "Modelled composite thresholds are ApplySmart calibration, not official Oxford cut-offs.",
-      "Attainment 8 contextual adjustment is a transparent bounded proxy where supplied.",
-      "Missing school context applies a conservative fallback and lowers confidence.",
+      "Contextual evidence is collected for profile completeness but does not apply an executable Oxford A100 adjustment in ApplySmart v1.",
       "Strong and Competitive research labels map to the existing ApplySmart realistic canonical band."
     ],
     "do_not_infer": [

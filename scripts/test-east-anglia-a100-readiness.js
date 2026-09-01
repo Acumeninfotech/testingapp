@@ -11,6 +11,9 @@ const {
   humanManualReviewReason,
   insufficientEvidenceReasonCodeFromWarnings
 } = require('../assets/js/engine/result-card-presenter');
+const {
+  evaluateContextualEligibility
+} = require('../assets/js/engine/eligibility-evaluator');
 const { predict } = require('../server/src/predict');
 
 const rootDir = path.resolve(__dirname, '..');
@@ -90,6 +93,12 @@ function makeResultCard(course, config, applicant, classification) {
       guidance_pool: classification.guidance_pool || null,
       score_model: config.score_model,
       guidance_pool_id: classification.guidance_pool_id || null,
+      selection_route_id: classification.selection_route_id || null,
+      interview_outcome: classification.interview_outcome || null,
+      guaranteed_interview_explanation: classification.guaranteed_interview_explanation || null,
+      guaranteed_interview_notice: classification.guaranteed_interview_notice || null,
+      guaranteed_interview_pool_label: classification.guaranteed_interview_pool_label || null,
+      guaranteed_interview_badge_label: classification.guaranteed_interview_badge_label || null,
       warnings: classification.warnings || []
     }
   });
@@ -290,6 +299,7 @@ for (const boundary of fixture.historical_guidance_boundaries) {
 
 const baseResult = classifyInterviewBand(course, config, fixture.base_applicant);
 const resultCard = makeResultCard(course, config, fixture.base_applicant, baseResult);
+assert.strictEqual(baseResult.interview_outcome ?? null, null);
 assert.strictEqual(resultCard.prediction.ranking_metric, 'ucat_total');
 assert.strictEqual(resultCard.decision_transparency.score_breakdown, null);
 assert.match(
@@ -301,6 +311,233 @@ assert.doesNotMatch(
   JSON.stringify(resultCard),
   /offer probability|MMI performance|waiting-list prediction/i
 );
+
+const strongStructuredContextualApplicant = merge(fixture.base_applicant, {
+  contextual_profile: {
+    home_area_region: {
+      postcode: 'NR1 1AA',
+      polar4_quintile: 'q1',
+      imd_quintile: 'q1',
+      tundra_quintile: 'q1',
+      home_region: 'east_of_england',
+      school_area: 'none',
+      regional_flags: {
+        east_of_england: 'yes'
+      },
+      postcode_lookup: {
+        status: 'matched',
+        values: {
+          polar4: { value: 1, source: 'ons_postcode_lookup' },
+          imd: { value: 1, source: 'ons_postcode_lookup', dataset_year: 2019 },
+          tundra: { value: 1, source: 'ons_postcode_lookup' }
+        }
+      }
+    },
+    financial_support: {
+      free_school_meals: 'yes',
+      ucat_bursary_recipient: 'yes',
+      other_financial_support: 'yes'
+    },
+    school_education: {
+      first_in_family_at_university: 'yes',
+      school_performance_indicator: 'yes'
+    },
+    personal_circumstances: {
+      care_experienced: 'yes',
+      refugee: 'yes',
+      estranged: 'yes',
+      young_carer: 'yes',
+      disability: 'yes'
+    },
+    access_programmes: {
+      participation_status: 'yes',
+      ukwpmed: {
+        status: 'yes',
+        programme_id: 'keele_steps2medicine',
+        programme_status: 'completed'
+      },
+      other_programmes: [
+        {
+          programme_id: 'generic_widening_participation_programme',
+          status: 'completed'
+        }
+      ]
+    },
+    partner_schools: {
+      status: 'yes',
+      relationships: [
+        {
+          university_id: 'east-anglia-a100',
+          school_name: 'Example Partner School',
+          status: 'yes'
+        }
+      ]
+    }
+  }
+});
+
+const strongStructuredContextualResult = classifyInterviewBand(
+  course,
+  config,
+  strongStructuredContextualApplicant
+);
+assert.strictEqual(
+  strongStructuredContextualResult.eligibility.status,
+  baseResult.eligibility.status,
+  'Structured contextual evidence must not alter UEA A100 eligibility status.'
+);
+assert.deepStrictEqual(
+  strongStructuredContextualResult.eligibility.checks,
+  baseResult.eligibility.checks,
+  'Structured contextual evidence must not change UEA A100 academic or UCAT eligibility checks.'
+);
+assert.strictEqual(
+  strongStructuredContextualResult.guidance_pool_id,
+  baseResult.guidance_pool_id,
+  'Structured contextual evidence must not change UEA A100 UCAT screening pool.'
+);
+assert.strictEqual(
+  strongStructuredContextualResult.canonical_interview_band,
+  baseResult.canonical_interview_band,
+  'Structured contextual evidence must not change UEA A100 interview band classification.'
+);
+assert.strictEqual(
+  strongStructuredContextualResult.interview_outcome ?? null,
+  null,
+  'Structured contextual evidence must not create a guaranteed interview route for UEA A100.'
+);
+
+const ueaContextualPolicy = evaluateContextualEligibility(course, strongStructuredContextualApplicant);
+assert.strictEqual(ueaContextualPolicy.evaluator_id, 'uea_a100_contextual_screening_excluded');
+assert.strictEqual(ueaContextualPolicy.status, 'not_contextual');
+assert.strictEqual(ueaContextualPolicy.is_contextual, false);
+assert.strictEqual(ueaContextualPolicy.applicable_to_screening, false);
+assert.deepStrictEqual(ueaContextualPolicy.activated_applicant_group_ids, []);
+
+const strongStructuredContextualCard = makeResultCard(
+  course,
+  config,
+  strongStructuredContextualApplicant,
+  strongStructuredContextualResult
+);
+assert.strictEqual(strongStructuredContextualCard.contextual_status, null);
+assert.strictEqual(strongStructuredContextualCard.interview_outcome, null);
+assert.strictEqual(
+  strongStructuredContextualCard.prediction.result_band,
+  resultCard.prediction.result_band,
+  'Structured contextual evidence must not change the public UEA A100 result card band.'
+);
+
+const preparingForMedicineWithoutEngagementApplicant = merge(fixture.base_applicant, {
+  contextual_profile: {
+    access_programmes: {
+      participation_status: 'yes',
+      other_programmes: [
+        {
+          programme_id: 'uea_outreach_pathways',
+          status: 'participating'
+        }
+      ]
+    }
+  }
+});
+const preparingForMedicineWithoutEngagementPolicy = evaluateContextualEligibility(
+  course,
+  preparingForMedicineWithoutEngagementApplicant
+);
+assert.strictEqual(preparingForMedicineWithoutEngagementPolicy.status, 'information_needed');
+assert.strictEqual(preparingForMedicineWithoutEngagementPolicy.is_contextual, false);
+assert.strictEqual(preparingForMedicineWithoutEngagementPolicy.applicable_to_screening, false);
+assert.strictEqual(
+  preparingForMedicineWithoutEngagementPolicy.manual_review_reason,
+  'uea_preparing_for_medicine_engagement_confirmation_required'
+);
+const preparingForMedicineWithoutEngagementResult = classifyInterviewBand(
+  course,
+  config,
+  preparingForMedicineWithoutEngagementApplicant
+);
+assert.strictEqual(preparingForMedicineWithoutEngagementResult.eligibility.status, 'manual_review');
+assert.strictEqual(preparingForMedicineWithoutEngagementResult.manual_review_required, true);
+assert.strictEqual(preparingForMedicineWithoutEngagementResult.interview_outcome ?? null, null);
+
+const preparingForMedicineGuaranteedApplicant = merge(fixture.base_applicant, {
+  contextual_profile: {
+    access_programmes: {
+      participation_status: 'yes',
+      other_programmes: [
+        {
+          programme_id: 'uea_outreach_pathways',
+          status: 'completed'
+        }
+      ]
+    }
+  }
+});
+const preparingForMedicineGuaranteedPolicy = evaluateContextualEligibility(
+  course,
+  preparingForMedicineGuaranteedApplicant
+);
+assert.strictEqual(preparingForMedicineGuaranteedPolicy.status, 'contextual');
+assert.strictEqual(preparingForMedicineGuaranteedPolicy.is_contextual, true);
+assert.strictEqual(preparingForMedicineGuaranteedPolicy.applicable_to_screening, false);
+assert.deepStrictEqual(
+  preparingForMedicineGuaranteedPolicy.activated_applicant_group_ids,
+  ['uea_preparing_for_medicine_programme']
+);
+const preparingForMedicineGuaranteedResult = classifyInterviewBand(
+  course,
+  config,
+  preparingForMedicineGuaranteedApplicant
+);
+assert.strictEqual(preparingForMedicineGuaranteedResult.eligibility.status, 'eligible');
+assert.strictEqual(preparingForMedicineGuaranteedResult.interview_outcome, 'guaranteed_interview');
+assert.strictEqual(preparingForMedicineGuaranteedResult.guidance_pool_id, null);
+assert.strictEqual(preparingForMedicineGuaranteedResult.canonical_interview_band, null);
+const preparingForMedicineGuaranteedCard = makeResultCard(
+  course,
+  config,
+  preparingForMedicineGuaranteedApplicant,
+  preparingForMedicineGuaranteedResult
+);
+assert.strictEqual(preparingForMedicineGuaranteedCard.interview_outcome, 'guaranteed_interview');
+assert.strictEqual(preparingForMedicineGuaranteedCard.contextual_status, null);
+assert.strictEqual(
+  preparingForMedicineGuaranteedCard.guaranteed_interview_notice,
+  'Guaranteed interview — UEA Preparing for Medicine Programme'
+);
+
+const preparingForMedicineAcademicFailApplicant = merge(preparingForMedicineGuaranteedApplicant, {
+  a_level_profile: {
+    subjects: [
+      {
+        subject_id: 'biology',
+        predicted_grade: 'A',
+        sitting_status: 'first_sitting',
+        practical_endorsement: 'pass'
+      },
+      {
+        subject_id: 'chemistry',
+        predicted_grade: 'A',
+        sitting_status: 'first_sitting',
+        practical_endorsement: 'pass'
+      },
+      {
+        subject_id: 'mathematics',
+        predicted_grade: 'B',
+        sitting_status: 'first_sitting'
+      }
+    ],
+    sitting_status: 'first_sitting'
+  }
+});
+const preparingForMedicineAcademicFailResult = classifyInterviewBand(
+  course,
+  config,
+  preparingForMedicineAcademicFailApplicant
+);
+assert.strictEqual(preparingForMedicineAcademicFailResult.eligibility.status, 'not_eligible');
+assert.strictEqual(preparingForMedicineAcademicFailResult.interview_outcome ?? null, null);
 
 const predicted = predict({
   universityIds: ['east-anglia-a100'],

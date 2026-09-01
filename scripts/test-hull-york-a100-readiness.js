@@ -173,6 +173,10 @@ assert.match(storedText, /published HYMS admissions information/i);
 assert.strictEqual(storedCard.prediction.result_band, 'interview_likely');
 assert.strictEqual(storedCard.prediction.score, 85.48);
 assert.strictEqual(storedCard.prediction.score_scale.max, 100);
+assert.strictEqual(storedCard.decision_transparency.selection_metric.applicant_value, 85.48);
+assert.strictEqual(storedCard.decision_transparency.selection_metric.maximum_value, 100);
+assert.strictEqual(storedCard.decision_transparency.score_breakdown.value, 85.48);
+assert.strictEqual(storedCard.decision_transparency.score_breakdown.max, 100);
 
 console.log('HYMS A100 dedicated consumer and estimate-mode regression: PASS');
 console.log(`Scenarios checked: ${fixture.scenarios.length}`);

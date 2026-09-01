@@ -23,19 +23,74 @@ export type PracticalEndorsement = 'pass' | 'fail' | 'not_applicable';
 export type ALevelGrade = 'A*' | 'A' | 'B' | 'C' | 'D' | 'E' | 'U' | '';
 export type GcseGrade = '9' | '8' | '7' | '6' | '5' | '4' | '3' | '2' | '1' | 'U' | '';
 export type SjtBand = 1 | 2 | 3 | 4 | 0;
+export type AgeAtCourseStartBand =
+  | 'under_17'
+  | 'age_17'
+  | 'age_18'
+  | 'age_19'
+  | 'age_20'
+  | 'age_21_or_over'
+  | 'age_18_or_over_legacy'
+  | 'not_sure';
+export type CurrentUkResidence = YesNoNotSure;
+export type UkrainianVisaScheme =
+  | 'homes_for_ukraine'
+  | 'ukraine_family_scheme'
+  | 'ukraine_extension_scheme'
+  | 'none'
+  | 'not_sure';
+export type SchoolEducationFieldKey =
+  | 'state_non_fee_paying_school'
+  | 'current_or_most_recent_uk_school_independent_fee_paying'
+  | 'below_average_gcse_school'
+  | 'below_average_post16_school'
+  | 'high_free_school_meals_school'
+  | 'low_progression_to_higher_education_school'
+  | 'scottish_target_or_access_school'
+  | 'welsh_language_gcse_first_or_second_language'
+  | 'attended_uk_school_or_college_for_gcse_or_equivalent'
+  | 'attended_uk_school_or_college_for_post16_or_equivalent';
+export type PersonalCircumstanceFieldKey =
+  | 'care_experienced'
+  | 'care_leaver'
+  | 'estranged_from_family'
+  | 'young_or_adult_carer'
+  | 'parenting_responsibilities'
+  | 'refugee'
+  | 'seeking_asylum'
+  | 'first_in_family_at_university'
+  | 'military_family'
+  | 'gypsy_roma_traveller'
+  | 'disability'
+  | 'care_over_three_months'
+  | 'uk_refugee_status_granted'
+  | 'ukrainian_visa_scheme';
+export type PersonalCircumstanceValue = SensitiveAnswer | UkrainianVisaScheme;
 
 // Scottish route: applicant.scottish_profile.{national_5_subjects,
-// higher_subjects, advanced_higher_subjects}, letter grades A*-U
-// (eligibility-evaluator.js:820-893, hull-york-a100-consumer.js:406-428).
+// higher_subjects, advanced_higher_subjects}, SQA letter grades plus Cambridge's
+// published A1/A2 Advanced Higher bands and sitting evidence.
+// sitting evidence read by Glasgow's Scottish route implementation.
+// (eligibility-evaluator.js:820-893,1885-2020; hull-york-a100-consumer.js:406-428).
+export type ScottishSchoolYear = 's4' | 's5' | 's6' | '';
+export type ScottishGrade = ALevelGrade | 'A1' | 'A2';
 export interface ScottishSubject {
   subject_id: string;
-  grade: ALevelGrade;
+  grade: ScottishGrade;
+  school_year?: ScottishSchoolYear;
+  sitting_id?: string;
+  first_attempt?: boolean | null;
 }
 export interface ScottishProfile {
+  completed_in_one_sitting: boolean | null;
+  qualification_completion_year: number | '';
   national_5_subjects: ScottishSubject[];
   higher_subjects: ScottishSubject[];
   advanced_higher_subjects: ScottishSubject[];
 }
+
+export const DEFAULT_SCOTTISH_HIGHER_ROWS = 5;
+export const DEFAULT_SCOTTISH_ADVANCED_HIGHER_ROWS = 3;
 
 // IB route: applicant.ib_profile.{total_points, higher_level_subjects,
 // standard_level_subjects}, numeric 1-7 IB point scale
@@ -124,11 +179,125 @@ export interface ContextualFlags {
   ucat_bursary: boolean;
 }
 
+export type YesNoNotSure = 'yes' | 'no' | 'not_sure';
+export type SensitiveAnswer = YesNoNotSure | 'prefer_not_to_say';
+export type QuintileValue = 'q1' | 'q2' | 'q3' | 'q4' | 'q5' | 'unknown' | 'not_applicable' | '';
+export type ProgrammeStatus = 'offered' | 'participating' | 'completed' | 'not_sure';
+export type ProgrammeSchoolYear = 'year_12' | 'year_13' | 'not_sure';
+export type ContextualValueSource = 'postcode_lookup' | 'manual' | 'existing_profile' | 'unknown';
+export type PostcodeLookupStatus = 'not_checked' | 'matched' | 'partial_match' | 'not_found' | 'error';
+export type HomeRegionValue =
+  | 'south_west_england'
+  | 'north_west_england'
+  | 'north_east_england_or_cumbria'
+  | 'east_of_england'
+  | 'none'
+  | 'unknown';
+export type SpecificHomeAreaValue =
+  | 'essex'
+  | 'lincolnshire'
+  | 'plymouth_widening_access_region'
+  | 'none'
+  | 'unknown';
+export type SchoolAreaValue =
+  | 'northern_ireland_bt_to_year_12'
+  | 'bristol_bs_ba_state_school'
+  | 'keele_region_school'
+  | 'none'
+  | 'unknown';
+export type SchoolAreaOption = Exclude<SchoolAreaValue, 'none' | 'unknown'>;
+
+export interface PostcodeLookupValueMetadata {
+  value: number | null;
+  source: ContextualValueSource;
+  dataset_year?: number;
+}
+
+export interface PostcodeLookupMetadata {
+  status: PostcodeLookupStatus;
+  normalised_postcode?: string;
+  looked_up_postcode?: string;
+  stale?: boolean;
+  values: {
+    polar4: PostcodeLookupValueMetadata;
+    tundra: PostcodeLookupValueMetadata;
+    imd: PostcodeLookupValueMetadata;
+  };
+}
+
+export interface HomeAreaRegionProfile {
+  postcode: string;
+  polar4_quintile: QuintileValue;
+  imd_quintile: QuintileValue;
+  tundra_quintile: QuintileValue;
+  simd_quintile: QuintileValue;
+  home_region: HomeRegionValue | null;
+  specific_home_area: SpecificHomeAreaValue | null;
+  school_area: SchoolAreaValue | null;
+  school_areas?: SchoolAreaOption[];
+  // Legacy compatibility fields retained for existing profiles and rules.
+  acorn_quintile?: QuintileValue | null;
+  mem_quintile?: QuintileValue | null;
+  regional_flags?: Record<string, YesNoNotSure | undefined>;
+  postcode_lookup?: PostcodeLookupMetadata;
+}
+
+export interface UkwpmedProgramme {
+  status: YesNoNotSure;
+  programme_id: string;
+  programme_status: ProgrammeStatus | '';
+  provider_university_id: string;
+  completion_year: number | '';
+  not_sure_programme: boolean;
+  significant_engagement?: YesNoNotSure;
+}
+
+export interface OtherAccessProgramme {
+  programme_id: string;
+  status: ProgrammeStatus | '';
+  programme_name?: string;
+  school_year?: ProgrammeSchoolYear | '';
+}
+
+export interface AccessProgrammesProfile {
+  participation_status: YesNoNotSure;
+  ukwpmed: UkwpmedProgramme;
+  other_programmes: OtherAccessProgramme[];
+  other_programme_name: string;
+}
+
+export interface PartnerSchoolRelationship {
+  university_id: string;
+  university_name?: string;
+  school_name: string;
+  school_id?: string;
+  school_identifier?: string;
+  school_identifier_type?: 'apply_centre_code' | 'urn' | 'ukprn' | 'other' | '';
+  relationship_type?: string;
+  status?: YesNoNotSure | '';
+}
+
+export interface PartnerSchoolsProfile {
+  status: YesNoNotSure;
+  relationships: PartnerSchoolRelationship[];
+}
+
+export interface ContextualProfile {
+  home_area_region: HomeAreaRegionProfile;
+  financial_support: Record<string, YesNoNotSure | undefined>;
+  school_education: Partial<Record<SchoolEducationFieldKey, YesNoNotSure | undefined>>;
+  personal_circumstances: Partial<Record<PersonalCircumstanceFieldKey, PersonalCircumstanceValue | undefined>>;
+  access_programmes: AccessProgrammesProfile;
+  partner_schools: PartnerSchoolsProfile;
+}
+
 export interface ApplicantIdentity {
   applicant_type: ApplicantType | '';
   fee_status: FeeStatus | '';
   domicile: Domicile | '';
-  date_of_birth: string;
+  age_at_course_start_band: AgeAtCourseStartBand | '';
+  current_uk_residence: CurrentUkResidence | '';
+  date_of_birth?: string;
   contextual: boolean;
   contextual_flags: ContextualFlags;
   graduate: boolean;
@@ -206,10 +375,53 @@ export interface ALevelSubject {
   practical_endorsement: PracticalEndorsement;
 }
 
+export type EpqStatus = 'not_taken' | 'planning' | 'predicted' | 'achieved';
+export type EpqGrade = 'A*' | 'A' | 'B' | 'C' | 'D' | 'E';
+
+export interface EpqQualification {
+  status: EpqStatus;
+  grade: EpqGrade | null;
+  taken_alongside_a_levels?: boolean | null;
+}
+
+export const DEFAULT_EPQ_QUALIFICATION: EpqQualification = {
+  status: 'not_taken',
+  grade: null,
+  taken_alongside_a_levels: null,
+};
+
+const EPQ_STATUSES = ['not_taken', 'planning', 'predicted', 'achieved'] as const;
+const EPQ_GRADES = ['A*', 'A', 'B', 'C', 'D', 'E'] as const;
+
+export function normaliseEpqQualification(epq: unknown): EpqQualification {
+  if (!epq || typeof epq !== 'object') return { ...DEFAULT_EPQ_QUALIFICATION };
+
+  const candidate = epq as Partial<EpqQualification>;
+  const status = EPQ_STATUSES.includes(candidate.status as EpqStatus)
+    ? candidate.status as EpqStatus
+    : DEFAULT_EPQ_QUALIFICATION.status;
+
+  if (status === 'not_taken' || status === 'planning') {
+    return { status, grade: null, taken_alongside_a_levels: null };
+  }
+
+  const takenAlongside =
+    typeof candidate.taken_alongside_a_levels === 'boolean'
+      ? candidate.taken_alongside_a_levels
+      : null;
+
+  return {
+    status,
+    grade: EPQ_GRADES.includes(candidate.grade as EpqGrade) ? candidate.grade as EpqGrade : null,
+    taken_alongside_a_levels: takenAlongside,
+  };
+}
+
 export interface ALevelProfile {
   subjects: ALevelSubject[];
   sitting_status: SittingStatus;
   completed_in_one_sitting: boolean | null;
+  epq?: EpqQualification;
 }
 
 export interface UcatProfile {
@@ -230,6 +442,7 @@ export interface UcatProfile {
 
 export interface WizardProfile {
   applicant_identity: ApplicantIdentity;
+  contextual_profile: ContextualProfile;
   course_target: CourseTarget;
   gcse_profile: GcseProfile;
   a_level_profile: ALevelProfile;
@@ -247,13 +460,58 @@ export interface WizardProfile {
   university_ids: string[];
 }
 
+export function createEmptyContextualProfile(): ContextualProfile {
+  return {
+    home_area_region: {
+      postcode: '',
+      polar4_quintile: 'unknown',
+      imd_quintile: 'unknown',
+      tundra_quintile: 'unknown',
+      simd_quintile: '',
+      home_region: null,
+      specific_home_area: null,
+      school_area: null,
+      regional_flags: {},
+      postcode_lookup: {
+        status: 'not_checked',
+        values: {
+          polar4: { value: null, source: 'unknown' },
+          tundra: { value: null, source: 'unknown' },
+          imd: { value: null, source: 'unknown', dataset_year: 2019 },
+        },
+      },
+    },
+    financial_support: {},
+    school_education: {},
+    personal_circumstances: {},
+    access_programmes: {
+      participation_status: 'no',
+      ukwpmed: {
+        status: 'no',
+        programme_id: '',
+        programme_status: '',
+        provider_university_id: '',
+        completion_year: '',
+        not_sure_programme: false,
+      },
+      other_programmes: [],
+      other_programme_name: '',
+    },
+    partner_schools: {
+      status: 'no',
+      relationships: [],
+    },
+  };
+}
+
 export function createEmptyProfile(): WizardProfile {
   return {
     applicant_identity: {
       applicant_type: '',
       fee_status: '',
       domicile: '',
-      date_of_birth: '',
+      age_at_course_start_band: '',
+      current_uk_residence: '',
       contextual: false,
       contextual_flags: {
         care_experienced: false,
@@ -269,6 +527,7 @@ export function createEmptyProfile(): WizardProfile {
         subjects_resat: [],
       },
     },
+    contextual_profile: createEmptyContextualProfile(),
     course_target: {
       discipline: 'medicine',
       ucas_code: 'A100',
@@ -297,11 +556,32 @@ export function createEmptyProfile(): WizardProfile {
       ],
       sitting_status: 'first_sitting',
       completed_in_one_sitting: null,
+      epq: { ...DEFAULT_EPQ_QUALIFICATION },
     },
     scottish_profile: {
-      national_5_subjects: [],
-      higher_subjects: [{ subject_id: '', grade: '' }, { subject_id: '', grade: '' }, { subject_id: '', grade: '' }],
-      advanced_higher_subjects: [{ subject_id: '', grade: '' }, { subject_id: '', grade: '' }],
+      completed_in_one_sitting: null,
+      qualification_completion_year: '',
+      national_5_subjects: [
+        { subject_id: '', grade: '' },
+        { subject_id: '', grade: '' },
+        { subject_id: '', grade: '' },
+        { subject_id: '', grade: '' },
+        { subject_id: '', grade: '' },
+        { subject_id: '', grade: '' },
+        { subject_id: '', grade: '' },
+      ],
+      higher_subjects: [
+        { subject_id: '', grade: '' },
+        { subject_id: '', grade: '' },
+        { subject_id: '', grade: '' },
+        { subject_id: '', grade: '' },
+        { subject_id: '', grade: '' },
+      ],
+      advanced_higher_subjects: [
+        { subject_id: '', grade: '' },
+        { subject_id: '', grade: '' },
+        { subject_id: '', grade: '' },
+      ],
     },
     ib_profile: {
       total_points: '',

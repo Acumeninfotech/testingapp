@@ -75,6 +75,26 @@
     "graduate_profile": {
       "is_graduate": false,
       "degree_classification": null
+    },
+    "contextual_profile": {
+      "home_area_region": {
+        "polar4_quintile": "q5",
+        "imd_quintile": "unknown",
+        "tundra_quintile": "unknown",
+        "home_region": "none"
+      },
+      "financial_support": {
+        "free_school_meals": "no",
+        "ucat_bursary_recipient": "no"
+      },
+      "personal_circumstances": {
+        "refugee": "no",
+        "uk_refugee_status_granted": "no",
+        "military_family": "no"
+      },
+      "access_programmes": {
+        "participation_status": "no"
+      }
     }
   },
   "historical_guidance_values": [
@@ -147,7 +167,7 @@
         "guidance_pool_id": null,
         "interview_band": "not_eligible",
         "manual_review_required": false,
-        "failure": "disqualifying_sjt_rule"
+        "failure": "sjt_band_excluded"
       }
     },
     {
@@ -169,11 +189,12 @@
       }
     },
     {
-      "scenario_id": "contextual_aab_academic_gate_met",
+      "scenario_id": "contextual_aab_fsm_six_year_academic_gate_met",
       "overrides": {
-        "applicant_identity": {
-          "contextual": true,
-          "contextual_status_confirmed": true
+        "contextual_profile": {
+          "financial_support": {
+            "free_school_meals": "yes"
+          }
         },
         "a_level_profile": {
           "subjects": [
@@ -200,7 +221,8 @@
         "guidance_pool_id": "home_a100_eligibility_gate",
         "interview_band": "realistic",
         "manual_review_required": false,
-        "failure": null
+        "failure": null,
+        "academic_pathway_id": "sunderland_contextual_aab"
       }
     },
     {
@@ -262,7 +284,7 @@
         "guidance_pool_id": null,
         "interview_band": "not_eligible",
         "manual_review_required": false,
-        "failure": "science_practical_endorsement_not_confirmed:biology"
+        "failure": "a_level_practical_requirement_not_met"
       }
     },
     {
@@ -285,7 +307,7 @@
         "guidance_pool_id": null,
         "interview_band": "not_eligible",
         "manual_review_required": false,
-        "failure": "minimum_gcse_grade_not_met:english_language"
+        "failure": "gcse_requirement_not_met:english_language"
       }
     },
     {
@@ -316,14 +338,43 @@
               "grade": "A"
             }
           ],
-          "advanced_higher_subjects": [
+          "higher_subjects": [
             {
               "subject_id": "biology",
-              "grade": "A"
+              "achieved_grade": "A",
+              "school_year": "s5"
             },
             {
               "subject_id": "chemistry",
-              "grade": "B"
+              "achieved_grade": "A",
+              "school_year": "s5"
+            },
+            {
+              "subject_id": "mathematics",
+              "achieved_grade": "A",
+              "school_year": "s5"
+            },
+            {
+              "subject_id": "english",
+              "achieved_grade": "A",
+              "school_year": "s5"
+            },
+            {
+              "subject_id": "history",
+              "achieved_grade": "B",
+              "school_year": "s5"
+            }
+          ],
+          "advanced_higher_subjects": [
+            {
+              "subject_id": "biology",
+              "predicted_grade": "A",
+              "school_year": "s6"
+            },
+            {
+              "subject_id": "chemistry",
+              "predicted_grade": "B",
+              "school_year": "s6"
             }
           ]
         }

@@ -31,7 +31,7 @@
       "home_fee",
       "school_leaver"
     ],
-    "applicant_summary": "Home standard A-level school-leaver with eight scored GCSEs, non-science AAA A-level profile, UCAT 2240/2700 and SJT Band 2.",
+    "applicant_summary": "Home standard A-level school-leaver with eight scored GCSEs, Biology/Chemistry/Geography AAA A-level profile, UCAT 2240/2700 and SJT Band 2.",
     "fee_cohort": "home",
     "entry_route": "standard_entry",
     "contextual": false,
@@ -62,8 +62,8 @@
         "check_id": "a_level_profile",
         "label": "A-level profile",
         "status": "pass",
-        "requirement": "AAA from three distinct non-excluded subjects; no mandatory subjects.",
-        "applicant_value": "AAA in History, English Literature and Geography.",
+        "requirement": "AAA including Biology or Chemistry plus a second subject from Biology, Chemistry, Mathematics, Further Mathematics, Statistics or Physics.",
+        "applicant_value": "AAA in Biology, Chemistry and Geography.",
         "decision_outcome": "eligible",
         "source_ids": [
           "newcastle_a100_research_spec"
@@ -170,20 +170,7 @@
     "prediction_status": "historical_guidance_available",
     "result_band": "interview_likely",
     "guidance_pool_id": "newcastle_standard_home",
-    "score": {
-      "value": 70,
-      "max": 100,
-      "components": {
-        "gcse_score": {
-          "value": 26,
-          "max": 40
-        },
-        "ucat_score": {
-          "value": 44,
-          "max": 60
-        }
-      }
-    },
+    "score": 70,
     "band_basis": "The represented score is 70/100, matching the 2025-entry Standard Home interviewee mean. The 2025 observed range started at 50/100, but this is not a formal minimum.",
     "historical_comparison": "at_2025_entry_core_mean",
     "missing_data_reasons": [],
@@ -191,7 +178,11 @@
     "source_ids": [
       "newcastle_a100_research_spec",
       "newcastle_ucat_academic_threshold_document"
-    ]
+    ],
+    "score_scale": {
+      "min": 0,
+      "max": 100
+    }
   },
   "confidence": {
     "level": "medium",
@@ -219,8 +210,8 @@
   "display": {
     "primary_user_facing_recommendation": "Strong choice for your application",
     "recommendation_display_state": "standard",
-    "primary_explanation": "Based on ApplySmart's assessment, your academic profile appears competitive for this applicant group.",
-    "historical_guidance_caveat": "This is an evidence-based estimate based on official historical data and published admissions rules. Newcastle's actual interview threshold is determined by the applicant cohort and may change each cycle. It is not a current threshold or guarantee.",
+    "primary_explanation": "Based on ApplySmart's assessment, your academic profile and UCAT appear competitive for this applicant group.",
+    "historical_guidance_caveat": "Historical admissions data provides a benchmark only; it is not a current cut-off or a guarantee of interview.",
     "headline": "Strong choice for your application"
   },
   "decision_timeline": [
@@ -240,71 +231,126 @@
       "step": 3,
       "title": "Selection model applied",
       "status": "Complete",
-      "summary": "Newcastle Standard Home applicants are ranked by academic score out of 40 plus UCAT table score out of 60."
+      "summary": "Home applicants are ranked using Newcastle's academic score and UCAT score."
     },
     {
       "step": 4,
       "title": "Historical guidance compared",
       "status": "Complete",
-      "summary": "Your result was compared with interview information from previous admissions cycles. Interview thresholds may change each admissions cycle depending on applicant competition and interview capacity. Historical figures are guidance only, not a current cut-off, and do not guarantee an interview."
+      "summary": "Your selection score is 20 points above the historical score guide of 50 for this applicant pool. It was compared with historical admissions data. Historical admissions data provides a benchmark only; it is not a current cut-off or a guarantee of interview."
     },
     {
       "step": 5,
       "title": "Interview recommendation produced",
       "status": "Strong Choice",
-      "summary": "Based on ApplySmart's assessment, your academic profile appears competitive for this applicant group. Treat this as guidance for university choice, not a promised interview."
+      "summary": "Based on ApplySmart's assessment, your academic profile and UCAT appear competitive for this applicant group. Treat this as guidance for university choice, not a promised interview."
     }
   ],
   "decision_transparency": {
+    "factor_usage": [
+      {
+        "factor_id": "ucat",
+        "label": "UCAT",
+        "role": "ranking",
+        "detail": "Used for ranking in the university’s selection process.",
+        "evidence_status": "available"
+      },
+      {
+        "factor_id": "gcse",
+        "label": "GCSEs",
+        "role": "unknown",
+        "detail": "GCSEs are part of the university’s academic review.",
+        "evidence_status": "available"
+      },
+      {
+        "factor_id": "a_level",
+        "label": "A-levels",
+        "role": "unknown",
+        "detail": "Used as part of the university’s academic review.",
+        "evidence_status": "available"
+      },
+      {
+        "factor_id": "sjt",
+        "label": "SJT",
+        "role": "eligibility",
+        "detail": "SJT is used as an eligibility gate.",
+        "evidence_status": "available"
+      }
+    ],
     "decision_path": [
       {
         "stage": "Eligibility",
         "status": "Met",
-        "summary": "The represented Standard Home school-leaver meets Newcastle's supported A-level, UCAT, SJT and practical-endorsement requirements.",
+        "summary": "The supported entry requirements are met.",
         "checks": [
           {
-            "label": "A-level profile",
+            "label": "Entry requirement",
             "status": "Met",
-            "summary": "AAA from three distinct non-excluded subjects; no mandatory subjects. Applicant information: AAA in History, English Literature and Geography."
+            "summary": "This requirement was assessed and met."
           },
           {
-            "label": "GCSE scoring",
+            "label": "Entry requirement",
             "status": "Met",
-            "summary": "Best eight achieved GCSE or Level 2 equivalent grades are scored out of 40. Applicant information: Eight GCSEs score 26/40."
+            "summary": "This requirement was assessed and met."
           },
           {
-            "label": "UCAT and SJT",
+            "label": "Entry requirement",
             "status": "Met",
-            "summary": "Current-cycle UCAT is required and SJT Band 4 is rejected. Applicant information: UCAT 2240/2700 gives 44/60; SJT Band 2 is accepted."
+            "summary": "This requirement was assessed and met."
+          },
+          {
+            "label": "Entry requirement",
+            "status": "Met",
+            "summary": "This requirement was assessed and met."
           }
         ]
       },
       {
         "stage": "Selection model",
         "status": "Assessed",
-        "summary": "Newcastle Standard Home applicants are ranked by academic score out of 40 plus UCAT table score out of 60.",
+        "summary": "Home applicants are ranked using Newcastle's academic score and UCAT score.",
         "checks": [
           {
             "label": "Applicant pool",
             "status": "Used",
-            "summary": "The applicant group matching the supplied fee status and entry route"
+            "summary": "Home, Rest of UK applicants"
           },
           {
-            "label": "Selection approach",
-            "status": "Ranking/cut-off based",
-            "summary": "Newcastle Standard Home applicants are ranked by academic score out of 40 plus UCAT table score out of 60."
+            "label": "GCSE score",
+            "status": "Counted",
+            "summary": "26 out of 40."
+          },
+          {
+            "label": "UCAT score",
+            "status": "Counted",
+            "summary": "44 out of 60."
+          },
+          {
+            "label": "Selection score guide",
+            "status": "Above guide",
+            "summary": "Your selection score is 20 points above the historical score guide of 50 for this applicant pool."
           }
         ]
       },
       {
         "stage": "Historical guidance",
         "status": "Guidance available",
-        "summary": "The result was assessed using the available admissions evidence for this applicant group. Historical admissions data provides a benchmark only; it is not a current cut-off or a guarantee of interview.",
+        "summary": "Your selection score is 20 points above the historical score guide of 50 for this applicant pool. Historical admissions data provides a benchmark only; it is not a current cut-off or a guarantee of interview.",
         "checks": [
           {
             "label": "Applicant pool",
             "status": "Used",
-            "summary": "The applicant group matching the supplied fee status and entry route"
+            "summary": "Home, Rest of UK applicants"
+          },
+          {
+            "label": "Home – Core",
+            "status": "Historical",
+            "summary": "combined-score threshold 50/100 (display only)."
+          },
+          {
+            "label": "Home – Widening Participation",
+            "status": "Historical",
+            "summary": "combined-score threshold 50/100 (display only)."
           },
           {
             "label": "Important limitation",
@@ -316,14 +362,14 @@
       {
         "stage": "Recommendation",
         "status": "Guidance only",
-        "summary": "Based on ApplySmart's assessment, your academic profile appears competitive for this applicant group. Treat this as guidance for university choice, not a promised interview.",
+        "summary": "Based on ApplySmart's assessment, your academic profile and UCAT appear competitive for this applicant group. Treat this as guidance for university choice, not a promised interview.",
         "checks": []
       }
     ],
     "key_reasons": [
-      "The represented Standard Home school-leaver meets Newcastle's supported A-level, UCAT, SJT and practical-endorsement requirements.",
-      "The result uses The applicant group matching the supplied fee status and entry route.",
-      "Newcastle Standard Home applicants are ranked by academic score out of 40 plus UCAT table score out of 60."
+      "The supported entry requirements are met.",
+      "The result uses Home, Rest of UK applicants.",
+      "Your selection score is 20 points above the historical score guide of 50 for this applicant pool."
     ],
     "evidence_used": [
       "Official admissions policy",
@@ -342,19 +388,63 @@
     },
     "warnings": [],
     "manual_review_reason": null,
-    "insufficient_evidence_reason": null,
-    "insufficient_evidence_reason_code": null,
+    "manual_review_reason_code": null,
+    "information_needed_reason": null,
+    "missing_information": null,
+    "risk_explanation": null,
     "compact_status": {
       "label": "You meet the academic requirements.",
       "type": "academic_status",
       "tone": "positive"
     },
     "comparison_metrics_title": null,
-    "comparison_metrics": [],
-    "selection_approach_display": null,
-    "selection_metric": null,
-    "score_breakdown": null,
-    "ucat_comparison": null
+    "comparison_metrics": [
+      {
+        "label": "historical score guide",
+        "value": "50",
+        "difference": "+20"
+      }
+    ],
+    "selection_approach_display": "Home applicants are ranked using Newcastle's academic score and UCAT score.",
+    "selection_metric": {
+      "type": "selection_score",
+      "label": "Selection score",
+      "applicant_value": 70,
+      "comparison_value": 50,
+      "comparison_max_value": null,
+      "comparison_label": "historical score guide",
+      "comparison_label_type": "historical_interview_guide",
+      "comparison_context": "Newcastle academic plus UCAT score",
+      "difference": 20,
+      "difference_direction": "above",
+      "difference_word": "benchmark",
+      "maximum_value": 100,
+      "display_mode": "score",
+      "display_eligibility": true,
+      "entry_year": null,
+      "caveat": "Historical admissions data provides a benchmark only; it is not a current cut-off or a guarantee of interview."
+    },
+    "score_breakdown": {
+      "name": "Newcastle academic plus UCAT score",
+      "value": 70,
+      "max": 100,
+      "status": "calculated",
+      "explanation": "Official Newcastle Home A100 pre-interview score: academic score out of 40 plus UCAT table score out of 60. International pools bypass this score and rank by UCAT cognitive total only.",
+      "checks": [
+        {
+          "label": "GCSE score",
+          "status": "Counted",
+          "summary": "26 out of 40."
+        },
+        {
+          "label": "UCAT score",
+          "status": "Counted",
+          "summary": "44 out of 60."
+        }
+      ]
+    },
+    "ucat_comparison": null,
+    "ucat_adjustment": null
   },
   "engine_notes": {
     "generated_from_profile_id": "newcastle-a100",
@@ -369,7 +459,7 @@
     ]
   },
   "primary_user_facing_recommendation": "Strong choice for your application",
-  "primary_explanation": "Based on ApplySmart's assessment, your academic profile appears competitive for this applicant group.",
+  "primary_explanation": "Based on ApplySmart's assessment, your academic profile and UCAT appear competitive for this applicant group.",
   "recommendation_display_state": "standard",
   "trust_statement": null,
   "historical_guidance_caveat": "Historical admissions data provides a benchmark only; it is not a current cut-off or a guarantee of interview."

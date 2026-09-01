@@ -110,12 +110,51 @@ assert.strictEqual(gcse.scored_after_eligibility, false);
 
 const aLevel = course.stage_1_eligibility.post_16.a_level;
 assert.deepStrictEqual(aLevel.standard_offer.grade_profile, ['A*', 'A', 'A']);
+assert.deepStrictEqual(aLevel.contextual_offer.grade_profile, ['A', 'A', 'A']);
 assert.strictEqual(aLevel.standard_offer.ucas_tariff, 152);
 assert.strictEqual(aLevel.practical_endorsement_required, false);
 assert.match(aLevel.notes, /one sitting/i);
 assert.match(
   JSON.stringify(aLevel.subject_combination_rule),
   /further_mathematics/
+);
+assert.deepStrictEqual(
+  aLevel.grade_requirements.map((rule) => rule.requirement_id),
+  [
+    'standard_a_star_aa_science_route',
+    'queen_mary_contextual_aaa',
+    'queen_mary_care_leaver_aab'
+  ]
+);
+
+assert.strictEqual(
+  course.contextual_admissions.contextual_eligibility.evaluator_id,
+  'queen_mary_contextual_medicine_a100'
+);
+assert.strictEqual(
+  course.contextual_admissions.contextual_eligibility.controls_group_routing,
+  false
+);
+assert.deepStrictEqual(
+  course.contextual_admissions.contextual_eligibility.activated_applicant_group_ids,
+  [
+    'queen_mary_contextual_aaa',
+    'queen_mary_access_programme_guaranteed_interview',
+    'queen_mary_care_leaver_aab'
+  ]
+);
+
+const scottish = course.stage_1_eligibility.post_16.scottish;
+assert.strictEqual(scottish.route_implemented, true);
+assert.strictEqual(scottish.contextual_route_implemented, false);
+assert.strictEqual(scottish.grade_requirements.length, 1);
+assert.strictEqual(
+  scottish.grade_requirements[0].requirement_id,
+  'queen_mary_scottish_standard_highers_and_advanced_highers'
+);
+assert.strictEqual(
+  scottish.national_5_equivalence.execution_status,
+  'manual_review'
 );
 
 const admissionsTests = course.stage_1_eligibility.admissions_tests;
@@ -141,6 +180,23 @@ assert.deepStrictEqual(
     ['qmul_home_standard_school_leaver_guidance', 4],
     ['qmul_overseas_school_leaver_guidance', 4]
   ]
+);
+assert.deepStrictEqual(
+  config.eligibility.qualification_routes.supported,
+  ['a_level', 'international_baccalaureate', 'scottish']
+);
+assert.ok(!config.eligibility.qualification_routes.explicitly_blocked.includes('scottish'));
+assert.deepStrictEqual(
+  config.eligibility.use_course_eligibility_for_qualification_routes,
+  ['scottish']
+);
+assert.strictEqual(
+  config.eligibility.map_override.source_band_id,
+  'queen_mary_access_programme_guaranteed_interview'
+);
+assert.ok(
+  !config.guidance_pools[0].applicant_match.excluded_group_ids.includes('contextual'),
+  'Ordinary Home contextual applicants should remain in the Home historical guidance pool.'
 );
 for (const pool of config.guidance_pools) {
   assert.strictEqual(pool.official_candidate_decile_guidance.executable, false);
@@ -209,10 +265,37 @@ assert.strictEqual(card.display.recommendation_display_state, 'standard');
 assert.strictEqual(card.evidence_confidence.level, 'Medium');
 assert.deepStrictEqual(card.evidence_confidence, buildEvidenceConfidence(card));
 assert.deepStrictEqual(card.decision_timeline, buildDecisionTimeline(card));
-assert.deepStrictEqual(card.decision_transparency, buildDecisionTransparency(card));
+assert.strictEqual(
+  card.decision_transparency.selection_metric.type,
+  'ucat'
+);
+assert.strictEqual(
+  card.decision_transparency.selection_metric.applicant_value,
+  2200
+);
+assert.strictEqual(
+  card.decision_transparency.ucat_comparison.comparison_type,
+  'historical_range'
+);
+assert.strictEqual(
+  card.decision_transparency.ucat_comparison.applicant_ucat,
+  2200
+);
+assert.strictEqual(
+  card.decision_transparency.ucat_comparison.benchmark_min,
+  1965
+);
+assert.strictEqual(
+  card.decision_transparency.ucat_comparison.benchmark_max,
+  2099
+);
+assert.strictEqual(
+  card.decision_transparency.ucat_comparison.official_ucat_minimum.minimum,
+  1820
+);
 assert.match(
   card.display.primary_explanation,
-  /ApplySmart predictive estimate, not an official university threshold or guarantee of interview/i
+  /UCAT score appears competitive for this applicant group/i
 );
 assert.match(
   JSON.stringify(card),
@@ -237,12 +320,12 @@ for (const [field, expected] of Object.entries({
   interview_band_config_ready: true,
   metadata_activation_ready: true,
   result_card_ready: true,
-  contextual_logic: false,
+  contextual_logic: true,
   international_prediction: false,
   regression: true
 })) {
   assert.strictEqual(course.engine_notes[field], expected, `production ${field}`);
-  if (field !== 'result_card_ready') {
+  if (field !== 'result_card_ready' && field !== 'contextual_logic') {
     assert.strictEqual(indexEntry[field], expected, `index ${field}`);
   }
 }

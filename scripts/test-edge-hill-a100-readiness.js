@@ -2,13 +2,13 @@
 
 const assert = require('assert');
 const fs = require('fs');
+const { predict } = require('../server/src/predict');
 const path = require('path');
 const {
   classifyInterviewBand
 } = require('../assets/js/engine/interview-band-classifier');
 const {
   buildDecisionTimeline,
-  buildDecisionTransparency,
   buildEvidenceConfidence
 } = require('../assets/js/engine/result-card-presenter');
 
@@ -72,7 +72,27 @@ assert.strictEqual(course.course.entry_route, 'standard_entry');
 assert.deepStrictEqual(course.course.fee_statuses, ['home']);
 assert.strictEqual(course.stage_2_interview_selection.primary_model, 'ucat_ranking');
 assert.strictEqual(course.stage_2_interview_selection.academic_scoring.applies, false);
-assert.strictEqual(course.contextual_admissions.available, false);
+assert.strictEqual(course.contextual_admissions.available, true);
+assert.strictEqual(
+  course.contextual_admissions.adjustments.some((adjustment) =>
+    adjustment.type === 'academic_grade_reduction'
+  ),
+  false,
+  'Edge Hill A100 must not invent a contextual academic grade reduction.'
+);
+assert.deepStrictEqual(
+  course.contextual_admissions.adjustments.map((adjustment) => [
+    adjustment.type,
+    adjustment.amount,
+    adjustment.amount_published
+  ]),
+  [['selection_threshold_extension', null, false]],
+  'Edge Hill A100 WAM treatment is selection-threshold extension only, with no numerical extension invented.'
+);
+assert.match(
+  course.contextual_admissions.notes,
+  /A110 Foundation Year is a separate widening-participation course and its criteria are not copied into A100/i
+);
 assert.strictEqual(course.engine_notes.international_prediction, false);
 assert.strictEqual(course.engine_notes.contextual_logic, false);
 assert.strictEqual(course.engine_notes.prediction_confidence, 'low');
@@ -220,15 +240,19 @@ assert.strictEqual(card.readiness.international_prediction, false);
 assert.strictEqual(card.readiness.contextual_logic, false);
 assert.deepStrictEqual(card.evidence_confidence, buildEvidenceConfidence(card));
 assert.deepStrictEqual(card.decision_timeline, buildDecisionTimeline(card));
-assert.deepStrictEqual(card.decision_transparency, buildDecisionTransparency(card));
+const productionCard = predict({
+  studentProfile: fixture.base_applicant,
+  universityIds: [course.profile_id]
+})[0]?.result_card;
+
+assert.ok(productionCard, 'Edge Hill A100 production Result Card must be generated.');
+assert.deepStrictEqual(card.decision_transparency, productionCard.decision_transparency);
 assert.match(
   JSON.stringify(card.decision_transparency),
-  /UCAT total is the ranking metric.*No academic score is created/s
+  /Edge Hill checks academic and SJT eligibility.*within the historical interview range/s
 );
-assert.match(
-  JSON.stringify(card.decision_transparency),
-  /converted 1957\.5\/2700/s
-);
+assert.strictEqual(card.decision_transparency.selection_metric.type, 'ucat');
+assert.strictEqual(card.decision_transparency.ucat_comparison.comparison_type, 'historical_range');
 assert.strictEqual(hasNestedKey(card, 'offer_prediction'), false);
 assert.strictEqual(hasNestedKey(card, 'offer_probability'), false);
 

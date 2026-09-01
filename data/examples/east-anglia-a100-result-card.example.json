@@ -274,7 +274,7 @@
     "primary_user_facing_recommendation": "Possible choice for your application",
     "recommendation_display_state": "standard",
     "primary_explanation": "Based on ApplySmart's assessment, your UCAT score may be competitive for this applicant group.",
-    "historical_guidance_caveat": "Interview thresholds may change each admissions cycle depending on applicant competition and interview capacity. Historical figures are guidance only, not a current cut-off, and do not guarantee an interview."
+    "historical_guidance_caveat": "Historical admissions data provides a benchmark only; it is not a current cut-off or a guarantee of interview."
   },
   "decision_timeline": [
     {
@@ -293,91 +293,107 @@
       "step": 3,
       "title": "Selection model applied",
       "status": "Complete",
-      "summary": "Academic eligibility was checked before UCAT-ranking guidance was applied. No academic score, GCSE score, SJT gate or contextual A100 adjustment was used."
+      "summary": "UEA checks academic eligibility, then ranks eligible applicants by UCAT cognitive total within separate Home and International applicant pools."
     },
     {
       "step": 4,
       "title": "Historical guidance compared",
       "status": "Complete",
-      "summary": "Your UCAT was compared with interview information from previous admissions cycles. Interview thresholds may change each admissions cycle depending on applicant competition and interview capacity. Historical figures are guidance only, not a current cut-off, and do not guarantee an interview."
+      "summary": "UCAT: 2200 - within the historical UCAT range of 2077-2226. Historical admissions data provides a benchmark only; it is not a current cut-off or a guarantee of interview."
     },
     {
       "step": 5,
       "title": "Interview recommendation produced",
       "status": "Realistic Choice",
-      "summary": "Based on ApplySmart's assessment, your academic profile may be competitive for this applicant group. Treat this as guidance for university choice, not a promised interview."
+      "summary": "Based on ApplySmart's assessment, your UCAT score may be competitive for this applicant group. Treat this as guidance for university choice, not a promised interview."
     }
   ],
   "decision_transparency": {
+    "factor_usage": [
+      {
+        "factor_id": "ucat",
+        "label": "UCAT",
+        "role": "ranking",
+        "detail": "Used for ranking in the university’s selection process.",
+        "evidence_status": "available",
+        "applicant_value": 2200
+      },
+      {
+        "factor_id": "gcse",
+        "label": "GCSEs",
+        "role": "eligibility",
+        "detail": "Used as an academic eligibility requirement.",
+        "evidence_status": "available"
+      },
+      {
+        "factor_id": "a_level",
+        "label": "A-levels",
+        "role": "unknown",
+        "detail": "Used as part of the university’s academic review.",
+        "evidence_status": "available"
+      },
+      {
+        "factor_id": "sjt",
+        "label": "SJT",
+        "role": "not_used",
+        "detail": "SJT is not used for interview selection.",
+        "evidence_status": "not_applicable"
+      }
+    ],
     "decision_path": [
       {
         "stage": "Eligibility",
         "status": "Met",
-        "summary": "The represented Home standard school-leaver meets UEA's supported GCSE, A-level, practical-endorsement and UCAT requirements.",
+        "summary": "The supported entry requirements are met.",
         "checks": [
           {
-            "label": "GCSE threshold",
+            "label": "Entry requirements",
             "status": "Met",
-            "summary": "At least six GCSE subjects at grade 7/A or above, including Mathematics and two sciences or Double Science; English Language at grade 5/B or above. Applicant information: Six GCSE subjects at grade 7 or above including Mathematics, Biology, Chemistry and Physics; English Language grade 5."
-          },
-          {
-            "label": "A-level threshold and subjects",
-            "status": "Met",
-            "summary": "AAA including Biology or Chemistry; General Studies and Critical Thinking are not accepted. Applicant information: AAA in Biology, Chemistry and Mathematics."
-          },
-          {
-            "label": "Science practical endorsements",
-            "status": "Met",
-            "summary": "Pass the practical endorsement for applicable English science A-levels. Applicant information: Biology and Chemistry practical endorsements are passed."
-          },
-          {
-            "label": "UCAT and SJT",
-            "status": "Met",
-            "summary": "UCAT is required. No fixed UCAT cut-off is published. SJT is not implemented as a pre-interview rejection gate. Applicant information: UCAT 2200/2700 with SJT Band 3."
+            "summary": "The supported entry requirements have been assessed."
           }
         ]
       },
       {
         "stage": "Selection model",
         "status": "Assessed",
-        "summary": "Academic eligibility was checked before UCAT-ranking guidance was applied. No academic score, GCSE score, SJT gate or contextual A100 adjustment was used.",
+        "summary": "UEA checks academic eligibility, then ranks eligible applicants by UCAT cognitive total within separate Home and International applicant pools.",
         "checks": [
           {
             "label": "Applicant pool",
             "status": "Used",
-            "summary": "The applicant group matching the supplied fee status and entry route"
+            "summary": "Home, Rest of UK applicants"
           },
           {
             "label": "UCAT",
-            "status": "Ranking only",
-            "summary": "UCAT ranking: Eligible applicants are ranked by UCAT. No reliable numerical historical comparison is available."
+            "status": "Within",
+            "summary": "UCAT: 2200 - within the historical UCAT range of 2077-2226."
           },
           {
             "label": "SJT requirement",
             "status": "Ignored",
-            "summary": "SJT is not used for interview selection."
+            "summary": "Band 3 - not used for interview selection."
           },
           {
             "label": "Selection approach",
             "status": "Ranking/cut-off based",
-            "summary": "Academic eligibility was checked before UCAT-ranking guidance was applied. No academic score, GCSE score, SJT gate or contextual A100 adjustment was used."
+            "summary": "UEA checks academic eligibility, then ranks eligible applicants by UCAT cognitive total within separate Home and International applicant pools."
           }
         ]
       },
       {
         "stage": "Historical guidance",
         "status": "Guidance available",
-        "summary": "The result was assessed using the available admissions evidence for this applicant group. Historical admissions data provides a benchmark only; it is not a current cut-off or a guarantee of interview.",
+        "summary": "UCAT: 2200 - within the historical UCAT range of 2077-2226. Historical admissions data provides a benchmark only; it is not a current cut-off or a guarantee of interview.",
         "checks": [
           {
             "label": "Applicant pool",
             "status": "Used",
-            "summary": "The applicant group matching the supplied fee status and entry route"
+            "summary": "Home, Rest of UK applicants"
           },
           {
             "label": "UCAT comparison",
             "status": "Compared",
-            "summary": "UCAT ranking: Eligible applicants are ranked by UCAT. No reliable numerical historical comparison is available."
+            "summary": "UCAT: 2200 - within the historical UCAT range of 2077-2226."
           },
           {
             "label": "Important limitation",
@@ -389,20 +405,22 @@
       {
         "stage": "Recommendation",
         "status": "Guidance only",
-        "summary": "Based on ApplySmart's assessment, your academic profile may be competitive for this applicant group. Treat this as guidance for university choice, not a promised interview.",
+        "summary": "Based on ApplySmart's assessment, your UCAT score may be competitive for this applicant group. Treat this as guidance for university choice, not a promised interview.",
         "checks": []
       }
     ],
     "key_reasons": [
-      "The represented Home standard school-leaver meets UEA's supported GCSE, A-level, practical-endorsement and UCAT requirements.",
-      "The result uses The applicant group matching the supplied fee status and entry route.",
-      "You meet the academic requirements. Eligible applicants are ranked by UCAT. No reliable numerical historical comparison is available."
+      "The supported entry requirements are met.",
+      "The result uses Home, Rest of UK applicants.",
+      "Your UCAT score is within the historical UCAT range for this applicant group."
     ],
     "evidence_used": [
       "Official admissions policy",
       "University selection methodology",
       "UCAT policy",
-      "Historical interview data"
+      "Historical interview data",
+      "FOI evidence",
+      "Contextual admissions policy"
     ],
     "evidence_confidence": {
       "level": "Medium",
@@ -415,34 +433,64 @@
     },
     "warnings": [],
     "manual_review_reason": null,
-    "insufficient_evidence_reason": null,
-    "insufficient_evidence_reason_code": null,
+    "manual_review_reason_code": null,
+    "information_needed_reason": null,
+    "missing_information": null,
+    "risk_explanation": null,
     "compact_status": {
       "label": "You meet the academic requirements.",
       "type": "academic_status",
       "tone": "positive"
     },
     "comparison_metrics_title": null,
-    "comparison_metrics": [],
-    "selection_approach_display": null,
-    "selection_metric": null,
+    "comparison_metrics": [
+      {
+        "label": "historical UCAT range",
+        "value": "2077-2226",
+        "difference": "+123"
+      }
+    ],
+    "selection_approach_display": "UEA checks academic eligibility, then ranks eligible applicants by UCAT cognitive total within separate Home and International applicant pools.",
+    "selection_metric": {
+      "type": "ucat",
+      "label": "Your UCAT score",
+      "applicant_value": 2200,
+      "comparison_value": 2077,
+      "comparison_max_value": 2226,
+      "comparison_label": "historical UCAT range",
+      "comparison_label_type": "historical_interview_guide",
+      "comparison_context": null,
+      "difference": 123,
+      "difference_direction": "above",
+      "difference_word": "range",
+      "maximum_value": 2700,
+      "display_mode": "comparison",
+      "display_eligibility": true,
+      "entry_year": null,
+      "caveat": "Historical admissions data provides a benchmark only; it is not a current cut-off or a guarantee of interview."
+    },
     "score_breakdown": null,
     "ucat_comparison": {
-      "comparison_type": "ranking_only",
-      "applicant_ucat": null,
-      "benchmark_min": null,
-      "benchmark_max": null,
-      "benchmark_label": null,
-      "caveat": null,
+      "comparison_type": "historical_range",
+      "applicant_ucat": 2200,
+      "benchmark_min": 2077,
+      "benchmark_max": 2226,
+      "comparison_operator": null,
+      "benchmark_label": "historical UCAT range",
+      "caveat": "Historical admissions data provides a benchmark only; it is not a current cut-off or a guarantee of interview.",
+      "evidence_status": null,
+      "evidence_classification": null,
+      "prediction_band": null,
       "difference_from_benchmark": null,
-      "position": null,
-      "applicant_pool": null,
-      "sjt_policy": "SJT is not used for interview selection.",
+      "position": "within",
+      "applicant_pool": "Home, Rest of UK applicants",
+      "sjt_policy": "Band 3 is not rejected. Band 4 is not implemented as an automatic rejection because the supplied official evidence does not verify that rule.",
       "sjt_outcome": "ignored",
-      "sjt_summary": "SJT is not used for interview selection.",
-      "applicant_sjt_band": null,
+      "sjt_summary": "Band 3 - not used for interview selection.",
+      "applicant_sjt_band": 3,
       "official_ucat_minimum": null
-    }
+    },
+    "ucat_adjustment": null
   },
   "engine_notes": {
     "offer_prediction_scope": "out_of_scope",

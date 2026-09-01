@@ -30,9 +30,23 @@
     },
     "a_level_profile": {
       "subjects": [
-        { "subject_id": "chemistry", "predicted_grade": "A*", "sitting_status": "first_sitting", "practical_endorsement": "pass" },
-        { "subject_id": "biology", "predicted_grade": "A", "sitting_status": "first_sitting", "practical_endorsement": "pass" },
-        { "subject_id": "mathematics", "predicted_grade": "A", "sitting_status": "first_sitting" }
+        {
+          "subject_id": "chemistry",
+          "predicted_grade": "A*",
+          "sitting_status": "first_sitting",
+          "practical_endorsement": "pass"
+        },
+        {
+          "subject_id": "biology",
+          "predicted_grade": "A",
+          "sitting_status": "first_sitting",
+          "practical_endorsement": "pass"
+        },
+        {
+          "subject_id": "mathematics",
+          "predicted_grade": "A",
+          "sitting_status": "first_sitting"
+        }
       ],
       "sitting_status": "first_sitting",
       "science_practical_endorsement": {
@@ -78,9 +92,23 @@
       "overrides": {
         "a_level_profile": {
           "subjects": [
-            { "subject_id": "chemistry", "achieved_grade": "A*", "sitting_status": "first_sitting", "practical_endorsement": "pass" },
-            { "subject_id": "biology", "achieved_grade": "A", "sitting_status": "first_sitting", "practical_endorsement": "pass" },
-            { "subject_id": "mathematics", "achieved_grade": "A", "sitting_status": "first_sitting" }
+            {
+              "subject_id": "chemistry",
+              "achieved_grade": "A*",
+              "sitting_status": "first_sitting",
+              "practical_endorsement": "pass"
+            },
+            {
+              "subject_id": "biology",
+              "achieved_grade": "A",
+              "sitting_status": "first_sitting",
+              "practical_endorsement": "pass"
+            },
+            {
+              "subject_id": "mathematics",
+              "achieved_grade": "A",
+              "sitting_status": "first_sitting"
+            }
           ]
         }
       },
@@ -97,6 +125,10 @@
     {
       "scenario_id": "exeter_contextual_uplift_without_lower_threshold",
       "overrides": {
+        "applicant_group_ids": [
+          "contextual",
+          "widening_participation"
+        ],
         "applicant_identity": {
           "contextual": true,
           "widening_participation": true
@@ -113,20 +145,34 @@
         },
         "a_level_profile": {
           "subjects": [
-            { "subject_id": "chemistry", "predicted_grade": "A*", "sitting_status": "first_sitting", "practical_endorsement": "pass" },
-            { "subject_id": "biology", "predicted_grade": "A*", "sitting_status": "first_sitting", "practical_endorsement": "pass" },
-            { "subject_id": "mathematics", "predicted_grade": "A", "sitting_status": "first_sitting" }
+            {
+              "subject_id": "chemistry",
+              "predicted_grade": "A*",
+              "sitting_status": "first_sitting",
+              "practical_endorsement": "pass"
+            },
+            {
+              "subject_id": "biology",
+              "predicted_grade": "A*",
+              "sitting_status": "first_sitting",
+              "practical_endorsement": "pass"
+            },
+            {
+              "subject_id": "mathematics",
+              "predicted_grade": "A",
+              "sitting_status": "first_sitting"
+            }
           ]
         }
       },
       "expected": {
         "eligibility_status": "eligible",
         "guidance_pool_id": "exeter_home_direct_school_leaver",
-        "interview_band": "realistic",
-        "score": 73,
-        "applicable_max_score": 95,
+        "interview_band": "ambitious",
+        "score": 68,
+        "applicable_max_score": 90,
         "achieved_uplift": 0,
-        "contextual_uplift": 5
+        "contextual_uplift": 0
       }
     },
     {
@@ -144,9 +190,23 @@
         },
         "a_level_profile": {
           "subjects": [
-            { "subject_id": "chemistry", "predicted_grade": "A*", "sitting_status": "first_sitting", "practical_endorsement": "pass" },
-            { "subject_id": "biology", "predicted_grade": "A*", "sitting_status": "first_sitting", "practical_endorsement": "pass" },
-            { "subject_id": "mathematics", "predicted_grade": "A", "sitting_status": "first_sitting" }
+            {
+              "subject_id": "chemistry",
+              "predicted_grade": "A*",
+              "sitting_status": "first_sitting",
+              "practical_endorsement": "pass"
+            },
+            {
+              "subject_id": "biology",
+              "predicted_grade": "A*",
+              "sitting_status": "first_sitting",
+              "practical_endorsement": "pass"
+            },
+            {
+              "subject_id": "mathematics",
+              "predicted_grade": "A",
+              "sitting_status": "first_sitting"
+            }
           ]
         }
       },
@@ -165,9 +225,23 @@
       "overrides": {
         "a_level_profile": {
           "subjects": [
-            { "subject_id": "chemistry", "predicted_grade": "A*", "sitting_status": "first_sitting", "practical_endorsement": "pass" },
-            { "subject_id": "biology", "predicted_grade": "A*", "sitting_status": "first_sitting", "practical_endorsement": "pass" },
-            { "subject_id": "mathematics", "predicted_grade": "A*", "sitting_status": "first_sitting" }
+            {
+              "subject_id": "chemistry",
+              "predicted_grade": "A*",
+              "sitting_status": "first_sitting",
+              "practical_endorsement": "pass"
+            },
+            {
+              "subject_id": "biology",
+              "predicted_grade": "A*",
+              "sitting_status": "first_sitting",
+              "practical_endorsement": "pass"
+            },
+            {
+              "subject_id": "mathematics",
+              "predicted_grade": "A*",
+              "sitting_status": "first_sitting"
+            }
           ]
         }
       },
@@ -184,15 +258,33 @@
     {
       "scenario_id": "exeter_predicted_contextual_category_maximum",
       "overrides": {
+        "applicant_group_ids": [
+          "contextual",
+          "widening_participation"
+        ],
         "applicant_identity": {
           "contextual": true,
           "widening_participation": true
         },
         "a_level_profile": {
           "subjects": [
-            { "subject_id": "chemistry", "predicted_grade": "A*", "sitting_status": "first_sitting", "practical_endorsement": "pass" },
-            { "subject_id": "biology", "predicted_grade": "A*", "sitting_status": "first_sitting", "practical_endorsement": "pass" },
-            { "subject_id": "mathematics", "predicted_grade": "A*", "sitting_status": "first_sitting" }
+            {
+              "subject_id": "chemistry",
+              "predicted_grade": "A*",
+              "sitting_status": "first_sitting",
+              "practical_endorsement": "pass"
+            },
+            {
+              "subject_id": "biology",
+              "predicted_grade": "A*",
+              "sitting_status": "first_sitting",
+              "practical_endorsement": "pass"
+            },
+            {
+              "subject_id": "mathematics",
+              "predicted_grade": "A*",
+              "sitting_status": "first_sitting"
+            }
           ]
         }
       },
@@ -200,10 +292,10 @@
         "eligibility_status": "eligible",
         "guidance_pool_id": "exeter_home_direct_school_leaver",
         "interview_band": "interview_likely",
-        "score": 95,
-        "applicable_max_score": 95,
+        "score": 90,
+        "applicable_max_score": 90,
         "achieved_uplift": 0,
-        "contextual_uplift": 5
+        "contextual_uplift": 0
       }
     },
     {
@@ -221,9 +313,23 @@
         },
         "a_level_profile": {
           "subjects": [
-            { "subject_id": "chemistry", "achieved_grade": "A*", "sitting_status": "first_sitting", "practical_endorsement": "pass" },
-            { "subject_id": "biology", "achieved_grade": "A*", "sitting_status": "first_sitting", "practical_endorsement": "pass" },
-            { "subject_id": "mathematics", "achieved_grade": "A*", "sitting_status": "first_sitting" }
+            {
+              "subject_id": "chemistry",
+              "achieved_grade": "A*",
+              "sitting_status": "first_sitting",
+              "practical_endorsement": "pass"
+            },
+            {
+              "subject_id": "biology",
+              "achieved_grade": "A*",
+              "sitting_status": "first_sitting",
+              "practical_endorsement": "pass"
+            },
+            {
+              "subject_id": "mathematics",
+              "achieved_grade": "A*",
+              "sitting_status": "first_sitting"
+            }
           ]
         }
       },
@@ -240,6 +346,10 @@
     {
       "scenario_id": "exeter_achieved_contextual_category_maximum",
       "overrides": {
+        "applicant_group_ids": [
+          "contextual",
+          "widening_participation"
+        ],
         "applicant_identity": {
           "contextual": true,
           "widening_participation": true
@@ -256,9 +366,23 @@
         },
         "a_level_profile": {
           "subjects": [
-            { "subject_id": "chemistry", "achieved_grade": "A*", "sitting_status": "first_sitting", "practical_endorsement": "pass" },
-            { "subject_id": "biology", "achieved_grade": "A*", "sitting_status": "first_sitting", "practical_endorsement": "pass" },
-            { "subject_id": "mathematics", "achieved_grade": "A*", "sitting_status": "first_sitting" }
+            {
+              "subject_id": "chemistry",
+              "achieved_grade": "A*",
+              "sitting_status": "first_sitting",
+              "practical_endorsement": "pass"
+            },
+            {
+              "subject_id": "biology",
+              "achieved_grade": "A*",
+              "sitting_status": "first_sitting",
+              "practical_endorsement": "pass"
+            },
+            {
+              "subject_id": "mathematics",
+              "achieved_grade": "A*",
+              "sitting_status": "first_sitting"
+            }
           ]
         }
       },
@@ -266,10 +390,10 @@
         "eligibility_status": "eligible",
         "guidance_pool_id": "exeter_home_direct_school_leaver",
         "interview_band": "interview_likely",
-        "score": 101,
-        "applicable_max_score": 105,
+        "score": 96,
+        "applicable_max_score": 100,
         "achieved_uplift": 10,
-        "contextual_uplift": 5
+        "contextual_uplift": 0
       }
     },
     {
@@ -283,9 +407,23 @@
         },
         "a_level_profile": {
           "subjects": [
-            { "subject_id": "chemistry", "predicted_grade": "A*", "sitting_status": "first_sitting", "practical_endorsement": "pass" },
-            { "subject_id": "biology", "predicted_grade": "A*", "sitting_status": "first_sitting", "practical_endorsement": "pass" },
-            { "subject_id": "mathematics", "predicted_grade": "A", "sitting_status": "first_sitting" }
+            {
+              "subject_id": "chemistry",
+              "predicted_grade": "A*",
+              "sitting_status": "first_sitting",
+              "practical_endorsement": "pass"
+            },
+            {
+              "subject_id": "biology",
+              "predicted_grade": "A*",
+              "sitting_status": "first_sitting",
+              "practical_endorsement": "pass"
+            },
+            {
+              "subject_id": "mathematics",
+              "predicted_grade": "A",
+              "sitting_status": "first_sitting"
+            }
           ]
         }
       },
@@ -319,6 +457,126 @@
       }
     },
     {
+      "scenario_id": "exeter_structured_contextual_aab_plus5",
+      "overrides": {
+        "contextual_profile": {
+          "financial_support": {
+            "free_school_meals": "yes"
+          }
+        },
+        "a_level_profile": {
+          "subjects": [
+            {
+              "subject_id": "chemistry",
+              "predicted_grade": "A",
+              "sitting_status": "first_sitting",
+              "practical_endorsement": "pass"
+            },
+            {
+              "subject_id": "biology",
+              "predicted_grade": "A",
+              "sitting_status": "first_sitting",
+              "practical_endorsement": "pass"
+            },
+            {
+              "subject_id": "mathematics",
+              "predicted_grade": "B",
+              "sitting_status": "first_sitting"
+            }
+          ]
+        }
+      },
+      "expected": {
+        "eligibility_status": "eligible",
+        "guidance_pool_id": "exeter_home_direct_school_leaver",
+        "interview_band": "high_risk",
+        "score": 55,
+        "applicable_max_score": 95,
+        "achieved_uplift": 0,
+        "contextual_uplift": 5
+      }
+    },
+    {
+      "scenario_id": "exeter_predicted_structured_contextual_category_maximum",
+      "overrides": {
+        "contextual_profile": {
+          "financial_support": {
+            "free_school_meals": "yes"
+          }
+        },
+        "a_level_profile": {
+          "subjects": [
+            {
+              "subject_id": "chemistry",
+              "predicted_grade": "A*",
+              "sitting_status": "first_sitting",
+              "practical_endorsement": "pass"
+            },
+            {
+              "subject_id": "biology",
+              "predicted_grade": "A*",
+              "sitting_status": "first_sitting",
+              "practical_endorsement": "pass"
+            },
+            {
+              "subject_id": "mathematics",
+              "predicted_grade": "A*",
+              "sitting_status": "first_sitting"
+            }
+          ]
+        }
+      },
+      "expected": {
+        "eligibility_status": "eligible",
+        "guidance_pool_id": "exeter_home_direct_school_leaver",
+        "interview_band": "interview_likely",
+        "score": 95,
+        "applicable_max_score": 95,
+        "achieved_uplift": 0,
+        "contextual_uplift": 5
+      }
+    },
+    {
+      "scenario_id": "exeter_achieved_structured_contextual_category_maximum",
+      "overrides": {
+        "contextual_profile": {
+          "financial_support": {
+            "free_school_meals": "yes"
+          }
+        },
+        "a_level_profile": {
+          "subjects": [
+            {
+              "subject_id": "chemistry",
+              "achieved_grade": "A*",
+              "sitting_status": "first_sitting",
+              "practical_endorsement": "pass"
+            },
+            {
+              "subject_id": "biology",
+              "achieved_grade": "A*",
+              "sitting_status": "first_sitting",
+              "practical_endorsement": "pass"
+            },
+            {
+              "subject_id": "mathematics",
+              "achieved_grade": "A*",
+              "sitting_status": "first_sitting"
+            }
+          ]
+        }
+      },
+      "expected": {
+        "eligibility_status": "eligible",
+        "guidance_pool_id": "exeter_home_direct_school_leaver",
+        "interview_band": "interview_likely",
+        "score": 105,
+        "applicable_max_score": 105,
+        "achieved_uplift": 10,
+        "contextual_uplift": 5
+      }
+    },
+    {
       "scenario_id": "exeter_graduate_gamsat_manual_review",
       "overrides": {
         "applicant_identity": {
@@ -346,7 +604,11 @@
           "gamsat": {
             "overall_score": 62,
             "score_scale": 100,
-            "section_scores": [61, 63, 62]
+            "section_scores": [
+              61,
+              63,
+              62
+            ]
           }
         },
         "graduate_profile": {

@@ -3,7 +3,7 @@
   "profile_id": "southampton-a100",
   "profile_status": "activated_for_scoped_eligibility_and_interview_guidance",
   "verification_status": "official_and_foi_verified_exact_scoring_undisclosed",
-  "last_updated": "2026-07-14",
+  "last_updated": "2026-08-21",
   "selection_approach_display": "Southampton checks academic eligibility, then ranks eligible BM5 applicants by UCAT cognitive total within separate Home and International applicant pools.",
   "university": {
     "name": "University of Southampton",
@@ -430,6 +430,36 @@
             ]
           }
         ],
+        "grade_requirements": [
+          {
+            "requirement_id": "southampton_scottish_higher_aaaab",
+            "qualification_level": "higher",
+            "grade_profile": [
+              "A",
+              "A",
+              "A",
+              "A",
+              "B"
+            ],
+            "required_subject_ids": [
+              "biology"
+            ],
+            "one_of_subject_groups": [
+              {
+                "group_id": "second_science",
+                "minimum_required": 1,
+                "subject_ids": [
+                  "chemistry",
+                  "physics",
+                  "psychology",
+                  "sociology",
+                  "environmental_studies",
+                  "geography"
+                ]
+              }
+            ]
+          }
+        ],
         "advanced_higher_offer": "case_by_case",
         "notes": "Automatic execution covers the Higher AAAAB route with Biology plus one accepted science. Advanced Higher edge cases remain manual review because the research says they are considered case-by-case."
       },
@@ -507,15 +537,17 @@
     "contextual": {
       "available": true,
       "criteria": [
-        "Care leaver for at least 3 months",
-        "Low Participation Neighbourhood postcode",
-        "Sustained widening-participation or outreach programme participation",
-        "IMD Quintile 1 postcode",
+        "Care experience for at least 3 months",
+        "POLAR4 Quintile 1 or TUNDRA MSOA Quintile 1 postcode",
+        "Recognised Southampton widening-participation or outreach programme participation",
+        "English IMD decile 1 or 2 postcode",
         "Free School Meals after age 14",
-        "Estranged student"
+        "Estranged student",
+        "UCAT bursary voucher"
       ],
       "adjustments": [
         "Home fee-paying school-leaver applicants verified as meeting at least two contextual flags may receive an AAB A-level offer.",
+        "No deterministic reduced Scottish contextual grade profile is published for BM5 A100.",
         "No lower UCAT threshold, extra points, uplift or guaranteed interview is applied to BM5 A100 contextual applicants."
       ],
       "notes": "Contextual consideration is Home-only and does not apply to International, Graduate or Mature Non-Graduate applicants."
@@ -721,20 +753,20 @@
     ],
     "criteria": [
       {
-        "criterion_id": "care_leaver",
-        "description": "Care leaver for at least 3 months."
+        "criterion_id": "care_experience_three_months",
+        "description": "Care experience for at least 3 months."
       },
       {
         "criterion_id": "low_participation_neighbourhood",
-        "description": "Low Participation Neighbourhood postcode."
+        "description": "POLAR4 Quintile 1 or TUNDRA MSOA Quintile 1 postcode."
       },
       {
-        "criterion_id": "sustained_wp_outreach",
-        "description": "Sustained widening-participation or outreach programme participation."
+        "criterion_id": "access_southampton_participation",
+        "description": "Recognised Southampton widening-participation or outreach programme participation."
       },
       {
-        "criterion_id": "imd_quintile_1",
-        "description": "IMD Quintile 1 postcode."
+        "criterion_id": "english_imd_decile_1_or_2",
+        "description": "English IMD decile 1 or 2 postcode. SIMD is not automatically mapped to this criterion."
       },
       {
         "criterion_id": "free_school_meals_post_14",
@@ -743,6 +775,10 @@
       {
         "criterion_id": "estranged_student",
         "description": "Estranged student."
+      },
+      {
+        "criterion_id": "ucat_bursary",
+        "description": "UCAT bursary voucher recipient."
       }
     ],
     "adjustments": [
@@ -751,11 +787,36 @@
         "type": "a_level_offer_reduction",
         "value": "AAB",
         "minimum_contextual_flags": 2,
-        "applies_to": "home_fee_paying_school_leavers_only"
+        "applies_to": "home_fee_paying_school_leavers_only",
+        "qualification_scope": [
+          "a_level"
+        ]
+      },
+      {
+        "adjustment_id": "bm5_a100_scottish_contextual_reduced_offer_unpublished",
+        "type": "information_needed",
+        "value": null,
+        "applies_to": "contextual_applicants_presenting_scottish_qualifications",
+        "qualification_scope": [
+          "scottish"
+        ],
+        "notes": "Southampton contextual status may be confirmed through Step 6 evidence, but ApplySmart must not invent a reduced Scottish grade requirement."
       }
     ],
     "guaranteed_interview_rules": [],
-    "notes": "BM6 A102 widening participation has separate requirements and is outside this A100 profile."
+    "notes": "BM6 A102 widening participation has separate requirements and is outside this A100 profile.",
+    "contextual_eligibility": {
+      "evaluator_id": "southampton_contextual_medicine_a100",
+      "controls_group_routing": true,
+      "evidence_source": "step_6_contextual_profile",
+      "minimum_contextual_flags": 2,
+      "activated_applicant_group_ids": [
+        "contextual",
+        "widening_participation"
+      ],
+      "manual_review_when_evidence_incomplete": true,
+      "notes": "Southampton BM5 contextual eligibility is determined from shared Step 6 contextual evidence. Legacy Southampton contextual flags do not independently activate the route."
+    }
   },
   "ranking_pools": [
     {
@@ -1005,7 +1066,7 @@
   ],
   "validation": {
     "source_status": "official_and_foi_verified_exact_scoring_undisclosed",
-    "last_verified": "2026-07-14",
+    "last_verified": "2026-08-21",
     "confidence_level": "Medium",
     "completion_status": "complete_for_supported_scope_with_documented_gaps",
     "known_unknowns": [

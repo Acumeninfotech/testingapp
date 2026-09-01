@@ -4,7 +4,7 @@
   "confidence": "medium",
   "evidence": {
     "classification": "official_selection_method_with_foi_verified_historical_cutoffs",
-    "summary": "Official route-specific academic and admissions-test gates, separate ranking pools, official candidate-decile guidance and FOI-verified E2025 cut-offs. Historical cut-offs are guidance only; live cut-offs remain dynamic.",
+    "summary": "Official route-specific academic and admissions-test gates, separate ranking pools, official candidate guidance, the official E2026 Home UCAT cut-off and FOI-verified E2025 contextual/international cut-offs. Historical cut-offs and estimated guidance are not deterministic current-cycle outcomes.",
     "source_ids": [
       "liverpool_a100_departmental_supplement_2027",
       "liverpool_research_team_verified_update_2026",
@@ -16,6 +16,7 @@
     "explicitly_blocked_applicant_groups": [
       "mature_applicant"
     ],
+    "contextual_evaluator_controls_group_routing": true,
     "qualification_routes": {
       "supported": [
         "a_level",
@@ -33,6 +34,9 @@
         "unknown"
       ]
     },
+    "use_course_eligibility_for_qualification_routes": [
+      "scottish"
+    ],
     "gcse": {
       "minimum_count": 9,
       "use_exact_subject_list": false,
@@ -466,23 +470,39 @@
         ]
       },
       "metric": "ucat_total",
-      "historical_cutoff": {
-        "entry_cycle": "E2025",
-        "value": 1733,
-        "evidence_classification": "foi_verified_historical_guidance"
-      },
       "band_rules": [
         {
-          "band": "realistic",
+          "band": "very_strong_interview_potential",
           "operator": "greater_than_or_equal",
-          "value": 1733,
-          "evidence_classification": "foi_verified_historical_guidance"
+          "value": 2100,
+          "evidence_status": "applysmart_derived"
+        },
+        {
+          "band": "interview_likely",
+          "operator": "between_inclusive",
+          "min": 2010,
+          "max": 2099,
+          "evidence_status": "applysmart_derived"
+        },
+        {
+          "band": "realistic",
+          "operator": "between_inclusive",
+          "min": 1960,
+          "max": 2009,
+          "evidence_status": "applysmart_derived"
         },
         {
           "band": "ambitious",
+          "operator": "between_inclusive",
+          "min": 1880,
+          "max": 1959,
+          "evidence_status": "applysmart_derived"
+        },
+        {
+          "band": "high_risk",
           "operator": "less_than",
-          "value": 1733,
-          "evidence_classification": "foi_verified_historical_guidance"
+          "value": 1880,
+          "evidence_status": "applysmart_derived"
         }
       ]
     },
@@ -511,9 +531,23 @@
       },
       "band_rules": [
         {
-          "band": "realistic",
+          "band": "very_strong_interview_potential",
           "operator": "greater_than_or_equal",
-          "value": 2108,
+          "value": 2208,
+          "evidence_classification": "applysmart_interpretation_of_foi_verified_historical_guidance"
+        },
+        {
+          "band": "interview_likely",
+          "operator": "between_inclusive",
+          "min": 2138,
+          "max": 2207,
+          "evidence_classification": "applysmart_interpretation_of_foi_verified_historical_guidance"
+        },
+        {
+          "band": "realistic",
+          "operator": "between_inclusive",
+          "min": 2108,
+          "max": 2137,
           "evidence_classification": "foi_verified_historical_guidance"
         },
         {
@@ -545,36 +579,43 @@
         "reason": "Candidate-pool deciles cannot be calculated without the live Liverpool pool distribution."
       },
       "historical_cutoff": {
-        "entry_cycle": "E2025",
-        "value": 1935,
-        "evidence_classification": "foi_verified_historical_guidance"
+        "entry_cycle": "E2026",
+        "value": 1960,
+        "evidence_classification": "official_published_threshold"
       },
       "band_rules": [
         {
           "band": "very_strong_interview_potential",
           "operator": "greater_than_or_equal",
-          "value": 2035,
-          "evidence_classification": "applysmart_interpretation_of_foi_verified_historical_guidance"
+          "value": 2100,
+          "evidence_status": "applysmart_derived"
         },
         {
           "band": "interview_likely",
           "operator": "between_inclusive",
-          "min": 1965,
-          "max": 2034,
-          "evidence_classification": "applysmart_interpretation_of_foi_verified_historical_guidance"
+          "min": 2010,
+          "max": 2099,
+          "evidence_status": "applysmart_derived"
         },
         {
           "band": "realistic",
           "operator": "between_inclusive",
-          "min": 1935,
-          "max": 1964,
-          "evidence_classification": "foi_verified_historical_guidance"
+          "min": 1960,
+          "max": 2009,
+          "evidence_status": "applysmart_derived"
         },
         {
           "band": "ambitious",
+          "operator": "between_inclusive",
+          "min": 1880,
+          "max": 1959,
+          "evidence_status": "applysmart_derived"
+        },
+        {
+          "band": "high_risk",
           "operator": "less_than",
-          "value": 1935,
-          "evidence_classification": "foi_verified_historical_guidance"
+          "value": 1880,
+          "evidence_status": "applysmart_derived"
         }
       ]
     }

@@ -181,7 +181,7 @@ for (const testCase of fixture.automatic_rejection_cases) {
 
 const homeResult = classifyInterviewBand(course, config, homeApplicant);
 assert.strictEqual(homeResult.eligibility.status, 'eligible');
-assert.strictEqual(homeResult.guidance_pool_id, 'home_rest_of_uk_school_leaver');
+assert.strictEqual(homeResult.guidance_pool_id, 'ruk_standard');
 assert.strictEqual(homeResult.canonical_interview_band, 'realistic');
 assert.strictEqual(homeResult.ranking.value, 27.1);
 assert.strictEqual(homeResult.ranking.max, 40);

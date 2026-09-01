@@ -240,8 +240,11 @@
       "scenario_id": "access_to_leeds_pool_prediction_withheld",
       "overrides": {
         "applicant_identity": {
-          "contextual": true,
-          "widening_participation": true
+          "contextual": false,
+          "widening_participation": false,
+          "contextual_flags": {
+            "access_to_leeds": true
+          }
         },
         "a_level_profile": {
           "subjects": [
@@ -263,6 +266,16 @@
               "sitting_status": "first_sitting"
             }
           ]
+        },
+        "contextual_profile": {
+          "access_programmes": {
+            "other_programmes": [
+              {
+                "programme_id": "access_to_leeds",
+                "status": "completed"
+              }
+            ]
+          }
         }
       },
       "expected": {

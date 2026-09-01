@@ -8,7 +8,9 @@ function normaliseId(value) {
 
 function isRestOfUkFeeStatus(value) {
   const feeStatus = normaliseId(value);
-  return feeStatus === 'rest_of_uk' || feeStatus === 'rest_of_uk_roi_fee_rate';
+  return feeStatus === 'ruk' ||
+    feeStatus === 'rest_of_uk' ||
+    feeStatus === 'rest_of_uk_roi_fee_rate';
 }
 
 function feeStatusApplicantGroupIds(value) {
@@ -42,7 +44,36 @@ function feeStatusApplicantGroupIds(value) {
   return groups;
 }
 
+const CONTEXTUAL_FLAG_GROUP_ALIASES = {
+  asylum_seeker: ['refugee_or_asylum_seeker'],
+  refugee: ['refugee_or_asylum_seeker'],
+  refugee_or_asylum_seeker: ['refugee', 'asylum_seeker']
+};
+
+function contextualFlagApplicantGroupIds(flags = {}) {
+  const groups = new Set();
+
+  for (const [flagId, value] of Object.entries(flags || {})) {
+    if (value !== true) {
+      continue;
+    }
+
+    const groupId = normaliseId(flagId);
+    if (!groupId) {
+      continue;
+    }
+    groups.add(groupId);
+
+    for (const alias of CONTEXTUAL_FLAG_GROUP_ALIASES[groupId] || []) {
+      groups.add(alias);
+    }
+  }
+
+  return [...groups];
+}
+
 module.exports = {
+  contextualFlagApplicantGroupIds,
   feeStatusApplicantGroupIds,
   isRestOfUkFeeStatus,
   normaliseId

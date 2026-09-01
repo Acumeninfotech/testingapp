@@ -157,7 +157,10 @@ assert.ok(
 );
 
 for (const scenario of fixture.scenarios) {
-  const applicant = merge(fixture.base_applicant, scenario.overrides);
+  const scenarioBase = scenario.applicant_base === 'scottish'
+    ? fixture.scottish_base_applicant
+    : fixture.base_applicant;
+  const applicant = merge(scenarioBase, scenario.overrides);
   const result = classifyInterviewBand(course, config, applicant);
   const expected = scenario.expected;
 
@@ -238,6 +241,42 @@ for (const scenario of fixture.scenarios) {
   assert.strictEqual(result.offer_prediction_status, undefined);
 }
 
+for (const scenarioId of [
+  'model_a_year13_ambitious_zone_score',
+  'cross_qualification_scotland_a_level',
+  'cross_qualification_england_scottish',
+  'cross_qualification_scotland_scottish'
+]) {
+  assert.ok(
+    fixture.scenarios.some((scenario) => scenario.scenario_id === scenarioId),
+    `Lincoln four-route matrix must include ${scenarioId}`
+  );
+}
+
+for (const scenarioId of [
+  'cross_qualification_england_scottish',
+  'cross_qualification_scotland_scottish'
+]) {
+  const scenario = fixture.scenarios.find((candidate) => candidate.scenario_id === scenarioId);
+  const applicant = merge(fixture.scottish_base_applicant, scenario.overrides);
+  const result = classifyInterviewBand(course, config, applicant);
+  assert.strictEqual(
+    result.ranking.components.model_a_gcse_score.applicable,
+    false,
+    `${scenarioId}: Scottish applicants must not receive invented GCSE points`
+  );
+  assert.strictEqual(
+    result.ranking.components.model_b_ucat_cognitive_doubled_scottish.value,
+    24,
+    `${scenarioId}: Scottish route must use doubled Model B UCAT points`
+  );
+  assert.strictEqual(
+    result.ranking.components.model_b_sjt_doubled_scottish.value,
+    20,
+    `${scenarioId}: Scottish route must use doubled Model B SJT points`
+  );
+}
+
 const cappedScenario = fixture.scenarios.find((scenario) =>
   scenario.scenario_id === 'model_a_contextual_cap_12'
 );
@@ -254,6 +293,50 @@ assert.match(
   /final selection score is capped at 60/i,
   'Capped Lincoln result card must explain that raw total was capped.'
 );
+
+const legacyContextualOnlyApplicant = merge(fixture.base_applicant, {
+  applicant_group_ids: [
+    'contextual',
+    'widening_participation',
+    'lincoln_care_leaver',
+    'lincoln_mem2_q1',
+    'lincoln_ucat_bursary',
+    'lincolnshire_residence'
+  ],
+  applicant_identity: {
+    contextual: true,
+    widening_participation: true,
+    contextual_flags: {
+      care_leaver: true,
+      mem2_q1: true,
+      ucat_bursary: true,
+      lincolnshire_residence: true
+    }
+  }
+});
+const legacyContextualOnlyResult = classifyInterviewBand(
+  course,
+  config,
+  legacyContextualOnlyApplicant
+);
+assert.strictEqual(
+  legacyContextualOnlyResult.ranking.components.model_a_contextual_capped.value,
+  0,
+  'Legacy Lincoln flags and raw applicant-group IDs must not award contextual points.'
+);
+for (const groupId of [
+  'contextual',
+  'widening_participation',
+  'lincoln_care_leaver',
+  'lincoln_mem2_q1',
+  'lincoln_ucat_bursary',
+  'lincolnshire_residence'
+]) {
+  assert.ok(
+    !legacyContextualOnlyResult.applicant_group_ids.includes(groupId),
+    `Legacy-only applicant must not retain activated Lincoln contextual group ${groupId}`
+  );
+}
 
 const year13 = classifyInterviewBand(course, config, fixture.base_applicant);
 const achieved = classifyInterviewBand(

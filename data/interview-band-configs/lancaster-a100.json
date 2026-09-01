@@ -13,9 +13,41 @@
   },
   "eligibility": {
     "international_english_language_required": true,
+    "contextual_evaluator_controls_group_routing": true,
+    "map_override": {
+      "apply_ucat_guidance_band": false,
+      "band_id": "lancaster_access_to_medicine_guaranteed_interview",
+      "applicant_facing_explanation": "Eligible verified Lancaster Access to Medicine completers receive a guaranteed interview once the contextual, academic and SJT requirements are confirmed.",
+      "source_band_id": "lancaster_access_to_medicine_guaranteed_interview",
+      "result_card_id": "lancaster_access_to_medicine_guaranteed_interview",
+      "selection_route_id": "lancaster_access_to_medicine_guaranteed_interview",
+      "interview_outcome": "guaranteed_interview",
+      "requires_eligibility_status": "eligible",
+      "requires_confirmed_contextual_eligibility": true,
+      "confirmed_contextual_statuses": [
+        "contextual",
+        "confirmed"
+      ],
+      "excluded_sjt_bands": [
+        4
+      ],
+      "match": {
+        "all_group_ids": [
+          "home_fee",
+          "contextual",
+          "widening_participation"
+        ]
+      },
+      "required_evidence": {
+        "programme_id": "lancaster_access_to_medicine",
+        "status": "completed"
+      },
+      "applicant_evidence_path": "contextual_profile.access_programmes.other_programmes"
+    },
     "qualification_routes": {
       "supported": [
         "a_level",
+        "scottish",
         "international_qualification",
         "graduate"
       ],
@@ -28,6 +60,7 @@
         "unknown"
       ]
     },
+    "derived_applicant_groups": [],
     "gcse": {
       "minimum_count": 8,
       "use_exact_subject_list": false,
@@ -59,7 +92,11 @@
     "a_level": {
       "routes": [
         {
-          "route_id": "standard_stage_1_aab",
+          "route_id": "a_level_epq_alternative",
+          "academic_pathway": "epq_alternative",
+          "pathway_id": "lancaster_epq_alternative",
+          "requires_epq": true,
+          "epq_minimum_grade": "B",
           "applies_to_group_ids": [
             "school_leaver"
           ],
@@ -70,6 +107,34 @@
             "A",
             "A",
             "B"
+          ],
+          "required_subject_ids": [],
+          "one_of_subject_groups": [
+            {
+              "minimum_required": 2,
+              "subject_ids": [
+                "biology",
+                "chemistry",
+                "psychology"
+              ]
+            }
+          ],
+          "excluded_subject_ids": []
+        },
+        {
+          "route_id": "a_level_standard_offer",
+          "academic_pathway": "standard",
+          "pathway_id": "lancaster_standard_offer",
+          "applies_to_group_ids": [
+            "school_leaver"
+          ],
+          "excluded_group_ids": [
+            "resit_applicant"
+          ],
+          "grade_profile": [
+            "A",
+            "A",
+            "A"
           ],
           "required_subject_ids": [],
           "one_of_subject_groups": [
@@ -115,7 +180,10 @@
     "graduate": {
       "automatic_degree_classification_check_only": true,
       "full_academic_review_required": true
-    }
+    },
+    "use_course_eligibility_for_qualification_routes": [
+      "scottish"
+    ]
   },
   "score_model": {
     "type": "ranking_metric",
@@ -129,11 +197,11 @@
     "historical_guidance_only": true,
     "legacy_3600_conversion_used": false,
     "band_policy": {
-      "realistic": "From the applicable published 2026-entry threshold up to 29 points above it (Home standard pool). This is an ApplySmart confidence interpretation of historical evidence, not an official university category or cut-off.",
+      "realistic": "From the applicable published 2026-entry Home pool threshold up to 29 points above it. This is an ApplySmart confidence interpretation of historical evidence, not an official university category or cut-off.",
       "ambitious": "Within the published 10-point Home borderline interval where prior academic performance was also considered.",
       "high_risk": "Below the published threshold and, for Home pools, below the borderline interval.",
-      "interview_likely": "ApplySmart interpretation only: 30 to 99 points above the published 2026-entry threshold for the Home standard pool. Not an official university interview category, cut-off or guarantee of interview.",
-      "very_strong_interview_potential": "ApplySmart interpretation only: at least 100 points above the published 2026-entry threshold for the Home standard pool. Not an official university interview category, cut-off or guarantee of interview."
+      "interview_likely": "ApplySmart interpretation only: 30 to 99 points above the applicable published 2026-entry Home pool threshold. Not an official university interview category, cut-off or guarantee of interview.",
+      "very_strong_interview_potential": "ApplySmart interpretation only: at least 100 points above the applicable published 2026-entry Home pool threshold. Not an official university interview category, cut-off or guarantee of interview."
     }
   },
   "guidance_pools": [
@@ -175,8 +243,7 @@
         ],
         "any_group_ids": [
           "contextual",
-          "widening_participation",
-          "care_experienced"
+          "widening_participation"
         ],
         "excluded_group_ids": [
           "international_fee",
@@ -186,9 +253,21 @@
       "metric": "ucat_total",
       "band_rules": [
         {
-          "band": "realistic",
+          "band": "very_strong_interview_potential",
           "operator": "greater_than_or_equal",
-          "value": 1870
+          "value": 1970
+        },
+        {
+          "band": "interview_likely",
+          "operator": "between_inclusive",
+          "min": 1900,
+          "max": 1969
+        },
+        {
+          "band": "realistic",
+          "operator": "between_inclusive",
+          "min": 1870,
+          "max": 1899
         },
         {
           "band": "ambitious",
@@ -214,7 +293,6 @@
         "excluded_group_ids": [
           "contextual",
           "widening_participation",
-          "care_experienced",
           "international_fee",
           "graduate_applicant"
         ]

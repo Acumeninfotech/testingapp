@@ -7,6 +7,7 @@ import {
   validateAccessToHeStep,
   validateALevelStep,
   validateBtecStep,
+  validateContextualStep,
   validateEnglishLanguageStep,
   validateGcseStep,
   validateGraduateStep,
@@ -26,7 +27,8 @@ describe('validateIdentityStep', () => {
     expect(errors.applicant_type).toBeTruthy();
     expect(errors.fee_status).toBeTruthy();
     expect(errors.domicile).toBeTruthy();
-    expect(errors.date_of_birth).toBeTruthy();
+    expect(errors.age_at_course_start_band).toBeTruthy();
+    expect(errors.current_uk_residence).toBeTruthy();
   });
 
   it('passes when all fields are filled correctly', () => {
@@ -34,17 +36,89 @@ describe('validateIdentityStep', () => {
     profile.applicant_identity.applicant_type = 'school_leaver';
     profile.applicant_identity.fee_status = 'home';
     profile.applicant_identity.domicile = 'england';
-    profile.applicant_identity.date_of_birth = '2005-01-01';
+    profile.applicant_identity.age_at_course_start_band = 'age_18';
+    profile.applicant_identity.current_uk_residence = 'yes';
     expect(hasErrors(validateIdentityStep(profile))).toBe(false);
   });
 
-  it('rejects an unparseable date of birth', () => {
+  it('requires reconfirmation for the legacy broad age value', () => {
     const profile = createEmptyProfile();
     profile.applicant_identity.applicant_type = 'school_leaver';
     profile.applicant_identity.fee_status = 'home';
     profile.applicant_identity.domicile = 'england';
-    profile.applicant_identity.date_of_birth = 'not-a-date';
-    expect(validateIdentityStep(profile).date_of_birth).toBeTruthy();
+    profile.applicant_identity.age_at_course_start_band = 'age_18_or_over_legacy';
+    profile.applicant_identity.current_uk_residence = 'yes';
+
+    expect(validateIdentityStep(profile).age_at_course_start_band).toMatch(/too broad/i);
+  });
+
+  it('rejects a missing age band', () => {
+    const profile = createEmptyProfile();
+    profile.applicant_identity.applicant_type = 'school_leaver';
+    profile.applicant_identity.fee_status = 'home';
+    profile.applicant_identity.domicile = 'england';
+    expect(validateIdentityStep(profile).age_at_course_start_band).toBeTruthy();
+  });
+
+  it('rejects a missing current UK residence answer', () => {
+    const profile = createEmptyProfile();
+    profile.applicant_identity.applicant_type = 'school_leaver';
+    profile.applicant_identity.fee_status = 'home';
+    profile.applicant_identity.domicile = 'england';
+    profile.applicant_identity.age_at_course_start_band = 'age_19';
+    expect(validateIdentityStep(profile).current_uk_residence).toBeTruthy();
+  });
+});
+
+describe('validateContextualStep', () => {
+  it('accepts empty placeholders as null values for Home area dropdowns', () => {
+    const profile = createEmptyProfile();
+
+    profile.contextual_profile.home_area_region.home_region = null;
+    profile.contextual_profile.home_area_region.specific_home_area = null;
+    profile.contextual_profile.home_area_region.school_area = null;
+
+    expect(validateContextualStep(profile).home_region).toBeUndefined();
+    expect(validateContextualStep(profile).specific_home_area).toBeUndefined();
+    expect(validateContextualStep(profile).school_area).toBeUndefined();
+  });
+
+  it('accepts singular school-area values and rejects invalid values', () => {
+    const profile = createEmptyProfile();
+
+    profile.contextual_profile.home_area_region.school_area = 'bristol_bs_ba_state_school';
+    expect(validateContextualStep(profile).school_area).toBeUndefined();
+
+    profile.contextual_profile.home_area_region.school_area = 'none';
+    expect(validateContextualStep(profile).school_area).toBeUndefined();
+
+    profile.contextual_profile.home_area_region.school_area = 'unknown';
+    expect(validateContextualStep(profile).school_area).toBeUndefined();
+
+    profile.contextual_profile.home_area_region.school_area = 'not_a_school_area' as typeof profile.contextual_profile.home_area_region.school_area;
+    expect(validateContextualStep(profile).school_area).toBeTruthy();
+  });
+
+  it('accepts the new factual school-attendance and personal-circumstance values', () => {
+    const profile = createEmptyProfile();
+    profile.contextual_profile.school_education.attended_uk_school_or_college_for_gcse_or_equivalent = 'yes';
+    profile.contextual_profile.school_education.attended_uk_school_or_college_for_post16_or_equivalent = 'not_sure';
+    profile.contextual_profile.personal_circumstances.care_over_three_months = 'no';
+    profile.contextual_profile.personal_circumstances.uk_refugee_status_granted = 'prefer_not_to_say';
+    profile.contextual_profile.personal_circumstances.ukrainian_visa_scheme = 'ukraine_family_scheme';
+
+    expect(validateContextualStep(profile).school_education_attended_uk_school_or_college_for_gcse_or_equivalent).toBeUndefined();
+    expect(validateContextualStep(profile).personal_circumstances_ukrainian_visa_scheme).toBeUndefined();
+  });
+
+  it('rejects invalid new factual contextual values', () => {
+    const profile = createEmptyProfile();
+    profile.contextual_profile.school_education.attended_uk_school_or_college_for_gcse_or_equivalent = 'maybe' as never;
+    profile.contextual_profile.personal_circumstances.ukrainian_visa_scheme = 'temporary_scheme' as never;
+
+    const errors = validateContextualStep(profile);
+    expect(errors.school_education_attended_uk_school_or_college_for_gcse_or_equivalent).toBeTruthy();
+    expect(errors.personal_circumstances_ukrainian_visa_scheme).toBeTruthy();
   });
 });
 
@@ -123,6 +197,17 @@ describe('validateGcseStep', () => {
 });
 
 describe('validateALevelStep', () => {
+  function validALevelProfile() {
+    const profile = createEmptyProfile();
+    profile.a_level_profile.subjects = [
+      { subject_id: 'chemistry', predicted_grade: 'A', achieved_grade: '', practical_endorsement: 'pass' },
+      { subject_id: 'biology', predicted_grade: 'A', achieved_grade: '', practical_endorsement: 'pass' },
+      { subject_id: 'mathematics', predicted_grade: 'A', achieved_grade: '', practical_endorsement: 'not_applicable' },
+    ];
+    profile.a_level_profile.completed_in_one_sitting = true;
+    return profile;
+  }
+
   it('requires three subjects with grades', () => {
     const errors = validateALevelStep(createEmptyProfile());
     expect(hasErrors(errors)).toBe(true);
@@ -152,13 +237,46 @@ describe('validateALevelStep', () => {
   });
 
   it('passes for three valid non-science-conflicting subjects', () => {
-    const profile = createEmptyProfile();
-    profile.a_level_profile.subjects = [
-      { subject_id: 'chemistry', predicted_grade: 'A', achieved_grade: '', practical_endorsement: 'pass' },
-      { subject_id: 'biology', predicted_grade: 'A', achieved_grade: '', practical_endorsement: 'pass' },
-      { subject_id: 'mathematics', predicted_grade: 'A', achieved_grade: '', practical_endorsement: 'not_applicable' },
-    ];
-    profile.a_level_profile.completed_in_one_sitting = true;
+    const profile = validALevelProfile();
+    expect(hasErrors(validateALevelStep(profile))).toBe(false);
+  });
+
+  it('does not require EPQ when it is not taken, planned, or absent from a legacy profile', () => {
+    const notTaken = validALevelProfile();
+    notTaken.a_level_profile.epq = { status: 'not_taken', grade: null };
+    expect(validateALevelStep(notTaken).epq_grade).toBeUndefined();
+
+    const planning = validALevelProfile();
+    planning.a_level_profile.epq = { status: 'planning', grade: null };
+    expect(validateALevelStep(planning).epq_grade).toBeUndefined();
+
+    const legacy = validALevelProfile();
+    delete legacy.a_level_profile.epq;
+    expect(validateALevelStep(legacy).epq_grade).toBeUndefined();
+  });
+
+  it('requires a grade for predicted and achieved EPQ statuses', () => {
+    const predicted = validALevelProfile();
+    predicted.a_level_profile.epq = { status: 'predicted', grade: null };
+    expect(validateALevelStep(predicted).epq_grade).toBe('Select your predicted EPQ grade.');
+
+    const achieved = validALevelProfile();
+    achieved.a_level_profile.epq = { status: 'achieved', grade: null };
+    expect(validateALevelStep(achieved).epq_grade).toBe('Select your achieved EPQ grade.');
+
+    achieved.a_level_profile.epq.grade = 'A*';
+    expect(validateALevelStep(achieved).epq_grade).toBeUndefined();
+  });
+
+  it('does not require EPQ taken-alongside confirmation for predicted or achieved EPQ', () => {
+    const profile = validALevelProfile();
+    profile.a_level_profile.epq = {
+      status: 'predicted',
+      grade: 'A',
+      taken_alongside_a_levels: null,
+    };
+
+    expect(validateALevelStep(profile).epq_taken_alongside_a_levels).toBeUndefined();
     expect(hasErrors(validateALevelStep(profile))).toBe(false);
   });
 
@@ -343,17 +461,91 @@ describe('validateRouteStep', () => {
 });
 
 describe('validateScottishStep', () => {
+  const higher = (subject_id: string, grade: 'A' | 'B' = 'A') => ({
+    subject_id,
+    grade,
+    school_year: 's5' as const,
+    first_attempt: true,
+  });
+
   it('requires at least three Higher subjects with grades', () => {
     const errors = validateScottishStep(createEmptyProfile());
     expect(errors.higher_subjects).toBeTruthy();
   });
 
-  it('passes with three Highers filled in', () => {
+  it('allows blank optional National 5 rows', () => {
     const profile = createEmptyProfile();
+    profile.scottish_profile.completed_in_one_sitting = true;
+    profile.scottish_profile.qualification_completion_year = 2026;
+    profile.scottish_profile.higher_subjects = [
+      higher('chemistry'),
+      higher('biology'),
+      higher('mathematics', 'B'),
+    ];
+
+    expect(validateScottishStep(profile).national_5_subjects).toBeUndefined();
+  });
+
+  it('requires a grade when an optional National 5 subject is entered', () => {
+    const profile = createEmptyProfile();
+    profile.scottish_profile.completed_in_one_sitting = true;
+    profile.scottish_profile.qualification_completion_year = 2026;
+    profile.scottish_profile.national_5_subjects[0] = {
+      subject_id: 'english_language',
+      grade: '',
+      school_year: 's4',
+      first_attempt: true,
+    };
+    profile.scottish_profile.higher_subjects = [
+      higher('chemistry'),
+      higher('biology'),
+      higher('mathematics', 'B'),
+    ];
+
+    expect(validateScottishStep(profile).national_5_subjects_0_grade).toBeTruthy();
+  });
+
+  it('requires school year, attempt status and same-sitting evidence for Scottish rows', () => {
+    const profile = createEmptyProfile();
+    profile.scottish_profile.qualification_completion_year = 2026;
     profile.scottish_profile.higher_subjects = [
       { subject_id: 'chemistry', grade: 'A' },
-      { subject_id: 'biology', grade: 'A' },
-      { subject_id: 'mathematics', grade: 'B' },
+      higher('biology'),
+      higher('mathematics', 'B'),
+    ];
+
+    const errors = validateScottishStep(profile);
+    expect(errors.higher_subjects_0_school_year).toBeTruthy();
+    expect(errors.higher_subjects_0_first_attempt).toBeTruthy();
+    expect(errors.scottish_completed_in_one_sitting).toBeTruthy();
+  });
+
+  it('requires a sensible Scottish qualification completion year', () => {
+    const profile = createEmptyProfile();
+    profile.scottish_profile.completed_in_one_sitting = true;
+    profile.scottish_profile.higher_subjects = [
+      higher('chemistry'),
+      higher('biology'),
+      higher('mathematics', 'B'),
+    ];
+
+    expect(validateScottishStep(profile).scottish_qualification_completion_year).toBeTruthy();
+
+    profile.scottish_profile.qualification_completion_year = 1999;
+    expect(validateScottishStep(profile).scottish_qualification_completion_year).toBeTruthy();
+
+    profile.scottish_profile.qualification_completion_year = 2026;
+    expect(validateScottishStep(profile).scottish_qualification_completion_year).toBeUndefined();
+  });
+
+  it('passes with three Highers filled in', () => {
+    const profile = createEmptyProfile();
+    profile.scottish_profile.completed_in_one_sitting = true;
+    profile.scottish_profile.qualification_completion_year = 2026;
+    profile.scottish_profile.higher_subjects = [
+      higher('chemistry'),
+      higher('biology'),
+      higher('mathematics', 'B'),
     ];
     expect(hasErrors(validateScottishStep(profile))).toBe(false);
   });

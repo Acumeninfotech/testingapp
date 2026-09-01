@@ -32,7 +32,7 @@
   "selection_approach_display": {
     "default": "Exeter uses the Exeter Score for direct school-leaver applicants, while non-direct school-leaver routes are assessed through GAMSAT.",
     "by_applicant_pool": {
-      "exeter_home_direct_school_leaver": "Home direct school-leaver applicants are ranked using the Exeter Score, combining academic profile, UCAT decile and any verified achieved-grade or WP/contextual uplift.",
+      "exeter_home_direct_school_leaver": "Home direct school-leaver applicants are ranked using the Exeter Score, combining academic profile, UCAT decile and any applicable achieved-grade or confirmed WP/contextual uplift.",
       "exeter_international_direct_school_leaver": "International direct school-leaver applicants are ranked separately using the Exeter Score, combining academic profile, UCAT decile and any verified achieved-grade uplift."
     }
   },
@@ -142,7 +142,8 @@
         "a_level",
         "international_baccalaureate",
         "access_to_he",
-        "gamsat_manual_review"
+        "gamsat_manual_review",
+        "scottish"
       ],
       "a_level": {
         "status": "official_source_verified",
@@ -192,7 +193,116 @@
           "general_studies"
         ],
         "predicted_grades_accepted": true,
-        "notes": "Typical offer A*AA including A in Biology and Chemistry. Contextual offer AAB including A in Biology and Chemistry."
+        "notes": "Typical offer A*AA including A in Biology and Chemistry. Contextual offer AAB including A in Biology and Chemistry.",
+        "grade_requirements": [
+          {
+            "requirement_id": "exeter_standard_a_star_aa",
+            "pathway_id": "exeter_standard_a_star_aa",
+            "academic_pathway": "standard",
+            "applies_to_group_ids": [
+              "school_leaver"
+            ],
+            "excluded_group_ids": [
+              "contextual",
+              "widening_participation",
+              "graduate_applicant"
+            ],
+            "grade_profile": [
+              "A*",
+              "A",
+              "A"
+            ],
+            "required_subject_ids": [
+              "biology",
+              "chemistry"
+            ],
+            "subject_grade_requirements": [
+              {
+                "subject_id": "biology",
+                "minimum_grade": "A"
+              },
+              {
+                "subject_id": "chemistry",
+                "minimum_grade": "A"
+              }
+            ],
+            "excluded_subject_ids": [
+              "general_studies"
+            ],
+            "decision_outcome_if_not_met": "not_eligible"
+          },
+          {
+            "requirement_id": "exeter_contextual_aab",
+            "pathway_id": "exeter_contextual_aab",
+            "academic_pathway": "contextual",
+            "applies_to_group_ids": [
+              "school_leaver",
+              "contextual"
+            ],
+            "excluded_group_ids": [
+              "international_fee",
+              "graduate_applicant"
+            ],
+            "grade_profile": [
+              "A",
+              "A",
+              "B"
+            ],
+            "required_subject_ids": [
+              "biology",
+              "chemistry"
+            ],
+            "subject_grade_requirements": [
+              {
+                "subject_id": "biology",
+                "minimum_grade": "A"
+              },
+              {
+                "subject_id": "chemistry",
+                "minimum_grade": "A"
+              }
+            ],
+            "excluded_subject_ids": [
+              "general_studies"
+            ],
+            "decision_outcome_if_not_met": "not_eligible"
+          },
+          {
+            "requirement_id": "exeter_international_standard_a_star_aa",
+            "pathway_id": "exeter_international_standard_a_star_aa",
+            "academic_pathway": "standard",
+            "applies_to_group_ids": [
+              "school_leaver",
+              "international_fee"
+            ],
+            "excluded_group_ids": [
+              "graduate_applicant"
+            ],
+            "grade_profile": [
+              "A*",
+              "A",
+              "A"
+            ],
+            "required_subject_ids": [
+              "biology",
+              "chemistry"
+            ],
+            "subject_grade_requirements": [
+              {
+                "subject_id": "biology",
+                "minimum_grade": "A"
+              },
+              {
+                "subject_id": "chemistry",
+                "minimum_grade": "A"
+              }
+            ],
+            "excluded_subject_ids": [
+              "general_studies"
+            ],
+            "decision_outcome_if_not_met": "not_eligible"
+          }
+        ]
       },
       "ib": {
         "status": "official_source_verified",
@@ -215,7 +325,104 @@
         ],
         "notes": "Access requirements are documented but not used for automatic Exeter Score prediction in this implementation."
       },
-      "notes": "Direct school-leaver A-level routes are executable for Exeter Score prediction. IB routes are eligibility-checked but do not receive an automated Exeter Score in this implementation. GAMSAT/non-direct school-leaver, unsupported equivalence and Access routes are documented manual-review boundaries."
+      "notes": "Direct school-leaver A-level routes are executable for Exeter Score prediction. IB routes are eligibility-checked but do not receive an automated Exeter Score in this implementation. GAMSAT/non-direct school-leaver, unsupported equivalence and Access routes are documented manual-review boundaries.",
+      "scottish": {
+        "status": "official_source_verified",
+        "route_implemented": true,
+        "contextual_route_implemented": false,
+        "source_ids": [
+          "msc_exeter_medicine_a100_2027"
+        ],
+        "national_5": {
+          "status": "not_applicable",
+          "notes": "Current A100 evidence records Scottish Nationals as N/A; no National 5 requirement is inferred from Exeter GCSE rules."
+        },
+        "higher_offer": {
+          "grade_profile": [
+            "A",
+            "A",
+            "A",
+            "A",
+            "A"
+          ],
+          "notes": "AAAAA at Higher including Biology A and Chemistry A."
+        },
+        "advanced_higher_offer": {
+          "grade_profile": [
+            "A",
+            "A",
+            "A"
+          ],
+          "notes": "AAA at Advanced Higher including Biology A and Chemistry A."
+        },
+        "grade_requirements": [
+          {
+            "requirement_id": "exeter_scottish_highers_aaaaa_biology_chemistry",
+            "pathway_id": "exeter_scottish_highers_aaaaa",
+            "qualification_level": "scottish_highers",
+            "grade_profile": [
+              "A",
+              "A",
+              "A",
+              "A",
+              "A"
+            ],
+            "required_subject_ids": [
+              "biology",
+              "chemistry"
+            ],
+            "subject_grade_requirements": [
+              {
+                "subject_id": "biology",
+                "minimum_grade": "A"
+              },
+              {
+                "subject_id": "chemistry",
+                "minimum_grade": "A"
+              }
+            ],
+            "decision_outcome_if_not_met": "not_eligible",
+            "source_ids": [
+              "msc_exeter_medicine_a100_2027"
+            ],
+            "notes": "Higher route is qualification-driven and is not gated by Scotland domicile."
+          },
+          {
+            "requirement_id": "exeter_scottish_advanced_highers_aaa_biology_chemistry",
+            "pathway_id": "exeter_scottish_advanced_highers_aaa",
+            "qualification_level": "advanced_higher",
+            "grade_profile": [
+              "A",
+              "A",
+              "A"
+            ],
+            "required_subject_ids": [
+              "biology",
+              "chemistry"
+            ],
+            "subject_grade_requirements": [
+              {
+                "subject_id": "biology",
+                "minimum_grade": "A"
+              },
+              {
+                "subject_id": "chemistry",
+                "minimum_grade": "A"
+              }
+            ],
+            "decision_outcome_if_not_met": "not_eligible",
+            "source_ids": [
+              "msc_exeter_medicine_a100_2027"
+            ],
+            "notes": "Advanced Higher route is qualification-driven and is not gated by Scotland domicile."
+          }
+        ],
+        "required_subject_ids": [
+          "biology",
+          "chemistry"
+        ],
+        "notes": "No contextual Scottish reduced offer is implemented; Exeter contextual AAB is A-level only."
+      }
     },
     "admissions_tests": {
       "ucat": {
@@ -362,17 +569,17 @@
         {
           "component_id": "wp_contextual_uplift",
           "factor_id": "widening_participation_contextual",
-          "input_field": "applicant_identity.contextual or widening_participation flags",
-          "calculation_method": "Add 5 points only where the applicant is WP/contextual eligible.",
+          "input_field": "confirmed Exeter contextual eligibility from the dedicated contextual evaluator",
+          "calculation_method": "Add 5 points only where Exeter contextual eligibility has been confirmed.",
           "scale": {
             "minimum": 0,
             "maximum": 5
           },
           "weight_percent": null,
           "rounding": "integer",
-          "notes": "Official tables already include the +5 WP uplift. ApplySmart does not also lower the contextual comparison threshold.",
+          "notes": "The dedicated Exeter contextual evaluator is the sole executable authority for this +5 uplift. Legacy contextual/WP declarations alone must not award points.",
           "source_ids": [
-            "exeter_bmbs_admissions_policy_2026_v4"
+            "exeter_bmbs_admissions_policy_2027"
           ]
         }
       ],
@@ -388,7 +595,7 @@
           "minimum": 0,
           "maximum": 105
         },
-        "notes": "Maximums are predicted non-WP 90, predicted WP 95, achieved non-WP 100, achieved WP 105.",
+        "notes": "Applicable maximums are predicted non-contextual 90, predicted confirmed-contextual/WP 95, achieved non-contextual 100, and achieved confirmed-contextual/WP 105.",
         "source_ids": [
           "exeter_bmbs_admissions_policy_2026_v4"
         ]
@@ -404,7 +611,7 @@
         "value": 74,
         "metric": "selection_score",
         "evidence_classification": "research_document_guidance",
-        "notes": "Used as interview-guidance context, not a future guarantee. Contextual applicants receive the official +5 score uplift and are not also compared against a reduced threshold."
+        "notes": "Used as interview-guidance context, not a future guarantee. Contextual applicants use the AAB academic eligibility route where verified; confirmed contextual/WP applicants receive the published +5 Exeter Score uplift."
       },
       {
         "threshold_id": "international_score_guidance",
@@ -431,9 +638,9 @@
         "modifier_id": "contextual_adjustment",
         "value": "+5 Exeter Score",
         "source_ids": [
-          "exeter_bmbs_admissions_policy_2026_v4"
+          "exeter_bmbs_admissions_policy_2027"
         ],
-        "notes": "Do not double-count by also lowering the contextual threshold unless future official evidence explicitly requires it."
+        "notes": "Applied only after dedicated Exeter contextual eligibility is confirmed."
       }
     ],
     "tie_breakers": [
@@ -444,7 +651,7 @@
       }
     ],
     "output_band_policy": "official_score_with_guidance_thresholds_not_offer_prediction",
-    "notes": "Shortlisting is numerical. Personal statements, references and work experience are not scored for interview shortlisting."
+    "notes": "Shortlisting is numerical. Confirmed Exeter contextual/WP applicants receive the published +5 Exeter Score uplift; personal statements, references and work experience are not scored for interview shortlisting."
   },
   "contextual_admissions": {
     "verification_status": "official_source_verified",
@@ -459,21 +666,39 @@
       "widening_participation"
     ],
     "criteria": [
-      "WP2/contextual offer eligibility as determined by Exeter"
+      "Structured Step 6 Exeter contextual offer evidence: postcode deprivation where applicable, state-school dependency where required, free school meals, care experience, refugee/asylum/humanitarian status, estrangement, caring responsibility, parental responsibility, or recognised Exeter/widening-participation programme evidence."
     ],
     "adjustments": [
+      {
+        "adjustment_id": "exeter_contextual_a_level_aab",
+        "type": "a_level_offer_reduction",
+        "value": "AAB including grade A in Biology and Chemistry",
+        "applies_to": "confirmed_structured_exeter_contextual_evidence",
+        "source_ids": [
+          "exeter_contextual_offers"
+        ],
+        "notes": "The published +5 Exeter Score uplift is executable only for applicants confirmed by the dedicated Exeter contextual evaluator."
+      },
       {
         "adjustment_id": "wp_contextual_exeter_score_uplift",
         "modifier_id": "contextual_adjustment",
         "value": "+5 Exeter Score",
         "source_ids": [
-          "exeter_bmbs_admissions_policy_2026_v4"
+          "exeter_bmbs_admissions_policy_2027"
         ],
-        "notes": "The official score tables show contextual treatment as a +5 uplift. This implementation does not additionally reduce the Home score threshold."
+        "notes": "Separate from the contextual academic offer. Applied only when Exeter contextual eligibility is confirmed."
       }
     ],
     "guaranteed_interview_rules": [],
-    "notes": "Contextual eligibility does not guarantee interview."
+    "notes": "Confirmed contextual eligibility can affect both the published contextual academic offer and the Exeter Score. It does not guarantee an interview.",
+    "contextual_eligibility": {
+      "evaluator_id": "exeter_contextual_medicine_a100",
+      "controls_group_routing": true,
+      "applies_to_group_ids": [
+        "home_fee"
+      ],
+      "preserve_classifier_hard_filters": true
+    }
   },
   "ranking_pools": [
     {
@@ -699,12 +924,11 @@
     "production_ready_candidate": true,
     "activation_block_reason": null,
     "blocking_missing_fields": [],
-    "supported_scope": "Direct school-leaver A-level applicants using UCAT, including achieved/predicted and contextual/WP score uplifts. IB is eligibility-checked but not automatically Exeter-scored.",
+    "supported_scope": "Direct school-leaver A-level applicants using UCAT, including achieved/predicted grades and the 2027 contextual AAB academic route. Scottish Higher/Advanced Higher academic eligibility is qualification-checked through the shared Scottish evaluator. IB is eligibility-checked but not automatically Exeter-scored.",
     "engine_assumptions": [
       "The shared UCAT decile lookup is used to derive the Exeter UCAT decile contribution from a raw UCAT cognitive total.",
-      "The official contextual/WP treatment is the +5 Exeter Score uplift shown in the official scoring tables.",
-      "Home contextual applicants are compared against the same Home score-guidance pool as non-contextual applicants so the +5 uplift is not double counted.",
-      "Score guidance thresholds are guidance only and not offer prediction."
+      "Score guidance thresholds are guidance only and not offer prediction.",
+      "Confirmed Exeter contextual applicants may use the contextual AAB academic route and receive the published +5 Exeter Score uplift where applicable."
     ],
     "manual_review_boundaries": [
       "GAMSAT/non-direct school-leaver and graduate route",

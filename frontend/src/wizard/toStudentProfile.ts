@@ -1,5 +1,11 @@
 import type { StudentProfile } from '../api/types';
-import { MAX_GCSE_COUNT, type IbSubject, type ScottishSubject, type WizardProfile } from './profileTypes';
+import {
+  MAX_GCSE_COUNT,
+  normaliseEpqQualification,
+  type IbSubject,
+  type ScottishSubject,
+  type WizardProfile,
+} from './profileTypes';
 
 const APPLICANT_TYPE_LABEL: Record<string, string> = {
   school_leaver: 'school_leaver',
@@ -13,8 +19,19 @@ const FEE_STATUS_LABEL: Record<string, string> = {
   international: 'international_fee',
 };
 
-function subjectList(subjects: (ScottishSubject | IbSubject)[]) {
+function subjectList(subjects: IbSubject[]) {
   return subjects.filter((s) => s.subject_id !== '').map((s) => ({ subject_id: s.subject_id, grade: s.grade }));
+}
+
+function scottishSubjectList(subjects: ScottishSubject[]) {
+  return subjects.filter((s) => s.subject_id !== '').map((s) => ({
+    subject_id: s.subject_id,
+    grade: s.grade,
+    predicted_grade: s.grade || null,
+    school_year: s.school_year || null,
+    sitting_id: s.sitting_id || s.school_year || null,
+    first_attempt: typeof s.first_attempt === 'boolean' ? s.first_attempt : null,
+  }));
 }
 
 // Converts the wizard's UI-shaped profile into the studentProfile object the
@@ -25,6 +42,7 @@ function subjectList(subjects: (ScottishSubject | IbSubject)[]) {
 export function toStudentProfile(profile: WizardProfile): StudentProfile {
   const gcse = profile.gcse_profile;
   const route = profile.course_target.qualification_route;
+  const isScottishRoute = route === 'scottish';
   const legacyEnglishLiteratureGrade = gcse.additional_subjects.find(
     (subject) => subject.subject_id === 'english_literature' && subject.grade !== '',
   )?.grade;
@@ -66,6 +84,7 @@ export function toStudentProfile(profile: WizardProfile): StudentProfile {
       practical_endorsement:
         s.practical_endorsement === 'not_applicable' ? null : s.practical_endorsement,
     }));
+  const epq = normaliseEpqQualification(profile.a_level_profile.epq);
 
   const ucat = profile.admissions_tests.ucat;
   const gamsat = profile.admissions_tests.gamsat;
@@ -79,7 +98,8 @@ export function toStudentProfile(profile: WizardProfile): StudentProfile {
       applicant_type: APPLICANT_TYPE_LABEL[profile.applicant_identity.applicant_type] ?? '',
       fee_status: FEE_STATUS_LABEL[profile.applicant_identity.fee_status] ?? '',
       domicile: profile.applicant_identity.domicile || null,
-      date_of_birth: profile.applicant_identity.date_of_birth || null,
+      age_at_course_start_band: profile.applicant_identity.age_at_course_start_band || null,
+      current_uk_residence: profile.applicant_identity.current_uk_residence || null,
       contextual: profile.applicant_identity.contextual,
       contextual_flags: { ...profile.applicant_identity.contextual_flags },
       graduate: profile.applicant_identity.graduate,
@@ -88,6 +108,7 @@ export function toStudentProfile(profile: WizardProfile): StudentProfile {
         subjects_resat: profile.applicant_identity.resit.subjects_resat,
       },
     },
+    contextual_profile: profile.contextual_profile,
     course_target: {
       discipline: profile.course_target.discipline,
       ucas_code: profile.course_target.ucas_code,
@@ -95,30 +116,50 @@ export function toStudentProfile(profile: WizardProfile): StudentProfile {
       entry_route: profile.course_target.entry_route,
     },
     application_year: profile.course_target.application_year || null,
-    gcse_profile: {
-      subjects: {
-        ...gcse.subjects,
-        english_literature: englishLiteratureGrade || undefined,
-        combined_science: gcse.science_mode === 'combined_science' && gcse.combined_science_grade
-          ? `${gcse.combined_science_grade}/${gcse.combined_science_grade}`
-          : null,
-      },
-      additional_subjects: gcse.additional_subjects
-        .filter((s) => s.subject_id !== 'english_literature')
-        .filter((s) => s.subject_id !== '' && s.grade !== '')
-        .map((s) => ({ subject_id: s.subject_id, grade: s.grade })),
-      total_gcse_count: allGcseGrades.length,
-      top_9_gcse_grades: top9GcseGrades,
-    },
-    a_level_profile: {
-      subjects: aLevelSubjects,
-      sitting_status: profile.a_level_profile.sitting_status,
-      completed_in_one_sitting: profile.a_level_profile.completed_in_one_sitting,
-    },
+    gcse_profile: isScottishRoute
+      ? {
+          subjects: {},
+          additional_subjects: [],
+          total_gcse_count: 0,
+          top_9_gcse_grades: [],
+        }
+      : {
+          subjects: {
+            ...gcse.subjects,
+            english_literature: englishLiteratureGrade || undefined,
+            combined_science: gcse.science_mode === 'combined_science' && gcse.combined_science_grade
+              ? `${gcse.combined_science_grade}/${gcse.combined_science_grade}`
+              : null,
+          },
+          additional_subjects: gcse.additional_subjects
+            .filter((s) => s.subject_id !== 'english_literature')
+            .filter((s) => s.subject_id !== '' && s.grade !== '')
+            .map((s) => ({ subject_id: s.subject_id, grade: s.grade })),
+          total_gcse_count: allGcseGrades.length,
+          top_9_gcse_grades: top9GcseGrades,
+        },
+    a_level_profile: isScottishRoute
+      ? {
+          subjects: [],
+          sitting_status: profile.a_level_profile.sitting_status,
+          completed_in_one_sitting: null,
+          epq: { status: 'not_taken', grade: null, taken_alongside_a_levels: null },
+        }
+      : {
+          subjects: aLevelSubjects,
+          sitting_status: profile.a_level_profile.sitting_status,
+          completed_in_one_sitting: profile.a_level_profile.completed_in_one_sitting,
+          epq,
+        },
     scottish_profile: {
-      national_5_subjects: subjectList(profile.scottish_profile.national_5_subjects),
-      higher_subjects: subjectList(profile.scottish_profile.higher_subjects),
-      advanced_higher_subjects: subjectList(profile.scottish_profile.advanced_higher_subjects),
+      completed_in_one_sitting: profile.scottish_profile.completed_in_one_sitting,
+      qualification_completion_year:
+        profile.scottish_profile.qualification_completion_year === ''
+          ? null
+          : profile.scottish_profile.qualification_completion_year,
+      national_5_subjects: scottishSubjectList(profile.scottish_profile.national_5_subjects),
+      higher_subjects: scottishSubjectList(profile.scottish_profile.higher_subjects),
+      advanced_higher_subjects: scottishSubjectList(profile.scottish_profile.advanced_higher_subjects),
     },
     ib_profile: {
       total_points: profile.ib_profile.total_points === '' ? null : profile.ib_profile.total_points,

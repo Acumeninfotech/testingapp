@@ -59,14 +59,16 @@ export function WizardShell({
           style={{ width: `${((stepIndex + 1) / stepCount) * 100}%` }}
         />
       </div>
-      <h1>{title}</h1>
-      <WizardNav
-        onBack={onBack}
-        onNext={onNext}
-        nextLabel={nextLabel}
-        nextDisabled={nextDisabled}
-        variant="top"
-      />
+      <div className="wizard-title-row">
+        <h1>{title}</h1>
+        <WizardNav
+          onBack={onBack}
+          onNext={onNext}
+          nextLabel={nextLabel}
+          nextDisabled={nextDisabled}
+          variant="top"
+        />
+      </div>
       <div className="wizard-step-body">{children}</div>
       <WizardNav
         onBack={onBack}

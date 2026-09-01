@@ -4,27 +4,27 @@
   "confidence": "medium",
   "evidence": {
     "classification": "official_exeter_score_with_guidance_thresholds",
-    "summary": "Exeter publishes an executable Exeter Score for direct school leavers: grade profile plus UCAT decile, with +10 achieved-grade and +5 WP/contextual uplifts. The supplied research gives Home and International score guidance thresholds. Contextual treatment is implemented as the official +5 score uplift only, without a second threshold reduction.",
+    "summary": "Exeter publishes an executable Exeter Score for direct school leavers: grade profile plus UCAT decile, with +10 achieved-grade and +5 confirmed WP/contextual uplifts where applicable. Contextual academic eligibility and contextual score treatment are separate published effects.",
     "source_ids": [
       "exeter_bmbs_admissions_policy_2026_v4",
       "exeter_research_document_2026"
     ]
   },
   "eligibility": {
-    "scope": "Automatic Exeter Score classification is restricted to direct school-leaver A-level applicants with complete academic and UCAT evidence. IB is checked for eligibility but does not receive an automated Exeter Score. GAMSAT/non-direct school-leaver, graduate and unsupported qualification-equivalence routes are manual review.",
+    "scope": "Automatic Exeter Score classification is restricted to direct school-leaver A-level applicants with complete academic and UCAT evidence. Scottish is qualification-checked through shared course eligibility and then treated as a methodology gap for interview guidance. IB is checked for eligibility but does not receive an automated Exeter Score. GAMSAT/non-direct school-leaver, graduate and unsupported qualification-equivalence routes are manual review.",
     "international_english_language_required": true,
     "qualification_routes": {
       "supported": [
         "a_level",
         "international_baccalaureate",
-        "graduate"
+        "graduate",
+        "scottish"
       ],
       "manual_review": [
         "graduate",
         "access_to_medicine",
         "access_to_he",
         "btec",
-        "scottish",
         "international_qualification",
         "unknown"
       ],
@@ -230,19 +230,22 @@
       "resit edge cases"
     ],
     "do_not_infer": [
-      "Do not add both the +5 contextual uplift and a lower contextual threshold.",
+      "Do not add both the +5 contextual uplift and a lower contextual selection-score threshold.",
       "Do not use FOI-derived raw UCAT equivalents as executable thresholds.",
       "Do not automate the GAMSAT Exeter Score route in this implementation.",
       "Do not use SJT for Exeter shortlisting."
+    ],
+    "use_course_eligibility_for_qualification_routes": [
+      "scottish"
     ]
   },
   "score_model": {
     "type": "component_sum",
     "label": "Exeter Score",
-    "basis": "Official Exeter Score for direct school leavers: grade-profile base score plus UCAT national-decile points, achieved-grade uplift and WP/contextual uplift.",
+    "basis": "Official Exeter Score for direct school leavers: grade-profile base score plus UCAT national-decile points, achieved-grade uplift and confirmed WP/contextual uplift.",
     "applicable_max_score": {
       "strategy": "base_plus_applicable_conditional_components",
-      "basis": "Fixed grade-profile and UCAT maxima plus only the conditional achieved-grade and contextual/WP maxima that apply to this applicant."
+      "basis": "Fixed grade-profile and UCAT maxima plus only the conditional achieved-grade and confirmed contextual/WP maxima that apply to this applicant."
     },
     "scale": {
       "min": 0,
@@ -362,12 +365,11 @@
         "max": 5,
         "conditions": [
           {
-            "condition_id": "wp_contextual",
+            "condition_id": "exeter_confirmed_contextual",
             "points": 5,
             "match": {
               "any_group_ids": [
-                "contextual",
-                "widening_participation"
+                "exeter_contextual_confirmed"
               ],
               "excluded_group_ids": [
                 "international_fee"
@@ -375,7 +377,7 @@
             }
           }
         ],
-        "notes": "This implements the official WP/contextual +5 score uplift. Exeter contextual applicants are not also compared against a lower threshold in ApplySmart."
+        "notes": "Adds +5 Exeter Score only when the dedicated Exeter contextual evaluator has activated exeter_contextual_confirmed. Legacy contextual or widening-participation declarations alone must not activate this component."
       }
     ]
   },

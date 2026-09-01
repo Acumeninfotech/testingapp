@@ -468,7 +468,8 @@
       "aston_medical_school_faq_current",
       "aston_official_research_team_2026_2027",
       "aston_foi_pre_interview_2026_2027"
-    ]
+    ],
+    "guidance_pool_id": "home_non_wp"
   },
   "missing_data": {
     "live_2027_home_non_wp_boundary": "unknown_dynamic_external_university_data",
@@ -596,8 +597,8 @@
     "subheadline": "Eligible; Home non-WP pre-interview score 35/36",
     "primary_user_facing_recommendation": "Strong choice for your application",
     "recommendation_display_state": "standard",
-    "primary_explanation": "Based on ApplySmart's assessment, your academic profile appears competitive for this applicant group.",
-    "historical_guidance_caveat": "Interview thresholds may change each admissions cycle depending on applicant competition and interview capacity. Historical figures are guidance only, not a current cut-off, and do not guarantee an interview.",
+    "primary_explanation": "Based on ApplySmart's assessment, your academic profile and UCAT appear competitive for this applicant group.",
+    "historical_guidance_caveat": "Historical admissions data provides a benchmark only; it is not a current cut-off or a guarantee of interview.",
     "badges": [
       "Minimum eligibility passed",
       "GCSE 24/24",
@@ -627,86 +628,101 @@
       "step": 3,
       "title": "Selection model applied",
       "status": "Complete",
-      "summary": "Points from six selected GCSEs and the UCAT cognitive total were combined."
+      "summary": "Home applicants are assessed using a selection score combining GCSE performance and UCAT."
     },
     {
       "step": 4,
       "title": "Historical guidance compared",
       "status": "Complete",
-      "summary": "Your result was compared with interview information from previous admissions cycles. Interview thresholds may change each admissions cycle depending on applicant competition and interview capacity. Historical figures are guidance only, not a current cut-off, and do not guarantee an interview."
+      "summary": "Your selection score is 1.5 points above the historical score guide of 33.5 for this applicant pool. It was compared with historical admissions data. Historical admissions data provides a benchmark only; it is not a current cut-off or a guarantee of interview."
     },
     {
       "step": 5,
       "title": "Interview recommendation produced",
       "status": "Strong Choice",
-      "summary": "Based on ApplySmart's assessment, your academic profile appears competitive for this applicant group. Treat this as guidance for university choice, not a promised interview."
+      "summary": "Based on ApplySmart's assessment, your academic profile and UCAT appear competitive for this applicant group. Treat this as guidance for university choice, not a promised interview."
     }
   ],
   "decision_transparency": {
+    "factor_usage": [
+      {
+        "factor_id": "ucat",
+        "label": "UCAT",
+        "role": "ranking",
+        "detail": "Used for ranking in the university’s selection process.",
+        "evidence_status": "available"
+      },
+      {
+        "factor_id": "gcse",
+        "label": "GCSEs",
+        "role": "unknown",
+        "detail": "GCSEs are part of the university’s academic review.",
+        "evidence_status": "available"
+      },
+      {
+        "factor_id": "a_level",
+        "label": "A-levels",
+        "role": "unknown",
+        "detail": "Used as part of the university’s academic review.",
+        "evidence_status": "available"
+      },
+      {
+        "factor_id": "sjt",
+        "label": "SJT",
+        "role": "not_used",
+        "detail": "SJT is not used for interview selection.",
+        "evidence_status": "not_applicable"
+      }
+    ],
     "decision_path": [
       {
         "stage": "Eligibility",
         "status": "Met",
-        "summary": "The represented Home non-WP A-level applicant passes the implemented minimum eligibility gates. Eligibility does not guarantee an interview or offer.",
+        "summary": "The supported entry requirements are met.",
         "checks": [
           {
-            "label": "Six GCSEs at grade 6/B minimum",
+            "label": "Entry requirements",
             "status": "Met",
-            "summary": "At least six GCSEs or IGCSEs at grade 6/B or above. Applicant information: Seven GCSEs at grade 7 or above."
-          },
-          {
-            "label": "Mandatory GCSE subjects",
-            "status": "Met",
-            "summary": "English Language and Mathematics at grade 6/B, plus Biology and Chemistry at grade 6/B or Double Science 6/6 or BB. Applicant information: English Language 9, Mathematics 9, Biology 9 and Chemistry 9."
-          },
-          {
-            "label": "Standard A-level requirements",
-            "status": "Met",
-            "summary": "A*AA including Chemistry and Biology, with the A* in either Chemistry or Biology, plus required science practical passes. Applicant information: Predicted A* in Chemistry, A in Biology and A in History; Chemistry and Biology practical passes represented."
-          },
-          {
-            "label": "UCAT requirement",
-            "status": "Met",
-            "summary": "UCAT or UCATSEN must be taken in the same year as application. Applicant information: UCAT 2400/2700 recorded for this application."
+            "summary": "The supported entry requirements have been assessed."
           }
         ]
       },
       {
         "stage": "Selection model",
         "status": "Assessed",
-        "summary": "The university selection approach is applied after eligibility checks.",
+        "summary": "Home applicants are assessed using a selection score combining GCSE performance and UCAT.",
         "checks": [
           {
             "label": "Applicant pool",
             "status": "Used",
-            "summary": "The applicant group matching the supplied fee status and entry route"
+            "summary": "Home, Rest of UK applicants"
           },
           {
-            "label": "UCAT total entered",
-            "status": "Used for ranking",
-            "summary": "2400 out of 2700."
+            "label": "GCSE score",
+            "status": "Counted",
+            "summary": "24 out of 24."
           },
           {
-            "label": "SJT band",
-            "status": "On file",
-            "summary": "Band 4."
+            "label": "UCAT score",
+            "status": "Counted",
+            "summary": "11 out of 12."
           },
           {
-            "label": "Selection approach",
-            "status": "Ranking/cut-off based",
-            "summary": "The university selection approach is applied after eligibility checks."
+            "label": "Selection score guide",
+            "status": "Above guide",
+            "summary": "Your selection score is 1.5 points above the historical score guide of 33.5 for this applicant pool."
           }
         ]
       },
       {
         "stage": "Historical guidance",
         "status": "Guidance available",
-        "summary": "The result was assessed using the available admissions evidence for this applicant group. Historical admissions data provides a benchmark only; it is not a current cut-off or a guarantee of interview.",
+        "summary": "Your selection score is 1.5 points above the historical score guide of 33.5 for this applicant pool. Historical admissions data provides a benchmark only; it is not a current cut-off or a guarantee of interview.",
         "checks": [
           {
             "label": "Applicant pool",
             "status": "Used",
-            "summary": "The applicant group matching the supplied fee status and entry route"
+            "summary": "Home, Rest of UK applicants"
           },
           {
             "label": "Important limitation",
@@ -718,14 +734,14 @@
       {
         "stage": "Recommendation",
         "status": "Guidance only",
-        "summary": "Based on ApplySmart's assessment, your academic profile appears competitive for this applicant group. Treat this as guidance for university choice, not a promised interview.",
+        "summary": "Based on ApplySmart's assessment, your academic profile and UCAT appear competitive for this applicant group. Treat this as guidance for university choice, not a promised interview.",
         "checks": []
       }
     ],
     "key_reasons": [
-      "The represented Home non-WP A-level applicant passes the implemented minimum eligibility gates. Eligibility does not guarantee an interview or offer.",
-      "The result uses The applicant group matching the supplied fee status and entry route.",
-      "The university selection approach is applied after eligibility checks."
+      "The supported entry requirements are met.",
+      "The result uses Home, Rest of UK applicants.",
+      "Your selection score is 1.5 points above the historical score guide of 33.5 for this applicant pool."
     ],
     "evidence_used": [
       "Official admissions policy",
@@ -744,19 +760,63 @@
     },
     "warnings": [],
     "manual_review_reason": null,
-    "insufficient_evidence_reason": null,
-    "insufficient_evidence_reason_code": null,
+    "manual_review_reason_code": null,
+    "information_needed_reason": null,
+    "missing_information": null,
+    "risk_explanation": null,
     "compact_status": {
       "label": "You meet the academic requirements.",
       "type": "academic_status",
       "tone": "positive"
     },
     "comparison_metrics_title": null,
-    "comparison_metrics": [],
-    "selection_approach_display": null,
-    "selection_metric": null,
-    "score_breakdown": null,
-    "ucat_comparison": null
+    "comparison_metrics": [
+      {
+        "label": "historical score guide",
+        "value": "33.5",
+        "difference": "+1.5"
+      }
+    ],
+    "selection_approach_display": "Home applicants are assessed using a selection score combining GCSE performance and UCAT.",
+    "selection_metric": {
+      "type": "selection_score",
+      "label": "Selection score",
+      "applicant_value": 35,
+      "comparison_value": 33.5,
+      "comparison_max_value": null,
+      "comparison_label": "historical score guide",
+      "comparison_label_type": "historical_interview_guide",
+      "comparison_context": "Selection score",
+      "difference": 1.5,
+      "difference_direction": "above",
+      "difference_word": "benchmark",
+      "maximum_value": 36,
+      "display_mode": "score",
+      "display_eligibility": true,
+      "entry_year": null,
+      "caveat": "Historical admissions data provides a benchmark only; it is not a current cut-off or a guarantee of interview."
+    },
+    "score_breakdown": {
+      "name": "Selection score",
+      "value": 35,
+      "max": 36,
+      "status": "calculated",
+      "explanation": "Verified Aston Home and WP pre-interview score: academic score out of 24 plus UCAT score out of 12; Scottish qualification applicants use Aston's Scottish National 5 / Advanced Higher academic scoring route",
+      "checks": [
+        {
+          "label": "GCSE score",
+          "status": "Counted",
+          "summary": "24 out of 24."
+        },
+        {
+          "label": "UCAT score",
+          "status": "Counted",
+          "summary": "11 out of 12."
+        }
+      ]
+    },
+    "ucat_comparison": null,
+    "ucat_adjustment": null
   },
   "engine_notes": {
     "generated_from_profile_id": "aston-a100",
@@ -790,7 +850,7 @@
     ]
   },
   "primary_user_facing_recommendation": "Strong choice for your application",
-  "primary_explanation": "Based on ApplySmart's assessment, your academic profile appears competitive for this applicant group.",
+  "primary_explanation": "Based on ApplySmart's assessment, your academic profile and UCAT appear competitive for this applicant group.",
   "recommendation_display_state": "standard",
   "trust_statement": null,
   "historical_guidance_caveat": "Historical admissions data provides a benchmark only; it is not a current cut-off or a guarantee of interview."

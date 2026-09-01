@@ -233,6 +233,7 @@
         "international_fee",
         "rest_of_uk",
         "contextual",
+        "imperial_contextual",
         "widening_participation",
         "care_experienced",
         "graduate_applicant",
@@ -255,7 +256,9 @@
         "chemistry",
         "physics",
         "mathematics",
+        "applications_of_mathematics",
         "further_mathematics",
+        "english",
         "english_language",
         "english_literature",
         "combined_science",
@@ -403,6 +406,12 @@
         "required_hl_subject_ids": {
           "$ref": "#/$defs/subject_id_array"
         },
+        "epq_alternative": {
+          "$ref": "#/$defs/epq_alternative_offer_policy"
+        },
+        "epq_alternative_offer": {
+          "$ref": "#/$defs/epq_alternative_offer_policy"
+        },
         "decision_outcome": {
           "$ref": "#/$defs/decision_outcome"
         },
@@ -431,6 +440,288 @@
         },
         "^decision_outcome.*$": {
           "$ref": "#/$defs/decision_outcome"
+        }
+      }
+    },
+    "a_level_grade": {
+      "enum": [
+        "A*",
+        "A",
+        "B",
+        "C",
+        "D",
+        "E"
+      ]
+    },
+    "national_5_requirement": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/common_rule_object"
+        },
+        {
+          "type": "object",
+          "additionalProperties": true,
+          "properties": {
+            "requirement_id": {
+              "type": "string",
+              "minLength": 1
+            },
+            "minimum_grade": {
+              "type": "string",
+              "minLength": 1
+            },
+            "condition": {
+              "$ref": "#/$defs/nullable_string"
+            },
+            "alternative_subject_ids": {
+              "$ref": "#/$defs/subject_id_array"
+            },
+            "equivalent_subject_ids": {
+              "$ref": "#/$defs/subject_id_array"
+            },
+            "post16_satisfaction": {
+              "type": "object",
+              "additionalProperties": true,
+              "properties": {
+                "allowed": {
+                  "type": "boolean"
+                },
+                "qualification_levels": {
+                  "type": "array",
+                  "items": {
+                    "enum": [
+                      "higher",
+                      "scottish_higher",
+                      "scottish_highers",
+                      "advanced_higher",
+                      "advanced_highers",
+                      "scottish_advanced_higher",
+                      "scottish_advanced_highers"
+                    ]
+                  },
+                  "minItems": 1,
+                  "uniqueItems": true
+                },
+                "subject_ids": {
+                  "$ref": "#/$defs/subject_id_array"
+                },
+                "minimum_grade": {
+                  "type": "string",
+                  "minLength": 1
+                }
+              }
+            },
+            "satisfied_by": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "additionalProperties": true,
+                "properties": {
+                  "qualification_level": {
+                    "type": "string",
+                    "minLength": 1
+                  },
+                  "subject_ids": {
+                    "$ref": "#/$defs/subject_id_array"
+                  },
+                  "minimum_grade": {
+                    "type": "string",
+                    "minLength": 1
+                  }
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "national_5_requirements": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/common_rule_object"
+        },
+        {
+          "type": "object",
+          "additionalProperties": true,
+          "properties": {
+            "minimum_count": {
+              "$ref": "#/$defs/nullable_integer"
+            },
+            "minimum_grade": {
+              "type": "string",
+              "minLength": 1
+            },
+            "minimum_count_grade": {
+              "type": "string",
+              "minLength": 1
+            },
+            "confirmed_mandatory_subject_ids": {
+              "$ref": "#/$defs/subject_id_array"
+            },
+            "grade_requirements": {
+              "type": "array",
+              "items": {
+                "$ref": "#/$defs/national_5_requirement"
+              }
+            },
+            "required_subjects": {
+              "type": "array",
+              "items": {
+                "$ref": "#/$defs/national_5_requirement"
+              }
+            },
+            "conditional_requirements": {
+              "type": "array",
+              "items": {
+                "$ref": "#/$defs/national_5_requirement"
+              }
+            },
+            "conditional_national_5_requirements": {
+              "type": "array",
+              "items": {
+                "$ref": "#/$defs/national_5_requirement"
+              }
+            }
+          }
+        }
+      ]
+    },
+    "epq_alternative_offer_policy": {
+      "type": "object",
+      "additionalProperties": true,
+      "properties": {
+        "enabled": {
+          "type": "boolean"
+        },
+        "pathway_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "a_level_grades": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/a_level_grade"
+          },
+          "minItems": 1
+        },
+        "grade_profile": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/a_level_grade"
+          },
+          "minItems": 1
+        },
+        "epq_minimum_grade": {
+          "$ref": "#/$defs/a_level_grade"
+        },
+        "epq_grade": {
+          "$ref": "#/$defs/a_level_grade"
+        },
+        "subject_grade_requirements": {
+          "oneOf": [
+            {
+              "type": "object",
+              "additionalProperties": {
+                "$ref": "#/$defs/a_level_grade"
+              },
+              "propertyNames": {
+                "$ref": "#/$defs/subject_id"
+              }
+            },
+            {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "additionalProperties": true,
+                "required": [
+                  "subject_id",
+                  "minimum_grade"
+                ],
+                "properties": {
+                  "subject_id": {
+                    "$ref": "#/$defs/subject_id"
+                  },
+                  "minimum_grade": {
+                    "$ref": "#/$defs/a_level_grade"
+                  }
+                }
+              }
+            }
+          ]
+        },
+        "required_subject_grade_options": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": true,
+            "properties": {
+              "option_id": {
+                "type": "string"
+              },
+              "required_subject_ids": {
+                "$ref": "#/$defs/subject_id_array"
+              },
+              "one_of_subject_groups": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "additionalProperties": true,
+                  "properties": {
+                    "group_id": {
+                      "type": "string"
+                    },
+                    "minimum_required": {
+                      "type": "integer",
+                      "minimum": 1
+                    },
+                    "subject_ids": {
+                      "$ref": "#/$defs/subject_id_array"
+                    }
+                  }
+                }
+              },
+              "grade_requirements": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "additionalProperties": true,
+                  "required": [
+                    "subject_id",
+                    "minimum_grade"
+                  ],
+                  "properties": {
+                    "subject_id": {
+                      "$ref": "#/$defs/subject_id"
+                    },
+                    "minimum_grade": {
+                      "$ref": "#/$defs/a_level_grade"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "conditions": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "all_a_levels_same_sitting": {
+              "type": "boolean"
+            },
+            "a_level_resits_allowed": {
+              "type": "boolean"
+            },
+            "must_be_taken_alongside_a_levels": {
+              "type": "boolean"
+            },
+            "equivalent_grade_combinations_allowed": {
+              "type": "boolean"
+            },
+            "firm_choice_only": {
+              "type": "boolean"
+            }
+          }
         }
       }
     },
@@ -569,7 +860,12 @@
             "resits",
             "english_language",
             "age_or_professional_checks"
-          ]
+          ],
+          "properties": {
+            "national_5": {
+              "$ref": "#/$defs/national_5_requirements"
+            }
+          }
         }
       ]
     },

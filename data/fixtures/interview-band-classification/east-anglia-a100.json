@@ -426,12 +426,29 @@
       }
     },
     {
-      "scenario_id": "scottish_route_manual_review",
+      "scenario_id": "cross_qualification_scotland_domicile_a_level",
+      "overrides": {
+        "applicant_identity": {
+          "domicile": "Scotland"
+        }
+      },
+      "expected": {
+        "eligibility_status": "eligible",
+        "guidance_pool_id": "home_a100",
+        "interview_band": "realistic",
+        "failure": null
+      }
+    },
+    {
+      "scenario_id": "cross_qualification_scotland_domicile_scottish_bbb",
       "overrides": {
         "qualification_route": "scottish",
         "applicant_identity": {
+          "fee_status": "Home",
           "domicile": "Scotland"
         },
+        "gcse_profile": null,
+        "a_level_profile": null,
         "scottish_profile": {
           "national_5_subjects": [
             {
@@ -441,30 +458,759 @@
             {
               "subject_id": "mathematics",
               "grade": "A"
+            },
+            {
+              "subject_id": "biology",
+              "grade": "A"
+            },
+            {
+              "subject_id": "chemistry",
+              "grade": "A"
+            },
+            {
+              "subject_id": "physics",
+              "grade": "A"
+            },
+            {
+              "subject_id": "history",
+              "grade": "A"
+            },
+            {
+              "subject_id": "geography",
+              "grade": "A"
+            }
+          ],
+          "higher_subjects": [],
+          "advanced_higher_subjects": [
+            {
+              "subject_id": "biology",
+              "grade": "B",
+              "school_year": "S6",
+              "sitting_status": "first_sitting"
+            },
+            {
+              "subject_id": "chemistry",
+              "grade": "B",
+              "school_year": "S6",
+              "sitting_status": "first_sitting"
+            },
+            {
+              "subject_id": "physics",
+              "grade": "B",
+              "school_year": "S6",
+              "sitting_status": "first_sitting"
+            }
+          ]
+        }
+      },
+      "expected": {
+        "eligibility_status": "eligible",
+        "guidance_pool_id": "home_a100",
+        "interview_band": "realistic",
+        "failure": null
+      }
+    },
+    {
+      "scenario_id": "cross_qualification_england_domicile_scottish_bbb",
+      "overrides": {
+        "qualification_route": "scottish",
+        "applicant_identity": {
+          "fee_status": "Home",
+          "domicile": "England"
+        },
+        "gcse_profile": null,
+        "a_level_profile": null,
+        "scottish_profile": {
+          "national_5_subjects": [
+            {
+              "subject_id": "english_language",
+              "grade": "B"
+            },
+            {
+              "subject_id": "mathematics",
+              "grade": "A"
+            },
+            {
+              "subject_id": "biology",
+              "grade": "A"
+            },
+            {
+              "subject_id": "chemistry",
+              "grade": "A"
+            },
+            {
+              "subject_id": "physics",
+              "grade": "A"
+            },
+            {
+              "subject_id": "history",
+              "grade": "A"
+            },
+            {
+              "subject_id": "geography",
+              "grade": "A"
+            }
+          ],
+          "higher_subjects": [],
+          "advanced_higher_subjects": [
+            {
+              "subject_id": "biology",
+              "grade": "B",
+              "school_year": "S6",
+              "sitting_status": "first_sitting"
+            },
+            {
+              "subject_id": "chemistry",
+              "grade": "B",
+              "school_year": "S6",
+              "sitting_status": "first_sitting"
+            },
+            {
+              "subject_id": "physics",
+              "grade": "B",
+              "school_year": "S6",
+              "sitting_status": "first_sitting"
+            }
+          ]
+        }
+      },
+      "expected": {
+        "eligibility_status": "eligible",
+        "guidance_pool_id": "home_a100",
+        "interview_band": "realistic",
+        "failure": null
+      }
+    },
+    {
+      "scenario_id": "scottish_s6_ab_advanced_higher_plus_higher_a",
+      "overrides": {
+        "qualification_route": "scottish",
+        "applicant_identity": {
+          "fee_status": "Home",
+          "domicile": "Scotland"
+        },
+        "gcse_profile": null,
+        "a_level_profile": null,
+        "scottish_profile": {
+          "national_5_subjects": [
+            {
+              "subject_id": "english_language",
+              "grade": "B"
+            },
+            {
+              "subject_id": "mathematics",
+              "grade": "A"
+            },
+            {
+              "subject_id": "biology",
+              "grade": "A"
+            },
+            {
+              "subject_id": "chemistry",
+              "grade": "A"
+            },
+            {
+              "subject_id": "physics",
+              "grade": "A"
+            },
+            {
+              "subject_id": "history",
+              "grade": "A"
+            },
+            {
+              "subject_id": "geography",
+              "grade": "A"
             }
           ],
           "advanced_higher_subjects": [
             {
               "subject_id": "biology",
-              "grade": "B"
+              "grade": "A",
+              "school_year": "S6",
+              "sitting_status": "first_sitting"
             },
             {
               "subject_id": "chemistry",
+              "grade": "B",
+              "school_year": "S6",
+              "sitting_status": "first_sitting"
+            }
+          ],
+          "higher_subjects": [
+            {
+              "subject_id": "physics",
+              "grade": "A",
+              "school_year": "S6",
+              "sitting_status": "first_sitting"
+            }
+          ]
+        }
+      },
+      "expected": {
+        "eligibility_status": "eligible",
+        "guidance_pool_id": "home_a100",
+        "interview_band": "realistic",
+        "failure": null
+      }
+    },
+    {
+      "scenario_id": "scottish_national5_maths_b_not_eligible",
+      "overrides": {
+        "qualification_route": "scottish",
+        "applicant_identity": {
+          "domicile": "Scotland"
+        },
+        "gcse_profile": null,
+        "a_level_profile": null,
+        "scottish_profile": {
+          "national_5_subjects": [
+            {
+              "subject_id": "english_language",
               "grade": "B"
             },
             {
-              "subject_id": "physics",
+              "subject_id": "mathematics",
               "grade": "B"
+            },
+            {
+              "subject_id": "biology",
+              "grade": "A"
+            },
+            {
+              "subject_id": "chemistry",
+              "grade": "A"
+            },
+            {
+              "subject_id": "physics",
+              "grade": "A"
+            },
+            {
+              "subject_id": "history",
+              "grade": "A"
+            },
+            {
+              "subject_id": "geography",
+              "grade": "A"
+            }
+          ],
+          "higher_subjects": [],
+          "advanced_higher_subjects": [
+            {
+              "subject_id": "biology",
+              "grade": "B",
+              "school_year": "S6",
+              "sitting_status": "first_sitting"
+            },
+            {
+              "subject_id": "chemistry",
+              "grade": "B",
+              "school_year": "S6",
+              "sitting_status": "first_sitting"
+            },
+            {
+              "subject_id": "physics",
+              "grade": "B",
+              "school_year": "S6",
+              "sitting_status": "first_sitting"
             }
           ]
+        }
+      },
+      "expected": {
+        "eligibility_status": "not_eligible",
+        "guidance_pool_id": null,
+        "interview_band": "not_eligible",
+        "failure": "national_5_requirements_not_met"
+      }
+    },
+    {
+      "scenario_id": "scottish_national5_english_c_not_eligible",
+      "overrides": {
+        "qualification_route": "scottish",
+        "applicant_identity": {
+          "domicile": "Scotland"
         },
-        "a_level_profile": null
+        "gcse_profile": null,
+        "a_level_profile": null,
+        "scottish_profile": {
+          "national_5_subjects": [
+            {
+              "subject_id": "english_language",
+              "grade": "C"
+            },
+            {
+              "subject_id": "mathematics",
+              "grade": "A"
+            },
+            {
+              "subject_id": "biology",
+              "grade": "A"
+            },
+            {
+              "subject_id": "chemistry",
+              "grade": "A"
+            },
+            {
+              "subject_id": "physics",
+              "grade": "A"
+            },
+            {
+              "subject_id": "history",
+              "grade": "A"
+            },
+            {
+              "subject_id": "geography",
+              "grade": "A"
+            }
+          ],
+          "higher_subjects": [],
+          "advanced_higher_subjects": [
+            {
+              "subject_id": "biology",
+              "grade": "B",
+              "school_year": "S6",
+              "sitting_status": "first_sitting"
+            },
+            {
+              "subject_id": "chemistry",
+              "grade": "B",
+              "school_year": "S6",
+              "sitting_status": "first_sitting"
+            },
+            {
+              "subject_id": "physics",
+              "grade": "B",
+              "school_year": "S6",
+              "sitting_status": "first_sitting"
+            }
+          ]
+        }
+      },
+      "expected": {
+        "eligibility_status": "not_eligible",
+        "guidance_pool_id": null,
+        "interview_band": "not_eligible",
+        "failure": "national_5_requirements_not_met"
+      }
+    },
+    {
+      "scenario_id": "scottish_national5_only_five_as_not_eligible",
+      "overrides": {
+        "qualification_route": "scottish",
+        "applicant_identity": {
+          "domicile": "Scotland"
+        },
+        "gcse_profile": null,
+        "a_level_profile": null,
+        "scottish_profile": {
+          "national_5_subjects": [
+            {
+              "subject_id": "english_language",
+              "grade": "B"
+            },
+            {
+              "subject_id": "mathematics",
+              "grade": "A"
+            },
+            {
+              "subject_id": "biology",
+              "grade": "A"
+            },
+            {
+              "subject_id": "chemistry",
+              "grade": "A"
+            },
+            {
+              "subject_id": "physics",
+              "grade": "A"
+            },
+            {
+              "subject_id": "history",
+              "grade": "A"
+            },
+            {
+              "subject_id": "geography",
+              "grade": "B"
+            }
+          ],
+          "higher_subjects": [],
+          "advanced_higher_subjects": [
+            {
+              "subject_id": "biology",
+              "grade": "B",
+              "school_year": "S6",
+              "sitting_status": "first_sitting"
+            },
+            {
+              "subject_id": "chemistry",
+              "grade": "B",
+              "school_year": "S6",
+              "sitting_status": "first_sitting"
+            },
+            {
+              "subject_id": "physics",
+              "grade": "B",
+              "school_year": "S6",
+              "sitting_status": "first_sitting"
+            }
+          ]
+        }
+      },
+      "expected": {
+        "eligibility_status": "not_eligible",
+        "guidance_pool_id": null,
+        "interview_band": "not_eligible",
+        "failure": "national_5_requirements_not_met"
+      }
+    },
+    {
+      "scenario_id": "scottish_national5_only_one_science_a_not_eligible",
+      "overrides": {
+        "qualification_route": "scottish",
+        "applicant_identity": {
+          "domicile": "Scotland"
+        },
+        "gcse_profile": null,
+        "a_level_profile": null,
+        "scottish_profile": {
+          "national_5_subjects": [
+            {
+              "subject_id": "english_language",
+              "grade": "B"
+            },
+            {
+              "subject_id": "mathematics",
+              "grade": "A"
+            },
+            {
+              "subject_id": "biology",
+              "grade": "A"
+            },
+            {
+              "subject_id": "history",
+              "grade": "A"
+            },
+            {
+              "subject_id": "geography",
+              "grade": "A"
+            },
+            {
+              "subject_id": "psychology",
+              "grade": "A"
+            },
+            {
+              "subject_id": "business",
+              "grade": "A"
+            }
+          ],
+          "higher_subjects": [],
+          "advanced_higher_subjects": [
+            {
+              "subject_id": "biology",
+              "grade": "B",
+              "school_year": "S6",
+              "sitting_status": "first_sitting"
+            },
+            {
+              "subject_id": "chemistry",
+              "grade": "B",
+              "school_year": "S6",
+              "sitting_status": "first_sitting"
+            },
+            {
+              "subject_id": "physics",
+              "grade": "B",
+              "school_year": "S6",
+              "sitting_status": "first_sitting"
+            }
+          ]
+        }
+      },
+      "expected": {
+        "eligibility_status": "not_eligible",
+        "guidance_pool_id": null,
+        "interview_band": "not_eligible",
+        "failure": "national_5_requirements_not_met"
+      }
+    },
+    {
+      "scenario_id": "scottish_lifeskills_mathematics_not_accepted",
+      "overrides": {
+        "qualification_route": "scottish",
+        "applicant_identity": {
+          "domicile": "Scotland"
+        },
+        "gcse_profile": null,
+        "a_level_profile": null,
+        "scottish_profile": {
+          "national_5_subjects": [
+            {
+              "subject_id": "english_language",
+              "grade": "B"
+            },
+            {
+              "subject_id": "lifeskills_mathematics",
+              "grade": "A"
+            },
+            {
+              "subject_id": "biology",
+              "grade": "A"
+            },
+            {
+              "subject_id": "chemistry",
+              "grade": "A"
+            },
+            {
+              "subject_id": "physics",
+              "grade": "A"
+            },
+            {
+              "subject_id": "history",
+              "grade": "A"
+            },
+            {
+              "subject_id": "geography",
+              "grade": "A"
+            }
+          ],
+          "higher_subjects": [],
+          "advanced_higher_subjects": [
+            {
+              "subject_id": "biology",
+              "grade": "B",
+              "school_year": "S6",
+              "sitting_status": "first_sitting"
+            },
+            {
+              "subject_id": "chemistry",
+              "grade": "B",
+              "school_year": "S6",
+              "sitting_status": "first_sitting"
+            },
+            {
+              "subject_id": "physics",
+              "grade": "B",
+              "school_year": "S6",
+              "sitting_status": "first_sitting"
+            }
+          ]
+        }
+      },
+      "expected": {
+        "eligibility_status": "not_eligible",
+        "guidance_pool_id": null,
+        "interview_band": "not_eligible",
+        "failure": "national_5_requirements_not_met"
+      }
+    },
+    {
+      "scenario_id": "scottish_only_two_s6_subjects_not_eligible",
+      "overrides": {
+        "qualification_route": "scottish",
+        "applicant_identity": {
+          "domicile": "Scotland"
+        },
+        "gcse_profile": null,
+        "a_level_profile": null,
+        "scottish_profile": {
+          "national_5_subjects": [
+            {
+              "subject_id": "english_language",
+              "grade": "B"
+            },
+            {
+              "subject_id": "mathematics",
+              "grade": "A"
+            },
+            {
+              "subject_id": "biology",
+              "grade": "A"
+            },
+            {
+              "subject_id": "chemistry",
+              "grade": "A"
+            },
+            {
+              "subject_id": "physics",
+              "grade": "A"
+            },
+            {
+              "subject_id": "history",
+              "grade": "A"
+            },
+            {
+              "subject_id": "geography",
+              "grade": "A"
+            }
+          ],
+          "higher_subjects": [],
+          "advanced_higher_subjects": [
+            {
+              "subject_id": "biology",
+              "grade": "A",
+              "school_year": "S6",
+              "sitting_status": "first_sitting"
+            },
+            {
+              "subject_id": "chemistry",
+              "grade": "A",
+              "school_year": "S6",
+              "sitting_status": "first_sitting"
+            }
+          ]
+        }
+      },
+      "expected": {
+        "eligibility_status": "not_eligible",
+        "guidance_pool_id": null,
+        "interview_band": "not_eligible",
+        "failure": "scottish_post_16_requirements_not_met"
+      }
+    },
+    {
+      "scenario_id": "scottish_advanced_higher_resit_manual_review",
+      "overrides": {
+        "qualification_route": "scottish",
+        "applicant_identity": {
+          "domicile": "Scotland",
+          "resit": {
+            "has_resits": true,
+            "attempt_count": 2
+          }
+        },
+        "gcse_profile": null,
+        "a_level_profile": null,
+        "scottish_profile": {
+          "national_5_subjects": [
+            {
+              "subject_id": "english_language",
+              "grade": "B"
+            },
+            {
+              "subject_id": "mathematics",
+              "grade": "A"
+            },
+            {
+              "subject_id": "biology",
+              "grade": "A"
+            },
+            {
+              "subject_id": "chemistry",
+              "grade": "A"
+            },
+            {
+              "subject_id": "physics",
+              "grade": "A"
+            },
+            {
+              "subject_id": "history",
+              "grade": "A"
+            },
+            {
+              "subject_id": "geography",
+              "grade": "A"
+            }
+          ],
+          "higher_subjects": [],
+          "advanced_higher_subjects": [
+            {
+              "subject_id": "biology",
+              "grade": "B",
+              "school_year": "S6",
+              "sitting_status": "resit"
+            },
+            {
+              "subject_id": "chemistry",
+              "grade": "B",
+              "school_year": "S6",
+              "sitting_status": "resit"
+            },
+            {
+              "subject_id": "physics",
+              "grade": "B",
+              "school_year": "S6",
+              "sitting_status": "resit"
+            }
+          ]
+        }
       },
       "expected": {
         "eligibility_status": "manual_review",
         "guidance_pool_id": null,
         "interview_band": "insufficient_evidence",
-        "failure": "qualification_route_requires_manual_review:scottish"
+        "failure": "uea_scottish_advanced_higher_resit_requires_manual_review"
+      }
+    },
+    {
+      "scenario_id": "scottish_national5_bypass_aaaab_manual_review",
+      "overrides": {
+        "qualification_route": "scottish",
+        "applicant_identity": {
+          "domicile": "Scotland"
+        },
+        "gcse_profile": null,
+        "a_level_profile": null,
+        "scottish_profile": {
+          "national_5_subjects": [],
+          "higher_subjects": [
+            {
+              "subject_id": "english_language",
+              "grade": "A",
+              "school_year": "S5",
+              "sitting_status": "first_sitting"
+            },
+            {
+              "subject_id": "mathematics",
+              "grade": "A",
+              "school_year": "S5",
+              "sitting_status": "first_sitting"
+            },
+            {
+              "subject_id": "biology",
+              "grade": "A",
+              "school_year": "S5",
+              "sitting_status": "first_sitting"
+            },
+            {
+              "subject_id": "chemistry",
+              "grade": "A",
+              "school_year": "S5",
+              "sitting_status": "first_sitting"
+            },
+            {
+              "subject_id": "history",
+              "grade": "B",
+              "school_year": "S5",
+              "sitting_status": "first_sitting"
+            }
+          ],
+          "advanced_higher_subjects": [
+            {
+              "subject_id": "biology",
+              "grade": "B",
+              "school_year": "S6",
+              "sitting_status": "first_sitting"
+            },
+            {
+              "subject_id": "chemistry",
+              "grade": "B",
+              "school_year": "S6",
+              "sitting_status": "first_sitting"
+            },
+            {
+              "subject_id": "physics",
+              "grade": "B",
+              "school_year": "S6",
+              "sitting_status": "first_sitting"
+            }
+          ]
+        }
+      },
+      "expected": {
+        "eligibility_status": "manual_review",
+        "guidance_pool_id": null,
+        "interview_band": "insufficient_evidence",
+        "failure": "uea_scottish_national_5_bypass_requires_manual_review"
       }
     },
     {

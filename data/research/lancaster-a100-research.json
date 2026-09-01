@@ -450,14 +450,14 @@
   },
   "contextual_policy": {
     "automatic_criteria": [
-      "Local Authority care experience or care-leaver status of at least three months",
+      "Care experienced, care leaver, or Local Authority care experience of at least three months",
       "Refugee status"
     ],
     "otherwise_minimum_criteria_count": 2,
     "other_criteria_categories": [
       "low-participation or deprivation neighbourhood evidence",
-      "low-income household or means-tested benefits evidence",
-      "16-19 bursary and related published evidence"
+      "low-income household evidence, including means-tested benefits, Free School Meals, and 16-19 bursary / EMA evidence",
+      "school disadvantage evidence, including lower attainment or lower progression to higher education"
     ],
     "effects": [
       "Lower annual UCAT shortlisting boundary",
@@ -472,6 +472,11 @@
     "excluded_groups": [
       "graduate applicants",
       "international applicants"
+    ],
+    "implementation_notes": [
+      "The captured widening-participation list is not exhaustive.",
+      "Area or postcode-derived evidence requires Lancaster-specific interpretation; no executable IMD or SIMD cutoff is published in the research pack.",
+      "The ABB contextual offer is a post-interview offer condition and not a Stage 1 academic eligibility route."
     ],
     "source_ids": [
       "lancaster_admissions_policy_2026",
@@ -672,10 +677,11 @@
       "international"
     ],
     "historical_band_policy": {
-      "realistic": "At or above the applicable published 2026-entry threshold.",
+      "realistic": "From the applicable published 2026-entry Home pool threshold up to 29 points above it.",
       "ambitious": "Within the published 10-point Home borderline interval.",
       "high_risk": "Below the threshold and, for Home pools, below the borderline interval.",
-      "interview_likely": "Not created because no separate evidence boundary supports it."
+      "interview_likely": "ApplySmart-derived confidence interpretation: 30 to 99 points above the applicable published 2026-entry Home pool threshold.",
+      "very_strong_interview_potential": "ApplySmart-derived confidence interpretation: at least 100 points above the applicable published 2026-entry Home pool threshold."
     },
     "offer_prediction_scope": "out_of_scope",
     "architecture_change_required": false
@@ -725,7 +731,7 @@
   "do_not_infer": [
     "Do not treat a 2026-entry threshold as the 2027 live cutoff.",
     "Do not linearly convert legacy /3600 UCAT statistics into /2700 prediction boundaries.",
-    "Do not invent a score above the historical threshold for a strong-choice band.",
+    "Do not present ApplySmart-derived bands above the historical threshold as official Lancaster categories or current-cycle cutoffs.",
     "Do not infer a practical-endorsement requirement.",
     "Do not infer an IB total-points requirement.",
     "Do not infer country-specific international qualification equivalence.",

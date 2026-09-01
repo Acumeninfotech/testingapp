@@ -162,8 +162,7 @@
             "school_leaver"
           ],
           "excluded_group_ids": [
-            "contextual",
-            "widening_participation"
+            "manchester_wp_verified"
           ],
           "count": 7,
           "minimum_grade": "7/A",
@@ -173,17 +172,18 @@
           ]
         },
         {
-          "requirement_id": "gcse_contextual_six_at_7_or_a",
+          "requirement_id": "gcse_manchester_wp_verified_six_at_7_or_a",
           "applies_to_group_ids": [
-            "contextual",
-            "widening_participation"
+            "school_leaver",
+            "manchester_wp_verified"
           ],
           "count": 6,
           "minimum_grade": "7/A",
           "decision_outcome_if_not_met": "not_eligible",
           "source_ids": [
             "manchester_medicine_contextual"
-          ]
+          ],
+          "notes": "Available only where Manchester's official contextual eligibility tool has verified WP+ or WP++ status."
         }
       ],
       "counted_subject_limit": null,
@@ -271,6 +271,41 @@
       "scored_after_eligibility": false,
       "notes": "GCSEs are not competitively scored after the eligibility screen. Non-standard equivalencies not represented above require manual review."
     },
+    "national_5": {
+      "status": "official_source_verified",
+      "grade_requirements": [
+        {
+          "requirement_id": "manchester_national_5_english_b",
+          "subject_id": "english_language",
+          "alternative_subject_ids": ["english"],
+          "minimum_grade": "B",
+          "source_ids": ["manchester_a106_application_and_selection_2027"],
+          "notes": "Required at National 5/SCQF level 5 grade B/2 when English is not taken at Higher or Advanced Higher."
+        },
+        {
+          "requirement_id": "manchester_national_5_mathematics_b",
+          "subject_id": "mathematics",
+          "minimum_grade": "B",
+          "source_ids": ["manchester_a106_application_and_selection_2027"],
+          "notes": "Required at National 5/SCQF level 5 grade B/2 when Mathematics is not taken at Higher or Advanced Higher."
+        },
+        {
+          "requirement_id": "manchester_national_5_chemistry_b",
+          "subject_id": "chemistry",
+          "minimum_grade": "B",
+          "source_ids": ["manchester_a106_application_and_selection_2027"],
+          "notes": "Required at National 5/SCQF level 5 grade B/2 when Chemistry is not taken at Higher or Advanced Higher."
+        },
+        {
+          "requirement_id": "manchester_national_5_biology_b",
+          "subject_id": "biology",
+          "minimum_grade": "B",
+          "source_ids": ["manchester_a106_application_and_selection_2027"],
+          "notes": "Required at National 5/SCQF level 5 grade B/2 when Biology is not taken at Higher or Advanced Higher."
+        }
+      ],
+      "notes": "Higher or Advanced Higher evidence in the same subject satisfies the corresponding SCQF-level fallback requirement."
+    },
     "post_16": {
       "status": "official_source_verified_with_remaining_eligibility_exceptions",
       "source_ids": [
@@ -293,12 +328,10 @@
         "grade_requirements": [
           {
             "requirement_id": "a_level_standard_offer",
+            "pathway_id": "manchester_standard_offer",
+            "academic_pathway": "standard",
             "applies_to_group_ids": [
               "school_leaver"
-            ],
-            "excluded_group_ids": [
-              "contextual",
-              "widening_participation"
             ],
             "grade_profile": [
               "A",
@@ -312,10 +345,29 @@
             "notes": "The published subject-combination gate also applies."
           },
           {
-            "requirement_id": "a_level_contextual_offer",
+            "requirement_id": "a_level_manchester_refugee_care_abb_offer",
+            "pathway_id": "manchester_refugee_care_abb_offer",
+            "academic_pathway": "contextual",
             "applies_to_group_ids": [
-              "contextual",
-              "widening_participation"
+              "manchester_refugee_care_abb"
+            ],
+            "grade_profile": [
+              "A",
+              "B",
+              "B"
+            ],
+            "decision_outcome_if_not_met": "not_eligible",
+            "source_ids": [
+              "manchester_medicine_contextual"
+            ],
+            "notes": "The published subject-combination gate also applies. This route is for care experience over more than three months, UK-government-granted refugee status, or a qualifying Ukrainian visa scheme."
+          },
+          {
+            "requirement_id": "a_level_manchester_contextual_aab_offer",
+            "pathway_id": "manchester_contextual_aab_offer",
+            "academic_pathway": "contextual",
+            "applies_to_group_ids": [
+              "manchester_contextual_aab"
             ],
             "grade_profile": [
               "A",
@@ -326,7 +378,7 @@
             "source_ids": [
               "manchester_medicine_contextual"
             ],
-            "notes": "The published subject-combination gate also applies."
+          "notes": "The published subject-combination gate also applies. For the 2027 cycle this route requires current UK residence, being under 21 on 1 September of the course-start year, IMD quintile 1 or TUNDRA quintile 1, and a qualifying UK school or college below the national average over multiple years. POLAR4 and TUNDRA quintile 2 do not activate this route."
           }
         ],
         "standard_offer": {
@@ -342,8 +394,7 @@
         },
         "contextual_offer": {
           "applies_to_group_ids": [
-            "contextual",
-            "widening_participation"
+            "manchester_contextual_aab"
           ],
           "grade_profile": [
             "A",
@@ -353,7 +404,21 @@
           "source_ids": [
             "manchester_medicine_contextual"
           ],
-          "notes": "Available only after Manchester verifies contextual/WP status."
+          "notes": "Available only after Manchester confirms the under-21 UK-resident contextual route."
+        },
+        "refugee_care_offer": {
+          "applies_to_group_ids": [
+            "manchester_refugee_care_abb"
+          ],
+          "grade_profile": [
+            "A",
+            "B",
+            "B"
+          ],
+          "source_ids": [
+            "manchester_medicine_contextual"
+          ],
+          "notes": "Available only after Manchester confirms care experience over more than three months, UK-government-granted refugee status, or a qualifying Ukrainian visa scheme."
         },
         "subject_combination_rule": {
           "requirement_id": "a_level_medicine_subject_combination",
@@ -479,21 +544,17 @@
       },
       "scottish": {
         "status": "official_source_verified",
+        "route_implemented": true,
+        "execution_status": "automatic_with_complete_scottish_qualification_data",
         "source_ids": [
           "manchester_a106_application_and_selection_2027"
         ],
         "higher_offer": {
-          "grade_profile": [
-            "A",
-            "A",
-            "A",
-            "A",
-            "B"
-          ],
+          "grade_profile": ["A", "A", "A", "A"],
           "source_ids": [
             "manchester_a106_application_and_selection_2027"
           ],
-          "notes": "SQA Highers AAAAB."
+          "notes": "Four Highers at AAAA by the end of S5, achieved in the same sitting at first attempt."
         },
         "advanced_higher_offer": {
           "grade_profile": [
@@ -503,55 +564,83 @@
           "source_ids": [
             "manchester_a106_application_and_selection_2027"
           ],
-          "notes": "Chemistry and Biology are recommended Advanced Higher subjects, not encoded as compulsory subjects."
+          "notes": "At least two Advanced Highers are required by the end of S6. The fully Scottish executable pathways below encode Manchester's published subject combinations."
         },
         "grade_requirements": [
           {
-            "requirement_id": "scottish_higher_and_advanced_higher_offer",
-            "applies_to_group_ids": [
-              "scotland_domiciled",
-              "school_leaver"
+            "requirement_id": "manchester_scottish_ah_aaa",
+            "route_id": "manchester_scottish_ah_aaa",
+            "qualification_level": "scottish_highers_and_advanced_highers",
+            "academic_pathway": "standard",
+            "applies_to_group_ids": ["home_fee", "school_leaver"],
+            "excluded_group_ids": ["international_fee"],
+            "higher_school_year": "s5",
+            "higher_grade_evidence": "achieved",
+            "advanced_higher_school_year": "s6",
+            "higher_grade_profile": ["A", "A", "A", "A"],
+            "advanced_higher_grade_profile": ["A", "A", "A"],
+            "first_attempt_required": true,
+            "same_sitting_required": true,
+            "same_sitting_qualification_levels": ["higher"],
+            "advanced_higher_required_subject_grade_options": [
+              {"option_id": "chemistry_biology", "grade_requirements": [{"subject_id": "chemistry", "minimum_grade": "A"}, {"subject_id": "biology", "minimum_grade": "A"}]},
+              {"option_id": "chemistry_mathematics", "grade_requirements": [{"subject_id": "chemistry", "minimum_grade": "A"}, {"subject_id": "mathematics", "minimum_grade": "A"}]},
+              {"option_id": "chemistry_psychology", "grade_requirements": [{"subject_id": "chemistry", "minimum_grade": "A"}, {"subject_id": "psychology", "minimum_grade": "A"}]},
+              {"option_id": "chemistry_physics", "grade_requirements": [{"subject_id": "chemistry", "minimum_grade": "A"}, {"subject_id": "physics", "minimum_grade": "A"}]},
+              {"option_id": "biology_mathematics", "grade_requirements": [{"subject_id": "biology", "minimum_grade": "A"}, {"subject_id": "mathematics", "minimum_grade": "A"}]},
+              {"option_id": "biology_psychology", "grade_requirements": [{"subject_id": "biology", "minimum_grade": "A"}, {"subject_id": "psychology", "minimum_grade": "A"}]},
+              {"option_id": "biology_physics", "grade_requirements": [{"subject_id": "biology", "minimum_grade": "A"}, {"subject_id": "physics", "minimum_grade": "A"}]}
             ],
-            "higher_grade_profile": [
-              "A",
-              "A",
-              "A",
-              "A",
-              "B"
-            ],
-            "advanced_higher_grade_profile": [
-              "A",
-              "A"
-            ],
-            "required_subject_ids": [],
             "decision_outcome_if_not_met": "not_eligible",
             "source_ids": [
               "manchester_a106_application_and_selection_2027"
             ],
-            "notes": "Both published grade profiles must be evaluated for this route."
-          }
-        ],
-        "national_5_requirements": [
-          {
-            "subject_id": "english_language",
-            "minimum_grade": "B/6"
+            "notes": "Four achieved S5 Highers at AAAA in the same sitting and at first attempt, plus three S6 Advanced Highers at AAA including Chemistry or Biology, a distinct second science from Chemistry, Mathematics, Biology, Psychology or Physics, and one further rigorous academic subject."
           },
           {
-            "subject_id": "mathematics",
-            "minimum_grade": "B/6"
-          },
-          {
-            "subject_id": "science",
-            "minimum_grade": "B/6"
+            "requirement_id": "manchester_scottish_ah_aa_plus_new_higher_a",
+            "route_id": "manchester_scottish_ah_aa_plus_new_higher_a",
+            "qualification_level": "scottish_highers_and_advanced_highers",
+            "academic_pathway": "standard",
+            "applies_to_group_ids": ["home_fee", "school_leaver"],
+            "excluded_group_ids": ["international_fee"],
+            "higher_school_year": "s5",
+            "higher_grade_evidence": "achieved",
+            "advanced_higher_school_year": "s6",
+            "higher_grade_profile": ["A", "A", "A", "A"],
+            "advanced_higher_grade_profile": ["A", "A"],
+            "first_attempt_required": true,
+            "same_sitting_required": true,
+            "same_sitting_qualification_levels": ["higher"],
+            "advanced_higher_required_subject_grade_options": [
+              {"option_id": "chemistry_biology", "grade_requirements": [{"subject_id": "chemistry", "minimum_grade": "A"}, {"subject_id": "biology", "minimum_grade": "A"}]},
+              {"option_id": "chemistry_mathematics", "grade_requirements": [{"subject_id": "chemistry", "minimum_grade": "A"}, {"subject_id": "mathematics", "minimum_grade": "A"}]},
+              {"option_id": "chemistry_psychology", "grade_requirements": [{"subject_id": "chemistry", "minimum_grade": "A"}, {"subject_id": "psychology", "minimum_grade": "A"}]},
+              {"option_id": "chemistry_physics", "grade_requirements": [{"subject_id": "chemistry", "minimum_grade": "A"}, {"subject_id": "physics", "minimum_grade": "A"}]},
+              {"option_id": "biology_mathematics", "grade_requirements": [{"subject_id": "biology", "minimum_grade": "A"}, {"subject_id": "mathematics", "minimum_grade": "A"}]},
+              {"option_id": "biology_psychology", "grade_requirements": [{"subject_id": "biology", "minimum_grade": "A"}, {"subject_id": "psychology", "minimum_grade": "A"}]},
+              {"option_id": "biology_physics", "grade_requirements": [{"subject_id": "biology", "minimum_grade": "A"}, {"subject_id": "physics", "minimum_grade": "A"}]}
+            ],
+            "combined_grade_requirements": [
+              {
+                "rule_id": "manchester_new_s6_higher_a",
+                "qualification_levels": ["higher"],
+                "school_year": "s6",
+                "grade_profile": ["A"]
+              }
+            ],
+            "decision_outcome_if_not_met": "not_eligible",
+            "source_ids": ["manchester_a106_application_and_selection_2027"],
+            "notes": "Four achieved S5 Highers at AAAA in the same sitting and at first attempt, plus two S6 Advanced Highers at AA including Chemistry or Biology and a distinct second accepted science, plus one new S6 Higher at A."
           }
         ],
         "required_subject_ids": [],
-        "recommended_advanced_higher_subject_ids": [
-          "chemistry",
-          "biology"
-        ],
+        "recommended_advanced_higher_subject_ids": [],
         "one_of_subject_groups": [],
-        "notes": "Chemistry and Biology at Advanced Higher are recommendations only. They must not be turned into automatic rejection rules."
+        "manual_review_routes": [
+          "Two Advanced Highers at AA plus one A2-level subject at A requires mixed Scottish/A-level evidence and remains manual review."
+        ],
+        "notes": "English Language, Mathematics, Chemistry and Biology must each be evidenced at SCQF level 5 grade 2/B or above when not taken at Higher or Advanced Higher. The fully Scottish AAA Advanced Higher and AA plus new Higher A pathways are executable. The published mixed AA Advanced Higher plus A2-level A pathway remains manual review rather than being inferred."
       },
       "btec": {
         "status": "unsupported_no_verified_rule",
@@ -1020,7 +1109,7 @@
       "unsupported_groups": [
         "a106_prior_degree_applicant"
       ],
-      "method": "Compare the applicant's current /2700 cognitive total with the minimum and maximum of the five supplied group-specific historical minimum-invited equivalents. Scores above the observed range are labelled strong historical position, scores within it reasonable historical position, and scores below it risky historical position.",
+      "method": "Compare the applicant's current /2700 cognitive total with the configured group-specific historical guide. The contextual/WP pool uses only Manchester's published 2026-entry WP+ threshold of 1960/2700; it does not convert earlier four-subtest UCAT scores.",
       "bands_by_group": [
         {
           "group_id": "home_standard",
@@ -1060,35 +1149,30 @@
         {
           "group_id": "home_contextual_wp",
           "historical_entry_years": [
-            2022,
-            2023,
-            2024,
-            2025,
             2026
           ],
           "observed_minimum_invited_range_2700": {
-            "minimum": 1860,
-            "maximum": 1965
+            "minimum": 1960,
+            "maximum": 1960
           },
           "bands": [
             {
               "band": "strong",
               "operator": ">",
-              "value": 1965,
-              "meaning": "Above every supplied rounded historical contextual/WP minimum invited value."
+              "value": 1960,
+              "meaning": "Above Manchester's published 2026-entry WP+ threshold."
             },
             {
               "band": "reasonable",
-              "operator": "between_inclusive",
-              "minimum": 1860,
-              "maximum": 1965,
-              "meaning": "Within the supplied historical contextual/WP minimum-invited range."
+              "operator": ">=",
+              "value": 1960,
+              "meaning": "At Manchester's published 2026-entry WP+ threshold."
             },
             {
               "band": "risky",
               "operator": "<",
-              "value": 1860,
-              "meaning": "Below every supplied rounded historical contextual/WP minimum invited value."
+              "value": 1960,
+              "meaning": "Below Manchester's published 2026-entry WP+ threshold."
             }
           ]
         },
@@ -1187,61 +1271,70 @@
       "manchester_medicine_contextual"
     ],
     "available": true,
+    "evaluator_id": "manchester_contextual_medicine_a100",
     "applies_to_group_ids": [
       "contextual",
       "widening_participation",
-      "care_experienced"
+      "manchester_contextual_aab",
+      "manchester_refugee_care_abb",
+      "manchester_wp_verified"
     ],
-    "verification_method": "Eligibility is confirmed using UCAS and internal University data.",
+    "verification_method": "Eligibility is confirmed using shared factual evidence. Manchester external verification is used only where the policy explicitly requires WP+ or WP++ confirmation for the GCSE-count adjustment.",
     "criteria": [
       {
-        "criterion_id": "polar4_quintile_1_or_2",
+        "criterion_id": "current_uk_residence_and_under_21",
         "applies_to_group_ids": [
-          "contextual",
-          "widening_participation"
+          "manchester_contextual_aab"
         ],
-        "description": "POLAR4 Quintile 1 or 2.",
+        "description": "Currently lives in the UK and is under 21 on 1 September of the course-start year.",
         "source_ids": [
           "manchester_medicine_contextual"
         ],
-        "notes": "Manchester verification is authoritative."
+        "notes": "Age must be established from the shared age-at-course-start band. The legacy broad age value does not prove under-21 status."
       },
       {
-        "criterion_id": "free_school_meals",
+        "criterion_id": "postcode_area_low_progression_criterion",
         "applies_to_group_ids": [
-          "contextual",
-          "widening_participation"
+          "manchester_contextual_aab"
         ],
-        "description": "Free School Meals eligibility.",
+      "description": "For the 2027 cycle, the area criterion is met via IMD quintile 1 or TUNDRA quintile 1. ACORN category 5 or 6 may also qualify when established by Manchester's external assessment, but ApplySmart does not infer ACORN from other evidence.",
         "source_ids": [
           "manchester_medicine_contextual"
         ],
-        "notes": "Manchester verification is authoritative."
+      "notes": "Derived only from normalised IMD or TUNDRA facts. POLAR4 and TUNDRA quintile 2 must not activate Manchester's 2027 contextual route."
       },
       {
-        "criterion_id": "care_experienced",
+        "criterion_id": "uk_school_or_college_below_national_average",
         "applies_to_group_ids": [
-          "care_experienced",
-          "contextual",
-          "widening_participation"
+          "manchester_contextual_aab"
         ],
-        "description": "Care-experienced applicant.",
+        "description": "Attended a UK school or college for GCSEs or post-16 study that performed below the national average over multiple years.",
         "source_ids": [
           "manchester_medicine_contextual"
         ],
-        "notes": "Manchester verification is authoritative."
+        "notes": "Derived only from the shared below-average school facts plus the UK attendance-stage facts."
       },
       {
-        "criterion_id": "first_generation_higher_education",
+        "criterion_id": "care_over_three_months",
         "applies_to_group_ids": [
-          "contextual",
-          "widening_participation"
+          "manchester_refugee_care_abb"
         ],
-        "description": "First-generation higher education.",
+        "description": "Looked after in local-authority care for more than three months.",
         "source_ids": [
           "manchester_medicine_contextual"
         ],
-        "notes": "Manchester verification is authoritative."
+        "notes": "Generic care-experienced evidence alone is not enough."
+      },
+      {
+        "criterion_id": "uk_refugee_or_ukrainian_scheme",
+        "applies_to_group_ids": [
+          "manchester_refugee_care_abb"
+        ],
+        "description": "UK-government-granted refugee status or a qualifying Ukrainian visa scheme.",
+        "source_ids": [
+          "manchester_medicine_contextual"
+        ],
+        "notes": "This route accepts Homes for Ukraine, Ukraine Family Scheme and Ukraine Extension Scheme."
       },
       {
         "criterion_id": "manchester_access_programme",
@@ -1249,22 +1342,21 @@
           "contextual",
           "widening_participation"
         ],
-        "description": "Manchester Access Programme participant or completer.",
+      "description": "Verified Manchester Access Programme completer represented through the structured Step 6 UKWPMED programme record.",
         "source_ids": [
           "manchester_medicine_contextual"
         ],
-        "notes": "Completion plus all minimum criteria is required for the guaranteed-interview rule."
+      "notes": "Completion, all minimum criteria and verified achievement of Manchester's applicable current-cycle reduced UCAT threshold are required for the guaranteed-interview rule. Legacy MAP evidence is not accepted."
       }
     ],
     "adjustments": [
       {
-        "adjustment_id": "contextual_gcse_count",
+        "adjustment_id": "verified_wp_gcse_count",
         "applies_to_group_ids": [
-          "contextual",
-          "widening_participation"
+          "manchester_wp_verified"
         ],
         "stage": "stage_1_eligibility",
-        "policy_description": "Reduce the number of GCSE/IGCSE subjects required at grade 7/A from seven to six.",
+        "policy_description": "Reduce the number of GCSE/IGCSE subjects required at grade 7/A from seven to six where Manchester's official tool verifies WP+ or WP++.",
         "effect": {
           "type": "replace_minimum",
           "target": "gcse.minimum_count_at_grade_7_or_a",
@@ -1273,13 +1365,12 @@
         "source_ids": [
           "manchester_medicine_contextual"
         ],
-        "notes": "Mandatory English, Mathematics and science subject minima still apply."
+        "notes": "Mandatory English, Mathematics and science subject minima still apply. This reduction must not be inferred without verified Manchester WP+ or WP++ evidence."
       },
       {
         "adjustment_id": "contextual_a_level_offer",
         "applies_to_group_ids": [
-          "contextual",
-          "widening_participation"
+          "manchester_contextual_aab"
         ],
         "stage": "offer_conditions",
         "policy_description": "Use the contextual A-level offer of AAB.",
@@ -1289,6 +1380,27 @@
           "value": [
             "A",
             "A",
+            "B"
+          ]
+        },
+        "source_ids": [
+          "manchester_medicine_contextual"
+        ],
+        "notes": "The A-level subject combination and science-practical requirements remain."
+      },
+      {
+        "adjustment_id": "refugee_care_a_level_offer",
+        "applies_to_group_ids": [
+          "manchester_refugee_care_abb"
+        ],
+        "stage": "offer_conditions",
+        "policy_description": "Use the refugee or care-experienced A-level offer of ABB.",
+        "effect": {
+          "type": "replace_offer",
+          "target": "a_level.grade_profile",
+          "value": [
+            "A",
+            "B",
             "B"
           ]
         },
@@ -1329,16 +1441,17 @@
           "The applicant completed the Manchester Access Programme.",
           "Manchester verifies the applicant's programme status.",
           "All applicable academic minimums are met.",
-          "UCAT was taken in the application cycle.",
-          "SJT Band 1 or 2 was achieved."
+        "UCAT was taken in the application cycle.",
+        "SJT Band 1 or 2 was achieved.",
+        "Manchester's applicable current-cycle reduced UCAT threshold was met and verified."
         ],
         "source_ids": [
           "manchester_medicine_contextual"
         ],
-        "notes": "This rule bypasses competitive UCAT guidance, not the minimum eligibility gates."
+      "notes": "This rule bypasses ordinary historical guidance only after the applicable current-cycle reduced UCAT threshold is verified. Historical UCAT values cannot establish the guarantee."
       }
     ],
-    "notes": "Contextual status must come from Manchester/UCAS verification. The engine must not infer status from user-entered postcode or background data alone."
+  "notes": "Manchester contextual routes are derived from structured Step 6 factual evidence. Generic contextual declarations, legacy contextual flags and legacy MAP evidence must not independently prove Manchester contextual-route eligibility. Manchester external-tool verification remains authoritative for WP+/WP++ treatment."
   },
   "ranking_pools": [
     {
@@ -1558,8 +1671,7 @@
     },
     "contextual_offer": {
       "applies_to_group_ids": [
-        "contextual",
-        "widening_participation"
+        "manchester_contextual_aab"
       ],
       "grade_profile": [
         "A",
@@ -1569,7 +1681,21 @@
       "source_ids": [
         "manchester_medicine_contextual"
       ],
-      "notes": "Available after contextual/WP verification."
+      "notes": "Available after Manchester confirms the under-21 UK-resident contextual route."
+    },
+    "refugee_care_offer": {
+      "applies_to_group_ids": [
+        "manchester_refugee_care_abb"
+      ],
+      "grade_profile": [
+        "A",
+        "B",
+        "B"
+      ],
+      "source_ids": [
+        "manchester_medicine_contextual"
+      ],
+      "notes": "Available after Manchester confirms care experience over more than three months, UK-government-granted refugee status, or a qualifying Ukrainian visa scheme."
     },
     "prediction_status": "partial_diagnostic_only",
     "prediction_ready": false,
@@ -1804,10 +1930,10 @@
             "converted_score_2700": 2033
           },
           "home_contextual_wp_minimum_invited": {
-            "original_score": 1890,
+            "original_score": 1960,
             "original_scale": 2700,
-            "raw_converted_score_2700": 1890,
-            "converted_score_2700": 1890
+            "raw_converted_score_2700": 1960,
+            "converted_score_2700": 1960
           },
           "average_interview": {
             "original_score": 2245,

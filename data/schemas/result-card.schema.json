@@ -209,6 +209,71 @@
       ],
       "minLength": 1
     },
+    "alternative_academic_offer": {
+      "type": [
+        "object",
+        "null"
+      ],
+      "additionalProperties": false,
+      "required": [
+        "type",
+        "standard_offer",
+        "alternative_offer",
+        "pathway_id"
+      ],
+      "properties": {
+        "type": {
+          "enum": [
+            "epq",
+            "contextual",
+            "contextual_epq",
+            "routed_offer"
+          ]
+        },
+        "standard_offer": {
+          "type": "string",
+          "minLength": 1
+        },
+        "alternative_offer": {
+          "type": "string",
+          "minLength": 1
+        },
+        "standard_offer_label": {
+          "type": "string",
+          "minLength": 1
+        },
+        "alternative_offer_label": {
+          "type": "string",
+          "minLength": 1
+        },
+        "explanation": {
+          "type": "string",
+          "minLength": 1
+        },
+        "applicable_offer": {
+          "enum": [
+            "standard",
+            "alternative"
+          ]
+        },
+        "epq_minimum_grade": {
+          "type": "string",
+          "minLength": 1
+        },
+        "pathway_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "conditions": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          },
+          "uniqueItems": true
+        }
+      }
+    },
     "decision_timeline": {
       "$ref": "#/$defs/decision_timeline"
     },
@@ -458,6 +523,50 @@
         "insufficient_evidence_reason"
       ],
       "properties": {
+        "factor_usage": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": true,
+            "required": [
+              "factor_id",
+              "label",
+              "role",
+              "detail",
+              "evidence_status"
+            ],
+            "properties": {
+              "factor_id": {
+                "type": "string",
+                "minLength": 1
+              },
+              "label": {
+                "type": "string",
+                "minLength": 1
+              },
+              "role": {
+                "type": "string",
+                "minLength": 1
+              },
+              "detail": {
+                "type": "string",
+                "minLength": 1
+              },
+              "evidence_status": {
+                "type": "string",
+                "minLength": 1
+              },
+              "applicant_value": {
+                "type": [
+                  "string",
+                  "number",
+                  "boolean",
+                  "null"
+                ]
+              }
+            }
+          }
+        },
         "decision_path": {
           "type": "array",
           "prefixItems": [
@@ -522,8 +631,22 @@
             "null"
           ]
         },
+        "manual_review_reason_code": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
         "information_needed_reason": {
           "type": [
+            "string",
+            "null"
+          ]
+        },
+        "missing_information": {
+          "type": [
+            "array",
+            "object",
             "string",
             "null"
           ]
@@ -553,6 +676,7 @@
             "academic_matrix_band_unavailable",
             "academic_compensation_inputs_unavailable",
             "edinburgh_five_gcse_historical_evidence_gap",
+            "birmingham_scottish_gcse_scoring_conversion_unavailable",
             "missing_birmingham_english_language_grade",
             "missing_birmingham_english_literature_grade",
             "missing_birmingham_mathematics_grade",
@@ -611,14 +735,36 @@
           ],
           "additionalProperties": true
         },
+        "risk_explanation": {
+          "type": [
+            "object",
+            "string",
+            "null"
+          ],
+          "additionalProperties": true
+        },
         "score_breakdown": {
-          "$ref": "#/$defs/score_breakdown"
+          "anyOf": [
+            {
+              "$ref": "#/$defs/score_breakdown"
+            },
+            {
+              "type": "null"
+            }
+          ]
         },
         "ucat_comparison": {
           "type": [
             "object",
             "null"
           ]
+        },
+        "ucat_adjustment": {
+          "type": [
+            "object",
+            "null"
+          ],
+          "additionalProperties": true
         }
       }
     },

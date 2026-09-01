@@ -6,6 +6,9 @@ const path = require('path');
 const {
   classifyInterviewBand
 } = require('../assets/js/engine/interview-band-classifier');
+const {
+  resolveUcatDecile
+} = require('../assets/js/engine/ucat-decile-service');
 
 const rootDir = path.resolve(__dirname, '..');
 const readJson = (relativePath) => JSON.parse(
@@ -53,6 +56,53 @@ assert.strictEqual(internationalEvidence.maximum_shortlist_score, 28);
 assert.strictEqual(internationalEvidence.sjt.considered, false);
 assert.strictEqual(internationalEvidence.tie_breaker.field, 'ucat.raw_total_score');
 
+const officialCardiffDecileRows =
+  course.stage_2_interview_selection.calculation.ucat_decile_points.points;
+
+assert.deepStrictEqual(
+  officialCardiffDecileRows.map((row) => ({
+    deciles: row.deciles,
+    points: row.points
+  })),
+  [
+    { deciles: [9, 8, 7], points: 3 },
+    { deciles: [6, 5, 4], points: 2 },
+    { deciles: [3, 2, 1], points: 1 }
+  ]
+);
+
+const cardiffUcatComponent = config.score_model.components.find(
+  (component) => component.component_id === 'ucat_decile_score'
+);
+
+assert.ok(cardiffUcatComponent);
+
+const cardiffDecileTranslationCases = [
+  [1940, 6, 2],
+  [1950, 7, 2],
+  [2000, 7, 2],
+  [2010, 8, 3]
+];
+
+for (const [rawUcat, expectedDerivedGroup, expectedCardiffPoints] of
+  cardiffDecileTranslationCases) {
+  const lookup = resolveUcatDecile(rawUcat, {
+    courseProfileId: course.profile_id
+  });
+
+  assert.strictEqual(lookup.available, true, `UCAT ${rawUcat}: lookup`);
+  assert.strictEqual(
+    lookup.national_decile,
+    expectedDerivedGroup,
+    `UCAT ${rawUcat}: ApplySmart derived group`
+  );
+  assert.strictEqual(
+    cardiffUcatComponent.points_by_decile[String(lookup.national_decile)],
+    expectedCardiffPoints,
+    `UCAT ${rawUcat}: Cardiff points`
+  );
+}
+
 const boundaryCases = [
   [2049, 'high_risk'],
   [2050, 'ambitious'],
@@ -95,7 +145,7 @@ assert.strictEqual(band1Result.canonical_interview_band, band4Result.canonical_i
 
 const homeResult = classifyInterviewBand(course, config, homeFixture);
 assert.strictEqual(homeResult.guidance_pool_id, 'home_non_contextual');
-assert.strictEqual(homeResult.ranking.value, 20);
+assert.strictEqual(homeResult.ranking.value, 19);
 assert.strictEqual(homeResult.ranking.max, 28);
 assert.strictEqual(homeResult.canonical_interview_band, 'high_risk');
 

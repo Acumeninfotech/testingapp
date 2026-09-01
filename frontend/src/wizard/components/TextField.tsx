@@ -13,6 +13,7 @@ interface TextFieldProps {
   readOnly?: boolean;
   inputMode?: 'decimal' | 'email' | 'none' | 'numeric' | 'search' | 'tel' | 'text' | 'url';
   pattern?: string;
+  onBlur?: () => void;
 }
 
 export function TextField({
@@ -28,6 +29,7 @@ export function TextField({
   readOnly,
   inputMode,
   pattern,
+  onBlur,
 }: TextFieldProps) {
   return (
     <FormField label={label} htmlFor={id} error={error} hint={hint}>
@@ -42,6 +44,7 @@ export function TextField({
         pattern={pattern}
         aria-invalid={Boolean(error)}
         onChange={(event) => onChange(event.target.value)}
+        onBlur={onBlur}
       />
     </FormField>
   );

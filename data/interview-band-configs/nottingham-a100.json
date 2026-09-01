@@ -36,7 +36,18 @@
       "unknown_or_unverified": "no_guidance_pool"
     },
     "historical_guidance_is_admissions_logic": false,
-    "current_or_future_cutoff_available": false
+    "current_or_future_cutoff_available": false,
+    "qualification_routes": {
+      "supported": [
+        "a_level",
+        "scottish"
+      ],
+      "manual_review": [],
+      "explicitly_blocked": []
+    },
+    "use_course_eligibility_for_qualification_routes": [
+      "scottish"
+    ]
   },
   "score_model": {
     "type": "component_sum",
@@ -45,6 +56,14 @@
       "min": 0,
       "max": 82
     },
+    "qualification_route_methodology_gaps": [
+      {
+        "qualification_route": "scottish",
+        "reason_code": "university_methodology_gap",
+        "warning_code": "nottingham_scottish_gcse_score_conversion_unavailable",
+        "applicant_facing_explanation": "You meet Nottingham's supported Scottish academic requirements. ApplySmart cannot provide Nottingham interview guidance because Nottingham's configured /82 GCSE plus UCAT historical score is not validated for Scottish qualification applicants. This is not a rejection."
+      }
+    ],
     "official_components": [
       {
         "component_id": "gcse_points",

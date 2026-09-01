@@ -105,6 +105,12 @@
     "admissions_tests": {
       "ucat": {
         "total_score": 1855,
+        "score_scale": 2700,
+        "subtests": {
+          "verbal_reasoning": 618,
+          "decision_making": 618,
+          "quantitative_reasoning": 619
+        },
         "sjt_band": 2,
         "test_year": 2025
       }
@@ -556,8 +562,10 @@
         }
       },
       "expected": {
-        "eligibility_status": "eligible",
-        "official_status": "prediction_unavailable"
+        "eligibility_status": "manual_review",
+        "canonical_band": "insufficient_evidence",
+        "failure": "kmms_scottish_group_c_manual_equivalence",
+        "manual_review_required": true
       }
     },
     {

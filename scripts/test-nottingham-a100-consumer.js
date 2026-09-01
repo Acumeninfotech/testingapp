@@ -6,6 +6,9 @@ const path = require('path');
 const {
   evaluateNottinghamA100
 } = require('../assets/js/engine/nottingham-a100-consumer');
+const {
+  predict
+} = require('../server/src/predict');
 
 const rootDir = path.resolve(__dirname, '..');
 const course = JSON.parse(
@@ -83,6 +86,74 @@ function hasKey(value, key) {
   return Object.values(value).some((entry) => hasKey(entry, key));
 }
 
+function setALevelGrades(applicant, gradesBySubject) {
+  applicant.a_level_profile.subjects = Object.entries(gradesBySubject).map(([subjectId, grade]) => ({
+    subject_id: subjectId,
+    predicted_grade: grade,
+    practical_endorsement: ['biology', 'chemistry'].includes(subjectId) ? 'pass' : null
+  }));
+}
+
+function addNottinghamContextualProfile(applicant, contextualProfile) {
+  applicant.contextual_profile = {
+    school_education: {
+      current_or_most_recent_uk_school_independent_fee_paying: 'no'
+    },
+    financial_support: {},
+    personal_circumstances: {},
+    access_programmes: {},
+    ...contextualProfile
+  };
+}
+
+function scottishSubject(subjectId, grade) {
+  return {
+    subject_id: subjectId,
+    grade,
+    predicted_grade: grade
+  };
+}
+
+function scottishApplicant(domicile = 'England', advancedHighers = [], highers = null) {
+  const applicant = clone(baseApplicant());
+  applicant.qualification_route = 'scottish';
+  applicant.has_gcse_or_equivalent_results = true;
+  applicant.applicant_identity.domicile = domicile;
+  applicant.admissions_tests.ucat.total_score = 2400;
+  applicant.admissions_tests.ucat.score_scale = 2700;
+  applicant.admissions_tests.ucat.subtests = {
+    verbal_reasoning: 800,
+    quantitative_reasoning: 800,
+    decision_making: 800
+  };
+  applicant.scottish_profile = {
+    national_5_subjects: [
+      scottishSubject('english_language', 'A'),
+      scottishSubject('mathematics', 'A'),
+      scottishSubject('biology', 'A'),
+      scottishSubject('chemistry', 'A')
+    ],
+    higher_subjects: highers || [
+      scottishSubject('biology', 'A'),
+      scottishSubject('chemistry', 'A'),
+      scottishSubject('mathematics', 'A'),
+      scottishSubject('english_language', 'A'),
+      scottishSubject('history', 'B')
+    ],
+    advanced_higher_subjects: advancedHighers
+  };
+  delete applicant.a_level_profile;
+  delete applicant.gcse_profile;
+  return applicant;
+}
+
+function contextualCriterionIds(result) {
+  return new Set(
+    (result.eligibility.contextual_eligibility?.missing_information || [])
+      .map((entry) => entry.criterion_id)
+  );
+}
+
 const standard = evaluateNottinghamA100(course, baseApplicant());
 assert.strictEqual(standard.eligibility.status, 'eligible');
 assert.strictEqual(standard.official_score.components.gcse.value, 23);
@@ -131,7 +202,8 @@ const contextualApplicant = clone(baseApplicant());
 contextualApplicant.applicant_identity.contextual = true;
 contextualApplicant.applicant_identity.contextual_status_confirmed = true;
 const contextual = evaluateNottinghamA100(course, contextualApplicant);
-assert.strictEqual(contextual.contextual_policy.applicable, true);
+assert.strictEqual(contextual.contextual_policy.applicable, false);
+assert.strictEqual(contextual.contextual_policy.status, 'not_contextual');
 assert.strictEqual(contextual.contextual_policy.ranking_bonus_points, 0);
 assert.strictEqual(contextual.contextual_policy.effect_stage, 'offer_stage_only');
 assert.deepStrictEqual(
@@ -146,8 +218,157 @@ const unverifiedContextual = evaluateNottinghamA100(course, unverifiedContextual
 assert.strictEqual(unverifiedContextual.contextual_policy.applicable, false);
 assert.strictEqual(
   unverifiedContextual.contextual_policy.status,
-  'contextual_status_requires_confirmation'
+  'not_contextual'
 );
+
+const genericFsmOnlyApplicant = clone(baseApplicant());
+setALevelGrades(genericFsmOnlyApplicant, {
+  chemistry: 'A',
+  biology: 'B',
+  mathematics: 'B'
+});
+addNottinghamContextualProfile(genericFsmOnlyApplicant, {
+  financial_support: {
+    free_school_meals: 'yes'
+  }
+});
+const genericFsmOnly = evaluateNottinghamA100(course, genericFsmOnlyApplicant);
+assert.strictEqual(genericFsmOnly.contextual_policy.status, 'information_needed');
+assert.strictEqual(
+  genericFsmOnly.eligibility.contextual_eligibility.status,
+  'information_needed'
+);
+assert.ok(
+  contextualCriterionIds(genericFsmOnly)
+    .has('enhanced_fsm_route_requires_ucas_verified_census_day_ks4_window')
+);
+assert.notStrictEqual(
+  genericFsmOnly.eligibility.contextual_eligibility.matched_contextual_pathway,
+  'nottingham_enhanced_contextual'
+);
+assert.ok(
+  !genericFsmOnly.eligibility.contextual_eligibility.activated_applicant_group_ids
+    .includes('nottingham_enhanced_contextual')
+);
+assert.strictEqual(genericFsmOnly.eligibility.status, 'manual_review');
+assert.ok(
+  genericFsmOnly.eligibility.manual_review_reasons
+    .includes('nottingham_contextual_information_needed')
+);
+assert.ok(
+  !genericFsmOnly.eligibility.checks.some((check) => {
+    return check.pathway_id === 'nottingham_enhanced_contextual_abb_offer';
+  })
+);
+
+const genericFsmWithLevel3Applicant = clone(genericFsmOnlyApplicant);
+genericFsmWithLevel3Applicant.contextual_profile.financial_support
+  .free_school_meals_at_level3_completion = 'yes';
+const genericFsmWithLevel3 = evaluateNottinghamA100(course, genericFsmWithLevel3Applicant);
+assert.strictEqual(genericFsmWithLevel3.contextual_policy.status, 'information_needed');
+assert.notStrictEqual(
+  genericFsmWithLevel3.eligibility.contextual_eligibility.matched_contextual_pathway,
+  'nottingham_enhanced_contextual'
+);
+assert.ok(
+  !genericFsmWithLevel3.eligibility.contextual_eligibility.activated_applicant_group_ids
+    .includes('nottingham_enhanced_contextual')
+);
+assert.strictEqual(genericFsmWithLevel3.eligibility.status, 'manual_review');
+
+const independentSchoolFsmApplicant = clone(genericFsmOnlyApplicant);
+independentSchoolFsmApplicant.contextual_profile.school_education
+  .current_or_most_recent_uk_school_independent_fee_paying = 'yes';
+const independentSchoolFsm = evaluateNottinghamA100(course, independentSchoolFsmApplicant);
+assert.strictEqual(independentSchoolFsm.contextual_policy.status, 'not_contextual');
+assert.notStrictEqual(
+  independentSchoolFsm.eligibility.contextual_eligibility.matched_contextual_pathway,
+  'nottingham_enhanced_contextual'
+);
+assert.ok(
+  !independentSchoolFsm.eligibility.contextual_eligibility.activated_applicant_group_ids
+    .includes('nottingham_enhanced_contextual')
+);
+assert.strictEqual(independentSchoolFsm.eligibility.status, 'not_eligible');
+
+const careOverThreeMonthsApplicant = clone(baseApplicant());
+setALevelGrades(careOverThreeMonthsApplicant, {
+  chemistry: 'A',
+  biology: 'B',
+  mathematics: 'A'
+});
+addNottinghamContextualProfile(careOverThreeMonthsApplicant, {
+  personal_circumstances: {
+    care_over_three_months: 'yes'
+  }
+});
+const careOverThreeMonths = evaluateNottinghamA100(course, careOverThreeMonthsApplicant);
+assert.strictEqual(
+  careOverThreeMonths.eligibility.contextual_eligibility.matched_contextual_pathway,
+  'nottingham_standard_contextual'
+);
+assert.strictEqual(careOverThreeMonths.eligibility.status, 'eligible');
+assert.ok(
+  careOverThreeMonths.eligibility.checks.some((check) => {
+    return check.pathway_id === 'nottingham_standard_contextual_aab_offer' &&
+      check.status === 'pass';
+  })
+);
+
+const enhancedOutreachApplicant = clone(baseApplicant());
+setALevelGrades(enhancedOutreachApplicant, {
+  chemistry: 'A',
+  biology: 'B',
+  mathematics: 'B'
+});
+addNottinghamContextualProfile(enhancedOutreachApplicant, {
+  access_programmes: {
+    other_programmes: [
+      {
+        programme_id: 'nottingham_sutton_trust_pathways_to_medicine',
+        status: 'completed'
+      }
+    ]
+  }
+});
+const enhancedOutreach = evaluateNottinghamA100(course, enhancedOutreachApplicant);
+assert.strictEqual(
+  enhancedOutreach.eligibility.contextual_eligibility.matched_contextual_pathway,
+  'nottingham_enhanced_contextual'
+);
+assert.strictEqual(enhancedOutreach.eligibility.status, 'eligible');
+assert.ok(
+  enhancedOutreach.eligibility.checks.some((check) => {
+    return check.pathway_id === 'nottingham_enhanced_contextual_abb_offer' &&
+      check.status === 'pass';
+  })
+);
+
+const nonContextualAaaApplicant = clone(baseApplicant());
+setALevelGrades(nonContextualAaaApplicant, {
+  chemistry: 'A',
+  biology: 'A',
+  mathematics: 'A'
+});
+const nonContextualAaa = evaluateNottinghamA100(course, nonContextualAaaApplicant);
+assert.strictEqual(nonContextualAaa.eligibility.status, 'eligible');
+assert.ok(
+  nonContextualAaa.eligibility.checks.some((check) => {
+    return check.pathway_id === 'nottingham_standard_aaa_offer' &&
+      check.status === 'pass';
+  })
+);
+
+const nonContextualAbbApplicant = clone(baseApplicant());
+setALevelGrades(nonContextualAbbApplicant, {
+  chemistry: 'A',
+  biology: 'B',
+  mathematics: 'B'
+});
+const nonContextualAbb = evaluateNottinghamA100(course, nonContextualAbbApplicant);
+assert.strictEqual(nonContextualAbb.contextual_policy.status, 'not_contextual');
+assert.strictEqual(nonContextualAbb.eligibility.status, 'not_eligible');
+assert.deepStrictEqual(nonContextualAbb.eligibility.manual_review_reasons, []);
 
 const ibApplicant = clone(baseApplicant());
 ibApplicant.qualification_route = 'international_baccalaureate';
@@ -163,6 +384,57 @@ ibApplicant.ib_profile = {
 const ib = evaluateNottinghamA100(course, ibApplicant);
 assert.strictEqual(ib.eligibility.status, 'eligible');
 
+{
+  const result = evaluateNottinghamA100(course, scottishApplicant('England'));
+  assert.strictEqual(result.eligibility.status, 'manual_review');
+  assert.strictEqual(result.eligibility.qualification_route, 'scottish');
+  assert.ok(
+    result.eligibility.manual_review_reasons.includes(
+      'nottingham_scottish_advanced_highers_required'
+    )
+  );
+  assert.strictEqual(result.official_score.status, 'not_applicable_route_methodology_gap');
+  assert.strictEqual(result.insufficient_evidence_reason_code, 'university_methodology_gap');
+  assert.strictEqual(result.missing_information, null);
+
+  const [prediction] = predict({
+    universityIds: ['nottingham-a100'],
+    studentProfile: scottishApplicant('England')
+  });
+  assert.strictEqual(prediction.result_card.primary_user_facing_recommendation, 'More information is required');
+  assert.match(prediction.result_card.primary_explanation, /Advanced Higher Biology and Chemistry at AA are required/);
+  assert.doesNotMatch(prediction.result_card.primary_explanation, /additional applicant information|A-level|best eight GCSEs/i);
+  assert.strictEqual(prediction.result_card.academic_pathway_id, null);
+  assert.strictEqual(prediction.result_card.missing_information, null);
+}
+
+for (const domicile of ['England', 'Scotland']) {
+  const applicant = scottishApplicant(domicile, [
+    scottishSubject('biology', 'A'),
+    scottishSubject('chemistry', 'A')
+  ]);
+  const result = evaluateNottinghamA100(course, applicant);
+  assert.strictEqual(result.eligibility.status, 'eligible', `Scottish ${domicile}: eligibility`);
+  assert.strictEqual(result.eligibility.qualification_route, 'scottish', `Scottish ${domicile}: route`);
+  assert.strictEqual(
+    result.eligibility.academic_pathway_id,
+    'nottingham_scottish_highers_aaaab_plus_advanced_highers_aa_biology_chemistry',
+    `Scottish ${domicile}: pathway`
+  );
+  assert.strictEqual(result.insufficient_evidence_reason_code, 'university_methodology_gap');
+  assert.strictEqual(result.missing_information, null);
+}
+
+{
+  const ahOnly = evaluateNottinghamA100(course, scottishApplicant('England', [
+    scottishSubject('biology', 'A'),
+    scottishSubject('chemistry', 'A')
+  ], []));
+  assert.strictEqual(ahOnly.eligibility.status, 'not_eligible');
+  assert.ok(ahOnly.eligibility.failures.includes('scottish_post_16_requirements_not_met'));
+  assert.strictEqual(ahOnly.eligibility.academic_pathway_id ?? null, null);
+}
+
 const btecApplicant = clone(baseApplicant());
 btecApplicant.qualification_route = 'btec';
 delete btecApplicant.a_level_profile;
@@ -174,7 +446,7 @@ assert.strictEqual(btec.eligibility.status, 'not_eligible');
 assert.ok(btec.eligibility.failures.includes('qualification_route_not_accepted:btec'));
 
 const unsupportedRoute = clone(baseApplicant());
-unsupportedRoute.qualification_route = 'scottish';
+unsupportedRoute.qualification_route = 'welsh';
 delete unsupportedRoute.a_level_profile;
 const scottish = evaluateNottinghamA100(course, unsupportedRoute);
 assert.strictEqual(scottish.eligibility.status, 'manual_review');
@@ -244,6 +516,21 @@ const belowMinimumAge = evaluateNottinghamA100(course, belowMinimumAgeApplicant)
 assert.strictEqual(belowMinimumAge.eligibility.status, 'not_eligible');
 assert.ok(
   belowMinimumAge.eligibility.failures.includes('minimum_age_requirement_not_met')
+);
+
+const age17BandApplicant = clone(baseApplicant());
+age17BandApplicant.applicant_identity.age_at_course_start_band = 'age_17';
+delete age17BandApplicant.applicant_identity.date_of_birth;
+const age17Band = evaluateNottinghamA100(course, age17BandApplicant);
+assert.strictEqual(age17Band.eligibility.status, 'eligible');
+
+const under17BandApplicant = clone(baseApplicant());
+under17BandApplicant.applicant_identity.age_at_course_start_band = 'under_17';
+under17BandApplicant.applicant_identity.date_of_birth = '2000-01-01';
+const under17Band = evaluateNottinghamA100(course, under17BandApplicant);
+assert.strictEqual(under17Band.eligibility.status, 'not_eligible');
+assert.ok(
+  under17Band.eligibility.failures.includes('minimum_age_requirement_not_met')
 );
 
 assert.strictEqual(standard.interview_guidance.status, 'guidance_only_non_executable');

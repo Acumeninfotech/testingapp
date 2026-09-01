@@ -3,12 +3,13 @@
   "course_profile_id": "glasgow-a100",
   "confidence": "medium",
   "evidence": {
-    "classification": "official_ucat_ranking_with_verified_international_historical_guidance",
-    "summary": "Official UCAT-only interview ranking after academic screening, with a separate international pool and verified historical international invited-score guidance. The guidance is not a fixed UCAT cut-off.",
+    "classification": "official_ucat_ranking_with_verified_home_ruk_international_historical_guidance",
+    "summary": "Official UCAT-only interview ranking after academic screening, with separate Scotland/Home, Rest of UK and International pools. Guidance is not a fixed UCAT cut-off.",
     "source_ids": [
       "glasgow_degree_page_2027",
       "glasgow_ucat_2027",
       "glasgow_admissions_procedures_2026_pdf",
+      "glasgow_admissions_data_2022_2025_pdf",
       "glasgow_verified_international_admissions_evidence"
     ]
   },
@@ -23,6 +24,50 @@
     }
   },
   "guidance_pools": [
+    {
+      "pool_id": "scotland_home_school_leaver",
+      "priority": 20,
+      "applicant_match": {
+        "all_group_ids": [
+          "home_fee",
+          "scotland_domiciled",
+          "school_leaver"
+        ]
+      },
+      "metric": "ucat_total",
+      "band_rules": [
+        {
+          "band": "very_strong_interview_potential",
+          "operator": "greater_than_or_equal",
+          "value": 2050,
+          "source_band_id": "very_strong"
+        },
+        {
+          "band": "interview_likely",
+          "operator": "between_inclusive",
+          "min": 1975,
+          "max": 2049,
+          "source_band_id": "strong"
+        },
+        {
+          "band": "realistic",
+          "operator": "between_inclusive",
+          "min": 1900,
+          "max": 1974
+        },
+        {
+          "band": "ambitious",
+          "operator": "between_inclusive",
+          "min": 1825,
+          "max": 1899
+        },
+        {
+          "band": "high_risk",
+          "operator": "less_than",
+          "value": 1825
+        }
+      ]
+    },
     {
       "pool_id": "international",
       "priority": 100,

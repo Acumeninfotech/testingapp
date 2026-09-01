@@ -98,10 +98,12 @@ function makeResultCard(course, config, applicant, classification) {
     interviewBand: classification.canonical_interview_band,
     manualReviewRequired: classification.manual_review_required === true,
     manualReviewReason: humanManualReviewReason(classification.eligibility.manual_review_reasons),
-    insufficientEvidenceReasonCode: insufficientEvidenceReasonCodeFromWarnings(classification.warnings, {
-      eligibilityStatus: classification.eligibility.status,
-      guidancePoolId: classification.guidance_pool_id ?? null
-    }),
+    insufficientEvidenceReasonCode:
+      classification.insufficient_evidence_reason_code ||
+      insufficientEvidenceReasonCodeFromWarnings(classification.warnings, {
+        eligibilityStatus: classification.eligibility.status,
+        guidancePoolId: classification.guidance_pool_id ?? null
+      }),
     transparencyContext: {
       course_identity: {
         profile_id: course.profile_id
@@ -166,6 +168,63 @@ function classifyScenario(overrides = {}) {
   const classification = classifyInterviewBand(course, config, applicant);
   const resultCard = makeResultCard(course, config, applicant, classification);
   return { applicant, classification, resultCard };
+}
+
+function scottishSubject(subjectId, grade, extra = {}) {
+  return {
+    subject_id: subjectId,
+    grade,
+    predicted_grade: grade,
+    ...extra
+  };
+}
+
+function leedsScottishApplicant(domicile = 'England') {
+  const applicant = merge(fixture.base_applicant, {
+    qualification_route: 'scottish',
+    applicant_identity: {
+      fee_status: 'Home',
+      domicile,
+      applicant_type: 'standard_school_leaver',
+      graduate: false,
+      contextual: false,
+      widening_participation: false,
+      contextual_flags: {}
+    },
+    scottish_profile: {
+      national_5_subjects: [
+        scottishSubject('english', 'A'),
+        scottishSubject('mathematics', 'A'),
+        scottishSubject('biology', 'A'),
+        scottishSubject('chemistry', 'A')
+      ],
+      higher_subjects: [
+        scottishSubject('biology', 'A'),
+        scottishSubject('chemistry', 'A'),
+        scottishSubject('mathematics', 'A'),
+        scottishSubject('english', 'A'),
+        scottishSubject('history', 'B')
+      ],
+      advanced_higher_subjects: []
+    },
+    admissions_tests: {
+      ucat: {
+        taken: true,
+        test_year: 2026,
+        total_score: 2400,
+        score_scale: 2700,
+        sjt_band: 2,
+        subtests: {
+          verbal_reasoning: 800,
+          decision_making: 800,
+          quantitative_reasoning: 800
+        }
+      }
+    }
+  });
+  delete applicant.a_level_profile;
+  delete applicant.gcse_profile;
+  return applicant;
 }
 
 function matrixInternal(classification) {
@@ -237,6 +296,59 @@ assert.strictEqual(
   "Based on ApplySmart's assessment, your academic profile and UCAT appear competitive for this applicant group."
 );
 assertNoPublicInternalLeak(homeStrongCard, 'home strong API card');
+
+for (const domicile of ['England', 'Scotland']) {
+  const applicant = leedsScottishApplicant(domicile);
+  const classification = classifyInterviewBand(course, config, applicant);
+  const resultCard = makeResultCard(course, config, applicant, classification);
+  assert.strictEqual(classification.eligibility.status, 'eligible', `Scottish ${domicile}: eligibility`);
+  assert.strictEqual(classification.eligibility.qualification_route, 'scottish', `Scottish ${domicile}: route`);
+  assert.strictEqual(
+    classification.eligibility.academic_pathway_id,
+    'leeds_scottish_standard_highers_aaaab',
+    `Scottish ${domicile}: pathway`
+  );
+  assert.strictEqual(classification.canonical_interview_band, 'insufficient_evidence', `Scottish ${domicile}: band`);
+  assert.strictEqual(
+    classification.insufficient_evidence_reason_code,
+    'university_methodology_gap',
+    `Scottish ${domicile}: reason`
+  );
+  assert.strictEqual(classification.missing_information ?? null, null, `Scottish ${domicile}: missing info`);
+  assert.strictEqual(resultCard.primary_user_facing_recommendation, 'Prediction Unavailable');
+  assert.match(resultCard.primary_explanation, /supported Scottish academic requirements/);
+  assert.doesNotMatch(resultCard.primary_explanation, /best eight GCSEs|zero GCSEs/i);
+  assert.ok(
+    resultCard.academic_requirement_checks.some((check) => {
+      return check.qualification_type === 'scottish' &&
+        check.requirement_type === 'scottish_post_16_requirements' &&
+        check.status === 'met';
+    }),
+    `Scottish ${domicile}: Result Card Scottish academic check`
+  );
+  assertNoPublicInternalLeak(resultCard, `Scottish ${domicile}`);
+}
+
+{
+  const applicant = merge(fixture.base_applicant, {});
+  applicant.gcse_profile = {
+    subjects: {
+      english_language: '6',
+      mathematics: '6'
+    },
+    total_gcse_count: 8
+  };
+  const classification = classifyInterviewBand(course, config, applicant);
+  const resultCard = makeResultCard(course, config, applicant, classification);
+  assert.strictEqual(classification.eligibility.status, 'not_eligible');
+  assert.strictEqual(
+    classification.canonical_interview_band,
+    'not_eligible'
+  );
+  assert.ok(includesFailure(classification, 'minimum_gcse_count_at_grade_not_met:six_gcse_at_grade_4_or_above'));
+  assert.ok(includesFailure(classification, 'gcse_science_alternative_not_met'));
+  assert.doesNotMatch(resultCard.primary_explanation, /supported Scottish academic requirements/i);
+}
 
 const aStarAStarB = classifyScenario({
   a_level_profile: {
@@ -453,7 +565,7 @@ const routeBoundaryCases = [
     'insufficient_evidence'
   ],
   ['ib', { qualification_route: 'ib' }, 'manual_review', null, 'insufficient_evidence'],
-  ['scottish', { qualification_route: 'scottish' }, 'manual_review', null, 'insufficient_evidence'],
+  ['scottish', { qualification_route: 'scottish' }, 'not_eligible', null, 'not_eligible'],
   ['btec', { qualification_route: 'btec' }, 'not_eligible', null, 'not_eligible']
 ];
 

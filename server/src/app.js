@@ -2,6 +2,10 @@ const express = require('express');
 const cors = require('cors');
 const { getProductionReadyUniversities } = require('./universities');
 const { predict, PredictionInputError } = require('./predict');
+const {
+  ContextualPostcodeLookupError,
+  lookupContextualPostcode
+} = require('./contextual-postcode-lookup');
 
 function createApp() {
   const app = express();
@@ -20,6 +24,20 @@ function createApp() {
       res.json({ universities, count: universities.length });
     } catch (error) {
       res.status(500).json({ error: 'Failed to load universities' });
+    }
+  });
+
+  app.get('/api/contextual/postcode-lookup', (req, res) => {
+    try {
+      const postcode = typeof req.query.postcode === 'string' ? req.query.postcode : '';
+      const result = lookupContextualPostcode(postcode);
+      res.json(result);
+    } catch (error) {
+      if (error instanceof ContextualPostcodeLookupError && error.statusCode === 400) {
+        res.status(400).json({ error: error.message });
+        return;
+      }
+      res.status(500).json({ error: 'Failed to check postcode' });
     }
   });
 

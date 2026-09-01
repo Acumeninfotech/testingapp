@@ -76,13 +76,50 @@ assert.strictEqual(course.stage_2_interview_selection.primary_model, 'ucat_ranki
 
 const gcse = course.stage_1_eligibility.gcse;
 assert.strictEqual(gcse.minimum_count, 5);
-assert.strictEqual(gcse.minimum_count_at_or_above_grade.count, 5);
-assert.strictEqual(gcse.minimum_count_at_or_above_grade.minimum_grade, '7/A');
+assert.deepStrictEqual(
+  gcse.minimum_count_at_or_above_grade.map((rule) => [
+    rule.requirement_id,
+    rule.count,
+    rule.minimum_grade,
+    rule.applies_to_group_ids || [],
+    rule.excluded_group_ids || []
+  ]),
+  [
+    [
+      'five_gcse_grade_7_minimum',
+      5,
+      '7/A',
+      [],
+      ['sheffield_access_to_sheffield_medicine']
+    ],
+    [
+      'access_to_sheffield_medicine_five_gcse_grade_6_minimum',
+      5,
+      '6/B',
+      ['sheffield_access_to_sheffield_medicine'],
+      []
+    ]
+  ]
+);
 assert.deepStrictEqual(
   gcse.grade_requirements.map((rule) => [rule.subject_id, rule.minimum_grade]),
   [
     ['english_language', '6/B'],
-    ['mathematics', '6/B']
+    ['mathematics', '6/B'],
+    ['english_language', '4/C'],
+    ['mathematics', '4/C']
+  ]
+);
+assert.strictEqual(
+  course.contextual_admissions.contextual_eligibility.evaluator_id,
+  'sheffield_contextual_medicine_a100'
+);
+assert.deepStrictEqual(
+  course.contextual_admissions.contextual_eligibility.activated_applicant_group_ids,
+  [
+    'sheffield_contextual_offer',
+    'sheffield_access_to_sheffield_medicine',
+    'sheffield_bradford_hallam_pathway'
   ]
 );
 assert.strictEqual(gcse.selection_role, 'eligibility_only');
@@ -111,7 +148,7 @@ assert.strictEqual(config.score_model.historical_guidance_only, true);
 assert.deepStrictEqual(
   config.guidance_pools.map((pool) => pool.pool_id),
   [
-    'access_to_sheffield_medicine_pathway',
+    'access_to_sheffield_medicine',
     'international_a100',
     'home_a100'
   ]
@@ -193,19 +230,21 @@ const accessResult = classifyInterviewBand(
   course,
   config,
   merge(fixture.base_applicant, fixture.scenarios.find((scenario) => {
-    return scenario.scenario_id === 'verified_access_to_sheffield_medicine_pathway';
+    return scenario.scenario_id === 'verified_access_to_sheffield_medicine_step6';
   }).overrides)
 );
 assert.strictEqual(accessResult.canonical_interview_band, 'interview_likely');
 assert.strictEqual(accessResult.ranking.value, 1800);
 assert.strictEqual(
   accessResult.guidance_pool_id,
-  'access_to_sheffield_medicine_pathway'
+  'access_to_sheffield_medicine'
 );
 
+assert.strictEqual(course.stage_1_eligibility.post_16.scottish.route_implemented, true);
+assert.strictEqual(course.stage_1_eligibility.post_16.scottish.contextual_route_implemented, true);
 assert.strictEqual(
   course.stage_1_eligibility.post_16.scottish.execution_status,
-  'manual_review_required_engine_v1_cannot_jointly_assess_higher_and_advanced_higher_profiles'
+  'automatic_with_complete_scottish_qualification_data'
 );
 assert.strictEqual(
   course.stage_1_eligibility.post_16.degree.execution_status,
@@ -218,6 +257,31 @@ assert.deepStrictEqual(
 assert.deepStrictEqual(
   course.stage_1_eligibility.post_16.scottish.advanced_higher_offer.grade_profile,
   ['A', 'A']
+);
+assert.deepStrictEqual(
+  course.stage_1_eligibility.post_16.scottish.grade_requirements.map((rule) => [
+    rule.requirement_id,
+    rule.qualification_level,
+    rule.academic_pathway,
+    rule.higher_grade_profile,
+    rule.advanced_higher_grade_profile
+  ]),
+  [
+    [
+      'sheffield_scottish_standard_highers_and_advanced_highers',
+      'scottish_highers_and_advanced_highers',
+      'standard',
+      ['A', 'A', 'A', 'B', 'B'],
+      ['A', 'A']
+    ],
+    [
+      'sheffield_scottish_contextual_highers_and_advanced_highers',
+      'scottish_highers_and_advanced_highers',
+      'contextual',
+      ['A', 'A', 'B', 'B', 'B'],
+      ['A', 'B']
+    ]
+  ]
 );
 assert.strictEqual(
   course.stage_1_eligibility.post_16.degree.minimum_classification,
@@ -236,8 +300,59 @@ assert.deepStrictEqual(
     'Only failing qualifications need to be retaken.'
   ]
 );
-assert.deepStrictEqual(aLevel.epq_alternative.grade_profile, ['A', 'A', 'B']);
-assert.strictEqual(aLevel.epq_alternative.epq_grade, 'A');
+assert.deepStrictEqual(aLevel.epq_alternative_offer, {
+  enabled: true,
+  pathway_id: 'sheffield_epq_alternative',
+  a_level_grades: ['A', 'A', 'B'],
+  epq_minimum_grade: 'A',
+  required_subject_grade_options: [
+    {
+      option_id: 'biology_mandatory_science_grade_a',
+      required_subject_ids: ['biology'],
+      grade_requirements: [
+        {
+          subject_id: 'biology',
+          minimum_grade: 'A'
+        }
+      ],
+      one_of_subject_groups: [
+        {
+          group_id: 'epq_second_science_with_biology',
+          minimum_required: 1,
+          subject_ids: ['chemistry', 'mathematics', 'physics', 'psychology', 'human_biology']
+        }
+      ]
+    },
+    {
+      option_id: 'chemistry_mandatory_science_grade_a',
+      required_subject_ids: ['chemistry'],
+      grade_requirements: [
+        {
+          subject_id: 'chemistry',
+          minimum_grade: 'A'
+        }
+      ],
+      one_of_subject_groups: [
+        {
+          group_id: 'epq_second_science_with_chemistry',
+          minimum_required: 1,
+          subject_ids: ['biology', 'human_biology', 'mathematics', 'physics', 'psychology']
+        }
+      ]
+    }
+  ],
+  conditions: {
+    a_level_resits_allowed: false,
+    must_be_taken_alongside_a_levels: true,
+    equivalent_grade_combinations_allowed: false
+  },
+  source_ids: ['sheffield_a100_policy_2027']
+});
+assert.strictEqual(
+  Object.prototype.hasOwnProperty.call(aLevel, 'epq_alternative'),
+  false,
+  'Sheffield must use the canonical epq_alternative_offer field, not the legacy alias.'
+);
 assert.strictEqual(
   course.stage_1_eligibility.post_16.ib.contextual_offer.total_points,
   34
@@ -257,10 +372,8 @@ assert.deepStrictEqual(
   ]
 );
 for (const implementedRule of [
-  'scottish',
   'graduate',
   'resit',
-  'epq',
   'contextual_ib',
   'environmental_science'
 ]) {
@@ -288,11 +401,11 @@ assert.deepStrictEqual(
 );
 assert.match(
   card.decision_timeline[2].summary,
-  /academic eligibility.*UCAT minimum.*UCAT ranking/i
+  /academic eligibility.*UCAT minimum.*ranking.*by UCAT/i
 );
 assert.match(
   JSON.stringify(card.decision_transparency),
-  /threshold-only.*UCAT cognitive total.*2025–26 Home historical cutpoint/s
+  /"factor_id":"ucat".*"role":"ranking".*ranking most eligible applicants by UCAT/s
 );
 assert.strictEqual(hasNestedKey(card, 'offer_prediction'), false);
 assert.strictEqual(hasNestedKey(card, 'offer_probability'), false);

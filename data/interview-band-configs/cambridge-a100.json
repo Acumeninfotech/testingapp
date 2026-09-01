@@ -11,16 +11,17 @@
     ]
   },
   "eligibility": {
-    "scope": "Automatic classifier supports A-level and IB school-leaver profiles with current-cycle UCAT, science-practical and English-language evidence. Scottish, graduate and non-standard overseas qualifications require manual review.",
+    "scope": "Automatic classifier supports A-level, IB and Scottish school-leaver profiles with current-cycle UCAT, science-practical where applicable and English-language evidence. Graduate and non-standard overseas qualifications require manual review.",
     "international_english_language_required": true,
+    "contextual_evaluator_controls_group_routing": true,
     "qualification_routes": {
       "supported": [
         "a_level",
         "international_baccalaureate",
+        "scottish",
         "international_qualification"
       ],
       "manual_review": [
-        "scottish",
         "graduate"
       ],
       "explicitly_blocked": [
@@ -30,18 +31,8 @@
         "unknown"
       ]
     },
-    "allow_guidance_with_manual_review_reasons": [
-      "contextual_a_level_gate_exception_requires_manual_review"
-    ],
-    "manual_review_band_caps": [
-      {
-        "manual_review_reasons": [
-          "contextual_a_level_gate_exception_requires_manual_review"
-        ],
-        "cap_to_band": "ambitious",
-        "research_label": "Borderline"
-      }
-    ],
+    "allow_guidance_with_manual_review_reasons": [],
+    "manual_review_band_caps": [],
     "conditional_manual_review": [
       {
         "condition_id": "cambridge_international_realistic_or_above",
@@ -97,39 +88,7 @@
             }
           ]
         }
-      ],
-      "contextual_gate_exception": {
-        "applies_to_group_ids": [
-          "home_fee",
-          "contextual"
-        ],
-        "excluded_group_ids": [
-          "international_fee"
-        ],
-        "route": {
-          "route_id": "cambridge_contextual_a_star_a_a_manual_review",
-          "grade_profile": [
-            "A*",
-            "A",
-            "A"
-          ],
-          "required_subject_ids": [
-            "chemistry"
-          ],
-          "one_of_subject_groups": [
-            {
-              "group_id": "second_science_or_maths",
-              "subject_ids": [
-                "biology",
-                "physics",
-                "mathematics"
-              ],
-              "minimum_required": 1
-            }
-          ]
-        },
-        "manual_review_reason": "contextual_a_level_gate_exception_requires_manual_review"
-      }
+      ]
     },
     "international_baccalaureate": {
       "routes": [
@@ -201,8 +160,11 @@
       "Do not expose UCAT band boundaries or internal modifier values.",
       "Do not present the modelled score as a Cambridge score.",
       "Do not use SJT as a gate, score or negative modifier.",
-      "Do not auto-evaluate Scottish A1/A2 Advanced Higher precision or non-standard overseas equivalencies.",
+      "Do not infer Scottish requirements beyond the published A1, A1, A2 Advanced Higher route or auto-evaluate non-standard overseas equivalencies.",
       "Do not implement offer prediction."
+    ],
+    "use_course_eligibility_for_qualification_routes": [
+      "scottish"
     ]
   },
   "score_model": {
@@ -216,12 +178,32 @@
     "gcse_profile_completeness": {
       "minimum_results_for_competitiveness_assessment": 8
     },
+    "qualification_route_methodology_gaps": [
+      {
+        "qualification_route": "scottish",
+        "reason_code": "university_methodology_gap",
+        "warning_code": "scottish_gcse_model_conversion_unavailable",
+        "applicant_facing_explanation": "You meet Cambridge's supported Scottish academic requirements. ApplySmart cannot provide a Cambridge interview prediction because no validated Scottish conversion is available for its modelled GCSE competitiveness component. This is not a rejection."
+      }
+    ],
     "presentation": {
       "hide_score_breakdown": true,
       "hide_selection_score_details": true,
       "pool_label": "Cambridge A100 applicants",
       "selection_summary": "Cambridge reviews applicants holistically by college. ApplySmart checks the published academic and UCAT requirements, then uses hidden modelled guidance from historical UCAT competitiveness, GCSE profile context and recognised contextual information.",
       "timeline_selection_summary": "Published academic and UCAT requirements were checked before Cambridge-specific holistic interview guidance was applied with internal thresholds hidden.",
+      "contextual_confirmation": {
+        "collapsed_label": "Contextual information may be considered",
+        "expanded_heading": "Cambridge contextual consideration",
+        "consideration_label": "Cambridge contextual information:",
+        "expanded_body": "Cambridge considers contextual information alongside the rest of an applicant's academic and admissions profile. The information you provided indicates that contextual factors may be considered. This does not reduce Cambridge Medicine's published academic requirements or guarantee an interview."
+      },
+      "contextual_information_needed": {
+        "collapsed_label": "Contextual information incomplete",
+        "expanded_heading": "Cambridge contextual information",
+        "consideration_label": "Information needed:",
+        "expanded_body": "Some contextual information is incomplete. Cambridge may consider this information as part of its holistic review, but it does not change the published academic requirements."
+      },
       "band_headlines": {
         "interview_likely": "Strong Choice",
         "realistic": "Realistic Choice",
@@ -239,7 +221,8 @@
       "insufficient_evidence_recommendation": "Evidence not yet available",
       "insufficient_evidence_explanation": "ApplySmart needs more verified applicant information before Cambridge interview guidance can be shown.",
       "insufficient_evidence_reason_messages": {
-        "insufficient_gcse_results": "ApplySmart needs a more complete GCSE profile before it can assess your Cambridge interview potential. This is not a rejection."
+        "insufficient_gcse_results": "ApplySmart needs a more complete GCSE profile before it can assess your Cambridge interview potential. This is not a rejection.",
+        "university_methodology_gap": "You meet Cambridge's supported Scottish academic requirements. ApplySmart cannot provide a Cambridge interview prediction because no validated Scottish conversion is available for its modelled GCSE competitiveness component. This is not a rejection."
       },
       "evidence_used": [
         "Official admissions policy",
@@ -367,24 +350,7 @@
           "any_grade_at_or_below": "5",
           "adjustment": -2
         },
-        "evidence": "modelled_hidden"
-      },
-      {
-        "component_id": "contextual_qualitative_uplift",
-        "type": "conditional_points",
-        "max": 1,
-        "conditions": [
-          {
-            "condition_id": "contextual_uplift",
-            "any_group_ids": [
-              "contextual",
-              "widening_participation",
-              "care_experienced"
-            ],
-            "points": 1,
-            "evidence": "modelled_hidden"
-          }
-        ]
+       "evidence": "modelled_hidden"
       }
     ]
   },

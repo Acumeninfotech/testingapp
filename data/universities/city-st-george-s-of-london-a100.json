@@ -124,6 +124,32 @@
       ],
       "notes": "Five subjects graded 6 (B) or above; English Language, Maths, and Science (Double or Triple Award)."
     },
+    "national_5": {
+      "status": "official_source_verified",
+      "source_ids": [
+        "city_st_georges_a100_course_page_2027"
+      ],
+      "grade_requirements": [
+        {
+          "requirement_id": "city_st_georges_national_5_english_language_b",
+          "subject_id": "english_language",
+          "alternative_subject_ids": [
+            "english"
+          ],
+          "minimum_grade": "B",
+          "qualification_level": "national_5",
+          "decision_outcome_if_not_met": "not_eligible"
+        },
+        {
+          "requirement_id": "city_st_georges_national_5_mathematics_b",
+          "subject_id": "mathematics",
+          "minimum_grade": "B",
+          "qualification_level": "national_5",
+          "decision_outcome_if_not_met": "not_eligible"
+        }
+      ],
+      "notes": "National 5 English Language and Mathematics at grade B are required for Scottish qualification applicants."
+    },
     "post_16": {
       "accepted_qualifications": [
         "a_level",
@@ -169,6 +195,36 @@
               "chemistry",
               "biology"
             ]
+          },
+          {
+            "requirement_id": "city_st_georges_contextual_a_level_abb_biology_chemistry",
+            "pathway_id": "city_st_georges_contextual_a_level_abb",
+            "academic_pathway": "contextual",
+            "applies_to_group_ids": [
+              "school_leaver",
+              "contextual",
+              "widening_participation"
+            ],
+            "excluded_group_ids": [
+              "graduate_applicant"
+            ],
+            "required_contextual_pathway_ids": [
+              "city_st_georges_group_1_contextual_offer",
+              "city_st_georges_group_2_contextual_offer"
+            ],
+            "grade_profile": [
+              "A",
+              "B",
+              "B"
+            ],
+            "required_subject_ids": [
+              "chemistry",
+              "biology"
+            ],
+            "source_ids": [
+              "city_st_georges_contextual_admissions_policy"
+            ],
+            "notes": "Groups 1 and 2 can receive a contextual offer up to two grades lower than AAA. Chemistry and Biology remain required."
           }
         ],
         "achieved_grades_scored": false,
@@ -213,14 +269,64 @@
         "notes": "The university's own 2026 course page states two different IB overall-point totals (35 vs 36) in two different sections of the same page. Both are cited verbatim below; this is flagged as an unresolved source discrepancy rather than silently picking one."
       },
       "scottish": {
-        "status": "official_source_verified_manual_review",
-        "higher_offer": "AAA including Chemistry and Biology",
-        "advanced_higher_offer": "AA including Chemistry and Biology",
-        "execution_status": "manual_review_required_engine_v1_cannot_jointly_assess_higher_and_advanced_higher_profiles",
+        "status": "official_source_verified",
+        "route_implemented": true,
+        "contextual_route_implemented": false,
+        "higher_offer": {
+          "grade_profile": [
+            "A",
+            "A",
+            "A"
+          ],
+          "notes": "AAA including Chemistry and Biology."
+        },
+        "advanced_higher_offer": {
+          "grade_profile": [
+            "A",
+            "A"
+          ],
+          "notes": "AA including Chemistry and Biology."
+        },
+        "execution_status": "automatic_with_complete_scottish_qualification_data",
         "source_ids": [
-          "city_st_georges_a100_course_page_2026"
+          "city_st_georges_a100_course_page_2027"
         ],
-        "notes": "Highers: AAA including Chemistry and Biology. Advanced Highers: AA including Chemistry and Biology. Plus National 5 English Language and Maths at grade B."
+        "grade_requirements": [
+          {
+            "requirement_id": "city_st_georges_scottish_highers_and_advanced_highers",
+            "route_id": "city_st_georges_scottish_highers_and_advanced_highers",
+            "pathway_id": "city_st_georges_scottish_standard",
+            "academic_pathway": "standard",
+            "applies_to_group_ids": [
+              "school_leaver"
+            ],
+            "qualification_level": "scottish_highers_and_advanced_highers",
+            "higher_grade_profile": [
+              "A",
+              "A",
+              "A"
+            ],
+            "advanced_higher_grade_profile": [
+              "A",
+              "A"
+            ],
+            "higher_required_subject_ids": [
+              "chemistry",
+              "biology"
+            ],
+            "advanced_higher_required_subject_ids": [
+              "chemistry",
+              "biology"
+            ],
+            "first_attempt_required": true,
+            "decision_outcome_if_not_met": "not_eligible",
+            "source_ids": [
+              "city_st_georges_a100_course_page_2027"
+            ],
+            "notes": "Resits requiring a third year of study are not accepted. The Scottish route remains standard even when contextual status is confirmed; no reduced Scottish grade profile is inferred."
+          }
+        ],
+        "notes": "Highers AAA and Advanced Highers AA must include Chemistry and Biology. National 5 English Language and Maths grade B are encoded separately under national_5."
       },
       "access_to_he": {
         "status": "official_source_verified_manual_review",
@@ -488,6 +594,16 @@
       "city_st_georges_contextual_admissions_policy"
     ],
     "available": true,
+    "contextual_eligibility": {
+      "evaluator_id": "city_st_georges_contextual_medicine_a100",
+      "evidence_source": "step_6_contextual_profile",
+      "legacy_contextual_flags_authoritative": false,
+      "activated_applicant_group_ids": [
+        "contextual",
+        "widening_participation"
+      ],
+      "notes": "Group 1 and Group 2 activate contextual-offer treatment. Group 3 is support-only and must not activate the contextual academic route."
+    },
     "applies_to_group_ids": [
       "contextual"
     ],

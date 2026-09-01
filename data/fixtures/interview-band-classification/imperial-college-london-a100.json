@@ -204,12 +204,9 @@
     {
       "scenario_id": "contextual_at_2170",
       "overrides": {
-        "applicant_identity": {
-          "contextual": true,
-          "widening_participation": true,
-          "contextual_status_confirmed": true,
-          "contextual_flags": {
-            "imperial_wp_confirmed": true
+        "contextual_profile": {
+          "personal_circumstances": {
+            "care_experienced": "yes"
           }
         },
         "a_level_profile": {
@@ -242,19 +239,21 @@
       },
       "expected": {
         "eligibility_status": "eligible",
-        "guidance_pool_id": "contextual_home_a100",
-        "interview_band": "ambitious"
+        "interview_band": null,
+        "interview_outcome": "guaranteed_interview",
+        "derived_applicant_groups": [
+          "imperial_contextual",
+          "contextual",
+          "widening_participation"
+        ]
       }
     },
     {
       "scenario_id": "contextual_immediately_below_2170",
       "overrides": {
-        "applicant_identity": {
-          "contextual": true,
-          "widening_participation": true,
-          "contextual_status_confirmed": true,
-          "contextual_flags": {
-            "imperial_wp_confirmed": true
+        "contextual_profile": {
+          "personal_circumstances": {
+            "care_experienced": "yes"
           }
         },
         "a_level_profile": {
@@ -294,12 +293,9 @@
     {
       "scenario_id": "contextual_realistic_modelled_band",
       "overrides": {
-        "applicant_identity": {
-          "contextual": true,
-          "widening_participation": true,
-          "contextual_status_confirmed": true,
-          "contextual_flags": {
-            "imperial_wp_confirmed": true
+        "contextual_profile": {
+          "home_area_region": {
+            "imd_quintile": "q1"
           }
         },
         "a_level_profile": {
@@ -332,8 +328,13 @@
       },
       "expected": {
         "eligibility_status": "eligible",
-        "guidance_pool_id": "contextual_home_a100",
-        "interview_band": "realistic"
+        "interview_band": null,
+        "interview_outcome": "guaranteed_interview",
+        "derived_applicant_groups": [
+          "imperial_contextual",
+          "contextual",
+          "widening_participation"
+        ]
       }
     },
     {
@@ -550,12 +551,9 @@
     {
       "scenario_id": "contextual_astar_in_third_subject",
       "overrides": {
-        "applicant_identity": {
-          "contextual": true,
-          "widening_participation": true,
-          "contextual_status_confirmed": true,
-          "contextual_flags": {
-            "imperial_wp_confirmed": true
+        "contextual_profile": {
+          "financial_support": {
+            "free_school_meals": "yes"
           }
         },
         "a_level_profile": {
@@ -588,8 +586,13 @@
       },
       "expected": {
         "eligibility_status": "eligible",
-        "guidance_pool_id": "contextual_home_a100",
-        "interview_band": "interview_likely"
+        "interview_band": null,
+        "interview_outcome": "guaranteed_interview",
+        "derived_applicant_groups": [
+          "imperial_contextual",
+          "contextual",
+          "widening_participation"
+        ]
       }
     },
     {
@@ -617,7 +620,7 @@
       "expected": {
         "eligibility_status": "eligible",
         "guidance_pool_id": "home_a100",
-        "interview_band": "realistic"
+        "interview_band": "interview_likely"
       }
     },
     {
@@ -737,7 +740,7 @@
       "expected": {
         "eligibility_status": "eligible",
         "guidance_pool_id": "home_a100",
-        "interview_band": "realistic"
+        "interview_band": "interview_likely"
       }
     },
     {
@@ -799,7 +802,7 @@
       }
     },
     {
-      "scenario_id": "scottish_advanced_highers_aaa_requires_same_sitting_review",
+      "scenario_id": "scottish_advanced_highers_aaa_supported_route",
       "overrides": {
         "qualification_route": "scottish",
         "a_level_profile": null,
@@ -823,9 +826,9 @@
         }
       },
       "expected": {
-        "eligibility_status": "manual_review",
-        "interview_band": "insufficient_evidence",
-        "manual_review_reason": "same_sitting_evidence_not_supported_for_route:scottish"
+        "eligibility_status": "eligible",
+        "guidance_pool_id": "home_a100",
+        "interview_band": "interview_likely"
       }
     },
     {
@@ -938,7 +941,7 @@
       "expected": {
         "eligibility_status": "eligible",
         "guidance_pool_id": "home_a100",
-        "interview_band": "realistic",
+        "interview_band": "interview_likely",
         "ranking_value": 2400
       }
     },
@@ -976,7 +979,7 @@
       "expected": {
         "eligibility_status": "eligible",
         "guidance_pool_id": "home_a100",
-        "interview_band": "realistic",
+        "interview_band": "interview_likely",
         "ranking_value": 2400
       }
     }
@@ -984,22 +987,22 @@
   "historical_guidance_boundaries": [
     {
       "pool": "home",
-      "ucat_total": 2500,
-      "expected_band": "interview_likely"
-    },
-    {
-      "pool": "home",
-      "ucat_total": 2499,
-      "expected_band": "realistic"
-    },
-    {
-      "pool": "home",
       "ucat_total": 2400,
-      "expected_band": "realistic"
+      "expected_band": "interview_likely"
     },
     {
       "pool": "home",
       "ucat_total": 2399,
+      "expected_band": "realistic"
+    },
+    {
+      "pool": "home",
+      "ucat_total": 2350,
+      "expected_band": "realistic"
+    },
+    {
+      "pool": "home",
+      "ucat_total": 2349,
       "expected_band": "ambitious"
     },
     {
@@ -1008,24 +1011,9 @@
       "expected_band": "ambitious"
     },
     {
-      "pool": "contextual",
-      "ucat_total": 2320,
-      "expected_band": "interview_likely"
-    },
-    {
-      "pool": "contextual",
-      "ucat_total": 2250,
-      "expected_band": "realistic"
-    },
-    {
-      "pool": "contextual",
-      "ucat_total": 2249,
-      "expected_band": "ambitious"
-    },
-    {
-      "pool": "contextual",
-      "ucat_total": 2170,
-      "expected_band": "ambitious"
+      "pool": "home",
+      "ucat_total": 2319,
+      "expected_band": "not_eligible"
     },
     {
       "pool": "overseas",

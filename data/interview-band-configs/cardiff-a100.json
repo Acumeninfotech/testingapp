@@ -14,6 +14,7 @@
     ]
   },
   "eligibility": {
+    "contextual_evaluator_controls_group_routing": false,
     "gcse": {
       "minimum_count": 8,
       "use_exact_subject_list": true,
@@ -51,6 +52,80 @@
           "one_of_subject_groups": []
         }
       ]
+    },
+    "map_override": {
+      "override_id": "cardiff_named_wp_guaranteed_interview",
+      "description": "Apply only when structured evidence confirms a named Cardiff widening-participation programme. Generic contextual flags do not trigger this override.",
+      "outcome": "guaranteed_interview",
+      "interview_outcome": "guaranteed_interview",
+      "apply_ucat_guidance_band": false,
+      "any_conditions": [
+        {
+          "match": {
+            "all_group_ids": [
+              "home_fee"
+            ],
+            "excluded_group_ids": [
+              "international_fee"
+            ]
+          },
+          "applicant_evidence_path": "contextual_profile.access_programmes.other_programmes",
+          "required_evidence": {
+            "programme_id": "step_up_to_university",
+            "status": "completed"
+          },
+          "applicant_facing_explanation": "Confirmed Cardiff Step-Up to University evidence gives a guaranteed interview once the minimum entry requirements are met."
+        },
+        {
+          "match": {
+            "all_group_ids": [
+              "home_fee"
+            ],
+            "excluded_group_ids": [
+              "international_fee"
+            ]
+          },
+          "applicant_evidence_path": "contextual_profile.access_programmes.other_programmes",
+          "required_evidence": {
+            "programme_id": "sutton_trust_cardiff_summer_school",
+            "status": "completed"
+          },
+          "applicant_facing_explanation": "Confirmed Sutton Trust Cardiff Summer School evidence gives a guaranteed interview once the minimum entry requirements are met."
+        },
+        {
+          "match": {
+            "all_group_ids": [
+              "home_fee"
+            ],
+            "excluded_group_ids": [
+              "international_fee"
+            ]
+          },
+          "applicant_evidence_path": "contextual_profile.access_programmes.other_programmes",
+          "required_evidence": {
+            "programme_id": "doctoriaid_yfory",
+            "status": "completed"
+          },
+          "applicant_facing_explanation": "Confirmed Doctoriaid Yfory evidence gives a guaranteed interview once the minimum entry requirements are met."
+        },
+        {
+          "match": {
+            "all_group_ids": [
+              "home_fee"
+            ],
+            "excluded_group_ids": [
+              "international_fee"
+            ]
+          },
+          "applicant_evidence_path": "contextual_profile.access_programmes.other_programmes",
+          "required_evidence": {
+            "programme_id": "agored_cymru_access_to_he_medicine",
+            "status": "completed"
+          },
+          "applicant_facing_explanation": "Confirmed Agored Cymru Access to HE Medicine evidence gives a guaranteed interview once the minimum entry requirements are met."
+        }
+      ],
+      "verification_representation": "The structured access-programme record must identify the named Cardiff programme and completion status. A generic contextual or widening-participation flag is insufficient."
     }
   },
   "score_model": {
@@ -94,10 +169,10 @@
           "1": 1,
           "2": 1,
           "3": 1,
-          "4": 2,
+          "4": 1,
           "5": 2,
           "6": 2,
-          "7": 3,
+          "7": 2,
           "8": 3,
           "9": 3,
           "10": 3
@@ -107,6 +182,99 @@
     ]
   },
   "guidance_pools": [
+    {
+      "pool_id": "welsh_domiciled",
+      "priority": 30,
+      "applicant_match": {
+        "all_group_ids": [
+          "home_fee",
+          "wales_domiciled"
+        ],
+        "excluded_group_ids": [
+          "international_fee"
+        ]
+      },
+      "metric": "selection_score",
+      "presentation": {
+        "contextual_confirmation": {
+          "collapsed_label": "Additional contextual consideration",
+          "expanded_heading": "Additional contextual consideration",
+          "consideration_label": "Cardiff contextual consideration:",
+          "expanded_body": "Cardiff may give Welsh-domiciled applicants additional consideration during selection. The standard published academic requirements still apply; no reduced contextual A100 academic offer is assumed."
+        },
+        "compact_contextual_status": "Additional contextual consideration applies; the standard academic requirements still apply."
+      },
+      "band_rules": [
+        {
+          "band": "interview_likely",
+          "operator": "greater_than_or_equal",
+          "value": 26
+        },
+        {
+          "band": "realistic",
+          "operator": "between_inclusive",
+          "min": 24,
+          "max": 25
+        },
+        {
+          "band": "ambitious",
+          "operator": "between_inclusive",
+          "min": 22,
+          "max": 23
+        },
+        {
+          "band": "high_risk",
+          "operator": "less_than",
+          "value": 22
+        }
+      ]
+    },
+    {
+      "pool_id": "home_contextual",
+      "priority": 20,
+      "applicant_match": {
+        "all_group_ids": [
+          "home_fee",
+          "contextual"
+        ],
+        "excluded_group_ids": [
+          "international_fee"
+        ]
+      },
+      "metric": "selection_score",
+      "presentation": {
+        "contextual_confirmation": {
+          "collapsed_label": "Additional contextual consideration",
+          "expanded_heading": "Additional contextual consideration",
+          "consideration_label": "Cardiff contextual consideration:",
+          "expanded_body": "Cardiff may give confirmed contextual applicants additional consideration during selection. The standard published academic requirements still apply; no reduced contextual A100 academic offer is assumed."
+        },
+        "compact_contextual_status": "Additional contextual consideration applies; the standard academic requirements still apply."
+      },
+      "band_rules": [
+        {
+          "band": "interview_likely",
+          "operator": "greater_than_or_equal",
+          "value": 24
+        },
+        {
+          "band": "realistic",
+          "operator": "greater_than_or_equal",
+          "value": 23
+        },
+        {
+          "band": "ambitious",
+          "operator": "between_inclusive",
+          "min": 21,
+          "max": 22
+        },
+        {
+          "band": "high_risk",
+          "operator": "less_than",
+          "value": 21
+        }
+      ]
+    },
     {
       "pool_id": "international",
       "priority": 100,

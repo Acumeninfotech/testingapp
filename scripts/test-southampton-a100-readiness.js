@@ -352,10 +352,8 @@ assert.ok(
   'Result card must explain UCAT ranking rather than a scoring breakdown.'
 );
 assert.ok(
-  resultCard.decision_transparency.decision_path.some((stage) => {
-    return JSON.stringify(stage).includes('2100/2700') &&
-      JSON.stringify(stage).includes('current-format Home competitive guidance');
-  }),
+  resultCard.decision_transparency.ucat_comparison?.comparison_type === 'current_guidance' &&
+    resultCard.decision_transparency.ucat_comparison?.benchmark_min === 2100,
   'Result card must display current-format Home UCAT guidance.'
 );
 assert.ok(
@@ -380,7 +378,7 @@ assert.strictEqual(predicted[0].universityId, 'southampton-a100');
 assert.strictEqual(predicted[0].result_card.prediction.result_band, 'interview_likely');
 assert.match(
   predicted[0].result_card.primary_explanation,
-  /materially above Southampton's available Home competitive guidance/i
+  /UCAT score appears competitive for this applicant group/i
 );
 assert.strictEqual(predicted[0].result_card.decision_transparency.score_breakdown, null);
 

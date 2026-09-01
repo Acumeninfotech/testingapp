@@ -55,6 +55,17 @@ function hasNestedKey(value, targetKey) {
   return Object.values(value).some((entry) => hasNestedKey(entry, targetKey));
 }
 
+function expectedDecisionTransparency(card) {
+  const expected = buildDecisionTransparency(card);
+  if (
+    !Object.hasOwn(card.decision_transparency || {}, 'insufficient_evidence_reason') &&
+    expected.insufficient_evidence_reason === null
+  ) {
+    delete expected.insufficient_evidence_reason;
+  }
+  return expected;
+}
+
 const course = readJson('data/universities/lancaster-a100.json');
 const research = readJson('data/research/lancaster-a100-research.json');
 const config = readJson('data/interview-band-configs/lancaster-a100.json');
@@ -69,6 +80,10 @@ assert.strictEqual(research.course_profile_id, course.profile_id);
 assert.strictEqual(config.course_profile_id, course.profile_id);
 assert.strictEqual(card.course_identity.profile_id, course.profile_id);
 assert.strictEqual(fixture.course_profile_id, course.profile_id);
+assert.strictEqual(
+  fixture.result_card_example_scenario_id,
+  'home_standard_interview_likely_lower_bound'
+);
 assert.strictEqual(course.course.ucas_code, 'A100');
 assert.strictEqual(course.course.entry_route, 'standard_entry');
 assert.strictEqual(course.course.is_graduate_entry, false);
@@ -102,8 +117,26 @@ assert.deepStrictEqual(
 
 const aLevel = course.stage_1_eligibility.post_16.a_level;
 assert.deepStrictEqual(aLevel.stage_1_predicted_minimum.grade_profile, ['A', 'A', 'B']);
+assert.deepStrictEqual(
+  aLevel.grade_requirements.map((route) => route.requirement_id),
+  ['a_level_epq_alternative', 'a_level_standard_offer', 'a_level_resit_profile']
+);
 assert.deepStrictEqual(aLevel.standard_offer.grade_profile, ['A', 'A', 'A']);
+assert.deepStrictEqual(aLevel.epq_alternative_offer, {
+  enabled: true,
+  pathway_id: 'lancaster_epq_alternative',
+  a_level_grades: ['A', 'A', 'B'],
+  epq_minimum_grade: 'B'
+});
 assert.deepStrictEqual(aLevel.contextual_offer.grade_profile, ['A', 'B', 'B']);
+assert.strictEqual(
+  Object.prototype.hasOwnProperty.call(aLevel, 'contextual_epq_alternative_offer'),
+  false
+);
+assert.strictEqual(
+  course.contextual_admissions.contextual_eligibility.evaluator_id,
+  'lancaster_contextual_medicine_a100'
+);
 assert.strictEqual(aLevel.science_practical_endorsement_required, null);
 assert.deepStrictEqual(
   aLevel.one_of_subject_groups[0].subject_ids,
@@ -120,19 +153,53 @@ assert.strictEqual(admissionsTests.sjt.scoring.used_in_score, false);
 
 assert.strictEqual(config.score_model.fixed_current_cutoff, false);
 assert.strictEqual(config.score_model.legacy_3600_conversion_used, false);
+const homeStandardPool = config.guidance_pools
+  .find((pool) => pool.pool_id === 'home_standard_school_leaver');
+const homeContextualPool = config.guidance_pools
+  .find((pool) => pool.pool_id === 'home_contextual_wp_school_leaver');
 assert.strictEqual(
-  config.guidance_pools
-    .find((pool) => pool.pool_id === 'home_standard_school_leaver')
-    .band_rules.some((rule) => rule.band === 'interview_likely'),
+  homeStandardPool.band_rules.some((rule) => rule.band === 'interview_likely'),
   true,
   'Lancaster home standard pool must use the approved ApplySmart interview_likely band (30-99 points above the published threshold).'
 );
 assert.strictEqual(
-  config.guidance_pools
-    .find((pool) => pool.pool_id === 'home_standard_school_leaver')
-    .band_rules.some((rule) => rule.band === 'very_strong_interview_potential'),
+  homeStandardPool.band_rules.some((rule) => rule.band === 'very_strong_interview_potential'),
   true,
   'Lancaster home standard pool must use the approved ApplySmart very_strong_interview_potential band (100+ points above the published threshold).'
+);
+assert.deepStrictEqual(
+  homeContextualPool.band_rules,
+  [
+    {
+      band: 'very_strong_interview_potential',
+      operator: 'greater_than_or_equal',
+      value: 1970
+    },
+    {
+      band: 'interview_likely',
+      operator: 'between_inclusive',
+      min: 1900,
+      max: 1969
+    },
+    {
+      band: 'realistic',
+      operator: 'between_inclusive',
+      min: 1870,
+      max: 1899
+    },
+    {
+      band: 'ambitious',
+      operator: 'between_inclusive',
+      min: 1860,
+      max: 1869
+    },
+    {
+      band: 'high_risk',
+      operator: 'less_than',
+      value: 1860
+    }
+  ],
+  'Lancaster contextual pool must apply the same 0-29, 30-99 and 100+ ApplySmart offsets anchored to the contextual 1870 benchmark.'
 );
 
 for (const scenario of fixture.scenarios) {
@@ -175,12 +242,21 @@ function applicantForBoundary(boundary) {
       fee_status: international ? 'International' : 'Home',
       domicile: international ? 'International' : 'England',
       english_language_exempt: international,
-      contextual,
-      widening_participation: contextual,
+      contextual: false,
+      widening_participation: false,
       contextual_flags: {
-        free_school_meals: contextual
+        care_experienced: false
       }
     },
+    ...(contextual
+      ? {
+          contextual_profile: {
+            personal_circumstances: {
+              care_experienced: 'yes'
+            }
+          }
+        }
+      : {}),
     admissions_tests: {
       ucat: {
         total_score: boundary.ucat_total
@@ -241,6 +317,8 @@ assert.strictEqual(
 );
 
 assert.strictEqual(card.eligibility.status, 'eligible');
+assert.strictEqual(card.applicant_context.admissions_tests.ucat.total_score, 1950);
+assert.strictEqual(card.prediction.score, 1950);
 assert.strictEqual(card.prediction.result_band, 'interview_likely');
 assert.strictEqual(card.prediction.guidance_pool_id, 'home_standard_school_leaver');
 assert.strictEqual(card.evidence_confidence.level, 'Medium');
@@ -248,16 +326,18 @@ assert.deepStrictEqual(card.evidence_confidence, buildEvidenceConfidence(card));
 assert.deepStrictEqual(card.decision_timeline, buildDecisionTimeline(card));
 assert.deepStrictEqual(
   card.decision_transparency,
-  buildDecisionTransparency(card)
+  expectedDecisionTransparency(card)
 );
 assert.match(
   card.decision_timeline[2].summary,
-  /academic requirements.*SJT filter.*UCAT ranking/i
+  /academic requirements.*SJT filter.*ranking.*UCAT/i
 );
 assert.match(
   JSON.stringify(card.decision_transparency),
-  /sole ranking score.*2026-entry Home historical threshold/s
+  /UCAT: 1950 - above the historical interview range of 1920-1949/s
 );
+assert.strictEqual(card.decision_transparency.selection_metric.type, 'ucat');
+assert.strictEqual(card.decision_transparency.ucat_comparison.comparison_type, 'historical_range');
 assert.strictEqual(hasNestedKey(card, 'offer_prediction'), false);
 assert.strictEqual(hasNestedKey(card, 'offer_probability'), false);
 

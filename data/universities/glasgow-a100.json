@@ -105,15 +105,14 @@
         "widening_participation",
         "care_experienced"
       ],
-      "selection_relevance": "Adjusted Scottish entry requirements and separate contextual UCAT shortlisting apply where official criteria are met.",
+      "selection_relevance": "Adjusted Scottish entry requirements apply only when Glasgow contextual eligibility and Reach completion are confirmed by the Glasgow evaluator.",
       "future_quota_or_capacity": null,
       "source_ids": [
         "glasgow_degree_page_2027",
         "glasgow_adjusted_offers",
-        "glasgow_reach_programme",
-        "glasgow_contextual_ucat_verified_research"
+        "glasgow_reach_programme"
       ],
-      "notes": "Eligible Scottish-domiciled contextual applicants are ranked by unchanged raw UCAT in a separate group against a lower dynamic threshold."
+      "notes": "Runtime contextual routing is controlled by glasgow_contextual_medicine_a100. Research-only contextual UCAT assumptions are not active runtime logic."
     }
   ],
   "applies_to_group_ids": [
@@ -214,10 +213,9 @@
       "notes": "Official evidence reviewed does not publish a GCSE Mathematics requirement, a total GCSE count, or a top GCSE count for A100."
     },
     "national_5": {
-      "status": "official_and_research_team_verified",
+      "status": "official_source_verified",
       "source_ids": [
-        "glasgow_degree_page_2027",
-        "glasgow_contextual_ucat_verified_research"
+        "glasgow_degree_page_2027"
       ],
       "grade_requirements": [
         {
@@ -233,65 +231,9 @@
             "glasgow_degree_page_2027"
           ],
           "notes": "National 5 English at grade B or above."
-        },
-        {
-          "requirement_id": "national_5_mathematics_minimum",
-          "applies_to_group_ids": [
-            "scotland_domiciled"
-          ],
-          "subject_id": "mathematics",
-          "minimum_grade": "B",
-          "qualification_level": "national_5",
-          "decision_outcome_if_not_met": "not_eligible",
-          "source_ids": [
-            "glasgow_contextual_ucat_verified_research"
-          ],
-          "notes": "Verified expanded research requirement."
-        },
-        {
-          "requirement_id": "national_5_biology_minimum",
-          "applies_to_group_ids": [
-            "scotland_domiciled"
-          ],
-          "subject_id": "biology",
-          "minimum_grade": "B",
-          "qualification_level": "national_5",
-          "decision_outcome_if_not_met": "not_eligible",
-          "source_ids": [
-            "glasgow_contextual_ucat_verified_research"
-          ],
-          "notes": "Verified expanded research requirement."
-        },
-        {
-          "requirement_id": "national_5_chemistry_minimum",
-          "applies_to_group_ids": [
-            "scotland_domiciled"
-          ],
-          "subject_id": "chemistry",
-          "minimum_grade": "B",
-          "qualification_level": "national_5",
-          "decision_outcome_if_not_met": "not_eligible",
-          "source_ids": [
-            "glasgow_contextual_ucat_verified_research"
-          ],
-          "notes": "Verified expanded research requirement."
-        },
-        {
-          "requirement_id": "national_5_physics_minimum",
-          "applies_to_group_ids": [
-            "scotland_domiciled"
-          ],
-          "subject_id": "physics",
-          "minimum_grade": "B",
-          "qualification_level": "national_5",
-          "decision_outcome_if_not_met": "not_eligible",
-          "source_ids": [
-            "glasgow_contextual_ucat_verified_research"
-          ],
-          "notes": "Verified expanded research requirement."
         }
       ],
-      "notes": "Required National 5 subjects are English, Mathematics, Biology, Chemistry and Physics, each at grade B or above."
+      "notes": "National 5 English at grade B or above is the authoritative Glasgow Scottish requirement. Research-only National 5 Mathematics, Biology, Chemistry and Physics requirements are not runtime eligibility rules."
     },
     "post_16": {
       "status": "official_source_verified",
@@ -348,6 +290,40 @@
               "glasgow_degree_page_2027"
             ],
             "notes": "UK A-level standard requirement."
+          },
+          {
+            "requirement_id": "a_level_scotland_home_standard_offer",
+            "academic_pathway": "standard",
+            "applies_to_group_ids": [
+              "home_fee",
+              "scotland_domiciled",
+              "school_leaver"
+            ],
+            "grade_profile": [
+              "A",
+              "A",
+              "A"
+            ],
+            "required_subject_ids": [
+              "chemistry"
+            ],
+            "one_of_subject_groups": [
+              {
+                "group_id": "a_level_second_science_or_maths",
+                "minimum_required": 1,
+                "subject_ids": [
+                  "biology",
+                  "physics",
+                  "mathematics"
+                ],
+                "notes": "One of Biology, Physics or Mathematics is required alongside Chemistry."
+              }
+            ],
+            "decision_outcome_if_not_met": "not_eligible",
+            "source_ids": [
+              "glasgow_degree_page_2027"
+            ],
+            "notes": "Scotland-domiciled Home fee A-level standard requirement; academic criteria match the UK A-level standard offer."
           },
           {
             "requirement_id": "a_level_international_standard_offer",
@@ -500,54 +476,48 @@
         },
         "grade_requirements": [
           {
-            "requirement_id": "sqa_standard_offer",
-            "applies_to_group_ids": [
-              "scotland_domiciled",
-              "school_leaver"
-            ],
-            "qualification_level": "scottish_highers_and_advanced_highers",
-            "grade_profile": [
-              "AAAAB Higher S5",
-              "BB Advanced Higher S6"
-            ],
-            "required_subject_ids": [
-              "chemistry",
-              "biology"
-            ],
-            "one_of_subject_groups": [
-              {
-                "group_id": "sqa_physics_or_maths",
-                "minimum_required": 1,
-                "subject_ids": [
-                  "physics",
-                  "mathematics"
-                ],
-                "notes": "Higher Chemistry, Biology and Physics or Mathematics are required."
-              }
-            ],
-            "decision_outcome_if_not_met": "not_eligible",
-            "source_ids": [
-              "glasgow_degree_page_2027"
-            ],
-            "notes": "Higher Application of Mathematics cannot replace Higher Mathematics or Physics. Highers taken in S4 are not considered towards Higher S5 grade requirements."
-          },
-          {
             "requirement_id": "sqa_adjusted_contextual_offer",
+            "route_id": "glasgow_scottish_adjusted",
+            "pathway_id": "glasgow_scottish_adjusted",
+            "academic_pathway": "contextual",
             "applies_to_group_ids": [
               "scotland_domiciled",
               "contextual",
               "widening_participation"
             ],
             "qualification_level": "scottish_highers_and_advanced_highers",
-            "grade_profile": [
-              "AAABB or AAAAC Higher S5",
-              "BC Advanced Higher S6"
+            "higher_grade_profile_options": [
+              [
+                "A",
+                "A",
+                "A",
+                "B",
+                "B"
+              ],
+              [
+                "A",
+                "A",
+                "A",
+                "A",
+                "C"
+              ]
             ],
-            "required_subject_ids": [
+            "advanced_higher_grade_profile": [
+              "B",
+              "C"
+            ],
+            "higher_school_year": "s5",
+            "advanced_higher_school_year": "s6",
+            "excluded_higher_school_years": [
+              "s4"
+            ],
+            "first_attempt_required": true,
+            "same_sitting_required": true,
+            "higher_required_subject_ids": [
               "chemistry",
               "biology"
             ],
-            "one_of_subject_groups": [
+            "higher_one_of_subject_groups": [
               {
                 "group_id": "sqa_adjusted_physics_or_maths",
                 "minimum_required": 1,
@@ -555,16 +525,76 @@
                   "physics",
                   "mathematics"
                 ],
-                "notes": "C grade cannot be in Chemistry. Successful completion of Reach is required."
+                "notes": "Higher Applications of Mathematics cannot replace Higher Mathematics or Physics."
               }
             ],
+            "higher_subject_grade_requirements": [
+              {
+                "subject_id": "chemistry",
+                "minimum_grade": "B",
+                "notes": "Where the AAAAC Higher profile is used, the C cannot be Chemistry."
+              }
+            ],
+            "advanced_higher_required_subject_ids": [],
+            "advanced_higher_one_of_subject_groups": [],
             "decision_outcome_if_not_met": "not_eligible",
             "source_ids": [
               "glasgow_degree_page_2027",
               "glasgow_adjusted_offers",
               "glasgow_reach_programme"
             ],
-            "notes": "Adjusted Scottish entry requirement for eligible widening participation applicants."
+            "notes": "Official 2027 Medicine-specific adjusted Scottish requirement: AAABB or AAAAC Higher in S5 plus BC Advanced Higher in S6; C cannot be Chemistry; successful completion of Reach is required through the Glasgow contextual evaluator."
+          },
+          {
+            "requirement_id": "sqa_standard_offer",
+            "route_id": "glasgow_scottish_standard",
+            "pathway_id": "glasgow_scottish_standard",
+            "academic_pathway": "standard",
+            "applies_to_group_ids": [
+              "home_fee",
+              "school_leaver"
+            ],
+            "qualification_level": "scottish_highers_and_advanced_highers",
+            "higher_grade_profile": [
+              "A",
+              "A",
+              "A",
+              "A",
+              "B"
+            ],
+            "advanced_higher_grade_profile": [
+              "B",
+              "B"
+            ],
+            "higher_school_year": "s5",
+            "advanced_higher_school_year": "s6",
+            "excluded_higher_school_years": [
+              "s4"
+            ],
+            "first_attempt_required": true,
+            "same_sitting_required": true,
+            "higher_required_subject_ids": [
+              "chemistry",
+              "biology"
+            ],
+            "higher_one_of_subject_groups": [
+              {
+                "group_id": "sqa_physics_or_maths",
+                "minimum_required": 1,
+                "subject_ids": [
+                  "physics",
+                  "mathematics"
+                ],
+                "notes": "Higher Applications of Mathematics cannot replace Higher Mathematics or Physics."
+              }
+            ],
+            "advanced_higher_required_subject_ids": [],
+            "advanced_higher_one_of_subject_groups": [],
+            "decision_outcome_if_not_met": "not_eligible",
+            "source_ids": [
+              "glasgow_degree_page_2027"
+            ],
+            "notes": "Official 2027 Scottish standard route: AAAAB Higher in S5 plus BB Advanced Higher in S6."
           }
         ],
         "required_subject_ids": [
@@ -582,7 +612,15 @@
             "notes": "Higher Chemistry, Biology and Physics or Mathematics are required."
           }
         ],
-        "notes": "Highers must meet S5 timing restrictions; required grades and subjects must be obtained at one sitting and at first attempt."
+        "notes": "Highers must meet S5 timing restrictions; required grades and subjects must be obtained at one sitting and at first attempt.",
+        "route_implemented": true,
+        "contextual_route_implemented": true,
+        "runtime_notes": [
+          "Highers counted for Glasgow A100 must be S5 Highers; S4 Highers are excluded from the S5 grade profile.",
+          "Advanced Highers counted for Glasgow A100 must be S6 Advanced Highers.",
+          "Required Higher and Advanced Higher grades and subjects must be first attempt, no-resit qualifications completed in one sitting.",
+          "Higher Applications of Mathematics is not accepted as Higher Mathematics or Physics."
+        ]
       },
       "btec": {
         "status": "unknown",
@@ -926,42 +964,9 @@
           "glasgow_ucat_2027"
         ],
         "notes": "Glasgow states 2027 thresholds will not be known until November 2026 and will not be published until the cycle is complete in September 2027. Do not encode a fixed cutoff."
-      },
-      {
-        "threshold_id": "current_cycle_contextual_ucat_threshold",
-        "applies_to_group_ids": [
-          "scotland_domiciled",
-          "contextual",
-          "widening_participation"
-        ],
-        "metric": "raw_ucat_total_score",
-        "operator": "ranked_lower_contextual_threshold_unknown",
-        "value": null,
-        "decision_outcome_if_not_met": "not_selected_for_interview",
-        "source_ids": [
-          "glasgow_contextual_ucat_verified_research"
-        ],
-        "notes": "Eligible Scottish-domiciled contextual applicants are ranked in a separate contextual group using their unchanged raw UCAT score. A lower contextual threshold applies, but the live threshold is unknown."
       }
     ],
-    "selection_adjustments": [
-      {
-        "adjustment_id": "scottish_contextual_separate_ucat_ranking",
-        "applies_to_group_ids": [
-          "scotland_domiciled",
-          "contextual",
-          "widening_participation"
-        ],
-        "raw_score_changed": false,
-        "ranking_group": "scottish_contextual_ucat_ranking_pool",
-        "ranking_basis": "raw_ucat_total_score",
-        "threshold_effect": "lower_contextual_threshold",
-        "source_ids": [
-          "glasgow_contextual_ucat_verified_research"
-        ],
-        "notes": "This is a separate-pool threshold mechanism, not a UCAT score uplift."
-      }
-    ],
+    "selection_adjustments": [],
     "tie_breakers": [],
     "interview_format": {
       "format": "two_part_panel_interview",
@@ -1123,29 +1128,35 @@
           "glasgow_reach_programme"
         ],
         "notes": "Stored as official contextual academic eligibility rule."
-      },
-      {
-        "adjustment_id": "scottish_contextual_ucat_shortlisting",
-        "applies_to_group_ids": [
-          "scotland_domiciled",
-          "contextual",
-          "widening_participation"
-        ],
-        "stage": "stage_2_interview_selection",
-        "policy_description": "Eligible Scottish-domiciled contextual applicants are placed in a separate contextual shortlisting group and ranked by unchanged raw UCAT score against a lower contextual threshold.",
-        "effect": {
-          "type": "separate_ranking_pool_lower_threshold",
-          "target": "stage_2_interview_selection.thresholds.current_cycle_contextual_ucat_threshold",
-          "raw_ucat_score_changed": false
-        },
-        "source_ids": [
-          "glasgow_contextual_ucat_verified_research"
-        ],
-        "notes": "Contextual UCAT shortlisting applies only to eligible Scottish-domiciled applicants. Historical contextual thresholds, if supplied, must remain separate from policy."
       }
     ],
     "guaranteed_interview_rules": [],
-    "notes": "Contextual UCAT shortlisting applies only to eligible Scottish-domiciled applicants. Raw UCAT is not uplifted: applicants are ranked in a separate contextual group against a lower threshold. This does not guarantee an interview."
+    "notes": "Glasgow contextual status changes the Scottish academic route only. Runtime UCAT guidance uses the normal Scotland/Home interview-prediction configuration; no contextual UCAT uplift, fixed contextual threshold or separate lower-threshold runtime pool is implemented.",
+    "contextual_eligibility": {
+      "evaluator_id": "glasgow_contextual_medicine_a100",
+      "controls_group_routing": true,
+      "evidence_source": "shared_step_6_contextual_profile",
+      "required_scope": [
+        "scotland_domicile"
+      ],
+      "qualifying_criteria": [
+        "simd_decile_1_to_4",
+        "care_experienced",
+        "estranged_from_family",
+        "unpaid_carer",
+        "asylum_seeker",
+        "refugee"
+      ],
+      "required_access_programme_status": {
+        "programme": "Glasgow Reach",
+        "status": "completed"
+      },
+      "activated_applicant_group_ids": [
+        "contextual",
+        "widening_participation"
+      ],
+      "notes": "Raw generic contextual applicant-group flags do not activate Glasgow adjusted academic routing. Scotland domicile, at least one Glasgow WP criterion and completed Reach are required."
+    }
   },
   "ranking_pools": [
     {
@@ -1188,7 +1199,9 @@
       "source_ids": [
         "glasgow_contextual_ucat_verified_research"
       ],
-      "notes": "Separate contextual shortlisting group with a lower dynamic threshold. Raw UCAT is unchanged; current and historical numeric contextual thresholds are not inferred."
+      "notes": "Research/history only. Not used by the runtime Glasgow A100 2027 interview-band classifier; Scottish contextual applicants use the Scotland/Home UCAT guidance pool with unchanged raw UCAT.",
+      "runtime_active": false,
+      "metadata_only": true
     },
     {
       "pool_id": "rest_of_uk_ucat_ranking_pool",
@@ -1803,19 +1816,19 @@
           "recommendation": "Consider stronger alternatives"
         },
         {
-          "ucat": "2025\u20132049",
+          "ucat": "2025–2049",
           "recommendation": "Possible but ambitious"
         },
         {
-          "ucat": "2050\u20132099",
-          "recommendation": "Good chance \u2013 recommend applying"
+          "ucat": "2050–2099",
+          "recommendation": "Good chance – recommend applying"
         },
         {
-          "ucat": "\u22652100",
+          "ucat": "≥2100",
           "recommendation": "Strong choice"
         },
         {
-          "ucat": "\u22652175",
+          "ucat": "≥2175",
           "recommendation": "Strong choice",
           "profile_context": "very_strong_top_competitive_profile"
         }

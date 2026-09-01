@@ -1,7 +1,7 @@
 {
   "dataset_version": "2027.6.0",
   "last_updated": "2026-07-29",
-  "total_courses": 44,
+  "total_courses": 87,
   "universities": [
     {
       "id": "anglia-ruskin-a100",
@@ -71,7 +71,7 @@
       "interview_prediction": true,
       "historical_guidance": true,
       "international_prediction": true,
-      "contextual_logic": false,
+      "contextual_logic": true,
       "result_card": true,
       "regression": true,
       "research_completeness": "complete_for_supported_scope_with_documented_gaps",
@@ -95,6 +95,24 @@
       "has_gateway_course": false,
       "has_graduate_entry": true,
       "json_file": "universities/bangor-a100.json"
+    },
+    {
+      "id": "bangor-a101",
+      "university_name": "Bangor University, North Wales Medical School",
+      "course_code": "A101",
+      "course_name": "BMBS Medicine Graduate Entry",
+      "entry_route": "Graduate Entry",
+      "country": "Wales",
+      "fee_status": [
+        "home"
+      ],
+      "entry_year": 2027,
+      "uses_ucat": true,
+      "selection_model": "graduate_entry",
+      "has_contextual_admissions": true,
+      "has_gateway_course": false,
+      "has_graduate_entry": true,
+      "json_file": "universities/bangor-a101.json"
     },
     {
       "id": "brighton-and-sussex-a100",
@@ -208,12 +226,30 @@
       "interview_prediction": true,
       "historical_guidance": true,
       "international_prediction": true,
-      "contextual_logic": false,
+      "contextual_logic": true,
       "result_card": true,
       "regression": true,
       "research_completeness": "complete_for_supported_scope_with_documented_gaps",
       "manual_review_required": true,
       "offer_prediction_scope": "out_of_scope"
+    },
+    {
+      "id": "cardiff-a101",
+      "university_name": "Cardiff University",
+      "course_code": "A101",
+      "course_name": "MBBCh Medicine Graduate Entry C21",
+      "entry_route": "Graduate Entry",
+      "country": "Wales",
+      "fee_status": [
+        "home"
+      ],
+      "entry_year": 2027,
+      "uses_ucat": true,
+      "selection_model": "graduate_entry",
+      "has_contextual_admissions": true,
+      "has_gateway_course": false,
+      "has_graduate_entry": true,
+      "json_file": "universities/cardiff-a101.json"
     },
     {
       "id": "city-st-george-s-of-london-a100",
@@ -255,6 +291,24 @@
       "offer_prediction_scope": "out_of_scope"
     },
     {
+      "id": "city-st-george-s-of-london-a101",
+      "university_name": "City St George's University of London",
+      "course_code": "A101",
+      "course_name": "MBBS Medicine Graduate Entry",
+      "entry_route": "Graduate Entry",
+      "country": "England",
+      "fee_status": [
+        "home"
+      ],
+      "entry_year": 2027,
+      "uses_ucat": false,
+      "selection_model": "graduate_entry",
+      "has_contextual_admissions": false,
+      "has_gateway_course": false,
+      "has_graduate_entry": true,
+      "json_file": "universities/city-st-george-s-of-london-a101.json"
+    },
+    {
       "id": "edge-hill-a100",
       "university_name": "Edge Hill University",
       "course_code": "A100",
@@ -290,6 +344,24 @@
       "research_completeness": "complete_for_supported_scope_with_documented_gaps",
       "manual_review_required": true,
       "offer_prediction_scope": "out_of_scope"
+    },
+    {
+      "id": "edge-hill-a110",
+      "university_name": "Edge Hill University",
+      "course_code": "A110",
+      "course_name": "MBChB Medicine with a Foundation Year",
+      "entry_route": "Gateway/Foundation",
+      "country": "England",
+      "fee_status": [
+        "home"
+      ],
+      "entry_year": 2027,
+      "uses_ucat": true,
+      "selection_model": "contextual_adjusted_ranking",
+      "has_contextual_admissions": true,
+      "has_gateway_course": true,
+      "has_graduate_entry": false,
+      "json_file": "universities/edge-hill-a110.json"
     },
     {
       "id": "hull-york-a100",
@@ -331,6 +403,24 @@
       "research_completeness": "complete_for_supported_scope_with_documented_gaps",
       "manual_review_required": true,
       "offer_prediction_scope": "out_of_scope"
+    },
+    {
+      "id": "hull-york-a108",
+      "university_name": "Hull York Medical School",
+      "course_code": "A108",
+      "course_name": "MB BS Medicine with a Gateway Year",
+      "entry_route": "Gateway/Foundation",
+      "country": "England",
+      "fee_status": [
+        "home"
+      ],
+      "entry_year": 2027,
+      "uses_ucat": true,
+      "selection_model": "contextual_adjusted_ranking",
+      "has_contextual_admissions": true,
+      "has_gateway_course": true,
+      "has_graduate_entry": false,
+      "json_file": "universities/hull-york-a108.json"
     },
     {
       "id": "imperial-college-london-a100",
@@ -417,6 +507,24 @@
       "offer_prediction_scope": "out_of_scope"
     },
     {
+      "id": "keele-a104",
+      "university_name": "Keele University",
+      "course_code": "A104",
+      "course_name": "MBChB Medicine with a Foundation Year",
+      "entry_route": "Gateway/Foundation",
+      "country": "England",
+      "fee_status": [
+        "home"
+      ],
+      "entry_year": 2027,
+      "uses_ucat": true,
+      "selection_model": "contextual_adjusted_ranking",
+      "has_contextual_admissions": true,
+      "has_gateway_course": true,
+      "has_graduate_entry": false,
+      "json_file": "universities/keele-a104.json"
+    },
+    {
       "id": "kent-and-medway-a100",
       "university_name": "Kent and Medway Medical School",
       "course_code": "A100",
@@ -500,6 +608,60 @@
       "prediction_mode": "historical_disclosed_formula"
     },
     {
+      "id": "king-s-college-london-a101",
+      "university_name": "King's College London",
+      "course_code": "A101",
+      "course_name": "MBBS Extended Medical Degree Programme",
+      "entry_route": "Gateway/Foundation",
+      "country": "England",
+      "fee_status": [
+        "home"
+      ],
+      "entry_year": 2027,
+      "uses_ucat": true,
+      "selection_model": "contextual_adjusted_ranking",
+      "has_contextual_admissions": true,
+      "has_gateway_course": true,
+      "has_graduate_entry": true,
+      "json_file": "universities/king-s-college-london-a101.json"
+    },
+    {
+      "id": "king-s-college-london-a102",
+      "university_name": "King's College London",
+      "course_code": "A102",
+      "course_name": "MBBS Medicine Graduate Entry",
+      "entry_route": "Graduate Entry",
+      "country": "England",
+      "fee_status": [
+        "home"
+      ],
+      "entry_year": 2027,
+      "uses_ucat": true,
+      "selection_model": "graduate_entry",
+      "has_contextual_admissions": false,
+      "has_gateway_course": true,
+      "has_graduate_entry": true,
+      "json_file": "universities/king-s-college-london-a102.json"
+    },
+    {
+      "id": "king-s-college-london-a105",
+      "university_name": "King's College London",
+      "course_code": "A105",
+      "course_name": "MBBS Medicine Healthcare Entry",
+      "entry_route": "Graduate Entry",
+      "country": "England",
+      "fee_status": [
+        "home"
+      ],
+      "entry_year": 2027,
+      "uses_ucat": true,
+      "selection_model": "graduate_entry",
+      "has_contextual_admissions": false,
+      "has_gateway_course": true,
+      "has_graduate_entry": true,
+      "json_file": "universities/king-s-college-london-a105.json"
+    },
+    {
       "id": "lancaster-a100",
       "university_name": "Lancaster University",
       "course_code": "A100",
@@ -538,6 +700,24 @@
       "offer_prediction_scope": "out_of_scope"
     },
     {
+      "id": "lancaster-a104",
+      "university_name": "Lancaster University",
+      "course_code": "A104",
+      "course_name": "MBChB Medicine with a Gateway Year",
+      "entry_route": "Gateway/Foundation",
+      "country": "England",
+      "fee_status": [
+        "home"
+      ],
+      "entry_year": 2027,
+      "uses_ucat": true,
+      "selection_model": "contextual_adjusted_ranking",
+      "has_contextual_admissions": true,
+      "has_gateway_course": true,
+      "has_graduate_entry": false,
+      "json_file": "universities/lancaster-a104.json"
+    },
+    {
       "id": "leicester-a100",
       "university_name": "University of Leicester",
       "course_code": "A100",
@@ -572,7 +752,7 @@
       "interview_prediction": true,
       "historical_guidance": true,
       "international_prediction": true,
-      "contextual_logic": false,
+      "contextual_logic": true,
       "result_card": true,
       "regression": true,
       "research_completeness": "complete_for_supported_scope_with_documented_gaps",
@@ -622,6 +802,25 @@
       "offer_prediction_scope": "out_of_scope"
     },
     {
+      "id": "newcastle-a101",
+      "university_name": "Newcastle University",
+      "course_code": "A101",
+      "course_name": "MB BS Medicine Accelerated Programme",
+      "entry_route": "Graduate Entry",
+      "country": "England",
+      "fee_status": [
+        "home",
+        "international"
+      ],
+      "entry_year": 2027,
+      "uses_ucat": true,
+      "selection_model": "graduate_entry",
+      "has_contextual_admissions": false,
+      "has_gateway_course": false,
+      "has_graduate_entry": true,
+      "json_file": "universities/newcastle-a101.json"
+    },
+    {
       "id": "queen-mary-a100",
       "university_name": "Queen Mary University of London",
       "course_code": "A100",
@@ -662,6 +861,24 @@
       "research_completeness": "complete_for_supported_scope_with_documented_gaps",
       "manual_review_required": true,
       "offer_prediction_scope": "out_of_scope"
+    },
+    {
+      "id": "queen-mary-a101",
+      "university_name": "Queen Mary, University of London",
+      "course_code": "A101",
+      "course_name": "MBBS Medicine Graduate Entry",
+      "entry_route": "Graduate Entry",
+      "country": "England",
+      "fee_status": [
+        "home"
+      ],
+      "entry_year": 2027,
+      "uses_ucat": true,
+      "selection_model": "graduate_entry",
+      "has_contextual_admissions": true,
+      "has_gateway_course": false,
+      "has_graduate_entry": true,
+      "json_file": "universities/queen-mary-a101.json"
     },
     {
       "id": "queen-s-belfast-a100",
@@ -723,6 +940,43 @@
       "has_gateway_course": false,
       "has_graduate_entry": true,
       "json_file": "universities/swansea-a100.json"
+    },
+    {
+      "id": "pears-cumbria-a102",
+      "university_name": "The Pears Cumbria School of Medicine",
+      "course_code": "A102",
+      "course_name": "MBBS Medicine Graduate Entry",
+      "entry_route": "Graduate Entry",
+      "country": "United Kingdom",
+      "fee_status": [
+        "home"
+      ],
+      "entry_year": 2027,
+      "uses_ucat": false,
+      "selection_model": "graduate_entry",
+      "has_contextual_admissions": true,
+      "has_gateway_course": false,
+      "has_graduate_entry": true,
+      "json_file": "universities/pears-cumbria-a102.json"
+    },
+    {
+      "id": "ulster-a101",
+      "university_name": "Ulster University",
+      "course_code": "A101",
+      "course_name": "MBBS Medicine Graduate Entry",
+      "entry_route": "Graduate Entry",
+      "country": "Northern Ireland",
+      "fee_status": [
+        "home",
+        "international"
+      ],
+      "entry_year": 2027,
+      "uses_ucat": false,
+      "selection_model": "graduate_entry",
+      "has_contextual_admissions": false,
+      "has_gateway_course": false,
+      "has_graduate_entry": true,
+      "json_file": "universities/ulster-a101.json"
     },
     {
       "id": "ucl-a100",
@@ -802,6 +1056,24 @@
       "offer_prediction_scope": "out_of_scope"
     },
     {
+      "id": "aberdeen-a1a1",
+      "university_name": "University of Aberdeen",
+      "course_code": "A1A1",
+      "course_name": "Gateway2Medicine",
+      "entry_route": "Gateway/Foundation",
+      "country": "Scotland",
+      "fee_status": [
+        "home"
+      ],
+      "entry_year": 2027,
+      "uses_ucat": false,
+      "selection_model": "contextual_adjusted_ranking",
+      "has_contextual_admissions": true,
+      "has_gateway_course": true,
+      "has_graduate_entry": false,
+      "json_file": "universities/aberdeen-a1a1.json"
+    },
+    {
       "id": "birmingham-a100",
       "university_name": "University of Birmingham",
       "course_code": "A100",
@@ -879,6 +1151,24 @@
       "research_completeness": "complete_for_supported_scope_with_documented_gaps",
       "manual_review_required": true,
       "offer_prediction_scope": "out_of_scope"
+    },
+    {
+      "id": "bristol-a108",
+      "university_name": "University of Bristol",
+      "course_code": "A108",
+      "course_name": "MB ChB Gateway to Medicine",
+      "entry_route": "Gateway/Foundation",
+      "country": "England",
+      "fee_status": [
+        "home"
+      ],
+      "entry_year": 2027,
+      "uses_ucat": true,
+      "selection_model": "contextual_adjusted_ranking",
+      "has_contextual_admissions": true,
+      "has_gateway_course": true,
+      "has_graduate_entry": false,
+      "json_file": "universities/bristol-a108.json"
     },
     {
       "id": "buckingham-71a8",
@@ -968,6 +1258,43 @@
       "offer_prediction_scope": "out_of_scope"
     },
     {
+      "id": "cambridge-a101",
+      "university_name": "University of Cambridge",
+      "course_code": "A101",
+      "course_name": "MB BChir Medicine Graduate Entry",
+      "entry_route": "Graduate Entry",
+      "country": "England",
+      "fee_status": [
+        "home"
+      ],
+      "entry_year": 2027,
+      "uses_ucat": true,
+      "selection_model": "graduate_entry",
+      "has_contextual_admissions": true,
+      "has_gateway_course": false,
+      "has_graduate_entry": true,
+      "json_file": "universities/cambridge-a101.json"
+    },
+    {
+      "id": "chester-a101",
+      "university_name": "University of Chester",
+      "course_code": "A101",
+      "course_name": "MBBS Medicine Graduate Entry",
+      "entry_route": "Graduate Entry",
+      "country": "England",
+      "fee_status": [
+        "home",
+        "international"
+      ],
+      "entry_year": 2027,
+      "uses_ucat": true,
+      "selection_model": "graduate_entry",
+      "has_contextual_admissions": true,
+      "has_gateway_course": false,
+      "has_graduate_entry": true,
+      "json_file": "universities/chester-a101.json"
+    },
+    {
       "id": "dundee-a100",
       "university_name": "University of Dundee",
       "course_code": "A100",
@@ -998,12 +1325,30 @@
       "interview_prediction": true,
       "historical_guidance": true,
       "international_prediction": true,
-      "contextual_logic": false,
+      "contextual_logic": true,
       "result_card": true,
       "regression": true,
       "research_completeness": "complete_for_supported_scope_with_documented_gaps",
       "manual_review_required": true,
       "offer_prediction_scope": "out_of_scope"
+    },
+    {
+      "id": "dundee-a104",
+      "university_name": "University of Dundee",
+      "course_code": "A104",
+      "course_name": "MBChB Gateway to Medicine",
+      "entry_route": "Gateway/Foundation",
+      "country": "Scotland",
+      "fee_status": [
+        "home"
+      ],
+      "entry_year": 2027,
+      "uses_ucat": false,
+      "selection_model": "contextual_adjusted_ranking",
+      "has_contextual_admissions": true,
+      "has_gateway_course": true,
+      "has_graduate_entry": false,
+      "json_file": "universities/dundee-a104.json"
     },
     {
       "id": "east-anglia-a100",
@@ -1044,6 +1389,42 @@
       "offer_prediction_scope": "out_of_scope"
     },
     {
+      "id": "east-anglia-a101",
+      "university_name": "University of East Anglia",
+      "course_code": "A101",
+      "course_name": "MBBS Medicine Graduate Entry",
+      "entry_route": "Graduate Entry",
+      "country": "England",
+      "fee_status": [
+        "home"
+      ],
+      "entry_year": 2027,
+      "uses_ucat": true,
+      "selection_model": "graduate_entry",
+      "has_contextual_admissions": false,
+      "has_gateway_course": true,
+      "has_graduate_entry": true,
+      "json_file": "universities/east-anglia-a101.json"
+    },
+    {
+      "id": "east-anglia-a104",
+      "university_name": "University of East Anglia",
+      "course_code": "A104",
+      "course_name": "MBBS Medicine with a Gateway Year",
+      "entry_route": "Gateway/Foundation",
+      "country": "England",
+      "fee_status": [
+        "home"
+      ],
+      "entry_year": 2027,
+      "uses_ucat": true,
+      "selection_model": "contextual_adjusted_ranking",
+      "has_contextual_admissions": true,
+      "has_gateway_course": true,
+      "has_graduate_entry": true,
+      "json_file": "universities/east-anglia-a104.json"
+    },
+    {
       "id": "edinburgh-a100",
       "university_name": "University of Edinburgh",
       "course_code": "A100",
@@ -1074,12 +1455,30 @@
       "interview_prediction": true,
       "historical_guidance": true,
       "international_prediction": true,
-      "contextual_logic": false,
+      "contextual_logic": true,
       "result_card": true,
       "regression": true,
       "research_completeness": "complete_for_supported_scope_with_documented_gaps",
       "manual_review_required": true,
       "offer_prediction_scope": "out_of_scope"
+    },
+    {
+      "id": "edinburgh-no-code",
+      "university_name": "University of Edinburgh",
+      "course_code": "NO-CODE",
+      "course_name": "HCP-Med for Healthcare Professionals MBChB",
+      "entry_route": "Graduate Entry",
+      "country": "Scotland",
+      "fee_status": [
+        "home"
+      ],
+      "entry_year": 2027,
+      "uses_ucat": true,
+      "selection_model": "graduate_entry",
+      "has_contextual_admissions": false,
+      "has_gateway_course": false,
+      "has_graduate_entry": true,
+      "json_file": "universities/edinburgh-no-code.json"
     },
     {
       "id": "exeter-a100",
@@ -1157,6 +1556,24 @@
       "research_completeness": "complete_for_supported_scope_with_documented_gaps",
       "manual_review_required": true,
       "offer_prediction_scope": "out_of_scope"
+    },
+    {
+      "id": "glasgow-a900",
+      "university_name": "University of Glasgow",
+      "course_code": "A900",
+      "course_name": "Gateway to Medical Studies",
+      "entry_route": "Gateway/Foundation",
+      "country": "Scotland",
+      "fee_status": [
+        "home"
+      ],
+      "entry_year": 2027,
+      "uses_ucat": false,
+      "selection_model": "contextual_adjusted_ranking",
+      "has_contextual_admissions": true,
+      "has_gateway_course": true,
+      "has_graduate_entry": false,
+      "json_file": "universities/glasgow-a900.json"
     },
     {
       "id": "greater-manchester-a100",
@@ -1240,6 +1657,24 @@
       "result_card_example_file": "examples/lancashire-a100-result-card.example.json"
     },
     {
+      "id": "lancashire-a101",
+      "university_name": "University of Lancashire",
+      "course_code": "A101",
+      "course_name": "MBBS Medicine with Foundation Year (International students only)",
+      "entry_route": "Gateway/Foundation",
+      "country": "England",
+      "fee_status": [
+        "international"
+      ],
+      "entry_year": 2027,
+      "uses_ucat": false,
+      "selection_model": "contextual_adjusted_ranking",
+      "has_contextual_admissions": true,
+      "has_gateway_course": true,
+      "has_graduate_entry": false,
+      "json_file": "universities/lancashire-a101.json"
+    },
+    {
       "id": "leeds-a100",
       "university_name": "University of Leeds",
       "course_code": "A100",
@@ -1277,6 +1712,42 @@
       "manual_review_required": true,
       "offer_prediction_scope": "out_of_scope",
       "result_card_example_file": "examples/leeds-a100-result-card.example.json"
+    },
+    {
+      "id": "leeds-a101",
+      "university_name": "University of Leeds",
+      "course_code": "A101",
+      "course_name": "MBChB Gateway Year to Medicine",
+      "entry_route": "Gateway/Foundation",
+      "country": "England",
+      "fee_status": [
+        "home"
+      ],
+      "entry_year": 2027,
+      "uses_ucat": true,
+      "selection_model": "contextual_adjusted_ranking",
+      "has_contextual_admissions": true,
+      "has_gateway_course": true,
+      "has_graduate_entry": false,
+      "json_file": "universities/leeds-a101.json"
+    },
+    {
+      "id": "leeds-a101-mbchb-medicine-with-a-gatewa",
+      "university_name": "University of Leeds",
+      "course_code": "A101",
+      "course_name": "MBChB Medicine with a Gateway Year",
+      "entry_route": "Gateway/Foundation",
+      "country": "England",
+      "fee_status": [
+        "home"
+      ],
+      "entry_year": 2027,
+      "uses_ucat": true,
+      "selection_model": "contextual_adjusted_ranking",
+      "has_contextual_admissions": true,
+      "has_gateway_course": true,
+      "has_graduate_entry": false,
+      "json_file": "universities/leeds-a101-mbchb-medicine-with-a-gatewa.json"
     },
     {
       "id": "lincoln-a100",
@@ -1317,6 +1788,42 @@
       "offer_prediction_scope": "out_of_scope"
     },
     {
+      "id": "lincoln-a106",
+      "university_name": "University of Lincoln",
+      "course_code": "A106",
+      "course_name": "MBChB Medicine",
+      "entry_route": "Standard Entry",
+      "country": "England",
+      "fee_status": [
+        "home"
+      ],
+      "entry_year": 2027,
+      "uses_ucat": true,
+      "selection_model": "points_system",
+      "has_contextual_admissions": true,
+      "has_gateway_course": false,
+      "has_graduate_entry": false,
+      "json_file": "universities/lincoln-a106.json"
+    },
+    {
+      "id": "liverpool-789s",
+      "university_name": "University of Liverpool",
+      "course_code": "789S",
+      "course_name": "Foundation to Medicine (Year 0)",
+      "entry_route": "Gateway/Foundation",
+      "country": "England",
+      "fee_status": [
+        "home"
+      ],
+      "entry_year": 2027,
+      "uses_ucat": false,
+      "selection_model": "contextual_adjusted_ranking",
+      "has_contextual_admissions": true,
+      "has_gateway_course": true,
+      "has_graduate_entry": true,
+      "json_file": "universities/liverpool-789s.json"
+    },
+    {
       "id": "liverpool-a100",
       "university_name": "University of Liverpool",
       "course_code": "A100",
@@ -1355,6 +1862,43 @@
       "research_completeness": "complete_for_supported_scope",
       "manual_review_required": false,
       "offer_prediction_scope": "out_of_scope"
+    },
+    {
+      "id": "liverpool-a101",
+      "university_name": "University of Liverpool",
+      "course_code": "A101",
+      "course_name": "MBChB Medicine Graduate Entry",
+      "entry_route": "Graduate Entry",
+      "country": "England",
+      "fee_status": [
+        "home"
+      ],
+      "entry_year": 2027,
+      "uses_ucat": false,
+      "selection_model": "graduate_entry",
+      "has_contextual_admissions": false,
+      "has_gateway_course": true,
+      "has_graduate_entry": true,
+      "json_file": "universities/liverpool-a101.json"
+    },
+    {
+      "id": "manchester-a101",
+      "university_name": "University of Manchester",
+      "course_code": "A101",
+      "course_name": "MBChB Medicine Graduate Entry",
+      "entry_route": "Graduate Entry",
+      "country": "England",
+      "fee_status": [
+        "home",
+        "international"
+      ],
+      "entry_year": 2027,
+      "uses_ucat": true,
+      "selection_model": "graduate_entry",
+      "has_contextual_admissions": false,
+      "has_gateway_course": false,
+      "has_graduate_entry": true,
+      "json_file": "universities/manchester-a101.json"
     },
     {
       "id": "manchester-a100",
@@ -1437,6 +1981,43 @@
       "offer_prediction_scope": "out_of_scope"
     },
     {
+      "id": "nottingham-a101",
+      "university_name": "University of Nottingham",
+      "course_code": "A101",
+      "course_name": "BMBS Medicine Graduate Entry",
+      "entry_route": "Graduate Entry",
+      "country": "England",
+      "fee_status": [
+        "home",
+        "international"
+      ],
+      "entry_year": 2027,
+      "uses_ucat": true,
+      "selection_model": "graduate_entry",
+      "has_contextual_admissions": false,
+      "has_gateway_course": true,
+      "has_graduate_entry": true,
+      "json_file": "universities/nottingham-a101.json"
+    },
+    {
+      "id": "nottingham-a108",
+      "university_name": "University of Nottingham",
+      "course_code": "A108",
+      "course_name": "BMBS Medicine with a Foundation Year",
+      "entry_route": "Gateway/Foundation",
+      "country": "England",
+      "fee_status": [
+        "home"
+      ],
+      "entry_year": 2027,
+      "uses_ucat": true,
+      "selection_model": "contextual_adjusted_ranking",
+      "has_contextual_admissions": true,
+      "has_gateway_course": true,
+      "has_graduate_entry": true,
+      "json_file": "universities/nottingham-a108.json"
+    },
+    {
       "id": "oxford-a100",
       "university_name": "University of Oxford",
       "course_code": "A100",
@@ -1474,6 +2055,25 @@
       "research_completeness": "complete_for_supported_scope_with_documented_gaps",
       "manual_review_required": true,
       "offer_prediction_scope": "out_of_scope"
+    },
+    {
+      "id": "oxford-a101",
+      "university_name": "University of Oxford",
+      "course_code": "A101",
+      "course_name": "BM BCh Medicine Graduate Entry",
+      "entry_route": "Graduate Entry",
+      "country": "England",
+      "fee_status": [
+        "home",
+        "international"
+      ],
+      "entry_year": 2027,
+      "uses_ucat": true,
+      "selection_model": "graduate_entry",
+      "has_contextual_admissions": false,
+      "has_gateway_course": false,
+      "has_graduate_entry": true,
+      "json_file": "universities/oxford-a101.json"
     },
     {
       "id": "plymouth-a100",
@@ -1514,6 +2114,24 @@
       "offer_prediction_scope": "out_of_scope"
     },
     {
+      "id": "plymouth-a102",
+      "university_name": "University of Plymouth",
+      "course_code": "A102",
+      "course_name": "BMBS Medicine with a Foundation Year",
+      "entry_route": "Gateway/Foundation",
+      "country": "England",
+      "fee_status": [
+        "home"
+      ],
+      "entry_year": 2027,
+      "uses_ucat": true,
+      "selection_model": "contextual_adjusted_ranking",
+      "has_contextual_admissions": true,
+      "has_gateway_course": true,
+      "has_graduate_entry": false,
+      "json_file": "universities/plymouth-a102.json"
+    },
+    {
       "id": "sheffield-a100",
       "university_name": "University of Sheffield",
       "course_code": "A100",
@@ -1550,6 +2168,24 @@
       "research_completeness": "complete_for_supported_scope_with_documented_gaps",
       "manual_review_required": true,
       "offer_prediction_scope": "out_of_scope"
+    },
+    {
+      "id": "sheffield-a101",
+      "university_name": "University of Sheffield",
+      "course_code": "A101",
+      "course_name": "MBChB Medicine Graduate Entry",
+      "entry_route": "Graduate Entry",
+      "country": "England",
+      "fee_status": [
+        "home"
+      ],
+      "entry_year": 2027,
+      "uses_ucat": true,
+      "selection_model": "graduate_entry",
+      "has_contextual_admissions": true,
+      "has_gateway_course": false,
+      "has_graduate_entry": true,
+      "json_file": "universities/sheffield-a101.json"
     },
     {
       "id": "southampton-a100",
@@ -1590,6 +2226,42 @@
       "offer_prediction_scope": "out_of_scope"
     },
     {
+      "id": "southampton-a101",
+      "university_name": "University of Southampton",
+      "course_code": "A101",
+      "course_name": "BMBS Medicine Graduate Entry BM4",
+      "entry_route": "Graduate Entry",
+      "country": "England",
+      "fee_status": [
+        "home"
+      ],
+      "entry_year": 2027,
+      "uses_ucat": true,
+      "selection_model": "graduate_entry",
+      "has_contextual_admissions": false,
+      "has_gateway_course": false,
+      "has_graduate_entry": true,
+      "json_file": "universities/southampton-a101.json"
+    },
+    {
+      "id": "southampton-a102",
+      "university_name": "University of Southampton",
+      "course_code": "A102",
+      "course_name": "BMBS Medicine BM6",
+      "entry_route": "Standard Entry",
+      "country": "England",
+      "fee_status": [
+        "home"
+      ],
+      "entry_year": 2027,
+      "uses_ucat": true,
+      "selection_model": "ucat_ranking",
+      "has_contextual_admissions": true,
+      "has_gateway_course": false,
+      "has_graduate_entry": true,
+      "json_file": "universities/southampton-a102.json"
+    },
+    {
       "id": "st-andrews-a100",
       "university_name": "University of St Andrews",
       "course_code": "A100",
@@ -1620,12 +2292,66 @@
       "interview_prediction": true,
       "historical_guidance": true,
       "international_prediction": true,
-      "contextual_logic": false,
+      "contextual_logic": true,
       "result_card": true,
       "regression": true,
       "research_completeness": "complete_for_supported_scope_with_documented_gaps",
       "manual_review_required": true,
       "offer_prediction_scope": "out_of_scope"
+    },
+    {
+      "id": "st-andrews-a101",
+      "university_name": "University of St Andrews",
+      "course_code": "A101",
+      "course_name": "MBChB Scottish Graduate Entry Medicine (ScotGEM)",
+      "entry_route": "Graduate Entry",
+      "country": "Scotland",
+      "fee_status": [
+        "home"
+      ],
+      "entry_year": 2027,
+      "uses_ucat": false,
+      "selection_model": "graduate_entry",
+      "has_contextual_admissions": false,
+      "has_gateway_course": true,
+      "has_graduate_entry": true,
+      "json_file": "universities/st-andrews-a101.json"
+    },
+    {
+      "id": "st-andrews-a10c",
+      "university_name": "University of St Andrews",
+      "course_code": "A10C",
+      "course_name": "MBChB Medicine Scottish Community Orientated Medicine ScotCOM",
+      "entry_route": "Standard Entry",
+      "country": "Scotland",
+      "fee_status": [
+        "home"
+      ],
+      "entry_year": 2027,
+      "uses_ucat": true,
+      "selection_model": "academic_plus_ucat_weighting",
+      "has_contextual_admissions": true,
+      "has_gateway_course": true,
+      "has_graduate_entry": true,
+      "json_file": "universities/st-andrews-a10c.json"
+    },
+    {
+      "id": "st-andrews-lqv9",
+      "university_name": "University of St Andrews",
+      "course_code": "LQV9",
+      "course_name": "Gateway to Medicine",
+      "entry_route": "Gateway/Foundation",
+      "country": "Scotland",
+      "fee_status": [
+        "home"
+      ],
+      "entry_year": 2027,
+      "uses_ucat": false,
+      "selection_model": "contextual_adjusted_ranking",
+      "has_contextual_admissions": true,
+      "has_gateway_course": true,
+      "has_graduate_entry": true,
+      "json_file": "universities/st-andrews-lqv9.json"
     },
     {
       "id": "sunderland-a100",
@@ -1663,6 +2389,63 @@
       "research_completeness": "complete_for_supported_scope_with_documented_gaps",
       "manual_review_required": true,
       "offer_prediction_scope": "out_of_scope"
+    },
+    {
+      "id": "surrey-a101",
+      "university_name": "University of Surrey",
+      "course_code": "A101",
+      "course_name": "MB BS Medicine Graduate Entry",
+      "entry_route": "Graduate Entry",
+      "country": "England",
+      "fee_status": [
+        "home",
+        "international"
+      ],
+      "entry_year": 2027,
+      "uses_ucat": true,
+      "selection_model": "graduate_entry",
+      "has_contextual_admissions": false,
+      "has_gateway_course": false,
+      "has_graduate_entry": true,
+      "json_file": "universities/surrey-a101.json"
+    },
+    {
+      "id": "warwick-a101",
+      "university_name": "University of Warwick",
+      "course_code": "A101",
+      "course_name": "MBChB Medicine",
+      "entry_route": "Graduate Entry",
+      "country": "England",
+      "fee_status": [
+        "home",
+        "international"
+      ],
+      "entry_year": 2027,
+      "uses_ucat": true,
+      "selection_model": "graduate_entry",
+      "has_contextual_admissions": true,
+      "has_gateway_course": false,
+      "has_graduate_entry": true,
+      "json_file": "universities/warwick-a101.json"
+    },
+    {
+      "id": "worcester-a101",
+      "university_name": "University of Worcester, Three Counties Medical School",
+      "course_code": "A101",
+      "course_name": "MBChB Medicine Graduate Entry",
+      "entry_route": "Graduate Entry",
+      "country": "England",
+      "fee_status": [
+        "home",
+        "international"
+      ],
+      "entry_year": 2027,
+      "uses_ucat": true,
+      "selection_model": "graduate_entry",
+      "has_contextual_admissions": true,
+      "has_gateway_course": false,
+      "has_graduate_entry": true,
+      "json_file": "universities/worcester-a101.json"
     }
   ]
 }

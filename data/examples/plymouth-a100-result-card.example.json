@@ -302,7 +302,7 @@
     "primary_user_facing_recommendation": "Strong choice for your application",
     "recommendation_display_state": "standard",
     "primary_explanation": "Based on ApplySmart's assessment, your UCAT score appears competitive for this applicant group.",
-    "historical_guidance_caveat": "Historical performance does not guarantee a future interview.",
+    "historical_guidance_caveat": "Historical admissions data provides a benchmark only; it is not a current cut-off or a guarantee of interview.",
     "headline": "Strong choice for your application"
   },
   "decision_timeline": [
@@ -322,86 +322,131 @@
       "step": 3,
       "title": "Selection model applied",
       "status": "Complete",
-      "summary": "Plymouth shortlists eligible applicants using UCAT alongside academic requirements. ApplySmart applies pool-specific historical-normalised UCAT guidance derived from Plymouth official 2023-2025 historical threshold context; this is not an official Plymouth current cutoff."
+      "summary": "Plymouth checks academic eligibility, then uses UCAT as the shortlisting metric within the Home A100 pool."
     },
     {
       "step": 4,
       "title": "Historical guidance compared",
       "status": "Complete",
-      "summary": "Your UCAT was compared with interview information from previous admissions cycles. Interview thresholds may change each admissions cycle depending on applicant competition and interview capacity. Historical figures are guidance only, not a current cut-off, and do not guarantee an interview."
+      "summary": "UCAT: 2200 - above the historical UCAT range of 1950-2099. Historical admissions data provides a benchmark only; it is not a current cut-off or a guarantee of interview."
     },
     {
       "step": 5,
       "title": "Interview recommendation produced",
       "status": "Strong Choice",
-      "summary": "Based on ApplySmart's assessment, your academic profile appears competitive for this applicant group. Treat this as guidance for university choice, not a promised interview."
+      "summary": "Based on ApplySmart's assessment, your UCAT score appears competitive for this applicant group. Treat this as guidance for university choice, not a promised interview."
     }
   ],
   "decision_transparency": {
+    "factor_usage": [
+      {
+        "factor_id": "ucat",
+        "label": "UCAT",
+        "role": "ranking",
+        "detail": "Used for ranking in the university’s selection process.",
+        "evidence_status": "available"
+      },
+      {
+        "factor_id": "gcse",
+        "label": "GCSEs",
+        "role": "eligibility",
+        "detail": "Used as an academic eligibility requirement.",
+        "evidence_status": "available"
+      },
+      {
+        "factor_id": "a_level",
+        "label": "A-levels",
+        "role": "eligibility",
+        "detail": "Used as an academic eligibility requirement.",
+        "evidence_status": "available"
+      },
+      {
+        "factor_id": "sjt",
+        "label": "SJT",
+        "role": "not_used",
+        "detail": "SJT is not used for interview selection.",
+        "evidence_status": "not_applicable"
+      }
+    ],
     "decision_path": [
       {
         "stage": "Eligibility",
         "status": "Met",
-        "summary": "The represented applicant meets Plymouth's supported academic eligibility gates and has a current-cycle UCAT total.",
+        "summary": "The supported entry requirements are met.",
         "checks": [
           {
-            "label": "GCSE gate",
+            "label": "Entry requirement",
             "status": "Met",
-            "summary": "Seven GCSEs at Grade 4/C or above including English Language, Mathematics and accepted science evidence. Applicant information: Seven GCSEs at Grade 6 or above including English Language, Mathematics, Biology and Chemistry."
+            "summary": "This requirement was assessed and met."
           },
           {
-            "label": "A-level gate",
+            "label": "Entry requirement",
             "status": "Met",
-            "summary": "A*AA with Biology and a second accepted science for the represented standard route. Applicant information: A*AA in Biology, Chemistry and Mathematics."
+            "summary": "This requirement was assessed and met."
           },
           {
-            "label": "UCAT present",
+            "label": "Entry requirement",
             "status": "Met",
-            "summary": "UCAT in the year of application. Applicant information: UCAT 2200/2700, recorded test year."
+            "summary": "This requirement was assessed and met."
+          },
+          {
+            "label": "Entry requirement",
+            "status": "Met",
+            "summary": "This requirement was assessed and met."
           }
         ]
       },
       {
         "stage": "Selection model",
         "status": "Assessed",
-        "summary": "Plymouth shortlists eligible applicants using UCAT alongside academic requirements. ApplySmart applies pool-specific historical-normalised UCAT guidance derived from Plymouth official 2023-2025 historical threshold context; this is not an official Plymouth current cutoff.",
+        "summary": "Plymouth checks academic eligibility, then uses UCAT as the shortlisting metric within the Home A100 pool.",
         "checks": [
           {
             "label": "Applicant pool",
             "status": "Used",
-            "summary": "The applicant group matching the supplied fee status and entry route"
+            "summary": "Home, Rest of UK applicants"
           },
           {
             "label": "UCAT",
-            "status": "Ranking only",
-            "summary": "UCAT ranking: Eligible applicants are ranked by UCAT. No reliable numerical historical comparison is available."
+            "status": "Above",
+            "summary": "UCAT: 2200 - above the historical UCAT range of 1950-2099."
           },
           {
             "label": "SJT requirement",
             "status": "Ignored",
-            "summary": "SJT is not used for interview selection."
+            "summary": "Band 2 - not used for interview selection."
           },
           {
             "label": "Selection approach",
             "status": "Ranking/cut-off based",
-            "summary": "Plymouth shortlists eligible applicants using UCAT alongside academic requirements. ApplySmart applies pool-specific historical-normalised UCAT guidance derived from Plymouth official 2023-2025 historical threshold context; this is not an official Plymouth current cutoff."
+            "summary": "Plymouth checks academic eligibility, then uses UCAT as the shortlisting metric within the Home A100 pool."
           }
         ]
       },
       {
         "stage": "Historical guidance",
         "status": "Guidance available",
-        "summary": "The result was assessed using the available admissions evidence for this applicant group. Historical admissions data provides a benchmark only; it is not a current cut-off or a guarantee of interview.",
+        "summary": "UCAT: 2200 - above the historical UCAT range of 1950-2099. Historical admissions data provides a benchmark only; it is not a current cut-off or a guarantee of interview.",
         "checks": [
           {
             "label": "Applicant pool",
             "status": "Used",
-            "summary": "The applicant group matching the supplied fee status and entry route"
+            "summary": "Home, Rest of UK applicants"
           },
           {
             "label": "UCAT comparison",
             "status": "Compared",
-            "summary": "UCAT ranking: Eligible applicants are ranked by UCAT. No reliable numerical historical comparison is available."
+            "summary": "UCAT: 2200 - above the historical UCAT range of 1950-2099."
+          },
+          {
+            "label": "Home",
+            "status": "Historical",
+            "summary": "UCAT interview threshold ~1950 (2700 scale)."
+          },
+          {
+            "label": "Home",
+            "status": "Historical",
+            "summary": "UCAT interview threshold ~1905 (2700 scale)."
           },
           {
             "label": "Important limitation",
@@ -413,20 +458,20 @@
       {
         "stage": "Recommendation",
         "status": "Guidance only",
-        "summary": "Based on ApplySmart's assessment, your academic profile appears competitive for this applicant group. Treat this as guidance for university choice, not a promised interview.",
+        "summary": "Based on ApplySmart's assessment, your UCAT score appears competitive for this applicant group. Treat this as guidance for university choice, not a promised interview.",
         "checks": []
       }
     ],
     "key_reasons": [
-      "The represented applicant meets Plymouth's supported academic eligibility gates and has a current-cycle UCAT total.",
-      "The result uses The applicant group matching the supplied fee status and entry route.",
-      "You meet the academic requirements. Eligible applicants are ranked by UCAT. No reliable numerical historical comparison is available."
+      "The supported entry requirements are met.",
+      "The result uses Home, Rest of UK applicants.",
+      "Your UCAT score is above the historical UCAT range for this applicant group."
     ],
     "evidence_used": [
-      "Official admissions policy",
-      "University selection methodology",
-      "UCAT policy",
-      "Historical interview data"
+      "Official Plymouth academic eligibility rules",
+      "FOI historical UCAT threshold rows for 2023, 2024 and 2025, used as context and not current cutoffs",
+      "ApplySmart historical-normalised UCAT guidance methodology",
+      "Pool-specific median calibration and fixed ±150 guidance bands"
     ],
     "evidence_confidence": {
       "level": "Medium",
@@ -439,34 +484,64 @@
     },
     "warnings": [],
     "manual_review_reason": null,
-    "insufficient_evidence_reason": null,
-    "insufficient_evidence_reason_code": null,
+    "manual_review_reason_code": null,
+    "information_needed_reason": null,
+    "missing_information": null,
+    "risk_explanation": null,
     "compact_status": {
       "label": "You meet the academic requirements.",
       "type": "academic_status",
       "tone": "positive"
     },
     "comparison_metrics_title": null,
-    "comparison_metrics": [],
-    "selection_approach_display": null,
-    "selection_metric": null,
+    "comparison_metrics": [
+      {
+        "label": "historical UCAT range",
+        "value": "1950-2099",
+        "difference": "+250"
+      }
+    ],
+    "selection_approach_display": "Plymouth checks academic eligibility, then uses UCAT as the shortlisting metric within the Home A100 pool.",
+    "selection_metric": {
+      "type": "ucat",
+      "label": "Your UCAT score",
+      "applicant_value": 2200,
+      "comparison_value": 1950,
+      "comparison_max_value": 2099,
+      "comparison_label": "historical UCAT range",
+      "comparison_label_type": "historical_interview_guide",
+      "comparison_context": null,
+      "difference": 250,
+      "difference_direction": "above",
+      "difference_word": "range",
+      "maximum_value": 2700,
+      "display_mode": "comparison",
+      "display_eligibility": true,
+      "entry_year": null,
+      "caveat": "Historical admissions data provides a benchmark only; it is not a current cut-off or a guarantee of interview."
+    },
     "score_breakdown": null,
     "ucat_comparison": {
-      "comparison_type": "ranking_only",
-      "applicant_ucat": null,
-      "benchmark_min": null,
-      "benchmark_max": null,
-      "benchmark_label": null,
-      "caveat": null,
+      "comparison_type": "historical_range",
+      "applicant_ucat": 2200,
+      "benchmark_min": 1950,
+      "benchmark_max": 2099,
+      "comparison_operator": null,
+      "benchmark_label": "historical UCAT range",
+      "caveat": "Historical admissions data provides a benchmark only; it is not a current cut-off or a guarantee of interview.",
+      "evidence_status": null,
+      "evidence_classification": null,
+      "prediction_band": null,
       "difference_from_benchmark": null,
-      "position": null,
-      "applicant_pool": null,
-      "sjt_policy": "SJT is not used for interview selection.",
+      "position": "above",
+      "applicant_pool": "Home, Rest of UK applicants",
+      "sjt_policy": "The Admissions Advisory Panel reserves the right to consider all UCAT aspects, including SJT, but no explicit SJT band exclusion is published.",
       "sjt_outcome": "ignored",
-      "sjt_summary": "SJT is not used for interview selection.",
-      "applicant_sjt_band": null,
+      "sjt_summary": "Band 2 - not used for interview selection.",
+      "applicant_sjt_band": 2,
       "official_ucat_minimum": null
-    }
+    },
+    "ucat_adjustment": null
   },
   "engine_notes": {
     "generated_from_profile_id": "plymouth-a100",

@@ -220,23 +220,42 @@
         "contextual_offer": {
           "applies_to_group_ids": [
             "home_fee",
-            "contextual"
+            "sunderland_contextual_aab"
+          ],
+          "required_contextual_pathway_ids": [
+            "sunderland_contextual_aab"
           ],
           "grade_profile": [
             "A",
             "A",
             "B"
           ],
-          "notes": "Contextual academic adjustment only; no UCAT, IST or interview guarantee uplift is applied."
+          "notes": "AAB applies where the Sunderland evaluator confirms current/recent-six-year Free School Meals eligibility or UCAT bursary evidence. Contextual status gives no UCAT, IST, interview-pool or guaranteed-interview uplift."
+        },
+        "local_contextual_offer": {
+          "applies_to_group_ids": [
+            "home_fee",
+            "sunderland_local_contextual_abb"
+          ],
+          "required_contextual_pathway_ids": [
+            "sunderland_local_contextual_abb"
+          ],
+          "grade_profile": [
+            "A",
+            "B",
+            "B"
+          ],
+          "firm_choice_required": true,
+          "insurance_fallback_offer": "AAB",
+          "notes": "ABB applies only where the Sunderland evaluator confirms a home address/local postcode in North East England or Cumbria and at least one published local widening-participation criterion. Sunderland states ABB is only available when Sunderland is the firm UCAS choice; insurance-choice offers are AAB."
         },
         "grade_requirements": [
           {
             "requirement_id": "sunderland_standard_aaa",
             "excluded_group_ids": [
-              "contextual",
-              "widening_participation",
               "graduate_applicant"
             ],
+            "academic_pathway": "standard",
             "grade_profile": [
               "A",
               "A",
@@ -273,15 +292,88 @@
             "requirement_id": "sunderland_contextual_aab",
             "applies_to_group_ids": [
               "home_fee",
-              "contextual"
+              "sunderland_contextual_aab"
             ],
             "excluded_group_ids": [
               "international_fee",
               "graduate_applicant"
             ],
+            "academic_pathway": "contextual",
+            "pathway_id": "sunderland_contextual_aab",
+            "required_contextual_pathway_ids": [
+              "sunderland_contextual_aab"
+            ],
+            "standard_offer_grade_profile": [
+              "A",
+              "A",
+              "A"
+            ],
+            "alternative_offer_label": "Contextual offer",
+            "applicable_offer": "Contextual offer: AAB",
+            "explanation": "Sunderland contextual eligibility is confirmed. The contextual offer is AAB; the standard offer is AAA.",
             "grade_profile": [
               "A",
               "A",
+              "B"
+            ],
+            "one_of_subject_groups": [
+              {
+                "group_id": "biology_or_chemistry_primary",
+                "minimum_required": 1,
+                "subject_ids": [
+                  "biology",
+                  "chemistry"
+                ]
+              },
+              {
+                "group_id": "two_designated_sciences",
+                "minimum_required": 2,
+                "subject_ids": [
+                  "biology",
+                  "chemistry",
+                  "physics",
+                  "mathematics",
+                  "further_mathematics"
+                ]
+              }
+            ],
+            "excluded_subject_ids": [
+              "general_studies"
+            ],
+            "decision_outcome_if_not_met": "not_eligible"
+          },
+          {
+            "requirement_id": "sunderland_local_contextual_abb",
+            "applies_to_group_ids": [
+              "home_fee",
+              "sunderland_local_contextual_abb"
+            ],
+            "excluded_group_ids": [
+              "international_fee",
+              "graduate_applicant"
+            ],
+            "academic_pathway": "contextual",
+            "pathway_id": "sunderland_local_contextual_abb",
+            "required_contextual_pathway_ids": [
+              "sunderland_local_contextual_abb"
+            ],
+            "standard_offer_grade_profile": [
+              "A",
+              "A",
+              "A"
+            ],
+            "alternative_offer_label": "Local contextual offer",
+            "applicable_offer": "Local contextual offer: ABB",
+            "explanation": "Sunderland local contextual eligibility is confirmed. The local contextual offer is ABB only if Sunderland is the firm UCAS choice; if Sunderland is the insurance choice, the offer is AAB.",
+            "contextual_offer_conditions": [
+              "You must make Sunderland your firm UCAS choice to receive the ABB offer; if Sunderland is your insurance choice, the offer is AAB."
+            ],
+            "future_conditions": [
+              "sunderland_local_contextual_abb_firm_choice_required"
+            ],
+            "grade_profile": [
+              "A",
+              "B",
               "B"
             ],
             "one_of_subject_groups": [
@@ -386,15 +478,123 @@
         },
         "grade_requirements": [
           {
-            "requirement_id": "sunderland_advanced_higher_ab_two_sciences",
-            "qualification_level": "advanced_higher",
-            "grade_profile": [
+            "requirement_id": "sunderland_scottish_highers_and_advanced_highers",
+            "qualification_level": "scottish_highers_and_advanced_highers",
+            "higher_school_year": "s5",
+            "higher_grade_evidence": "achieved",
+            "advanced_higher_school_year": "s6",
+            "higher_grade_profile": [
+              "A",
+              "A",
+              "A",
               "A",
               "B"
             ],
-            "one_of_subject_groups": [
+            "advanced_higher_grade_profile": [
+              "A",
+              "B"
+            ],
+            "higher_required_subject_grade_options": [
               {
-                "group_id": "two_sciences",
+                "option_id": "biology_and_chemistry_at_a",
+                "grade_requirements": [
+                  {
+                    "subject_id": "biology",
+                    "minimum_grade": "A"
+                  },
+                  {
+                    "subject_id": "chemistry",
+                    "minimum_grade": "A"
+                  }
+                ]
+              },
+              {
+                "option_id": "biology_and_physics_at_a",
+                "grade_requirements": [
+                  {
+                    "subject_id": "biology",
+                    "minimum_grade": "A"
+                  },
+                  {
+                    "subject_id": "physics",
+                    "minimum_grade": "A"
+                  }
+                ]
+              },
+              {
+                "option_id": "biology_and_mathematics_at_a",
+                "grade_requirements": [
+                  {
+                    "subject_id": "biology",
+                    "minimum_grade": "A"
+                  },
+                  {
+                    "subject_id": "mathematics",
+                    "minimum_grade": "A"
+                  }
+                ]
+              },
+              {
+                "option_id": "chemistry_and_physics_at_a",
+                "grade_requirements": [
+                  {
+                    "subject_id": "chemistry",
+                    "minimum_grade": "A"
+                  },
+                  {
+                    "subject_id": "physics",
+                    "minimum_grade": "A"
+                  }
+                ]
+              },
+              {
+                "option_id": "chemistry_and_mathematics_at_a",
+                "grade_requirements": [
+                  {
+                    "subject_id": "chemistry",
+                    "minimum_grade": "A"
+                  },
+                  {
+                    "subject_id": "mathematics",
+                    "minimum_grade": "A"
+                  }
+                ]
+              }
+            ],
+            "combined_grade_requirements": [
+              {
+                "rule_id": "sunderland_s6_advanced_higher_ab_two_sciences",
+                "qualification_levels": [
+                  "advanced_higher"
+                ],
+                "school_year": "s6",
+                "accepted_subject_ids": [
+                  "biology",
+                  "chemistry",
+                  "physics",
+                  "mathematics"
+                ],
+                "grade_profile": [
+                  "A",
+                  "B"
+                ],
+                "one_of_subject_groups": [
+                  {
+                    "group_id": "two_advanced_higher_sciences",
+                    "minimum_required": 2,
+                    "subject_ids": [
+                      "biology",
+                      "chemistry",
+                      "physics",
+                      "mathematics"
+                    ]
+                  }
+                ]
+              }
+            ],
+            "advanced_higher_one_of_subject_groups": [
+              {
+                "group_id": "two_advanced_higher_sciences",
                 "minimum_required": 2,
                 "subject_ids": [
                   "biology",
@@ -404,10 +604,20 @@
                 ]
               }
             ],
-            "decision_outcome_if_not_met": "not_eligible"
+            "matching_subject_grade_rules": [
+              {
+                "rule_id": "sunderland_additional_s6_highers_minimum_b",
+                "qualification_level": "higher",
+                "school_year": "s6",
+                "minimum_grade": "B",
+                "required_when_absent": false
+              }
+            ],
+            "decision_outcome_if_not_met": "not_eligible",
+            "notes": "Requires achieved AAAAB Highers by the end of S5, including Biology or Chemistry at A and a second accepted science at A; AB from two S6 Advanced Higher sciences; and every additional S6 Higher, when present, at B or above."
           }
         ],
-        "notes": "National 5 requirements are recorded under stage_1_eligibility.national_5."
+        "notes": "National 5 requirements are executed under stage_1_eligibility.national_5. Scottish contextual grade reductions are not configured because Sunderland's published AAB/ABB contextual offers apply to A-level routes only."
       },
       "btec": {
         "status": "not_accepted_as_level_3_entry_route",
@@ -567,6 +777,7 @@
     "national_5": {
       "status": "official_source_verified",
       "minimum_count": 5,
+      "minimum_count_grade": "A",
       "confirmed_mandatory_subject_ids": [
         "english_language",
         "mathematics",
@@ -596,7 +807,7 @@
           "minimum_grade": "B"
         }
       ],
-      "notes": "National 5 profile requires five subjects at grade A with mandatory science, English and Mathematics at least B. The current generic classifier executes mandatory subject presence; the full grade detail is retained here."
+      "notes": "National 5 profile requires five subjects at grade A with English, Mathematics, Biology, Chemistry and Physics each at least B. Standard Grade 2 evidence is accepted by the Scottish Level 2 evaluator for subject-grade fallback checks where recorded."
     },
     "admissions_tests": {
       "source_ids": [
@@ -767,27 +978,105 @@
       "sunderland_course_page_2027"
     ],
     "applies_to_group_ids": [
-      "home_fee",
-      "contextual"
+      "home_fee"
     ],
+    "contextual_eligibility": {
+      "evaluator_id": "sunderland_contextual_medicine_a100",
+      "controls_group_routing": true,
+      "applies_to_group_ids": [
+        "home_fee"
+      ],
+      "excluded_group_ids": [
+        "international_fee",
+        "graduate_applicant"
+      ],
+      "criteria": {
+        "aab": [
+          {
+            "criterion_id": "free_school_meals",
+            "evidence_path": "contextual_profile.financial_support.free_school_meals",
+            "description": "Free school meals currently or eligible within the previous six years."
+          },
+          {
+            "criterion_id": "ucat_bursary",
+            "evidence_path": "contextual_profile.financial_support.ucat_bursary_recipient",
+            "description": "UCAT bursary received."
+          }
+        ],
+        "local_abb": {
+          "required_local_status": {
+            "criterion_id": "north_east_england_or_cumbria_home_address",
+            "evidence_path": "contextual_profile.home_area_region.home_region",
+            "expected_value": "north_east_england_or_cumbria"
+          },
+          "any_of": [
+            {
+              "criterion_id": "polar4_quintile_1_or_2",
+              "evidence_path": "contextual_profile.home_area_region.polar4_quintile"
+            },
+            {
+              "criterion_id": "refugee_status",
+              "evidence_path": "contextual_profile.personal_circumstances.refugee"
+            },
+            {
+              "criterion_id": "free_school_meals",
+              "evidence_path": "contextual_profile.financial_support.free_school_meals"
+            },
+            {
+              "criterion_id": "ucat_bursary",
+              "evidence_path": "contextual_profile.financial_support.ucat_bursary_recipient"
+            },
+            {
+              "criterion_id": "military_family",
+              "evidence_path": "contextual_profile.personal_circumstances.military_family",
+              "description": "Student from a UK Armed Forces family."
+            }
+          ]
+        }
+      },
+      "notes": "Evaluator uses contextual_profile only. Legacy applicant_identity.contextual_status_confirmed, contextual_flags.sunderland_contextual_confirmed, contextual, and widening_participation declarations do not confirm Sunderland contextual eligibility."
+    },
     "criteria": [
-      "Verified contextual or widening-participation status"
+      "AAB: free school meals currently or eligible within the previous six years, or UCAT bursary.",
+      "ABB: home address/local postcode in North East England or Cumbria and at least one of POLAR4 Q1/Q2, refugee status, free school meals currently/within six years, UCAT bursary, or UK Armed Forces family.",
+      "ABB is available only if Sunderland is the firm UCAS choice; if Sunderland is the insurance choice, the offer is AAB."
     ],
     "adjustments": [
       {
         "adjustment_id": "contextual_a_level_aab",
         "applies_to_group_ids": [
           "home_fee",
-          "contextual"
+          "sunderland_contextual_aab"
+        ],
+        "required_contextual_pathway_ids": [
+          "sunderland_contextual_aab"
         ],
         "adjustment_type": "lower_academic_threshold",
         "standard_requirement": "AAA",
         "contextual_requirement": "AAB",
         "notes": "No UCAT uplift, IST uplift, points bonus, separate interview pool or guaranteed interview is applied."
+      },
+      {
+        "adjustment_id": "local_contextual_a_level_abb",
+        "applies_to_group_ids": [
+          "home_fee",
+          "sunderland_local_contextual_abb"
+        ],
+        "required_contextual_pathway_ids": [
+          "sunderland_local_contextual_abb"
+        ],
+        "adjustment_type": "lower_academic_threshold",
+        "standard_requirement": "AAA",
+        "contextual_requirement": "ABB",
+        "future_conditions": [
+          "sunderland_local_contextual_abb_firm_choice_required"
+        ],
+        "insurance_fallback_requirement": "AAB",
+        "notes": "ABB applies only if Sunderland is the firm UCAS choice. If Sunderland is the insurance choice, the offer is AAB. No UCAT uplift, IST uplift, points bonus, separate interview pool or guaranteed interview is applied."
       }
     ],
     "guaranteed_interview_rules": [],
-    "notes": "Contextual status adjusts academic threshold only."
+    "notes": "Contextual status adjusts academic threshold only. Normal UCAT, SJT, subject, practical-endorsement and other requirements remain unchanged."
   },
   "ranking_pools": [
     {
@@ -850,6 +1139,11 @@
     "waiting_list_policy": "Reserve list operated historically per 2022 FOI; latest current-cycle confirmation not found.",
     "standard_offer": "AAA",
     "contextual_offer": "AAB",
+    "local_contextual_offer": "ABB",
+    "local_contextual_offer_conditions": [
+      "Sunderland must be the firm UCAS choice.",
+      "If Sunderland is the insurance choice, the offer is AAB."
+    ],
     "offer_prediction_scope": "out_of_scope",
     "notes": "ApplySmart does not predict offers, MMI outcomes or reserve-list outcomes."
   },
@@ -906,17 +1200,17 @@
     {
       "source_id": "sunderland_course_page_2027",
       "title": "MBChB Medicine 2027/28",
-      "url": "https://www.sunderland.ac.uk/undergraduate/mbchb-medicine/",
+      "url": "https://www.sunderland.ac.uk/undergraduate/mbchb-medicine?option=9fafadee-afb2-43b3-80fb-40237f486271",
       "source_type": "official_course_page",
       "published_date": null,
-      "accessed_date": "2026-07-16",
+      "accessed_date": "2026-08-25",
       "applies_to_sections": [
         "course_identity",
         "academic_requirements",
         "contextual_admissions"
       ],
       "confidence": "official",
-      "notes": "Supplied Sunderland research file."
+      "notes": "Official Sunderland course page confirms AAB contextual and local ABB contextual criteria, the firm-choice condition, insurance-choice AAB fallback, and unchanged normal UCAT requirements."
     },
     {
       "source_id": "sunderland_applying_for_medicine",

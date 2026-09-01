@@ -56,6 +56,21 @@ export interface UniversitiesResponse {
   count: number;
 }
 
+export interface ContextualPostcodeLookupResponse {
+  matched: boolean;
+  postcode: string;
+  normalised_postcode: string;
+  polar4_quintile: number | null;
+  tundra_quintile: number | null;
+  imd_quintile: number | null;
+  availability: {
+    polar4: boolean;
+    tundra: boolean;
+    imd: boolean;
+  };
+  warnings?: string[];
+}
+
 // studentProfile is passed through to the existing engine unmodified; the
 // frontend does not interpret or validate its internal shape.
 export interface StudentProfile {
@@ -104,13 +119,22 @@ export interface UcatComparison {
     | 'historical_threshold'
     | 'historical_range'
     | 'historical_average'
+    | 'applysmart_prediction_band'
     | 'current_guidance'
+    | 'no_published_contextual_cutoff'
     | 'ranking_only';
   applicant_ucat: number | null;
   benchmark_min: number | null;
   benchmark_max: number | null;
+  comparison_operator?: 'greater_than' | 'greater_than_or_equal' | 'less_than' | 'less_than_or_equal' | 'between_inclusive' | string | null;
   benchmark_label?: string | null;
   caveat?: string | null;
+  public_summary?: string | null;
+  historical_summary?: string | null;
+  selection_summary?: string | null;
+  evidence_status?: string | null;
+  evidence_classification?: string | null;
+  prediction_band?: string | null;
   difference_from_benchmark: number | null;
   position: 'above' | 'within' | 'below' | null;
   applicant_pool: string | null;
@@ -123,6 +147,17 @@ export interface UcatComparison {
     met: boolean;
     summary: string;
   } | null;
+}
+
+export interface UcatAdjustment {
+  raw_ucat: number;
+  max_ucat?: number | null;
+  uplift_percent: number;
+  uplift_reason?: string | null;
+  uplift_reason_label?: string | null;
+  adjusted_selection_ucat: number;
+  label?: string | null;
+  summary?: string | null;
 }
 
 export interface SelectionMetric {
@@ -156,6 +191,7 @@ export interface CompactStatus {
   type:
     | 'selection_comparison'
     | 'selection_metric'
+    | 'academic_status'
     | 'eligibility'
     | 'manual_review'
     | 'information_needed'
@@ -175,6 +211,7 @@ export interface DecisionTransparency {
   evidence_used?: string[];
   warnings?: string[];
   manual_review_reason?: string | null;
+  manual_review_reason_code?: string | null;
   information_needed_reason?: string | null;
   insufficient_evidence_reason?: string | null;
   // Distinguishes an insufficient_evidence result caused by the university's
@@ -200,6 +237,7 @@ export interface DecisionTransparency {
     | null;
   score_breakdown?: ScoreBreakdown | null;
   ucat_comparison?: UcatComparison | null;
+  ucat_adjustment?: UcatAdjustment | null;
   selection_metric?: SelectionMetric | null;
   compact_status?: CompactStatus | null;
   comparison_metrics_title?: string | null;
@@ -239,17 +277,42 @@ export interface FactorUsageEntry {
   role: 'eligibility' | 'considered' | 'ranking' | 'contextual' | 'not_used' | 'unknown';
   detail?: string | null;
   evidence_status?: 'available' | 'missing' | 'met' | 'not_met' | 'not_applicable' | 'unknown' | string | null;
+  applicant_value?: number | null;
 }
 
 export interface ResultCard {
   primary_user_facing_recommendation: string;
   recommendation_display_state: string;
   primary_explanation: string;
+  academic_pathway?: string | null;
+  academic_pathway_id?: string | null;
+  contextual_status?: 'confirmed' | 'information_needed' | null;
+  contextual_confirmation?: {
+    collapsed_label?: string | null;
+    expanded_heading?: string | null;
+    consideration_label?: string | null;
+    expanded_body?: string | null;
+    contextual_offer_grade?: string | null;
+  } | null;
   information_needed_reason?: string | null;
   trust_statement?: string | null;
   historical_guidance_caveat?: string | null;
   selection_approach_display?: string | null;
   academic_requirement_checks?: AcademicRequirementCheck[];
+  alternative_academic_offer?: {
+    type: 'epq' | 'contextual' | 'contextual_epq' | 'routed_offer';
+    standard_offer: string;
+    alternative_offer: string;
+    standard_offer_label?: string;
+    alternative_offer_label?: string;
+    explanation?: string;
+    applicable_offer?: 'standard' | 'alternative';
+    epq_minimum_grade?: string;
+    pathway_id: string;
+    conditions?: string[];
+  } | null;
+  future_conditions?: string[];
+  future_condition_advisories?: string[];
   // Set to 'guaranteed_interview' when every published guaranteed-interview
   // condition for this applicant's route has been verified as met (e.g.
   // Birmingham UKWPMED) - categorically different from a scored/ranked

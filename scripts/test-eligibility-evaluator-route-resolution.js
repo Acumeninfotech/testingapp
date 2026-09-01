@@ -5,6 +5,7 @@ const assert = require('assert');
 const {
   evaluateCourseEligibility
 } = require('../assets/js/engine/eligibility-evaluator');
+const aberdeenCourse = require('../data/universities/aberdeen-a100.json');
 
 function clone(value) {
   return JSON.parse(JSON.stringify(value));
@@ -338,7 +339,24 @@ function baseALevelApplicant(overrides = {}) {
     stage_1_eligibility: {
       national_5: {
         minimum_count: 2,
-        confirmed_mandatory_subject_ids: []
+        grade_requirements: [
+          {
+            requirement_id: 'national_5_english_minimum',
+            subject_id: 'english_language',
+            alternative_subject_ids: ['english'],
+            minimum_grade: 'B'
+          },
+          {
+            requirement_id: 'national_5_biology_or_higher_minimum',
+            subject_id: 'biology',
+            minimum_grade: 'B',
+            post16_satisfaction: {
+              allowed: true,
+              qualification_levels: ['higher', 'advanced_higher'],
+              minimum_grade: 'B'
+            }
+          }
+        ]
       },
       post_16: {
         scottish: {
@@ -377,6 +395,335 @@ function baseALevelApplicant(overrides = {}) {
     }
   );
   assert.strictEqual(result.status, 'eligible', 'valid Scottish route should pass.');
+  const national5Check = result.checks.find((check) => check.check_id === 'national_5_requirements');
+  assert.strictEqual(national5Check.status, 'pass', 'National 5 alternatives and Higher satisfaction should pass.');
+  assert.deepStrictEqual(
+    national5Check.evaluated_requirement_ids,
+    ['national_5_english_minimum', 'national_5_biology_or_higher_minimum'],
+    'National 5 check should report evaluated shared requirement IDs.'
+  );
+}
+
+{
+  const course = baseCourse({
+    stage_1_eligibility: {
+      gcse: {
+        minimum_count: null,
+        mandatory_subject_ids: [],
+        grade_requirements: [
+          {
+            requirement_id: 'embedded_national_5_english_minimum',
+            qualification_level: 'national_5',
+            subject_id: 'english_language',
+            minimum_grade: 'B'
+          },
+          {
+            requirement_id: 'embedded_national_5_mathematics_minimum',
+            qualification_level: 'national_5',
+            subject_id: 'mathematics',
+            minimum_grade: 'B'
+          }
+        ]
+      },
+      national_5: {
+        minimum_count: 0,
+        confirmed_mandatory_subject_ids: []
+      },
+      post_16: {
+        scottish: {
+          route_implemented: true,
+          grade_requirements: [
+            {
+              requirement_id: 'embedded_national_5_scottish_higher_route',
+              qualification_level: 'higher',
+              grade_profile: ['A', 'A', 'A', 'A', 'B'],
+              required_subject_ids: ['biology'],
+              one_of_subject_groups: [
+                {
+                  minimum_required: 1,
+                  subject_ids: ['chemistry', 'physics']
+                }
+              ]
+            }
+          ]
+        }
+      }
+    }
+  });
+  const applicant = {
+    profile_id: 'embedded-national-5-rules-valid',
+    qualification_route: 'scottish',
+    applicant_identity: {
+      applicant_type: 'standard_school_leaver',
+      fee_status: 'Home',
+      domicile: 'England',
+      english_language_exempt: true
+    },
+    scottish_profile: {
+      national_5_subjects: [
+        { subject_id: 'english_language', grade: 'B' },
+        { subject_id: 'mathematics', grade: 'B' }
+      ],
+      higher_subjects: [
+        { subject_id: 'biology', grade: 'A' },
+        { subject_id: 'chemistry', grade: 'A' },
+        { subject_id: 'mathematics', grade: 'A' },
+        { subject_id: 'english', grade: 'A' },
+        { subject_id: 'history', grade: 'B' }
+      ],
+      advanced_higher_subjects: []
+    }
+  };
+  const result = evaluateCourseEligibility(course, applicant);
+  assert.strictEqual(result.status, 'eligible', 'Embedded GCSE National 5 rules should pass.');
+  const national5Check = result.checks.find((check) => check.check_id === 'national_5_requirements');
+  assert.deepStrictEqual(
+    national5Check.evaluated_requirement_ids,
+    ['embedded_national_5_english_minimum', 'embedded_national_5_mathematics_minimum'],
+    'Embedded GCSE National 5 requirements should be evaluated by the Scottish route.'
+  );
+
+  const failedResult = evaluateCourseEligibility(
+    course,
+    merge(applicant, {
+      profile_id: 'embedded-national-5-rules-invalid',
+      scottish_profile: {
+        national_5_subjects: [
+          { subject_id: 'english_language', grade: 'B' },
+          { subject_id: 'mathematics', grade: 'C' }
+        ]
+      }
+    })
+  );
+  assert.strictEqual(
+    failedResult.status,
+    'not_eligible',
+    'Embedded GCSE National 5 rules should fail below the configured minimum.'
+  );
+  assert.ok(failedResult.failures.includes('national_5_requirements_not_met'));
+}
+
+{
+  const course = baseCourse({
+    stage_1_eligibility: {
+      post_16: {
+        scottish: {
+          route_implemented: true,
+          grade_requirements: [
+            {
+              requirement_id: 'combined_scottish_route_with_optional_s6_higher_floor',
+              qualification_level: 'scottish_highers_and_advanced_highers',
+              higher_school_year: 's5',
+              advanced_higher_school_year: 's6',
+              higher_grade_profile: ['A', 'A', 'A', 'A', 'B'],
+              advanced_higher_grade_profile: ['A', 'B'],
+              matching_subject_grade_rules: [
+                {
+                  qualification_level: 'higher',
+                  school_year: 's6',
+                  minimum_grade: 'B'
+                }
+              ]
+            }
+          ]
+        }
+      }
+    }
+  });
+  const applicant = {
+    profile_id: 'optional-s6-higher-floor-valid',
+    qualification_route: 'scottish',
+    applicant_identity: {
+      applicant_type: 'standard_school_leaver',
+      fee_status: 'Home',
+      domicile: 'England',
+      english_language_exempt: true
+    },
+    scottish_profile: {
+      higher_subjects: [
+        { subject_id: 'biology', achieved_grade: 'A', school_year: 's5' },
+        { subject_id: 'chemistry', achieved_grade: 'A', school_year: 's5' },
+        { subject_id: 'mathematics', achieved_grade: 'A', school_year: 's5' },
+        { subject_id: 'english', achieved_grade: 'A', school_year: 's5' },
+        { subject_id: 'history', achieved_grade: 'B', school_year: 's5' }
+      ],
+      advanced_higher_subjects: [
+        { subject_id: 'biology', predicted_grade: 'A', school_year: 's6' },
+        { subject_id: 'chemistry', predicted_grade: 'B', school_year: 's6' }
+      ]
+    }
+  };
+  const result = evaluateCourseEligibility(course, applicant);
+  assert.strictEqual(result.status, 'eligible', 'Absent optional S6 Highers should not fail.');
+
+  const additionalHigherResult = evaluateCourseEligibility(
+    course,
+    merge(applicant, {
+      profile_id: 'optional-s6-higher-floor-valid-with-b',
+      scottish_profile: {
+        higher_subjects: [
+          ...applicant.scottish_profile.higher_subjects,
+          { subject_id: 'geography', predicted_grade: 'B', school_year: 's6' }
+        ]
+      }
+    })
+  );
+  assert.strictEqual(additionalHigherResult.status, 'eligible', 'S6 Higher at B should pass.');
+
+  const failedResult = evaluateCourseEligibility(
+    course,
+    merge(applicant, {
+      profile_id: 'optional-s6-higher-floor-invalid-with-c',
+      scottish_profile: {
+        higher_subjects: [
+          ...applicant.scottish_profile.higher_subjects,
+          { subject_id: 'geography', predicted_grade: 'C', school_year: 's6' }
+        ]
+      }
+    })
+  );
+  assert.strictEqual(failedResult.status, 'not_eligible', 'S6 Higher below B should fail.');
+  assert.ok(failedResult.failures.includes('scottish_post_16_requirements_not_met'));
+
+  const missingGradeResult = evaluateCourseEligibility(
+    course,
+    merge(applicant, {
+      profile_id: 'optional-s6-higher-floor-invalid-missing-grade',
+      scottish_profile: {
+        higher_subjects: [
+          ...applicant.scottish_profile.higher_subjects,
+          { subject_id: 'geography', school_year: 's6' }
+        ]
+      }
+    })
+  );
+  assert.strictEqual(
+    missingGradeResult.status,
+    'not_eligible',
+    'Declared S6 Higher without a grade should not be fully eligible.'
+  );
+}
+
+{
+  const course = baseCourse({
+    stage_1_eligibility: {
+      national_5: {
+        minimum_count: 1,
+        minimum_count_grade: 'A',
+        grade_requirements: [
+          {
+            requirement_id: 'national_5_physics_or_standard_grade_2',
+            subject_id: 'physics',
+            minimum_grade: 'B'
+          }
+        ]
+      },
+      post_16: {
+        scottish: {
+          route_implemented: true,
+          grade_requirements: [
+            {
+              requirement_id: 'simple_higher_route',
+              qualification_level: 'higher',
+              grade_profile: ['A', 'A']
+            }
+          ]
+        }
+      }
+    }
+  });
+  const result = evaluateCourseEligibility(
+    course,
+    {
+      profile_id: 'standard-grade-2-level-2-fallback-valid',
+      qualification_route: 'scottish',
+      applicant_identity: {
+        applicant_type: 'standard_school_leaver',
+        fee_status: 'Home',
+        domicile: 'Scotland',
+        english_language_exempt: true
+      },
+      scottish_profile: {
+        national_5_subjects: [
+          { subject_id: 'english', grade: 'A' }
+        ],
+        standard_grade_subjects: [
+          { subject_id: 'physics', qualification_level: 'standard_grade', grade: '2' }
+        ],
+        higher_subjects: [
+          { subject_id: 'chemistry', grade: 'A' },
+          { subject_id: 'biology', grade: 'A' }
+        ]
+      }
+    }
+  );
+  assert.strictEqual(
+    result.status,
+    'eligible',
+    'Standard Grade 2 should satisfy a Scottish Level 2 B-grade subject fallback.'
+  );
+}
+
+{
+  const applicant = {
+    profile_id: 'aberdeen-scottish-national-5-valid',
+    qualification_route: 'scottish',
+    applicant_identity: {
+      applicant_type: 'standard_school_leaver',
+      fee_status: 'Home',
+      domicile: 'Scotland',
+      english_language_exempt: true
+    },
+    scottish_profile: {
+      national_5_subjects: [
+        { subject_id: 'english', grade: 'B' },
+        { subject_id: 'mathematics', grade: 'B' }
+      ],
+      higher_subjects: [
+        { subject_id: 'chemistry', grade: 'A' },
+        { subject_id: 'biology', grade: 'A' },
+        { subject_id: 'mathematics', grade: 'A' },
+        { subject_id: 'physics', grade: 'A' },
+        { subject_id: 'english', grade: 'B' }
+      ],
+      advanced_higher_subjects: []
+    },
+    admissions_tests: {
+      ucat: {
+        total_score: 2200,
+        score_scale: 2700,
+        subtests: {
+          verbal_reasoning: 700,
+          decision_making: 750,
+          quantitative_reasoning: 750
+        },
+        sjt_band: 2
+      }
+    }
+  };
+
+  const result = evaluateCourseEligibility(aberdeenCourse, applicant);
+  assert.strictEqual(result.status, 'eligible', 'Aberdeen Scottish applicant with required National 5s should pass.');
+
+  const failedNational5Applicant = merge(applicant, {
+    profile_id: 'aberdeen-scottish-national-5-invalid',
+    scottish_profile: {
+      national_5_subjects: [
+        { subject_id: 'english', grade: 'B' },
+        { subject_id: 'mathematics', grade: 'C' }
+      ]
+    }
+  });
+  const failedResult = evaluateCourseEligibility(aberdeenCourse, failedNational5Applicant);
+  assert.strictEqual(
+    failedResult.status,
+    'not_eligible',
+    'Aberdeen Scottish applicant below the configured National 5 Mathematics minimum should fail.'
+  );
+  assert.ok(
+    failedResult.failures.includes('national_5_requirements_not_met'),
+    'Aberdeen National 5 failure should come from the shared National 5 evaluator.'
+  );
 }
 
 {

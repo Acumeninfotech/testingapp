@@ -1729,6 +1729,18 @@ main:has(.university-explorer) {
   margin-bottom: 0.5rem;
 }
 
+.wizard-title-row {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 1.25rem;
+  margin-bottom: 1rem;
+}
+
+.wizard-title-row h1 {
+  margin-bottom: 0;
+}
+
 .wizard-step-body {
   margin-bottom: 2rem;
 }
@@ -1959,6 +1971,172 @@ main:has(.university-explorer) {
   background: var(--surface);
 }
 
+/* ---------- Contextual profile ---------- */
+
+.contextual-step {
+  gap: 1rem;
+}
+
+.contextual-accordion {
+  border: 1.5px solid var(--border);
+  border-radius: var(--radius-md);
+  background: var(--surface);
+  box-shadow: var(--shadow-sm);
+  overflow: hidden;
+}
+
+.contextual-accordion summary {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 1rem 1.1rem;
+  color: var(--text-h);
+  font-weight: 800;
+  cursor: pointer;
+  list-style: none;
+}
+
+.contextual-accordion summary::-webkit-details-marker {
+  display: none;
+}
+
+.contextual-accordion summary::before {
+  content: '+';
+  width: 1.6rem;
+  height: 1.6rem;
+  display: inline-grid;
+  place-items: center;
+  border: 1px solid var(--border);
+  border-radius: 50%;
+  color: var(--green-deep);
+  font-weight: 900;
+  flex: 0 0 auto;
+}
+
+.contextual-accordion[open] summary::before {
+  content: '-';
+}
+
+.contextual-accordion summary span:first-of-type {
+  flex: 1;
+}
+
+.contextual-count-badge {
+  min-width: 1.7rem;
+  height: 1.7rem;
+  display: inline-grid;
+  place-items: center;
+  padding: 0 0.45rem;
+  border-radius: 999px;
+  background: var(--green-pale);
+  border: 1px solid var(--border);
+  color: var(--green-deep);
+  font-size: 0.78rem;
+  font-weight: 900;
+}
+
+.contextual-accordion-body {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  padding: 0 1.1rem 1.1rem;
+}
+
+.contextual-field-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1rem;
+}
+
+.contextual-postcode-check {
+  justify-self: start;
+}
+
+.contextual-quintile-field {
+  display: grid;
+  gap: 0.45rem;
+}
+
+.contextual-apply-lookup {
+  justify-self: start;
+  padding: 0.55rem 0.8rem;
+}
+
+.contextual-subsection {
+  display: flex;
+  flex-direction: column;
+  gap: 0.9rem;
+  padding: 1rem;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  background: var(--neutral-bg);
+}
+
+.contextual-subsection h3 {
+  margin: 0;
+}
+
+.contextual-conditional-panel {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  padding: 1rem;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  background: var(--surface);
+}
+
+.contextual-inline-checkbox {
+  margin: 0;
+}
+
+.contextual-inline-checkbox span {
+  font-weight: 600;
+}
+
+.contextual-add-row {
+  max-width: 28rem;
+}
+
+.contextual-list-row,
+.contextual-partner-row {
+  display: flex;
+  flex-direction: column;
+  gap: 0.85rem;
+  padding: 1rem;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  background: var(--surface);
+}
+
+.contextual-list-row > div:first-child {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.contextual-list-row strong {
+  color: var(--text-h);
+}
+
+.contextual-list-row span {
+  color: var(--text-muted);
+  font-size: 0.9rem;
+}
+
+.contextual-row-action {
+  align-self: flex-start;
+}
+
+.contextual-partner-row legend {
+  padding: 0 0.35rem;
+  color: var(--text-muted);
+  font-size: 0.78rem;
+  font-weight: 800;
+  letter-spacing: 0.03em;
+}
+
 .a-level-subject {
   position: relative;
   border: 1.5px solid var(--border);
@@ -1988,10 +2166,156 @@ main:has(.university-explorer) {
   box-shadow: 0 4px 10px -4px rgba(15, 45, 31, 0.5);
 }
 
+.epq-section {
+  gap: 1rem;
+}
+
+.epq-section-heading {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.epq-section-heading h3 {
+  margin: 0;
+}
+
+.epq-section-heading span {
+  flex-shrink: 0;
+  padding: 0.25rem 0.65rem;
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  background: var(--neutral-bg);
+  color: var(--text-muted);
+  font-size: 0.75rem;
+  font-weight: 800;
+}
+
+.epq-section p {
+  margin: 0;
+  color: var(--text-muted);
+  line-height: 1.55;
+}
+
 .field-row {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
   gap: 1rem;
+}
+
+/* ---------- Scottish qualification rows ---------- */
+
+.scottish-qualification-section {
+  border: 1.5px solid var(--border);
+  border-radius: var(--radius-md);
+  background: var(--surface);
+  box-shadow: var(--shadow-sm);
+  overflow: hidden;
+}
+
+.scottish-qualification-section summary {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 0.9rem 1rem;
+  color: var(--text-h);
+  cursor: pointer;
+  list-style: none;
+}
+
+.scottish-qualification-section summary::-webkit-details-marker {
+  display: none;
+}
+
+.scottish-qualification-section summary::before {
+  content: '+';
+  width: 1.5rem;
+  height: 1.5rem;
+  display: inline-grid;
+  place-items: center;
+  border: 1px solid var(--border);
+  border-radius: 50%;
+  color: var(--green-deep);
+  font-weight: 900;
+  flex: 0 0 auto;
+}
+
+.scottish-qualification-section[open] summary::before {
+  content: '-';
+}
+
+.scottish-qualification-title {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  flex: 1;
+  min-width: 0;
+  font-weight: 800;
+}
+
+.scottish-qualification-title span {
+  padding: 0.2rem 0.5rem;
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  background: var(--neutral-bg);
+  color: var(--text-muted);
+  font-size: 0.72rem;
+  font-weight: 800;
+}
+
+.scottish-qualification-count {
+  flex: 0 0 auto;
+  padding: 0.28rem 0.6rem;
+  border-radius: 999px;
+  background: var(--green-pale);
+  border: 1px solid var(--border);
+  color: var(--green-deep);
+  font-size: 0.78rem;
+  font-weight: 900;
+}
+
+.scottish-qualification-body {
+  padding: 0 1rem 1rem;
+}
+
+.scottish-subject-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 0.65rem;
+}
+
+.scottish-subject-row {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  display: grid;
+  grid-template-columns: minmax(12rem, 1.3fr) minmax(6rem, 0.55fr) minmax(7rem, 0.7fr) minmax(9rem, 0.9fr);
+  gap: 0.75rem;
+  align-items: start;
+}
+
+.scottish-subject-row .form-field {
+  gap: 0.3rem;
+}
+
+.scottish-subject-row .form-field label {
+  font-size: 0.78rem;
+  color: var(--text-muted);
+}
+
+.scottish-subject-row .form-field select {
+  min-height: 2.65rem;
+  padding: 0.7rem 2.4rem 0.7rem 0.85rem;
+  font-size: 0.95rem;
+  background-position: right 0.75rem center;
+}
+
+@media (max-width: 760px) {
+  .scottish-subject-row {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
 }
 
 /* ---------- Additional GCSE cards ---------- */
@@ -2058,9 +2382,8 @@ main:has(.university-explorer) {
 }
 
 .wizard-nav--top {
-  padding-bottom: 1.25rem;
-  margin-bottom: 0.5rem;
-  border-bottom: 1px solid var(--border);
+  flex: 0 0 auto;
+  justify-content: flex-end;
 }
 
 .wizard-nav-back {
@@ -2076,32 +2399,131 @@ main:has(.university-explorer) {
 
 /* ---------- Review step ---------- */
 
-.review-step section {
-  border-top: 1px solid var(--border);
-  padding-top: 1.1rem;
+.review-step {
+  gap: 1rem;
 }
 
-.review-step section:first-of-type {
-  border-top: none;
-  padding-top: 0;
+.review-intro {
+  max-width: 62ch;
 }
 
-.review-step dl {
-  display: grid;
-  grid-template-columns: minmax(0, 200px) 1fr;
-  gap: 0.35rem 1rem;
-  margin: 0;
+.review-intro p {
+  color: var(--text-muted);
+  line-height: 1.65;
 }
 
-.review-step dt {
-  font-weight: 600;
-  text-transform: capitalize;
+.review-card {
+  padding: 1.25rem;
+  border: 1px solid rgba(208, 213, 221, 0.82);
+  border-radius: 18px;
+  background: var(--surface);
+  box-shadow: 0 18px 38px -34px rgba(15, 45, 31, 0.42), var(--shadow-sm);
+}
+
+.review-card h2 {
+  margin-bottom: 1rem;
+  font-size: 1.18rem;
+}
+
+.review-card h3 {
+  margin: 1.1rem 0 0.7rem;
+  font-family: var(--sans);
+  font-size: 0.82rem;
+  line-height: 1.3;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
   color: var(--text-muted);
 }
 
-.review-step dd {
-  margin: 0 0 0.5rem;
-  color: var(--text);
+.review-card h3:first-child {
+  margin-top: 0;
+}
+
+.review-field-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1rem 1.1rem;
+  margin: 0;
+}
+
+.review-field {
+  min-width: 0;
+}
+
+.review-field dt,
+.grade-tile dt {
+  margin: 0 0 0.28rem;
+  color: var(--text-muted);
+  font-size: 0.78rem;
+  font-weight: 800;
+  letter-spacing: 0.03em;
+  line-height: 1.25;
+}
+
+.review-field dd {
+  margin: 0;
+  color: var(--text-h);
+  font-size: 1.02rem;
+  font-weight: 800;
+  line-height: 1.35;
+  overflow-wrap: anywhere;
+}
+
+.review-value-with-hint {
+  display: grid;
+  gap: 0.2rem;
+}
+
+.review-value-with-hint small {
+  color: var(--text-muted);
+  font-size: 0.82rem;
+  font-weight: 650;
+}
+
+.review-value-muted {
+  color: var(--text-muted) !important;
+  font-weight: 600 !important;
+}
+
+.grade-tile-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.75rem;
+  margin: 0;
+}
+
+.grade-tile {
+  min-height: 5.35rem;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 0.5rem;
+  padding: 0.85rem 0.95rem;
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  background: var(--neutral-bg);
+}
+
+.grade-tile dd {
+  margin: 0;
+  color: var(--text-h);
+  font-family: var(--serif);
+  font-size: 1.85rem;
+  font-weight: 800;
+  line-height: 1;
+}
+
+@media (min-width: 760px) {
+  .grade-tile-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 380px) {
+  .grade-tile-grid {
+    grid-template-columns: 1fr;
+  }
 }
 
 /* ---------- Result cards ---------- */
@@ -2512,6 +2934,26 @@ main:has(.university-explorer) {
   color: #8a98b4;
 }
 
+.result-card-contextual-confirmation {
+  padding: 0.9rem 1rem;
+  border: 1px solid rgba(34, 197, 94, 0.24);
+  border-radius: 8px;
+  background: rgba(240, 253, 244, 0.64);
+}
+
+.result-card-contextual-confirmation .result-card-section-heading {
+  margin-bottom: 0.35rem;
+}
+
+.result-card-contextual-confirmation .result-card-section-heading h4,
+.result-card-contextual-confirmation .result-card-section-heading .result-card-icon {
+  color: #047857;
+}
+
+.result-card-contextual-confirmation .result-card-compact-note {
+  color: #24416e;
+}
+
 .result-card-section-summary {
   margin: 0 0 0.6rem;
   font-size: 0.9rem;
@@ -2645,6 +3087,103 @@ main:has(.university-explorer) {
   border-color: var(--warning-border);
   background: var(--warning-bg);
   color: var(--warning);
+}
+
+.alternative-academic-offer {
+  margin-top: clamp(1rem, 2.1vw, 1.35rem);
+  padding: 0.9rem 1rem;
+  border: 1px solid rgba(208, 213, 221, 0.9);
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.94);
+}
+
+.alternative-academic-offer__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  margin-bottom: 0.75rem;
+}
+
+.alternative-academic-offer__header h4 {
+  margin: 0;
+  color: #07142f;
+  font-family: var(--sans);
+  font-size: 0.82rem;
+  font-weight: 860;
+  line-height: 1.1;
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+}
+
+.alternative-academic-offer__header span {
+  flex: 0 0 auto;
+  padding: 0.22rem 0.55rem;
+  border: 1px solid var(--neutral-border);
+  border-radius: 999px;
+  color: #3b4f7a;
+  font-size: 0.72rem;
+  font-weight: 820;
+  line-height: 1.1;
+}
+
+.alternative-academic-offer__options {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.75rem;
+}
+
+.alternative-academic-offer__options div {
+  min-width: 0;
+  padding: 0.75rem 0.85rem;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: rgba(248, 250, 252, 0.76);
+}
+
+.alternative-academic-offer__options .alternative-academic-offer__option--applicable {
+  border-color: rgba(34, 197, 94, 0.34);
+  background: rgba(240, 253, 244, 0.72);
+  box-shadow: inset 0 0 0 1px rgba(34, 197, 94, 0.14);
+}
+
+.alternative-academic-offer__options span {
+  display: block;
+  color: #5a6c95;
+  font-size: 0.76rem;
+  font-weight: 820;
+  line-height: 1.25;
+}
+
+.alternative-academic-offer__options strong {
+  display: block;
+  margin-top: 0.25rem;
+  color: var(--result-accent);
+  font-size: 1rem;
+  font-weight: 860;
+  line-height: 1.2;
+}
+
+.alternative-academic-offer__option--applicable span,
+.alternative-academic-offer__option--applicable strong {
+  color: #047857;
+}
+
+.alternative-academic-offer__explanation {
+  margin: 0.75rem 0 0;
+  color: #24416e;
+  font-size: 0.84rem;
+  line-height: 1.4;
+}
+
+.alternative-academic-offer__conditions {
+  display: grid;
+  gap: 0.35rem;
+  margin: 0.75rem 0 0;
+  padding-left: 1.05rem;
+  color: #3b4f7a;
+  font-size: 0.82rem;
+  line-height: 1.35;
 }
 
 .result-card-detail-list dt {
@@ -2964,6 +3503,55 @@ main:has(.university-explorer) {
 
 .result-card-historical-grid--metrics {
   grid-template-columns: repeat(3, minmax(0, 1fr)) minmax(16rem, 1fr);
+}
+
+.result-card-historical-grid--prediction-context {
+  grid-template-columns: minmax(18rem, 1.45fr) minmax(0, 0.7fr) minmax(0, 0.85fr);
+}
+
+.result-card-prediction-context-block {
+  min-width: 0;
+  padding: 0.9rem 1rem;
+  border-right: 1px solid var(--border);
+  background: rgba(248, 250, 252, 0.72);
+}
+
+.result-card-prediction-context-block dl {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0.85rem;
+  margin: 0;
+}
+
+.result-card-prediction-context-block dl > div {
+  padding: 0;
+  border: 0;
+}
+
+.result-card-prediction-context-block dt {
+  color: #14264d;
+  font-size: 0.78rem;
+  font-weight: 740;
+  line-height: 1.25;
+}
+
+.result-card-prediction-context-block dd {
+  margin: 0.4rem 0 0;
+  color: #07142f;
+  font-size: 1.25rem;
+  font-weight: 860;
+  line-height: 1.05;
+}
+
+.result-card-prediction-context-block p {
+  margin-top: 0.85rem;
+  margin-right: -1rem;
+  margin-bottom: -0.9rem;
+  margin-left: -1rem;
+}
+
+.result-card-historical-grid--prediction-context > div:last-child {
+  border-right: 0;
 }
 
 /* Safe: strong interview likelihood */
@@ -3512,6 +4100,11 @@ main:has(.university-explorer) {
   justify-content: center;
 }
 
+.university-result-selection-metric--ucat-adjustment {
+  display: block;
+  min-height: 5.55rem;
+}
+
 .university-result-selection-label {
   grid-column: 1 / -1;
   min-width: 0;
@@ -3524,6 +4117,42 @@ main:has(.university-explorer) {
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+}
+
+.university-result-ucat-adjustment-list {
+  display: grid;
+  gap: 0.28rem;
+  margin: 0.45rem 0 0;
+}
+
+.university-result-ucat-adjustment-list div {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 0.75rem;
+  align-items: baseline;
+}
+
+.university-result-ucat-adjustment-list dt {
+  min-width: 0;
+  color: var(--text-muted);
+  font-size: 0.75rem;
+  font-weight: 760;
+  line-height: 1.2;
+}
+
+.university-result-ucat-adjustment-list dd {
+  margin: 0;
+  color: var(--text-h);
+  font-size: 0.82rem;
+  font-weight: 820;
+  line-height: 1.2;
+  text-align: right;
+}
+
+.university-result-ucat-adjustment-list div:last-child dd {
+  color: var(--success);
+  font-size: 0.96rem;
+  font-weight: 880;
 }
 
 .university-result-selection-row {
@@ -4171,6 +4800,11 @@ main:has(.university-explorer) {
     font-size: 1.5rem;
   }
 
+  .wizard-title-row {
+    flex-direction: column;
+    gap: 0.9rem;
+  }
+
   .university-grid {
     grid-template-columns: 1fr;
   }
@@ -4192,7 +4826,7 @@ main:has(.university-explorer) {
     grid-template-columns: 1fr;
   }
 
-  .wizard-nav {
+  .wizard-nav--bottom {
     flex-direction: column-reverse;
     position: sticky;
     bottom: 0;
@@ -4204,13 +4838,40 @@ main:has(.university-explorer) {
     padding-right: 1.1rem;
   }
 
+  .wizard-nav--top {
+    width: 100%;
+    justify-content: stretch;
+  }
+
   .wizard-nav button,
   .wizard-nav a {
     width: 100%;
   }
 
-  .review-step dl {
+  .review-field-grid {
     grid-template-columns: 1fr;
+  }
+
+  .contextual-field-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .review-card {
+    padding: 1rem;
+    border-radius: 16px;
+  }
+
+  .grade-tile-grid {
+    gap: 0.65rem;
+  }
+
+  .grade-tile {
+    min-height: 5.1rem;
+    padding: 0.78rem 0.82rem;
+  }
+
+  .grade-tile dd {
+    font-size: 1.65rem;
   }
 
   .result-card-head {
@@ -4261,7 +4922,12 @@ main:has(.university-explorer) {
 
   .result-card-summary-grid,
   .result-card-historical-grid,
-  .result-card-historical-grid--metrics {
+  .result-card-historical-grid--metrics,
+  .result-card-historical-grid--prediction-context {
+    grid-template-columns: 1fr;
+  }
+
+  .alternative-academic-offer__options {
     grid-template-columns: 1fr;
   }
 
@@ -4295,6 +4961,19 @@ main:has(.university-explorer) {
   .result-card-historical-grid div {
     border-right: 0;
     border-bottom: 1px solid var(--border);
+  }
+
+  .result-card-prediction-context-block {
+    border-right: 0;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .result-card-prediction-context-block dl {
+    grid-template-columns: 1fr;
+  }
+
+  .result-card-prediction-context-block dl > div {
+    border-bottom: 0;
   }
 
   .result-card-detail-list {

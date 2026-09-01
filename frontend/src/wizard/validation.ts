@@ -1,4 +1,5 @@
 import { A_LEVEL_SCIENCE_SUBJECTS, GCSE_CORE_SUBJECT_IDS, GCSE_SEPARATE_SCIENCE_SUBJECT_IDS, type WizardProfile } from './profileTypes';
+import { OTHER_ACCESS_PROGRAMMES, UKWPMED_REGISTRY } from './contextualRegistry';
 
 export type ValidationErrors = Record<string, string>;
 
@@ -20,10 +21,14 @@ export function validateIdentityStep(profile: WizardProfile): ValidationErrors {
   if (!identity.domicile) {
     errors.domicile = 'Select where you are domiciled.';
   }
-  if (!identity.date_of_birth) {
-    errors.date_of_birth = 'Enter your date of birth.';
-  } else if (Number.isNaN(Date.parse(identity.date_of_birth))) {
-    errors.date_of_birth = 'Enter a valid date.';
+  if (!identity.age_at_course_start_band) {
+    errors.age_at_course_start_band = 'Select your age on 1 September of your course-start year.';
+  } else if (identity.age_at_course_start_band === 'age_18_or_over_legacy') {
+    errors.age_at_course_start_band =
+      'Please confirm your exact age on 1 September of your course-start year. A legacy "18 or over" answer is too broad.';
+  }
+  if (!identity.current_uk_residence) {
+    errors.current_uk_residence = 'Select whether you currently live in the UK.';
   }
 
   return errors;
@@ -47,10 +52,11 @@ export function validateRouteStep(profile: WizardProfile): ValidationErrors {
 }
 
 function validateSubjectGradeList(
-  subjects: { subject_id: string; grade: string }[],
+  subjects: { subject_id: string; grade: string; school_year?: string; first_attempt?: boolean | null }[],
   minCount: number,
   fieldPrefix: string,
   errors: ValidationErrors,
+  requireScottishSittingEvidence = false,
 ) {
   const filled = subjects.filter((s) => s.subject_id !== '');
   if (filled.length < minCount) {
@@ -60,15 +66,41 @@ function validateSubjectGradeList(
     if (subject.subject_id && !subject.grade) {
       errors[`${fieldPrefix}_${index}_grade`] = 'Enter a grade for this subject.';
     }
+    if (requireScottishSittingEvidence && subject.subject_id && !subject.school_year) {
+      errors[`${fieldPrefix}_${index}_school_year`] = 'Select the school year for this subject.';
+    }
+    if (requireScottishSittingEvidence && subject.subject_id && typeof subject.first_attempt !== 'boolean') {
+      errors[`${fieldPrefix}_${index}_first_attempt`] = 'Select whether this was a first attempt or resit.';
+    }
   });
 }
 
 export function validateScottishStep(profile: WizardProfile): ValidationErrors {
   const errors: ValidationErrors = {};
-  const { higher_subjects, advanced_higher_subjects } = profile.scottish_profile;
+  const {
+    completed_in_one_sitting,
+    qualification_completion_year,
+    national_5_subjects,
+    higher_subjects,
+    advanced_higher_subjects,
+  } = profile.scottish_profile;
 
-  validateSubjectGradeList(higher_subjects, 3, 'higher_subjects', errors);
-  validateSubjectGradeList(advanced_higher_subjects, 0, 'advanced_higher_subjects', errors);
+  validateSubjectGradeList(national_5_subjects, 0, 'national_5_subjects', errors, true);
+  validateSubjectGradeList(higher_subjects, 3, 'higher_subjects', errors, true);
+  validateSubjectGradeList(advanced_higher_subjects, 0, 'advanced_higher_subjects', errors, true);
+  if (typeof completed_in_one_sitting !== 'boolean') {
+    errors.scottish_completed_in_one_sitting =
+      'Confirm whether your required SQA subjects were completed in the same sitting.';
+  }
+  if (qualification_completion_year === '' || qualification_completion_year === null || qualification_completion_year === undefined) {
+    errors.scottish_qualification_completion_year =
+      'Enter the year you completed or will complete your Scottish school qualifications.';
+  } else {
+    const year = Number(qualification_completion_year);
+    if (!Number.isInteger(year) || year < 2000 || year > 2035) {
+      errors.scottish_qualification_completion_year = 'Enter a sensible four-digit year.';
+    }
+  }
 
   return errors;
 }
@@ -270,6 +302,14 @@ export function validateALevelStep(profile: WizardProfile): ValidationErrors {
       'Confirm whether your required A-level qualifications are in the same examination sitting.';
   }
 
+  const epq = profile.a_level_profile.epq;
+  if (epq?.status === 'predicted' && !epq.grade) {
+    errors.epq_grade = 'Select your predicted EPQ grade.';
+  }
+  if (epq?.status === 'achieved' && !epq.grade) {
+    errors.epq_grade = 'Select your achieved EPQ grade.';
+  }
+
   return errors;
 }
 
@@ -338,9 +378,140 @@ export function validateUcatStep(profile: WizardProfile): ValidationErrors {
   return errors;
 }
 
-export function validateContextualStep(): ValidationErrors {
-  // All fields on this step are optional booleans — nothing to validate.
-  return {};
+export function validateContextualStep(profile: WizardProfile): ValidationErrors {
+  const errors: ValidationErrors = {};
+  const homeArea = profile.contextual_profile?.home_area_region;
+  const access = profile.contextual_profile?.access_programmes;
+  const ukwpmed = access?.ukwpmed;
+  const allowedQuintiles = new Set(['', 'unknown', 'q1', 'q2', 'q3', 'q4', 'q5']);
+  const allowedHomeRegions = new Set(['south_west_england', 'north_west_england', 'north_east_england_or_cumbria', 'east_of_england', 'none', 'unknown', null, '']);
+  const allowedSpecificHomeAreas = new Set(['essex', 'lincolnshire', 'none', 'unknown', null, '']);
+  const allowedSchoolAreaOptions = new Set(['northern_ireland_bt_to_year_12', 'bristol_bs_ba_state_school', 'keele_region_school']);
+  const allowedSchoolAreaValues = new Set([...allowedSchoolAreaOptions, 'none', 'unknown', null, '']);
+  const allowedYesNoNotSure = new Set(['yes', 'no', 'not_sure', undefined]);
+  const allowedSensitiveAnswers = new Set(['yes', 'no', 'not_sure', 'prefer_not_to_say', undefined]);
+  const allowedProgrammeSchoolYears = new Set(['year_12', 'year_13', 'not_sure', '', undefined]);
+  const programmesRequiringSchoolYear = new Set(
+    OTHER_ACCESS_PROGRAMMES
+      .filter((programme) => programme.requires_school_year)
+      .map((programme) => programme.programme_id),
+  );
+  const allowedUkrainianVisaSchemes = new Set([
+    'homes_for_ukraine',
+    'ukraine_family_scheme',
+    'ukraine_extension_scheme',
+    'none',
+    'not_sure',
+    undefined,
+  ]);
+
+  if (homeArea) {
+    for (const key of ['polar4_quintile', 'tundra_quintile', 'imd_quintile'] as const) {
+      if (!allowedQuintiles.has(homeArea[key])) {
+        errors[key] = 'Select Unknown or a quintile from 1 to 5.';
+      }
+    }
+
+    if (!allowedHomeRegions.has(homeArea.home_region ?? null)) {
+      errors.home_region = 'Select a valid home region option.';
+    }
+    if (!allowedSpecificHomeAreas.has(homeArea.specific_home_area ?? null)) {
+      errors.specific_home_area = 'Select a valid specific home area option.';
+    }
+    if (!allowedSchoolAreaValues.has(homeArea.school_area ?? null)) {
+      errors.school_area = 'Select a valid school area option.';
+    }
+
+    const schoolAreas = Array.isArray(homeArea.school_areas) ? homeArea.school_areas : [];
+    if (schoolAreas.some((value) => !allowedSchoolAreaOptions.has(value))) {
+      errors.school_areas = 'Select only valid school-area options.';
+    }
+    if (schoolAreas.length > 0 && homeArea.school_area) {
+      errors.school_areas = 'Use either the saved school-area field or legacy school-area values, not both.';
+    }
+  }
+
+  if (ukwpmed?.status === 'yes') {
+    if (!ukwpmed.programme_id && !ukwpmed.not_sure_programme) {
+      errors.ukwpmed_programme_id = 'Select a recognised UKWPMED programme, or choose that you are not sure which programme.';
+    }
+    if (ukwpmed.programme_id && !ukwpmed.programme_status) {
+      errors.ukwpmed_programme_status = 'Select the status of this programme.';
+    }
+    if (ukwpmed.programme_id && !UKWPMED_REGISTRY.recognised_programmes.some((programme) => programme.programme_id === ukwpmed.programme_id)) {
+      errors.ukwpmed_programme_id = 'Select a recognised UKWPMED programme.';
+    }
+    if (ukwpmed.completion_year !== '') {
+      const year = Number(ukwpmed.completion_year);
+      if (!Number.isInteger(year) || year < 2000 || year > 2035) {
+        errors.ukwpmed_completion_year = 'Enter a sensible four-digit year.';
+      }
+    }
+  }
+
+  for (const [key, value] of Object.entries(profile.contextual_profile?.school_education ?? {})) {
+    if (!allowedYesNoNotSure.has(value)) {
+      errors[`school_education_${key}`] = 'Select Yes, No or Not sure.';
+    }
+  }
+
+  for (const [key, value] of Object.entries(profile.contextual_profile?.personal_circumstances ?? {})) {
+    if (key === 'ukrainian_visa_scheme') {
+      if (!allowedUkrainianVisaSchemes.has(value)) {
+        errors.personal_circumstances_ukrainian_visa_scheme = 'Select a valid Ukrainian visa scheme option.';
+      }
+      continue;
+    }
+
+    if (!allowedSensitiveAnswers.has(value)) {
+      errors[`personal_circumstances_${key}`] = 'Select Yes, No, Not sure or Prefer not to say.';
+    }
+  }
+
+  if (access?.participation_status === 'yes') {
+    access.other_programmes.forEach((programme, index) => {
+      if (programme.programme_id && !programme.status) {
+        errors[`other_programme_${index}_status`] = 'Select the status of this programme.';
+      }
+      if (!allowedProgrammeSchoolYears.has(programme.school_year)) {
+        errors[`other_programme_${index}_school_year`] = 'Select a valid school year option.';
+      }
+      if (programmesRequiringSchoolYear.has(programme.programme_id) && !programme.school_year) {
+        errors[`other_programme_${index}_school_year`] = 'Select the school year for this programme.';
+      }
+    });
+    if (
+      access.other_programmes.some((programme) => programme.programme_id === 'other_access_wp_programme') &&
+      !access.other_programme_name.trim()
+    ) {
+      errors.other_access_programme_name = 'Enter the programme name.';
+    }
+  }
+
+  const partnerSchools = profile.contextual_profile?.partner_schools;
+  if (partnerSchools?.status === 'yes') {
+    const meaningful = partnerSchools.relationships.some((relationship) => (
+      relationship.school_name.trim() ||
+      (relationship.school_identifier ?? relationship.school_id ?? '').trim() ||
+      relationship.university_id ||
+      relationship.university_name?.trim()
+    ));
+    if (!meaningful) {
+      errors.partner_schools = 'Add at least one partner-school relationship, or choose Not sure.';
+    }
+    partnerSchools.relationships.forEach((relationship, index) => {
+      const schoolName = relationship.school_name.trim();
+      const schoolIdentifier = (relationship.school_identifier ?? relationship.school_id ?? '').trim();
+      if ((relationship.university_id || relationship.university_name?.trim()) && !schoolName && !schoolIdentifier) {
+        errors[`partner_school_${index}_school_name`] = 'Enter a school or college name or official identifier.';
+      }
+      if (relationship.school_identifier_type && !schoolIdentifier) {
+        errors[`partner_school_${index}_school_identifier`] = 'Enter the identifier value for this school or college.';
+      }
+    });
+  }
+
+  return errors;
 }
 
 export function validateUniversitiesStep(profile: WizardProfile): ValidationErrors {

@@ -270,8 +270,14 @@ const tests = [
     id: 'wp_uses_separate_wp_pool_and_36_point_metric',
     run() {
       const applicant = baseApplicant();
-      applicant.applicant_identity.contextual = true;
-      applicant.applicant_identity.widening_participation = true;
+      applicant.contextual_profile = {
+        school_education: {
+          state_non_fee_paying_school: 'yes'
+        },
+        financial_support: {
+          ucat_bursary_recipient: 'yes'
+        }
+      };
       applicant.a_level_profile.subjects = [
         { subject_id: 'chemistry', predicted_grade: 'A', practical_endorsement: 'pass' },
         { subject_id: 'biology', predicted_grade: 'A', practical_endorsement: 'pass' },

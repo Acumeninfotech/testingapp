@@ -140,7 +140,7 @@
     "prediction_type": "official_threshold_gate_unavailable",
     "prediction_status": "prediction_unavailable",
     "result_band": "realistic",
-    "guidance_pool_id": null,
+    "guidance_pool_id": "kmms_applysmart_advisory_all_routes",
     "score": null,
     "score_scale": {
       "min": 900,
@@ -212,16 +212,16 @@
     "summary": "Official eligibility evidence is available, but the official interview prediction is unavailable from public current-cycle data.",
     "reasons": [
       "Official eligibility rules are available.",
-      "KMMS has not published the operative UCAT threshold on the 2700 scale, and official shortlisting depends on contextual ranking data ApplySmart does not hold."
+      "KMMS has not published an exact 2026 interview cut-off on the current UCAT scale. Shortlisting may also depend on contextual ranking or other information that ApplySmart cannot fully reproduce."
     ]
   },
   "display": {
     "primary_user_facing_recommendation": "Possible choice for your application",
     "recommendation_display_state": "standard",
     "internal_recommendation": "Realistic Choice",
-    "primary_explanation": "Based on ApplySmart's assessment, your academic profile may be competitive for this applicant group.",
+    "primary_explanation": "Based on ApplySmart's assessment, your UCAT score may be competitive for this applicant group.",
     "trust_statement": "ApplySmart does not alter university requirements or present unofficial information as an official rule. Predictions are generated only after applying the published university criteria and analysing the available admissions evidence.",
-    "historical_guidance_caveat": "The separate ApplySmart advisory band is non-official guidance only and cannot change the official KMMS assessment.",
+    "historical_guidance_caveat": "Historical admissions data provides a benchmark only; it is not a current cut-off or a guarantee of interview.",
     "headline": "Possible choice for your application"
   },
   "decision_timeline": [
@@ -241,76 +241,96 @@
       "step": 3,
       "title": "Selection model applied",
       "status": "Complete",
-      "summary": "ApplySmart analysis uses the official KMMS eligibility criteria and available historical evidence. KMMS has not published an exact interview cut-off on the current UCAT scale, so this is not an official university decision or interview guarantee."
+      "summary": "KMMS checks the relevant academic, UCAT and SJT requirements, then assesses applicants using the selection process for their qualification group. Academic context is considered where comparable school data is available."
     },
     {
       "step": 4,
       "title": "Historical guidance compared",
       "status": "Complete",
-      "summary": "Your UCAT was compared with interview information from previous admissions cycles. Interview thresholds may change each admissions cycle depending on applicant competition and interview capacity. Historical figures are guidance only, not a current cut-off, and do not guarantee an interview."
+      "summary": "UCAT: 1855 - within the historical UCAT range of 1855-1864. Historical admissions data provides a benchmark only; it is not a current cut-off or a guarantee of interview."
     },
     {
       "step": 5,
       "title": "Interview recommendation produced",
       "status": "Realistic Choice",
-      "summary": "Based on ApplySmart's assessment, your academic profile may be competitive for this applicant group. Treat this as guidance for university choice, not a promised interview."
+      "summary": "Based on ApplySmart's assessment, your UCAT score may be competitive for this applicant group. Treat this as guidance for university choice, not a promised interview."
     }
   ],
   "decision_transparency": {
+    "factor_usage": [
+      {
+        "factor_id": "ucat",
+        "label": "UCAT",
+        "role": "eligibility",
+        "detail": "Used as an eligibility gate.",
+        "evidence_status": "available"
+      },
+      {
+        "factor_id": "gcse",
+        "label": "GCSEs",
+        "role": "unknown",
+        "detail": "GCSEs are part of the university’s academic review.",
+        "evidence_status": "available"
+      },
+      {
+        "factor_id": "a_level",
+        "label": "A-levels",
+        "role": "unknown",
+        "detail": "Used as part of the university’s academic review.",
+        "evidence_status": "available"
+      },
+      {
+        "factor_id": "sjt",
+        "label": "SJT",
+        "role": "eligibility",
+        "detail": "SJT is used as an eligibility gate.",
+        "evidence_status": "available"
+      }
+    ],
     "decision_path": [
       {
         "stage": "Eligibility",
         "status": "Met",
-        "summary": "The represented Group A applicant meets the KMMS academic and SJT gates ApplySmart can check. Official interview prediction is unavailable because KMMS has not published the operative UCAT threshold on the 2700 scale and ApplySmart does not hold the required school-performance contextual ranking data.",
+        "summary": "The supported entry requirements are met.",
         "checks": [
           {
-            "label": "KMMS applicant group",
+            "label": "Entry requirements",
             "status": "Met",
-            "summary": "Resolve Group A-E before assessing academic evidence. Applicant information: Group A."
-          },
-          {
-            "label": "Academic input",
-            "status": "Met",
-            "summary": "Group A uses achieved GCSEs and does not require achieved A-levels. Applicant information: Achieved GCSEs meet required subjects/grades; achieved A-levels are not yet available."
-          },
-          {
-            "label": "Predicted grades",
-            "status": "Not used",
-            "summary": "Predicted grades must not be used in KMMS selection. Applicant information: Predicted grades were supplied but ignored because KMMS does not use predicted grades in its selection process."
-          },
-          {
-            "label": "SJT gate",
-            "status": "Met",
-            "summary": "School-leaver routes require SJT Band 3 or better; Band 4 is an automatic rejection. Applicant information: SJT Band 2."
+            "summary": "The supported entry requirements have been assessed."
           }
         ]
       },
       {
         "stage": "Selection model",
         "status": "Assessed",
-        "summary": "The university selection approach is applied after eligibility checks.",
+        "summary": "KMMS checks the relevant academic, UCAT and SJT requirements, then assesses applicants using the selection process for their qualification group. Academic context is considered where comparable school data is available.",
         "checks": [
           {
             "label": "Applicant pool",
             "status": "Used",
-            "summary": "The applicant group matching the supplied fee status and entry route"
+            "summary": "Home, Rest of UK applicants"
           },
           {
             "label": "Selection approach",
-            "status": "Ranking/cut-off based",
-            "summary": "The university selection approach is applied after eligibility checks."
+            "status": "Assessed",
+            "summary": "KMMS checks the relevant academic, UCAT and SJT requirements, then assesses applicants using the selection process for their qualification group. Academic context is considered where comparable school data is available."
           }
         ]
       },
       {
         "stage": "Historical guidance",
         "status": "Guidance available",
-        "summary": "The result was assessed using the available admissions evidence for this applicant group. Historical admissions data provides a benchmark only; it is not a current cut-off or a guarantee of interview.",
+        "summary": "UCAT: 1855 - within the historical UCAT range of 1855-1864. Historical admissions data provides a benchmark only; it is not a current cut-off or a guarantee of interview.",
         "checks": [
           {
             "label": "Applicant pool",
             "status": "Used",
-            "summary": "The applicant group matching the supplied fee status and entry route"
+            "summary": "Home, Rest of UK applicants"
+          },
+          {
+            "label": "UCAT comparison",
+            "status": "Compared",
+            "summary": "UCAT: 1855 - within the historical UCAT range of 1855-1864."
           },
           {
             "label": "Important limitation",
@@ -322,14 +342,15 @@
       {
         "stage": "Recommendation",
         "status": "Guidance only",
-        "summary": "Based on ApplySmart's assessment, your academic profile may be competitive for this applicant group. Treat this as guidance for university choice, not a promised interview.",
+        "summary": "Based on ApplySmart's assessment, your UCAT score may be competitive for this applicant group. Treat this as guidance for university choice, not a promised interview.",
         "checks": []
       }
     ],
     "key_reasons": [
-      "The represented Group A applicant meets the KMMS academic and SJT gates ApplySmart can check. Official interview prediction is unavailable because KMMS has not published the operative UCAT threshold on the 2700 scale and ApplySmart does not hold the required school-performance contextual ranking data.",
-      "The result uses The applicant group matching the supplied fee status and entry route.",
-      "The university selection approach is applied after eligibility checks."
+      "The supported entry requirements are met.",
+      "KMMS has not published an exact 2026 interview cut-off on the current UCAT scale. Shortlisting may also depend on contextual ranking or other information that ApplySmart cannot fully reproduce.",
+      "The result uses Home, Rest of UK applicants.",
+      "Your UCAT score is within the historical UCAT range for this applicant group."
     ],
     "evidence_used": [
       "Official admissions policy",
@@ -342,24 +363,79 @@
       "summary": "Official eligibility evidence is available, but the official interview prediction is unavailable from public current-cycle data.",
       "reasons": [
         "Official eligibility rules are available.",
-        "KMMS has not published the operative UCAT threshold on the 2700 scale, and official shortlisting depends on contextual ranking data ApplySmart does not hold."
+        "KMMS has not published an exact 2026 interview cut-off on the current UCAT scale. Shortlisting may also depend on contextual ranking or other information that ApplySmart cannot fully reproduce."
       ]
     },
     "warnings": [],
+    "official_prediction": {
+      "available": false,
+      "prediction_status": "prediction_unavailable",
+      "reason_code": "official_2026_ucat_threshold_2700_not_published",
+      "explanation": "KMMS has not published an exact 2026 interview cut-off on the current UCAT scale. Shortlisting may also depend on contextual ranking or other information that ApplySmart cannot fully reproduce.",
+      "source_ids": [
+        "kmms_research_doc",
+        "kmms_applysmart_config"
+      ]
+    },
     "manual_review_reason": null,
-    "insufficient_evidence_reason": null,
-    "insufficient_evidence_reason_code": null,
+    "manual_review_reason_code": null,
+    "information_needed_reason": null,
+    "missing_information": null,
+    "risk_explanation": null,
     "compact_status": {
       "label": "You meet the academic requirements.",
       "type": "academic_status",
       "tone": "positive"
     },
     "comparison_metrics_title": null,
-    "comparison_metrics": [],
-    "selection_approach_display": null,
-    "selection_metric": null,
+    "comparison_metrics": [
+      {
+        "label": "historical UCAT range",
+        "value": "1855-1864",
+        "difference": "0"
+      }
+    ],
+    "selection_approach_display": "KMMS checks the relevant academic, UCAT and SJT requirements, then assesses applicants using the selection process for their qualification group. Academic context is considered where comparable school data is available.",
+    "selection_metric": {
+      "type": "ucat",
+      "label": "Your UCAT score",
+      "applicant_value": 1855,
+      "comparison_value": 1855,
+      "comparison_max_value": 1864,
+      "comparison_label": "historical UCAT range",
+      "comparison_label_type": "historical_interview_guide",
+      "comparison_context": null,
+      "difference": 0,
+      "difference_direction": "at",
+      "difference_word": "range",
+      "maximum_value": 2700,
+      "display_mode": "comparison",
+      "display_eligibility": true,
+      "entry_year": null,
+      "caveat": "Historical admissions data provides a benchmark only; it is not a current cut-off or a guarantee of interview."
+    },
     "score_breakdown": null,
-    "ucat_comparison": null
+    "ucat_comparison": {
+      "comparison_type": "historical_range",
+      "applicant_ucat": 1855,
+      "benchmark_min": 1855,
+      "benchmark_max": 1864,
+      "comparison_operator": null,
+      "benchmark_label": "historical UCAT range",
+      "caveat": "Historical admissions data provides a benchmark only; it is not a current cut-off or a guarantee of interview.",
+      "evidence_status": null,
+      "evidence_classification": null,
+      "prediction_band": null,
+      "difference_from_benchmark": null,
+      "position": "within",
+      "applicant_pool": "Home, Rest of UK applicants",
+      "sjt_policy": "Groups A/B/C school-leaver and Group E school-leaver routes require Band 3 or better.",
+      "sjt_outcome": "met",
+      "sjt_summary": "Met - Bands 1-3 are accepted.",
+      "applicant_sjt_band": 2,
+      "official_ucat_minimum": null
+    },
+    "ucat_adjustment": null
   },
   "engine_notes": {
     "offer_prediction_scope": "out_of_scope",
@@ -368,8 +444,8 @@
     "shared_engine_change": "Opt-in predicted-grade exclusion for universities such as KMMS that assess pre-completion applicants without predicted A-level scoring."
   },
   "primary_user_facing_recommendation": "Possible choice for your application",
-  "primary_explanation": "Based on ApplySmart's assessment, your academic profile may be competitive for this applicant group.",
+  "primary_explanation": "Based on ApplySmart's assessment, your UCAT score may be competitive for this applicant group.",
   "recommendation_display_state": "standard",
-  "trust_statement": null,
+  "trust_statement": "ApplySmart does not alter university requirements or present unofficial information as an official rule. Predictions are generated only after applying the published university criteria and analysing the available admissions evidence.",
   "historical_guidance_caveat": "Historical admissions data provides a benchmark only; it is not a current cut-off or a guarantee of interview."
 }

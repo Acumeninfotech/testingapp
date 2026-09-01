@@ -42,6 +42,7 @@
       ],
       "excluded_group_ids": [
         "international_fee",
+        "imperial_contextual",
         "contextual",
         "widening_participation"
       ],
@@ -51,13 +52,12 @@
       "pool_id": "contextual_home_a100",
       "applies_to_group_ids": [
         "home_fee",
-        "contextual",
-        "widening_participation"
+        "imperial_contextual"
       ],
       "excluded_group_ids": [
         "international_fee"
       ],
-      "selection_relevance": "Eligible Home contextual or widening participation applicants use the official 2026-entry contextual UCAT threshold of 2170."
+      "selection_relevance": "Eligible Home applicants who satisfy Imperial's structured contextual evidence criteria use the official 2026-entry contextual UCAT threshold of 2170."
     },
     {
       "pool_id": "overseas_a100",
@@ -76,6 +76,7 @@
     "international_fee",
     "rest_of_uk",
     "contextual",
+    "imperial_contextual",
     "widening_participation",
     "care_experienced",
     "school_leaver",
@@ -96,10 +97,9 @@
         "required": true,
         "qualification_routes": [
           "a_level",
-          "international_baccalaureate",
-          "scottish"
+          "international_baccalaureate"
         ],
-        "notes": "Generic opt-in same-sitting enforcement. A-level has route-level applicant evidence; IB and Scottish same-sitting evidence are not currently represented and therefore route to manual review when this rule applies."
+        "notes": "Generic same-sitting enforcement applies to routes using the generic consumer. A-level evidence is represented directly. Scottish Advanced Higher same-sitting is enforced by the shared Scottish route evaluator."
       }
     },
     "overall_policy": {
@@ -188,23 +188,23 @@
         "contextual_offer": {
           "applies_to_group_ids": [
             "home_fee",
-            "contextual",
-            "widening_participation"
+            "imperial_contextual"
           ],
           "grade_profile": [
-            "A*",
+            "A",
             "A",
             "A"
           ],
           "source_ids": [
             "imperial_research_doc"
           ],
-          "notes": "Contextual route keeps A*AA but the A* may be in any subject."
+          "notes": "Imperial's contextual guaranteed-interview minimum entry standard is AAA, including Biology, Chemistry and a third accepted subject."
         },
         "grade_requirements": [
           {
             "requirement_id": "imperial_standard_a_level_astar_aa_biology_chemistry",
             "excluded_group_ids": [
+              "imperial_contextual",
               "contextual",
               "widening_participation",
               "graduate_applicant"
@@ -255,20 +255,17 @@
             "notes": "General Studies and Critical Thinking are not accepted."
           },
           {
-            "requirement_id": "imperial_contextual_a_level_astar_any_subject_biology_chemistry_a",
+            "requirement_id": "imperial_contextual_a_level_aaa_biology_chemistry",
             "applies_to_group_ids": [
-              "home_fee"
-            ],
-            "any_group_ids": [
-              "contextual",
-              "widening_participation"
+              "home_fee",
+              "imperial_contextual"
             ],
             "excluded_group_ids": [
               "international_fee",
               "graduate_applicant"
             ],
             "grade_profile": [
-              "A*",
+              "A",
               "A",
               "A"
             ],
@@ -294,7 +291,7 @@
             "source_ids": [
               "imperial_research_doc"
             ],
-            "notes": "Contextual applicants may place the A* in the third subject, but Biology and Chemistry must both be at A or above."
+            "notes": "Imperial contextual guaranteed-interview applicants must meet AAA including Biology, Chemistry and a third accepted subject."
           }
         ],
         "required_subject_ids": [
@@ -416,14 +413,16 @@
             "decision_outcome_if_not_met": "not_eligible",
             "source_ids": [
               "imperial_research_doc"
-            ]
+            ],
+            "same_sitting_required": true,
+            "same_sitting_qualification_level": "advanced_higher"
           }
         ],
         "required_subject_ids": [
           "biology",
           "chemistry"
         ],
-        "notes": "Same-sitting evidence for Scottish routes is not currently represented by the generic applicant input and therefore requires manual review when the same-sitting opt-in applies."
+        "notes": "Scottish Advanced Highers are evaluated through the shared Scottish academic route: AAA including Biology and Chemistry, with the validated same-sitting requirement enforced from Scottish qualification evidence."
       },
       "degree": {
         "status": "not_accepted_for_a100_entry_route",
@@ -462,11 +461,8 @@
         "group_minimum_total_scores": [
           {
             "applies_to_group_ids": [
-              "home_fee"
-            ],
-            "any_group_ids": [
-              "contextual",
-              "widening_participation"
+              "home_fee",
+              "imperial_contextual"
             ],
             "excluded_group_ids": [
               "international_fee"
@@ -491,6 +487,7 @@
             ],
             "excluded_group_ids": [
               "international_fee",
+              "imperial_contextual",
               "contextual",
               "widening_participation"
             ],
@@ -654,6 +651,11 @@
         "applies_to_group_ids": [
           "home_fee"
         ],
+        "excluded_group_ids": [
+          "imperial_contextual",
+          "contextual",
+          "widening_participation"
+        ],
         "metric": "ucat_total",
         "operator": "greater_than_or_equal",
         "value": 2320,
@@ -667,7 +669,7 @@
         "threshold_id": "contextual_2026_ucat_floor",
         "applies_to_group_ids": [
           "home_fee",
-          "contextual"
+          "imperial_contextual"
         ],
         "metric": "ucat_total",
         "operator": "greater_than_or_equal",
@@ -699,12 +701,12 @@
         "modifier_id": "contextual_adjustment",
         "applies_to_group_ids": [
           "home_fee",
-          "contextual"
+          "imperial_contextual"
         ],
         "condition": {
           "field": "applicant_group_ids",
           "operator": "contains",
-          "value": "contextual"
+          "value": "imperial_contextual"
         },
         "effect": {
           "type": "threshold",
@@ -743,29 +745,45 @@
     "notes": "Academic eligibility failures, same-sitting failures, resit failures and SJT Band 4 suppress UCAT interview guidance."
   },
   "contextual_admissions": {
-    "verification_status": "official_source_verified_with_documented_gaps",
+    "verification_status": "official_source_verified",
     "source_ids": [
       "imperial_research_doc",
       "imperial_course_page_2027"
     ],
     "available": true,
+    "evaluator_id": "imperial_contextual_medicine_a100",
     "applies_to_group_ids": [
       "home_fee",
-      "contextual",
-      "widening_participation"
+      "imperial_contextual"
     ],
     "criteria": [
       {
-        "criterion_id": "imperial_wp_or_contextual_flag",
-        "applies_to_group_ids": [
-          "contextual",
-          "widening_participation"
-        ],
-        "description": "Imperial WP flag, declared carer evidence by the stated deadline, or participation in a recognised Imperial outreach programme.",
+        "criterion_id": "care_experienced_or_care_leaver",
+        "description": "Care leaver or local-authority care experience.",
         "source_ids": [
-          "imperial_research_doc"
-        ],
-        "notes": "The generic ApplySmart contextual group is used only where the applicant's Imperial-relevant contextual status has been confirmed."
+          "imperial_contextual_admissions_current"
+        ]
+      },
+      {
+        "criterion_id": "imd_2019_quintile_1",
+        "description": "Home postcode falls into England IMD 2019 quintile 1.",
+        "source_ids": [
+          "imperial_contextual_admissions_current"
+        ]
+      },
+      {
+        "criterion_id": "free_school_meals",
+        "description": "Currently receives or has received UK-government funded free school meals during the stated period.",
+        "source_ids": [
+          "imperial_contextual_admissions_current"
+        ]
+      },
+      {
+        "criterion_id": "polar4_q1_q2_plus_indicator",
+        "description": "Home postcode is POLAR4 quintile 1 or 2 and the applicant has first-generation HE, below-threshold post-16 school performance, or above-threshold school FSM percentile evidence.",
+        "source_ids": [
+          "imperial_contextual_admissions_current"
+        ]
       }
     ],
     "adjustments": [
@@ -773,8 +791,7 @@
         "adjustment_id": "contextual_ucat_threshold_2170",
         "applies_to_group_ids": [
           "home_fee",
-          "contextual",
-          "widening_participation"
+          "imperial_contextual"
         ],
         "stage": "interview_selection",
         "policy_description": "Use official 2026 contextual UCAT threshold of 2170.",
@@ -789,8 +806,32 @@
         "notes": "No contextual points or percentage uplift are implemented."
       }
     ],
-    "guaranteed_interview_rules": [],
-    "notes": "Contextual A-level handling permits the A* in any subject but does not reduce the A*AA grade profile."
+    "guaranteed_interview_rules": [
+      {
+        "rule_id": "imperial_contextual_guaranteed_interview",
+        "route": "imperial_contextual_guaranteed_interview",
+        "applies_to_group_ids": [
+          "home_fee",
+          "imperial_contextual"
+        ],
+        "minimum_entry_standard": "AAA at A-level or equivalent",
+        "academic_requirement_id": "imperial_contextual_a_level_aaa_biology_chemistry",
+        "ucat_threshold": 2170,
+        "ucat_operator": "greater_than_or_equal",
+        "sjt_accepted_bands": [
+          1,
+          2,
+          3
+        ],
+        "outcome": "guaranteed_interview",
+        "source_ids": [
+          "imperial_contextual_admissions_current",
+          "imperial_course_page_2027"
+        ],
+        "notes": "The guarantee applies only after contextual evidence, AAA academic requirements, UCAT contextual threshold, SJT Band 1-3 and all other Imperial hard filters are met."
+      }
+    ],
+    "notes": "Imperial contextual eligibility is derived from structured factual evidence in contextual_profile; generic contextual declarations do not activate this route by themselves."
   },
   "ranking_pools": [
     {
@@ -922,17 +963,17 @@
     "contextual_offer": {
       "applies_to_group_ids": [
         "home_fee",
-        "contextual"
+        "imperial_contextual"
       ],
       "grade_profile": [
-        "A*",
+        "A",
         "A",
         "A"
       ],
       "source_ids": [
         "imperial_research_doc"
       ],
-      "notes": "A* may be in any subject."
+      "notes": "Contextual guaranteed-interview support uses Imperial's AAA minimum entry standard; offer prediction remains out of scope."
     },
     "notes": "Interview information is informational only and is not used for offer prediction."
   },
@@ -1105,8 +1146,7 @@
       "Future-cycle UCAT thresholds are not published in advance.",
       "Tie-breakers are unknown.",
       "Reserve-list policy is unknown.",
-      "Post-interview offer thresholds are unpublished and out of scope.",
-      "IB and Scottish same-sitting evidence are not represented by current applicant inputs and route to manual review."
+      "Post-interview offer thresholds are unpublished and out of scope."
     ],
     "review_notes": "Existing Imperial seed profile replaced with official and FOI verified production profile for A100 only."
   },
@@ -1131,9 +1171,9 @@
     "activation_ready": true,
     "blocking_missing_fields": [],
     "engine_assumptions": [
-      "Contextual group IDs are applied only after Imperial-relevant contextual/WP status is confirmed.",
+      "Imperial contextual group IDs are applied only after structured factual contextual_profile evidence satisfies Imperial's published criteria.",
       "A-level same-sitting evidence uses a_level_profile.completed_in_one_sitting.",
-      "IB and Scottish applicants require manual review for same-sitting evidence because no route-level field exists in the current applicant model."
+      "IB applicants continue to require manual review for same-sitting evidence where the current applicant model cannot resolve it automatically."
     ],
     "do_not_infer": [
       "Do not score GCSEs.",
@@ -1141,7 +1181,7 @@
       "Do not invent UCAT subsection cutoffs.",
       "Do not convert 2025 /3600 UCAT averages to /2700.",
       "Do not present 2400 or 2500 as official Imperial thresholds.",
-      "Do not claim an interview is guaranteed.",
+      "Do not claim an interview is guaranteed unless the Imperial contextual evidence, AAA academic, UCAT, SJT and hard-filter checks all pass.",
       "Do not predict offers or post-interview probability.",
       "Do not route Imperial London A100 graduate applicants into Pears Cumbria GEM."
     ]

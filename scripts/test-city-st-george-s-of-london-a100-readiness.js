@@ -2,14 +2,13 @@
 
 const assert = require('assert');
 const fs = require('fs');
+const { predict } = require('../server/src/predict');
 const path = require('path');
 const {
   classifyInterviewBand
 } = require('../assets/js/engine/interview-band-classifier');
 const {
-  buildDecisionTimeline,
-  buildDecisionTransparency,
-  buildEvidenceConfidence
+  buildDecisionTimeline
 } = require('../assets/js/engine/result-card-presenter');
 
 const rootDir = path.resolve(__dirname, '..');
@@ -191,9 +190,36 @@ assert.strictEqual(card.sjt_handling.sjt_excluded_from_prediction, true);
 assert.strictEqual(card.sjt_handling.band_4_penalty_applied, false);
 assert.strictEqual(card.contextual_metadata.eligible_for_contextual_offer, false);
 assert.deepStrictEqual(card.decision_timeline, buildDecisionTimeline(card));
-assert.deepStrictEqual(card.decision_transparency, buildDecisionTransparency(card));
-assert.deepStrictEqual(card.evidence_confidence, buildEvidenceConfidence(card));
-assert.match(JSON.stringify(card.decision_transparency), /SJT is recorded but excluded/i);
+
+const productionCard = predict({
+  studentProfile: fixture.base_applicant,
+  universityIds: [course.profile_id]
+})[0]?.result_card;
+
+assert.ok(
+  productionCard,
+  "City St George's A100 production Result Card must be generated."
+);
+assert.deepStrictEqual(
+  card.decision_transparency,
+  productionCard.decision_transparency
+);
+assert.deepStrictEqual(
+  card.evidence_confidence,
+  productionCard.evidence_confidence
+);
+assert.strictEqual(
+  card.decision_transparency.ucat_comparison.sjt_outcome,
+  'ignored'
+);
+assert.strictEqual(
+  card.decision_transparency.ucat_comparison.applicant_sjt_band,
+  4
+);
+assert.match(
+  card.decision_transparency.ucat_comparison.sjt_policy,
+  /considered in our decision making/i
+);
 assert.strictEqual(hasNestedKey(card, 'offer_probability'), false);
 assert.strictEqual(hasNestedKey(card, 'offer_prediction_status'), false);
 

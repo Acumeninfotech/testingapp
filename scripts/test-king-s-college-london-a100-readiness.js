@@ -307,6 +307,121 @@ function baseApplicant(overrides = {}) {
   };
 }
 
+function classifyApplicant(overrides = {}) {
+  return classifyInterviewBand(course, config, baseApplicant(overrides));
+}
+
+function scottishProfile({
+  higherGrades = ['A', 'A', 'B'],
+  higherSubjects = ['english', 'history', 'mathematics'],
+  higherSittingIds = ['s5', 's5', 's5'],
+  completedInOneSitting = true,
+  ahBiology = 'A',
+  ahChemistry = 'A',
+  advancedHigherSubjects = null,
+  national5Subjects = []
+} = {}) {
+  return {
+    completed_in_one_sitting: completedInOneSitting,
+    higher_subjects: higherSubjects.map((subjectId, index) => ({
+      subject_id: subjectId,
+      achieved_grade: higherGrades[index],
+      sitting_id: higherSittingIds[index]
+    })),
+    advanced_higher_subjects: advancedHigherSubjects || [
+      { subject_id: 'biology', achieved_grade: ahBiology },
+      { subject_id: 'chemistry', achieved_grade: ahChemistry }
+    ],
+    national_5_subjects: national5Subjects
+  };
+}
+
+function scottishApplicant(overrides = {}) {
+  return {
+    qualification_route: 'scottish',
+    a_level_profile: undefined,
+    scottish_profile: scottishProfile(),
+    ...overrides
+  };
+}
+
+function ibApplicant(overrides = {}) {
+  return {
+    qualification_route: 'international_baccalaureate',
+    a_level_profile: undefined,
+    ib_profile: {
+      total_points: 38,
+      higher_level_total_points: 19,
+      higher_level_subjects: [
+        { subject_id: 'biology', achieved_grade: '6' },
+        { subject_id: 'chemistry', achieved_grade: '6' },
+        { subject_id: 'mathematics', achieved_grade: '7' }
+      ]
+    },
+    ...overrides
+  };
+}
+
+function assertEligibilityCheck(classification, checkId, expectedStatus, message) {
+  const check = (classification.eligibility.checks || [])
+    .find((entry) => entry.check_id === checkId || entry.check === checkId);
+  assert.ok(check, `${message}: expected ${checkId} check`);
+  assert.strictEqual(check.status || (check.passed ? 'pass' : 'fail'), expectedStatus, message);
+}
+
+function assertNoCurrentContextualTreatment(classification, message) {
+  const contextual = classification.eligibility.contextual_eligibility;
+  if (contextual) {
+    assert.notStrictEqual(contextual.status, 'contextual', `${message}: must not be current contextual`);
+    assert.strictEqual(contextual.is_contextual, false, `${message}: must not activate contextual treatment`);
+  }
+  assert.ok(!classification.applicant_group_ids.includes('contextual'), `${message}: generic contextual group must be absent`);
+  assert.ok(
+    !classification.applicant_group_ids.includes('widening_participation'),
+    `${message}: generic WP group must be absent`
+  );
+}
+
+function assertRecognisedContextual(classification, expectedCriterion, message) {
+  const contextual = classification.eligibility.contextual_eligibility;
+  assert.strictEqual(contextual.status, 'contextual', `${message}: contextual status`);
+  assert.strictEqual(contextual.is_contextual, true, `${message}: is_contextual`);
+  assert.ok(
+    contextual.qualifying_criteria.some((entry) => entry.criterion_id === expectedCriterion),
+    `${message}: expected criterion ${expectedCriterion}`
+  );
+  assert.ok(
+    classification.applicant_group_ids.includes('kcl_contextual_additional_consideration'),
+    `${message}: KCL-specific contextual group`
+  );
+  assert.ok(!classification.applicant_group_ids.includes('contextual'), `${message}: no generic contextual group`);
+  assert.ok(!classification.applicant_group_ids.includes('widening_participation'), `${message}: no generic WP group`);
+  assert.strictEqual(classification.eligibility.academic_pathway, 'standard', `${message}: academic offer remains standard`);
+  assert.ok(!JSON.stringify(classification).includes('contextual_adjusted_selection_ucat_total'));
+  assert.ok(!JSON.stringify(classification).includes('guaranteed_interview'));
+}
+
+function assertProgrammeEvidenceNeedsReview(classification, expectedCriterion, message) {
+  const contextual = classification.eligibility.contextual_eligibility;
+  assert.strictEqual(classification.eligibility.status, 'manual_review', `${message}: eligibility status`);
+  assert.strictEqual(contextual.status, 'information_needed', `${message}: contextual status`);
+  assert.strictEqual(contextual.is_contextual, false, `${message}: is_contextual`);
+  assert.ok(
+    contextual.missing_information.some((entry) => entry.criterion_id === expectedCriterion),
+    `${message}: expected unresolved criterion ${expectedCriterion}`
+  );
+  assert.ok(
+    classification.eligibility.manual_review_reasons.includes('kcl_contextual_evidence_requires_review'),
+    `${message}: manual review reason`
+  );
+  assert.ok(
+    !classification.applicant_group_ids.includes('kcl_contextual_additional_consideration'),
+    `${message}: no KCL-specific contextual group`
+  );
+  assert.ok(!classification.applicant_group_ids.includes('contextual'), `${message}: no generic contextual group`);
+  assert.ok(!classification.applicant_group_ids.includes('widening_participation'), `${message}: no generic WP group`);
+}
+
 const course = readJson(`data/universities/${profileId}.json`);
 const research = readJson(`data/research/${profileId}-research.json`);
 const config = readJson(`data/interview-band-configs/${profileId}.json`);
@@ -512,6 +627,528 @@ const graduateClassification = classifyInterviewBand(
 assert.strictEqual(graduateClassification.canonical_interview_band, 'insufficient_evidence');
 assert.strictEqual(graduateClassification.manual_review_required, true);
 
+const englandALevel = classifyApplicant();
+assert.strictEqual(englandALevel.eligibility.qualification_route, 'a_level');
+assert.strictEqual(englandALevel.eligibility.status, 'eligible');
+assert.strictEqual(englandALevel.guidance_pool_id, 'kcl_home_historical_percentile_guidance');
+assert.ok(englandALevel.applicant_group_ids.includes('home_fee'));
+assert.ok(englandALevel.applicant_group_ids.includes('england_domiciled'));
+assertEligibilityCheck(englandALevel, 'a_level_route', 'pass', 'England + A levels uses A-level route');
+
+const englandScottish = classifyApplicant(scottishApplicant());
+assert.strictEqual(englandScottish.eligibility.qualification_route, 'scottish');
+assert.strictEqual(englandScottish.eligibility.status, 'eligible');
+assert.strictEqual(englandScottish.guidance_pool_id, 'kcl_home_historical_percentile_guidance');
+assert.ok(englandScottish.applicant_group_ids.includes('home_fee'));
+assert.ok(englandScottish.applicant_group_ids.includes('england_domiciled'));
+assertEligibilityCheck(englandScottish, 'scottish_post_16_requirements', 'pass', 'England + Scottish uses Scottish route');
+
+const scotlandScottish = classifyApplicant(scottishApplicant({
+  applicant_identity: {
+    applicant_type: 'standard_school_leaver',
+    fee_status: 'Home',
+    domicile: 'Scotland',
+    english_language_exempt: true
+  }
+}));
+assert.strictEqual(scotlandScottish.eligibility.qualification_route, 'scottish');
+assert.strictEqual(scotlandScottish.eligibility.status, 'eligible');
+assert.strictEqual(scotlandScottish.guidance_pool_id, 'kcl_home_historical_percentile_guidance');
+assert.ok(scotlandScottish.applicant_group_ids.includes('home_fee'));
+assert.ok(scotlandScottish.applicant_group_ids.includes('scotland_domiciled'));
+assertEligibilityCheck(scotlandScottish, 'scottish_post_16_requirements', 'pass', 'Scotland + Scottish uses Scottish route');
+
+const scotlandALevel = classifyApplicant({
+  applicant_identity: {
+    applicant_type: 'standard_school_leaver',
+    fee_status: 'Home',
+    domicile: 'Scotland',
+    english_language_exempt: true
+  }
+});
+assert.strictEqual(scotlandALevel.eligibility.qualification_route, 'a_level');
+assert.strictEqual(scotlandALevel.eligibility.status, 'eligible');
+assert.strictEqual(scotlandALevel.guidance_pool_id, 'kcl_home_historical_percentile_guidance');
+assert.ok(scotlandALevel.applicant_group_ids.includes('home_fee'));
+assert.ok(scotlandALevel.applicant_group_ids.includes('scotland_domiciled'));
+assertEligibilityCheck(scotlandALevel, 'a_level_route', 'pass', 'Scotland + A levels uses A-level route');
+
+const scottishBelowAab = classifyApplicant(scottishApplicant({
+  scottish_profile: scottishProfile({ higherGrades: ['A', 'B', 'B'] })
+}));
+assert.strictEqual(scottishBelowAab.eligibility.status, 'not_eligible');
+assert.ok(scottishBelowAab.eligibility.failures.includes('scottish_post_16_requirements_not_met'));
+
+const scottishSplitSitting = classifyApplicant(scottishApplicant({
+  scottish_profile: scottishProfile({
+    completedInOneSitting: null,
+    higherSittingIds: ['s5_june', 's5_june', 's6_june']
+  })
+}));
+assert.strictEqual(scottishSplitSitting.eligibility.status, 'not_eligible');
+assert.ok(scottishSplitSitting.eligibility.failures.includes('scottish_post_16_requirements_not_met'));
+
+const scottishAhBiologyBelowA = classifyApplicant(scottishApplicant({
+  scottish_profile: scottishProfile({ ahBiology: 'B' })
+}));
+assert.strictEqual(scottishAhBiologyBelowA.eligibility.status, 'not_eligible');
+assert.ok(scottishAhBiologyBelowA.eligibility.failures.includes('scottish_post_16_requirements_not_met'));
+
+const scottishAhChemistryBelowA = classifyApplicant(scottishApplicant({
+  scottish_profile: scottishProfile({ ahChemistry: 'B' })
+}));
+assert.strictEqual(scottishAhChemistryBelowA.eligibility.status, 'not_eligible');
+assert.ok(scottishAhChemistryBelowA.eligibility.failures.includes('scottish_post_16_requirements_not_met'));
+
+const scottishBioChemOnlyAtHigher = classifyApplicant(scottishApplicant({
+  scottish_profile: scottishProfile({
+    higherSubjects: ['biology', 'chemistry', 'mathematics'],
+    advancedHigherSubjects: [
+      { subject_id: 'physics', achieved_grade: 'A' },
+      { subject_id: 'history', achieved_grade: 'A' }
+    ]
+  })
+}));
+assert.strictEqual(scottishBioChemOnlyAtHigher.eligibility.status, 'not_eligible');
+assert.ok(scottishBioChemOnlyAtHigher.eligibility.failures.includes('scottish_post_16_requirements_not_met'));
+
+const scottishCannotDoubleCountHigherAhSubjects = classifyApplicant(scottishApplicant({
+  scottish_profile: scottishProfile({
+    higherSubjects: ['biology', 'chemistry'],
+    higherGrades: ['A', 'A'],
+    higherSittingIds: ['s5', 's5'],
+    advancedHigherSubjects: [
+      { subject_id: 'biology', achieved_grade: 'A' },
+      { subject_id: 'chemistry', achieved_grade: 'A' }
+    ]
+  })
+}));
+assert.strictEqual(scottishCannotDoubleCountHigherAhSubjects.eligibility.status, 'not_eligible');
+assert.ok(scottishCannotDoubleCountHigherAhSubjects.eligibility.failures.includes('scottish_post_16_requirements_not_met'));
+
+const scottishNational5ManualReview = classifyApplicant(scottishApplicant({
+  gcse_profile: undefined,
+  scottish_profile: scottishProfile({
+    national5Subjects: [
+      { subject_id: 'english_language', achieved_grade: 'A' },
+      { subject_id: 'mathematics', achieved_grade: 'A' }
+    ]
+  })
+}));
+assert.strictEqual(scottishNational5ManualReview.eligibility.qualification_route, 'scottish');
+assert.strictEqual(scottishNational5ManualReview.eligibility.status, 'manual_review');
+assert.ok(
+  scottishNational5ManualReview.eligibility.manual_review_reasons.includes('national_5_equivalence_requires_manual_review')
+);
+assertEligibilityCheck(
+  scottishNational5ManualReview,
+  'scottish_post_16_requirements',
+  'pass',
+  'Scottish post-16 can pass while National 5 equivalence needs review'
+);
+
+const belowOfferWithKplus = classifyApplicant({
+  a_level_profile: {
+    subjects: [
+      { subject_id: 'biology', predicted_grade: 'A', practical_endorsement: 'pass' },
+      { subject_id: 'chemistry', predicted_grade: 'A', practical_endorsement: 'pass' },
+      { subject_id: 'mathematics', predicted_grade: 'B' }
+    ]
+  },
+  contextual_profile: {
+    access_programmes: {
+      participation_status: 'yes',
+      other_programmes: [
+        { programme_id: 'kcl_k_plus', status: 'completed' }
+      ]
+    }
+  }
+});
+assert.strictEqual(belowOfferWithKplus.eligibility.status, 'not_eligible');
+assert.ok(belowOfferWithKplus.eligibility.failures.includes('a_level_requirements_not_met'));
+assert.strictEqual(belowOfferWithKplus.eligibility.contextual_eligibility.status, 'contextual');
+
+const validIb = classifyApplicant(ibApplicant());
+assert.strictEqual(validIb.eligibility.qualification_route, 'international_baccalaureate');
+assert.strictEqual(validIb.eligibility.status, 'eligible');
+assertEligibilityCheck(validIb, 'ib_route', 'pass', 'Existing valid IB scenario');
+
+assertRecognisedContextual(
+  classifyApplicant({
+    contextual_profile: {
+      access_programmes: {
+        participation_status: 'yes',
+        other_programmes: [
+          { programme_id: 'kcl_k_plus', status: 'completed' }
+        ]
+      }
+    }
+  }),
+  'kcl_wp_programme',
+  'Valid K+ evidence'
+);
+assertRecognisedContextual(
+  classifyApplicant({
+    contextual_profile: {
+      access_programmes: {
+        participation_status: 'yes',
+        other_programmes: [
+          { programme_id: 'kcl_wp_programme', status: 'participating', programme_specific_conditions_met: true }
+        ]
+      }
+    }
+  }),
+  'kcl_wp_programme',
+  'Validated current KCL WP programme evidence'
+);
+assertRecognisedContextual(
+  classifyApplicant({
+    contextual_profile: {
+      financial_support: {
+        free_school_meals: 'yes'
+      }
+    }
+  }),
+  'free_school_meals',
+  'Valid FSM evidence'
+);
+assertRecognisedContextual(
+  classifyApplicant({
+    contextual_profile: {
+      personal_circumstances: {
+        care_experienced: 'yes'
+      }
+    }
+  }),
+  'care_experienced',
+  'Valid care-experience evidence'
+);
+assertRecognisedContextual(
+  classifyApplicant({
+    contextual_profile: {
+      personal_circumstances: {
+        estranged_from_family: 'yes'
+      }
+    }
+  }),
+  'estranged',
+  'Valid estrangement evidence'
+);
+assertRecognisedContextual(
+  classifyApplicant({
+    contextual_profile: {
+      access_programmes: {
+        participation_status: 'yes',
+        other_programmes: [
+          { programme_id: 'intouniversity', status: 'completed' }
+        ]
+      }
+    }
+  }),
+  'intouniversity',
+  'Valid IntoUniversity evidence'
+);
+assertProgrammeEvidenceNeedsReview(
+  classifyApplicant({
+    contextual_profile: {
+      access_programmes: {
+        participation_status: 'yes',
+        other_programmes: [
+          { programme_id: 'intouniversity', status: 'participating' }
+        ]
+      }
+    }
+  }),
+  'intouniversity',
+  'IntoUniversity participation without qualifying-course evidence'
+);
+for (const bareProgrammeStatus of ['participating', 'current', 'enrolled', 'accepted', 'offered']) {
+  assertProgrammeEvidenceNeedsReview(
+    classifyApplicant({
+      contextual_profile: {
+        access_programmes: {
+          participation_status: 'yes',
+          other_programmes: [
+            { programme_id: 'kcl_k_plus', status: bareProgrammeStatus }
+          ]
+        }
+      }
+    }),
+    'kcl_wp_programme',
+    `Bare KCL programme status ${bareProgrammeStatus}`
+  );
+  assertProgrammeEvidenceNeedsReview(
+    classifyApplicant({
+      contextual_profile: {
+        access_programmes: {
+          participation_status: 'yes',
+          other_programmes: [
+            { programme_id: 'intouniversity', status: bareProgrammeStatus }
+          ]
+        }
+      }
+    }),
+    'intouniversity',
+    `Bare IntoUniversity programme status ${bareProgrammeStatus}`
+  );
+}
+assertRecognisedContextual(
+  classifyApplicant({
+    contextual_profile: {
+      personal_circumstances: {
+        refugee: 'yes'
+      }
+    }
+  }),
+  'forced_displacement',
+  'Valid forced-displacement evidence'
+);
+assertRecognisedContextual(
+  classifyApplicant({
+    contextual_profile: {
+      personal_circumstances: {
+        young_or_adult_carer: 'yes'
+      }
+    }
+  }),
+  'young_adult_carer',
+  'Valid Young Adult Carer evidence'
+);
+
+assertNoCurrentContextualTreatment(
+  classifyApplicant({
+    applicant_identity: {
+      applicant_type: 'standard_school_leaver',
+      fee_status: 'Home',
+      domicile: 'England',
+      english_language_exempt: true,
+      contextual: true
+    }
+  }),
+  'legacy contextual=true only'
+);
+assertNoCurrentContextualTreatment(
+  classifyApplicant({
+    applicant_identity: {
+      applicant_type: 'standard_school_leaver',
+      fee_status: 'Home',
+      domicile: 'England',
+      english_language_exempt: true,
+      widening_participation: true
+    }
+  }),
+  'legacy widening_participation=true only'
+);
+assertNoCurrentContextualTreatment(
+  classifyApplicant({
+    applicant_identity: {
+      applicant_type: 'standard_school_leaver',
+      fee_status: 'Home',
+      domicile: 'England',
+      english_language_exempt: true,
+      contextual_flags: { contextual: true }
+    }
+  }),
+  'legacy contextual_flags.contextual=true only'
+);
+assertNoCurrentContextualTreatment(
+  classifyApplicant({
+    applicant_identity: {
+      applicant_type: 'standard_school_leaver',
+      fee_status: 'Home',
+      domicile: 'England',
+      english_language_exempt: true,
+      contextual_flags: { polar4_quintile_1: true }
+    }
+  }),
+  'POLAR only'
+);
+assertNoCurrentContextualTreatment(
+  classifyApplicant({
+    contextual_profile: {
+      home_area_region: {
+        acorn_quintile: 'q1'
+      }
+    }
+  }),
+  'ACORN only'
+);
+assertNoCurrentContextualTreatment(
+  classifyApplicant({
+    school_quintile: 'lowest',
+    school_quintile_source_status: 'verified'
+  }),
+  'school-quintile only'
+);
+
+const unresolvedContextual = classifyApplicant({
+  contextual_profile: {
+    personal_circumstances: {
+      estranged_from_family: 'prefer_not_to_say'
+    }
+  }
+});
+assert.strictEqual(unresolvedContextual.eligibility.status, 'manual_review');
+assert.strictEqual(unresolvedContextual.eligibility.contextual_eligibility.status, 'information_needed');
+assert.ok(unresolvedContextual.eligibility.manual_review_reasons.includes('kcl_contextual_evidence_requires_review'));
+
+const completedBioscienceGraduate = classifyApplicant({
+  applicant_identity: {
+    applicant_type: 'graduate_applicant',
+    fee_status: 'Home',
+    domicile: 'England',
+    graduate: true,
+    english_language_exempt: true
+  },
+  qualification_route: 'graduate',
+  graduate_profile: {
+    is_graduate: true,
+    degree_status: 'completed',
+    degree_classification: '2_1',
+    degree_subject_area: 'bioscience',
+    biology_content_confirmed: true,
+    chemistry_content_confirmed: true
+  }
+});
+assert.strictEqual(completedBioscienceGraduate.eligibility.qualification_route, 'graduate');
+assert.strictEqual(completedBioscienceGraduate.eligibility.status, 'manual_review');
+assert.ok(completedBioscienceGraduate.eligibility.manual_review_reasons.includes('qualification_route_requires_manual_review:graduate'));
+
+const unclearBioscienceGraduate = classifyApplicant({
+  applicant_identity: {
+    applicant_type: 'graduate_applicant',
+    fee_status: 'Home',
+    domicile: 'England',
+    graduate: true,
+    english_language_exempt: true
+  },
+  qualification_route: 'graduate',
+  graduate_profile: {
+    is_graduate: true,
+    degree_status: 'completed',
+    degree_classification: '2_1',
+    degree_subject_area: 'life_sciences'
+  }
+});
+assert.strictEqual(unclearBioscienceGraduate.eligibility.status, 'manual_review');
+assert.strictEqual(unclearBioscienceGraduate.canonical_interview_band, 'insufficient_evidence');
+
+const completedNonBioscienceGraduate = classifyApplicant({
+  applicant_identity: {
+    applicant_type: 'graduate_applicant',
+    fee_status: 'Home',
+    domicile: 'England',
+    graduate: true,
+    english_language_exempt: true
+  },
+  qualification_route: 'graduate',
+  graduate_profile: {
+    is_graduate: true,
+    degree_status: 'completed',
+    degree_classification: '2_1',
+    degree_subject_area: 'non_bioscience'
+  },
+  a_level_profile: {
+    subjects: [
+      { subject_id: 'biology', achieved_grade: 'A', practical_endorsement: 'pass' },
+      { subject_id: 'chemistry', achieved_grade: 'A', practical_endorsement: 'pass' },
+      { subject_id: 'mathematics', achieved_grade: 'A' }
+    ]
+  }
+});
+assert.strictEqual(completedNonBioscienceGraduate.eligibility.status, 'manual_review');
+assert.ok(completedNonBioscienceGraduate.eligibility.manual_review_reasons.includes('qualification_route_requires_manual_review:graduate'));
+
+for (const [label, graduateProfile] of [
+  ['currently studying another degree', { is_graduate: true, degree_status: 'current', degree_classification: '2_1' }],
+  ['withdrawn degree', { is_graduate: true, degree_status: 'withdrawn', degree_classification: '2_1' }],
+  ['prior HE without award', { is_graduate: true, degree_status: 'prior_he_no_award', degree_classification: null }]
+]) {
+  const result = classifyApplicant({
+    applicant_identity: {
+      applicant_type: 'graduate_applicant',
+      fee_status: 'Home',
+      domicile: 'England',
+      graduate: true,
+      english_language_exempt: true
+    },
+    qualification_route: 'graduate',
+    graduate_profile: graduateProfile
+  });
+  assert.strictEqual(result.eligibility.status, 'manual_review', label);
+  assert.strictEqual(result.canonical_interview_band, 'insufficient_evidence', label);
+}
+
+const mappedInternationalEquivalent = classifyApplicant({
+  applicant_identity: {
+    applicant_type: 'international_standard_school_leaver',
+    fee_status: 'International',
+    domicile: 'International',
+    english_language_exempt: true
+  },
+  qualification_route: 'international_qualification',
+  a_level_profile: undefined,
+  international_qualification: {
+    equivalence_status: 'verified',
+    verified_by_institution: true,
+    requirements_met: true
+  }
+});
+assert.strictEqual(mappedInternationalEquivalent.eligibility.status, 'eligible');
+assert.strictEqual(mappedInternationalEquivalent.guidance_pool_id, 'kcl_international_historical_percentile_guidance');
+
+const unmappedInternationalEquivalent = classifyApplicant({
+  applicant_identity: {
+    applicant_type: 'international_standard_school_leaver',
+    fee_status: 'International',
+    domicile: 'International',
+    english_language_exempt: true
+  },
+  qualification_route: 'international_qualification',
+  a_level_profile: undefined,
+  international_qualification: {
+    equivalence_status: 'unlisted',
+    verified_by_institution: false,
+    requirements_met: null
+  }
+});
+assert.strictEqual(unmappedInternationalEquivalent.eligibility.status, 'manual_review');
+assert.ok(unmappedInternationalEquivalent.eligibility.manual_review_reasons.includes('international_qualification_requires_manual_review'));
+
+const internationalScottish = classifyApplicant(scottishApplicant({
+  applicant_identity: {
+    applicant_type: 'international_standard_school_leaver',
+    fee_status: 'International',
+    domicile: 'International',
+    english_language_exempt: true
+  }
+}));
+assert.strictEqual(internationalScottish.eligibility.qualification_route, 'scottish');
+assert.strictEqual(internationalScottish.eligibility.status, 'eligible');
+assert.strictEqual(internationalScottish.guidance_pool_id, 'kcl_international_historical_percentile_guidance');
+assert.ok(internationalScottish.applicant_group_ids.includes('international_fee'));
+assert.ok(!internationalScottish.applicant_group_ids.includes('home_fee'));
+
+const sjtBand4 = classifyApplicant({
+  admissions_tests: {
+    ucat: {
+      total_score: 2281,
+      score_scale: 2700,
+      national_percentile: 91.28,
+      sjt_band: 4,
+      test_year: 2026,
+      subtests: {
+        verbal_reasoning: 760,
+        decision_making: 760,
+        quantitative_reasoning: 761
+      }
+    }
+  }
+});
+assert.notStrictEqual(sjtBand4.eligibility.status, 'not_eligible');
+assert.ok(!sjtBand4.eligibility.failures.includes('sjt_band_excluded'));
+assert.notStrictEqual(sjtBand4.canonical_interview_band, 'not_eligible');
+
 const presented = presentResultCard({
   eligibilityStatus: cleanClassification.eligibility.status,
   interviewBand: cleanClassification.canonical_interview_band,
@@ -539,11 +1176,11 @@ const presented = presentResultCard({
   }
 });
 assert.ok(presented.primary_user_facing_recommendation);
-assert.strictEqual(presented.primary_user_facing_recommendation, 'Strong interview outlook');
+assert.strictEqual(presented.primary_user_facing_recommendation, 'Strong choice for your application');
 assert.strictEqual(presented.prediction.result_band, 'interview_likely');
 assert.strictEqual(
   presented.primary_explanation,
-  "Your academic profile meets King's College London's entry requirements, and your UCAT performance is above the range seen in applicants historically invited to interview. Based on King's published selection approach and available admissions evidence, your application is assessed as a Strong Choice for interview consideration."
+  "Based on ApplySmart's assessment, your selection score appears competitive for this applicant group."
 );
 assert.strictEqual(
   presented.trust_statement,
@@ -591,7 +1228,7 @@ for (const [label, publicCard] of [
   }
 }
 assert.strictEqual(card.prediction.result_band, 'interview_likely');
-assert.strictEqual(card.display.primary_user_facing_recommendation, 'Strong interview outlook');
+assert.strictEqual(card.display.primary_user_facing_recommendation, 'Strong choice for your application');
 assert.match(card.display.trust_statement, /not a guarantee of interview/);
 
 const indexEntry = index.universities.find((entry) => entry.id === profileId);

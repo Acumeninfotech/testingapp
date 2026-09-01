@@ -163,11 +163,11 @@ contextualApplicant.applicant_identity.contextual_status_confirmed = true;
 const contextual = evaluate(contextualApplicant);
 assert.strictEqual(
   contextual.interview_band_guidance.guidance_group,
-  'contextual_or_widening_participation'
+  'home_standard'
 );
 assert.strictEqual(
   contextual.interview_band_guidance.guidance_label,
-  'guidance-only: historically competitive range'
+  'guidance-only: below the supplied historical guidance'
 );
 
 const band4Applicant = clone(baseApplicant());

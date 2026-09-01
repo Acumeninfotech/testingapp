@@ -99,11 +99,25 @@ const UNIVERSITIES_STEP: WizardStepConfig = {
 };
 const REVIEW_STEP: WizardStepConfig = { id: 'review', title: 'Review your profile', Component: ReviewStep, validate: () => ({}) };
 
+// Static default (a_level route, no English language step) — kept for
+// callers that need a step list before a profile exists.
+export const WIZARD_STEPS: WizardStepConfig[] = getWizardSteps({
+  course_target: { qualification_route: 'a_level' },
+  applicant_identity: { fee_status: '' },
+} as WizardProfile);
+
 export function getWizardSteps(profile: WizardProfile): WizardStepConfig[] {
   const route = profile.course_target.qualification_route || 'a_level';
   const routeSteps = ROUTE_STEP[route] ?? ROUTE_STEP.a_level;
+  const includeGcseStep = route !== 'scottish';
 
-  const steps: WizardStepConfig[] = [IDENTITY_STEP, ROUTE_SELECT_STEP, GCSE_STEP, ...routeSteps, UCAT_STEP];
+  const steps: WizardStepConfig[] = [
+    IDENTITY_STEP,
+    ROUTE_SELECT_STEP,
+    ...(includeGcseStep ? [GCSE_STEP] : []),
+    ...routeSteps,
+    UCAT_STEP,
+  ];
 
   if (requiresEnglishLanguageEvidence(profile)) {
     steps.push(ENGLISH_LANGUAGE_STEP);

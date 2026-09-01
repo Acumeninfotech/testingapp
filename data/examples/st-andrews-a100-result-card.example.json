@@ -122,7 +122,7 @@
     "interview_prediction": true,
     "historical_guidance": true,
     "international_prediction": true,
-    "contextual_logic": false,
+    "contextual_logic": true,
     "result_card": true,
     "regression": true,
     "research_completeness": "complete_for_supported_scope_with_documented_gaps",
@@ -555,7 +555,8 @@
       "standrews_verified_research_update_2026_06_29",
       "standrews_verified_international_contextual_update_2026_07_02",
       "applysmart_historical_normalised_prediction_methodology_v1_0"
-    ]
+    ],
+    "ranking_metric": "ucat_total"
   },
   "missing_data": {
     "target_cycle_rule_confirmation": "not_confirmed_for_every_detailed_rule",
@@ -636,8 +637,8 @@
     "subheadline": "International historical guidance; low confidence",
     "primary_user_facing_recommendation": "Possible choice for your application",
     "recommendation_display_state": "standard",
-    "primary_explanation": "Based on ApplySmart's assessment, your academic profile may be competitive for this applicant group.",
-    "historical_guidance_caveat": "Interview thresholds may change each admissions cycle depending on applicant competition and interview capacity. Historical figures are guidance only, not a current cut-off, and do not guarantee an interview.",
+    "primary_explanation": "Based on ApplySmart's assessment, your UCAT score may be competitive for this applicant group.",
+    "historical_guidance_caveat": "Historical admissions data provides a benchmark only; it is not a current cut-off or a guarantee of interview.",
     "badges": [
       "Restricted eligibility scope",
       "Manual hurdles confirmed",
@@ -667,86 +668,111 @@
       "step": 3,
       "title": "Selection model applied",
       "status": "Complete",
-      "summary": "Academic, reference and experience hurdles were checked before UCAT ranking."
+      "summary": "St Andrews checks academic, reference and relevant-experience hurdles first, then ranks eligible applicants by UCAT Global Score."
     },
     {
       "step": 4,
       "title": "Historical guidance compared",
       "status": "Complete",
-      "summary": "Your result was compared with interview information from previous admissions cycles. Interview thresholds may change each admissions cycle depending on applicant competition and interview capacity. Historical figures are guidance only, not a current cut-off, and do not guarantee an interview."
+      "summary": "UCAT: 1970 - within the historical interview range of 1950-1994. Historical admissions data provides a benchmark only; it is not a current cut-off or a guarantee of interview."
     },
     {
       "step": 5,
       "title": "Interview recommendation produced",
       "status": "Realistic Choice",
-      "summary": "Based on ApplySmart's assessment, your academic profile may be competitive for this applicant group. Treat this as guidance for university choice, not a promised interview."
+      "summary": "Based on ApplySmart's assessment, your UCAT score may be competitive for this applicant group. Treat this as guidance for university choice, not a promised interview."
     }
   ],
   "decision_transparency": {
+    "factor_usage": [
+      {
+        "factor_id": "ucat",
+        "label": "UCAT",
+        "role": "ranking",
+        "detail": "Used for ranking in the university’s selection process.",
+        "evidence_status": "available"
+      },
+      {
+        "factor_id": "gcse",
+        "label": "GCSEs",
+        "role": "unknown",
+        "detail": "GCSEs are part of the university’s academic review.",
+        "evidence_status": "available"
+      },
+      {
+        "factor_id": "a_level",
+        "label": "A-levels",
+        "role": "unknown",
+        "detail": "Used as part of the university’s academic review.",
+        "evidence_status": "available"
+      },
+      {
+        "factor_id": "sjt",
+        "label": "SJT",
+        "role": "not_used",
+        "detail": "SJT is not used for interview selection.",
+        "evidence_status": "not_applicable"
+      }
+    ],
     "decision_path": [
       {
         "stage": "Eligibility",
         "status": "Met",
-        "summary": "The represented applicant passes the executable core A-level and UCAT-presence checks and explicitly confirms the non-executable hurdles required for this restricted example. This is not a complete automated St Andrews eligibility determination.",
+        "summary": "The supported entry requirements are met.",
         "checks": [
           {
-            "label": "GCSE profile",
-            "status": "Confirmed",
-            "summary": "Normally at least five GCSEs at grade A/7 in one sitting. Applicant information: Seven GCSEs at grade 7 or above; one sitting confirmed."
-          },
-          {
-            "label": "Conditional GCSE or AS requirements",
-            "status": "Confirmed",
-            "summary": "Biology or Human Biology, Mathematics and English requirements apply at GCSE or AS where the relevant subject is absent from the three A-levels. Applicant information: Biology and Mathematics are included at A-level; GCSE English Language grade 7 is present."
-          },
-          {
-            "label": "A-level requirements",
+            "label": "Entry requirements",
             "status": "Met",
-            "summary": "AAA including Chemistry and one of Biology, Human Biology, Mathematics or Physics. Applicant information: Predicted AAA in Chemistry, Biology and Mathematics."
-          },
-          {
-            "label": "A-level timing and sitting",
-            "status": "Confirmed",
-            "summary": "The three required A-levels must be studied over two years, completed in Year 13 and taken at the same examination sitting. Applicant information: Two-year study and same sitting confirmed."
+            "summary": "The supported entry requirements have been assessed."
           }
         ]
       },
       {
         "stage": "Selection model",
         "status": "Assessed",
-        "summary": "International applicants who pass the academic, reference and required work-experience hurdles are ranked by UCAT Global Score only. UCAT 1970 maps to the realistic historical competitiveness band; this is not an official cut-off or current threshold.",
+        "summary": "St Andrews checks academic, reference and relevant-experience hurdles first, then ranks eligible applicants by UCAT Global Score.",
         "checks": [
           {
             "label": "Applicant pool",
             "status": "Used",
-            "summary": "The applicant group matching the supplied fee status and entry route"
+            "summary": "International applicants"
           },
           {
-            "label": "UCAT total entered",
-            "status": "Used for ranking",
-            "summary": "1970 out of [object Object]."
+            "label": "UCAT",
+            "status": "Within",
+            "summary": "UCAT: 1970 - within the historical interview range of 1950-1994."
           },
           {
-            "label": "SJT band",
-            "status": "On file",
-            "summary": "Band 2."
+            "label": "SJT requirement",
+            "status": "Ignored",
+            "summary": "Band 2 - not used for interview selection."
           },
           {
             "label": "Selection approach",
             "status": "Ranking/cut-off based",
-            "summary": "International applicants who pass the academic, reference and required work-experience hurdles are ranked by UCAT Global Score only. UCAT 1970 maps to the realistic historical competitiveness band; this is not an official cut-off or current threshold."
+            "summary": "St Andrews checks academic, reference and relevant-experience hurdles first, then ranks eligible applicants by UCAT Global Score."
           }
         ]
       },
       {
         "stage": "Historical guidance",
         "status": "Guidance available",
-        "summary": "The result was assessed using the available admissions evidence for this applicant group. Historical admissions data provides a benchmark only; it is not a current cut-off or a guarantee of interview.",
+        "summary": "UCAT: 1970 - within the historical interview range of 1950-1994. Historical admissions data provides a benchmark only; it is not a current cut-off or a guarantee of interview.",
         "checks": [
           {
             "label": "Applicant pool",
             "status": "Used",
-            "summary": "The applicant group matching the supplied fee status and entry route"
+            "summary": "International applicants"
+          },
+          {
+            "label": "UCAT comparison",
+            "status": "Compared",
+            "summary": "UCAT: 1970 - within the historical interview range of 1950-1994."
+          },
+          {
+            "label": "International Fee",
+            "status": "Historical",
+            "summary": "~303 applicants, ~123 interviewed, ~105 offers."
           },
           {
             "label": "Important limitation",
@@ -758,14 +784,14 @@
       {
         "stage": "Recommendation",
         "status": "Guidance only",
-        "summary": "Based on ApplySmart's assessment, your academic profile may be competitive for this applicant group. Treat this as guidance for university choice, not a promised interview.",
+        "summary": "Based on ApplySmart's assessment, your UCAT score may be competitive for this applicant group. Treat this as guidance for university choice, not a promised interview.",
         "checks": []
       }
     ],
     "key_reasons": [
-      "The represented applicant passes the executable core A-level and UCAT-presence checks and explicitly confirms the non-executable hurdles required for this restricted example. This is not a complete automated St Andrews eligibility determination.",
-      "The result uses The applicant group matching the supplied fee status and entry route.",
-      "International applicants who pass the academic, reference and required work-experience hurdles are ranked by UCAT Global Score only. UCAT 1970 maps to the realistic historical competitiveness band; this is not an official cut-off or current threshold."
+      "The supported entry requirements are met.",
+      "The result uses International applicants.",
+      "Your UCAT score is within the historical interview range for this applicant group."
     ],
     "evidence_used": [
       "Official admissions policy",
@@ -784,19 +810,64 @@
     },
     "warnings": [],
     "manual_review_reason": null,
-    "insufficient_evidence_reason": null,
-    "insufficient_evidence_reason_code": null,
+    "manual_review_reason_code": null,
+    "information_needed_reason": null,
+    "missing_information": null,
+    "risk_explanation": null,
     "compact_status": {
       "label": "You meet the academic requirements.",
       "type": "academic_status",
       "tone": "positive"
     },
     "comparison_metrics_title": null,
-    "comparison_metrics": [],
-    "selection_approach_display": null,
-    "selection_metric": null,
+    "comparison_metrics": [
+      {
+        "label": "historical interview range",
+        "value": "1950-1994",
+        "difference": "+20"
+      }
+    ],
+    "selection_approach_display": "St Andrews checks academic, reference and relevant-experience hurdles first, then ranks eligible applicants by UCAT Global Score.",
+    "selection_metric": {
+      "type": "ucat",
+      "label": "Your UCAT score",
+      "applicant_value": 1970,
+      "comparison_value": 1950,
+      "comparison_max_value": 1994,
+      "comparison_label": "historical interview range",
+      "comparison_label_type": "historical_interview_guide",
+      "comparison_context": null,
+      "difference": 20,
+      "difference_direction": "above",
+      "difference_word": "range",
+      "maximum_value": 2700,
+      "display_mode": "comparison",
+      "display_eligibility": true,
+      "entry_year": null,
+      "caveat": "Historical admissions data provides a benchmark only; it is not a current cut-off or a guarantee of interview."
+    },
     "score_breakdown": null,
-    "ucat_comparison": null
+    "ucat_comparison": {
+      "comparison_type": "historical_range",
+      "applicant_ucat": 1970,
+      "benchmark_min": 1950,
+      "benchmark_max": 1994,
+      "comparison_operator": null,
+      "benchmark_label": "historical interview range",
+      "caveat": "Historical admissions data provides a benchmark only; it is not a current cut-off or a guarantee of interview.",
+      "evidence_status": null,
+      "evidence_classification": null,
+      "prediction_band": null,
+      "difference_from_benchmark": null,
+      "position": "within",
+      "applicant_pool": "International applicants",
+      "sjt_policy": "SJT is excluded from pre-interview UCAT Global Score ranking and no automatic Band 4 rejection is stated. Historical archived wording about interview-score contribution is not implemented.",
+      "sjt_outcome": "ignored",
+      "sjt_summary": "Band 2 - not used for interview selection.",
+      "applicant_sjt_band": 2,
+      "official_ucat_minimum": null
+    },
+    "ucat_adjustment": null
   },
   "engine_notes": {
     "generated_from_profile_id": "st-andrews-a100",
@@ -865,18 +936,18 @@
     "adjusted_ucat_for_interview_ranking": 2090,
     "uplift_applies_to": "interview_ranking_only",
     "official_ucat_result_remains": 1900,
-    "guidance_pool_id": null,
-    "interview_band": "insufficient_evidence",
+    "guidance_pool_id": "scottish_home_contextual_school_leaver",
+    "interview_band": "interview_likely",
     "separate_contextual_ranking_pool_created": false,
     "separate_contextual_interview_threshold": null,
-    "status_message": "The verified 10% uplift gives an adjusted interview-ranking score of 2090. No contextual interview band is shown because no separate contextual threshold or prior-cycle interview-stage UCAT data are published; no threshold is inferred.",
+    "status_message": "The verified 10% uplift gives an adjusted interview-ranking score of 2090. ApplySmart presents UCAT-ranking guidance for the Scotland contextual route using historical Scotland UCAT bands; this is not a St Andrews-published contextual threshold or guarantee.",
     "source_ids": [
       "standrews_ucat_policy",
       "standrews_verified_international_contextual_update_2026_07_02"
     ]
   },
   "primary_user_facing_recommendation": "Possible choice for your application",
-  "primary_explanation": "Based on ApplySmart's assessment, your academic profile may be competitive for this applicant group.",
+  "primary_explanation": "Based on ApplySmart's assessment, your UCAT score may be competitive for this applicant group.",
   "recommendation_display_state": "standard",
   "trust_statement": null,
   "historical_guidance_caveat": "Historical admissions data provides a benchmark only; it is not a current cut-off or a guarantee of interview."

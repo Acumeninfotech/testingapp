@@ -227,15 +227,86 @@
           "biology",
           "chemistry"
         ],
+        "grade_requirements": [
+          {
+            "requirement_id": "kcl_ib_38_19hl_biology_chemistry_6",
+            "total_points": 38,
+            "hl_points": 19,
+            "hl_grade_profile": [
+              "6",
+              "6",
+              "5"
+            ],
+            "required_hl_subject_ids": [
+              "biology",
+              "chemistry"
+            ],
+            "subject_grade_requirements": [
+              {
+                "subject_id": "biology",
+                "minimum_grade": "6"
+              },
+              {
+                "subject_id": "chemistry",
+                "minimum_grade": "6"
+              }
+            ],
+            "decision_outcome_if_not_met": "not_eligible",
+            "source_ids": [
+              "S2"
+            ]
+          }
+        ],
         "notes": "38 overall or aggregate 19 from three HLs, including HL Biology and HL Chemistry at grade 6. The total includes TOK/EE."
       },
       "scottish": {
         "status": "official_source_verified",
+        "route_implemented": true,
         "higher_offer": "AAB in one sitting",
         "advanced_higher_offer": "AA",
         "required_subjects": [
           "biology",
           "chemistry"
+        ],
+        "national_5_equivalence": {
+          "execution_status": "manual_review",
+          "manual_review_reason": "national_5_equivalence_requires_manual_review",
+          "notes": "King's Medicine A100 publishes GCSE English Language and Mathematics 6/B, but no current Medicine-specific National 5 grade equivalence was validated. Do not infer National 5 B = GCSE 6/B."
+        },
+        "grade_requirements": [
+          {
+            "requirement_id": "kcl_scottish_higher_aab_advanced_higher_biology_chemistry_a",
+            "qualification_level": "scottish_highers_and_advanced_highers",
+            "higher_grade_profile": [
+              "A",
+              "A",
+              "B"
+            ],
+            "same_sitting_required": true,
+            "same_sitting_qualification_level": "higher",
+            "advanced_higher_grade_profile": [
+              "A",
+              "A"
+            ],
+            "advanced_higher_required_subject_ids": [
+              "biology",
+              "chemistry"
+            ],
+            "advanced_higher_subject_grade_requirements": [
+              {
+                "subject_id": "biology",
+                "minimum_grade": "A"
+              },
+              {
+                "subject_id": "chemistry",
+                "minimum_grade": "A"
+              }
+            ],
+            "decision_outcome_if_not_met": "not_eligible",
+            "source_ids": [
+              "S2"
+            ]
+          }
         ],
         "notes": "Grade A at Advanced Higher in both Chemistry and Biology. Higher and Advanced Higher in the same subject are not double-counted."
       },
@@ -447,6 +518,49 @@
     "verification_status": "official_and_foi_partially_verified",
     "contextual_offers_made": false,
     "contextual_information_used": true,
+    "contextual_eligibility": {
+      "evaluator_id": "kcl_contextual_medicine_a100",
+      "controls_group_routing": true,
+      "any_group_ids": [
+        "contextual",
+        "widening_participation",
+        "care_experienced",
+        "care_leaver",
+        "free_school_meals",
+        "estranged_from_family",
+        "young_carer",
+        "young_adult_carer",
+        "unpaid_carer",
+        "carer",
+        "refugee",
+        "asylum_seeker",
+        "refugee_or_asylum_seeker",
+        "polar4_quintile_1",
+        "polar4_quintile_2",
+        "polar_quintile_1",
+        "polar_quintile_2",
+        "acorn",
+        "school_quintile"
+      ],
+      "criteria": [
+        "K+",
+        "Free School Meals",
+        "care experience / care-leaver evidence",
+        "estrangement",
+        "qualifying King's widening-participation programmes",
+        "IntoUniversity where applicable",
+        "forced displacement",
+        "Young Adult Carer"
+      ],
+      "recognition_outcome": "contextual_additional_consideration_only",
+      "does_not_create": [
+        "contextual_reduced_offer",
+        "contextual_points",
+        "contextual_ucat_reduction",
+        "contextual_gcse_uplift",
+        "guaranteed_interview"
+      ]
+    },
     "source_ids": [
       "S2",
       "S6"
@@ -465,9 +579,13 @@
     ],
     "criteria": [
       "K+",
-      "care-leaver status",
-      "POLAR indicators",
-      "ACORN indicators"
+      "Free School Meals",
+      "care experience / care-leaver evidence",
+      "estrangement",
+      "qualifying King's widening-participation programmes",
+      "IntoUniversity where applicable",
+      "forced displacement",
+      "Young Adult Carer"
     ],
     "adjustments": [
       "2022 FOI: up to 20 WP points and GCSE school-quintile adjustment"

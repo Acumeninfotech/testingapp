@@ -108,7 +108,7 @@
   "stage_2_selection": {
     "verification_status": "official_exeter_score_verified",
     "primary_model": "academic_plus_ucat_weighting",
-    "summary": "Exeter ranks direct school leavers using the official Exeter Score: grade profile plus UCAT decile, with +10 for achieved grades and +5 for WP/contextual eligibility. This example is non-contextual and predicted, so neither uplift is added.",
+    "summary": "Exeter ranks direct school leavers using the official Exeter Score: grade profile plus UCAT decile, with +10 for achieved grades where evidenced. This example is non-contextual and predicted, so no achieved-grade uplift is added. Contextual treatment is handled through AAB academic eligibility only.",
     "represented_ranking_input": {
       "score": 70,
       "max": 90,
@@ -138,12 +138,6 @@
         "label": "Achieved-grade uplift",
         "calculation_status": "calculated",
         "notes": "0/10 because the applicant is predicted, not achieved."
-      },
-      {
-        "factor_id": "wp_contextual_uplift",
-        "label": "Contextual uplift",
-        "calculation_status": "calculated",
-        "notes": "0/5 because the applicant is not WP/contextual. Contextual applicants receive the +5 score uplift only; ApplySmart does not also lower the threshold."
       }
     ],
     "selection_adjustments": [],
@@ -218,8 +212,8 @@
   "display": {
     "primary_user_facing_recommendation": "Possible choice for your application",
     "recommendation_display_state": "standard",
-    "primary_explanation": "Based on ApplySmart's assessment, your academic profile may be competitive for this applicant group.",
-    "historical_guidance_caveat": "Interview thresholds may change each admissions cycle depending on applicant competition and interview capacity. Historical figures are guidance only, not a current cut-off, and do not guarantee an interview.",
+    "primary_explanation": "Based on ApplySmart's assessment, your academic profile and UCAT may be competitive for this applicant group.",
+    "historical_guidance_caveat": "Historical admissions data provides a benchmark only; it is not a current cut-off or a guarantee of interview.",
     "headline": "Possible choice for your application"
   },
   "decision_timeline": [
@@ -239,76 +233,107 @@
       "step": 3,
       "title": "Selection model applied",
       "status": "Complete",
-      "summary": "The official Exeter Score was applied, combining grade-profile points, UCAT national-decile points and verified achieved-grade or contextual/WP uplifts."
+      "summary": "Home direct school-leaver applicants are ranked using the Exeter Score, combining academic profile, UCAT decile and any verified achieved-grade uplift. Contextual treatment is handled as AAB academic eligibility only."
     },
     {
       "step": 4,
       "title": "Historical guidance compared",
       "status": "Complete",
-      "summary": "Your selection score is 4 points below the recent interview threshold of 74 for this applicant pool. This result does not mean the threshold was met. It was compared with interview information from previous admissions cycles. Interview thresholds may change each admissions cycle depending on applicant competition and interview capacity. Historical figures are guidance only, not a current cut-off, and do not guarantee an interview."
+      "summary": "Your selection score is 4 points below the historical score guide of 74 for this applicant pool. This result does not mean the comparison point was met. It was compared with historical admissions data. Historical admissions data provides a benchmark only; it is not a current cut-off or a guarantee of interview."
     },
     {
       "step": 5,
       "title": "Interview recommendation produced",
       "status": "Realistic Choice",
-      "summary": "Based on ApplySmart's assessment, your academic profile may be competitive for this applicant group. Treat this as guidance for university choice, not a promised interview."
+      "summary": "Based on ApplySmart's assessment, your academic profile and UCAT may be competitive for this applicant group. Treat this as guidance for university choice, not a promised interview."
     }
   ],
   "decision_transparency": {
+    "factor_usage": [
+      {
+        "factor_id": "ucat",
+        "label": "UCAT",
+        "role": "ranking",
+        "detail": "Used for ranking in the university’s selection process.",
+        "evidence_status": "available",
+        "applicant_value": 2220
+      },
+      {
+        "factor_id": "gcse",
+        "label": "GCSEs",
+        "role": "eligibility",
+        "detail": "Used as an academic eligibility requirement.",
+        "evidence_status": "available"
+      },
+      {
+        "factor_id": "a_level",
+        "label": "A-levels",
+        "role": "unknown",
+        "detail": "Used as part of the university’s academic review.",
+        "evidence_status": "available"
+      },
+      {
+        "factor_id": "sjt",
+        "label": "SJT",
+        "role": "not_used",
+        "detail": "SJT is not used for interview selection.",
+        "evidence_status": "not_applicable"
+      }
+    ],
     "decision_path": [
       {
         "stage": "Eligibility",
         "status": "Met",
-        "summary": "The represented Home predicted A-level direct school-leaver meets Exeter's supported GCSE, A-level and UCAT eligibility checks. SJT Band 4 is not used by Exeter for shortlisting.",
+        "summary": "The supported entry requirements are met.",
         "checks": [
           {
-            "label": "GCSE English Language",
+            "label": "Entry requirements",
             "status": "Met",
-            "summary": "GCSE English Language grade B/6. Applicant information: English Language 7."
-          },
-          {
-            "label": "A-level threshold and subjects",
-            "status": "Met",
-            "summary": "A*AA including grade A in Biology and Chemistry. Applicant information: Predicted A*AA including Biology and Chemistry."
-          },
-          {
-            "label": "UCAT",
-            "status": "Met",
-            "summary": "UCAT required for direct school leavers. Applicant information: UCAT 2220/2700."
-          },
-          {
-            "label": "SJT",
-            "status": "Met",
-            "summary": "SJT is not used as an Exeter shortlisting gate. Applicant information: Band 4 supplied; not excluded."
+            "summary": "The supported entry requirements have been assessed."
           }
         ]
       },
       {
         "stage": "Selection model",
         "status": "Assessed",
-        "summary": "Exeter ranks direct school leavers using the official Exeter Score: grade profile plus UCAT decile, with +10 for achieved grades and +5 for WP/contextual eligibility. This example is non-contextual and predicted, so neither uplift is added.",
+        "summary": "Home direct school-leaver applicants are ranked using the Exeter Score, combining academic profile, UCAT decile and any verified achieved-grade uplift. Contextual treatment is handled as AAB academic eligibility only.",
         "checks": [
           {
             "label": "Applicant pool",
             "status": "Used",
-            "summary": "The applicant group matching the supplied fee status and entry route"
+            "summary": "Home, Rest of UK applicants"
           },
           {
-            "label": "Selection approach",
-            "status": "Ranking/cut-off based",
-            "summary": "Exeter ranks direct school leavers using the official Exeter Score: grade profile plus UCAT decile, with +10 for achieved grades and +5 for WP/contextual eligibility. This example is non-contextual and predicted, so neither uplift is added."
+            "label": "Grade profile score",
+            "status": "Counted",
+            "summary": "38 out of 58."
+          },
+          {
+            "label": "UCAT score",
+            "status": "Counted",
+            "summary": "32 out of 32."
+          },
+          {
+            "label": "Achieved-grade uplift",
+            "status": "Counted",
+            "summary": "0 out of 10."
+          },
+          {
+            "label": "Selection score guide",
+            "status": "Below guide",
+            "summary": "Your selection score is 4 points below the historical score guide of 74 for this applicant pool. This result does not mean the comparison point was met."
           }
         ]
       },
       {
         "stage": "Historical guidance",
         "status": "Guidance available",
-        "summary": "The result was assessed using the available admissions evidence for this applicant group. Historical admissions data provides a benchmark only; it is not a current cut-off or a guarantee of interview.",
+        "summary": "Your selection score is 4 points below the historical score guide of 74 for this applicant pool. This result does not mean the comparison point was met. Historical admissions data provides a benchmark only; it is not a current cut-off or a guarantee of interview.",
         "checks": [
           {
             "label": "Applicant pool",
             "status": "Used",
-            "summary": "The applicant group matching the supplied fee status and entry route"
+            "summary": "Home, Rest of UK applicants"
           },
           {
             "label": "Important limitation",
@@ -320,14 +345,14 @@
       {
         "stage": "Recommendation",
         "status": "Guidance only",
-        "summary": "Based on ApplySmart's assessment, your academic profile may be competitive for this applicant group. Treat this as guidance for university choice, not a promised interview.",
+        "summary": "Based on ApplySmart's assessment, your academic profile and UCAT may be competitive for this applicant group. Treat this as guidance for university choice, not a promised interview.",
         "checks": []
       }
     ],
     "key_reasons": [
-      "The represented Home predicted A-level direct school-leaver meets Exeter's supported GCSE, A-level and UCAT eligibility checks. SJT Band 4 is not used by Exeter for shortlisting.",
-      "The result uses The applicant group matching the supplied fee status and entry route.",
-      "Exeter ranks direct school leavers using the official Exeter Score: grade profile plus UCAT decile, with +10 for achieved grades and +5 for WP/contextual eligibility. This example is non-contextual and predicted, so neither uplift is added."
+      "The supported entry requirements are met.",
+      "The result uses Home, Rest of UK applicants.",
+      "Your selection score is 4 points below the historical score guide of 74 for this applicant pool. This result does not mean the comparison point was met."
     ],
     "evidence_used": [
       "Official admissions policy",
@@ -346,50 +371,72 @@
     },
     "warnings": [],
     "manual_review_reason": null,
-    "insufficient_evidence_reason": null,
-    "insufficient_evidence_reason_code": null,
+    "manual_review_reason_code": null,
+    "information_needed_reason": null,
+    "missing_information": null,
+    "risk_explanation": null,
     "compact_status": {
       "label": "You meet the academic requirements.",
       "type": "academic_status",
       "tone": "positive"
     },
     "comparison_metrics_title": null,
-    "comparison_metrics": [],
-    "selection_approach_display": null,
-    "selection_metric": null,
+    "comparison_metrics": [
+      {
+        "label": "historical score guide",
+        "value": "74",
+        "difference": "-4"
+      }
+    ],
+    "selection_approach_display": "Home direct school-leaver applicants are ranked using the Exeter Score, combining academic profile, UCAT decile and any verified achieved-grade uplift. Contextual treatment is handled as AAB academic eligibility only.",
+    "selection_metric": {
+      "type": "selection_score",
+      "label": "Selection score",
+      "applicant_value": 70,
+      "comparison_value": 74,
+      "comparison_max_value": null,
+      "comparison_label": "historical score guide",
+      "comparison_label_type": "historical_interview_guide",
+      "comparison_context": "Exeter Score",
+      "difference": -4,
+      "difference_direction": "below",
+      "difference_word": "benchmark",
+      "maximum_value": 90,
+      "display_mode": "score",
+      "display_eligibility": true,
+      "entry_year": null,
+      "caveat": "Historical admissions data provides a benchmark only; it is not a current cut-off or a guarantee of interview."
+    },
     "score_breakdown": {
       "name": "Exeter Score",
       "value": 70,
       "max": 90,
       "status": "calculated",
-      "explanation": null,
+      "explanation": "Official Exeter Score for direct school leavers: grade-profile base score plus UCAT national-decile points and achieved-grade uplift. The historical contextual/WP score uplift is not retained as executable 2027 policy.",
       "checks": [
         {
           "label": "Grade profile score",
           "status": "Counted",
-          "summary": "Predicted A*AA maps to 38 base points before UCAT decile contribution."
+          "summary": "38 out of 58."
         },
         {
-          "label": "UCAT decile score",
+          "label": "UCAT score",
           "status": "Counted",
-          "summary": "UCAT 2220 is mapped through the shared national UCAT decile lookup and contributes 32 points."
+          "summary": "32 out of 32."
         },
         {
           "label": "Achieved-grade uplift",
           "status": "Counted",
-          "summary": "0/10 because the applicant is predicted, not achieved."
-        },
-        {
-          "label": "Contextual uplift",
-          "status": "Counted",
-          "summary": "0/5 because the applicant is not WP/contextual. Contextual applicants receive the +5 score uplift only; ApplySmart does not also lower the threshold."
+          "summary": "0 out of 10."
         }
       ],
       "applicable_max_score": 90,
       "selection_score_max": 90,
-      "global_max": 105
+      "global_max": 100
     },
-    "ucat_comparison": null
+    "ucat_comparison": null,
+    "ucat_adjustment": null,
+    "insufficient_evidence_reason": null
   },
   "engine_notes": {
     "offer_prediction_scope": "out_of_scope",
@@ -398,7 +445,7 @@
     "gamsat_route": "manual_review"
   },
   "primary_user_facing_recommendation": "Possible choice for your application",
-  "primary_explanation": "Based on ApplySmart's assessment, your academic profile may be competitive for this applicant group.",
+  "primary_explanation": "Based on ApplySmart's assessment, your academic profile and UCAT may be competitive for this applicant group.",
   "recommendation_display_state": "standard",
   "trust_statement": null,
   "historical_guidance_caveat": "Historical admissions data provides a benchmark only; it is not a current cut-off or a guarantee of interview."

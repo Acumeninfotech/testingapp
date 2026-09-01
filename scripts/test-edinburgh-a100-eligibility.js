@@ -90,15 +90,12 @@ function groupSubjectCount(subjects, allowedSubjectIds) {
 
 function meetsGcseRequirements(applicant, contextual) {
   const gcse = profile.stage_1_eligibility.gcse;
-  const requirement = gcse.grade_requirements.find((entry) => {
-    return contextual
-      ? entry.requirement_id === 'gcse_widening_access_minimums'
-      : entry.requirement_id.endsWith('_standard');
-  });
 
   if (contextual) {
-    return requirement.subject_ids.every((subjectId) => {
-      return valueForGrade(applicant.gcses[subjectId], gcseRank) >= minimumGradeValue(requirement.minimum_grade, gcseRank);
+    return gcse.grade_requirements
+      .filter((entry) => entry.applies_to_group_ids?.includes('edinburgh_plus_flag'))
+      .every((entry) => {
+        return valueForGrade(applicant.gcses[entry.subject_id], gcseRank) >= minimumGradeValue(entry.minimum_grade, gcseRank);
     });
   }
 
@@ -131,7 +128,7 @@ function meetsAlevelRequirements(applicant, contextual) {
 }
 
 function meetsNational5Requirements(applicant) {
-  const requirements = profile.stage_1_eligibility.post_16.scottish.national_5_requirements;
+  const requirements = profile.stage_1_eligibility.national_5.grade_requirements;
 
   return requirements.every((requirement) => {
     return (
@@ -187,7 +184,7 @@ function contextualState(applicant) {
     applicant.domicile === 'scotland' && applicant.simd_quintile === 'second_lowest_quintile_simd40';
 
   return {
-    academicContextual: applicant.contextual === true || isPlusFlag || isFlag || isScottishSimd40,
+    academicContextual: isPlusFlag,
     isPlusFlag,
     hasUcatBursary,
     isFlag,
@@ -364,13 +361,14 @@ const testCases = [
     }
   },
   {
-    id: 'scottish_widening_simd40',
-    summary: 'Scottish widening/SIMD40 applicant; S5 AAABB including Chemistry plus Biology and Maths; CC Advanced Higher; National 5 requirements met; UCAT 1850; SJT Band 2.',
+    id: 'scottish_plus_flag_simd40',
+    summary: 'Scottish Plus Flag/SIMD40 applicant; S5 AAABB including Chemistry plus Biology and Maths; CC Advanced Higher; National 5 requirements met; UCAT 1850; SJT Band 2.',
     expected: PASS,
     applicant: {
       route: 'scottish',
       domicile: 'scotland',
       contextual: true,
+      contextual_status: 'plus_flag',
       simd_quintile: 'second_lowest_quintile_simd40',
       highers: { chemistry: 'A', biology: 'A', mathematics: 'A', english: 'B', history: 'B' },
       advancedHighers: { chemistry: 'C', biology: 'C' },

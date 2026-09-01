@@ -4,6 +4,7 @@ import type {
   PredictionResult,
   ScoreBreakdown,
   SelectionMetric,
+  UcatAdjustment,
   UcatComparison,
 } from '../api/types';
 import {
@@ -13,6 +14,12 @@ import {
   resultCardRecommendationHeadline,
 } from '../lib/resultPresenter';
 import { UNIVERSITY_CODES } from '../data/universityCodes';
+import { AlternativeAcademicOffer } from './AlternativeAcademicOffer';
+
+const CONTEXTUAL_CONFIRMED_MESSAGE =
+  "Contextual eligibility confirmed. Your application has been assessed using this university's published contextual admissions criteria.";
+
+const GLASGOW_REACH_COMPLETION_REQUIRED_REASON = 'glasgow_reach_completion_required';
 
 function isOfficialPredictionUnavailable(card: PredictionResult['result_card']): boolean {
   const officialPrediction = card.prediction?.official_prediction as
@@ -98,26 +105,52 @@ function isRenderableComparisonMetric(metric: unknown): metric is ComparisonMetr
   );
 }
 
+function hasAppliedUcatAdjustment(adjustment?: UcatAdjustment | null): adjustment is UcatAdjustment {
+  return Boolean(
+    adjustment &&
+      Number.isFinite(adjustment.raw_ucat) &&
+      Number.isFinite(adjustment.uplift_percent) &&
+      Number(adjustment.uplift_percent) > 0 &&
+      Number.isFinite(adjustment.adjusted_selection_ucat),
+  );
+}
+
+function contextualUpliftValue(adjustment: UcatAdjustment): string {
+  const reason = typeof adjustment.uplift_reason_label === 'string' && adjustment.uplift_reason_label.trim()
+    ? ` (${adjustment.uplift_reason_label.trim()})`
+    : '';
+  return `+${Number(adjustment.uplift_percent)}%${reason}`;
+}
+
+function adjustedSelectionUcatLabel(adjustment?: UcatAdjustment | null): string {
+  return typeof adjustment?.label === 'string' && adjustment.label.trim()
+    ? adjustment.label.trim()
+    : 'Adjusted selection UCAT';
+}
+
 function publicThresholdGroup(text = ''): string | null {
-  if (/contextual|widening participation|wp\b|ukwpmed/.test(text)) return 'contextual';
-  if (/overseas|international|non-uk/.test(text)) return 'Overseas';
-  if (/\bhome\b|uk-domicile/.test(text)) return 'Home';
-  const accessRoute = text.match(/\b([a-z\s-]*access[a-z\s-]*)\s+(?:interview\s+|ucat\s+)?(?:threshold|minimum)\b/);
+  const accessRoute = text.match(/\b(access\s+[a-z0-9&' -]+?)\s+(?:interview\s+|ucat\s+)?(?:threshold|minimum)\b/i);
   if (accessRoute) {
     return accessRoute[1]
       .trim()
       .replace(/\s+/g, ' ')
-      .replace(/\b\w/g, (char) => char.toUpperCase());
+      .replace(/\b\w/g, (char) => char.toUpperCase())
+      .replace(/\bUcl\b/g, 'UCL');
   }
+  if (/contextual|widening participation|wp\b|ukwpmed/.test(text)) return 'contextual';
+  if (/overseas|international|non-uk/.test(text)) return 'Overseas';
+  if (/\bhome\b|uk-domicile/.test(text)) return 'Home';
   return null;
 }
 
 function publicUcatComparisonPhrase(comparison?: UcatComparison | null): string {
   const comparisonType = comparison?.comparison_type || '';
+  const evidenceStatus = comparison?.evidence_status || '';
   const labelText = String(comparison?.benchmark_label || '').toLowerCase();
   const text = [
     comparison?.benchmark_label,
     comparison?.caveat,
+    evidenceStatus,
     comparisonType,
   ].filter(Boolean).join(' ').toLowerCase();
   const published =
@@ -126,6 +159,9 @@ function publicUcatComparisonPhrase(comparison?: UcatComparison | null): string 
   const advisory = /advisory|modelled|modeled|applysmart|historical-equivalent|working/.test(text);
 
   if (comparisonType === 'official_minimum') return 'published UCAT minimum';
+  if (comparisonType === 'applysmart_prediction_band' || evidenceStatus === 'applysmart_derived') {
+    return 'ApplySmart prediction band';
+  }
   if (/historical ucat range|ucat range/.test(labelText) && !/interview/.test(labelText)) {
     return 'historical UCAT range';
   }
@@ -151,6 +187,12 @@ function publicComparisonCaveat(comparison?: UcatComparison | null): string {
   const phrase = publicUcatComparisonPhrase(comparison);
   if (phrase.startsWith('published')) {
     return 'Published thresholds and reference ranges can change between cycles and do not guarantee an interview.';
+  }
+  if (comparison?.comparison_type === 'applysmart_prediction_band' || comparison?.evidence_status === 'applysmart_derived') {
+    if (/Glasgow-published current 2027 cutoff/i.test(comparison?.caveat || '')) {
+      return comparison?.caveat || '';
+    }
+    return 'ApplySmart prediction bands are derived from admissions evidence; they are not university-published ranges, thresholds or guarantees.';
   }
   return 'Historical admissions data provides a benchmark only; it is not a current cut-off or a guarantee of interview.';
 }
@@ -220,8 +262,11 @@ function sjtBandFromText(value: string | null | undefined): number | null {
 function publicText(value: string | null | undefined): string {
   return String(value || '')
     .replace(/\(\s*20\d{2}\s*\)/g, '')
-    .replace(/\b20\d{2}[-\s]?entry\b/gi, '')
-    .replace(/\b20\d{2}\s+(?=published|official|current-scale|entry|admissions cycle)/gi, '')
+    .replace(/\b20\d{2}[-\s]?entry\b/gi, (match, offset, text) => {
+      const prefix = text.slice(Math.max(0, offset - 4), offset).toLowerCase();
+      return prefix === 'for ' ? match : '';
+    })
+    .replace(/\b20\d{2}\s+(?=published|official|current-scale|admissions cycle)/gi, '')
     .replace(/\(\s*\)/g, '')
     .replace(/\s{2,}/g, ' ')
     .replace(/\s+([.,;:])/g, '$1')
@@ -236,8 +281,21 @@ function compactSentence(value: string | null | undefined, fallback = ''): strin
   return sentence.length > 145 ? `${sentence.slice(0, 142).trim()}...` : sentence;
 }
 
+function splitContextualOfferGrade(body: string, grade: string | null) {
+  if (!grade) return null;
+  const index = body.indexOf(grade);
+  if (index < 0) return null;
+  return {
+    before: body.slice(0, index),
+    grade,
+    after: body.slice(index + grade.length),
+  };
+}
+
 function isPositiveAcademicStatusSummary(value: string): boolean {
-  return value.trim() === 'You meet the academic requirements.';
+  const normalized = value.trim();
+  return normalized === 'You meet the academic requirements.' ||
+    normalized === 'Contextual eligibility confirmed.';
 }
 
 function iconPath(shape: 'star' | 'shield' | 'academic' | 'bars' | 'person' | 'history' | 'info' | 'check' | 'x') {
@@ -278,7 +336,7 @@ function UniversityAvatar({ universityId }: { universityId: string }) {
   );
 }
 
-function SectionHeader({ title, subtitle, icon }: { title: string; subtitle?: string | null; icon: 'shield' | 'person' | 'history' }) {
+function SectionHeader({ title, subtitle, icon }: { title: string; subtitle?: string | null; icon: 'shield' | 'person' | 'history' | 'info' | 'check' }) {
   return (
     <div className="result-card-section-heading">
       <div>
@@ -342,10 +400,13 @@ function reliableUcatComparison(
       max: 2700,
       referenceMin: Number(ucatComparison.benchmark_min),
       referenceMax: Number.isFinite(ucatComparison.benchmark_max) ? Number(ucatComparison.benchmark_max) : null,
+      comparisonOperator: ucatComparison.comparison_operator || null,
       label: publicUcatComparisonPhrase(ucatComparison),
       difference:
         ucatComparison.position === 'within'
-          ? 'Within reference range'
+          ? ucatComparison.comparison_type === 'applysmart_prediction_band' || ucatComparison.evidence_status === 'applysmart_derived'
+            ? 'Within prediction band'
+            : 'Within reference range'
           : formatUcatDifference(ucatComparison.difference_from_benchmark, ucatComparison.position) ||
             (selectionMetric?.type === 'ucat' ? formatSelectionMetricDifference(selectionMetric) : null),
       position: ucatComparison.position,
@@ -372,6 +433,10 @@ function reliableUcatComparison(
 }
 
 function comparisonRangeText(comparison: NonNullable<ReturnType<typeof reliableUcatComparison>>): string {
+  if (comparison.comparisonOperator === 'greater_than_or_equal') return `${comparison.referenceMin}+`;
+  if (comparison.comparisonOperator === 'greater_than') return `>${comparison.referenceMin}`;
+  if (comparison.comparisonOperator === 'less_than') return `<${comparison.referenceMin}`;
+  if (comparison.comparisonOperator === 'less_than_or_equal') return `<=${comparison.referenceMin}`;
   return comparison.referenceMax !== null
     ? `${comparison.referenceMin}-${comparison.referenceMax}`
     : String(comparison.referenceMin);
@@ -458,7 +523,11 @@ function assessmentKind({
   if (comparison) {
     return 'ucat';
   }
-  if (ucatComparison?.comparison_type === 'ranking_only' || /rank(?:s|ed)? by (?:raw )?ucat|eligible applicants are ranked by ucat/i.test(selectionText)) {
+  if (
+    ucatComparison?.comparison_type === 'ranking_only' ||
+    ucatComparison?.comparison_type === 'no_published_contextual_cutoff' ||
+    /rank(?:s|ed)? by (?:raw )?ucat|eligible applicants are ranked by ucat/i.test(selectionText)
+  ) {
     return 'ranking-only';
   }
   return 'eligibility-only';
@@ -474,6 +543,7 @@ function assessmentPanelRows({
   variant,
   informationNeededReason,
   unresolvedLabel,
+  ucatAdjustment,
 }: {
   kind: AssessmentKind;
   comparison: ReturnType<typeof reliableUcatComparison>;
@@ -484,6 +554,7 @@ function assessmentPanelRows({
   variant: string;
   informationNeededReason?: string | null;
   unresolvedLabel?: string;
+  ucatAdjustment?: UcatAdjustment | null;
 }): Array<{ label: string; value: string; emphasis?: boolean }> {
   if (variant === 'manual-review' || /insufficient_evidence|manual_review|information/i.test(displayState)) {
     return [
@@ -491,9 +562,21 @@ function assessmentPanelRows({
       ...(informationNeededReason ? [{ label: 'Reason', value: informationNeededReason }] : []),
     ];
   }
+  if (hasAppliedUcatAdjustment(ucatAdjustment)) {
+    const adjustedUcatLabel = adjustedSelectionUcatLabel(ucatAdjustment);
+    return [
+      { label: 'Your UCAT', value: String(ucatAdjustment.raw_ucat) },
+      { label: 'Contextual uplift', value: contextualUpliftValue(ucatAdjustment) },
+      {
+        label: adjustedUcatLabel,
+        value: String(ucatAdjustment.adjusted_selection_ucat),
+        emphasis: true,
+      },
+    ];
+  }
   if (kind === 'ucat' && comparison) {
     return [
-      { label: 'Your UCAT', value: `${comparison.applicant} / ${comparison.max}`, emphasis: true },
+      { label: '', value: `${comparison.applicant} / ${comparison.max}`, emphasis: true },
     ];
   }
   if (kind === 'selection-score') {
@@ -554,6 +637,14 @@ function academicRequirementTone(status: string): RequirementBadgeTone {
   return 'neutral';
 }
 
+function academicPathway(card: PredictionResult['result_card']): string {
+  return asString(card.academic_pathway).toLowerCase().replace(/[\s-]+/g, '_');
+}
+
+function isEpqAlternativeRequirement(type: string, label: string): boolean {
+  return /epq/i.test(type) || /epq/i.test(label);
+}
+
 const requirementTonePriority: Record<RequirementBadgeTone, number> = {
   neutral: 0,
   positive: 1,
@@ -561,29 +652,113 @@ const requirementTonePriority: Record<RequirementBadgeTone, number> = {
   negative: 3,
 };
 
+const COMPACT_REQUIREMENT_ROW_LIMIT = 5;
+
+type CompactRequirementRow = {
+  label: string;
+  value: string;
+  tone: RequirementBadgeTone;
+};
+
+type CompactRequirementCandidate = CompactRequirementRow & {
+  type: string;
+  qualificationType: string;
+};
+
+function academicSelectionFactorLabels(
+  checks: PredictionResult['result_card']['academic_requirement_checks'],
+): { gcse: string; aLevel: string } {
+  const defaultLabels = { gcse: 'GCSEs', aLevel: 'A-Levels' };
+  if (!Array.isArray(checks) || checks.length === 0) {
+    return defaultLabels;
+  }
+
+  const labelFor = (pattern: RegExp): string | null => {
+    const match = checks.find((check) => pattern.test(asString(check.label)));
+    return asString(match?.label) || null;
+  };
+
+  const hasEvidenceFor = (pattern: RegExp): boolean => checks.some((check) => {
+    const text = [
+      asString(check.qualification_type),
+      asString(check.requirement_type),
+      asString(check.label),
+    ].join(' ');
+    return pattern.test(text);
+  });
+
+  const national5Label = labelFor(/\bnational\s*5s?\b|national_5/i);
+  const scottishHigherLabel = labelFor(/\bscottish\s+highers?\b/i);
+  const hasNational5Evidence = hasEvidenceFor(/\bnational\s*5s?\b|national_5/i);
+  const hasScottishHigherEvidence = hasEvidenceFor(/\bscottish\s+highers?\b|scottish_post_16|higher_requirements|highers/i);
+  const hasScottishChecks = checks.some((check) => asString(check.qualification_type) === 'scottish');
+
+  if (!hasScottishChecks && !hasNational5Evidence && !hasScottishHigherEvidence) {
+    return defaultLabels;
+  }
+
+  return {
+    gcse: national5Label || (hasNational5Evidence || hasScottishChecks ? 'National 5s' : defaultLabels.gcse),
+    aLevel: scottishHigherLabel || (hasScottishHigherEvidence || hasScottishChecks ? 'Scottish Highers' : defaultLabels.aLevel),
+  };
+}
+
+function isALevelRequirementCandidate(row: CompactRequirementCandidate): boolean {
+  return row.qualificationType === 'a_level' ||
+    /a[-_\s]?levels?/i.test(`${row.type} ${row.label}`);
+}
+
+function compactRequirementRow(row: CompactRequirementCandidate): CompactRequirementRow {
+  return {
+    label: row.label,
+    value: row.value,
+    tone: row.tone,
+  };
+}
+
+function visibleCompactRequirementRows(rows: CompactRequirementCandidate[]): CompactRequirementRow[] {
+  if (rows.length <= COMPACT_REQUIREMENT_ROW_LIMIT) {
+    return rows.map(compactRequirementRow);
+  }
+
+  const visible = rows.slice(0, COMPACT_REQUIREMENT_ROW_LIMIT);
+  const visibleHasALevel = visible.some(isALevelRequirementCandidate);
+  const firstALevel = rows.find(isALevelRequirementCandidate);
+  const withRequiredALevel = !visibleHasALevel && firstALevel
+    ? [...visible, firstALevel]
+    : visible;
+
+  return withRequiredALevel.map(compactRequirementRow);
+}
+
 function conciseRequirementRows(
   card: PredictionResult['result_card'],
   overallStatus: string | null,
 ) {
-  const rowsByType = new Map<string, { label: string; value: string; tone: RequirementBadgeTone }>();
+  const rowsByType = new Map<string, CompactRequirementCandidate>();
+  const suppressEpqAlternative = academicPathway(card) === 'standard';
   (card.academic_requirement_checks || []).forEach((check) => {
     const type =
       asString(check.requirement_type) ||
       asString(check.label) ||
       asString(check.qualification_type);
+    const qualificationType = asString(check.qualification_type);
     const label = asString(check.label);
     const status = asString(check.status);
     const tone = academicRequirementTone(status);
     if (!type || !label || tone === 'neutral') return;
+    if (suppressEpqAlternative && isEpqAlternativeRequirement(type, label)) return;
     const current = rowsByType.get(type);
     if (current && requirementTonePriority[current.tone] >= requirementTonePriority[tone]) return;
     rowsByType.set(type, {
+      type,
+      qualificationType,
       label,
       value: tone === 'positive' ? 'met' : tone === 'negative' ? 'not-met' : 'info',
       tone,
     });
   });
-  const qualificationRows = Array.from(rowsByType.values()).slice(0, 5);
+  const qualificationRows = visibleCompactRequirementRows(Array.from(rowsByType.values()));
 
   if (qualificationRows.length > 0) return qualificationRows;
 
@@ -593,8 +768,15 @@ function conciseRequirementRows(
 
 function compactUcatMinimum(summary?: string | null): string | null {
   if (!summary) return null;
-  const sectionMinimum = summary.match(/(?:at least|minimum(?: of)?)\s+(\d{3,4})/i);
-  if (sectionMinimum) return `${sectionMinimum[1]} min per section`;
+  const totalMinimum = summary.match(/minimum total\s+(\d{3,4})(?:\s*\/\s*(\d{3,4}))?/i);
+  if (totalMinimum) {
+    return totalMinimum[1];
+  }
+  const sectionMinimum = summary.match(/(?:per section|each (?:cognitive )?section|section minimum|minimum(?: of)?\s+(\d{3,4}).{0,30}(?:per|each).{0,20}section)/i);
+  if (sectionMinimum) {
+    const sectionScore = sectionMinimum[1] || summary.match(/\b(\d{3,4})\b/)?.[1];
+    return sectionScore ? `${sectionScore} min per section` : compactSentence(summary);
+  }
   const score = summary.match(/\b(\d{3,4})\b/);
   return score ? score[1] : compactSentence(summary);
 }
@@ -605,6 +787,7 @@ function EligibilityCard({
   status,
   rows,
   tone,
+  note,
   badgeOnly = false,
 }: {
   title: string;
@@ -612,6 +795,7 @@ function EligibilityCard({
   status: string;
   rows: Array<{ label: string; value: string; tone?: 'positive' | 'negative' | 'warning' | 'neutral' }>;
   tone: 'positive' | 'negative' | 'warning' | 'neutral';
+  note?: string | null;
   badgeOnly?: boolean;
 }) {
   return (
@@ -627,7 +811,7 @@ function EligibilityCard({
       </div>
       {badgeOnly && rows.length > 0 ? (
         <ul className="result-card-requirement-badges" aria-label={`${title} status`}>
-          {rows.slice(0, 5).map((row, index) => {
+          {rows.map((row, index) => {
             const rowTone = row.tone || statusTone(row.value);
             const shape = rowTone === 'negative' ? 'x' : rowTone === 'warning' ? 'info' : 'check';
             return (
@@ -648,6 +832,7 @@ function EligibilityCard({
           ))}
         </dl>
       ) : null}
+      {note && <p className="result-card-compact-note">{publicText(note)}</p>}
     </div>
   );
 }
@@ -732,6 +917,7 @@ export function ResultCard({ result }: { result: PredictionResult }) {
   const scoreChecks = scoreBreakdown?.checks || [];
   const historicalChecks = historicalStage?.checks || [];
   const ucatComparison = transparency?.ucat_comparison || null;
+  const ucatAdjustment = transparency?.ucat_adjustment || null;
   const selectionMetric = transparency?.selection_metric || null;
   const hasStructuredComparisonMetrics = Array.isArray(transparency?.comparison_metrics);
   const comparisonMetrics = hasStructuredComparisonMetrics
@@ -773,6 +959,12 @@ export function ResultCard({ result }: { result: PredictionResult }) {
       : typeof transparency?.information_needed_reason === 'string' && transparency.information_needed_reason.trim()
         ? transparency.information_needed_reason.trim()
         : null;
+  const manualReviewReasonCode =
+    typeof transparency?.manual_review_reason_code === 'string' && transparency.manual_review_reason_code.trim()
+      ? transparency.manual_review_reason_code.trim()
+      : null;
+  const glasgowReachCompletionInformationNeeded =
+    manualReviewReasonCode === GLASGOW_REACH_COMPLETION_REQUIRED_REASON;
   const trustStatement =
     typeof card.trust_statement === 'string' && card.trust_statement.trim().length > 0
       ? card.trust_statement
@@ -800,14 +992,69 @@ export function ResultCard({ result }: { result: PredictionResult }) {
       courseIdentity?.course_name || null,
     ].filter(Boolean).join(' '),
   ) || 'Medicine assessment';
-  const applicantPoolText = publicText(applicantPoolSummary || ucatComparison?.applicant_pool || '');
+  const applicantPoolText = publicText(ucatComparison?.applicant_pool || applicantPoolSummary || '');
   const summaryLineOne =
     isUnresolvedOrNotSuitable && variant !== 'not-eligible'
       ? publicText(primaryExplanation)
       : compactSentence(primaryExplanation, resultCardRecommendationHeadline(card));
   const summaryLineTwo = publicText(topAcademicStatus);
-  const visibleSummaryLineTwo = isPositiveAcademicStatusSummary(summaryLineTwo) ? null : summaryLineTwo;
+  const visibleSummaryLineTwo =
+    glasgowReachCompletionInformationNeeded || isPositiveAcademicStatusSummary(summaryLineTwo)
+      ? null
+      : summaryLineTwo;
   const advisoryLine = visibleTrustStatement ? compactSentence(visibleTrustStatement) : null;
+  const contextualStatusConfirmed =
+    card.contextual_status === 'confirmed' && card.recommendation_display_state === 'standard';
+  const contextualStatusInformationNeeded =
+    card.contextual_status === 'information_needed' && card.recommendation_display_state === 'standard';
+  const contextualPresentationVisible =
+    contextualStatusConfirmed || contextualStatusInformationNeeded;
+  const contextualConfirmation =
+    contextualPresentationVisible && card.contextual_confirmation && typeof card.contextual_confirmation === 'object'
+      ? card.contextual_confirmation
+      : null;
+  const contextualCollapsedMessage =
+    typeof contextualConfirmation?.collapsed_label === 'string' && contextualConfirmation.collapsed_label.trim()
+      ? null
+      : contextualStatusConfirmed
+        ? CONTEXTUAL_CONFIRMED_MESSAGE
+        : null;
+  const contextualExpandedHeading =
+    typeof contextualConfirmation?.expanded_heading === 'string' && contextualConfirmation.expanded_heading.trim()
+      ? contextualConfirmation.expanded_heading.trim()
+      : null;
+  const contextualExpandedBody =
+    typeof contextualConfirmation?.expanded_body === 'string' && contextualConfirmation.expanded_body.trim()
+      ? contextualConfirmation.expanded_body.trim()
+      : null;
+  const contextualConsiderationLabel =
+    typeof contextualConfirmation?.consideration_label === 'string' && contextualConfirmation.consideration_label.trim()
+      ? contextualConfirmation.consideration_label.trim()
+      : null;
+  const contextualOfferGrade =
+    typeof contextualConfirmation?.contextual_offer_grade === 'string' && contextualConfirmation.contextual_offer_grade.trim()
+      ? contextualConfirmation.contextual_offer_grade.trim()
+      : null;
+  const contextualBodyGradeParts = contextualExpandedBody
+    ? splitContextualOfferGrade(contextualExpandedBody, contextualOfferGrade)
+    : null;
+  const showSheffieldStandardEpqOffer =
+    result.universityId === 'sheffield-a100' &&
+    academicPathway(card) === 'standard' &&
+    card.alternative_academic_offer?.type === 'epq';
+
+  const visibleAlternativeAcademicOffer =
+    academicPathway(card) === 'standard' &&
+    card.alternative_academic_offer?.type === 'epq' &&
+    !showSheffieldStandardEpqOffer
+      ? null
+      : card.alternative_academic_offer;
+  const guaranteedInterviewNotice =
+    card.interview_outcome === 'guaranteed_interview' &&
+    typeof card.guaranteed_interview_notice === 'string' &&
+    card.guaranteed_interview_notice.trim().length > 0
+      ? card.guaranteed_interview_notice.trim()
+      : 'Every published guaranteed-interview condition for this route has been verified as met.';
 
   const eligibilityText = [
     ...(eligibilityStage?.checks || []).map((check) => `${check.label} ${check.status} ${check.summary}`),
@@ -822,29 +1069,59 @@ export function ResultCard({ result }: { result: PredictionResult }) {
   const overallAcademicStatus = exposedOverallAcademicStatus(card, eligibilityStage);
   const academicRows = conciseRequirementRows(card, overallAcademicStatus);
   const academicTone = academicRows[0]?.tone || statusTone(academicStatus);
+  const eligibilitySubtitle = glasgowReachCompletionInformationNeeded
+    ? null
+    : isPositiveAcademicStatusSummary(topAcademicStatus)
+    ? 'You meet the published requirements'
+    : topAcademicStatus;
   const factorUsageEntries = Array.isArray(card.factor_usage) ? card.factor_usage : [];
   const factorUsageById = new Map(factorUsageEntries.map((entry) => [entry.factor_id, entry]));
   const ucatFactor = factorUsageById.get('ucat');
   const sjtFactor = factorUsageById.get('sjt');
   const ucatPointsRow = scoreComponentRow(scoreBreakdown, /^UCAT points$/i);
   const sjtPointsRow = scoreComponentRow(scoreBreakdown, /^SJT points$/i);
+  const ucatRole = ucatFactor?.role;
+  const ucatApplicantScore = Number.isFinite(ucatFactor?.applicant_value)
+    ? Number(ucatFactor?.applicant_value)
+    : ucatContext.score;
   const ucatRows: Array<{ label: string; value: string }> = [];
+  const noPublishedContextualUcatCutoff =
+    ucatComparison?.comparison_type === 'no_published_contextual_cutoff';
+  const noPublishedContextualUcatSummary =
+    noPublishedContextualUcatCutoff
+      ? ucatComparison?.public_summary || ucatFactor?.detail || null
+      : null;
+  const noPublishedContextualHistoricalSummary =
+    noPublishedContextualUcatCutoff
+      ? ucatComparison?.historical_summary || historicalStage?.summary || null
+      : null;
   const ucatMinimumText =
-    compactUcatMinimum(officialMinimumCheck?.summary) ||
-    compactUcatMinimum(ucatComparison?.official_ucat_minimum?.summary);
+    ucatRole === 'ranking'
+      ? null
+      : compactUcatMinimum(officialMinimumCheck?.summary) ||
+        compactUcatMinimum(ucatComparison?.official_ucat_minimum?.summary);
   if (ucatPointsRow) {
     ucatRows.push(ucatPointsRow);
-  } else if (ucatMinimumText) {
-    ucatRows.push({ label: 'Minimum', value: ucatMinimumText });
+  } else {
+    if (ucatRole === 'eligibility' && Number.isFinite(ucatApplicantScore)) {
+      ucatRows.push({
+        label: 'Applicant score',
+        value: String(ucatApplicantScore),
+      });
+    }
+    if (ucatMinimumText) {
+      ucatRows.push({ label: 'Minimum', value: ucatMinimumText });
+    }
   }
   const ucatExplicitlyNotUsed = /ucat.{0,50}(not used|not scored)|not used.{0,50}ucat/i.test(selectionText);
-  const ucatRole = ucatFactor?.role;
   const ucatStatus = ucatPointsRow
     ? 'Counted'
     : ucatRole === 'not_used'
       ? 'Not used'
       : ucatRole === 'eligibility'
         ? 'Eligibility requirement'
+        : noPublishedContextualUcatCutoff
+          ? 'Contextual applicant'
         : ucatRole === 'ranking'
           ? 'Used for ranking'
           : ucatMinimumText
@@ -891,15 +1168,18 @@ export function ResultCard({ result }: { result: PredictionResult }) {
                 : sjtCheck || sjtRequirementCheck
                   ? 'Threshold met'
                   : 'Not used';
+  const academicSelectionLabels = academicSelectionFactorLabels(card.academic_requirement_checks);
   const factors: Array<{ key: Parameters<typeof factorState>[0]['factor']; label: string }> = [
     { key: 'ucat', label: 'UCAT' },
-    { key: 'gcse', label: 'GCSEs' },
-    { key: 'a-level', label: 'A-Levels' },
+    { key: 'gcse', label: academicSelectionLabels.gcse },
+    { key: 'a-level', label: academicSelectionLabels.aLevel },
     { key: 'sjt', label: 'SJT' },
     { key: 'contextual', label: 'Contextual' },
     { key: 'ps', label: 'PS' },
   ];
   const componentRows = scoreComponentRows(scoreBreakdown);
+  const adjustedSelectionUcatApplied = hasAppliedUcatAdjustment(ucatAdjustment);
+  const adjustedUcatLabel = adjustedSelectionUcatLabel(ucatAdjustment);
   const primaryAssessmentKind = assessmentKind({
     comparison,
     selectionMetric,
@@ -918,9 +1198,12 @@ export function ResultCard({ result }: { result: PredictionResult }) {
     variant,
     informationNeededReason,
     unresolvedLabel: label,
+    ucatAdjustment,
   });
-  const assessmentTitle = primaryAssessmentKind === 'ucat'
-    ? 'UCAT comparison'
+  const assessmentTitle = adjustedSelectionUcatApplied
+    ? 'UCAT adjustment'
+    : primaryAssessmentKind === 'ucat'
+    ? publicText(selectionMetric?.label || 'Your UCAT score')
     : primaryAssessmentKind === 'selection-score'
       ? 'Selection score'
       : primaryAssessmentKind === 'ranking-only'
@@ -936,7 +1219,7 @@ export function ResultCard({ result }: { result: PredictionResult }) {
   const selectionScoreHistoricalRows =
     primaryAssessmentKind === 'selection-score'
       ? [
-          { label: 'Historical Selection Score Guide', value: selectionGuideValue(selectionMetric, comparisonMetrics) },
+          { label: 'ApplySmart-Derived Selection Score Guide', value: selectionGuideValue(selectionMetric, comparisonMetrics) },
           { label: 'Your Selection Score', value: scoreValueFromMetric(selectionMetric, totalScoreText) },
           { label: 'Difference', value: selectionMetric ? formatSelectionMetricDifference(selectionMetric) : null },
         ].filter((row) => row.value)
@@ -947,8 +1230,9 @@ export function ResultCard({ result }: { result: PredictionResult }) {
     variant === 'not-eligible' && historicalStage?.summary
       ? historicalStage.summary
       : ucatComparison?.comparison_type === 'ranking_only'
-      ? 'Eligible applicants are ranked by UCAT; no reliable numerical comparison is available.'
-      : ucatComparisonCheck?.summary || historicalStage?.summary || selectionApproachSummary || 'Eligible applicants are ranked by UCAT; no reliable numerical comparison is available.';
+        || ucatComparison?.comparison_type === 'no_published_contextual_cutoff'
+        ? 'Eligible applicants are ranked by UCAT; no reliable numerical comparison is available.'
+        : ucatComparisonCheck?.summary || historicalStage?.summary || selectionApproachSummary || 'Eligible applicants are ranked by UCAT; no reliable numerical comparison is available.';
   const eligibilityOnlySummary =
     eligibilityStage?.summary || summaryLineTwo || 'Eligibility has been assessed against the supported entry requirements.';
   const historicalEvidenceSummary =
@@ -973,15 +1257,28 @@ export function ResultCard({ result }: { result: PredictionResult }) {
   const renderableHistoricalStage = hasRenderableHistoricalStage(historicalStage);
   const showHistoricalContext = Boolean(
     (!isUnresolvedOrNotSuitable || hasHistoricalContextForNotSuitable || renderableHistoricalStage) &&
-      (comparison ||
+      (noPublishedContextualUcatCutoff ||
+        comparison ||
         primaryAssessmentKind === 'selection-score' ||
         primaryAssessmentKind === 'ranking-only' ||
         (primaryAssessmentKind === 'eligibility-only' && isExplicitEligibilityOnly) ||
         comparisonMetrics.length > 0 ||
         renderableHistoricalStage),
   );
+  const isApplySmartPredictionComparison =
+    ucatComparison?.comparison_type === 'applysmart_prediction_band' ||
+    ucatComparison?.evidence_status === 'applysmart_derived' ||
+    comparison?.label === 'ApplySmart prediction band';
   const historicalTitle =
-    typeof transparency?.comparison_metrics_title === 'string' && transparency.comparison_metrics_title.trim()
+    isApplySmartPredictionComparison
+      ? 'UCAT PREDICTION CONTEXT'
+      : noPublishedContextualUcatCutoff
+        ? publicText(
+            historicalChecks.find((check) => check.summary === noPublishedContextualHistoricalSummary)?.label ||
+            historicalChecks.find((check) => /previous|outcome|context/i.test(check.label))?.label ||
+            'Historical Context',
+          )
+      : typeof transparency?.comparison_metrics_title === 'string' && transparency.comparison_metrics_title.trim()
       ? publicText(transparency.comparison_metrics_title)
       : primaryAssessmentKind === 'selection-score'
         ? 'Historical Score Context'
@@ -990,6 +1287,20 @@ export function ResultCard({ result }: { result: PredictionResult }) {
           : primaryAssessmentKind === 'eligibility-only' && isExplicitEligibilityOnly
             ? 'Eligibility Information'
             : 'Historical Context';
+  const predictionContextRows =
+    isApplySmartPredictionComparison && comparison
+      ? [
+          { label: 'ApplySmart Prediction Band', value: comparisonRangeText(comparison) },
+          ...comparisonMetrics
+            .filter((row) => {
+              const isDuplicatePredictionBand =
+                publicText(row.label).toLowerCase() === 'applysmart prediction band' &&
+                publicText(row.value) === comparisonRangeText(comparison);
+              return !isDuplicatePredictionBand;
+            })
+            .map((row) => ({ label: row.label, value: row.value })),
+        ]
+      : [];
 
   return (
     <article className={`result-card result-card--${variant}`}>
@@ -1006,6 +1317,7 @@ export function ResultCard({ result }: { result: PredictionResult }) {
           </div>
           <div className="result-card-assessment-summary">
             <p className="result-card-explanation">{summaryLineOne}</p>
+            {contextualCollapsedMessage && <p className="result-card-advisory">{contextualCollapsedMessage}</p>}
             {visibleSummaryLineTwo && <p className="result-card-academic-status">{visibleSummaryLineTwo}</p>}
             {advisoryLine && <p className="result-card-advisory">{advisoryLine}</p>}
           </div>
@@ -1036,7 +1348,7 @@ export function ResultCard({ result }: { result: PredictionResult }) {
 
       {card.interview_outcome === 'guaranteed_interview' && (
         <p className="result-card-notice result-card-notice--guaranteed" role="status">
-          Every published guaranteed-interview condition for this route has been verified as met.
+          {guaranteedInterviewNotice}
         </p>
       )}
 
@@ -1050,10 +1362,28 @@ export function ResultCard({ result }: { result: PredictionResult }) {
         </ul>
       )}
 
+      {contextualExpandedHeading && contextualExpandedBody && (
+        <section className="result-card-section result-card-contextual-confirmation">
+          <SectionHeader title={contextualExpandedHeading} subtitle={undefined} icon="check" />
+          <p className="result-card-compact-note">
+            {contextualConsiderationLabel && <strong>{publicText(contextualConsiderationLabel)} </strong>}
+            {contextualBodyGradeParts ? (
+              <>
+                {contextualBodyGradeParts.before}
+                <strong>{contextualBodyGradeParts.grade}</strong>
+                {contextualBodyGradeParts.after}
+              </>
+            ) : (
+              publicText(contextualExpandedBody)
+            )}
+          </p>
+        </section>
+      )}
+
       <section className="result-card-section result-card-checks">
         <SectionHeader
           title="Eligibility"
-          subtitle={entryRequirementsMet ? 'You meet the published requirements' : 'Some published requirements need attention'}
+          subtitle={eligibilitySubtitle}
           icon="shield"
         />
         <div className="result-card-summary-grid">
@@ -1073,6 +1403,7 @@ export function ResultCard({ result }: { result: PredictionResult }) {
             status={ucatStatus}
             rows={ucatRows}
             tone={statusTone(ucatStatus)}
+            note={noPublishedContextualUcatSummary}
           />
           <EligibilityCard
             title="SJT"
@@ -1083,6 +1414,17 @@ export function ResultCard({ result }: { result: PredictionResult }) {
           />
         </div>
       </section>
+
+      <AlternativeAcademicOffer
+        offer={visibleAlternativeAcademicOffer}
+        contextualStatus={
+          result.universityId === 'sheffield-a100' && !visibleAlternativeAcademicOffer
+            ? null
+            : contextualStatusConfirmed && (visibleAlternativeAcademicOffer || !contextualConfirmation)
+              ? card.contextual_status
+              : null
+        }
+      />
 
       <section className="result-card-section result-card-details">
         <SectionHeader title="Selection" subtitle="How applicants are ranked for interview" icon="person" />
@@ -1143,28 +1485,59 @@ export function ResultCard({ result }: { result: PredictionResult }) {
 
       {showHistoricalContext && (
         <section className="result-card-section result-card-historical">
-          <SectionHeader title={historicalTitle} subtitle={comparison?.label} icon="history" />
-          {primaryAssessmentKind === 'ucat' && comparison ? (
-            <div className="result-card-historical-grid">
-              <div>
-                <span>Historical UCAT Guide</span>
-                <strong>{comparisonRangeText(comparison)}</strong>
-              </div>
-              <div>
-                <span>Your UCAT</span>
-                <strong>{comparison.applicant}</strong>
-              </div>
-              {comparison.difference && (
+          <SectionHeader title={historicalTitle} subtitle={isApplySmartPredictionComparison ? null : comparison?.label} icon="history" />
+          {noPublishedContextualHistoricalSummary ? (
+            <p className="result-card-compact-note">{publicText(noPublishedContextualHistoricalSummary)}</p>
+          ) : primaryAssessmentKind === 'ucat' && comparison ? (
+            isApplySmartPredictionComparison ? (
+              <div className="result-card-historical-grid result-card-historical-grid--prediction-context">
+                <section className="result-card-prediction-context-block" aria-label="Prediction Context values">
+                  <dl>
+                    {predictionContextRows.map((row, index) => (
+                      <div key={`${row.label}-${index}`}>
+                        <dt>{publicText(row.label)}</dt>
+                        <dd>{publicText(row.value)}</dd>
+                      </div>
+                    ))}
+                  </dl>
+                  <p>
+                    <ResultIcon shape="info" />
+                    {publicText(comparison.caveat)}
+                  </p>
+                </section>
                 <div>
-                  <span>Difference</span>
-                  <strong>{comparison.difference}</strong>
+                  <span>{adjustedSelectionUcatApplied ? adjustedUcatLabel : 'Your UCAT'}</span>
+                  <strong>{comparison.applicant}</strong>
                 </div>
-              )}
-              <p>
-                <ResultIcon shape="info" />
-                {publicText(comparison.caveat)}
-              </p>
-            </div>
+                {comparison.difference && (
+                  <div>
+                    <span>Difference</span>
+                    <strong>{comparison.difference}</strong>
+                  </div>
+                )}
+              </div>
+            ) : (
+              <div className="result-card-historical-grid">
+                <div>
+                  <span>Historical UCAT Guide</span>
+                  <strong>{comparisonRangeText(comparison)}</strong>
+                </div>
+                <div>
+                  <span>{adjustedSelectionUcatApplied ? adjustedUcatLabel : 'Your UCAT'}</span>
+                  <strong>{comparison.applicant}</strong>
+                </div>
+                {comparison.difference && (
+                  <div>
+                    <span>Difference</span>
+                    <strong>{comparison.difference}</strong>
+                  </div>
+                )}
+                <p>
+                  <ResultIcon shape="info" />
+                  {publicText(comparison.caveat)}
+                </p>
+              </div>
+            )
           ) : primaryAssessmentKind === 'selection-score' && showSelectionScoreComparison ? (
             <div className="result-card-historical-grid">
               {selectionScoreHistoricalRows.map((row, index) => (
@@ -1195,7 +1568,7 @@ export function ResultCard({ result }: { result: PredictionResult }) {
               </p>
             </div>
           ) : primaryAssessmentKind === 'ranking-only' ? (
-            <p className="result-card-compact-note">{historicalNote(rankingOnlySummary)}</p>
+            <p className="result-card-compact-note">{historicalNote(noPublishedContextualHistoricalSummary || rankingOnlySummary)}</p>
           ) : primaryAssessmentKind === 'eligibility-only' && isExplicitEligibilityOnly ? (
             <p className="result-card-compact-note">{historicalNote(eligibilityOnlySummary)}</p>
           ) : (

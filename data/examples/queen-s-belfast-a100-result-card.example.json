@@ -300,8 +300,8 @@
     "subheadline": "Official QUB score 40 / 45; advisory prediction band",
     "primary_user_facing_recommendation": "Possible choice for your application",
     "recommendation_display_state": "standard",
-    "primary_explanation": "Based on ApplySmart's assessment, your academic profile may be competitive for this applicant group.",
-    "historical_guidance_caveat": "The 45-point scoring system is official, but the prediction band is derived from historical thresholds. QUB has not published an official interview threshold, so the band is a derived estimate, not an official cut-off."
+    "primary_explanation": "Based on ApplySmart's assessment, your academic profile and UCAT may be competitive for this applicant group.",
+    "historical_guidance_caveat": "Historical admissions data provides a benchmark only; it is not a current cut-off or a guarantee of interview."
   },
   "decision_timeline": [
     {
@@ -320,64 +320,84 @@
       "step": 3,
       "title": "Selection model applied",
       "status": "Complete",
-      "summary": "QUB ranks standard Home applicants for interview using GCSE points plus UCAT decile points. This is an interview-invitation prediction only."
+      "summary": "Queen's University Belfast ranks standard Home school-leaver applicants using its published GCSE and UCAT points score, with SJT used only as a tie-break."
     },
     {
       "step": 4,
       "title": "Historical guidance compared",
       "status": "Complete",
-      "summary": "Your result was compared with interview information from previous admissions cycles. Interview thresholds may change each admissions cycle depending on applicant competition and interview capacity. Historical figures are guidance only, not a current cut-off, and do not guarantee an interview."
+      "summary": "Your result was compared with historical admissions data. Historical admissions data provides a benchmark only; it is not a current cut-off or a guarantee of interview."
     },
     {
       "step": 5,
       "title": "Interview recommendation produced",
       "status": "Realistic Choice",
-      "summary": "Based on ApplySmart's assessment, your academic profile may be competitive for this applicant group. Treat this as guidance for university choice, not a promised interview."
+      "summary": "Based on ApplySmart's assessment, your academic profile and UCAT may be competitive for this applicant group. Treat this as guidance for university choice, not a promised interview."
     }
   ],
   "decision_transparency": {
+    "factor_usage": [
+      {
+        "factor_id": "ucat",
+        "label": "UCAT",
+        "role": "ranking",
+        "detail": "Used for ranking in the university’s selection process.",
+        "evidence_status": "available"
+      },
+      {
+        "factor_id": "gcse",
+        "label": "GCSEs",
+        "role": "unknown",
+        "detail": "GCSEs are part of the university’s academic review.",
+        "evidence_status": "available"
+      },
+      {
+        "factor_id": "a_level",
+        "label": "A-levels",
+        "role": "unknown",
+        "detail": "Used as part of the university’s academic review.",
+        "evidence_status": "available"
+      },
+      {
+        "factor_id": "sjt",
+        "label": "SJT",
+        "role": "considered",
+        "detail": "SJT is considered by the university.",
+        "evidence_status": "available"
+      }
+    ],
     "decision_path": [
       {
         "stage": "Eligibility",
         "status": "Met",
-        "summary": "The represented Home standard school-leaver meets the QUB academic and UCAT requirements covered by ApplySmart.",
+        "summary": "The supported entry requirements are met.",
         "checks": [
           {
-            "label": "GCSE minimum subjects",
+            "label": "Entry requirements",
             "status": "Met",
-            "summary": "English Language, Mathematics and Physics or Double Award Science at grade C/4 where required. Applicant information: English Language, Mathematics and Physics are represented above grade C/4."
-          },
-          {
-            "label": "A-level route",
-            "status": "Met",
-            "summary": "A*AA including Chemistry and Biology/Human Biology for this executable route. Applicant information: A*AA with Chemistry and Biology."
-          },
-          {
-            "label": "UCAT",
-            "status": "Met",
-            "summary": "UCAT is required and contributes official decile points. Applicant information: UCAT centile group maps to 8 / 9 points."
-          },
-          {
-            "label": "SJT",
-            "status": "Met",
-            "summary": "SJT is tie-break only and is not scored into the main total. Applicant information: SJT Band 2; no points added or subtracted."
+            "summary": "The supported entry requirements have been assessed."
           }
         ]
       },
       {
         "stage": "Selection model",
         "status": "Assessed",
-        "summary": "QUB ranks standard Home applicants for interview using GCSE points plus UCAT decile points. This is an interview-invitation prediction only.",
+        "summary": "Queen's University Belfast ranks standard Home school-leaver applicants using its published GCSE and UCAT points score, with SJT used only as a tie-break.",
         "checks": [
           {
             "label": "Applicant pool",
             "status": "Used",
-            "summary": "The applicant group matching the supplied fee status and entry route"
+            "summary": "Home, Rest of UK applicants"
           },
           {
-            "label": "Selection approach",
-            "status": "Ranking/cut-off based",
-            "summary": "QUB ranks standard Home applicants for interview using GCSE points plus UCAT decile points. This is an interview-invitation prediction only."
+            "label": "GCSE score",
+            "status": "Counted",
+            "summary": "32 out of 36."
+          },
+          {
+            "label": "UCAT score",
+            "status": "Counted",
+            "summary": "8 out of 9."
           }
         ]
       },
@@ -389,7 +409,7 @@
           {
             "label": "Applicant pool",
             "status": "Used",
-            "summary": "The applicant group matching the supplied fee status and entry route"
+            "summary": "Home, Rest of UK applicants"
           },
           {
             "label": "Important limitation",
@@ -401,14 +421,14 @@
       {
         "stage": "Recommendation",
         "status": "Guidance only",
-        "summary": "Based on ApplySmart's assessment, your academic profile may be competitive for this applicant group. Treat this as guidance for university choice, not a promised interview.",
+        "summary": "Based on ApplySmart's assessment, your academic profile and UCAT may be competitive for this applicant group. Treat this as guidance for university choice, not a promised interview.",
         "checks": []
       }
     ],
     "key_reasons": [
-      "The represented Home standard school-leaver meets the QUB academic and UCAT requirements covered by ApplySmart.",
-      "The result uses The applicant group matching the supplied fee status and entry route.",
-      "QUB ranks standard Home applicants for interview using GCSE points plus UCAT decile points. This is an interview-invitation prediction only."
+      "The supported entry requirements are met.",
+      "The result uses Home, Rest of UK applicants.",
+      "Selection score is 40 out of 45."
     ],
     "evidence_used": [
       "Official admissions policy",
@@ -427,8 +447,10 @@
     },
     "warnings": [],
     "manual_review_reason": null,
-    "insufficient_evidence_reason": null,
-    "insufficient_evidence_reason_code": null,
+    "manual_review_reason_code": null,
+    "information_needed_reason": null,
+    "missing_information": null,
+    "risk_explanation": null,
     "compact_status": {
       "label": "You meet the academic requirements.",
       "type": "academic_status",
@@ -436,10 +458,46 @@
     },
     "comparison_metrics_title": null,
     "comparison_metrics": [],
-    "selection_approach_display": null,
-    "selection_metric": null,
-    "score_breakdown": null,
-    "ucat_comparison": null
+    "selection_approach_display": "Queen's University Belfast ranks standard Home school-leaver applicants using its published GCSE and UCAT points score, with SJT used only as a tie-break.",
+    "selection_metric": {
+      "type": "selection_score",
+      "label": "Selection score",
+      "applicant_value": 40,
+      "comparison_value": null,
+      "comparison_max_value": null,
+      "comparison_label": null,
+      "comparison_label_type": null,
+      "comparison_context": "Selection score",
+      "difference": null,
+      "difference_direction": null,
+      "difference_word": null,
+      "maximum_value": 45,
+      "display_mode": "score",
+      "display_eligibility": true,
+      "entry_year": null,
+      "caveat": null
+    },
+    "score_breakdown": {
+      "name": "Selection score",
+      "value": 40,
+      "max": 45,
+      "status": "calculated",
+      "explanation": "Official QUB 2026 pre-interview score: GCSE points plus UCAT decile points on the official 45-point scale. ApplySmart band labels are derived.",
+      "checks": [
+        {
+          "label": "GCSE score",
+          "status": "Counted",
+          "summary": "32 out of 36."
+        },
+        {
+          "label": "UCAT score",
+          "status": "Counted",
+          "summary": "8 out of 9."
+        }
+      ]
+    },
+    "ucat_comparison": null,
+    "ucat_adjustment": null
   },
   "engine_notes": {
     "generated_from_profile_id": "queen-s-belfast-a100",
@@ -463,7 +521,7 @@
     ]
   },
   "primary_user_facing_recommendation": "Possible choice for your application",
-  "primary_explanation": "Based on ApplySmart's assessment, your academic profile may be competitive for this applicant group.",
+  "primary_explanation": "Based on ApplySmart's assessment, your academic profile and UCAT may be competitive for this applicant group.",
   "recommendation_display_state": "standard",
   "trust_statement": null,
   "historical_guidance_caveat": "Historical admissions data provides a benchmark only; it is not a current cut-off or a guarantee of interview."

@@ -268,6 +268,94 @@
       "execution_status": "aggregate_grade_count_one_sitting_conditions_and_achieved_a_level_exception_not_fully_executable",
       "notes": "The current engine's minimum_count check counts supplied GCSEs, not five GCSEs at A/7 in one sitting. This section must not independently produce a complete eligibility decision."
     },
+    "national_5": {
+      "status": "official_source_verified_executable_for_sqa_applicants",
+      "source_ids": [
+        "standrews_uk_qualifications"
+      ],
+      "grade_requirements": [
+        {
+          "requirement_id": "national_5_biology_grade_b_if_not_higher",
+          "subject_ids": [
+            "biology",
+            "human_biology"
+          ],
+          "minimum_grade": "B",
+          "qualification_level": "national_5",
+          "post16_satisfaction": {
+            "allowed": true,
+            "qualification_levels": [
+              "higher",
+              "advanced_higher"
+            ],
+            "subject_ids": [
+              "biology",
+              "human_biology"
+            ],
+            "minimum_grade": "B"
+          },
+          "decision_outcome_if_not_met": "not_eligible",
+          "source_ids": [
+            "standrews_uk_qualifications"
+          ],
+          "notes": "Biology or Human Biology is required at National 5 grade B if not passed or predicted at Higher level."
+        },
+        {
+          "requirement_id": "national_5_mathematics_grade_b_if_not_higher",
+          "subject_id": "mathematics",
+          "minimum_grade": "B",
+          "qualification_level": "national_5",
+          "excluded_subject_ids": [
+            "applications_of_mathematics"
+          ],
+          "excluded_subject_names": [
+            "Life Skills Mathematics"
+          ],
+          "post16_satisfaction": {
+            "allowed": true,
+            "qualification_levels": [
+              "higher",
+              "advanced_higher"
+            ],
+            "subject_ids": [
+              "mathematics"
+            ],
+            "minimum_grade": "B"
+          },
+          "decision_outcome_if_not_met": "not_eligible",
+          "source_ids": [
+            "standrews_uk_qualifications"
+          ],
+          "notes": "Mathematics is required at National 5 grade B if not passed or predicted at Higher level. Lifeskills Mathematics and Applications of Mathematics are not accepted for this National 5 requirement."
+        },
+        {
+          "requirement_id": "national_5_english_grade_b_if_not_higher",
+          "subject_id": "english_language",
+          "alternative_subject_ids": [
+            "english"
+          ],
+          "minimum_grade": "B",
+          "qualification_level": "national_5",
+          "post16_satisfaction": {
+            "allowed": true,
+            "qualification_levels": [
+              "higher"
+            ],
+            "subject_ids": [
+              "english_language",
+              "english"
+            ],
+            "minimum_grade": "B"
+          },
+          "decision_outcome_if_not_met": "not_eligible",
+          "source_ids": [
+            "standrews_uk_qualifications"
+          ],
+          "notes": "English is required at National 5 grade B if not passed or predicted at Higher level. Higher ESOL may need adviser review where National 5 English was unavailable; National 5 ESOL is not accepted."
+        }
+      ],
+      "notes": "Conditional National 5 rules apply only inside the Scottish qualification evaluator and are not triggered for A-level applicants."
+    },
     "post_16": {
       "status": "official_source_verified_execution_route_limited",
       "source_ids": [
@@ -398,6 +486,7 @@
         ],
         "excluded_subject_ids": [
           "general_studies",
+          "critical_thinking",
           "global_perspectives_and_research"
         ],
         "excluded_subject_names": [
@@ -410,6 +499,12 @@
           "fourth_a_level_advantage": false,
           "grade_compensation": false
         },
+        "non_double_count_subject_groups": [
+          [
+            "mathematics",
+            "further_mathematics"
+          ]
+        ],
         "timing_and_sitting_rules": [
           "A-levels must be studied over two years and completed in Year 13.",
           "All three required A-levels must be taken at the same examination sitting.",
@@ -509,9 +604,15 @@
         "notes": "Conditional SL subjects, science hours and the complete HL/SL grade profile are not executable."
       },
       "scottish": {
-        "status": "official_source_verified_not_executable",
+        "status": "official_source_verified_executable_for_s5_s6_core_rules",
         "source_ids": [
           "standrews_uk_qualifications"
+        ],
+        "route_implemented": true,
+        "contextual_route_implemented": true,
+        "supported_applicant_pools": [
+          "scotland",
+          "ruk"
         ],
         "higher_offer": {
           "grade_profile": [
@@ -541,64 +642,144 @@
           {
             "requirement_id": "scottish_standard_entry",
             "applies_to_group_ids": [
-              "scotland_domiciled",
               "school_leaver"
             ],
+            "academic_pathway": "standard",
+            "pathway_id": "st_andrews_sqa_standard_entry",
             "qualification_level": "scottish_highers_and_advanced_highers",
-            "grade_profile": [
-              "AAAAB in S5",
-              "predicted BBB in S6"
+            "higher_school_year": "s5",
+            "excluded_higher_school_years": [
+              "s4"
             ],
-            "required_subject_ids": [
-              "chemistry"
+            "higher_grade_profile": [
+              "A",
+              "A",
+              "A",
+              "A",
+              "B"
             ],
-            "one_of_subject_groups": [
+            "combined_grade_requirements": [
               {
-                "group_id": "scottish_second_required_science_or_mathematics",
-                "minimum_required": 1,
-                "subject_ids": [
+                "requirement_id": "st_andrews_s6_standard_bbb",
+                "qualification_levels": [
+                  "higher",
+                  "advanced_higher"
+                ],
+                "school_year": "s6",
+                "grade_profile": [
+                  "B",
+                  "B",
+                  "B"
+                ],
+                "notes": "Predicted or achieved S6 profile may be made up of Highers, Advanced Highers or a mixture."
+              }
+            ],
+            "same_sitting_required": true,
+            "same_sitting_qualification_level": "higher",
+            "same_sitting_school_year": "s5",
+            "same_sitting_exception_allowed": true,
+            "same_sitting_exception_evidence_path": "same_sitting.school_exception_confirmed",
+            "same_sitting_exception_manual_review_reason": "st_andrews_s5_same_sitting_school_exception_requires_review",
+            "required_subject_same_school_year_rules": [
+              {
+                "requirement_id": "st_andrews_chemistry_and_second_science_same_year",
+                "required_subject_ids": [
+                  "chemistry"
+                ],
+                "one_of_subject_ids": [
                   "biology",
                   "human_biology",
                   "mathematics",
                   "physics"
+                ],
+                "qualification_levels": [
+                  "higher",
+                  "advanced_higher"
+                ],
+                "allowed_school_years": [
+                  "s5",
+                  "s6"
                 ]
               }
             ],
             "decision_outcome_if_not_met": "not_eligible",
             "source_ids": [
               "standrews_uk_qualifications"
-            ]
+            ],
+            "notes": "Standard SQA route: AAAAB Highers in S5, BBB in S6 from Highers/Advanced Highers/mixed profile, and Chemistry plus a second accepted science/mathematics subject in the same school year."
           },
           {
             "requirement_id": "scottish_minimum_contextual_entry",
             "applies_to_group_ids": [
-              "scotland_domiciled",
+              "school_leaver",
               "contextual"
             ],
+            "academic_pathway": "contextual",
+            "pathway_id": "st_andrews_sqa_minimum_contextual_entry",
             "qualification_level": "scottish_highers_and_advanced_highers",
-            "grade_profile": [
-              "AAABB in S5",
-              "predicted BB in S6"
+            "higher_school_year": "s5",
+            "excluded_higher_school_years": [
+              "s4"
             ],
-            "required_subject_ids": [
-              "chemistry"
+            "higher_grade_profile": [
+              "A",
+              "A",
+              "A",
+              "B",
+              "B"
             ],
-            "one_of_subject_groups": [
+            "combined_grade_requirements": [
               {
-                "group_id": "scottish_contextual_second_required_science_or_mathematics",
-                "minimum_required": 1,
-                "subject_ids": [
+                "requirement_id": "st_andrews_s6_contextual_bb",
+                "qualification_levels": [
+                  "higher",
+                  "advanced_higher"
+                ],
+                "school_year": "s6",
+                "grade_profile": [
+                  "B",
+                  "B"
+                ],
+                "notes": "Predicted or achieved S6 profile may be made up of Highers, Advanced Highers or a mixture."
+              }
+            ],
+            "same_sitting_required": true,
+            "same_sitting_qualification_level": "higher",
+            "same_sitting_school_year": "s5",
+            "same_sitting_exception_allowed": true,
+            "same_sitting_exception_evidence_path": "same_sitting.school_exception_confirmed",
+            "same_sitting_exception_manual_review_reason": "st_andrews_s5_same_sitting_school_exception_requires_review",
+            "required_subject_same_school_year_rules": [
+              {
+                "requirement_id": "st_andrews_contextual_chemistry_and_second_science_same_year",
+                "required_subject_ids": [
+                  "chemistry"
+                ],
+                "one_of_subject_ids": [
                   "biology",
                   "human_biology",
                   "mathematics",
                   "physics"
+                ],
+                "qualification_levels": [
+                  "higher",
+                  "advanced_higher"
+                ],
+                "allowed_school_years": [
+                  "s5",
+                  "s6"
                 ]
               }
             ],
             "decision_outcome_if_not_met": "not_eligible",
             "source_ids": [
               "standrews_uk_qualifications"
-            ]
+            ],
+            "contextual_offer_conditions": [
+              "Minimum entry requirements apply to eligible applicants based on their circumstances."
+            ],
+            "alternative_offer_label": "Your minimum requirements",
+            "notes": "Minimum/contextual SQA route: AAABB Highers in S5, BB in S6 from Highers/Advanced Highers/mixed profile, and the same required-subject timing rule."
           }
         ],
         "conditional_national_5_requirements": [
@@ -638,8 +819,8 @@
           "Higher ESOL may meet the National 5 English requirement where National 5 English is not offered.",
           "National 5 ESOL does not meet the National 5 English requirement."
         ],
-        "execution_status": "metadata_only_current_engine_does_not_evaluate_s5_s6_and_conditional_national_5_rules",
-        "notes": "The current engine must not return a full Scottish-route eligibility decision."
+        "execution_status": "executable_for_s5_s6_grade_profiles_required_subject_timing_and_conditional_national_5_rules",
+        "notes": "The shared Scottish evaluator enforces S5 Higher profiles, mixed S6 Higher/Advanced Higher profiles, required subject same-year timing and conditional National 5 rules. The S5 one-sitting school-availability exception is represented as structured evidence and returns manual review when unresolved."
       },
       "btec": {
         "status": "not_accepted",
@@ -1082,8 +1263,8 @@
       "configuration_file": "data/interview-band-configs/st-andrews-a100.json",
       "methodology_id": "historical_normalised_prediction_methodology_v1_0",
       "confidence": "low",
-      "execution_scope": "Non-contextual Scottish/Home and Rest of UK standard A-level school leavers, plus non-contextual international school leavers using verified historical international guidance, after confirmation of non-executable hurdles.",
-      "notes": "Guidance bands are historical competitiveness guidance, not official St Andrews cut-offs, current-cycle thresholds or probabilities. Contextual/WP applicants receive the verified ranking-only uplift but no interview band because no contextual interview threshold is published."
+      "execution_scope": "Scottish/Home and Rest of UK school leavers using UCAT ranking guidance after academic eligibility, plus non-contextual international school leavers using verified historical international guidance, after confirmation of non-executable hurdles. Contextual/WP applicants use the verified ranking-only UCAT uplift where St Andrews criteria apply.",
+      "notes": "Guidance bands are historical competitiveness guidance, not official St Andrews cut-offs, current-cycle thresholds or probabilities. The St Andrews result presentation uses academic eligibility as a hurdle followed by UCAT ranking; it does not require or invent an academic plus UCAT scoring formula."
     },
     "notes": "Official pre-interview selection is hurdle screening followed by UCAT Global Score ranking. Exact pool mechanics, current rank boundary and deterministic likelihood thresholds are unavailable."
   },
@@ -1096,6 +1277,13 @@
       "standrews_verified_international_contextual_update_2026_07_02"
     ],
     "available": true,
+    "contextual_eligibility": {
+      "evaluator_id": "st_andrews_contextual_medicine_a100",
+      "authoritative_for_route_activation": true,
+      "legacy_contextual_group_projection": "disabled",
+      "structured_step_6_evidence_required": true,
+      "notes": "St Andrews A100 contextual routing is activated only from Step 6 structured contextual evidence via the shared contextual eligibility framework. Minimum academic entry, 10% UCAT uplift and pledge eligibility remain separate structured outcomes."
+    },
     "applies_to_group_ids": [
       "contextual",
       "widening_participation",
@@ -2046,7 +2234,7 @@
     "interview_prediction": true,
     "historical_guidance": true,
     "international_prediction": true,
-    "contextual_logic": false,
+    "contextual_logic": true,
     "result_card": true,
     "regression": true,
     "research_completeness": "complete_for_supported_scope_with_documented_gaps",

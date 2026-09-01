@@ -8,7 +8,9 @@ import {
   filterGroupForCategory,
   presentResult,
   resultCardRecommendationExplanation,
+  strongestPopulatedCategory,
   strongestPopulatedFilterGroup,
+  type ResultCategory,
 } from './resultPresenter';
 import type { PredictionResult } from '../api/types';
 
@@ -76,6 +78,21 @@ describe('presentResult canonical band -> public label mapping', () => {
     const result = presentResult(card({ recommendation_display_state: 'manual_review' }));
     expect(result.category).toBe('manual_review');
     expect(result.label).toBe('Needs Review');
+  });
+
+  it('maps Glasgow incomplete Reach manual_review to Information Needed', () => {
+    const result = presentResult(
+      card({
+        recommendation_display_state: 'manual_review',
+        decision_transparency: {
+          manual_review_reason_code: 'glasgow_reach_completion_required',
+          manual_review_reason:
+            'Successful completion of Reach is required to confirm the Glasgow adjusted/contextual route.',
+        },
+      }),
+    );
+    expect(result.category).toBe('manual_review');
+    expect(result.label).toBe('Information Needed');
   });
 
   it('labels insufficient_evidence with a university_methodology_gap reason code as Prediction Unavailable', () => {
@@ -302,6 +319,27 @@ describe('Result filter groups', () => {
     });
     expect(filterGroupForCategory('very_strong')).toBe('recommended');
     expect(filterGroupForCategory('eligible_to_apply')).toBe('information_needed');
+  });
+});
+
+describe('strongestPopulatedCategory', () => {
+  it('picks very_strong when populated, ahead of everything else', () => {
+    const counts: Partial<Record<ResultCategory, number>> = { very_strong: 1, strong: 5, not_eligible: 2 };
+    expect(strongestPopulatedCategory(counts)).toBe('very_strong');
+  });
+
+  it('falls through the priority order to the first populated category', () => {
+    const counts: Partial<Record<ResultCategory, number>> = { high_risk: 3, not_eligible: 4 };
+    expect(strongestPopulatedCategory(counts)).toBe('high_risk');
+  });
+
+  it('prefers ambitious over high_risk when both are populated', () => {
+    const counts: Partial<Record<ResultCategory, number>> = { high_risk: 3, ambitious: 1 };
+    expect(strongestPopulatedCategory(counts)).toBe('ambitious');
+  });
+
+  it('falls back to "all" when nothing is populated', () => {
+    expect(strongestPopulatedCategory({})).toBe('all');
   });
 });
 
