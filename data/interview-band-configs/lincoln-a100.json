@@ -224,54 +224,54 @@
         "max": 15,
         "ranges": [
           {
-            "band": "b15_gt2300_2700",
-            "min": 2301,
+            "band": "b15_2300_2700",
+            "min": 2300,
             "max": 2700
           },
           {
-            "band": "b14_2170_2290",
+            "band": "b14_2170_2299",
             "min": 2170,
-            "max": 2290
+            "max": 2299
           },
           {
-            "band": "b12_2050_2160",
+            "band": "b12_2050_2169",
             "min": 2050,
-            "max": 2160
+            "max": 2169
           },
           {
-            "band": "b11_1970_2040",
+            "band": "b11_1970_2049",
             "min": 1970,
-            "max": 2040
+            "max": 2049
           },
           {
-            "band": "b10_1910_1960",
+            "band": "b10_1910_1969",
             "min": 1910,
-            "max": 1960
+            "max": 1969
           },
           {
-            "band": "b9_1860_1900",
+            "band": "b9_1860_1909",
             "min": 1860,
-            "max": 1900
+            "max": 1909
           },
           {
-            "band": "b7_1810_1850",
+            "band": "b7_1810_1859",
             "min": 1810,
-            "max": 1850
+            "max": 1859
           },
           {
-            "band": "b6_1750_1800",
+            "band": "b6_1750_1809",
             "min": 1750,
-            "max": 1800
+            "max": 1809
           },
           {
-            "band": "b4_1680_1740",
+            "band": "b4_1680_1749",
             "min": 1680,
-            "max": 1740
+            "max": 1749
           },
           {
-            "band": "b2_1580_1670",
+            "band": "b2_1580_1679",
             "min": 1580,
-            "max": 1670
+            "max": 1679
           },
           {
             "band": "b0_0_1579",
@@ -280,16 +280,16 @@
           }
         ],
         "points_by_band": {
-          "b15_gt2300_2700": 15,
-          "b14_2170_2290": 14,
-          "b12_2050_2160": 12,
-          "b11_1970_2040": 11,
-          "b10_1910_1960": 10,
-          "b9_1860_1900": 9,
-          "b7_1810_1850": 7,
-          "b6_1750_1800": 6,
-          "b4_1680_1740": 4,
-          "b2_1580_1670": 2,
+          "b15_2300_2700": 15,
+          "b14_2170_2299": 14,
+          "b12_2050_2169": 12,
+          "b11_1970_2049": 11,
+          "b10_1910_1969": 10,
+          "b9_1860_1909": 9,
+          "b7_1810_1859": 7,
+          "b6_1750_1809": 6,
+          "b4_1680_1749": 4,
+          "b2_1580_1679": 2,
           "b0_0_1579": 0
         },
         "official": true,
@@ -305,7 +305,9 @@
           "qualification_status": [
             "predicted"
           ]
-        }
+        },
+        "gap_policy": "none",
+        "normalisation_note": "ApplySmart normalisation: Lincoln publishes UCAT point bands with intermediate numerical gaps. ApplySmart treats each published lower boundary as the start of that points band and extends it to one point below the next published lower boundary, producing continuous scoring. The top band is normalised to begin at 2300."
       },
       {
         "component_id": "model_a_sjt",

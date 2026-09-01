@@ -46,7 +46,19 @@ const CONTEXTUAL_ROUTE_CONTROL_GROUP_IDS = new Set([
   'access_to_leeds_confirmed',
   'exeter_contextual_confirmed',
   'wp2',
-  'fair_access'
+  'fair_access',
+
+  // UCL evaluator-controlled contextual routing.
+  'access_ucl_confirmed',
+
+  // Lincoln evaluator-controlled contextual scoring groups.
+  'lincoln_care_leaver',
+  'lincoln_refugee',
+  'lincoln_mem2_q1',
+  'lincoln_mem2_q2',
+  'lincoln_ucat_bursary',
+  'lincoln_lms_wp_summer_school',
+  'lincolnshire_residence'
 ]);
 
 function applicantGroupIdsForResult(groupIds = [], applicant = {}) {
