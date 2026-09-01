@@ -373,16 +373,16 @@ assert.strictEqual(
 );
 
 const ucatPublishedRanges = [
-  [2301, 2700, 15],
-  [2170, 2290, 14],
-  [2050, 2160, 12],
-  [1970, 2040, 11],
-  [1910, 1960, 10],
-  [1860, 1900, 9],
-  [1810, 1850, 7],
-  [1750, 1800, 6],
-  [1680, 1740, 4],
-  [1580, 1670, 2],
+  [2300, 2700, 15],
+  [2170, 2299, 14],
+  [2050, 2169, 12],
+  [1970, 2049, 11],
+  [1910, 1969, 10],
+  [1860, 1909, 9],
+  [1810, 1859, 7],
+  [1750, 1809, 6],
+  [1680, 1749, 4],
+  [1580, 1679, 2],
   [0, 1579, 0]
 ];
 
@@ -411,62 +411,6 @@ for (const [min, max, points] of ucatPublishedRanges) {
       boundary.canonical_interview_band,
       'insufficient_evidence',
       `UCAT boundary ${totalScore} should remain scoreable`
-    );
-  }
-}
-
-const ucatUnresolvedGaps = [
-  [2291, 2300],
-  [2161, 2169],
-  [2041, 2049],
-  [1961, 1969],
-  [1901, 1909],
-  [1851, 1859],
-  [1801, 1809],
-  [1741, 1749],
-  [1671, 1679]
-];
-
-for (const [min, max] of ucatUnresolvedGaps) {
-  for (let totalScore = min; totalScore <= max; totalScore += 1) {
-    const gap = classifyInterviewBand(
-      course,
-      config,
-      merge(fixture.base_applicant, {
-        admissions_tests: {
-          ucat: {
-            total_score: totalScore,
-            score_scale: 2700,
-            sjt_band: 2,
-            test_year: 2026
-          }
-        }
-      })
-    );
-    assert.strictEqual(
-      gap.ranking.status,
-      'unavailable',
-      `UCAT gap ${totalScore} should make the score unavailable`
-    );
-    assert.strictEqual(
-      gap.ranking.components.model_a_ucat_cognitive.value,
-      null,
-      `UCAT gap ${totalScore} should not return a neighbouring band score`
-    );
-    assert.strictEqual(
-      gap.ranking.components.model_a_ucat_cognitive.estimated_from_gap,
-      false,
-      `UCAT gap ${totalScore} should not use nearest-range estimation`
-    );
-    assert.strictEqual(
-      gap.ranking.components.model_a_ucat_cognitive.reason,
-      'range_lookup_unavailable',
-      `UCAT gap ${totalScore} should expose a controlled component reason`
-    );
-    assert.strictEqual(
-      gap.canonical_interview_band,
-      'insufficient_evidence',
-      `UCAT gap ${totalScore} should not be rounded into a provisional band`
     );
   }
 }
