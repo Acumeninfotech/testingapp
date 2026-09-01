@@ -3476,7 +3476,7 @@ function buildRankingEvidence(options = {}) {
   const ucatComparison = options.ucatComparison;
   const ucatRankingBypass = ucatRankingBypassApplies(options);
   const usesAberdeenAdjustedSelectionUcat =
-    bandMetric?.metric === 'aberdeen_adjusted_selection_ucat_total';
+    bandMetric?.metric === 'contextual_adjusted_selection_ucat_total';
   const usesContextualAdjustedSelectionUcat =
     bandMetric?.metric === CONTEXTUAL_ADJUSTED_SELECTION_UCAT_METRIC;
   const adjustedSelectionUcatLabel =
@@ -3633,7 +3633,7 @@ function buildUcatAdjustmentPresentation(options = {}) {
     options.bandMetric?.metric === CONTEXTUAL_ADJUSTED_SELECTION_UCAT_METRIC;
 
   if (
-    options.bandMetric?.metric !== 'aberdeen_adjusted_selection_ucat_total' &&
+    options.bandMetric?.metric !== 'contextual_adjusted_selection_ucat_total' &&
     !usesContextualAdjustedSelectionUcat &&
     !isEdinburghAdjustment
   ) {
@@ -5693,7 +5693,7 @@ function buildUcatComparison(options = {}) {
   const applicantUcat =
     [
       'ucat_total',
-      'aberdeen_adjusted_selection_ucat_total',
+      'contextual_adjusted_selection_ucat_total',
       CONTEXTUAL_ADJUSTED_SELECTION_UCAT_METRIC
     ].includes(options.bandMetric?.metric) &&
     Number.isFinite(options.bandMetric.value)
@@ -5863,7 +5863,7 @@ function isUcatRankingContext(context = {}) {
   const rankingHasComponents = Object.keys(context.ranking?.components || {}).length > 0;
   return (
     context.band_metric?.metric === 'ucat_total' ||
-    context.band_metric?.metric === 'aberdeen_adjusted_selection_ucat_total' ||
+    context.band_metric?.metric === 'contextual_adjusted_selection_ucat_total' ||
     context.band_metric?.metric === CONTEXTUAL_ADJUSTED_SELECTION_UCAT_METRIC ||
     context.stage_2_selection?.represented_ranking_input?.metric === 'ucat_total' ||
     (

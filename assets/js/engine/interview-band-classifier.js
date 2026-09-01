@@ -59,7 +59,6 @@ function applicantGroupIdsForResult(groupIds = [], applicant = {}) {
   return [...groups];
 }
 
-const ABERDEEN_ADJUSTED_SELECTION_UCAT_METRIC = 'aberdeen_adjusted_selection_ucat_total';
 const CONTEXTUAL_ADJUSTED_SELECTION_UCAT_SOURCE = 'contextual_adjusted_selection_ucat_total';
 const CONTEXTUAL_ADJUSTED_SELECTION_UCAT_METRIC = 'contextual_adjusted_selection_ucat_total';
 
@@ -2224,22 +2223,15 @@ function resolveGuaranteedInterviewOverride(config, applicant, groupIds = [], re
     return null;
   }
 
-  const isLancasterOverride = override.band_id === 'lancaster_access_to_medicine_guaranteed_interview';
-  if (isLancasterOverride) {
-    const contextualStatus = resolvedEligibility?.contextual_eligibility?.status;
-    const contextualConfirmed = contextualStatus === 'contextual' || contextualStatus === 'confirmed';
-    const academicEligible = resolvedEligibility?.status === 'eligible';
-    const sjtBand = applicant.admissions_tests?.ucat?.sjt_band;
-    const sjtAllowed = Number.isFinite(sjtBand) ? sjtBand !== 4 : true;
-    if (!contextualConfirmed || !academicEligible || !sjtAllowed) {
-      return null;
-    }
-  }
-
   if (Array.isArray(override.any_conditions) && override.any_conditions.length > 0) {
     const matchedCondition = override.any_conditions.find((condition) => {
+      const resolvedCondition = {
+        ...override,
+        ...condition
+      };
       return groupRuleApplies(condition.match || condition, groupIds) &&
-        overrideEvidenceMatches(condition, applicant);
+        overrideEvidenceMatches(condition, applicant) &&
+        guaranteedInterviewRequirementsApply(resolvedCondition, applicant, resolvedEligibility);
     });
     return matchedCondition
       ? {
@@ -2253,9 +2245,52 @@ function resolveGuaranteedInterviewOverride(config, applicant, groupIds = [], re
   }
 
   return groupRuleApplies(override.match || override, groupIds) &&
-    overrideEvidenceMatches(override, applicant)
+    overrideEvidenceMatches(override, applicant) &&
+    guaranteedInterviewRequirementsApply(override, applicant, resolvedEligibility)
     ? override
     : null;
+}
+
+function valuesInclude(list, value) {
+  return Array.isArray(list) && list.includes(value);
+}
+
+function guaranteedInterviewRequirementsApply(rule, applicant, resolvedEligibility = null) {
+  if (
+    rule.requires_eligibility_status &&
+    resolvedEligibility?.status !== rule.requires_eligibility_status
+  ) {
+    return false;
+  }
+
+  if (
+    rule.requires_confirmed_contextual_eligibility === true &&
+    !valuesInclude(
+      rule.confirmed_contextual_statuses || ['contextual', 'confirmed'],
+      resolvedEligibility?.contextual_eligibility?.status
+    )
+  ) {
+    return false;
+  }
+
+  if (
+    Array.isArray(rule.contextual_levels) &&
+    !rule.contextual_levels.includes(
+      resolvedEligibility?.contextual_eligibility?.contextual_level
+    )
+  ) {
+    return false;
+  }
+
+  const sjtBand = applicant.admissions_tests?.ucat?.sjt_band;
+  if (Array.isArray(rule.sjt_bands) && !rule.sjt_bands.includes(sjtBand)) {
+    return false;
+  }
+  if (Array.isArray(rule.excluded_sjt_bands) && rule.excluded_sjt_bands.includes(sjtBand)) {
+    return false;
+  }
+
+  return true;
 }
 
 function getNationalDecile(applicant, context) {
@@ -2783,29 +2818,6 @@ function lowestConfiguredALevelBand(component) {
     .sort((a, b) => a.points - b.points)[0] || null;
 }
 
-function calculateEdinburghPlusFlagALevelBand(component, context = {}) {
-  if (
-    context.courseProfileId !== 'edinburgh-a100' ||
-    context.resolvedEligibility?.status !== 'eligible' ||
-    context.resolvedEligibility?.academic_pathway !== 'contextual' ||
-    context.resolvedEligibility?.contextual_eligibility?.contextual_level !== 'plus_flag'
-  ) {
-    return null;
-  }
-
-  const floorBand = lowestConfiguredALevelBand(component);
-  if (!floorBand) {
-    return null;
-  }
-
-  return {
-    value: floorBand.points,
-    band: 'edinburgh_plus_flag_reduced_aab',
-    reference_band: floorBand.band_id,
-    route: 'edinburgh_plus_flag_reduced_aab'
-  };
-}
-
 function buildAcademicProfileMatrixResult(component, gcse, aLevel) {
   const unboundedValue = gcse.value + aLevel.value;
   const hardCap = Number.isFinite(component.hard_cap) ? component.hard_cap : Infinity;
@@ -2957,59 +2969,93 @@ function lowestConfiguredScottishHigherAdvancedHigherBand(component) {
     .sort((a, b) => a.points - b.points)[0] || null;
 }
 
-function calculateEdinburghPlusFlagScottishHigherAdvancedHigherBand(component, context = {}) {
+function academicFallbackRuleMatches(rule = {}, context = {}) {
+  const eligibility = context.resolvedEligibility || {};
   if (
-    context.courseProfileId !== 'edinburgh-a100' ||
-    context.resolvedEligibility?.status !== 'eligible' ||
-    context.resolvedEligibility?.academic_pathway !== 'contextual' ||
-    context.resolvedEligibility?.contextual_eligibility?.contextual_level !== 'plus_flag'
+    rule.requires_eligibility_status &&
+    eligibility.status !== rule.requires_eligibility_status
   ) {
-    return null;
+    return false;
+  }
+  if (
+    rule.academic_pathway &&
+    eligibility.academic_pathway !== rule.academic_pathway
+  ) {
+    return false;
+  }
+  if (
+    Array.isArray(rule.academic_pathway_ids) &&
+    !rule.academic_pathway_ids.includes(eligibility.academic_pathway_id)
+  ) {
+    return false;
+  }
+  if (
+    Array.isArray(rule.academic_pathway_id_fragments) &&
+    !rule.academic_pathway_id_fragments.some((fragment) =>
+      String(eligibility.academic_pathway_id || '').includes(fragment)
+    )
+  ) {
+    return false;
+  }
+  if (
+    Array.isArray(rule.contextual_statuses) &&
+    !rule.contextual_statuses.includes(eligibility.contextual_eligibility?.status)
+  ) {
+    return false;
+  }
+  if (
+    Array.isArray(rule.contextual_levels) &&
+    !rule.contextual_levels.includes(eligibility.contextual_eligibility?.contextual_level)
+  ) {
+    return false;
+  }
+  if (
+    Array.isArray(rule.scottish_medical_school_route_ids) &&
+    !rule.scottish_medical_school_route_ids.includes(
+      eligibility.scottish_medical_school_route?.route_id
+    )
+  ) {
+    return false;
+  }
+  if (rule.match && !groupRuleApplies(rule.match, context.groupIds || [])) {
+    return false;
   }
 
-  const floorBand = lowestConfiguredScottishHigherAdvancedHigherBand(component);
+  return true;
+}
+
+function configuredFallbackBandFromRule(rule = {}, floorBand = null) {
   if (!floorBand) {
     return null;
   }
 
   return {
     value: floorBand.points,
-    band: 'edinburgh_plus_flag_reduced_sqa',
+    band: rule.band_id || floorBand.band_id,
     reference_band: floorBand.band_id,
-    route: 'edinburgh_plus_flag_reduced_sqa'
+    route: rule.route_id || rule.band_id || null
   };
 }
 
-function calculateEdinburghStandardScottishHigherAdvancedHigherBand(component, context = {}) {
-  const routeId = context.resolvedEligibility?.scottish_medical_school_route?.route_id;
-  if (
-    context.courseProfileId !== 'edinburgh-a100' ||
-    context.resolvedEligibility?.status !== 'eligible' ||
-    !['scotland_standard', 'ruk_standard'].includes(routeId)
-  ) {
-    return null;
-  }
-
-  const floorBand = lowestConfiguredScottishHigherAdvancedHigherBand(component);
-  if (!floorBand) {
-    return null;
-  }
-
-  return {
-    value: floorBand.points,
-    band: 'edinburgh_standard_sqa_eligible_floor',
-    reference_band: floorBand.band_id,
-    route: 'edinburgh_standard_sqa_eligible_floor'
-  };
+function calculateConfiguredAcademicFallbackBand(rules = [], floorBand = null, context = {}) {
+  const matchedRule = (rules || []).find((rule) => academicFallbackRuleMatches(rule, context));
+  return matchedRule ? configuredFallbackBandFromRule(matchedRule, floorBand) : null;
 }
 
 function calculateScottishAcademicProfileMatrix(component, applicant, context = {}) {
   const national5 = calculateScottishNational5Band(component, applicant);
   const standardHigherAdvancedHigher = calculateScottishHigherAdvancedHigherBand(component, applicant);
+  const higherAdvancedHigherConfig =
+    component.sqa?.higher_advanced_higher ||
+    component.scottish?.higher_advanced_higher ||
+    {};
   const higherAdvancedHigher = Number.isFinite(standardHigherAdvancedHigher.value)
     ? standardHigherAdvancedHigher
-    : calculateEdinburghPlusFlagScottishHigherAdvancedHigherBand(component, context) ||
-      calculateEdinburghStandardScottishHigherAdvancedHigherBand(component, context) ||
+    : calculateConfiguredAcademicFallbackBand(
+      higherAdvancedHigherConfig.fallback_band_rules,
+      lowestConfiguredScottishHigherAdvancedHigherBand(component),
+      context
+    ) ||
       standardHigherAdvancedHigher;
 
   if (!Number.isFinite(national5.value) || !Number.isFinite(higherAdvancedHigher.value)) {
@@ -3051,7 +3097,11 @@ function calculateAcademicProfileMatrix(component, applicant, context = {}) {
   const standardALevel = calculateAcademicProfileALevelBand(component, applicant);
   const aLevel = Number.isFinite(standardALevel.value)
     ? standardALevel
-    : calculateEdinburghPlusFlagALevelBand(component, context) || standardALevel;
+    : calculateConfiguredAcademicFallbackBand(
+      component.a_level?.fallback_band_rules,
+      lowestConfiguredALevelBand(component),
+      context
+    ) || standardALevel;
 
   if (!Number.isFinite(gcse.value) || !Number.isFinite(aLevel.value)) {
     return {
@@ -3064,7 +3114,7 @@ function calculateAcademicProfileMatrix(component, applicant, context = {}) {
   return buildAcademicProfileMatrixResult(component, gcse, aLevel);
 }
 
-function dundeeScottishProfile(applicant = {}) {
+function schoolLeaverScottishProfile(applicant = {}) {
   const profile = applicant.scottish_profile || {};
   const legacy = applicant.scottish_qualifications || {};
   return {
@@ -3074,7 +3124,7 @@ function dundeeScottishProfile(applicant = {}) {
   };
 }
 
-function dundeeSubjectMap(subjects = []) {
+function qualificationSubjectMap(subjects = []) {
   return Object.fromEntries(
     (subjects || [])
       .filter((subject) => subject?.subject_id)
@@ -3085,8 +3135,8 @@ function dundeeSubjectMap(subjects = []) {
   );
 }
 
-function dundeeScottishNational5Estimate(profile, component, eligibility) {
-  const grades = dundeeSubjectMap(profile.national_5_subjects);
+function schoolLeaverScottishNational5Estimate(profile, component, eligibility) {
+  const grades = qualificationSubjectMap(profile.national_5_subjects);
   const values = Object.values(grades).filter((grade) => grade !== null && grade !== undefined && grade !== '');
   const minimumCount = component.scottish_academic?.national_5_minimum_count ?? 5;
   const scienceIds = component.scottish_academic?.national_5_science_subject_ids || ['biology', 'chemistry'];
@@ -3111,27 +3161,64 @@ function dundeeScottishNational5Estimate(profile, component, eligibility) {
   return { value: 0, band: 'national_5_strength_unavailable_or_below_predictor_floor' };
 }
 
-function dundeeScottishHigherEstimate(profile, component, eligibility) {
+function schoolLeaverRouteMatchApplies(rule = {}, eligibility = {}) {
   const pathway = String(eligibility?.academic_pathway || '');
   const pathwayId = String(eligibility?.academic_pathway_id || '');
   if (
-    eligibility?.status === 'eligible' &&
-    (
-      pathway === 'standard' ||
-      pathway === 'contextual' ||
-      pathwayId.includes('dundee_scottish_standard') ||
-      pathwayId.includes('dundee_scottish_widening_access')
-    )
+    rule.requires_eligibility_status &&
+    eligibility?.status !== rule.requires_eligibility_status
+  ) {
+    return false;
+  }
+  if (
+    Array.isArray(rule.academic_pathways) &&
+    !rule.academic_pathways.includes(pathway)
+  ) {
+    return false;
+  }
+  if (
+    Array.isArray(rule.academic_pathway_ids) &&
+    !rule.academic_pathway_ids.includes(pathwayId)
+  ) {
+    return false;
+  }
+  if (
+    Array.isArray(rule.academic_pathway_id_fragments) &&
+    !rule.academic_pathway_id_fragments.some((fragment) => pathwayId.includes(fragment))
+  ) {
+    return false;
+  }
+  if (
+    Array.isArray(rule.contextual_levels) &&
+    !rule.contextual_levels.includes(eligibility?.contextual_eligibility?.contextual_level)
+  ) {
+    return false;
+  }
+
+  return true;
+}
+
+function schoolLeaverScottishHigherEstimate(profile, component, eligibility) {
+  const routeMatch = component.scottish_academic?.confirmed_higher_route_match || {
+    requires_eligibility_status: 'eligible',
+    academic_pathways: ['standard', 'contextual']
+  };
+  const contextualRouteMatch =
+    component.scottish_academic?.contextual_higher_route_match || {
+      academic_pathways: ['contextual']
+    };
+  if (
+    schoolLeaverRouteMatchApplies(routeMatch, eligibility)
   ) {
     return {
       value: 30,
-      band: pathway === 'contextual' || pathwayId.includes('widening_access')
+      band: schoolLeaverRouteMatchApplies(contextualRouteMatch, eligibility)
         ? 'confirmed_contextual_route'
         : 'confirmed_standard_route'
     };
   }
 
-  const grades = Object.values(dundeeSubjectMap(profile.higher_subjects));
+  const grades = Object.values(qualificationSubjectMap(profile.higher_subjects));
   const standardProfiles = component.scottish_academic?.standard_higher_profiles || [['A', 'A', 'A', 'A', 'B']];
   const contextualProfiles = component.scottish_academic?.contextual_higher_profiles || [['A', 'A', 'A', 'B', 'B']];
   const profilePassed = [...standardProfiles, ...contextualProfiles].some((gradeProfile) => {
@@ -3143,15 +3230,15 @@ function dundeeScottishHigherEstimate(profile, component, eligibility) {
     : { value: 0, band: 'higher_strength_unavailable_or_below_predictor_floor' };
 }
 
-function dundeeConfirmedRukContextualAlevelRoute(eligibility) {
-  const pathway = String(eligibility?.academic_pathway || '');
-  const pathwayId = String(eligibility?.academic_pathway_id || '');
-  return eligibility?.status === 'eligible' &&
-    pathway === 'contextual' &&
-    pathwayId.includes('dundee_ruk_contextual_widening_access_a_level');
+function confirmedConfiguredContextualALevelRoute(component, eligibility) {
+  const rule = component.ruk_academic_profile_matrix?.contextual_route_match || {
+    requires_eligibility_status: 'eligible',
+    academic_pathways: ['contextual']
+  };
+  return schoolLeaverRouteMatchApplies(rule, eligibility);
 }
 
-function dundeeRukAcademicProfileEstimate(component, applicant, eligibility) {
+function schoolLeaverALevelAcademicProfileEstimate(component, applicant, eligibility) {
   const matrix = calculateAcademicProfileMatrix(component.ruk_academic_profile_matrix, applicant);
   if (Number.isFinite(matrix.value)) {
     return {
@@ -3160,7 +3247,7 @@ function dundeeRukAcademicProfileEstimate(component, applicant, eligibility) {
     };
   }
 
-  if (!dundeeConfirmedRukContextualAlevelRoute(eligibility)) {
+  if (!confirmedConfiguredContextualALevelRoute(component, eligibility)) {
     return {
       ...matrix,
       route: 'ruk_applysmart_academic_strength_estimate'
@@ -3193,42 +3280,57 @@ function dundeeRukAcademicProfileEstimate(component, applicant, eligibility) {
     route: 'ruk_contextual_applysmart_academic_strength_estimate',
     official: false,
     evidence_label: component.evidence_label || 'applysmart_derived_guidance',
-    assumption_note:
-      "Dundee's exact RUK contextual academic scoring conversion is unpublished. ApplySmart treats a confirmed qualifying Dundee RUK contextual A-level route as satisfying the A-level academic-strength component for guidance only."
+    assumption_note: matrixConfig.contextual_route_assumption_note || null
   };
 }
 
-function dundeeUcatBenchmarkKey(groupIds = [], eligibility = {}) {
-  const groups = new Set(groupIds);
-  const contextualCategory = eligibility.contextual_eligibility?.contextual_category || null;
-
-  if (groups.has('scotland_domiciled')) {
-    if (groups.has('contextual') || groups.has('widening_participation')) {
-      if (contextualCategory === 'category_1') return 'scotland_contextual_category_1';
-      if (contextualCategory === 'category_2') return 'scotland_contextual_category_2';
-      return 'scotland_contextual';
+function configuredUcatBenchmarkKey(component, groupIds = [], eligibility = {}) {
+  for (const route of component.ucat_competitiveness_proxy?.benchmark_routing || []) {
+    if (!groupRuleApplies(route.match || route, groupIds)) {
+      continue;
     }
-    return 'scotland_standard';
+    if (
+      Array.isArray(route.contextual_categories) &&
+      !route.contextual_categories.includes(
+        eligibility.contextual_eligibility?.contextual_category
+      )
+    ) {
+      continue;
+    }
+    if (
+      Array.isArray(route.contextual_levels) &&
+      !route.contextual_levels.includes(
+        eligibility.contextual_eligibility?.contextual_level
+      )
+    ) {
+      continue;
+    }
+    return route.benchmark_key;
   }
-  if (groups.has('rest_of_uk')) {
-    return groups.has('contextual') || groups.has('widening_participation')
-      ? 'ruk_contextual'
-      : 'ruk_standard';
-  }
+
   return null;
 }
 
-function dundeeUcatCompetitivenessEstimate(component, applicant, context) {
+function schoolLeaverUcatCompetitivenessEstimate(component, applicant, context) {
   const score = applicant.admissions_tests?.ucat?.total_score;
   if (!Number.isFinite(score)) {
     return { value: null, max: 40, reason: 'ucat_total_unavailable' };
   }
 
-  const benchmarkKey = dundeeUcatBenchmarkKey(context.groupIds || [], context.resolvedEligibility || {});
+  const benchmarkKey = configuredUcatBenchmarkKey(
+    component,
+    context.groupIds || [],
+    context.resolvedEligibility || {}
+  );
   const benchmarks = component.ucat_competitiveness_proxy?.benchmarks || {};
   const benchmark = benchmarks[benchmarkKey] || null;
   if (!benchmark) {
-    return { value: null, max: 40, reason: 'dundee_home_ucat_proxy_unavailable' };
+    return {
+      value: null,
+      max: 40,
+      reason: component.ucat_competitiveness_proxy?.unavailable_reason_code ||
+        'ucat_proxy_unavailable'
+    };
   }
 
   const veryStrong = benchmark.very_strong;
@@ -3263,7 +3365,7 @@ function dundeeUcatCompetitivenessEstimate(component, applicant, context) {
   };
 }
 
-function calculateDundeeSchoolLeaverGuidanceIndex(component, applicant, context) {
+function calculateSchoolLeaverAcademicUcatGuidanceIndex(component, applicant, context) {
   const groups = new Set(context.groupIds || []);
   if (!groups.has('home_fee') || !groups.has('school_leaver') || groups.has('international_fee')) {
     return {
@@ -3280,9 +3382,9 @@ function calculateDundeeSchoolLeaverGuidanceIndex(component, applicant, context)
   let academicComponent;
 
   if (isScottishAcademicRoute) {
-    const profile = dundeeScottishProfile(applicant);
-    const national5 = dundeeScottishNational5Estimate(profile, component, context.resolvedEligibility);
-    const higher = dundeeScottishHigherEstimate(profile, component, context.resolvedEligibility);
+    const profile = schoolLeaverScottishProfile(applicant);
+    const national5 = schoolLeaverScottishNational5Estimate(profile, component, context.resolvedEligibility);
+    const higher = schoolLeaverScottishHigherEstimate(profile, component, context.resolvedEligibility);
     academicComponent = {
       value: national5.value + higher.value,
       max: 60,
@@ -3293,7 +3395,7 @@ function calculateDundeeSchoolLeaverGuidanceIndex(component, applicant, context)
       }
     };
   } else if (isAlevelAcademicRoute) {
-    academicComponent = dundeeRukAcademicProfileEstimate(
+    academicComponent = schoolLeaverALevelAcademicProfileEstimate(
       component,
       applicant,
       context.resolvedEligibility
@@ -3302,16 +3404,19 @@ function calculateDundeeSchoolLeaverGuidanceIndex(component, applicant, context)
     return {
       value: null,
       max: component.max ?? 100,
-      reason: 'dundee_home_school_leaver_pool_unavailable'
+      reason: component.unsupported_route_reason_code || 'school_leaver_pool_unavailable'
     };
   }
 
-  const ucatComponent = dundeeUcatCompetitivenessEstimate(component, applicant, context);
+  const ucatComponent = schoolLeaverUcatCompetitivenessEstimate(component, applicant, context);
   if (!Number.isFinite(academicComponent.value) || !Number.isFinite(ucatComponent.value)) {
     return {
       value: null,
       max: component.max ?? 100,
-      reason: academicComponent.reason || ucatComponent.reason || 'dundee_school_leaver_guidance_inputs_unavailable',
+      reason: academicComponent.reason ||
+        ucatComponent.reason ||
+        component.inputs_unavailable_reason_code ||
+        'school_leaver_guidance_inputs_unavailable',
       components: {
         academic: academicComponent,
         ucat: ucatComponent
@@ -3513,42 +3618,6 @@ function calculateUcatTotalWithPercentageUplifts(component, applicant, context) 
   };
 }
 
-function resolveAberdeenAdjustedSelectionUcat(applicant, context = {}) {
-  const rawScore = applicant.admissions_tests?.ucat?.total_score;
-  if (!Number.isFinite(rawScore)) {
-    return {
-      value: null,
-      raw_value: null,
-      max: applicant.admissions_tests?.ucat?.score_scale ?? 2700,
-      reason: 'ucat_total_unavailable'
-    };
-  }
-
-  const adjusted = context.resolvedEligibility?.contextual_eligibility?.adjusted_selection_ucat;
-  const adjustedScore = Number(adjusted?.adjusted_ucat);
-  const upliftPercent = Number(adjusted?.uplift_percent);
-  if (!Number.isFinite(adjustedScore) || !Number.isFinite(upliftPercent) || upliftPercent <= 0) {
-    return {
-      value: rawScore,
-      raw_value: rawScore,
-      max: applicant.admissions_tests?.ucat?.score_scale ?? 2700,
-      total_uplift_percent: 0,
-      applied_uplift: null
-    };
-  }
-
-  return {
-    value: adjustedScore,
-    raw_value: rawScore,
-    max: applicant.admissions_tests?.ucat?.score_scale ?? 2700,
-    total_uplift_percent: upliftPercent,
-    applied_uplift: {
-      reason: adjusted.reason || null,
-      reason_label: adjusted.reason_label || null,
-      stacking_policy: adjusted.stacking_policy || 'highest_applicable_uplift_only'
-    }
-  };
-}
 
 function resolveContextualAdjustedSelectionUcat(applicant, context = {}) {
   const rawScore = applicant.admissions_tests?.ucat?.total_score;
@@ -3950,7 +4019,7 @@ function calculateComponent(component, applicant, context) {
     a_level_grade_points_scaled: calculateALevelGradePoints,
     ucat_national_decile_lookup: calculateNationalDecileLookup,
     gcse_mandatory_then_best: calculateGcseMandatoryThenBest,
-    aston_scottish_academic_score: calculateAstonScottishAcademicScore,
+    scottish_academic_score: calculateAstonScottishAcademicScore,
     qualification_presence: calculateQualificationPresence,
     academic_profile_matrix: calculateAcademicProfileMatrix,
     ucat_range_lookup: calculateRangeLookup,
@@ -3962,7 +4031,7 @@ function calculateComponent(component, applicant, context) {
     academic_ucat_compensation_matrix: calculateAcademicUcatCompensationMatrix,
     ucat_total_with_percentage_uplifts: calculateUcatTotalWithPercentageUplifts,
     gcse_ucat_weighted_composite: calculateGcseUcatWeightedComposite,
-    dundee_school_leaver_guidance_index: calculateDundeeSchoolLeaverGuidanceIndex
+    school_leaver_academic_ucat_guidance_index: calculateSchoolLeaverAcademicUcatGuidanceIndex
   };
   const calculator = calculators[component.type];
 
@@ -4079,7 +4148,6 @@ function calculatePoolRanking(config, pool, applicant, context) {
     ![
       'ucat_total',
       'gamsat_total',
-      ABERDEEN_ADJUSTED_SELECTION_UCAT_METRIC,
       CONTEXTUAL_ADJUSTED_SELECTION_UCAT_METRIC
     ].includes(pool?.metric) ||
     (
@@ -4092,10 +4160,8 @@ function calculatePoolRanking(config, pool, applicant, context) {
 
   const isGamsat = pool.metric === 'gamsat_total';
   const adjustedUcat =
-    pool.metric === ABERDEEN_ADJUSTED_SELECTION_UCAT_METRIC
-      ? resolveAberdeenAdjustedSelectionUcat(applicant, context)
-      : pool.metric === CONTEXTUAL_ADJUSTED_SELECTION_UCAT_METRIC
-        ? resolveContextualAdjustedSelectionUcat(applicant, context)
+    pool.metric === CONTEXTUAL_ADJUSTED_SELECTION_UCAT_METRIC
+      ? resolveContextualAdjustedSelectionUcat(applicant, context)
       : null;
   const value = isGamsat
     ? applicant.admissions_tests?.gamsat?.overall_score
@@ -4110,8 +4176,6 @@ function calculatePoolRanking(config, pool, applicant, context) {
     status: Number.isFinite(value) ? 'calculated' : 'unavailable',
     basis: isGamsat
       ? 'Overall GAMSAT ranking after the section minimum'
-      : pool.metric === ABERDEEN_ADJUSTED_SELECTION_UCAT_METRIC
-      ? 'Aberdeen adjusted selection UCAT ranking'
       : pool.metric === CONTEXTUAL_ADJUSTED_SELECTION_UCAT_METRIC
       ? 'Contextual adjusted UCAT ranking'
       : config.score_model?.metric === 'ucat_total'
@@ -4265,7 +4329,6 @@ function getMetricValue(metric, score, applicant) {
     return score?.value;
   }
   if (
-    metric === ABERDEEN_ADJUSTED_SELECTION_UCAT_METRIC ||
     metric === CONTEXTUAL_ADJUSTED_SELECTION_UCAT_METRIC
   ) {
     return score?.value;
@@ -4301,7 +4364,6 @@ function getMetricScale(metric, score, applicant, config) {
     };
   }
   if (
-    metric === ABERDEEN_ADJUSTED_SELECTION_UCAT_METRIC ||
     metric === CONTEXTUAL_ADJUSTED_SELECTION_UCAT_METRIC
   ) {
     return {
@@ -4330,11 +4392,7 @@ function getMetricLabel(metric) {
   }
   if (metric === 'ucat_total') {
     return 'UCAT total';
-  }
-  if (metric === ABERDEEN_ADJUSTED_SELECTION_UCAT_METRIC) {
-    return 'Aberdeen adjusted selection UCAT';
-  }
-  if (metric === CONTEXTUAL_ADJUSTED_SELECTION_UCAT_METRIC) {
+  }  if (metric === CONTEXTUAL_ADJUSTED_SELECTION_UCAT_METRIC) {
     return 'contextual adjusted UCAT';
   }
   if (metric === 'gamsat_total') {
@@ -4477,8 +4535,8 @@ function selectGuidancePool(config, groupIds, applicant = null) {
 }
 
 function resolveSelectionRouteId({ course, groupIds, resolvedEligibility, guaranteedOverride, guidancePool }) {
-  if (guaranteedOverride?.band_id === 'lancaster_access_to_medicine_guaranteed_interview') {
-    return 'lancaster_access_to_medicine_guaranteed_interview';
+  if (guaranteedOverride?.selection_route_id) {
+    return guaranteedOverride.selection_route_id;
   }
 
   if (resolvedEligibility?.scottish_medical_school_route?.route_id) {

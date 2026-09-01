@@ -113,7 +113,7 @@
       },
       {
         "component_id": "home_school_leaver_guidance_index",
-        "type": "dundee_school_leaver_guidance_index",
+        "type": "school_leaver_academic_ucat_guidance_index",
         "max": 100,
         "match": {
           "all_group_ids": [
@@ -127,6 +127,8 @@
         },
         "evidence_label": "applysmart_derived_guidance",
         "official_university_score": false,
+        "unsupported_route_reason_code": "home_school_leaver_pool_unavailable",
+        "inputs_unavailable_reason_code": "school_leaver_guidance_inputs_unavailable",
         "weighting": {
           "academic_weight_percent": 60,
           "ucat_weight_percent": 40,
@@ -140,6 +142,18 @@
             "biology",
             "chemistry"
           ],
+          "confirmed_higher_route_match": {
+            "requires_eligibility_status": "eligible",
+            "academic_pathways": [
+              "standard",
+              "contextual"
+            ]
+          },
+          "contextual_higher_route_match": {
+            "academic_pathways": [
+              "contextual"
+            ]
+          },
           "standard_higher_profiles": [
             [
               "A",
@@ -208,12 +222,103 @@
             ]
           }
         },
+        "contextual_route_match": {
+          "requires_eligibility_status": "eligible",
+          "academic_pathways": [
+            "contextual"
+          ],
+          "academic_pathway_id_fragments": [
+            "dundee_ruk_contextual_widening_access_a_level"
+          ]
+        },
+        "contextual_route_assumption_note": "Dundee's exact RUK contextual academic scoring conversion is unpublished. ApplySmart treats a confirmed qualifying Dundee RUK contextual A-level route as satisfying the A-level academic-strength component for guidance only.",
         "ucat_competitiveness_proxy": {
           "source": "ApplySmart-derived historical guidance benchmarks from Dundee admissions-statistics context; not Dundee published cut-offs, deciles or scoring boundaries",
           "benchmark_values_label": "Scotland Standard, Scotland Contextual, RUK Standard and RUK Contextual benchmark values are ApplySmart-derived historical guidance only.",
           "proxy_points_label": "12/20/28/34/40 are ApplySmart proxy points for this guidance index, not Dundee published UCAT points.",
           "final_tier_boundaries_label": "60/76/88 are ApplySmart policy thresholds for prediction tiers, not Dundee published cut-offs, deciles or scoring boundaries.",
           "near_minimum_margin": 150,
+          "unavailable_reason_code": "home_ucat_proxy_unavailable",
+          "benchmark_routing": [
+            {
+              "benchmark_key": "scotland_contextual_category_1",
+              "match": {
+                "all_group_ids": [
+                  "scotland_domiciled"
+                ],
+                "any_group_ids": [
+                  "contextual",
+                  "widening_participation"
+                ]
+              },
+              "contextual_categories": [
+                "category_1"
+              ]
+            },
+            {
+              "benchmark_key": "scotland_contextual_category_2",
+              "match": {
+                "all_group_ids": [
+                  "scotland_domiciled"
+                ],
+                "any_group_ids": [
+                  "contextual",
+                  "widening_participation"
+                ]
+              },
+              "contextual_categories": [
+                "category_2"
+              ]
+            },
+            {
+              "benchmark_key": "scotland_contextual",
+              "match": {
+                "all_group_ids": [
+                  "scotland_domiciled"
+                ],
+                "any_group_ids": [
+                  "contextual",
+                  "widening_participation"
+                ]
+              }
+            },
+            {
+              "benchmark_key": "scotland_standard",
+              "match": {
+                "all_group_ids": [
+                  "scotland_domiciled"
+                ],
+                "excluded_group_ids": [
+                  "contextual",
+                  "widening_participation"
+                ]
+              }
+            },
+            {
+              "benchmark_key": "ruk_contextual",
+              "match": {
+                "all_group_ids": [
+                  "rest_of_uk"
+                ],
+                "any_group_ids": [
+                  "contextual",
+                  "widening_participation"
+                ]
+              }
+            },
+            {
+              "benchmark_key": "ruk_standard",
+              "match": {
+                "all_group_ids": [
+                  "rest_of_uk"
+                ],
+                "excluded_group_ids": [
+                  "contextual",
+                  "widening_participation"
+                ]
+              }
+            }
+          ],
           "benchmarks": {
             "scotland_standard": {
               "minimum_competitive": 1850,

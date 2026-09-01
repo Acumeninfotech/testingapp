@@ -161,6 +161,17 @@
               ],
               "points": 2
             }
+          ],
+          "fallback_band_rules": [
+            {
+              "requires_eligibility_status": "eligible",
+              "academic_pathway": "contextual",
+              "contextual_levels": [
+                "plus_flag"
+              ],
+              "band_id": "edinburgh_plus_flag_reduced_aab",
+              "route_id": "edinburgh_plus_flag_reduced_aab"
+            }
           ]
         },
         "sqa": {
@@ -316,6 +327,26 @@
                 ],
                 "maximum_advanced_higher_count": 0,
                 "points": 2
+              }
+            ],
+            "fallback_band_rules": [
+              {
+                "requires_eligibility_status": "eligible",
+                "academic_pathway": "contextual",
+                "contextual_levels": [
+                  "plus_flag"
+                ],
+                "band_id": "edinburgh_plus_flag_reduced_sqa",
+                "route_id": "edinburgh_plus_flag_reduced_sqa"
+              },
+              {
+                "requires_eligibility_status": "eligible",
+                "scottish_medical_school_route_ids": [
+                  "scotland_standard",
+                  "ruk_standard"
+                ],
+                "band_id": "edinburgh_standard_sqa_eligible_floor",
+                "route_id": "edinburgh_standard_sqa_eligible_floor"
               }
             ]
           }
