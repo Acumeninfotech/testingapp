@@ -5,12 +5,13 @@
   "main": "src/server.js",
   "type": "commonjs",
   "scripts": {
-    "start": "node src/server.js",
-    "dev": "node src/server.js",
-    "test": "node test/universities.test.js && node test/result-card-presenter.test.js && node test/predict.test.js && node test/contextual-postcode-lookup.test.js && node test/batch5-contextual-scottish.test.js && node test/batch5-production-scottish-routing.test.js"
+    "start": "node --env-file-if-exists=.env src/server.js",
+    "dev": "node --env-file=.env src/server.js",
+    "test": "node test/universities.test.js && node test/result-card-presenter.test.js && node test/predict.test.js && node test/contextual-postcode-lookup.test.js && node test/batch5-contextual-scottish.test.js && node test/batch5-production-scottish-routing.test.js && node --env-file=.env test/auth.test.js"
   },
   "dependencies": {
     "cors": "^2.8.5",
-    "express": "^4.19.2"
+    "express": "^4.19.2",
+    "mssql": "^12.7.0"
   }
 }
